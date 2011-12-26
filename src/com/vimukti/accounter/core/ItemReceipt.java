@@ -710,6 +710,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		if (!UserUtils.canDoThis(ItemReceipt.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 
 		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
 			throw new AccounterException(

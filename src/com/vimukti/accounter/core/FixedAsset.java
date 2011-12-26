@@ -1943,6 +1943,12 @@ public class FixedAsset extends CreatableObject implements
 			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(FixedAsset.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		FixedAsset fixedAsset = (FixedAsset) clientObject;
 		Query query = session.getNamedQuery("getFixedAssets")
 				.setString("name", this.name)

@@ -264,6 +264,12 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+
+		if (!UserUtils.canDoThis(PayTAX.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		if (this.isVoid()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);

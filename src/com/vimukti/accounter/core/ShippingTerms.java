@@ -109,6 +109,12 @@ public class ShippingTerms extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(ShippingTerms.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		ShippingTerms shippingTerms = (ShippingTerms) clientObject;
 		Query query = session.getNamedQuery("getShippingTerms.by.Name")
 				.setString("name", shippingTerms.name)

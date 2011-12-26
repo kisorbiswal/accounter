@@ -1299,6 +1299,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// throw new InvalidOperationException(
 		// "Account Name already existed Enter Unique name for Account");
 
+		if (!UserUtils.canDoThis(Account.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Query query = session.getNamedQuery("getAccounts")
 				.setString("name", this.name).setString("number", this.number)
 				.setLong("id", this.getID())

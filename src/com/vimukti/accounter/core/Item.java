@@ -528,6 +528,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(Item.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Item item = (Item) clientObject;
 		Query query = session.getNamedQuery("getItem.by.Name")
 				.setString("name", item.name)

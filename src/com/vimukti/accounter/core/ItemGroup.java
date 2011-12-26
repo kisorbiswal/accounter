@@ -135,6 +135,12 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(ItemGroup.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		ItemGroup itemGroup = (ItemGroup) clientObject;
 		// Query query = session.createQuery("from ItemGroup I where I.name=?")
 		// .setParameter(0, itemGroup.name);

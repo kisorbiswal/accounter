@@ -222,6 +222,11 @@ public class JournalEntry extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(JournalEntry.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		if (this.isVoidBefore) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);

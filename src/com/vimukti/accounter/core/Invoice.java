@@ -1053,6 +1053,12 @@ public class Invoice extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+
+		if (!UserUtils.canDoThis(Invoice.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		if (this.transactionReceivePayments != null) {
 			for (TransactionReceivePayment trp : this.transactionReceivePayments) {
 				if (DecimalUtil.isGreaterThan(trp.writeOff, 0D)

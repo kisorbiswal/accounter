@@ -103,6 +103,12 @@ public class CustomerGroup extends CreatableObject implements
 			throws AccounterException {
 
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(CustomerGroup.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		CustomerGroup customerGroup = (CustomerGroup) clientObject;
 		Query query = session
 				.getNamedQuery("getListofNames.from.customerGroup")

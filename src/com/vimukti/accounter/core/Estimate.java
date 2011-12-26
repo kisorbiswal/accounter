@@ -323,6 +323,12 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+
+		if (!UserUtils.canDoThis(Estimate.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		if (this.getID() != 0) {
 			if (this.status == Transaction.STATUS_APPLIED) {
 				throw new AccounterException(

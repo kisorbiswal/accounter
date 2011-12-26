@@ -473,6 +473,10 @@ public class CustomerCreditMemo extends Transaction implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(CustomerCreditMemo.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return super.canEdit(clientObject);
 	}
 

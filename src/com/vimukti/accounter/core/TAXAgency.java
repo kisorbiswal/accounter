@@ -211,6 +211,12 @@ public class TAXAgency extends Payee {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(TAXAgency.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		TAXAgency taxAgency = (TAXAgency) clientObject;
 		Query query = session.getNamedQuery("getTaxAgency.by.Name")
 				.setString("name", taxAgency.name)

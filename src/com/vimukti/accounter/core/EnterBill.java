@@ -963,6 +963,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+
+		if (!UserUtils.canDoThis(EnterBill.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		for (Estimate estimate : this.getEstimates()) {
 			if (estimate.getUsedInvoice() != null) {
 				throw new AccounterException(AccounterException.USED_IN_INVOICE);

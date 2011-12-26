@@ -264,6 +264,11 @@ public class TransferFund extends Transaction {
 
 		TransferFund transferFund = (TransferFund) clientObject;
 
+		if (!UserUtils.canDoThis(TransferFund.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		/**
 		 * If Transfer Fund is already void or deleted we can't edit it
 		 */

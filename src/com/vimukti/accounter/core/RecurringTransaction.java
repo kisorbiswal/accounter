@@ -178,6 +178,12 @@ public class RecurringTransaction extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(RecurringTransaction.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		RecurringTransaction data = (RecurringTransaction) clientObject;
 		Query query = session.getNamedQuery("getRecurringTransaction.by.Name")
 				.setEntity("company", data.getCompany())

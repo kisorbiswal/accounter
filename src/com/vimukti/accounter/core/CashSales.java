@@ -574,6 +574,10 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(CashSales.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return super.canEdit(clientObject);
 
 	}

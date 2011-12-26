@@ -388,7 +388,10 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
+		if (!UserUtils.canDoThis(CustomerRefund.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return super.canEdit(clientObject);
 	}
 
@@ -404,7 +407,8 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.customerRefund(messages.Customer())).gap();
+		w.put(messages.type(), messages.customerRefund(messages.Customer()))
+				.gap();
 
 		w.put(messages.no(), this.number);
 

@@ -506,6 +506,11 @@ public class BrandingTheme extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+		if (!UserUtils.canDoThis(BrandingTheme.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Query query = session
 				.getNamedQuery("getBrandingTheme")
 				.setParameter("companyId",

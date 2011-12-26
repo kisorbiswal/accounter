@@ -352,6 +352,11 @@ public class WriteCheck extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(WriteCheck.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		if ((this.bankAccount.equals("Un Deposited Funds"))
 				&& this.transactionMakeDepositEntries != null) {
 			throw new AccounterException(

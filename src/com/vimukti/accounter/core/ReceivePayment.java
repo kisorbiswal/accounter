@@ -584,6 +584,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		// "You can't edit ReceivePayment, since it is Voided or Deleted");
 		// }
 
+		if (!UserUtils.canDoThis(ReceivePayment.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		return super.canEdit(clientObject);
 	}
 

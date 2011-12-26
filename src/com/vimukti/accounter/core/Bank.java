@@ -65,6 +65,12 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(Bank.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Bank bank = (Bank) clientObject;
 		Query query = session.getNamedQuery("getNameofBank.from.Bank")
 				.setString("name", bank.name)

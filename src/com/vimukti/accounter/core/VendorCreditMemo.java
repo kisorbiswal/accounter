@@ -303,7 +303,10 @@ public class VendorCreditMemo extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-
+		if (!UserUtils.canDoThis(VendorCreditMemo.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return super.canEdit(clientObject);
 	}
 

@@ -129,6 +129,12 @@ public class TAXItemGroup extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(TAXItemGroup.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		TAXItemGroup taxItemGroup = (TAXItemGroup) clientObject;
 		// Query query =
 		// session.createQuery("from VATItemGroup V where V.name =: name")

@@ -113,6 +113,12 @@ public class ShippingMethod extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(ShippingMethod.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
 		Query query = session.getNamedQuery("getShippingmethod.by.Name")
 				.setString("name", shippingMethod.name)

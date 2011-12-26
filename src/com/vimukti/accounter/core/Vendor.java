@@ -313,6 +313,12 @@ public class Vendor extends Payee {
 			throws AccounterException {
 		super.canEdit(clientObject);
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(Vendor.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Vendor vendor = (Vendor) clientObject;
 		Query query = session.getNamedQuery("getVendor.by.name")
 				.setString("name", vendor.name)

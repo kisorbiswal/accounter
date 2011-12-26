@@ -698,6 +698,11 @@ public class PayBill extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(PayBill.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		PayBill payBill = (PayBill) clientObject;
 		/**
 		 * If Pay Bill is already is voided or deleted , we can't edit it

@@ -290,6 +290,10 @@ public class CreditCardCharge extends Transaction {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		if (!UserUtils.canDoThis(CreditCardCharge.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return super.canEdit(clientObject);
 
 	}
@@ -347,6 +351,7 @@ public class CreditCardCharge extends Transaction {
 		}
 		return valid;
 	}
+
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}

@@ -122,6 +122,12 @@ public class VendorGroup extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(VendorGroup.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
 		Query query = session.getNamedQuery("getVendorGroup.by.name")
 				.setString("name", vendorGroup.name)

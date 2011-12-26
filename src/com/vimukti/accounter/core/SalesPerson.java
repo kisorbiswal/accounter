@@ -319,6 +319,10 @@ public class SalesPerson extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		if (!UserUtils.canDoThis(SalesPerson.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		checkNameConflictsOrNull();
 		return true;
 	}

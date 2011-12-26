@@ -158,6 +158,12 @@ public class PaymentTerms extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(PaymentTerms.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		PaymentTerms paymentTerms = (PaymentTerms) clientObject;
 		Query query = session.getNamedQuery("getPaymentTerms.by.Name")
 				.setString("name", paymentTerms.name)

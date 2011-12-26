@@ -275,6 +275,10 @@ public class CustomerPrePayment extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		if (!UserUtils.canDoThis(CustomerPrePayment.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 
 		return super.canEdit(clientObject);
 	}

@@ -447,6 +447,12 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 		super.canEdit(clientObject);
 		Session session = HibernateUtil.getCurrentSession();
+
+		if (!UserUtils.canDoThis(Customer.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+
 		Customer customer = (Customer) clientObject;
 		super.canEdit(clientObject);
 		// if (this.name.equals(customer.name)
