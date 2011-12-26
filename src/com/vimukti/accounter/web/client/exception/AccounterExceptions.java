@@ -148,6 +148,10 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_NUMBER_NULL:
 			return accounterMessages.numberShouldNotBeEmptyOr0();
+
+		case AccounterException.ERROR_DONT_HAVE_PERMISSION:
+			return accounterMessages.youDontHavePermission();
+
 		default:
 			return null;
 		}
