@@ -1846,6 +1846,7 @@ form#contactForm .submit {
 .user_activity_log thead th {
 	border-bottom: 1px solid #55B8C1;
 	text-shadow: none;
+	font-weight:normal;
 }
 
 .gridBody .depth .depth2 {
@@ -2528,16 +2529,15 @@ input.date-field-textbox {
 .companies_title td:FIRST-CHILD {
 	width: 100px;
 	vertical-align: middle !important;
-	padding-left: 12px;
 }
 
 .companies_title td:FIRST-CHILD a {
 	color: #666666;
 	display: block;
 	font-size: 1.4em;
-	padding: 3px 5px 6px;
+	padding: 3px 5px 6px 10px;
 	text-decoration: none;
-	width: 66px;
+	width: 89px;
 	color: #454343;
 }
 
@@ -2596,9 +2596,12 @@ input.date-field-textbox {
 }
 
 .interval_Value table td:last-child div{
-	padding-left:25px !important;
+	 padding-left: 25px !important;
 }
 
 .finance-portlet .listgrid {
 	border-width: 1px 0 0;
+}
+.companies_link_parent a:hover{
+	background: #ccc;
 }
