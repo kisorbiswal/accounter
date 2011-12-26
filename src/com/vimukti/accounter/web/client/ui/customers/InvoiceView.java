@@ -1072,14 +1072,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
+		
+		initTransactionsItems();
 
 		initSalesTaxNonEditableItem();
 
 		initTransactionTotalNonEditableItem();
 
 		initMemoAndReference();
-
-		initTransactionsItems();
 
 	}
 
