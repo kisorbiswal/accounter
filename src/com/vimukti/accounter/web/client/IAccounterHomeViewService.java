@@ -71,6 +71,7 @@ import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
+import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -408,12 +409,21 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
 			long startDate, long endDate) throws AccounterException;
 
-	ExpensePortletData getExpenseBreakdownPortletData(long startDate,
+	ExpensePortletData getIncomeBreakdownPortletData(long startDate,
 			long endDate) throws AccounterException;
 
 	ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
 			long startDate, long endDate, int limit) throws AccounterException;
 
 	ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
+			long startDate, long endDate, int limit) throws AccounterException;
+
+	ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(long startDate,
+			long endDate, int limit) throws AccounterException;
+
+	ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
+			long startDate, long endDate, int limit) throws AccounterException;
+
+	ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
 			long startDate, long endDate, int limit) throws AccounterException;
 }

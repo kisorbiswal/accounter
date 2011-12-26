@@ -96,6 +96,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
+import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -1935,10 +1936,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ExpensePortletData getExpenseBreakdownPortletData(long startDate,
+	public ExpensePortletData getIncomeBreakdownPortletData(long startDate,
 			long endDate) throws AccounterException {
-		// TODO Auto-generated method stub
-		return null;
+		FinanceTool tool = new FinanceTool();
+		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
+				startDate), new ClientFinanceDate(endDate), getCompanyId());
+		ExpensePortletData portletData = tool.getDashboardManager()
+				.getIncomeAccountsBalances(getCompanyId(), dates[0].getDate(),
+						dates[1].getDate());
+		return portletData;
 	}
 
 	@Override
@@ -1955,6 +1961,32 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return getFinanceTool().getDashboardManager().getVendorsBySales(
 				getCompanyId(), new FinanceDate(startDate),
 				new FinanceDate(endDate), limit);
+	}
+
+	@Override
+	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
+			long startDate, long endDate, int limit) throws AccounterException {
+		return getFinanceTool().getDashboardManager().getItemsBySalesQuantity(
+				getCompanyId(), new FinanceDate(startDate),
+				new FinanceDate(endDate), limit);
+	}
+
+	@Override
+	public ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
+			long startDate, long endDate, int limit) throws AccounterException {
+		return getFinanceTool().getDashboardManager()
+				.getItemsByPurchaseQuantity(getCompanyId(),
+						new FinanceDate(startDate), new FinanceDate(endDate),
+						limit);
+	}
+
+	@Override
+	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
+			long startDate, long endDate, int limit) throws AccounterException {
+		return getFinanceTool().getDashboardManager()
+				.getAccountsBalancesByDate(getCompanyId(),
+						new FinanceDate(startDate), new FinanceDate(endDate),
+						limit);
 	}
 
 }

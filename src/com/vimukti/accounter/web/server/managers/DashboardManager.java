@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.ui.AccountDetail;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
+import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class DashboardManager extends Manager {
@@ -873,5 +874,118 @@ public class DashboardManager extends Manager {
 			payeesBySales.add(payeesBySalesPortletData);
 		}
 		return payeesBySales;
+	}
+
+	public ExpensePortletData getIncomeAccountsBalances(Long companyId,
+			long startDate, long endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("getIncomeAccounts")
+					.setParameter("companyId", companyId)
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate);
+			List<Object[]> objects = query.list();
+
+			ExpensePortletData expensePortletData = new ExpensePortletData();
+			Iterator<Object[]> iterator = objects.iterator();
+			Double expenseAccountTotal = 0.0;
+			List<AccountDetail> accountDetails = new ArrayList<AccountDetail>();
+			while (iterator.hasNext()) {
+				Object[] object = iterator.next();
+				String accountName = (String) object[0];
+				Double accountBalance = (Double) object[1];
+				expenseAccountTotal = expenseAccountTotal + accountBalance;
+				if (accountBalance > 0) {
+					AccountDetail accountDetail = new AccountDetail(
+							accountName, accountBalance);
+					accountDetails.add(accountDetail);
+				}
+
+			}
+			expensePortletData.setAccountDetails(accountDetails);
+			expensePortletData
+					.setAllExpensesTotal(expenseAccountTotal == null ? 0
+							: expenseAccountTotal);
+
+			return expensePortletData;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<PayeesBySalesPortletData> payeesBySales = new ArrayList<PayeesBySalesPortletData>();
+
+		Query query = session.getNamedQuery("getItemsBySalesQuantity")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PayeesBySalesPortletData payeesBySalesPortletData = new PayeesBySalesPortletData();
+			Object[] next = (Object[]) iterator.next();
+			payeesBySalesPortletData.setName((String) next[0]);
+			payeesBySalesPortletData.setQuantity((Double) next[1]);
+			payeesBySales.add(payeesBySalesPortletData);
+		}
+		return payeesBySales;
+	}
+
+	public ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<PayeesBySalesPortletData> payeesBySales = new ArrayList<PayeesBySalesPortletData>();
+
+		Query query = session.getNamedQuery("getItemsByPurchaseQuantity")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			PayeesBySalesPortletData payeesBySalesPortletData = new PayeesBySalesPortletData();
+			Object[] next = (Object[]) iterator.next();
+			payeesBySalesPortletData.setName((String) next[0]);
+			payeesBySalesPortletData.setQuantity((Double) next[1]);
+			payeesBySales.add(payeesBySalesPortletData);
+		}
+		return payeesBySales;
+	}
+
+	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<YearOverYearPortletData> result = new ArrayList<YearOverYearPortletData>();
+
+		Query query = session.getNamedQuery("getAccountBalances")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
+			Object[] next = (Object[]) iterator.next();
+			yearOverYearData.setName((String) next[0]);
+			yearOverYearData.setAmount((Double) next[1]);
+			result.add(yearOverYearData);
+		}
+		return result;
 	}
 }

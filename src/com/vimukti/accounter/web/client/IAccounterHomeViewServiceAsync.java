@@ -72,6 +72,7 @@ import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
+import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -455,7 +456,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getIncomeExpensePortletInfo(int type, long startDate, long endDate,
 			AsyncCallback<ArrayList<IncomeExpensePortletInfo>> callback);
 
-	void getExpenseBreakdownPortletData(long startDate, long endDate,
+	void getIncomeBreakdownPortletData(long startDate, long endDate,
 			AsyncCallback<ExpensePortletData> callback);
 
 	void getTopCustomersBySlaesPortletData(long startDate, long endDate,
@@ -465,5 +466,14 @@ public interface IAccounterHomeViewServiceAsync {
 	void getTopVendorsBySlaesPortletData(long startDate, long endDate,
 			int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
+
+	void getItemsBySalesQuantity(long startDate, long endDate, int limit,
+			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
+
+	void getItemsByPurchaseQuantity(long startDate, long endDate, int limit,
+			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
+
+	void getAccountsBalancesByDate(long startDate, long endDate, int limit,
+			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
 
 }
