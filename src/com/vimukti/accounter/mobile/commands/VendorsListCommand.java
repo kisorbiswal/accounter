@@ -150,7 +150,7 @@ public class VendorsListCommand extends AbstractCommand {
 		FinanceTool financeTool = new FinanceTool();
 		try {
 			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
-					true, 0, 0, context.getCompany().getID());
+					true, 0, 0, true, context.getCompany().getID());
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
