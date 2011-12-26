@@ -1266,12 +1266,12 @@
 			<generator class="identity" />
 		</id>
 		<property name="typeOfBankReconcilation" column="TYPE_OF_BANK_RECONCILATION"></property>
-		<property name="typeOfInvoices" column="TYPE_OF_INVOICES"></property>
-		<property name="typeOfExpences" column="TYPE_OF_EXPENCES"></property>
-		<property name="typeOfSystemSettings" column="TYPE_OF_SYSTEM_SETTINGS"></property>
+		<property name="typeOfInvoicesBills" column="TYPE_OF_INVOICES_BILLS"></property>
+		<property name="typeOfPayBillsPayments" column="TYPE_OF_PAYBILLS_PAYMENTS"></property>
+		<property name="typeOfCompanySettingsLockDates" column="TYPE_OF_COMPANY_SETTINGS_LOCK_DATES"></property>
 		<property name="typeOfViewReports" column="TYPE_OF_VIEW_REPORTS"></property>
-		<property name="typeOfPublishReports" column="TYPE_OF_PUBLISH_REPORTS"></property>
-		<property name="typeOfLockDates" column="TYPE_OF_LOCK_DATES"></property>
+		<property name="typeOfMangeAccounts" column="TYPE_OF_MANAGE_ACCOUNTS"></property>
+		<property name="typeOfInventoryWarehouse" column="TYPE_OF_INVENTORY_WAREHOUSE"></property>
 	</class>
 	<class name="User" table="USERS">
 		<id name="id" column="ID">

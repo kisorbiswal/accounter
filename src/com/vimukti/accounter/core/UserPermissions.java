@@ -15,17 +15,21 @@ public class UserPermissions implements IAccounterServerCore {
 
 	int typeOfBankReconcilation;
 
-	int typeOfInvoices;
+	int typeOfInvoicesBills;
 
-	int typeOfExpences;
+	int typeOfPayBillsPayments;
 
-	int typeOfSystemSettings;
+	int typeOfCompanySettingsLockDates;
 
 	int typeOfViewReports;
 
-	int typeOfPublishReports;
+	int typeOfMangeAccounts;
 
-	int typeOfLockDates;
+	int typeOfInventoryWarehouse;
+
+	// int typeOfPublishReports;
+	//
+	// int typeOfLockDates;
 
 	User user;
 
@@ -39,28 +43,29 @@ public class UserPermissions implements IAccounterServerCore {
 		this.typeOfBankReconcilation = typeOfBankReconcilation;
 	}
 
-	public int getTypeOfInvoices() {
-		return typeOfInvoices;
+	public int getTypeOfInvoicesBills() {
+		return typeOfInvoicesBills;
 	}
 
-	public void setTypeOfInvoices(int typeOfInvoices) {
-		this.typeOfInvoices = typeOfInvoices;
+	public void setTypeOfInvoicesBills(int typeOfInvoicesBills) {
+		this.typeOfInvoicesBills = typeOfInvoicesBills;
 	}
 
-	public int getTypeOfExpences() {
-		return typeOfExpences;
+	public int getTypeOfPayBillsPayments() {
+		return typeOfPayBillsPayments;
 	}
 
-	public void setTypeOfExpences(int typeOfExpences) {
-		this.typeOfExpences = typeOfExpences;
+	public void setTypeOfPayBillsPayments(int typeOfPayBillsPayments) {
+		this.typeOfPayBillsPayments = typeOfPayBillsPayments;
 	}
 
-	public int getTypeOfSystemSettings() {
-		return typeOfSystemSettings;
+	public int getTypeOfCompanySettingsLockDates() {
+		return typeOfCompanySettingsLockDates;
 	}
 
-	public void setTypeOfSystemSettings(int typeOfSystemSettings) {
-		this.typeOfSystemSettings = typeOfSystemSettings;
+	public void setTypeOfCompanySettingsLockDates(
+			int typeOfCompanySettingsLockDates) {
+		this.typeOfCompanySettingsLockDates = typeOfCompanySettingsLockDates;
 	}
 
 	public int getTypeOfViewReports() {
@@ -71,20 +76,20 @@ public class UserPermissions implements IAccounterServerCore {
 		this.typeOfViewReports = typeOfViewReports;
 	}
 
-	public int getTypeOfPublishReports() {
-		return typeOfPublishReports;
+	public int getTypeOfManageAccounts() {
+		return typeOfMangeAccounts;
 	}
 
-	public void setTypeOfPublishReports(int typeOfPublishReports) {
-		this.typeOfPublishReports = typeOfPublishReports;
+	public void setTypeOfManageAccounts(int typeOfMangeAccounts) {
+		this.typeOfMangeAccounts = typeOfMangeAccounts;
 	}
 
-	public int getTypeOfLockDates() {
-		return typeOfLockDates;
+	public int getTypeOfInventoryWarehouse() {
+		return typeOfInventoryWarehouse;
 	}
 
-	public void setTypeOfLockDates(int typeOfLockDates) {
-		this.typeOfLockDates = typeOfLockDates;
+	public void setTypeOfInventoryWarehouse(int typeOfInventoryWarehouse) {
+		this.typeOfInventoryWarehouse = typeOfInventoryWarehouse;
 	}
 
 	public User getUser() {
@@ -115,13 +120,12 @@ public class UserPermissions implements IAccounterServerCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }

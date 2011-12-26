@@ -80,16 +80,18 @@ public class User extends CreatableObject implements IAccounterServerCore,
 			UserPermissions userPermissions = new UserPermissions();
 			userPermissions.setTypeOfBankReconcilation(permissions
 					.getTypeOfBankReconcilation());
-			userPermissions.setTypeOfInvoices(permissions.getTypeOfInvoices());
-			userPermissions.setTypeOfExpences(permissions.getTypeOfExpences());
-			userPermissions.setTypeOfSystemSettings(permissions
-					.getTypeOfSystemSettings());
+			userPermissions.setTypeOfInvoicesBills(permissions
+					.getTypeOfInvoicesBills());
+			userPermissions.setTypeOfPayBillsPayments(permissions
+					.getTypeOfPayBillsPayments());
+			userPermissions.setTypeOfCompanySettingsLockDates(permissions
+					.getTypeOfCompanySettingsLockDates());
 			userPermissions.setTypeOfViewReports(permissions
 					.getTypeOfViewReports());
-			userPermissions.setTypeOfPublishReports(permissions
-					.getTypeOfPublishReports());
-			userPermissions
-					.setTypeOfLockDates(permissions.getTypeOfLockDates());
+			userPermissions.setTypeOfManageAccounts(permissions
+					.getTypeOfManageAccounts());
+			userPermissions.setTypeOfInventoryWarehouse(permissions
+					.getTypeOfInventoryWarehouse());
 			this.setPermissions(userPermissions);
 		}
 	}
@@ -200,16 +202,18 @@ public class User extends CreatableObject implements IAccounterServerCore,
 			ClientUserPermissions userPermissions = new ClientUserPermissions();
 			userPermissions.setTypeOfBankReconcilation(this.getPermissions()
 					.getTypeOfBankReconcilation());
-			userPermissions.setTypeOfInvoices(this.getPermissions()
-					.getTypeOfInvoices());
-			userPermissions.setTypeOfSystemSettings(this.getPermissions()
-					.getTypeOfSystemSettings());
+			userPermissions.setTypeOfInvoicesBills(this.getPermissions()
+					.getTypeOfInvoicesBills());
+			userPermissions.setTypeOfPayBillsPayments(this.getPermissions()
+					.getTypeOfPayBillsPayments());
+			userPermissions.setTypeOfCompanySettingsLockDates(this
+					.getPermissions().getTypeOfCompanySettingsLockDates());
 			userPermissions.setTypeOfViewReports(this.getPermissions()
 					.getTypeOfViewReports());
-			userPermissions.setTypeOfPublishReports(this.getPermissions()
-					.getTypeOfPublishReports());
-			userPermissions.setTypeOfLockDates(this.getPermissions()
-					.getTypeOfLockDates());
+			userPermissions.setTypeOfManageAccounts(this.getPermissions()
+					.getTypeOfManageAccounts());
+			userPermissions.setTypeOfInventoryWarehouse(this.getPermissions()
+					.getTypeOfInventoryWarehouse());
 			user.setPermissions(userPermissions);
 		}
 		Set<PortletPageConfiguration> portletPages2 = this.getPortletPages();
