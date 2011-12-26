@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -136,8 +138,33 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
+				List<ClientTransactionIssuePayment> selectedRecords = grid
+						.getSelectedRecords();
+				List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
+				for (ClientTransactionIssuePayment payment : selectedRecords) {
+					PrintCheque cheque = new PrintCheque();
+					cheque.setPayeeName(payment.getDisplayName());
+					cheque.setAmount(payment.getAmount());
+					cheque.setDate(payment.getDate());
+					printCheques.add(cheque);
+				}
 
+				rpcUtilService.printCheques(
+						getCompany().getCheckLayout(
+								selectedPayFromAccount.getID()).getID(),
+						printCheques, new AsyncCallback<String>() {
+
+							@Override
+							public void onSuccess(String result) {
+								UIUtils.downloadFileFromTemp(result);
+								createIssuePayment();
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								int i = 0;
+							}
+						});
 			}
 		});
 		// saveAndCloseButton = new SaveAndCloseButton(messages.save());
