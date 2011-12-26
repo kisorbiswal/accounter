@@ -6,7 +6,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.PortalLayout;
@@ -178,21 +183,22 @@ public class VendorSectionHomeView extends BaseHomeView {
 		getAddableWidgets(widgetOnSectionPage);
 		listGrid = new VendorListGrid(false);
 		listGrid.init();
-		// listGrid.setHeight("400px");
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-		// new AccounterAsyncCallback<PaginationList<PayeeList>>() {
-		//
-		// @Override
-		// public void onResultSuccess(PaginationList<PayeeList> result) {
-		// listGrid.clear();
-		// listGrid.addRecords(result);
-		// listGrid.sort(12, false);
-		// }
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// }
-		// });
+		listGrid.setHeight("400px");
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				true, 0, 0, false,
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onResultSuccess(PaginationList<PayeeList> result) {
+						listGrid.clear();
+						listGrid.addRecords(result);
+						listGrid.sort(12, false);
+					}
+
+					@Override
+					public void onException(AccounterException caught) {
+					}
+				});
 
 		VerticalPanel leftLayout = new VerticalPanel();
 		leftLayout.setSize("100%", "100%");
@@ -257,19 +263,20 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	public void setPrevoiusOutput(Object preObject) {
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-		// new AccounterAsyncCallback<PaginationList<PayeeList>>() {
-		//
-		// @Override
-		// public void onResultSuccess(PaginationList<PayeeList> result) {
-		// listGrid.clear();
-		// listGrid.addRecords(result);
-		// listGrid.sort(12, false);
-		// }
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// }
-		// });
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				true, 0, 0, false,
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onResultSuccess(PaginationList<PayeeList> result) {
+						listGrid.clear();
+						listGrid.addRecords(result);
+						listGrid.sort(12, false);
+					}
+
+					@Override
+					public void onException(AccounterException caught) {
+					}
+				});
 	}
 }
