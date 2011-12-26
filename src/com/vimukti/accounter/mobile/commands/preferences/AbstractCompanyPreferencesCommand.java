@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.commands.preferences;
 
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.commands.AbstractCommand;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -30,7 +31,7 @@ public abstract class AbstractCompanyPreferencesCommand extends AbstractCommand 
 					.getCompanyManager();
 			ClientCompany clientCompany = companyManager.getClientCompany(
 					context.getEmailId(), getCompanyId());
-
+			clientCompany.setRegisteredAddress(getRegisteredAddress());
 			OperationContext opContext = new OperationContext(getCompanyId(),
 					clientCompany, context.getEmailId());
 
@@ -40,6 +41,10 @@ public abstract class AbstractCompanyPreferencesCommand extends AbstractCommand 
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected ClientAddress getRegisteredAddress() {
+		return toClientAddress(getCompany().getRegisteredAddress());
 	}
 
 	@Override

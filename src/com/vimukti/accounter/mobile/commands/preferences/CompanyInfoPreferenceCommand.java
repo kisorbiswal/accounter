@@ -16,6 +16,8 @@ import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class CompanyInfoPreferenceCommand extends
 		AbstractCompanyPreferencesCommand {
@@ -227,12 +229,20 @@ public class CompanyInfoPreferenceCommand extends
 		if (tradingAddress.getCountryOrRegion() == null
 				|| tradingAddress.getCountryOrRegion().isEmpty()) {
 			tradingAddress.setCountryOrRegion(country);
+			ICountryPreferences countryPreferences = CountryPreferenceFactory
+					.get(country);
+			tradingAddress
+					.setStateOrProvinence(countryPreferences.getStates()[0]);
 		}
 		get(TRADING_ADRESS).setValue(tradingAddress);
 		Address registeredAddress = context.getCompany().getRegisteredAddress();
 		if (registeredAddress.getCountryOrRegion() == null
 				|| registeredAddress.getCountryOrRegion().isEmpty()) {
 			registeredAddress.setCountryOrRegion(country);
+			ICountryPreferences countryPreferences = CountryPreferenceFactory
+					.get(country);
+			registeredAddress.setStateOrProvinence(countryPreferences
+					.getStates()[0]);
 		}
 		get(REGISTERED_ADDRESS).setValue(toClientAddress(registeredAddress));
 		return null;
@@ -272,11 +282,6 @@ public class CompanyInfoPreferenceCommand extends
 		preferences.setShowRegisteredAddress(hasDiffAddr);
 		ClientAddress tradingAddress = get(TRADING_ADRESS).getValue();
 		preferences.setTradingAddress(tradingAddress);
-		ClientAddress registeredAddress = get(REGISTERED_ADDRESS).getValue();
-		if (hasDiffAddr) {
-			context.getCompany().setRegisteredAddress(
-					toServerAddress(registeredAddress));
-		}
 		preferences.setTaxTrack(tax);
 		savePreferences(context, preferences);
 		return null;
@@ -284,5 +289,10 @@ public class CompanyInfoPreferenceCommand extends
 
 	@Override
 	protected void setDefaultValues(Context context) {
+	}
+
+	@Override
+	protected ClientAddress getRegisteredAddress() {
+		return get(REGISTERED_ADDRESS).getValue();
 	}
 }
