@@ -9,7 +9,9 @@ import java.util.List;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
+import com.vimukti.accounter.core.ChequePdfGenerator;
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.CustomerRefund;
@@ -28,6 +30,7 @@ import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
@@ -73,6 +76,7 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
@@ -1996,6 +2000,19 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				new FinanceDate(endDate), limit);
 	}
 
+	@Override
+	public String printCheques(long chequeLayoutId,
+			List<PrintCheque> printCheques) {
+		try {
+			Company company = (Company) HibernateUtil.getCurrentSession().get(
+					Company.class, getCompanyId());
+			return ChequePdfGenerator.generate(chequeLayoutId,
+					company.getDisplayName(), printCheques);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
@@ -2011,7 +2028,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return new ArrayList<ClientETDSFilling>(etdsList);
 	}
-
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
@@ -2038,6 +2054,4 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 						new FinanceDate(startDate), new FinanceDate(endDate),
 						limit);
 	}
-
-
 }
