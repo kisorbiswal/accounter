@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.core.Account;
+
 /**
  * @author vimukti21
  * 
@@ -33,7 +35,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int TYPE_ACCOUNT_PAYABLE = 8;
 	public static final int TYPE_OTHER_CURRENT_LIABILITY = 9;
 	public static final int TYPE_CREDIT_CARD = 10;
-	public static final int TYPE_PAYPAL = 19;
+
 	public static final int TYPE_PAYROLL_LIABILITY = 11;
 	public static final int TYPE_LONG_TERM_LIABILITY = 12;
 	public static final int TYPE_EQUITY = 13;
@@ -42,6 +44,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public static final int TYPE_EXPENSE = 16;
 	public static final int TYPE_OTHER_INCOME = 17;
 	public static final int TYPE_OTHER_EXPENSE = 18;
+	public static final int TYPE_PAYPAL = 21;
 
 	public static final int CASH_FLOW_CATEGORY_FINANCING = 1;
 	public static final int CASH_FLOW_CATEGORY_INVESTING = 2;
@@ -640,6 +643,9 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 		case TYPE_OTHER_EXPENSE:
 			this.setBaseType(BASETYPE_OTHER_INCOME_OR_EXPENSE);
 			this.setSubBaseType(SUBBASETYPE_OTHER_EXPENSE);
+			break;
+		case TYPE_PAYPAL:
+			this.setSubBaseType(Account.SUBBASETYPE_CURRENT_ASSET);
 			break;
 		}
 	}
