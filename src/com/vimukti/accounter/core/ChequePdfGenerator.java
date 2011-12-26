@@ -94,11 +94,8 @@ public class ChequePdfGenerator {
 						layout.getCompanyNameWidth());
 
 				// Signature
-				addString(
-						directContent,
-						topPading,
-						layout.getAuthorisedSignature() == null ? "" : layout
-								.getAuthorisedSignature(),
+				addString(directContent, topPading,
+						layout.getAuthorisedSignature(),
 						layout.getSignatoryLeft(), layout.getSignatoryTop(),
 						layout.getSignatoryWidth());
 				topPading -= chequeHieght;
