@@ -19,12 +19,12 @@
 					<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
 					<g:Label ui:field="oneperdetaillineLabel" />
 				</g:VerticalPanel>
-			</g:VerticalPanel>
-			<g:Label ui:field="selectDiscountAccount" />
-			<g:HorizontalPanel spacing="5" ui:field="accountPanel">
+				<g:Label ui:field="selectDiscountAccount" />
+				<g:HorizontalPanel spacing="5" ui:field="accountPanel">
 				<g:Label ui:field="discountAccount" />
 				<g:ListBox ui:field="accountsCombo" />
 			</g:HorizontalPanel>
+			</g:VerticalPanel>
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 
