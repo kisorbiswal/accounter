@@ -31,6 +31,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	private String[] fileTypes = { "*" };
 	private List<ClientAttachment> attachments = new ArrayList<ClientAttachment>();
 	FormPanel uploadForm;
+	private Anchor browseFileAnchor;
 
 	public TransactionAttachmentPanel() {
 		createControls();
@@ -53,8 +54,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		final FileUpload uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
-		final Anchor browseFileAnchor = new Anchor(Accounter.messages()
-				.uploadAttachment());
+		browseFileAnchor = new Anchor(Accounter.messages().uploadAttachment());
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
 		uploadFile.setName(createID());
@@ -253,6 +253,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 	public void setEnable(boolean isEnable) {
 		uploadForm.setVisible(isEnable);
+		browseFileAnchor.setEnabled(isEnable);
 		for (int i = 0; i < attachmentTable.getWidgetCount(); i++) {
 			Widget widget = attachmentTable.getWidget(i);
 			if (widget instanceof HorizontalPanel) {
