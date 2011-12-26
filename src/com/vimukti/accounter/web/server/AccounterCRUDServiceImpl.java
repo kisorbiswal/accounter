@@ -185,6 +185,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 		clientUser.setDisplayName(clientUserInfo.getDisplayName());
 		clientUser.setAdmin(clientUserInfo.isAdmin());
 		clientUser.setID(clientUserInfo.getID());
+		clientUser.setActive(clientUserInfo.isActive());
 		return clientUser;
 	}
 
