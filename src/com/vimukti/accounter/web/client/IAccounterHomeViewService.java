@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
@@ -427,6 +428,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
 			long startDate, long endDate, int limit) throws AccounterException;
+
+	public String printCheques(long chequeLayoutId,
+			List<PrintCheque> printCheques);
 
 	ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(long startDate,
 			long endDate, int limit) throws AccounterException;

@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
@@ -476,9 +477,11 @@ public interface IAccounterHomeViewServiceAsync {
 			int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
+	public void printCheques(long chequeLayoutId,
+			List<PrintCheque> printCheques, AsyncCallback<String> callback);
+
 	void getEtdsDetails(int formNo, int quater, int startYear, int endYear,
 			AsyncCallback<ArrayList<ClientETDSFilling>> callback);
-
 
 	void getItemsBySalesQuantity(long startDate, long endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
