@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -10,7 +12,8 @@ public class TDSTransactionItemGrid extends
 		BaseListGrid<ClientTDSTransactionItem> {
 
 	private TDSChalanDetailsView tdsChalanDetails;
-	private Boolean isSelected;
+	boolean isSelected = false;
+	boolean clicked = false;
 
 	public TDSTransactionItemGrid() {
 		super(false, true);
@@ -77,28 +80,46 @@ public class TDSTransactionItemGrid extends
 			return;
 
 		if (col == 0) {
+			((CheckBox) this.getWidget(row, col))
+					.addClickHandler(new ClickHandler() {
 
-			isSelected = ((CheckBox) this.getWidget(row, col)).getValue();
-			sendData(obj);
+						@Override
+						public void onClick(ClickEvent event) {
+							if (isSelected == false) {
+								isSelected = true;
+
+							} else {
+								isSelected = false;
+							}
+							clicked = true;
+						}
+					});
+
+			sendData(obj, clicked);
 		}
 		super.onClick(obj, row, col);
 	}
 
-	private void sendData(ClientTDSTransactionItem obj) {
-		if (isSelected) {
-			obj.setBoxSelected(true);
-			tdsChalanDetails.setSurchargeValuesToField(
-					obj.getSurchargeAmount(), true);
-			tdsChalanDetails.setEduCessValuesToField(obj.getEduCess(), true);
-			tdsChalanDetails
-					.setTaxAmountValuesToField(obj.getTaxAmount(), true);
-		} else {
-			obj.setBoxSelected(false);
-			tdsChalanDetails.setSurchargeValuesToField(
-					obj.getSurchargeAmount(), false);
-			tdsChalanDetails.setEduCessValuesToField(obj.getEduCess(), false);
-			tdsChalanDetails.setTaxAmountValuesToField(obj.getTaxAmount(),
-					false);
+	private void sendData(ClientTDSTransactionItem obj, boolean clicked2) {
+		if (clicked2) {
+			clicked = false;
+			if (isSelected) {
+				obj.setBoxSelected(true);
+				tdsChalanDetails.setSurchargeValuesToField(
+						obj.getSurchargeAmount(), true);
+				tdsChalanDetails
+						.setEduCessValuesToField(obj.getEduCess(), true);
+				tdsChalanDetails.setTaxAmountValuesToField(obj.getTaxAmount(),
+						true);
+			} else {
+				obj.setBoxSelected(false);
+				tdsChalanDetails.setSurchargeValuesToField(
+						obj.getSurchargeAmount(), false);
+				tdsChalanDetails.setEduCessValuesToField(obj.getEduCess(),
+						false);
+				tdsChalanDetails.setTaxAmountValuesToField(obj.getTaxAmount(),
+						false);
+			}
 		}
 	}
 

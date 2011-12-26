@@ -27,8 +27,8 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
+import com.vimukti.accounter.web.client.ui.edittable.tables.TdsChalanTransactionItemsTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.grids.TDSTransactionItemGrid;
 
 public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
@@ -47,7 +47,8 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private IntegerField bankBsrCode;
 	private DynamicForm taxDynamicForm;
 	private DynamicForm otherDynamicForm;
-	private TDSTransactionItemGrid grid;
+	// private TDSTransactionItemGrid grid;
+	TdsChalanTransactionItemsTable table;
 	private SelectCombo chalanPeriod;
 	private IntegerField bankChalanNumber;
 	private SelectCombo tdsDepositedBY;
@@ -72,6 +73,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private PayFromAccountsCombo payFromAccCombo;
 	protected ClientAccount selectedPayFromAccount;
 	private AmountField endingBalanceText;
+	protected boolean financialYearSelected = false;
 
 	public TDSChalanDetailsView() {
 
@@ -150,6 +152,8 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 						slectAssecementYear.setSelected(getFinancialYearList()
 								.get(financialYearCombo.getSelectedIndex() + 1));
 						assessmentYear = slectAssecementYear.getSelectedValue();
+
+						financialYearSelected = true;
 
 					}
 				});
@@ -422,9 +426,11 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		belowForm2.setFields(interestPaidAmount, penaltyPaidAmount,
 				otherAmountPaid);
 
-		grid = new TDSTransactionItemGrid(this);
-		grid.setCanEdit(true);
-		grid.init();
+		// grid = new TDSTransactionItemGrid(this);
+		// grid.setCanEdit(true);
+		// grid.init();
+
+		table = new TdsChalanTransactionItemsTable(this);
 
 		HorizontalPanel horizontalPanel1 = new HorizontalPanel();
 		horizontalPanel1.setWidth("100%");
@@ -439,7 +445,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.setWidth("100%");
 		verticalPanel.add(horizontalPanel1);
-		verticalPanel.add(grid);
+		verticalPanel.add(table);
 		verticalPanel.add(horizontalPanel2);
 
 		this.add(verticalPanel);
@@ -600,7 +606,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		result.add(taxDynamicForm.validate());
 		result.add(otherDynamicForm.validate());
 
-		List<ClientTDSTransactionItem> records = grid.getRecords();
+		List<ClientTDSTransactionItem> records = table.getAllRows();
 		double totalTDS = 0;
 		for (ClientTDSTransactionItem clientTDSTransactionItem : records) {
 			totalTDS = clientTDSTransactionItem.getTdsTotal() + totalTDS;
@@ -613,6 +619,11 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		if (totalTDS != value) {
 			result.addError(totalAmountPaid, "TDS Amount not matched");
+		}
+
+		if (financialYearSelected == false) {
+			result.addError(financialYearCombo,
+					"Select the financial year for eTDS");
 		}
 
 		return result;
@@ -664,7 +675,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			data.setBankBsrCode(0);
 		}
 
-		data.setTdsTransactionItems(grid.getRecords());
+		data.setTdsTransactionItems(table.getSelectedRecords(0));
 
 	}
 
@@ -706,7 +717,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 										ArrayList<ClientTDSTransactionItem> result) {
 									if (result.size() > 0) {
 										items = result;
-										grid.removeAllRecords();
+										table.reDraw();
 										for (ClientTDSTransactionItem clientTDSTransactionItem : result) {
 											clientTDSTransactionItem.setTdsTotal(clientTDSTransactionItem
 													.getTaxAmount()
@@ -714,11 +725,11 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 															.getSurchargeAmount()
 													+ clientTDSTransactionItem
 															.getEduCess());
-											grid.addData(clientTDSTransactionItem);
+											table.add(clientTDSTransactionItem);
 										}
 									} else {
-										grid.removeAllRecords();
-										grid.addEmptyMessage(messages
+										table.reDraw();
+										table.addEmptyMessage(messages
 												.noRecordsToShow());
 									}
 

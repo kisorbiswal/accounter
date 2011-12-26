@@ -3803,7 +3803,7 @@ public class FinanceTool {
 			ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
 					session.getNamedQuery("list.TdsChalanDetails")
 							.setEntity("company", getCompany(companyId)).list());
-			int i = 0;
+			int i = 1;
 			for (TDSChalanDetail chalan : chalansGot) {
 
 				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
@@ -3813,9 +3813,10 @@ public class FinanceTool {
 				for (ClientTDSTransactionItem items : clientObject
 						.getTransactionItems()) {
 
-					eTDSObj.setSerialNo(i++);
+					eTDSObj.setSerialNo(i);
 
-					double total = clientObject.getIncomeTaxAmount()
+					double total = 0;
+					total = clientObject.getIncomeTaxAmount()
 							+ clientObject.getSurchangePaidAmount()
 							+ clientObject.getEducationCessAmount()
 							+ clientObject.getOtherAmount()
@@ -3842,6 +3843,7 @@ public class FinanceTool {
 					else
 						eTDSObj.setBookEntry("NO");
 
+					i++;
 					etdsList.add(eTDSObj);
 				}
 
