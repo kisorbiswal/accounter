@@ -86,7 +86,7 @@ public abstract class CompanyInitializer {
 		createDefaultFiledAccount();
 
 		createDefaultChequeLayout();
-
+		company.setEncryptionKey(SecureUtils.createID(16));
 		session.saveOrUpdate(company);
 
 		init();
