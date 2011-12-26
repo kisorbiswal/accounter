@@ -280,7 +280,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected String getDeleteCommand(Context context) {
 		if (this.transaction != null
 				&& this.transaction.getID() != 0
-				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
+				&& context.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
 			return "deleteTransaction " + transaction.getType() + " "
 					+ transaction.getID();
 		}
@@ -297,7 +297,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (this.transaction != null
 				&& this.transaction.getID() != 0
 				&& !this.transaction.isVoid()
-				&& context.getUser().getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES) {
+				&& context.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
 			return "voidTransaction " + transaction.getType() + " "
 					+ transaction.getID();
 		}

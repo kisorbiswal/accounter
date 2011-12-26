@@ -139,27 +139,23 @@ public class NewInviteAUserCommand extends AbstractCommand {
 		if (access.equals(RolePermissions.READ_ONLY)) {
 			rolePermissions = getReadOnlyPermission();
 
-		} else if (access.equals(RolePermissions.INVOICE_ONLY)) {
-			// if ReadOnly is selected, get corresponding RolePermissions
-			rolePermissions = getInvoiceOnlyPermission();
-
-		} else if (access.equals(RolePermissions.BASIC_EMPLOYEE)) {
-			// if BasicEmployee is selected, get corresponding RolePermissions
-			rolePermissions = getBasicEmployeePermission();
-
 		} else if (access.equals(RolePermissions.FINANCIAL_ADVISER)) {
 			// if FinancialAdvisor is selected, get corresponding
 			// RolePermissions
 			rolePermissions = getFinancialAdviserPermission();
 
-		} else if (access.equals(RolePermissions.FINANCE_ADMIN)) {
-			// if FinanceAdmin is selected, get corresponding RolePermissions
-			rolePermissions = getFinanceAdminPermission();
-
 		} else if (access.equals(RolePermissions.ADMIN)) {
 			rolePermissions = getAdminPermission();
+		} else if (access.equals(RolePermissions.CUSTOM)) {
+			rolePermissions = getCustomPermission();
 		}
 		return rolePermissions;
+	}
+
+	private RolePermissions getCustomPermission() {
+		RolePermissions custom = new RolePermissions();
+
+		return custom;
 	}
 
 	private void updateUser(ClientUser user2, Context context) {
@@ -201,13 +197,18 @@ public class NewInviteAUserCommand extends AbstractCommand {
 
 		userPermissions.setTypeOfBankReconcilation(rolePermission
 				.getTypeOfBankReconcilation());
-		userPermissions.setTypeOfInvoices(rolePermission.getTypeOfInvoices());
-		userPermissions.setTypeOfExpences(rolePermission.getTypeOfExpences());
-		userPermissions.setTypeOfSystemSettings(rolePermission
-				.getTypeOfSystemSettings());
+		userPermissions.setTypeOfInvoicesBills(rolePermission
+				.getTypeOfInvoicesBills());
+		userPermissions.setTypeOfPayBillsPayments(rolePermission
+				.getTypeOfPayBillsPayments());
+		userPermissions.setTypeOfCompanySettingsLockDates(rolePermission
+				.getTypeOfCompanySettingsLockDates());
 		userPermissions.setTypeOfViewReports(rolePermission
 				.getTypeOfViewReports());
-		userPermissions.setTypeOfLockDates(rolePermission.getTypeOfLockDates());
+		userPermissions.setTypeOfManageAccounts(rolePermission
+				.getTypeOfManageAccounts());
+		userPermissions.setTypeOfInventoryWarehouse(rolePermission
+				.getTypeOfInventoryWarehouse());
 		// TODO
 		// userPermissions.setTypeOfPublishReports(readOnlyPer.getTypeOfPublishReports());
 
@@ -217,10 +218,8 @@ public class NewInviteAUserCommand extends AbstractCommand {
 	private List<String> getPermissions() {
 		List<String> permissions = new ArrayList<String>();
 		permissions.add(RolePermissions.READ_ONLY);
-		permissions.add(RolePermissions.INVOICE_ONLY);
-		permissions.add(RolePermissions.BASIC_EMPLOYEE);
 		permissions.add(RolePermissions.FINANCIAL_ADVISER);
-		permissions.add(RolePermissions.FINANCE_ADMIN);
+		permissions.add(RolePermissions.CUSTOM);
 		permissions.add(RolePermissions.ADMIN);
 		return permissions;
 	}
@@ -229,84 +228,43 @@ public class NewInviteAUserCommand extends AbstractCommand {
 		RolePermissions readOnly = new RolePermissions();
 		readOnly.setRoleName(RolePermissions.READ_ONLY);
 		readOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
-		readOnly.setTypeOfInvoices(RolePermissions.TYPE_READ_ONLY);
-		readOnly.setTypeOfExpences(RolePermissions.TYPE_NO);
-		readOnly.setTypeOfSystemSettings(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfInvoicesBills(RolePermissions.TYPE_READ_ONLY);
+		readOnly.setTypeOfPayBillsPayments(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfViewReports(RolePermissions.TYPE_READ_ONLY);
-		readOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
-		readOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfManageAccounts(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfInventoryWarehouse(RolePermissions.TYPE_NO);
 		readOnly.setCanDoUserManagement(false);
 
 		return readOnly;
-	}
-
-	private RolePermissions getInvoiceOnlyPermission() {
-		RolePermissions invoiceOnly = new RolePermissions();
-		invoiceOnly.setRoleName(RolePermissions.INVOICE_ONLY);
-		invoiceOnly.setTypeOfBankReconcilation(RolePermissions.TYPE_NO);
-		invoiceOnly.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		invoiceOnly.setTypeOfExpences(RolePermissions.TYPE_NO);
-		invoiceOnly.setTypeOfSystemSettings(RolePermissions.TYPE_NO);
-		invoiceOnly.setTypeOfViewReports(RolePermissions.TYPE_NO);
-		invoiceOnly.setTypeOfPublishReports(RolePermissions.TYPE_NO);
-		invoiceOnly.setTypeOfLockDates(RolePermissions.TYPE_NO);
-		invoiceOnly.setCanDoUserManagement(false);
-		return invoiceOnly;
-	}
-
-	private RolePermissions getBasicEmployeePermission() {
-		RolePermissions basicEmployee = new RolePermissions();
-		basicEmployee.setRoleName(RolePermissions.BASIC_EMPLOYEE);
-		basicEmployee.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		basicEmployee.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		basicEmployee.setTypeOfExpences(RolePermissions.TYPE_DRAFT_ONLY);
-		basicEmployee.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
-		basicEmployee.setTypeOfViewReports(RolePermissions.TYPE_YES);
-		basicEmployee.setTypeOfPublishReports(RolePermissions.TYPE_NO);
-		basicEmployee.setTypeOfLockDates(RolePermissions.TYPE_NO);
-		basicEmployee.setCanDoUserManagement(false);
-		return basicEmployee;
 	}
 
 	private RolePermissions getFinancialAdviserPermission() {
 		RolePermissions financialAdviser = new RolePermissions();
 		financialAdviser.setRoleName(RolePermissions.FINANCIAL_ADVISER);
 		financialAdviser.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		financialAdviser.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		financialAdviser.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
-		financialAdviser.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfInvoicesBills(RolePermissions.TYPE_YES);
+		financialAdviser
+				.setTypeOfPayBillsPayments(RolePermissions.TYPE_APPROVE);
+		financialAdviser
+				.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfViewReports(RolePermissions.TYPE_YES);
-		financialAdviser.setTypeOfPublishReports(RolePermissions.TYPE_YES);
-		financialAdviser.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
 		financialAdviser.setCanDoUserManagement(false);
 		return financialAdviser;
-	}
-
-	private RolePermissions getFinanceAdminPermission() {
-		RolePermissions financeAdmin = new RolePermissions();
-		financeAdmin.setRoleName(RolePermissions.FINANCE_ADMIN);
-		financeAdmin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		financeAdmin.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		financeAdmin.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
-		financeAdmin.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
-		financeAdmin.setTypeOfViewReports(RolePermissions.TYPE_YES);
-		financeAdmin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
-		financeAdmin.setTypeOfLockDates(RolePermissions.TYPE_YES);
-		financeAdmin.setCanDoUserManagement(false);
-
-		return financeAdmin;
 	}
 
 	private RolePermissions getAdminPermission() {
 		RolePermissions admin = new RolePermissions();
 		admin.setRoleName(RolePermissions.ADMIN);
 		admin.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		admin.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		admin.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
-		admin.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		admin.setTypeOfInvoicesBills(RolePermissions.TYPE_YES);
+		admin.setTypeOfPayBillsPayments(RolePermissions.TYPE_APPROVE);
+		admin.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_YES);
 		admin.setTypeOfViewReports(RolePermissions.TYPE_YES);
-		admin.setTypeOfPublishReports(RolePermissions.TYPE_YES);
-		admin.setTypeOfLockDates(RolePermissions.TYPE_YES);
+		admin.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
+		admin.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
 		admin.setCanDoUserManagement(true);
 
 		return admin;
@@ -372,7 +330,7 @@ public class NewInviteAUserCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.BASIC_EMPLOYEE);
+		get(LEVEL_ACCESS).setDefaultValue(RolePermissions.CUSTOM);
 	}
 
 	@Override
