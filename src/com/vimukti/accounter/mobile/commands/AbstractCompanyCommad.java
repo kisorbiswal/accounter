@@ -530,9 +530,6 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		ClientAddress address = get(TRADING_ADDRESS).getValue();
-		if (address == null) {
-			address = new ClientAddress();
-		}
 		address.setCountryOrRegion("United Kingdom");
 		address.setStateOrProvinence("Buckinghamshire");
 		get(TRADING_ADDRESS).setValue(address);
@@ -545,13 +542,11 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 		preferences = new ClientCompanyPreferences();
 		String country = context.getIOSession().getClient().getCountry();
-		if (country != null) {
-			ClientAddress address = get(TRADING_ADDRESS).getValue();
-			address.setCountryOrRegion(country);
-			String state = getStatesList(country).get(0);
-			address.setStateOrProvinence(state);
-			get(TRADING_ADDRESS).setValue(address);
-		}
+		ClientAddress address = get(TRADING_ADDRESS).getValue();
+		address.setCountryOrRegion(country);
+		String state = getStatesList(country).get(0);
+		address.setStateOrProvinence(state);
+		get(TRADING_ADDRESS).setValue(address);
 		return null;
 	}
 

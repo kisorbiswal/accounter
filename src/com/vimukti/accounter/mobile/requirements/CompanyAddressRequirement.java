@@ -105,7 +105,7 @@ public class CompanyAddressRequirement extends MultiRequirement<ClientAddress> {
 
 	@Override
 	protected Result onFinish(Context context) {
-		ClientAddress address = new ClientAddress();
+		ClientAddress address = getValue();
 		address.setAddress1((String) getRequirement(ADDRESS1).getValue());
 		address.setStreet((String) getRequirement(ADDRESS2).getValue());
 		address.setCity((String) getRequirement(CITY).getValue());
@@ -124,9 +124,8 @@ public class CompanyAddressRequirement extends MultiRequirement<ClientAddress> {
 			getRequirement(ADDRESS2).setValue(address.getStreet());
 			getRequirement(CITY).setValue(address.getCity());
 			getRequirement(POSTAL_CODE).setValue(address.getZipOrPostalCode());
-			getRequirement(STATE).setValue(address.getStateOrProvinence());
 			getRequirement(COUNTRY).setValue(address.getCountryOrRegion());
-			countrySelected(address.getCountryOrRegion());
+			getRequirement(STATE).setValue(address.getStateOrProvinence());
 		}
 		super.setValue(value);
 	}

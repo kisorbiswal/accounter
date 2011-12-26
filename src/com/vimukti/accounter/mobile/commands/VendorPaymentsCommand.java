@@ -151,7 +151,8 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 					|| commandString.contains("Vendor")) {
 				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
-						getEndDate().getDate(), 0, -1, 0);
+						getEndDate().getDate(), 0, -1,
+						getViewByList().indexOf(currentView) + 1);
 			} else {
 				paymentsLists = tool.getCustomerManager().getPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),

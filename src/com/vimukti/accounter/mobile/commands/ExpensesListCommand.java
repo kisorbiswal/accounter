@@ -10,7 +10,6 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -120,7 +119,7 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected List<BillsList> getLists(Context context) {
-				return filterList(context);
+				return getExpenses(context);
 			}
 
 		});
@@ -132,74 +131,28 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 	 * @return
 	 */
 	private List<BillsList> getExpenses(Context context) {
-		// FinanceTool tool = new FinanceTool();
-		// try {
-		// ArrayList<BillsList> billsList = tool.getVendorManager()
-		// .getBillsList(true, context.getCompany().getId(), 0,
-		// getStartDate().getDate(), getEndDate().getDate(),0,-1);
-		// return billsList;
-		// } catch (DAOException e) {
-		// e.printStackTrace();
-		// }
-		return null;
-
-	}
-
-	protected List<BillsList> filterList(Context context) {
-		List<BillsList> initialRecords = getExpenses(context);
+		FinanceTool tool = new FinanceTool();
 		String text = get(VIEW_BY).getValue();
-		if (text.equalsIgnoreCase(getMessages().employee())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-					records.add(record);
-			}
-			return records;
-		} else if (text.equalsIgnoreCase(getMessages().cash())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
-					records.add(record);
-			}
-			return records;
-		} else if (text.equalsIgnoreCase(getMessages().creditCard())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
-					records.add(record);
-			}
-			return records;
-		} else if (text.equalsIgnoreCase(getMessages().employee())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-					records.add(record);
-			}
-			return records;
-		} else if (text.equalsIgnoreCase(getMessages().Voided())) {
-			List<BillsList> voidedRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if (rec.isVoided() && !rec.isDeleted()) {
-					voidedRecs.add(rec);
-				}
-			}
-			return voidedRecs;
-
-		} else if (text.equalsIgnoreCase(getMessages().all())) {
-			return initialRecords;
+		try {
+			ArrayList<BillsList> billsList = tool.getVendorManager()
+					.getBillsList(true, context.getCompany().getId(), 0,
+							getStartDate().getDate(), getEndDate().getDate(),
+							0, -1, getViewByList().indexOf(text) + 1);
+			return billsList;
+		} catch (DAOException e) {
+			e.printStackTrace();
 		}
-		return new ArrayList<BillsList>();
+		return null;
 
 	}
 
 	@Override
 	protected List<String> getViewByList() {
 		List<String> list = new ArrayList<String>();
-		list.add(getMessages().all());
 		list.add(getMessages().cash());
 		list.add(getMessages().creditCard());
 		list.add(getMessages().voided());
+		list.add(getMessages().all());
 		return list;
 	}
 

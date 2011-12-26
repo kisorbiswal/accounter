@@ -56,7 +56,7 @@ public abstract class ReceivePaymentTableRequirement extends
 		originalAmount.setEditable(false);
 		list.add(originalAmount);
 
-		CurrencyAmountRequirement amount = new CurrencyAmountRequirement(
+		CurrencyAmountRequirement amountDue = new CurrencyAmountRequirement(
 				AMOUNT_DUE, getMessages()
 						.pleaseEnter(getMessages().amountDue()), getMessages()
 						.amountDue(), true, true) {
@@ -67,7 +67,8 @@ public abstract class ReceivePaymentTableRequirement extends
 			}
 
 		};
-		list.add(amount);
+		amountDue.setEditable(false);
+		list.add(amountDue);
 
 		// list.add(new ApplyCreditsRequirement(APPLIED_CREDITS,
 		// "Please select record", "Record") {
@@ -83,10 +84,9 @@ public abstract class ReceivePaymentTableRequirement extends
 		// }
 		// });
 
-		CurrencyAmountRequirement receivePayment = new CurrencyAmountRequirement(
-				PAYMENT, getMessages().pleaseEnter(
-						getMessages().receivedPayment()), getMessages()
-						.receivedPayment(), true, true) {
+		CurrencyAmountRequirement paymentReq = new CurrencyAmountRequirement(
+				PAYMENT, getMessages().pleaseEnter(getMessages().payment()),
+				getMessages().payment(), true, true) {
 
 			@Override
 			protected Currency getCurrency() {
@@ -95,14 +95,14 @@ public abstract class ReceivePaymentTableRequirement extends
 
 		};
 
-		list.add(receivePayment);
+		list.add(paymentReq);
 	}
 
 	protected String getFormalName() {
 		return getPayee().getCurrency().getFormalName();
 	}
 
-	protected List<ClientCreditsAndPayments> getCreditsPayments() {
+	private List<ClientCreditsAndPayments> getCreditsPayments() {
 		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
@@ -124,10 +124,7 @@ public abstract class ReceivePaymentTableRequirement extends
 	@Override
 	protected void getRequirementsValues(ReceivePaymentTransactionList obj) {
 		Double amount = get(PAYMENT).getValue();
-		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
-		obj.setAmountDue(due);
-
 	}
 
 	@Override
