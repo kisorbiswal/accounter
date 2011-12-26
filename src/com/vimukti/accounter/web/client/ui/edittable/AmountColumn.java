@@ -22,7 +22,7 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		if (amount == null) {
 			return "";
 		}
-		return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
+		return DataUtils.getAmountAsStringInCurrency(amount, null);
 	}
 
 	protected abstract Double getAmount(T row);
