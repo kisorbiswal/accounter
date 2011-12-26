@@ -213,12 +213,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 		user.setCanDoUserManagement(true);
 		UserPermissions permissions = new UserPermissions();
 		permissions.setTypeOfBankReconcilation(RolePermissions.TYPE_YES);
-		permissions.setTypeOfExpences(RolePermissions.TYPE_APPROVE);
-		permissions.setTypeOfInvoices(RolePermissions.TYPE_YES);
-		permissions.setTypeOfLockDates(RolePermissions.TYPE_YES);
-		permissions.setTypeOfPublishReports(RolePermissions.TYPE_YES);
-		permissions.setTypeOfSystemSettings(RolePermissions.TYPE_YES);
+		permissions.setTypeOfPayBillsPayments(RolePermissions.TYPE_YES);
+		permissions.setTypeOfInvoicesBills(RolePermissions.TYPE_YES);
+		permissions.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
+		permissions.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_YES);
 		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
+		permissions.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
 		user.setPermissions(permissions);
 		return user.getClientUser();
 	}
