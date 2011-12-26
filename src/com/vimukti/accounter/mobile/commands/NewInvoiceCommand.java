@@ -18,7 +18,6 @@ import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -45,7 +44,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -308,6 +306,15 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			protected boolean filter(ShippingTerms e, String name) {
 				return e.getName().equalsIgnoreCase(name);
 			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 		});
 
 		list.add(new ShippingMethodRequirement(SHIPPING_METHOD, getMessages()
@@ -330,6 +337,15 @@ public class NewInvoiceCommand extends AbstractTransactionCommand {
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
 						getMessages().shippingMethodList());
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
 		});
 
