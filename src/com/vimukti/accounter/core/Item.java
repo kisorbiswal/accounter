@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * Class for any item. Basically we have divided items in two part SERVICE and
@@ -442,8 +443,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		Session session = HibernateUtil.getCurrentSession();
 
-		JournalEntry journalEntry = createJournalEntry();
-		session.save(journalEntry);
+		if (!DecimalUtil.isEquals(itemTotalValue, 0)) {
+			JournalEntry journalEntry = createJournalEntry();
+			session.save(journalEntry);
+		}
 
 		Unit selectedUnit = this.getMeasurement().getDefaultUnit();
 		Measurement defaultMeasurement = this.getMeasurement();
