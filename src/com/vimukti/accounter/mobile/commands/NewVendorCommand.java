@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
-import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -39,7 +38,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -706,7 +704,10 @@ public class NewVendorCommand extends AbstractCommand {
 		get(BALANCE_AS_OF).setDefaultValue(new ClientFinanceDate());
 		get(BILL_TO).setDefaultValue(new ClientAddress());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
-		get(CURRENCY).setValue(getPreferences().getPrimaryCurrency());
+		get(CURRENCY).setValue(
+				CommandUtils.getServerObjectById(getPreferences()
+						.getPrimaryCurrency().getID(),
+						AccounterCoreType.CURRENCY));
 	}
 
 	@Override
