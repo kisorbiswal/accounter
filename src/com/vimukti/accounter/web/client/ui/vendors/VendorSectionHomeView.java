@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -37,7 +36,6 @@ public class VendorSectionHomeView extends BaseHomeView {
 	private String[] secondColumn;
 
 	private String[] firstColumn;
-	private VendorListGrid listGrid;
 
 	public VendorSectionHomeView() {
 		vendorSectionView = this;
@@ -47,13 +45,14 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	@Override
 	public void init() {
+		payeeGrid = new VendorListGrid(false);
+		payeeGrid.init();
 		super.init();
-		getLeftLayout().add(createControl());
 		setSize("100%", "100%");
 
 	}
 
-	private VerticalPanel createControl() {
+	private void createControl() {
 		creator = new WidgetCreator();
 
 		HorizontalPanel addWidgetLinkLayout = new HorizontalPanel();
@@ -179,35 +178,35 @@ public class VendorSectionHomeView extends BaseHomeView {
 				}
 			}
 		}
-
 		getAddableWidgets(widgetOnSectionPage);
-		listGrid = new VendorListGrid(false);
-		listGrid.init();
-		listGrid.setHeight("400px");
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				true, 0, 0, false,
+				true, start, length, true,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						listGrid.clear();
-						listGrid.addRecords(result);
-						listGrid.sort(12, false);
+						payeeGrid.removeAllRecords();
+						payeeGrid.removeAllRows();
+						if (!result.isEmpty()) {
+							payeeGrid.addRecords(result);
+							payeeGrid.sort(12, false);
+							updateRecordsCount(result.getStart(),
+									payeeGrid.getTableRowCount(),
+									result.getTotalCount());
+						} else if (payeeGrid.getRecords().isEmpty()) {
+							payeeGrid.addEmptyMessage(messages
+									.noRecordsToShow());
+						}
 					}
 
 					@Override
 					public void onException(AccounterException caught) {
 					}
 				});
-
-		VerticalPanel leftLayout = new VerticalPanel();
-		leftLayout.setSize("100%", "100%");
-		// leftLayout.add(addWidgetLinkLayout);
-		leftLayout.add(portalLayout);
-		leftLayout.setSpacing(10);
-		leftLayout.add(listGrid);
-		return leftLayout;
-
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
@@ -258,7 +257,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 		// if (UIUtils.isMSIEBrowser())
 		// this.listGrid.setHeight((height - 140) + "px");
 		// else
-		this.listGrid.setHeight((height - 130) + "px");
+		this.payeeGrid.setHeight((height - 130) + "px");
 
 	}
 
@@ -269,9 +268,9 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						listGrid.clear();
-						listGrid.addRecords(result);
-						listGrid.sort(12, false);
+						payeeGrid.clear();
+						payeeGrid.addRecords(result);
+						payeeGrid.sort(12, false);
 					}
 
 					@Override
