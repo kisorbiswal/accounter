@@ -15,6 +15,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.CurrencyAmountRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CustomerRequirement;
@@ -51,7 +52,23 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new CustomerRequirement(CUSTOMER, getMessages()
 				.pleaseEnterName(Global.get().Customer()), Global.get()
-				.Customer(), false, true, null) {
+				.Customer(), false, true, new ChangeListner<Customer>() {
+
+			@Override
+			public void onSelection(Customer value) {
+				try {
+					double mostRecentTransactionCurrencyFactor = CommandUtils
+							.getMostRecentTransactionCurrencyFactor(
+									getCompanyId(),
+									value.getCurrency().getID(),
+									new ClientFinanceDate().getDate());
+					NewReceivePaymentCommand.this.get(CURRENCY_FACTOR)
+							.setValue(mostRecentTransactionCurrencyFactor);
+				} catch (AccounterException e) {
+					e.printStackTrace();
+				}
+			}
+		}) {
 
 			@Override
 			protected List<Customer> getLists(Context context) {
@@ -189,7 +206,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 				getMessages().checkNo()), getMessages().checkNo(), true, true));
 
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
-				.pleaseEnter("Currency Factor"), CURRENCY_FACTOR) {
+				.pleaseEnter(getMessages().currencyFactor()), CURRENCY_FACTOR) {
 			@Override
 			protected Currency getCurrency() {
 				Customer customer = (Customer) NewReceivePaymentCommand.this
