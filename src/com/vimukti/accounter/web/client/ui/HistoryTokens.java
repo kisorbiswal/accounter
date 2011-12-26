@@ -333,6 +333,8 @@ public class HistoryTokens {
 
 	public static final String DEDUCTORDETAILS = "deductorDetails";
 
+	public static final String eTDSFILLING = "eTDSFilling";
+
 	public HistoryTokens() {
 
 	}
