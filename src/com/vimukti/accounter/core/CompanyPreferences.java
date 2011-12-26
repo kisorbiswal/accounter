@@ -116,6 +116,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
 	public static final long ENABLE_PRICE_LEVEL = 0x100000000000000L;
+	public static final long AUTOMATIC_CREDITS_APPLY = 0x200000000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -1512,5 +1513,14 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
 		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
+	}
+
+	public void setCreditsApplyAutomatically(
+			boolean isSetCreditsApplyAutomaticEnabled) {
+		set(AUTOMATIC_CREDITS_APPLY, isSetCreditsApplyAutomaticEnabled);
+	}
+
+	public boolean isCreditsApplyAutomaticEnable() {
+		return get(AUTOMATIC_CREDITS_APPLY);
 	}
 }
