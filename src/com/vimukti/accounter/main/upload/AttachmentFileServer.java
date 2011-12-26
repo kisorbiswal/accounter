@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.crypto.Cipher;
@@ -34,9 +33,6 @@ public class AttachmentFileServer extends Thread {
 		}
 	}
 
-	private static Key encryptionKey = generateKey();
-	private static byte[] keyData = "123456789ABCDEFG".getBytes();
-
 	@Override
 	public void run() {
 		while (true) {
@@ -60,20 +56,22 @@ public class AttachmentFileServer extends Thread {
 		return null;
 	}
 
-	public static InputStream getAttachmentStream(String attachmentId) {
+	public static InputStream getAttachmentStream(String attachmentId,
+			byte[] key) {
 		try {
 			FileInputStream fin = new FileInputStream(
 					getAttachmentFile(attachmentId));
-			InputStream in = createCipherInputStream(fin);
+			InputStream in = createCipherInputStream(fin, key);
 			return in;
 		} catch (Exception e) {
 			return new ByteArrayInputStream(new byte[0]);
 		}
 	}
 
-	private static InputStream createCipherInputStream(FileInputStream fin)
-			throws Exception {
+	private static InputStream createCipherInputStream(FileInputStream fin,
+			byte[] keyData) throws Exception {
 		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
+		Key encryptionKey = generateKey();
 		Key decryptionKey = new SecretKeySpec(encryptionKey.getEncoded(),
 				encryptionKey.getAlgorithm());
 		cipher.init(Cipher.DECRYPT_MODE, decryptionKey, new IvParameterSpec(
@@ -115,7 +113,7 @@ public class AttachmentFileServer extends Thread {
 	private void process(UploadAttachment take) throws Exception {
 		switch (take.processType) {
 		case UploadAttachment.CREATE:
-			uploadAttachment(take.attachmentId, take.fileName);
+			uploadAttachment(take.attachmentId, take.fileName, take.key);
 			break;
 		case UploadAttachment.DELETE:
 			deleteAttachment(take.attachmentId);
@@ -137,9 +135,9 @@ public class AttachmentFileServer extends Thread {
 		}
 	}
 
-	private void uploadAttachment(String attachmentId, String fileName)
-			throws AccounterException {
-		File encrFile = checkAndReturnEncryptFile(attachmentId, fileName);
+	private void uploadAttachment(String attachmentId, String fileName,
+			byte[] key) throws AccounterException {
+		File encrFile = checkAndReturnEncryptFile(attachmentId, fileName, key);
 		if (encrFile == null) {
 			throw new AccounterException("Unable to find the encrypted file");
 		}
@@ -168,7 +166,8 @@ public class AttachmentFileServer extends Thread {
 		return ServerConfiguration.getAttachmentsContainerName();
 	}
 
-	private File checkAndReturnEncryptFile(String attachmentId, String fileName) {
+	private File checkAndReturnEncryptFile(String attachmentId,
+			String fileName, byte[] key) {
 		// Check is File is in in EncryptedFolder
 		File encriptFile = new File(ServerConfiguration.getEncryptTmpDir(),
 				attachmentId);
@@ -183,12 +182,13 @@ public class AttachmentFileServer extends Thread {
 			// File Not Exists, then return
 			return null;
 		}
-		copyWithEncryptionFile(unencrypted, encriptFile, attachmentId);
+		copyWithEncryptionFile(unencrypted, encriptFile, attachmentId, key);
 		unencrypted.delete();
 		return encriptFile;
 	}
 
-	private boolean copyWithEncryptionFile(File fs, File fd, String attID) {
+	private boolean copyWithEncryptionFile(File fs, File fd, String attID,
+			byte[] key) {
 		try {
 			File f = new File(fd.getAbsolutePath().substring(0,
 					fd.getAbsolutePath().lastIndexOf(File.separator)));
@@ -196,7 +196,7 @@ public class AttachmentFileServer extends Thread {
 				f.mkdirs();
 			FileInputStream stream = new FileInputStream(fs);
 			FileOutputStream os = new FileOutputStream(fd);
-			OutputStream fos = createCipherOutputStream(os);
+			OutputStream fos = createCipherOutputStream(os, key);
 			byte b[] = new byte[4096];
 			int read = 0;
 			do {
@@ -215,10 +215,10 @@ public class AttachmentFileServer extends Thread {
 
 	}
 
-	private CipherOutputStream createCipherOutputStream(OutputStream fos)
-			throws Exception {
+	private CipherOutputStream createCipherOutputStream(OutputStream fos,
+			byte[] keyData) throws Exception {
 		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding"); //$NON-NLS-1$ //$NON-NLS-2$
-		cipher.init(Cipher.ENCRYPT_MODE, encryptionKey, new IvParameterSpec(
+		cipher.init(Cipher.ENCRYPT_MODE, generateKey(), new IvParameterSpec(
 				keyData));
 		return new CipherOutputStream(fos, cipher);
 	}

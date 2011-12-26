@@ -6,6 +6,7 @@ public class UploadAttachment {
 	public int processType;
 	public String attachmentId;
 	public String fileName;
+	public byte[] key = "123456789ABCDEFG".getBytes();
 
 	public UploadAttachment(String attachmentId, int processType,
 			String fileName) {
