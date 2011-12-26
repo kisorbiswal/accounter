@@ -685,7 +685,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
-			long toDate) {
+			long toDate, int start, int length) {
 		PaginationList<ClientEstimate> clientEstimate = new PaginationList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -693,7 +693,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type, dates[0], dates[1]);
+					.getEstimates(getCompanyId(), type, dates[0], dates[1],
+							start, length);
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -729,7 +730,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
-			long toDate, int type,int viewType, int start, int length) {
+			long toDate, int type, int viewType, int start, int length) {
 		PaginationList<InvoicesList> invoicesList = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(

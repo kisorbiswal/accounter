@@ -245,18 +245,20 @@ public class CustomerManager extends Manager {
 	}
 
 	public ArrayList<Estimate> getEstimates(long companyId, int type,
-			FinanceDate fromDate, FinanceDate toDate) throws DAOException {
+			FinanceDate fromDate, FinanceDate toDate, int start, int length)
+			throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-
+			int total;
+			List<Estimate> list;
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getEstimate")
 					.setEntity("company", company)
 					.setParameter("estimateType", type)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			List<Estimate> list = query.list();
-
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 			if (list != null) {
 				return new ArrayList<Estimate>(list);
 			} else

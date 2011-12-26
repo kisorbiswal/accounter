@@ -72,19 +72,17 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getEstimates(type,
-				getStartDate().getDate(), getEndDate().getDate(), this);
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
 	public void onSuccess(PaginationList<ClientEstimate> result) {
-		super.onSuccess(result);
 		listOfEstimates = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
 		grid.sort(10, false);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -114,7 +112,6 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected void filterList(String text) {
-
 		grid.removeAllRecords();
 
 		for (ClientEstimate estimate : listOfEstimates) {
@@ -187,5 +184,17 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 			return messages().Charges();
 		}
 		return messages().quotes();
+	}
+
+	@Override
+	protected int getPageSize() {
+		return 25;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getEstimates(type,
+				getStartDate().getDate(), getEndDate().getDate(), start,
+				length, this);
 	}
 }

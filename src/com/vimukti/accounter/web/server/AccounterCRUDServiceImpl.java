@@ -132,7 +132,7 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	public boolean deleteTransaction(AccounterCoreType accounterCoreType,
 			long id) throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
-				accounterCoreType.getServerClassSimpleName(), id);
+				accounterCoreType.getServerClassFullyQualifiedName(), id);
 		if (serverCore instanceof Transaction) {
 			Transaction trans = (Transaction) serverCore;
 			trans.setSaveStatus(Transaction.STATUS_VOID);

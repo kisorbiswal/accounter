@@ -155,9 +155,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// To check whether an Account is a Sales Tax Payable Account or not
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
-	// To get all the Estimates/Quotes in a company
-	public PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
-			long toDate);
+	PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
+			long toDate, int start, int length);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public ArrayList<ClientEstimate> getEstimates(long customerId);
@@ -297,7 +296,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			boolean isActive, int strat, int length) throws AccounterException;
 
 	public PaginationList<InvoicesList> getInvoiceList(long fromDate,
-			long toDate, int type,int viewType, int start, int length);
+			long toDate, int type, int viewType, int start, int length);
 
 	public String getCustomerNumber();
 
