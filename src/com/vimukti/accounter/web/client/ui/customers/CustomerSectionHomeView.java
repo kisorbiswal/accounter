@@ -6,7 +6,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -191,22 +196,23 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid = new CustomerListGrid();
 		listGrid.init();
 
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-		// new AccounterAsyncCallback<PaginationList<PayeeList>>() {
-		//
-		// @Override
-		// public void onResultSuccess(PaginationList<PayeeList> result) {
-		// listGrid.clear();
-		// listGrid.addRecords(result);
-		// if (listGrid.getRecords().isEmpty())
-		// listGrid.addEmptyMessage(messages.noRecordsToShow());
-		// listGrid.sort(12, false);
-		// }
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// }
-		// });
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				true, 0, 0, true,
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onResultSuccess(PaginationList<PayeeList> result) {
+						listGrid.clear();
+						listGrid.addRecords(result);
+						if (listGrid.getRecords().isEmpty())
+							listGrid.addEmptyMessage(messages.noRecordsToShow());
+						listGrid.sort(12, false);
+					}
+
+					@Override
+					public void onException(AccounterException caught) {
+					}
+				});
 		leftLayout.setSpacing(10);
 		leftLayout.add(listGrid);
 
@@ -265,22 +271,23 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void setPrevoiusOutput(Object preObject) {
 
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-		// new AccounterAsyncCallback<PaginationList<PayeeList>>() {
-		//
-		// @Override
-		// public void onResultSuccess(PaginationList<PayeeList> result) {
-		// listGrid.clear();
-		// listGrid.addRecords(result);
-		//
-		// if (listGrid.getRecords().isEmpty())
-		// listGrid.addEmptyMessage(messages.noRecordsToShow());
-		// }
-		//
-		// @Override
-		// public void onException(AccounterException caught) {
-		// }
-		// });
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				true, 0, 0, true,
+				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onResultSuccess(PaginationList<PayeeList> result) {
+						listGrid.clear();
+						listGrid.addRecords(result);
+
+						if (listGrid.getRecords().isEmpty())
+							listGrid.addEmptyMessage(messages.noRecordsToShow());
+					}
+
+					@Override
+					public void onException(AccounterException caught) {
+					}
+				});
 	}
 
 	@Override
