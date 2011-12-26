@@ -1386,6 +1386,7 @@ public class Company implements IAccounterServerCore {
 		delete(measurements, session);
 		delete(usersList, session);
 		delete(currencies, session);
+		delete(chequeLayouts, session);
 	}
 
 	private static <T> void delete(Collection<T> list, Session session) {
