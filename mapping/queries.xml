@@ -491,7 +491,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.ReceiveVAT rv where
 		rv.company=:company and rv.depositIn.id
-		=:accountId and rv.saveStatus!=204
+		=:accountId and
+		rv.saveStatus!=204
 		and rv.status =:status
 	</query>
 
@@ -621,7 +622,7 @@
 		I.company=:company and
 		I.name=:name
 	</query>
-	
+
 	<query name="getRecurringTransaction.by.Name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />
@@ -955,7 +956,8 @@
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
-		where cr.saveStatus!=204
+		where
+		cr.saveStatus!=204
 		and cr.status=status and cr.company=:company
 	</query>
 
@@ -974,7 +976,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.CustomerRefund cr
 		where cr.payFrom.id
-		=:id and cr.saveStatus!=204 and cr.status=:status and cr.company=:company
+		=:id and cr.saveStatus!=204 and cr.status=:status and
+		cr.company=:company
 	</query>
 
 	<query name="getPaySalesTax.by.payFromand.isvoid.status">
@@ -1001,7 +1004,8 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company and cr.transactionDate between :fromDate and :toDate
+		cr.company=:company and cr.transactionDate between :fromDate and
+		:toDate
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
@@ -1085,7 +1089,8 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
 		and e.estimateType=:estimateType and e.saveStatus != 202
-		and e.transactionDate between :fromDate and :toDate
+		and
+		e.transactionDate between :fromDate and :toDate
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1127,7 +1132,8 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.JournalEntry j where
 		j.company=:company and j.saveStatus != 202
-		and j.transactionDate between :fromDate and :toDate
+		and j.transactionDate
+		between :fromDate and :toDate
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1846,32 +1852,39 @@
 		where
 		bankAccount.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="getCompany.has.recurrings">
 		from com.vimukti.accounter.core.Company c
-		where (select count(r.id) from com.vimukti.accounter.core.RecurringTransaction r 
+		where
+		(select count(r.id) from
+		com.vimukti.accounter.core.RecurringTransaction r
 		where r.company.id = c.id and r.type !=2) > 0
 	</query>
-	
+
 	<query name="getRecurrringsBeforeDate">
 		<query-param name="date" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.RecurringTransaction r
-		where r.company=:company and r.nextScheduleOn &lt;=:date and r.stopped = false
+		where
+		r.company=:company and r.nextScheduleOn &lt;=:date and r.stopped =
+		false
 		and r.type !=2 and r.daysBeforeToRemind =0
 	</query>
-	
+
 	<query name="getRecurrrings.remind.days.before">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.RecurringTransaction r
-		where r.company=:company and r.stopped = false
-		and r.type =1 and r.daysBeforeToRemind !=0
+		where
+		r.company=:company and r.stopped = false
+		and r.type =1 and
+		r.daysBeforeToRemind !=0
 	</query>
-	
+
 	<query name="getReminders">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Reminder r
-		where r.company.id=:companyId order by r.transactionDate
+		where
+		r.company.id=:companyId order by r.transactionDate
 	</query>
 
 	<query name="getEnterBillByEstimate">
@@ -1883,27 +1896,29 @@
 	<query name="getRecurring.for.template">
 		<query-param name="templateId" type="long" />
 		from com.vimukti.accounter.core.RecurringTransaction r
-		where r.transaction.id =:templateId
+		where
+		r.transaction.id =:templateId
 	</query>
-	
+
 	<query name="getRecurringReminderTask">
 		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.MessageOrTask m 
+		from com.vimukti.accounter.core.MessageOrTask m
 		where m.contentType=1 and m.company.id =:companyId
 	</query>
-	
+
 	<query name="getAutomaticTransactionsMessage">
 		<query-param name="companyId" type="long" />
-		from com.vimukti.accounter.core.MessageOrTask m 
+		from com.vimukti.accounter.core.MessageOrTask m
 		where m.contentType=2 and m.company.id =:companyId
 	</query>
-	
+
 	<query name="getMessagesAndTasks">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.MessageOrTask m
-		where m.company.id =:companyId
+		where m.company.id
+		=:companyId
 	</query>
-	
+
 	<query name="getTDSAgencyOfCompany">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXAgency ta where ta.taxType=4 and
@@ -1932,13 +1947,27 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.transactionDate between :fromDate and :toDate and wc.customer != null
+		wc.company=:company and wc.transactionDate between :fromDate and
+		:toDate and wc.customer != null
 	</query>
 	<query name="getVendorWriteChecks">
 		<query-param name="company" type="Company" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.transactionDate between :fromDate and :toDate and wc.vendor != null
+		wc.company=:company and wc.transactionDate between :fromDate and
+		:toDate and wc.vendor != null
+	</query>
+
+	<query name="getTdsChalanDetails">
+		<query-param name="company" type="Company" />
+		<query-param name="formNum" type="int" />
+		<query-param name="quarter" type="int" />
+		<query-param name="startYear" type="int" />
+		<query-param name="endYear" type="int" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company=:company and tc.formType=:formNum and
+		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
+		tc.assessmentYearEnd=:endYear
 	</query>
 </hibernate-mapping>

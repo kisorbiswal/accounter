@@ -3800,9 +3800,15 @@ public class FinanceTool {
 
 		try {
 
-			ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
-					session.getNamedQuery("list.TdsChalanDetails")
-							.setEntity("company", getCompany(companyId)).list());
+			Query query = session.getNamedQuery("getTdsChalanDetails")
+					.setEntity("company", getCompany(companyId))
+					.setParameter("formNum", formNo)
+					.setParameter("quarter", quater)
+					.setParameter("startYear", startYear)
+					.setParameter("endYear", endYear);
+
+			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
+					.list();
 			int i = 1;
 			for (TDSChalanDetail chalan : chalansGot) {
 
