@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -137,7 +138,7 @@ public class MenuBar {
 
 		if (notReadOnlyUser == true) {
 			inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
-					HistoryTokens.STOCKADJUSTMENT);
+					HistoryTokens.STOCKADJUSTMENT, "H");
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
 		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
@@ -191,17 +192,18 @@ public class MenuBar {
 		// HistoryTokens.GENERALSETTINGS);
 		if (canChangeSettings) {
 			settingsMenuBar.addMenuItem(messages.companySettingsTitle(),
-					HistoryTokens.COMPANYPREFERENCES);
+					HistoryTokens.COMPANYPREFERENCES, "P");
 		}
 		if (canDoUserManagement) {
-			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS);
+			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS,
+					"U");
 		}
 		if (canChangeSettings) {
 			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
-					HistoryTokens.INVOICEBRANDING);
+					HistoryTokens.INVOICEBRANDING, "i");
 		}
 		settingsMenuBar.addMenuItem(messages.translation(),
-				HistoryTokens.TRANSLATION);
+				HistoryTokens.TRANSLATION, "T");
 		settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
 				HistoryTokens.CHECK_PRINT_SETTING);
 
@@ -262,12 +264,12 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		// if (company instanceof India) {
-		// if (tdsEnabled) {
-		// vatmenu.addMenuItem(getForm16AMenu("TDS"));
-		// vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
-		// }
-		// }
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenu.addMenuItem(getForm16AMenu("TDS"));
+				vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+			}
+		}
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
@@ -324,7 +326,7 @@ public class MenuBar {
 		Menu reportMenuBar = new Menu(string);
 
 		reportMenuBar.addMenuItem(messages.reportsHome(),
-				HistoryTokens.REPORTHOME);
+				HistoryTokens.REPORTHOME, "R");
 
 		reportMenuBar.addSeparatorItem();
 
@@ -586,7 +588,7 @@ public class MenuBar {
 		Menu bankingMenuBar = new Menu(string);
 
 		bankingMenuBar.addMenuItem(messages.newBankAccount(),
-				HistoryTokens.NEWBANKACCOUNT);
+				HistoryTokens.NEWBANKACCOUNT, "B");
 		bankingMenuBar.addSeparatorItem();
 		bankingMenuBar.addMenuItem(messages.writeCheck(),
 				HistoryTokens.WRITECHECK);
@@ -630,7 +632,7 @@ public class MenuBar {
 				HistoryTokens.VENDORCENTRE);
 
 		vendorMenuBar.addMenuItem(messages.payeesHome(Global.get().Vendors()),
-				HistoryTokens.VENDOREHOME);
+				HistoryTokens.VENDOREHOME, "S");
 
 		vendorMenuBar.addSeparatorItem();
 
@@ -643,7 +645,7 @@ public class MenuBar {
 		if (canDoInvoiceAndBillTransactions) {
 			if (isKeepTrackofBills) {
 				vendorMenuBar.addMenuItem(messages.enterBill(),
-						HistoryTokens.ENTERBILL);
+						HistoryTokens.ENTERBILL, "B");
 			}
 		}
 		if (canDoPayBillAndReceivePayment) {
@@ -846,35 +848,37 @@ public class MenuBar {
 		Menu companyMenuBar = new Menu(string);
 
 		companyMenuBar.addMenuItem(messages.dashBoard(),
-				HistoryTokens.DASHBOARD);
+				HistoryTokens.DASHBOARD, "D");
 
 		companyMenuBar.addSeparatorItem();
 
-		companyMenuBar.addMenuItem(messages.search(), HistoryTokens.SEARCH);
+		companyMenuBar
+				.addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 
 		companyMenuBar.addSeparatorItem();
 
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
-					HistoryTokens.NEWJOURNALENTRY);
+					HistoryTokens.NEWJOURNALENTRY, "J");
 		}
 		companyMenuBar.addMenuItem(messages.transactionscenter(),
 				HistoryTokens.TRANSACTIONS_CENTER);
 
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.newPayee(messages.Account()),
-					HistoryTokens.NEWACCOUNT);
+					HistoryTokens.NEWACCOUNT, "A");
 			companyMenuBar.addSeparatorItem();
 		}
 
 		if (canChangeSettings) {
 			companyMenuBar.addMenuItem(messages.companyPreferences(),
-					HistoryTokens.COMPANYPREFERENCES);
+					HistoryTokens.COMPANYPREFERENCES, "P");
 			companyMenuBar.addSeparatorItem();
 		}
 
 		if (canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET);
+			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
+					"b");
 			companyMenuBar.addSeparatorItem();
 		}
 

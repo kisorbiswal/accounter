@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
@@ -304,43 +305,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public List<String> getStatesList() {
 
 		List<String> statesName = new ArrayList<String>();
-		statesName.add("Select");
-		statesName.add("ANDAMAN AND NICOBAR ISLANDS");
-		statesName.add("ANDHRA PRADESH");
-		statesName.add("ARUNACHAL PRADESH");
-		statesName.add("ASSAM");
-		statesName.add("BIHAR");
-		statesName.add("CHANDIGARH");
-		statesName.add("DADRA & NAGAR HAVELI");
-		statesName.add("DAMAN & DIU");
-		statesName.add("DELHI");
-		statesName.add("GOA");
-		statesName.add("GUJARAT");
-		statesName.add("HARYANA");
-		statesName.add("HIMACHAL PRADESH");
-		statesName.add("JAMMU & KASHMIR");
-		statesName.add("KARNATAKA");
-		statesName.add("KERALA");
-		statesName.add("LAKSHWADEEP");
-		statesName.add("MADHYA PRADESH");
-		statesName.add("MAHARASHTRA");
-		statesName.add("MANIPUR");
-		statesName.add("MEGHALAYA");
-		statesName.add("MIZORAM");
-		statesName.add("NAGALAND");
-		statesName.add("ORISSA");
-		statesName.add("PONDICHERRY");
-		statesName.add("PUNJAB");
-		statesName.add("RAJASTHAN");
-		statesName.add("SIKKIM");
-		statesName.add("TAMILNADU");
-		statesName.add("TRIPURA");
-		statesName.add("UTTAR PRADESH");
-		statesName.add("WEST BENGAL");
-		statesName.add("CHHATISHGARH");
-		statesName.add("UTTARANCHAL");
-		statesName.add("JHARKHAND");
-
+		statesName = Utility.getStatesList();
 		return statesName;
 	}
 

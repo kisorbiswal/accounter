@@ -25,7 +25,11 @@ public class Menu extends MenuItem {
 	}
 
 	public void addMenuItem(String title, String token) {
-		this.addMenuItem(new MenuItem(title, token));
+		this.addMenuItem(new MenuItem(title, token, ""));
+	}
+
+	public void addMenuItem(String title, String token, String shortcut) {
+		this.addMenuItem(new MenuItem(title, token, shortcut));
 	}
 
 	public void addSeparatorItem() {

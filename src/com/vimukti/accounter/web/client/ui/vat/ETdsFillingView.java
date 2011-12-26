@@ -83,11 +83,13 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 			@Override
 			public void selectedComboBoxItem(String selectItem) {
-				if (selectItem.equals(getFormTypes().get(0))) {
+				if (selectItem.equals(getFormTypes().get(1))) {
 					formNoSelected = 1;
-				} else if (selectItem.equals(getFormTypes().get(1))) {
-					formNoSelected = 2;
 				} else if (selectItem.equals(getFormTypes().get(2))) {
+					formNoSelected = 2;
+				} else if (selectItem.equals(getFormTypes().get(3))) {
+					formNoSelected = 3;
+				} else if (selectItem.equals(getFormTypes().get(4))) {
 					formNoSelected = 3;
 				}
 				initRPCService();

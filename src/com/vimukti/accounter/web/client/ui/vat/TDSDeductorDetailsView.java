@@ -8,8 +8,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
-import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -360,99 +360,25 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private List<String> getMinistryType() {
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
-		names.add("Ministry name");
-		names.add("Agriculture");
-		names.add("Atomic Energy");
-		names.add("Fertilizers");
-		names.add("Chemicals and Petrochemicals");
-		names.add("Civil Aviation and Tourism");
-		names.add("Coal");
-		names.add("Consumer Affairs, Food and Public Distribution");
-		names.add("Commerce and Textiles");
-		names.add("Environment and Forests and Ministry of Earth Science");
-		names.add("External Affairs and Overseas Indian Affairs");
-		names.add("Finance");
-		names.add("Central Board of Direct Taxes");
-		names.add("Central Board of Excise and Customs");
-		names.add("Contoller of Aid Accounts and Audit");
-		names.add("Central Pension Accounting Office");
-		names.add("Food Processing Industries");
-		names.add("Health and Family Welfare");
-		names.add("Home Affairs and Development of North Eastern Region");
-		names.add("Human Resource Development");
-		names.add("Industry");
-		names.add("Information and Broadcasting");
-		names.add("Telecommunication and Information Technology");
-		names.add("Labour");
-		names.add("Law and Justice and Company Affairs");
-		names.add("Personnel, Public Grievances and Pensions");
-		names.add("Petroleum and Natural Gas");
-		names.add("Plannning, Statistics and Programme Implementation");
-		names.add("Power");
-		names.add("New and Renewable Energy");
-		names.add("Rural Development and Panchayati Raj");
-		names.add("Science And Technology");
-		names.add("Space");
-		names.add("Steel");
-		names.add("Mines");
-		names.add("Social Justice and Empowerment");
-		names.add("Tribal Affairs");
-		names.add("D/o Commerce (Supply Division)");
-		names.add("Shipping and Road Transport and Highways");
-		names.add("Urban Development, Urban Employment and Poverty Alleviation");
-		names.add("Water Resources");
-		names.add("President's Secretariat");
-		names.add("Lok Sabha Secretariat");
-		names.add("Rajya Sabha secretariat");
-		names.add("Election Commission");
-		names.add("Ministry of Defence (Controller General of Defence Accounts)");
-		names.add("Ministry of Railways");
-		names.add("Department of Posts");
-		names.add("Department of Telecommunications");
-		names.add("Andaman and Nicobar Islands Administration ");
-		names.add("Chandigarh Administration");
-		names.add("Dadra and Nagar Haveli");
-		names.add("Goa, Daman and Diu");
-		names.add("Lakshadweep");
-		names.add("Pondicherry Administration");
-		names.add("Pay and Accounts Officers (Audit)");
-		names.add("Ministry of Non-conventional energy sources");
-		names.add("Government Of NCT of Delhi ");
-		names.add("Others");
-
+		names = Utility.getMinistryType();
 		return names;
 	}
 
 	private List<String> getOthersList() {
 
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
-		names.add("Company");
-		names.add("Branch/Divison of Company");
-		names.add("Association of Person (AOP)");
-		names.add("Association of Person (Trust)");
-		names.add("Artificial Juridicial Person");
-		names.add("Body of Indivisuals");
-		names.add("Individual/HUF");
-		names.add("Firm");
-
+		for (int i = 8; i < 16; i++) {
+			names.add(Utility.getDeductorTypes().get(i));
+		}
 		return names;
 	}
 
 	private List<String> getGovtList() {
 
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
-		names.add("Central Government");
-		names.add("State Government");
-		names.add("Statutory body (Central Govt.)");
-		names.add("Statutory body (State Govt.)");
-		names.add("Autonomous body (Central Govt.)");
-		names.add("Autonomous body (State Govt.)");
-		names.add("Local Authority (Central Govt.)");
-		names.add("Local Authority (State Govt.)");
-
+		for (int i = 0; i < 8; i++) {
+			names.add(Utility.getDeductorTypes().get(i));
+		}
 		return names;
 	}
 
@@ -609,23 +535,25 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void initRPCService() {
 		super.initRPCService();
 
-		
-		Accounter.createHomeService().getDeductorMasterDetails(new AccounterAsyncCallback<ArrayList<ClientTDSDeductorMasters>>() {
+		Accounter
+				.createHomeService()
+				.getDeductorMasterDetails(
+						new AccounterAsyncCallback<ArrayList<ClientTDSDeductorMasters>>() {
 
-			@Override
-			public void onException(AccounterException exception) {
-				// TODO Auto-generated method stub
-				
-			}
+							@Override
+							public void onException(AccounterException exception) {
+								// TODO Auto-generated method stub
 
-			@Override
-			public void onResultSuccess(
-					ArrayList<ClientTDSDeductorMasters> result) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-	}	
+							}
+
+							@Override
+							public void onResultSuccess(
+									ArrayList<ClientTDSDeductorMasters> result) {
+								// TODO Auto-generated method stub
+
+							}
+						});
+
+	}
 
 }

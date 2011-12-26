@@ -4,6 +4,7 @@ public class MenuItem {
 
 	private String title;
 	private String urlToken;
+	private String shortcut;
 
 	public MenuItem(String title, String token) {
 		this.title = title;
@@ -15,6 +16,12 @@ public class MenuItem {
 	}
 
 	public MenuItem() {
+	}
+
+	public MenuItem(String title, String token, String shortcut) {
+		this.title = title;
+		this.urlToken = token;
+		this.shortcut = shortcut;
 	}
 
 	public String getUrlToken() {
@@ -35,6 +42,14 @@ public class MenuItem {
 
 	public boolean isSeparator() {
 		return title == null;
+	}
+
+	public String getShortcut() {
+		return shortcut;
+	}
+
+	public void setShortcut(String shortcut) {
+		this.shortcut = shortcut;
 	}
 
 }

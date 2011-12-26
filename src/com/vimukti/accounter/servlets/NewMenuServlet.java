@@ -147,6 +147,7 @@ public class NewMenuServlet extends BaseServlet {
 
 				String title = menuItem.getTitle();
 				String urlToken = "company/accounter#" + menuItem.getUrlToken();
+				String shortCut = menuItem.getShortcut();
 				if (title == null) {
 					separator(mainMenu);
 				} else if (menuItem instanceof Menu) {
@@ -160,6 +161,7 @@ public class NewMenuServlet extends BaseServlet {
 						String subTitle = subMenuItem.getTitle();
 						String subUrlToken = "company/accounter#"
 								+ subMenuItem.getUrlToken();
+						String subshortCut = subMenuItem.getShortcut();
 
 						if (subTitle == null) {
 							separator(menu2);
@@ -179,37 +181,40 @@ public class NewMenuServlet extends BaseServlet {
 								String subTitle3 = subMenuItem3.getTitle();
 								String subUrlToken3 = "company/accounter#"
 										+ subMenuItem3.getUrlToken();
+								String subshortCut3 = subMenuItem3
+										.getShortcut();
 
 								if (subTitle3 == null) {
 									separator(menu4);
 								} else {
-									menu(menu4, subTitle3, subUrlToken3);
+									menuItem(menu4, subTitle3, subUrlToken3,
+											subshortCut3);
 								}
 							}
 						}
 
 						else {
-							menu(menu2, subTitle, subUrlToken);
+							menuItem(menu2, subTitle, subUrlToken, subshortCut);
 						}
 					}
 
 				} else {
-					menu(mainMenu, title, urlToken);
+					menuItem(mainMenu, title, urlToken, shortCut);
 				}
 			}
 
 		}
 	}
 
-	private void childSubMenu(XMLElement menu3, String subTitle2,
-			String subUrlToken2) {
-
-		XMLElement element = new XMLElement("ChildSubMenu");
-		element.setAttribute("text", subTitle2);
-		element.setContent(subUrlToken2);
-
-		menu3.addChild(element);
-	}
+	// private void childSubMenu(XMLElement menu3, String subTitle2,
+	// String subUrlToken2) {
+	//
+	// XMLElement element = new XMLElement("ChildSubMenu");
+	// element.setAttribute("text", subTitle2);
+	// element.setContent(subUrlToken2);
+	//
+	// menu3.addChild(element);
+	// }
 
 	private void addHeader(XMLElement mainElement) throws IOException {
 
@@ -226,8 +231,8 @@ public class NewMenuServlet extends BaseServlet {
 
 	}
 
-	private void menu(XMLElement mainElement, String text, String shortcut,
-			String value) throws IOException {
+	private void menu(XMLElement mainElement, String text, String value,
+			String shortcut) throws IOException {
 
 		XMLElement element = new XMLElement("Menu");
 		element.setAttribute("text", text);
@@ -240,42 +245,54 @@ public class NewMenuServlet extends BaseServlet {
 	private void menu(XMLElement mainElement, String text,
 			StringBuilder subMenuValue) throws IOException {
 
-		menu(mainElement, text, subMenuValue.toString());
+		menuItem(mainElement, text, subMenuValue.toString());
 	}
 
-	private XMLElement menu(XMLElement mainElement, String text, String value)
-			throws IOException {
+	private XMLElement menuItem(XMLElement mainElement, String text,
+			String value, String shortcut) throws IOException {
 
 		XMLElement element = new XMLElement("MenuItem");
 		element.setAttribute("text", text);
 		element.setContent(value);
+		element.setAttribute("shortcut", shortcut);
 
 		mainElement.addChild(element);
 
 		return element;
 	}
 
-	private void subMenu(XMLElement mainElement, String text, String value)
-			throws IOException {
+	private XMLElement menuItem(XMLElement mainElement, String text,
+			String value) throws IOException {
 
-		XMLElement element = new XMLElement("SubMenu");
+		XMLElement element = new XMLElement("MenuItem");
 		element.setAttribute("text", text);
 		element.setContent(value);
-
 		mainElement.addChild(element);
-	}
 
-	private XMLElement subMenu(XMLElement mainElement, String text,
-			String sortcut, String value) throws IOException {
-
-		XMLElement element = new XMLElement("SubMenu");
-		element.setAttribute("text", text);
-		element.setAttribute("shortcut", sortcut);
-		element.setContent(value);
-
-		mainElement.addChild(element);
 		return element;
 	}
+
+	// private void subMenu(XMLElement mainElement, String text, String value)
+	// throws IOException {
+	//
+	// XMLElement element = new XMLElement("SubMenu");
+	// element.setAttribute("text", text);
+	// element.setContent(value);
+	//
+	// mainElement.addChild(element);
+	// }
+	//
+	// private XMLElement subMenu(XMLElement mainElement, String text,
+	// String sortcut, String value) throws IOException {
+	//
+	// XMLElement element = new XMLElement("SubMenu");
+	// element.setAttribute("text", text);
+	// element.setAttribute("shortcut", sortcut);
+	// element.setContent(value);
+	//
+	// mainElement.addChild(element);
+	// return element;
+	// }
 
 	private void separator(XMLElement mainElement) throws IOException {
 

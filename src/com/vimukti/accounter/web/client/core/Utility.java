@@ -430,7 +430,7 @@ public class Utility implements IsSerializable, Serializable {
 				int month = 0;
 				due = paymentTerm.getDue();
 				if (paymentTerm.getDueDays() > 0)
-					dueDays = (Integer) paymentTerm.getDueDays();
+					dueDays = paymentTerm.getDueDays();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(dueDate.getDateAsObject());
 
@@ -908,8 +908,9 @@ public class Utility implements IsSerializable, Serializable {
 			numberInWords += readNumber(subString);
 		}
 		if (!rhs.equals(""))
-			numberInWords = new StringBuilder().append(numberInWords).append(
-					" and ").append(rhs).append("/100 DOLLARS").toString();
+			numberInWords = new StringBuilder().append(numberInWords)
+					.append(" and ").append(rhs).append("/100 DOLLARS")
+					.toString();
 		System.out.println(numberInWords);
 
 		return numberInWords;
@@ -1109,8 +1110,7 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer
-						.append(messages.partiallyApplied());
+				buffer.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(messages.applied());
@@ -1188,8 +1188,7 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer
-						.append(messages.partiallyApplied());
+				buffer.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(messages.applied());
@@ -1203,8 +1202,7 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(messages.unApplied());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer
-						.append(messages.partiallyApplied());
+				buffer.append(messages.partiallyApplied());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(messages.applied());
@@ -1262,8 +1260,7 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(messages.notInvoiced());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer
-						.append(messages.partiallyInvoiced());
+				buffer.append(messages.partiallyInvoiced());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(messages.invoiced());
@@ -1276,8 +1273,7 @@ public class Utility implements IsSerializable, Serializable {
 				buffer.append(messages.notReceived());
 				break;
 			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer
-						.append(messages.partiallyReceived());
+				buffer.append(messages.partiallyReceived());
 				break;
 			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
 				buffer.append(messages.received());
@@ -1586,4 +1582,182 @@ public class Utility implements IsSerializable, Serializable {
 		}
 		return description;
 	}
+
+	public static List<String> getStatesList() {
+
+		List<String> statesName = new ArrayList<String>();
+		statesName.add("ANDAMAN AND NICOBAR ISLANDS");
+		statesName.add("ANDHRA PRADESH");
+		statesName.add("ARUNACHAL PRADESH");
+		statesName.add("ASSAM");
+		statesName.add("BIHAR");
+		statesName.add("CHANDIGARH");
+		statesName.add("DADRA & NAGAR HAVELI");
+		statesName.add("DAMAN & DIU");
+		statesName.add("DELHI");
+		statesName.add("GOA");
+		statesName.add("GUJARAT");
+		statesName.add("HARYANA");
+		statesName.add("HIMACHAL PRADESH");
+		statesName.add("JAMMU & KASHMIR");
+		statesName.add("KARNATAKA");
+		statesName.add("KERALA");
+		statesName.add("LAKSHWADEEP");
+		statesName.add("MADHYA PRADESH");
+		statesName.add("MAHARASHTRA");
+		statesName.add("MANIPUR");
+		statesName.add("MEGHALAYA");
+		statesName.add("MIZORAM");
+		statesName.add("NAGALAND");
+		statesName.add("ORISSA");
+		statesName.add("PONDICHERRY");
+		statesName.add("PUNJAB");
+		statesName.add("RAJASTHAN");
+		statesName.add("SIKKIM");
+		statesName.add("TAMILNADU");
+		statesName.add("TRIPURA");
+		statesName.add("UTTAR PRADESH");
+		statesName.add("WEST BENGAL");
+		statesName.add("CHHATISHGARH");
+		statesName.add("UTTARANCHAL");
+		statesName.add("JHARKHAND");
+		statesName.add("OTHERS");
+
+		return statesName;
+	}
+
+	public static List<String> getMinistryType() {
+		List<String> names = new ArrayList<String>();
+		names.add("Agriculture");
+		names.add("Atomic Energy");
+		names.add("Fertilizers");
+		names.add("Chemicals and Petrochemicals");
+		names.add("Civil Aviation and Tourism");
+		names.add("Coal");
+		names.add("Consumer Affairs, Food and Public Distribution");
+		names.add("Commerce and Textiles");
+		names.add("Environment and Forests and Ministry of Earth Science");
+		names.add("External Affairs and Overseas Indian Affairs");
+		names.add("Finance");
+		names.add("Central Board of Direct Taxes");
+		names.add("Central Board of Excise and Customs");
+		names.add("Contoller of Aid Accounts and Audit");
+		names.add("Central Pension Accounting Office");
+		names.add("Food Processing Industries");
+		names.add("Health and Family Welfare");
+		names.add("Home Affairs and Development of North Eastern Region");
+		names.add("Human Resource Development");
+		names.add("Industry");
+		names.add("Information and Broadcasting");
+		names.add("Telecommunication and Information Technology");
+		names.add("Labour");
+		names.add("Law and Justice and Company Affairs");
+		names.add("Personnel, Public Grievances and Pesions");
+		names.add("Petroleum and Natural Gas");
+		names.add("Plannning, Statistics and Programme Implementation");
+		names.add("Power");
+		names.add("New and Renewable Energy");
+		names.add("Rural Development and Panchayati Raj");
+		names.add("Science And Technology");
+		names.add("Space");
+		names.add("Steel");
+		names.add("Mines");
+		names.add("Social Justice and Empowerment");
+		names.add("Tribal Affairs");
+		names.add("D/o Commerce (Supply Division)");
+		names.add("Shipping and Road Transport and Highways");
+		names.add("Urban Development, Urban Employment and Poverty Alleviation");
+		names.add("Water Resources");
+		names.add("President's Secretariat");
+		names.add("Lok Sabha Secretariat");
+		names.add("Rajya Sabha secretariat");
+		names.add("Election Commission");
+		names.add("Ministry of Defence (Controller General of Defence Accounts)");
+		names.add("Ministry of Railways");
+		names.add("Department of Posts");
+		names.add("Department of Telecommunications");
+		names.add("Andaman and Nicobar Islands Administration");
+		names.add("Chandigarh Administration");
+		names.add("Dadra and Nagar Haveli");
+		names.add("Goa, Daman and Diu");
+		names.add("Lakshadweep");
+		names.add("Pondicherry Administration");
+		names.add("Pay and Accounts Officers (Audit)");
+		names.add("Ministry of Non-conventional energy sources");
+		names.add("Government Of NCT of Delhi");
+		names.add("Others");
+		return names;
+	}
+
+	public static List<String> getDeductorTypes() {
+
+		List<String> names = new ArrayList<String>();
+
+		names.add("Central Government");
+		names.add("State Government");
+		names.add("Statutory body (Central Govt.)");
+		names.add("Statutory body (State Govt.)");
+		names.add("Autonomous body (Central Govt.)");
+		names.add("Autonomous body (State Govt.)");
+		names.add("Local Authority (Central Govt.)");
+		names.add("Local Authority (State Govt.)");
+		names.add("Company");
+		names.add("Branch / Division of Company");
+		names.add("Association of Person (AOP)");
+		names.add("Association of Person (Trust)");
+		names.add("Artificial Juridical Person");
+		names.add("Body of Individuals");
+		names.add("Individual/HUF");
+		names.add("Firm");
+
+		return names;
+
+	}
+
+	public static List<String> getSectionNames() {
+
+		List<String> names = new ArrayList<String>();
+
+		names.add("193");
+		names.add("194");
+		names.add("194A");
+		names.add("194B");
+		names.add("194BB");
+		names.add("194C");
+		names.add("194D");
+		names.add("194EE");
+		names.add("194F");
+		names.add("194G");
+		names.add("194H");
+		names.add("194I");
+		names.add("194J");
+		names.add("194LA");
+
+		return names;
+
+	}
+
+	public static List<String> getSectionCodes() {
+
+		List<String> names = new ArrayList<String>();
+
+		names.add("193");
+		names.add("194");
+		names.add("94A");
+		names.add("94B");
+		names.add("4BB");
+		names.add("94C");
+		names.add("94D");
+		names.add("4EE");
+		names.add("94F");
+		names.add("94G");
+		names.add("94H");
+		names.add("94I");
+		names.add("94J");
+		names.add("94L");
+
+		return names;
+
+	}
+
 }
