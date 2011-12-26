@@ -683,7 +683,8 @@ public class UIUtils {
 				if (type == ClientAccount.TYPE_OTHER_CURRENT_ASSET
 						|| type == ClientAccount.TYPE_BANK
 						|| type == ClientAccount.TYPE_CREDIT_CARD
-						|| type == ClientAccount.TYPE_FIXED_ASSET) {
+						|| type == ClientAccount.TYPE_FIXED_ASSET
+						|| type == ClientAccount.TYPE_PAYPAL) {
 					options.add(type);
 				}
 			}
@@ -698,7 +699,8 @@ public class UIUtils {
 						type == ClientAccount.TYPE_CREDIT_CARD
 						|| type == ClientAccount.TYPE_LONG_TERM_LIABILITY
 						|| type == ClientAccount.TYPE_OTHER_CURRENT_LIABILITY
-						|| type == ClientAccount.TYPE_FIXED_ASSET)
+						|| type == ClientAccount.TYPE_FIXED_ASSET
+						|| type == ClientAccount.TYPE_PAYPAL)
 					options.add(type);
 			}
 			break;
