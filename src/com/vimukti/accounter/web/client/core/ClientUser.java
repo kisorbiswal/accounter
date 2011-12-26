@@ -207,14 +207,14 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public boolean canDoInvoiceTransactions() {
-		if (this.getPermissions().typeOfInvoices == RolePermissions.TYPE_YES)
+		if (this.getPermissions().typeOfInvoicesBills == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
 	}
 
 	public boolean canChangeSettings() {
-		if (this.getPermissions().typeOfSystemSettings == RolePermissions.TYPE_YES)
+		if (this.getPermissions().typeOfCompanySettingsLockDates == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
@@ -236,14 +236,14 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public boolean canManageFiscalYears() {
-		if (this.getPermissions().typeOfLockDates == RolePermissions.TYPE_YES)
+		if (this.getPermissions().typeOfCompanySettingsLockDates == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
 	}
 
 	public boolean canSeeInvoiceTransactions() {
-		if (this.getPermissions().typeOfInvoices != RolePermissions.TYPE_NO)
+		if (this.getPermissions().typeOfInvoicesBills != RolePermissions.TYPE_NO)
 			return true;
 		else
 			return false;
@@ -257,14 +257,14 @@ public class ClientUser implements IAccounterCore {
 	}
 
 	public boolean canApproveExpences() {
-		if (this.getPermissions().typeOfExpences == RolePermissions.TYPE_APPROVE)
+		if (this.getPermissions().typeOfPayBillsPayments == RolePermissions.TYPE_APPROVE)
 			return true;
 		else
 			return false;
 	}
 
 	public boolean canSaveExpences() {
-		if (this.getPermissions().typeOfExpences != RolePermissions.TYPE_NO)
+		if (this.getPermissions().typeOfPayBillsPayments != RolePermissions.TYPE_NO)
 			return true;
 		else
 			return false;
