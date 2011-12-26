@@ -3174,6 +3174,7 @@ public class ClientCompany implements IAccounterCore {
 		if (bankAccountId != 0) {
 			return getCheckLayout(0);
 		}
+		// Should not reach this line
 		return null;
 	}
 }
