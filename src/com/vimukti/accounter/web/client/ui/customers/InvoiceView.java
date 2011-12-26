@@ -948,10 +948,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.orderNumText
 					.setValue(transaction.getOrderNum() != null ? transaction
 							.getOrderNum() : "");
-			if (getCustomer() != null && customerCombo != null
-					&& !data.isTemplate()) {
+			if (getCustomer() != null && customerCombo != null) {
 				customerCombo.setComboItem(getCustomer());
-				getEstimatesAndSalesOrder();
+				if (!data.isTemplate()) {
+					getEstimatesAndSalesOrder();
+				}
 			}
 
 			List<ClientAddress> addresses = new ArrayList<ClientAddress>();
@@ -1072,7 +1073,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.getActiveSalesPersons();
 
 		salesPersonCombo.initCombo(salesPersons);
-		
+
 		initTransactionsItems();
 
 		initSalesTaxNonEditableItem();
