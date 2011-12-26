@@ -820,7 +820,7 @@
 		name="Purchase Order List"> <alias>Purchase Orders</alias> <alias>Purchase 
 		Order List</alias> </command> -->
 
-	<command clazz="com.vimukti.accounter.mobile.commands.NewInviteAUserCommand"
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateInviteAUserCommand"
 		name="Inviteuser">
 		<alias>newUser</alias>
 		<alias>updateUser</alias>
@@ -883,7 +883,7 @@
 	</command>
 
 
-	<command clazz="com.vimukti.accounter.mobile.commands.NewJournalEntryCommand"
+	<command clazz="com.vimukti.accounter.mobile.commands.CreateJournalEntryCommand"
 		name="newJournalEntry">
 		<alias>createJournalEntry</alias>
 		<alias>addJournalEntry</alias>
@@ -1208,7 +1208,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.delete.DeleteWareHouseCommand"
 		name="deleteWareHouse">
 	</command>
-	<command clazz="com.vimukti.accounter.mobile.commands.NewPriceLivelCommand"
+	<command clazz="com.vimukti.accounter.mobile.commands.CreatePriceLivelCommand"
 		name="addNewPriceLevel">
 	</command>
 </commands>
