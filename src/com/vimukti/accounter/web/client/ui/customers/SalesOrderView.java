@@ -367,7 +367,8 @@ public class SalesOrderView extends
 		vatTotalNonEditableText = createVATTotalNonEditableLabel();
 
 		customerTransactionTable = new SalesOrderTable(isTrackTax(),
-				isTaxPerDetailLine(), this) {
+				isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -385,6 +386,15 @@ public class SalesOrderView extends
 			@Override
 			protected boolean isInViewMode() {
 				return SalesOrderView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				SalesOrderView.this.updateNonEditableItems();
 			}
 		};
 		customerTransactionTable.setDisabled(isInViewMode());
@@ -407,6 +417,8 @@ public class SalesOrderView extends
 		// TextItem = new TextItem("");
 		// .setVisible(false);
 
+		discountField = getDiscountField();
+
 		DynamicForm taxForm = new DynamicForm();
 		prodAndServiceForm2.setStyleName("boldtext");
 
@@ -417,6 +429,11 @@ public class SalesOrderView extends
 			} else {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
 				prodAndServiceForm2.setFields(salesTaxTextNonEditable);
+			}
+		}
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				taxForm.setFields(discountField);
 			}
 		}
 		prodAndServiceForm2.setFields(transactionTotalBaseCurrencyText);
@@ -744,6 +761,7 @@ public class SalesOrderView extends
 				}
 
 			}
+
 			if (vatinclusiveCheck != null) {
 				vatinclusiveCheck.setValue(transaction.isAmountsIncludeVAT());
 			}
@@ -751,6 +769,16 @@ public class SalesOrderView extends
 			// customerTransactionGrid.setRecords(transaction
 			// .getTransactionItems());
 		}
+
+		if (transaction.getTransactionItems() != null) {
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					this.discountField.setAmount(getdiscount(transaction
+							.getTransactionItems()));
+				}
+			}
+		}
+
 		superinitTransactionViewData();
 		// vatTotalNonEditableText.setAmount(customerTransactionTable.getTotal());
 		initTransactionNumber();
@@ -897,6 +925,13 @@ public class SalesOrderView extends
 			}
 		}
 
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		transaction.setMemo(getMemoTextAreaItem());
@@ -1495,5 +1530,13 @@ public class SalesOrderView extends
 	@Override
 	protected boolean canRecur() {
 		return false;
+	}
+
+	protected void updateDiscountValues() {
+		if (discountField.getAmount() != null) {
+			customerTransactionTable.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
+		}
 	}
 }

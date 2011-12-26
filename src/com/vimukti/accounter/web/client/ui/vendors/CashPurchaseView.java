@@ -112,7 +112,7 @@ public class CashPurchaseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(!isTemplate){
+		if (!isTemplate) {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -238,12 +238,12 @@ public class CashPurchaseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		// termsForm.setWidth("100%");
-		if(isTemplate){
-		   termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
-					  payFromCombo);
-		}else{
-		   termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
-				  payFromCombo, deliveryDateItem);
+		if (isTemplate) {
+			termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
+					payFromCombo);
+		} else {
+			termsForm.setFields(paymentMethodCombo, printCheck, checkNoText,
+					payFromCombo, deliveryDateItem);
 		}
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -275,8 +275,8 @@ public class CashPurchaseView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -294,6 +294,15 @@ public class CashPurchaseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashPurchaseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashPurchaseView.this.updateNonEditableItems();
 			}
 		};
 
@@ -318,7 +327,8 @@ public class CashPurchaseView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -336,6 +346,15 @@ public class CashPurchaseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashPurchaseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashPurchaseView.this.updateNonEditableItems();
 			}
 		};
 
@@ -379,8 +398,11 @@ public class CashPurchaseView extends
 		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+
+		discountField = getDiscountField();
+
 		DynamicForm vatCheckform = new DynamicForm();
-		// vatCheckform.setFields(vatinclusiveCheck);
+		vatCheckform.setFields(vatinclusiveCheck);
 		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
@@ -398,6 +420,8 @@ public class CashPurchaseView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
+
+		DynamicForm form = new DynamicForm();
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
@@ -441,9 +465,15 @@ public class CashPurchaseView extends
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
 				// taxCodeSelect.setVisible(isInViewMode());
-				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				bottomLayout.add(form);
+			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					bottomLayout.add(form);
+				}
+
 			}
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellWidth(totalForm, "30%");
@@ -473,9 +503,18 @@ public class CashPurchaseView extends
 				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
 
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					bottomLayout.add(form);
+				}
+
+			}
+
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
+		bottomLayout.add(vatCheckform);
 		totalForm.add(transactionTotalForm);
 		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
@@ -604,6 +643,14 @@ public class CashPurchaseView extends
 							.getTransactionItems());
 					if (taxCode != null) {
 						this.taxCodeSelect.setComboItem(taxCode);
+					}
+				}
+			}
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField.setAmount(getdiscount(transaction
+								.getTransactionItems()));
 					}
 				}
 			}
@@ -840,6 +887,13 @@ public class CashPurchaseView extends
 		// && getCompany().getPreferences().iswareHouseEnabled())
 		// transaction.setWareHouseAllocations(inventoryTransactionTable
 		// .getAllRows());
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
 	}
 
 	private String getCheckValue() {
@@ -1025,6 +1079,7 @@ public class CashPurchaseView extends
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		taxCodeSelect.setDisabled(isInViewMode());
@@ -1157,6 +1212,18 @@ public class CashPurchaseView extends
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 }

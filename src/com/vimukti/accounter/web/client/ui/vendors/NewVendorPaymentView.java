@@ -886,4 +886,9 @@ public class NewVendorPaymentView extends
 	protected boolean canRecur() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

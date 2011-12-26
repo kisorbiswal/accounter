@@ -893,4 +893,9 @@ public ClientReceiveVAT saveView() {
 	protected boolean canVoid() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

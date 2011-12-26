@@ -211,12 +211,11 @@ public class CreditCardExpenseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(8);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(isTemplate){
+		if (isTemplate) {
 			dateNoForm.setFields(transactionNumber);
-		}else{
+		} else {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
-		
 
 		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 
@@ -337,7 +336,7 @@ public class CreditCardExpenseView extends
 		termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
-		if(!isTemplate){
+		if (!isTemplate) {
 			termsForm.setFields(delivDate);
 		}
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
@@ -363,8 +362,8 @@ public class CreditCardExpenseView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -382,6 +381,15 @@ public class CreditCardExpenseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CreditCardExpenseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CreditCardExpenseView.this.updateNonEditableItems();
 			}
 		};
 
@@ -404,7 +412,8 @@ public class CreditCardExpenseView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -422,6 +431,15 @@ public class CreditCardExpenseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CreditCardExpenseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CreditCardExpenseView.this.updateNonEditableItems();
 			}
 		};
 
@@ -480,8 +498,12 @@ public class CreditCardExpenseView extends
 		bottompanel.setWidth("100%");
 		currencyWidget = createCurrencyFactorWidget();
 
+		discountField = getDiscountField();
+
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
+
+		DynamicForm form = new DynamicForm();
 
 		if (isTrackTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
@@ -513,9 +535,14 @@ public class CreditCardExpenseView extends
 
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				botPanel.add(form);
+			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					botPanel.add(form);
+				}
 			}
 			botPanel.add(totalForm);
 			botPanel.setCellWidth(totalForm, "30%");
@@ -529,6 +556,12 @@ public class CreditCardExpenseView extends
 			if (isMultiCurrencyEnabled())
 				totForm.setFields(foreignCurrencyamountLabel);
 
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					botPanel.add(form);
+				}
+			}
 			HorizontalPanel hPanel = new HorizontalPanel();
 			hPanel.setWidth("100%");
 			hPanel.add(memoForm);
@@ -742,6 +775,16 @@ public class CreditCardExpenseView extends
 					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 				}
 			}
+
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField.setAmount(getdiscount(transaction
+								.getTransactionItems()));
+					}
+				}
+			}
+
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
@@ -964,6 +1007,15 @@ public class CreditCardExpenseView extends
 				transaction.setContact(contact);
 			}
 		}
+
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
+
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -1036,6 +1088,7 @@ public class CreditCardExpenseView extends
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (taxCodeSelect != null)
@@ -1238,6 +1291,18 @@ public class CreditCardExpenseView extends
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 }

@@ -132,6 +132,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
+	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x40000000000000L;
+
 	private static ClientCompanyPreferences preferences;
 
 	private String dateFormat;
@@ -226,7 +228,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private boolean isShowRegisteredAddress;
 
 	private int negativeNumberShownType;
-	
+
 	private int decimalNumber = 2;
 
 	/**
@@ -1313,12 +1315,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	/**
-	 * @param decimalNumber the decimalNumber to set
+	 * @param decimalNumber
+	 *            the decimalNumber to set
 	 */
 	public void setDecimalNumber(int decimalNumber) {
 		this.decimalNumber = decimalNumber;
 	}
-	
+
 	public boolean isPricingLevelsEnabled() {
 		return get(ENABLE_PRICE_LEVEL);
 	}
@@ -1326,9 +1329,18 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
 		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
 	}
+
 	public void setCreditsApplyAutomatically(
 			boolean isSetCreditsApplyAutomaticEnabled) {
 		set(AUTOMATIC_CREDITS_APPLY, isSetCreditsApplyAutomaticEnabled);
+	}
+
+	public boolean isDiscountPerDetailLine() {
+		return get(TRANSACTION_DISCOUNT_PER_DETAIL_LINE);
+	}
+
+	public void setDiscountPerDetailLine(boolean value) {
+		set(TRANSACTION_DISCOUNT_PER_DETAIL_LINE, value);
 	}
 
 	public boolean isCreditsApplyAutomaticEnable() {

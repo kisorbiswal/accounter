@@ -297,4 +297,9 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	protected boolean canVoid() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

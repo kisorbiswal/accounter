@@ -427,8 +427,8 @@ public class PurchaseOrderView extends
 
 		// Label lab2 = new Label(messages.itemsAndExpenses());
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
+				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -446,6 +446,15 @@ public class PurchaseOrderView extends
 			@Override
 			protected boolean isInViewMode() {
 				return PurchaseOrderView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				PurchaseOrderView.this.updateNonEditableItems();
 			}
 		};
 
@@ -468,7 +477,8 @@ public class PurchaseOrderView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -486,6 +496,15 @@ public class PurchaseOrderView extends
 			@Override
 			protected boolean isInViewMode() {
 				return PurchaseOrderView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				PurchaseOrderView.this.updateNonEditableItems();
 			}
 
 		};
@@ -1065,12 +1084,13 @@ public class PurchaseOrderView extends
 		// }
 
 	}
+
 	@Override
 	public ClientPurchaseOrder saveView() {
 		ClientPurchaseOrder saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateTransaction();
-			}
+		}
 		return saveView;
 	}
 
@@ -1560,5 +1580,15 @@ public class PurchaseOrderView extends
 	@Override
 	protected boolean canRecur() {
 		return false;
+	}
+
+	protected void updateDiscountValues() {
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
+		}
 	}
 }

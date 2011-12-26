@@ -739,4 +739,9 @@ public class CustomerRefundView extends
 	public void updateAmountsFromGUI() {
 		// refundAmountChanged(amtText.getAmount());
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

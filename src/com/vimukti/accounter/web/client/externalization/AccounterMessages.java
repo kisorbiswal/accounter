@@ -1717,7 +1717,7 @@ public interface AccounterMessages extends Messages {
 
 	public String goToExpenseCliams();
 
-	public String grassAmount();
+	// public String grassAmount();
 
 	public String greece();
 
@@ -5362,6 +5362,16 @@ public interface AccounterMessages extends Messages {
 	public String allCashExpenses();
 
 	public String payeeSelected(String payee);
+
+	public String trackDiscount();
+
+	public String discountInAllTransaction();
+
+	public String onePerTransactionDescription();
+
+	public String onePerDetailLineDescription();
+
+	public String currencySymbol();
 
 	public String depositTotal();
 

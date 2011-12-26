@@ -656,6 +656,14 @@ public class WriteChequeView extends
 			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 		}
 
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
+
 		if (toprintCheck.getValue() != null) {
 			transaction.setToBePrinted(toprintCheck.getValue());
 
@@ -692,9 +700,9 @@ public class WriteChequeView extends
 		numForm = new DynamicForm();
 		numForm.setNumCols(6);
 		numForm.addStyleName("datenumber-panel");
-		if(isTemplate){
+		if (isTemplate) {
 			numForm.setFields(transactionNumber);
-		}else{
+		} else {
 			numForm.setFields(date, transactionNumber);
 		}
 
@@ -854,7 +862,6 @@ public class WriteChequeView extends
 		vatPanel.setWidth("100%");
 		amountPanel.setWidth("100%");
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-
 		foreignCurrencyamountLabel = createTransactionTotalNonEditableLabel(getBaseCurrency());
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getBaseCurrency());
@@ -872,26 +879,35 @@ public class WriteChequeView extends
 		netAmountForm.setNumCols(2);
 		netAmountForm.setFields(netAmount);
 		totalForm.add(netAmountForm);
+		discountField = getDiscountField();
 
+		DynamicForm form = new DynamicForm();
 		if (isTrackTax()) {
 			totalForm.add(vatTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				DynamicForm vatCheckForm = new DynamicForm();
 				taxCodeSelect = createTaxCodeSelectItem();
 				// taxCodeSelect.setVisible(isInViewMode());
-				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
-				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_CENTER);
+				vatPanel.setCellHorizontalAlignment(form, ALIGN_CENTER);
 				vatPanel.add(form);
 				if (isTrackPaidTax()) {
-					vatCheckForm.setFields(vatinclusiveCheck);
-					vatCheckForm.addStyleName("boldtext");
+					form.setFields(vatinclusiveCheck);
+					form.addStyleName("boldtext");
 				}
-				vatPanel.add(vatCheckForm);
-				vatPanel.setCellHorizontalAlignment(vatCheckForm, ALIGN_RIGHT);
+
+				vatPanel.add(form);
+				vatPanel.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 
 			}
 		}
+
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				form.setFields(discountField);
+				vatPanel.add(form);
+			}
+		}
+
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
@@ -982,7 +998,8 @@ public class WriteChequeView extends
 		// if{
 
 		transactionVendorAccountTable = new VendorAccountTransactionTable(
-				false, isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -997,6 +1014,15 @@ public class WriteChequeView extends
 			@Override
 			protected boolean isInViewMode() {
 				return WriteChequeView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				WriteChequeView.this.updateNonEditableItems();
 			}
 		};
 
@@ -1394,6 +1420,7 @@ public class WriteChequeView extends
 			transactionVendorAccountTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(false);
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (isTrackTax()) {
@@ -1503,6 +1530,15 @@ public class WriteChequeView extends
 				}
 			}
 
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField
+								.setAmount(getdiscount(this.transactionItems));
+					}
+				}
+			}
+
 			if (vatinclusiveCheck != null) {
 				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
 
@@ -1603,6 +1639,17 @@ public class WriteChequeView extends
 			transactionTotalBaseCurrencyText.show();
 			transactionTotalBaseCurrencyText.setTitle(messages
 					.currencyTotal(getBaseCurrency().getFormalName()));
+		}
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			transactionVendorAccountTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 

@@ -29,6 +29,17 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
+	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
+			boolean enableDisCount, boolean showDisCount,
+			ICurrencyProvider currencyProvider) {
+		super(1, enableDisCount, currencyProvider);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
+		this.enableDisCount = enableDisCount;
+		this.showDiscount = showDisCount;
+		addEmptyRecords();
+	}
+
 	public VendorItemTransactionTable(boolean needDiscount, boolean enableTax,
 			boolean showTaxCode, ICurrencyProvider currencyProvider,
 			boolean isCustomerAllowedToAdd) {
@@ -67,6 +78,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
+				updateDiscountValues(row);
 				super.setValue(row, newValue);
 				// Unit Price is different. So that overriden the code here
 				if (newValue != null) {
@@ -129,7 +141,9 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			if (showDiscount) {
+				this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			}
 		}
 
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true));

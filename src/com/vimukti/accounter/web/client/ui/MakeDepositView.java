@@ -1409,4 +1409,10 @@ public class MakeDepositView extends
 		}
 		return result;
 	}
+
+	@Override
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

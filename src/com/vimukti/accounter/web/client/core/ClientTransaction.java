@@ -928,6 +928,24 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return false;
 	}
 
+	public boolean usesDifferentDiscounts() {
+		if (transactionItems == null) {
+			return false;
+		}
+		Double discount = null;
+		for (ClientTransactionItem item : this.transactionItems) {
+			Double code = item.getDiscount();
+			if (discount == null) {
+				discount = code;
+				continue;
+			}
+			if (!code.equals(discount)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public List<ClientWareHouseAllocation> getWareHouseAllocations() {
 		return wareHouseAllocations;
 	}

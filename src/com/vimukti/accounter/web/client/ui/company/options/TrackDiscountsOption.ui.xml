@@ -6,16 +6,25 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="5" styleName="companyInfoPanel">
-		<g:CheckBox ui:field="trackCheckbox" styleName="header" />
-		<g:Label ui:field="selectDiscount" />
-		<g:VerticalPanel spacing="5" ui:field="hidePanel">
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:VerticalPanel spacing="5">
+			<g:HorizontalPanel>
+				<g:CheckBox ui:field="trackDiscountCheckBox" styleName="header" />
+			</g:HorizontalPanel>
+			<g:VerticalPanel ui:field="hidePanel">
+				<g:Label ui:field="discountLabel" />
+				<g:VerticalPanel spacing="5" ui:field="radioButtonPanel">
+					<g:RadioButton name="" ui:field="onepeTransactionRadioButton" />
+					<g:Label ui:field="oneperTransactionLabel" />
+					<g:RadioButton name="" ui:field="oneperdetaillineRadioButton" />
+					<g:Label ui:field="oneperdetaillineLabel" />
+				</g:VerticalPanel>
+			</g:VerticalPanel>
 			<g:Label ui:field="selectDiscountAccount" />
 			<g:HorizontalPanel spacing="5" ui:field="accountPanel">
 				<g:Label ui:field="discountAccount" />
 				<g:ListBox ui:field="accountsCombo" />
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
-
 	</g:VerticalPanel>
 </ui:UiBinder> 

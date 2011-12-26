@@ -29,10 +29,21 @@ public abstract class CustomerAccountTransactionTable extends
 		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
+	public CustomerAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode, boolean enableDisCount, boolean showDisCount,
+			ICurrencyProvider currencyProvider) {
+		super(1, enableDisCount, currencyProvider);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
+		this.enableDisCount = enableDisCount;
+		this.showDiscount = showDisCount;
+		addEmptyRecords();
+	}
+
 	public CustomerAccountTransactionTable(boolean needDiscount,
 			boolean enableTax, boolean showTaxCode,
 			ICurrencyProvider currencyProvider) {
-		super(1,needDiscount, currencyProvider);
+		super(1, needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
@@ -83,6 +94,7 @@ public abstract class CustomerAccountTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientAccount newValue) {
+				updateDiscountValues(row);
 				if (newValue != null) {
 					super.setValue(row, newValue);
 					if (row.getQuantity() == null) {
@@ -126,7 +138,9 @@ public abstract class CustomerAccountTransactionTable extends
 		});
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			if (showDiscount) {
+				this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			}
 		}
 
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true));

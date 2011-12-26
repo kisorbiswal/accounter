@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -52,7 +51,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			public void onClick(ClickEvent event) {
 
 				isProcessingAdded = false;
-				setAction(ActionFactory.getAwaitingAuthorisationAction());
+				// setAction(ActionFactory.getAwaitingAuthorisationAction());
 				// boolean isErrorOccured = checkPayFromAccount();
 				List<BillsList> records = getRecordsToApprove();
 				// if (!isErrorOccured)
@@ -78,7 +77,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			public void onClick(ClickEvent event) {
 
 				isProcessingAdded = false;
-				setAction(ActionFactory.getAwaitingAuthorisationAction());
+				// setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
 				if (records.size() > 0) {
 					updateRecords(grid.getSelectedRecords(),
@@ -97,7 +96,7 @@ public class AwaitingAuthorisationView extends BaseView {
 			public void onClick(ClickEvent event) {
 
 				isProcessingAdded = false;
-				setAction(ActionFactory.getAwaitingAuthorisationAction());
+				// setAction(ActionFactory.getAwaitingAuthorisationAction());
 				List<BillsList> records = getRecordsToApprove();
 				if (records.size() > 0) {
 					updateRecords(grid.getSelectedRecords(),
@@ -164,7 +163,7 @@ public class AwaitingAuthorisationView extends BaseView {
 						@Override
 						public void onResultSuccess(ClientCashPurchase result) {
 							result.setExpenseStatus(expenceStatus);
-							setAction(ActionFactory.getExpenseClaimsAction(2));
+							// setAction(ActionFactory.getExpenseClaimsAction(2));
 							updateTransactionItems(result);
 							saveOrUpdate(result);
 						}

@@ -173,8 +173,8 @@ public class ItemReceiptView extends
 		HTML lab2 = new HTML("<strong>"
 				+ Accounter.messages().itemsAndExpenses() + "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
+				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -189,6 +189,15 @@ public class ItemReceiptView extends
 			@Override
 			protected boolean isInViewMode() {
 				return ItemReceiptView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				ItemReceiptView.this.updateNonEditableItems();
 			}
 		};
 
@@ -211,7 +220,8 @@ public class ItemReceiptView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -226,6 +236,15 @@ public class ItemReceiptView extends
 			@Override
 			protected boolean isInViewMode() {
 				return ItemReceiptView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				ItemReceiptView.this.updateNonEditableItems();
 			}
 		};
 
@@ -875,5 +894,10 @@ public class ItemReceiptView extends
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -871,4 +871,9 @@ public class CustomerPrePaymentView extends
 	protected boolean canRecur() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

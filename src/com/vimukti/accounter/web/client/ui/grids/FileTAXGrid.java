@@ -116,7 +116,7 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.taxItem(), messages.transactionType(),
-				messages.transactionDate(), messages.grassAmount(),
+				messages.transactionDate(), messages.grossAmount(),
 				messages.taxAmount(), messages.netAmount() };
 	}
 

@@ -56,35 +56,24 @@ public class SearchInputDialog extends BaseDialog {
 	private SimplePager pager;
 	protected AccounterMessages messages = Accounter.messages();
 
-	private final String[] transactionNames = {
-			messages.all(),
-			messages.bill(),
-			messages.billPayment(),
-			// messages.billableExpenseCharge(),
-			messages.cashExpense(),
-			messages.charge(),
-			// messages.payeeCredit(Global.get().Customer()),
+	private String[] transactionNames = { messages.all(), messages.bill(),
+			messages.billPayment(), messages.cashExpense(), messages.charge(),
 			messages.creditCardExpense(), messages.creditCardCharge(),
 			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
 			messages.cashSale(), messages.deposit(), messages.estimate(),
-			messages.invoice(),
-			messages.journalEntry(),
+			messages.invoice(), messages.journalEntry(),
 			messages.paymentFromCustomer(),
-			// messages.statement(),
 			messages.payeeCredit(Global.get().Vendor()), messages.transfer(),
 			messages.vatPayment(), messages.vatAdjustment(),
 			messages.writeCheck() };
 
 	private final String[] searchByAll = { messages.amount(), messages.date(),
-			messages.descOrMemo(), messages.payee() };// , messages.refNo() };
+			messages.descOrMemo(), messages.payee() };
 
 	private final String[] searchByPayee = { messages.payee(),
 			messages.Account(), messages.amount(), messages.date(),
 			messages.descOrMemo() };
-
-	// private String[] searchByCustomerStatement = { Global.get().Customer(),
-	// messages.statementDate(), messages.statementNo() };
 
 	private final String[] searchByJournalOptions = { messages.Account(),
 			messages.date(), messages.descOrMemo(), messages.journalEntryNo() };
@@ -94,8 +83,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private final String[] searchBySupplierTransactionOptions = {
 			Global.get().Vendor(), messages.amount(), messages.Account(),
-			messages.date(), messages.descOrMemo(),// messages.refNo(),
-			messages.productOrService() };
+			messages.date(), messages.descOrMemo(), messages.productOrService() };
 	private final String[] searchByCustomerOptions = { Global.get().Customer(),
 			messages.Account(), messages.amount(), messages.date(),
 			messages.dueDate(), messages.invoiceDate(), messages.descOrMemo(),
@@ -128,7 +116,6 @@ public class SearchInputDialog extends BaseDialog {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						// transactionType = getTransactionType(selectItem);
 						setSearchOptionsComboByType(selectItem);
 					}
 				});
@@ -149,7 +136,6 @@ public class SearchInputDialog extends BaseDialog {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						setFindByComboOptions(selectItem);
-						// searchByType = getSearchByType(selectItem);
 					}
 				});
 		customerCombo = new CustomerCombo(messages.findBy(), false);
@@ -177,7 +163,6 @@ public class SearchInputDialog extends BaseDialog {
 
 		matchIfForm = new DynamicForm();
 		matchIfForm.setFields(matchIfCombo);
-		// matchIfCombo.addStyleName("search_match");
 
 		allFormPanel = new VerticalPanel();
 		allFormPanel.setHorizontalAlignment(HasAlignment.ALIGN_LEFT);
@@ -217,7 +202,6 @@ public class SearchInputDialog extends BaseDialog {
 		labelItem = new Label();
 		labelItem.setStyleName("label-status");
 		labelItem.setText(messages.status() + ": " + messages.selectCreteria());
-
 		mainForm.setFields(transactionTypeCombo);
 		transactionTypeCombo.getMainWidget().getParent().getElement()
 				.setAttribute("align", "center");
@@ -245,9 +229,6 @@ public class SearchInputDialog extends BaseDialog {
 		if (value.equals(messages.descOrMemo())) {
 			return SearchInput.TYPE_DESC_MEMO;
 		}
-		// if (value.equals(messages.refNo())) {
-		// return SearchInput.TYPE_REF_NO;
-		// }
 		if (value.equals(messages.chequeNo())) {
 			return SearchInput.TYPE_CHEQUE_NO;
 		}
@@ -360,6 +341,8 @@ public class SearchInputDialog extends BaseDialog {
 			@Override
 			public void disableGrid() {
 				updateGrid();
+				labelItem.setText(messages.status() + ": "
+						+ messages.noRecordsToShow());
 			}
 
 			@Override
@@ -371,30 +354,24 @@ public class SearchInputDialog extends BaseDialog {
 		pager.setDisplay(grid);
 		pager.setStyleName("pager-alignment");
 
-		// if (!grid.listDataProvider.getDataDisplays().isEmpty()) {
-		// labelItem.setText(messages.status() + ": "
-		// + messages.noRecordsToShow());
-		// } else {
 		resultPanel.add(grid);
 		resultPanel.add(pager);
-		labelItem.setVisible(false);
-		// }
-		mainPanel.add(resultPanel);
 		resultPanel.setVisible(false);
 	}
 
 	protected void enableGridAndPager() {
 		labelItem.setVisible(false);
+		mainPanel.add(resultPanel);
 		resultPanel.setVisible(true);
 	}
 
 	private void updateGrid() {
 		labelItem.setVisible(true);
-		labelItem
-				.setText(messages.status() + ": " + messages.noRecordsToShow());
+
 		if (resultPanel != null) {
 			resultPanel.setVisible(false);
 		}
+
 	}
 
 	private int getMatachType(String selectedValue) {
@@ -413,87 +390,46 @@ public class SearchInputDialog extends BaseDialog {
 	protected int getTransactionType(String selectItem) {
 		if (selectItem.equals(messages.all())) {
 			return ClientTransaction.TYPE_ALL;
-		}
-		if (selectItem.equals(messages.bill())) {
+		} else if (selectItem.equals(messages.bill())) {
 			return ClientTransaction.TYPE_ENTER_BILL;
-		}
-
-		if (selectItem.equals(messages.billPayment())) {
+		} else if (selectItem.equals(messages.billPayment())) {
 			return ClientTransaction.TYPE_PAY_BILL;
-		}
-
-		// if (selectItem.equals(messages.billableExpenseCharge())) {
-		// return ClientTransaction.TYPE_ESTIMATE;
-		// }
-
-		if (selectItem.equals(messages.cashExpense())) {
+		} else if (selectItem.equals(messages.cashExpense())) {
 			return ClientTransaction.TYPE_CASH_EXPENSE;
-		}
-
-		if (selectItem.equals(messages.charge())) {
+		} else if (selectItem.equals(messages.charge())) {
 			return ClientTransaction.TYPE_ESTIMATE;
-		}
-
-		if (selectItem.equals(messages.writeCheck())) {
+		} else if (selectItem.equals(messages.writeCheck())) {
 			return ClientTransaction.TYPE_WRITE_CHECK;
-		}
-
-		// if (selectItem.equals(messages.payeeCredit(Global.get().Customer())))
-		// {
-		// // return ClientTransaction.TYPE_
-		// }
-
-		if (selectItem.equals(messages.creditCardExpense())) {
+		} else if (selectItem.equals(messages.creditCardExpense())) {
 			return ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
-		}
-
-		if (selectItem.equals(messages.creditCardCharge())) {
+		} else if (selectItem.equals(messages.creditCardCharge())) {
 			return ClientTransaction.TYPE_CREDIT_CARD_CHARGE;
-		}
-
-		if (selectItem.equals(messages.customerCreditNote(Global.get()
+		} else if (selectItem.equals(messages.customerCreditNote(Global.get()
 				.Customer()))) {
 			return ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO;
-		}
-
-		if (selectItem.equals(messages.invoice())) {
+		} else if (selectItem.equals(messages.invoice())) {
 			return ClientTransaction.TYPE_INVOICE;
-		}
-		if (selectItem.equals(messages.paymentFromCustomer())) {
+		} else if (selectItem.equals(messages.paymentFromCustomer())) {
 			return ClientTransaction.TYPE_RECEIVE_PAYMENT;
-		}
-		if (selectItem.equals(messages.estimate())) {
+		} else if (selectItem.equals(messages.estimate())) {
 			return ClientTransaction.TYPE_ESTIMATE;
-		}
-
-		if (selectItem.equals(messages.customerRefund(Global.get().Customer()))) {
+		} else if (selectItem.equals(messages.customerRefund(Global.get()
+				.Customer()))) {
 			return ClientTransaction.TYPE_CUSTOMER_REFUNDS;
-		}
-		if (selectItem.equals(messages.cashSale())) {
+		} else if (selectItem.equals(messages.cashSale())) {
 			return ClientTransaction.TYPE_CASH_SALES;
-		}
-
-		if (selectItem.equals(messages.deposit())) {
+		} else if (selectItem.equals(messages.deposit())) {
 			return ClientTransaction.TYPE_MAKE_DEPOSIT;
-		}
-
-		if (selectItem.equals(messages.journalEntry())) {
+		} else if (selectItem.equals(messages.journalEntry())) {
 			return ClientTransaction.TYPE_JOURNAL_ENTRY;
-		}
-
-		// if (selectItem.equals(messages.statement())) {
-		// setOptiosByStatement();
-		// }
-		if (selectItem.equals(messages.transfer())) {
+		} else if (selectItem.equals(messages.transfer())) {
 			return ClientTransaction.TYPE_MAKE_DEPOSIT;
-		}
-		if (selectItem.equals(messages.vatPayment())) {
+		} else if (selectItem.equals(messages.vatPayment())) {
 			return ClientTransaction.TYPE_PAY_TAX;
-		}
-		if (selectItem.equals(messages.vatAdjustment())) {
+		} else if (selectItem.equals(messages.vatAdjustment())) {
 			return ClientTransaction.TYPE_ADJUST_VAT_RETURN;
-		}
-		if (selectItem.equals(messages.payeeCredit(Global.get().Vendor()))) {
+		} else if (selectItem.equals(messages
+				.payeeCredit(Global.get().Vendor()))) {
 			return ClientTransaction.TYPE_VENDOR_CREDIT_MEMO;
 		}
 		return 0;
@@ -541,7 +477,6 @@ public class SearchInputDialog extends BaseDialog {
 		findbyForm.clear();
 		matchIfForm.clear();
 		if (selectItem.equals(messages.descOrMemo())
-				// || selectItem.equals(messages.refNo())
 				|| selectItem.equals(messages.chequeNo())
 				|| selectItem.equals(messages.receivedChequeNo())
 				|| selectItem.equals(messages.creditNo())
@@ -599,7 +534,6 @@ public class SearchInputDialog extends BaseDialog {
 			matchIfCombo.initCombo(getMatchByNumber());
 		}
 		matchIfCombo.setSelectedItem(0);
-		// matchIfCombo.getMainWidget().addStyleName("search_account_combo");
 
 	}
 
@@ -693,19 +627,12 @@ public class SearchInputDialog extends BaseDialog {
 			setOptionsForPayeeList(selectItem);
 		} else if (selectItem.equals(messages.billPayment())) {
 			setOptionsForSupplierTransactions(selectItem);
-			// }
-			// else if (selectItem.equals(messages.billableExpenseCharge())) {
-			// setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.cashExpense())) {
 			setOptionsForSupplierTransactions(selectItem);
 		} else if (selectItem.equals(messages.charge())) {
 			setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.writeCheck())) {
 			setOptionsForPayeeList(selectItem);
-			// }
-			// else if (selectItem.equals(messages.payeeCredit(Global.get()
-			// .Customer()))) {
-			// setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.creditCardExpense())) {
 			setOptionsForSupplierTransactions(selectItem);
 		} else if (selectItem.equals(messages.creditCardCharge())) {
@@ -728,8 +655,6 @@ public class SearchInputDialog extends BaseDialog {
 			setOptionsForDepositList(selectItem);
 		} else if (selectItem.equals(messages.journalEntry())) {
 			setOptionsByJournal();
-			// } else if (selectItem.equals(messages.statement())) {
-			// setOptiosByStatement();
 		} else if (selectItem.equals(messages.transfer())) {
 			setOptionsByVatOrTransfer(selectItem);
 		} else if (selectItem.equals(messages.vatPayment())) {
@@ -765,7 +690,6 @@ public class SearchInputDialog extends BaseDialog {
 		}
 		if (selectItem.equals(messages.bill())) {
 			list.add(messages.productOrService());
-			// list.add(messages.refNo());
 			list.add(messages.dueDate());
 			list.remove(0);
 			list.add(Global.get().Vendor());
@@ -777,7 +701,6 @@ public class SearchInputDialog extends BaseDialog {
 			list.remove(0);
 			list.add(Global.get().Vendor());
 			list.add(messages.productOrService());
-			// list.add(messages.refNo());
 		}
 		if (selectItem.equals(messages.writeCheck())) {
 			list.remove(0);
@@ -880,17 +803,6 @@ public class SearchInputDialog extends BaseDialog {
 		findbyForm.setFields(dateField);
 		setFindByComboOptions(list.get(1));
 	}
-
-	// private void setOptiosByStatement() {
-	// searchTypeForm.clear();
-	// findbyForm.clear();
-	// List<String> list = new ArrayList<String>();
-	// for (String string : searchByCustomerStatement) {
-	// list.add(string);
-	// }
-	// searchByTypeCombo.initCombo(list);
-	// searchTypeForm.setFields(searchByTypeCombo);
-	// }
 
 	private void setOptionsByVatOrTransfer(String selectItem) {
 		searchTypeForm.clear();

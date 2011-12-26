@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -112,6 +114,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private TransactionHistoryTable historyTable;
 
 	private HTML lastActivityHTML, noteHTML;
+
+	protected AmountField discountField;
 
 	// public static final int CUSTOMER_TRANSACTION_GRID = 1;
 	// public static final int VENDOR_TRANSACTION_GRID = 2;
@@ -350,6 +354,22 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		vatinclusiveCheck.setDisabled(isInViewMode());
 		return vatinclusiveCheck;
 	}
+
+	protected AmountField getDiscountField(){
+		discountField=new AmountField(messages.discount(), this);
+		discountField.setDisabled(isInViewMode());
+		discountField.addBlurHandler(new BlurHandler() {
+			
+			@Override
+			public void onBlur(BlurEvent event) {
+				updateDiscountValues();
+			}
+		});
+		return discountField;
+		
+	}
+
+	protected abstract void updateDiscountValues();
 
 	protected abstract void refreshTransactionGrid();
 
@@ -1676,11 +1696,23 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * 
 	 * @return
 	 */
-	public boolean isDiscountEnabled() {
+	public boolean isTrackDiscounts() {
 		if (transaction != null && transaction.haveDiscount()) {
 			return true;
 		} else {
 			return getPreferences().isTrackDiscounts();
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isDiscountPerDetailLine() {
+		if (transaction != null && transaction.usesDifferentDiscounts()) {
+			return true;
+		} else {
+			return getPreferences().isDiscountPerDetailLine();
 		}
 	}
 
@@ -1924,5 +1956,21 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		}
 		return result;
+	}
+
+	protected double getdiscount(List<ClientTransactionItem> transactionItems) {
+		double discount = 0.0D;
+
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem != null) {
+				discount = clientTransactionItem.getDiscount();
+				if (discount != 0.0D)
+					break;
+				else
+					continue;
+			}
+		}
+		return discount;
+
 	}
 }

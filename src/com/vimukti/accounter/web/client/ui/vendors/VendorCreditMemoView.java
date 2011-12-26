@@ -147,6 +147,15 @@ public class VendorCreditMemoView extends
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 			initAccounterClass();
 		}
+
+		if (transaction.getTransactionItems() != null) {
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					this.discountField.setAmount(getdiscount(transaction
+							.getTransactionItems()));
+				}
+			}
+		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -202,7 +211,7 @@ public class VendorCreditMemoView extends
 		}else{
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
-		
+
 		VerticalPanel datepanel = new VerticalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -226,6 +235,7 @@ public class VendorCreditMemoView extends
 		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
+		phoneSelect.setDisabled(isInViewMode());
 		phoneSelect.setWidth(100);
 
 		if (this.isInViewMode()) {
@@ -248,8 +258,8 @@ public class VendorCreditMemoView extends
 		// Label lab2 = new Label(messages.itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
+				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -267,6 +277,14 @@ public class VendorCreditMemoView extends
 			@Override
 			protected boolean isInViewMode() {
 				return VendorCreditMemoView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				VendorCreditMemoView.this.updateNonEditableItems();
 			}
 		};
 
@@ -292,7 +310,8 @@ public class VendorCreditMemoView extends
 		accountsDisclosurePanel.setOpen(true);
 		accountsDisclosurePanel.setWidth("100%");
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -310,6 +329,14 @@ public class VendorCreditMemoView extends
 			@Override
 			protected boolean isInViewMode() {
 				return VendorCreditMemoView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				VendorCreditMemoView.this.updateNonEditableItems();
 			}
 		};
 
@@ -409,7 +436,9 @@ public class VendorCreditMemoView extends
 
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
+		discountField = getDiscountField();
 
+		DynamicForm taxForm = new DynamicForm();
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
@@ -433,9 +462,14 @@ public class VendorCreditMemoView extends
 
 			bottomLayout1.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				DynamicForm taxForm = new DynamicForm();
 				taxForm.setItems(taxCodeSelect, vatinclusiveCheck);
 				bottomLayout1.add(taxForm);
+			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					taxForm.setFields(discountField);
+					bottomLayout1.add(taxForm);
+				}
 			}
 			bottomLayout1.add(totalForm);
 			bottomLayout1.setCellWidth(totalForm, "30%");
@@ -451,12 +485,19 @@ public class VendorCreditMemoView extends
 			} else {
 				transactionTotalForm.setFields(transactionTotalNonEditableText);
 			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					taxForm.setFields(discountField);
+					bottomLayout1.add(taxForm);
+				}
+			}
 
 			bottomLayout1.add(totalForm);
 
 			bottomPanel.add(bottomLayout1);
 
 		}
+
 		totalForm.add(transactionTotalForm);
 
 		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
@@ -564,6 +605,13 @@ public class VendorCreditMemoView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+
+		if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setDiscount(discountField.getAmount());
+			}
+
+		}
 	}
 
 	@Override
@@ -708,6 +756,8 @@ public class VendorCreditMemoView extends
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
+		discountField.setDisabled(isInViewMode());
+		phoneSelect.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (currencyWidget != null) {
@@ -831,5 +881,17 @@ public class VendorCreditMemoView extends
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
+		}
 	}
 }

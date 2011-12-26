@@ -310,6 +310,16 @@ public class CreditCardChargeView extends
 							.getTransactionItems()));
 
 		}
+
+		if (transaction.getTransactionItems() != null) {
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					this.discountField.setAmount(getdiscount(transaction
+							.getTransactionItems()));
+				}
+			}
+		}
+
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
@@ -542,8 +552,8 @@ public class CreditCardChargeView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
+				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -558,6 +568,15 @@ public class CreditCardChargeView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CreditCardChargeView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CreditCardChargeView.this.updateNonEditableItems();
 			}
 		};
 
@@ -582,7 +601,8 @@ public class CreditCardChargeView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -597,6 +617,15 @@ public class CreditCardChargeView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CreditCardChargeView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CreditCardChargeView.this.updateNonEditableItems();
 			}
 		};
 
@@ -657,6 +686,10 @@ public class CreditCardChargeView extends
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
+		discountField = getDiscountField();
+
+		DynamicForm form = new DynamicForm();
+
 		if (isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
@@ -686,9 +719,14 @@ public class CreditCardChargeView extends
 			vPanel.add(totalForm);
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect);
 				botPanel.add(form);
+			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					botPanel.add(form);
+				}
 			}
 			botPanel.add(totalForm);
 			botPanel.setCellWidth(totalForm, "30%");
@@ -702,6 +740,13 @@ public class CreditCardChargeView extends
 						transactionTotalBaseCurrencyText);
 			} else {
 				totForm.setFields(transactionTotalBaseCurrencyText);
+			}
+
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					botPanel.add(form);
+				}
 			}
 
 			HorizontalPanel hPanel = new HorizontalPanel();
@@ -786,11 +831,11 @@ public class CreditCardChargeView extends
 	// this.account = account2;
 	//
 	// }
-	
+
 	@Override
 	public ClientCreditCardCharge saveView() {
 		ClientCreditCardCharge saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateTransaction();
 			if (isTrackTax())
 				transaction.setNetAmount(netAmount.getAmount());
@@ -883,6 +928,13 @@ public class CreditCardChargeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		// setting ref
 		// creditCardCharge.setReference(UIUtils.toStr(refText.getValue()));
+
+		if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setDiscount(discountField.getAmount());
+			}
+
+		}
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -1173,6 +1225,16 @@ public class CreditCardChargeView extends
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+		}
+	}
+
+	protected void updateDiscountValues() {
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 }

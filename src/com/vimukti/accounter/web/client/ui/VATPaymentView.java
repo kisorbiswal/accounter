@@ -379,4 +379,9 @@ public class VATPaymentView extends AbstractTransactionBaseView<ClientPayTAX> {
 	protected boolean canVoid() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

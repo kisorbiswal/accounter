@@ -670,4 +670,9 @@ public class JournalEntryView extends
 		}
 		return result;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
 }

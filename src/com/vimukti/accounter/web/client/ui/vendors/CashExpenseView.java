@@ -128,6 +128,14 @@ public class CashExpenseView extends
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
+
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
 		// Setting Reference
 		// cashPurchase.setReference(getRefText());
 		if (currency != null)
@@ -262,12 +270,12 @@ public class CashExpenseView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(isTemplate){
+		if (isTemplate) {
 			dateNoForm.setFields(transactionNumber);
-		}else{
+		} else {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
-		
+
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.add(dateNoForm);
 		datepanel.setCellHorizontalAlignment(dateNoForm,
@@ -379,7 +387,7 @@ public class CashExpenseView extends
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax() && isTrackPaidTax(),
+				isTrackDiscounts(), isTrackTax() && isTrackPaidTax(),
 				isTaxPerDetailLine(), this) {
 
 			@Override
@@ -398,6 +406,15 @@ public class CashExpenseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashExpenseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashExpenseView.this.updateNonEditableItems();
 			}
 		};
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -421,7 +438,7 @@ public class CashExpenseView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -439,6 +456,15 @@ public class CashExpenseView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashExpenseView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashExpenseView.this.updateNonEditableItems();
 			}
 		};
 		vendorItemTransactionTable.setDisabled(isInViewMode());
@@ -511,6 +537,9 @@ public class CashExpenseView extends
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
+		discountField = getDiscountField();
+
+		DynamicForm form = new DynamicForm();
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
@@ -534,9 +563,14 @@ public class CashExpenseView extends
 			bottomLayout.add(memoForm);
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
-				DynamicForm form = new DynamicForm();
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
 				bottomLayout.add(form);
+			}
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					bottomLayout.add(form);
+				}
 			}
 			bottomLayout.add(totalForm);
 			bottomLayout.setCellWidth(totalForm, "30%");
@@ -565,9 +599,16 @@ public class CashExpenseView extends
 			if (isMultiCurrencyEnabled())
 				transactionTotalForm.setFields(foreignCurrencyamountLabel);
 
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					form.setFields(discountField);
+					bottomLayout.add(form);
+				}
+			}
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
+
 		totalForm.add(transactionTotalForm);
 
 		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
@@ -711,6 +752,16 @@ public class CashExpenseView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+
+		if (transaction.getTransactionItems() != null) {
+			if (isTrackDiscounts()) {
+				if (!isDiscountPerDetailLine()) {
+					this.discountField.setAmount(getdiscount(transaction
+							.getTransactionItems()));
+				}
+			}
+		}
+
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
@@ -898,6 +949,7 @@ public class CashExpenseView extends
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (currencyWidget != null) {
@@ -1000,6 +1052,17 @@ public class CashExpenseView extends
 			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(currencyWidget.getSelectedCurrency()
 							.getFormalName()));
+		}
+	}
+
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			vendorItemTransactionTable.setDiscount(discountField.getAmount());
+			vendorAccountTransactionTable
+					.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 }

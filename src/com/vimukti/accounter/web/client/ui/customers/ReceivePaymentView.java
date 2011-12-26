@@ -375,7 +375,7 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGrid() {
-		gridView = new TransactionReceivePaymentTable(isDiscountEnabled(),
+		gridView = new TransactionReceivePaymentTable(isTrackDiscounts(),
 				!isInViewMode(), this) {
 
 			@Override
@@ -1341,6 +1341,11 @@ public class ReceivePaymentView extends
 		} else {
 			return getPreferences().isTDSEnabled();
 		}
+	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

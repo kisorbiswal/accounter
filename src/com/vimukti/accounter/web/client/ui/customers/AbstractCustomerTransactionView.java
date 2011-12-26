@@ -993,14 +993,18 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 		// if (zvatCodeid != null)
 		// transactionItem.setVatCode(zvatCodeid);
-
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				transactionItem.setDiscount(discountField.getAmount());
+			}
+		}
 		addAccountTransactionItem(transactionItem);
 	}
 
 	@Override
 	protected void addItem() {
-		ClientTransactionItem transactionItem = new ClientTransactionItem();
 
+		ClientTransactionItem transactionItem = new ClientTransactionItem();
 		transactionItem.setType(ClientTransactionItem.TYPE_ITEM);
 		long defaultTaxCode = getPreferences().getDefaultTaxCode();
 		if (isTrackTax() && getPreferences().isTaxPerDetailLine()) {
@@ -1012,7 +1016,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				transactionItem.setTaxCode(taxCode.getID());
 			}
 		}
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				transactionItem.setDiscount(discountField.getAmount());
+			}
+		}
 		addItemTransactionItem(transactionItem);
+
 	}
 
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);

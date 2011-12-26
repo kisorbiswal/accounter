@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -20,16 +21,33 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TrackDiscountsOption extends AbstractPreferenceOption {
 
+	private static TrackDiscountsOptionUiBinder uiBinder = GWT
+			.create(TrackDiscountsOptionUiBinder.class);
 	private static final String CASH_DISCOUNT_ACCOUNT = "Cash Discount Given";
 
 	@UiField
-	CheckBox trackCheckbox;
+	CheckBox trackDiscountCheckBox;
+
+	@UiField
+	Label discountLabel;
+
+	@UiField
+	RadioButton onepeTransactionRadioButton;
+
+	@UiField
+	Label oneperTransactionLabel;
+
+	@UiField
+	RadioButton oneperdetaillineRadioButton;
+
+	@UiField
+	Label oneperdetaillineLabel;
 
 	@UiField
 	VerticalPanel hidePanel;
 
 	@UiField
-	Label selectDiscount;
+	VerticalPanel radioButtonPanel;
 
 	@UiField
 	Label selectDiscountAccount;
@@ -43,9 +61,6 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 	@UiField
 	ListBox accountsCombo;
 
-	private static TrackDiscountsOptionUiBinder uiBinder = GWT
-			.create(TrackDiscountsOptionUiBinder.class);
-
 	interface TrackDiscountsOptionUiBinder extends
 			UiBinder<Widget, TrackDiscountsOption> {
 	}
@@ -58,40 +73,54 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return messages.trackingDiscounts();
+		return messages.trackDiscount();
 	}
 
 	@Override
 	public void onSave() {
-		Boolean trackDiscounts = trackCheckbox.getValue();
-		getCompanyPreferences().setTrackDiscounts(trackDiscounts);
-		if (trackDiscounts) {
-			getCompany()
-					.setCashDiscountAccount(
-							getAccounts().get(accountsCombo.getSelectedIndex())
-									.getID());
-		}
+		getCompanyPreferences().setTrackDiscounts(
+				trackDiscountCheckBox.getValue());
+		getCompanyPreferences().setDiscountPerDetailLine(
+				oneperdetaillineRadioButton.getValue());
+
 	}
 
 	@Override
 	public String getAnchor() {
-		return messages.trackingDiscounts();
+		return messages.trackDiscount();
 	}
 
 	@Override
 	public void createControls() {
-		trackCheckbox.setText(messages.discounts());
 
-		trackCheckbox.addClickHandler(new ClickHandler() {
+		trackDiscountCheckBox.setText(messages.trackDiscount());
+		discountLabel.setText(messages.discountInAllTransaction());
+
+		onepeTransactionRadioButton.setText(messages.onepertransaction());
+		oneperTransactionLabel.setText(messages.onePerTransactionDescription());
+
+		oneperdetaillineRadioButton.setText(messages.oneperdetailline());
+		oneperdetaillineLabel.setText(messages.onePerDetailLineDescription());
+
+		oneperdetaillineRadioButton.setName(messages.discount());
+		onepeTransactionRadioButton.setName(messages.discount());
+
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineLabel.setStyleName("organisation_comment");
+
+		selectDiscountAccount.setText(messages.selectDiscountAccountDesc());
+
+		discountAccount.setText(messages.discountAccount());
+
+		accountPanel.setStyleName("account_panel");
+
+		trackDiscountCheckBox.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				hidePanel.setVisible(trackCheckbox.getValue());
-
+				hidePanel.setVisible(trackDiscountCheckBox.getValue());
 			}
 		});
-
-		discountAccount.setText(messages.discountAccount());
 
 		for (int i = 0; i < getAccounts().size(); i++) {
 			accountsCombo.addItem(getAccounts().get(i).getName());
@@ -103,7 +132,6 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 		} else {
 			accountsCombo.setSelectedIndex(0);
 		}
-
 	}
 
 	private List<ClientAccount> getAccounts() {
@@ -112,15 +140,14 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void initData() {
-		trackCheckbox.setValue(getCompanyPreferences().isTrackDiscounts());
+
+		trackDiscountCheckBox.setValue(getCompanyPreferences()
+				.isTrackDiscounts());
 		hidePanel.setVisible(getCompanyPreferences().isTrackDiscounts());
-
-		selectDiscount.setText(messages.selectDiscountDesc());
-		selectDiscount.setStyleName("organisation_comment");
-
-		selectDiscountAccount.setText(messages.selectDiscountAccountDesc());
-		selectDiscountAccount.setStyleName("account_comment");
-		accountPanel.setStyleName("account_panel");
+		if (getCompanyPreferences().isDiscountPerDetailLine())
+			oneperdetaillineRadioButton.setValue(true);
+		else
+			onepeTransactionRadioButton.setValue(true);
 
 		ClientAccount account = getCompany().getAccount(
 				getCompany().getCashDiscountAccount());
@@ -145,6 +172,6 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 		} else {
 			accountsCombo.setSelectedIndex(getAccounts().indexOf(account));
 		}
-	}
 
+	}
 }

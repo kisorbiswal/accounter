@@ -20,8 +20,10 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 
 	public SalesOrderTable(boolean enableTax, boolean showTaxCode,
+			boolean enableDiscount, boolean showDiscount,
 			ICurrencyProvider currencyProvider) {
-		super(enableTax, showTaxCode, currencyProvider);
+		super(enableTax, showTaxCode, enableDiscount, showDiscount,
+				currencyProvider);
 	}
 
 	@Override

@@ -33,6 +33,17 @@ public abstract class CustomerItemTransactionTable extends
 		this(true, enableTax, showTaxCode, currencyProvider);
 	}
 
+	public CustomerItemTransactionTable(boolean enableTax, boolean showTaxCode,
+			boolean enableDisCount, boolean showDisCount,
+			ICurrencyProvider currencyProvider) {
+		super(1, enableDisCount, currencyProvider);
+		this.enableTax = enableTax;
+		this.showTaxCode = showTaxCode;
+		this.enableDisCount = enableDisCount;
+		this.showDiscount = showDisCount;
+		addEmptyRecords();
+	}
+
 	public CustomerItemTransactionTable(boolean needDiscount,
 			boolean enableTax, boolean showTaxCode,
 			ICurrencyProvider currencyProvider) {
@@ -74,6 +85,7 @@ public abstract class CustomerItemTransactionTable extends
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
 				super.setPriceLevel(priceLevel);
+				updateDiscountValues(row);
 				super.setValue(row, newValue);
 				if (newValue != null
 						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
@@ -117,7 +129,9 @@ public abstract class CustomerItemTransactionTable extends
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
 		if (needDiscount) {
-			this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			if (showDiscount) {
+				this.addColumn(new TransactionDiscountColumn(currencyProvider));
+			}
 		}
 
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true));

@@ -126,10 +126,10 @@ public class CashSalesView extends
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
 		locationCombo = createLocationCombo();
-		if(!isTemplate){
+		if (!isTemplate) {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
-		
+
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateNoForm);
@@ -249,7 +249,8 @@ public class CashSalesView extends
 				.getPrimaryCurrency());
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -267,6 +268,15 @@ public class CashSalesView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashSalesView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashSalesView.this.updateNonEditableItems();
 			}
 		};
 
@@ -291,7 +301,8 @@ public class CashSalesView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -309,6 +320,15 @@ public class CashSalesView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CashSalesView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CashSalesView.this.updateNonEditableItems();
 			}
 		};
 		customerItemTransactionTable.setDisabled(isInViewMode());
@@ -351,6 +371,7 @@ public class CashSalesView extends
 		DynamicForm netAmountForm = new DynamicForm();
 		netAmountForm.setNumCols(2);
 
+		discountField = getDiscountField();
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setNumCols(2);
 		if (isTrackTax()) {
@@ -359,6 +380,11 @@ public class CashSalesView extends
 			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
 				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
+			}
+		}
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				taxForm.setFields(discountField);
 			}
 		}
 		totalForm.setFields(transactionTotalBaseCurrencyText);
@@ -619,6 +645,9 @@ public class CashSalesView extends
 
 			}
 		}
+		if (discountField.getAmount() != 0) {
+			transaction.setDiscountTotal(discountField.getAmount());
+		}
 		transaction.setTransactionDate(transactionDate.getDate());
 		if (getCustomer() != null)
 			transaction.setCustomer(getCustomer().getID());
@@ -812,6 +841,14 @@ public class CashSalesView extends
 				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				}
+			}
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField.setAmount(getdiscount(transaction
+								.getTransactionItems()));
+					}
 				}
 			}
 
@@ -1062,6 +1099,7 @@ public class CashSalesView extends
 		customerItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (shippingTermsCombo != null)
@@ -1197,6 +1235,18 @@ public class CashSalesView extends
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			customerAccountTransactionTable.setDiscount(discountField
+					.getAmount());
+			customerItemTransactionTable.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 

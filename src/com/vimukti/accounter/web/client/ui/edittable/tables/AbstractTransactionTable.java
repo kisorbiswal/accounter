@@ -28,6 +28,8 @@ public abstract class AbstractTransactionTable extends
 
 	protected boolean enableTax;
 	protected boolean showTaxCode;
+	protected boolean enableDisCount;
+	protected boolean showDiscount;
 	protected boolean isCustomerAllowedToAdd;
 
 	protected boolean needDiscount = true;
@@ -292,6 +294,10 @@ public abstract class AbstractTransactionTable extends
 		return vat.doubleValue();
 	}
 
+	public double getDiscountValue() {
+		return totaldiscount;
+	}
+
 	public void setTaxCode(long taxCode, boolean force) {
 		for (ClientTransactionItem item : getRecords()) {
 			if ((item.getTaxCode() == 0) || force) {
@@ -300,6 +306,20 @@ public abstract class AbstractTransactionTable extends
 				// This works only once
 				item.setTaxCode(taxCode);
 				// update(item);
+			}
+			update(item);
+		}
+	}
+
+	public void setDiscount(double amount) {
+		for (ClientTransactionItem item : getRecords()) {
+			if (item.getItem() != 0 || item.getAccount() != 0) {
+				item.setDiscount(amount);
+				double lt = item.getQuantity().getValue() * item.getUnitPrice();
+				double disc = item.getDiscount();
+				item.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+						* disc / 100))
+						: lt);
 			}
 			update(item);
 		}
@@ -357,4 +377,5 @@ public abstract class AbstractTransactionTable extends
 		return list;
 	}
 
+	protected abstract void updateDiscountValues(ClientTransactionItem row);
 }

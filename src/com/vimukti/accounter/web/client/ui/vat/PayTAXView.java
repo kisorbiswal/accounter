@@ -808,4 +808,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		return false;
 	}
 
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

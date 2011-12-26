@@ -114,7 +114,7 @@ public class CustomerCreditMemoView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(!isTemplate){
+		if (!isTemplate) {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
 		HorizontalPanel datepanel = new HorizontalPanel();
@@ -188,7 +188,8 @@ public class CustomerCreditMemoView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -206,6 +207,15 @@ public class CustomerCreditMemoView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CustomerCreditMemoView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 		};
 		customerAccountTransactionTable.setDisabled(isInViewMode());
@@ -229,7 +239,8 @@ public class CustomerCreditMemoView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
-				isDiscountEnabled(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
+				isDiscountPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -247,6 +258,15 @@ public class CustomerCreditMemoView extends
 			@Override
 			protected boolean isInViewMode() {
 				return CustomerCreditMemoView.this.isInViewMode();
+			}
+
+			@Override
+			protected void updateDiscountValues(ClientTransactionItem row) {
+				if (discountField.getAmount() != null
+						&& discountField.getAmount() != 0) {
+					row.setDiscount(discountField.getAmount());
+				}
+				CustomerCreditMemoView.this.updateNonEditableItems();
 			}
 		};
 		customerItemTransactionTable.setDisabled(isInViewMode());
@@ -279,12 +299,20 @@ public class CustomerCreditMemoView extends
 		form.setWidth("100%");
 		nonEditablePanel.addStyleName("boldtext");
 
+		discountField = getDiscountField();
+
 		if (isTrackTax()) {
 			netAmountForm.setFields(netAmountLabel);
 			nonEditablePanel.add(netAmountForm);
 			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect, vatinclusiveCheck);
+			}
+		}
+
+		if (isTrackDiscounts()) {
+			if (!isDiscountPerDetailLine()) {
+				form.setFields(discountField);
 			}
 		}
 		totalForm.setFields(transactionTotalBaseCurrencyText);
@@ -471,6 +499,13 @@ public class CustomerCreditMemoView extends
 			}
 			transaction.setTaxTotal(this.salesTax);
 		}
+		if (isTrackDiscounts()) {
+			if (discountField.getAmount() != 0.0 && transactionItems != null) {
+				for (ClientTransactionItem item : transactionItems) {
+					item.setDiscount(discountField.getAmount());
+				}
+			}
+		}
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -540,6 +575,16 @@ public class CustomerCreditMemoView extends
 				}
 			}
 
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField.setAmount(getdiscount(transaction
+								.getTransactionItems()));
+					}
+				}
+			}
+
+			netAmountLabel.setAmount(transaction.getNetAmount());
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
@@ -865,6 +910,7 @@ public class CustomerCreditMemoView extends
 		customerItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
+		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		if (currencyWidget != null) {
@@ -1032,6 +1078,18 @@ public class CustomerCreditMemoView extends
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
+		}
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+
+		if (discountField.getAmount() != null) {
+			customerAccountTransactionTable.setDiscount(discountField
+					.getAmount());
+			customerItemTransactionTable.setDiscount(discountField.getAmount());
+		} else {
+			discountField.setAmount(0d);
 		}
 	}
 }

@@ -559,4 +559,11 @@ public class AdjustTAXView extends
 	protected boolean canRecur() {
 		return false;
 	}
+
+	@Override
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

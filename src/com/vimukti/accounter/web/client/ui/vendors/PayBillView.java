@@ -326,7 +326,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		grid = new TransactionPayBillTable(isDiscountEnabled(),
+		grid = new TransactionPayBillTable(isTrackDiscounts(),
 				!isInViewMode(), this) {
 
 			@Override
@@ -1587,4 +1587,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected boolean canRecur() {
 		return false;
 	}
+
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
