@@ -128,6 +128,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
 	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
 	public static final long ENABLE_PRICE_LEVEL = 0x100000000000000L;
+	public static final long AUTOMATIC_CREDITS_APPLY = 0x200000000000000L;
 
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
@@ -1324,6 +1325,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setPricingLevelsEnabled(boolean isPricingLevelsEnabled) {
 		set(ENABLE_PRICE_LEVEL, isPricingLevelsEnabled);
+	}
+	public void setCreditsApplyAutomatically(
+			boolean isSetCreditsApplyAutomaticEnabled) {
+		set(AUTOMATIC_CREDITS_APPLY, isSetCreditsApplyAutomaticEnabled);
+	}
+
+	public boolean isCreditsApplyAutomaticEnable() {
+		return get(AUTOMATIC_CREDITS_APPLY);
 	}
 
 }
