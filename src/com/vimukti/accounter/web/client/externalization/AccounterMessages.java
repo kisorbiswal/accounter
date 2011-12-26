@@ -2876,7 +2876,7 @@ public interface AccounterMessages extends Messages {
 	public String pleaseImplementMe();
 
 	public String pleaseSelectARowTo(String name);
-	
+
 	public String pleaseSelecPaymentType();
 
 	public String pleaseSelect(String comboName);
@@ -5253,6 +5253,8 @@ public interface AccounterMessages extends Messages {
 
 	public String uploadAttachment();
 
+	public String depositTo();
+
 	public String companies();
 
 	public String budgetvsActuals();
@@ -5344,4 +5346,32 @@ public interface AccounterMessages extends Messages {
 	public String allCashExpenses();
 
 	public String payeeSelected(String payee);
+
+	public String depositTotal();
+
+	public String createInvoicesAndBills();
+
+	public String billsAndPayments();
+
+	public String bankingAndReconcialiation();
+
+	public String changeCompanySettings();
+
+	public String manageAccounts();
+
+	public String financialAdviser();
+
+	public String viewReports();
+
+	public String youDontHavePermission();
+
+	public String levelOfAccess();
+
+	public String inventoryWarehouse();
+
+	public String readOnlyDesc();
+
+	public String adminDesc();
+
+	public String financialAdviserDesc();
 }
