@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -405,6 +404,7 @@ public class NewCreditNoteCommand extends AbstractTransactionCommand {
 		}
 
 		creditMemo.setTransactionItems(items);
+		creditMemo.setCurrency(customer.getCurrency().getID());
 		double taxTotal = updateTotals(context, creditMemo, true);
 		creditMemo.setTaxTotal(taxTotal);
 		create(creditMemo, context);

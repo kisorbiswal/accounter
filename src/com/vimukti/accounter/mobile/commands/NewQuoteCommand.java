@@ -357,7 +357,7 @@ public class NewQuoteCommand extends AbstractTransactionCommand {
 		estimate.setMemo(memo);
 		double taxTotal = updateTotals(context, estimate, true);
 		estimate.setTaxTotal(taxTotal);
-		estimate.setCurrency(customer.getID());
+		estimate.setCurrency(customer.getCurrency().getID());
 		estimate.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		create(estimate, context);
 

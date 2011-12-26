@@ -320,7 +320,7 @@ public class NewCustomerCreditMemoCommand extends AbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		creditMemo.setMemo(memo);
-		creditMemo.setCurrency(customer.getID());
+		creditMemo.setCurrency(customer.getCurrency().getID());
 		creditMemo.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		double taxTotal = updateTotals(context, creditMemo, true);
 		creditMemo.setTaxTotal(taxTotal);

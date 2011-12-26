@@ -528,7 +528,7 @@ public class NewCashSaleCommand extends AbstractTransactionCommand {
 			}
 		}
 
-		cashSale.setCurrency(customer.getID());
+		cashSale.setCurrency(customer.getCurrency().getID());
 		cashSale.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		double taxTotal = updateTotals(context, cashSale, true);
 		cashSale.setTaxTotal(taxTotal);

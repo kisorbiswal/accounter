@@ -345,7 +345,7 @@ public class NewCustomerPrepaymentCommand extends AbstractTransactionCommand {
 		prePayment.setMemo(memo);
 		prePayment.setStatus(ClientCustomerPrePayment.STATUS_OPEN);
 		prePayment.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-		prePayment.setCurrency(customer.getID());
+		prePayment.setCurrency(customer.getCurrency().getID());
 		prePayment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		adjustBalance(amount, customer, prePayment, context);
 		create(prePayment, context);
