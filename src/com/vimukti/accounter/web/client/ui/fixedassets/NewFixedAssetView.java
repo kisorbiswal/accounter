@@ -255,9 +255,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						}
 					}
 				});
-		if (data.getAssetAccount() != 0
-				? (getCompany().getAccount(data.getAssetAccount()) != null ? getCompany()
-				.getAccount(data.getAssetAccount())
+		if (data.getAssetAccount() != 0 ? (getCompany().getAccount(
+				data.getAssetAccount()) != null ? getCompany().getAccount(
+				data.getAssetAccount())
 				.getLinkedAccumulatedDepreciationAccount() == 0 : false) : true) {
 			showAccumltdAccountForm();
 		}
@@ -482,14 +482,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		mainVPanel.add(itmInfoVPanel);
 		mainVPanel.add(descriptionVPanel);
 		mainVPanel.add(depreciationHPanel);
-		if (data.getAssetAccount() != 0
-				? (getCompany().getAccount(data.getAssetAccount()) != null ? getCompany()
-				.getAccount(data.getAssetAccount())
+		if (data.getAssetAccount() != 0 ? (getCompany().getAccount(
+				data.getAssetAccount()) != null ? getCompany().getAccount(
+				data.getAssetAccount())
 				.getLinkedAccumulatedDepreciationAccount() == 0 : false) : true) {
-		accumltdAccVPanel.add(infoLabl2);
-		accumltdAccVPanel.add(accumulatedDepreciationAccountForm);
-		mainVPanel.remove(accumltdAccVPanel);
-		mainVPanel.add(accumltdAccVPanel);
+			accumltdAccVPanel.add(infoLabl2);
+			accumltdAccVPanel.add(accumulatedDepreciationAccountForm);
+			mainVPanel.remove(accumltdAccVPanel);
+			mainVPanel.add(accumltdAccVPanel);
 		}
 
 		showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
@@ -1187,7 +1187,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override

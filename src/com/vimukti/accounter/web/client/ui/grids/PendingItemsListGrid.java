@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * @author Murali.A
@@ -114,6 +115,10 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
+		if (!(Accounter.getUser().getUserRole().equals(RolePermissions.ADMIN) || Accounter
+				.getUser().getUserRole()
+				.equals(RolePermissions.FINANCIAL_ADVISER)))
+			return;
 
 		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
