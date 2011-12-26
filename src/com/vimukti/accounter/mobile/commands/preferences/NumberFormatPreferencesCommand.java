@@ -302,7 +302,7 @@ public class NumberFormatPreferencesCommand extends
 		String timeZone = get(TIMEZONE).getValue();
 		String negativeNumFormat = get(NEGATIVE_NUMBER_FORMAT).getValue();
 		Integer decimalLimit = get(DECIMAL_DIGIT_LIMIT).getValue();
-		String fiscalMonth = get(FISCAL_MONTH).getValue();
+		// String fiscalMonth = get(FISCAL_MONTH).getValue();
 		preferences.setDateFormat(dateFormat);
 		preferences.setUseCustomerId(useCustomerNos);
 		preferences.setUseVendorId(useVendorNos);
