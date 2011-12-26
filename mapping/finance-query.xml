@@ -11045,6 +11045,7 @@
 
 	<sql-query name="getAccountBalances">
 		<query-param name="companyId" type="long" />
+		<query-param name="accountId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="limit" type="int" />
@@ -11059,7 +11060,7 @@
 		WHERE A.COMPANY_ID =:companyId AND (CASE WHEN
 		T.ID IS NOT NULL THEN T.T_DATE
 		BETWEEN :startDate AND :endDate ELSE
-		TRUE END) GROUP BY A.ID ORDER BY
+		TRUE END) AND A.ID=:accountId GROUP BY A.ID ORDER BY
 		A.NAME LIMIT :limit
 
 	</sql-query>

@@ -489,7 +489,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getItemsByPurchaseQuantity(long startDate, long endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
-	void getAccountsBalancesByDate(long startDate, long endDate, int limit,
+	void getAccountsBalancesByDate(Long accountId, long startDate,
+			long endDate, int type, int limit,
 			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
 
 }

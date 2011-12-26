@@ -439,5 +439,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long startDate, long endDate, int limit) throws AccounterException;
 
 	ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
-			long startDate, long endDate, int limit) throws AccounterException;
+			Long accountId, long startDate, long endDate, int type, int limit)
+			throws AccounterException;
 }

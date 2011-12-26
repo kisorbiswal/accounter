@@ -799,8 +799,7 @@ public class DashboardManager extends Manager {
 
 			incomeExpensePortletInfo.setIncome((Double) object[0]);
 			incomeExpensePortletInfo.setExpense((Double) object[1]);
-			incomeExpensePortletInfo.setMonth(""
-					+ (startDateCal.get(Calendar.MONTH) + i));
+			incomeExpensePortletInfo.setMonth("" + (startDate.getMonth()));
 
 			incomeExpensePortletInfos.add(incomeExpensePortletInfo);
 		}
@@ -821,7 +820,7 @@ public class DashboardManager extends Manager {
 
 		incomeExpensePortletInfo.setIncome((Double) object[0]);
 		incomeExpensePortletInfo.setExpense((Double) object[1]);
-		incomeExpensePortletInfo.setMonth("" + "" + startDate.getMonth());
+		incomeExpensePortletInfo.setMonth("" + startDate.getMonth());
 		return incomeExpensePortletInfo;
 	}
 
@@ -967,24 +966,64 @@ public class DashboardManager extends Manager {
 		return payeesBySales;
 	}
 
-	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
-			Long companyId, FinanceDate startDate, FinanceDate endDate,
-			int limit) {
-		Session session = HibernateUtil.getCurrentSession();
-
+	public ArrayList<YearOverYearPortletData> getYearOverYearData(
+			Long companyId, Long accountId, FinanceDate startDate,
+			FinanceDate endDate, int type, int limit) {
 		ArrayList<YearOverYearPortletData> result = new ArrayList<YearOverYearPortletData>();
 
-		Query query = session.getNamedQuery("getAccountBalances")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.setParameter("limit", limit);
-		List list = query.list();
-		Iterator iterator = list.iterator();
+		if (type == PortletToolBar.THIS_MONTH
+				|| type == PortletToolBar.LAST_MONTH) {
+			YearOverYearPortletData yearOverYearData = getAccountsBalancesByDate(
+					companyId, accountId, startDate, endDate, limit);
+			result.add(yearOverYearData);
+		} else if (type == PortletToolBar.THIS_QUARTER
+				|| type == PortletToolBar.LAST_QUARTER) {
+			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
+					companyId, accountId, startDate, endDate, companyId, limit,
+					3);
+			result.addAll(incomeExpensePortletInfos);
+		} else if (type == PortletToolBar.THIS_FINANCIAL_YEAR
+				|| type == PortletToolBar.LAST_FINANCIAL_YEAR) {
+			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
+					companyId, accountId, startDate, endDate, companyId, limit,
+					12);
+			result.addAll(incomeExpensePortletInfos);
+		}
 
-		while (iterator.hasNext()) {
+		return result;
+	}
+
+	private List<YearOverYearPortletData> getAccountsBalancesByMonths(
+			Long companyId, Long accountId, FinanceDate startDate,
+			FinanceDate endDate, Long companyId2, int limit, int j) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		FinanceDate currentDate = startDate;
+
+		List<YearOverYearPortletData> yearOverYearDatas = new ArrayList<YearOverYearPortletData>();
+		for (int i = 0; i < j; i++) {
+			Calendar startDateCal = Calendar.getInstance();
+			startDateCal.setTime(currentDate.getAsDateObject());
+			startDateCal.set(Calendar.MONTH, startDateCal.get(Calendar.MONTH)
+					+ i);
+			startDateCal.set(Calendar.DATE, 1);
+
+			Calendar endDateCal = Calendar.getInstance();
+			endDateCal.setTime(currentDate.getAsDateObject());
+			endDateCal.set(Calendar.MONTH, endDateCal.get(Calendar.MONTH) + i);
+			endDateCal.set(Calendar.DATE,
+					endDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			Query query = session.getNamedQuery("getAccountBalances")
+					.setParameter("companyId", companyId)
+					.setParameter("accountId", accountId)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("limit", limit);
+			Object[] next = (Object[]) query.uniqueResult();
+
 			YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
-			Object[] next = (Object[]) iterator.next();
 			yearOverYearData.setName((String) next[0]);
 			yearOverYearData.setAmount((Double) next[1]);
 			Currency primaryCurrency = getCompany(companyId)
@@ -992,8 +1031,32 @@ public class DashboardManager extends Manager {
 			yearOverYearData
 					.setCurrency(primaryCurrency != null ? primaryCurrency
 							.getID() : 0);
-			result.add(yearOverYearData);
+
+			yearOverYearDatas.add(yearOverYearData);
 		}
-		return result;
+		return yearOverYearDatas;
+
+	}
+
+	public YearOverYearPortletData getAccountsBalancesByDate(Long companyId,
+			Long accountId, FinanceDate startDate, FinanceDate endDate,
+			int limit) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery("getAccountBalances")
+				.setParameter("companyId", companyId)
+				.setParameter("accountId", accountId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("limit", limit);
+		Object[] next = (Object[]) query.uniqueResult();
+
+		YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
+		yearOverYearData.setName((String) next[0]);
+		yearOverYearData.setAmount((Double) next[1]);
+		Currency primaryCurrency = getCompany(companyId).getPrimaryCurrency();
+		yearOverYearData.setCurrency(primaryCurrency != null ? primaryCurrency
+				.getID() : 0);
+		return yearOverYearData;
 	}
 }
