@@ -1455,10 +1455,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public PaginationList<PayeeList> getPayeeList(int transactionCategory,
-			boolean isActive, int strat, int length) throws AccounterException {
+			boolean isActive, int strat, int length,
+			boolean isPagenationRequired) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		return tool != null ? tool.getPayeeList(transactionCategory, isActive,
-				strat, length, getCompanyId()) : null;
+				strat, length, isPagenationRequired, getCompanyId()) : null;
 	}
 
 	@Override
@@ -1682,6 +1683,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * to generate PDF File for Invoice
 	 */
 
+	@Override
 	public String createPdfFile(long objectID, int type, long brandingThemeId)
 			throws Exception {
 		FinanceTool tool = getFinanceTool();
@@ -1846,6 +1848,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return tool.getCompanyManager().getRemindersList(getCompanyId());
 	}
 
+	@Override
 	public ExpensePortletData getAccountsAndValues(long startDate, long endDate) {
 		FinanceTool tool = new FinanceTool();
 		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
