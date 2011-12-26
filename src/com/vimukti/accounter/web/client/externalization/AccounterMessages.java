@@ -5133,6 +5133,18 @@ public interface AccounterMessages extends Messages {
 
 	public String warehouseAlreadyExistsWithCode();
 
+	public String groupName();
+
+	public String itemGroupName();
+
+	public String pleaseAddItems();
+
+	public String totalRate();
+
+	public String itemsGroupList();
+
+	public String youCannotDeleteItemsGroup();
+
 	public String willDeductTDSforUs();
 
 	public String messagesAndTasks();
@@ -5252,6 +5264,10 @@ public interface AccounterMessages extends Messages {
 	public String creatorName();
 
 	public String uploadAttachment();
+
+	public String automaticallyApplycredits();
+
+	public String creditsApply();
 
 	public String depositTo();
 
