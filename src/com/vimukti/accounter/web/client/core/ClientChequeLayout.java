@@ -11,7 +11,7 @@ public class ClientChequeLayout implements IAccounterCore {
 	private long id;
 
 	private long account;
-	private String authorisedSignature;
+	private String authorisedSignature = "";
 	private double chequeHeight;
 	private double chequeWidth;
 	private double payeeNameTop;
