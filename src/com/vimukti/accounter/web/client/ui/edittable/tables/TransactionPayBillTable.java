@@ -71,7 +71,7 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(row.getAmountDue());
+				row.setPayment(row.getAmountDue() - row.getAppliedCredits());
 				onSelectionChanged(row, value);
 			}
 
