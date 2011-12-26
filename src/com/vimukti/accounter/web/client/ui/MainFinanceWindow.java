@@ -839,6 +839,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getCheckPrintSettingAction()
 				.getHistoryToken(), ActionFactory.getCheckPrintSettingAction());
 
+		// actions.put(ActionFactory.getDepositAction().getHistoryToken(),
+		// ActionFactory.getDepositAction());
+
 		actions.put(ActionFactory.getTDSChalanDetailsView().getHistoryToken(),
 				ActionFactory.getTDSChalanDetailsView());
 
@@ -853,6 +856,12 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getVendorCentreAction().getHistoryToken(),
 				ActionFactory.getVendorCentreAction());
+
+		actions.put(ActionFactory.getUsersAction().getHistoryToken(),
+				ActionFactory.getUsersAction());
+
+		actions.put(ActionFactory.getInvoiceBrandingAction().getHistoryToken(),
+				ActionFactory.getInvoiceBrandingAction());
 
 		actions.put(ActionFactory.getETdsFillingView().getHistoryToken(),
 				ActionFactory.getETdsFillingView());

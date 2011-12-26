@@ -19,7 +19,9 @@ public class MenuBar {
 
 	private boolean canDoBanking;
 
-	private boolean canDoInvoiceTransactions;
+	private boolean canDoInvoiceAndBillTransactions;
+
+	private boolean canDoPayBillAndReceivePayment;
 
 	private boolean canChangeSettings;
 
@@ -65,6 +67,14 @@ public class MenuBar {
 
 	private boolean notReadOnlyUser;
 
+	private boolean canDoTaxTransactions;
+
+	private boolean canDoUserManagement;
+
+	private boolean canDoInventory;
+
+	private boolean canDoManageAccounts;
+
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
 
@@ -83,7 +93,7 @@ public class MenuBar {
 
 		this.addMenu(getCompanyMenu(messages.company()));
 
-		if (isTrackTax) {
+		if (canDoTaxTransactions && isTrackTax) {
 			this.addMenu(getVATMenu(messages.tax()));
 		}
 
@@ -104,7 +114,7 @@ public class MenuBar {
 			this.addMenu(getPurchaseSubMenu(messages.purchases()));
 		}
 
-		if (isInventoryEnabled) {
+		if (canDoInventory && isInventoryEnabled) {
 			this.addMenu(getInventoryMenu(messages.inventory()));
 		}
 
@@ -113,7 +123,7 @@ public class MenuBar {
 		if (canViewReports) {
 			this.addMenu(getReportMenu(messages.reports()));
 		}
-		if (canChangeSettings) {
+		if (canChangeSettings || canDoUserManagement) {
 			this.addMenu(getSettingsMenu(messages.settings()));
 		}
 
@@ -175,8 +185,19 @@ public class MenuBar {
 
 		Menu settingsMenuBar = new Menu(string);
 
-		settingsMenuBar.addMenuItem(messages.generalSettings(),
-				HistoryTokens.GENERALSETTINGS);
+		// settingsMenuBar.addMenuItem(messages.generalSettings(),
+		// HistoryTokens.GENERALSETTINGS);
+		if (canChangeSettings) {
+			settingsMenuBar.addMenuItem(messages.companySettingsTitle(),
+					HistoryTokens.COMPANYPREFERENCES);
+		}
+		if (canDoUserManagement) {
+			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS);
+		}
+		if (canChangeSettings) {
+			settingsMenuBar.addMenuItem(messages.invoiceBranding(),
+					HistoryTokens.INVOICEBRANDING);
+		}
 		settingsMenuBar.addMenuItem(messages.translation(),
 				HistoryTokens.TRANSLATION);
 		settingsMenuBar.addMenuItem(messages.chequePrintSetting(),
@@ -216,7 +237,7 @@ public class MenuBar {
 
 		Menu vatNews = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			vatNews.addMenuItem(messages.newTaxItem(), HistoryTokens.NEWTAXITEM);
 			vatNews.addMenuItem(messages.newTaxCode(), HistoryTokens.NEWVATCODE);
 			vatNews.addMenuItem(messages.newTAXAgency(),
@@ -227,13 +248,13 @@ public class MenuBar {
 			vatmenu.addSeparatorItem();
 		}
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			vatmenu.addMenuItem(messages.taxAdjustment(),
 					HistoryTokens.TAXADJUSTMENT);
 			vatmenu.addMenuItem(messages.fileTAX(), HistoryTokens.FILETAX);
 		}
 
-		if (canDoBanking) {
+		if (canDoManageAccounts) {
 			vatmenu.addMenuItem(messages.payTax(), HistoryTokens.PAYTAX);
 			vatmenu.addMenuItem(messages.tAXRefund(), HistoryTokens.TAXREFUND);
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
@@ -336,7 +357,7 @@ public class MenuBar {
 	private Menu getSalesSubMenu(String string) {
 		Menu salesMenu = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			salesMenu.addMenuItem(messages.salesOrder(),
 					HistoryTokens.SALESORDER);
 		}
@@ -355,7 +376,7 @@ public class MenuBar {
 	private Menu getPurchaseSubMenu(String string) {
 		Menu purchaseMenu = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			purchaseMenu.addMenuItem(messages.purchaseOrder(),
 					HistoryTokens.PURCHASEORDER);
 		}
@@ -566,6 +587,7 @@ public class MenuBar {
 				HistoryTokens.WRITECHECK);
 		bankingMenuBar.addMenuItem(messages.makeDeposit(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
+		bankingMenuBar.addMenuItem(messages.deposit(), HistoryTokens.DEPOSIT);
 
 		if (isKeepTrackofBills) {
 			bankingMenuBar.addMenuItem(messages.payBills(),
@@ -607,30 +629,33 @@ public class MenuBar {
 
 		vendorMenuBar.addSeparatorItem();
 
-		vendorMenuBar.addMenuItem(getNewVendorMenu(messages.new1()));
-		vendorMenuBar.addSeparatorItem();
+		if (canDoInvoiceAndBillTransactions || canDoBanking
+				|| canDoManageAccounts) {
+			vendorMenuBar.addMenuItem(getNewVendorMenu(messages.new1()));
+			vendorMenuBar.addSeparatorItem();
+		}
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			if (isKeepTrackofBills) {
 				vendorMenuBar.addMenuItem(messages.enterBill(),
 						HistoryTokens.ENTERBILL);
 			}
 		}
-		if (canDoBanking) {
+		if (canDoPayBillAndReceivePayment) {
 			if (isKeepTrackofBills) {
 
 				vendorMenuBar.addMenuItem(messages.payBills(),
 						HistoryTokens.PAYBILL);
-				vendorMenuBar.addMenuItem(messages.issuePayments(),
-						HistoryTokens.ISSUEPAYMENTS);
-				// vendorMenuBar.addMenuItem(messages.printCheque(),
-				// HistoryTokens.PRINTCHEQUE);
+				// vendorMenuBar.addMenuItem(messages.issuePayments(),
+				// HistoryTokens.ISSUEPAYMENTS);
+				vendorMenuBar.addMenuItem(messages.printCheque(),
+						HistoryTokens.PRINTCHEQUE);
 			}
 			vendorMenuBar.addMenuItem(
 					messages.payeePrePayment(Global.get().Vendor()),
 					HistoryTokens.VENDORPREPAYMENT);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
 
@@ -675,23 +700,24 @@ public class MenuBar {
 
 		Menu newVendorMenuBar = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
 			newVendorMenuBar.addMenuItem(messages.newItem() + "s",
 					HistoryTokens.NEWITEMSUPPLIERS);
 		}
-		if (canDoBanking) {
+		if (canDoBanking || canDoManageAccounts) {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
 					HistoryTokens.NEWCASHPURCHASE);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 
 			newVendorMenuBar.addMenuItem(
 					messages.payeeCredit(Global.get().Vendor()),
 					HistoryTokens.VENDORCREDIT);
-
+		}
+		if (canDoBanking || canDoManageAccounts) {
 			newVendorMenuBar.addMenuItem(messages.newCheck(),
 					HistoryTokens.CHECK);
 		}
@@ -712,11 +738,13 @@ public class MenuBar {
 
 		customerMenuBar.addSeparatorItem();
 
-		customerMenuBar.addMenuItem(getNewCustomerMenu(messages.new1()));
+		if (canDoInvoiceAndBillTransactions || canDoBanking
+				|| canDoManageAccounts) {
+			customerMenuBar.addMenuItem(getNewCustomerMenu(messages.new1()));
+			customerMenuBar.addSeparatorItem();
+		}
 
-		customerMenuBar.addSeparatorItem();
-
-		if (canDoBanking) {
+		if (canDoPayBillAndReceivePayment) {
 
 			customerMenuBar.addMenuItem(
 					messages.payeePrePayment(Global.get().Customer()),
@@ -774,7 +802,7 @@ public class MenuBar {
 	private Menu getNewCustomerMenu(String string) {
 		Menu newCustomerMenuBar = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
@@ -796,11 +824,11 @@ public class MenuBar {
 					HistoryTokens.NEWINVOICE);
 		}
 
-		if (canDoBanking) {
+		if (canDoBanking || canDoManageAccounts) {
 			newCustomerMenuBar.addMenuItem(messages.newCashSale(),
 					HistoryTokens.NEWCASHSALE);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(messages.newCreditMemo(),
 					HistoryTokens.NRECREDITNOTE);
 		}
@@ -821,14 +849,14 @@ public class MenuBar {
 
 		companyMenuBar.addSeparatorItem();
 
-		if (canDoBanking) {
+		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY);
 		}
 		companyMenuBar.addMenuItem(messages.transactionscenter(),
 				HistoryTokens.TRANSACTIONS_CENTER);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.newPayee(messages.Account()),
 					HistoryTokens.NEWACCOUNT);
 			companyMenuBar.addSeparatorItem();
@@ -839,11 +867,13 @@ public class MenuBar {
 					HistoryTokens.COMPANYPREFERENCES);
 			companyMenuBar.addSeparatorItem();
 		}
-		companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET);
 
-		companyMenuBar.addSeparatorItem();
+		if (canDoTaxTransactions) {
+			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET);
+			companyMenuBar.addSeparatorItem();
+		}
 
-		if (isTrackTax) {
+		if (canDoTaxTransactions && isTrackTax) {
 			companyMenuBar.addMenuItem(getSalesTaxSubmenu(messages.itemTax()));
 		}
 		if (canChangeSettings) {
@@ -851,10 +881,15 @@ public class MenuBar {
 					.manageSupportLists()));
 			companyMenuBar.addSeparatorItem();
 		}
-		companyMenuBar.addMenuItem(getFixedAssetsMenu(messages.fixedAssets()));
-		companyMenuBar.addSeparatorItem();
-		companyMenuBar.addMenuItem(getMergeSubMenu(messages.mergeAccounts()));
-		companyMenuBar.addSeparatorItem();
+
+		if (canDoTaxTransactions) {
+			companyMenuBar.addMenuItem(getFixedAssetsMenu(messages
+					.fixedAssets()));
+			companyMenuBar.addSeparatorItem();
+			companyMenuBar
+					.addMenuItem(getMergeSubMenu(messages.mergeAccounts()));
+			companyMenuBar.addSeparatorItem();
+		}
 		companyMenuBar.addMenuItem(getCompanyListMenu(messages.companyLists()));
 
 		return companyMenuBar;
@@ -957,29 +992,29 @@ public class MenuBar {
 
 		Menu salesTaxMenuBar = new Menu(string);
 
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			salesTaxMenuBar.addMenuItem(messages.manageSalesTaxGroups(),
 					HistoryTokens.MANAGESALESTAXGROUP);
 		} else {
 			salesTaxMenuBar.addMenuItem(messages.salesTaxGroups(),
 					HistoryTokens.SALESTAXGROUPsalesTaxGroup);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			salesTaxMenuBar.addMenuItem(messages.manageSalesItems(),
 					HistoryTokens.MANAGESALESTAXITEMS);
 		} else {
 			salesTaxMenuBar.addMenuItem(messages.salesTaxItems(),
 					HistoryTokens.SALESTAXITEMS);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			salesTaxMenuBar.addMenuItem(messages.taxAdjustment(),
 					HistoryTokens.TAXADJUSTMENT);
 		}
-		if (canDoBanking) {
+		if (canDoManageAccounts) {
 			salesTaxMenuBar.addMenuItem(messages.payTax(),
 					HistoryTokens.PAYSALESTAX);
 		}
-		if (canDoInvoiceTransactions) {
+		if (canDoInvoiceAndBillTransactions) {
 			salesTaxMenuBar.addMenuItem(messages.newTAXAgency(),
 					HistoryTokens.NEWTAXAGENCY);
 		}
@@ -990,7 +1025,9 @@ public class MenuBar {
 			ClientCompanyPreferences preferences, ClientUser clientUser,
 			ICountryPreferences countryPreferences) {
 
-		this.canDoInvoiceTransactions = canDoInvoiceTransactions(clientUser);
+		this.canDoInvoiceAndBillTransactions = canDoInvoiceTransactions(clientUser);
+
+		this.canDoPayBillAndReceivePayment = canDoPayBillAndReceivePayment(clientUser);
 
 		this.canChangeSettings = canChangeSettings(clientUser);
 
@@ -1040,25 +1077,70 @@ public class MenuBar {
 		this.notReadOnlyUser = !clientUser.getUserRole().equalsIgnoreCase(
 				messages.readOnly());
 
+		this.canDoTaxTransactions = canDoTaxTransactions(clientUser);
+
+		this.canDoUserManagement = canDoUserManagement(clientUser);
+
+		this.canDoInventory = canDoInventory(clientUser);
+
+		this.canDoManageAccounts = CanDoManageAccounts(clientUser);
+
 		getMenuBar();
 	}
 
+	private boolean CanDoManageAccounts(ClientUser clientUser) {
+		if (clientUser.getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	private boolean canDoInventory(ClientUser clientUser) {
+		if (clientUser.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	private boolean canDoUserManagement(ClientUser clientUser) {
+		if (clientUser.isCanDoUserManagement())
+			return true;
+		else
+			return false;
+	}
+
+	private boolean canDoPayBillAndReceivePayment(ClientUser clientUser) {
+		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES)
+			return true;
+		else
+			return false;
+	}
+
+	private boolean canDoTaxTransactions(ClientUser clientUser) {
+		if (clientUser.getUserRole().equals(RolePermissions.ADMIN)
+				|| clientUser.getUserRole().equals(
+						RolePermissions.FINANCIAL_ADVISER))
+			return true;
+		else
+			return false;
+	}
+
 	private boolean canManageFiscalYears(ClientUser user) {
-		if (user.getPermissions().getTypeOfLockDates() == RolePermissions.TYPE_YES)
+		if (user.getPermissions().getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
 	}
 
 	private boolean canDoInvoiceTransactions(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfInvoices() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
 	}
 
 	private boolean canChangeSettings(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfSystemSettings() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
@@ -1084,7 +1166,7 @@ public class MenuBar {
 	}
 
 	private boolean canSeeInvoiceTransactions(ClientUser clientUser) {
-		return clientUser.getPermissions().getTypeOfInvoices() != RolePermissions.TYPE_NO;
+		return clientUser.getPermissions().getTypeOfInvoicesBills() != RolePermissions.TYPE_NO;
 	}
 
 }
