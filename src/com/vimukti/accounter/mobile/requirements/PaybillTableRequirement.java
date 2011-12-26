@@ -3,12 +3,10 @@ package com.vimukti.accounter.mobile.requirements;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.commands.NewVendorPrepaymentCommand;
 import com.vimukti.accounter.web.client.core.Lists.PayBillTransactionList;
 
 public abstract class PaybillTableRequirement extends
