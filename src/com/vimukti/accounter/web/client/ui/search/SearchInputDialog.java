@@ -56,7 +56,7 @@ public class SearchInputDialog extends BaseDialog {
 	private SimplePager pager;
 	protected AccounterMessages messages = Accounter.messages();
 
-	private String[] transactionNames = {
+	private final String[] transactionNames = {
 			messages.all(),
 			messages.bill(),
 			messages.billPayment(),
@@ -76,36 +76,37 @@ public class SearchInputDialog extends BaseDialog {
 			messages.vatPayment(), messages.vatAdjustment(),
 			messages.writeCheck() };
 
-	private String[] searchByAll = { messages.amount(), messages.date(),
+	private final String[] searchByAll = { messages.amount(), messages.date(),
 			messages.descOrMemo(), messages.payee() };// , messages.refNo() };
 
-	private String[] searchByPayee = { messages.payee(), messages.Account(),
-			messages.amount(), messages.date(), messages.descOrMemo() };
+	private final String[] searchByPayee = { messages.payee(),
+			messages.Account(), messages.amount(), messages.date(),
+			messages.descOrMemo() };
 
 	// private String[] searchByCustomerStatement = { Global.get().Customer(),
 	// messages.statementDate(), messages.statementNo() };
 
-	private String[] searchByJournalOptions = { messages.Account(),
+	private final String[] searchByJournalOptions = { messages.Account(),
 			messages.date(), messages.descOrMemo(), messages.journalEntryNo() };
-	private String[] searchByCustomerTransactionOptions = {
+	private final String[] searchByCustomerTransactionOptions = {
 			Global.get().Customer(), messages.amount(), messages.date(),
 			messages.descOrMemo(), messages.productOrService() };
 
-	private String[] searchBySupplierTransactionOptions = {
+	private final String[] searchBySupplierTransactionOptions = {
 			Global.get().Vendor(), messages.amount(), messages.Account(),
 			messages.date(), messages.descOrMemo(),// messages.refNo(),
 			messages.productOrService() };
-	private String[] searchByCustomerOptions = { Global.get().Customer(),
+	private final String[] searchByCustomerOptions = { Global.get().Customer(),
 			messages.Account(), messages.amount(), messages.date(),
 			messages.dueDate(), messages.invoiceDate(), messages.descOrMemo(),
 			messages.productOrService() };
 
-	private String[] searchByDepositOptions = { messages.amount(),
+	private final String[] searchByDepositOptions = { messages.amount(),
 			messages.Account(), messages.date(), messages.descOrMemo() };
 
-	private String[] matchIfoptions = { messages.contains(), messages.exact(),
-			messages.greater(), messages.Less() };
-	private String[] searchByVatOptions = { messages.Account(),
+	private final String[] matchIfoptions = { messages.contains(),
+			messages.exact(), messages.greater(), messages.Less() };
+	private final String[] searchByVatOptions = { messages.Account(),
 			messages.date(), messages.descOrMemo() };
 
 	private TextItem findByItem;
@@ -499,6 +500,7 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void close() {
+		com.google.gwt.user.client.History.back();
 		this.removeFromParent();
 	}
 
@@ -952,11 +954,6 @@ public class SearchInputDialog extends BaseDialog {
 	@Override
 	public void setFocus() {
 		transactionTypeCombo.setFocus();
-	}
-
-	@Override
-	protected boolean onCancel() {
-		return true;
 	}
 
 }

@@ -60,7 +60,7 @@ public class ViewManager extends HorizontalPanel {
 	 */
 	public AbstractView<?> existingView;
 
-	private Map<String, Object> viewDataHistory = new HashMap<String, Object>();
+	private final Map<String, Object> viewDataHistory = new HashMap<String, Object>();
 
 	private final MainFinanceWindow mainWindow;
 
@@ -700,7 +700,11 @@ public class ViewManager extends HorizontalPanel {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				ActionFactory.getSearchInputAction().run();
+				// ActionFactory.getSearchInputAction().run();
+				String historyToken = ActionFactory.getSearchInputAction()
+						.getHistoryToken();
+				History.newItem(historyToken, false);
+				Accounter.getMainFinanceWindow().historyChanged(historyToken);
 			}
 		});
 

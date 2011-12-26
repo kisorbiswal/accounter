@@ -163,7 +163,32 @@ public class NewMenuServlet extends BaseServlet {
 
 						if (subTitle == null) {
 							separator(menu2);
-						} else {
+						} else if (subMenuItem instanceof Menu) {
+
+							Menu subMenu3 = (Menu) subMenuItem;
+
+							XMLElement menu4 = mainMenu(menu2,
+									subMenu3.getTitle());
+
+							// XMLElement menu4 = subMenu(menu2,
+							// subMenu3.getTitle(), "", "");
+
+							for (MenuItem subMenuItem3 : subMenu3
+									.getMenuItems()) {
+
+								String subTitle3 = subMenuItem3.getTitle();
+								String subUrlToken3 = "company/accounter#"
+										+ subMenuItem3.getUrlToken();
+
+								if (subTitle3 == null) {
+									separator(menu4);
+								} else {
+									menu(menu4, subTitle3, subUrlToken3);
+								}
+							}
+						}
+
+						else {
 							menu(menu2, subTitle, subUrlToken);
 						}
 					}

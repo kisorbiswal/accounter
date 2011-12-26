@@ -16,9 +16,9 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 public class PortletPageConfigureDialog extends
 		BaseDialog<ClientPortletConfiguration> {
 	private List<CheckBox> portletNameCheckBoxs;
-	private List<ClientPortletConfiguration> prefferedPortlets;
+	private final List<ClientPortletConfiguration> prefferedPortlets;
 	private ClientPortletPageConfiguration config;
-	private PortletPage page;
+	private final PortletPage page;
 
 	public PortletPageConfigureDialog(String text,
 			ClientPortletPageConfiguration config, PortletPage page) {
@@ -111,4 +111,8 @@ public class PortletPageConfigureDialog extends
 		this.config = config;
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

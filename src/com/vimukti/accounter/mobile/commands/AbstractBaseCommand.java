@@ -24,7 +24,7 @@ public abstract class AbstractBaseCommand extends Command {
 	private Company company;
 	private ClientCompanyPreferences preferences;
 	private Stack<Integer> requirementSequence = new Stack<Integer>();
-	private int lastRequirement = -2;
+	protected int lastRequirement = -2;
 	private Context context;
 
 	@SuppressWarnings("unchecked")
