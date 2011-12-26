@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -68,9 +67,7 @@ public class MenuBar {
 
 	private boolean notReadOnlyUser;
 
-
 	private boolean tdsEnabled;
-
 
 	private boolean canDoTaxTransactions;
 
@@ -79,7 +76,6 @@ public class MenuBar {
 	private boolean canDoInventory;
 
 	private boolean canDoManageAccounts;
-
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -266,12 +262,12 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		if (company instanceof India) {
-			if (tdsEnabled) {
-				vatmenu.addMenuItem(getForm16AMenu("TDS"));
-				vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
-			}
-		}
+		// if (company instanceof India) {
+		// if (tdsEnabled) {
+		// vatmenu.addMenuItem(getForm16AMenu("TDS"));
+		// vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+		// }
+		// }
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
