@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class DownloadAttachmentServlet extends HttpServlet {
 
@@ -51,6 +55,21 @@ public class DownloadAttachmentServlet extends HttpServlet {
 	}
 
 	private byte[] getEncryptionKey(HttpServletRequest req) {
-		return "123456789ABCDEFG".getBytes();
+		Long companyID = (Long) req.getSession().getAttribute(
+				BaseServlet.COMPANY_ID);
+		Session session = HibernateUtil.openSession();
+		try {
+			Company comapny = (Company) session.get(Company.class, companyID);
+			if (comapny != null) {
+				return comapny.getEncryptionKey().getBytes();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
+		}
+		return null;
 	}
 }
