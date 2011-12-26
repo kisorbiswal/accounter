@@ -12,10 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -117,47 +114,16 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 
 	protected List<BillsList> getListData(Context context) {
 		String viewBY = get(VIEW_BY).getValue();
-		ArrayList<BillsList> list = new ArrayList<BillsList>();
-		ArrayList<BillsList> allRecords = null;
-		// try {
-		// allRecords = new FinanceTool().getVendorManager().getBillsList(
-		// false, context.getCompany().getID(), 0,
-		// getStartDate().getDate(), getEndDate().getDate(), 0, -1);
-		// } catch (DAOException e) {
-		// e.printStackTrace();
-		// }
-		if (viewBY.equalsIgnoreCase(getMessages().open())) {
-
-			for (BillsList rec : allRecords) {
-				if ((rec.getType() == ClientTransaction.TYPE_ENTER_BILL || rec
-						.getType() == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO)
-						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
-					if (!rec.isDeleted() && !rec.isVoided())
-						list.add(rec);
-				}
-			}
-
-		} else if (viewBY.equalsIgnoreCase(getMessages().voided())) {
-			for (BillsList rec : allRecords) {
-				if (rec.isVoided() && !rec.isDeleted()) {
-					list.add(rec);
-				}
-			}
-
-		} else if (viewBY.equalsIgnoreCase(getMessages().overDue())) {
-			for (BillsList rec : allRecords) {
-				if (rec.getType() == ClientTransaction.TYPE_ENTER_BILL
-						&& new ClientFinanceDate().after(rec.getDueDate())
-						&& DecimalUtil.isGreaterThan(rec.getBalance(), 0)) {
-					list.add(rec);
-				}
-			}
-
+		ArrayList<BillsList> allRecords = new ArrayList<BillsList>();
+		try {
+			allRecords = new FinanceTool().getVendorManager().getBillsList(
+					false, context.getCompany().getID(), 0,
+					getStartDate().getDate(), getEndDate().getDate(), 0, 100,
+					getViewByList().indexOf(viewBY) + 1);
+		} catch (DAOException e) {
+			e.printStackTrace();
 		}
-		if (viewBY.equalsIgnoreCase(getMessages().all())) {
-			list.addAll(allRecords);
-		}
-		return list;
+		return allRecords;
 	}
 
 	@Override
