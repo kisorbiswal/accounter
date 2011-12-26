@@ -1545,7 +1545,8 @@ public class FinanceTool {
 	}
 
 	public PaginationList<PayeeList> getPayeeList(int category,
-			boolean isActive, int start, int length, long companyId)
+			boolean isActive, int start, int length,
+			boolean isPagenationRequired, long companyId)
 			throws AccounterException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
@@ -1801,9 +1802,13 @@ public class FinanceTool {
 								new FinanceDate(previousFifthMonthEndDateCal
 										.getTime()).getDate());
 			}
-			total = query.list().size();
-			List list = query.setFirstResult(start).setMaxResults(length)
-					.list();
+			List list = null;
+			if (isPagenationRequired) {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			} else {
+				list = query.list();
+			}
 
 			if (list != null) {
 				Object[] object = null;
@@ -1884,8 +1889,10 @@ public class FinanceTool {
 						result.add(payee);
 					}
 				}
-				result.setTotalCount(total);
-				result.setStart(start);
+				if (isPagenationRequired) {
+					result.setTotalCount(total);
+					result.setStart(start);
+				}
 				return result;
 			} else
 				throw (new AccounterException(
