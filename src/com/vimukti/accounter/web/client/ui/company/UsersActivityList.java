@@ -20,6 +20,7 @@ import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -256,17 +257,19 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 			@Override
 			public SafeHtml getValue(ClientActivity object) {
+
 				final String value = object.getDataType() != null ? object
 						.getDataType() : "";
 				SafeHtmlBuilder shb = new SafeHtmlBuilder();
 				if (value.equalsIgnoreCase(messages.issuePayment())) {
 					shb.appendEscaped(value);
-				} else {
+				} else if (object.getActivityType() != ClientActivity.VOIDED) {
 					shb.appendHtmlConstant("<a href='#'>");
 					shb.appendEscaped(value);
 					shb.appendHtmlConstant("</a>");
+				} else {
+					shb.appendEscaped(value);
 				}
-
 				return shb.toSafeHtml();
 			}
 		};
@@ -342,6 +345,15 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	}
 
 	private void openLinkAction(ClientActivity object) {
+		if (object.getDataType().equals(messages.user())) {
+			ClientUserInfo userById = Accounter.getCompany().getUserById(
+					object.getObjectID());
+			if (userById == null)
+				return;
+		}
+		if (object.getActivityType() == ClientActivity.VOIDED) {
+			return;
+		}
 		if (object.getObjType() == ClientTransaction.TYPE_ISSUE_PAYMENT) {
 			return;
 		} else {
