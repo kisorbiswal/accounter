@@ -125,7 +125,7 @@ public abstract class CompanyInitializer {
 
 		layout.setChequeWidth(20.00);
 		layout.setChequeHeight(8.50);
-
+		layout.setAuthorisedSignature("");
 		layout.setCompany(company);
 		company.getChequeLayouts().add(layout);
 	}
