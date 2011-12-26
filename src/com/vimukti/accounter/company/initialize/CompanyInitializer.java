@@ -85,7 +85,7 @@ public abstract class CompanyInitializer {
 
 		createDefaultFiledAccount();
 
-		// createDefaultChequeLayout();
+		createDefaultChequeLayout();
 
 		session.saveOrUpdate(company);
 
@@ -95,7 +95,38 @@ public abstract class CompanyInitializer {
 
 	private void createDefaultChequeLayout() {
 		ChequeLayout layout = new ChequeLayout();
+		layout.setPayeeNameTop(1.25);
+		layout.setPayeeNameLeft(2.20);
+		layout.setPayeeNameWidth(8.00);
 
+		layout.setAmountWordsLin1Top(2.25);
+		layout.setAmountWordsLin1Left(3.50);
+		layout.setAmountWordsLin1Width(9.00);
+
+		layout.setAmountWordsLin2Top(3.20);
+		layout.setAmountWordsLin2Left(2.20);
+		layout.setAmountWordsLin2Width(6.50);
+
+		layout.setAmountFigTop(3.20);
+		layout.setAmountFigLeft(13.00);
+		layout.setAmountFigWidth(3.10);
+
+		layout.setChequeDateTop(1.25);
+		layout.setChequeDateLeft(13.00);
+		layout.setChequeDateWidth(2.50);
+
+		layout.setCompanyNameTop(4.00);
+		layout.setCompanyNameLeft(13.00);
+		layout.setCompanyNameWidth(6.00);
+
+		layout.setSignatoryTop(5.50);
+		layout.setSignatoryLeft(13.80);
+		layout.setSignatoryWidth(6.00);
+
+		layout.setChequeWidth(20.00);
+		layout.setChequeHeight(8.50);
+
+		layout.setCompany(company);
 		company.getChequeLayouts().add(layout);
 	}
 
