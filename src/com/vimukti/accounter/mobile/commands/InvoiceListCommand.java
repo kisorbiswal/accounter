@@ -12,10 +12,8 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class InvoiceListCommand extends AbstractTransactionListCommand {
 
@@ -123,49 +121,12 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 	private List<InvoicesList> getInvoices(Context context) {
 		String viewType = get(VIEW_BY).getValue();
 		try {
-			List<InvoicesList> invoices = null;
-			// TODO need to pass ViewType and Date as parameter
-
-			// List<InvoicesList> invoices = new FinanceTool()
-			// .getInventoryManager().getInvoiceList(
-			// context.getCompany().getId(),
-			// getStartDate().getDate(), getEndDate().getDate(),
-			// 0, 1, -1);
-			List<InvoicesList> list = new ArrayList<InvoicesList>(
-					invoices.size());
-			for (InvoicesList invoice : invoices) {
-				if (viewType.equals(getMessages().open())) {
-					if (invoice.getBalance() != null
-							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
-									0)
-							&& invoice.getDueDate() != null
-							&& (invoice.getStatus() != ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)
-							&& !invoice.isVoided()) {
-						list.add(invoice);
-					}
-
-				} else if (viewType.equals(getMessages().overDue())) {
-					if (invoice.getBalance() != null
-							&& DecimalUtil.isGreaterThan(invoice.getBalance(),
-									0)
-							&& invoice.getDueDate() != null
-							&& (invoice.getDueDate().compareTo(
-									new ClientFinanceDate()) < 0)
-							&& !invoice.isVoided()) {
-						list.add(invoice);
-					}
-				} else if (viewType.equals(getMessages().voided())) {
-					if (invoice.isVoided()) {
-						list.add(invoice);
-					}
-				} else if (viewType.equals(getMessages().all())) {
-					list.add(invoice);
-				}
-			}
-
-			return list;
+			return new FinanceTool().getInventoryManager().getInvoiceList(
+					context.getCompany().getId(), getStartDate().getDate(),
+					getEndDate().getDate(), 0,
+					getViewByList().indexOf(viewType) + 1, 0, 100);
 		} catch (Exception e) {
 		}
-		return null;
+		return new ArrayList<InvoicesList>();
 	}
 }
