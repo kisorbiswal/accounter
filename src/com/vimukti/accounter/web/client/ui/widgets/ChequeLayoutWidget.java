@@ -86,7 +86,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 				chequeLayout.getChequeHeight() + "cm");
 
 		HorizontalPanel topScale = new HorizontalPanel();
-		for (int i = 1; i < 20; i++) {
+		for (int i = 1; i < 21; i++) {
 			for (int j = 1; j < 5; j++) {
 				Label label = new Label("|");
 				label.setStyleName("horizontalScale");
@@ -98,7 +98,7 @@ public class ChequeLayoutWidget extends SimplePanel {
 		topScale.addStyleName("chequeTopScal");
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		VerticalPanel vertScale = new VerticalPanel();
-		for (int i = 1; i < 10; i++) {
+		for (int i = 1; i < 11; i++) {
 			for (int j = 1; j < 5; j++) {
 				Label label = new Label("-");
 				label.setStyleName("vericalScale");
