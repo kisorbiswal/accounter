@@ -43,12 +43,15 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
+		boolean onSave = super.onSave(session);
 		if (getID() == 0) {
+			setCompany(getCreatedBy().getCompany());
 			UploadAttachment attachment = new UploadAttachment(attachmentId,
 					UploadAttachment.CREATE, getName());
+			attachment.key = getCompany().getEncryptionKey().getBytes();
 			AttachmentFileServer.put(attachment);
 		}
-		return super.onSave(session);
+		return onSave;
 	}
 
 	@Override
