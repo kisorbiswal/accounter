@@ -197,7 +197,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 		listGrid.init();
 
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, 0, 0, true,
+				true, 0, 0, false,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
