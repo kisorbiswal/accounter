@@ -1,9 +1,8 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -27,17 +26,15 @@ public class DownloadAttachmentServlet extends HttpServlet {
 		String attachmentId = req.getParameter("attachmentId");
 		String name = req.getParameter("name");
 		try {
-			File attachmentFile = AttachmentFileServer
-					.getAttachmentFile(attachmentId);
-			if (attachmentFile.exists()) {
+			InputStream attachmentStream = AttachmentFileServer
+					.getAttachmentStream(attachmentId);
+			if (attachmentStream != null) {
 				int length = 0;
 				ServletOutputStream op = resp.getOutputStream();
-				resp.setContentLength((int) attachmentFile.length());
 				resp.setHeader("Content-Disposition", "attachment; filename=\""
 						+ name + "\"");
 				byte[] bbuf = new byte[BUFSIZE];
-				DataInputStream in = new DataInputStream(new FileInputStream(
-						attachmentFile));
+				DataInputStream in = new DataInputStream(attachmentStream);
 
 				while ((in != null) && ((length = in.read(bbuf)) != -1)) {
 					op.write(bbuf, 0, length);
