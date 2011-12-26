@@ -535,6 +535,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		get(TRADING_ADDRESS).setValue(address);
 		get(TIME_ZONE).setDefaultValue(getDefaultTzOffsetStr());
 		get(ORGANIZATION_REFER).setDefaultValue(getOrganizationTypes().get(0));
+		countrySelected(CountryPreferenceFactory.get("United Kingdom"));
 		// get(FISCAL_YEAR).setDefaultValue("april");// DayAndMonthUtil.april()
 	}
 
@@ -547,6 +548,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		String state = getStatesList(country).get(0);
 		address.setStateOrProvinence(state);
 		get(TRADING_ADDRESS).setValue(address);
+		countrySelected(CountryPreferenceFactory.get(country));
 		return null;
 	}
 
