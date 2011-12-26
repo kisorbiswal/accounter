@@ -1,15 +1,21 @@
 package com.vimukti.accounter.main.upload;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.SecureRandom;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.SecretKey;
+import javax.crypto.KeyGenerator;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.rackspacecloud.client.cloudfiles.FilesClient;
@@ -28,7 +34,8 @@ public class AttachmentFileServer extends Thread {
 		}
 	}
 
-	private static byte[] encriptionKey = "123456789ABCDEFG".getBytes();
+	private static Key encryptionKey = generateKey();
+	private static byte[] keyData = "123456789ABCDEFG".getBytes();
 
 	@Override
 	public void run() {
@@ -42,6 +49,38 @@ public class AttachmentFileServer extends Thread {
 		}
 	}
 
+	private static Key generateKey() {
+		try {
+			KeyGenerator instance2 = KeyGenerator.getInstance("AES");
+			instance2.init(128);
+			return instance2.generateKey();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static InputStream getAttachmentStream(String attachmentId) {
+		try {
+			FileInputStream fin = new FileInputStream(
+					getAttachmentFile(attachmentId));
+			InputStream in = createCipherInputStream(fin);
+			return in;
+		} catch (Exception e) {
+			return new ByteArrayInputStream(new byte[0]);
+		}
+	}
+
+	private static InputStream createCipherInputStream(FileInputStream fin)
+			throws Exception {
+		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
+		Key decryptionKey = new SecretKeySpec(encryptionKey.getEncoded(),
+				encryptionKey.getAlgorithm());
+		cipher.init(Cipher.DECRYPT_MODE, decryptionKey, new IvParameterSpec(
+				keyData));
+		return new CipherInputStream(fin, cipher);
+	}
+
 	/**
 	 * Decrypt
 	 * 
@@ -49,7 +88,7 @@ public class AttachmentFileServer extends Thread {
 	 * @return
 	 * @throws Exception
 	 */
-	public static File getAttachmentFile(String attachmentId) throws Exception {
+	private static File getAttachmentFile(String attachmentId) throws Exception {
 		File tmpfile = new File(ServerConfiguration.getEncryptTmpDir(),
 				attachmentId);
 		boolean exists = tmpfile.exists();
@@ -151,14 +190,13 @@ public class AttachmentFileServer extends Thread {
 
 	private boolean copyWithEncryptionFile(File fs, File fd, String attID) {
 		try {
-			SecretKey key = new SecretKeySpec(encriptionKey, "AES");
 			File f = new File(fd.getAbsolutePath().substring(0,
 					fd.getAbsolutePath().lastIndexOf(File.separator)));
 			if (!f.exists())
 				f.mkdirs();
 			FileInputStream stream = new FileInputStream(fs);
 			FileOutputStream os = new FileOutputStream(fd);
-			OutputStream fos = createCipherOutputStream(key, os);
+			OutputStream fos = createCipherOutputStream(os);
 			byte b[] = new byte[4096];
 			int read = 0;
 			do {
@@ -177,12 +215,12 @@ public class AttachmentFileServer extends Thread {
 
 	}
 
-	private CipherOutputStream createCipherOutputStream(SecretKey key,
-			OutputStream fos) throws Exception {
-		Cipher cip = Cipher.getInstance("AES/CTR/NoPadding"); //$NON-NLS-1$ //$NON-NLS-2$
-		SecureRandom ran = new SecureRandom();
-		cip.init(Cipher.ENCRYPT_MODE, key, ran);
-		return new CipherOutputStream(fos, cip);
+	private CipherOutputStream createCipherOutputStream(OutputStream fos)
+			throws Exception {
+		Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding"); //$NON-NLS-1$ //$NON-NLS-2$
+		cipher.init(Cipher.ENCRYPT_MODE, encryptionKey, new IvParameterSpec(
+				keyData));
+		return new CipherOutputStream(fos, cipher);
 	}
 
 	public static AttachmentFileServer getInstance() {
