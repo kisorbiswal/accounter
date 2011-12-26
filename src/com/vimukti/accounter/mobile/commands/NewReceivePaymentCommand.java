@@ -325,7 +325,7 @@ public class NewReceivePaymentCommand extends AbstractTransactionCommand {
 
 		String checkNumber = get(CHECK_NUMBER).getValue();
 		payment.setCheckNumber(checkNumber);
-		payment.setCurrency(customer.getID());
+		payment.setCurrency(customer.getCurrency().getID());
 		payment.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		recalculateGridAmounts();
 		payment.setTransactionReceivePayment(getClientTransactionReceivePayments());
