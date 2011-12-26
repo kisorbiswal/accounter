@@ -2605,3 +2605,9 @@ input.date-field-textbox {
 .companies_link_parent a:hover{
 	background: #ccc;
 }
+.attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor{
+	padding: 0 10px 0 0;
+}
+.attachment_panel form table .gwt-Anchor, .attachment_panel .attachment_hpanel td .gwt-Anchor {
+    color: #3299A4;
+}
