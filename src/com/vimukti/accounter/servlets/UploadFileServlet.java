@@ -47,8 +47,8 @@ public class UploadFileServlet extends BaseServlet {
 				if (file != null) {
 					String fileName = file.getName();
 					File attachmentDir = new File(
-							ServerConfiguration.getAttachmentsDir() + "/"
-									+ companyID);
+							ServerConfiguration.getAttachmentsDir()
+									+ File.separator + companyID);
 					if (!attachmentDir.exists()) {
 						attachmentDir.mkdirs();
 					}
