@@ -5,6 +5,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class YearOverYearPortletData implements IsSerializable {
 	private String name;
 	private double amount;
+	private long currency;
 
 	public String getName() {
 		return name;
@@ -20,6 +21,14 @@ public class YearOverYearPortletData implements IsSerializable {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

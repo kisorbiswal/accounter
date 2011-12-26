@@ -10941,9 +10941,10 @@
 		<return-scalar column="CUSTOMER" type="string" />
 		<return-scalar column="TRANSACTIONS" type="int" />
 		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT C.NAME AS CUSTOMER,COUNT(T.TOTAL) AS TRANSACTIONS,SUM(T.TOTAL)
 		AS
-		TOTAL
+		TOTAL,C.CURRENCY AS CURRENCY
 		FROM TRANSACTION T LEFT JOIN
 		INVOICE I ON I.ID=T.ID LEFT JOIN
 		CASH_SALES CS
@@ -10967,9 +10968,10 @@
 		<return-scalar column="VENDOR" type="string" />
 		<return-scalar column="TRANSACTIONS" type="int" />
 		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT C.NAME AS VENDOR,COUNT(T.TOTAL) AS TRANSACTIONS,SUM(T.TOTAL)
 		AS
-		TOTAL FROM TRANSACTION T LEFT JOIN ENTER_BILL EB ON EB.ID=T.ID LEFT
+		TOTAL,C.CURRENCY AS CURRENCY FROM TRANSACTION T LEFT JOIN ENTER_BILL EB ON EB.ID=T.ID LEFT
 		JOIN CASH_PURCHASE CP ON CP.ID=T.ID LEFT JOIN CREDIT_CARD_CHARGES CC
 		ON CC.ID=T.ID LEFT JOIN PAYEE C ON (C.ID=EB.VENDOR_ID OR C.ID =
 		CP.VENDOR_ID OR C.ID =CC.VENDOR_ID) WHERE C.ID IS NOT NULL AND

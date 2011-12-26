@@ -7,6 +7,7 @@ public class PayeesBySalesPortletData implements IsSerializable {
 	private int noOfTrans;
 	private double amount;
 	private double quantity;
+	private long currency;
 
 	public String getName() {
 		return name;
@@ -38,6 +39,14 @@ public class PayeesBySalesPortletData implements IsSerializable {
 
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }

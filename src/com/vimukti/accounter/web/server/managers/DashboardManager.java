@@ -20,6 +20,7 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
@@ -845,6 +846,7 @@ public class DashboardManager extends Manager {
 			payeesBySalesPortletData.setName((String) next[0]);
 			payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
 			payeesBySalesPortletData.setAmount((Double) next[2]);
+			payeesBySalesPortletData.setCurrency((Long) next[3]);
 			payeesBySales.add(payeesBySalesPortletData);
 		}
 		return payeesBySales;
@@ -871,6 +873,7 @@ public class DashboardManager extends Manager {
 			payeesBySalesPortletData.setName((String) next[0]);
 			payeesBySalesPortletData.setNoOfTrans((Integer) next[1]);
 			payeesBySalesPortletData.setAmount((Double) next[2]);
+			payeesBySalesPortletData.setCurrency((Long) next[3]);
 			payeesBySales.add(payeesBySalesPortletData);
 		}
 		return payeesBySales;
@@ -984,6 +987,11 @@ public class DashboardManager extends Manager {
 			Object[] next = (Object[]) iterator.next();
 			yearOverYearData.setName((String) next[0]);
 			yearOverYearData.setAmount((Double) next[1]);
+			Currency primaryCurrency = getCompany(companyId)
+					.getPrimaryCurrency();
+			yearOverYearData
+					.setCurrency(primaryCurrency != null ? primaryCurrency
+							.getID() : 0);
 			result.add(yearOverYearData);
 		}
 		return result;
