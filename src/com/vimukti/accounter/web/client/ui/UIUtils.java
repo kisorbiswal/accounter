@@ -2189,4 +2189,15 @@ public class UIUtils {
 		}
 	}-*/;
 
+	public native static void downloadFileFromTemp(String result)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/downloadtempfile?filename="
+					+ result);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
 }
