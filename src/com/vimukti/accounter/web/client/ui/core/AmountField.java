@@ -106,7 +106,7 @@ public class AmountField extends TextItem {
 	public void setAmount(Double amount) {
 
 		this.doubleAmount = amount;
-		setValue(DataUtils.getAmountAsStringInPrimaryCurrency(amount));
+		setValue(DataUtils.getAmountAsStringInCurrency(amount, null));
 
 	}
 
