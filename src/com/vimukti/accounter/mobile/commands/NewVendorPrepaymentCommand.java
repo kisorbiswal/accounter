@@ -9,7 +9,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Address;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.Vendor;
@@ -34,7 +33,6 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -320,9 +318,9 @@ public class NewVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected Currency getCurrency() {
-				Customer customer = (Customer) NewVendorPrepaymentCommand.this
-						.get(VENDOR).getValue();
-				return customer.getCurrency();
+				Payee payee = (Payee) NewVendorPrepaymentCommand.this.get(
+						VENDOR).getValue();
+				return payee.getCurrency();
 			}
 		});
 
