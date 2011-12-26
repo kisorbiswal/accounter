@@ -192,7 +192,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				isActiveAccounts, start, length, this);
+				isActiveAccounts, start, length, true, this);
 	}
 
 	@Override
