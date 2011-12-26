@@ -633,19 +633,24 @@
 		IN(1,4,8) AND
 		CASE
 		WHEN
-		1=:viewType THEN 
-		(I.BALANCE_DUE &gt;0.0 	AND   T.STATUS != 2 AND T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND T.SAVE_STATUS !=204)
+		1=:viewType THEN
+		(I.BALANCE_DUE
+		&gt;0.0 AND T.STATUS != 2 AND T.SAVE_STATUS !=204 )
+		WHEN 2=:viewType
+		THEN
+		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND
+		T.SAVE_STATUS !=204)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
-		ELSE true
+		ELSE
+		true
 		END
 		AND
 		T.COMPANY_ID=:companyId AND
 		T.SAVE_STATUS !=202
 		AND
-		T.T_DATE BETWEEN :fromDate AND :toDate
+		T.T_DATE
+		BETWEEN :fromDate AND :toDate
 		ORDER BY
 		DUE_DATE
 	</sql-query>
@@ -7909,10 +7914,12 @@
 		ACCOUNT A ON AT.ACCOUNT_ID=A.ID
 		LEFT JOIN TRANSACTION T ON
 		T.ID=AT.TRANSACTION_ID
-		WHERE A.A_TYPE=15 OR A.A_TYPE=16 OR A.A_TYPE=18 AND AT.COMPANY_ID=:companyId
+		WHERE A.A_TYPE=15 OR A.A_TYPE=16 OR A.A_TYPE=18
+		AND AT.COMPANY_ID=:companyId
 		AND
 		T.T_DATE
-		BETWEEN :startDate AND :endDate GROUP BY
+		BETWEEN :startDate AND :endDate
+		GROUP BY
 		AT.AMOUNT,A.NAME
 		ORDER BY AMOUNT DESC
 	</sql-query>
@@ -9518,17 +9525,24 @@
 		AND
 		CASE
 		WHEN
-		1=:viewType THEN 
-		(I.BALANCE_DUE &gt;0.0 	AND   T.STATUS != 2 AND T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND T.SAVE_STATUS !=204)
-		WHEN 3=:viewType THEN
+		1=:viewType THEN
+		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2
+		AND T.SAVE_STATUS !=204 )
+		WHEN 2=:viewType
+		THEN
+		(I.BALANCE_DUE &gt;0.0
+		AND I.DUE_DATE &lt; :todayDate AND
+		T.SAVE_STATUS !=204)
+		WHEN 3=:viewType
+		THEN
 		(T.SAVE_STATUS =204)
 		ELSE true
 		END
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :fromDate AND
+		:toDate
 	</sql-query>
 	<sql-query name="getInvoicesOnly">
 		<query-param name="companyId" type="long" />
@@ -9596,16 +9610,22 @@
 		WHERE T.T_TYPE=8 AND
 		CASE
 		WHEN
-		1=:viewType THEN 
-		(I.BALANCE_DUE &gt;0.0 	AND   T.STATUS != 2 AND T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND T.SAVE_STATUS !=204)
-		WHEN 3=:viewType THEN
+		1=:viewType THEN
+		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 )
+		WHEN 2=:viewType
+		THEN
+		(I.BALANCE_DUE &gt;0.0 AND
+		I.DUE_DATE &lt; :todayDate AND
+		T.SAVE_STATUS !=204)
+		WHEN 3=:viewType
+		THEN
 		(T.SAVE_STATUS =204)
 		ELSE true
-		END		
+		END
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
 		BETWEEN :fromDate AND :toDate
 		ORDER BY DUE_DATE
 	</sql-query>
@@ -9671,17 +9691,24 @@
 		WHERE T.T_TYPE=1 AND
 		CASE
 		WHEN
-		1=:viewType THEN 
-		(I.BALANCE_DUE &gt;0.0 	AND   T.STATUS != 2 AND T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND T.SAVE_STATUS !=204)
-		WHEN 3=:viewType THEN
+		1=:viewType THEN
+		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 )
+		WHEN 2=:viewType
+		THEN
+		(I.BALANCE_DUE &gt;0.0 AND
+		I.DUE_DATE &lt; :todayDate AND
+		T.SAVE_STATUS !=204)
+		WHEN 3=:viewType
+		THEN
 		(T.SAVE_STATUS =204)
 		ELSE true
 		END
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
-		:fromDate AND :toDate
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN
+		:fromDate AND
+		:toDate
 	</sql-query>
 	<sql-query name="getVendorCreditMemos">
 		<query-param name="companyId" type="long" />
@@ -10880,12 +10907,13 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
-	
-	<sql-query  name="update.TaxReturnEntry.make.Transaction.null">
-		<query-param name="transactionId" type="long"/>
-		
-		UPDATE TAX_RETURN_ENTRY SET TRANSACTION_ID=NULL WHERE TRANSACTION_ID=:transactionId
-		
+
+	<sql-query name="update.TaxReturnEntry.make.Transaction.null">
+		<query-param name="transactionId" type="long" />
+
+		UPDATE TAX_RETURN_ENTRY SET TRANSACTION_ID=NULL WHERE
+		TRANSACTION_ID=:transactionId
+
 	</sql-query>
 
 	<sql-query name="getIncomeExpensePortletInfo">
