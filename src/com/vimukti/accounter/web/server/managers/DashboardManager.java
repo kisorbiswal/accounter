@@ -799,7 +799,7 @@ public class DashboardManager extends Manager {
 
 			incomeExpensePortletInfo.setIncome((Double) object[0]);
 			incomeExpensePortletInfo.setExpense((Double) object[1]);
-			incomeExpensePortletInfo.setMonth("" + (startDate.getMonth()));
+			incomeExpensePortletInfo.setMonth(startDate.getMonth());
 
 			incomeExpensePortletInfos.add(incomeExpensePortletInfo);
 		}
@@ -820,7 +820,7 @@ public class DashboardManager extends Manager {
 
 		incomeExpensePortletInfo.setIncome((Double) object[0]);
 		incomeExpensePortletInfo.setExpense((Double) object[1]);
-		incomeExpensePortletInfo.setMonth("" + startDate.getMonth());
+		incomeExpensePortletInfo.setMonth(startDate.getMonth());
 		return incomeExpensePortletInfo;
 	}
 
@@ -968,25 +968,23 @@ public class DashboardManager extends Manager {
 
 	public ArrayList<YearOverYearPortletData> getYearOverYearData(
 			Long companyId, Long accountId, FinanceDate startDate,
-			FinanceDate endDate, int type, int limit) {
+			FinanceDate endDate, int type) {
 		ArrayList<YearOverYearPortletData> result = new ArrayList<YearOverYearPortletData>();
 
 		if (type == PortletToolBar.THIS_MONTH
 				|| type == PortletToolBar.LAST_MONTH) {
 			YearOverYearPortletData yearOverYearData = getAccountsBalancesByDate(
-					companyId, accountId, startDate, endDate, limit);
+					companyId, accountId, startDate, endDate);
 			result.add(yearOverYearData);
 		} else if (type == PortletToolBar.THIS_QUARTER
 				|| type == PortletToolBar.LAST_QUARTER) {
 			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
-					companyId, accountId, startDate, endDate, companyId, limit,
-					3);
+					companyId, accountId, startDate, endDate, 3);
 			result.addAll(incomeExpensePortletInfos);
 		} else if (type == PortletToolBar.THIS_FINANCIAL_YEAR
 				|| type == PortletToolBar.LAST_FINANCIAL_YEAR) {
 			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
-					companyId, accountId, startDate, endDate, companyId, limit,
-					12);
+					companyId, accountId, startDate, endDate, 12);
 			result.addAll(incomeExpensePortletInfos);
 		}
 
@@ -995,7 +993,7 @@ public class DashboardManager extends Manager {
 
 	private List<YearOverYearPortletData> getAccountsBalancesByMonths(
 			Long companyId, Long accountId, FinanceDate startDate,
-			FinanceDate endDate, Long companyId2, int limit, int j) {
+			FinanceDate endDate, int j) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
@@ -1019,8 +1017,7 @@ public class DashboardManager extends Manager {
 					.setParameter("companyId", companyId)
 					.setParameter("accountId", accountId)
 					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate())
-					.setParameter("limit", limit);
+					.setParameter("endDate", endDate.getDate());
 			Object[] next = (Object[]) query.uniqueResult();
 
 			YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
@@ -1031,6 +1028,7 @@ public class DashboardManager extends Manager {
 			yearOverYearData
 					.setCurrency(primaryCurrency != null ? primaryCurrency
 							.getID() : 0);
+			yearOverYearData.setMonth(startDate.getMonth());
 
 			yearOverYearDatas.add(yearOverYearData);
 		}
@@ -1039,16 +1037,14 @@ public class DashboardManager extends Manager {
 	}
 
 	public YearOverYearPortletData getAccountsBalancesByDate(Long companyId,
-			Long accountId, FinanceDate startDate, FinanceDate endDate,
-			int limit) {
+			Long accountId, FinanceDate startDate, FinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Query query = session.getNamedQuery("getAccountBalances")
 				.setParameter("companyId", companyId)
 				.setParameter("accountId", accountId)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.setParameter("limit", limit);
+				.setParameter("endDate", endDate.getDate());
 		Object[] next = (Object[]) query.uniqueResult();
 
 		YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
@@ -1057,6 +1053,7 @@ public class DashboardManager extends Manager {
 		Currency primaryCurrency = getCompany(companyId).getPrimaryCurrency();
 		yearOverYearData.setCurrency(primaryCurrency != null ? primaryCurrency
 				.getID() : 0);
+		yearOverYearData.setMonth(startDate.getMonth());
 		return yearOverYearData;
 	}
 }
