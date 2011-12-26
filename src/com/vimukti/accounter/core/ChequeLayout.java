@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+
 public class ChequeLayout extends CreatableObject {
 
 	private BankAccount account;
@@ -227,4 +228,5 @@ public class ChequeLayout extends CreatableObject {
 	public void setSignatoryWidth(double signatoryWidth) {
 		this.signatoryWidth = signatoryWidth;
 	}
+
 }
