@@ -10955,8 +10955,8 @@
 		NOT NULL AND T.T_DATE BETWEEN
 		:startDate
 		AND :endDate AND T.COMPANY_ID
-		=:companyId GROUP BY C.ID LIMIT
-		:limit
+		=:companyId GROUP BY C.ID ORDER BY TOTAL DESC LIMIT
+		:limit 
 
 	</sql-query>
 
@@ -10977,7 +10977,7 @@
 		CP.VENDOR_ID OR C.ID =CC.VENDOR_ID) WHERE C.ID IS NOT NULL AND
 		T.T_DATE BETWEEN :startDate AND :endDate AND T.COMPANY_ID =:companyId
 		GROUP BY
-		C.ID LIMIT :limit
+		C.ID  ORDER BY TOTAL DESC LIMIT :limit
 
 	</sql-query>
 
@@ -11014,7 +11014,7 @@
 		I.IS_SELL_ITEM=TRUE AND
 		I.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		GROUP BY I.ID LIMIT :limit
+		GROUP BY I.ID ORDER BY QUANTITY DESC LIMIT :limit
 
 	</sql-query>
 
@@ -11039,7 +11039,7 @@
 		I.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
-		GROUP BY I.ID LIMIT :limit
+		GROUP BY I.ID ORDER BY QUANTITY DESC LIMIT :limit
 
 	</sql-query>
 
