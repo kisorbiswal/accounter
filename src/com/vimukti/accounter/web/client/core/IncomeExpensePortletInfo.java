@@ -9,17 +9,17 @@ public class IncomeExpensePortletInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String month;
+	private int month;
 
 	private double income;
 
 	private double expense;
 
-	public String getMonth() {
+	public int getMonth() {
 		return month;
 	}
 
-	public void setMonth(String month) {
+	public void setMonth(int month) {
 		this.month = month;
 	}
 

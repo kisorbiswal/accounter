@@ -2051,10 +2051,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
-			Long accountId, long startDate, long endDate, int type, int limit)
+			Long accountId, long startDate, long endDate, int type)
 			throws AccounterException {
 		return getFinanceTool().getDashboardManager().getYearOverYearData(
 				getCompanyId(), accountId, new FinanceDate(startDate),
-				new FinanceDate(endDate), type, limit);
+				new FinanceDate(endDate), type);
 	}
 }

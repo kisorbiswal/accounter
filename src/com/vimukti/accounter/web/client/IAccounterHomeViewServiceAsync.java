@@ -490,7 +490,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 	void getAccountsBalancesByDate(Long accountId, long startDate,
-			long endDate, int type, int limit,
+			long endDate, int type,
 			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
 
 }

@@ -11048,7 +11048,6 @@
 		<query-param name="accountId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="limit" type="int" />
 		<return-scalar column="ACCOUNT" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
 		SELECT A.NAME AS ACCOUNT, SUM(CASE WHEN AT.ID IS NOT NULL THEN
@@ -11061,7 +11060,7 @@
 		T.ID IS NOT NULL THEN T.T_DATE
 		BETWEEN :startDate AND :endDate ELSE
 		TRUE END) AND A.ID=:accountId GROUP BY A.ID ORDER BY
-		A.NAME LIMIT :limit
+		A.NAME
 
 	</sql-query>
 

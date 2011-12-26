@@ -6,6 +6,7 @@ public class YearOverYearPortletData implements IsSerializable {
 	private String name;
 	private double amount;
 	private long currency;
+	private int month;
 
 	public String getName() {
 		return name;
@@ -29,6 +30,14 @@ public class YearOverYearPortletData implements IsSerializable {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
 	}
 
 }
