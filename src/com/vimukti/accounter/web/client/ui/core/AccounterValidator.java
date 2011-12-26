@@ -756,7 +756,7 @@ public class AccounterValidator {
 			// Accounter.stopExecution();
 			return false;
 		} else if (DecimalUtil.isGreaterThan(totalValue, amountDue)
-				|| DecimalUtil.isEquals(totalValue, 0)) {
+		/* || DecimalUtil.isEquals(totalValue, 0) */) {
 			Accounter.showError(errormessg);
 			// Accounter.stopExecution();
 			return false;
