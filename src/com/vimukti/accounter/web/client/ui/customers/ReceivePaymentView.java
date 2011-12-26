@@ -234,8 +234,36 @@ public class ReceivePaymentView extends
 
 			totalCredits += credit.getBalance();
 		}
-
 		this.unUsedCreditsText.setAmount(totalCredits);
+
+		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
+			List<ClientTransactionReceivePayment> allRows = null;
+			allRows = gridView.getAllRows();
+			for (ClientTransactionReceivePayment c : allRows) {
+				if (totalCredits == 0) {
+					c.setAppliedCredits(totalCredits);
+					continue;
+				}
+				if (c.getAmountDue() > totalCredits && totalCredits != 0) {
+					if (c.getPayment() == 0)
+						// c.setPayment(totalCredits);
+						c.setAppliedCredits(totalCredits);
+					c.setCreditsApplied(true);
+					totalCredits = 0D;
+					this.unUsedCreditsText.setAmount(totalCredits);
+				} else if (totalCredits != 0) {
+					// c.setPayment(0);
+					c.setAppliedCredits(c.getAmountDue());
+					totalCredits = totalCredits - c.getAmountDue();
+					c.setCreditsApplied(true);
+				}
+
+				this.unUsedCreditsText.setAmount(totalCredits);
+				gridView.update(c);
+			}
+
+		}
+
 		//
 		// this.unUsedCreditsTextForeignCurrency
 		// .setAmount(getAmountInTransactionCurrency(totalCredits));
@@ -257,10 +285,12 @@ public class ReceivePaymentView extends
 
 		if (result == null)
 			return;
-
 		totalInoiceAmt = 0.00d;
 		totalDueAmt = 0.00d;
-
+		Double totalCredits = 0D;
+		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
+			totalCredits += credit.getBalance();
+		}
 		List<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 
 		for (ReceivePaymentTransactionList receivePaymentTransaction : result) {
@@ -305,8 +335,15 @@ public class ReceivePaymentView extends
 				record.setJournalEntry(receivePaymentTransaction
 						.getTransactionId());
 			}
+
+			// TODO
+
+			record.setAppliedCredits(totalCredits);
+			totalCredits = totalCredits - record.getAppliedCredits();
+
 			records.add(record);
-			gridView.add(record);
+
+			gridView.add(record); 
 		}
 		recalculateGridAmounts();
 	}
@@ -392,10 +429,25 @@ public class ReceivePaymentView extends
 
 	private List<ClientTransactionReceivePayment> getTransactionRecievePayments(
 			ClientReceivePayment receivePayment) {
+
 		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
 		for (ClientTransactionReceivePayment payment : gridView
 				.getSelectedRecords()) {
 			payment.setTransaction(receivePayment.getID());
+			if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
+				if (gridView.newAppliedCreditsDialiog == null) {
+
+					List<ClientTransactionCreditsAndPayments> tranCreditsandPaymentsList = getTransactionCredits(payment);
+					if (tranCreditsandPaymentsList != null)
+						for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPaymentsList) {
+							transactionCreditsAndPayments
+									.setTransactionReceivePayment(payment);
+						}
+
+					payment.setTransactionCreditsAndPayments(tranCreditsandPaymentsList);
+
+				}
+			}
 
 			if (gridView.newAppliedCreditsDialiog != null) {
 				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.newAppliedCreditsDialiog != null ? gridView.newAppliedCreditsDialiog
@@ -414,6 +466,29 @@ public class ReceivePaymentView extends
 		}
 
 		return paymentsList;
+	}
+
+	private List<ClientTransactionCreditsAndPayments> getTransactionCredits(
+			ClientTransactionReceivePayment payment) {
+
+		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
+		ClientTransactionReceivePayment rcvPaymnt = (ClientTransactionReceivePayment) payment;
+		for (ClientCreditsAndPayments crdPayment : gridView.updatedCustomerCreditsAndPayments) {
+			crdPayment.setBalance(crdPayment.getBalance()
+					- payment.getAppliedCredits());
+			crdPayment.setRemaoningBalance(crdPayment.getBalance());
+			crdPayment.setAmtTouse(payment.getAppliedCredits());
+
+			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
+
+			creditsAndPayments.setDate(crdPayment.getTransaction()
+					.getTransactionDate());
+			creditsAndPayments.setMemo(crdPayment.getMemo());
+			creditsAndPayments.setCreditsAndPayments(crdPayment);
+			clientTransactionCreditsAndPayments.add(creditsAndPayments);
+
+		}
+		return clientTransactionCreditsAndPayments;
 	}
 
 	@Override
@@ -907,13 +982,14 @@ public class ReceivePaymentView extends
 	}
 
 	private void initListGridData(List<ClientTransactionReceivePayment> list) {
-
-		for (ClientTransactionReceivePayment receivePayment : list) {
-			totalInoiceAmt += receivePayment.getInvoiceAmount();
-			this.gridView.add(receivePayment);
-			// this.gridView.selectRow(count);
+		if (list != null) {
+			for (ClientTransactionReceivePayment receivePayment : list) {
+				totalInoiceAmt += receivePayment.getInvoiceAmount();
+				this.gridView.add(receivePayment);
+				// this.gridView.selectRow(count);
+			}
+			this.transactionTotal = getGridTotal();
 		}
-		this.transactionTotal = getGridTotal();
 		// updateFooterValues();
 
 	}
