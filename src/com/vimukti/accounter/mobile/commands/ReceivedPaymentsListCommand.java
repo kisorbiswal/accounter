@@ -110,42 +110,16 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand 
 
 	protected List<ReceivePaymentsList> getListData(Context context) {
 		FinanceTool tool = new FinanceTool();
-		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
+		String viewType = get(VIEW_BY).getValue();
 		try {
-			List<ReceivePaymentsList> receivePaymentsLists = tool
-					.getCustomerManager().getReceivePaymentsList(
-							context.getCompany().getID(),
-							getStartDate().getDate(), getEndDate().getDate(),
-							0, 0, -1);
-			if (receivePaymentsLists != null) {
-				result = filterList(receivePaymentsLists);
-			}
-			return result;
+			return tool.getCustomerManager().getReceivePaymentsList(
+					context.getCompany().getID(), getStartDate().getDate(),
+					getEndDate().getDate(), 0, 0, -1,
+					getViewByList().indexOf(viewType) + 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
-	}
-
-	private List<ReceivePaymentsList> filterList(
-			List<ReceivePaymentsList> listOfRecievePayments) {
-		String text = get(VIEW_BY).getValue();
-		List<ReceivePaymentsList> result = new ArrayList<ReceivePaymentsList>();
-		for (ReceivePaymentsList recievePayment : listOfRecievePayments) {
-			if (text.equals(getMessages().paid())) {
-				if (!recievePayment.isVoided()) {
-					result.add(recievePayment);
-				}
-			} else if (text.equals(getMessages().voided())) {
-				if (recievePayment.isVoided() && !recievePayment.isDeleted()) {
-					result.add(recievePayment);
-				}
-				continue;
-			} else if (text.equals(getMessages().all())) {
-				result.add(recievePayment);
-			}
-		}
-		return result;
+		return new ArrayList<ReceivePaymentsList>();
 	}
 
 	@Override
