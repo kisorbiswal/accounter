@@ -50,24 +50,6 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 	protected void fillFiscalYear(List<ClientFiscalYear> result) {
 
 		String period, status;
-		// if (result != null) {
-		// // ListGridRecord[] records = new ListGridRecord[result.size()];
-		// for (int i = 0; i < result.size(); i++) {
-		// records[i] = new ListGridRecord();
-		// period = result.get(i).getStartDate().toString();
-		// period = period + result.get(i).getEndDate().toString();
-		// records[i].setAttribute("period", period);
-		// if (result.get(i).getStatus() == 1)
-		// status = "Open";
-		// else
-		// status = "Close";
-		// records[i].setAttribute("status", status);
-		//
-		// }
-		// addRecords(records);
-		//
-		// } else
-		// Accounter.showError("No Fiscal Years found.");
 
 	}
 

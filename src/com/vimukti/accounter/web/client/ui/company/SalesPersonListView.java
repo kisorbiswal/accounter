@@ -81,7 +81,6 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected void initGrid() {
 		grid = new SalesPersonListGrid();
-		// grid.addStyleName("listgrid-tl");
 		grid.init();
 		listOfsalesPerson = getCompany().getsalesPerson();
 		filterList(true);

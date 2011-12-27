@@ -116,8 +116,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		fromLabel = new Label(Accounter.messages().depricatiedFrom());
 
 		format = DateTimeFormat.getFormat(Accounter.messages().ddMMyyyy());
-		// fromLabel.setText("Depreciate from:  "
-		// + format.format(depreciationStartDate));
 		depreciatedToCombo = new ListBox();
 
 		depreciatedToCombo.addChangeHandler(new ChangeHandler() {
@@ -387,7 +385,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	@Override
 	public void saveSuccess(IAccounterCore result) {
 		if (result != null) {
-			// Accounter.showInformation("Depreciation Approved");
 			super.saveSuccess(result);
 
 		} else {

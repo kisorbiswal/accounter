@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -21,14 +22,14 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class AddBudgetAmountDialogue extends BaseDialog {
 
-	private static final String MONTHS = "Months";
-	private static final String QUARTERS = "Quarters";
-	private static final String YEARS = "Years";
+	private static final String MONTHS = Accounter.messages().months();
+	private static final String QUARTERS = Accounter.messages().Quarters();
+	private static final String YEARS = Accounter.messages().years();
 
-	private static final String NEAREST_AMOUNT = "Nearest Amount";
-	private static final String NEAREST_TEN = "Nearest Ten";
-	private static final String NEAREST_HUNDRED = "Nearest Hundred";
-	private static final String NONE = "None";
+	private static final String NEAREST_AMOUNT = Accounter.messages().NearestAmount();
+	private static final String NEAREST_TEN = Accounter.messages().NearestTen();
+	private static final String NEAREST_HUNDRED = Accounter.messages().NearestHundred();
+	private static final String NONE = Accounter.messages().none();
 
 	IntegerField janAmount;
 	IntegerField febAmount;
@@ -166,7 +167,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		budgetInfoForm.setFields(budgetAddBy);
 
-		budgetRoundOfMethod = new SelectCombo("Round Off Budget Amount to :");
+		budgetRoundOfMethod = new SelectCombo(Accounter.messages().RoundOffBudgetAmountto());
 		budgetRoundOfMethod.setHelpInformation(true);
 		budgetRoundOfMethod.initCombo(getBudgetCalculationTypesList());
 		budgetRoundOfMethod.setSelected(NONE);
@@ -196,12 +197,12 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		vPanel.add(advanceCalculationVPanel);
 
 		final String[] stringArray = {
-				"Calendar Days (Annual Amount* No. of Days in Month/365 or 366)",
-				"Calendar Month (Annual Amount/12)" };
+				Accounter.messages().CalendarDaysAnnualAmountNoofDaysinMonth365or366(),
+				Accounter.messages().CalendarMonthAnnualAmount12() };
 
 		for (int i = 0; i < stringArray.length; i++) {
 			String sport = stringArray[i];
-			final RadioButton radioButton = new RadioButton("sport", sport);
+			final RadioButton radioButton = new RadioButton(Accounter.messages().sport(), sport);
 			radioButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -223,7 +224,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			vPanel.add(radioButton);
 		}
 
-		discloserPanel = new DisclosurePanel("Advance Budget Calculation");
+		discloserPanel = new DisclosurePanel(Accounter.messages().AdvanceBudgetCalculation());
 		discloserPanel.setContent(vPanel);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -345,40 +346,40 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		if (budgetAddBy.getSelectedValue() == MONTHS) {
 
-			newMap.put("jan", janAmount.getValue() != null ? janAmount
+			newMap.put(DayAndMonthUtil.jan(), janAmount.getValue() != null ? janAmount
 					.getValue().toString() : "0");
 
-			newMap.put("feb", febAmount.getValue() != null ? febAmount
+			newMap.put(DayAndMonthUtil.feb(), febAmount.getValue() != null ? febAmount
 					.getValue().toString() : "0");
 
-			newMap.put("mar", marAmount.getValue() != null ? marAmount
+			newMap.put(DayAndMonthUtil.mar(), marAmount.getValue() != null ? marAmount
 					.getValue().toString() : "0");
 
-			newMap.put("apr", aprAmount.getValue() != null ? aprAmount
+			newMap.put(DayAndMonthUtil.apr(), aprAmount.getValue() != null ? aprAmount
 					.getValue().toString() : "0");
 
-			newMap.put("may", mayAmount.getValue() != null ? mayAmount
+			newMap.put(DayAndMonthUtil.mayS(), mayAmount.getValue() != null ? mayAmount
 					.getValue().toString() : "0");
 
-			newMap.put("jun", junAmount.getValue() != null ? junAmount
+			newMap.put(DayAndMonthUtil.jun(), junAmount.getValue() != null ? junAmount
 					.getValue().toString() : "0");
 
-			newMap.put("jul", julAmount.getValue() != null ? julAmount
+			newMap.put(DayAndMonthUtil.jul(), julAmount.getValue() != null ? julAmount
 					.getValue().toString() : "0");
 
-			newMap.put("aug", augAmount.getValue() != null ? augAmount
+			newMap.put(DayAndMonthUtil.aug(), augAmount.getValue() != null ? augAmount
 					.getValue().toString() : "0");
 
-			newMap.put("sept", septAmount.getValue() != null ? septAmount
+			newMap.put(DayAndMonthUtil.sep(), septAmount.getValue() != null ? septAmount
 					.getValue().toString() : "0");
 
-			newMap.put("oct", octAmount.getValue() != null ? octAmount
+			newMap.put(DayAndMonthUtil.oct(), octAmount.getValue() != null ? octAmount
 					.getValue().toString() : "0");
 
-			newMap.put("nov", novAmount.getValue() != null ? novAmount
+			newMap.put(DayAndMonthUtil.nov(), novAmount.getValue() != null ? novAmount
 					.getValue().toString() : "0");
 
-			newMap.put("dec", decAmount.getValue() != null ? decAmount
+			newMap.put(DayAndMonthUtil.dec(), decAmount.getValue() != null ? decAmount
 					.getValue().toString() : "0");
 
 		} else if (budgetAddBy.getSelectedValue() == QUARTERS) {
@@ -433,29 +434,29 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			else
 				four = "0.00";
 
-			newMap.put("jan", one);
+			newMap.put(DayAndMonthUtil.jan(), one);
 
-			newMap.put("feb", one);
+			newMap.put(DayAndMonthUtil.feb(), one);
 
-			newMap.put("mar", one);
+			newMap.put(DayAndMonthUtil.mar(), one);
 
-			newMap.put("apr", two);
+			newMap.put(DayAndMonthUtil.apr(), two);
 
-			newMap.put("may", two);
+			newMap.put(DayAndMonthUtil.mayS(), two);
 
-			newMap.put("jun", two);
+			newMap.put(DayAndMonthUtil.jun(), two);
 
-			newMap.put("jul", three);
+			newMap.put(DayAndMonthUtil.jul(), three);
 
-			newMap.put("aug", three);
+			newMap.put(DayAndMonthUtil.aug(), three);
 
-			newMap.put("sept", three);
+			newMap.put(DayAndMonthUtil.sep(), three);
 
-			newMap.put("oct", four);
+			newMap.put(DayAndMonthUtil.oct(), four);
 
-			newMap.put("nov", four);
+			newMap.put(DayAndMonthUtil.nov(), four);
 
-			newMap.put("dec", four);
+			newMap.put(DayAndMonthUtil.dec(), four);
 
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
@@ -465,62 +466,62 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			}
 			if (annualAmount.getValue() != null) {
 
-				newMap.put("jan", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.jan(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("feb", Double.toString(round(true, 28, roundOff,
+				newMap.put(DayAndMonthUtil.feb(), Double.toString(round(true, 28, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("mar", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.mar(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("apr", Double.toString(round(true, 30, roundOff,
+				newMap.put(DayAndMonthUtil.apr(), Double.toString(round(true, 30, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("may", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.mayS(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("jun", Double.toString(round(true, 30, roundOff,
+				newMap.put(DayAndMonthUtil.jun(), Double.toString(round(true, 30, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("jul", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.jul(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("aug", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.aug(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("sept", Double.toString(round(true, 30, roundOff,
+				newMap.put(DayAndMonthUtil.sep(), Double.toString(round(true, 30, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("oct", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.oct(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("nov", Double.toString(round(true, 30, roundOff,
+				newMap.put(DayAndMonthUtil.nov(), Double.toString(round(true, 30, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
 
-				newMap.put("dec", Double.toString(round(true, 31, roundOff,
+				newMap.put(DayAndMonthUtil.dec(), Double.toString(round(true, 31, roundOff,
 						calculation,
 						Double.parseDouble(annualAmount.getValue())
 								/ valueToDivide, 2)));
@@ -528,29 +529,29 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 				String one;
 				one = "0.00";
 
-				newMap.put("jan", one);
+				newMap.put(DayAndMonthUtil.jan(), one);
 
-				newMap.put("feb", one);
+				newMap.put(DayAndMonthUtil.feb(), one);
 
-				newMap.put("mar", one);
+				newMap.put(DayAndMonthUtil.mar(), one);
 
-				newMap.put("apr", one);
+				newMap.put(DayAndMonthUtil.apr(), one);
 
-				newMap.put("may", one);
+				newMap.put(DayAndMonthUtil.mayS(), one);
 
-				newMap.put("jun", one);
+				newMap.put(DayAndMonthUtil.jun(), one);
 
-				newMap.put("jul", one);
+				newMap.put(DayAndMonthUtil.jul(), one);
 
-				newMap.put("aug", one);
+				newMap.put(DayAndMonthUtil.aug(), one);
 
-				newMap.put("sept", one);
+				newMap.put(DayAndMonthUtil.sep(), one);
 
-				newMap.put("oct", one);
+				newMap.put(DayAndMonthUtil.oct(), one);
 
-				newMap.put("nov", one);
+				newMap.put(DayAndMonthUtil.nov(), one);
 
-				newMap.put("dec", one);
+				newMap.put(DayAndMonthUtil.dec(), one);
 			}
 		}
 

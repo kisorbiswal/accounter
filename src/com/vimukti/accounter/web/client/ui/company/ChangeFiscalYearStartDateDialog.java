@@ -59,7 +59,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 		long startdate = getCompany().getPreferences().getStartOfFiscalYear();
 		startDateItem.setEnteredDate(new ClientFinanceDate(startdate));
-		// startDateItem.setTitle("Start date");
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startDateItem);
 		mainVlayout = new VerticalPanel();
@@ -216,16 +215,6 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 							.newfiscalyearstartdatemustbeginlaterthantheenddateofthemostrecent());
 			return false;
 		}
-		// if (changedFiscalStartDate.before(firstFiscalYear
-		// .getStartDate())
-		// || changedFiscalStartDate.after(latestFiscalYear
-		// .getStartDate())) {
-		// createFiscalYear(changedFiscalStartDate);
-		// return true;
-		// } else
-		// Accounter
-		// .showError("Fiscal year for this year already created");
-		// return false;
 
 		createFiscalYear(changedFiscalStartDate);
 		return true;

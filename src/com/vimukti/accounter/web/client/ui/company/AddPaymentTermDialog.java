@@ -64,7 +64,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		fixedDaysPanel = new VerticalPanel();
 		fixedDaysForm = new DynamicForm();
-		fixedDays = new RadioButton("paymentTermType", Accounter.messages()
+		fixedDays = new RadioButton(Accounter.messages().paymentTermType(), Accounter.messages()
 				.fixedNumberOfDays());
 		fixedDays.setValue(true);
 		fixedDays.addClickHandler(new ClickHandler() {
@@ -87,7 +87,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		dateDrivenPanel = new VerticalPanel();
 		dateDrivenForm = new DynamicForm();
-		dateDriven = new RadioButton("paymentTermType", Accounter.messages()
+		dateDriven = new RadioButton(Accounter.messages().paymentTermType(), Accounter.messages()
 				.dateDriven());
 		dateDriven.addClickHandler(new ClickHandler() {
 

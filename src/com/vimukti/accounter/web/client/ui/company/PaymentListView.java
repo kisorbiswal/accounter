@@ -3,10 +3,8 @@ package com.vimukti.accounter.web.client.ui.company;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
@@ -81,22 +79,27 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void initListCallback() {
-		onPageChange(0, getPageSize());
+		super.initListCallback();
+		if (checkType == 0) {
+//			Accounter.createHomeService().getPaymentsList(
+//					getStartDate().getDate(), getEndDate().getDate(), this);
+		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
+//			Accounter.createHomeService().getPayeeChecks(true,
+//					getStartDate().getDate(), getEndDate().getDate(), this);
+		} else {
+//			Accounter.createHomeService().getPayeeChecks(false,
+//					getStartDate().getDate(), getEndDate().getDate(), this);
+		}
 	}
 
-	@Override
-	public void onSuccess(PaginationList<PaymentsList> result) {
-		grid.removeAllRecords();
-		grid.setRecords(result);
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
-
-		grid.sort(12, false);
-		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
-				result.getTotalCount());
-
-	}
+//	@Override
+//	public void onSuccess(ArrayList<PaymentsList> result) {
+//		super.onSuccess(result);
+//		listOfPayments = result;
+//		filterList(viewSelect.getSelectedValue());
+//		grid.setViewType(viewSelect.getSelectedValue());
+//		grid.sort(10, false);
+//	}
 
 	@Override
 	public void updateInGrid(PaymentsList objectTobeModified) {
@@ -134,41 +137,39 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		}
 		onPageChange(0, getPageSize());
 
-		// for (PaymentsList payment : listOfPayments) {
-		// if (text.equals(messages().notIssued())) {
-		// if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
-		// .getStatus() == STATUS_PARTIALLY_PAID)
-		// && (!payment.isVoided()))
-		// grid.addData(payment);
-		// // else
-		// // grid.addEmptyMessage("No records to show");
-		// continue;
-		// }
-		// if (text.equals(messages().issued())) {
-		// if (payment.getStatus() == STATUS_ISSUED
-		// && (!payment.isVoided()))
-		// grid.addData(payment);
-		//
-		// continue;
-		// }
-		// if (text.equals(messages().Voided())) {
-		// if (payment.isVoided()
-		// // && payment.getStatus()!=ClientTransaction.STATUS_DELETED
-		// )
-		// grid.addData(payment);
-		// continue;
-		// }
-		// // if (text.equals(DELETED)) {
-		// // if(payment.getStatus()==ClientTransaction.STATUS_DELETED)
-		// // grid.addData(payment);
-		// // continue;
-		// // }
-		// if (text.equals(messages().all())) {
-		// grid.addData(payment);
-		// }
-		// }
-		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages().noRecordsToShow());
+//		for (PaymentsList payment : listOfPayments) {
+//			if (text.equals(messages().notIssued())) {
+//				if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
+//						.getStatus() == STATUS_PARTIALLY_PAID)
+//						&& (!payment.isVoided()))
+//					grid.addData(payment);
+//				continue;
+//			}
+//			if (text.equals(messages().issued())) {
+//				if (payment.getStatus() == STATUS_ISSUED
+//						&& (!payment.isVoided()))
+//					grid.addData(payment);
+//
+//				continue;
+//			}
+//			if (text.equals(messages().Voided())) {
+//				if (payment.isVoided()
+//				// && payment.getStatus()!=ClientTransaction.STATUS_DELETED
+//				)
+//					grid.addData(payment);
+//				continue;
+//			}
+//			// if (text.equals(DELETED)) {
+//			// if(payment.getStatus()==ClientTransaction.STATUS_DELETED)
+//			// grid.addData(payment);
+//			// continue;
+//			// }
+//			if (text.equals(messages().all())) {
+//				grid.addData(payment);
+//			}
+//		}
+//		if (grid.getRecords().isEmpty())
+//			grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	@Override
@@ -199,26 +200,4 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		return messages().payments();
 	}
 
-	@Override
-	protected int getPageSize() {
-		return 25;
-	}
-
-	@Override
-	protected void onPageChange(int start, int length) {
-
-		if (checkType == 0) {
-			Accounter.createHomeService().getPaymentsList(
-					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, viewType, this);
-		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
-			Accounter.createHomeService().getPayeeChecks(true,
-					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, this);
-		} else {
-			Accounter.createHomeService().getPayeeChecks(false,
-					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, this);
-		}
-	}
 }

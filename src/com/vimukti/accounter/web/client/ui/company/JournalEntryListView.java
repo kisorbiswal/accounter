@@ -145,7 +145,7 @@ public class JournalEntryListView extends
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase(Accounter.messages().all())) {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())

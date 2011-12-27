@@ -242,7 +242,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	protected String getViewTitle() {
-		return "Transactions Center";
+		return Accounter.messages().transactionscenter();
 	}
 
 	@Override

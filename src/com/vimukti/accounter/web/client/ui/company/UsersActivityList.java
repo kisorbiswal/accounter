@@ -174,7 +174,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				if (object.getObjectID() == 0) {
 					return null;
 				} else {
-					return "Get";
+					return Accounter.messages().Get();
 				}
 
 			}

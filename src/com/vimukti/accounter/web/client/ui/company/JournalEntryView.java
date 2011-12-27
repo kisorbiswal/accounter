@@ -235,9 +235,6 @@ public class JournalEntryView extends
 	private void initMemo(ClientJournalEntry journalEntry) {
 		if (memoText.getValue().toString() != null
 				&& memoText.getValue().toString().length() >= 255) {
-			// BaseView.errordata.setHTML("i am here");
-			// BaseView.commentPanel.setVisible(true);
-			// AbstractBaseView.errorOccured = true;
 			addError(this, messages.iamHere());
 
 		} else

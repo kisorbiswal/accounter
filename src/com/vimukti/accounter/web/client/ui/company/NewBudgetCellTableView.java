@@ -38,15 +38,15 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
-	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = "Actual Amount from last fiscal year";
-	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = "Actual Amount from this fiscal year";
-	public static final String NO_AMOUNT = "Start from Scratch";
-	public static final String COPY_FROM_EXISTING = "Copy from Existing Budget";
+	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = Accounter.messages().ActualAmountfromlastfiscalyear();
+	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = Accounter.messages().ActualAmountfromthisfiscalyear();
+	public static final String NO_AMOUNT = Accounter.messages().StartfromScratch();
+	public static final String COPY_FROM_EXISTING = Accounter.messages().CopyfromExistingBudget();
 
-	public static final String SUBDIVIDE_DONT = "Dont Sub-devide";
-	public static final String SUBDIVIDE_BUSINESS = "Business";
-	public static final String SUBDIVIDE_CLASS = "Class";
-	public static final String SUBDIVIDE_CUSTOMER = "Customer";
+	public static final String SUBDIVIDE_DONT = Accounter.messages().DontSubdevide();
+	public static final String SUBDIVIDE_BUSINESS = Accounter.messages().buisiness();
+	public static final String SUBDIVIDE_CLASS = Accounter.messages().Class();
+	public static final String SUBDIVIDE_CUSTOMER = Accounter.messages().Customer();
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;
@@ -126,7 +126,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem == COPY_FROM_EXISTING) {
-							String budgetTitle = "Copy values from Existing Budget";
+							String budgetTitle = Accounter.messages().CopyvaluesfromExistingBudget();
 							CopyBudgetDialogue copybudgetDialogue = new CopyBudgetDialogue(
 									budgetTitle, "", budgetList);
 							copybudgetDialogue
