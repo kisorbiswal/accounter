@@ -292,10 +292,7 @@ public class TAXRateCalculation implements IAccounterServerCore, Lifecycle {
 	}
 
 	private double getCeilValueofTAX() {
-
-		double vatValue = this.lineTotal * this.rate / 100;
-		vatValue = Math.ceil(vatValue * 100) / 100;
-		return vatValue;
+		return this.lineTotal * this.rate / 100;
 	}
 
 	/**
