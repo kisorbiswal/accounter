@@ -103,11 +103,6 @@ public class ClientUnitOfMeasure implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientUnitOfMeasure";
-	}
 
 	public ClientUnitOfMeasure clone() {
 		ClientUnitOfMeasure clientUnitOfMeasureClone = (ClientUnitOfMeasure) this

@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public class ClientFax implements IAccounterCore {
 
 	/**
@@ -73,9 +76,10 @@ public class ClientFax implements IAccounterCore {
 
 	public List<String> getFaxTypes() {
 		List<String> valueMap = new ArrayList<String>();
-		valueMap.add("Company");
-		valueMap.add("Home");
-		valueMap.add("Other");
+		AccounterMessages messages = Global.get().messages();
+		valueMap.add(messages.company());
+		valueMap.add(messages.clientAddresshome());
+		valueMap.add(messages.other());
 		return valueMap;
 
 	}
@@ -107,11 +111,6 @@ public class ClientFax implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any whereb
-		return null;
-	}
 
 	public ClientFax clone() {
 		ClientFax fax = (ClientFax) this.clone();

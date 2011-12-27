@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public class ClientPhone implements IAccounterCore {
 
 	/**
@@ -73,11 +76,12 @@ public class ClientPhone implements IAccounterCore {
 
 	public List<String> getPhoneTypes() {
 		List<String> valueMap = new ArrayList<String>();
-		valueMap.add("Company");
-		valueMap.add("Mobile");
-		valueMap.add("Home");
-		valueMap.add("Assistant");
-		valueMap.add("Other");
+		AccounterMessages messages = Global.get().messages();
+		valueMap.add(messages.company());
+		valueMap.add(messages.mobile());
+		valueMap.add(messages.clientAddresshome());
+		valueMap.add(messages.assistant());
+		valueMap.add(messages.other());
 		return valueMap;
 
 	}
@@ -107,12 +111,6 @@ public class ClientPhone implements IAccounterCore {
 	public void setID(long id) {
 		// this.id=id;
 
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
 	}
 
 	public ClientPhone clone() {

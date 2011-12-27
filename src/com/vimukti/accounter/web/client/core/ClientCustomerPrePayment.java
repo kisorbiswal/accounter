@@ -34,10 +34,6 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 		return Utility.getTransactionName(getType());
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientCustomerPrePayment";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

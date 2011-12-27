@@ -238,11 +238,6 @@ public class ClientJournalEntry extends ClientTransaction implements
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientJournalEntry";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

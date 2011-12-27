@@ -297,11 +297,6 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionIssuePayment";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

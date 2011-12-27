@@ -67,12 +67,6 @@ public class ClientCustomerGroup implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCustomerGroup";
-	}
-
 	public ClientCustomerGroup clone() {
 		ClientCustomerGroup customerGroup = (ClientCustomerGroup) this.clone();
 		return customerGroup;

@@ -68,17 +68,6 @@ public class ClientVATReturnBox implements IAccounterCore {
 	public ClientVATReturnBox() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientVATReturnBox";
-	}
 
 	/*
 	 * (non-Javadoc)

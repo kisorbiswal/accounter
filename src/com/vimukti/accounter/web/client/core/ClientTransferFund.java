@@ -90,11 +90,6 @@ public class ClientTransferFund extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransferFund";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

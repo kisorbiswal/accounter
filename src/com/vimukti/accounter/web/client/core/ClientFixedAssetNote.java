@@ -15,10 +15,6 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	public ClientFixedAssetNote() {
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

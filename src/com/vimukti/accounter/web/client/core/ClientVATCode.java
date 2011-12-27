@@ -83,10 +83,6 @@ public class ClientVATCode implements IAccounterCore {
 		this.isECSalesEntry = isECSalesEntry;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientVATCode";
-	}
 
 	@Override
 	public String getDisplayName() {

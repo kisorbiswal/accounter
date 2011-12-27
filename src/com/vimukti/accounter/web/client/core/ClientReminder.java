@@ -49,10 +49,6 @@ public class ClientReminder implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientReminder";
-	}
 
 	public long getTransactionDate() {
 		return transactionDate;

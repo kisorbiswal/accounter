@@ -138,10 +138,6 @@ public class ClientTAXRateCalculation implements IAccounterCore {
 		this.isVATGroupEntry = isVATGroupEntry;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

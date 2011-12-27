@@ -79,17 +79,6 @@ public class ClientBox implements IAccounterCore {
 		this.description = description;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)

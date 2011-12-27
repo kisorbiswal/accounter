@@ -95,10 +95,6 @@ public class ClientWarehouse implements IAccounterCore {
 		return AccounterCoreType.WAREHOUSE;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientWarehouse";
-	}
 
 	@Override
 	public void setID(long id) {

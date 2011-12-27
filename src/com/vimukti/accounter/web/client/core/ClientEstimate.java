@@ -287,11 +287,6 @@ public class ClientEstimate extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientEstimate";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

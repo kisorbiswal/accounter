@@ -149,11 +149,6 @@ public class ClientPaymentTerms implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientPaymentTerms";
-	}
 
 	public boolean isDefault() {
 		return isDefault;

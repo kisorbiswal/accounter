@@ -104,9 +104,5 @@ public class ClientStockTransferItem implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientStockTransferItem";
-	}
 
 }

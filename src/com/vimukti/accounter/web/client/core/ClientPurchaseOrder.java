@@ -286,12 +286,6 @@ public class ClientPurchaseOrder extends ClientTransaction {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientPurchaseOrder";
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.PURCHASEORDER;
 	}

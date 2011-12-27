@@ -53,10 +53,6 @@ public class ClientStockAdjustment implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientStockAdjustment";
-	}
 
 	public List<ClientStockAdjustmentItem> getStockAdjustmentItems() {
 		return stockAdjustmentItems;

@@ -7,13 +7,6 @@ public class ClientUserPermissions implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	// public static String BANK_RECONCILATION = "Bank Reconcilation";
-	// public static String INVOICES_AND_EXPENSES = "Invoices And Expenses";
-	// public static String EDIT_SYSTEM_SETTINGS = "Edit System Settings";
-	// public static String VIEW_REPORTS = "View Reports";
-	// public static String PUBLISH_REPORTS = "Publish Reports";
-	// public static String LOCK_DATES = "Lock Dates";
-	//
 	// public static int TYPE_YES = 1;
 	// public static int TYPE_NO = 3;
 	// public static int TYPE_READ_ONLY = 2;
@@ -99,12 +92,6 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	public void setUser(ClientUser user) {
 		this.user = user;
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

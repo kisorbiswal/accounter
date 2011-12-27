@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public class ClientEmail implements IAccounterCore {
 
 	/**
@@ -66,9 +69,10 @@ public class ClientEmail implements IAccounterCore {
 
 	public List<String> getEmailTypes() {
 		List<String> valueMap = new ArrayList<String>();
-		valueMap.add("Email1");
-		valueMap.add("Email2");
-		valueMap.add("Email3");
+		AccounterMessages messages = Global.get().messages();
+		valueMap.add(messages.email(1));
+		valueMap.add(messages.email(2));
+		valueMap.add(messages.email(3));
 
 		return valueMap;
 
@@ -99,10 +103,6 @@ public class ClientEmail implements IAccounterCore {
 	public void setID(long id) {
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientEmail";
-	}
 
 	public ClientEmail clone() {
 		ClientEmail email = (ClientEmail) this.clone();

@@ -489,11 +489,6 @@ public class ClientVendor extends ClientPayee {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return "ClientVendor";
-	}
 
 	public ClientVendor clone() {
 		ClientVendor vendor = (ClientVendor) this.clone();

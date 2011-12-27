@@ -208,10 +208,6 @@ public class ClientUserInfo implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientUserInfo";
-	}
 
 	public ClientUserInfo clone() {
 		ClientUserInfo clientUserInfo = (ClientUserInfo) this.clone();

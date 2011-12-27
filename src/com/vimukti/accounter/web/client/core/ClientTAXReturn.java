@@ -111,11 +111,6 @@ public class ClientTAXReturn extends ClientTransaction {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/**
 	 * @return the totalTAXAmount

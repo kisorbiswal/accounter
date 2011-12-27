@@ -730,10 +730,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientCompanyPreferences";
-	}
 
 	public static ClientCompanyPreferences get() {
 		if (preferences == null) {

@@ -245,11 +245,6 @@ public class ClientEnterBill extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientEnterBill";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

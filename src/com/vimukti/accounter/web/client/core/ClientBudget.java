@@ -68,10 +68,6 @@ public class ClientBudget implements IAccounterCore {
 		return AccounterCoreType.BUDGET;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientBudget";
-	}
 
 	public String getFinancialYear() {
 		return financialYear;

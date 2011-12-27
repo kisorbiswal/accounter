@@ -24,9 +24,6 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 			this.year = (date.getYear() + 1900);
 			this.month = (date.getMonth() + 1);
 			this.day = date.getDate();
-			// this.month = this.month.length() == 1 ? "0" + this.month
-			// : this.month;
-			// this.day = this.day.length() == 1 ? "0" + this.day : this.day;
 
 		}
 	}

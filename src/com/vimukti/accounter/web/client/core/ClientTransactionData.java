@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientTransactionData implements IAccounterCore {
 
 	/**
@@ -38,7 +40,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setTransactionNumber(String transactionNumber) throws Exception {
 		if (transactionNumber == null)
-			throw new Exception("Transaction Number Could Not Be Initiated....");
+			throw new Exception(Accounter.messages().transactionNumberCouldNotBeInitiated());
 		this.transactionNumber = transactionNumber;
 
 	}
@@ -58,7 +60,7 @@ public class ClientTransactionData implements IAccounterCore {
 			throws Exception {
 		if (paymentTerms == null)
 			throw new Exception(
-					"List of Payment Terms Could Not Be Initiated....");
+					Accounter.messages().ListofPaymentTermsCouldNotBeInitiated());
 		this.paymentTerms = paymentTerms;
 	}
 
@@ -76,7 +78,7 @@ public class ClientTransactionData implements IAccounterCore {
 	public void setAccounts(List<ClientAccount> accounts) throws Exception {
 		if (accounts == null)
 			throw new Exception(
-					"List of Payment Terms Could Not Be Initiated....");
+					Accounter.messages().ListofPaymentTermsCouldNotBeInitiated());
 		this.accounts = accounts;
 	}
 
@@ -93,7 +95,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setItems(List<ClientItem> items) throws Exception {
 		if (items == null)
-			throw new Exception("List of Items Could Not Be Initiated...");
+			throw new Exception(Accounter.messages().listofItemsCouldNotBeInitiated());
 
 		this.items = items;
 	}
@@ -113,7 +115,7 @@ public class ClientTransactionData implements IAccounterCore {
 			throws Exception {
 		if (shippingTerms == null)
 			throw new Exception(
-					"List of Shipping Terms Could Not Be Initiated...");
+					Accounter.messages().listofShippingTermsCouldNotBeInitiated());
 		this.shippingTerms = shippingTerms;
 	}
 
@@ -132,7 +134,7 @@ public class ClientTransactionData implements IAccounterCore {
 			throws Exception {
 		if (shippingMethods == null)
 			throw new Exception(
-					"List of Shipping Methods Could Not Be Initiated...");
+					Accounter.messages().listofShippingMethodsCouldNotBeInitiated());
 		this.shippingMethods = shippingMethods;
 	}
 
@@ -151,7 +153,7 @@ public class ClientTransactionData implements IAccounterCore {
 			throws Exception {
 		if (salesPersons == null) {
 			throw new Exception(
-					"List of Payment Methods Could Not Be Initiated...");
+					Accounter.messages().listofPaymentMethodsCouldNotBeInitiated());
 		}
 		this.salesPersons = salesPersons;
 	}
@@ -169,7 +171,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setTaxGroups(List<ClientTAXGroup> taxGroups) throws Exception {
 		if (taxGroups == null) {
-			throw new Exception("List of TaxGroups Could Not Be Initiated...");
+			throw new Exception(Accounter.messages().listofTaxGroupsCouldNotBeInitiated());
 
 		}
 		this.taxGroups = taxGroups;
@@ -189,7 +191,7 @@ public class ClientTransactionData implements IAccounterCore {
 	public void setPriceLevels(List<ClientPriceLevel> priceLevels)
 			throws Exception {
 		if (priceLevels == null)
-			throw new Exception("Price Levels Could Not Be Initiated...");
+			throw new Exception(Accounter.messages().priceLevelsCouldNotBeInitiated());
 		this.priceLevels = priceLevels;
 	}
 
@@ -241,7 +243,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setPayee(List<ClientPayee> payee) throws Exception {
 		if (payee == null) {
-			throw new Exception("Payee List Could Be Initiated....");
+			throw new Exception(Accounter.messages().payeeListCouldBeInitiated());
 		}
 		this.payee = payee;
 	}
@@ -259,7 +261,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setCustomers(List<ClientCustomer> customers) throws Exception {
 		if (customers == null)
-			throw new Exception("Customer List Could Be Initiated....");
+			throw new Exception(Accounter.messages().customerListCouldBeInitiated());
 		this.customers = customers;
 	}
 
@@ -276,7 +278,7 @@ public class ClientTransactionData implements IAccounterCore {
 	 */
 	public void setVendors(List<ClientVendor> vendors) throws Exception {
 		if (vendors == null)
-			throw new Exception("Customer List Could Be Initiated....");
+			throw new Exception(Accounter.messages().customerListCouldBeInitiated());
 		this.vendors = vendors;
 	}
 
@@ -335,11 +337,6 @@ public class ClientTransactionData implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionData";
-	}
 
 	public ClientTransactionData clone() {
 		ClientTransactionData clientTransactionDataClone = (ClientTransactionData) this

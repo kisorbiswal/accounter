@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientAddress implements IAccounterCore {
 
 	/**
@@ -32,7 +35,8 @@ public class ClientAddress implements IAccounterCore {
 	String address1 = "";
 
 	private int version;
-
+	AccounterMessages messages = Accounter.messages();
+	
 	/**
 	 * @return the id
 	 */
@@ -145,8 +149,8 @@ public class ClientAddress implements IAccounterCore {
 
 	public List<String> getAddressTypes() {
 		List<String> valueMap = new ArrayList<String>();
-		valueMap.add("Bill To");
-		valueMap.add("Ship To");
+		valueMap.add(messages.billTo());
+		valueMap.add(messages.shipTo());
 		valueMap.add("1");
 		valueMap.add("2");
 		valueMap.add("3");
@@ -154,7 +158,6 @@ public class ClientAddress implements IAccounterCore {
 		valueMap.add("5");
 		valueMap.add("6");
 		return valueMap;
-
 	}
 
 	/**
@@ -167,26 +170,25 @@ public class ClientAddress implements IAccounterCore {
 		StringBuffer buffer = new StringBuffer();
 		switch (type) {
 		case ClientAddress.TYPE_BILL_TO:
-			// buffer.append("BillTo: ");
 			break;
 
 		case ClientAddress.TYPE_BUSINESS:
-			buffer.append("Buisness:");
+			buffer.append(messages.buisness());
 			break;
 
 		case ClientAddress.TYPE_HOME:
-			buffer.append("Home: ");
+			buffer.append(messages.clientAddresshome());
 			break;
 
 		case ClientAddress.TYPE_LEGAL:
-			buffer.append("Legal: ");
+			buffer.append(messages.legal());
 			break;
 
 		case ClientAddress.TYPE_SHIP_TO:
-			buffer.append("ShipTo: ");
+			buffer.append(messages.shipToclientAddress());
 
 		default:
-			buffer.append("Other: ");
+			buffer.append(messages.other()+":");
 			break;
 		}
 
@@ -235,12 +237,6 @@ public class ClientAddress implements IAccounterCore {
 	public void setID(long id) {
 		// this.id=id;
 
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-
-		return null;
 	}
 
 	public ClientAddress clone() {

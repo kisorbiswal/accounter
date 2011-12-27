@@ -37,10 +37,6 @@ public class ClientDepreciationFixedAsset implements IAccounterCore {
 		this.accumulatedDepreciationAccount = accumulatedDepreciationAccount;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

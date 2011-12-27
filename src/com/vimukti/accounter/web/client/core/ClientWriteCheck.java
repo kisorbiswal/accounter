@@ -242,11 +242,6 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientWriteCheck";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

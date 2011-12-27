@@ -77,10 +77,6 @@ public class ClientReconciliation implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientReconciliation";
-	}
 
 	/**
 	 * @return the startDate

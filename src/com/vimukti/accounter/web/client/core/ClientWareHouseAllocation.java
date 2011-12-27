@@ -51,11 +51,6 @@ public class ClientWareHouseAllocation implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientWareHouseAllocation";
-	}
-
 	public long getItem() {
 		return item;
 	}

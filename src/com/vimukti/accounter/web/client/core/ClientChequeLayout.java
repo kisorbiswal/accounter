@@ -70,11 +70,6 @@ public class ClientChequeLayout implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientChequeLayout";
-	}
-
 	public long getAccount() {
 		return account;
 	}

@@ -120,11 +120,6 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientVendorCreditMemo";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

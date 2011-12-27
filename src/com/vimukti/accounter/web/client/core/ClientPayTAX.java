@@ -92,12 +92,6 @@ public class ClientPayTAX extends ClientTransaction {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientPaySalesTax";
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.PAY_TAX;
 	}

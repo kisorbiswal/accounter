@@ -123,11 +123,6 @@ public class ClientCurrency implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCurrency";
-	}
 
 	public ClientCurrency clone() {
 		ClientCurrency currency = (ClientCurrency) this.clone();

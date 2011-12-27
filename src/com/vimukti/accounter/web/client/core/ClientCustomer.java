@@ -494,12 +494,6 @@ public class ClientCustomer extends ClientPayee {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCustomer";
-	}
-
 	public ClientCustomer clone() {
 		ClientCustomer customer = (ClientCustomer) this.clone();
 		List<ClientAddress> addresses = new ArrayList<ClientAddress>();

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientActivity implements IAccounterCore {
 
 	/**
@@ -131,7 +133,7 @@ public class ClientActivity implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return "ClientActivity";
+		return Accounter.messages().clientActivity();
 	}
 
 	@Override
@@ -144,10 +146,6 @@ public class ClientActivity implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientActivity";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

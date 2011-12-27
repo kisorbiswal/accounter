@@ -47,10 +47,6 @@ public class ClientCommodityCode implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientCommodityCode";
-	}
 
 	public ClientCommodityCode clone() {
 		ClientCommodityCode clientCommodityCode = (ClientCommodityCode) this

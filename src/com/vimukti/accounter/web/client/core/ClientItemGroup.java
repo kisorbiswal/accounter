@@ -100,11 +100,6 @@ public class ClientItemGroup implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientItemGroup";
-	}
 
 	public ClientItemGroup clone() {
 		ClientItemGroup itemGroup = (ClientItemGroup) this.clone();

@@ -40,11 +40,7 @@ public class ClientAccounterClass implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	public String getClassName() {
 		if (className == null) {

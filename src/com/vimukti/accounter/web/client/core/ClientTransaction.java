@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public abstract class ClientTransaction implements IAccounterCore {
@@ -740,12 +741,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return "Transaction";
+		return Accounter.messages().transaction();
 	}
 
 	@Override
 	public String getName() {
-		return "Transaction";
+		return Accounter.messages().transaction();
 	}
 
 	public long getTransactionDate() {

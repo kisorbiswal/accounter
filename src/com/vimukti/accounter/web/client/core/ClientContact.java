@@ -116,11 +116,6 @@ public class ClientContact implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientContact";
-	}
-
 	public ClientContact clone() {
 		ClientContact contact = (ClientContact) this.clone();
 		return contact;

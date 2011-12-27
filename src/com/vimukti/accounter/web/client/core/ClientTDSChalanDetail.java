@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientTDSChalanDetail implements IAccounterCore {
 
 	/**
@@ -47,12 +49,12 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return "ClientTDSChalanDetail";
+		return Accounter.messages().clientTDSChalanDetail();
 	}
 
 	@Override
 	public String getDisplayName() {
-		return "ClientTDSChalanDetail";
+		return Accounter.messages().clientTDSChalanDetail();
 	}
 
 	@Override
@@ -70,10 +72,6 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTDSChalanDetail";
-	}
 
 	public double getIncomeTaxAmount() {
 		return incomeTaxAmount;

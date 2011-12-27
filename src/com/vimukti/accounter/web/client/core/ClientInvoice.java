@@ -512,11 +512,6 @@ public class ClientInvoice extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientInvoice";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

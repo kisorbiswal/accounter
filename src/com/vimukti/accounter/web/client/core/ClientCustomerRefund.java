@@ -140,11 +140,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCustomerRefund";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

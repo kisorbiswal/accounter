@@ -309,10 +309,6 @@ public class ClientSalesPerson implements IAccounterCore {
 		return buffer.toString();
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientSalesPerson";
-	}
 
 	@Override
 	public void setID(long id) {

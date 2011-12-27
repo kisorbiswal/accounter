@@ -413,14 +413,14 @@ public class ClientTransactionItem implements IAccounterCore {
 
 			switch (type) {
 			case ClientTransactionItem.TYPE_ACCOUNT:
-				buffer.append(" Account:" + String.valueOf(account));
+				buffer.append(Accounter.messages().Account() + String.valueOf(account));
 				break;
 
 			case ClientTransactionItem.TYPE_ITEM:
-				buffer.append(" Item:" + String.valueOf(item));
+				buffer.append(Accounter.messages().item() + String.valueOf(item));
 
 			default:
-				buffer.append(" Comment" + String.valueOf(description));
+				buffer.append(Accounter.messages().comment() + String.valueOf(description));
 				break;
 			}
 
@@ -457,11 +457,6 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionItem";
-	}
 
 	// public void setTaxitem(String taxitem) {
 	// this.taxitem = taxitem;

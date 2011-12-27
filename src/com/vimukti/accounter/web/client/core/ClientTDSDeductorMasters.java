@@ -69,11 +69,6 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTDSDeductorMasters";
-	}
-
 	public String getBranch() {
 		return branch;
 	}

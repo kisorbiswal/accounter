@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientBudgetItem implements IAccounterCore {
 
 	/**
@@ -68,10 +69,6 @@ public class ClientBudgetItem implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientBudgetItem";
-	}
 
 	public double getJanuaryAmount() {
 		return januaryAmount;

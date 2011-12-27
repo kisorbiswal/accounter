@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * 
  * @author Sai Prasad N
@@ -56,8 +58,7 @@ public class ClientCustomField implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-
-		return "ClientCustomField";
+		return Accounter.messages().clientCustomField();
 	}
 
 	@Override
@@ -76,10 +77,5 @@ public class ClientCustomField implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCustomField";
-	}
 
 }

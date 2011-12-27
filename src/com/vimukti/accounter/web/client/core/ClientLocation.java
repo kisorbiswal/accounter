@@ -108,10 +108,6 @@ public class ClientLocation implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientLocation";
-	}
 
 	@Override
 	public int getVersion() {

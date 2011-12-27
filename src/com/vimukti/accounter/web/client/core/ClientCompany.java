@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -102,25 +104,15 @@ public class ClientCompany implements IAccounterCore {
 
 	String sortCode;
 
-	String serviceItemDefaultIncomeAccount = "Cash Discount Given";
+	AccounterMessages messages = Global.get().messages();
+	
+	String serviceItemDefaultIncomeAccount = messages.cashDiscountGiven();
 
-	String serviceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
+	String serviceItemDefaultExpenseAccount = messages.productsMaterialsPurchasedTypeA();
 
-	String nonInventoryItemDefaultIncomeAccount = "Cash Discount Given";
+	String nonInventoryItemDefaultIncomeAccount = messages.cashDiscountGiven();
 
-	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
-
-	// String ukServiceItemDefaultIncomeAccount =
-	// "Early Payment Discount Given";
-
-	// String ukServiceItemDefaultExpenseAccount =
-	// "Products/Materials Purchased Type A";
-
-	// String ukNonInventoryItemDefaultIncomeAccount =
-	// "Early Payment Discount Given";
-
-	// String ukNonInventoryItemDefaultExpenseAccount =
-	// "Products/Materials Purchased Type A";
+	String nonInventoryItemDefaultExpenseAccount = messages.productsMaterialsPurchasedTypeA();
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
@@ -457,18 +449,6 @@ public class ClientCompany implements IAccounterCore {
 	private ICountryPreferences countryPreferences;
 
 	// private List<ClientTaxItem> taxItems;
-
-	public void clientSideInit() {
-		paymentMethods.put("1", Accounter.messages().cash());
-		paymentMethods.put("2", Accounter.messages().check());
-		paymentMethods.put("3", Accounter.messages().creditCard());
-	}
-
-	public ClientCompany() {
-		// paymentMethods.put("1", "");
-		// paymentMethods.put("2", messages.check());
-		// paymentMethods.put("3", messages.creditCard());
-	}
 
 	// List<ClientPayType> payTypes;
 
@@ -1695,7 +1675,6 @@ public class ClientCompany implements IAccounterCore {
 
 		// try {
 
-		// Accounter.showInformation("I came to processUpdateOrCreateObject.......");
 		if (accounterCoreObject != null)
 			switch (accounterCoreObject.getObjectType()) {
 
@@ -2167,11 +2146,6 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCompany";
-	}
 
 	public void setFixedAssets(ArrayList<ClientFixedAsset> fixedAssets) {
 		this.fixedAssets = fixedAssets;
@@ -3057,7 +3031,7 @@ public class ClientCompany implements IAccounterCore {
 	public ClientCurrency getPrimaryCurrency() {
 		long id2 = getPreferences().getPrimaryCurrency().id;
 		if (id2 == 0) {
-			throw new RuntimeException("Primary Currency Id is Zero");
+			throw new RuntimeException(Accounter.messages().primaryCurrencyIdisZero());
 		}
 		return getCurrency(id2);
 	}

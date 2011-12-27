@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientFixedAssetHistory implements IAccounterCore {
 
 	/**
@@ -9,16 +11,9 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 
 	private long id;
 
-	public static final String ACTION_TYPE_NOTE = "NONE";
-	public static final String ACTION_TYPE_STATUS = "Status";
-	public static final String ACTION_TYPE_ROLLBACK = "Rollback";
-	public static final String ACTION_TYPE_CREATED = "Created";
-	public static final String ACTION_TYPE_DELETED = "Deleted";
-	public static final String ACTION_TYPE_REGISTERED = "Registered";
-	public static final String ACTION_TYPE_SOLD = "Sold";
-	public static final String ACTION_TYPE_DISPOSED = "Disposed";
-	public static final String ACTION_TYPE_DISPOSAL_REVERSED = "Disposal reversed";
-	public static final String ACTION_TYPE_DEPRECIATED = "Depreciation";
+	public static final String ACTION_TYPE_DISPOSED = Accounter.messages().disposed();
+	public static final String ACTION_TYPE_DISPOSAL_REVERSED = Accounter.messages().disposalreversed();
+
 
 	String actionType;
 	long actionDate;
@@ -31,10 +26,6 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	public ClientFixedAssetHistory() {
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {
@@ -69,36 +60,6 @@ public class ClientFixedAssetHistory implements IAccounterCore {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-
-	// public String getActionAsString(String actionType) {
-	// if(actionType.equalsIgnoreCase(anotherString))
-	//
-	// switch (actionType) {
-	// case 1:
-	// return "Note";
-	// case 2:
-	// return "Status";
-	// case 3:
-	// return "Rollback";
-	// case 4:
-	// return "Created";
-	// case 5:
-	// return "Deleted";
-	// case 6:
-	// return "Registered";
-	// case 7:
-	// return "Sold";
-	// case 8:
-	// return "Disposed";
-	// case 9:
-	// return "Disposal Reversed";
-	// case 10:
-	// return "Depreciated";
-	// default:
-	// return "";
-	//
-	// }
-	// }
 
 	public long getPostedJournalEntry() {
 		return postedJournalEntry;

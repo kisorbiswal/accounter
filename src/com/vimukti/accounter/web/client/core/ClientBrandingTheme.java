@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 /**
  * 
  * @author Uday Kumar
@@ -8,15 +11,16 @@ package com.vimukti.accounter.web.client.core;
 public class ClientBrandingTheme implements IAccounterCore {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final String FONT_ARIAL = "Arial";
-	public static final String FONT_CALIBIRI = "Calibiri";
-	public static final String FONT_CAMBRIA = "Cambria";
-	public static final String FONT_GEORGIA = "Georgia";
-	public static final String FONT_MY_RIAD = "Myriad";
-	public static final String FONT_TAHOMA = "Tahoma";
-	public static final String FONT_TIMES_NEW_ROMAN = "Times New Roman";
-	public static final String FONT_TREBUCHET = "Trebuchet";
+	static AccounterMessages messages = Global.get().messages();
+	
+	public static final String FONT_ARIAL = messages.arial();
+	public static final String FONT_CALIBIRI = messages.calibiri();
+	public static final String FONT_CAMBRIA = messages.cambria();
+	public static final String FONT_GEORGIA = messages.georgia();
+	public static final String FONT_MY_RIAD = messages.myriad();
+	public static final String FONT_TAHOMA = messages.tahoma();
+	public static final String FONT_TIMES_NEW_ROMAN = messages.timesNewRoman();
+	public static final String FONT_TREBUCHET = messages.trebuchet();
 
 	public static final int PAGE_SIZE_A4 = 1;
 	public static final int PAGE_SIZE_US_LETTER = 2;
@@ -73,11 +77,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	private int version;
 
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

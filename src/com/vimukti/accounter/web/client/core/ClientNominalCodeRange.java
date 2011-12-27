@@ -62,10 +62,6 @@ public class ClientNominalCodeRange implements IAccounterCore {
 		this.maximum = maximum;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientNominalCode";
-	}
 
 	@Override
 	public String getDisplayName() {

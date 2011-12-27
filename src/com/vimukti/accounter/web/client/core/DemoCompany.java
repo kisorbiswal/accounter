@@ -335,11 +335,6 @@ public class DemoCompany implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public ArrayList<ClientAccount> getAccounts() {
 		return accounts;

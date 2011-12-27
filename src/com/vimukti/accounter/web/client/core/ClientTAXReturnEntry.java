@@ -92,11 +92,6 @@ public class ClientTAXReturnEntry implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTAXReturnEntry";
-	}
 
 	public ClientTAXReturnEntry clone() {
 		ClientTAXReturnEntry paySalesTaxEntries = (ClientTAXReturnEntry) this

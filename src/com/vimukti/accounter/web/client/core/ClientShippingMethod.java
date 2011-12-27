@@ -87,11 +87,6 @@ public class ClientShippingMethod implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientShippingMethod";
-	}
 
 	public ClientShippingMethod clone() {
 		ClientShippingMethod shippingMethod = (ClientShippingMethod) this

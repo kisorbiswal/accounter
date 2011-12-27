@@ -101,10 +101,6 @@ public class ClientStockTransfer implements IAccounterCore {
 		return this.id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientStockTransfer";
-	}
 
 	public ClientStockTransfer clone() {
 		ClientStockTransfer stockTransfer = (ClientStockTransfer) this.clone();

@@ -155,11 +155,6 @@ public class ClientFiscalYear implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientFiscalYear";
-	}
 
 	public ClientFiscalYear clone() {
 		ClientFiscalYear fiscalYear = (ClientFiscalYear) this.clone();

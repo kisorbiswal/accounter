@@ -143,10 +143,6 @@ public class ClientUnit implements IAccounterCore, Serializable,
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientUnit";
-	}
 
 	public boolean isDefault() {
 		return isDefault;

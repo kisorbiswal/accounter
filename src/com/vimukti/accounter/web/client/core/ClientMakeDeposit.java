@@ -109,11 +109,6 @@ public class ClientMakeDeposit extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientMakeDeposit";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

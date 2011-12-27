@@ -91,10 +91,6 @@ public class ClientTransactionMakeDepositEntries implements IAccounterCore {
 		this.balance = balance;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTransactionMakeDepositEntries";
-	}
 
 	@Override
 	public String getDisplayName() {

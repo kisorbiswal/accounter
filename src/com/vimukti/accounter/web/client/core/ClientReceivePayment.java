@@ -233,12 +233,6 @@ public class ClientReceivePayment extends ClientTransaction {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientReceivePayment";
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.RECEIVEPAYMENT;
 	}

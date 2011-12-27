@@ -402,11 +402,6 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientItem";
-	}
 
 	public ClientItem clone() {
 		ClientItem item = this.clone();

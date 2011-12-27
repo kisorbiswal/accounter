@@ -63,11 +63,6 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTDSResponsiblePerson";
-	}
-
 	public String getDeductorName() {
 		return deductorName;
 	}

@@ -172,11 +172,6 @@ public class ClientUser implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientUser";
-	}
 
 	public void setCanDoUserManagement(boolean canDoUserManagement) {
 		this.canDoUserManagement = canDoUserManagement;

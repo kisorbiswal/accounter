@@ -136,11 +136,6 @@ public class ClientTransactionReceiveVAT implements IAccounterCore {
 		this.version = version;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionReceiveVAT";
-	}
 
 	@Override
 	public String getDisplayName() {

@@ -138,11 +138,6 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionCreditsAndPayments";
-	}
 
 	// private ClientTransaction getTransaction() {
 	//

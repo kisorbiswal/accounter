@@ -69,12 +69,6 @@ public class ClientIssuePayment extends ClientTransaction implements
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientIssuePayment";
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ISSUEPAYMENT;
 	}

@@ -148,10 +148,6 @@ public class ClientItemReceipt extends ClientTransaction {
 		this.toBeEmailed = toBeEmailed;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientItemReceipt";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 import com.vimukti.accounter.core.Account;
 
 /**
@@ -485,15 +486,6 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	@Override
 	public String getDisplayName() {
-
-		// StringBuffer buffer = new StringBuffer();
-		//
-		// buffer.append(String.valueOf(name));
-		//
-		// buffer.append(" [" + Utility.getAccountTypeString(type) + "]");
-		//
-		// buffer.append(" " + String.valueOf(getNumber()) + "");
-
 		return name;
 	}
 
@@ -520,11 +512,6 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	public void setID(long id) {
 		this.id = id;
 
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientAccount";
 	}
 
 	public ClientAccount clone() {

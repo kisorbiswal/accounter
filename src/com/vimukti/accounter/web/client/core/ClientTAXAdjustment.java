@@ -81,17 +81,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		this.increaseVATLine = increaseVATLine;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTAXAdjustment";
-	}
 
 	/*
 	 * (non-Javadoc)

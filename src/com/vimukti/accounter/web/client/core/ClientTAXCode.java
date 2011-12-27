@@ -71,10 +71,6 @@ public class ClientTAXCode implements IAccounterCore {
 		TAXItemGrpForSales = taxItemGroup;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientTAXCode";
-	}
 
 	@Override
 	public String getDisplayName() {

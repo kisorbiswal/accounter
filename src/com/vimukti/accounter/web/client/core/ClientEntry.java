@@ -222,12 +222,6 @@ public class ClientEntry implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientEntry";
-	}
-
 	public ClientEntry clone() {
 		ClientEntry entry = (ClientEntry) this.clone();
 		return entry;

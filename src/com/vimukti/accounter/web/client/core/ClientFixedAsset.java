@@ -248,10 +248,6 @@ public class ClientFixedAsset implements IAccounterCore {
 	// this.sellingOrDisposingFixedAsset = sellingOrDisposingFixedAsset;
 	// }
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientFixedAsset";
-	}
 
 	public void setName(String name) {
 		this.name = name;

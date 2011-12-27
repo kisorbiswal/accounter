@@ -343,11 +343,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionPayBill";
-	}
 
 	public void setDummyDue(double amountDue) {
 		this.dummyDue = amountDue;

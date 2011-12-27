@@ -81,11 +81,6 @@ public class ClientPortletPageConfiguration implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientPortletPageConfiguration";
-	}
-
 	public long getId() {
 		return id;
 	}

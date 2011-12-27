@@ -92,11 +92,6 @@ public class ClientVendorGroup implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientVendorGroup";
-	}
 
 	public ClientVendorGroup clone() {
 		ClientVendorGroup clientVendorGroupClone = (ClientVendorGroup) this

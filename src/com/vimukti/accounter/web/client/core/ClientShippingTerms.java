@@ -96,11 +96,6 @@ public class ClientShippingTerms implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientShippingTerms";
-	}
 
 	public ClientShippingTerms clone() {
 		ClientShippingTerms shippingTerms = (ClientShippingTerms) this.clone();

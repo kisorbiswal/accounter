@@ -133,12 +133,6 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
-
-	@Override
 	public long getID() {
 		return this.id;
 	}

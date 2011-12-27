@@ -35,12 +35,6 @@ public class ClientReceiveVAT extends ClientTransaction {
 	private String checkNumber;
 
 	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.RECEIVEVAT;
 	}

@@ -85,11 +85,6 @@ public class ClientMessageOrTask implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientMessageOrTask";
-	}
-
 	public int getType() {
 		return type;
 	}

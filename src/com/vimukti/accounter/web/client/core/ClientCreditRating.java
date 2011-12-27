@@ -78,10 +78,6 @@ public class ClientCreditRating implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientCreditRating";
-	}
 
 	public ClientCreditRating clone() {
 		ClientCreditRating creditRating = (ClientCreditRating) this.clone();

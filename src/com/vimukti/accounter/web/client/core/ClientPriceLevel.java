@@ -114,12 +114,6 @@ public class ClientPriceLevel implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientPriceLevel";
-	}
-
 	public ClientPriceLevel clone() {
 		ClientPriceLevel priceLevel = (ClientPriceLevel) this.clone();
 		return priceLevel;

@@ -63,11 +63,6 @@ public class ClientETDSFilling implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientETDSFilling";
-	}
-
 	public int getSerialNo() {
 		return serialNo;
 	}

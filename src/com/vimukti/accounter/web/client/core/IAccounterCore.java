@@ -66,6 +66,6 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 
 	long getID();
 
-	String getClientClassSimpleName();
+//	String getClientClassSimpleName();
 
 }

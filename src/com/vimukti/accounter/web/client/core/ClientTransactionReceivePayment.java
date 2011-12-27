@@ -342,11 +342,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionReceivePayment";
-	}
 
 	public void setNumber(String number) {
 		this.number = number;

@@ -33,10 +33,6 @@ public class ClientDepreciation implements IAccounterCore {
 
 	// FixedAssetLinkedAccountMap linkedAccounts;
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

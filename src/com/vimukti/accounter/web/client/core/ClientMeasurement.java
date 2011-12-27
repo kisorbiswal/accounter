@@ -193,10 +193,6 @@ public class ClientMeasurement implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientMeasurement";
-	}
 
 	public ClientMeasurement clone() {
 		ClientMeasurement measurement = (ClientMeasurement) this.clone();

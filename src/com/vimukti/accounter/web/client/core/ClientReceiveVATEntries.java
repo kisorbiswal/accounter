@@ -44,12 +44,6 @@ public class ClientReceiveVATEntries implements IAccounterCore {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
-
-	@Override
 	public String getDisplayName() {
 		// its not using any where
 		return null;

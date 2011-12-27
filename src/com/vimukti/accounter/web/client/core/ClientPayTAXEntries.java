@@ -45,11 +45,6 @@ public class ClientPayTAXEntries implements IAccounterCore {
 		this.balance = balance;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

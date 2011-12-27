@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+
 public class ClientRecurringTransaction implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
 
@@ -142,10 +145,6 @@ public class ClientRecurringTransaction implements IAccounterCore {
 		return actionType;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientRecurringTransaction";
-	}
 
 	public int getDayOfMonth() {
 		return dayOfMonth;
@@ -352,7 +351,8 @@ public class ClientRecurringTransaction implements IAccounterCore {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		// sb.append(name).append(" - ");
-		sb.append("Every ");
+		AccounterMessages messages = Global.get().messages();
+		sb.append(messages.every());
 		sb.append(intervalPeriod).append(' ');
 		switch (intervalType) {
 		case INTERVAL_TYPE_DAILY:

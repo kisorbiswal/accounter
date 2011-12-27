@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 public class ClientCreditCardCharge extends ClientTransaction {
 	/**
 	 * 
@@ -138,8 +140,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 
 	@Override
 	public String getName() {
-
-		return "CreditCard Charge";
+		return Accounter.messages().creditCardCharge();
 	}
 
 	@Override
@@ -151,12 +152,6 @@ public class ClientCreditCardCharge extends ClientTransaction {
 	public void setID(long id) {
 		this.id = id;
 
-	}
-
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCreditCardCharge";
 	}
 
 	@Override

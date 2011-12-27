@@ -31,11 +31,6 @@ public class AccounterCommand implements IAccounterCore {
 	private int version;
 
 	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
-
-	@Override
 	public String getDisplayName() {
 		return null;
 	}

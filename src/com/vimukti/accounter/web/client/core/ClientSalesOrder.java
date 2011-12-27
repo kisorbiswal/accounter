@@ -312,12 +312,6 @@ public class ClientSalesOrder extends ClientTransaction {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientSalesOrder";
-	}
-
-	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.SALESORDER;
 	}

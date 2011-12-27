@@ -87,10 +87,6 @@ public class ClientAccountTransaction implements IAccounterCore {
 		this.amount = amount;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

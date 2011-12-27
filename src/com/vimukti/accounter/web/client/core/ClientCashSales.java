@@ -308,11 +308,6 @@ public class ClientCashSales extends ClientTransaction {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientCashSales";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

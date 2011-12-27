@@ -32,11 +32,6 @@ public class ClientPayVAT extends ClientTransaction {
 
 	List<ClientTransactionPayTAX> transactionPayVAT;
 
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

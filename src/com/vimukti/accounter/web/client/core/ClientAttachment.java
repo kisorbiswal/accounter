@@ -58,10 +58,6 @@ public class ClientAttachment implements IAccounterCore {
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return "ClientAttachment";
-	}
 
 	public long getSize() {
 		return size;

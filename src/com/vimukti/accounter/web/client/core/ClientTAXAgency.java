@@ -74,17 +74,6 @@ public class ClientTAXAgency extends ClientPayee {
 	public ClientTAXAgency() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	public String getDisplayName() {
 		return this.getName();

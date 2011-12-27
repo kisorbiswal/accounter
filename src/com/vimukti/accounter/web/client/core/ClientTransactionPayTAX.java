@@ -146,11 +146,6 @@ public class ClientTransactionPayTAX implements IAccounterCore {
 		this.version = version;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionPayVAT";
-	}
 
 	@Override
 	public String getDisplayName() {

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+
 public class ClientBank implements IAccounterCore {
 
 	/**
@@ -65,11 +66,6 @@ public class ClientBank implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientBank";
-	}
 
 	public ClientBank clone() {
 		ClientBank clientBank = (ClientBank) this.clone();

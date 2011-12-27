@@ -102,11 +102,6 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		return id;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

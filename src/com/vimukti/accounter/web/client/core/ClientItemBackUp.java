@@ -48,11 +48,6 @@ public class ClientItemBackUp implements IAccounterCore {
 		this.item = item;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {

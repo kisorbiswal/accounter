@@ -236,11 +236,6 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientTransactionMakeDeposit";
-	}
 
 	@Override
 	public AccounterCoreType getObjectType() {

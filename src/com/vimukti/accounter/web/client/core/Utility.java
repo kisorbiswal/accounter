@@ -127,7 +127,7 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 		case ClientTransaction.TYPE_ADJUST_SALES_TAX:
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
-			// transactionName = Accounter.messages().taxAdjustment();
+			// transactionName = messages.taxAdjustment();
 			transactionName = messages.taxAdjustment();
 			break;
 		}
@@ -138,10 +138,10 @@ public class Utility implements IsSerializable, Serializable {
 		String itemTypeName = null;
 		switch (itemType) {
 		case ClientTransactionItem.TYPE_ITEM:
-			itemTypeName = Accounter.messages().productOrServiceItem();
+			itemTypeName = messages.productOrServiceItem();
 			break;
 		case ClientTransactionItem.TYPE_ACCOUNT:
-			itemTypeName = Accounter.messages().Account();
+			itemTypeName = messages.Account();
 			break;
 		default:
 			break;
@@ -541,19 +541,10 @@ public class Utility implements IsSerializable, Serializable {
 			ClientFinanceDate transactionDate, double taxableLineTotal,
 			ClientTAXItemGroup taxItemGroup) {
 
-		// Query query = session.createSQLQuery(new
-		// StringBuilder().append(
-		// "SELECT SUM(TR.RATE) FROM TAXRATES TR JOIN TAXGROUP_TAXCODE TGTC ON TR.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID JOIN TAXCODE TC ON TC.ID=TR.TAXCODE_ID WHERE TG.ID = "
-		// ).append(taxGroupID).append(
-		// " AND TR.AS_OF IN (SELECT MAX(TR1.AS_OF) FROM TAXRATES TR1 WHERE TR1.ID IN (SELECT (TR2.ID) FROM TAXRATES TR2 JOIN TAXGROUP_TAXCODE TGTC ON TR2.TAXCODE_ID = TGTC.TAXCODE_ID JOIN TAXGROUP TG ON TGTC.TAXGROUP_ID = TG.ID) AND TR1.AS_OF <= '"
-		// ).append(transactionDate).append(
-		// "' GROUP BY TR1.TAXCODE_ID) and TR.COMPANY_ID ="
-		// ).append(company.getID()).toString());
-
 		Double salesTaxAmount = 0D;
 		Double calculatedTaxRate = 0D;
 
-		if (taxItemGroup == null || taxItemGroup.equals("None")) {
+		if (taxItemGroup == null || taxItemGroup.equals(messages.none())) {
 			return salesTaxAmount;
 		}
 
@@ -967,16 +958,16 @@ public class Utility implements IsSerializable, Serializable {
 			switch (i) {
 			// case 1 : pos = "HUNDRED"; break;
 			case 2:
-				pos = "THOUSAND";
+				pos = messages.THOUSAND();
 				break;
 			case 3:
-				pos = "MILLION";
+				pos = messages.MILLION();
 				break;
 			case 4:
-				pos = "BILLION";
+				pos = messages.BILLION();
 				break;
 			case 5:
-				pos = "TRILLION";
+				pos = messages.TRILLION();
 				break;
 			}
 		}
@@ -1026,34 +1017,34 @@ public class Utility implements IsSerializable, Serializable {
 			char c = lhs.charAt(0);
 			switch (c) {
 			case '0':
-				start = "ZERO";
+				start = messages.ZERO();
 				break;
 			case '1':
-				start = "ONE";
+				start = messages.ONE();
 				break;
 			case '2':
-				start = "TWO";
+				start = messages.TWO();
 				break;
 			case '3':
-				start = "THREE";
+				start = messages.THREE();
 				break;
 			case '4':
-				start = "FOUR";
+				start = messages.FOUR();
 				break;
 			case '5':
-				start = "FIVE";
+				start = messages.FIVE();
 				break;
 			case '6':
-				start = "SIX";
+				start = messages.SIX();
 				break;
 			case '7':
-				start = "SEVEN";
+				start = messages.SEVEN();
 				break;
 			case '8':
-				start = "EIGHT";
+				start = messages.EIGHT();
 				break;
 			case '9':
-				start = "NINE";
+				start = messages.NINE();
 				break;
 			}
 			return new Object[] { start, mid };
@@ -1075,49 +1066,49 @@ public class Utility implements IsSerializable, Serializable {
 				}
 
 				if (modLhs.equals("10"))
-					start = "TEN";
+					start = messages.TEN();
 				else if (modLhs.equals("11"))
-					start = "ELEVEN";
+					start = messages.ELEVEN();
 				else if (modLhs.equals("12"))
-					start = "TWELVE";
+					start = messages.TWELVE();
 				else if (modLhs.equals("13"))
-					start = "THIRTEEN";
+					start = messages.THIRTEEN();
 				else if (modLhs.equals("14"))
-					start = "TOURTEEN";
+					start = messages.TOURTEEN();
 				else if (modLhs.equals("15"))
-					start = "TIFTEEN";
+					start = messages.TIFTEEN();
 				else if (modLhs.equals("16"))
-					start = "TIXTEEN";
+					start = messages.TIXTEEN();
 				else if (modLhs.equals("17"))
-					start = "SEVENTEEN";
+					start = messages.SEVENTEEN();
 				else if (modLhs.equals("18"))
-					start = "EIGHTEEN";
+					start = messages.EIGHTEEN();
 				else if (modLhs.equals("19"))
-					start = "NINETEEN";
+					start = messages.NINETEEN();
 
 				else if (modLhs.equals("20"))
-					start = "TWENTY -";
+					start = messages.TWENTY();
 				else if (modLhs.equals("30"))
-					start = "THIRTY -";
+					start = messages.THIRTY();
 				else if (modLhs.equals("40"))
-					start = "FORTY -";
+					start = messages.FORTY();
 				else if (modLhs.equals("50"))
-					start = "FIFTY -";
+					start = messages.FIFTY();
 				else if (modLhs.equals("60"))
-					start = "SIXTY -";
+					start = messages.SIXTY();
 				else if (modLhs.equals("70"))
-					start = "SEVENTY -";
+					start = messages.SEVENTY();
 				else if (modLhs.equals("80"))
-					start = "EIGHTY -";
+					start = messages.EIGHTY();
 				else if (modLhs.equals("90"))
-					start = "NINTY -";
+					start = messages.NINTY();
 
 				return new Object[] { start, mid };
 			} else if (length > 2) {
 
 				switch (length) {
 				case 3:
-					start = "HUNDRED";
+					start = messages.HUNDRED();
 					break;
 				}
 				return new Object[] { start, mid };
@@ -1467,12 +1458,12 @@ public class Utility implements IsSerializable, Serializable {
 				if (checkIfNotNumber(((ClientAccount) iAccounterCore)
 						.getNumber())) {
 					throw new InvalidEntryException(
-							"A Account Number shouble be a number");
+							messages.AAccountNumbershoublebeanumber());
 				}
 				if (Integer.parseInt(((ClientAccount) iAccounterCore)
 						.getNumber()) < 1) {
 					throw new InvalidEntryException(
-							"A Account Number shouble be positive");
+							messages.AAccountNumbershoublebepositive());
 
 				}
 			} else if (iAccounterCore instanceof ClientVendor) {
@@ -1484,12 +1475,12 @@ public class Utility implements IsSerializable, Serializable {
 				if (checkIfNotNumber(((ClientVendor) iAccounterCore)
 						.getVendorNumber())) {
 					throw new InvalidEntryException(
-							"A Supplier Account Number shouble be a number");
+							messages.ASupplierAccountNumbershoublebeanumber());
 				}
 				if (Integer.parseInt(((ClientVendor) iAccounterCore)
 						.getVendorNumber()) < 1) {
 					throw new InvalidEntryException(
-							"A Supplier Account Number shouble be positive");
+							messages.ASupplierAccountNumbershoublebepositive());
 				}
 
 			}
@@ -1544,56 +1535,56 @@ public class Utility implements IsSerializable, Serializable {
 
 		case ClientItem.TYPE_SERVICE:
 
-			itemText = "Service Item";
+			itemText = messages.serviceItem();
 			break;
 
 		case ClientItem.TYPE_INVENTORY_PART:
 
-			itemText = "Inventory Part";
+			itemText = messages.inventoryPart();
 
 			break;
 
 		case ClientItem.TYPE_DISCOUNT:
 
-			itemText = "Discount";
+			itemText = messages.discount();
 			break;
 
 		case ClientItem.TYPE_GROUP:
 
-			itemText = "Group";
+			itemText = messages.group();
 			break;
 
 		case ClientItem.TYPE_INVENTORY_ASSEMBLY:
 
-			itemText = "Inventory Assembly";
+			itemText = messages.inventoryAssembly();
 			break;
 
 		case ClientItem.TYPE_NON_INVENTORY_PART:
 
-			itemText = "Non Inventory";
+			itemText = messages.NonInventory();
 			break;
 
 		case ClientItem.TYPE_PAYMENT:
 
-			itemText = "Payment";
+			itemText = messages.payment();
 
 			break;
 
 		case ClientItem.TYPE_SALES_TAX_GROUP:
 
-			itemText = "Sales Tax Group";
+			itemText = messages.salesTaxGroups();
 
 			break;
 
 		case ClientItem.TYPE_SALES_TAX_ITEM:
 
-			itemText = "Sales Tax Item";
+			itemText = messages.salesTaxItem();
 
 			break;
 
 		case ClientItem.TYPE_SUBTOTAL:
 
-			itemText = "SubTotal";
+			itemText = messages.SubTotal();
 
 			break;
 		default:

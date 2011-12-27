@@ -36,18 +36,6 @@ public class ClientTAXItemGroup implements IAccounterCore {
 
 	private int version;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		// its not using any where
-		return "ClientTAXItemGroup";
-	}
 
 	/*
 	 * (non-Javadoc)

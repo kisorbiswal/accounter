@@ -42,12 +42,6 @@ public class AccounterCore implements IAccounterCore {
 
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "AccounterCore";
-	}
-
 	public AccounterCore clone() {
 		AccounterCore accounterCore = (AccounterCore) this.clone();
 		return accounterCore;

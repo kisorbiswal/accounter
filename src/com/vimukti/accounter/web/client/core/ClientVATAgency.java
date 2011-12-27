@@ -47,18 +47,6 @@ public class ClientVATAgency extends ClientPayee {
 	public ClientVATAgency() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.vimukti.accounter.web.client.core.IAccounterCore#getClientClassSimpleName
-	 * ()
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)
