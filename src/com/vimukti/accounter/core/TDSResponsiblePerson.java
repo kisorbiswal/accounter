@@ -13,7 +13,7 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String deductorName;
+	private String responsibleName;
 	private String designation;
 	private String branch;
 	private long flatNo;
@@ -46,14 +46,6 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	public void setName(String name) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public String getDeductorName() {
-		return deductorName;
-	}
-
-	public void setDeductorName(String deductorName) {
-		this.deductorName = deductorName;
 	}
 
 	public String getDesignation() {
@@ -118,6 +110,14 @@ public class TDSResponsiblePerson extends CreatableObject implements
 
 	public void setStateName(String stateName) {
 		this.stateName = stateName;
+	}
+
+	public String getResponsibleName() {
+		return responsibleName;
+	}
+
+	public void setResponsibleName(String responsibleName) {
+		this.responsibleName = responsibleName;
 	}
 
 	public long getPinCode() {

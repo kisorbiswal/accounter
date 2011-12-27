@@ -40,6 +40,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -496,5 +497,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void getAccountsBalancesByDate(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long accountId, int chartType,
 			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
+
+	void getResponsiblePersonDetails(
+			AsyncCallback<ArrayList<ClientTDSResponsiblePerson>> accounterAsyncCallback);
 
 }

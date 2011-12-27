@@ -307,6 +307,11 @@
 		from com.vimukti.accounter.core.TDSDeductorMasters bt where
 		bt.company=:company
 	</query>
+	<query name="list.TDSResponsiblePerson">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TDSResponsiblePerson bt where
+		bt.company=:company
+	</query>
 	<query name="list.Budget">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Budget bt where bt.company=:company

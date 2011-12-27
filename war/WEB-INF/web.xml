@@ -189,9 +189,9 @@
 		<servlet-name>generatePDFServlet</servlet-name>
 		<url-pattern>/do/finance/generatePDFServlet</url-pattern>
 	</servlet-mapping>
-	
-	
-		<servlet>
+
+
+	<servlet>
 		<servlet-name>generateETDSServlet</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.GenerateETDSServlet
 		</servlet-class>
@@ -412,7 +412,7 @@
 		<servlet-name>Upload Attachment</servlet-name>
 		<url-pattern>/do/uploadattachment</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>Download Attachment</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.DownloadAttachmentServlet

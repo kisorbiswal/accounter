@@ -5,9 +5,14 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -21,7 +26,7 @@ public class TDSResponsiblePersonDetailsView extends
 		BaseView<ClientTDSResponsiblePerson> {
 
 	private IntegerRangeValidator integerRangeValidator;
-	private TextItem deductorName;
+	private TextItem responsiblePersonName;
 	private TextItem branchName;
 	private TextItem flatNo;
 	private TextItem buildingName;
@@ -44,6 +49,8 @@ public class TDSResponsiblePersonDetailsView extends
 
 	private SelectCombo assessmentYearCombo;
 	private TextItem designation;
+	private IntegerField stdNumber;
+	private IntegerField mobileNumber;
 
 	@Override
 	public void init() {
@@ -66,10 +73,10 @@ public class TDSResponsiblePersonDetailsView extends
 		integerRangeValidator = new IntegerRangeValidator();
 		integerRangeValidator.setMin(0);
 
-		deductorName = new TextItem("Name");
-		deductorName.setHelpInformation(true);
-		deductorName.setRequired(true);
-		deductorName.setDisabled(isInViewMode());
+		responsiblePersonName = new TextItem("Name");
+		responsiblePersonName.setHelpInformation(true);
+		responsiblePersonName.setRequired(true);
+		responsiblePersonName.setDisabled(isInViewMode());
 
 		designation = new TextItem("Designation");
 		designation.setHelpInformation(true);
@@ -137,10 +144,20 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
+		stdNumber = new IntegerField(this, "Std Code");
+		stdNumber.setHelpInformation(true);
+		stdNumber.setDisabled(isInViewMode());
+		stdNumber.setValidators(integerRangeValidator);
+
 		telephoneNumber = new IntegerField(this, "Telephone No.");
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
 		telephoneNumber.setValidators(integerRangeValidator);
+
+		mobileNumber = new IntegerField(this, "Mobile No.");
+		mobileNumber.setHelpInformation(true);
+		mobileNumber.setDisabled(isInViewMode());
+		mobileNumber.setValidators(integerRangeValidator);
 
 		faxNumber = new IntegerField(this, "Fax No.");
 		faxNumber.setHelpInformation(true);
@@ -152,10 +169,10 @@ public class TDSResponsiblePersonDetailsView extends
 		email.setDisabled(isInViewMode());
 
 		taxDynamicForm = new DynamicForm();
-		taxDynamicForm.setFields(deductorName, designation, branchName, flatNo,
-				buildingName, streetName, areaName, cityName, stateCombo,
-				pinNumber, addressChangeCombo, telephoneNumber, faxNumber,
-				email);
+		taxDynamicForm.setFields(responsiblePersonName, designation,
+				branchName, flatNo, buildingName, streetName, areaName,
+				cityName, stateCombo, pinNumber, addressChangeCombo, stdNumber,
+				telephoneNumber, mobileNumber, faxNumber, email);
 
 		financialYearCombo = new SelectCombo("Financial Year");
 		financialYearCombo.setHelpInformation(true);
@@ -276,6 +293,107 @@ public class TDSResponsiblePersonDetailsView extends
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+
+		result.add(taxDynamicForm.validate());
+		result.add(otherDynamicForm.validate());
+
+		if (!UIUtils.isValidEmail(email.getValue())) {
+			result.addError(email, "Invalid email id.");
+		}
+		return result;
+
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		updateObject();
+		saveOrUpdate(getData());
+
+	}
+
+	private void updateObject() {
+		data.setResponsibleName(responsiblePersonName.getValue());
+		data.setBranch(branchName.getValue());
+		data.setFlatNo(flatNo.getValue());
+		data.setBuildingName(buildingName.getValue());
+		data.setStreet(streetName.getValue());
+
+		data.setArea(areaName.getValue());
+		data.setCity(cityName.getValue());
+
+		data.setStateName(stateCombo.getSelectedValue());
+
+		data.setPinCode(pinNumber.getNumber());
+
+		if (addressChangeCombo.getSelectedValue().equals("YES")) {
+			data.setAddressChanged(true);
+		} else {
+			data.setAddressChanged(false);
+		}
+
+		data.setTelephoneNumber(telephoneNumber.getNumber());
+
+		data.setFaxNo(faxNumber.getNumber());
+
+		data.setEmailAddress(email.getValue());
+
+		data.setFinancialYear(financialYearCombo.getSelectedValue());
+
+		data.setAssesmentYear(assessmentYearCombo.getSelectedValue());
+
+		data.setPanNumber(panCode.getNumber());
+
+		data.setPanRegistrationNumber(tanRegistration.getNumber());
+
+		data.setMobileNumber(mobileNumber.getNumber());
+		data.setStdCode(stdNumber.getNumber());
+
+		// private int returnType;
+		// private boolean existingTDSassesse;
+
+	}
+
+	@Override
+	public void saveFailed(AccounterException exception) {
+		super.saveFailed(exception);
+
+		AccounterException accounterException = exception;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
+
+		updateObject();
+
+	}
+
+	@Override
+	protected void initRPCService() {
+		super.initRPCService();
+
+		Accounter
+				.createHomeService()
+				.getResponsiblePersonDetails(
+						new AccounterAsyncCallback<ArrayList<ClientTDSResponsiblePerson>>() {
+
+							@Override
+							public void onException(AccounterException exception) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onResultSuccess(
+									ArrayList<ClientTDSResponsiblePerson> result) {
+								// TODO Auto-generated method stub
+
+							}
+						});
 
 	}
 

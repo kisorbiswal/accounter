@@ -7,10 +7,10 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String deductorName;
+	private String responsibleName;
 	private String designation;
 	private String branch;
-	private long flatNo;
+	private String flatNo;
 	private String buildingName;
 	private String street;
 	private String area;
@@ -27,6 +27,9 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 	private boolean existingTDSassesse;
 	private long panNumber;
 	private long panRegistrationNumber;
+
+	private long mobileNumber;
+	private long stdCode;
 
 	@Override
 	public int getVersion() {
@@ -63,14 +66,6 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 		return 0;
 	}
 
-	public String getDeductorName() {
-		return deductorName;
-	}
-
-	public void setDeductorName(String deductorName) {
-		this.deductorName = deductorName;
-	}
-
 	public String getDesignation() {
 		return designation;
 	}
@@ -87,11 +82,11 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 		this.branch = branch;
 	}
 
-	public long getFlatNo() {
+	public String getFlatNo() {
 		return flatNo;
 	}
 
-	public void setFlatNo(long flatNo) {
+	public void setFlatNo(String flatNo) {
 		this.flatNo = flatNo;
 	}
 
@@ -121,6 +116,14 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 
 	public String getCity() {
 		return city;
+	}
+
+	public String getResponsibleName() {
+		return responsibleName;
+	}
+
+	public void setResponsibleName(String responsibleName) {
+		this.responsibleName = responsibleName;
 	}
 
 	public void setCity(String city) {
@@ -221,6 +224,22 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 
 	public void setPanRegistrationNumber(long panRegistrationNumber) {
 		this.panRegistrationNumber = panRegistrationNumber;
+	}
+
+	public long getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(long stdCode) {
+		this.stdCode = stdCode;
+	}
+
+	public long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(long mobileNumber) {
+		this.mobileNumber = mobileNumber;
 	}
 
 }

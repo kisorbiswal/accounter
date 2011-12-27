@@ -30,24 +30,27 @@ public class GenerateETDSServlet extends BaseServlet {
 		String endYear = request.getParameter("endYear");
 
 		FinanceTool financetool = new FinanceTool();
-
+		List<ClientETDSFilling> etdsList = null;
 		try {
-			List<ClientETDSFilling> etdsList = financetool.getEtdsList(
-					Integer.parseInt(formNo), Integer.parseInt(quater),
-					Integer.parseInt(startYear), Integer.parseInt(endYear),
-					getCompany(request).getId());
+			etdsList = financetool.getEtdsList(Integer.parseInt(formNo),
+					Integer.parseInt(quater), Integer.parseInt(startYear),
+					Integer.parseInt(endYear), getCompany(request).getId());
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
-		generateTextFile(request, response, companyName);
+		generateTextFile(request, response, companyName, etdsList);
 
 	}
 
 	private void generateTextFile(HttpServletRequest request,
-			HttpServletResponse response, String companyName) {
-		// TODO Auto-generated method stub
+			HttpServletResponse response, String companyName,
+			List<ClientETDSFilling> etdsList) {
+
+		for (ClientETDSFilling clientETDSFilling : etdsList) {
+			clientETDSFilling.getAmountPaid();
+		}
 
 	}
 

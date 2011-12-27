@@ -85,6 +85,7 @@ import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.TDSChalanDetail;
 import com.vimukti.accounter.core.TDSDeductorMasters;
+import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
@@ -125,6 +126,7 @@ import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
@@ -3862,6 +3864,33 @@ public class FinanceTool {
 			}
 
 			return etdsList;
+
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+
+	public List<ClientTDSResponsiblePerson> getResponsiblePersonDetails(
+			Long companyId) throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+
+			ArrayList<TDSResponsiblePerson> listMasters = new ArrayList<TDSResponsiblePerson>(
+					session.getNamedQuery("list.TDSResponsiblePerson")
+							.setEntity("company", getCompany(companyId)).list());
+
+			List<ClientTDSResponsiblePerson> masterDetails = new ArrayList<ClientTDSResponsiblePerson>();
+
+			for (TDSResponsiblePerson master : listMasters) {
+				ClientTDSResponsiblePerson clientObject = new ClientConvertUtil()
+						.toClientObject(master,
+								ClientTDSResponsiblePerson.class);
+
+				masterDetails.add(clientObject);
+			}
+
+			return new ArrayList<ClientTDSResponsiblePerson>(masterDetails);
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));

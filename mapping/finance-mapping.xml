@@ -2149,9 +2149,12 @@
 		<property name="ddoRegistration"></property>
 		<property name="ministryDeptName"></property>
 		<property name="ministryDeptOtherName"></property>
+		<property name="tanNumber"></property>
+		<property name="panNumber"></property>
+		<property name="stdCode"></property>
 	</class>
 
-	<!-- TDSDeductorMasters class -->
+	<!-- TDSResponsiblePerson class -->
 	<class name="TDSResponsiblePerson" table="TDSRESPONSIBLEPERSON">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -2159,7 +2162,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="deductorName"></property>
+		<property name="responsibleName"></property>
 		<property name="designation"></property>
 		<property name="branch"></property>
 		<property name="flatNo"></property>
@@ -2179,6 +2182,8 @@
 		<property name="existingTDSassesse"></property>
 		<property name="panNumber"></property>
 		<property name="panRegistrationNumber"></property>
+		<property name="mobileNumber"></property>
+		<property name="stdCode"></property>
 	</class>
 </hibernate-mapping>
 

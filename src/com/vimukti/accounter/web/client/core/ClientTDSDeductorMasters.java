@@ -30,6 +30,10 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 	private String ministryDeptName;
 	private String ministryDeptOtherName;
 
+	private String tanNumber;
+	private String panNumber;
+	private long stdCode;
+
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -243,6 +247,30 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 
 	public void setDeductorName(String deductorName) {
 		this.deductorName = deductorName;
+	}
+
+	public String getTanNumber() {
+		return tanNumber;
+	}
+
+	public void setTanNumber(String tanNumber) {
+		this.tanNumber = tanNumber;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	public long getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(long stdCode) {
+		this.stdCode = stdCode;
 	}
 
 }

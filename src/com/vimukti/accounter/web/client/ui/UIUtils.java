@@ -2247,7 +2247,7 @@ public class UIUtils {
 			int startYear, int endYear)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/finance/generateETDSServlet?formNo="
+			frame.setAttribute("src", "/do/finance/GenerateETDSServlet?formNo="
 					+ formNo + "&quater=" + quarter + "&startYear=" + startYear
 					+ "&endYear=" + endYear);
 			frame.style.visibility = "hidden";

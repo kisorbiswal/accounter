@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
@@ -447,4 +448,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long accountId, int chartType) throws AccounterException;
+
+	ArrayList<ClientTDSResponsiblePerson> getResponsiblePersonDetails();
 }

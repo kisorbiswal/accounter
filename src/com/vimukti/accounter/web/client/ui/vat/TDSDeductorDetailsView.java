@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -54,6 +55,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private boolean true_falseValue;
 	protected String statusSelected;
 	private String deductorTypeSelected;
+	private IntegerField stdNumber;
 
 	@Override
 	public void init() {
@@ -148,6 +150,11 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
+		stdNumber = new IntegerField(this, "Std Code");
+		stdNumber.setHelpInformation(true);
+		stdNumber.setDisabled(isInViewMode());
+		stdNumber.setValidators(integerRangeValidator);
+
 		telephoneNumber = new IntegerField(this, "Telephone No.");
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
@@ -164,7 +171,8 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(deductorName, branchName, flatNo,
 				buildingName, streetName, areaName, cityName, pinNumber,
-				addressChangeCombo, telephoneNumber, faxNumber, email);
+				addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
+				email);
 
 		statusCombo = new SelectCombo("Status");
 		statusCombo.setHelpInformation(true);
@@ -434,6 +442,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		}
 		if (statusSelected == null) {
 			result.addError(statusCombo, "Select the status of Deductor");
+		}
+
+		if (!UIUtils.isValidEmail(email.getValue())) {
+			result.addError(email, "Invalid email id.");
 		}
 		return result;
 
