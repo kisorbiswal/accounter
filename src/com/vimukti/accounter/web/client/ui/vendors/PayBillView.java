@@ -326,8 +326,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void initListGrid() {
-		grid = new TransactionPayBillTable(isTrackDiscounts(),
-				!isInViewMode(), this) {
+		grid = new TransactionPayBillTable(isTrackDiscounts(), !isInViewMode(),
+				this) {
 
 			@Override
 			protected void updateFootervalues(ClientTransactionPayBill row,
@@ -1181,11 +1181,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	public ClientPayBill saveView() {
-		ClientPayBill saveView = super.saveView();
-		if (saveView != null) {
-			updateTransaction();
-		}
-		return saveView;
+		// ClientPayBill saveView = super.saveView();
+		// if (saveView != null) {
+		// updateTransaction();
+		// }
+		return null;
 	}
 
 	@Override
