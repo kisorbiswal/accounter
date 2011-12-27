@@ -925,201 +925,200 @@ public class Utility implements IsSerializable, Serializable {
 		//
 		// String subFaceValue = "";
 
-		// TODO
-		// if (subStringArray.length > 1) {
-		// for (i = 0; i < subStringArray.length; i++) {
-		// String subString = subStringArray[i];
-		// if (subString.equals("000"))
-		// continue;
-		// placeValue = getPlaceValue(subStringArray.length - i);
-		// numberInWords += readNumber(subString);
-		// numberInWords += " ";
-		// numberInWords += placeValue;
-		// numberInWords += " ";
-		//
-		// }
-		// } else {
-		// String subString = subStringArray[0];
-		// numberInWords += readNumber(subString);
-		// }
-		// if (!rhs.equals(""))
-		// numberInWords = new StringBuilder().append(numberInWords)
-		// .append(" and ").append(rhs).append("/100 DOLLARS")
-		// .toString();
-		// System.out.println(numberInWords);
+		if (subStringArray.length > 1) {
+			for (i = 0; i < subStringArray.length; i++) {
+				String subString = subStringArray[i];
+				if (subString.equals("000"))
+					continue;
+				placeValue = getPlaceValue(subStringArray.length - i);
+				numberInWords += readNumber(subString);
+				numberInWords += " ";
+				numberInWords += placeValue;
+				numberInWords += " ";
+
+			}
+		} else {
+			String subString = subStringArray[0];
+			numberInWords += readNumber(subString);
+		}
+		if (!rhs.equals(""))
+			numberInWords = new StringBuilder().append(numberInWords)
+					.append(" and ").append(rhs).append("/100 DOLLARS")
+					.toString();
+		System.out.println(numberInWords);
 
 		return numberInWords;
 
 	}
 
-	// public static String getPlaceValue(int i) {
-	//
-	// String pos = "";
-	// if (i > 0) {
-	//
-	// switch (i) {
-	// // case 1 : pos = "HUNDRED"; break;
-	// case 2:
-	// pos = messages.THOUSAND();
-	// break;
-	// case 3:
-	// pos = messages.MILLION();
-	// break;
-	// case 4:
-	// pos = messages.BILLION();
-	// break;
-	// case 5:
-	// pos = messages.TRILLION();
-	// break;
-	// }
-	// }
-	// return pos;
-	//
-	// }
-	//
-	// public static String readNumber(String subString) {
-	//
-	// String faceValue = "";
-	// String numberInWords = "";
-	//
-	// int length = subString.length();
-	// Boolean mid = false;
-	//
-	// if (length == 0)
-	// return "";
-	// if (length >= 1) {
-	// for (int i = 0; i < length; i++) {
-	// Object object[] = getFaceValue(subString.substring(i, length),
-	// mid);
-	// faceValue = object[0].toString();
-	// if (subString.substring(i, length).length() > 2) {
-	// object = getFaceValue("" + subString.charAt(i), mid);
-	// numberInWords += " " + object[0].toString() + " "
-	// + faceValue;
-	//
-	// } else
-	// numberInWords += " " + faceValue;
-	// mid = (Boolean) object[1];
-	// // System.out.println(numberInWords);
-	//
-	// }
-	// }
-	// return numberInWords;
-	//
-	// }
-	//
-	// public static Object[] getFaceValue(String lhs, Boolean mid) {
-	//
-	// String start = "";
-	// int length = 0;
-	// if (lhs != null) {
-	// length = lhs.length();
-	// }
-	// if (length == 1 && !mid) {
-	// char c = lhs.charAt(0);
-	// switch (c) {
-	// case '0':
-	// start = messages.ZERO();
-	// break;
-	// case '1':
-	// start = messages.ONE();
-	// break;
-	// case '2':
-	// start = messages.TWO();
-	// break;
-	// case '3':
-	// start = messages.THREE();
-	// break;
-	// case '4':
-	// start = messages.FOUR();
-	// break;
-	// case '5':
-	// start = messages.FIVE();
-	// break;
-	// case '6':
-	// start = messages.SIX();
-	// break;
-	// case '7':
-	// start = messages.SEVEN();
-	// break;
-	// case '8':
-	// start = messages.EIGHT();
-	// break;
-	// case '9':
-	// start = messages.NINE();
-	// break;
-	// }
-	// return new Object[] { start, mid };
-	// }
-	// if (length > 1) {
-	// if (length == 2) {
-	// String modLhs = "";
-	// if (Integer.parseInt(lhs) >= 10 && Integer.parseInt(lhs) < 20) {
-	// modLhs = lhs;
-	// mid = true;
-	// } else {
-	// Integer it = Integer.parseInt(lhs)
-	// - ((Integer.parseInt(lhs)) % 10);
-	// modLhs = it.toString();
-	// }
-	// if (modLhs.equals("0")) {
-	// mid = true;
-	// return new Object[] { start, mid };
-	// }
-	//
-	// if (modLhs.equals("10"))
-	// start = messages.TEN();
-	// else if (modLhs.equals("11"))
-	// start = messages.ELEVEN();
-	// else if (modLhs.equals("12"))
-	// start = messages.TWELVE();
-	// else if (modLhs.equals("13"))
-	// start = messages.THIRTEEN();
-	// else if (modLhs.equals("14"))
-	// start = messages.TOURTEEN();
-	// else if (modLhs.equals("15"))
-	// start = messages.TIFTEEN();
-	// else if (modLhs.equals("16"))
-	// start = messages.TIXTEEN();
-	// else if (modLhs.equals("17"))
-	// start = messages.SEVENTEEN();
-	// else if (modLhs.equals("18"))
-	// start = messages.EIGHTEEN();
-	// else if (modLhs.equals("19"))
-	// start = messages.NINETEEN();
-	//
-	// else if (modLhs.equals("20"))
-	// start = messages.TWENTY();
-	// else if (modLhs.equals("30"))
-	// start = messages.THIRTY();
-	// else if (modLhs.equals("40"))
-	// start = messages.FORTY();
-	// else if (modLhs.equals("50"))
-	// start = messages.FIFTY();
-	// else if (modLhs.equals("60"))
-	// start = messages.SIXTY();
-	// else if (modLhs.equals("70"))
-	// start = messages.SEVENTY();
-	// else if (modLhs.equals("80"))
-	// start = messages.EIGHTY();
-	// else if (modLhs.equals("90"))
-	// start = messages.NINTY();
-	//
-	// return new Object[] { start, mid };
-	// } else if (length > 2) {
-	//
-	// switch (length) {
-	// case 3:
-	// start = messages.HUNDRED();
-	// break;
-	// }
-	// return new Object[] { start, mid };
-	//
-	// }
-	// }
-	//
-	// return new Object[] { "", mid };
-	// }
+	public static String getPlaceValue(int i) {
+
+		String pos = "";
+		if (i > 0) {
+
+			switch (i) {
+			// case 1 : pos = "HUNDRED"; break;
+			case 2:
+				pos = messages.THOUSAND();
+				break;
+			case 3:
+				pos = messages.MILLION();
+				break;
+			case 4:
+				pos = messages.BILLION();
+				break;
+			case 5:
+				pos = messages.TRILLION();
+				break;
+			}
+		}
+		return pos;
+
+	}
+
+	public static String readNumber(String subString) {
+
+		String faceValue = "";
+		String numberInWords = "";
+
+		int length = subString.length();
+		Boolean mid = false;
+
+		if (length == 0)
+			return "";
+		if (length >= 1) {
+			for (int i = 0; i < length; i++) {
+				Object object[] = getFaceValue(subString.substring(i, length),
+						mid);
+				faceValue = object[0].toString();
+				if (subString.substring(i, length).length() > 2) {
+					object = getFaceValue("" + subString.charAt(i), mid);
+					numberInWords += " " + object[0].toString() + " "
+							+ faceValue;
+
+				} else
+					numberInWords += " " + faceValue;
+				mid = (Boolean) object[1];
+				// System.out.println(numberInWords);
+
+			}
+		}
+		return numberInWords;
+
+	}
+
+	public static Object[] getFaceValue(String lhs, Boolean mid) {
+
+		String start = "";
+		int length = 0;
+		if (lhs != null) {
+			length = lhs.length();
+		}
+		if (length == 1 && !mid) {
+			char c = lhs.charAt(0);
+			switch (c) {
+			case '0':
+				start = messages.ZERO();
+				break;
+			case '1':
+				start = messages.ONE();
+				break;
+			case '2':
+				start = messages.TWO();
+				break;
+			case '3':
+				start = messages.THREE();
+				break;
+			case '4':
+				start = messages.FOUR();
+				break;
+			case '5':
+				start = messages.FIVE();
+				break;
+			case '6':
+				start = messages.SIX();
+				break;
+			case '7':
+				start = messages.SEVEN();
+				break;
+			case '8':
+				start = messages.EIGHT();
+				break;
+			case '9':
+				start = messages.NINE();
+				break;
+			}
+			return new Object[] { start, mid };
+		}
+		if (length > 1) {
+			if (length == 2) {
+				String modLhs = "";
+				if (Integer.parseInt(lhs) >= 10 && Integer.parseInt(lhs) < 20) {
+					modLhs = lhs;
+					mid = true;
+				} else {
+					Integer it = Integer.parseInt(lhs)
+							- ((Integer.parseInt(lhs)) % 10);
+					modLhs = it.toString();
+				}
+				if (modLhs.equals("0")) {
+					mid = true;
+					return new Object[] { start, mid };
+				}
+
+				if (modLhs.equals("10"))
+					start = messages.TEN();
+				else if (modLhs.equals("11"))
+					start = messages.ELEVEN();
+				else if (modLhs.equals("12"))
+					start = messages.TWELVE();
+				else if (modLhs.equals("13"))
+					start = messages.THIRTEEN();
+				else if (modLhs.equals("14"))
+					start = messages.TOURTEEN();
+				else if (modLhs.equals("15"))
+					start = messages.TIFTEEN();
+				else if (modLhs.equals("16"))
+					start = messages.TIXTEEN();
+				else if (modLhs.equals("17"))
+					start = messages.SEVENTEEN();
+				else if (modLhs.equals("18"))
+					start = messages.EIGHTEEN();
+				else if (modLhs.equals("19"))
+					start = messages.NINETEEN();
+
+				else if (modLhs.equals("20"))
+					start = messages.TWENTY();
+				else if (modLhs.equals("30"))
+					start = messages.THIRTY();
+				else if (modLhs.equals("40"))
+					start = messages.FORTY();
+				else if (modLhs.equals("50"))
+					start = messages.FIFTY();
+				else if (modLhs.equals("60"))
+					start = messages.SIXTY();
+				else if (modLhs.equals("70"))
+					start = messages.SEVENTY();
+				else if (modLhs.equals("80"))
+					start = messages.EIGHTY();
+				else if (modLhs.equals("90"))
+					start = messages.NINTY();
+
+				return new Object[] { start, mid };
+			} else if (length > 2) {
+
+				switch (length) {
+				case 3:
+					start = messages.HUNDRED();
+					break;
+				}
+				return new Object[] { start, mid };
+
+			}
+		}
+
+		return new Object[] { "", mid };
+	}
 
 	public static String getStatus(int transactionType, int status) {
 		StringBuffer buffer = new StringBuffer();
