@@ -119,7 +119,7 @@ public class SoldAndDisposedItemsListGrid extends
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		ActionFactory.getNewFixedAssetAction().run(obj, true);
+		ActionFactory.getNewFixedAssetAction().run(obj, false);
 	}
 
 	@Override
