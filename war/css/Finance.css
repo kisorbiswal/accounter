@@ -2486,7 +2486,7 @@ input.date-field-textbox {
 .chequeLeftScal {
 	background: none repeat scroll 0 0 white;
 	margin-top: 20px;
-	padding: 5px;
+	padding: 4px 5px;
 }
 
 .chequeTopScal {
@@ -2616,4 +2616,11 @@ input.date-field-textbox {
 }
 .Transactions_center .gwt-Button {
     margin-top: 8px;
+}	
+.chequeTopScal td{
+	 padding: 0 2px 0 1px;
+}
+.chequeLeftScal td div{
+	font-size: 13px;
+    line-height: 0.6;
 }
