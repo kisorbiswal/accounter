@@ -5660,4 +5660,22 @@ public interface AccounterMessages extends Messages {
 
 	public String youSuccessfullyCreatedRecurringTemplate();
 
+	public String currencyFormat();
+
+	public String positive();
+
+	public String negative();
+
+	public String decimalSymbol();
+
+	public String noOfDigitsAfterDecimal();
+
+	public String digitGroupingDecimal();
+
+	public String digitGrouping();
+
+	public String postiveCurrencyFormat();
+
+	public String negativeCurrencyFormat();
+
 }

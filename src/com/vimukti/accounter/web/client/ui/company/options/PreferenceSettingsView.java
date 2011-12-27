@@ -132,8 +132,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
-		// CompanyFiscalYearOption fiscalYearOption = new
-		// CompanyFiscalYearOption();
+		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		CreditsOption creditsOption = new CreditsOption();
@@ -141,6 +140,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		TerminologyOption terminologyOption = new TerminologyOption();
 		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
 		NumberFormatOption numberFormatOption = new NumberFormatOption();
+		CurrencyFormatOption currencyFormatOption = new CurrencyFormatOption();
 
 		companyInfoPage.addPreferenceOption(companyInfoOption);
 		companyInfoPage.addPreferenceOption(formateOption);
@@ -153,6 +153,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		companyInfoPage.addPreferenceOption(terminologyOption);
 		companyInfoPage.addPreferenceOption(taxOption);
 		companyInfoPage.addPreferenceOption(numberFormatOption);
+		companyInfoPage.addPreferenceOption(currencyFormatOption);
 
 		return companyInfoPage;
 	}
