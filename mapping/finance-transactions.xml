@@ -1053,11 +1053,9 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
-		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
-			cascade="save-update" column="TRANSACTION_RECEIVE_PAYMENT_ID">
+		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment" column="TRANSACTION_RECEIVE_PAYMENT_ID">
 		</many-to-one>
-		<many-to-one name="transactionPayBill" class="TransactionPayBill"
-			cascade="save-update" column="TRANSACTION_PAYBILL_ID">
+		<many-to-one name="transactionPayBill" class="TransactionPayBill" column="TRANSACTION_PAYBILL_ID">
 		</many-to-one>
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 			cascade="save-update" column="CREDITS_AND_PAYMENTS_ID">
