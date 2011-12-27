@@ -34,11 +34,13 @@ public class WidgetCreator {
 	}
 
 	public Portlet getWidgetByName(String widgetName) {
-		if (widgetName.equals(Accounter.messages().WELCOME())) {
-			return getWelcomePortlet();
-		} else if (widgetName.equals(Accounter.messages().BANKINGSUMMARY())) {
-			return getBankingSummaryWidget();
-		} /*
+		// if (widgetName.equals(Accounter.messages().WELCOME())) {
+		// return getWelcomePortlet();
+		// } else if (widgetName.equals(Accounter.messages().BANKINGSUMMARY()))
+		// {
+		// return getBankingSummaryWidget();
+		// }
+		/*
 		 * else if (widgetName.equals("PROFIT_AND_LOSS")) { return
 		 * getProfitAndLossWidget(); } else if
 		 * (widgetName.equals("CREDIT_OVERVIEW")) { return
@@ -89,53 +91,53 @@ public class WidgetCreator {
 
 		// grid.setRecords(initCompanyFinancialWidgetData());
 
-//		welcomePortlet = new Portlet() {
-//			@Override
-//			protected void onAttach() {
-//				this.titleName = "Key Financial Indicators";
-//				grid.setHeight("180px");
-//				grid.getElement().getStyle().setBorderWidth(0, Unit.PX);
-//				grid.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-//				super.onAttach();
-//			}
-//
-//			@Override
-//			public void linkClicked() {
-//
-//			}
-//
-//			@Override
-//			public void refreshClicked() {
-//				grid.clear();
-//				grid.addLoadingImagePanel();
-//				// grid.addEmptyMessage("please wait...");
-//				reloadKeyIndicators(grid);
-//			}
-//
-//			@Override
-//			public void createBody() {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public String getGoToText() {
-//				// TODO Auto-generated method stub
-//				return null;
-//			}
-//
-//			@Override
-//			public void goToClicked() {
-//				// TODO Auto-generated method stub
-//
-//			}
-//
-//			@Override
-//			public void helpClicked() {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		};
+		// welcomePortlet = new Portlet() {
+		// @Override
+		// protected void onAttach() {
+		// this.titleName = "Key Financial Indicators";
+		// grid.setHeight("180px");
+		// grid.getElement().getStyle().setBorderWidth(0, Unit.PX);
+		// grid.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		// super.onAttach();
+		// }
+		//
+		// @Override
+		// public void linkClicked() {
+		//
+		// }
+		//
+		// @Override
+		// public void refreshClicked() {
+		// grid.clear();
+		// grid.addLoadingImagePanel();
+		// // grid.addEmptyMessage("please wait...");
+		// reloadKeyIndicators(grid);
+		// }
+		//
+		// @Override
+		// public void createBody() {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		//
+		// @Override
+		// public String getGoToText() {
+		// // TODO Auto-generated method stub
+		// return null;
+		// }
+		//
+		// @Override
+		// public void goToClicked() {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		//
+		// @Override
+		// public void helpClicked() {
+		// // TODO Auto-generated method stub
+		//
+		// }
+		// };
 
 		// welcomePortlet.setTitle("Key Financial Indicators"reloadKeyIndicators);
 		// layout.setBackgroundColor("white");
@@ -245,31 +247,31 @@ public class WidgetCreator {
 		customerWidgetGrid.getElement().getStyle().setBorderWidth(0, Unit.PX);
 		customerWidgetGrid.addLoadingImagePanel();
 
-//		bankingSummaryPortlet = new Portlet() {
-//			@Override
-//			protected void onAttach() {
-//				this.titleName = "Debtors";
-//				customerWidgetGrid.getElement().getStyle()
-//						.setBorderWidth(0, Unit.PX);
-//				super.onAttach();
-//			}
-//
-//			@Override
-//			public void linkClicked() {
-//
-//			}
-//
-//			@Override
-//			public void refreshClicked() {
-//				customerWidgetGrid.clear();
-//
-//				// customerWidgetGrid.addEmptyMessage("please wait...");
-//				customerWidgetGrid.addLoadingImagePanel();
-//
-//				reloadDebitors(customerWidgetGrid);
-//
-//			}
-//		};
+		// bankingSummaryPortlet = new Portlet() {
+		// @Override
+		// protected void onAttach() {
+		// this.titleName = "Debtors";
+		// customerWidgetGrid.getElement().getStyle()
+		// .setBorderWidth(0, Unit.PX);
+		// super.onAttach();
+		// }
+		//
+		// @Override
+		// public void linkClicked() {
+		//
+		// }
+		//
+		// @Override
+		// public void refreshClicked() {
+		// customerWidgetGrid.clear();
+		//
+		// // customerWidgetGrid.addEmptyMessage("please wait...");
+		// customerWidgetGrid.addLoadingImagePanel();
+		//
+		// reloadDebitors(customerWidgetGrid);
+		//
+		// }
+		// };
 		reloadDebitors(customerWidgetGrid);
 
 		bankingSummaryPortlet.add(customerWidgetGrid);
