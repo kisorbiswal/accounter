@@ -1021,22 +1021,29 @@ public class DashboardManager extends Manager {
 			endDateCal.set(Calendar.DATE,
 					endDateCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 
-			Query query = session.getNamedQuery("getAccountBalances")
+			Query query = session
+					.getNamedQuery("getAccountBalances")
 					.setParameter("companyId", companyId)
 					.setParameter("accountId", accountId)
-					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate());
+					.setParameter("startDate",
+							new FinanceDate(startDateCal.getTime()).getDate())
+					.setParameter("endDate",
+							new FinanceDate(endDateCal.getTime()).getDate());
 			Object[] next = (Object[]) query.uniqueResult();
 
 			YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
-			yearOverYearData.setName((String) next[0]);
-			yearOverYearData
-					.setAmount(next[1] != null ? (Double) next[1] : 0.0);
-			Currency primaryCurrency = getCompany(companyId)
-					.getPrimaryCurrency();
-			yearOverYearData
-					.setCurrency(primaryCurrency != null ? primaryCurrency
-							.getID() : 0);
+			if (next != null) {
+				yearOverYearData.setName((String) next[0]);
+				yearOverYearData.setAmount(next[1] != null ? (Double) next[1]
+						: 0.0);
+				Currency primaryCurrency = getCompany(companyId)
+						.getPrimaryCurrency();
+				yearOverYearData
+						.setCurrency(primaryCurrency != null ? primaryCurrency
+								.getID() : 0);
+			} else {
+				yearOverYearData.setAmount(0.0);
+			}
 			yearOverYearData.setMonth(startDateCal.get(Calendar.MONTH));
 
 			yearOverYearDatas.add(yearOverYearData);
