@@ -388,12 +388,6 @@ public abstract class TreeGrid<T> extends CustomTable {
 
 	public List<T> getChildNodesByParent(String name, List<?> objects) {
 		List<T> childs = new ArrayList<T>();
-		// int row = objects.indexOf(name);
-		// int rowCount = this.getRowCount();
-		// for (int i = row + 1; i < rowCount; i++) {
-		// Element Ele = rowFormatter.getElement(i);
-		// String clName = Ele.getAttribute("class");
-		// if ((Arrays.asList(clName.split(" ")).contains(name))) {
 		for (int i = objects.indexOf(name) + 1; i < objects.size(); i++) {
 			Object obj = objects.get(i);
 			if (!(obj instanceof String)) {

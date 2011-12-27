@@ -154,14 +154,6 @@ public class TransactionPayTAXGrid extends
 	 * This method invoked when header checkbox value is false(unchecked)
 	 */
 	public void resetValues() {
-		// for (ClientTransactionPayVAT obj : this.getRecords()) {
-		// obj.setPayment(0.0);
-		// obj.setCashDiscount(0);
-		// obj.setAppliedCredits(0);
-		// selectedValues.remove((Integer) indexOf(obj));
-		// updateData(obj);
-		// }
-		// updateFooterValues("0.0", 2);
 		payVATView.adjustAmountAndEndingBalance(0.0);
 	}
 

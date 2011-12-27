@@ -26,7 +26,6 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		// addFooterValue("Total", 3);
 		return new String[] { Accounter.messages().date(),
 				Accounter.messages().number(), Accounter.messages().name(),
 				Accounter.messages().memo(), Accounter.messages().amount() };

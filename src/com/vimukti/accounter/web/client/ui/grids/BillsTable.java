@@ -75,7 +75,7 @@ public class BillsTable extends BaseTable<BillsList> {
 			@Override
 			public void onCellPreview(CellPreviewEvent<BillsList> event) {
 				// System.out.println(event.getNativeEvent().getType());
-				if (!"click".equals(event.getNativeEvent().getType())) {
+				if (!Accounter.messages().click().equals(event.getNativeEvent().getType())) {
 					return;
 				}
 				if (event.getColumn() == 0) {

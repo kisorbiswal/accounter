@@ -88,10 +88,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		if (col == 9 && !obj.isVoided()) {
 			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
 		}
-		// else if (col == 9) {
-		// msg = "Do you want to Delete the Transaction";
-		//
-		// }
+		
 		Accounter.showWarning(msg, AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -134,7 +131,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (viewType != null && !viewType.equalsIgnoreCase("All"))
+					if (viewType != null && !viewType.equalsIgnoreCase(Accounter.messages().all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

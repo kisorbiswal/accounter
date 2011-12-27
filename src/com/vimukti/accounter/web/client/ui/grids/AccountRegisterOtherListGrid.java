@@ -145,9 +145,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	@Override
 	protected int sort(AccountRegister obj1, AccountRegister obj2, int index) {
 		if (!(Utility.getTransactionName(obj1.getType()).equalsIgnoreCase(
-				"Opening Balance") || Utility
+				Accounter.messages().openingBalance()) || Utility
 				.getTransactionName(obj2.getType()).equalsIgnoreCase(
-						"Opening Balance"))) {
+						Accounter.messages().openingBalance()))) {
 			switch (index) {
 			case 0:
 				ClientFinanceDate date1 = obj1.getDate();

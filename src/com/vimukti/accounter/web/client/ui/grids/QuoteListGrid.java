@@ -361,7 +361,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		if (object instanceof ClientEstimate) {
-			if (!viewType.equalsIgnoreCase("All"))
+			if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
 				deleteRecord((ClientEstimate) object);
 			updateData((ClientEstimate) object);
 		}

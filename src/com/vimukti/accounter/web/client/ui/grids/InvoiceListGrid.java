@@ -218,8 +218,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			public void onResultSuccess(Boolean result) {
 				if (result) {
 
-					if (viewType.equalsIgnoreCase("Open")
-							|| viewType.equalsIgnoreCase("Over-Due"))
+					if (viewType.equalsIgnoreCase(Accounter.messages().open())
+							|| viewType.equalsIgnoreCase(Accounter.messages().overDue()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

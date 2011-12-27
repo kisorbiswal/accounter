@@ -157,7 +157,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase("All"))
+					if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;
