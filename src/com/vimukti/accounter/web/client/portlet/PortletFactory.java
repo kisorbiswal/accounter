@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BankAccountsPortlet;
 import com.vimukti.accounter.web.client.ui.BankingPortlet;
-import com.vimukti.accounter.web.client.ui.ExpenseClaimPortlet;
+import com.vimukti.accounter.web.client.ui.ExpensesBreakdownPortlet;
 import com.vimukti.accounter.web.client.ui.MessagesAndTasksPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyComingPortlet;
 import com.vimukti.accounter.web.client.ui.MoneyGoingPortlet;
@@ -49,7 +49,7 @@ public class PortletFactory {
 		} else if (name.equals(MONEY_GOING)) {
 			portlet = new MoneyGoingPortlet(pc);
 		} else if (name.equals(EXPENSES_CLAIM)) {
-			portlet = new ExpenseClaimPortlet(pc);
+			portlet = new ExpensesBreakdownPortlet(pc);
 		} else if (name.equals(WHO_I_OWE)) {
 			portlet = new WhoIOwePortlet(pc);
 		} else if (name.equals(WHO_OWES_ME)) {

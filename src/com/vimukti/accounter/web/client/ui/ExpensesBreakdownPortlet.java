@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.ExpensePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
-public class ExpenseClaimPortlet extends GraphPointsPortlet {
+public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 	private PortletToolBar toolBar;
 	private VerticalPanel graphPanel;
@@ -42,7 +42,7 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 	public Label empExpAmtLabel;
 	public Label ccExpAmtLabel;
 
-	public ExpenseClaimPortlet(ClientPortletConfiguration pc) {
+	public ExpensesBreakdownPortlet(ClientPortletConfiguration pc) {
 		super(pc, messages.expenses(), "", "100%");
 		this.setConfiguration(pc);
 	}
@@ -126,15 +126,15 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 
 		Label empExpLabel = new Label();
 
-		allExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		fTable.addStyleName("expense_label_tabel");
 		fTable.setWidget(0, 0, allExpLabel);
@@ -180,22 +180,24 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(DataUtils
-				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
-		ccExpAmtLabel.setText(DataUtils
-				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
-		empExpAmtLabel.setText(DataUtils
-				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
-		allExpAmtLabel.setText(DataUtils
-				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
+		cashExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(cashExpenseAmount));
+		ccExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(ccExpenseAmount));
+		empExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(employeeExpenseAmount));
+
+		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
+				+ amountAsString(allExpensesAmount));
 	}
 
 	private void toolBarInitilization() {
 		toolBar = new ExpensePortletToolBar() {
 			@Override
 			protected void initData() {
-				if (ExpenseClaimPortlet.this.getConfiguration().getPortletKey() != null) {
-					setDefaultDateRange(ExpenseClaimPortlet.this
+				if (ExpensesBreakdownPortlet.this.getConfiguration()
+						.getPortletKey() != null) {
+					setDefaultDateRange(ExpensesBreakdownPortlet.this
 							.getConfiguration().getPortletKey());
 				} else {
 					setDefaultDateRange(messages.financialYearToDate());
@@ -204,12 +206,12 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 
 			@Override
 			protected void refreshPortletData(String selectItem) {
-				ExpenseClaimPortlet.this.clearGraph();
+				ExpensesBreakdownPortlet.this.clearGraph();
 				dateRangeItemCombo.setSelected(selectItem);
-				ExpenseClaimPortlet.this.getConfiguration().setPortletKey(
+				ExpensesBreakdownPortlet.this.getConfiguration().setPortletKey(
 						selectItem);
 				dateRangeChanged(selectItem);
-				ExpenseClaimPortlet.this.updateData(startDate.getDate(),
+				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
 						endDate.getDate());
 			}
 
@@ -217,7 +219,7 @@ public class ExpenseClaimPortlet extends GraphPointsPortlet {
 			public void setDefaultDateRange(String defaultDateRange) {
 				dateRangeItemCombo.setSelected(defaultDateRange);
 				dateRangeChanged(defaultDateRange);
-				ExpenseClaimPortlet.this.updateData(startDate.getDate(),
+				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
 						endDate.getDate());
 			}
 		};
