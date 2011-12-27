@@ -49,12 +49,12 @@ public class ReconcilationsAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return messages.reconciliationsReport();
+		return "ReconciliationReports";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return messages.reconciliationsReport();
+		return "Reconciliation-Reports";
 	}
 
 	@Override
