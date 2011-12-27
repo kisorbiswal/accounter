@@ -5435,71 +5435,71 @@ public interface AccounterMessages extends Messages {
     
     public String clientTransactionLog();
     
-//    public String THOUSAND();
-//    
-//    public String MILLION();
-//    
-//    public String BILLION();
-//    
-//    public String TRILLION();
-//    
-//    public String ZERO();
-//    
-//    public String ONE();
-//    
-//    public String TWO();
-//    
-//    public String THREE();
-//    
-//    public String FOUR();
-//    
-//    public String FIVE();
-//    
-//    public String SIX();
-//    
-//    public String SEVEN();
-//    
-//    public String EIGHT();
-//    
-//    public String NINE();
-//    
-//    public String TEN();
-//    
-//    public String ELEVEN();
-//    
-//    public String TWELVE();
-//    
-//    public String THIRTEEN();
-//    
-//    public String TOURTEEN();
-//    
-//    public String TIFTEEN();
-//    
-//    public String TIXTEEN();
-//    
-//    public String SEVENTEEN();
-//    
-//    public String EIGHTEEN();
-//    
-//    public String NINETEEN();
-//    
-//    public String TWENTY();
-//    
-//    public String THIRTY();
-//    
-//    public String FORTY();
-//    
-//    public String FIFTY();
-//    
-//    public String SIXTY();
-//    
-//    public String SEVENTY();
-//    
-//    public String EIGHTY();
-//    
-//    public String NINTY();
-//    
-//    public String HUNDRED();
+    public String THOUSAND();
+    
+    public String MILLION();
+    
+    public String BILLION();
+    
+    public String TRILLION();
+    
+    public String ZERO();
+    
+    public String ONE();
+    
+    public String TWO();
+    
+    public String THREE();
+    
+    public String FOUR();
+    
+    public String FIVE();
+    
+    public String SIX();
+    
+    public String SEVEN();
+    
+    public String EIGHT();
+    
+    public String NINE();
+    
+    public String TEN();
+    
+    public String ELEVEN();
+    
+    public String TWELVE();
+    
+    public String THIRTEEN();
+    
+    public String TOURTEEN();
+    
+    public String TIFTEEN();
+    
+    public String TIXTEEN();
+    
+    public String SEVENTEEN();
+    
+    public String EIGHTEEN();
+    
+    public String NINETEEN();
+    
+    public String TWENTY();
+    
+    public String THIRTY();
+    
+    public String FORTY();
+    
+    public String FIFTY();
+    
+    public String SIXTY();
+    
+    public String SEVENTY();
+    
+    public String EIGHTY();
+    
+    public String NINTY();
+    
+    public String HUNDRED();
     
     public String AAccountNumbershoublebeanumber();
     
