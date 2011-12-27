@@ -1995,18 +1995,20 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<PayeesBySalesPortletData> getTopCustomersBySalesPortletData(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
 			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager().getCustomersBySales(
-				getCompanyId(), new FinanceDate(startDate),
-				new FinanceDate(endDate), limit);
+				getCompanyId(), dates[0], dates[1], limit);
 	}
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getTopVendorsBySalesPortletData(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
 			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager().getVendorsBySales(
-				getCompanyId(), new FinanceDate(startDate),
-				new FinanceDate(endDate), limit);
+				getCompanyId(), dates[0], dates[1], limit);
 	}
 
 	@Override
@@ -2042,18 +2044,20 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
 			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager().getItemsBySalesQuantity(
-				getCompanyId(), new FinanceDate(startDate),
-				new FinanceDate(endDate), limit);
+				getCompanyId(), dates[0], dates[1], limit);
 	}
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
 			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager()
-				.getItemsByPurchaseQuantity(getCompanyId(),
-						new FinanceDate(startDate), new FinanceDate(endDate),
+				.getItemsByPurchaseQuantity(getCompanyId(), dates[0], dates[1],
 						limit);
 	}
 
@@ -2061,9 +2065,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long accountId, int chartType) throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager()
-				.getAccountsBalancesByDate(getCompanyId(),
-						new FinanceDate(startDate), new FinanceDate(endDate),
+				.getAccountsBalancesByDate(getCompanyId(), dates[0], dates[1],
 						accountId, chartType);
 	}
 }
