@@ -30,7 +30,6 @@ public class BalanceSheetAction extends Action {
 				report = new BalanceSheetReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, BalanceSheetAction.this);
-				// Accounter.showError("Not yet Implemented");
 
 			}
 

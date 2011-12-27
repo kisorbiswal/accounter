@@ -150,7 +150,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		else
 			customDate.setValue(new ClientFinanceDate());
 
-		updateButton = new Button("Update");
+		updateButton = new Button(Accounter.messages().update());
 		// updateButton.setEnabled(false);
 		updateButton.addClickHandler(new ClickHandler() {
 

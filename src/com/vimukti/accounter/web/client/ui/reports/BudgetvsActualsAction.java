@@ -25,7 +25,6 @@ public class BudgetvsActualsAction extends Action {
 				report = new BudgetVsActualsReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, BudgetvsActualsAction.this);
-				// Accounter.showError("Not yet Implemented");
 
 			}
 

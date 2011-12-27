@@ -198,12 +198,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	 */
 	public void showRecords() {
 		try {
-			// Element styleTag = DOM.getElementById("report-style-Tag");
-			// if (styleTag == null) {
-			// styleTag = DOM.createElement("Style");
-			// styleTag.setID("report-style-Tag");
-			// RootPanel.getBodyElement().appendChild(styleTag);
-			// }
 			if (UIUtils.isMSIEBrowser()) {
 				if (isWiderReport()) {
 					this.tableLayout.setStyleName("tablelayoutInIE");
@@ -217,30 +211,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 					this.tableLayout.setStyleName("tablelayout1");
 				}
 			}
-			// int child = canAdd ? 2 : 1;
-			//
-			// if (isWiderReport()) {
-			// styleTag.setInnerText(".depth :nth-child(" + child
-			// + ") {padding-left: " + 2
-			// + "%!important;} .tablelayout{padding-left: " + 4
-			// + "%!important;padding-right: " + 4
-			// + "%!important;width:" + 92
-			// + "%!important} .ReportGrid tr td{font-size:" + 9
-			// + "pt !important;}");
-			// } else {
-			//
-			// styleTag.setInnerText(".depth :nth-child(" + child
-			// + ") {padding-left: " + 2
-			// + "%!important;} .tablelayout{padding-left: " + 12
-			// + "%!important;padding-right: " + 12
-			// + "%!important;width:" + 75
-			// + "%!important} .ReportGrid tr td{font-size:" + 9
-			// + "pt !important;}");
-			//
-			// }
 
-			// this.grid.setHTML(this.grid.getRowCount(), this.columns.length -
-			// 1,styleTag.ge);
 			AccounterDOM.addStyleToparent(this.grid.getElement(),
 					"reportGridParent");
 		} catch (Exception e) {

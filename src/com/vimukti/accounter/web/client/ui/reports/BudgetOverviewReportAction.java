@@ -26,7 +26,6 @@ public class BudgetOverviewReportAction extends Action {
 				report = new BudgetOverviewReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, BudgetOverviewReportAction.this);
-				// Accounter.showError("Not yet Implemented");
 
 			}
 
