@@ -389,9 +389,13 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 			if (countryPreferences.getPreferredCurrency().trim()
 					.equals(currenciesList.get(i).getFormalName())) {
 				get(PRIMARY_CURRENCY).setValue(currenciesList.get(i));
-				return;
+				break;
 			}
 		}
+
+		get(TIME_ZONE).setValue(
+				countryPreferences.getDefaultTimeZone(countryPreferences
+						.getStates()[0]));
 	}
 
 	@Override
