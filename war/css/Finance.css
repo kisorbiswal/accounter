@@ -2624,3 +2624,6 @@ input.date-field-textbox {
 	font-size: 13px;
     line-height: 0.6;
 }
+.activity-text-color{
+	color:red;
+}
