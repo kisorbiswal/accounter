@@ -107,8 +107,8 @@ public class RecurringTransactionsListView extends
 	}
 
 	protected void openNewRecurrableTemplate() {
-		// TODO Auto-generated method stub
-
+		CreateRecurringTemplateDialog createRecurringTemplateDialog = new CreateRecurringTemplateDialog();
+		createRecurringTemplateDialog.center();
 	}
 
 	protected void openUsableTransactionView() {
@@ -230,7 +230,7 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return "";
+		return null;
 	}
 
 	@Override
