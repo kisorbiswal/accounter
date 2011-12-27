@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.RecurringConfirmDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -73,7 +74,7 @@ public class RecurringTransactionDialog extends
 	private RadioButton onSpecificDayRadioBtn;
 	private RadioButton onSpecificWeekRadioBtn;
 
-	private LabelItem daysBeforeLabel;
+	private LabelItem daysBeforeLabel, daysInAdvanceLabel;
 
 	private CheckboxItem unbilledChargesCkBox, alertWhenRangeEnded,
 			notifyAboutCreatedTransactions;
@@ -139,12 +140,16 @@ public class RecurringTransactionDialog extends
 		nameField.setHelpInformation(true);
 
 		daysInAdvanceField = new TextItem(Accounter.messages().daysInAdvance());
+		daysInAdvanceLabel = new LabelItem();
+		daysInAdvanceLabel.setShowTitle(false);
+		daysInAdvanceLabel.setValue(Accounter.messages().toCreate());
 
 		notifyAboutCreatedTransactions = new CheckboxItem(Accounter.messages()
 				.notifyAboutCreatedTransactions());
 
 		daysBeforeToRemind = new TextItem(Accounter.messages().remindMe());
 		daysBeforeLabel = new LabelItem();
+		daysBeforeLabel.setShowTitle(false);
 		daysBeforeLabel.setValue(Accounter.messages().daysBefore());
 		notificationForm = new DynamicForm();
 		notificationForm.setNumCols(4);
@@ -207,7 +212,8 @@ public class RecurringTransactionDialog extends
 		intervalForm.setFields(intervalTypeCombo);
 
 		daysAdvForm = new DynamicForm();
-		daysAdvForm.setFields(daysInAdvanceField);
+		daysAdvForm.setNumCols(4);
+		daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
 
 		DynamicForm dateRangeForm = new DynamicForm();
 		dateRangeForm.setFields(startDateField);
@@ -241,6 +247,9 @@ public class RecurringTransactionDialog extends
 
 		mainLayout.addStyleName("fields-panel");
 		setBodyLayout(mainLayout);
+
+		okbtn.setText(messages.saveTemplate());
+		okbtn.setWidth("100px");
 	}
 
 	private void initRadioBtns() {
@@ -321,7 +330,7 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:
 				daysAdvForm.clear();
-				daysAdvForm.setFields(daysInAdvanceField);
+				daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
 				notificationForm.clear();
 				notificationForm.setFields(notifyAboutCreatedTransactions);
 				changeFieldsStausForNoneSelection(false);
@@ -579,6 +588,7 @@ public class RecurringTransactionDialog extends
 
 		intervalTypeCombo.setSelected(getIntervalTypeOptions().get(2));
 		intervalValueField.setIntervalValue(1);
+		intervalValueField.setIntervalTypeLabel(Accounter.messages().months());
 		onSpecificDayRadioBtn.setValue(true);
 		weekOfMonthCombo.setDisabled(true);
 		dayOfWeekCombo.setDisabled(true);
@@ -700,6 +710,8 @@ public class RecurringTransactionDialog extends
 		okbtn.setEnabled(true);
 		cancelBtn.setEnabled(true);
 		view.recurringDialog = null;
+		RecurringConfirmDialog success = new RecurringConfirmDialog();
+		success.center();
 	}
 
 	/**
@@ -911,13 +923,14 @@ public class RecurringTransactionDialog extends
 	private class IntervalValueInputField extends DynamicForm {
 		private TextItem intervalValueField;
 		private LabelItem intervalTypeLabel;
-		
+
 		public IntervalValueInputField() {
 			// setGroupTitle(title);
 			setNumCols(4);
 			intervalValueField = new TextItem(messages.every());
 			intervalValueField.setRequired(true);
 			intervalTypeLabel = new LabelItem();
+			intervalTypeLabel.setShowTitle(false);
 			setFields(intervalValueField, intervalTypeLabel);
 		}
 
