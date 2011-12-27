@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CurrencyCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -25,7 +25,7 @@ public class CurrencyComboWidget extends DynamicForm {
 		this.currencies = currencies;
 		this.baseCurrency = baseCurrency;
 
-		currencyCombo = new CurrencyCombo(Accounter.messages().currency());
+		currencyCombo = new CurrencyCombo(Global.get().messages().currency());
 		currencyCombo.initCombo(currencies);
 
 		if (baseCurrency != null) {

@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -111,9 +113,10 @@ public abstract class BizDecorPanel extends FlexTable {
 	private void setGoToAction(String title, String gotoString) {
 		gotoLabel.setText(gotoString);
 		gotoLabel.addStyleName("goToLink");
-		gotoLabel.setTitle(Accounter.messages().clickThisObjToOpen(
-				Accounter.messages().link(),
-				Accounter.messages().allTransactionDetails(title)));
+		AccounterMessages messages=Global.get().messages();
+		gotoLabel.setTitle(messages.clickThisObjToOpen(
+				messages.link(),
+				messages.allTransactionDetails(title)));
 		gotoLabel.getElement().getStyle()
 				.setTextDecoration(getTitleDecoration());
 		gotoLabel.addClickHandler(new ClickHandler() {
