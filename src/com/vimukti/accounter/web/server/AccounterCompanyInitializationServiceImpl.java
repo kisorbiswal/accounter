@@ -205,6 +205,10 @@ public class AccounterCompanyInitializationServiceImpl extends
 		return client;
 	}
 
+	public ClientUser getUser() {
+		return getUser(getClient(getUserEmail()));
+	}
+
 	private static ClientUser getUser(Client client) {
 		User user = client.toUser();
 		// user.setFullName(user.getFirstName() + " " + user.getLastName());
