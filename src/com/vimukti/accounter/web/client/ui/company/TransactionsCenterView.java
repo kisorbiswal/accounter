@@ -43,6 +43,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		createTreeItems();
 		this.add(mainPanel);
 		setSize("100%", "100%");
+		mainPanel.setWidth("100");
 	}
 
 	@SuppressWarnings("unchecked")
@@ -174,7 +175,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		} else if (itemName.equalsIgnoreCase(getMessages().transferFunds())) {
 			// TODO
 		}
+		
 		mainPanel.add(baseListView);
+		mainPanel.setCellWidth(baseListView, "100%");
 		MainFinanceWindow.getViewManager().updateButtons();
 		baseListView.init();
 		baseListView.initData();
