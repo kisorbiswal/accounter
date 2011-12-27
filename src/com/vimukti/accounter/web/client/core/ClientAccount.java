@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-
-import com.vimukti.accounter.core.Account;
-
 /**
  * @author vimukti21
  * 
@@ -632,7 +629,7 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 			this.setSubBaseType(SUBBASETYPE_OTHER_EXPENSE);
 			break;
 		case TYPE_PAYPAL:
-			this.setSubBaseType(Account.SUBBASETYPE_CURRENT_ASSET);
+			this.setSubBaseType(SUBBASETYPE_CURRENT_ASSET);
 			break;
 		}
 	}
