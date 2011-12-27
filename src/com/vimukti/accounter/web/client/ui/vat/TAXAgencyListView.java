@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -21,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.grids.TAXAgencyListGrid;
 public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	private List<PayeeList> listOfPayees;
-	private int start;
+	private boolean isActiveAccounts = true;
 
 	public TAXAgencyListView() {
 		super();
@@ -88,9 +90,8 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-				true, 0, -1, false, this);
+		// super.initListCallback();
+		onPageChange(0, getPageSize());
 
 	}
 
@@ -106,7 +107,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("isActive", isActiveAccounts);
+		map.put("isActive", isActiveAccounts);
 		map.put("start", start);
 		return map;
 	}
@@ -117,44 +118,61 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
-		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
-		// } else {
-		// viewSelect.setComboItem(messages().inActive());
-		// }
+		if (isActiveAccounts) {
+			viewSelect.setComboItem(messages().active());
+		} else {
+			viewSelect.setComboItem(messages().inActive());
+		}
 
 	}
 
 	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
+				isActiveAccounts, start, length, true, this);
+	}
+
+	@Override
 	protected void filterList(boolean isActive) {
-		grid.removeAllRecords();
-		grid.setTotal();
-		for (PayeeList payee : listOfPayees) {
-			if (isActive) {
-				if (payee.isActive()) {
-					grid.addData(payee);
-				}
-
-			} else if (!payee.isActive()) {
-				grid.addData(payee);
-
-			}
-
-		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
-
-		getTotalLayout(grid);
+		isActiveAccounts = isActive;
+		onPageChange(0, getPageSize());
+		// grid.removeAllRecords();
+		// grid.setTotal();
+		// for (PayeeList payee : listOfPayees) {
+		// if (isActive) {
+		// if (payee.isActive()) {
+		// grid.addData(payee);
+		// }
+		//
+		// } else if (!payee.isActive()) {
+		// grid.addData(payee);
+		//
+		// }
+		//
+		// }
+		// if (grid.getRecords().isEmpty())
+		// grid.addEmptyMessage(messages().noRecordsToShow());
+		//
+		// getTotalLayout(grid);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
 		this.listOfPayees = result;
-		super.onSuccess(result);
 		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
+
 	}
 
 	@Override
@@ -186,5 +204,14 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return messages().payees(messages().taxAgencies());
+	}
+
+	@Override
+	protected List<String> getViewSelectTypes() {
+		List<String> selectTypes = new ArrayList<String>();
+		selectTypes.add(messages().active());
+		selectTypes.add(messages().inActive());
+		viewSelect.setComboItem(messages().active());
+		return selectTypes;
 	}
 }
