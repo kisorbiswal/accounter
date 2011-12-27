@@ -1,6 +1,8 @@
 package com.vimukti.accounter.mobile.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
 import com.vimukti.accounter.core.Location;
 import com.vimukti.accounter.core.Measurement;
+import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.SalesPerson;
@@ -1356,4 +1359,49 @@ public class CommandUtils {
 		return (ClientStockTransfer) getClientObjectById(Long.valueOf(string),
 				AccounterCoreType.STOCK_TRANSFER, company.getId());
 	}
+
+	public static long getNextAccountNumber(Company company,
+			int accountSubBaseType) {
+
+		Collections.sort(new ArrayList<Account>(company.getAccounts()),
+				new Comparator<Account>() {
+
+					@Override
+					public int compare(Account o1, Account o2) {
+						Long number1 = Long.parseLong(o1.getNumber());
+						Long number2 = Long.parseLong(o2.getNumber());
+						return number1.compareTo(number2);
+					}
+				});
+		Integer[] codeRanges = getNominalCodeRange(company, accountSubBaseType);
+		long lastUsedNo = codeRanges[0];
+		for (Account account : company.getAccounts()) {
+			if (account.getSubBaseType() == accountSubBaseType) {
+				long number = Long.parseLong(account.getNumber());
+				if (number == lastUsedNo) {
+					lastUsedNo++;
+				} else {
+					break;
+				}
+			}
+		}
+		if (lastUsedNo < codeRanges[1]) {
+			return lastUsedNo;
+		}
+		return -1;
+	}
+
+	public static Integer[] getNominalCodeRange(Company company,
+			int accountSubBaseType) {
+
+		for (NominalCodeRange nomincalCode : company.getNominalCodeRange()) {
+			if (nomincalCode.getAccountSubBaseType() == accountSubBaseType) {
+				return new Integer[] { nomincalCode.getMinimum(),
+						nomincalCode.getMaximum() };
+			}
+		}
+
+		return null;
+	}
+
 }
