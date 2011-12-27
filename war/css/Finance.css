@@ -2614,3 +2614,6 @@ input.date-field-textbox {
 .date_range_combo{
 	width: 120px;
 }
+.Transactions_center .gwt-Button {
+    margin-top: 8px;
+}
