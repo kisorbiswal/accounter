@@ -40,7 +40,7 @@ public class VendorBillListDialog extends BaseDialog {
 		this.view = view;
 		this.list = list;
 		// setTitle("");
-		setText(Accounter.messages().purchaseOrderList());
+		setText(messages.purchaseOrderList());
 		initRPCService();
 		createControls();
 		setWidth("700px");
@@ -53,16 +53,15 @@ public class VendorBillListDialog extends BaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.messages().selectPurchaseOrder()
-				+ Accounter.messages().selectDocument());
+		Label infoLabel = new Label(messages.selectPurchaseOrder()
+				+ messages.selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.messages().date(), Accounter.messages()
-				.no(), Accounter.messages().type(), messages.payeeName(Global
-				.get().Vendor()), Accounter.messages().total(), Accounter
-				.messages().remainingTotal());
+		grid.addColumns(messages.date(), messages
+				.no(), messages.type(), messages.payeeName(Global
+				.get().Vendor()), messages.total(), messages.remainingTotal());
 		grid.setCellsWidth(new Integer[] { 70, 50, 90, -1, 90, 95 });
 		grid.setView(this);
 		grid.init();
@@ -104,7 +103,7 @@ public class VendorBillListDialog extends BaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.messages().sorryNoHelp());
+				Accounter.showError(messages.sorryNoHelp());
 
 			}
 
@@ -183,7 +182,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.errorLoadingItemReceipt());
 			}
 
@@ -205,7 +204,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.errorLoadingPurchaseOrder());
 			}
 
@@ -232,7 +231,7 @@ public class VendorBillListDialog extends BaseDialog {
 				grid.addData(rec);
 			}
 		} else
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public Object getGridColumnValue(IAccounterCore obj, int index) {

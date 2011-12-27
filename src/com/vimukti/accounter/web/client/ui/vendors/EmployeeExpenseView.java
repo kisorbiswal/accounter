@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -30,8 +29,6 @@ public class EmployeeExpenseView extends CashPurchaseView {
 	public int status;
 	private ImageButton approveButton;
 	private ImageButton submitForApprove;
-	AccounterMessages messages = Accounter
-			.messages();
 
 	public EmployeeExpenseView() {
 		super(ClientTransaction.TYPE_EMPLOYEE_EXPENSE);
@@ -100,7 +97,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 		final MultiWordSuggestOracle employe = new MultiWordSuggestOracle();
 
-		titlelabel.setText(Accounter.messages().employeeExpense());
+		titlelabel.setText(messages.employeeExpense());
 		// Accounter.createGETService().getHREmployees(
 		// new AccounterAsyncCallback<ArrayList<HrEmployee>>() {
 		//
@@ -119,7 +116,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		// }
 		// });
 
-		employee = new EmployeeCombo(Accounter.messages().employee());
+		employee = new EmployeeCombo(messages.employee());
 		employee.getMainWidget();
 		employee.setHelpInformation(true);
 		employee.setRequired(true);
@@ -136,15 +133,14 @@ public class EmployeeExpenseView extends CashPurchaseView {
 		}
 
 		String listString[] = new String[] {
-				Accounter.messages().cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.messages().check()),
-				Accounter.messages().creditCard(),
-				Accounter.messages().directDebit(),
-				Accounter.messages().masterCard(),
-				Accounter.messages().onlineBanking(),
-				Accounter.messages().standingOrder(),
-				Accounter.messages().switchMaestro() };
+				messages.cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check()),
+				messages.creditCard(),
+				messages.directDebit(),
+				messages.masterCard(),
+				messages.onlineBanking(),
+				messages.standingOrder(),
+				messages.switchMaestro() };
 		selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -209,7 +205,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			if (!payFromCombo.validate()) {
 				result.addError(
 						payFromCombo,
-						Accounter.messages().pleaseEnter(
+						messages.pleaseEnter(
 								payFromCombo.getTitle()));
 			}
 		// if (!AccounterValidator.isValidDueOrDelivaryDates(deliveryDateItem
@@ -245,7 +241,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 				if (result) {
 					ClientCashPurchase purchase = (ClientCashPurchase) transaction;
 					if (purchase.getExpenseStatus() == ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.expenseisApproved());
 					} else
 						enableFormItems();
@@ -270,18 +266,18 @@ public class EmployeeExpenseView extends CashPurchaseView {
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().productOrServiceItem());
+		setMenuItems(button, messages.productOrServiceItem());
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().employeeExpense();
+		return messages.employeeExpense();
 	}
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		approveButton = new ImageButton(Accounter.messages().approve(),
+		approveButton = new ImageButton(messages.approve(),
 				Accounter.getFinanceImages().approve());
 		approveButton.addClickHandler(new ClickHandler() {
 
@@ -291,7 +287,7 @@ public class EmployeeExpenseView extends CashPurchaseView {
 			}
 		});
 
-		submitForApprove = new ImageButton(Accounter.messages()
+		submitForApprove = new ImageButton(messages
 				.submitForApproval(), Accounter.getFinanceImages()
 				.submitForApproval());
 		submitForApprove.addClickHandler(new ClickHandler() {

@@ -355,7 +355,7 @@ public class CashExpenseView extends
 		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
 
 		// Ending and Vendor Balance
-		accountBalText = new AmountField(Accounter.messages().bankBalance(),
+		accountBalText = new AmountField(messages.bankBalance(),
 				this, getBaseCurrency());
 		accountBalText.setHelpInformation(true);
 		accountBalText.setWidth(100);

@@ -779,8 +779,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				if (taxAgency != null
 						&& this.transactionDate.before(taxAgency
 								.getLastTAXReturnDate())) {
-					result.addWarning(this.transactionDate, Accounter
-							.messages().taxExceptionMesg());
+					result.addWarning(this.transactionDate, messages.taxExceptionMesg());
 				}
 			}
 			if (!isTaxPerDetailLine()) {

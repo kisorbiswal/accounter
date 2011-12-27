@@ -53,7 +53,7 @@ public class NewVendorPaymentView extends
 	private DynamicForm payForm;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
-			.getpaymentMethodCheckBy_CompanyType(Accounter.messages().check());
+			.getpaymentMethodCheckBy_CompanyType(messages.check());
 
 	boolean isChecked = false;
 
@@ -81,7 +81,7 @@ public class NewVendorPaymentView extends
 		this.addressListOfVendor = null;
 		this.payFromAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
+				.getpaymentMethodCheckBy_CompanyType(messages
 						.check());
 		amountText.setAmount(0D);
 		endBalText.setAmount(0D);
@@ -141,8 +141,8 @@ public class NewVendorPaymentView extends
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
-						Accounter.messages().toBePrinted())) {
-					checkNo.setValue(Accounter.messages().toBePrinted());
+						messages.toBePrinted())) {
+					checkNo.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
 					checkNo.setValue(transaction.getCheckNumber());
@@ -177,7 +177,7 @@ public class NewVendorPaymentView extends
 	protected void createControls() {
 		Label lab1 = new Label(messages.payeePrePayment(Global.get().Vendor()));
 
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 
 		transactionDateItem = createTransactionDateItem();
 
@@ -201,13 +201,13 @@ public class NewVendorPaymentView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		vendorCombo = createVendorComboItem(Accounter.messages().payTo());
+		vendorCombo = createVendorComboItem(messages.payTo());
 
 		billToCombo = createBillToComboItem();
 		billToCombo.setDisabled(true);
 
 		// Ending and Vendor Balance
-		endBalText = new AmountField(Accounter.messages().bankBalance(), this,
+		endBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
@@ -246,9 +246,9 @@ public class NewVendorPaymentView extends
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
 		// Payment
-		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
+		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(Accounter.messages().amount(), this,
+		amountText = new AmountField(messages.amount(), this,
 				getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
@@ -257,10 +257,10 @@ public class NewVendorPaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
+				.getpaymentMethodCheckBy_CompanyType(messages
 						.check()));
 
-		printCheck = new CheckboxItem(Accounter.messages().toBePrinted());
+		printCheck = new CheckboxItem(messages.toBePrinted());
 		printCheck.setValue(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -270,11 +270,11 @@ public class NewVendorPaymentView extends
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNo.setValue(Accounter.messages().toBePrinted());
+						checkNo.setValue(messages.toBePrinted());
 						checkNo.setDisabled(true);
 					} else {
 						if (payFromAccount == null)
-							checkNo.setValue(Accounter.messages().toBePrinted());
+							checkNo.setValue(messages.toBePrinted());
 						else if (isInViewMode()) {
 							checkNo.setValue(transaction.getCheckNumber());
 						}
@@ -287,7 +287,7 @@ public class NewVendorPaymentView extends
 			}
 		});
 		checkNo = createCheckNumberItem();
-		checkNo.setValue(Accounter.messages().toBePrinted());
+		checkNo.setValue(messages.toBePrinted());
 		checkNo.setWidth(100);
 		checkNo.addChangeHandler(new ChangeHandler() {
 
@@ -297,7 +297,7 @@ public class NewVendorPaymentView extends
 			}
 		});
 
-		payForm = UIUtils.form(Accounter.messages().payment());
+		payForm = UIUtils.form(messages.payment());
 		// payForm.setWidth("80%");
 		// payForm.setHeight("90%");
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -487,8 +487,8 @@ public class NewVendorPaymentView extends
 							.getValue()
 							.toString()
 							.equalsIgnoreCase(
-									Accounter.messages().toBePrinted())) {
-						value = String.valueOf(Accounter.messages()
+									messages.toBePrinted())) {
+						value = String.valueOf(messages
 								.toBePrinted());
 					} else {
 						value = String.valueOf(checkNo.getValue());
@@ -532,7 +532,7 @@ public class NewVendorPaymentView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNo.setDisabled(false);
 			} else {
@@ -579,7 +579,7 @@ public class NewVendorPaymentView extends
 					public void onException(AccounterException t) {
 						// //UIUtils.logError(
 						// "Failed to get the next check number!!", t);
-						checkNo.setValue(Accounter.messages().toBePrinted());
+						checkNo.setValue(messages.toBePrinted());
 						return;
 					}
 
@@ -767,7 +767,7 @@ public class NewVendorPaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.noNegativeAmounts());
 						amountText.setAmount(0.00D);
 
@@ -829,13 +829,13 @@ public class NewVendorPaymentView extends
 		// currencyCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(Accounter.messages().toBePrinted());
+			checkNo.setValue(messages.toBePrinted());
 			checkNo.setDisabled(true);
 		}
 		if (paymentMethodCombo.getSelectedValue().equalsIgnoreCase(
 				messages.cheque())
 				&& printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNo.setValue(Accounter.messages().toBePrinted());
+			checkNo.setValue(messages.toBePrinted());
 			checkNo.setDisabled(false);
 		}
 		memoTextAreaItem.setDisabled(false);

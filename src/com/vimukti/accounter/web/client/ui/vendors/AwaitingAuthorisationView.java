@@ -44,7 +44,7 @@ public class AwaitingAuthorisationView extends BaseView {
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.getElement().getStyle().setMarginTop(15, Unit.PX);
 
-		Button approve = new Button(Accounter.messages().approve());
+		Button approve = new Button(messages.approve());
 		approve.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -60,17 +60,17 @@ public class AwaitingAuthorisationView extends BaseView {
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED);
 					// else
 					if (records.size() != grid.getSelectedRecords().size())
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.pleaseSelectPayFromAccount());
 				} else {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.noRecordsToShow());
 				}
 
 			}
 		});
 
-		Button decline = new Button(Accounter.messages().decline());
+		Button decline = new Button(messages.decline());
 		decline.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -83,13 +83,13 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED);
 				} else {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.noRecordsToShow());
 				}
 			}
 		});
 
-		Button delete = new Button(Accounter.messages().delete());
+		Button delete = new Button(messages.delete());
 		delete.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,7 +102,7 @@ public class AwaitingAuthorisationView extends BaseView {
 					updateRecords(grid.getSelectedRecords(),
 							ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE);
 				} else {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.noRecordsToShow());
 				}
 			}
@@ -226,7 +226,7 @@ public class AwaitingAuthorisationView extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().awaitingAuthorisation();
+		return messages.awaitingAuthorisation();
 	}
 
 	@Override

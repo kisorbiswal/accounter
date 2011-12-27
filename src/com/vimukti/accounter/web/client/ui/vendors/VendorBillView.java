@@ -367,11 +367,11 @@ public class VendorBillView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 		Label lab1;
-		lab1 = new Label(Accounter.messages().enterBill());
+		lab1 = new Label(messages.enterBill());
 
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		transactionDateItem = createTransactionDateItem();
-		transactionDateItem.setTitle(Accounter.messages().billDate());
+		transactionDateItem.setTitle(messages.billDate());
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -385,7 +385,7 @@ public class VendorBillView extends
 					}
 				});
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.messages().invNo());
+		transactionNumber.setTitle(messages.invNo());
 		listforms = new ArrayList<DynamicForm>();
 
 		locationCombo = createLocationCombo();
@@ -455,24 +455,24 @@ public class VendorBillView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		phoneSelect = new TextItem(Accounter.messages().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		// phoneSelect.setWidth(80);
 		phoneSelect.setDisabled(false);
 		// formItems.add(phoneSelect);
 
-		dueDateItem = new DateField(Accounter.messages().dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+		dueDateItem = new DateField(messages.dueDate());
+		dueDateItem.setToolTip(messages.selectDateUntilDue(
 				this.getAction().getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
-		dueDateItem.setTitle(Accounter.messages().dueDate());
+		dueDateItem.setTitle(messages.dueDate());
 		dueDateItem.setDisabled(isInViewMode());
 
-		paymentTermsCombo = new PaymentTermsCombo(Accounter.messages()
+		paymentTermsCombo = new PaymentTermsCombo(messages
 				.paymentTerms());
 		paymentTermsCombo.setHelpInformation(true);
 		// paymentTermsCombo.setWidth(80);
@@ -494,8 +494,8 @@ public class VendorBillView extends
 		// deliveryDateItem.setWidth(100);
 		taxCodeSelect = createTaxCodeSelectItem();
 
-		DynamicForm termsForm = UIUtils.form(Accounter.messages().terms());
-		termsForm.setStyleName(Accounter.messages().venderForm());
+		DynamicForm termsForm = UIUtils.form(messages.terms());
+		termsForm.setStyleName(messages.venderForm());
 		// termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 
@@ -511,7 +511,7 @@ public class VendorBillView extends
 					deliveryDateItem);
 		}
 		// dateform.getCellFormatter().setWidth(0, 0, "200px");
-		netAmount = new AmountLabel(Accounter.messages().netAmount());
+		netAmount = new AmountLabel(messages.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -524,9 +524,9 @@ public class VendorBillView extends
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
-		// balanceDueNonEditableText = new AmountField(Accounter.messages()
+		// balanceDueNonEditableText = new AmountField(messages
 		// .balanceDue(), this, getBaseCurrency());
-		balanceDueNonEditableText = new AmountLabel(Accounter.messages()
+		balanceDueNonEditableText = new AmountLabel(messages
 				.balanceDue());
 		balanceDueNonEditableText.setHelpInformation(true);
 		balanceDueNonEditableText.setDisabled(true);
@@ -1063,9 +1063,9 @@ public class VendorBillView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				dueDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(dueDateItem, Accounter.messages().the() + " "
-					+ Accounter.messages().dueDate() + " " + " "
-					+ Accounter.messages().cannotbeearlierthantransactiondate());
+			result.addError(dueDateItem, messages.the() + " "
+					+ messages.dueDate() + " " + " "
+					+ messages.cannotbeearlierthantransactiondate());
 		}
 		if (getAllTransactionItems().isEmpty()) {
 			result.addError(vendorAccountTransactionTable,
@@ -1104,7 +1104,7 @@ public class VendorBillView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getVendor() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelectThePayee(
+			Accounter.showError(messages.pleaseSelectThePayee(
 					Global.get().Vendor()));
 		} else {
 
@@ -1388,7 +1388,7 @@ public class VendorBillView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().enterBills();
+		return messages.enterBills();
 	}
 
 	@Override
@@ -1478,7 +1478,7 @@ public class VendorBillView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

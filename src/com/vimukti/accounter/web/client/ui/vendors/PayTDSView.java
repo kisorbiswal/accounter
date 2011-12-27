@@ -79,15 +79,15 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .transaction()));
 
-		Label lab = new Label(Accounter.messages().payTDS());
+		Label lab = new Label(messages.payTDS());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(Accounter.messages().labelTitle());
+		lab.setStyleName(messages.labelTitle());
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.messages().no());
-		transNumber.setToolTip(Accounter.messages().giveNoTo(
+		transNumber.setTitle(messages.no());
+		transNumber.setToolTip(messages.giveNoTo(
 				this.getAction().getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());

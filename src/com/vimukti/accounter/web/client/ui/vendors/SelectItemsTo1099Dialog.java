@@ -92,7 +92,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		HorizontalPanel mainPanel = new HorizontalPanel();
 		mainPanel.setWidth("100%");
 
-		addButton = new Button(Accounter.messages().add());
+		addButton = new Button(messages.add());
 		addButton.setWidth("80px");
 		addButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -116,7 +116,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		});
 		addButton.setEnabled(false);
 
-		removeButton = new Button(Accounter.messages().remove());
+		removeButton = new Button(messages.remove());
 		removeButton.setWidth("80px");
 		removeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -141,7 +141,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 
 		availItemsGrid = new DialogGrid<T>(false);
 
-		availItemsGrid.setName(Accounter.messages().available());
+		availItemsGrid.setName(messages.available());
 		setAvailVendorsGridFields();
 		setAvalableVendorsGridCellWidths();
 		availItemsGrid.setView(SelectItemsTo1099Dialog.this);
@@ -164,7 +164,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		buttonsLayout.add(removeButton);
 
 		selectItemsGrid = new DialogGrid<T>(false);
-		selectItemsGrid.setName(Accounter.messages().selected());
+		selectItemsGrid.setName(messages.selected());
 		setSelectedVendorsGridFields();
 		setSelectedVendorGridCellWidths();
 		selectItemsGrid.setView(SelectItemsTo1099Dialog.this);
@@ -198,7 +198,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private void setSelectedVendorGridCellWidths() {
-		selectItemsGrid.addColumns(new String[] { Accounter.messages()
+		selectItemsGrid.addColumns(new String[] { messages
 				.trackPaymentsFor1099() });
 
 	}
@@ -209,7 +209,7 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 	}
 
 	private void setAvailVendorsGridFields() {
-		availItemsGrid.addColumns(new String[] { Accounter.messages()
+		availItemsGrid.addColumns(new String[] { messages
 				.selectFromList() });
 
 	}

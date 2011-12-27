@@ -29,7 +29,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 	private int viewType;
 
 	private BillListView() {
-		super(Accounter.messages().all());
+		super(messages.all());
 	}
 
 	public BillListView(String viewType) {
@@ -61,9 +61,9 @@ public class BillListView extends TransactionsListView<BillsList> {
 		if (Accounter.getUser().canDoInvoiceTransactions()
 				&& getCompany().getPreferences().isKeepTrackofBills()) {
 			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
-				return messages().customerCreditNote(Global.get().Vendor());
+				return messages.customerCreditNote(Global.get().Vendor());
 			}
-			return messages().addaNewBill();
+			return messages.addaNewBill();
 		}
 		return "";
 	}
@@ -71,9 +71,9 @@ public class BillListView extends TransactionsListView<BillsList> {
 	@Override
 	protected String getListViewHeading() {
 		if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
-			return messages().payeeCreditNotes(Global.get().Vendor());
+			return messages.payeeCreditNotes(Global.get().Vendor());
 		}
-		return messages().billsAndItemReceiptsList();
+		return messages.billsAndItemReceiptsList();
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 		grid.removeAllRecords();
 		grid.setRecords(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
@@ -136,12 +136,12 @@ public class BillListView extends TransactionsListView<BillsList> {
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().open());
-		listOfTypes.add(messages().voided());
+		listOfTypes.add(messages.open());
+		listOfTypes.add(messages.voided());
 		if (transactionType == 0) {
-			listOfTypes.add(messages().overDue());
+			listOfTypes.add(messages.overDue());
 		}
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
@@ -149,13 +149,13 @@ public class BillListView extends TransactionsListView<BillsList> {
 	protected void filterList(String text) {
 
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages().open())) {
+		if (text.equalsIgnoreCase(messages.open())) {
 			viewType = ClientTransaction.VIEW_OPEN;
-		} else if (text.equalsIgnoreCase(messages().voided())) {
+		} else if (text.equalsIgnoreCase(messages.voided())) {
 			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equalsIgnoreCase(messages().overDue())) {
+		} else if (text.equalsIgnoreCase(messages.overDue())) {
 			viewType = ClientTransaction.VIEW_OVERDUE;
-		} else if (text.equalsIgnoreCase(messages().all())) {
+		} else if (text.equalsIgnoreCase(messages.all())) {
 			viewType = ClientTransaction.VIEW_ALL;
 		}
 		onPageChange(0, getPageSize());
@@ -183,7 +183,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().billsAndItemReceipts();
+		return messages.billsAndItemReceipts();
 	}
 
 	@Override

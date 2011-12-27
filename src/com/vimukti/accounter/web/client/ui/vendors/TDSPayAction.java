@@ -47,13 +47,13 @@ public class TDSPayAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return Accounter.messages().payTDS();
+		return messages.payTDS();
 	}
 
 	@Override
 	public String getHelpToken() {
 		//
-		return Accounter.messages().payTDS();
+		return messages.payTDS();
 	}
 
 	@Override

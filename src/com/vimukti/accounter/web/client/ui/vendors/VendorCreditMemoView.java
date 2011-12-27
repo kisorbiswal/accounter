@@ -185,7 +185,7 @@ public class VendorCreditMemoView extends
 		Label lab1 = new Label(messages.payeeCredit(Global.get().Vendor())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()));
@@ -194,12 +194,12 @@ public class VendorCreditMemoView extends
 			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()) + "("
 					+ getTransactionStatus() + ")");
 
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
 		transactionNumber = createTransactionNumberItem();
-		transactionNumber.setTitle(Accounter.messages().creditNoteNo());
+		transactionNumber.setTitle(messages.creditNoteNo());
 
 		listforms = new ArrayList<DynamicForm>();
 		locationCombo = createLocationCombo();
@@ -231,8 +231,8 @@ public class VendorCreditMemoView extends
 		// FIXME--need to disable the form
 		// vendorForm.setDisabled(true);
 
-		phoneSelect = new TextItem(Accounter.messages().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setDisabled(isInViewMode());
@@ -243,7 +243,7 @@ public class VendorCreditMemoView extends
 			// phoneForm.setDisabled(true);
 		}
 
-		netAmount = new AmountLabel(Accounter.messages().netAmount());
+		netAmount = new AmountLabel(messages.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -871,7 +871,7 @@ public class VendorCreditMemoView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

@@ -14,24 +14,24 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 
 public class SelectExpenseType extends BaseDialog {
 	RadioGroupItem typeRadio;
-	private final String CHECK = Accounter.messages().check();
-	private final String CREDIT_CARD = Accounter.messages().creditCard();
+	private final String CHECK = messages.check();
+	private final String CREDIT_CARD = messages.creditCard();
 
-	private final String CASH = Accounter.messages().cash();
-	private final String EMPLOYEE = Accounter.messages().employee();
+	private final String CASH = messages.cash();
+	private final String EMPLOYEE = messages.employee();
 
 	// private ViewConfiguration configuration;
 
 	public SelectExpenseType() {
-		super(Accounter.messages().recordExpenses(), "");
-		setText(Accounter.messages().recordExpenses());
+		super(messages.recordExpenses(), "");
+		setText(messages.recordExpenses());
 		createControls();
 		center();
 	}
 
 	public SelectExpenseType(AccounterAsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.messages().recordExpenses(), "");
-		setText(Accounter.messages().recordExpenses());
+		super(messages.recordExpenses(), "");
+		setText(messages.recordExpenses());
 		createControls();
 		center();
 	}
@@ -54,7 +54,7 @@ public class SelectExpenseType extends BaseDialog {
 		typeForm.setWidth("100%");
 		typeForm.setIsGroup(true);
 
-		typeForm.setGroupTitle(Accounter.messages()
+		typeForm.setGroupTitle(messages
 				.selectHowYouPaidForExpense());
 		typeForm.setFields(typeRadio);
 
@@ -81,7 +81,7 @@ public class SelectExpenseType extends BaseDialog {
 		if (!radio.equals(EMPLOYEE) && !radio.equals(CHECK)
 				&& !radio.equals(CREDIT_CARD) && !radio.equals(CASH)
 				&& !radio.equals(EMPLOYEE)) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseSelectExpenseType());
 		}
 		return result;
@@ -100,7 +100,7 @@ public class SelectExpenseType extends BaseDialog {
 			} else if (radio.equals(CASH)) {
 				ActionFactory.CashExpenseAction().run(null, false);
 			} else {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.pleaseSelectExpenseType());
 			}
 

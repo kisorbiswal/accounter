@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -62,7 +61,6 @@ public class CashPurchaseView extends
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
 	private TextAreaItem billToAreaItem;
-	AccounterMessages messages = Accounter.messages();
 	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
@@ -88,8 +86,8 @@ public class CashPurchaseView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		titlelabel = new Label(Accounter.messages().cashPurchase());
-		titlelabel.setStyleName(Accounter.messages().labelTitle());
+		titlelabel = new Label(messages.cashPurchase());
+		titlelabel.setStyleName(messages.labelTitle());
 		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -144,12 +142,12 @@ public class CashPurchaseView extends
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
 		// contactCombo.setWidth(100);
-		billToAreaItem = new TextAreaItem(Accounter.messages().billTo());
+		billToAreaItem = new TextAreaItem(messages.billTo());
 		billToAreaItem.setHelpInformation(true);
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
-		phoneSelect = new TextItem(Accounter.messages().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -166,10 +164,10 @@ public class CashPurchaseView extends
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
 
-		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
+		payFromCombo = createPayFromCombo(messages.payFrom());
 		// payFromCombo.setWidth(100);
 		payFromCombo.setPopupWidth("500px");
-		// checkNo = createCheckNumberItem(Accounter.messages().chequeNo());
+		// checkNo = createCheckNumberItem(messages.chequeNo());
 		// checkNo.setDisabled(true);
 		// checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
@@ -200,11 +198,11 @@ public class CashPurchaseView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText
-								.setValue(Accounter.messages().toBePrinted());
+								.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(Accounter.messages()
+							checkNoText.setValue(messages
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
@@ -218,13 +216,12 @@ public class CashPurchaseView extends
 		});
 
 		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-								.messages().check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -258,10 +255,10 @@ public class CashPurchaseView extends
 		// formItems.add(checkNo);
 		// formItems.add(deliveryDateItem);
 
-		Label lab2 = new Label(Accounter.messages().itemsAndExpenses());
+		Label lab2 = new Label(messages.itemsAndExpenses());
 		// menuButton = createAddNewButton();
 
-		netAmount = new AmountLabel(Accounter.messages().netAmount());
+		netAmount = new AmountLabel(messages.netAmount());
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -568,7 +565,7 @@ public class CashPurchaseView extends
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
 				&& paymentMethod
-						.equalsIgnoreCase(Accounter.messages().cheque())
+						.equalsIgnoreCase(messages.cheque())
 				&& isInViewMode()) {
 			ClientCashPurchase cashPurchase = transaction;
 			// setCheckNumber();
@@ -622,8 +619,8 @@ public class CashPurchaseView extends
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
-						Accounter.messages().toBePrinted())) {
-					checkNoText.setValue(Accounter.messages().toBePrinted());
+						messages.toBePrinted())) {
+					checkNoText.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
 					checkNoText.setValue(transaction.getCheckNumber());
@@ -768,7 +765,7 @@ public class CashPurchaseView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
 			} else {
@@ -782,7 +779,7 @@ public class CashPurchaseView extends
 
 	// private void setDisableStateForCheckNo(String paymentMethod) {
 	//
-	// if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+	// if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 	// checkNo.setDisabled(false);
 	// } else {
 	// checkNo.setValue("");
@@ -790,7 +787,7 @@ public class CashPurchaseView extends
 	//
 	// }
 	// if (isInViewMode()) {
-	// if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+	// if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 	// checkNo.setDisabled(false);
 	// } else {
 	// checkNo.setDisabled(true);
@@ -900,8 +897,8 @@ public class CashPurchaseView extends
 		String value;
 		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
-					Accounter.messages().toBePrinted())) {
-				value = String.valueOf(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
@@ -909,10 +906,10 @@ public class CashPurchaseView extends
 			String checknumber;
 			checknumber = this.checkNumber;
 			if (checknumber == null) {
-				checknumber = Accounter.messages().toBePrinted();
+				checknumber = messages.toBePrinted();
 			}
-			if (checknumber.equals(Accounter.messages().toBePrinted()))
-				value = Accounter.messages().toBePrinted();
+			if (checknumber.equals(messages.toBePrinted()))
+				value = messages.toBePrinted();
 			else
 				value = String.valueOf(checknumber);
 		}
@@ -985,9 +982,9 @@ public class CashPurchaseView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, Accounter.messages().the() + " "
-					+ Accounter.messages().deliveryDate() + " " + " "
-					+ Accounter.messages().cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem, messages.the() + " "
+					+ messages.deliveryDate() + " " + " "
+					+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
@@ -1071,7 +1068,7 @@ public class CashPurchaseView extends
 		transactionNumber.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.messages().toBePrinted());
+			checkNoText.setValue(messages.toBePrinted());
 		}
 		deliveryDateItem.setDisabled(isInViewMode());
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
@@ -1118,7 +1115,7 @@ public class CashPurchaseView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().cashPurchases();
+		return messages.cashPurchases();
 	}
 
 	@Override
@@ -1208,7 +1205,7 @@ public class CashPurchaseView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

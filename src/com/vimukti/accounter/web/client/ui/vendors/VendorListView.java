@@ -59,7 +59,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNew(Global.get().vendor());
+			return messages.addaNew(Global.get().vendor());
 		else
 			return "";
 	}
@@ -67,7 +67,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages().payeeList(Global.get().Vendor());
+		return messages.payeeList(Global.get().Vendor());
 	}
 
 	// protected List<ClientPayee> getRecords() {
@@ -102,7 +102,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 			total += t.getBalance();
 		} else
 			total -= t.getBalance();
-		totalLabel.setText(messages().totalOutStandingBalance()
+		totalLabel.setText(messages.totalOutStandingBalance()
 
 		+ DataUtils.getAmountAsStringInPrimaryCurrency(total) + "");
 	}
@@ -159,7 +159,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 		//
 		// }
 		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// grid.addEmptyMessage(messages.noRecordsToShow());
 		//
 		// getTotalLayout(grid);
 	}
@@ -187,9 +187,9 @@ public class VendorListView extends BaseListView<PayeeList> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
-			viewSelect.setComboItem(messages().active());
+			viewSelect.setComboItem(messages.active());
 		} else {
-			viewSelect.setComboItem(messages().inActive());
+			viewSelect.setComboItem(messages.inActive());
 		}
 
 	}
@@ -238,6 +238,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().payees(Global.get().Vendors());
+		return messages.payees(Global.get().Vendors());
 	}
 }

@@ -178,8 +178,7 @@ public class CreditCardExpenseView extends
 
 		String listString[] = new String[] {
 				messages.cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.messages().check()), messages.creditCard(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check()), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
 				messages.switchMaestro() };
@@ -642,7 +641,7 @@ public class CreditCardExpenseView extends
 
 	private CreditCardAccountCombo createCreditCardItem() {
 		CreditCardAccountCombo creditCardAccountCombo = new CreditCardAccountCombo(
-				Accounter.messages().creditCard());
+				messages.creditCard());
 		creditCardAccountCombo.setHelpInformation(true);
 		creditCardAccountCombo.setRequired(true);
 		// payFrmSelect.setWidth("*");
@@ -920,8 +919,7 @@ public class CreditCardExpenseView extends
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
-		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.messages().check());
+		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -1287,7 +1285,7 @@ public class CreditCardExpenseView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

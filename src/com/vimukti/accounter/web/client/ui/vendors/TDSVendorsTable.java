@@ -6,9 +6,11 @@ import java.util.List;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
@@ -79,12 +81,14 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 			}
 		};
 
-		this.addColumn(vendorName, Accounter.messages().vendor());
-		this.addColumn(date, Accounter.messages().date());
-		this.addColumn(originalBalance, Accounter.messages().originalAmount());
-		this.addColumn(payment, Accounter.messages().payment());
-		this.addColumn(tdsPercentage, Accounter.messages().percentage());
-		this.addColumn(tdsAmount, Accounter.messages().tdsAmount());
+		
+		AccounterMessages messages=Global.get().messages();
+		this.addColumn(vendorName, messages.vendor());
+		this.addColumn(date, messages.date());
+		this.addColumn(originalBalance, messages.originalAmount());
+		this.addColumn(payment, messages.payment());
+		this.addColumn(tdsPercentage, messages.percentage());
+		this.addColumn(tdsAmount, messages.tdsAmount());
 
 	}
 

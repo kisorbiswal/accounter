@@ -110,8 +110,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, Accounter.messages().payeeGroup(
-				Global.get().Vendor()), "", Accounter.messages().payeeGroup(
+		inputDlg = new InputDialog(this, messages.payeeGroup(
+				Global.get().Vendor()), "", messages.payeeGroup(
 				Global.get().Vendor())) {
 		};
 
@@ -142,7 +142,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name() };
+		return new String[] { messages.name() };
 	}
 
 	@Override
@@ -160,7 +160,7 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 			if (vendorGroup != null) {
 				if (!(vendorGroup.getName().equalsIgnoreCase(vendorName) ? true
 						: vendorByName == null)) {
-					result.addError(this, Accounter.messages().alreadyExist());
+					result.addError(this, messages.alreadyExist());
 				}
 			} else {
 				if (vendorByName != null) {

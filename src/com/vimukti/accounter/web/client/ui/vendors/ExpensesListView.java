@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	public ExpensesListView() {
-		super(Accounter.messages().all());
+		super(messages.all());
 	}
 
 	public ExpensesListView(String viewType) {
@@ -39,9 +39,9 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			if (viewType == messages().cashExpenses()) {
+			if (viewType == messages.cashExpenses()) {
 				return ActionFactory.CashExpenseAction();
-			} else if (viewType.equals(messages().creditCardExpenses())) {
+			} else if (viewType.equals(messages.creditCardExpenses())) {
 				return ActionFactory.CreditCardExpenseAction();
 			}
 			return ActionFactory.getRecordExpensesAction();
@@ -53,14 +53,14 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			if (viewType == null || viewType.equals(messages().all())
-					|| viewType.equals(messages().voided())) {
-				return messages().addNewExpense();
+			if (viewType == null || viewType.equals(messages.all())
+					|| viewType.equals(messages.voided())) {
+				return messages.addNewExpense();
 			}
-			if (viewType.equals(messages().cash())) {
-				return messages().newcashExpenses();
-			} else if (viewType.equals(messages().creditCard())) {
-				return messages().newCreditCardExpenses();
+			if (viewType.equals(messages.cash())) {
+				return messages.newcashExpenses();
+			} else if (viewType.equals(messages.creditCard())) {
+				return messages.newCreditCardExpenses();
 			}
 		}
 		return "";
@@ -68,22 +68,22 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected String getListViewHeading() {
-		if (viewType == null || viewType.equals(messages().all())) {
-			return messages().expensesList();
+		if (viewType == null || viewType.equals(messages.all())) {
+			return messages.expensesList();
 		}
-		if (viewType.equals(messages().cashExpenses())) {
-			return messages().cashExpensesList();
-		} else if (viewType.equals(messages().creditCardExpenses())) {
-			return messages().creditCardExpensesList();
+		if (viewType.equals(messages.cashExpenses())) {
+			return messages.cashExpensesList();
+		} else if (viewType.equals(messages.creditCardExpenses())) {
+			return messages.creditCardExpensesList();
 		}
-		return messages().expensesList();
+		return messages.expensesList();
 	}
 
 	@Override
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(messages().all());
+		grid.setViewType(messages.all());
 	}
 
 	@Override
@@ -91,51 +91,51 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		List<String> listOfTypes = new ArrayList<String>();
 		// listOfTypes.add(FinanceApplication.constants().open());
 		// listOfTypes.add(FinanceApplication.constants().overDue());
-		listOfTypes.add(messages().cash());
-		listOfTypes.add(messages().creditCard());
+		listOfTypes.add(messages.cash());
+		listOfTypes.add(messages.creditCard());
 
 		// This should be added when user select to track employee expenses.
 		if (Global.get().preferences().isHaveEpmloyees()
 				&& Global.get().preferences().isTrackEmployeeExpenses()) {
-			listOfTypes.add(messages().employee());
+			listOfTypes.add(messages.employee());
 		}
-		listOfTypes.add(messages().voided());
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.voided());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages().employee())) {
+		if (text.equalsIgnoreCase(messages.employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages().cash())) {
+		} else if (text.equalsIgnoreCase(messages.cash())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages().creditCard())) {
+		} else if (text.equalsIgnoreCase(messages.creditCard())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages().employee())) {
+		} else if (text.equalsIgnoreCase(messages.employee())) {
 			List<BillsList> records = new ArrayList<BillsList>();
 			for (BillsList record : initialRecords) {
 				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages().Voided())) {
+		} else if (text.equalsIgnoreCase(messages.Voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
@@ -145,12 +145,12 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 			}
 			grid.setRecords(voidedRecs);
 
-		} else if (text.equalsIgnoreCase(messages().all())) {
+		} else if (text.equalsIgnoreCase(messages.all())) {
 			grid.setRecords(initialRecords);
 		}
 
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 	}
 
@@ -188,7 +188,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().expensesList();
+		return messages.expensesList();
 	}
 
 }

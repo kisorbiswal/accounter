@@ -550,8 +550,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getPrintSetUp() {
 
-		DisclosurePanel disclosurePanel = new DisclosurePanel(Accounter
-				.messages().printAlignmentAndSetup());
+		DisclosurePanel disclosurePanel = new DisclosurePanel(messages.printAlignmentAndSetup());
 
 		Button printSample = new Button("Print Sample");
 		printSample.addClickHandler(new ClickHandler() {

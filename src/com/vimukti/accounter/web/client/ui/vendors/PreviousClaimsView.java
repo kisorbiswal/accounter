@@ -46,13 +46,13 @@ public class PreviousClaimsView extends BaseView {
 
 		VerticalPanel panel = new VerticalPanel();
 
-		Label previous = new Label(Accounter.messages().previousClaims());
+		Label previous = new Label(messages.previousClaims());
 
 		initGrid();
 
 		HorizontalPanel buttonPanel = new HorizontalPanel();
 		buttonPanel.setStyleName("button-expense");
-		Button notShowInList = new Button(Accounter.messages().dontShowinList());
+		Button notShowInList = new Button(messages.dontShowinList());
 		notShowInList.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -111,7 +111,7 @@ public class PreviousClaimsView extends BaseView {
 						});
 			}
 		} else {
-			Accounter.showInformation(Accounter.messages().noRecordsSelected());
+			Accounter.showInformation(messages.noRecordsSelected());
 		}
 
 	}
@@ -219,7 +219,7 @@ public class PreviousClaimsView extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().previousClaims();
+		return messages.previousClaims();
 	}
 
 	@Override

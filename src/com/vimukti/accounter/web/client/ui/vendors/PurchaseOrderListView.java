@@ -26,7 +26,7 @@ public class PurchaseOrderListView extends
 	// private static String CANCELLED = "Cancelled";
 
 	public PurchaseOrderListView() {
-		super(Accounter.messages().open());
+		super(messages.open());
 		isDeleteDisable = true;
 	}
 
@@ -41,14 +41,14 @@ public class PurchaseOrderListView extends
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addNewPurchaseOrder();
+			return messages.addNewPurchaseOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().purchaseOrderList();
+		return messages.purchaseOrderList();
 	}
 
 	@Override
@@ -125,9 +125,9 @@ public class PurchaseOrderListView extends
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().open());
-		listOfTypes.add(messages().completed());
-		listOfTypes.add(messages().cancelled());
+		listOfTypes.add(messages.open());
+		listOfTypes.add(messages.completed());
+		listOfTypes.add(messages.cancelled());
 		return listOfTypes;
 	}
 
@@ -135,38 +135,38 @@ public class PurchaseOrderListView extends
 		grid.removeAllRecords();
 		if (listOfPurchaseOrders != null) {
 			for (PurchaseOrdersList purchaseOrder : listOfPurchaseOrders) {
-				if (text.equals(messages().open())) {
+				if (text.equals(messages.open())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid.addEmptyMessage(messages()
+						purchaseDetailView.itemsGrid.addEmptyMessage(messages
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(messages().completed())) {
+				if (text.equals(messages.completed())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages()
+									.addEmptyMessage(messages
 											.noRecordsToShow());
 						}
 					}
 					continue;
 				}
-				if (text.equals(messages().cancelled())) {
+				if (text.equals(messages.cancelled())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages()
+									.addEmptyMessage(messages
 											.noRecordsToShow());
 						}
 					}
@@ -175,11 +175,11 @@ public class PurchaseOrderListView extends
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 		if (purchaseDetailView.itemsGrid != null)
 			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-				purchaseDetailView.itemsGrid.addEmptyMessage(messages()
+				purchaseDetailView.itemsGrid.addEmptyMessage(messages
 						.noRecordsToShow());
 			}
 	}
@@ -230,6 +230,6 @@ public class PurchaseOrderListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages().purchaseOrders();
+		return messages.purchaseOrders();
 	}
 }

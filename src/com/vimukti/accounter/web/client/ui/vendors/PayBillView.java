@@ -156,7 +156,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
 			} else {
@@ -306,8 +306,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		String value;
 		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
-					Accounter.messages().toBePrinted())) {
-				value = String.valueOf(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
@@ -315,10 +315,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			String checknumber;
 			checknumber = this.checkNumber;
 			if (checknumber == null) {
-				checknumber = Accounter.messages().toBePrinted();
+				checknumber = messages.toBePrinted();
 			}
-			if (checknumber.equals(Accounter.messages().toBePrinted()))
-				value = Accounter.messages().toBePrinted();
+			if (checknumber.equals(messages.toBePrinted()))
+				value = messages.toBePrinted();
 			else
 				value = String.valueOf(checknumber);
 		}
@@ -510,16 +510,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab = new Label(Accounter.messages().payBill());
+		Label lab = new Label(messages.payBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(Accounter.messages().labelTitle());
+		lab.addStyleName(messages.labelTitle());
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);
 
 		// lab.setHeight("50px");
-		date = new DateField(Accounter.messages().date());
-		date.setToolTip(Accounter.messages().selectDateWhenTransactioCreated(
+		date = new DateField(messages.date());
+		date.setToolTip(messages.selectDateWhenTransactioCreated(
 				this.getAction().getViewName()));
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
@@ -538,7 +538,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transactionNumber = createTransactionNumberItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo
-				.setDefaultValue(Accounter.messages().onlineBanking());
+				.setDefaultValue(messages.onlineBanking());
 
 		printCheck = new CheckboxItem(messages.toBePrinted());
 		printCheck.setValue(true);
@@ -553,11 +553,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText
-								.setValue(Accounter.messages().toBePrinted());
+								.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(Accounter.messages()
+							checkNoText.setValue(messages
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
@@ -571,13 +571,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 
 		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-								.messages().check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -600,10 +599,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					}
 				});
 
-		payFromCombo = createPayFromCombo(Accounter.messages().payFrom());
+		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
 
-		dueDate = new DateField(Accounter.messages()
+		dueDate = new DateField(messages
 				.filterByBilldueonorbefore());
 		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
@@ -663,17 +662,17 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		payForm = new DynamicForm();
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.messages().payment());
+		payForm.setGroupTitle(messages.payment());
 		payForm.setFields(vendorCombo, payFromCombo, paymentMethodCombo,
 				dueDate);
 
-		endBalText = new AmountField(Accounter.messages().bankBalance(), this,
+		endBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency());
 		endBalText.setHelpInformation(true);
 		endBalText.setWidth(100);
 		endBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		endBalText.setDisabled(true);
-		tdsCombo = new TaxItemCombo(Accounter.messages().tds(),
+		tdsCombo = new TaxItemCombo(messages.tds(),
 				ClientTAXAgency.TAX_TYPE_TDS);
 		tdsCombo.setDisabled(isInViewMode());
 		tdsCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXItem>() {
@@ -688,7 +687,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		balForm.setIsGroup(true);
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
-		balForm.setGroupTitle(Accounter.messages().balances());
+		balForm.setGroupTitle(messages.balances());
 		balForm.setFields(endBalText, tdsCombo, printCheck, checkNoText);
 		if (!getCompany().getPreferences().isTDSEnabled()) {
 			tdsCombo.setVisible(false);
@@ -699,7 +698,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		// balForm.setFields(classListCombo);
 		// }
 
-		Label lab1 = new Label(Accounter.messages().billsDue());
+		Label lab1 = new Label(messages.billsDue());
 
 		initListGrid();
 
@@ -713,15 +712,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		unUsedCreditsText = new AmountLabel(Accounter.messages()
+		unUsedCreditsText = new AmountLabel(messages
 				.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
-		amountLabelForeign = new AmountLabel(Accounter.messages()
+		amountLabelForeign = new AmountLabel(messages
 				.currencyTotal(getBaseCurrency().getFormalName()));
 		amountLabelForeign.setDisabled(true);
 
-		amountLableBase = new AmountLabel(Accounter.messages().currencyTotal(
+		amountLableBase = new AmountLabel(messages.currencyTotal(
 				getBaseCurrency().getFormalName()));
 		amountLableBase.setDisabled(true);
 
@@ -810,7 +809,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 			}
 		} catch (Exception e) {
-			Accounter.showError(Accounter.messages().invalidTransactionDate());
+			Accounter.showError(messages.invalidTransactionDate());
 		}
 
 	}
@@ -892,7 +891,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// endBalText.setCurrency(vendorCurrency);
 
-		amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
+		amountLabelForeign.setTitle(messages.currencyTotal(
 				vendorCurrency.getFormalName()));
 
 		if (vendor == null) {
@@ -963,7 +962,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 							@Override
 							public void onException(AccounterException caught) {
-								grid.addEmptyMessage(Accounter.messages()
+								grid.addEmptyMessage(messages
 										.noRecordsToShow());
 							}
 
@@ -987,7 +986,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			clearGrid();
 			filterGrid();
 		} else {
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 			updateFooterValues();
 		}
 	}
@@ -1035,8 +1034,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
-						Accounter.messages().toBePrinted())) {
-					checkNoText.setValue(Accounter.messages().toBePrinted());
+						messages.toBePrinted())) {
+					checkNoText.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
 					checkNoText.setValue(transaction.getCheckNumber());
@@ -1152,7 +1151,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			if (grid.getAllRows().isEmpty()) {
 				result.addError(
 						grid,
-						Accounter.messages().noBillsAreAvailableFirstAddABill(
+						messages.noBillsAreAvailableFirstAddABill(
 								Global.get().Vendor()));
 			}
 
@@ -1261,7 +1260,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		grid.setRecords(records);
 		size = records.size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	@Override
@@ -1316,7 +1315,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 								@Override
 								public void onException(
 										AccounterException caught) {
-									Accounter.showError(Accounter.messages()
+									Accounter.showError(messages
 											.failedtovoidPayBill());
 
 								}
@@ -1354,7 +1353,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 						}
 					});
 		} else if (transaction.isVoid() || transaction.isDeleted())
-			Accounter.showError(Accounter.messages().failedtovoidTransaction());
+			Accounter.showError(messages.failedtovoidTransaction());
 	}
 
 	public void updateFootervalues(ClientTransactionPayBill obj, boolean canEdit) {
@@ -1394,7 +1393,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.messages().toBePrinted());
+			checkNoText.setValue(messages.toBePrinted());
 		}
 		super.onEdit();
 		grid.removeFromParent();
@@ -1430,7 +1429,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payBills();
+		return messages.payBills();
 	}
 
 	// Update methods
@@ -1568,7 +1567,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountLabelForeign.hide();
 		} else {
 			amountLabelForeign.show();
-			amountLabelForeign.setTitle(Accounter.messages().currencyTotal(
+			amountLabelForeign.setTitle(messages.currencyTotal(
 					currencyWidget.getSelectedCurrency().getFormalName()));
 		}
 	}

@@ -35,7 +35,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			List<PurchaseOrdersList> purchaseOrderList) {
 		itemReceiptView = view;
 		this.purchaseOrderList = purchaseOrderList;
-		setText(Accounter.messages().purchaseOrderList());
+		setText(messages.purchaseOrderList());
 		createControls();
 		setPurchaseOrderList(purchaseOrderList);
 		setWidth("600px");
@@ -48,15 +48,15 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.messages().selectPurchaseOrder()
-				+ Accounter.messages().selectDocument());
+		Label infoLabel = new Label(messages.selectPurchaseOrder()
+				+ messages.selectDocument());
 
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(Accounter.messages().date(), Accounter.messages()
-				.no(), Accounter.messages().type(), messages.payeeName(Global
-				.get().Vendor()), Accounter.messages().total());
+		grid.addColumns(messages.date(), messages
+				.no(), messages.type(), messages.payeeName(Global
+				.get().Vendor()), messages.total());
 		grid.setView(this);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
@@ -87,7 +87,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		helpButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				Accounter.showError(Accounter.messages().sorryNoHelp());
+				Accounter.showError(messages.sorryNoHelp());
 
 			}
 
@@ -157,7 +157,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.failedToGetPurchaseOrder());
 
 			}
@@ -184,7 +184,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 			case 1:
 				return purchaseOrder.getNumber();
 			case 2:
-				return Accounter.messages().purchaseOrder();// purchaseOrder.getType();
+				return messages.purchaseOrder();// purchaseOrder.getType();
 			case 3:
 				// return
 				// company.getVendor(purchaseOrder.getVendorName()).getName();

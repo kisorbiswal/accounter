@@ -52,10 +52,10 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().receiptFrom(),
-				Accounter.messages().receiptDate(),
-				Accounter.messages().dateEntered(),
-				Accounter.messages().status(), Accounter.messages().amount() };
+		return new String[] { messages.receiptFrom(),
+				messages.receiptDate(),
+				messages.dateEntered(),
+				messages.status(), messages.amount() };
 	}
 
 
@@ -89,19 +89,19 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 	private String getstatus(int status) {
 		switch (status) {
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SAVE:
-			return Accounter.messages().draft();
+			return messages.draft();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DELETE:
-			return Accounter.messages().delete();
+			return messages.delete();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_SUBMITED_FOR_APPROVAL:
-			return Accounter.messages().submitForApproval();
+			return messages.submitForApproval();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED:
-			return Accounter.messages().approved();
+			return messages.approved();
 		case ClientCashPurchase.EMPLOYEE_EXPENSE_STATUS_DECLINED:
-			return Accounter.messages().decline();
+			return messages.decline();
 		default:
 			break;
 		}
-		return Accounter.messages().draft();
+		return messages.draft();
 	}
 
 	@Override

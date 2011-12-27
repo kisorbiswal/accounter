@@ -76,11 +76,11 @@ public class ExpensesAction extends Action {
 	public String getHistoryToken() {
 		if (viewType == null || viewType.isEmpty()) {
 			return "expenses";
-		} else if (viewType.equals(Accounter.messages().cash())) {
+		} else if (viewType.equals(messages.cash())) {
 			return "cashExpenses";
-		} else if (viewType.equals(Accounter.messages().creditCard())) {
+		} else if (viewType.equals(messages.creditCard())) {
 			return "creditCardExpenses";
-		} else if (viewType.equals(Accounter.messages().employee())) {
+		} else if (viewType.equals(messages.employee())) {
 			return "employeeExpenses";
 		}
 		return "";

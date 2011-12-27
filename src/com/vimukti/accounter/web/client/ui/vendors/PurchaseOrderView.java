@@ -348,7 +348,7 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(messages.dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+		dueDateItem.setToolTip(messages.selectDateUntilDue(
 				this.getAction().getViewName()));
 		dueDateItem.setDisabled(isInViewMode());
 		// dueDateItem.setWidth(100);
@@ -1560,7 +1560,7 @@ public class PurchaseOrderView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));
