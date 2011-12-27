@@ -100,22 +100,7 @@ public class VendorsListCommand extends AbstractCommand {
 
 			@Override
 			protected List<PayeeList> getLists(Context context) {
-				ArrayList<PayeeList> completeList = getVendorList(context);
-				ArrayList<PayeeList> result = new ArrayList<PayeeList>();
-
-				String type = get(VENDOR_TYPE).getValue();
-
-				for (PayeeList payee : completeList) {
-					if (type.equalsIgnoreCase("Active")) {
-						if (payee.isActive())
-							result.add(payee);
-					}
-					if (type.equalsIgnoreCase("In-Active")) {
-						if (!payee.isActive())
-							result.add(payee);
-					}
-				}
-				return result;
+				return getVendorList(context);
 			}
 
 		});
@@ -138,7 +123,7 @@ public class VendorsListCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VENDOR_TYPE).setDefaultValue("Active");
+		get(VENDOR_TYPE).setDefaultValue(getMessages().activate());
 	}
 
 	@Override
@@ -148,9 +133,11 @@ public class VendorsListCommand extends AbstractCommand {
 
 	private ArrayList<PayeeList> getVendorList(Context context) {
 		FinanceTool financeTool = new FinanceTool();
+		String isActive = get(VENDOR_TYPE).getValue();
 		try {
 			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
-					true, 0, 0, true, context.getCompany().getID());
+					(isActive.equals(getMessages().active()) ? true : false),
+					0, -1, false, context.getCompany().getID());
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
