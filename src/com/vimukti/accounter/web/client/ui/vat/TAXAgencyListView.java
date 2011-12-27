@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -88,8 +89,8 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-		// this);
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
+				true, 0, -1, false, this);
 
 	}
 
