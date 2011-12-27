@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -15,10 +17,12 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ETdsCellTable;
 
@@ -289,5 +293,24 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 					}
 				});
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		// super.createButtons(buttonBar);
+
+		ImageButton verifyButton = new ImageButton("Download .txt file",
+				Accounter.getFinanceImages().saveAndClose());
+		verifyButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
+						startYear, endYear);
+
+			}
+		});
+		buttonBar.add(verifyButton);
+
 	}
 }

@@ -36,6 +36,10 @@ public class TDSDeductorMasters extends CreatableObject implements
 	private String ministryDeptName;
 	private String ministryDeptOtherName;
 
+	private String tanNumber;
+	private String panNumber;
+	private long stdCode;
+
 	@Override
 	public String getName() {
 		return "TDSDeductorMasters";
@@ -220,6 +224,30 @@ public class TDSDeductorMasters extends CreatableObject implements
 
 	public void setMinistryDeptOtherName(String ministryDeptOtherName) {
 		this.ministryDeptOtherName = ministryDeptOtherName;
+	}
+
+	public String getTanNumber() {
+		return tanNumber;
+	}
+
+	public void setTanNumber(String tanNumber) {
+		this.tanNumber = tanNumber;
+	}
+
+	public String getPanNumber() {
+		return panNumber;
+	}
+
+	public void setPanNumber(String panNumber) {
+		this.panNumber = panNumber;
+	}
+
+	public long getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(long stdCode) {
+		this.stdCode = stdCode;
 	}
 
 	@Override

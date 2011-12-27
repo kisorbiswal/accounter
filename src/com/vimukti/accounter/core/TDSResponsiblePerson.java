@@ -34,6 +34,9 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	private long panNumber;
 	private long panRegistrationNumber;
 
+	private long mobileNumber;
+	private long stdCode;
+
 	@Override
 	public String getName() {
 		return "TDSResponsiblePerson";
@@ -203,6 +206,22 @@ public class TDSResponsiblePerson extends CreatableObject implements
 
 	public void setPanRegistrationNumber(long panRegistrationNumber) {
 		this.panRegistrationNumber = panRegistrationNumber;
+	}
+
+	public long getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(long mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public long getStdCode() {
+		return stdCode;
+	}
+
+	public void setStdCode(long stdCode) {
+		this.stdCode = stdCode;
 	}
 
 	@Override

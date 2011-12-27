@@ -28,6 +28,7 @@ public class NewBudgetAction extends Action<ClientBudget> {
 		this.catagory = Global.get().messages().budget();
 	}
 
+	@Override
 	public void run() {
 
 		if (listData != null) {

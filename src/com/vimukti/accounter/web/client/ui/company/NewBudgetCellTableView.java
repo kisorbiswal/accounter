@@ -38,15 +38,22 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
-	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = Accounter.messages().ActualAmountfromlastfiscalyear();
-	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = Accounter.messages().ActualAmountfromthisfiscalyear();
-	public static final String NO_AMOUNT = Accounter.messages().StartfromScratch();
-	public static final String COPY_FROM_EXISTING = Accounter.messages().CopyfromExistingBudget();
+	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = Accounter
+			.messages().ActualAmountfromlastfiscalyear();
+	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = Accounter
+			.messages().ActualAmountfromthisfiscalyear();
+	public static final String NO_AMOUNT = Accounter.messages()
+			.StartfromScratch();
+	public static final String COPY_FROM_EXISTING = Accounter.messages()
+			.CopyfromExistingBudget();
 
-	public static final String SUBDIVIDE_DONT = Accounter.messages().DontSubdevide();
-	public static final String SUBDIVIDE_BUSINESS = Accounter.messages().buisiness();
+	public static final String SUBDIVIDE_DONT = Accounter.messages()
+			.DontSubdevide();
+	public static final String SUBDIVIDE_BUSINESS = Accounter.messages()
+			.buisiness();
 	public static final String SUBDIVIDE_CLASS = Accounter.messages().Class();
-	public static final String SUBDIVIDE_CUSTOMER = Accounter.messages().Customer();
+	public static final String SUBDIVIDE_CUSTOMER = Accounter.messages()
+			.Customer();
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;
@@ -92,16 +99,13 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	}
 
+	@Override
 	public void initData() {
 		super.initData();
 		if (data == null) {
 			ClientBudget account = new ClientBudget();
 			setData(account);
 		}
-
-	}
-
-	private void initView() {
 
 	}
 
@@ -126,7 +130,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem == COPY_FROM_EXISTING) {
-							String budgetTitle = Accounter.messages().CopyvaluesfromExistingBudget();
+							String budgetTitle = Accounter.messages()
+									.CopyvaluesfromExistingBudget();
 							CopyBudgetDialogue copybudgetDialogue = new CopyBudgetDialogue(
 									budgetTitle, "", budgetList);
 							copybudgetDialogue

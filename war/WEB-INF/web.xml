@@ -189,6 +189,17 @@
 		<servlet-name>generatePDFServlet</servlet-name>
 		<url-pattern>/do/finance/generatePDFServlet</url-pattern>
 	</servlet-mapping>
+	
+	
+		<servlet>
+		<servlet-name>generateETDSServlet</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.GenerateETDSServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>generateETDSServlet</servlet-name>
+		<url-pattern>/do/finance/GenerateETDSServlet</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>miscInfoServlet</servlet-name>

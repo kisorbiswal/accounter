@@ -335,6 +335,8 @@ public class HistoryTokens {
 
 	public static final String eTDSFILLING = "eTDSFilling";
 
+	public static final String ACKNOWLEDGEMENTFORMTDS = "acknowledgementFormTDS";
+
 	public HistoryTokens() {
 
 	}

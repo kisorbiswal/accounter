@@ -1794,4 +1794,29 @@ public class Utility implements IsSerializable, Serializable {
 
 	}
 
+	public static List<String> getDeductorCodes() {
+
+		List<String> names = new ArrayList<String>();
+
+		names.add("A");
+		names.add("S");
+		names.add("D");
+		names.add("E");
+		names.add("G");
+		names.add("H");
+		names.add("L");
+		names.add("N");
+		names.add("K");
+		names.add("M");
+		names.add("P");
+		names.add("T");
+		names.add("J");
+		names.add("B");
+		names.add("Q");
+		names.add("F");
+
+		return names;
+
+	}
+
 }

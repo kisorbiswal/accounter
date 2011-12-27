@@ -2233,12 +2233,28 @@ public class UIUtils {
 	public native static void downloadFileFromTemp(String result)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame.setAttribute("src", "/do/downloadtempfile?filename="
-					+ result);
+			frame
+					.setAttribute("src", "/do/downloadtempfile?filename="
+							+ result);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
 			alert(e);
 		}
 	}-*/;
+
+	public native static void generateETDSFillingtext(int formNo, int quarter,
+			int startYear, int endYear)/*-{
+		try {
+			var frame = document.createElement("IFRAME");
+			frame.setAttribute("src", "/do/finance/generateETDSServlet?formNo="
+					+ formNo + "&quater=" + quarter + "&startYear=" + startYear
+					+ "&endYear=" + endYear);
+			frame.style.visibility = "hidden";
+			document.body.appendChild(frame);
+		} catch (e) {
+			alert(e);
+		}
+	}-*/;
+
 }

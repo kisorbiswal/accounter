@@ -105,6 +105,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public Button prepare1099MiscForms;
 	public Button budgetEdit;
 	protected ClientPayee selectedPayee;
+	private PaginationList<ClientBudget> budgetList;
+	private ClientBudget budgetData;
 
 	@Override
 	public void init() {
@@ -161,6 +163,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							@Override
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
+									budgetData = budgetList.get(viewSelect
+											.getSelectedIndex());
 									changeBudgetGrid(viewSelect
 											.getSelectedIndex());
 								}
@@ -283,8 +287,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			@Override
 			public void onClick(ClickEvent event) {
 				if (budgetItemsExists == true) {
-					ActionFactory.getNewBudgetAction().run((ClientBudget) data,
-							false);
+
+					ActionFactory.getNewBudgetAction().run(budgetData, false);
 				}
 			}
 		});
@@ -547,6 +551,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			if (this instanceof BudgetListView) {
 
+				budgetList = (PaginationList<ClientBudget>) result;
+
 				List<String> typeList = new ArrayList<String>();
 				for (ClientBudget budget : (List<ClientBudget>) result) {
 					typeList.add(budget.getBudgetName());
@@ -558,21 +564,21 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
+				budgetData = budgetList.get(0);
 
-				// if (result.size() > 1) {
-				ClientBudget budget = (ClientBudget) result.get(0);
-				List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-				budgetItems = budget.getBudgetItem();
-				for (ClientBudgetItem budgetItem : budgetItems) {
-					budgetItem.setAccountsName(budgetItem.getAccount()
-							.getName());
+				if (result.size() > 0) {
+					ClientBudget budget = (ClientBudget) result.get(0);
+					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+					budgetItems = budget.getBudgetItem();
+					for (ClientBudgetItem budgetItem : budgetItems) {
+						budgetItem.setAccountsName(budgetItem.getAccount()
+								.getName());
+					}
+					grid.setRecords(budgetItems);
+				} else {
+					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+					grid.setRecords(budgetItems);
 				}
-				grid.setRecords(budgetItems);
-				// } else {
-				// List<ClientBudgetItem> budgetItems = new
-				// ArrayList<ClientBudgetItem>();
-				// grid.setRecords(budgetItems);
-				// }
 
 			} else if (this instanceof CustomerListView
 					|| this instanceof VendorListView

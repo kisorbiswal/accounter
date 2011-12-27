@@ -14,6 +14,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 public class ETDSAnnexuresGenerator {
 
 	private String finalString;
+	private TDSDeductorMasters deductor;
+	private TDSResponsiblePerson responsiblePerson;
 
 	public ETDSAnnexuresGenerator() {
 
@@ -114,12 +116,12 @@ public class ETDSAnnexuresGenerator {
 	}
 
 	private String softwareUsedName() {
-		return "NSDLRPU2.4";
+		return "ACCOUNTER1.0.5";
 	}
 
 	private String getTanofDeductor() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return deductor.getTanNumber();
 	}
 
 	/**
@@ -173,7 +175,7 @@ public class ETDSAnnexuresGenerator {
 				+ addDelimiter() + addDelimiter() + addDelimiter()
 				+ addDelimiter() + addDelimiter();
 
-		batchHeaderString = batchHeaderString + getTanOfDeductor()
+		batchHeaderString = batchHeaderString + getTanofDeductor()
 				+ addDelimiter();
 
 		// No value should be specified
@@ -331,8 +333,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDDORegistationCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getDdoRegistration());
 	}
 
 	/**
@@ -345,8 +346,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtPAORegistrationCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getDdoRegistration());
 	}
 
 	/**
@@ -356,8 +356,11 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getMinistryOtherName() {
-		// TODO Auto-generated method stub
-		return null;
+		if (getMinistryCode(deductor.getMinistryDeptName()).equals("99")) {
+			return deductor.getMinistryDeptOtherName();
+		} else {
+			return "^";
+		}
 	}
 
 	/**
@@ -372,8 +375,8 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtMinistryName() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return getMinistryCode(deductor.getMinistryDeptName());
 	}
 
 	/**
@@ -387,8 +390,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtDDOCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getDdoCode());
 	}
 
 	/**
@@ -401,8 +403,8 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtPAOCode() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Long.toString(deductor.getPaoCode());
 	}
 
 	/**
@@ -415,8 +417,11 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtSateName() {
-		// TODO Auto-generated method stub
-		return null;
+		if (deductor.getGovtState() != null)
+			return deductor.getGovtState();
+		else
+			return "^";
+
 	}
 
 	/**
@@ -440,8 +445,12 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getAddressChangeOFResponsiblePerson() {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (responsiblePerson.isAddressChanged()) {
+			return "Y";
+		} else {
+			return "N";
+		}
 	}
 
 	/**
@@ -452,8 +461,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponisblePersonTelephoenNumebr() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(responsiblePerson.getTelephoneNumber());
 	}
 
 	/**
@@ -463,8 +471,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonSTDCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(responsiblePerson.getStdCode());
 	}
 
 	/**
@@ -476,8 +483,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonMobileNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(responsiblePerson.getMobileNumber());
 	}
 
 	/**
@@ -491,8 +497,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonValidEmailID() {
-		// TODO Auto-generated method stub
-		return null;
+		return responsiblePerson.getEmailAddress();
 	}
 
 	/**
@@ -501,8 +506,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonPin() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(responsiblePerson.getPinCode());
 	}
 
 	/**
@@ -512,8 +516,16 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonState() {
-		// TODO Auto-generated method stub
-		return null;
+
+		String code = null;
+		List<String> stateNames = Utility.getStatesList();
+
+		for (int i = 0; i < stateNames.size(); i++) {
+			if (responsiblePerson.getStateName().equals(stateNames.get(i))) {
+				code = stateNames.get(i);
+			}
+		}
+		return code;
 	}
 
 	/**
@@ -527,8 +539,28 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonAddress(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		String address = null;
+		switch (i) {
+		case 1:
+			address = responsiblePerson.getBuildingName();
+			break;
+		case 2:
+			address = responsiblePerson.getStateName();
+			break;
+		case 3:
+			address = responsiblePerson.getArea();
+			break;
+		case 4:
+			address = responsiblePerson.getCity();
+			break;
+		case 5:
+			address = responsiblePerson.getStateName();
+			break;
+		default:
+			break;
+		}
+
+		return address;
 	}
 
 	/**
@@ -538,8 +570,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonDesignation() {
-		// TODO Auto-generated method stub
-		return null;
+		return responsiblePerson.getDesignation();
 	}
 
 	/**
@@ -549,8 +580,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonName() {
-		// TODO Auto-generated method stub
-		return null;
+		return responsiblePerson.getName();
 	}
 
 	/**
@@ -560,8 +590,16 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorType() {
-		// TODO Auto-generated method stub
-		return null;
+		String code = null;
+		List<String> deductorCodes = Utility.getDeductorCodes();
+
+		for (int i = 0; i < deductorCodes.size(); i++) {
+			if (deductor.getDeductorType().equals(deductorCodes.get(i))) {
+				code = deductorCodes.get(i);
+			}
+		}
+		return code;
+
 	}
 
 	/**
@@ -586,8 +624,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonAddressChange() {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (responsiblePerson.isAddressChanged()) {
+			return "Y";
+		} else {
+			return "N";
+		}
+
 	}
 
 	/**
@@ -598,8 +641,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorTelephoneNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getTelephoneNumber());
 	}
 
 	/**
@@ -610,7 +652,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getDeductorSTDCode() {
 		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getStdCode());
 	}
 
 	/**
@@ -624,13 +666,11 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorEmailID() {
-		// TODO Auto-generated method stub
-		return null;
+		return deductor.getEmailID();
 	}
 
 	private String getDeductorPINCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(deductor.getPinCode());
 	}
 
 	/**
@@ -652,8 +692,29 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorAddress(int i) {
-		// TODO Auto-generated method stub
-		return null;
+
+		String address = null;
+		switch (i) {
+		case 1:
+			address = deductor.getBuildingName();
+			break;
+		case 2:
+			address = deductor.getRoadName();
+			break;
+		case 3:
+			address = deductor.getArea();
+			break;
+		case 4:
+			address = deductor.getCity();
+			break;
+		case 5:
+			address = deductor.getState();
+			break;
+		default:
+			break;
+		}
+
+		return address;
 	}
 
 	/**
@@ -662,8 +723,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorBranch() {
-		// TODO Auto-generated method stub
-		return null;
+		return deductor.getBranch();
 	}
 
 	/**
@@ -672,8 +732,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getNameDeductor() {
-		// TODO Auto-generated method stub
-		return null;
+		return deductor.getName();
 	}
 
 	/**
@@ -713,18 +772,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getPanOfDeductor() {
-		return null;
-	}
-
-	/**
-	 * Mention the 10 Character TAN of the deductor. Should be all CAPITALS.
-	 * 
-	 * @return
-	 */
-	private String getTanOfDeductor() {
-		// Mention the 10 Character TAN of the deductor. Should be all CAPITALS.
-
-		return null;
+		return deductor.getPanNumber();
 	}
 
 	/**
@@ -734,7 +782,6 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getChalanCount() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
