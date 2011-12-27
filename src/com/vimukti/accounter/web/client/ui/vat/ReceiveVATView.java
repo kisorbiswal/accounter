@@ -448,8 +448,8 @@ public class ReceiveVATView extends
 			}
 		}
 
-		amountText
-				.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(transaction.getTotal()));
+		amountText.setValue(DataUtils
+				.getAmountAsStringInPrimaryCurrency(transaction.getTotal()));
 		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;
@@ -613,15 +613,16 @@ public class ReceiveVATView extends
 		return result;
 
 	}
-	
-@Override
-public ClientReceiveVAT saveView() {
-	ClientReceiveVAT saveView = super.saveView();
-	if (saveView != null){
-		updateTransaction();
+
+	@Override
+	public ClientReceiveVAT saveView() {
+		ClientReceiveVAT saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
 		}
-	return saveView;
-}
+		return saveView;
+	}
+
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
@@ -882,15 +883,6 @@ public ClientReceiveVAT saveView() {
 
 	@Override
 	protected boolean canRecur() {
-		return false;
-	}
-	@Override
-	protected boolean canDelete() {
-		return false;
-	}
-
-	@Override
-	protected boolean canVoid() {
 		return false;
 	}
 

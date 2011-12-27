@@ -608,12 +608,13 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// }
 		return result;
 	}
+
 	@Override
 	public ClientPayTAX saveView() {
 		ClientPayTAX saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateTransaction();
-			}
+		}
 		return saveView;
 	}
 
@@ -796,15 +797,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	protected boolean canRecur() {
-		return false;
-	}
-	@Override
-	protected boolean canDelete() {
-		return false;
-	}
-
-	@Override
-	protected boolean canVoid() {
 		return false;
 	}
 
