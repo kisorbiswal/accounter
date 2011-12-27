@@ -26,4 +26,5 @@ public interface IAccounterCompanyInitializationServiceAsync {
 	void getCountry(AsyncCallback<String> callback);
 
 	void getCompany(AsyncCallback<ClientCompany> callback);
+
 }
