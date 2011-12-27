@@ -84,7 +84,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(messages.howIsYourCompanyOrganized());
 
-		organizeText.setText(Accounter.messages()
+		organizeText.setText(messages
 				.howIsYourCompanyOrganizedDesc());
 		propriterShip.setText(messages.soleProprietorship());
 		partnership.setText(messages.partnershipOrLLP());
@@ -94,7 +94,7 @@ public class SetupOrganisationSelectionPage extends AbstractSetupPage {
 		nonProfit.setText(messages.nonProfit());
 		other.setText(messages.otherNone());
 
-		organizeText.setText(Accounter.messages()
+		organizeText.setText(messages
 				.howIsYourCompanyOrganizedDesc());
 		uninCorporated.setText(messages.soleProprietorshipDesc());
 		morePartners.setText(messages.partnershipOrLLPDesc());

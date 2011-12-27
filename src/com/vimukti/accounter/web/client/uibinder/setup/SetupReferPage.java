@@ -73,9 +73,9 @@ public class SetupReferPage extends AbstractSetupPage {
 		customerLabel.setText(messages.Customer());
 		vendorsLabel.setText(messages.Vendor());
 
-		customerCommentLabel.setText(Accounter.messages()
+		customerCommentLabel.setText(messages
 				.howDoYouReferYourCustoemrs());
-		supplierCommentLabel.setText(Accounter.messages()
+		supplierCommentLabel.setText(messages
 				.howDoYouReferYourVendors());
 
 	}
@@ -102,23 +102,23 @@ public class SetupReferPage extends AbstractSetupPage {
 		if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(messages.howDoYouRefer() + " "
-					+ Accounter.messages().payees(Global.get().customers())
+					+ messages.payees(Global.get().customers())
 					+ " " + Global.get().vendor() + " "
 					+ messages.Accounts() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1
 				&& vendorListBox.getSelectedIndex() == -1) {
 			Accounter.showError(messages.howDoYouRefer() + " "
-					+ Accounter.messages().payees(Global.get().customers())
+					+ messages.payees(Global.get().customers())
 					+ " " + Global.get().vendor() + "?");
 			return false;
 		} else if (customerListBox.getSelectedIndex() == -1) {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.howDoYouReferYourCustoemrs());
 			return false;
 		} else if (vendorListBox.getSelectedIndex() == -1) {
 			Accounter
-					.showError(Accounter.messages().howDoYouReferYourVendors());
+					.showError(messages.howDoYouReferYourVendors());
 			return false;
 		} else {
 			return true;

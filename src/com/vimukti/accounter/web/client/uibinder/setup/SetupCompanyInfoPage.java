@@ -133,7 +133,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		// taxIDLabel.setText(messages.vatNo());
 		// } else if (Accounter.getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_INDIA) {
-		// taxIDLabel.setText(Accounter.messages().panNumber(
+		// taxIDLabel.setText(messages.panNumber(
 		// Global.get().Account()));
 		// }
 
@@ -146,8 +146,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		zipLabel.setText(messages.zipCode());
 		countryLabel.setText(messages.country());
 		phoneLabel.setText(messages.phone());
-		phone.setTitle(Accounter.messages().phoneNumberOf(
-				Accounter.messages().company()));
+		phone.setTitle(messages.phoneNumberOf(
+				messages.company()));
 		faxLabel.setText(messages.fax());
 		emailAdressLabel.setText(messages.emailId());
 		webSiteLabel.setText(messages.webSite());

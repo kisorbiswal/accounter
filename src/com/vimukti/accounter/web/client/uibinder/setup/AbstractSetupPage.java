@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.uibinder.setup;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -8,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 public abstract class AbstractSetupPage extends Composite {
 
 	protected static ClientCompanyPreferences preferences;
-	protected AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private static String country;
 	protected static boolean isSkip;
 

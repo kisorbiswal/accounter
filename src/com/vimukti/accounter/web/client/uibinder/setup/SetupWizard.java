@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -46,7 +47,7 @@ public class SetupWizard extends VerticalPanel {
 	private int currentViewIndex = START_PAGE;
 	private List<TemplateAccount> selectedAccounts = new ArrayList<TemplateAccount>();
 	private FlexTable progressTable;
-	private AccounterMessages messages = Accounter.messages();
+	private AccounterMessages messages = Global.get().messages();
 
 	private List<AbstractSetupPage> allViewsList, showViewList;
 	private List<Image> images;
@@ -410,7 +411,7 @@ public class SetupWizard extends VerticalPanel {
 	 * Cancels the Setup
 	 */
 	public void cancel() {
-		new AccounterDialog(Accounter.messages().setupCancelMessgae(),
+		new AccounterDialog(messages.setupCancelMessgae(),
 				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override

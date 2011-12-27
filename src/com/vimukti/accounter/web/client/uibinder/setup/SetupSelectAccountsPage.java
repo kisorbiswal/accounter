@@ -71,7 +71,7 @@ public class SetupSelectAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		headerLabel.setText(Accounter.messages()
+		headerLabel.setText(messages
 				.reviewIncomeAndExpensesAccounts());
 
 		expensesInfo.setText(messages.doyouWantToUseStatements());
