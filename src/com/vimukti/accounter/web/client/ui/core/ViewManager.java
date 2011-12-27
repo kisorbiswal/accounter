@@ -239,9 +239,9 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	protected boolean defaultPresumtion(String eventTarget) {
-		return eventTarget.contains("HTMLInputElement")
-				|| eventTarget.contains("HTMLSelectElement")
-				|| eventTarget.contains("HTMLTextAreaElement");
+		return eventTarget.contains(Accounter.messages().HTMLInputElement())
+				|| eventTarget.contains(Accounter.messages().HTMLSelectElement())
+				|| eventTarget.contains(Accounter.messages().HTMLTextAreaElement());
 	}
 
 	protected void historyChanged(String value) {

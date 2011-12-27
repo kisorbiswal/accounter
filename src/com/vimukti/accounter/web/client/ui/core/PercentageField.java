@@ -81,23 +81,16 @@ public class PercentageField extends TextItem {
 						if (enteredPercentageValue != null) {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
-								// BaseView.errordata
-								// .setHTML("<li> You cannot enter a negative Percentage.");
-								// BaseView.commentPanel.setVisible(true);
+								
 								errorsWidget.addError(this, Accounter
 										.messages().cantenternegnumber());
-								// Accounter
-								// .showError("You cannot enter a negative Percentage");
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
-								// BaseView.errordata
-								// .setHTML("<li> You cannot enter a percentage more than 100.");
-								// BaseView.commentPanel.setVisible(true);
+								
 								errorsWidget.addError(this, Accounter
 										.messages().cantentermorethat100());
-								// Accounter
-								// .showError("You cannot enter a percentage more than 100");
+								
 								setPercentage(0.0);
 							} else
 								setPercentage(enteredPercentageValue);

@@ -781,30 +781,13 @@ public class ActionFactory {
 		return new HistoryListAction();
 	}
 
-	// Purchase order action
-
-	// public static PurchaseOrderAction getPurchaseOrderAction() {
-	// return new PurchaseOrderAction("Purchase Order",
-	// }
-
-	// public static PurchaseOrderListAction getPurchaseOrderListAction() {
-	// return new PurchaseOrderListAction("PurchaseOrder List",
-	// }
-
 	public static PurchaseOpenOrderAction getPurchaseOpenOrderListAction() {
 		return new PurchaseOpenOrderAction();
 	}
 
-	// reports action factory
-
 	public static ReportsHomeAction getReportsHomeAction() {
 		return new ReportsHomeAction();
 	}
-
-	// public static VendorsListAction getVendorListAction() {
-	// return new VendorsListAction(Global.get().messages()
-	// .payeesList(Global.get().Vendors()));
-	// }
 
 	public static TAXAgencyListAction getTAXAgencyListAction() {
 		return new TAXAgencyListAction();
@@ -842,11 +825,6 @@ public class ActionFactory {
 		return new TransactionDetailByTaxItemAction();
 	}
 
-	// public static YtdProfitComparedToLastYearAction
-	// getYtdProfitComparedToLastYearAction() {
-	// return new YtdProfitComparedToLastYearAction(
-	// }
-
 	public static ARAgingDetailAction getArAgingDetailAction() {
 		return new ARAgingDetailAction();
 	}
@@ -875,11 +853,6 @@ public class ActionFactory {
 		return new SalesByItemDetailAction();
 	}
 
-	// public static YtdSalesComparedToLastYearAction
-	// getYtdSalesComparedToLastYearAction() {
-	// return new YtdSalesComparedToLastYearAction(
-	// }
-
 	public static APAgingDetailAction getAorpAgingDetailAction() {
 		return new APAgingDetailAction();
 	}
@@ -887,11 +860,6 @@ public class ActionFactory {
 	public static VendorTransactionHistoryAction getVendorTransactionHistoryAction() {
 		return new VendorTransactionHistoryAction();
 	}
-
-	// public static AmountsDueToVendorsAction getAmountsDueToVendorsAction() {
-	// return new AmountsDueToVendorsAction("Amounts Due To"
-	// + UIUtils.getVendorString("Suppliers", "Vendors"),
-	// }
 
 	public static ProfitAndLossAction getProfitAndLossAction() {
 		return new ProfitAndLossAction();
@@ -1003,25 +971,6 @@ public class ActionFactory {
 		return null;
 	}
 
-	// sales order action factory
-
-	// public static SalesOrderAction getSalesOrderAction() {
-	// return new SalesOrderAction("Sales Order",
-	// "/images/Sales-order.png");
-	// }
-
-	// public static SalesOrderListAction getSalesOrderListAction() {
-	// return new SalesOrderListAction("SalesOrder List",
-	// "/images/Sales-order-list.png");
-	// }
-
-	// public static SalesOpenOrderAction getSalesOpenOrderAction() {
-	// return new SalesOpenOrderAction("SalesOrder Report",
-	// "/images/icons/report/reports.png");
-	// }
-
-	// vat action factory
-
 	public static NewVatItemAction getNewVatItemAction() {
 		return new NewVatItemAction();
 	}
@@ -1034,10 +983,6 @@ public class ActionFactory {
 		return new VatItemListAction();
 	}
 
-	// public static VatGroupAction getVatGroupAction() {
-	// return new VatGroupAction(messages.newVATGroup());
-	// }
-
 	public static ManageTAXCodesListAction getTAXCodeListAction() {
 		return new ManageTAXCodesListAction();
 	}
@@ -1045,18 +990,6 @@ public class ActionFactory {
 	public static NewTAXCodeAction getNewTAXCodeAction() {
 		return new NewTAXCodeAction();
 	}
-
-	// public static Action getManageVATCodeAction() {
-	// return new ManageVATCodeAction("Manage VAT");
-	// }
-
-	// public static NewTAXAgencyAction getNewTAXAgencyAction() {
-	// return new NewTAXAgencyAction(messages.newVATAgency());
-	// }
-
-	// public static ManageVATGroupListAction getManageVATGroupListAction() {
-	// return new ManageVATGroupListAction(messages.vatGroupList());
-	// }
 
 	public static AdjustTAXAction getVatAdjustmentAction() {
 		return new AdjustTAXAction(1);
@@ -1089,17 +1022,6 @@ public class ActionFactory {
 		return new PurchaseItemsAction(Global.get().Vendor());
 	}
 
-	// public static NewItemAction getNewItemAction() {
-	// return new NewItemAction(messages.newItem(),
-	// "/images/icons/vendors/new_item.png", null);
-	// }
-	//
-	// public static NewItemAction getNewItemAction(Item item,
-	// AccounterAsyncCallback<Object> callback, AbstractBaseView view) {
-	// return new NewItemAction(messages.newItem(),
-	// "/images/icons/vendors/new_item.png", view, item, callback);
-	// }
-
 	public static NewCashPurchaseAction getNewCashPurchaseAction() {
 		return new NewCashPurchaseAction();
 	}
@@ -1113,12 +1035,6 @@ public class ActionFactory {
 	public static NewCreditMemoAction getNewCreditMemoAction() {
 		return new NewCreditMemoAction();
 	}
-
-	// public static NewCreditMemoAction getNewCreditMemoAction(
-	// ClientVendorCreditMemo vendorCreditMemo,
-	// AccounterAsyncCallback<Object> callBack) {
-	// return new NewCreditMemoAction(vendorCreditMemo, callBack);
-	// }
 
 	public static NewCheckAction getNewCheckAction() {
 		return new NewCheckAction();
@@ -1155,10 +1071,6 @@ public class ActionFactory {
 	public static VendorsListAction getVendorsAction() {
 		return new VendorsListAction();
 	}
-
-	// public static Item getItemAction() {
-	// return new ItemListAction(messages.items());
-	// }
 
 	public static BillsAction getBillsAction() {
 		return new BillsAction();

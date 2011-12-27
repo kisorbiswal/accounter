@@ -44,9 +44,9 @@ public class QuickAddDialog extends CustomDialog {
 		horizontalPanel.add(nameLabel);
 		horizontalPanel.add(textBox);
 
-		quickAddBtn = new Button("Quick Add");
-		Button addAllInfoBtn = new Button("Add All Info");
-		Button cancelBtn = new Button("Cancel");
+		quickAddBtn = new Button(Accounter.messages().QuickAdd());
+		Button addAllInfoBtn = new Button(Accounter.messages().AddAllInfo());
+		Button cancelBtn = new Button(Accounter.messages().cancel());
 
 		quickAddBtn.addClickHandler(new ClickHandler() {
 

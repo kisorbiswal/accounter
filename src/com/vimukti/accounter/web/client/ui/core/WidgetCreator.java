@@ -34,9 +34,9 @@ public class WidgetCreator {
 	}
 
 	public Portlet getWidgetByName(String widgetName) {
-		if (widgetName.equals("WELCOME")) {
+		if (widgetName.equals(Accounter.messages().WELCOME())) {
 			return getWelcomePortlet();
-		} else if (widgetName.equals("BANKING_SUMMARY")) {
+		} else if (widgetName.equals(Accounter.messages().BANKINGSUMMARY())) {
 			return getBankingSummaryWidget();
 		} /*
 		 * else if (widgetName.equals("PROFIT_AND_LOSS")) { return
@@ -324,7 +324,7 @@ public class WidgetCreator {
 		grid.removeLoadingImage();
 		grid.initParentAndChildIcons(Accounter.getFinanceImages()
 				.customerIcon(), Accounter.getFinanceImages().customerIcon());
-		grid.addParentWithChilds("Debtors Total", result);
+		grid.addParentWithChilds(Accounter.messages().DebtorsTotal(), result);
 	}
 
 	public void setCustomerWidgetHeight(int height) {

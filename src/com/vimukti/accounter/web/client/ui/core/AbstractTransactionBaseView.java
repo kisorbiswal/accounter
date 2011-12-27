@@ -388,7 +388,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError("Failed to Get the Transaction Number..");
+				Accounter.showError(Accounter.messages().failedToGetTransactionNumber());
 
 			}
 
@@ -784,9 +784,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		HorizontalPanel panel = new HorizontalPanel();
 
 		HTML text = new HTML();
-		text.setHTML("<a>This is a template used in Recurring. </a>");
+		text.setHTML("<a>"+Accounter.messages().ThisisatemplateusedinRecurring()+"</a>");
 		Anchor click = new Anchor();
-		click.setHTML("Click here");
+		click.setHTML(Accounter.messages().Clickhere());
 		click.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -795,7 +795,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		});
 		HTML recur = new HTML();
-		recur.setHTML("<a> to change the recurring schedule.");
+		recur.setHTML("<a>"+Accounter.messages().tochangetherecurringschedule());
 
 		panel.add(text);
 		panel.add(click);
@@ -812,7 +812,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					@Override
 					public void onFailure(Throwable caught) {
 						Accounter
-								.showError("Unable to open recurring transaction "
+								.showError(Accounter.messages().Unabletoopenrecurringtransactio()
 										+ caught);
 					}
 
@@ -934,8 +934,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			} else if (itm.equals(messages.comment())) {
 				image = Accounter.getFinanceMenuImages().comments();
-			} else if (itm.equals("Sales Tax") || (itm.equals("Service Item"))
-					|| (itm.equals("Service"))) {
+			} else if (itm.equals(Accounter.messages().salesTax()) || (itm.equals(Accounter.messages().serviceItem()))
+					|| (itm.equals(Accounter.messages().service()))) {
 				if (sellServices) {
 					image = Accounter.getFinanceMenuImages().salestax();
 				} else {
@@ -1094,17 +1094,17 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 							if (transactionItem.getLineTotal() <= 0
 									&& transactionItem.getDiscount() != 100) {
 								result.addError(
-										"TransactionItem"
+										Accounter.messages().TransactionItemvalue()
 												+ transactionItem.getAccount()
 												+ transactionItem.getAccount(),
 										messages.transactionitemtotalcannotbe0orlessthan0());
 							}
 						} else {
-							result.addError("TransactionItem", messages
+							result.addError(Accounter.messages().TransactionItemvalue(), messages
 									.pleaseEnter(messages.transactionItem()));
 						}
 					} else {
-						result.addError("TransactionItem", messages
+						result.addError(Accounter.messages().TransactionItemvalue(), messages
 								.pleaseEnter(messages.transactionItem()));
 					}
 					if (getPreferences().isClassTrackingEnabled()
@@ -1115,7 +1115,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 				}
 			} else {
-				result.addError("TransactionItem",
+				result.addError(Accounter.messages().TransactionItemvalue(),
 						messages.thereAreNoTransactionItemsToSave());
 			}
 		}
@@ -1518,7 +1518,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public ClassListCombo createAccounterClassListCombo() {
-		classListCombo = new ClassListCombo("Class", true);
+		classListCombo = new ClassListCombo(Accounter.messages().accounterClass(), true);
 		classListCombo.setHelpInformation(true);
 		classListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
@@ -1951,7 +1951,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView || this instanceof MakeDepositView)) {
 			if (transactionItems == null || transactionItems.isEmpty()) {
-				result.addError("TransactionItem",
+				result.addError(Accounter.messages().TransactionItemvalue(),
 						messages.thereAreNoTransactionItemsToSave());
 			}
 		}

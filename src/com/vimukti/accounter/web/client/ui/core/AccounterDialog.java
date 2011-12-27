@@ -82,12 +82,12 @@ public class AccounterDialog extends CustomDialog {
 			if (isError) {
 
 				imageUrl = Accounter.getFinanceImages().errorIcon();
-				setText("ERROR");
+				setText(Accounter.messages().ERROR());
 
 			} else {
 
 				imageUrl = Accounter.getFinanceImages().infoIcon();
-				setText("INFORMATION");
+				setText(Accounter.messages().INFORMATION());
 			}
 
 			okButton = new Button(Accounter.messages().ok());
@@ -109,7 +109,7 @@ public class AccounterDialog extends CustomDialog {
 		} else {
 
 			imageUrl = Accounter.getFinanceImages().warnIcon();
-			setText("WARNING");
+			setText(Accounter.messages().WARNING());
 			yesButton = new Button(Accounter.messages().yes());
 			yesButton.setWidth("60px");
 			noButton = new Button(Accounter.messages().no());

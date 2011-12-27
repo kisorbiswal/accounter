@@ -186,7 +186,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
 											.toString()
-											.equalsIgnoreCase("Active"))
+											.equalsIgnoreCase(Accounter.messages().active()))
 										filterList(true);
 									else
 										filterList(false);
@@ -553,7 +553,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				if (typeList.size() < 1) {
 					budgetItemsExists = false;
-					typeList.add("No Budget added");
+					typeList.add(Accounter.messages().NoBudgetadded());
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);

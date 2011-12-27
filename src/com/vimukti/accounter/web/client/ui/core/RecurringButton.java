@@ -57,7 +57,7 @@ public class RecurringButton extends ImageButton {
 								@Override
 								public void onFailure(Throwable caught) {
 									Accounter
-											.showError("Unable to open recurring transaction "
+											.showError(Accounter.messages().Unabletoopenrecurringtransactio()
 													+ caught);
 								}
 
