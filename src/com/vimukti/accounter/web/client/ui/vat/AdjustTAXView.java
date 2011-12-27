@@ -411,8 +411,16 @@ public class AdjustTAXView extends
 		if (vatItemCombo.getSelectedValue() != null) {
 			data.setTaxItem(vatItemCombo.getSelectedValue().getID());
 		}
-
-		data.setTaxAgency(clientTAXAgency.getID());
+		if (clientTAXAgency != null) {
+			data.setTaxAgency(clientTAXAgency.getID());
+			if (clientTAXAgency.getSalesLiabilityAccount() != 0
+					&& clientTAXAgency.getPurchaseLiabilityAccount() != 0) {
+				data.setSales(salesTypeRadio.getValue().equals(
+						messages.salesType()));
+			} else {
+				data.setSales(clientTAXAgency.getSalesLiabilityAccount() != 0);
+			}
+		}
 		if (adjustAccountCombo.getSelectedValue() != null) {
 			data.setAdjustmentAccount(adjustAccountCombo.getSelectedValue()
 					.getID());
@@ -425,15 +433,6 @@ public class AdjustTAXView extends
 		else
 			data.setIncreaseVATLine(false);
 		data.setMemo(String.valueOf(memo.getValue()));
-
-		if (clientTAXAgency.getSalesLiabilityAccount() != 0
-				&& clientTAXAgency.getPurchaseLiabilityAccount() != 0) {
-			data.setSales(salesTypeRadio.getValue()
-					.equals(messages.salesType()));
-		} else {
-			data.setSales(clientTAXAgency.getSalesLiabilityAccount() != 0);
-		}
-
 	}
 
 	@Override
