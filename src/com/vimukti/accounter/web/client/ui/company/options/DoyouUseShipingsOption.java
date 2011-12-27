@@ -47,7 +47,7 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		shippingmedescritionLabel
-				.setText("This option can be used to enable  Shipping Terms ,Shipping Method and Shipping Address related to customer and vendor(supplier) transactions");
+				.setText(Accounter.messages().Thisoptioncanbeusedtoenable());
 		shippingmedescritionLabel.setStyleName("organisation_comment");
 		useShipMethods.setText(Accounter.messages().Doyoudoshipping());
 		useShipMethods.setStyleName("bold");
