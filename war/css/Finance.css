@@ -2627,3 +2627,9 @@ input.date-field-textbox {
 .activity-text-color{
 	color:red;
 }
+.details-Panel table{
+	table-layout: fixed;
+}
+.decimal_digitlimit td:first-child {
+    width: 50%;
+}
