@@ -9517,7 +9517,6 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="viewType" type="int" />
-		<query-param name="todayDate" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -9576,15 +9575,6 @@
 		WHERE T.T_TYPE=4
 		AND
 		CASE
-		WHEN
-		1=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2
-		AND T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType
-		THEN
-		(I.BALANCE_DUE &gt;0.0
-		AND I.DUE_DATE &lt; :todayDate AND
-		T.SAVE_STATUS !=204)
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
@@ -9686,7 +9676,6 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="viewType" type="int" />
-		<query-param name="todayDate" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -9742,15 +9731,6 @@
 		C.ID
 		WHERE T.T_TYPE=1 AND
 		CASE
-		WHEN
-		1=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2 AND
-		T.SAVE_STATUS !=204 )
-		WHEN 2=:viewType
-		THEN
-		(I.BALANCE_DUE &gt;0.0 AND
-		I.DUE_DATE &lt; :todayDate AND
-		T.SAVE_STATUS !=204)
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
@@ -9766,7 +9746,6 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<query-param name="todayDate" type="long" />
 		<query-param name="viewType" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -9829,19 +9808,7 @@
 		AND
 		CASE
 		WHEN
-		1=:viewType THEN
-		(IR.BALANCE_DUE &gt;0.0 OR EB.BALANCE_DUE &gt;0.0 OR
-		VCM.BALANCE_DUE
-		&gt;0.0
-		AND T.SAVE_STATUS !=204)
-		WHEN 2=:viewType THEN
-		(:todayDate &gt;
-		EB.DUE_DATE OR :todayDate &gt; IR.DUE_DATE
-		AND
-		(IR.BALANCE_DUE &gt;0.0
-		OR EB.BALANCE_DUE &gt;0.0 OR VCM.BALANCE_DUE
-		&gt;0.0 ))
-		WHEN 3=:viewType
+		3=:viewType
 		THEN
 		T.SAVE_STATUS=204
 		ELSE true
