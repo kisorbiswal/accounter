@@ -63,7 +63,8 @@ public class ChequePdfGenerator {
 						layout.getPayeeNameLeft(), layout.getPayeeNameTop(),
 						layout.getPayeeNameWidth());
 
-				String numberInWords ="Not implemented"; //Utility.getNumberInWords(printCheque.getAmount());
+				String numberInWords = Utility.getNumberInWords(printCheque
+						.getAmount());
 				int a = getAmountLineIndex(numberInWords,
 						layout.getAmountWordsLin1Width());
 				String line1 = numberInWords;
