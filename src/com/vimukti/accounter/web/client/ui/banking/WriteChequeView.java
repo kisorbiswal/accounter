@@ -605,7 +605,7 @@ public class WriteChequeView extends
 		}
 
 		// setting paymentmethod
-		transaction.setPaymentMethod("Check");
+		transaction.setPaymentMethod(Accounter.messages().check());
 
 		// Setting Address
 		// transaction.setAddress(billingAddress);
@@ -1040,7 +1040,7 @@ public class WriteChequeView extends
 
 		FlowPanel vendorAccountFlowPanel = new FlowPanel();
 		vendorAccountsDisclosurePanel = new DisclosurePanel(
-				"Itemize by Account");
+				Accounter.messages().ItemizebyAccount());
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
 		vendorAccountFlowPanel.add(accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);

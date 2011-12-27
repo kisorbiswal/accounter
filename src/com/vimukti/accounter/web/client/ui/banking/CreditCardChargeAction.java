@@ -47,8 +47,6 @@ public class CreditCardChargeAction extends Action {
 			}
 
 			public void onCreateFailed(Throwable t) {
-				// //UIUtils.logError("Failed to Load Credit Card Charge.....",
-				// t);
 			}
 		});
 	}
