@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorSectionHomeView;
 public class AddWidgetDialog extends BaseDialog {
 
 	ArrayList<String> addablePortletList;
-	private FinanceDashboard dashboardParent;
 	private CustomerSectionHomeView customerParent;
 	private VendorSectionHomeView vendorParent;
 	private BankingSectionHomeView bankingParent;
@@ -35,10 +34,6 @@ public class AddWidgetDialog extends BaseDialog {
 			this.customerParent = (CustomerSectionHomeView) parent;
 			addablePortletList = this.customerParent.getAddablePortletList();
 			portalLayout = this.customerParent.getPortalLayout();
-		} else if (parent instanceof FinanceDashboard) {
-			this.dashboardParent = (FinanceDashboard) parent;
-			addablePortletList = this.dashboardParent.getAddablePortletList();
-			portalLayout = this.dashboardParent.getPortalLayout();
 		} else if (parent instanceof VendorSectionHomeView) {
 			this.vendorParent = (VendorSectionHomeView) parent;
 			addablePortletList = this.vendorParent.getAddablePortletList();

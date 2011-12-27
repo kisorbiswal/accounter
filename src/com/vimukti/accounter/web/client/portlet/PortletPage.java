@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.ui.Portlet;
 
 public class PortletPage extends AbsolutePanel implements DragHandler {
 
-	public static final String DASHBOARD = Accounter.messages().dashboardsmalletters();
+	public static final String DASHBOARD = "dashboard";
 
 	private String name;
 	public ClientPortletPageConfiguration config;

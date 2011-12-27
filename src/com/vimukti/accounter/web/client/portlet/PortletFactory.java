@@ -21,16 +21,16 @@ public class PortletFactory {
 
 	private static PortletFactory factory;
 
-	public static final String BANK_ACCOUNT = Accounter.messages().BANKACCOUNT();
-	public static final String MONEY_COMING = Accounter.messages().MONEYCOMING();
-	public static final String MONEY_GOING = Accounter.messages().MONEYGOING();
-	public static final String EXPENSES_CLAIM = Accounter.messages().EXPENSESCLAIM();
-	public static final String WHO_I_OWE = Accounter.messages().WHOIOWE();
-	public static final String WHO_OWES_ME = Accounter.messages().WHOOWESME();
-	public static final String RECENT_TRANSACTIONS = Accounter.messages().RECENTTRANSACTIONS();
-	public static final String MESSAGES_AND_TASKS = Accounter.messages().messagesAndTasks();
-	public static final String QUICK_LINKS = Accounter.messages().QUICKLINKS();
-	public static final String BANKING = Accounter.messages().BANKING();
+	public static final String BANK_ACCOUNT = "BANK_ACCOUNT";
+	public static final String MONEY_COMING = "MONEY_COMING";
+	public static final String MONEY_GOING = "MONEY_GOING";
+	public static final String EXPENSES_CLAIM = "EXPENSES_CLAIM";
+	public static final String WHO_I_OWE = "WHO_I_OWE";
+	public static final String WHO_OWES_ME = "WHO_OWES_ME";
+	public static final String RECENT_TRANSACTIONS = "RECENT_TRANSACTIONS";
+	public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
+	public static final String QUICK_LINKS = "QUICK_LINKS";
+	public static final String BANKING = "BANKING";
 	public static final String ACCOUNTS_BALANCES_PORTLET = "ACCOUNTS_BALANCES_PORTLET";
 	public static final String TOP_CUSTOMERS_BY_SALES_PORTLET = "TOP_CUSTOMERS_BY_SALES_PORTLET";
 	public static final String TOP_VENDORS_BY_EXPENSES_PORTLET = "TOP_VENDORS_BY_EXPENSES_PORTLET";

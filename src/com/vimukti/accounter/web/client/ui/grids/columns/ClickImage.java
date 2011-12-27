@@ -50,14 +50,14 @@ public class ClickImage extends AbstractSafeHtmlCell<String> {
 	 *            a {@link SafeHtmlRenderer SafeHtmlRenderer<String>} instance
 	 */
 	public ClickImage(SafeHtmlRenderer<String> renderer) {
-		super(renderer, Accounter.messages().click(), Accounter.messages().keydown());
+		super(renderer, "click", "keydown");
 	}
 
 	@Override
 	public void onBrowserEvent(Context context, Element parent, String value,
 			NativeEvent event, ValueUpdater<String> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
-		if (Accounter.messages().click().equals(event.getType())) {
+		if ("click".equals(event.getType())) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
 		}
 	}
@@ -66,7 +66,7 @@ public class ClickImage extends AbstractSafeHtmlCell<String> {
 	public void render(Context context, SafeHtml data, SafeHtmlBuilder sb) {
 		String img = getBgImage();
 		String disableButton = "";
-		if (img.equals(Accounter.messages().transparentButton())) {
+		if (img.equals("transparentButton")) {
 			disableButton = "disabled=\"disabled\"";
 		}
 		sb.appendHtmlConstant("<button class=\"" + img + "\" type=\"button\" "

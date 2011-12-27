@@ -61,7 +61,7 @@ public class AccountComboCell extends
 	 */
 	public AccountComboCell(ArrayList<ClientAccount> accounts,
 			boolean isAddNewRequired, SafeHtmlRenderer<String> renderer) {
-		super(Accounter.messages().click(), Accounter.messages().keydown());
+		super("click", "keydown");
 		if (renderer == null) {
 			throw new IllegalArgumentException("renderer == null");
 		}
@@ -147,7 +147,7 @@ public class AccountComboCell extends
 	public void onBrowserEvent(Context context, Element parent, String value,
 			NativeEvent event, ValueUpdater<String> valueUpdater) {
 		super.onBrowserEvent(context, parent, value, event, valueUpdater);
-		if (Accounter.messages().click().equals(event.getType())) {
+		if ("click".equals(event.getType())) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
 		}
 	}

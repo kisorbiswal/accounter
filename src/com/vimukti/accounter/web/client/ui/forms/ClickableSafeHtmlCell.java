@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.text.shared.SafeHtmlRenderer;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClickableSafeHtmlCell implements Cell<SafeHtml> {
 
@@ -19,7 +18,7 @@ public class ClickableSafeHtmlCell implements Cell<SafeHtml> {
 	private SafeHtmlRenderer<SafeHtml> renderer;
 
 	public ClickableSafeHtmlCell() {
-		this(CustomSafeHtmlRender.getInstance(), Accounter.messages().click(), Accounter.messages().keydown());
+		this(CustomSafeHtmlRender.getInstance(), "click", "keydown");
 	}
 
 	public ClickableSafeHtmlCell(SafeHtmlRenderer<SafeHtml> renderer,
@@ -76,11 +75,11 @@ public class ClickableSafeHtmlCell implements Cell<SafeHtml> {
 			ValueUpdater<SafeHtml> valueUpdater) {
 		String eventType = event.getType();
 		// Special case the ENTER key for a unified user experience.
-		if (Accounter.messages().keydown().equals(eventType)
+		if ("keydown".equals(eventType)
 				&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
 		}
-		if (Accounter.messages().click().equals(event.getType())) {
+		if ("click".equals(event.getType())) {
 			onEnterKeyDown(context, parent, value, event, valueUpdater);
 		}
 	}

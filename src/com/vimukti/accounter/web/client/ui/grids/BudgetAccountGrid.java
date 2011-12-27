@@ -209,7 +209,8 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	public void onDoubleClick(final ClientBudgetItem obj) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		String budgetTitle = Accounter.messages().AddBudgetfor() + obj.getAccountsName();
+		String budgetTitle = Accounter.messages().AddBudgetfor(
+				obj.getAccountsName());
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
 				budgetTitle, "", map, obj);
 		assignAccountsTo1099Dialog
@@ -228,18 +229,24 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	private void refreshView(HashMap<String, String> result,
 			ClientBudgetItem obj) {
 
-		obj.setJanuaryAmount(Double.parseDouble(result.get(DayAndMonthUtil.jan())));
-		obj.setFebruaryAmount(Double.parseDouble(result.get(DayAndMonthUtil.feb())));
+		obj.setJanuaryAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.jan())));
+		obj.setFebruaryAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.feb())));
 		obj.setMarchAmount(Double.parseDouble(result.get(DayAndMonthUtil.mar())));
 		obj.setAprilAmount(Double.parseDouble(result.get(DayAndMonthUtil.apr())));
 		obj.setMayAmount(Double.parseDouble(result.get(DayAndMonthUtil.mayS())));
 		obj.setJuneAmount(Double.parseDouble(result.get(DayAndMonthUtil.jun())));
 		obj.setJulyAmount(Double.parseDouble(result.get(DayAndMonthUtil.jul())));
 		obj.setAugustAmount(Double.parseDouble(result.get(DayAndMonthUtil.aug())));
-		obj.setOctoberAmount(Double.parseDouble(result.get(DayAndMonthUtil.oct())));
-		obj.setNovemberAmount(Double.parseDouble(result.get(DayAndMonthUtil.nov())));
-		obj.setSeptemberAmount(Double.parseDouble(result.get(DayAndMonthUtil.sep())));
-		obj.setDecemberAmount(Double.parseDouble(result.get(DayAndMonthUtil.dec())));
+		obj.setOctoberAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.oct())));
+		obj.setNovemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.nov())));
+		obj.setSeptemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.sep())));
+		obj.setDecemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
+				.dec())));
 
 		Double total;
 		total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
