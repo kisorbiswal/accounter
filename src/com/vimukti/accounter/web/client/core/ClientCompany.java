@@ -1868,13 +1868,13 @@ public class ClientCompany implements IAccounterCore {
 
 				break;
 
-			case PAY_TAX:
-
-				ClientPayTAX payTax = (ClientPayTAX) accounterCoreObject;
-
-				Utility.updateClientList(payTax, payTaxs);
-
-				break;
+			// case PAY_TAX:
+			//
+			// ClientPayTAX payTax = (ClientPayTAX) accounterCoreObject;
+			//
+			// Utility.updateClientList(payTax, payTaxs);
+			//
+			// break;
 
 			case BANK:
 

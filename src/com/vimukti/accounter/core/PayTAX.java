@@ -270,7 +270,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		if (this.isVoid()) {
+		if (this.isVoidBefore()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
