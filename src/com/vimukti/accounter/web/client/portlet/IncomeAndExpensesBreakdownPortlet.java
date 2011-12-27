@@ -56,8 +56,7 @@ public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 						.setPortletMap(portletMap);
 				dateRangeChanged(selectItem);
 				IncomeAndExpensesBreakdownPortlet.this.updateData(
-						getDateRangeType(selectItem), toolBar.getStartDate(),
-						toolBar.getEndDate());
+						getDateRangeType(selectItem), startDate, endDate);
 			}
 
 			@Override
