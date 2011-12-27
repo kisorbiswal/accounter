@@ -136,6 +136,17 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		if (type != 0) {
 			col += 2;
 		}
+		if (col == 0) {
+
+			boolean isSelected = ((CheckBox) this.getWidget(row, col))
+					.getValue();
+
+			obj.setPrint(isSelected);
+
+			// updateData(obj);
+
+		}
+
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (col == 9 && !obj.isVoided()) {
@@ -153,16 +164,6 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		// return;
 		// }
 
-		if (col == 0) {
-
-			boolean isSelected = ((CheckBox) this.getWidget(row, col))
-					.getValue();
-
-			obj.setPrint(isSelected);
-
-			// updateData(obj);
-
-		}
 	}
 
 	private void showWarningDialog(final InvoicesList obj, final int col) {
