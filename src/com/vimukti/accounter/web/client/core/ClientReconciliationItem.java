@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class ClientReconciliationItem implements IAccounterCore {
 
 	private long id;
@@ -34,12 +32,12 @@ public class ClientReconciliationItem implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.messages().clientReconciliation();
+		return "ClientReconciliation";
 	}
 
 	@Override
 	public String getDisplayName() {
-		return Accounter.messages().clientReconciliation();
+		return "ClientReconciliation";
 	}
 
 	@Override
@@ -57,7 +55,6 @@ public class ClientReconciliationItem implements IAccounterCore {
 	public long getID() {
 		return id;
 	}
-
 
 	/**
 	 * @return the transactionDate

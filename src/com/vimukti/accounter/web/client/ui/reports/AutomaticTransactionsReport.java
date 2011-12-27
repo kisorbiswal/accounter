@@ -71,12 +71,12 @@ public class AutomaticTransactionsReport extends
 			isDatesArranged = false;
 			return;
 		}
-		ClientFinanceDate startDate = (ClientFinanceDate) map.get(Accounter.messages().startdate());
-		ClientFinanceDate endDate = (ClientFinanceDate) map.get(Accounter.messages().enddate());
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
-		toolbar.setDefaultDateRange((String) map.get(Accounter.messages().selectedDateRange()));
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
 		isDatesArranged = true;
 	}
 
@@ -86,9 +86,9 @@ public class AutomaticTransactionsReport extends
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
-		map.put(Accounter.messages().selectedDateRange(), selectedDateRange);
-		map.put(Accounter.messages().startdate(), startDate);
-		map.put(Accounter.messages().enddate(), endDate);
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
 		return map;
 	}
 

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.Validator;
 
@@ -23,7 +22,7 @@ public class Validate implements Validator {
 		if (formItem.getValue() == null)
 			return false;
 		String str = formItem.getValue().toString();
-		if (str.equals("-1") || str.equals(Accounter.messages().nonesmalletter()) || str.isEmpty())
+		if (str.equals("-1") || str.equals("none") || str.isEmpty())
 			return false;
 		if (list != null) {
 			for (String val : list)

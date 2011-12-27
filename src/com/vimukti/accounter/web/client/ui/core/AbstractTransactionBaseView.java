@@ -1094,17 +1094,17 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 							if (transactionItem.getLineTotal() <= 0
 									&& transactionItem.getDiscount() != 100) {
 								result.addError(
-										Accounter.messages().TransactionItemvalue()
+										"TransactionItem"
 												+ transactionItem.getAccount()
 												+ transactionItem.getAccount(),
 										messages.transactionitemtotalcannotbe0orlessthan0());
 							}
 						} else {
-							result.addError(Accounter.messages().TransactionItemvalue(), messages
+							result.addError("TransactionItem", messages
 									.pleaseEnter(messages.transactionItem()));
 						}
 					} else {
-						result.addError(Accounter.messages().TransactionItemvalue(), messages
+						result.addError("TransactionItem", messages
 								.pleaseEnter(messages.transactionItem()));
 					}
 					if (getPreferences().isClassTrackingEnabled()
@@ -1115,7 +1115,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					}
 				}
 			} else {
-				result.addError(Accounter.messages().TransactionItemvalue(),
+				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
 		}
@@ -1951,7 +1951,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView || this instanceof MakeDepositView)) {
 			if (transactionItems == null || transactionItems.isEmpty()) {
-				result.addError(Accounter.messages().TransactionItemvalue(),
+				result.addError("TransactionItem",
 						messages.thereAreNoTransactionItemsToSave());
 			}
 		}

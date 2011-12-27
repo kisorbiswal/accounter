@@ -21,12 +21,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TrackDiscountsOption extends AbstractPreferenceOption {
 
-
-	private static final String CASH_DISCOUNT_ACCOUNT = Accounter.messages().CashDiscountGiven();
-
 	private static TrackDiscountsOptionUiBinder uiBinder = GWT
 			.create(TrackDiscountsOptionUiBinder.class);
-
 
 	@UiField
 	CheckBox trackDiscountCheckBox;
@@ -170,7 +166,7 @@ public class TrackDiscountsOption extends AbstractPreferenceOption {
 		};
 		if (account == null) {
 			Accounter.createGETService().getObjectByName(
-					AccounterCoreType.ACCOUNT, CASH_DISCOUNT_ACCOUNT,
+					AccounterCoreType.ACCOUNT, "Cash Discount Given",
 					asyncCallback);
 		} else {
 			accountsCombo.setSelectedIndex(getAccounts().indexOf(account));

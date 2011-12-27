@@ -33,7 +33,7 @@ public interface AccounterMessages extends Messages {
 
 	public String accounterClassList();
 
-	public String accounterTerminologies();
+	// public String accounterTerminologies();
 
 	public String accountervalidatorError();
 
@@ -1716,8 +1716,6 @@ public interface AccounterMessages extends Messages {
 	public String gotoBanking();
 
 	public String goToExpenseCliams();
-	
-	public String gotoRecurringTransactionsList();
 
 	// public String grassAmount();
 
@@ -2035,8 +2033,6 @@ public interface AccounterMessages extends Messages {
 	public String journalView();
 
 	public String kenya();
-	
-	public String keepWorkingOnThisTransaction();
 
 	// public String keyFinancialIndicators();
 
@@ -3495,8 +3491,6 @@ public interface AccounterMessages extends Messages {
 	public String selectToDelete();
 
 	public String selectTransaction();
-	
-	public String selectTransactionType();
 
 	public String selectTypeOfThis(String transactionName);
 
@@ -3947,8 +3941,6 @@ public interface AccounterMessages extends Messages {
 	public String toBePrinted();
 
 	public String toCloseBooksOrFascalYear();
-	
-	public String toCreate();
 
 	public String toDate();
 
@@ -4452,8 +4444,6 @@ public interface AccounterMessages extends Messages {
 	public String youHaveEnteredWrongPassword();
 
 	public String yourPresentPasswordisWrong();
-	
-	public String youSuccessfullyCreatedRecurringTemplate();
 
 	public String yourTitle();
 
@@ -5131,8 +5121,6 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseenteryourpassword();
 
-	public String pleaseConfirm();
-	
 	public String pleaseconfirmyourpassword();
 
 	public String use3to60characters();
@@ -5374,360 +5362,7 @@ public interface AccounterMessages extends Messages {
 	public String allCashExpenses();
 
 	public String payeeSelected(String payee);
-	
-	public String clientActivity();
-	
-	public String clientAdvertisement();
-	
-	public String buisness();
-	
-	public String clientAddresshome();
-	
-	public String legal();
-	
-	public String shipToclientAddress();
-	
-	public String calibiri();
-	
-	public String cashDiscountGiven();
-	
-	public String productsMaterialsPurchasedTypeA();
-	
-	public String primaryCurrencyIdisZero();
-	
-    public String clientCustomField();
-    
-    public String clientCustomFieldValue();
-    
-    public String email(int emailNumber);
-    
-    public String disposed();
-    
-    public String disposalreversed();
-    
-    public String clientPayBill();
-    
-    public String clientReconciliation();
-    
-    public String clientTDSChalanDetail();
-    
-    public String clientTDSTransactionItem();
-    
-    public String transactionNumberCouldNotBeInitiated();
-    
-    public String ListofPaymentTermsCouldNotBeInitiated();
-    
-    public String listofItemsCouldNotBeInitiated();
-    
-    public String listofShippingTermsCouldNotBeInitiated();
-    
-    public String listofShippingMethodsCouldNotBeInitiated();
-    
-    public String listofPaymentMethodsCouldNotBeInitiated();
-    
-    public String listofTaxGroupsCouldNotBeInitiated();
-    
-    public String priceLevelsCouldNotBeInitiated();
-    
-    public String payeeListCouldBeInitiated();
-    
-    public String customerListCouldBeInitiated();
-    
-    public String clientTransactionLog();
-    
-    public String THOUSAND();
-    
-    public String MILLION();
-    
-    public String BILLION();
-    
-    public String TRILLION();
-    
-    public String ZERO();
-    
-    public String ONE();
-    
-    public String TWO();
-    
-    public String THREE();
-    
-    public String FOUR();
-    
-    public String FIVE();
-    
-    public String SIX();
-    
-    public String SEVEN();
-    
-    public String EIGHT();
-    
-    public String NINE();
-    
-    public String TEN();
-    
-    public String ELEVEN();
-    
-    public String TWELVE();
-    
-    public String THIRTEEN();
-    
-    public String TOURTEEN();
-    
-    public String TIFTEEN();
-    
-    public String TIXTEEN();
-    
-    public String SEVENTEEN();
-    
-    public String EIGHTEEN();
-    
-    public String NINETEEN();
-    
-    public String TWENTY();
-    
-    public String THIRTY();
-    
-    public String FORTY();
-    
-    public String FIFTY();
-    
-    public String SIXTY();
-    
-    public String SEVENTY();
-    
-    public String EIGHTY();
-    
-    public String NINTY();
-    
-    public String HUNDRED();
-    
-    public String AAccountNumbershoublebeanumber();
-    
-    public String AAccountNumbershoublebepositive();
-    
-    public String ASupplierAccountNumbershoublebeanumber();
-    
-    public String ASupplierAccountNumbershoublebepositive();
-    
-    public String inventoryPart();
-    
-    public String inventoryAssembly();
-    
-    public String NonInventory();
-    
-    public String SubTotal();
-    
-    public String reconciliationList();
-    
-    public String ItemizebyAccount();
-    
-    public String NewCustomer();
-    
-    public String addNewCaption();
-    
-    public String ModernTemplate();
-    
-    public String PlainTemplate();
-    
-    public String ProfessionalTemplate();
-    
-    public String Template();
-    
-    public String ThisisatemplateusedinRecurring();
-    
-    public String Clickhere();
-    
-    public String tochangetherecurringschedule();
-    
-    public String Unabletoopenrecurringtransactio();
-    
-    public String TransactionItemvalue();
-    
-    public String ERROR();
-    
-    public String INFORMATION();
-    
-    public String WARNING();
-    
-    public String NoBudgetadded();
-    
-    public String QuickAdd();
-    
-    public String AddAllInfo();
-    
-    public String nonesmalletter();
-    
-    public String HTMLInputElement();
-    
-    public String HTMLSelectElement();
-    
-    public String HTMLTextAreaElement();
-    
-    public String WELCOME();
-    
-    public String BANKINGSUMMARY();
-    
-    public String DebtorsTotal();
-    
-    public String Pleaseenterthecontactname();
-    
-    public String AddLocation();
-    
-    public String ItemizebyProductService();
-    
-    public String Youshouldnotdeleteprimarycurrency();
-    
-    public String truetext();
-    
-    public String CustomField();
-    
-    public String ManageCustomFields();
-    
-    public String CustomFieldstext();
-    
-    public String overDueInvoicestext();
-    
-    public String Saveasdraft();
-    
-    public String Approveandsend();
-    
-    public String GridItem();
-    
-    public String GridItemUK();
-    
-    public String GridTotalLineTotal();
-    
-    public String Thenameyouentered();
-    
-    public String doesnotexistsDoyouwanttocreateitnow();
-    
-    public String keydown();
-    
-    public String click();
-    
-    public String transparentButton();
-    
-    public String IncomeAccount();
-    
-    public String CODSAccount();
-    
-    public String ExpenseAccount();
-    
-    public String AddBudgetfor(String accountName);
-    
-    public String empty();
-    
-    public String onvaluechangecalled();
-    
-    public String startdate();
-    
-    public String enddate();
-    
-    public String selectedDateRange();
-    
-    public String BANKACCOUNT();
-    
-    public String MONEYCOMING();
-    
-    public String MONEYGOING();
-    
-    public String EXPENSESCLAIM();
-    
-    public String WHOIOWE();
-    
-    public String WHOOWESME();
-    
-    public String RECENTTRANSACTIONS();
-    
-    public String QUICKLINKS();
-    
-    public String BANKING();
-    
-    public String dashboardsmalletters();
-    
-    public String AutoRecall();
-    
-    public String cashoraccural();
-    
-    public String DateFormat();
-    
-    public String DateFormats();
-    
-    public String Example();
-    
-    public String FiscalTaxYear();
-    
-    public String Numbers();
-    
-    public String Doyoudoshipping();
-    
-    public String Thisoptioncanbeusedtoenable();
-    
-    public String EmailAlerts();
-    
-    public String ExpensesbyCustomer();
-    
-    public String Expenseandproductservicetrackingbycustomer();
-    
-    public String Usebillableexpensesandproductsservices();
-    
-    public String HourNumber(int number);
-    
-    public String LogOutAfterInactivity();
-    
-    public String CashDiscountGiven();
-    
-    public String Quarters();
-    
-    public String NearestAmount();
-    
-    public String NearestTen();
-    
-    public String NearestHundred();
-    
-    public String RoundOffBudgetAmountto();
-    
-    public String CalendarDaysAnnualAmountNoofDaysinMonth365or366();
-    
-    public String CalendarMonthAnnualAmount12();
-    
-    public String sport();
-    
-    public String AdvanceBudgetCalculation();
-    
-    public String Hello();
-    
-    public String paymentTermType();
-    
-    public String Modifiedby(String userName, String dateformat,
-			String timeFormat);
-    
-    public String at();
-    
-    public String fromexisting();
-    
-    public String ActualAmountfromlastfiscalyear();
-    
-    public String ActualAmountfromthisfiscalyear();
-    
-    public String StartfromScratch();
-    
-    public String CopyfromExistingBudget();
-    
-    public String DontSubdevide();
-    
-    public String companysmalletters();
-    
-    public String Get();
-    
-    public String AccounterLoadingFailed();
-    
-    public String isAdmin();
-    
-    public String Class();
-    
-    public String CopyvaluesfromExistingBudget();
-    
+
 	public String accountBalances();
 
 	public String topCustomersBySales(String customer);
@@ -5783,7 +5418,246 @@ public interface AccounterMessages extends Messages {
 	public String yearOverYearIncome();
 
 	public String yearOverYearExpense();
-	
+
+	public String AAccountNumbershoublebeanumber();
+
+	public String AccounterLoadingFailed();
+
+	public String AAccountNumbershoublebepositive();
+
+	public String ActualAmountfromlastfiscalyear();
+
+	public String ActualAmountfromthisfiscalyear();
+
+	public String StartfromScratch();
+
+	public String CopyfromExistingBudget();
+
+	public String DontSubdevide();
+
+	public String Class();
+
+	public String CopyvaluesfromExistingBudget();
+
+	public String ManageCustomFields();
+
+	public String CustomField();
+
+	public String CustomFieldstext();
+
+	public String ASupplierAccountNumbershoublebeanumber();
+
+	public String ASupplierAccountNumbershoublebepositive();
+
+	public String inventoryPart();
+
+	public String SubTotal();
+
+	public String inventoryAssembly();
+
+	public String NonInventory();
+
+	public String clientAddresshome();
+
+	public String QuickAdd();
+
+	public String AddAllInfo();
+
+	public String AddBudgetfor(String accountsName);
+
+	public String AddLocation();
+
+	public String AdvanceBudgetCalculation();
+
+	public String Saveasdraft();
+
+	public String CalendarDaysAnnualAmountNoofDaysinMonth365or366();
+
+	public String CalendarMonthAnnualAmount12();
+
+	public String sport();
+
+	public String RoundOffBudgetAmountto();
+
+	public String NearestAmount();
+
+	public String NearestTen();
+
+	public String NearestHundred();
+
+	public String Quarters();
+
+	public String Approveandsend();
+
+	public String Modifiedby(String userName, String dateformat,
+			String timeFormat);
+
+	public String clientTDSChalanDetail();
+
+	public String customerListCouldBeInitiated();
+
+	public String cashoraccural();
+
+	public String DateFormat();
+
+	public String DateFormats();
+
+	public String Example();
+
+	public String ExpensesbyCustomer(String customer);
+
+	public String Expenseandproductservicetrackingbycustomer(String customer);
+
+	public String Usebillableexpensesandproductsservices();
+
+	public String FiscalTaxYear();
+
+	public String ItemizebyProductService();
+
+	public String ItemizebyAccount();
+
+	public String ListofPaymentTermsCouldNotBeInitiated();
+
+	public String transactionNumberCouldNotBeInitiated();
+
+	public String listofShippingMethodsCouldNotBeInitiated();
+
+	public String listofPaymentMethodsCouldNotBeInitiated();
+
+	public String listofTaxGroupsCouldNotBeInitiated();
+
+	public String payeeListCouldBeInitiated();
+
+	public String listofShippingTermsCouldNotBeInitiated();
+
+	public String listofItemsCouldNotBeInitiated();
+
+	public String priceLevelsCouldNotBeInitiated();
+
+	public String PlainTemplate();
+
+	public String ModernTemplate();
+
+	public String ProfessionalTemplate();
+
+	public String Template();
+
+	public String Thenameyouentered(String text);
+
+	public String Doyoudoshipping();
+
+	public String Thisoptioncanbeusedtoenable();
+
+	public String AutoRecall();
+
+	public String ERROR();
+
+	public String INFORMATION();
+
+	public String Get();
+
+	public String WARNING();
+
+	public String ThisisatemplateusedinRecurring();
+
+	public String Clickhere();
+
+	public String tochangetherecurringschedule();
+
+	public String Unabletoopenrecurringtransactio();
+
+	public String primaryCurrencyIdisZero();
+
 	public String chooseFile();
-	
+
+	public String onvaluechangecalled();
+
+	public String DebtorsTotal();
+
+	public String NoBudgetadded();
+
+	public String NewCustomer();
+
+	public String THOUSAND();
+
+	public String MILLION();
+
+	public String BILLION();
+
+	public String TRILLION();
+
+	public String ZERO();
+
+	public String ONE();
+
+	public String TWO();
+
+	public String THREE();
+
+	public String FOUR();
+
+	public String FIVE();
+
+	public String SIX();
+
+	public String SEVEN();
+
+	public String EIGHT();
+
+	public String NINE();
+
+	public String TEN();
+
+	public String ELEVEN();
+
+	public String TWELVE();
+
+	public String THIRTEEN();
+
+	public String TOURTEEN();
+
+	public String TIFTEEN();
+
+	public String TIXTEEN();
+
+	public String SEVENTEEN();
+
+	public String EIGHTEEN();
+
+	public String NINETEEN();
+
+	public String TWENTY();
+
+	public String THIRTY();
+
+	public String FORTY();
+
+	public String FIFTY();
+
+	public String SIXTY();
+
+	public String SEVENTY();
+
+	public String EIGHTY();
+
+	public String NINTY();
+
+	public String HUNDRED();
+
+	public String Numbers();
+
+	public String gotoRecurringTransactionsList();
+
+	public String keepWorkingOnThisTransaction();
+
+	public String Pleaseenterthecontactname();
+
+	public String pleaseConfirm();
+
+	public String selectTransactionType();
+
+	public String toCreate();
+
+	public String youSuccessfullyCreatedRecurringTemplate();
+
 }

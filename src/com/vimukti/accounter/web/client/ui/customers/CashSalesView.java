@@ -293,7 +293,8 @@ public class CashSalesView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(Accounter.messages().ItemizebyAccount());
+		accountsDisclosurePanel = new DisclosurePanel(Accounter.messages()
+				.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -343,7 +344,8 @@ public class CashSalesView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(Accounter.messages().ItemizebyProductService());
+		itemsDisclosurePanel = new DisclosurePanel(Accounter.messages()
+				.ItemizebyProductService());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);

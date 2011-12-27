@@ -79,7 +79,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 			@Override
 			protected String getColumnValue(T object, int col) {
-				if (object.equals(Accounter.messages().addNewCaption())) {
+				if (object.equals("addNewCaption")) {
 					if (cols > 1)
 						return (col == 1) ? Accounter.messages()
 								.comboDefaultAddNew(getDefaultAddNewCaption())
@@ -204,7 +204,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	}
 
 	private T getAddNewRow() {
-		return (T) Accounter.messages().addNewCaption();
+		return (T) "addNewCaption";
 	}
 
 	protected void showPopup() {

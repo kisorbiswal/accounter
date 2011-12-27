@@ -38,11 +38,9 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 
 			@Override
 			public void onAddNew(final String text) {
-				NewItemDialog dialog = new NewItemDialog(
-						Accounter.messages().addNew(""),
-						Accounter.messages().Thenameyouentered()
-								+ text
-								+ Accounter.messages().doesnotexistsDoyouwanttocreateitnow()) {
+				NewItemDialog dialog = new NewItemDialog(Accounter.messages()
+						.addNew(""), Accounter.messages().Thenameyouentered(
+						text)) {
 					@Override
 					protected boolean onOK() {
 						displayTable.addNewItem(text);
@@ -75,6 +73,5 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 	protected abstract void setValue(T row, C newValue);
 
 	public abstract AbstractDropDownTable<C> getDisplayTable(T row);
-
 
 }

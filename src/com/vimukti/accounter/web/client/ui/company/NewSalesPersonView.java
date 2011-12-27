@@ -228,7 +228,7 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new AddressDialog("", "", addrArea, Accounter.messages().billTo(), allAddresses);
+				new AddressDialog("", "", addrArea, "Bill to", allAddresses);
 
 			}
 		});
@@ -687,17 +687,21 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 
 	public ClientAddress getAddresss() {
 		ClientAddress selectedAddress = allAddresses.get(UIUtils
-				.getAddressType(Accounter.messages().companysmalletters()));
+				.getAddressType("company"));
 		if (selectedAddress != null) {
 			selectedAddress.setIsSelected(true);
 			allAddresses
-					.put(UIUtils.getAddressType(Accounter.messages().companysmalletters()), selectedAddress);
+					.put(UIUtils.getAddressType("company"), selectedAddress);
 		}
 		Collection<ClientAddress> add = allAddresses.values();
 		Iterator<ClientAddress> it = add.iterator();
 		while (it.hasNext()) {
 			ClientAddress a = (ClientAddress) it.next();
 			return a;
+			// toBeSet.add(a);
+			// System.out.println("Sending Address  Type " + a.getType()
+			// + " Street is " + a.getStreet() + " Is Selected"
+			// + a.getIsSelected());
 		}
 		return null;
 	}

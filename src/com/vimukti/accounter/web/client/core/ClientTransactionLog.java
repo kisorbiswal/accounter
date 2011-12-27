@@ -1,8 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
-
 public class ClientTransactionLog implements IAccounterCore {
 
 	public static final int TYPE_NOTE = 4;
@@ -17,11 +14,10 @@ public class ClientTransactionLog implements IAccounterCore {
 	private long time;
 	private String userName;
 
-
 	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
-		return Accounter.messages().clientTransactionLog();
+		return "ClientTransactionLog";
 	}
 
 	@Override

@@ -74,9 +74,9 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 			isDatesArranged = false;
 			return;
 		}
-		ClientFinanceDate endDate = (ClientFinanceDate) map.get(Accounter.messages().enddate());
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		toolbar.setEndDate(endDate);
-		toolbar.setDefaultDateRange((String) map.get(Accounter.messages().selectedDateRange()));
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
 		isDatesArranged = true;
 	}
 
@@ -85,8 +85,8 @@ public class BalanceSheetReport extends AbstractReportView<TrialBalance> {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate endDate = toolbar.getEndDate();
-		map.put(Accounter.messages().selectedDateRange(), selectedDateRange);
-		map.put(Accounter.messages().enddate(), endDate);
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("endDate", endDate);
 		return map;
 	}
 }

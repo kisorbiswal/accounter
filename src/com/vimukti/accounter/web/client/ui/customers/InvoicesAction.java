@@ -81,7 +81,7 @@ public class InvoicesAction extends Action {
 		if (viewType == null) {
 			return Accounter.messages().invoices();
 		} else if (viewType.equals(messages.overDue())) {
-			return Accounter.messages().overDueInvoicestext() ;
+			return Accounter.messages().overDueInvoices();
 		}
 		return "";
 	}

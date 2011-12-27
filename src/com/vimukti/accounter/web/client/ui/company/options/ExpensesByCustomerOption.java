@@ -5,6 +5,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ExpensesByCustomerOption extends AbstractPreferenceOption {
@@ -29,7 +30,7 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 	@Override
 	public String getTitle() {
 
-		return Accounter.messages().ExpensesbyCustomer();
+		return Accounter.messages().ExpensesbyCustomer(Global.get().Customer());
 	}
 
 	@Override
@@ -42,16 +43,17 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().ExpensesbyCustomer();
+		return Accounter.messages().ExpensesbyCustomer(Global.get().Customer());
 	}
 
 	@Override
 	public void createControls() {
-		expenseandProductandServiceTrackingbyCustomer
-				.setText(Accounter.messages().Expenseandproductservicetrackingbycustomer());
+		expenseandProductandServiceTrackingbyCustomer.setText(Accounter
+				.messages().Expenseandproductservicetrackingbycustomer(
+						Global.get().customer()));
 		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
-		UseBillableExpenseCheckBox
-				.setText(Accounter.messages().Usebillableexpensesandproductsservices());
+		UseBillableExpenseCheckBox.setText(Accounter.messages()
+				.Usebillableexpensesandproductsservices());
 		UseBillableExpenseCheckBox.setStyleName("bold");
 		;
 	}

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class ClientTDSTransactionItem implements IAccounterCore {
 
 	/**
@@ -40,12 +38,12 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Accounter.messages().clientTDSTransactionItem();
+		return "ClientTDSTransactionItem";
 	}
 
 	@Override
 	public String getDisplayName() {
-		return Accounter.messages().clientTDSTransactionItem();
+		return "ClientTDSTransactionItem";
 	}
 
 	@Override
@@ -62,7 +60,6 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 	public long getID() {
 		return id;
 	}
-
 
 	public long getVendorID() {
 		return vendor;

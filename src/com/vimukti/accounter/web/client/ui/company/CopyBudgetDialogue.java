@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBudget;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -35,8 +34,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("400px");
 
-		selectBudget = new SelectCombo(messages.copy() + Accounter.messages().fromexisting()
-				+ messages.budget() + " :");
+		selectBudget = new SelectCombo(messages.CopyfromExistingBudget());
 		selectBudget.setHelpInformation(true);
 
 		for (ClientBudget budget : budgetList) {

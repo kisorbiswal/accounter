@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class ClientPayBill extends ClientTransaction {
 
 	/**
@@ -88,7 +86,7 @@ public class ClientPayBill extends ClientTransaction {
 
 	@Override
 	public String toString() {
-		return Accounter.messages().clientPayBill();
+		return "ClientPayBill";
 	}
 
 	@Override
@@ -220,7 +218,6 @@ public class ClientPayBill extends ClientTransaction {
 		this.id = id;
 
 	}
-
 
 	@Override
 	public AccounterCoreType getObjectType() {

@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class ClientAdvertisement implements IAccounterCore {
 
 	/**
@@ -88,7 +86,7 @@ public class ClientAdvertisement implements IAccounterCore {
 
 	@Override
 	public String getDisplayName() {
-		return Accounter.messages().clientAdvertisement();
+		return "ClientAdvertisement";
 	}
 
 	@Override
@@ -105,6 +103,5 @@ public class ClientAdvertisement implements IAccounterCore {
 	public long getID() {
 		return id;
 	}
-
 
 }
