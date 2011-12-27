@@ -28,7 +28,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 	VerticalPanel attachmentTable;
 	private boolean isFileSelected;
-	private String[] fileTypes = { "*" };
+	private final String[] fileTypes = { "*" };
 	private List<ClientAttachment> attachments = new ArrayList<ClientAttachment>();
 	FormPanel uploadForm;
 	private Anchor browseFileAnchor;
@@ -55,7 +55,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		final FileUpload uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
-		browseFileAnchor = new Anchor(Accounter.messages().uploadAttachment());//Choose File
+		browseFileAnchor = new Anchor(Accounter.messages().chooseFile());// Choose
+																			// File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
 		uploadFile.setName(createID());
@@ -66,7 +67,9 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				isFileSelected = true;
 				String filename = uploadFile.getFilename();
 				browseFileAnchor.setText(filename);
-				//Show button
+				// Show button
+				uploadButton.setVisible(true);
+
 			}
 		});
 		hPanel.add(uploadFile);
@@ -102,10 +105,11 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				attachment.setAttachmentId(split[0]);
 				attachment.setName(text);
 				attachment.setSize(Long.parseLong(split[1]));
-				
-				browseFileAnchor.setText(Accounter.messages()
-						.uploadAttachment());//Choose File
-				//Hide that button
+
+				browseFileAnchor.setText(Accounter.messages().chooseFile());// Choose
+																			// File
+				// Hide that button
+				uploadButton.setVisible(false);
 				attachmentTable.add(getAttachmentField(attachment));
 				attachments.add(attachment);
 				saveAttachment(attachment);
@@ -135,7 +139,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			}
 		});
 		hPanel.add(uploadButton);
-
+		uploadButton.setVisible(false);
 		mainPanel.add(uploadForm);
 
 		this.add(mainPanel);
@@ -156,9 +160,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			}
 		});
 
-		//TODO
-		Label attachmentSizeLabel = new Label(" (" + attachment.getSize()
-				+ " )");
+		Label attachmentSizeLabel = new Label(getFileSize(attachment.getSize()));
 
 		Label creatorLabel = new Label(Accounter.getCompany()
 				.getUserById(attachment.getCreatedBy()).getName());
@@ -178,6 +180,33 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		hPanel.add(creatorLabel);
 		hPanel.add(button);
 		return hPanel;
+	}
+
+	private String getFileSize(long size) {
+		final long K = 1024;
+		final long M = K * K;
+		final long G = M * K;
+		final long T = G * K;
+		final long[] dividers = new long[] { T, G, M, K, 1 };
+		final String[] units = new String[] { "TB", "GB", "MB", "KB", "B" };
+		if (size < 1)
+			throw new IllegalArgumentException("Invalid file size: " + size);
+		String result = null;
+		for (int i = 0; i < dividers.length; i++) {
+			final long divider = dividers[i];
+			if (size >= divider) {
+				result = format(size, divider, units[i]);
+				break;
+			}
+		}
+		return result;
+	}
+
+	private String format(final long value, final long divider,
+			final String unit) {
+		final double result = divider > 1 ? (double) value / (double) divider
+				: (double) value;
+		return DataUtils.getAmountAsStrings(result) + " " + unit;
 	}
 
 	protected void deeleteAttachment(ClientAttachment attachment) {
