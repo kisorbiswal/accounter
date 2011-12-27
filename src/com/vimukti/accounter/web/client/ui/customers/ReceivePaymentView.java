@@ -442,6 +442,8 @@ public class ReceivePaymentView extends
 						for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPaymentsList) {
 							transactionCreditsAndPayments
 									.setTransactionReceivePayment(payment);
+							transactionCreditsAndPayments
+									.setAmountToUse(payment.getAppliedCredits());
 						}
 
 					payment.setTransactionCreditsAndPayments(tranCreditsandPaymentsList);
@@ -474,8 +476,7 @@ public class ReceivePaymentView extends
 		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
 		ClientTransactionReceivePayment rcvPaymnt = (ClientTransactionReceivePayment) payment;
 		for (ClientCreditsAndPayments crdPayment : gridView.updatedCustomerCreditsAndPayments) {
-			crdPayment.setBalance(crdPayment.getBalance()
-					- payment.getAppliedCredits());
+
 			crdPayment.setRemaoningBalance(crdPayment.getBalance());
 			crdPayment.setAmtTouse(payment.getAppliedCredits());
 
