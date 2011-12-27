@@ -37,5 +37,7 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 	boolean isTDSAvailable();
 
 	boolean isServiceTaxDeductable();
+	
+	String getAmountInwords(double amount);
 
 }
