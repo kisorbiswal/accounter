@@ -6,11 +6,12 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private String note;
 	private long id;
 
 	private int version;
+	private long fixedAsset;
 
 	public ClientFixedAssetNote() {
 	}
@@ -63,7 +64,15 @@ public class ClientFixedAssetNote implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
-		
+		this.version = version;
+
+	}
+
+	public long getFixedAsset() {
+		return fixedAsset;
+	}
+
+	public void setFixedAsset(long fixedAsset) {
+		this.fixedAsset = fixedAsset;
 	}
 }

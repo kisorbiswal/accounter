@@ -285,9 +285,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		for (ClientCreditsAndPayments crdPayment : grid
 				.getUpdatedCustomerCreditsAndPayments()) {
-
-			crdPayment.setBalance(crdPayment.getBalance()
-					- trPayBill.getAppliedCredits());
 			crdPayment.setRemaoningBalance(crdPayment.getBalance());
 			crdPayment.setAmtTouse(trPayBill.getAppliedCredits());
 			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
@@ -305,8 +302,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	private String getCheckValue() {
 		String value;
 		if (!isInViewMode()) {
-			if (checkNoText.getValue().equals(
-					messages.toBePrinted())) {
+			if (checkNoText.getValue().equals(messages.toBePrinted())) {
 				value = String.valueOf(messages.toBePrinted());
 
 			} else
@@ -519,8 +515,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// lab.setHeight("50px");
 		date = new DateField(messages.date());
-		date.setToolTip(messages.selectDateWhenTransactioCreated(
-				this.getAction().getViewName()));
+		date.setToolTip(messages.selectDateWhenTransactioCreated(this
+				.getAction().getViewName()));
 		date.setHelpInformation(true);
 		// date.setUseTextField(true);
 		date.setEnteredDate(new ClientFinanceDate());
@@ -537,8 +533,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		});
 		transactionNumber = createTransactionNumberItem();
 		paymentMethodCombo = createPaymentMethodSelectItem();
-		paymentMethodCombo
-				.setDefaultValue(messages.onlineBanking());
+		paymentMethodCombo.setDefaultValue(messages.onlineBanking());
 
 		printCheck = new CheckboxItem(messages.toBePrinted());
 		printCheck.setValue(true);
@@ -552,13 +547,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNoText
-								.setValue(messages.toBePrinted());
+						checkNoText.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(messages
-									.toBePrinted());
+							checkNoText.setValue(messages.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
 						}
@@ -576,7 +569,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+								.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -602,8 +596,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
 
-		dueDate = new DateField(messages
-				.filterByBilldueonorbefore());
+		dueDate = new DateField(messages.filterByBilldueonorbefore());
 		dueDate.setHelpInformation(true);
 		dueDate.setValue(new ClientFinanceDate());
 		// dueDate.setUseTextField(true);
@@ -712,16 +705,15 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		DynamicForm totalForm = new DynamicForm();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
-		unUsedCreditsText = new AmountLabel(messages
-				.unusedCredits());
+		unUsedCreditsText = new AmountLabel(messages.unusedCredits());
 		unUsedCreditsText.setDisabled(true);
 
-		amountLabelForeign = new AmountLabel(messages
-				.currencyTotal(getBaseCurrency().getFormalName()));
+		amountLabelForeign = new AmountLabel(
+				messages.currencyTotal(getBaseCurrency().getFormalName()));
 		amountLabelForeign.setDisabled(true);
 
-		amountLableBase = new AmountLabel(messages.currencyTotal(
-				getBaseCurrency().getFormalName()));
+		amountLableBase = new AmountLabel(
+				messages.currencyTotal(getBaseCurrency().getFormalName()));
 		amountLableBase.setDisabled(true);
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -891,8 +883,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// endBalText.setCurrency(vendorCurrency);
 
-		amountLabelForeign.setTitle(messages.currencyTotal(
-				vendorCurrency.getFormalName()));
+		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
+				.getFormalName()));
 
 		if (vendor == null) {
 			paybillTransactionList = null;
@@ -1033,8 +1025,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 
 			if (transaction.getCheckNumber() != null) {
-				if (transaction.getCheckNumber().equals(
-						messages.toBePrinted())) {
+				if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
 					checkNoText.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
@@ -1567,8 +1558,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			amountLabelForeign.hide();
 		} else {
 			amountLabelForeign.show();
-			amountLabelForeign.setTitle(messages.currencyTotal(
-					currencyWidget.getSelectedCurrency().getFormalName()));
+			amountLabelForeign.setTitle(messages.currencyTotal(currencyWidget
+					.getSelectedCurrency().getFormalName()));
 		}
 	}
 

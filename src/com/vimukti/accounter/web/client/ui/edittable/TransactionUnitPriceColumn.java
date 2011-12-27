@@ -19,8 +19,12 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected void setAmount(ClientTransactionItem row, Double value) {
-		row.setUnitPrice(value);
-		// TODO doubt, currencyConversion.
+
+		double amount = 0;
+		if (value != null) {
+			amount = value / currencyProvider.getCurrencyFactor();
+			row.setUnitPrice(amount);
+		}
 		if (row.getQuantity() != null && row.getUnitPrice() != null
 				&& row.getDiscount() != null) {
 			double lt = row.getQuantity().getValue() * row.getUnitPrice();

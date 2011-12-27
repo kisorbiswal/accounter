@@ -37,6 +37,7 @@ public class FixedAssetHistory extends CreatableObject implements
 
 	String user;
 	JournalEntry postedJournalEntry;
+	FixedAsset fixedAsset;
 
 	public FixedAssetHistory() {
 
@@ -117,6 +118,14 @@ public class FixedAssetHistory extends CreatableObject implements
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.fixedAssetHistory()).gap();
+	}
+
+	public FixedAsset getFixedAsset() {
+		return fixedAsset;
+	}
+
+	public void setFixedAsset(FixedAsset fixedAsset) {
+		this.fixedAsset = fixedAsset;
 	}
 
 }

@@ -766,8 +766,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								+ " "
 								+ UIUtils.getDateStringByDate(enteredDate
 										.toString()), this, getBaseCurrency());
-				accmulatdDepreciationTxt.setValue(DataUtils
-						.getAmountAsStringInPrimaryCurrency(getDepreciationAmount()));
+				accmulatdDepreciationTxt
+						.setValue(DataUtils
+								.getAmountAsStringInPrimaryCurrency(getDepreciationAmount()));
 
 				if (isInViewMode())
 					accmulatdDepreciationTxt.setValue(DataUtils
@@ -1207,7 +1208,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public boolean canEdit() {
-		return false;
+		return true;
 	}
 
 	@Override

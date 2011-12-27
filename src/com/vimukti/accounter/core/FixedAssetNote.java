@@ -23,6 +23,8 @@ public class FixedAssetNote extends CreatableObject implements
 
 	private String note;
 
+	private FixedAsset fixedAsset;
+
 	public FixedAssetNote() {
 	}
 
@@ -53,6 +55,14 @@ public class FixedAssetNote extends CreatableObject implements
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.fixedAssetNote()).gap();
+	}
+
+	public FixedAsset getFixedAsset() {
+		return fixedAsset;
+	}
+
+	public void setFixedAsset(FixedAsset fixedAsset) {
+		this.fixedAsset = fixedAsset;
 	}
 
 }

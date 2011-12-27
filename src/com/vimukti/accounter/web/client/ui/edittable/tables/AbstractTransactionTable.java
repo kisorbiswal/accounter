@@ -333,8 +333,15 @@ public abstract class AbstractTransactionTable extends
 	public void updateAmountsFromGUI() {
 		for (ClientTransactionItem item : this.getAllRows()) {
 			updateFromGUI(item);
+			update(item);
 		}
 		updateColumnHeaders();
+	}
+
+	public void updateRecords() {
+		for (ClientTransactionItem item : this.getAllRows()) {
+			update(item);
+		}
 	}
 
 	public void setDisableTax(boolean isDisable) {

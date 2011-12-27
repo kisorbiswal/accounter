@@ -703,43 +703,17 @@ public class FixedAsset extends CreatableObject implements
 		/**
 		 * Saving the action into History
 		 */
-		// if (this.status == STATUS_PENDING) {
-		// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-		// fixedAssetHistory
-		// .setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
-		// fixedAssetHistory.setActionDate(new FinanceDate());
-		// fixedAssetHistory.setDetails("");
-		// fixedAssetHistory.setCompany(this.getCompany());
-		// this.fixedAssetsHistory.add(fixedAssetHistory);
-		// }
+		if (this.status == STATUS_PENDING) {
+			doCreateHistory();
+		}
 
 		if (this.status == STATUS_REGISTERED) {
 			/**
 			 * Saving the action into History
 			 */
-
-			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			// fixedAssetHistory
-			// .setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
-			// fixedAssetHistory.setActionDate(new FinanceDate());
-			// fixedAssetHistory.setDetails("");
-			// this.fixedAssetsHistory.add(fixedAssetHistory);
-			// fixedAssetHistory.setCompany(this.getCompany());
-
-			/**
-			 * Saving the action into History
-			 */
-
-			// FixedAssetHistory fixedAssetHistory2 = new FixedAssetHistory();
-			// fixedAssetHistory2
-			// .setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
-			// fixedAssetHistory2.setActionDate(new FinanceDate());
-			// fixedAssetHistory2.setDetails("");
-			// this.fixedAssetsHistory.add(fixedAssetHistory2);
-			// fixedAssetHistory2.setCompany(this.getCompany());
+			doRegisterHistory();
 
 		}
-
 		/**
 		 * If this Fixed Asset is purchased before the Last Depreciation Date
 		 * then we must run Depreciation for this Fixed Asset from the Purchase
@@ -757,8 +731,48 @@ public class FixedAsset extends CreatableObject implements
 					.runDepreciationFromPurchaseDateToLastDepreciationDate(this);
 
 		}
-
 		return false;
+	}
+
+	private void doCreateHistory() {
+
+		FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+		fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
+		fixedAssetHistory.setActionDate(new FinanceDate());
+		fixedAssetHistory.setDetails("Created FixedAsset");
+		fixedAssetHistory.setUser(getCreatedBy().getClient().getFullName());
+		this.fixedAssetsHistory.add(fixedAssetHistory);
+		fixedAssetHistory.setCompany(this.getCompany());
+		getFixedAssetsHistory().add(fixedAssetHistory);
+
+	}
+
+	private void doRegisterHistory() {
+		FixedAssetHistory fixedAssetHistory2 = new FixedAssetHistory();
+		fixedAssetHistory2
+				.setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
+		fixedAssetHistory2.setActionDate(new FinanceDate());
+		fixedAssetHistory2.setDetails(this.description);
+		fixedAssetHistory2.setUser(getCreatedBy().getClient().getFullName());
+		fixedAssetHistory2.setFixedAsset(this);
+		this.fixedAssetsHistory.add(fixedAssetHistory2);
+		fixedAssetHistory2.setCompany(this.getCompany());
+
+	}
+
+	private void doCreateDepreciatedHistory(double depreciationAmount) {
+		Calendar fromCal = new GregorianCalendar();
+		SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy");
+		FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+		fixedAssetHistory.setFixedAsset(this);
+		fixedAssetHistory.setUser(getCreatedBy().getClient().getFullName());
+		fixedAssetHistory
+				.setActionType(FixedAssetHistory.ACTION_TYPE_DEPRECIATED);
+		fixedAssetHistory.setActionDate(new FinanceDate());
+		fixedAssetHistory.setDetails("Depreciation of " + depreciationAmount
+				+ " on " + format.format(fromCal.getTime()));
+		this.fixedAssetsHistory.add(fixedAssetHistory);
+		fixedAssetHistory.setCompany(this.getCompany());
 	}
 
 	@Override
@@ -770,14 +784,21 @@ public class FixedAsset extends CreatableObject implements
 		if (this.fixedAssetNotes.size() > 0
 				&& this.fixedAssetNotes.size() >= this.oldFixedAssetNotes
 						.size()) {
-			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			// fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_NOTE);
-			// fixedAssetHistory.setActionDate(new FinanceDate());
-			// FixedAssetNote recentNote = this.fixedAssetNotes
-			// .get(this.fixedAssetNotes.size() - 1);
-			// fixedAssetHistory.setDetails(recentNote.getNote());
-			// this.getFixedAssetsHistory().add(fixedAssetHistory);
-			// fixedAssetHistory.setCompany(this.getCompany());
+			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			fixedAssetHistory.setFixedAsset(this);
+			fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_NOTE);
+			fixedAssetHistory.setActionDate(new FinanceDate());
+			FixedAssetNote recentNote = this.fixedAssetNotes
+					.get(this.fixedAssetNotes.size() - 1);
+
+			recentNote.setCreatedBy(getLastModifier());
+			recentNote.setLastModifier(getLastModifier());
+			session.saveOrUpdate(recentNote);
+			fixedAssetHistory.setDetails(recentNote.getNote());
+			this.getFixedAssetsHistory().add(fixedAssetHistory);
+			fixedAssetHistory.setCompany(this.getCompany());
+			fixedAssetHistory.setUser(getLastModifier().getClient()
+					.getFullName());
 		}
 
 		if (this.linkedAccumulatedDepreciationAccount != null
@@ -795,13 +816,7 @@ public class FixedAsset extends CreatableObject implements
 			 * 
 			 * Save the Action into History
 			 */
-			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			// fixedAssetHistory
-			// .setActionType(FixedAssetHistory.ACTION_TYPE_REGISTERED);
-			// fixedAssetHistory.setActionDate(new FinanceDate());
-			// fixedAssetHistory.setDetails("");
-			// this.getFixedAssetsHistory().add(fixedAssetHistory);
-			// fixedAssetHistory.setCompany(this.getCompany());
+			doRegisterHistory();
 		}
 		/**
 		 * If this Fixed Asset is purchased before the Last Depreciation Date
@@ -849,6 +864,7 @@ public class FixedAsset extends CreatableObject implements
 			 * Save the Action into History
 			 */
 			FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
+			fixedAssetHistory.setFixedAsset(this);
 			fixedAssetHistory
 					.setActionType(FixedAssetHistory.ACTION_TYPE_DISPOSED);
 			fixedAssetHistory.setActionDate(new FinanceDate());
@@ -1064,15 +1080,8 @@ public class FixedAsset extends CreatableObject implements
 			 * 
 			 * Save the Action into History
 			 */
-			// FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
-			// fixedAssetHistory
-			// .setActionType(FixedAssetHistory.ACTION_TYPE_DEPRECIATED);
-			// fixedAssetHistory.setActionDate(new FinanceDate());
-			// fixedAssetHistory.setDetails("Depreciation of "
-			// + depreciationAmount + " on "
-			// + format.format(fromCal.getTime()));
-			// this.fixedAssetsHistory.add(fixedAssetHistory);
-			// fixedAssetHistory.setCompany(this.getCompany());
+
+			doCreateDepreciatedHistory(depreciationAmount);
 
 			/**
 			 * update the book value with the calculated depreciation amount
@@ -2018,4 +2027,5 @@ public class FixedAsset extends CreatableObject implements
 	public int getObjType() {
 		return IAccounterCore.FIXED_ASSET;
 	}
+
 }
