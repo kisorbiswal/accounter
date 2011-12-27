@@ -53,8 +53,7 @@ public class InventoryManager extends Manager {
 						.setParameter("companyId", companyId)
 						.setLong("fromDate", fromDate)
 						.setLong("toDate", toDate)
-						.setParameter("viewType", viewType)
-						.setParameter("todayDate", new FinanceDate().getDate());
+						.setParameter("viewType", viewType);
 			} else if (invoicesType == Transaction.TYPE_INVOICE) {
 				query = session.getNamedQuery("getInvoicesOnly")
 						.setParameter("companyId", companyId)
@@ -67,8 +66,7 @@ public class InventoryManager extends Manager {
 						.setParameter("companyId", companyId)
 						.setLong("fromDate", fromDate)
 						.setLong("toDate", toDate)
-						.setParameter("viewType", viewType)
-						.setParameter("todayDate", new FinanceDate().getDate());
+						.setParameter("viewType", viewType);
 			}
 			// /If length will be -1 then get list for mobile With out limits
 			if (length == -1) {

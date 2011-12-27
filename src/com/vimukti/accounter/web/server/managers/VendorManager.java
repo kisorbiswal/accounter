@@ -96,7 +96,6 @@ public class VendorManager extends Manager {
 						.setParameter("companyId", companyId)
 						.setParameter("fromDate", fromDate)
 						.setParameter("toDate", toDate)
-						.setParameter("todayDate", new FinanceDate().getDate())
 						.setParameter("viewType", viewType);
 			}
 			// /If length will be -1 then get list for mobile With out limits
