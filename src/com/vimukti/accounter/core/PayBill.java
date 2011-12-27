@@ -369,24 +369,22 @@ public class PayBill extends Transaction {
 				payFrom.onUpdate(HibernateUtil.getCurrentSession());
 			}
 
+			// Update TDS Account if TDSEnabled
 			if (getCompany().getPreferences().isTDSEnabled()
 					&& this.getVendor().isTdsApplicable()) {
-				// Update TDS Account if TDSEnabled
 				if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
 					TAXItem taxItem = this.getTdsTaxItem();
 					if (taxItem != null) {
-						// For PayBill it'll be TRUE.
-						if (isAmountIncludeTDS) {
-							addTAXRateCalculation(taxItem, total, false);
-						} else {
+						if (this.payBillType == TYPE_VENDOR_PAYMENT) {
 							addTAXRateCalculation(taxItem,
 									amountEffectedToAccount, false);
+						} else {
+							addTAXRateCalculation(taxItem, this.total, false);
 						}
 					}
 				}
 			}
 
-			// TODO Update TDS Account if Company is IND
 		}
 		return false;
 	}
@@ -546,76 +544,166 @@ public class PayBill extends Transaction {
 		} else {
 
 			if (this.payBillType == TYPE_VENDOR_PAYMENT) {
-				if (this.vendor.getID() != payBill.vendor.getID()) {
-
-					doVoidEffect(session, payBill);
-
-					if (creditsAndPayments != null
-							&& DecimalUtil.isEquals(
-									creditsAndPayments.creditAmount, 0.0d)) {
-						creditsAndPayments.update(this);
-					} else {
-						creditsAndPayments = new CreditsAndPayments(this);
-
-					}
-					this.setCreditsAndPayments(creditsAndPayments);
-					session.save(creditsAndPayments);
-
-				}
-
-				double effectToAccount = payBill.total - payBill.tdsTotal;
-				double preEffectedToAccount = this.total - this.tdsTotal;
-				if (this.payFrom.getID() != payBill.payFrom.getID()) {
-					Account payFromAccount = (Account) session.get(
-							Account.class, payBill.payFrom.getID());
-					payFromAccount.updateCurrentBalance(this, effectToAccount,
-							payBill.currencyFactor);
-					payFromAccount.onUpdate(session);
-					this.payFrom.updateCurrentBalance(this,
-							preEffectedToAccount, currencyFactor);
-					this.payFrom.onUpdate(session);
-				} else if (!DecimalUtil.isEquals(effectToAccount,
-						preEffectedToAccount)) {
-					this.payFrom.updateCurrentBalance(this,
-							preEffectedToAccount - effectToAccount,
-							currencyFactor);
-					this.payFrom.onUpdate(session);
-				}
-
-				doEffectTDS(session, payBill);
-
-				if (this.vendor.getID() == payBill.vendor.getID()
-						&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
-					this.vendor.updateBalance(session, this, payBill.total
-							- this.total);
-					// this.payFrom.updateCurrentBalance(clonedObject,
-					// payBill.total - this.total);
-					// this.payFrom.onUpdate(session);
-
-				}
-
-				if (!this.paymentMethod
-						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK)
-						&& !this.paymentMethod
-								.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK)) {
-					this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-				} else {
-					this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-				}
-
-				if (this.vendor.getID() == payBill.vendor.getID()) {
-					this.creditsAndPayments.updateCreditPayments(this.total);
-				}
-				// } else {
-				//
-				// this.status =
-				// Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-				// }
-
+				editVendorPayment(payBill);
+			} else {
+				editPayBill(payBill);
 			}
 		}
 
 		super.onEdit(payBill);
+	}
+
+	private void editPayBill(PayBill payBill) {
+		Session session = HibernateUtil.getCurrentSession();
+		cleanTransactionitems(payBill);
+		double amountEffectedToAccount = total - tdsTotal;
+		double preAmountEffectedToAccount = payBill.getTotal()
+				- payBill.getTdsTotal();
+		if (this.payFrom.getID() != payBill.getPayFrom().getID()) {
+			Account old = payBill.getPayFrom();
+			old.updateCurrentBalance(this, -1 * preAmountEffectedToAccount,
+					payBill.getCurrencyFactor());
+			session.update(old);
+			payFrom.updateCurrentBalance(this, amountEffectedToAccount,
+					currencyFactor);
+			session.update(payFrom);
+		} else if (!DecimalUtil.isEquals(amountEffectedToAccount,
+				preAmountEffectedToAccount)) {
+			payFrom.updateCurrentBalance(this, amountEffectedToAccount
+					- preAmountEffectedToAccount, currencyFactor);
+			session.update(payFrom);
+		}
+
+		double amountToVendor = this.unusedAmount - this.total;
+		double oldAmountToVendor = payBill.getUnusedAmount()
+				- payBill.getTotal();
+		if (!DecimalUtil.isEquals(amountToVendor, oldAmountToVendor)) {
+			this.vendor.updateBalance(session, this, amountToVendor
+					- oldAmountToVendor);
+		}
+
+		if (payBill.getCreditsAndPayments() != null) {
+			voidCreditsAndPayments(payBill);
+			payBill.creditsAndPayments = null;
+		}
+
+		if (DecimalUtil.isGreaterThan(this.getUnusedAmount(), 0.0)) {
+			// insert this vendorPayment into CreditsAndPayments
+			if (creditsAndPayments != null
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+
+				creditsAndPayments.update(this);
+			} else {
+				creditsAndPayments = new CreditsAndPayments(this);
+			}
+			this.setCreditsAndPayments(creditsAndPayments);
+			session.save(creditsAndPayments);
+		}
+
+		// Update TDS Account if TDSEnabled
+		if (getCompany().getPreferences().isTDSEnabled()
+				&& this.getVendor().isTdsApplicable()) {
+			if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
+				TAXItem taxItem = this.getTdsTaxItem();
+				if (taxItem != null) {
+					addTAXRateCalculation(taxItem, this.total, false);
+				}
+			}
+		}
+
+		for (TransactionPayBill tbillOld : payBill.getTransactionPayBill()) {
+			for (TransactionCreditsAndPayments tcp : tbillOld
+					.getTransactionCreditsAndPayments()) {
+				boolean isExists = false;
+				for (TransactionPayBill tBill : this.getTransactionPayBill()) {
+					List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tBill
+							.getTransactionCreditsAndPayments();
+					for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
+						if (tcp.getCreditsAndPayments().getID() == tcp2
+								.getCreditsAndPayments().getID()) {
+							isExists = true;
+							break;
+						}
+					}
+
+				}
+				if (!isExists) {
+					tcp.onEditTransaction(-tcp.amountToUse);
+					tcp.amountToUse = 0.0;
+					session.saveOrUpdate(tcp.getCreditsAndPayments());
+				}
+			}
+		}
+
+	}
+
+	private void editVendorPayment(PayBill payBill) {
+		Session session = HibernateUtil.getCurrentSession();
+		if (this.vendor.getID() != payBill.vendor.getID()) {
+
+			doVoidEffect(session, payBill);
+
+			if (creditsAndPayments != null
+					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+							0.0d)) {
+				creditsAndPayments.update(this);
+			} else {
+				creditsAndPayments = new CreditsAndPayments(this);
+
+			}
+			this.setCreditsAndPayments(creditsAndPayments);
+			session.save(creditsAndPayments);
+
+		}
+
+		double effectToAccount = payBill.total - payBill.tdsTotal;
+		double preEffectedToAccount = this.total - this.tdsTotal;
+		if (this.payFrom.getID() != payBill.payFrom.getID()) {
+			Account payFromAccount = (Account) session.get(Account.class,
+					payBill.payFrom.getID());
+			payFromAccount.updateCurrentBalance(this, effectToAccount,
+					payBill.currencyFactor);
+			payFromAccount.onUpdate(session);
+			this.payFrom.updateCurrentBalance(this, preEffectedToAccount,
+					currencyFactor);
+			this.payFrom.onUpdate(session);
+		} else if (!DecimalUtil.isEquals(effectToAccount, preEffectedToAccount)) {
+			this.payFrom.updateCurrentBalance(this, preEffectedToAccount
+					- effectToAccount, currencyFactor);
+			this.payFrom.onUpdate(session);
+		}
+
+		doEffectTDS(session, payBill);
+
+		if (this.vendor.getID() == payBill.vendor.getID()
+				&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
+			this.vendor
+					.updateBalance(session, this, payBill.total - this.total);
+			// this.payFrom.updateCurrentBalance(clonedObject,
+			// payBill.total - this.total);
+			// this.payFrom.onUpdate(session);
+
+		}
+
+		if (!this.paymentMethod
+				.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK)
+				&& !this.paymentMethod
+						.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK)) {
+			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else {
+			this.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		}
+
+		if (this.vendor.getID() == payBill.vendor.getID()) {
+			this.creditsAndPayments.updateCreditPayments(this.total);
+		}
+		// } else {
+		//
+		// this.status =
+		// Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		// }
+
 	}
 
 	@Override

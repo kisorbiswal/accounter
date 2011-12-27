@@ -212,7 +212,9 @@ public class CustomerPrePaymentView extends
 				billToaddressSelected(billingAddress);
 			amountText.setDisabled(true);
 			amountText.setAmount(transaction.getTotal());
-			customerBalText.setAmount(customer.getBalance());
+			if (customer != null) {
+				customerBalText.setAmount(customer.getBalance());
+			}
 			// bankBalText.setAmount(getAmountInTransactionCurrency(transaction.g));
 			paymentMethodSelected(transaction.getPaymentMethod());
 			this.depositInAccount = comapny.getAccount(transaction

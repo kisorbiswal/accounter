@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -43,7 +44,7 @@ public abstract class TransactionPayBillTable extends
 	private boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
 	private NewApplyCreditsDialog creditsAndPaymentsDialiog;
-	private List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments;
+	private List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 
 	/* This stack tracks the recently applied credits */
 	private Stack<Map<Integer, Object>> creditsStack;
@@ -278,7 +279,8 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(row.getCashDiscount());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(row
+						.getCashDiscount());
 			}
 
 			@Override
@@ -306,7 +308,8 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(row.getAppliedCredits());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(row
+						.getAppliedCredits());
 			}
 
 			@Override
@@ -401,7 +404,8 @@ public abstract class TransactionPayBillTable extends
 
 				@Override
 				protected String getValue(ClientTransactionPayBill row) {
-					return DataUtils.getAmountAsStringInPrimaryCurrency(row.getPayment());
+					return DataUtils.getAmountAsStringInPrimaryCurrency(row
+							.getPayment());
 				}
 
 				@Override
@@ -857,7 +861,6 @@ public abstract class TransactionPayBillTable extends
 			return 0.00D;
 		}
 		return amount * (tdsCode.getTaxRate() / 100);
-
 	}
 
 	public ValidationResult validateGrid() {
@@ -913,7 +916,7 @@ public abstract class TransactionPayBillTable extends
 								if (result == null)
 									onFailure(null);
 
-								updatedCustomerCreditsAndPayments = result;
+								addCreditsAndPayments(result);
 								creditsStack = new Stack<Map<Integer, Object>>();
 
 								adjustAmountAndEndingBalance();
@@ -1188,6 +1191,64 @@ public abstract class TransactionPayBillTable extends
 			updateFromGUI(item);
 		}
 		updateColumnHeaders();
+	}
+
+	public void addCreditsAndPayments(List<ClientCreditsAndPayments> credits) {
+		if (credits == null || credits.isEmpty()) {
+			return;
+		}
+		for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
+			ClientCreditsAndPayments credit = getCreditWithTransaction(credits,
+					cap.getID());
+			if (credit != null) {
+				cap.setBalance(cap.getBalance() + credit.getBalance());
+				credits.remove(credit);
+			}
+		}
+		updatedCustomerCreditsAndPayments.addAll(credits);
+
+	}
+
+	private ClientCreditsAndPayments getCreditWithTransaction(
+			List<ClientCreditsAndPayments> credits, long transactionId) {
+		for (ClientCreditsAndPayments credit : credits) {
+			if (credit.getID() == transactionId) {
+				return credit;
+			}
+		}
+		return null;
+	}
+
+	public void addTransactionCreditsAndPayments(
+			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
+		if (transactionCreditsAndPayments == null
+				|| transactionCreditsAndPayments.isEmpty()) {
+			return;
+		}
+		for (ClientTransactionCreditsAndPayments ctcp : transactionCreditsAndPayments) {
+			ClientCreditsAndPayments credit = toCreditsAndPayments(ctcp);
+			boolean isMerged = false;
+			for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
+				if (cap.getID() == credit.getID()) {
+					cap.setBalance(cap.getBalance() + credit.getBalance());
+					credit.setBalance(cap.getBalance());
+					ctcp.setCreditsAndPayments(cap);
+					isMerged = true;
+					break;
+				}
+			}
+			if (!isMerged) {
+				updatedCustomerCreditsAndPayments.add(credit);
+			}
+		}
+	}
+
+	private ClientCreditsAndPayments toCreditsAndPayments(
+			ClientTransactionCreditsAndPayments ctcp) {
+		ClientCreditsAndPayments creditsAndPayments = ctcp
+				.getCreditsAndPayments();
+		creditsAndPayments.setBalance(ctcp.getAmountToUse());
+		return creditsAndPayments;
 	}
 
 }

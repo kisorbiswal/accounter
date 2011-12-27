@@ -38,7 +38,7 @@ public class ClientPayBill extends ClientTransaction {
 
 	String checkNumber;
 
-	private ClientTAXItem tdsTaxItem;
+	private long tdsTaxItem;
 
 	private double tdsTotal;
 
@@ -241,7 +241,7 @@ public class ClientPayBill extends ClientTransaction {
 	/**
 	 * @return the taxItem
 	 */
-	public ClientTAXItem getTdsTaxItem() {
+	public long getTdsTaxItem() {
 		return tdsTaxItem;
 	}
 
@@ -249,7 +249,7 @@ public class ClientPayBill extends ClientTransaction {
 	 * @param taxItem
 	 *            the taxItem to set
 	 */
-	public void setTdsTaxItem(ClientTAXItem taxItem) {
+	public void setTdsTaxItem(long taxItem) {
 		this.tdsTaxItem = taxItem;
 	}
 

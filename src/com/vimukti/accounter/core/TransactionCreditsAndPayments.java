@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -134,7 +135,33 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
+		// doReverseEffect();
 		return false;
+	}
+
+	public void doReverseEffect() {
+		Session session = HibernateUtil.getCurrentSession();
+		TransactionReceivePayment transactionReceivePayment = getTransactionReceivePayment();
+		if (transactionReceivePayment != null) {
+			boolean isExists = false;
+			for (TransactionReceivePayment tReceivePayment : transactionReceivePayment
+					.getReceivePayment().getTransactionReceivePayment()) {
+				for (TransactionCreditsAndPayments tcp : tReceivePayment
+						.getTransactionCreditsAndPayments()) {
+					if (tcp.getCreditsAndPayments().getID() == this
+							.getCreditsAndPayments().getID()) {
+						isExists = true;
+					}
+				}
+			}
+			if (!isExists) {
+				if (creditsAndPayments != null) {
+					this.creditsAndPayments.updateBalance(getTransaction(),
+							-amountToUse);
+				}
+				session.saveOrUpdate(creditsAndPayments);
+			}
+		}
 	}
 
 	@Override

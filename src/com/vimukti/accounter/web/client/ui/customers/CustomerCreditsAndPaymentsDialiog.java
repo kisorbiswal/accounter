@@ -435,8 +435,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 								.getAmtTouse());
 					} catch (Exception e) {
 					}
-					creditsAndPayments.setDate(crdPayment.getTransaction()
-							.getTransactionDate());
+					creditsAndPayments.setDate(crdPayment.getTransactionDate()
+							.getDate());
 					creditsAndPayments.setMemo(crdPayment.getMemo());
 					creditsAndPayments.setCreditsAndPayments(crdPayment);
 					clientTransactionCreditsAndPayments.add(creditsAndPayments);
@@ -467,8 +467,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 					creditsAndPayments.setAmountToUse(crdPayment.getAmtTouse());
 				} catch (Exception e) {
 				}
-				creditsAndPayments.setDate(crdPayment.getTransaction()
-						.getTransactionDate());
+				creditsAndPayments.setDate(crdPayment.getTransactionDate()
+						.getDate());
 				creditsAndPayments.setMemo(crdPayment.getMemo());
 				creditsAndPayments.setCreditsAndPayments(crdPayment);
 				clientTransactionCreditsAndPayments.add(creditsAndPayments);

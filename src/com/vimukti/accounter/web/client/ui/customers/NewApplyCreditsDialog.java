@@ -473,8 +473,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 								.getAmtTouse());
 					} catch (Exception e) {
 					}
-					creditsAndPayments.setDate(crdPayment.getTransaction()
-							.getTransactionDate());
+					creditsAndPayments.setDate(crdPayment.getTransactionDate()
+							.getDate());
 					creditsAndPayments.setMemo(crdPayment.getMemo());
 					creditsAndPayments.setCreditsAndPayments(crdPayment);
 					clientTransactionCreditsAndPayments.add(creditsAndPayments);
@@ -506,8 +506,8 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 					creditsAndPayments.setAmountToUse(crdPayment.getAmtTouse());
 				} catch (Exception e) {
 				}
-				creditsAndPayments.setDate(crdPayment.getTransaction()
-						.getTransactionDate());
+				creditsAndPayments.setDate(crdPayment.getTransactionDate()
+						.getDate());
 				creditsAndPayments.setMemo(crdPayment.getMemo());
 				creditsAndPayments.setCreditsAndPayments(crdPayment);
 				clientTransactionCreditsAndPayments.add(creditsAndPayments);
@@ -576,7 +576,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		} else {
 			resetRecords();
 		}
-		return super.onCancel();
+		return true;
 	}
 
 	@Override

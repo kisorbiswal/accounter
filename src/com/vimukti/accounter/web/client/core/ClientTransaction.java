@@ -99,8 +99,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	List<ClientTransactionItem> transactionItems;
 	List<ClientTransactionMakeDeposit> transactionMakeDeposit;
-	List<ClientTransactionPayBill> transactionPayBill;
-	List<ClientTransactionReceivePayment> transactionReceivePayment;
+	List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
+	List<ClientTransactionReceivePayment> transactionReceivePayment = new ArrayList<ClientTransactionReceivePayment>();
 	List<ClientTransactionIssuePayment> transactionIssuePayment;
 	List<ClientTransactionPayTAX> transactionPaySalesTax;
 	List<ClientWareHouseAllocation> wareHouseAllocations;

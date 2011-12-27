@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
@@ -158,13 +159,21 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 					// on
 					// that src value and assign it to the destination
 
-					if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
+					if (isCreditsAndPayments(srcField.getType())) {
+						dstField.set(
+								dst,
+								getCreditsAndPayments((CreditsAndPayments) srcField
+										.get(src)));
+					} else if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
+						Class<?> clientEqualentClass = getClientEqualentClass(srcField
+								.get(src).getClass());
+						getClientAfterCheckingInCache(srcField.get(src),
+								clientEqualentClass);
 						dstField.set(
 								dst,
 								getClientAfterCheckingInCache(
 										srcField.get(src),
-										getClientEqualentClass(srcField
-												.get(src).getClass())));
+										Util.getClientClass(srcField.get(src))));
 
 					} else
 						dstField.set(
@@ -177,6 +186,18 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		return dst;
 	}
 
+	private ClientCreditsAndPayments getCreditsAndPayments(
+			CreditsAndPayments object) throws IllegalArgumentException,
+			InstantiationException, IllegalAccessException, AccounterException {
+
+		ClientCreditsAndPayments clientObj = getClientAfterCheckingInCache(
+				object, ClientCreditsAndPayments.class);
+
+		clientObj.setTransactionDate(object.getTransaction().getDate()
+				.toClientFinanceDate());
+		return clientObj;
+	}
+
 	private Map<Object, Object> toClientMap(Map<?, ?> map)
 			throws AccounterException {
 
@@ -184,7 +205,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		for (Object key : map.keySet()) {
 			Object val = map.get(key);
 			Object clientKey = null;
-			val=HibernateUtil.initializeAndUnproxy(val);
+			val = HibernateUtil.initializeAndUnproxy(val);
 			if (key instanceof IAccounterServerCore) {
 				clientKey = toClientObject(val,
 						getClientEqualentClass(val.getClass()));
@@ -327,7 +348,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 			if (s instanceof Address) {
 				return dstCollection;
 			}
-			s=HibernateUtil.initializeAndUnproxy(s);
+			s = HibernateUtil.initializeAndUnproxy(s);
 			collection2.add(toClientWithidInternal(s,
 					getObject(dstCollection, s.getID())));
 		}
@@ -385,7 +406,7 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 		try {
 			for (Object obj : list) {
 				if (obj != null) {
-					obj=HibernateUtil.initializeAndUnproxy(obj);
+					obj = HibernateUtil.initializeAndUnproxy(obj);
 					Class<? extends Object> resultClass = Class
 							.forName("com.vimukti.accounter.web.client.core.Client"
 									+ obj.getClass().getSimpleName());

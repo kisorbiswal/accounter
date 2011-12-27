@@ -107,7 +107,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	 * credits through TransactionCreditsAndPayments for a single
 	 * TransactionReceivePayment
 	 */
-	@ReffereredObject
+	// @ReffereredObject
 	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
 
 	/**
@@ -316,7 +316,6 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// ChangeTracker.put(this);
 		return false;
 	}
 
@@ -409,84 +408,90 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		}
 
 		if (this.getIsVoid()) {
+			doReverseEffect(false);
 
-			// session
-			// .createQuery(
-			// "delete from TaxRateCalculation where transaction =:transaction")
-			// .setEntity("transaction", this.receivePayment)
-			// .executeUpdate();
-			// this.receivePayment.taxRateCalculationEntriesList.clear();
-			if (this.discountAccount != null
-					&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
+		}
+		// ChangeTracker.put(this);
+		return false;
+	}
 
-				// update the corresponding payee with discount amount
-				this.receivePayment.getCustomer().updateBalance(session,
-						this.receivePayment, -this.cashDiscount);
+	public void doReverseEffect(boolean isDeleting) {
 
-				// updating the corresponding discount account current balance
-				// with
-				// discount amount
-				this.discountAccount.updateCurrentBalance(this.receivePayment,
-						this.cashDiscount, receivePayment.currencyFactor);
-				this.discountAccount.onUpdate(session);
-			}
+		Session session = HibernateUtil.getCurrentSession();
+		// session
+		// .createQuery(
+		// "delete from TaxRateCalculation where transaction =:transaction")
+		// .setEntity("transaction", this.receivePayment)
+		// .executeUpdate();
+		// this.receivePayment.taxRateCalculationEntriesList.clear();
+		if (this.discountAccount != null
+				&& DecimalUtil.isGreaterThan(this.cashDiscount, 0D)) {
 
-			if (this.writeOffAccount != null
-					&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
+			// update the corresponding payee with discount amount
+			this.receivePayment.getCustomer().updateBalance(session,
+					this.receivePayment, -this.cashDiscount);
 
-				// update the corresponding payee with write off amount
-				this.receivePayment.getCustomer().updateBalance(session,
-						this.receivePayment, -this.writeOff);
+			// updating the corresponding discount account current balance
+			// with
+			// discount amount
+			this.discountAccount.updateCurrentBalance(this.receivePayment,
+					this.cashDiscount, receivePayment.currencyFactor);
+			this.discountAccount.onUpdate(session);
+		}
 
-				// updating the corresponding write off account current balance
-				// with
-				// write off amount
-				this.writeOffAccount.updateCurrentBalance(this.receivePayment,
-						this.writeOff, receivePayment.currencyFactor);
-				this.writeOffAccount.onUpdate(session);
-			}
+		if (this.writeOffAccount != null
+				&& DecimalUtil.isGreaterThan(this.writeOff, 0D)) {
 
-			session.saveOrUpdate(this.getReceivePayment().getCustomer());
+			// update the corresponding payee with write off amount
+			this.receivePayment.getCustomer().updateBalance(session,
+					this.receivePayment, -this.writeOff);
 
-			double amount = (getCashDiscount()) + (getWriteOff())
-					+ (getAppliedCredits()) + (getPayment());
+			// updating the corresponding write off account current balance
+			// with
+			// write off amount
+			this.writeOffAccount.updateCurrentBalance(this.receivePayment,
+					this.writeOff, receivePayment.currencyFactor);
+			this.writeOffAccount.onUpdate(session);
+		}
 
+		session.saveOrUpdate(this.getReceivePayment().getCustomer());
+
+		double amount = (getCashDiscount()) + (getWriteOff())
+				+ (getAppliedCredits()) + (getPayment());
+		if (!isDeleting) {
 			if (DecimalUtil.isGreaterThan(this.getAppliedCredits(), 0.0)) {
 
 				for (TransactionCreditsAndPayments tcp : this
 						.getTransactionCreditsAndPayments()) {
-
 					tcp.onEditTransaction(-tcp.amountToUse);
 					tcp.amountToUse = 0.0;
 					session.saveOrUpdate(tcp);
 				}
 				// this.appliedCredits = 0.0;
 			}
-			// this.cashDiscount = 0.0;
-			// this.writeOff = 0.0;
-			// this.payment = 0.0;
+		}
+		// this.cashDiscount = 0.0;
+		// this.writeOff = 0.0;
+		// this.payment = 0.0;
 
-			if (this.getInvoice() != null) {
-				this.getInvoice().updateBalance(-amount, this.receivePayment);
-				session.saveOrUpdate(this.getInvoice());
-				this.invoice = null;
-			} else if (this.getCustomerRefund() != null) {
-				this.getCustomerRefund().updatePaymentsAndBalanceDue(amount);
-				session.saveOrUpdate(this.getCustomerRefund());
-				this.customerRefund = null;
+		if (this.getInvoice() != null) {
+			this.getInvoice().updateBalance(-amount, this.receivePayment);
+			session.saveOrUpdate(this.getInvoice());
+			this.invoice = null;
+		} else if (this.getCustomerRefund() != null) {
+			this.getCustomerRefund().updatePaymentsAndBalanceDue(amount);
+			session.saveOrUpdate(this.getCustomerRefund());
+			this.customerRefund = null;
 
-			} else if (this.getJournalEntry() != null) {
-				this.getJournalEntry().setBalanceDue(
-						this.getJournalEntry().getBalanceDue() + amount);
-				session.saveOrUpdate(this.getJournalEntry());
-				this.journalEntry = null;
-
-			}
-			session.saveOrUpdate(this);
+		} else if (this.getJournalEntry() != null) {
+			this.getJournalEntry().setBalanceDue(
+					this.getJournalEntry().getBalanceDue() + amount);
+			session.saveOrUpdate(this.getJournalEntry());
+			this.journalEntry = null;
 
 		}
-		// ChangeTracker.put(this);
-		return false;
+		// session.saveOrUpdate(this);
+
 	}
 
 	public void onVoidTransaction(Session session) {

@@ -496,9 +496,11 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
+		ReceivePayment receivePayment = (ReceivePayment) clonedObject;
+
+		super.onEdit(receivePayment);
 
 		if (isDraftOrTemplate()) {
-			super.onEdit(clonedObject);
 			return;
 		}
 
@@ -506,12 +508,9 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		 * If present transaction is deleted or voided & the previous
 		 * transaction is not voided then it is entered into the loop
 		 */
+		Session session = HibernateUtil.getCurrentSession();
+		if (this.isVoid() && !receivePayment.isVoid()) {
 
-		if (this.isVoid() && !clonedObject.isVoid()) {
-
-			super.onEdit(clonedObject);
-
-			Session session = HibernateUtil.getCurrentSession();
 			this.depositIn.updateCurrentBalance(this, this.amount,
 					currencyFactor);
 			this.depositIn.onUpdate(session);
@@ -538,6 +537,84 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				tdsAccount.updateCurrentBalance(this, tdsTotal, currencyFactor);
 				session.save(tdsAccount);
 			}
+		} else {
+
+			if (this.depositIn.getID() != receivePayment.getDepositIn().getID()) {
+				Account old = receivePayment.getDepositIn();
+				old.updateCurrentBalance(this, receivePayment.getAmount(),
+						receivePayment.getCurrencyFactor());
+				session.update(old);
+				depositIn.updateCurrentBalance(this, -this.amount,
+						currencyFactor);
+				session.update(depositIn);
+			} else if (!DecimalUtil.isEquals(this.amount,
+					receivePayment.getAmount())) {
+				depositIn.updateCurrentBalance(this, receivePayment.getAmount()
+						- this.amount, currencyFactor);
+				session.update(depositIn);
+			}
+
+			if (!DecimalUtil.isEquals(this.total, receivePayment.getTotal())) {
+				customer.updateBalance(session, this, this.total
+						- receivePayment.getTotal());
+			}
+
+			if (!DecimalUtil.isEquals(this.tdsTotal,
+					receivePayment.getTdsTotal())) {
+				Account tdsAccount = getTDSAccount();
+				if (tdsAccount != null) {
+					tdsAccount.updateCurrentBalance(this, this.tdsTotal
+							- receivePayment.getTdsTotal(), currencyFactor);
+					session.save(tdsAccount);
+				}
+			}
+
+			if (receivePayment.getCreditsAndPayments() != null) {
+				voidCreditsAndPayments(receivePayment);
+				receivePayment.creditsAndPayments = null;
+			}
+
+			if (!DecimalUtil.isEquals(this.unUsedPayments, 0D)) {
+				if (creditsAndPayments != null
+						&& DecimalUtil.isEquals(
+								creditsAndPayments.creditAmount, 0.0d)) {
+					creditsAndPayments.update(this);
+
+				} else {
+					creditsAndPayments = new CreditsAndPayments(this);
+				}
+				this.setCreditsAndPayments(creditsAndPayments);
+				session.save(creditsAndPayments);
+			}
+			for (TransactionReceivePayment tReceivePaymentOld : receivePayment
+					.getTransactionReceivePayment()) {
+				for (TransactionCreditsAndPayments tcp : tReceivePaymentOld
+						.getTransactionCreditsAndPayments()) {
+					boolean isExists = false;
+					for (TransactionReceivePayment tReceivePayment : this
+							.getTransactionReceivePayment()) {
+						List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tReceivePayment
+								.getTransactionCreditsAndPayments();
+						for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
+							if (tcp.getCreditsAndPayments().getID() == tcp2
+									.getCreditsAndPayments().getID()) {
+								isExists = true;
+								break;
+							}
+						}
+
+					}
+					if (!isExists) {
+						tcp.onEditTransaction(-tcp.amountToUse);
+						tcp.amountToUse = 0.0;
+						session.saveOrUpdate(tcp.getCreditsAndPayments());
+					}
+				}
+
+				tReceivePaymentOld.doReverseEffect(true);
+			}
+
+			cleanTransactionitems(receivePayment);
 		}
 	}
 

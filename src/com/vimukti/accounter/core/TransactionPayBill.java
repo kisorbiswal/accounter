@@ -99,7 +99,7 @@ public class TransactionPayBill extends CreatableObject implements
 	 * {@link TransactionCreditsAndPayments} from which we can apply the
 	 * available credits of the payee.
 	 */
-	@ReffereredObject
+	// @ReffereredObject
 	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
 
 	/**
@@ -371,23 +371,32 @@ public class TransactionPayBill extends CreatableObject implements
 		}
 
 		if (this.isVoid) {
+			doReverseEffect(false);
+		}
+		// ChangeTracker.put(this);
+		return false;
+	}
+
+	private void doReverseEffect(boolean isDeleting) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		// this.payBill.getVendor().updateBalance(session, this.payBill,
+		// this.payment);
+		if (this.getDiscountAccount() != null
+				&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
 
 			this.payBill.getVendor().updateBalance(session, this.payBill,
-					this.payment);
-			if (this.getDiscountAccount() != null
-					&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
+					this.cashDiscount);
+			this.discountAccount.updateCurrentBalance(this.payBill,
+					-this.cashDiscount, payBill.currencyFactor);
+			this.discountAccount.onUpdate(session);
+			session.saveOrUpdate(this.discountAccount);
+		}
 
-				this.payBill.getVendor().updateBalance(session, this.payBill,
-						this.cashDiscount);
-				this.discountAccount.updateCurrentBalance(this.payBill,
-						-this.cashDiscount, payBill.currencyFactor);
-				this.discountAccount.onUpdate(session);
-				session.saveOrUpdate(this.discountAccount);
-			}
+		double amount = (this.cashDiscount) + (this.appliedCredits)
+				+ (this.payment);
 
-			double amount = (this.cashDiscount) + (this.appliedCredits)
-					+ (this.payment);
-
+		if (!isDeleting) {
 			if (DecimalUtil.isGreaterThan(this.appliedCredits, 0.0)) {
 
 				for (TransactionCreditsAndPayments transactionCreditsAndPayments : this.transactionCreditsAndPayments) {
@@ -398,31 +407,29 @@ public class TransactionPayBill extends CreatableObject implements
 				}
 				// this.appliedCredits = 0.0;
 			}
-
-			// this.cashDiscount = 0.0;
-			// this.payment = 0.0;
-			if (this.enterBill != null) {
-
-				this.enterBill.updateBalance(-amount, this.payBill);
-				session.saveOrUpdate(this.enterBill);
-				this.enterBill = null;
-
-			} else if (this.transactionMakeDeposit != null) {
-
-				this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
-				session.saveOrUpdate(this.transactionMakeDeposit);
-				this.transactionMakeDeposit = null;
-
-			} else if (this.journalEntry != null) {
-				this.journalEntry.balanceDue += amount;
-				session.saveOrUpdate(this.journalEntry);
-				this.journalEntry = null;
-			}
-			session.saveOrUpdate(this);
-
 		}
-		// ChangeTracker.put(this);
-		return false;
+
+		// this.cashDiscount = 0.0;
+		// this.payment = 0.0;
+		if (this.enterBill != null) {
+
+			this.enterBill.updateBalance(-amount, this.payBill);
+			session.saveOrUpdate(this.enterBill);
+			this.enterBill = null;
+
+		} else if (this.transactionMakeDeposit != null) {
+
+			this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
+			session.saveOrUpdate(this.transactionMakeDeposit);
+			this.transactionMakeDeposit = null;
+
+		} else if (this.journalEntry != null) {
+			this.journalEntry.balanceDue += amount;
+			session.saveOrUpdate(this.journalEntry);
+			this.journalEntry = null;
+		}
+		session.saveOrUpdate(this);
+
 	}
 
 	/**
@@ -467,7 +474,9 @@ public class TransactionPayBill extends CreatableObject implements
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// ChangeTracker.put(this);
+		if (!this.getPayBill().isVoid()) {
+			doReverseEffect(true);
+		}
 		return false;
 	}
 

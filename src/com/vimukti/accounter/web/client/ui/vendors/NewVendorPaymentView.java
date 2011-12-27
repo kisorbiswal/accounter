@@ -151,8 +151,9 @@ public class NewVendorPaymentView extends
 			}
 			initAccounterClass();
 			if (getPreferences().isTDSEnabled()) {
-				ClientTAXItem tdsTaxItem = transaction.getTdsTaxItem();
-				tdsCombo.select(tdsTaxItem);
+				long tdsTaxItem = transaction.getTdsTaxItem();
+				ClientTAXItem taxItem = getCompany().getTAXItem(tdsTaxItem);
+				tdsCombo.select(taxItem);
 				amountIncludeTds.setValue(transaction.isAmountIncludeTDS());
 				tdsCombo.setDisabled(true);
 				amountIncludeTds.setDisabled(true);
@@ -468,7 +469,7 @@ public class NewVendorPaymentView extends
 					transaction.setTotal(totalAmount.getAmount());
 					ClientTAXItem selectedValue = tdsCombo.getSelectedValue();
 					if (selectedValue != null) {
-						transaction.setTdsTaxItem(selectedValue);
+						transaction.setTdsTaxItem(selectedValue.getID());
 					}
 					transaction.setTdsTotal(tdsAmount.getAmount());
 					transaction
@@ -626,7 +627,6 @@ public class NewVendorPaymentView extends
 					taxRate = selectedTax.getTaxRate();
 				}
 				vendorPayment = (totalAmount * 100) / (100 + taxRate);
-				vendorPayment = DecimalUtil.round(vendorPayment);
 				tdsAmount = totalAmount - vendorPayment;
 			}
 		} else {

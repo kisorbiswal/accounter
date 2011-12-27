@@ -310,9 +310,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			serverCreditsAndPayments = getFinanceTool().getVendorManager()
 					.getVendorCreditsAndPayments(vendorId, getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
-				clientCreditsAndPaymentsList.add(new ClientConvertUtil()
+				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
-								ClientCreditsAndPayments.class));
+								ClientCreditsAndPayments.class);
+				clientObject.setTransactionDate(creditsAndPayments
+						.getTransaction().getDate().toClientFinanceDate());
+				clientCreditsAndPaymentsList.add(clientObject);
 			}
 			// creditsAndPaymentsList = (List<ClientCreditsAndPayments>) manager
 			// .merge(creditsAndPaymentsList);
@@ -657,9 +660,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			serverCreditsAndPayments = getFinanceTool().getCustomerManager()
 					.getCustomerCreditsAndPayments(customerId, getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
-				clientCreditsAndPayments.add(new ClientConvertUtil()
+				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
-								ClientCreditsAndPayments.class));
+								ClientCreditsAndPayments.class);
+				clientObject.setTransactionDate(creditsAndPayments
+						.getTransaction().getDate().toClientFinanceDate());
+				clientCreditsAndPayments.add(clientObject);
 			}
 			// creditsAndPayments = (List<ClientCreditsAndPayments>) manager
 			// .merge(creditsAndPayments);

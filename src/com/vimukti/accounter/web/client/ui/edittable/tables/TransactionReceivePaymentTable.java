@@ -453,7 +453,7 @@ public abstract class TransactionReceivePaymentTable extends
 								if (result == null)
 									onFailure(null);
 
-								updatedCustomerCreditsAndPayments = result;
+								addCreditsAndPayments(result);
 								creditsStack = new Stack<Map<Integer, Object>>();
 								gotCreditsAndPayments = true;
 								calculateUnusedCredits();
@@ -1005,4 +1005,63 @@ public abstract class TransactionReceivePaymentTable extends
 		}
 		updateColumnHeaders();
 	}
+
+	public void addCreditsAndPayments(List<ClientCreditsAndPayments> credits) {
+		if (credits == null || credits.isEmpty()) {
+			return;
+		}
+		for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
+			ClientCreditsAndPayments credit = getCreditWithTransaction(credits,
+					cap.getID());
+			if (credit != null) {
+				cap.setBalance(cap.getBalance() + credit.getBalance());
+				credits.remove(credit);
+			}
+		}
+		updatedCustomerCreditsAndPayments.addAll(credits);
+
+	}
+
+	private ClientCreditsAndPayments getCreditWithTransaction(
+			List<ClientCreditsAndPayments> credits, long transactionId) {
+		for (ClientCreditsAndPayments credit : credits) {
+			if (credit.getID() == transactionId) {
+				return credit;
+			}
+		}
+		return null;
+	}
+
+	public void addTransactionCreditsAndPayments(
+			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
+		if (transactionCreditsAndPayments == null
+				|| transactionCreditsAndPayments.isEmpty()) {
+			return;
+		}
+		for (ClientTransactionCreditsAndPayments ctcp : transactionCreditsAndPayments) {
+			ClientCreditsAndPayments credit = toCreditsAndPayments(ctcp);
+			boolean isMerged = false;
+			for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
+				if (cap.getID() == credit.getID()) {
+					cap.setBalance(cap.getBalance() + credit.getBalance());
+					credit.setBalance(cap.getBalance());
+					ctcp.setCreditsAndPayments(cap);
+					isMerged = true;
+					break;
+				}
+			}
+			if (!isMerged) {
+				updatedCustomerCreditsAndPayments.add(credit);
+			}
+		}
+	}
+
+	private ClientCreditsAndPayments toCreditsAndPayments(
+			ClientTransactionCreditsAndPayments ctcp) {
+		ClientCreditsAndPayments creditsAndPayments = ctcp
+				.getCreditsAndPayments();
+		creditsAndPayments.setBalance(ctcp.getAmountToUse());
+		return creditsAndPayments;
+	}
+
 }

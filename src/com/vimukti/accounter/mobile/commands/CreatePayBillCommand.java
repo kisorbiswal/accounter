@@ -34,7 +34,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
-import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -260,8 +259,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 					transactionPayBills = new FinanceTool()
 							.getVendorManager()
 							.getTransactionPayBills(
-									((Vendor) CreatePayBillCommand.this
-											.get(VENDOR).getValue()).getID(),
+									((Vendor) CreatePayBillCommand.this.get(
+											VENDOR).getValue()).getID(),
 									getCompany().getID(),
 									new FinanceDate(
 											(ClientFinanceDate) CreatePayBillCommand.this
@@ -274,7 +273,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected Payee getPayee() {
-				return (Vendor) CreatePayBillCommand.this.get(VENDOR).getValue();
+				return (Vendor) CreatePayBillCommand.this.get(VENDOR)
+						.getValue();
 			}
 
 		});
@@ -414,9 +414,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			TAXItem taxItem = vendor.getTAXItem();
 			if (taxItem != null) {
-				paybill.setTdsTaxItem((ClientTAXItem) CommandUtils
-						.getClientObjectById(taxItem.getID(),
-								AccounterCoreType.TAXITEM, getCompanyId()));
+				paybill.setTdsTaxItem(taxItem.getID());
 			}
 		}
 		paybill.setCurrency(vendor.getCurrency().getID());

@@ -11,7 +11,7 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	long id;
 	int version;
 	long dueDate;
@@ -23,11 +23,11 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	double cashDiscount = 0D;
 	double appliedCredits = 0D;
 	double payment = 0D;
-	double tdsAmount=0D;
+	double tdsAmount = 0D;
 	ClientPayBill payBill;
 	private double dummyDue;
 
-	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments;
+	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
 
 	long transactionMakeDeposit;
 
@@ -35,7 +35,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	long vendorId;
 	String billNumber;
-	
 
 	long journalEntry;
 

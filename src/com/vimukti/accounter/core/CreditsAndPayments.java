@@ -433,8 +433,9 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			throws AccounterException {
 		if (transactionCreditsAndPayments != null
 				&& !transactionCreditsAndPayments.isEmpty()) {
-			throw new AccounterException(AccounterException.ERROR_CANT_EDIT,
-					Global.get().messages().editingCreditsFailed());
+			throw new AccounterException(
+					AccounterException.ERROR_OBJECT_IN_USE, Global.get()
+							.messages().editingCreditsFailed());
 		}
 		return true;
 	}

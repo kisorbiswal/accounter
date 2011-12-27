@@ -6,6 +6,8 @@ import java.util.List;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -30,7 +32,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -42,7 +43,6 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -145,7 +145,7 @@ public class ReceivePaymentView extends
 		 */
 		gridView.newAppliedCreditsDialiog = null;
 		gridView.creditsStack = null;
-		gridView.initCreditsAndPayments(getCustomer());
+		// gridView.initCreditsAndPayments(getCustomer());
 
 		if (!isInViewMode()) {
 			gridView.removeAllRecords();
@@ -205,10 +205,16 @@ public class ReceivePaymentView extends
 							@Override
 							public void onResultSuccess(
 									ArrayList<ReceivePaymentTransactionList> result) {
+								if (result == null) {
+									result = new ArrayList<ReceivePaymentTransactionList>();
+								}
 
 								receivePaymentTransactionList = result;
 
-								if (result.size() > 0) {
+								if (!result.isEmpty()
+										|| !transaction
+												.getTransactionReceivePayment()
+												.isEmpty()) {
 									gridView.removeAllRecords();
 									gridView.initCreditsAndPayments(selectedCustomer);
 									addTransactionRecievePayments(result);
@@ -293,48 +299,57 @@ public class ReceivePaymentView extends
 		}
 		List<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 
-		for (ReceivePaymentTransactionList receivePaymentTransaction : result) {
+		for (ReceivePaymentTransactionList rpt : result) {
 
-			ClientTransactionReceivePayment record = new ClientTransactionReceivePayment();
+			ClientTransactionReceivePayment record = getTransactionPayBillByTransaction(
+					rpt.getType(), rpt.getTransactionId());
+			double amountDue = 0.00D;
+			if (record == null) {
+				record = new ClientTransactionReceivePayment();
+				if (rpt.getType() == ClientTransaction.TYPE_INVOICE) {
+					record.isInvoice = true;
+					record.setInvoice(rpt.getTransactionId());
+				} else if (rpt.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
+					record.isInvoice = false;
+					record.setCustomerRefund(rpt.getTransactionId());
+				} else if (rpt.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+					record.isInvoice = false;
+					record.setJournalEntry(rpt.getTransactionId());
+				}
+			} else {
+				transaction.getTransactionReceivePayment().remove(record);
+				amountDue = record.getPayment() + record.getAppliedCredits();
+			}
+			amountDue += rpt.getAmountDue();
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
 
-			record.setDueDate(receivePaymentTransaction.getDueDate() != null ? receivePaymentTransaction
-					.getDueDate().getDate() : 0);
-			record.setNumber(receivePaymentTransaction.getNumber());
+			record.setDueDate(rpt.getDueDate() != null ? rpt.getDueDate()
+					.getDate() : 0);
+			record.setNumber(rpt.getNumber());
 
-			record.setInvoiceAmount(receivePaymentTransaction
-					.getInvoiceAmount());
+			record.setInvoiceAmount(rpt.getInvoiceAmount());
 
-			record.setInvoice(receivePaymentTransaction.getTransactionId());
-			record.setAmountDue(receivePaymentTransaction.getAmountDue());
-			record.setDummyDue(receivePaymentTransaction.getAmountDue());
-			record.setDiscountDate(receivePaymentTransaction.getDiscountDate() != null ? receivePaymentTransaction
+			record.setInvoice(rpt.getTransactionId());
+
+			record.setDiscountDate(rpt.getDiscountDate() != null ? rpt
 					.getDiscountDate().getDate() : 0);
 
 			record.setDiscountAccount(getCompany().getCashDiscountAccount());
-			record.setCashDiscount(receivePaymentTransaction.getCashDiscount());
+			record.setCashDiscount(record.getCashDiscount()
+					+ rpt.getCashDiscount());
 
-			record.setWriteOff(receivePaymentTransaction.getWriteOff());
+			record.setWriteOff(rpt.getWriteOff());
 
-			record.setAppliedCredits(receivePaymentTransaction
-					.getAppliedCredits());
+			record.setAppliedCredits(rpt.getAppliedCredits());
 
 			record.setPayment(0);
 
-			totalInoiceAmt += receivePaymentTransaction.getInvoiceAmount();
-			totalDueAmt += receivePaymentTransaction.getAmountDue();
+			gridView.addTransactionCreditsAndPayments(record
+					.getTransactionCreditsAndPayments());
 
-			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
-				record.isInvoice = true;
-				record.setInvoice(receivePaymentTransaction.getTransactionId());
-			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_CUSTOMER_REFUNDS) {
-				record.isInvoice = false;
-				record.setCustomerRefund(receivePaymentTransaction
-						.getTransactionId());
-			} else if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
-				record.isInvoice = false;
-				record.setJournalEntry(receivePaymentTransaction
-						.getTransactionId());
-			}
+			totalInoiceAmt += rpt.getInvoiceAmount();
+			totalDueAmt += rpt.getAmountDue();
 
 			// TODO
 
@@ -343,9 +358,37 @@ public class ReceivePaymentView extends
 
 			records.add(record);
 
-			gridView.add(record);
 		}
+
+		for (ClientTransactionReceivePayment payment : transaction
+				.getTransactionReceivePayment()) {
+			payment.setAmountDue(payment.getPayment()
+					+ payment.getAppliedCredits());
+			payment.setPayment(0.00D);
+			payment.setAppliedCredits(0.00D);
+			gridView.addTransactionCreditsAndPayments(payment
+					.getTransactionCreditsAndPayments());
+			records.add(payment);
+		}
+
+		gridView.setAllRows(records);
 		recalculateGridAmounts();
+	}
+
+	private ClientTransactionReceivePayment getTransactionPayBillByTransaction(
+			int transactionType, long transactionId) {
+		for (ClientTransactionReceivePayment bill : transaction
+				.getTransactionReceivePayment()) {
+			if ((transactionType == ClientTransaction.TYPE_INVOICE && bill
+					.getInvoice() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_CUSTOMER_REFUNDS && bill
+							.getCustomerRefund() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_JOURNAL_ENTRY && bill
+							.getJournalEntry() == transactionId)) {
+				return bill;
+			}
+		}
+		return null;
 	}
 
 	public Double calculatePaymentForRecord(
@@ -433,6 +476,7 @@ public class ReceivePaymentView extends
 		List<ClientTransactionReceivePayment> paymentsList = new ArrayList<ClientTransactionReceivePayment>();
 		for (ClientTransactionReceivePayment payment : gridView
 				.getSelectedRecords()) {
+			payment.setID(0);
 			payment.setTransaction(receivePayment.getID());
 			if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 				if (gridView.newAppliedCreditsDialiog == null) {
@@ -476,14 +520,13 @@ public class ReceivePaymentView extends
 		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
 		ClientTransactionReceivePayment rcvPaymnt = (ClientTransactionReceivePayment) payment;
 		for (ClientCreditsAndPayments crdPayment : gridView.updatedCustomerCreditsAndPayments) {
-
 			crdPayment.setRemaoningBalance(crdPayment.getBalance());
 			crdPayment.setAmtTouse(payment.getAppliedCredits());
 
 			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
 
-			creditsAndPayments.setDate(crdPayment.getTransaction()
-					.getTransactionDate());
+			creditsAndPayments.setDate(crdPayment.getTransactionDate()
+					.getDate());
 			creditsAndPayments.setMemo(crdPayment.getMemo());
 			creditsAndPayments.setCreditsAndPayments(crdPayment);
 			clientTransactionCreditsAndPayments.add(creditsAndPayments);
@@ -679,19 +722,8 @@ public class ReceivePaymentView extends
 
 		DynamicForm textForm = new DynamicForm();
 		textForm.setWidth("70%");
-		if (isMultiCurrencyEnabled()) {
-			if (!isInViewMode()) {
-				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-			} else {
-				textForm.setFields(unUsedPaymentsText);
-			}
-		} else {
-			if (!isInViewMode()) {
-				textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
-			} else {
-				textForm.setFields(unUsedPaymentsText);
-			}
-		}
+		textForm.setFields(unUsedCreditsText, unUsedPaymentsText);
+		unUsedCreditsText.setVisible(!isInViewMode());
 
 		totalWithTDS = new AmountLabel(messages.total());
 		totalWithTDS.setHelpInformation(true);
@@ -863,7 +895,8 @@ public class ReceivePaymentView extends
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
-		if (getPreferences().isTDSEnabled() && customer.willDeductTDS()) {
+		if (getPreferences().isTDSEnabled() && customer != null
+				&& customer.willDeductTDS()) {
 			transaction.setTdsTotal(tdsAmount.getAmount());
 		}
 	}
@@ -1120,64 +1153,38 @@ public class ReceivePaymentView extends
 	@Override
 	public void onEdit() {
 		if (transaction.canEdit && !transaction.isVoid()) {
+			AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
-			Accounter.showWarning(messages.W_112(), AccounterType.WARNING,
-					new ErrorDialogHandler() {
+				@Override
+				public void onFailure(Throwable caught) {
+					if (caught instanceof InvocationException) {
+						Accounter.showMessage(Accounter.messages()
+								.sessionExpired());
+					} else {
+						int errorCode = ((AccounterException) caught)
+								.getErrorCode();
+						Accounter.showError(AccounterExceptions
+								.getErrorString(errorCode));
 
-						@Override
-						public boolean onCancelClick() {
-							return true;
-						}
+					}
+				}
 
-						@Override
-						public boolean onNoClick() {
-							return true;
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result)
+						enableFormItems();
+				}
 
-						}
+			};
 
-						@Override
-						public boolean onYesClick() {
-							voidTransaction();
-							return true;
-						}
-					});
-
-		} else if (transaction.isVoid() || transaction.isDeleted())
+			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+					.getType());
+			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+		} else if (transaction.isVoid() || transaction.isDeleted()) {
 
 			Accounter.showError(Accounter.messages()
 					.youcanteditreceivePaymentitisvoidedordeleted());
-	}
 
-	private void voidTransaction() {
-		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-				int errorCode = caught.getErrorCode();
-				if (errorCode > 0) {
-					Accounter.showError(AccounterExceptions
-							.getErrorString(errorCode));
-				} else {
-					Accounter.showError(Accounter.messages()
-							.failedtovoidReceivePayment());
-				}
-			}
-
-			@Override
-			public void onResultSuccess(Boolean result) {
-				if (result) {
-					enableFormItems();
-
-				} else
-					onFailure(new Exception());
-
-			}
-
-		};
-		if (transaction != null) {
-			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
-					.getType());
-			rpcDoSerivce.voidTransaction(type, transaction.id, callback);
 		}
 	}
 
@@ -1185,8 +1192,8 @@ public class ReceivePaymentView extends
 		setMode(EditMode.EDIT);
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
-
-		customerCombo.setDisabled(isInViewMode());
+		unUsedCreditsText.setVisible(!isInViewMode());
+		// customerCombo.setDisabled(isInViewMode());
 		amtText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		if (paymentMethod != null
@@ -1204,7 +1211,7 @@ public class ReceivePaymentView extends
 
 		getTransactionReceivePayments(this.getCustomer());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		transaction = new ClientReceivePayment();
+		// transaction = new ClientReceivePayment();
 		data = transaction;
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -1213,6 +1220,9 @@ public class ReceivePaymentView extends
 		}
 		tdsAmount.setDisabled(isInViewMode());
 		tdsAmount.setVisible(isTDSEnable());
+		amtText.setAmount(0.00D);
+		paymentAmountChanged(0.00D);
+		updateTotalWithTDS();
 	}
 
 	@Override

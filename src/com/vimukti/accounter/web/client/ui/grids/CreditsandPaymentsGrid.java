@@ -259,6 +259,7 @@ public class CreditsandPaymentsGrid extends
 			r.setTransactionCreditsAndPayments(rec
 					.getTransactionCreditsAndPayments());
 			r.setID(rec.getID());
+			r.setTransactionDate(rec.getTransactionDate());
 			r.setTransaction(rec.getTransaction());
 			r.setActualAmt(rec.getActualAmt());
 			this.actualRecords.add(r);
@@ -278,6 +279,7 @@ public class CreditsandPaymentsGrid extends
 			r.setTransactionCreditsAndPayments(rec
 					.getTransactionCreditsAndPayments());
 			r.setID(rec.getID());
+			r.setTransactionDate(rec.getTransactionDate());
 			r.setTransaction(rec.getTransaction());
 			r.setActualAmt(rec.getActualAmt());
 			r.setRecordChanged(rec.isRecordChanged());
@@ -323,8 +325,7 @@ public class CreditsandPaymentsGrid extends
 
 		switch (index) {
 		case 0:
-			return UIUtils.dateFormat(creditsAndPayments.getTransaction()
-					.getDate());
+			return UIUtils.dateFormat(creditsAndPayments.getTransactionDate());
 		case 1:
 			return creditsAndPayments.getMemo();
 		case 2:

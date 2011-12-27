@@ -121,6 +121,11 @@ public class ObjectConvertUtil {
 				.equals("com.vimukti.accounter.core.Quantity");
 	}
 
+	protected boolean isCreditsAndPayments(Class<?> className) {
+		return className.getName().equals(
+				"com.vimukti.accounter.core.CreditsAndPayments");
+	}
+
 	public Class<?> getClientEqualentClass(Class<?> serverClass) {
 		try {
 			return Class.forName("com.vimukti.accounter.web.client.core.Client"

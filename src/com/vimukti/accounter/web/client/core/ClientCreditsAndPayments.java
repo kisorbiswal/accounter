@@ -18,13 +18,18 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 
 	double balance = 0D;
 
-	ClientTransaction transaction;
 	private int version;
 	long payee;
 
 	Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<ClientTransactionCreditsAndPayments>();
 
 	private double amtTouse;
+
+	private double actualAmt;
+
+	private ClientFinanceDate transactionDate;
+
+	private long transaction;
 
 	/* For stroing the balance temporarly */
 	private double remaoningBalance;
@@ -38,20 +43,12 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		this.remaoningBalance = remaoningBalance;
 	}
 
-	public ClientTransaction getTransaction() {
-		return transaction;
-	}
-
 	public void setRecordChanged(boolean isChanged) {
 		this.recordChanged = isChanged;
 	}
 
 	public boolean isRecordChanged() {
 		return recordChanged;
-	}
-
-	public void setTransaction(ClientTransaction transaction) {
-		this.transaction = transaction;
 	}
 
 	public void setAmtTouse(double amtTouse) {
@@ -122,8 +119,6 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		return null;
 	}
 
-	private double actualAmt;
-
 	public double getActualAmt() {
 		return actualAmt;
 	}
@@ -145,7 +140,6 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	public ClientCreditsAndPayments clone() {
 		ClientCreditsAndPayments creditsAndPayments = (ClientCreditsAndPayments) this
 				.clone();
-		creditsAndPayments.transaction = this.transaction.clone();
 		Set<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new HashSet<ClientTransactionCreditsAndPayments>();
 		for (ClientTransactionCreditsAndPayments clientTransactionCreditsAndPayments : this.transactionCreditsAndPayments) {
 			creditsAndPaymentsSet.add(clientTransactionCreditsAndPayments
@@ -163,7 +157,33 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
+	}
+
+	public void setTransactionDate(ClientFinanceDate xfrDate) {
+		this.transactionDate = xfrDate;
+	}
+
+	/**
+	 * @return the transactionDate
+	 */
+	public ClientFinanceDate getTransactionDate() {
+		return transactionDate;
+	}
+
+	/**
+	 * @return the transaction
+	 */
+	public long getTransaction() {
+		return transaction;
+	}
+
+	/**
+	 * @param transaction
+	 *            the transaction to set
+	 */
+	public void setTransaction(long transaction) {
+		this.transaction = transaction;
 	}
 
 }
