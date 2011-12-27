@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.VendorGroup;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -43,6 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreateVendorCommand extends AbstractCommand {
 
@@ -93,8 +95,7 @@ public class CreateVendorCommand extends AbstractCommand {
 				.payeeName(Global.get().Vendor()), false, true) {
 			@Override
 			public void setValue(Object value) {
-				if (vendor.getID() == 0
-						&& CreateVendorCommand.this.isVendorExists((String) value)) {
+				if (CreateVendorCommand.this.isVendorExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
 					addFirstMessage(getMessages().pleaseEnter(
 							getMessages().payeeName(Global.get().Vendor())));
@@ -110,10 +111,23 @@ public class CreateVendorCommand extends AbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getPreferences().getUseCustomerId()) {
+				if (context.getPreferences().getUseVendorId()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				String objectExist = CreateVendorCommand.this
+						.objectExist((String) value);
+				if (objectExist != null) {
+					setEnterString(objectExist);
+					return;
+				}
+				setEnterString(getMessages()
+						.pleaseEnter(getMessages().number()));
+				super.setValue(value);
 			}
 		});
 
@@ -449,6 +463,10 @@ public class CreateVendorCommand extends AbstractCommand {
 	}
 
 	protected boolean isVendorExists(String value) {
+		if (this.vendor.getID() != 0
+				&& this.vendor.getName().equalsIgnoreCase(value)) {
+			return false;
+		}
 		return CommandUtils.isVendorExistsWithSameName(getCompany()
 				.getVendors(), value);
 	}
@@ -698,6 +716,7 @@ public class CreateVendorCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(VENDOR_NUMBER).setValue(getNextVendorNumber());
 		get(ACTIVE).setDefaultValue(true);
 		get(VENDOR_SINCE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
@@ -716,6 +735,69 @@ public class CreateVendorCommand extends AbstractCommand {
 		} else {
 			return getMessages().updateSuccessfully(Global.get().Vendor());
 		}
+	}
+
+	public String objectExist(String vendorNumber) {
+		String error = null;
+		String vendorName = get(VENDOR_NAME).getValue();
+		Set<Vendor> list = getCompany().getVendors();
+		if (list == null || list.isEmpty())
+			return null;
+		for (Vendor old : list) {
+			if (old.getID() == vendor.getID()) {
+				continue;
+			}
+			if (vendorNumber.equals(old.getVendorNumber())) {
+				for (Vendor old2 : list) {
+					if (vendorName.equalsIgnoreCase(old2.getName())) {
+						error = getMessages().objAlreadyExistsWithNameAndNo(
+								Global.get().customer());
+						break;
+					}
+				}
+				return getMessages().objAlreadyExistsWithNumber(
+						Global.get().customer());
+			} else if (vendorNumber == null
+					|| vendorNumber.trim().length() == 0) {
+				error = getMessages()
+						.pleaseEnterVendorNumberItShouldNotBeEmpty(
+								Global.get().Customer());
+				break;
+			} else if (checkIfNotNumber(vendorNumber)) {
+				error = getMessages().payeeNumberShouldBeNumber(
+						Global.get().customer());
+				break;
+			} else if (Integer.parseInt(vendorNumber.toString()) < 1) {
+				error = getMessages().payeeNumberShouldBePos(
+						Global.get().customer());
+				break;
+			}
+		}
+		return error;
+	}
+
+	public boolean checkIfNotNumber(String in) {
+		try {
+			Integer.parseInt(in);
+
+		} catch (NumberFormatException ex) {
+			return true;
+		}
+		return false;
+	}
+
+	private String getNextVendorNumber() {
+		String nextVendorNumber = "";
+		try {
+
+			nextVendorNumber = new FinanceTool().getVendorManager()
+					.getNextVendorNumber(getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return nextVendorNumber;
 	}
 
 }

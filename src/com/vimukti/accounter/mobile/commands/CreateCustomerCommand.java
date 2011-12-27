@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.vimukti.accounter.core.CreditRating;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerGroup;
 import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
@@ -48,6 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreateCustomerCommand extends AbstractCommand {
 
@@ -130,6 +132,19 @@ public class CreateCustomerCommand extends AbstractCommand {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
+			}
+
+			@Override
+			public void setValue(Object value) {
+				String objectExist = CreateCustomerCommand.this
+						.objectExist((String) value);
+				if (objectExist != null) {
+					setEnterString(objectExist);
+					return;
+				}
+				setEnterString(getMessages()
+						.pleaseEnter(getMessages().number()));
+				super.setValue(value);
 			}
 		});
 
@@ -473,6 +488,10 @@ public class CreateCustomerCommand extends AbstractCommand {
 	}
 
 	protected boolean isCustomerExists(String value) {
+		if (this.customer.getID() != 0
+				&& this.customer.getName().equalsIgnoreCase(value)) {
+			return false;
+		}
 		return CommandUtils.isCustomerExistsWithSameName(getCompany()
 				.getCustomers(), value);
 	}
@@ -604,6 +623,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(NUMBER).setValue(getNextCustomerNumber());
 		get(ACTIVE).setValue(true);
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
@@ -612,6 +632,20 @@ public class CreateCustomerCommand extends AbstractCommand {
 		get(CURRENCY).setValue(
 				getServerObject(Currency.class, getPreferences()
 						.getPrimaryCurrency().getID()));
+	}
+
+	private String getNextCustomerNumber() {
+		String nextCustomerNumber = "";
+		try {
+
+			nextCustomerNumber = new FinanceTool().getCustomerManager()
+					.getNextCustomerNumber(getCompanyId());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return nextCustomerNumber;
 	}
 
 	@Override
@@ -727,6 +761,55 @@ public class CreateCustomerCommand extends AbstractCommand {
 		get(PRICE_LEVEL).setValue(
 				CommandUtils.getServerObjectById(customer.getPriceLevel(),
 						AccounterCoreType.PRICE_LEVEL));
+	}
+
+	public String objectExist(String customerNumber) {
+		String error = null;
+		String customerName = get(CUSTOMER_NAME).getValue();
+		Set<Customer> list = getCompany().getCustomers();
+		if (list == null || list.isEmpty())
+			return null;
+		for (Customer old : list) {
+			if (old.getID() == customer.getID()) {
+				continue;
+			}
+			if (customerNumber.equals(old.getNumber())) {
+				for (Customer old2 : list) {
+					if (customerName.equalsIgnoreCase(old2.getName())) {
+						error = getMessages().objAlreadyExistsWithNameAndNo(
+								Global.get().customer());
+						break;
+					}
+				}
+				return getMessages().objAlreadyExistsWithNumber(
+						Global.get().customer());
+			} else if (customerNumber == null
+					|| customerNumber.trim().length() == 0) {
+				error = getMessages()
+						.pleaseEnterVendorNumberItShouldNotBeEmpty(
+								Global.get().Customer());
+				break;
+			} else if (checkIfNotNumber(customerNumber)) {
+				error = getMessages().payeeNumberShouldBeNumber(
+						Global.get().customer());
+				break;
+			} else if (Integer.parseInt(customerNumber.toString()) < 1) {
+				error = getMessages().payeeNumberShouldBePos(
+						Global.get().customer());
+				break;
+			}
+		}
+		return error;
+	}
+
+	public boolean checkIfNotNumber(String in) {
+		try {
+			Integer.parseInt(in);
+
+		} catch (NumberFormatException ex) {
+			return true;
+		}
+		return false;
 	}
 
 }
