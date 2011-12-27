@@ -56,6 +56,7 @@ public class Company implements IAccounterServerCore {
 
 	String companyEmail;
 
+	private String encryptionKey;
 	// don't know the purpose
 
 	String companyEmailForCustomers;
@@ -1506,4 +1507,11 @@ public class Company implements IAccounterServerCore {
 		this.chequeLayouts = chequeLayouts;
 	}
 
+	public String getEncryptionKey() {
+		return encryptionKey;
+	}
+
+	public void setEncryptionKey(String encryptionKey) {
+		this.encryptionKey = encryptionKey;
+	}
 }
