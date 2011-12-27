@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -104,15 +102,13 @@ public class ClientCompany implements IAccounterCore {
 
 	String sortCode;
 
-	AccounterMessages messages = Global.get().messages();
-	
-	String serviceItemDefaultIncomeAccount = messages.cashDiscountGiven();
+	String serviceItemDefaultIncomeAccount = "Cash Discount Given";
 
-	String serviceItemDefaultExpenseAccount = messages.productsMaterialsPurchasedTypeA();
+	String serviceItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
-	String nonInventoryItemDefaultIncomeAccount = messages.cashDiscountGiven();
+	String nonInventoryItemDefaultIncomeAccount = "Cash Discount Given";
 
-	String nonInventoryItemDefaultExpenseAccount = messages.productsMaterialsPurchasedTypeA();
+	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 

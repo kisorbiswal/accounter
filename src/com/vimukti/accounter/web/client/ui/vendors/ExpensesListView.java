@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -94,8 +95,8 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		listOfTypes.add(messages().creditCard());
 
 		// This should be added when user select to track employee expenses.
-		if (ClientCompanyPreferences.get().isHaveEpmloyees()
-				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+		if (Global.get().preferences().isHaveEpmloyees()
+				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			listOfTypes.add(messages().employee());
 		}
 		listOfTypes.add(messages().voided());

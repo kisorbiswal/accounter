@@ -9,7 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -35,8 +35,8 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 		String[] statusArray;
-		if (ClientCompanyPreferences.get().isHaveEpmloyees()
-				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+		if (Global.get().preferences().isHaveEpmloyees()
+				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			statusArray = new String[] { Accounter.messages().allExpenses(),
 					Accounter.messages().cash(),
 					Accounter.messages().creditCard(),

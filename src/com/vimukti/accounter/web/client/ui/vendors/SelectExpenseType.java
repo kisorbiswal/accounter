@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -39,8 +40,8 @@ public class SelectExpenseType extends BaseDialog {
 		mainPanel.setSpacing(3);
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
-		if (ClientCompanyPreferences.get().isHaveEpmloyees()
-				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+		if (Global.get().preferences().isHaveEpmloyees()
+				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			typeRadio.setValue(EMPLOYEE, CREDIT_CARD, CASH);
 		} else {
 			typeRadio.setValue(CREDIT_CARD, CASH);

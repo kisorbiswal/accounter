@@ -110,7 +110,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	public QuoteView(ClientCustomer customer) {
 		super(ClientTransaction.TYPE_ESTIMATE);
-		locationTrackingEnabled = ClientCompanyPreferences.get()
+		locationTrackingEnabled = Global.get().preferences()
 				.isLocationTrackingEnabled();
 	}
 

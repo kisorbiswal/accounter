@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -70,7 +71,7 @@ public class JournalEntryView extends
 
 	public JournalEntryView() {
 		super(ClientTransaction.TYPE_JOURNAL_ENTRY);
-		locationTrackingEnabled = ClientCompanyPreferences.get()
+		locationTrackingEnabled = Global.get().preferences()
 				.isLocationTrackingEnabled();
 	}
 	@Override

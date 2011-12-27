@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -147,8 +148,8 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		fTable.setWidget(3, 1, ccExpAmtLabel);
 
 		// These should be enabled when user select to track employee expenses.
-		if (ClientCompanyPreferences.get().isHaveEpmloyees()
-				&& ClientCompanyPreferences.get().isTrackEmployeeExpenses()) {
+		if (Global.get().preferences().isHaveEpmloyees()
+				&& Global.get().preferences().isTrackEmployeeExpenses()) {
 			fTable.setWidget(2, 0, empExpLabel);
 			fTable.setWidget(3, 0, empExpAmtLabel);
 		}

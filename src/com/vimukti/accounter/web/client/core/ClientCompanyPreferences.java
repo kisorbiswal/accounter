@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.web.client.Global;
 
 public class ClientCompanyPreferences implements IAccounterCore {
 
@@ -22,7 +21,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long HAVE_W2_EMPLOYEES = 0x20L;
 
-	private static final long HAVE_1099_CONTRACTORS = 0x40L;
+	private static final long HAVE_1099_CONTRACTORS = 0x40L; 
 
 	private static final long TRACK_EMPLOYEE_EXPENSES = 0x80L;
 
@@ -133,8 +132,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x40000000000000L;
-
-	private static ClientCompanyPreferences preferences;
 
 	private String dateFormat;
 
@@ -731,12 +728,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 
-	public static ClientCompanyPreferences get() {
-		if (preferences == null) {
-			preferences = Global.get().preferences();
-		}
-		return preferences;
-	}
 
 	/**
 	 * 
