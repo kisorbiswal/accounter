@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti36
@@ -47,7 +48,7 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return " AutoRecall";
+		return Accounter.messages().AutoRecall();
 	}
 
 	@Override

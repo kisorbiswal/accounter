@@ -37,9 +37,9 @@ public class CashOrAccuralAccountingSummaryOption extends
 	public void createControls() {
 		accountingMethodForSummaryLabel.setText(Accounter.messages()
 				.getDefaultAccountingMethodForSummary());
-		cashRadioButton.setName("cash-or-accural");
+		cashRadioButton.setName(Accounter.messages().cashoraccural());
 		cashRadioButton.setHTML(Accounter.messages().cash());
-		accuralRadioButton.setName("cash-or-accural");
+		accuralRadioButton.setName(Accounter.messages().cashoraccural());
 		accuralRadioButton.setHTML(Accounter.messages().accrual());
 	}
 

@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TrackEstimatesOption extends AbstractPreferenceOption {
 
@@ -54,7 +55,7 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		trackEstimateHeader.setText(messages.trackingEstimates());
 		yesRadioButton.setText(messages.yes());
 		noRadioButton.setText(messages.no());
-		useDelayedCharges.setText("Use Delayed Charges");
+		useDelayedCharges.setText(Accounter.messages().delayedCharges());
 		useDelayedCharges.setStyleName("bold");
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
 

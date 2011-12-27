@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class DoyouUseOption extends AbstractPreferenceOption {
 
@@ -31,7 +32,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		doYouLabelItem.setText("Numbers");
+		doYouLabelItem.setText(Accounter.messages().Numbers());
 		useCustomerNo.setText(messages.usePayeeId(Global.get().customer()));
 		useVendorNo.setText(messages.usePayeeId(Global.get().vendor()));
 		useAccountNo.setText(messages.useAccountNos());
@@ -39,7 +40,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Numbers";
+		return Accounter.messages().Numbers();
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Numbers";
+		return Accounter.messages().Numbers();
 	}
 
 	@Override

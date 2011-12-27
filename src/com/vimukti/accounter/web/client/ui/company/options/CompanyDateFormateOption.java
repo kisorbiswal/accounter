@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
@@ -40,7 +41,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Date Format";
+		return Accounter.messages().DateFormat();
 	}
 
 	@Override
@@ -53,15 +54,15 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Date Format";
+		return Accounter.messages().DateFormat();
 	}
 
 	@Override
 	public void createControls() {
 
-		comboBoxLabel.setText("Date Format");
+		comboBoxLabel.setText(Accounter.messages().DateFormat());
 
-		dateFormateDescriptionlabel.setText("Date Formats");
+		dateFormateDescriptionlabel.setText(Accounter.messages().DateFormats());
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");
 		dateFormates = new String[] { "ddMMyy", "MM/dd/yy", "dd/MM/yy",
 				"ddMMyyyy", "MMddyyyy", "MMM-dd-yy", "MMMddyyyy", "dd/MM/yyyy",
@@ -112,63 +113,63 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	private void getExampleDateFormat(int i) {
 		switch (i) {
 		case 0:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("ddMMyy"));
 			break;
 		case 1:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MM/dd/yy"));
 			break;
 		case 2:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("dd/MM/yy"));
 			break;
 		case 3:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("ddMMyyyy"));
 			break;
 		case 4:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MMddyyyy"));
 			break;
 		case 5:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MMM-dd-yy"));
 			break;
 		case 6:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MMMddyyyy"));
 			break;
 		case 7:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("dd/MM/yyyy"));
 			break;
 		case 8:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MM/dd/yyyy"));
 			break;
 		case 9:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("dd/MMMM/yyyy"));
 			break;
 		case 10:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MMMMddyyyy"));
 			break;
 		case 11:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("dd-MM-yyyy"));
 			break;
 		case 12:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MM-dd-yyyy"));
 			break;
 		case 13:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("dd/MMM/yyyy"));
 			break;
 		case 14:
-			exampleDateFomateLabel.setText("  *Example   : "
+			exampleDateFomateLabel.setText(Accounter.messages().Example()
 					+ DateUtills.getCurrentDateAsString("MMM/dd/yyyy"));
 			break;
 		}

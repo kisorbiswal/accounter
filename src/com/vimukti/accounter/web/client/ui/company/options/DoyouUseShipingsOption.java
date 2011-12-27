@@ -6,6 +6,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
@@ -29,7 +30,7 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Do you do shipping";
+		return Accounter.messages().Doyoudoshipping();
 	}
 
 	@Override
@@ -40,15 +41,15 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return "Do you do shipping";
+		return Accounter.messages().Doyoudoshipping();
 	}
 
 	@Override
 	public void createControls() {
 		shippingmedescritionLabel
-				.setText("This option can be used to enable  Shipping Terms ,Shipping Method and Shipping Address related to customer and vendor(supplier) transactions");
+				.setText(Accounter.messages().Thisoptioncanbeusedtoenable());
 		shippingmedescritionLabel.setStyleName("organisation_comment");
-		useShipMethods.setText("Do you do shipping");
+		useShipMethods.setText(Accounter.messages().Doyoudoshipping());
 		useShipMethods.setStyleName("bold");
 	}
 

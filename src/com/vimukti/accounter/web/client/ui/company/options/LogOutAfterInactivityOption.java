@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti36
@@ -42,9 +43,9 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 
 	public void createControls() {
 		signoutAfterInactivity.setTitle(messages.signoutafterInactivity());
-		signoutAfterInactivity.addItem("1 Hour");
-		signoutAfterInactivity.addItem("2 Hour");
-		signoutAfterInactivity.addItem("3 Hour");
+		signoutAfterInactivity.addItem(messages.HourNumber(1));
+		signoutAfterInactivity.addItem(messages.HourNumber(2));
+		signoutAfterInactivity.addItem(messages.HourNumber(3));
 		signoutAfterInactivity.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -62,7 +63,7 @@ public class LogOutAfterInactivityOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Log Out After Inactivity ";
+		return Accounter.messages().LogOutAfterInactivity();
 	}
 
 	@Override

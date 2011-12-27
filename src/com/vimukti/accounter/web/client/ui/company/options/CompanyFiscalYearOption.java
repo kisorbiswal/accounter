@@ -81,7 +81,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return "Fiscal & Tax Year";
+		return Accounter.messages().FiscalTaxYear();
 	}
 
 	@Override
