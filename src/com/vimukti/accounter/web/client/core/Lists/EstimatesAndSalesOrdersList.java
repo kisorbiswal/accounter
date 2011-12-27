@@ -167,11 +167,6 @@ public class EstimatesAndSalesOrdersList implements IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public void setEstimateType(int estimateType) {
 		this.estimateType = estimateType;

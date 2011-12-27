@@ -530,14 +530,6 @@ public class GraphPoints implements IAccounterCore {
 		this.thirtythPoint = thirtythPoint;
 	}
 
-	/**
-	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
-	 */
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
-
 	@Override
 	public String getDisplayName() {
 		return Accounter.getCompany().getDisplayName();

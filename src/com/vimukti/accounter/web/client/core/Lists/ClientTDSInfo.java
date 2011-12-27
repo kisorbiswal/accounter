@@ -111,10 +111,5 @@ public class ClientTDSInfo implements Serializable, IAccounterCore {
 		return 0;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

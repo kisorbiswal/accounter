@@ -215,10 +215,6 @@ public class PayeeList implements IAccounterCore {
 		this.yearToDate = yearToDate;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-		return null;
-	}
 
 	@Override
 	public String getDisplayName() {
