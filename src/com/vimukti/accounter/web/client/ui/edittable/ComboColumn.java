@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class ComboColumn<T, C extends IAccounterCore> extends
 		EditColumn<T> {
@@ -38,10 +39,10 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 			@Override
 			public void onAddNew(final String text) {
 				NewItemDialog dialog = new NewItemDialog(
-						"Add new",
-						"The name you entered '"
+						Accounter.messages().addNew(""),
+						Accounter.messages().Thenameyouentered()
 								+ text
-								+ "' does not exists , Do you want to create it now ?") {
+								+ Accounter.messages().doesnotexistsDoyouwanttocreateitnow()) {
 					@Override
 					protected boolean onOK() {
 						displayTable.addNewItem(text);

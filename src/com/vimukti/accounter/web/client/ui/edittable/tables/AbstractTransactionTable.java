@@ -222,14 +222,14 @@ public abstract class AbstractTransactionTable extends
 			}
 			if (transactionItem.getAccountable() == null) {
 				result.addError(
-						"GridItem-" + transactionItem.getType(),
+						Accounter.messages().GridItem() + transactionItem.getType(),
 						Accounter.messages().pleaseSelect(
 								Utility.getItemType(transactionItem.getType())));
 			}
 			if (enableTax && showTaxCode) {
 				if (transactionItem.getTaxCode() == 0) {
 					result.addError(
-							"GridItemUK-" + transactionItem.getAccount(),
+							Accounter.messages().GridItemUK() + transactionItem.getAccount(),
 							Accounter.messages().pleaseSelect(
 									Accounter.messages().taxCode()));
 				}
@@ -238,7 +238,7 @@ public abstract class AbstractTransactionTable extends
 
 			if (transactionItem.isBillable()) {
 				if (transactionItem.getCustomer() == 0) {
-					result.addError("Customer",
+					result.addError(Accounter.messages().Customer(),
 							messages.mustSelectCustomerForBillable());
 				}
 				switch (transactionItem.getType()) {
@@ -247,11 +247,12 @@ public abstract class AbstractTransactionTable extends
 						ClientItem item = getCompany().getItem(
 								transactionItem.getItem());
 						if (!item.isIBuyThisItem || !item.isISellThisItem) {
-							result.addError("Item", messages
+							result.addError(Accounter.messages().item(), messages
 									.onlySellableItemsCanBeMarkedAsBillable());
 						}
 					} else {
-						result.addError("Item", messages.pleaseSelect(messages
+						result.addError(Accounter.messages().item(),
+								messages.pleaseSelect(messages
 								.transactionItem()));
 					}
 					break;

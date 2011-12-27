@@ -259,7 +259,7 @@ public abstract class MakeDepositTransactionTable extends
 		}
 		if (DecimalUtil.isLessThan(totallinetotal, 0.0)) {
 			// FIXME
-			result.addError("GridTotalLineTotal",
+			result.addError(Accounter.messages().GridTotalLineTotal(),
 					messages.invalidTransactionAmount());
 		}
 		return result;
