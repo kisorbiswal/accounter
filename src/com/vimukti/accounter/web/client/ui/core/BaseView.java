@@ -8,6 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -312,7 +313,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public List<String> getFinancialYearList() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("Select");
-		for (int i = 1990; i < 2020; i++) {
+		
+		ClientFinanceDate date = new ClientFinanceDate();
+		int year = date.getYear();
+		for (int i = year-10; i < year+10; i++) {
 			list.add(Integer.toString(i) + "-" + Integer.toString(i + 1));
 		}
 		return list;

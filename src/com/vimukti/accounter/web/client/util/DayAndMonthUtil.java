@@ -1,11 +1,11 @@
 package com.vimukti.accounter.web.client.util;
 
 import com.google.gwt.i18n.client.DateTimeFormatInfo;
-import com.google.gwt.i18n.client.LocaleInfo;
+import com.vimukti.accounter.web.client.Global;
 
 public class DayAndMonthUtil {
-	private static final DateTimeFormatInfo a = LocaleInfo.getCurrentLocale()
-			.getDateTimeFormatInfo();
+	private static final DateTimeFormatInfo a = Global.get()
+			.createDateTimeFormatInfo();
 	private static String[] weekdaysFull = a.weekdaysFull();
 	private static String[] weekdaysShort = a.weekdaysShort();
 	private static String[] monthNameFull = a.monthsFull();
@@ -492,7 +492,8 @@ public class DayAndMonthUtil {
 	}
 
 	/**
-	 * @param may_short the may_short to set
+	 * @param may_short
+	 *            the may_short to set
 	 */
 	public static void setMay_short(String may_short) {
 		DayAndMonthUtil.may_short = may_short;

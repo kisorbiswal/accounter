@@ -171,7 +171,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			data = new FinanceTool().getCustomerManager().getEstimates(
 					context.getCompany().getID(), estimateType,
 					new FinanceDate(getStartDate()),
-					new FinanceDate(getEndDate()));
+					new FinanceDate(getEndDate()), 0, 0);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

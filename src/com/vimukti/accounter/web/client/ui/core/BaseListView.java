@@ -167,6 +167,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 							}
 						});
+
 			}
 		} else {
 			if (viewSelect == null) {
@@ -186,7 +187,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 								if (viewSelect.getSelectedValue() != null) {
 									if (viewSelect.getSelectedValue()
 											.toString()
-											.equalsIgnoreCase(Accounter.messages().active()))
+											.equalsIgnoreCase("Active"))
 										filterList(true);
 									else
 										filterList(false);
@@ -558,15 +559,20 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
 
-				if (result.size() > 1) {
-					ClientBudget budget = (ClientBudget) result.get(0);
-					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-					budgetItems = budget.getBudgetItem();
-					grid.setRecords(budgetItems);
-				} else {
-					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-					grid.setRecords(budgetItems);
+				// if (result.size() > 1) {
+				ClientBudget budget = (ClientBudget) result.get(0);
+				List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
+				budgetItems = budget.getBudgetItem();
+				for (ClientBudgetItem budgetItem : budgetItems) {
+					budgetItem.setAccountsName(budgetItem.getAccount()
+							.getName());
 				}
+				grid.setRecords(budgetItems);
+				// } else {
+				// List<ClientBudgetItem> budgetItems = new
+				// ArrayList<ClientBudgetItem>();
+				// grid.setRecords(budgetItems);
+				// }
 
 			} else if (this instanceof CustomerListView
 					|| this instanceof VendorListView
