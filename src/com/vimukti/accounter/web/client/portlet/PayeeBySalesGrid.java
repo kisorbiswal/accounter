@@ -23,10 +23,14 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 
 	@Override
 	protected int getColumnType(int index) {
-		if (index == 0) {
-			return ListGrid.COLUMN_TYPE_TEXT;
+		if (portletType != TopPayeesBySalesPortlet.ITEM_PORTLET) {
+			if (index == 0) {
+				return ListGrid.COLUMN_TYPE_TEXT;
+			} else {
+				return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			}
 		} else {
-			return ListGrid.COLUMN_TYPE_DECIMAL_TEXT;
+			return ListGrid.COLUMN_TYPE_TEXT;
 		}
 	}
 
