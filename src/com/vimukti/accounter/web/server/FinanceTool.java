@@ -383,7 +383,6 @@ public class FinanceTool {
 			return serverObject.getID();
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
-			e.printStackTrace();
 			hibernateTransaction.rollback();
 			if (e instanceof AccounterException) {
 				throw (AccounterException) e;
@@ -464,7 +463,7 @@ public class FinanceTool {
 					if (!((Transaction) serverObject).getReconciliationItems()
 							.isEmpty()) {
 						throw new AccounterException(
-								AccounterException.ERROR_OBJECT_IN_USE);
+								AccounterException.ERROR_TRANSACTION_RECONCILIED);
 					}
 				}
 				if (canDelete(serverClass.getSimpleName(),
