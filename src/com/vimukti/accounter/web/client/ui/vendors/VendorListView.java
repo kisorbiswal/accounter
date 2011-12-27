@@ -173,6 +173,11 @@ public class VendorListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
+	protected int getPageSize() {
+		return 10;
+	}
+
+	@Override
 	public void restoreView(Map<String, Object> viewDate) {
 
 		if (viewDate == null || viewDate.isEmpty()) {
