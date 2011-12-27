@@ -199,7 +199,7 @@ public abstract class Transaction extends CreatableObject implements
 	double totalTaxableAmount;
 	double totalNonTaxableAmount;
 
-	private Set<ReconciliationItem> reconciliationItems;
+	private Set<ReconciliationItem> reconciliationItems = new HashSet<ReconciliationItem>();
 
 	// Last Activity
 	@Exempted
@@ -1030,6 +1030,13 @@ public abstract class Transaction extends CreatableObject implements
 		addVoidHistory();
 		cleanTransactionitems(clonedObject);
 		deleteCreatedEntries(clonedObject);
+		updateTAxReturnEntries();
+	}
+
+	private void updateTAxReturnEntries() {
+		Session session = HibernateUtil.getCurrentSession();
+		session.getNamedQuery("update.TaxReturnEntry.make.Transaction.null")
+				.setLong("transactionId", getID()).executeUpdate();
 	}
 
 	protected void voidTransactionItems() {
@@ -1222,6 +1229,11 @@ public abstract class Transaction extends CreatableObject implements
 		Transaction transaction = (Transaction) clientObject;
 		checkForReconciliation(transaction);
 		checkNullValues();
+		if (isVoid() && !getReconciliationItems().isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TRANSACTION_RECONCILIED);
+		}
+
 		return true;
 	}
 
