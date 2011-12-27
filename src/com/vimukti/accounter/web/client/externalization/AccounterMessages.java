@@ -1716,6 +1716,8 @@ public interface AccounterMessages extends Messages {
 	public String gotoBanking();
 
 	public String goToExpenseCliams();
+	
+	public String gotoRecurringTransactionsList();
 
 	// public String grassAmount();
 
@@ -2033,6 +2035,8 @@ public interface AccounterMessages extends Messages {
 	public String journalView();
 
 	public String kenya();
+	
+	public String keepWorkingOnThisTransaction();
 
 	// public String keyFinancialIndicators();
 
@@ -3491,6 +3495,8 @@ public interface AccounterMessages extends Messages {
 	public String selectToDelete();
 
 	public String selectTransaction();
+	
+	public String selectTransactionType();
 
 	public String selectTypeOfThis(String transactionName);
 
@@ -3941,6 +3947,8 @@ public interface AccounterMessages extends Messages {
 	public String toBePrinted();
 
 	public String toCloseBooksOrFascalYear();
+	
+	public String toCreate();
 
 	public String toDate();
 
@@ -4444,6 +4452,8 @@ public interface AccounterMessages extends Messages {
 	public String youHaveEnteredWrongPassword();
 
 	public String yourPresentPasswordisWrong();
+	
+	public String youSuccessfullyCreatedRecurringTemplate();
 
 	public String yourTitle();
 
@@ -5121,6 +5131,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseenteryourpassword();
 
+	public String pleaseConfirm();
+	
 	public String pleaseconfirmyourpassword();
 
 	public String use3to60characters();
