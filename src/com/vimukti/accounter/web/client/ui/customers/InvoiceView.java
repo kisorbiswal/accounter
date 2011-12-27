@@ -1320,7 +1320,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			// }
 
 		}
-		transaction.setTotal(transactionTotalBaseCurrencyText.getAmount());
+		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		// transaction.setBalanceDue(getBalanceDue());
 		transaction.setPayments(getPayments());
