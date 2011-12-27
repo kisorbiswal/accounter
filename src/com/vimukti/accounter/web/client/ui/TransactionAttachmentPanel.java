@@ -32,6 +32,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	private List<ClientAttachment> attachments = new ArrayList<ClientAttachment>();
 	FormPanel uploadForm;
 	private Anchor browseFileAnchor;
+	private Button uploadButton;
 
 	public TransactionAttachmentPanel() {
 		createControls();
@@ -54,7 +55,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		final FileUpload uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
-		browseFileAnchor = new Anchor(Accounter.messages().uploadAttachment());
+		browseFileAnchor = new Anchor(Accounter.messages().uploadAttachment());//Choose File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
 		uploadFile.setName(createID());
@@ -65,6 +66,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				isFileSelected = true;
 				String filename = uploadFile.getFilename();
 				browseFileAnchor.setText(filename);
+				//Show button
 			}
 		});
 		hPanel.add(uploadFile);
@@ -100,8 +102,10 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				attachment.setAttachmentId(split[0]);
 				attachment.setName(text);
 				attachment.setSize(Long.parseLong(split[1]));
+				
 				browseFileAnchor.setText(Accounter.messages()
-						.uploadAttachment());
+						.uploadAttachment());//Choose File
+				//Hide that button
 				attachmentTable.add(getAttachmentField(attachment));
 				attachments.add(attachment);
 				saveAttachment(attachment);
@@ -119,7 +123,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 		uploadForm.add(hPanel);
 
-		Button uploadButton = new Button(Accounter.messages().upload());
+		uploadButton = new Button(Accounter.messages().upload());
 		uploadButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -127,8 +131,6 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				if (isFileSelected) {
 					isFileSelected = false;
 					uploadForm.submit();
-				} else {
-					// TODO Ask user to select a file.
 				}
 			}
 		});
@@ -154,6 +156,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			}
 		});
 
+		//TODO
 		Label attachmentSizeLabel = new Label(" (" + attachment.getSize()
 				+ " )");
 
