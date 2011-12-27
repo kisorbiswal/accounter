@@ -68,7 +68,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog("New Customer");
+		QuickAddDialog dialog = new QuickAddDialog(Accounter.messages().NewCustomer());
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this));
 		dialog.show();

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.AddNewContactDialog;
 
 public class ContactCombo extends CustomCombo<ClientContact> {
@@ -24,7 +25,7 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	@Override
 	public void onAddNew() {
 		AddNewContactDialog addNewContactDialog = new AddNewContactDialog(
-				"Contact", " ");
+				Accounter.messages().contact(), " ");
 		addNewContactDialog.addSuccessCallback(newContactHandler);
 	}
 

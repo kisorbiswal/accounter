@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
 
+import com.vimukti.accounter.web.client.ui.Accounter;
+
 /**
  * this class is used to display all the templetes in a specified directory.
  * 
@@ -21,10 +23,10 @@ public class TemplateCombo extends CustomCombo {
 
 	public ArrayList<String> getTempletes() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("Classic Template");
-		list.add("Modern Template");
-		list.add("Plain Template");
-		list.add("Professional Template");
+		list.add(Accounter.messages().classicTemplate());
+		list.add(Accounter.messages().ModernTemplate());
+		list.add(Accounter.messages().PlainTemplate());
+		list.add(Accounter.messages().ProfessionalTemplate());
 
 		// File dir = new File("../templetes");
 		//
@@ -65,7 +67,7 @@ public class TemplateCombo extends CustomCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return "Template";
+		return Accounter.messages().Template();
 	}
 
 	@Override
