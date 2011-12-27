@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.BudgetCellTable;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
@@ -45,22 +47,6 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	public static final String SUBDIVIDE_BUSINESS = "Business";
 	public static final String SUBDIVIDE_CLASS = "Class";
 	public static final String SUBDIVIDE_CUSTOMER = "Customer";
-
-	public static final String FISCAL_YEAR_1 = "FY2010 (Jan2010 - Dec2010)";
-	public static final String FISCAL_YEAR_2 = "FY2011 (Jan2011 - Dec2011)";
-	public static final String FISCAL_YEAR_3 = "FY2012 (Jan2012 - Dec2012)";
-	public static final String FISCAL_YEAR_4 = "FY2013 (Jan2013 - Dec2013)";
-	public static final String FISCAL_YEAR_5 = "FY2014 (Jan2014 - Dec2014)";
-	public static final String FISCAL_YEAR_6 = "FY2015 (Jan2015 - Dec2015)";
-	public static final String FISCAL_YEAR_7 = "FY2016 (Jan2016 - Dec2016)";
-	public static final String FISCAL_YEAR_8 = "FY2017 (Jan2017 - Dec2017)";
-	public static final String FISCAL_YEAR_9 = "FY2018 (Jan2018 - Dec2018)";
-	public static final String FISCAL_YEAR_10 = "FY2018 (Jan2018 - Dec2019)";
-	public static final String FISCAL_YEAR_11 = "FY2018 (Jan2018 - Dec2020)";
-	public static final String FISCAL_YEAR_12 = "FY2018 (Jan2018 - Dec2021)";
-	public static final String FISCAL_YEAR_13 = "FY2018 (Jan2018 - Dec2022)";
-	public static final String FISCAL_YEAR_14 = "FY2018 (Jan2018 - Dec2023)";
-	public static final String FISCAL_YEAR_15 = "FY2018 (Jan2018 - Dec2024)";
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;
@@ -175,7 +161,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 				.budgetFinancialYear());
 		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
-		selectFinancialYear.setSelected(FISCAL_YEAR_3);
+		// selectFinancialYear.setSelected(FISCAL_YEAR_3);
 		selectFinancialYear.setRequired(true);
 		selectFinancialYear
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -274,23 +260,76 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	private List<String> getFiscalYearList() {
 		List<String> list = new ArrayList<String>();
+		String startingMonth = null;
+		String endingMonth = null;
 
-		list.add(FISCAL_YEAR_1);
-		list.add(FISCAL_YEAR_2);
-		list.add(FISCAL_YEAR_3);
-		list.add(FISCAL_YEAR_4);
-		list.add(FISCAL_YEAR_5);
-		list.add(FISCAL_YEAR_6);
-		list.add(FISCAL_YEAR_7);
-		list.add(FISCAL_YEAR_8);
-		list.add(FISCAL_YEAR_9);
-		list.add(FISCAL_YEAR_10);
-		list.add(FISCAL_YEAR_11);
-		list.add(FISCAL_YEAR_12);
-		list.add(FISCAL_YEAR_13);
-		list.add(FISCAL_YEAR_14);
-		list.add(FISCAL_YEAR_15);
+		switch (getCompany().getPreferences().getFiscalYearFirstMonth() + 1) {
+		case 1:
+			startingMonth = DayAndMonthUtil.jan();
+			endingMonth = DayAndMonthUtil.dec();
+			break;
+		case 2:
+			startingMonth = DayAndMonthUtil.feb();
+			endingMonth = DayAndMonthUtil.jan();
+			break;
+		case 3:
+			startingMonth = DayAndMonthUtil.mar();
+			endingMonth = DayAndMonthUtil.feb();
+			break;
+		case 4:
+			startingMonth = DayAndMonthUtil.apr();
+			endingMonth = DayAndMonthUtil.mar();
+			break;
+		case 5:
+			startingMonth = DayAndMonthUtil.mayS();
+			endingMonth = DayAndMonthUtil.apr();
+			break;
+		case 6:
+			startingMonth = DayAndMonthUtil.jun();
+			endingMonth = DayAndMonthUtil.mayS();
+			break;
+		case 7:
+			startingMonth = DayAndMonthUtil.jul();
+			endingMonth = DayAndMonthUtil.jun();
+			break;
+		case 8:
+			startingMonth = DayAndMonthUtil.aug();
+			endingMonth = DayAndMonthUtil.jul();
+			break;
+		case 9:
+			startingMonth = DayAndMonthUtil.sep();
+			endingMonth = DayAndMonthUtil.aug();
+			break;
+		case 10:
+			startingMonth = DayAndMonthUtil.oct();
+			endingMonth = DayAndMonthUtil.sep();
+			break;
+		case 11:
+			startingMonth = DayAndMonthUtil.nov();
+			endingMonth = DayAndMonthUtil.oct();
+			break;
+		case 12:
+			startingMonth = DayAndMonthUtil.dec();
+			endingMonth = DayAndMonthUtil.nov();
+			break;
 
+		default:
+			startingMonth = DayAndMonthUtil.jan();
+			endingMonth = DayAndMonthUtil.dec();
+			break;
+		}
+
+		String finalString;
+
+		ClientFinanceDate date = new ClientFinanceDate();
+		int year = date.getYear();
+
+		for (long i = year - 10; i < year + 10; i++) {
+			finalString = "FY" + Long.toString(i) + "(" + startingMonth
+					+ Long.toString(i) + " - " + endingMonth + Long.toString(i)
+					+ ")";
+			list.add(finalString);
+		}
 		return list;
 	}
 
