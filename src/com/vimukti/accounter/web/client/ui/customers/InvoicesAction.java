@@ -79,9 +79,9 @@ public class InvoicesAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		if (viewType == null) {
-			return "invoices";
+			return Accounter.messages().invoices();
 		} else if (viewType.equals(messages.overDue())) {
-			return "overDueInvoices";
+			return Accounter.messages().overDueInvoicestext() ;
 		}
 		return "";
 	}

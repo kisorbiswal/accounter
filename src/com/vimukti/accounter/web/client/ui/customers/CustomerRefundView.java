@@ -659,7 +659,7 @@ public class CustomerRefundView extends
 		paymentMethodCombo.setDisabled(isInViewMode());
 		paymentMethodSelected(transaction.getPaymentMethod());
 
-		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
+		if (printCheck.getValue().toString().equalsIgnoreCase(Accounter.messages().truetext())) {
 			checkNoText.setValue(Accounter.messages().toBePrinted());
 		}
 		if (locationTrackingEnabled)

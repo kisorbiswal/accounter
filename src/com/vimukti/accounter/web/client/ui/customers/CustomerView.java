@@ -1086,11 +1086,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
 
-		customFieldDialog = new CustomFieldDialog(this, "CustomField",
-				"Manage CustomFields");
+		customFieldDialog = new CustomFieldDialog(this, Accounter.messages().CustomField(),
+				Accounter.messages().ManageCustomFields());
 
 		addCustomFieldButton = new Button();
-		addCustomFieldButton.setText("Manage CustomFields");
+		addCustomFieldButton.setText(Accounter.messages().ManageCustomFields());
 		addCustomFieldButton.setWidth("100%");
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
@@ -1114,7 +1114,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		rightVLay.setWidth("100%");
 		HorizontalPanel customField = new HorizontalPanel();
 		customField.setWidth("100%");
-		Label customLable = new Label("Custom Fields");
+		Label customLable = new Label(Accounter.messages().CustomFieldstext());
 		customField.add(customLable);
 		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);

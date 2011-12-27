@@ -74,7 +74,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 		if (currency.getFormalName().toLowerCase()
 				.contains(primaryCurrencyString.toLowerCase())) {
-			Accounter.showError("You should not delete primary currency");
+			Accounter.showError(Accounter.messages().Youshouldnotdeleteprimarycurrency());
 		} else {
 			return (ClientCurrency) listGridView.getSelection();
 		}

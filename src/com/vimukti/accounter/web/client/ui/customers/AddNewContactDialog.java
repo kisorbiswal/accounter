@@ -88,7 +88,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		ValidationResult result = new ValidationResult();
 
 		if (nameItem.getValue().isEmpty()) {
-			result.addError(nameItem, "Please enter the contact name");
+			result.addError(nameItem, Accounter.messages().Pleaseenterthecontactname());
 		}
 
 		if (emailItem.getValue().length() > 0) {

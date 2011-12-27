@@ -269,7 +269,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new AddressDialog("", "", billToTextArea, "Bill to",
+				new AddressDialog("", "", billToTextArea, Accounter.messages().billTo(),
 						allAddresses);
 
 			}
@@ -279,7 +279,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				new AddressDialog("", "", billToTextArea, "Bill to",
+				new AddressDialog("", "", billToTextArea, Accounter.messages().billTo(),
 						allAddresses);
 
 			}

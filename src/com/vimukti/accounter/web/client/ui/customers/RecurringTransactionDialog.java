@@ -847,9 +847,9 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getActionOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add("Save as draft");
-		options.add("Approve");
-		options.add("Approve and send");
+		options.add(Accounter.messages().Saveasdraft());
+		options.add(Accounter.messages().approve());
+		options.add(Accounter.messages().Approveandsend());
 		return options;
 	}
 

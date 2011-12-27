@@ -151,7 +151,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase("Active")) {
+										.toString().equalsIgnoreCase(Accounter.messages().active())) {
 									onActiveChangedListener();
 								} else {
 									onInActiveChangedlistener();

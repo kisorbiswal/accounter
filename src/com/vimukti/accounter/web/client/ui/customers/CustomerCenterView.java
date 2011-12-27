@@ -147,7 +147,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase("Active")) {
+										.toString().equalsIgnoreCase(Accounter.messages().active())) {
 									onActiveChangedListener();
 								} else {
 									onInActiveChangedlistener();

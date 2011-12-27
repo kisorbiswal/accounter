@@ -121,7 +121,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		form = new DynamicForm();
 		form.setWidth("100%");
 
-		locationName = new TextItem("Add " + Global.get().Location());
+		locationName = new TextItem(Accounter.messages().add() + Global.get().Location());
 		locationName.setHelpInformation(true);
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();
@@ -137,7 +137,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					new AddressDialog("", "", companyAdressTextArea, "Bill to",
+					new AddressDialog("", "", companyAdressTextArea, Accounter.messages().billTo(),
 							allAddresses);
 				}
 			});

@@ -231,7 +231,7 @@ public class CustomerCreditMemoView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel(Accounter.messages().ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -282,7 +282,7 @@ public class CustomerCreditMemoView extends
 		});
 		currencyWidget = createCurrencyFactorWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel(Accounter.messages().ItemizebyProductService());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
