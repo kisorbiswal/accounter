@@ -1149,8 +1149,6 @@ public interface AccounterMessages extends Messages {
 
 	public String depriciationForThe();
 
-	public String depth();
-
 	public String descChrageTrackTax();
 
 	public String description();
@@ -3236,16 +3234,6 @@ public interface AccounterMessages extends Messages {
 
 	public String reportBasisAccrual();
 
-	public String reportGrid();
-
-	public String reportGridcustomFont();
-
-	public String reportGridHeader();
-
-	public String reportGridheaderStyle();
-
-	public String reportGridRow();
-
 	public String reports();
 
 	public String reportsHome();
@@ -4383,8 +4371,6 @@ public interface AccounterMessages extends Messages {
 	public String widgetsAlreadyOnYourHomepageLabel();
 
 	public String widgetsAvailable();
-
-	public String width();
 
 	public String writeCheck();
 
@@ -5659,6 +5645,8 @@ public interface AccounterMessages extends Messages {
 	public String toCreate();
 
 	public String youSuccessfullyCreatedRecurringTemplate();
+
+	public String width();
 
 	public String currencyFormat();
 

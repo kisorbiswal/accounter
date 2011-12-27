@@ -41,7 +41,7 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 			case 0:
 				return obj.getName();
 			case 1:
-				return obj.getQuantity();
+				return String.valueOf(obj.getQuantity());
 
 			default:
 				break;

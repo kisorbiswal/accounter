@@ -64,8 +64,8 @@ public class TopPayeesBySalesPortlet extends Portlet {
 				TopPayeesBySalesPortlet.this.getConfiguration().setPortletMap(
 						portletMap);
 				dateRangeChanged(selectItem);
-				TopPayeesBySalesPortlet.this.updateData(toolBar.getStartDate(),
-						toolBar.getEndDate(), limit);
+				TopPayeesBySalesPortlet.this.updateData(startDate, endDate,
+						limit);
 			}
 
 			@Override

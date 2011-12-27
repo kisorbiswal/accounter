@@ -66,8 +66,8 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 						portletMap);
 				dateRangeChanged(selectItem);
 				YearOverYearPortlet.this.updateData(
-						getDateRangeType(selectItem), toolBar.getStartDate(),
-						toolBar.getEndDate(), accountId);
+						getDateRangeType(selectItem), startDate, endDate,
+						accountId);
 			}
 
 			@Override
