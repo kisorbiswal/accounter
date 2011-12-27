@@ -132,7 +132,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();
 		CompanyEinOption einOption = new CompanyEinOption();
-		CompanyFiscalYearOption fiscalYearOption = new CompanyFiscalYearOption();
+		// CompanyFiscalYearOption fiscalYearOption = new
+		// CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
 		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		CreditsOption creditsOption = new CreditsOption();
