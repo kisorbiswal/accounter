@@ -14,8 +14,6 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 	@Override
 	public void init() {
 		super.init();
-		this.header.getElement().getParentElement().getParentElement()
-				.addClassName("dashboard_grid_header");
 	}
 
 	@Override
@@ -96,9 +94,9 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 
 		switch (index) {
 		case 0:
-			return 15;
+			return 30;
 		case 1:
-			return 70;
+			return 65;
 		case 3:
 			return 70;
 		}
