@@ -25,12 +25,6 @@ public class ClientLanguage implements IAccounterCore {
 	}
 
 	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return null;
