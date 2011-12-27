@@ -62,7 +62,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
-	private final AccounterMessages messages;
+	public static AccounterMessages messages;
 	public int start, length;
 
 	public BaseListView() {
