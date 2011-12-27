@@ -107,7 +107,7 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		ActionFactory.getNewFixedAssetAction().run(obj, true);
+		ActionFactory.getNewFixedAssetAction().run(obj, false);
 	}
 
 	@Override
