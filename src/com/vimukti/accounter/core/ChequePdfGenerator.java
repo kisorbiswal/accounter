@@ -16,10 +16,12 @@ import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.PrintCheque;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class ChequePdfGenerator {
 	private static final int DPI = 72;
 	private static int height = 40;// pixels
+	private static int width = 7;// pixels
 
 	public static String generate(long layoutId, String companyName,
 			List<PrintCheque> printCheques) throws Exception {
@@ -61,14 +63,29 @@ public class ChequePdfGenerator {
 						layout.getPayeeNameLeft(), layout.getPayeeNameTop(),
 						layout.getPayeeNameWidth());
 
+				String numberInWords ="Not implemented"; //Utility.getNumberInWords(printCheque.getAmount());
+				int a = getAmountLineIndex(numberInWords,
+						layout.getAmountWordsLin1Width());
+				String line1 = numberInWords;
+				String line2 = "";
+				if (a > 0) {
+					line1 = numberInWords.substring(0, a);
+					line2 = numberInWords.substring(a, numberInWords.length());
+					int b = getAmountLineIndex(line2,
+							layout.getAmountWordsLin2Width());
+					if (b > 0) {
+						line2 = line2.substring(0, b);
+					}
+				}
+
 				// Amount words line1
-				addString(directContent, topPading, "",
+				addString(directContent, topPading, line1,
 						layout.getAmountWordsLin1Left(),
 						layout.getAmountWordsLin1Top(),
 						layout.getAmountWordsLin1Width());
 
 				// Amount words line2
-				addString(directContent, topPading, "",
+				addString(directContent, topPading, line2,
 						layout.getAmountWordsLin2Left(),
 						layout.getAmountWordsLin2Top(),
 						layout.getAmountWordsLin2Width());
@@ -99,6 +116,22 @@ public class ChequePdfGenerator {
 				topPading -= chequeHieght;
 			}
 		}
+	}
+
+	private static int getAmountLineIndex(String numberInWords,
+			double amountWordsLin1Width) {
+		String line1 = "";
+		float pixel = getPixel((float) amountWordsLin1Width);
+		int firstLine = (int) (pixel / width);
+		String[] split = numberInWords.split(" ");
+		for (int i = 0; i < split.length; i++) {
+			String tryl = line1 + split[i];
+			if (tryl.length() > firstLine) {
+				break;
+			}
+			line1 = tryl + " ";
+		}
+		return line1.length();
 	}
 
 	private static void addString(PdfContentByte directContent, int pageTop,
