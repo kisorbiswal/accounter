@@ -23,7 +23,8 @@ public class ChequeLayoutWidget extends SimplePanel {
 	private Label chequeDateLbl;
 	private Label companyNameLbl;
 	private Label authoritySignatoryLbl;
-
+	private HorizontalPanel topScale;
+	private VerticalPanel vertScale;
 	private AbsolutePanel chequeBody;
 
 	public ChequeLayoutWidget(ClientChequeLayout chequeLayout) {
@@ -85,28 +86,13 @@ public class ChequeLayoutWidget extends SimplePanel {
 		chequeBody.setSize(chequeLayout.getChequeWidth() + "cm",
 				chequeLayout.getChequeHeight() + "cm");
 
-		HorizontalPanel topScale = new HorizontalPanel();
-		for (int i = 1; i < 21; i++) {
-			for (int j = 1; j < 5; j++) {
-				Label label = new Label("|");
-				label.setStyleName("horizontalScale");
-				topScale.add(label);
-			}
-			Label label = new Label(String.valueOf(i));
-			topScale.add(label);
-		}
+		topScale = new HorizontalPanel();
+		addHorizantalScale();
 		topScale.addStyleName("chequeTopScal");
+
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		VerticalPanel vertScale = new VerticalPanel();
-		for (int i = 1; i < 11; i++) {
-			for (int j = 1; j < 5; j++) {
-				Label label = new Label("-");
-				label.setStyleName("vericalScale");
-				vertScale.add(label);
-			}
-			Label label = new Label(String.valueOf(i));
-			vertScale.add(label);
-		}
+		vertScale = new VerticalPanel();
+		addVerticalScale();
 		vertScale.setStyleName("chequeLeftScal");
 		SimplePanel chequeBg = new SimplePanel();
 		chequeBg.add(chequeBody);
@@ -121,6 +107,42 @@ public class ChequeLayoutWidget extends SimplePanel {
 		horizontalPanel.setWidth("100%");
 		this.add(verticalPanel);
 		this.addStyleName("checkpanel");
+	}
+
+	private void addVerticalScale() {
+		vertScale.clear();
+		int chequeWidth = (int) chequeLayout.getChequeHeight();
+		if ((chequeLayout.getChequeHeight() / chequeWidth) != 1) {
+			chequeWidth++;
+		}
+		for (int i = 1; i <= chequeWidth; i++) {
+			for (int j = 1; j < 5; j++) {
+				Label label = new Label("-");
+				label.setStyleName("vericalScale");
+				vertScale.add(label);
+			}
+			Label label = new Label(String.valueOf(i));
+			label.setStyleName("vericalScale");
+			vertScale.add(label);
+		}
+	}
+
+	private void addHorizantalScale() {
+		topScale.clear();
+		int chequeWidth = (int) chequeLayout.getChequeWidth();
+		if ((chequeLayout.getChequeWidth() / chequeWidth) != 1) {
+			chequeWidth++;
+		}
+		for (int i = 1; i <= chequeWidth; i++) {
+			for (int j = 1; j < 5; j++) {
+				Label label = new Label("|");
+				label.setStyleName("horizontalScale");
+				topScale.add(label);
+			}
+			Label label = new Label(String.valueOf(i));
+			label.setStyleName("horizontalScale");
+			topScale.add(label);
+		}
 	}
 
 	private void createParameter(Label label, double top, double left,
@@ -310,11 +332,13 @@ public class ChequeLayoutWidget extends SimplePanel {
 	public void setChequeHeight(double chequeHeight) {
 		chequeLayout.setChequeHeight(chequeHeight);
 		chequeBody.setHeight(chequeHeight + "cm");
+		addVerticalScale();
 	}
 
 	public void setChequeWidth(double chequeWidth) {
 		chequeLayout.setChequeWidth(chequeWidth);
 		chequeBody.setWidth(chequeWidth + "cm");
+		addHorizantalScale();
 	}
 
 	public void setAuthoritySignatory(String authoritySignatory) {
