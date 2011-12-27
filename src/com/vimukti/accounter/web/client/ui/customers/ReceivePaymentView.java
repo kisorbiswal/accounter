@@ -343,7 +343,7 @@ public class ReceivePaymentView extends
 
 			records.add(record);
 
-			gridView.add(record); 
+			gridView.add(record);
 		}
 		recalculateGridAmounts();
 	}
@@ -814,11 +814,11 @@ public class ReceivePaymentView extends
 
 	@Override
 	public ClientReceivePayment saveView() {
-		ClientReceivePayment saveView = super.saveView();
-		if (saveView != null) {
-			updateTransaction();
-		}
-		return saveView;
+		// ClientReceivePayment saveView = super.saveView();
+		// if (saveView != null) {
+		// updateTransaction();
+		// }
+		return null;
 	}
 
 	@Override
