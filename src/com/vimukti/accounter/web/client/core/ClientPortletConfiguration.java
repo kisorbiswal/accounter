@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientPortletConfiguration implements IAccounterCore {
 
 	/**
@@ -9,7 +12,7 @@ public class ClientPortletConfiguration implements IAccounterCore {
 	public int column;
 	private String portletName;
 	private long id;
-	private String portletData;
+	private Map<String, String> portletData = new HashMap<String, String>();
 
 	// private HashMap<String, String> store = new HashMap<String, String>();
 	public ClientPortletConfiguration() {
@@ -68,11 +71,11 @@ public class ClientPortletConfiguration implements IAccounterCore {
 		this.id = id;
 	}
 
-	public String getPortletKey() {
+	public Map<String, String> getPortletMap() {
 		return portletData;
 	}
 
-	public void setPortletKey(String portletKey) {
+	public void setPortletMap(Map<String, String> portletKey) {
 		this.portletData = portletKey;
 	}
 

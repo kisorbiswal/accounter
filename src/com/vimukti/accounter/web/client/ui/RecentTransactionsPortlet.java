@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
@@ -27,8 +29,9 @@ public class RecentTransactionsPortlet extends Portlet {
 			limitList.add(messages.lastOf((i + 1) * 5));
 		}
 		limitCombo.initCombo(limitList);
-		if (getConfiguration().getPortletKey() != null) {
-			limitCombo.setSelected(getConfiguration().getPortletKey());
+		if (getConfiguration().getPortletMap().get(LIMIT) != null) {
+			limitCombo.setSelected(getConfiguration().getPortletMap()
+					.get(LIMIT));
 		} else {
 			limitCombo.setSelectedItem(0);
 		}
@@ -41,8 +44,9 @@ public class RecentTransactionsPortlet extends Portlet {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						getConfiguration().setPortletKey(
-								limitCombo.getSelectedValue());
+						Map<String, String> portletMap = new HashMap<String, String>();
+						portletMap.put(LIMIT, selectItem);
+						getConfiguration().setPortletMap(portletMap);
 						updateData();
 					}
 				});

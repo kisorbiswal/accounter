@@ -42,11 +42,11 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 		case 0:
 			return budget.getAccountsName();
 		case 1:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getJanuaryAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getJanuaryAmount(), currency);
 		case 2:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getFebruaryAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getFebruaryAmount(), currency);
 		case 3:
 			return DataUtils.amountAsStringWithCurrency(
 					budget.getMarchAmount(), currency);
@@ -63,20 +63,20 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 			return DataUtils.amountAsStringWithCurrency(budget.getJulyAmount(),
 					currency);
 		case 8:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getAugustAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getAugustAmount(), currency);
 		case 9:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getSpetemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getSpetemberAmount(), currency);
 		case 10:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getOctoberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getOctoberAmount(), currency);
 		case 11:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getNovemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getNovemberAmount(), currency);
 		case 12:
-			return DataUtils.amountAsStringWithCurrency(budget
-					.getDecemberAmount(), currency);
+			return DataUtils.amountAsStringWithCurrency(
+					budget.getDecemberAmount(), currency);
 		case 13:
 			return DataUtils.amountAsStringWithCurrency(
 					budget.getTotalAmount(), currency);

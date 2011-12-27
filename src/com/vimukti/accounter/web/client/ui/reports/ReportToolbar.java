@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public abstract class ReportToolbar extends HorizontalPanel {
-	protected AccounterMessages messages = Accounter.messages();
+	protected static AccounterMessages messages = Accounter.messages();
 	protected ClientFinanceDate startDate;
 	protected ClientFinanceDate endDate;
 	private DynamicForm form;

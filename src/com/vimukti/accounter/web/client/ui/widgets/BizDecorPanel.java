@@ -73,6 +73,10 @@ public abstract class BizDecorPanel extends FlexTable {
 		setStyles(title);
 	}
 
+	protected void setPortletTitle(String title) {
+		TC.setText(title);
+	}
+
 	/**
 	 * Creates the first row of Panel
 	 */

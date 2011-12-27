@@ -1969,18 +1969,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
-			int type, long startDate, long endDate) throws AccounterException {
+			int type, ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		return getFinanceTool().getDashboardManager()
 				.getIncomeExpensePortletInfo(getCompanyId(), type,
-						new FinanceDate(startDate), new FinanceDate(endDate));
+						dates[0].getDate(), dates[1].getDate());
 	}
 
 	@Override
-	public ExpensePortletData getIncomeBreakdownPortletData(long startDate,
-			long endDate) throws AccounterException {
+	public ExpensePortletData getIncomeBreakdownPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException {
 		FinanceTool tool = new FinanceTool();
-		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
-				startDate), new ClientFinanceDate(endDate), getCompanyId());
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
 		ExpensePortletData portletData = tool.getDashboardManager()
 				.getIncomeAccountsBalances(getCompanyId(), dates[0].getDate(),
 						dates[1].getDate());
@@ -1988,16 +1992,18 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
-			long startDate, long endDate, int limit) throws AccounterException {
+	public ArrayList<PayeesBySalesPortletData> getTopCustomersBySalesPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException {
 		return getFinanceTool().getDashboardManager().getCustomersBySales(
 				getCompanyId(), new FinanceDate(startDate),
 				new FinanceDate(endDate), limit);
 	}
 
 	@Override
-	public ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
-			long startDate, long endDate, int limit) throws AccounterException {
+	public ArrayList<PayeesBySalesPortletData> getTopVendorsBySalesPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException {
 		return getFinanceTool().getDashboardManager().getVendorsBySales(
 				getCompanyId(), new FinanceDate(startDate),
 				new FinanceDate(endDate), limit);
@@ -2034,7 +2040,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
-			long startDate, long endDate, int limit) throws AccounterException {
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException {
 		return getFinanceTool().getDashboardManager().getItemsBySalesQuantity(
 				getCompanyId(), new FinanceDate(startDate),
 				new FinanceDate(endDate), limit);
@@ -2042,7 +2049,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
-			long startDate, long endDate, int limit) throws AccounterException {
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException {
 		return getFinanceTool().getDashboardManager()
 				.getItemsByPurchaseQuantity(getCompanyId(),
 						new FinanceDate(startDate), new FinanceDate(endDate),
@@ -2051,10 +2059,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
-			Long accountId, long startDate, long endDate, int type)
-			throws AccounterException {
-		return getFinanceTool().getDashboardManager().getYearOverYearData(
-				getCompanyId(), accountId, new FinanceDate(startDate),
-				new FinanceDate(endDate), type);
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long accountId, int chartType) throws AccounterException {
+		return getFinanceTool().getDashboardManager()
+				.getAccountsBalancesByDate(getCompanyId(),
+						new FinanceDate(startDate), new FinanceDate(endDate),
+						accountId, chartType);
 	}
 }

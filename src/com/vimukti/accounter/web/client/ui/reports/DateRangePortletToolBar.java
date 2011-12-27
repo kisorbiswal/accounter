@@ -7,28 +7,26 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 
-public class ExpensePortletToolBar extends PortletToolBar {
+public abstract class DateRangePortletToolBar extends PortletToolBar {
 	protected SelectCombo dateRangeItemCombo;
-	private List<String> dateRangesList;
+	protected List<String> dateRangesList;
 
-	public ExpensePortletToolBar() {
+	public DateRangePortletToolBar() {
+		init();
+	}
+
+	protected void init() {
 		createControls();
 	}
 
 	private void createControls() {
 		dateRangesList = new ArrayList<String>();
-		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
-				messages.thisMonth(), messages.lastWeek(),
-				messages.lastMonth(), messages.thisFinancialYear(),
-				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
-				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(), messages.custom() };
-		for (int i = 0; i < dateRangeArray.length; i++) {
-			dateRangesList.add(dateRangeArray[i]);
+		for (int i = 0; i < allDateRangeArray.length; i++) {
+			dateRangesList.add(allDateRangeArray[i]);
 		}
 		dateRangeItemCombo = new SelectCombo(messages.dateRange());
 		dateRangeItemCombo.initCombo(dateRangesList);
-		initData();
+		setDefaultDateRange(getSelectedItem());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -40,14 +38,7 @@ public class ExpensePortletToolBar extends PortletToolBar {
 		addItems(dateRangeItemCombo);
 	}
 
-	protected void initData() {
-		// TODO Auto-generated method stub
-
-	}
-
-	protected void refreshPortletData(String selectItem) {
-
-	}
+	protected abstract void refreshPortletData(String selectItem);
 
 	@Override
 	public void changeDates(ClientFinanceDate startDate,
@@ -61,9 +52,8 @@ public class ExpensePortletToolBar extends PortletToolBar {
 
 	}
 
-	// @SuppressWarnings("unchecked")
-	@Override
-	public void setDefaultDateRange(String defaultDateRange) {
-
-	}
+	/**
+	 * get default date range for date range combo
+	 */
+	protected abstract String getSelectedItem();
 }

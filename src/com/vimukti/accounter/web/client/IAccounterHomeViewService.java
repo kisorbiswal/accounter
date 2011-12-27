@@ -418,27 +418,33 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long fromDate, long toDate, int start, int length);
 
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
-			long startDate, long endDate) throws AccounterException;
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException;
 
-	ExpensePortletData getIncomeBreakdownPortletData(long startDate,
-			long endDate) throws AccounterException;
+	ExpensePortletData getIncomeBreakdownPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate)
+			throws AccounterException;
 
-	ArrayList<PayeesBySalesPortletData> getTopCustomersBySlaesPortletData(
-			long startDate, long endDate, int limit) throws AccounterException;
+	ArrayList<PayeesBySalesPortletData> getTopCustomersBySalesPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException;
 
-	ArrayList<PayeesBySalesPortletData> getTopVendorsBySlaesPortletData(
-			long startDate, long endDate, int limit) throws AccounterException;
+	ArrayList<PayeesBySalesPortletData> getTopVendorsBySalesPortletData(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException;
+
+	ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException;
 
 	public String printCheques(long chequeLayoutId,
 			List<PrintCheque> printCheques);
 
-	ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(long startDate,
-			long endDate, int limit) throws AccounterException;
-
 	ArrayList<PayeesBySalesPortletData> getItemsByPurchaseQuantity(
-			long startDate, long endDate, int limit) throws AccounterException;
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
+			throws AccounterException;
 
 	ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
-			Long accountId, long startDate, long endDate, int type)
-			throws AccounterException;
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long accountId, int chartType) throws AccounterException;
 }

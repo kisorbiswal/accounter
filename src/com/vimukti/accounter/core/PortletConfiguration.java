@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
@@ -14,7 +17,7 @@ public class PortletConfiguration extends CreatableObject implements
 	private int column;
 	private String portletName;
 	private static final long serialVersionUID = 1L;
-	private String portletData;
+	private Map<String, String> portletData = new HashMap<String, String>();
 
 	@Override
 	public String getName() {
@@ -64,11 +67,11 @@ public class PortletConfiguration extends CreatableObject implements
 		w.put(messages.type(), "Portlet Configuration").gap();
 	}
 
-	public String getPortletKey() {
+	public Map<String, String> getPortletMap() {
 		return portletData;
 	}
 
-	public void setPortletKey(String portletKey) {
+	public void setPortletMap(Map<String, String> portletKey) {
 		this.portletData = portletKey;
 	}
 

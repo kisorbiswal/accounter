@@ -130,7 +130,11 @@
 		</id>
 		<property name="portletName" column="PORTLET_NAME"></property>
 		<property name="column" column="COLUMN_NO" type="integer"></property>
-		<property name="portletData" column="PORTLET_DATA"></property>
+		<map name="portletData" table="PORTLET_CONFIGURATION_PORTLETDATA">
+			<key column="id" />
+			<index column="KEY" type="string" />
+			<element column="VALUE" type="string" />
+		</map>
 	</class>
 
 

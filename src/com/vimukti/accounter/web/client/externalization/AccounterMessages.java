@@ -5363,6 +5363,16 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeSelected(String payee);
 
+	public String accountBalances();
+
+	public String topCustomersBySales(String customer);
+
+	public String topVendorsByExpense(String vendor);
+
+	public String topItemsBySales();
+
+	public String noOfTransactions();
+
 	public String trackDiscount();
 
 	public String discountInAllTransaction();
@@ -5400,4 +5410,12 @@ public interface AccounterMessages extends Messages {
 	public String adminDesc();
 
 	public String financialAdviserDesc();
+
+	public String limit();
+
+	public String incomes();
+
+	public String yearOverYearIncome();
+
+	public String yearOverYearExpense();
 }

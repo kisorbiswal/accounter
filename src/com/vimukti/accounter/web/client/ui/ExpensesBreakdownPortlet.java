@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,11 +26,10 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.reports.ExpensePortletToolBar;
+import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
-
 	private PortletToolBar toolBar;
 	private VerticalPanel graphPanel;
 
@@ -67,7 +68,6 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public void onClick(ClickEvent event) {
 				History.newItem(HistoryTokens.RECORDEXPENSES, true);
@@ -126,15 +126,15 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 
 		Label empExpLabel = new Label();
 
-		allExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(allExpensesAmount));
-		cashExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(cashExpenseAmount));
+		allExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
+		cashExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
 		cashExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		empExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(employeeExpenseAmount));
-		ccExpAmtLabel = getAmountLabel(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(ccExpenseAmount));
+		empExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
+		ccExpAmtLabel = getAmountLabel(DataUtils
+				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
 		ccExpAmtLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		fTable.addStyleName("expense_label_tabel");
 		fTable.setWidget(0, 0, allExpLabel);
@@ -180,27 +180,26 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	}
 
 	public void updateAmountLabels() {
-		cashExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(cashExpenseAmount));
-		ccExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(ccExpenseAmount));
-		empExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(employeeExpenseAmount));
-
-		allExpAmtLabel.setText(getPrimaryCurrencySymbol() + " "
-				+ amountAsString(allExpensesAmount));
+		cashExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(cashExpenseAmount));
+		ccExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(ccExpenseAmount));
+		empExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(employeeExpenseAmount));
+		allExpAmtLabel.setText(DataUtils
+				.getAmountAsStringInPrimaryCurrency(allExpensesAmount));
 	}
 
 	private void toolBarInitilization() {
-		toolBar = new ExpensePortletToolBar() {
+		toolBar = new DateRangePortletToolBar() {
 			@Override
-			protected void initData() {
+			protected String getSelectedItem() {
 				if (ExpensesBreakdownPortlet.this.getConfiguration()
-						.getPortletKey() != null) {
-					setDefaultDateRange(ExpensesBreakdownPortlet.this
-							.getConfiguration().getPortletKey());
+						.getPortletMap().get(DATE_RANGE) != null) {
+					return ExpensesBreakdownPortlet.this.getConfiguration()
+							.getPortletMap().get(DATE_RANGE);
 				} else {
-					setDefaultDateRange(messages.financialYearToDate());
+					return messages.financialYearToDate();
 				}
 			}
 
@@ -208,8 +207,10 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 			protected void refreshPortletData(String selectItem) {
 				ExpensesBreakdownPortlet.this.clearGraph();
 				dateRangeItemCombo.setSelected(selectItem);
-				ExpensesBreakdownPortlet.this.getConfiguration().setPortletKey(
-						selectItem);
+				Map<String, String> portletMap = new HashMap<String, String>();
+				portletMap.put(DATE_RANGE, selectItem);
+				ExpensesBreakdownPortlet.this.getConfiguration().setPortletMap(
+						portletMap);
 				dateRangeChanged(selectItem);
 				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
 						endDate.getDate());
@@ -237,7 +238,9 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 			public void onResultSuccess(ExpensePortletData result) {
 				if (result != null) {
 					updateLabelsData(result);
-					updateGraphData(result);
+					if (!result.getAccountDetails().isEmpty()) {
+						updateGraphData(result);
+					}
 				} else {
 					Label label = new Label(messages.noRecordsToShow());
 					graphPanel.add(label);
@@ -292,7 +295,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 			@Override
 			public void run() {
 				GraphChart chart = new GraphChart();
-				chart.expenseAccountNames = accountsNames;
+				chart.accountNames = accountsNames;
 				graphPanel
 						.add(chart.createAccountExpenseChart(accountBalances));
 			}
@@ -310,5 +313,4 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		// TODO Auto-generated method stub
 
 	}
-
 }

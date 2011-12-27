@@ -194,7 +194,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		accTypeSelect = new SelectCombo(messages.accountType());
 		accTypeMap = new ArrayList<String>();
 		accTypeMap.add(messages.creditCard());
-		accTypeMap.add("Paypal");
+		accTypeMap.add(messages.paypal());
 		accTypeSelect.initCombo(accTypeMap);
 		accTypeSelect.setHelpInformation(true);
 		// accTypeSelect.setWidth(100);

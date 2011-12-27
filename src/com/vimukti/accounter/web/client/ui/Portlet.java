@@ -26,6 +26,11 @@ public abstract class Portlet extends WorkbenchPanel {
 	public static final int TYPE_I_OWE = 1;
 	public static final int TYPE_OWE_TO_ME = 2;
 
+	public static final String ACCOUNT_TYPE = "ACCOUNT_TYPE";
+	public static final String DATE_RANGE = "DATE_RANGE";
+	public static final String LIMIT = "LIMIT";
+	public static final String ACCOUNT_ID = "ACCOUNT_ID";
+
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;

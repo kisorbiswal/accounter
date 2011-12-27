@@ -463,18 +463,20 @@ public interface IAccounterHomeViewServiceAsync {
 	void getDeductorMasterDetails(
 			AsyncCallback<ArrayList<ClientTDSDeductorMasters>> callback);
 
-	void getIncomeExpensePortletInfo(int type, long startDate, long endDate,
+	void getIncomeExpensePortletInfo(int type, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<IncomeExpensePortletInfo>> callback);
 
-	void getIncomeBreakdownPortletData(long startDate, long endDate,
+	void getIncomeBreakdownPortletData(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
 			AsyncCallback<ExpensePortletData> callback);
 
-	void getTopCustomersBySlaesPortletData(long startDate, long endDate,
-			int limit,
+	void getTopCustomersBySalesPortletData(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
-	void getTopVendorsBySlaesPortletData(long startDate, long endDate,
-			int limit,
+	void getTopVendorsBySalesPortletData(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
 	public void printCheques(long chequeLayoutId,
@@ -483,14 +485,16 @@ public interface IAccounterHomeViewServiceAsync {
 	void getEtdsDetails(int formNo, int quater, int startYear, int endYear,
 			AsyncCallback<ArrayList<ClientETDSFilling>> callback);
 
-	void getItemsBySalesQuantity(long startDate, long endDate, int limit,
+	void getItemsBySalesQuantity(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
-	void getItemsByPurchaseQuantity(long startDate, long endDate, int limit,
+	void getItemsByPurchaseQuantity(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
 
-	void getAccountsBalancesByDate(Long accountId, long startDate,
-			long endDate, int type,
+	void getAccountsBalancesByDate(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long accountId, int chartType,
 			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
 
 }

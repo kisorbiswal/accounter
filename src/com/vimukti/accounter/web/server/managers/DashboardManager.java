@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
-import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
 
 public class DashboardManager extends Manager {
 
@@ -743,21 +742,19 @@ public class DashboardManager extends Manager {
 	}
 
 	public ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(
-			long companyId, int type, FinanceDate startDate, FinanceDate endDate) {
+			long companyId, int type, long startDate, long endDate) {
+
 		ArrayList<IncomeExpensePortletInfo> result = new ArrayList<IncomeExpensePortletInfo>();
 
-		if (type == PortletToolBar.THIS_MONTH
-				|| type == PortletToolBar.LAST_MONTH) {
+		if (type == 0 || type == 1) {
 			IncomeExpensePortletInfo incomeExpensePortletInfo = getIncomExpenseRecordsByMonth(
 					startDate, endDate, companyId);
 			result.add(incomeExpensePortletInfo);
-		} else if (type == PortletToolBar.THIS_QUARTER
-				|| type == PortletToolBar.LAST_QUARTER) {
+		} else if (type == 4 || type == 5) {
 			List<IncomeExpensePortletInfo> incomeExpensePortletInfos = getIncomExpenseRecordsOfMonths(
 					startDate, endDate, companyId, 3);
 			result.addAll(incomeExpensePortletInfos);
-		} else if (type == PortletToolBar.THIS_FINANCIAL_YEAR
-				|| type == PortletToolBar.LAST_FINANCIAL_YEAR) {
+		} else if (type == 2 || type == 3) {
 			List<IncomeExpensePortletInfo> incomeExpensePortletInfos = getIncomExpenseRecordsOfMonths(
 					startDate, endDate, companyId, 12);
 			result.addAll(incomeExpensePortletInfos);
@@ -767,10 +764,10 @@ public class DashboardManager extends Manager {
 	}
 
 	private List<IncomeExpensePortletInfo> getIncomExpenseRecordsOfMonths(
-			FinanceDate startDate, FinanceDate endDate, long companyId, int j) {
+			long startDate, long endDate, long companyId, int j) {
 		Session session = HibernateUtil.getCurrentSession();
 
-		FinanceDate currentDate = startDate;
+		FinanceDate currentDate = new FinanceDate(startDate);
 
 		List<IncomeExpensePortletInfo> incomeExpensePortletInfos = new ArrayList<IncomeExpensePortletInfo>();
 		for (int i = 0; i < j; i++) {
@@ -797,30 +794,45 @@ public class DashboardManager extends Manager {
 							new FinanceDate(endDateCal.getTime()).getDate());
 			Object[] object = (Object[]) query.uniqueResult();
 
-			incomeExpensePortletInfo.setIncome((Double) object[0]);
-			incomeExpensePortletInfo.setExpense((Double) object[1]);
-			incomeExpensePortletInfo.setMonth(startDate.getMonth());
-
+			if (object[0] != null) {
+				incomeExpensePortletInfo.setIncome((Double) object[0]);
+			} else {
+				incomeExpensePortletInfo.setIncome(0.0);
+			}
+			if (object[1] != null) {
+				incomeExpensePortletInfo.setExpense((Double) object[1]);
+			} else {
+				incomeExpensePortletInfo.setExpense(0.0);
+			}
+			incomeExpensePortletInfo.setMonth(startDateCal.get(Calendar.MONTH));
 			incomeExpensePortletInfos.add(incomeExpensePortletInfo);
 		}
 		return incomeExpensePortletInfos;
 	}
 
 	private IncomeExpensePortletInfo getIncomExpenseRecordsByMonth(
-			FinanceDate startDate, FinanceDate endDate, long companyId) {
+			long startDate, long endDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 
+		int month = new FinanceDate(startDate).getMonth();
 		IncomeExpensePortletInfo incomeExpensePortletInfo = new IncomeExpensePortletInfo();
 
 		Query query = session.getNamedQuery("getIncomeExpensePortletInfo")
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate());
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate);
 		Object[] object = (Object[]) query.uniqueResult();
-
-		incomeExpensePortletInfo.setIncome((Double) object[0]);
-		incomeExpensePortletInfo.setExpense((Double) object[1]);
-		incomeExpensePortletInfo.setMonth(startDate.getMonth());
+		if (object[0] != null) {
+			incomeExpensePortletInfo.setIncome((Double) object[0]);
+		} else {
+			incomeExpensePortletInfo.setIncome(0.0);
+		}
+		if (object[1] != null) {
+			incomeExpensePortletInfo.setExpense((Double) object[1]);
+		} else {
+			incomeExpensePortletInfo.setExpense(0.0);
+		}
+		incomeExpensePortletInfo.setMonth(month);
 		return incomeExpensePortletInfo;
 	}
 
@@ -966,23 +978,20 @@ public class DashboardManager extends Manager {
 		return payeesBySales;
 	}
 
-	public ArrayList<YearOverYearPortletData> getYearOverYearData(
-			Long companyId, Long accountId, FinanceDate startDate,
-			FinanceDate endDate, int type) {
+	public ArrayList<YearOverYearPortletData> getAccountsBalancesByDate(
+			Long companyId, FinanceDate startDate, FinanceDate endDate,
+			long accountId, int type) {
 		ArrayList<YearOverYearPortletData> result = new ArrayList<YearOverYearPortletData>();
 
-		if (type == PortletToolBar.THIS_MONTH
-				|| type == PortletToolBar.LAST_MONTH) {
+		if (type == 0 || type == 1) {
 			YearOverYearPortletData yearOverYearData = getAccountsBalancesByDate(
 					companyId, accountId, startDate, endDate);
 			result.add(yearOverYearData);
-		} else if (type == PortletToolBar.THIS_QUARTER
-				|| type == PortletToolBar.LAST_QUARTER) {
+		} else if (type == 4 || type == 5) {
 			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
 					companyId, accountId, startDate, endDate, 3);
 			result.addAll(incomeExpensePortletInfos);
-		} else if (type == PortletToolBar.THIS_FINANCIAL_YEAR
-				|| type == PortletToolBar.LAST_FINANCIAL_YEAR) {
+		} else if (type == 2 || type == 3) {
 			List<YearOverYearPortletData> incomeExpensePortletInfos = getAccountsBalancesByMonths(
 					companyId, accountId, startDate, endDate, 12);
 			result.addAll(incomeExpensePortletInfos);
@@ -996,7 +1005,6 @@ public class DashboardManager extends Manager {
 			FinanceDate endDate, int j) {
 
 		Session session = HibernateUtil.getCurrentSession();
-
 		FinanceDate currentDate = startDate;
 
 		List<YearOverYearPortletData> yearOverYearDatas = new ArrayList<YearOverYearPortletData>();
@@ -1022,13 +1030,14 @@ public class DashboardManager extends Manager {
 
 			YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
 			yearOverYearData.setName((String) next[0]);
-			yearOverYearData.setAmount((Double) next[1]);
+			yearOverYearData
+					.setAmount(next[1] != null ? (Double) next[1] : 0.0);
 			Currency primaryCurrency = getCompany(companyId)
 					.getPrimaryCurrency();
 			yearOverYearData
 					.setCurrency(primaryCurrency != null ? primaryCurrency
 							.getID() : 0);
-			yearOverYearData.setMonth(startDate.getMonth());
+			yearOverYearData.setMonth(startDateCal.get(Calendar.MONTH));
 
 			yearOverYearDatas.add(yearOverYearData);
 		}
@@ -1046,14 +1055,18 @@ public class DashboardManager extends Manager {
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 		Object[] next = (Object[]) query.uniqueResult();
-
 		YearOverYearPortletData yearOverYearData = new YearOverYearPortletData();
-		yearOverYearData.setName((String) next[0]);
-		yearOverYearData.setAmount((Double) next[1]);
-		Currency primaryCurrency = getCompany(companyId).getPrimaryCurrency();
-		yearOverYearData.setCurrency(primaryCurrency != null ? primaryCurrency
-				.getID() : 0);
-		yearOverYearData.setMonth(startDate.getMonth());
+		if (next != null) {
+			yearOverYearData.setName(next[0] != null ? (String) next[0] : "");
+			yearOverYearData
+					.setAmount(next[1] != null ? (Double) next[1] : 0.0);
+			Currency primaryCurrency = getCompany(companyId)
+					.getPrimaryCurrency();
+			yearOverYearData
+					.setCurrency(primaryCurrency != null ? primaryCurrency
+							.getID() : 0);
+			yearOverYearData.setMonth(startDate.getMonth());
+		}
 		return yearOverYearData;
 	}
 }

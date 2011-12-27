@@ -2611,3 +2611,6 @@ input.date-field-textbox {
 .attachment_panel form table .gwt-Anchor, .attachment_panel .attachment_hpanel td .gwt-Anchor {
     color: #3299A4;
 }
+.date_range_combo{
+	width: 120px;
+}

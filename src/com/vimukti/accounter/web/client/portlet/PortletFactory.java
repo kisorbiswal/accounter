@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.portlet;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -30,6 +31,14 @@ public class PortletFactory {
 	public static final String MESSAGES_AND_TASKS = "Messages And Tasks";
 	public static final String QUICK_LINKS = "QUICK_LINKS";
 	public static final String BANKING = "BANKING";
+	public static final String ACCOUNTS_BALANCES_PORTLET = "ACCOUNTS_BALANCES_PORTLET";
+	public static final String TOP_CUSTOMERS_BY_SALES_PORTLET = "TOP_CUSTOMERS_BY_SALES_PORTLET";
+	public static final String TOP_VENDORS_BY_EXPENSES_PORTLET = "TOP_VENDORS_BY_EXPENSES_PORTLET";
+	public static final String TOP_ITEMS_BY_SALES_PORTLET = "TOP_ITEMS_BY_SALES_PORTLET";
+	public static final String INCOME_EXPENSE_BREAKDOWN_PORTLET = "INCOME_EXPENSE_BREAKDOWN_PORTLET";
+	public static final String INCOME_BREAKDOWN_PORTLET = "INCOME_BREAKDOWN_PORTLET";
+	public static final String YEAR_OVER_YEAR_INCOME_PORTLET = "YEAR_OVER_YEAR_INCOME_PORTLET";
+	public static final String YEAR_OVER_YEAR_EXPENSE_PORTLET = "YEAR_OVER_YEAR_EXPENSE_PORTLET";
 
 	public static PortletFactory get() {
 		if (factory == null) {
@@ -62,6 +71,27 @@ public class PortletFactory {
 			portlet = new BankingPortlet(pc);
 		} else if (name.equals(MESSAGES_AND_TASKS)) {
 			portlet = new MessagesAndTasksPortlet(pc);
+		} else if (name.equals(ACCOUNTS_BALANCES_PORTLET)) {
+			portlet = new AccountBalancesPortlet(pc);
+		} else if (name.equals(TOP_CUSTOMERS_BY_SALES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.CUSTOMER_PORTLET);
+		} else if (name.equals(TOP_VENDORS_BY_EXPENSES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.VENDOR_PORTLET);
+		} else if (name.equals(TOP_ITEMS_BY_SALES_PORTLET)) {
+			portlet = new TopPayeesBySalesPortlet(pc,
+					TopPayeesBySalesPortlet.ITEM_PORTLET);
+		} else if (name.equals(INCOME_EXPENSE_BREAKDOWN_PORTLET)) {
+			portlet = new IncomeAndExpensesBreakdownPortlet(pc);
+		} else if (name.equals(INCOME_BREAKDOWN_PORTLET)) {
+			portlet = new IncomeBreakdownPortlet(pc);
+		} else if (name.equals(YEAR_OVER_YEAR_INCOME_PORTLET)) {
+			portlet = new YearOverYearPortlet(pc,
+					YearOverYearPortlet.YEAR_OVER_YEAR_INCOME);
+		} else if (name.equals(YEAR_OVER_YEAR_EXPENSE_PORTLET)) {
+			portlet = new YearOverYearPortlet(pc,
+					YearOverYearPortlet.YEAR_OVER_YEAR_EXPENSE);
 		}
 		return portlet;
 	}
@@ -90,6 +120,23 @@ public class PortletFactory {
 			portletName = messages.banking();
 		} else if (name.equals(MESSAGES_AND_TASKS)) {
 			portletName = messages.messagesAndTasks();
+		} else if (name.equals(ACCOUNTS_BALANCES_PORTLET)) {
+			portletName = messages.accountBalances();
+		} else if (name.equals(TOP_CUSTOMERS_BY_SALES_PORTLET)) {
+			portletName = messages
+					.topCustomersBySales(Global.get().Customers());
+		} else if (name.equals(TOP_VENDORS_BY_EXPENSES_PORTLET)) {
+			portletName = messages.topVendorsByExpense(Global.get().Vendors());
+		} else if (name.equals(TOP_ITEMS_BY_SALES_PORTLET)) {
+			portletName = messages.topItemsBySales();
+		} else if (name.equals(INCOME_EXPENSE_BREAKDOWN_PORTLET)) {
+			portletName = messages.incomeAndExpenseAccounts();
+		} else if (name.equals(INCOME_BREAKDOWN_PORTLET)) {
+			portletName = messages.incomes();
+		} else if (name.equals(YEAR_OVER_YEAR_INCOME_PORTLET)) {
+			portletName = messages.yearOverYearIncome();
+		} else if (name.equals(YEAR_OVER_YEAR_EXPENSE_PORTLET)) {
+			portletName = messages.yearOverYearExpense();
 		}
 		return portletName;
 	}
@@ -105,13 +152,18 @@ public class PortletFactory {
 
 	public ClientPortletPageConfiguration getPrefferedConfiguration(String page) {
 		if (page.equals(PortletPage.DASHBOARD)) {
-			return new ClientPortletPageConfiguration(2,
-					new String[][] {
-							{ BANKING, EXPENSES_CLAIM, WHO_I_OWE,
-									RECENT_TRANSACTIONS },
-							{ BANK_ACCOUNT, MONEY_COMING, MONEY_GOING,
-									WHO_OWES_ME, QUICK_LINKS,
-									MESSAGES_AND_TASKS } });
+			return new ClientPortletPageConfiguration(2, new String[][] {
+					{ BANKING, EXPENSES_CLAIM, WHO_I_OWE, RECENT_TRANSACTIONS,
+							ACCOUNTS_BALANCES_PORTLET,
+							TOP_CUSTOMERS_BY_SALES_PORTLET,
+							TOP_ITEMS_BY_SALES_PORTLET,
+							YEAR_OVER_YEAR_INCOME_PORTLET },
+					{ BANK_ACCOUNT, MONEY_COMING, MONEY_GOING, WHO_OWES_ME,
+							QUICK_LINKS, MESSAGES_AND_TASKS,
+							TOP_VENDORS_BY_EXPENSES_PORTLET,
+							INCOME_EXPENSE_BREAKDOWN_PORTLET,
+							INCOME_BREAKDOWN_PORTLET,
+							YEAR_OVER_YEAR_EXPENSE_PORTLET } });
 		}
 		return null;
 	}

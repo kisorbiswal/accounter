@@ -215,8 +215,50 @@ public class Utility implements IsSerializable, Serializable {
 		return accountTypeName;
 	}
 
-	public static String getCashFlowCategoryName(int type) {
+	public static int getAccountType(String accountTypeName) {
+		if (accountTypeName.equals(messages.income())) {
+			return ClientAccount.TYPE_INCOME;
+		} else if (accountTypeName.equals(messages.otherIncome())) {
+			return ClientAccount.TYPE_OTHER_INCOME;
+		} else if (accountTypeName.equals(messages.expense())) {
+			return ClientAccount.TYPE_EXPENSE;
+		} else if (accountTypeName.equals(messages.otherExpense())) {
+			return ClientAccount.TYPE_OTHER_EXPENSE;
+		} else if (accountTypeName.equals(messages.costofGoodsSold())) {
+			return ClientAccount.TYPE_COST_OF_GOODS_SOLD;
+		} else if (accountTypeName.equals(messages.cash())) {
+			return ClientAccount.TYPE_CASH;
+		} else if (accountTypeName.equals(messages.bank())) {
+			return ClientAccount.TYPE_BANK;
+		} else if (accountTypeName.equals(messages.otherCurrentAsset())) {
+			return ClientAccount.TYPE_OTHER_CURRENT_ASSET;
+		} else if (accountTypeName.equals(messages.inventoryAsset())) {
+			return ClientAccount.TYPE_INVENTORY_ASSET;
+		} else if (accountTypeName.equals(messages.otherAssets())) {
+			return ClientAccount.TYPE_OTHER_ASSET;
+		} else if (accountTypeName.equals(messages.fixedAsset())) {
+			return ClientAccount.TYPE_FIXED_ASSET;
+		} else if (accountTypeName.equals(messages.creditCard())) {
+			return ClientAccount.TYPE_CREDIT_CARD;
+		} else if (accountTypeName.equals(messages.paypal())) {
+			return ClientAccount.TYPE_PAYPAL;
+		} else if (accountTypeName.equals(messages.payrollLiability())) {
+			return ClientAccount.TYPE_PAYROLL_LIABILITY;
+		} else if (accountTypeName.equals(messages.currentLiability())) {
+			return ClientAccount.TYPE_OTHER_CURRENT_LIABILITY;
+		} else if (accountTypeName.equals(messages.longTermLiability())) {
+			return ClientAccount.TYPE_LONG_TERM_LIABILITY;
+		} else if (accountTypeName.equals(messages.equity())) {
+			return ClientAccount.TYPE_EQUITY;
+		} else if (accountTypeName.equals(messages.accountsReceivable())) {
+			return ClientAccount.TYPE_ACCOUNT_RECEIVABLE;
+		} else if (accountTypeName.equals(messages.accountsPayable())) {
+			return ClientAccount.TYPE_ACCOUNT_PAYABLE;
+		}
+		return 0;
+	}
 
+	public static String getCashFlowCategoryName(int type) {
 		String CashFlowCategoryName = null;
 		switch (type) {
 		case ClientAccount.CASH_FLOW_CATEGORY_FINANCING:
