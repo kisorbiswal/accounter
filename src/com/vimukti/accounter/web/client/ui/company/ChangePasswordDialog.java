@@ -120,7 +120,11 @@ public class ChangePasswordDialog extends BaseDialog {
 	@Override
 	public void setFocus() {
 		oldPasswordTextItem.setFocus();
+	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }

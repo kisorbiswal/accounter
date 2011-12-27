@@ -102,7 +102,11 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	@Override
 	public void setFocus() {
 		firstNameTextItem.setFocus();
+	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }
