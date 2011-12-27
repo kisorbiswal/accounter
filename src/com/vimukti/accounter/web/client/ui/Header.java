@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends FlowPanel {
@@ -42,7 +41,6 @@ public class Header extends FlowPanel {
 	private ClientCompany company = null;
 
 	protected PopupPanel popupPanel;
-	private static ClientUser user;
 
 	private Anchor companiesLink;
 
@@ -50,17 +48,14 @@ public class Header extends FlowPanel {
 	 * Creates new Instance
 	 */
 	public Header() {
-		this(null);
+		addStyleName("page_header");
+		createControls();
 	}
 
 	public Header(ClientCompany company) {
 		this.company = company;
 		addStyleName("page_header");
-		if (company != null) {
-			user = Accounter.getUser();
-			createControls();
-		}
-
+		createControls();
 	}
 
 	private void createControls() {
@@ -75,24 +70,34 @@ public class Header extends FlowPanel {
 		userImage = new Image("/images/User.png");
 		userImage.getElement().getStyle().setPaddingBottom(4, Unit.PX);
 
-		userName = new Anchor(user.getFullName());
-
-		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
-		if (!Accounter.isLoggedInFromDomain()) {
-			userName.addStyleName("userName-style");
-			userName.getElement().getStyle()
-					.setTextDecoration(TextDecoration.UNDERLINE);
-			userName.getElement().getStyle().setCursor(Cursor.POINTER);
-
-			userName.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					ActionFactory.getUserDetailsAction().run(null, false);
-				}
-			});
+		if (company != null) {
+			if (Accounter.getCompany().isConfigured()) {
+				userName = new Anchor(Accounter.getUser().getFullName());
+			} else {
+				userName = new Anchor(Accounter.getUser().getFullName());
+			}
+		} else {
+			userName = new Anchor();
 		}
 
+		// userName.getElement().getStyle().setPaddingLeft(5, Unit.PX);
+		if (company != null) {
+			if (!Accounter.isLoggedInFromDomain()
+					&& Accounter.getCompany().isConfigured()) {
+				userName.addStyleName("userName-style");
+				userName.getElement().getStyle()
+						.setTextDecoration(TextDecoration.UNDERLINE);
+				userName.getElement().getStyle().setCursor(Cursor.POINTER);
+
+				userName.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						ActionFactory.getUserDetailsAction().run(null, false);
+					}
+				});
+			}
+		}
 		// userName.setWidth("100%");
 		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
@@ -152,11 +157,12 @@ public class Header extends FlowPanel {
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
+		
 		panel3 = new HorizontalPanel();
 		panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
-		panel2.addStyleName("companies_title");
+		panel3.addStyleName("company_title");
 		panel3.add(help);
 		panel3.add(logout);
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
