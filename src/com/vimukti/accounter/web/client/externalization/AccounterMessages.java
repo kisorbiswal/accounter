@@ -5601,7 +5601,7 @@ public interface AccounterMessages extends Messages {
     
     public String ExpenseAccount();
     
-    public String AddBudgetfor();
+    public String AddBudgetfor(String accountName);
     
     public String empty();
     
@@ -5687,7 +5687,8 @@ public interface AccounterMessages extends Messages {
     
     public String paymentTermType();
     
-    public String Modifiedby();
+    public String Modifiedby(String userName, String dateformat,
+			String timeFormat);
     
     public String at();
     
