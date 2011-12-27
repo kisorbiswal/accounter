@@ -98,7 +98,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 					}
 				});
 		signatureItem = new TextItem();
-		signatureItem.setValue(layout.getAuthorisedSignature());
+		signatureItem.setValue(layout.getAuthorisedSignature() == null ? ""
+				: layout.getAuthorisedSignature());
 		signatureItem.setTitle(messages.authorisedSignatory());
 		signatureItem.addBlurHandler(new BlurHandler() {
 
