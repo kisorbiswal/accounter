@@ -11001,12 +11001,12 @@
 		<query-param name="limit" type="int" />
 		<return-scalar column="ITEM" type="string" />
 		<return-scalar column="QUANTITY" type="double" />
-		SELECT I.NAME,
+		SELECT I.NAME AS ITEM,
 		SUM(CASE
 		WHEN T.T_TYPE IN (1,4,5,7,8,12,21,29)
 		THEN
 		TI.QTY_VALUE
-		ELSE 0 END)
+		ELSE 0 END) AS QUANTITY
 		FROM ITEM I LEFT JOIN TRANSACTION_ITEM TI ON
 		TI.ITEM_ID=I.ID LEFT JOIN
 		TRANSACTION T ON T.ID=TI.TRANSACTION_ID
@@ -11059,8 +11059,7 @@
 		WHERE A.COMPANY_ID =:companyId AND (CASE WHEN
 		T.ID IS NOT NULL THEN T.T_DATE
 		BETWEEN :startDate AND :endDate ELSE
-		TRUE END) AND A.ID=:accountId GROUP BY A.ID ORDER BY
-		A.NAME
+		TRUE END) AND A.ID=:accountId GROUP BY A.ID
 
 	</sql-query>
 
