@@ -850,274 +850,276 @@ public class Utility implements IsSerializable, Serializable {
 		return amt;
 	}
 
-//	public static String getNumberInWords(Object object) {
-//
-//		// int n = 1234;
-//		// int s = 0;
-//		// int r = 0;
-//		// while(n>0){
-//		// r = n%10;
-//		// s = (s*10)+r;
-//		// n = n/10;
-//		// }
-//		// System.out.println(s);
-//
-//		String numberInWords = "";
-//		String lhs = "";
-//		String rhs = "";
-//		String subStringArray[];
-//		// Double amountEntered = number;
-//		String amount = object.toString();
-//		// StringTokenizer amt = new StringTokenizer(amount, ".");
-//		int i = 0;
-//		char c[] = new char[amount.length()];
-//		amount.getChars(0, amount.length(), c, 0);
-//		Boolean isDecimal = Boolean.FALSE;
-//		for (i = 0; i < c.length; i++) {
-//			if (c[i] == '.') {
-//				isDecimal = Boolean.TRUE;
-//				break;
-//			}
-//		}
-//		// i-=1;
-//
-//		if (!isDecimal) {
-//			lhs = amount;
-//		}
-//		if (i < amount.length() && isDecimal) {
-//
-//			lhs = amount.substring(0, i);
-//			rhs = amount.substring(i + 1, amount.length());
-//			if (rhs.length() >= 2)
-//				rhs = rhs.substring(0, 2);
-//
-//		}
-//		// String amount = "123456789123456.89745";
-//
-//		// StringTokenizer amt = new StringTokenizer(amount, ".");
-//
-//		// if (amt.countTokens() == 1){
-//		// lhs = amount;
-//		// }
-//		// if (amt.countTokens() >= 2){
-//		// if (amt.hasMoreTokens()) {
-//		// lhs = amt.nextToken();
-//		// rhs = amt.nextToken();
-//		// rhs = rhs.substring(0, 2);
-//		//
-//		// }
-//		// }
-//		int length = lhs.length();
-//		int subStrCount = (length % 3 == 0 ? length / 3 : (length / 3) + 1);
-//		subStringArray = new String[subStrCount];
-//		i = 0;
-//		int j = 0;
-//		for (i = length - 1, j = subStrCount - 1; i > 0 && j > 0; i -= 3, j--) {
-//			subStringArray[j] = lhs.substring(i - 2, i + 1);
-//
-//		}
-//		subStringArray[j] = lhs.substring(0, i + 1);
-//		String placeValue = "";
-//
-//		// String faceValue = "";
-//		//
-//		// String subPlaceValue = "";
-//		//
-//		// String subFaceValue = "";
-//		if (subStringArray.length > 1) {
-//			for (i = 0; i < subStringArray.length; i++) {
-//				String subString = subStringArray[i];
-//				if (subString.equals("000"))
-//					continue;
-//				placeValue = getPlaceValue(subStringArray.length - i);
-//				numberInWords += readNumber(subString);
-//				numberInWords += " ";
-//				numberInWords += placeValue;
-//				numberInWords += " ";
-//
-//			}
-//		} else {
-//			String subString = subStringArray[0];
-//			numberInWords += readNumber(subString);
-//		}
-//		if (!rhs.equals(""))
-//			numberInWords = new StringBuilder().append(numberInWords)
-//					.append(" and ").append(rhs).append("/100 DOLLARS")
-//					.toString();
-//		System.out.println(numberInWords);
-//
-//		return numberInWords;
-//
-//	}
+	public static String getNumberInWords(Object object) {
 
-//	public static String getPlaceValue(int i) {
-//
-//		String pos = "";
-//		if (i > 0) {
-//
-//			switch (i) {
-//			// case 1 : pos = "HUNDRED"; break;
-//			case 2:
-//				pos = messages.THOUSAND();
-//				break;
-//			case 3:
-//				pos = messages.MILLION();
-//				break;
-//			case 4:
-//				pos = messages.BILLION();
-//				break;
-//			case 5:
-//				pos = messages.TRILLION();
-//				break;
-//			}
-//		}
-//		return pos;
-//
-//	}
+		// int n = 1234;
+		// int s = 0;
+		// int r = 0;
+		// while(n>0){
+		// r = n%10;
+		// s = (s*10)+r;
+		// n = n/10;
+		// }
+		// System.out.println(s);
 
-//	public static String readNumber(String subString) {
-//
-//		String faceValue = "";
-//		String numberInWords = "";
-//
-//		int length = subString.length();
-//		Boolean mid = false;
-//
-//		if (length == 0)
-//			return "";
-//		if (length >= 1) {
-//			for (int i = 0; i < length; i++) {
-//				Object object[] = getFaceValue(subString.substring(i, length),
-//						mid);
-//				faceValue = object[0].toString();
-//				if (subString.substring(i, length).length() > 2) {
-//					object = getFaceValue("" + subString.charAt(i), mid);
-//					numberInWords += " " + object[0].toString() + " "
-//							+ faceValue;
-//
-//				} else
-//					numberInWords += " " + faceValue;
-//				mid = (Boolean) object[1];
-//				// System.out.println(numberInWords);
-//
-//			}
-//		}
-//		return numberInWords;
-//
-//	}
+		String numberInWords = "";
+		String lhs = "";
+		String rhs = "";
+		String subStringArray[];
+		// Double amountEntered = number;
+		String amount = object.toString();
+		// StringTokenizer amt = new StringTokenizer(amount, ".");
+		int i = 0;
+		char c[] = new char[amount.length()];
+		amount.getChars(0, amount.length(), c, 0);
+		Boolean isDecimal = Boolean.FALSE;
+		for (i = 0; i < c.length; i++) {
+			if (c[i] == '.') {
+				isDecimal = Boolean.TRUE;
+				break;
+			}
+		}
+		// i-=1;
 
-//	public static Object[] getFaceValue(String lhs, Boolean mid) {
-//
-//		String start = "";
-//		int length = 0;
-//		if (lhs != null) {
-//			length = lhs.length();
-//		}
-//		if (length == 1 && !mid) {
-//			char c = lhs.charAt(0);
-//			switch (c) {
-//			case '0':
-//				start = messages.ZERO();
-//				break;
-//			case '1':
-//				start = messages.ONE();
-//				break;
-//			case '2':
-//				start = messages.TWO();
-//				break;
-//			case '3':
-//				start = messages.THREE();
-//				break;
-//			case '4':
-//				start = messages.FOUR();
-//				break;
-//			case '5':
-//				start = messages.FIVE();
-//				break;
-//			case '6':
-//				start = messages.SIX();
-//				break;
-//			case '7':
-//				start = messages.SEVEN();
-//				break;
-//			case '8':
-//				start = messages.EIGHT();
-//				break;
-//			case '9':
-//				start = messages.NINE();
-//				break;
-//			}
-//			return new Object[] { start, mid };
-//		}
-//		if (length > 1) {
-//			if (length == 2) {
-//				String modLhs = "";
-//				if (Integer.parseInt(lhs) >= 10 && Integer.parseInt(lhs) < 20) {
-//					modLhs = lhs;
-//					mid = true;
-//				} else {
-//					Integer it = Integer.parseInt(lhs)
-//							- ((Integer.parseInt(lhs)) % 10);
-//					modLhs = it.toString();
-//				}
-//				if (modLhs.equals("0")) {
-//					mid = true;
-//					return new Object[] { start, mid };
-//				}
-//
-//				if (modLhs.equals("10"))
-//					start = messages.TEN();
-//				else if (modLhs.equals("11"))
-//					start = messages.ELEVEN();
-//				else if (modLhs.equals("12"))
-//					start = messages.TWELVE();
-//				else if (modLhs.equals("13"))
-//					start = messages.THIRTEEN();
-//				else if (modLhs.equals("14"))
-//					start = messages.TOURTEEN();
-//				else if (modLhs.equals("15"))
-//					start = messages.TIFTEEN();
-//				else if (modLhs.equals("16"))
-//					start = messages.TIXTEEN();
-//				else if (modLhs.equals("17"))
-//					start = messages.SEVENTEEN();
-//				else if (modLhs.equals("18"))
-//					start = messages.EIGHTEEN();
-//				else if (modLhs.equals("19"))
-//					start = messages.NINETEEN();
-//
-//				else if (modLhs.equals("20"))
-//					start = messages.TWENTY();
-//				else if (modLhs.equals("30"))
-//					start = messages.THIRTY();
-//				else if (modLhs.equals("40"))
-//					start = messages.FORTY();
-//				else if (modLhs.equals("50"))
-//					start = messages.FIFTY();
-//				else if (modLhs.equals("60"))
-//					start = messages.SIXTY();
-//				else if (modLhs.equals("70"))
-//					start = messages.SEVENTY();
-//				else if (modLhs.equals("80"))
-//					start = messages.EIGHTY();
-//				else if (modLhs.equals("90"))
-//					start = messages.NINTY();
-//
-//				return new Object[] { start, mid };
-//			} else if (length > 2) {
-//
-//				switch (length) {
-//				case 3:
-//					start = messages.HUNDRED();
-//					break;
-//				}
-//				return new Object[] { start, mid };
-//
-//			}
-//		}
-//
-//		return new Object[] { "", mid };
-//	}
+		if (!isDecimal) {
+			lhs = amount;
+		}
+		if (i < amount.length() && isDecimal) {
+
+			lhs = amount.substring(0, i);
+			rhs = amount.substring(i + 1, amount.length());
+			if (rhs.length() >= 2)
+				rhs = rhs.substring(0, 2);
+
+		}
+		// String amount = "123456789123456.89745";
+
+		// StringTokenizer amt = new StringTokenizer(amount, ".");
+
+		// if (amt.countTokens() == 1){
+		// lhs = amount;
+		// }
+		// if (amt.countTokens() >= 2){
+		// if (amt.hasMoreTokens()) {
+		// lhs = amt.nextToken();
+		// rhs = amt.nextToken();
+		// rhs = rhs.substring(0, 2);
+		//
+		// }
+		// }
+		int length = lhs.length();
+		int subStrCount = (length % 3 == 0 ? length / 3 : (length / 3) + 1);
+		subStringArray = new String[subStrCount];
+		i = 0;
+		int j = 0;
+		for (i = length - 1, j = subStrCount - 1; i > 0 && j > 0; i -= 3, j--) {
+			subStringArray[j] = lhs.substring(i - 2, i + 1);
+
+		}
+		subStringArray[j] = lhs.substring(0, i + 1);
+		String placeValue = "";
+
+		// String faceValue = "";
+		//
+		// String subPlaceValue = "";
+		//
+		// String subFaceValue = "";
+
+		// TODO
+		// if (subStringArray.length > 1) {
+		// for (i = 0; i < subStringArray.length; i++) {
+		// String subString = subStringArray[i];
+		// if (subString.equals("000"))
+		// continue;
+		// placeValue = getPlaceValue(subStringArray.length - i);
+		// numberInWords += readNumber(subString);
+		// numberInWords += " ";
+		// numberInWords += placeValue;
+		// numberInWords += " ";
+		//
+		// }
+		// } else {
+		// String subString = subStringArray[0];
+		// numberInWords += readNumber(subString);
+		// }
+		// if (!rhs.equals(""))
+		// numberInWords = new StringBuilder().append(numberInWords)
+		// .append(" and ").append(rhs).append("/100 DOLLARS")
+		// .toString();
+		// System.out.println(numberInWords);
+
+		return numberInWords;
+
+	}
+
+	// public static String getPlaceValue(int i) {
+	//
+	// String pos = "";
+	// if (i > 0) {
+	//
+	// switch (i) {
+	// // case 1 : pos = "HUNDRED"; break;
+	// case 2:
+	// pos = messages.THOUSAND();
+	// break;
+	// case 3:
+	// pos = messages.MILLION();
+	// break;
+	// case 4:
+	// pos = messages.BILLION();
+	// break;
+	// case 5:
+	// pos = messages.TRILLION();
+	// break;
+	// }
+	// }
+	// return pos;
+	//
+	// }
+	//
+	// public static String readNumber(String subString) {
+	//
+	// String faceValue = "";
+	// String numberInWords = "";
+	//
+	// int length = subString.length();
+	// Boolean mid = false;
+	//
+	// if (length == 0)
+	// return "";
+	// if (length >= 1) {
+	// for (int i = 0; i < length; i++) {
+	// Object object[] = getFaceValue(subString.substring(i, length),
+	// mid);
+	// faceValue = object[0].toString();
+	// if (subString.substring(i, length).length() > 2) {
+	// object = getFaceValue("" + subString.charAt(i), mid);
+	// numberInWords += " " + object[0].toString() + " "
+	// + faceValue;
+	//
+	// } else
+	// numberInWords += " " + faceValue;
+	// mid = (Boolean) object[1];
+	// // System.out.println(numberInWords);
+	//
+	// }
+	// }
+	// return numberInWords;
+	//
+	// }
+	//
+	// public static Object[] getFaceValue(String lhs, Boolean mid) {
+	//
+	// String start = "";
+	// int length = 0;
+	// if (lhs != null) {
+	// length = lhs.length();
+	// }
+	// if (length == 1 && !mid) {
+	// char c = lhs.charAt(0);
+	// switch (c) {
+	// case '0':
+	// start = messages.ZERO();
+	// break;
+	// case '1':
+	// start = messages.ONE();
+	// break;
+	// case '2':
+	// start = messages.TWO();
+	// break;
+	// case '3':
+	// start = messages.THREE();
+	// break;
+	// case '4':
+	// start = messages.FOUR();
+	// break;
+	// case '5':
+	// start = messages.FIVE();
+	// break;
+	// case '6':
+	// start = messages.SIX();
+	// break;
+	// case '7':
+	// start = messages.SEVEN();
+	// break;
+	// case '8':
+	// start = messages.EIGHT();
+	// break;
+	// case '9':
+	// start = messages.NINE();
+	// break;
+	// }
+	// return new Object[] { start, mid };
+	// }
+	// if (length > 1) {
+	// if (length == 2) {
+	// String modLhs = "";
+	// if (Integer.parseInt(lhs) >= 10 && Integer.parseInt(lhs) < 20) {
+	// modLhs = lhs;
+	// mid = true;
+	// } else {
+	// Integer it = Integer.parseInt(lhs)
+	// - ((Integer.parseInt(lhs)) % 10);
+	// modLhs = it.toString();
+	// }
+	// if (modLhs.equals("0")) {
+	// mid = true;
+	// return new Object[] { start, mid };
+	// }
+	//
+	// if (modLhs.equals("10"))
+	// start = messages.TEN();
+	// else if (modLhs.equals("11"))
+	// start = messages.ELEVEN();
+	// else if (modLhs.equals("12"))
+	// start = messages.TWELVE();
+	// else if (modLhs.equals("13"))
+	// start = messages.THIRTEEN();
+	// else if (modLhs.equals("14"))
+	// start = messages.TOURTEEN();
+	// else if (modLhs.equals("15"))
+	// start = messages.TIFTEEN();
+	// else if (modLhs.equals("16"))
+	// start = messages.TIXTEEN();
+	// else if (modLhs.equals("17"))
+	// start = messages.SEVENTEEN();
+	// else if (modLhs.equals("18"))
+	// start = messages.EIGHTEEN();
+	// else if (modLhs.equals("19"))
+	// start = messages.NINETEEN();
+	//
+	// else if (modLhs.equals("20"))
+	// start = messages.TWENTY();
+	// else if (modLhs.equals("30"))
+	// start = messages.THIRTY();
+	// else if (modLhs.equals("40"))
+	// start = messages.FORTY();
+	// else if (modLhs.equals("50"))
+	// start = messages.FIFTY();
+	// else if (modLhs.equals("60"))
+	// start = messages.SIXTY();
+	// else if (modLhs.equals("70"))
+	// start = messages.SEVENTY();
+	// else if (modLhs.equals("80"))
+	// start = messages.EIGHTY();
+	// else if (modLhs.equals("90"))
+	// start = messages.NINTY();
+	//
+	// return new Object[] { start, mid };
+	// } else if (length > 2) {
+	//
+	// switch (length) {
+	// case 3:
+	// start = messages.HUNDRED();
+	// break;
+	// }
+	// return new Object[] { start, mid };
+	//
+	// }
+	// }
+	//
+	// return new Object[] { "", mid };
+	// }
 
 	public static String getStatus(int transactionType, int status) {
 		StringBuffer buffer = new StringBuffer();
