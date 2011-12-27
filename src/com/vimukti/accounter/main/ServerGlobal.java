@@ -7,7 +7,6 @@ import com.google.gwt.i18n.client.DefaultDateTimeFormatInfo;
 import com.vimukti.accounter.web.client.AbstractGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
 public class ServerGlobal extends AbstractGlobal {

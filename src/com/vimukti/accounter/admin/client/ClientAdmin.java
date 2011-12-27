@@ -20,11 +20,6 @@ public class ClientAdmin implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 7573080843742411106L;
 
-	@Override
-	public String getClientClassSimpleName() {
-		// TODO Auto-generated method stub
-		return "ClientAdmin";
-	}
 
 	@Override
 	public String getDisplayName() {

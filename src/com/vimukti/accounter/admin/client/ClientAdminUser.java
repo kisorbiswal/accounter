@@ -64,11 +64,6 @@ public class ClientAdminUser implements IAccounterCore {
 		this.isPermissionsGiven = permission;
 	}
 
-	@Override
-	public String getClientClassSimpleName() {
-
-		return "ClientAdminUser";
-	}
 
 	@Override
 	public String getDisplayName() {
