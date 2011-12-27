@@ -308,7 +308,7 @@ public class HistoryTokens {
 
 	public static final String RECURRINGREMINDERS = "recurringReminders";
 
-	public static final String RECONCILATION_LIST = "Reconciliation Reports";
+	public static final String RECONCILATION_LIST = "ReconciliationReports";
 	public static final String CUSTOMERCENTRE = "customercentre";
 
 	public static final String CHECK_PRINT_SETTING = "checkPrintSetting";
