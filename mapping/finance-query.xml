@@ -7022,6 +7022,46 @@
 
 	</sql-query>
 
+	<sql-query name="canDeletePayTAX">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+
+		SELECT
+		PT.ID AS PT_ID
+
+		FROM PAY_TAX PT
+		LEFT JOIN TRANSACTION T ON
+		T.ID=PT.ID
+
+		WHERE PT.ID IS NULL AND
+		PT.ID=:inputId AND
+		T.COMPANY_ID=:companyId
+
+	</sql-query>
+
+	<sql-query name="canDeleteReceiveVAT">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="COMPANY_ID" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+
+		SELECT
+		RV.ID AS RV_ID
+
+		FROM RECEIVE_VAT RV
+		LEFT JOIN TRANSACTION T ON
+		T.ID=RV.ID
+
+		WHERE RV.ID IS NULL AND
+		RV.ID=:inputId AND
+		T.COMPANY_ID=:companyId
+
+	</sql-query>
+
 	<sql-query name="getAllUserActivities">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="timestamp" />
