@@ -81,7 +81,7 @@
 
 		<list name="history" cascade="save-update,delete">
 			<key column="TRANSACTION_ID" />
-			<list-index column="LAST_HISTORY" />
+			<list-index column="IDX" />
 			<one-to-many class="TransactionLog" />
 		</list>
 

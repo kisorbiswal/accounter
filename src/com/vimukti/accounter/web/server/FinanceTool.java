@@ -2486,9 +2486,9 @@ public class FinanceTool {
 			noteHistory.setDescription(noteDescription);
 			noteHistory.setCompany(company);
 			noteHistory.setTransaction(transaction2);
-			session.save(noteHistory);
-			transaction2.getHistory().add(noteHistory);
-			session.update(transaction2);
+			List<TransactionLog> history = transaction2.getHistory();
+			history.add(noteHistory);
+			session.saveOrUpdate(transaction2);
 			transaction.commit();
 			return noteHistory.getID();
 		} catch (Exception e) {
