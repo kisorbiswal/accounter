@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.server.OperationContext;
 
 public abstract class AbstractCommand extends AbstractBaseCommand {
 	public static final String FIRST_MESSAGE = "firstMessage";
-	private IGlobal global;
 	private AccounterMessages messages;
 	protected static final String AMOUNTS_INCLUDE_TAX = "Amounts Include tax";
 	// protected static final String COUNTRY = "country";
@@ -50,12 +49,7 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 
 	@Override
 	public void init() {
-		try {
-			global = new ServerGlobal();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		messages = global.messages();
+		messages = Global.get().messages();
 		super.init();
 	}
 
@@ -148,8 +142,7 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 			return ClientAddress.TYPE_HOME;
 		else if (type.equalsIgnoreCase(messages.company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase(messages
-				.companyregistration()))
+		else if (type.equalsIgnoreCase(messages.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
 		return ClientAddress.TYPE_OTHER;

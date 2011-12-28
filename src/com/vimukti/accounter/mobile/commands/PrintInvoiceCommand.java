@@ -16,10 +16,13 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -64,6 +67,7 @@ public class PrintInvoiceCommand extends AbstractCommand {
 		final ClientCompanyPreferences clientCompanyPreferences = CompanyPreferenceThreadLocal
 				.get();
 		final User user = AccounterThreadLocal.get();
+		final IGlobal iGlobal = Global.get();
 		new Thread(new Runnable() {
 
 			@Override
@@ -71,6 +75,7 @@ public class PrintInvoiceCommand extends AbstractCommand {
 				try {
 					HibernateUtil.openSession();
 					ServerLocal.set(locale);
+					Global.set(iGlobal);
 					CompanyPreferenceThreadLocal.set(clientCompanyPreferences);
 					AccounterThreadLocal.set(user);
 					FinanceTool tool = new FinanceTool();

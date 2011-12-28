@@ -4,49 +4,56 @@ import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.Global;
 
 public class DayAndMonthUtil {
-	private static final DateTimeFormatInfo a = Global.get()
-			.createDateTimeFormatInfo();
-	private static String[] weekdaysFull = a.weekdaysFull();
-	private static String[] weekdaysShort = a.weekdaysShort();
-	private static String[] monthNameFull = a.monthsFull();
-	private static String[] monthNameShort = a.monthsShort();
-	private static String sunday = weekdaysFull[0];
-	private static String monday = weekdaysFull[1];
-	private static String tuesday = weekdaysFull[2];
-	private static String wednesday = weekdaysFull[3];
-	private static String thursday = weekdaysFull[4];
-	private static String friday = weekdaysFull[5];
-	private static String saturday = weekdaysFull[6];
-	private static String january = monthNameFull[0];
-	private static String february = monthNameFull[1];
-	private static String march = monthNameFull[2];
-	private static String april = monthNameFull[3];
-	private static String may_full = monthNameFull[4];
-	private static String june = monthNameFull[5];
-	private static String july = monthNameFull[6];
-	private static String august = monthNameFull[7];
-	private static String september = monthNameFull[8];
-	private static String october = monthNameFull[9];
-	private static String november = monthNameFull[10];
-	private static String december = monthNameFull[11];
-	private static String jan = monthNameShort[0];
-	private static String feb = monthNameShort[1];
-	private static String mar = monthNameShort[2];
-	private static String apr = monthNameShort[3];
-	private static String may_short = monthNameShort[4];
-	private static String jun = monthNameShort[5];
-	private static String jul = monthNameShort[6];
-	private static String aug = monthNameShort[7];
-	private static String sep = monthNameShort[8];
-	private static String oct = monthNameShort[9];
-	private static String nov = monthNameShort[10];
-	private static String dec = monthNameShort[11];
+	private final DateTimeFormatInfo a;
+	private String[] weekdaysFull;
+	private String[] weekdaysShort;
+	private String[] monthNameFull;
+	private String[] monthNameShort;
+	private String sunday = weekdaysFull[0];
+	private String monday = weekdaysFull[1];
+	private String tuesday = weekdaysFull[2];
+	private String wednesday = weekdaysFull[3];
+	private String thursday = weekdaysFull[4];
+	private String friday = weekdaysFull[5];
+	private String saturday = weekdaysFull[6];
+	private String january = monthNameFull[0];
+	private String february = monthNameFull[1];
+	private String march = monthNameFull[2];
+	private String april = monthNameFull[3];
+	private String may_full = monthNameFull[4];
+	private String june = monthNameFull[5];
+	private String july = monthNameFull[6];
+	private String august = monthNameFull[7];
+	private String september = monthNameFull[8];
+	private String october = monthNameFull[9];
+	private String november = monthNameFull[10];
+	private String december = monthNameFull[11];
+	private String jan = monthNameShort[0];
+	private String feb = monthNameShort[1];
+	private String mar = monthNameShort[2];
+	private String apr = monthNameShort[3];
+	private String may_short = monthNameShort[4];
+	private String jun = monthNameShort[5];
+	private String jul = monthNameShort[6];
+	private String aug = monthNameShort[7];
+	private String sep = monthNameShort[8];
+	private String oct = monthNameShort[9];
+	private String nov = monthNameShort[10];
+	private String dec = monthNameShort[11];
+
+	public DayAndMonthUtil(DateTimeFormatInfo a) {
+		this.a = a;
+		weekdaysFull = a.weekdaysFull();
+		weekdaysShort = a.weekdaysShort();
+		monthNameFull = a.monthsFull();
+		monthNameShort = a.monthsShort();
+	}
 
 	/**
 	 * @return the monday
 	 */
 	public static String monday() {
-		return monday;
+		return Global.get().getDayAndMonthUtil().monday;
 	}
 
 	/**
@@ -54,14 +61,14 @@ public class DayAndMonthUtil {
 	 *            the monday to set
 	 */
 	public static void setMonday(String monday) {
-		DayAndMonthUtil.monday = monday;
+		Global.get().getDayAndMonthUtil().monday = monday;
 	}
 
 	/**
 	 * @return the sunday
 	 */
 	public static String sunday() {
-		return sunday;
+		return Global.get().getDayAndMonthUtil().sunday;
 	}
 
 	/**
@@ -69,14 +76,14 @@ public class DayAndMonthUtil {
 	 *            the sunday to set
 	 */
 	public static void setSunday(String sunday) {
-		DayAndMonthUtil.sunday = sunday;
+		Global.get().getDayAndMonthUtil().sunday = sunday;
 	}
 
 	/**
 	 * @return the tuesday
 	 */
 	public static String tuesday() {
-		return tuesday;
+		return Global.get().getDayAndMonthUtil().tuesday;
 	}
 
 	/**
@@ -84,14 +91,14 @@ public class DayAndMonthUtil {
 	 *            the tuesday to set
 	 */
 	public static void setTuesday(String tuesday) {
-		DayAndMonthUtil.tuesday = tuesday;
+		Global.get().getDayAndMonthUtil().tuesday = tuesday;
 	}
 
 	/**
 	 * @return the thursday
 	 */
 	public static String thursday() {
-		return thursday;
+		return Global.get().getDayAndMonthUtil().thursday;
 	}
 
 	/**
@@ -99,14 +106,14 @@ public class DayAndMonthUtil {
 	 *            the thursday to set
 	 */
 	public static void setThursday(String thursday) {
-		DayAndMonthUtil.thursday = thursday;
+		Global.get().getDayAndMonthUtil().thursday = thursday;
 	}
 
 	/**
 	 * @return the december
 	 */
 	public static String december() {
-		return december;
+		return Global.get().getDayAndMonthUtil().december;
 	}
 
 	/**
@@ -114,14 +121,14 @@ public class DayAndMonthUtil {
 	 *            the december to set
 	 */
 	public static void setDecember(String december) {
-		DayAndMonthUtil.december = december;
+		Global.get().getDayAndMonthUtil().december = december;
 	}
 
 	/**
 	 * @return the wednesday
 	 */
 	public static String wednesday() {
-		return wednesday;
+		return Global.get().getDayAndMonthUtil().wednesday;
 	}
 
 	/**
@@ -129,14 +136,14 @@ public class DayAndMonthUtil {
 	 *            the wednesday to set
 	 */
 	public static void setWednesday(String wednesday) {
-		DayAndMonthUtil.wednesday = wednesday;
+		Global.get().getDayAndMonthUtil().wednesday = wednesday;
 	}
 
 	/**
 	 * @return the friday
 	 */
 	public static String friday() {
-		return friday;
+		return Global.get().getDayAndMonthUtil().friday;
 	}
 
 	/**
@@ -144,14 +151,14 @@ public class DayAndMonthUtil {
 	 *            the friday to set
 	 */
 	public static void setFriday(String friday) {
-		DayAndMonthUtil.friday = friday;
+		Global.get().getDayAndMonthUtil().friday = friday;
 	}
 
 	/**
 	 * @return the saturday
 	 */
 	public static String saturday() {
-		return saturday;
+		return Global.get().getDayAndMonthUtil().saturday;
 	}
 
 	/**
@@ -159,14 +166,14 @@ public class DayAndMonthUtil {
 	 *            the saturday to set
 	 */
 	public static void setSaturday(String saturday) {
-		DayAndMonthUtil.saturday = saturday;
+		Global.get().getDayAndMonthUtil().saturday = saturday;
 	}
 
 	/**
 	 * @return the january
 	 */
 	public static String january() {
-		return january;
+		return Global.get().getDayAndMonthUtil().january;
 	}
 
 	/**
@@ -174,14 +181,14 @@ public class DayAndMonthUtil {
 	 *            the january to set
 	 */
 	public static void setJanuary(String january) {
-		DayAndMonthUtil.january = january;
+		Global.get().getDayAndMonthUtil().january = january;
 	}
 
 	/**
 	 * @return the february
 	 */
 	public static String february() {
-		return february;
+		return Global.get().getDayAndMonthUtil().february;
 	}
 
 	/**
@@ -189,14 +196,14 @@ public class DayAndMonthUtil {
 	 *            the february to set
 	 */
 	public static void setFebruary(String february) {
-		DayAndMonthUtil.february = february;
+		Global.get().getDayAndMonthUtil().february = february;
 	}
 
 	/**
 	 * @return the march
 	 */
 	public static String march() {
-		return march;
+		return Global.get().getDayAndMonthUtil().march;
 	}
 
 	/**
@@ -204,14 +211,14 @@ public class DayAndMonthUtil {
 	 *            the march to set
 	 */
 	public static void setMarch(String march) {
-		DayAndMonthUtil.march = march;
+		Global.get().getDayAndMonthUtil().march = march;
 	}
 
 	/**
 	 * @return the april
 	 */
 	public static String april() {
-		return april;
+		return Global.get().getDayAndMonthUtil().april;
 	}
 
 	/**
@@ -219,14 +226,14 @@ public class DayAndMonthUtil {
 	 *            the april to set
 	 */
 	public static void setApril(String april) {
-		DayAndMonthUtil.april = april;
+		Global.get().getDayAndMonthUtil().april = april;
 	}
 
 	/**
 	 * @return the may
 	 */
 	public static String may_full() {
-		return may_full;
+		return Global.get().getDayAndMonthUtil().may_full;
 	}
 
 	/**
@@ -234,14 +241,14 @@ public class DayAndMonthUtil {
 	 *            the may to set
 	 */
 	public static void setMay_full(String may_full) {
-		DayAndMonthUtil.may_full = may_full;
+		Global.get().getDayAndMonthUtil().may_full = may_full;
 	}
 
 	/**
 	 * @return the june
 	 */
 	public static String june() {
-		return june;
+		return Global.get().getDayAndMonthUtil().june;
 	}
 
 	/**
@@ -249,14 +256,14 @@ public class DayAndMonthUtil {
 	 *            the june to set
 	 */
 	public static void setJune(String june) {
-		DayAndMonthUtil.june = june;
+		Global.get().getDayAndMonthUtil().june = june;
 	}
 
 	/**
 	 * @return the july
 	 */
 	public static String july() {
-		return july;
+		return Global.get().getDayAndMonthUtil().july;
 	}
 
 	/**
@@ -264,14 +271,14 @@ public class DayAndMonthUtil {
 	 *            the july to set
 	 */
 	public static void setJuly(String july) {
-		DayAndMonthUtil.july = july;
+		Global.get().getDayAndMonthUtil().july = july;
 	}
 
 	/**
 	 * @return the august
 	 */
 	public static String august() {
-		return august;
+		return Global.get().getDayAndMonthUtil().august;
 	}
 
 	/**
@@ -279,14 +286,14 @@ public class DayAndMonthUtil {
 	 *            the august to set
 	 */
 	public static void setAugust(String august) {
-		DayAndMonthUtil.august = august;
+		Global.get().getDayAndMonthUtil().august = august;
 	}
 
 	/**
 	 * @return the september
 	 */
 	public static String september() {
-		return september;
+		return Global.get().getDayAndMonthUtil().september;
 	}
 
 	/**
@@ -294,14 +301,14 @@ public class DayAndMonthUtil {
 	 *            the september to set
 	 */
 	public static void setSeptember(String september) {
-		DayAndMonthUtil.september = september;
+		Global.get().getDayAndMonthUtil().september = september;
 	}
 
 	/**
 	 * @return the october
 	 */
 	public static String october() {
-		return october;
+		return Global.get().getDayAndMonthUtil().october;
 	}
 
 	/**
@@ -309,14 +316,14 @@ public class DayAndMonthUtil {
 	 *            the october to set
 	 */
 	public static void setOctober(String october) {
-		DayAndMonthUtil.october = october;
+		Global.get().getDayAndMonthUtil().october = october;
 	}
 
 	/**
 	 * @return the november
 	 */
 	public static String november() {
-		return november;
+		return Global.get().getDayAndMonthUtil().november;
 	}
 
 	/**
@@ -324,14 +331,14 @@ public class DayAndMonthUtil {
 	 *            the november to set
 	 */
 	public static void setNovember(String november) {
-		DayAndMonthUtil.november = november;
+		Global.get().getDayAndMonthUtil().november = november;
 	}
 
 	/**
 	 * @return the jan
 	 */
 	public static String jan() {
-		return jan;
+		return Global.get().getDayAndMonthUtil().jan;
 	}
 
 	/**
@@ -339,14 +346,14 @@ public class DayAndMonthUtil {
 	 *            the jan to set
 	 */
 	public static void setJan(String jan) {
-		DayAndMonthUtil.jan = jan;
+		Global.get().getDayAndMonthUtil().jan = jan;
 	}
 
 	/**
 	 * @return the feb
 	 */
 	public static String feb() {
-		return feb;
+		return Global.get().getDayAndMonthUtil().feb;
 	}
 
 	/**
@@ -354,14 +361,14 @@ public class DayAndMonthUtil {
 	 *            the feb to set
 	 */
 	public static void setFeb(String feb) {
-		DayAndMonthUtil.feb = feb;
+		Global.get().getDayAndMonthUtil().feb = feb;
 	}
 
 	/**
 	 * @return the mar
 	 */
 	public static String mar() {
-		return mar;
+		return Global.get().getDayAndMonthUtil().mar;
 	}
 
 	/**
@@ -369,14 +376,14 @@ public class DayAndMonthUtil {
 	 *            the mar to set
 	 */
 	public static void setMar(String mar) {
-		DayAndMonthUtil.mar = mar;
+		Global.get().getDayAndMonthUtil().mar = mar;
 	}
 
 	/**
 	 * @return the apr
 	 */
 	public static String apr() {
-		return apr;
+		return Global.get().getDayAndMonthUtil().apr;
 	}
 
 	/**
@@ -384,14 +391,14 @@ public class DayAndMonthUtil {
 	 *            the apr to set
 	 */
 	public static void setApr(String apr) {
-		DayAndMonthUtil.apr = apr;
+		Global.get().getDayAndMonthUtil().apr = apr;
 	}
 
 	/**
 	 * @return the jun
 	 */
 	public static String jun() {
-		return jun;
+		return Global.get().getDayAndMonthUtil().jun;
 	}
 
 	/**
@@ -399,14 +406,14 @@ public class DayAndMonthUtil {
 	 *            the jun to set
 	 */
 	public static void setJun(String jun) {
-		DayAndMonthUtil.jun = jun;
+		Global.get().getDayAndMonthUtil().jun = jun;
 	}
 
 	/**
 	 * @return the jul
 	 */
 	public static String jul() {
-		return jul;
+		return Global.get().getDayAndMonthUtil().jul;
 	}
 
 	/**
@@ -414,14 +421,14 @@ public class DayAndMonthUtil {
 	 *            the jul to set
 	 */
 	public static void setJul(String jul) {
-		DayAndMonthUtil.jul = jul;
+		Global.get().getDayAndMonthUtil().jul = jul;
 	}
 
 	/**
 	 * @return the aug
 	 */
 	public static String aug() {
-		return aug;
+		return Global.get().getDayAndMonthUtil().aug;
 	}
 
 	/**
@@ -429,21 +436,21 @@ public class DayAndMonthUtil {
 	 *            the aug to set
 	 */
 	public static void setAug(String aug) {
-		DayAndMonthUtil.aug = aug;
+		Global.get().getDayAndMonthUtil().aug = aug;
 	}
 
 	/**
 	 * @return the sept
 	 */
 	public static String sep() {
-		return sep;
+		return Global.get().getDayAndMonthUtil().sep;
 	}
 
 	/**
 	 * @return the oct
 	 */
 	public static String oct() {
-		return oct;
+		return Global.get().getDayAndMonthUtil().oct;
 	}
 
 	/**
@@ -451,14 +458,14 @@ public class DayAndMonthUtil {
 	 *            the oct to set
 	 */
 	public static void setOct(String oct) {
-		DayAndMonthUtil.oct = oct;
+		Global.get().getDayAndMonthUtil().oct = oct;
 	}
 
 	/**
 	 * @return the nov
 	 */
 	public static String nov() {
-		return nov;
+		return Global.get().getDayAndMonthUtil().nov;
 	}
 
 	/**
@@ -466,14 +473,14 @@ public class DayAndMonthUtil {
 	 *            the nov to set
 	 */
 	public static void setNov(String nov) {
-		DayAndMonthUtil.nov = nov;
+		Global.get().getDayAndMonthUtil().nov = nov;
 	}
 
 	/**
 	 * @return the dec
 	 */
 	public static String dec() {
-		return dec;
+		return Global.get().getDayAndMonthUtil().dec;
 	}
 
 	/**
@@ -481,14 +488,14 @@ public class DayAndMonthUtil {
 	 *            the dec to set
 	 */
 	public static void setDec(String dec) {
-		DayAndMonthUtil.dec = dec;
+		Global.get().getDayAndMonthUtil().dec = dec;
 	}
 
 	/**
 	 * @return the may_short
 	 */
 	public static String mayS() {
-		return may_short;
+		return Global.get().getDayAndMonthUtil().may_short;
 	}
 
 	/**
@@ -496,6 +503,6 @@ public class DayAndMonthUtil {
 	 *            the may_short to set
 	 */
 	public static void setMay_short(String may_short) {
-		DayAndMonthUtil.may_short = may_short;
+		Global.get().getDayAndMonthUtil().may_short = may_short;
 	}
 }

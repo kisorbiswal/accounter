@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 import com.vimukti.accounter.mobile.UserMessage.Type;
@@ -20,6 +21,7 @@ import com.vimukti.accounter.mobile.commands.SelectCompanyCommand;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 /**
  * @author Prasanna Kumar G
@@ -99,6 +101,8 @@ public class MobileMessageHandler extends Thread {
 				}
 			}
 			ServerLocal.set(getLocal(session.getLanguage()));
+			Global.set(new ServerGlobal());
+
 			session.sethibernateSession(openSession);
 			session.reloadObjects();
 

@@ -1,17 +1,15 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.web.client.IGlobal;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -33,7 +31,6 @@ public abstract class AbstractRequirement<T> extends Requirement {
 	public static final int INPUT_TYPE_URL = 7;
 	public static final int INPUT_TYPE_DATE = 8;
 
-	private IGlobal global;
 	private AccounterMessages messages;
 	private ClientCompanyPreferences preferences;
 	private Company company;
@@ -44,12 +41,7 @@ public abstract class AbstractRequirement<T> extends Requirement {
 			String recordName, boolean isOptional, boolean isAllowFromContext) {
 		super(requirementName, enterString, recordName, isOptional,
 				isAllowFromContext);
-		try {
-			global = new ServerGlobal();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		messages = global.messages();
+		messages = Global.get().messages();
 	}
 
 	public void addFirstMessage(Context context, String string) {

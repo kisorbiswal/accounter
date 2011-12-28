@@ -1,10 +1,9 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.text.DecimalFormat;
-
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class AmountRequirement extends SingleRequirement<Double> {
 
@@ -32,27 +31,21 @@ public class AmountRequirement extends SingleRequirement<Double> {
 
 	@Override
 	protected String getDisplayValue(Double value) {
-		return value != null ? toDecimalFormat(value) : "";
+		return value != null ? Global.get().toCurrencyFormat(value, null) : "";
 	}
 
 	@Override
 	protected Double getInputFromContext(Context context) {
-		return (Double) (context.getDouble() == null ? getValue() : context
-				.getDouble());
+		String string = context.getString();
+		try {
+			return DataUtils.getAmountStringAsDouble(string);
+		} catch (Exception e) {
+		}
+		return 0.0d;
 	}
 
 	@Override
 	public InputType getInputType() {
 		return new InputType(INPUT_TYPE_AMOUNT);
-	}
-
-	public String toDecimalFormat(double amount) {
-		int decimalNumber = Global.get().preferences().getDecimalNumber();
-		String pattern = "#,##0.";
-		for (int i = 0; i < decimalNumber; i++) {
-			pattern = pattern + "0";
-		}
-		DecimalFormat format = new DecimalFormat(pattern);
-		return format.format(amount);
 	}
 }

@@ -1,8 +1,9 @@
 package com.vimukti.accounter.web.client;
 
-import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public interface IGlobal {
 
@@ -30,6 +31,8 @@ public interface IGlobal {
 
 	public String Vendors();
 
-	public DateTimeFormatInfo createDateTimeFormatInfo();
+	public DayAndMonthUtil getDayAndMonthUtil();
+
+	public AccounterNumberFormat getFormater();
 
 }

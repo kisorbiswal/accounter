@@ -270,7 +270,6 @@ public class Accounter implements EntryPoint {
 		return endDate;
 	}
 
-
 	public static AccounterMessages getMessages() {
 		if (messages == null) {
 			try {
@@ -637,14 +636,6 @@ public class Accounter implements EntryPoint {
 
 	public static void setCurrencyFormat() {
 		ClientCompanyPreferences preferences = getCompany().getPreferences();
-		AccounterNumberFormat
-				.setCurrencyPattern(preferences.getCurrencyFormat(),
-						preferences.getDecimalNumber());
-		AccounterNumberFormat currencyFormat = AccounterNumberFormat
-				.getCurrencyFormat();
-		currencyFormat.decimalSeparator = preferences.getDecimalCharacter()
-				.charAt(0);
-		currencyFormat.groupingSeparator = preferences.getDigitGroupCharacter()
-				.charAt(0);
+		Global.get().getFormater().setCurrencyFormat(preferences);
 	}
 }

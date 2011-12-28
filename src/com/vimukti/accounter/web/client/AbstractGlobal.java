@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 
 /**
  * @author Prasanna Kumar G
@@ -130,4 +131,9 @@ public abstract class AbstractGlobal implements IGlobal {
 		return messages().Vendors();
 	}
 
+	@Override
+	public String toCurrencyFormat(double amount, String currencyCode) {
+		AccounterNumberFormat nf = getFormater();
+		return nf.format(amount, currencyCode);
+	}
 }

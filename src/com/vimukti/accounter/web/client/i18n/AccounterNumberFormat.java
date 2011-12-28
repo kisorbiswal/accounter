@@ -7,6 +7,7 @@ import com.google.gwt.i18n.client.CurrencyData;
 import com.google.gwt.i18n.client.CurrencyList;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.client.constants.NumberConstants;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
  * Formats and parses numbers using locale-sensitive patterns.
@@ -332,8 +333,8 @@ public class AccounterNumberFormat {
 
 	private static final char QUOTE = '\'';
 
-	public char decimalSeparator;
-	public char groupingSeparator;
+	private char decimalSeparator;
+	private char groupingSeparator;
 
 	/**
 	 * Returns true if all new NumberFormat instances will use latin digits and
@@ -1599,5 +1600,13 @@ public class AccounterNumberFormat {
 		currencyFormat.parsePattern(pattern);
 		currencyFormat.minimumFractionDigits = numberOfDecimals;
 		currencyFormat.maximumFractionDigits = numberOfDecimals;
+	}
+
+	public void setCurrencyFormat(ClientCompanyPreferences preferences) {
+		parsePattern(preferences.getCurrencyFormat());
+		minimumFractionDigits = preferences.getDecimalNumber();
+		maximumFractionDigits = preferences.getDecimalNumber();
+		decimalSeparator = preferences.getDecimalCharacter().charAt(0);
+		groupingSeparator = preferences.getDigitGroupCharacter().charAt(0);
 	}
 }
