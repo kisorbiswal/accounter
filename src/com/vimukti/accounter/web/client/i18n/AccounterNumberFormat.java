@@ -332,6 +332,9 @@ public class AccounterNumberFormat {
 
 	private static final char QUOTE = '\'';
 
+	public char decimalSeparator;
+	public char groupingSeparator;
+
 	/**
 	 * Returns true if all new NumberFormat instances will use latin digits and
 	 * related characters rather than the localized ones.
@@ -681,7 +684,26 @@ public class AccounterNumberFormat {
 	public String format(double number, String currencyCode) {
 		String string = this.format(number);
 		return string.replaceAll("\u00A4", currencyCode == null ? ""
-				: currencyCode);
+				: quoteReplacement(currencyCode));
+	}
+
+	private static String quoteReplacement(String s) {
+		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
+			return s;
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c == '\\') {
+				sb.append('\\');
+				sb.append('\\');
+			} else if (c == '$') {
+				sb.append('\\');
+				sb.append('$');
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -872,17 +894,6 @@ public class AccounterNumberFormat {
 	 *            fractional digits
 	 */
 	protected void format(boolean isNegative, StringBuilder digits, int scale) {
-		char decimalSeparator;
-		char groupingSeparator;
-		if (isCurrencyFormat) {
-			decimalSeparator = numberConstants.monetarySeparator().charAt(0);
-			groupingSeparator = numberConstants.monetaryGroupingSeparator()
-					.charAt(0);
-		} else {
-			decimalSeparator = numberConstants.decimalSeparator().charAt(0);
-			groupingSeparator = numberConstants.groupingSeparator().charAt(0);
-		}
-
 		// Set these transient fields, which will be adjusted/used by the
 		// routines
 		// called in this method.
@@ -1253,11 +1264,6 @@ public class AccounterNumberFormat {
 		boolean sawExponent = false;
 		boolean sawDigit = false;
 		int scale = 1;
-		String decimal = isCurrencyFormat ? numberConstants.monetarySeparator()
-				: numberConstants.decimalSeparator();
-		String grouping = isCurrencyFormat ? numberConstants
-				.monetaryGroupingSeparator() : numberConstants
-				.groupingSeparator();
 		String exponentChar = numberConstants.exponentialSymbol();
 
 		StringBuffer normalizedText = new StringBuffer();
@@ -1267,13 +1273,13 @@ public class AccounterNumberFormat {
 			if (digit >= 0 && digit <= 9) {
 				normalizedText.append((char) (digit + '0'));
 				sawDigit = true;
-			} else if (ch == decimal.charAt(0)) {
+			} else if (ch == decimalSeparator) {
 				if (sawDecimal || sawExponent) {
 					break;
 				}
 				normalizedText.append('.');
 				sawDecimal = true;
-			} else if (ch == grouping.charAt(0)) {
+			} else if (ch == groupingSeparator) {
 				if (sawDecimal || sawExponent) {
 					break;
 				}
