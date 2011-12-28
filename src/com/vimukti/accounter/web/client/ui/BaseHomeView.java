@@ -9,10 +9,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 
-public class BaseHomeView extends AbstractView<Object> {
+public class BaseHomeView extends AbstractView<Object> implements
+		IDeleteCallback {
 	private VerticalPanel widgetLayout;
 	protected BaseListGrid payeeGrid;
 	protected final int start = 0;
@@ -46,7 +49,7 @@ public class BaseHomeView extends AbstractView<Object> {
 			});
 			payeeGrid.setVisibleRange(start, pageSize);
 			SimplePager pager = new SimplePager(TextLocation.CENTER,
-					(Resources) GWT.create(Resources.class), true,
+					(Resources) GWT.create(Resources.class), false,
 					pageSize * 2, true);
 			pager.setDisplay(payeeGrid);
 			pager.addStyleName("pager-images");
@@ -105,6 +108,18 @@ public class BaseHomeView extends AbstractView<Object> {
 	public void updateRecordsCount(int start, int length, int total) {
 		payeeGrid.updateRange(new Range(start, getPageSize()));
 		payeeGrid.setRowCount(total, (start + length) == total);
+
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
 
 	}
 
