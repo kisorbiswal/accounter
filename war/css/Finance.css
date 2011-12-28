@@ -2645,3 +2645,6 @@ input.date-field-textbox {
 .customer-detail-notespanel{
 	word-wrap: break-word;
 }
+.customer-detail-notespanel div{
+	width:195px;
+}
