@@ -164,7 +164,7 @@ public class OpenCompanyServlet extends BaseServlet {
 	private HashMap<String, String> getLocaleConstants() {
 		HashMap<String, String> result = new HashMap<String, String>();
 
-		String files[] = { "DateTimeConstantsImpl", "NumberConstantsImpl" };
+		String files[] = { "DateTimeConstantsImpl" };
 
 		for (String file : files) {
 			ResourceBundle dateTimeConstants = ResourceBundle.getBundle(
