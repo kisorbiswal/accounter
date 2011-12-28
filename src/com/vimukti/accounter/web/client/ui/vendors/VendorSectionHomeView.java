@@ -189,18 +189,11 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						payeeGrid.removeAllRecords();
-						payeeGrid.removeAllRows();
-						if (!result.isEmpty()) {
-							payeeGrid.addRecords(result);
-							payeeGrid.sort(12, false);
-							updateRecordsCount(result.getStart(),
-									payeeGrid.getTableRowCount(),
-									result.getTotalCount());
-						} else if (payeeGrid.getRecords().isEmpty()) {
-							payeeGrid.addEmptyMessage(messages
-									.noRecordsToShow());
-						}
+						payeeGrid.setRecords(result);
+						payeeGrid.sort(12, false);
+						updateRecordsCount(result.getStart(),
+								payeeGrid.getTableRowCount(),
+								result.getTotalCount());
 					}
 
 					@Override
@@ -210,10 +203,8 @@ public class VendorSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				messages.newPayee(Global.get().Vendor()),
-				messages.itemPurchase(),
-				messages.billPaid(),
+		String[] totalWidget = { messages.newPayee(Global.get().Vendor()),
+				messages.itemPurchase(), messages.billPaid(),
 				messages.cashPurchase() };
 
 		boolean isAvailable = false;
