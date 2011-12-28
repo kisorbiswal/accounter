@@ -998,6 +998,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
+			memoTextAreaItem.setDisabled(isInViewMode());
 
 			if (transaction.getDeliverydate() != 0)
 				this.deliveryDate.setValue(new ClientFinanceDate(transaction
@@ -1046,7 +1047,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 			paymentsNonEditableText.setAmount(transaction.getPayments());
 			balanceDueNonEditableText.setAmount(transaction.getBalanceDue());
-			memoTextAreaItem.setDisabled(true);
+			// memoTextAreaItem.setDisabled(true);
 			initAccounterClass();
 		}
 
