@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.AnnotatedTimeLine;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -118,14 +119,27 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 
 			}
 		};
-		if (accountId != 0) {
-			Accounter.createHomeService().getAccountsBalancesByDate(startDate,
-					endDate, accountId, dateRangeType, callback);
-		} else {
-			Label label = new Label(messages.noRecordsToShow());
-			graphPanel.add(label);
-			graphPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+		if (accountId == 0) {
+			ClientAccount accountByName;
+			if (chartType == YEAR_OVER_YEAR_EXPENSE) {
+				accountByName = Accounter.getCompany().getAccountByName(
+						"Consulting Income");
+			} else {
+				accountByName = Accounter.getCompany().getAccountByName(
+						"Advertising & Promotion");
+			}
+			if (accountByName != null) {
+				accountId = accountByName.getID();
+			} else {
+				Label label = new Label(messages.noRecordsToShow());
+				graphPanel.add(label);
+				graphPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+				return;
+			}
 		}
+		Accounter.createHomeService().getAccountsBalancesByDate(startDate,
+				endDate, accountId, dateRangeType, callback);
+
 	}
 
 	protected void updateGraphData(ArrayList<YearOverYearPortletData> result) {
