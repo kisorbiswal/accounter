@@ -110,6 +110,7 @@ public class CustomerDetailsPanel extends VerticalPanel {
 			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
 
 			notes.setValue(selectedCustomer.getMemo());
+			notes.getMainWidget().getElement().getParentElement().addClassName("customer-detail-notespanel");
 
 		} else {
 			name.setValue("");
