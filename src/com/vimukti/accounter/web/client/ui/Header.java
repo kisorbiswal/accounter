@@ -162,7 +162,7 @@ public class Header extends FlowPanel {
 		panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
 		panel3.add(userName);
-		panel3.addStyleName("company_title");
+		panel2.addStyleName("companies_title");
 		panel3.add(help);
 		panel3.add(logout);
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
