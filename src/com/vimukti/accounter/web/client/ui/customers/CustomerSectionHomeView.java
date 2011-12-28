@@ -195,18 +195,11 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 					@Override
 					public void onResultSuccess(PaginationList<PayeeList> result) {
-						payeeGrid.removeAllRecords();
-						payeeGrid.removeAllRows();
-						if (!result.isEmpty()) {
-							payeeGrid.addRecords(result);
-							payeeGrid.sort(12, false);
-							updateRecordsCount(result.getStart(),
-									payeeGrid.getTableRowCount(),
-									result.getTotalCount());
-						} else if (payeeGrid.getRecords().isEmpty()) {
-							payeeGrid.addEmptyMessage(messages
-									.noRecordsToShow());
-						}
+						payeeGrid.setRecords(result);
+						payeeGrid.sort(12, false);
+						updateRecordsCount(result.getStart(),
+								payeeGrid.getTableRowCount(),
+								result.getTotalCount());
 					}
 
 					@Override
