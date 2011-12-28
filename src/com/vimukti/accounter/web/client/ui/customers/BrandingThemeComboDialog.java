@@ -151,4 +151,8 @@ public class BrandingThemeComboDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
