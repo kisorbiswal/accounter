@@ -2648,3 +2648,6 @@ input.date-field-textbox {
 .customer-detail-notespanel div{
 	width:195px;
 }
+.pager-images{
+	width:auto !important;
+}
