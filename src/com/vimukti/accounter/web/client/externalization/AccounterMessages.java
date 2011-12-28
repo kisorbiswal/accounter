@@ -5650,4 +5650,6 @@ public interface AccounterMessages extends Messages {
 
 	public String acceptEstimate();
 
+	public String billsAndExpenses();
+
 }

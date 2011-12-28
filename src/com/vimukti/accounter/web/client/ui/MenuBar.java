@@ -692,13 +692,13 @@ public class MenuBar {
 							+ messages.items(), HistoryTokens.VENDORITEMS);
 
 			if (isKeepTrackofBills) {
-				vendorListMenuBar.addMenuItem("Bills And Expenses",
+				vendorListMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
 			}
 		}
 		if (canSeeBanking) {
 			vendorListMenuBar.addMenuItem(
-					messages.payeePayment(Global.get().Vendor()),
+					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);
 		}
 
@@ -940,9 +940,9 @@ public class MenuBar {
 			companyListMenuBar.addMenuItem(messages.items(),
 					HistoryTokens.ALLITEMS);
 		}
-		companyListMenuBar.addMenuItem(Global.get().Customer(),
+		companyListMenuBar.addMenuItem(Global.get().Customers(),
 				HistoryTokens.CUSTOMERS);
-		companyListMenuBar.addMenuItem(Global.get().Vendor(),
+		companyListMenuBar.addMenuItem(Global.get().Vendors(),
 				HistoryTokens.VENDORLIST);
 		if (canSeeBanking) {
 			companyListMenuBar.addMenuItem(messages.payments(),
