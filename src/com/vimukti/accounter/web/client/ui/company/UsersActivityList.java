@@ -348,7 +348,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		if (object.getDataType().equals(messages.user())) {
 			ClientUserInfo userById = Accounter.getCompany().getUserById(
 					object.getObjectID());
-			if (userById == null)
+			if (userById != null)
 				return;
 		}
 		if (object.getActivityType() == ClientActivity.VOIDED) {
