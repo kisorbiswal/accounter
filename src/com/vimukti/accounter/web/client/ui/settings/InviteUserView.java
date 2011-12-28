@@ -609,9 +609,9 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		}
 
 		if (getData().getID() != 0) {
-			if (hasAnotherAdmin == false)
-				result.addError(getData(), messages
-						.cannotCreateUserAsTheirIsNoUserWithAdminRole());
+			if (hasAnotherAdmin == false && !admin.getValue())
+				result.addError(getData(),
+						messages.cannotCreateUserAsTheirIsNoUserWithAdminRole());
 		} else {
 			clearError(getData());
 		}
