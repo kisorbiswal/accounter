@@ -290,7 +290,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyText = new TextItem(messages.taxAgency());
 		taxAgencyText.setHelpInformation(true);
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(messages.labelTitle());
+		lab.addStyleName("label-title");
 		lab.setHeight("35px");
 		taxAgencyText.setWidth(100);
 		taxAgencyText.setRequired(true);

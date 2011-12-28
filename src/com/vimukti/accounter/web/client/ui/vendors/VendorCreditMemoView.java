@@ -185,7 +185,7 @@ public class VendorCreditMemoView extends
 		Label lab1 = new Label(messages.payeeCredit(Global.get().Vendor())
 				+ "(" + getTransactionStatus() + ")");
 
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
 			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()));
@@ -194,7 +194,7 @@ public class VendorCreditMemoView extends
 			lab1 = new Label(messages.payeeCredit(Global.get().Vendor()) + "("
 					+ getTransactionStatus() + ")");
 
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		// lab1.setHeight("50px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -206,9 +206,9 @@ public class VendorCreditMemoView extends
 		DynamicForm dateNoForm = new DynamicForm();
 		dateNoForm.setNumCols(6);
 		dateNoForm.setStyleName("datenumber-panel");
-		if(isTemplate){
+		if (isTemplate) {
 			dateNoForm.setFields(transactionNumber);
-		}else{
+		} else {
 			dateNoForm.setFields(transactionDateItem, transactionNumber);
 		}
 
@@ -232,8 +232,8 @@ public class VendorCreditMemoView extends
 		// vendorForm.setDisabled(true);
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setDisabled(isInViewMode());
 		phoneSelect.setWidth(100);
@@ -872,9 +872,8 @@ public class VendorCreditMemoView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

@@ -110,7 +110,7 @@ public class PurchaseOrderView extends
 	protected void createControls() {
 
 		lab1 = new HTML(messages.purchaseOrder());
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 
 		statusSelect = new SelectCombo(messages.status());
 		listOfTypes = new ArrayList<String>();
@@ -348,8 +348,8 @@ public class PurchaseOrderView extends
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(messages.dueDate());
-		dueDateItem.setToolTip(messages.selectDateUntilDue(
-				this.getAction().getViewName()));
+		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
+				.getViewName()));
 		dueDateItem.setDisabled(isInViewMode());
 		// dueDateItem.setWidth(100);
 		if (isInViewMode()) {
@@ -1561,9 +1561,8 @@ public class PurchaseOrderView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

@@ -188,7 +188,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// .createNewAccount()));
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(messages.labelTitle());
+		lab1.addStyleName("label-title");
 		// lab1.setHeight("35px");
 		hierarchy = new String("");
 		accTypeSelect = new SelectCombo(messages.accountType());
@@ -808,7 +808,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 					} catch (Exception e) {
 						Accounter.showError(messages.invalidCreditLimit());
 					} finally {
-						limitText.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(limit));
+						limitText.setValue(DataUtils
+								.getAmountAsStringInPrimaryCurrency(limit));
 						setCreditLimit(limit);
 					}
 				}
@@ -1333,7 +1334,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
 			setCreditLimit(!DecimalUtil.isEquals(data.getCreditLimit(), 0) ? data
 					.getCreditLimit() : 0D);
-			limitText.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(getCreditLimit()));
+			limitText.setValue(DataUtils
+					.getAmountAsStringInPrimaryCurrency(getCreditLimit()));
 			cardNumText.setValue(data.getCardOrLoanNumber() != null ? data
 					.getCardOrLoanNumber() : "");
 		} else {

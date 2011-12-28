@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.EmailThemeComboDialog;
 
 public class EmailThemeComboAction extends Action {

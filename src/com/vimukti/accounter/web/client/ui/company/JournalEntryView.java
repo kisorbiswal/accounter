@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -74,12 +73,13 @@ public class JournalEntryView extends
 		locationTrackingEnabled = Global.get().preferences()
 				.isLocationTrackingEnabled();
 	}
+
 	@Override
 	public ClientJournalEntry saveView() {
 		ClientJournalEntry saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateTransaction();
-			}
+		}
 		return saveView;
 	}
 
@@ -257,7 +257,7 @@ public class JournalEntryView extends
 
 		lab1 = new Label(messages.journalEntry());
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(messages.labelTitle());
+		lab1.addStyleName("label-title");
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(messages.no());

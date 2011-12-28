@@ -176,12 +176,11 @@ public class CreditCardExpenseView extends
 
 				});
 
-		String listString[] = new String[] {
-				messages.cash(),
-				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check()), messages.creditCard(),
-				messages.directDebit(), messages.masterCard(),
-				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+		String listString[] = new String[] { messages.cash(),
+				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check()),
+				messages.creditCard(), messages.directDebit(),
+				messages.masterCard(), messages.onlineBanking(),
+				messages.standingOrder(), messages.switchMaestro() };
 
 		if (isInViewMode()) {
 			ClientCreditCardCharge creditCardCharge = transaction;
@@ -200,7 +199,7 @@ public class CreditCardExpenseView extends
 
 		titlelabel = new Label(messages.creditCardExpense());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(messages.labelTitle());
+		titlelabel.addStyleName("label-title");
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -919,7 +918,8 @@ public class CreditCardExpenseView extends
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
-		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check());
+		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+				.check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -1286,9 +1286,8 @@ public class CreditCardExpenseView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

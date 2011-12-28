@@ -44,8 +44,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 		manageFiscalyearLabel = new HTML();
 		manageFiscalyearLabel.setHTML(messages.manageFiscalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(messages
-				.toCloseBooksOrFascalYear());
+		descriptionLabel.setHTML(messages.toCloseBooksOrFascalYear());
 		listOfperiods = new FiscalYearListGrid(this, false);
 		listOfperiods.setTitle(messages.listOfPeriods());
 		listOfperiods.setWidth("350px");
@@ -75,7 +74,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 	private VerticalPanel getButtonLayout() {
 		buttonVlayout = new VerticalPanel();
-		buttonVlayout.setStyleName(messages.fiscalYearButtons());
+		buttonVlayout.setStyleName("fisclaYearButtons");
 		buttonVlayout.setSpacing(5);
 		newFiscalYearButton = new Button();
 		newFiscalYearButton.setWidth("140px");
@@ -84,8 +83,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new CreateFiscalYearDialog(messages
-						.createFascalYear(), "", listOfperiods);
+				new CreateFiscalYearDialog(messages.createFascalYear(), "",
+						listOfperiods);
 			}
 		});
 		closeFiscalYearButton = new Button();
@@ -144,8 +143,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new ChangeFiscalYearStartDateDialog(messages
-						.changeStartDate(), "", listOfperiods);
+				new ChangeFiscalYearStartDateDialog(messages.changeStartDate(),
+						"", listOfperiods);
 			}
 		});
 
@@ -296,8 +295,8 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// .getSelection()
 			// || listOfperiods.getRecordByIndex(0) == listOfperiods
 			// .getSelection()) {
-			new CreateFiscalYearDialog(messages.editFiscalYear(),
-					"", listOfperiods);
+			new CreateFiscalYearDialog(messages.editFiscalYear(), "",
+					listOfperiods);
 			enableEditRemoveButtons(false);
 			// }
 
@@ -308,8 +307,7 @@ public class ManageFiscalYearDialog extends BaseDialog {
 			// }
 
 		} else if (listOfperiods.getSelection().getStatus() == ClientFiscalYear.STATUS_CLOSE)
-			Accounter.showInformation(messages
-					.youCannotEdiClosedFiscalYear());
+			Accounter.showInformation(messages.youCannotEdiClosedFiscalYear());
 	}
 
 	public void showButtonsVisibility() {

@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;

@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -49,7 +48,7 @@ public class UsersActivityListView extends BaseView {
 		customizationDialog = new ActivityCustomizationDialog(
 				messages.customize());
 		titleItem = new Label(messages.usersActivityLogTitle());
-		titleItem.setStyleName(messages.labelTitle());
+		titleItem.setStyleName("label-title");
 
 		fromdate = new DateField(messages.fromDate());
 		toDate = new DateField(messages.endDate());

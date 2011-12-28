@@ -4,7 +4,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TextAreaItem extends FormItem<String> {
 

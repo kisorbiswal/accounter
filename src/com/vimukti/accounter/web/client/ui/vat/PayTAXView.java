@@ -78,7 +78,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		Label lab = new Label(messages.payTax());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(messages.labelTitle());
+		lab.setStyleName("label-title");
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 

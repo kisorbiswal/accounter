@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.company;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DashBoardView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;

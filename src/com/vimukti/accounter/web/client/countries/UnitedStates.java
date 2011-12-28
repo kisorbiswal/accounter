@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.countries;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 import com.vimukti.accounter.web.client.util.OrganizationType;

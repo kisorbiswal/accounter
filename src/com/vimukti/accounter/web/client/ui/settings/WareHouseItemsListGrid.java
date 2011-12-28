@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientUnit;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 

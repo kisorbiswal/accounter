@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author Prasanna Kumar G

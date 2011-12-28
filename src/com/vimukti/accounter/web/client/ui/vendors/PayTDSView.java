@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -53,7 +52,6 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 	private ClientFinanceDate dueDateOnOrBefore;
 	private DynamicForm fileterForm;
 	private TextItem transNumber;
-	
 
 	public PayTDSView(int transactionType) {
 		super(ClientTransaction.TYPE_PAY_TAX);
@@ -81,14 +79,14 @@ public class PayTDSView extends AbstractTransactionBaseView<ClientPayTDS> {
 
 		Label lab = new Label(messages.payTDS());
 		lab.removeStyleName("gwt-Label");
-		lab.setStyleName(messages.labelTitle());
+		lab.setStyleName("label-title");
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
 		transNumber.setTitle(messages.no());
-		transNumber.setToolTip(messages.giveNoTo(
-				this.getAction().getViewName()));
+		transNumber.setToolTip(messages
+				.giveNoTo(this.getAction().getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);

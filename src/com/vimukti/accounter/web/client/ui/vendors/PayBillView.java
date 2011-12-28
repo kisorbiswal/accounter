@@ -449,7 +449,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		Label lab = new Label(messages.payBill());
 		lab.removeStyleName("gwt-Label");
-		lab.addStyleName(messages.labelTitle());
+		lab.addStyleName("label-title");
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);

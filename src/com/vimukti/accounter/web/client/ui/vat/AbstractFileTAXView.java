@@ -65,7 +65,7 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 	private void createControls() {
 		Label infolabel = new Label(messages.fileTAX());
 		infolabel.removeStyleName("gwt-Label");
-		infolabel.addStyleName(messages.labelTitle());
+		infolabel.addStyleName("label-title");
 		taxAgencyCombo = new TAXAgencyCombo(messages.taxAgency());
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo.setRequired(true);

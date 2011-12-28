@@ -5,7 +5,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class AccountNameColumn extends
 		ComboColumn<ClientTransactionItem, ClientAccount> {

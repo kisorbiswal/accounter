@@ -145,7 +145,7 @@ public class ItemView extends BaseView<ClientItem> {
 		listforms = new ArrayList<DynamicForm>();
 
 		Label lab1 = new Label(messages.newProduct());
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);

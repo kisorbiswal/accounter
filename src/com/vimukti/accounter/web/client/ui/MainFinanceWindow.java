@@ -93,7 +93,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		if (item == null) {
 			item = new HelpItem();
 		}
-		addStyleName(messages.financeWindow());
+		addStyleName("Finance window");
 
 		if (UIUtils.isMSIEBrowser()) {
 			this.getElement().getStyle().setPaddingTop(0, Unit.PX);

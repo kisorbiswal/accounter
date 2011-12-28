@@ -170,7 +170,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
 
 		titleItem = new Label(messages.wareHouse());
-		titleItem.setStyleName(messages.labelTitle());
+		titleItem.setStyleName("label-title");
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");

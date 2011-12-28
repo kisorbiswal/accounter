@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.forms;
 
 import com.google.gwt.user.client.ui.ListBox;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class RequiredFieldValidator implements Validator {
 

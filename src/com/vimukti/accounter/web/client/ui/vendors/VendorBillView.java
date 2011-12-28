@@ -369,7 +369,7 @@ public class VendorBillView extends
 		Label lab1;
 		lab1 = new Label(messages.enterBill());
 
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem.setTitle(messages.billDate());
 		transactionDateItem
@@ -494,7 +494,7 @@ public class VendorBillView extends
 		taxCodeSelect = createTaxCodeSelectItem();
 
 		DynamicForm termsForm = UIUtils.form(messages.terms());
-		termsForm.setStyleName(messages.venderForm());
+		termsForm.setStyleName("vender-form");
 		// termsForm.setWidth("75%");
 		// termsForm.setFields(phoneSelect, paymentTermsCombo);
 

@@ -206,7 +206,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			lab1 = new Label(messages.invoice());
 		}
 
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -222,8 +222,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		transactionNumber.setTitle(messages.invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
-		brandingThemeTypeCombo = new BrandingThemeCombo(messages
-				.brandingTheme());
+		brandingThemeTypeCombo = new BrandingThemeCombo(
+				messages.brandingTheme());
 
 		locationCombo = createLocationCombo();
 		locationCombo.setHelpInformation(true);
@@ -246,8 +246,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		labeldateNoLayout.add(datepanel);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-		customerCombo = createCustomerComboItem(messages.payeeName(
-				Global.get().Customer()));
+		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
+				.Customer()));
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
 		LabelItem emptylabel = new LabelItem();
@@ -271,7 +271,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			public void onClick(ClickEvent event) {
 				new AddressDialog("", "", billToTextArea, messages.billTo(),
 						allAddresses);
-
 			}
 		});
 
@@ -334,8 +333,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(messages.dueDate());
-		dueDateItem.setToolTip(messages.selectDateUntilDue(
-				this.getAction().getViewName()));
+		dueDateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
+				.getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
 		dueDateItem.setColSpan(1);
@@ -1353,17 +1352,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.dueDateItem.getDate(), getTransactionDate())) {
-			result.addError(this.dueDateItem, messages.the() + " "
-					+ messages.dueDate() + " " + " "
-					+ messages.cannotbeearlierthantransactiondate());
+			result.addError(this.dueDateItem,
+					messages.the() + " " + messages.dueDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		boolean isSelected = transactionsTree.validateTree();
 		if (!isSelected) {
 			if (transaction.getTotal() <= 0
 					&& customerTransactionTable.isEmpty()) {
-				result.addError(this, messages
-						.transactiontotalcannotbe0orlessthan0());
+				result.addError(this,
+						messages.transactiontotalcannotbe0orlessthan0());
 			}
 			result.add(customerTransactionTable.validateGrid());
 		} else {
@@ -1424,8 +1423,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(messages.pleaseSelect(
-					Global.get().customer()));
+			Accounter.showError(messages.pleaseSelect(Global.get().customer()));
 		} else {
 
 			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
@@ -1506,8 +1504,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			@Override
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
-					Accounter
-							.showMessage(messages.sessionExpired());
+					Accounter.showMessage(messages.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
@@ -1705,9 +1702,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

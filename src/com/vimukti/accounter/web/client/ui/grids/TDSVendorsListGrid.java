@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 
 public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {

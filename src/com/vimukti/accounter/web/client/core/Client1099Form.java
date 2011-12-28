@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.core;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class Client1099Form implements IAccounterCore {
 

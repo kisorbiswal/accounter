@@ -8,7 +8,6 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**

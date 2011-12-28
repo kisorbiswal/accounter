@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;

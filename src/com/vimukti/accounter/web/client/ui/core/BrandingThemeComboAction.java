@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.customers.BrandingThemeComboDialog;
 
 public class BrandingThemeComboAction extends Action {

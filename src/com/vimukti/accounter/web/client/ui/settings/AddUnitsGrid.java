@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUnit;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 

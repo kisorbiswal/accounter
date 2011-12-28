@@ -61,7 +61,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		infolabel1 = new Label(messages.taxItem());
 
-		infolabel1.setStyleName(messages.labelTitle());
+		infolabel1.setStyleName("label-title");
 		// infolabel1.setHeight("50px");
 
 		listforms = new ArrayList<DynamicForm>();
@@ -84,8 +84,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		vatRateText.setRequired(true);
 		vatRateText.setDisabled(isInViewMode());
 
-		vatRateTextPerT = new PercentageField(this, messages
-				.taxRateP());
+		vatRateTextPerT = new PercentageField(this, messages.taxRateP());
 		vatRateTextPerT.setHelpInformation(true);
 		// vatRateTextPerT.setWidth(80);
 		vatRateTextPerT.setRequired(true);
@@ -109,8 +108,7 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 		// Label label = new Label(
 		// "Assign This item to box of VAT agency's VAT Return");
 
-		vatReturnBoxCombo = new VatReturnBoxCombo(messages
-				.vatReturnBox());
+		vatReturnBoxCombo = new VatReturnBoxCombo(messages.vatReturnBox());
 		vatReturnBoxCombo.setHelpInformation(true);
 		vatReturnBoxCombo.setRequired(true);
 		vatReturnBoxCombo.setDisabled(isInViewMode());
@@ -207,19 +205,19 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 		if (isInViewMode()) {
 			if (taxItemByName != null) {
-				result.addError(vatItemNameText, messages
-						.alreadyExist());
+				result.addError(vatItemNameText, messages.alreadyExist());
 				return result;
 			}
 		}
 		result.add(DynamicForm.validate(form1));
 		return result;
 	}
+
 	public ClientTAXItem saveView() {
 		ClientTAXItem saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateObject();
-			}
+		}
 		return saveView;
 	}
 

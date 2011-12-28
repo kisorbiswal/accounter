@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 /**
  * this class is used to display all the templetes in a specified directory.
  * 

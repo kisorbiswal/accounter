@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;

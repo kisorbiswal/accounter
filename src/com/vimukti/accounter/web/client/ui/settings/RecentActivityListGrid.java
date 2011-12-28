@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 
 public class RecentActivityListGrid extends ListGrid<ClientUser> {

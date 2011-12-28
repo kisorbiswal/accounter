@@ -106,7 +106,7 @@ public class CashSalesView extends
 	protected void createControls() {
 
 		Label lab1 = new Label(messages.newCashSale());
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -141,14 +141,14 @@ public class CashSalesView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(messages.payeeName(
-				Global.get().Customer()));
+		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
+				.Customer()));
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
@@ -293,8 +293,8 @@ public class CashSalesView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(messages
-				.ItemizebyAccount());
+		accountsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -344,8 +344,8 @@ public class CashSalesView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(messages
-				.ItemizebyProductService());
+		itemsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyProductService());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -534,11 +534,9 @@ public class CashSalesView extends
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
 
-		if (this.taxCode != null
-				&& taxCodeSelect != null
+		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						messages.none()))
+				&& !taxCodeSelect.getName().equalsIgnoreCase(messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (customer.getPhoneNo() != null)
@@ -1234,9 +1232,8 @@ public class CashSalesView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

@@ -78,9 +78,9 @@ public class CustomerCreditMemoView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.customerCreditNote(
-				Global.get().Customer()));
-		lab1.setStyleName(messages.labelTitle());
+		Label lab1 = new Label(messages.customerCreditNote(Global.get()
+				.Customer()));
+		lab1.setStyleName("label-title");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -127,8 +127,8 @@ public class CustomerCreditMemoView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(messages.payeeName(
-				Global.get().Customer()));
+		customerCombo = createCustomerComboItem(messages.payeeName(Global.get()
+				.Customer()));
 
 		contactCombo = createContactComboItem();
 		contactCombo.setHelpInformation(true);
@@ -147,8 +147,8 @@ public class CustomerCreditMemoView extends
 		custForm.setStyleName("align-form");
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
@@ -231,7 +231,8 @@ public class CustomerCreditMemoView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(messages.ItemizebyAccount());
+		accountsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -282,7 +283,8 @@ public class CustomerCreditMemoView extends
 		});
 		currencyWidget = createCurrencyFactorWidget();
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(messages.ItemizebyProductService());
+		itemsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyProductService());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -787,11 +789,9 @@ public class CustomerCreditMemoView extends
 		if (this.salesPerson != null && salesPersonCombo != null)
 			salesPersonCombo.setComboItem(this.salesPerson);
 
-		if (this.taxCode != null
-				&& taxCodeSelect != null
+		if (this.taxCode != null && taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
-				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						messages.none()))
+				&& !taxCodeSelect.getName().equalsIgnoreCase(messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		// if (this.priceLevel != null && priceLevelSelect != null)
@@ -1075,9 +1075,8 @@ public class CustomerCreditMemoView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

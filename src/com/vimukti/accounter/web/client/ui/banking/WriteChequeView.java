@@ -688,7 +688,7 @@ public class WriteChequeView extends
 		Label titleLabel = new Label(messages.writeCheck() + "("
 				+ getTransactionStatus() + ")");
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.addStyleName(messages.labelTitle());
+		titleLabel.addStyleName("label-title");
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
@@ -773,11 +773,10 @@ public class WriteChequeView extends
 
 						if (isInViewMode() && payee != null) {
 							if (payee.getType() != selectItem.getType()) {
-								Accounter
-										.showError(messages
-												.youcannotchangeaCustomertypetoVendortype(
-														Global.get().customer(),
-														Global.get().Vendor()));
+								Accounter.showError(messages
+										.youcannotchangeaCustomertypetoVendortype(
+												Global.get().customer(), Global
+														.get().Vendor()));
 								paytoSelect.setComboItem(payee);
 							} else {
 

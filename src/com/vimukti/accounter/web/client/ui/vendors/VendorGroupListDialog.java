@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
 import com.vimukti.accounter.web.client.ui.core.InputDialog;

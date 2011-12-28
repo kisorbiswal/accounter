@@ -25,7 +25,7 @@ public class BaseHomeView extends AbstractView<Object> {
 		HorizontalPanel mainLayout = new HorizontalPanel();
 		mainLayout.setSize("100%", "100%");
 		VerticalPanel imagePanel = new VerticalPanel();
-		imagePanel.setStyleName(messages.imageActionContainer());
+		imagePanel.setStyleName("Image action container");
 		imagePanel.setSpacing(5);
 
 		widgetLayout = new VerticalPanel();

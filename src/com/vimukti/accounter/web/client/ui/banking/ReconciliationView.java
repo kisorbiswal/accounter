@@ -52,7 +52,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		// Creating Title for View
 		Label label = new Label();
 		label.removeStyleName("gwt-Label");
-		label.addStyleName(messages.labelTitle());
+		label.addStyleName("label-title");
 		label.setText(messages.Reconciliation());
 
 		bankaccountLabel = new LabelItem();

@@ -82,7 +82,7 @@ public class AdjustTAXView extends
 		infoLabel = new Label(messages.taxAdjustment());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(messages.labelTitle());
+		infoLabel.setStyleName("label-title");
 		// infoLabel.setHeight("35px");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);

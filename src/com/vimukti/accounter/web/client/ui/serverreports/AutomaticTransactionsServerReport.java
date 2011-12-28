@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class AutomaticTransactionsServerReport extends

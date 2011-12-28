@@ -155,7 +155,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 
 		VerticalPanel panel = new VerticalPanel();
 		HTML titleHtml = new HTML(messages.newBrandTheme());
-		titleHtml.setStyleName(messages.labelTitle());
+		titleHtml.setStyleName("label-title");
 
 		mainLayoutPanel = new HorizontalPanel();
 		check_radioPanel = new HorizontalPanel();
@@ -729,10 +729,11 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public ClientBrandingTheme saveView() {
 		ClientBrandingTheme saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			getBrandingThemeObject();
 		}
 		return saveView;

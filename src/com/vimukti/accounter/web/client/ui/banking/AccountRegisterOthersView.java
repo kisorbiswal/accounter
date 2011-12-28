@@ -89,7 +89,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 		lab1 = new Label(messages.accountRegister() + " - "
 				+ takenaccount.getName());
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		HorizontalPanel lableHpanel = new HorizontalPanel();
 		lableHpanel.setWidth("100%");
 		lableHpanel.add(lab1);

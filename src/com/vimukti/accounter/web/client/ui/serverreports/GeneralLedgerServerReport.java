@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 /**

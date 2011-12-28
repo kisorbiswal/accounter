@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;

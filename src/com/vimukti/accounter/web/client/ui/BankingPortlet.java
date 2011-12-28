@@ -82,7 +82,7 @@ public class BankingPortlet extends GraphPointsPortlet {
 			for (final ClientAccount account : bankAccounts) {
 				HorizontalPanel hPanel = new HorizontalPanel();
 				final Label accountLabel = new Label(account.getName());
-				accountLabel.addStyleName(messages.labelBanking());
+				accountLabel.addStyleName("label-banking");
 				accountLabel.addMouseOverHandler(new MouseOverHandler() {
 
 					@Override
@@ -175,9 +175,10 @@ public class BankingPortlet extends GraphPointsPortlet {
 								LineChart.PACKAGE);
 						if (!result.isEmpty()
 								&& result.get(result.size() - 1) != null) {
-							amountLabel.setText(DataUtils.getAmountAsStringInCurrency(
-									result.get(result.size() - 1),
-									currencySymbol));
+							amountLabel.setText(DataUtils
+									.getAmountAsStringInCurrency(
+											result.get(result.size() - 1),
+											currencySymbol));
 						}
 						completeInitialization();
 						// GraphChart chart = new GraphChart(

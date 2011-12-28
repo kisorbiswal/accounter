@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;

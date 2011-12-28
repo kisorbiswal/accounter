@@ -110,7 +110,7 @@ public class SalesOrderView extends
 		emptylabel.setShowTitle(false);
 
 		lab1 = new Label(messages.salesOrder());
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 		statusSelect = new SelectCombo(messages.status());
 
 		ArrayList<String> selectComboList = new ArrayList<String>();

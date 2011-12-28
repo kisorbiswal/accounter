@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientCreditCardCharge extends ClientTransaction {
 	/**

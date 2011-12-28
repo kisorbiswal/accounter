@@ -75,8 +75,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 					@Override
 					public void onException(AccounterException caught) {
 						usersListGrid.removeLoadingImage();
-						Accounter.showError(messages
-								.failedtoloadusersList());
+						Accounter.showError(messages.failedtoloadusersList());
 					}
 				});
 	}
@@ -93,8 +92,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(messages
-				.generalSettingsLabel());
+		generalSettingsHTML = new HTML(messages.generalSettingsLabel());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -123,7 +121,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		titleLabel = new Label(messages.usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(messages.labelTitle());
+		titleLabel.setStyleName("label-title");
 
 		inviteUserButton = new Button(messages.inviteUser());
 		inviteUserButton.addClickHandler(new ClickHandler() {
@@ -135,8 +133,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 		});
 		tabPanel = new DecoratedTabPanel();
 		tabPanel.add(getUsersPanel(), messages.users());
-		tabPanel.add(getRecentActivityPanel(), messages
-				.recentActivity());
+		tabPanel.add(getRecentActivityPanel(), messages.recentActivity());
 		tabPanel.selectTab(0);
 
 		// flexTable.setWidget(0, 0, generalSettingsHTML);

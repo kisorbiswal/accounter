@@ -543,7 +543,7 @@ public class ReceivePaymentView extends
 		else {
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab.setStyleName(messages.labelTitle());
+		lab.setStyleName("label-title");
 		// transactionDateItem = createTransactionDateItem();
 		transactionDateItem = new DateField(messages.date());
 		transactionDateItem

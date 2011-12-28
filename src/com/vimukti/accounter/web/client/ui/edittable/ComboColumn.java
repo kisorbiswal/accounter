@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class ComboColumn<T, C extends IAccounterCore> extends
 		EditColumn<T> {

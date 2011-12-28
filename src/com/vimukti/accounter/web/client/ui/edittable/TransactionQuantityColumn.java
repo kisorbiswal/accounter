@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TransactionQuantityColumn extends

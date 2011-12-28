@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BankAccountsPortlet;
 import com.vimukti.accounter.web.client.ui.BankingPortlet;
 import com.vimukti.accounter.web.client.ui.ExpensesBreakdownPortlet;

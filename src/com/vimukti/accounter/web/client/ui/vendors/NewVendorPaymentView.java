@@ -81,8 +81,7 @@ public class NewVendorPaymentView extends
 		this.addressListOfVendor = null;
 		this.payFromAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(messages
-						.check());
+				.getpaymentMethodCheckBy_CompanyType(messages.check());
 		amountText.setAmount(0D);
 		endBalText.setAmount(0D);
 		vendorBalText.setAmount(0D);
@@ -140,8 +139,7 @@ public class NewVendorPaymentView extends
 			vendorBalText.setAmount(vendor.getBalance());
 
 			if (transaction.getCheckNumber() != null) {
-				if (transaction.getCheckNumber().equals(
-						messages.toBePrinted())) {
+				if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
 					checkNo.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
@@ -178,7 +176,7 @@ public class NewVendorPaymentView extends
 	protected void createControls() {
 		Label lab1 = new Label(messages.payeePrePayment(Global.get().Vendor()));
 
-		lab1.setStyleName(messages.labelTitle());
+		lab1.setStyleName("label-title");
 
 		transactionDateItem = createTransactionDateItem();
 
@@ -249,8 +247,7 @@ public class NewVendorPaymentView extends
 		// Payment
 		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
-		amountText = new AmountField(messages.amount(), this,
-				getBaseCurrency());
+		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amountText.setHelpInformation(true);
 		amountText.setWidth(100);
 		amountText.setRequired(true);
@@ -258,8 +255,7 @@ public class NewVendorPaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(messages
-						.check()));
+				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
 		printCheck = new CheckboxItem(messages.toBePrinted());
 		printCheck.setValue(true);
@@ -484,13 +480,9 @@ public class NewVendorPaymentView extends
 				if (checkNo.getValue() != null
 						&& !checkNo.getValue().equals("")) {
 					String value;
-					if (checkNo
-							.getValue()
-							.toString()
-							.equalsIgnoreCase(
-									messages.toBePrinted())) {
-						value = String.valueOf(messages
-								.toBePrinted());
+					if (checkNo.getValue().toString()
+							.equalsIgnoreCase(messages.toBePrinted())) {
+						value = String.valueOf(messages.toBePrinted());
 					} else {
 						value = String.valueOf(checkNo.getValue());
 					}
@@ -767,8 +759,7 @@ public class NewVendorPaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(messages
-								.noNegativeAmounts());
+						Accounter.showError(messages.noNegativeAmounts());
 						amountText.setAmount(0.00D);
 
 					}

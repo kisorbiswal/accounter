@@ -170,8 +170,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		listforms = new ArrayList<DynamicForm>();
 
 		Label labl = new Label(messages.newAsset());
-		labl.addStyleName(messages.labelTitle());
-		labl.setStyleName(messages.requiredField());
+		labl.addStyleName("label-title");
+		labl.setStyleName("Required field");
 		if (getData() != null) {
 			switch (data.getStatus()) {
 			case 0:

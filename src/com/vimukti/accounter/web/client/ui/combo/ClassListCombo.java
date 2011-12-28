@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CreateClassDialog;
 
 public class ClassListCombo extends CustomCombo<ClientAccounterClass> {

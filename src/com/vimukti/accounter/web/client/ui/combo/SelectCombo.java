@@ -2,8 +2,6 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.Arrays;
 
-import com.vimukti.accounter.web.client.ui.Accounter;
-
 public class SelectCombo extends CustomCombo<String> {
 
 	public SelectCombo(String title) {

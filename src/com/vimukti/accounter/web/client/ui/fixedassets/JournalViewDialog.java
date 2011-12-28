@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetSellOrDisposeReviewJournal;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.RevenueAccountCombo;
@@ -62,24 +61,20 @@ public class JournalViewDialog extends BaseDialog {
 	 */
 
 	private void createControls() {
-		Label disposalSummarylabel = new Label(messages
-				.disposalSummary());
-		disposalSummarylabel.setStyleName(messages.labelTitle());
+		Label disposalSummarylabel = new Label(messages.disposalSummary());
+		disposalSummarylabel.setStyleName("label-title");
 		disposalSummarylabel.addStyleName("title-color");
 		disposalSummaryForm = getDisposalSummaryForm();
 
 		disposalSummaryForm.setWidth("100%");
-		Label disposalJOurnallabel = new Label(messages
-				.disposalJournal());
-		disposalJOurnallabel.setStyleName(messages.labelTitle());
+		Label disposalJOurnallabel = new Label(messages.disposalJournal());
+		disposalJOurnallabel.setStyleName("label-title");
 		disposalJOurnallabel.addStyleName("title-color");
 		totalGainItem = createTotalGainCombo();
 		totalGainItem.setRequired(true);
-		lossOnDisposal = createLossorGainAccount(messages
-				.lossOnDisposal());
+		lossOnDisposal = createLossorGainAccount(messages.lossOnDisposal());
 		lossOnDisposal.setRequired(true);
-		gainOnDisposal = createLossorGainAccount(messages
-				.gainOnDisposal());
+		gainOnDisposal = createLossorGainAccount(messages.gainOnDisposal());
 		gainOnDisposal.setRequired(true);
 
 		disposalJournalForm = getDisposalJournalForm();
@@ -165,8 +160,8 @@ public class JournalViewDialog extends BaseDialog {
 							getComboForm(keyValue));
 				}
 
-//				disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
-//						"100%");
+				// disposalJournalForm.getCellFormatter().setWidth(row, col - 1,
+				// "100%");
 				value = disposalJOurnal.get(keyValue);
 				if (DecimalUtil.isLessThan(value, 0)) {
 					debitvalue = value * (-1);
@@ -262,7 +257,8 @@ public class JournalViewDialog extends BaseDialog {
 	}
 
 	private RevenueAccountCombo createTotalGainCombo() {
-		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(messages.totalCapitalGain(), false);
+		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(
+				messages.totalCapitalGain(), false);
 		revenueCombo.setWidth(80);
 		revenueCombo.setRequired(true);
 		revenueCombo
@@ -328,8 +324,7 @@ public class JournalViewDialog extends BaseDialog {
 
 	private String[] getComboNames() {
 		return new String[] { messages.lossOnDisposal(),
-				messages.gainOnDisposal(),
-				messages.totalCapitalGain() };
+				messages.gainOnDisposal(), messages.totalCapitalGain() };
 
 	}
 
@@ -340,7 +335,7 @@ public class JournalViewDialog extends BaseDialog {
 	private DynamicForm getComboForm(String keyvalue) {
 		DynamicForm form = new DynamicForm();
 		form.setFields(getCombo(keyvalue));
-//		form.getCellFormatter().setWidth(0, 0, "136");
+		// form.getCellFormatter().setWidth(0, 0, "136");
 		return form;
 
 	}

@@ -364,7 +364,8 @@ public class CreditCardChargeView extends
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
-		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check());
+		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+				.check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -380,7 +381,7 @@ public class CreditCardChargeView extends
 
 		titlelabel = new Label(messages.creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(messages.labelTitle());
+		titlelabel.addStyleName("label-title");
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -452,8 +453,7 @@ public class CreditCardChargeView extends
 
 				});
 
-		contactCombo = new ContactCombo(messages.contactName(),
-				true);
+		contactCombo = new ContactCombo(messages.contactName(), true);
 		contactCombo.setHelpInformation(true);
 		contactCombo.setDisabled(true);
 		contactCombo
@@ -480,8 +480,7 @@ public class CreditCardChargeView extends
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				Global.get().vendor()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(Global.get().vendor()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
@@ -546,8 +545,7 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();
 
-		vatinclusiveCheck = new CheckboxItem(messages
-				.amountIncludesVat());
+		vatinclusiveCheck = new CheckboxItem(messages.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -1221,9 +1219,8 @@ public class CreditCardChargeView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

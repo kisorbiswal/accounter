@@ -1545,8 +1545,6 @@ public interface AccounterMessages extends Messages {
 
 	public String filterByBilldueonorbefore();
 
-	public String financeWindow();
-
 	public String financialDetails();
 
 	public String financialYear();
@@ -1576,8 +1574,6 @@ public interface AccounterMessages extends Messages {
 	public String fiscalYear();
 
 	public String fiscalYearAlreadyExists();
-
-	public String fiscalYearButtons();
 
 	public String FiscalYearDescription();
 
@@ -1796,8 +1792,6 @@ public interface AccounterMessages extends Messages {
 	public String idontSellThisService();
 
 	public String illegalArgument();
-
-	public String imageActionContainer();
 
 	public String imfailed();
 
@@ -2034,10 +2028,6 @@ public interface AccounterMessages extends Messages {
 
 	// public String keyFinancialIndicators();
 
-	public String labelBanking();
-
-	public String labelTitle();
-
 	public String languageName(String languageName, String languageToolTip);
 
 	public String languages();
@@ -2262,8 +2252,6 @@ public interface AccounterMessages extends Messages {
 	public String memoCannotExceedsmorethan255Characters();
 
 	public String menuBarParent();
-
-	public String menuItemImage();
 
 	public String merge();
 
@@ -3237,8 +3225,6 @@ public interface AccounterMessages extends Messages {
 	public String reports();
 
 	public String reportsHome();
-
-	public String requiredField();
 
 	public String requiredFields();
 
@@ -4257,8 +4243,6 @@ public interface AccounterMessages extends Messages {
 	public String vatRegistrationNumber();
 
 	public String vatReturnBox();
-
-	public String venderForm();
 
 	public String vendor1099(String vendor);
 

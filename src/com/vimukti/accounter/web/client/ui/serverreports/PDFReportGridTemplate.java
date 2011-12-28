@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport.Alignment;
 

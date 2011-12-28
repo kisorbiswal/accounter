@@ -6,7 +6,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  */

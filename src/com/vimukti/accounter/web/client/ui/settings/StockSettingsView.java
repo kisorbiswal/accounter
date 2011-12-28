@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.ItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
@@ -69,7 +68,7 @@ public class StockSettingsView extends BaseView {
 
 	}
 
-		@Override
+	@Override
 	public List getForms() {
 		return null;
 	}
@@ -80,7 +79,7 @@ public class StockSettingsView extends BaseView {
 		infoLabel = new Label(messages.stockSettings());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(messages.labelTitle());
+		infoLabel.setStyleName("label-title");
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
@@ -89,7 +88,8 @@ public class StockSettingsView extends BaseView {
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		warehouseComboSelect = new WarehouseCombo(messages.stockwarehouseCombo());
+		warehouseComboSelect = new WarehouseCombo(
+				messages.stockwarehouseCombo());
 
 		itemComboSelect = new SelectCombo(messages.stockItemType());
 		List<String> combolist = new ArrayList<String>();
@@ -97,7 +97,8 @@ public class StockSettingsView extends BaseView {
 		combolist.add("Service");
 		itemComboSelect.initCombo(combolist);
 		itemGroupComboSelect = new ItemCombo(messages.stockItemName(), 0);
-		adjustmentQuantity = new IntegerField(this,messages.stockAdjustmentQuantity());
+		adjustmentQuantity = new IntegerField(this,
+				messages.stockAdjustmentQuantity());
 		entryNo.setWidth(100);
 		itemIncomeAmoutText = new LabelItem();
 		itemExpenseAmountText = new LabelItem();
@@ -105,9 +106,10 @@ public class StockSettingsView extends BaseView {
 		itemExpenseAmountTextlabel = new LabelItem();
 		itemIncomeAmoutTextlabel.setValue(messages.stockItemIncomeAccount());
 		itemExpenseAmountTextlabel.setValue(messages.stockItemExpenseAccount());
-		amountText = new AmountField(messages.stockItemAmount(),this,getBaseCurrency());
+		amountText = new AmountField(messages.stockItemAmount(), this,
+				getBaseCurrency());
 		memo = new TextAreaItem(messages.stockMemo());
-		memo.setMemo(false,this);
+		memo.setMemo(false, this);
 		memo.setWidth(100);
 
 		vatform = new DynamicForm();

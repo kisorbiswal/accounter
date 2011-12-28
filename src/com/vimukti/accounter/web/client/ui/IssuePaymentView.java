@@ -132,8 +132,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	// }
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		ImageButton printButton = new ImageButton(messages.print(),
-				Accounter.getFinanceImages().Print1Icon());
+		ImageButton printButton = new ImageButton(messages.print(), Accounter
+				.getFinanceImages().Print1Icon());
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -256,7 +256,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	private void createControls() {
 		setWidth("100%");
 		Label titleLabel = new Label(messages.printCheque());
-		titleLabel.setStyleName(messages.labelTitle());
+		titleLabel.setStyleName("label-title");
 
 		payMethodItemList = new ArrayList<String>();
 		payMethodItemList.add(UIUtils
@@ -468,7 +468,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 											addRecord(entry);
 										}
 									} else
-										grid.addEmptyMessage(messages.noRecordsToShow());
+										grid.addEmptyMessage(messages
+												.noRecordsToShow());
 
 								}
 

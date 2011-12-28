@@ -9,34 +9,32 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.vimukti.accounter.web.client.Global;
 
 public class CustomMenuItem extends MenuItem {
 
 	public CustomMenuItem(String text, Command cmd) {
 		super(text, false, cmd);
-		this.getElement().addClassName(
-				Global.get().messages().menuItemImage());
+		this.getElement().addClassName("menu-item-image");
 	}
 
 	public void setIcon(ImageResource image) {
 		if (image != null) {
 
-//			 this.getElement().getStyle().setProperty(
-//			 FinanceApplication.constants().background(),
-//			 "url(" + image.getURL() + ")   no-repeat ");
-//			 this.getElement().addClassName(
-//			 FinanceApplication.constants().menuItemImage());
-//			 this.getElement().getStyle().setBackgroundColor("");
-//
-//			
-//			img.getElement().setAttribute("align", "left");
-//			String title = this.getElement().getInnerText();
-//			this.getElement().setInnerText("");
-//			this.getElement().appendChild(img.getElement());
-//			this.getElement().setInnerHTML(
-//					this.getElement().getInnerHTML() + new HTML(title));
-			
+			// this.getElement().getStyle().setProperty(
+			// FinanceApplication.constants().background(),
+			// "url(" + image.getURL() + ")   no-repeat ");
+			// this.getElement().addClassName(
+			// FinanceApplication.constants().menuItemImage());
+			// this.getElement().getStyle().setBackgroundColor("");
+			//
+			//
+			// img.getElement().setAttribute("align", "left");
+			// String title = this.getElement().getInnerText();
+			// this.getElement().setInnerText("");
+			// this.getElement().appendChild(img.getElement());
+			// this.getElement().setInnerHTML(
+			// this.getElement().getInnerHTML() + new HTML(title));
+
 			Image img = new Image(image);
 			HorizontalPanel hPanel = new HorizontalPanel();
 			HTML title = new HTML(this.getElement().getInnerText());
@@ -48,15 +46,15 @@ public class CustomMenuItem extends MenuItem {
 			SimplePanel simplePanel = new SimplePanel();
 			simplePanel.add(hPanel);
 			this.setHTML(simplePanel.getElement().getInnerHTML());
-			
-//			 Element div = DOM.createDiv();
-//			 div.setAttribute("align", "right");
-//			 div.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
-//			 div.getStyle().setProperty("margin", "3px 0px 0px 0px");
-//			 div.setInnerText(title);
-//			 this.getElement().appendChild(div);
-//			 this.getElement().addClassName(
-//			 FinanceApplication.constants().menuItemImage());
+
+			// Element div = DOM.createDiv();
+			// div.setAttribute("align", "right");
+			// div.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
+			// div.getStyle().setProperty("margin", "3px 0px 0px 0px");
+			// div.setInnerText(title);
+			// this.getElement().appendChild(div);
+			// this.getElement().addClassName(
+			// FinanceApplication.constants().menuItemImage());
 		}
 	}
 

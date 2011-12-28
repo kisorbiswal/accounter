@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 

@@ -87,7 +87,7 @@ public class CashPurchaseView extends
 				.isLocationTrackingEnabled();
 
 		titlelabel = new Label(messages.cashPurchase());
-		titlelabel.setStyleName(messages.labelTitle());
+		titlelabel.setStyleName("label-title");
 		// titlelabel.setHeight("50px");
 		listforms = new ArrayList<DynamicForm>();
 
@@ -147,8 +147,8 @@ public class CashPurchaseView extends
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		if (isInViewMode())
@@ -197,13 +197,11 @@ public class CashPurchaseView extends
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNoText
-								.setValue(messages.toBePrinted());
+						checkNoText.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(messages
-									.toBePrinted());
+							checkNoText.setValue(messages.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
 						}
@@ -221,7 +219,8 @@ public class CashPurchaseView extends
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+								.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -564,8 +563,7 @@ public class CashPurchaseView extends
 		this.payFromAccount = account;
 		payFromCombo.setComboItem(payFromAccount);
 		if (account != null
-				&& paymentMethod
-						.equalsIgnoreCase(messages.cheque())
+				&& paymentMethod.equalsIgnoreCase(messages.cheque())
 				&& isInViewMode()) {
 			ClientCashPurchase cashPurchase = transaction;
 			// setCheckNumber();
@@ -618,8 +616,7 @@ public class CashPurchaseView extends
 			}
 
 			if (transaction.getCheckNumber() != null) {
-				if (transaction.getCheckNumber().equals(
-						messages.toBePrinted())) {
+				if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
 					checkNoText.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
@@ -896,8 +893,7 @@ public class CashPurchaseView extends
 	private String getCheckValue() {
 		String value;
 		if (!isInViewMode()) {
-			if (checkNoText.getValue().equals(
-					messages.toBePrinted())) {
+			if (checkNoText.getValue().equals(messages.toBePrinted())) {
 				value = String.valueOf(messages.toBePrinted());
 
 			} else
@@ -982,9 +978,9 @@ public class CashPurchaseView extends
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
-			result.addError(deliveryDateItem, messages.the() + " "
-					+ messages.deliveryDate() + " " + " "
-					+ messages.cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem,
+					messages.the() + " " + messages.deliveryDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		if (getAllTransactionItems().isEmpty()) {
@@ -1206,9 +1202,8 @@ public class CashPurchaseView extends
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(
-							currencyWidget.getSelectedCurrency()
-									.getFormalName()));
+					.currencyTotal(currencyWidget.getSelectedCurrency()
+							.getFormalName()));
 		}
 	}
 

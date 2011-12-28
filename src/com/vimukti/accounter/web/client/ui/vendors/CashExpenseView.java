@@ -248,7 +248,7 @@ public class CashExpenseView extends
 				.isLocationTrackingEnabled();
 
 		titlelabel = new Label(messages.cashExpense());
-		titlelabel.setStyleName(messages.labelTitle());
+		titlelabel.setStyleName("label-title");
 		listforms = new ArrayList<DynamicForm>();
 
 		transactionDateItem = createTransactionDateItem();
@@ -355,8 +355,8 @@ public class CashExpenseView extends
 		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
 
 		// Ending and Vendor Balance
-		accountBalText = new AmountField(messages.bankBalance(),
-				this, getBaseCurrency());
+		accountBalText = new AmountField(messages.bankBalance(), this,
+				getBaseCurrency());
 		accountBalText.setHelpInformation(true);
 		accountBalText.setWidth(100);
 		accountBalText.setDisabled(true);

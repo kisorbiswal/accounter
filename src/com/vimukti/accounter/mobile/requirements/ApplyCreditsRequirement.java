@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {

@@ -93,8 +93,7 @@ public class InvoiceBrandingView<T> extends
 		});
 		titleLabel = new Label(messages.invoiceBranding());
 		titleLabel.removeStyleName("gwt-Label");
-
-		titleLabel.setStyleName(messages.labelTitle());
+		titleLabel.setStyleName("label-title");
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -630,8 +629,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation(messages
-							.noLogoIsAdded());
+					Accounter.showInformation(messages.noLogoIsAdded());
 				} else {
 					removeLogo(theme);
 				}

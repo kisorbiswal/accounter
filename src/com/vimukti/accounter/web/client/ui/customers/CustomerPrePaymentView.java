@@ -120,8 +120,7 @@ public class CustomerPrePaymentView extends
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(messages
-						.check());
+				.getpaymentMethodCheckBy_CompanyType(messages.check());
 		amountText.setAmount(0D);
 		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
 		// customerBalText.setAmount(getAmountInTransactionCurrency(0D));
@@ -371,9 +370,9 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(messages.payeePrePayment(
-				Global.get().Customer()));
-		lab1.setStyleName(messages.labelTitle());
+		Label lab1 = new Label(
+				messages.payeePrePayment(Global.get().Customer()));
+		lab1.setStyleName("label-title");
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -412,8 +411,8 @@ public class CustomerPrePaymentView extends
 		bankBalText.setWidth(100);
 		bankBalText.setDisabled(true);
 
-		customerBalText = new AmountField(messages.payeeBalance(
-				Global.get().Customer()), this, getBaseCurrency());
+		customerBalText = new AmountField(messages.payeeBalance(Global.get()
+				.Customer()), this, getBaseCurrency());
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
 		customerBalText.setWidth(100);
@@ -436,8 +435,7 @@ public class CustomerPrePaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(messages
-						.check()));
+				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 		// printCheck = new CheckboxItem(messages.toBePrinted());
 		// printCheck.setValue(true);
 		// printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
@@ -544,8 +542,7 @@ public class CustomerPrePaymentView extends
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
-		AddressCombo addressCombo = new AddressCombo(messages
-				.address(), false);
+		AddressCombo addressCombo = new AddressCombo(messages.address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -602,8 +599,7 @@ public class CustomerPrePaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(messages
-								.noNegativeAmounts());
+						Accounter.showError(messages.noNegativeAmounts());
 						amountText.setAmount(0.00D);
 
 					}
