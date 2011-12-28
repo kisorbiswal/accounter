@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -75,6 +76,14 @@ public class OpenCompanyServlet extends BaseServlet {
 			}
 			HashMap<String, String> keyAndValues = financeTool.getKeyAndValues(
 					client.getID(), language);
+
+			for (Entry<String, String> entrySet : keyAndValues.entrySet()) {
+				String value = entrySet.getValue();
+				if (value.contains("'")) {
+					value = value.replace("'", "\\'");
+					entrySet.setValue(value);
+				}
+			}
 
 			request.setAttribute("messages", keyAndValues);
 			// Load locale aware date time constants, number format constants
@@ -163,8 +172,8 @@ public class OpenCompanyServlet extends BaseServlet {
 					getlocale(), new UTF8Control());
 			for (String key : dateTimeConstants.keySet()) {
 				String value = dateTimeConstants.getString(key);
-				String[] splites=value.split("(?<!\\\\), ");
-				if (splites.length ==1) {
+				String[] splites = value.split("(?<!\\\\), ");
+				if (splites.length == 1) {
 					result.put(key, value);
 				} else {
 					result.put(key, joinArray(splites));

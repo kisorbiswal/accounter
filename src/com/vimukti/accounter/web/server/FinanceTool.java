@@ -3245,8 +3245,8 @@ public class FinanceTool {
 				if (result.containsKey(key)) {
 					continue;
 				}
-				String replace = value.replace("'", "\\'");
-				result.put(key, replace);
+				// String replace = value.replace("'", "\\'");
+				result.put(key, value);
 			}
 
 			return result;

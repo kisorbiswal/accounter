@@ -100,9 +100,9 @@ public class ServerSideMessages {
 						.printStackTrace();
 				return "";
 			}
-			String replace = msg.replace("'", "\\'");
-			keyMessages.put(key, replace);
-			return replace;
+			// String replace = msg.replace("'", "\\'");
+			keyMessages.put(key, msg);
+			return msg;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
