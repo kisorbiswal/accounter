@@ -452,7 +452,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_LINK:
-			addLink(obj,(String) data);
+			addLink(obj, (String) data);
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
@@ -473,7 +473,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridDecimalCell");
 			break;
 		case COLUMN_TYPE_QUANTITY_POPUP:
-			data =((String) data);
+			data = ((String) data);
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
 		}
@@ -486,7 +486,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			@Override
 			public void onClick(ClickEvent event) {
 				widgetClicked((Anchor) event.getSource());
-				onDoubleClick(obj);
+				onDoubleClick(obj, currentRow, currentCol);
 			}
 		});
 		ar.setText(value.toString());
@@ -853,7 +853,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	public T getSelection() {
 		return selectedObject;
 	}
-	
+
 	public void setSelection(T selectedObject) {
 		this.selectedObject = selectedObject;
 	}
