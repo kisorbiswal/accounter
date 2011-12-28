@@ -1890,6 +1890,9 @@ public class FinanceTool {
 						result.add(payee);
 					}
 				}
+				if (!isActive) {
+					total = result.getTotalCount();
+				}
 				if (isPagenationRequired) {
 					result.setTotalCount(total);
 					result.setStart(start);
