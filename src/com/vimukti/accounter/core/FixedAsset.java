@@ -169,7 +169,7 @@ public class FixedAsset extends CreatableObject implements
 
 	@ReffereredObject
 	private List<Transaction> transactions = new ArrayList<Transaction>();
-	private List<FixedAssetNote> fixedAssetNotes = new ArrayList<FixedAssetNote>();
+
 	private List<FixedAssetHistory> fixedAssetsHistory = new ArrayList<FixedAssetHistory>();
 
 	transient private List<FixedAssetNote> oldFixedAssetNotes;
@@ -256,6 +256,8 @@ public class FixedAsset extends CreatableObject implements
 			Account linkedAccumulatedDepreciationAccount) {
 		this.linkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
 	}
+
+	private List<FixedAssetNote> fixedAssetNotes = new ArrayList<FixedAssetNote>();
 
 	@Override
 	public String getName() {
@@ -790,10 +792,11 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory.setActionDate(new FinanceDate());
 			FixedAssetNote recentNote = this.fixedAssetNotes
 					.get(this.fixedAssetNotes.size() - 1);
+			recentNote.setFixedAsset(this);
 
 			recentNote.setCreatedBy(getLastModifier());
 			recentNote.setLastModifier(getLastModifier());
-			session.saveOrUpdate(recentNote);
+			// session.saveOrUpdate(recentNote);
 			fixedAssetHistory.setDetails(recentNote.getNote());
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
 			fixedAssetHistory.setCompany(this.getCompany());
