@@ -123,4 +123,9 @@ public class NewCustomThemeDialog extends BaseDialog {
 		themeName.setFocus();
 
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
