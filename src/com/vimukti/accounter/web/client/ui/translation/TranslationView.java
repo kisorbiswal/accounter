@@ -111,10 +111,6 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 			public void updateListData() {
 				if ((languageCombo.getSelectedValue() != null)
 						&& (optionsCombo.getSelectedValue() != null)) {
-					selectedLanguageLabel.setText(messages
-							.selectedTranslated(languageCombo
-									.getSelectedValue().getLanguageTooltip()));
-
 					addMessagesToView();
 
 				}
@@ -149,6 +145,8 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 	}
 
 	public void languageSelected(ClientLanguage selectItem) {
+		selectedLanguageLabel.setText(messages.selectedTranslated(selectItem
+				.getLanguageTooltip()));
 		Accounter.createTranslateService().canApprove(
 				selectItem.getLanguageCode(), new AsyncCallback<Boolean>() {
 
