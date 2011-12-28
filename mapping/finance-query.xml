@@ -10189,10 +10189,10 @@
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =6
+		T.T_TYPE =6  AND EB.BALANCE_DUE &gt;0.0 
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
-		V.ID =:vendorId AND EB.BALANCE_DUE >0
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND 
+		V.ID =:vendorId 
 
 	</sql-query>
 
@@ -10261,7 +10261,7 @@
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =6
+		T.T_TYPE =6 AND EB.BALANCE_DUE &gt;0.0 
 		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		EB.DUE_DATE &lt;= :currentDate AND V.ID =:vendorId
