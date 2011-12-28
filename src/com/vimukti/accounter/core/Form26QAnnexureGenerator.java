@@ -1,5 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
+
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
+
 public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 	String fileText = null;
@@ -8,12 +13,20 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Form26QAnnexureGenerator(
+			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
+			List<ClientTDSResponsiblePerson> responsiblePersonDetails2) {
+		super.setDetails(tdsDeductorMasterDetails2, responsiblePersonDetails2);
+		generateFile();
+
+	}
+
 	public String generateFile() {
 
-		startNewLine();
-		generateFileHeaderRecord();
-		generateBatchHeaderRecord();
-		return null;
+		fileText = startNewLine();
+		fileText = fileText + generateFileHeaderRecord();
+		fileText = fileText + generateBatchHeaderRecord();
+		return fileText;
 	}
 
 	public String generateDeducteeDetailsRecord(int lineNumber) {

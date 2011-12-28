@@ -3,6 +3,8 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.Utility;
 
 /**
@@ -14,8 +16,8 @@ import com.vimukti.accounter.web.client.core.Utility;
 public class ETDSAnnexuresGenerator {
 
 	private String finalString;
-	private TDSDeductorMasters deductor;
-	private TDSResponsiblePerson responsiblePerson;
+	private ClientTDSDeductorMasters deductor;
+	private ClientTDSResponsiblePerson responsiblePerson;
 
 	public ETDSAnnexuresGenerator() {
 
@@ -61,7 +63,7 @@ public class ETDSAnnexuresGenerator {
 
 		String headerString;
 		// line number
-		headerString = "1";
+		headerString = "1" + addDelimiter();
 
 		// "FH" signifying 'File Header'
 		headerString = headerString + "FH" + addDelimiter();
@@ -111,6 +113,7 @@ public class ETDSAnnexuresGenerator {
 
 		// SCM Hash (Not applicable)
 		headerString = headerString + addDelimiter();
+		headerString = headerString + endLine();
 
 		return headerString;
 	}
@@ -141,10 +144,10 @@ public class ETDSAnnexuresGenerator {
 	 */
 	String generateBatchHeaderRecord() {
 
-		String batchHeaderString = null;
+		String batchHeaderString;
 
 		// Running Sequence Number for each line in the file
-		batchHeaderString = batchHeaderString + "2" + addDelimiter();
+		batchHeaderString = "2" + addDelimiter();
 
 		// Value should be "BH" (Batch Header) for the batch header record
 		batchHeaderString = batchHeaderString + "BH" + addDelimiter();
@@ -320,6 +323,7 @@ public class ETDSAnnexuresGenerator {
 
 		// Record Hash (Not applicable)
 		batchHeaderString = batchHeaderString + addDelimiter();
+		batchHeaderString = batchHeaderString + endLine();
 		return batchHeaderString;
 	}
 
@@ -333,7 +337,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDDORegistationCode() {
-		return Long.toString(deductor.getDdoRegistration());
+
+		long ddoRegistration = deductor.getDdoRegistration();
+		if (ddoRegistration == 0) {
+			return addDelimiter();
+		} else {
+			return Long.toString(ddoRegistration);
+		}
 	}
 
 	/**
@@ -346,7 +356,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtPAORegistrationCode() {
-		return Long.toString(deductor.getDdoRegistration());
+
+		long ddoRegistration = deductor.getDdoRegistration();
+		if (ddoRegistration == 0) {
+			return addDelimiter();
+		} else {
+			return Long.toString(ddoRegistration);
+		}
 	}
 
 	/**
@@ -356,11 +372,19 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getMinistryOtherName() {
-		if (getMinistryCode(deductor.getMinistryDeptName()).equals("99")) {
-			return deductor.getMinistryDeptOtherName();
+		String ministryDeptName = deductor.getMinistryDeptName();
+
+		if (ministryDeptName.length() > 0) {
+			return getMinistryCode(ministryDeptName);
 		} else {
 			return "^";
 		}
+
+		// if (getMinistryCode().equals("99")) {
+		// return deductor.getMinistryDeptOtherName();
+		// } else {
+		// return "^";
+		// }
 	}
 
 	/**
@@ -390,7 +414,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtDDOCode() {
-		return Long.toString(deductor.getDdoCode());
+		long ddoCode = deductor.getDdoCode();
+		if (ddoCode == 0) {
+			return addDelimiter();
+		} else {
+			return Long.toString(ddoCode);
+		}
+
 	}
 
 	/**
@@ -404,7 +434,12 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getGovtPAOCode() {
 
-		return Long.toString(deductor.getPaoCode());
+		long paoCode = deductor.getPaoCode();
+		if (paoCode == 0) {
+			return addDelimiter();
+		} else {
+			return Long.toString(paoCode);
+		}
 	}
 
 	/**
@@ -461,7 +496,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponisblePersonTelephoenNumebr() {
-		return Long.toString(responsiblePerson.getTelephoneNumber());
+		long telephoneNumber = responsiblePerson.getTelephoneNumber();
+		if (telephoneNumber == 0) {
+			return Long.toString(telephoneNumber);
+		} else {
+			return addDelimiter();
+		}
+
 	}
 
 	/**
@@ -471,7 +512,12 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonSTDCode() {
-		return Long.toString(responsiblePerson.getStdCode());
+		long stdNumber = responsiblePerson.getStdCode();
+		if (stdNumber == 0) {
+			return Long.toString(stdNumber);
+		} else {
+			return addDelimiter();
+		}
 	}
 
 	/**
@@ -483,7 +529,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonMobileNumber() {
-		return Long.toString(responsiblePerson.getMobileNumber());
+
+		long mobileNum = responsiblePerson.getMobileNumber();
+		if (mobileNum == 0) {
+			return Long.toString(mobileNum);
+		} else {
+			return addDelimiter();
+		}
 	}
 
 	/**
@@ -850,6 +902,8 @@ public class ETDSAnnexuresGenerator {
 				ministryCode = Integer.toString(code);
 			} else if (string.equals("Others")) {
 				ministryCode = Integer.toString(99);
+			} else {
+				ministryCode = "^";
 			}
 			code++;
 		}
@@ -864,6 +918,15 @@ public class ETDSAnnexuresGenerator {
 	 */
 	String getDeductorValue(String sectionName) {
 		return sectionName;
+	}
+
+	public void setDetails(
+			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
+			List<ClientTDSResponsiblePerson> responsiblePersonDetails2) {
+
+		deductor = tdsDeductorMasterDetails2.get(0);
+		responsiblePerson = responsiblePersonDetails2.get(0);
+
 	}
 
 }

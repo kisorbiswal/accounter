@@ -16,7 +16,7 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	private String responsibleName;
 	private String designation;
 	private String branch;
-	private long flatNo;
+	private String flatNo;
 	private String buildingName;
 	private String street;
 	private String area;
@@ -64,11 +64,11 @@ public class TDSResponsiblePerson extends CreatableObject implements
 		this.branch = branch;
 	}
 
-	public long getFlatNo() {
+	public String getFlatNo() {
 		return flatNo;
 	}
 
-	public void setFlatNo(long flatNo) {
+	public void setFlatNo(String flatNo) {
 		this.flatNo = flatNo;
 	}
 
