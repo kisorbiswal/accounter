@@ -134,41 +134,6 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		}
 		onPageChange(0, getPageSize());
 
-		// for (PaymentsList payment : listOfPayments) {
-		// if (text.equals(messages().notIssued())) {
-		// if ((payment.getStatus() == STATUS_NOT_ISSUED || payment
-		// .getStatus() == STATUS_PARTIALLY_PAID)
-		// && (!payment.isVoided()))
-		// grid.addData(payment);
-		// // else
-		// // grid.addEmptyMessage("No records to show");
-		// continue;
-		// }
-		// if (text.equals(messages().issued())) {
-		// if (payment.getStatus() == STATUS_ISSUED
-		// && (!payment.isVoided()))
-		// grid.addData(payment);
-		//
-		// continue;
-		// }
-		// if (text.equals(messages().Voided())) {
-		// if (payment.isVoided()
-		// // && payment.getStatus()!=ClientTransaction.STATUS_DELETED
-		// )
-		// grid.addData(payment);
-		// continue;
-		// }
-		// // if (text.equals(DELETED)) {
-		// // if(payment.getStatus()==ClientTransaction.STATUS_DELETED)
-		// // grid.addData(payment);
-		// // continue;
-		// // }
-		// if (text.equals(messages().all())) {
-		// grid.addData(payment);
-		// }
-		// }
-		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages().noRecordsToShow());
 	}
 
 	@Override
