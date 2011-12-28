@@ -1580,16 +1580,17 @@ public class AccounterNumberFormat {
 		}
 	}
 
-	public static AccounterNumberFormat getCurrencyFormat() {
+	public static AccounterNumberFormat getCurrencyFormat(int noOfDecimals) {
 		if (cachedCurrencyFormat == null) {
 			cachedCurrencyFormat = new AccounterNumberFormat(
-					defaultNumberConstants.currencyPattern(), 2, true);
+					defaultNumberConstants.currencyPattern(), noOfDecimals,
+					true);
 		}
 		return cachedCurrencyFormat;
 	}
 
 	public static void setCurrencyPattern(String pattern, int numberOfDecimals) {
-		AccounterNumberFormat currencyFormat = getCurrencyFormat();
+		AccounterNumberFormat currencyFormat = getCurrencyFormat(numberOfDecimals);
 		currencyFormat.parsePattern(pattern);
 		currencyFormat.minimumFractionDigits = numberOfDecimals;
 		currencyFormat.maximumFractionDigits = numberOfDecimals;

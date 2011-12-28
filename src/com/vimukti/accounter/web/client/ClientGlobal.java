@@ -21,7 +21,8 @@ public class ClientGlobal extends AbstractGlobal {
 
 	@Override
 	public String toCurrencyFormat(double amount, String currencyCode) {
-		AccounterNumberFormat nf = AccounterNumberFormat.getCurrencyFormat();
+		AccounterNumberFormat nf = AccounterNumberFormat
+				.getCurrencyFormat(preferences().getDecimalNumber());
 		return nf.format(amount, currencyCode);
 	}
 
