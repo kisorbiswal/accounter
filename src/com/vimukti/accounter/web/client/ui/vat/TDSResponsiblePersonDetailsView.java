@@ -106,6 +106,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		cityName = new TextItem("City/Town/District	");
 		cityName.setHelpInformation(true);
+		cityName.setRequired(true);
 		cityName.setDisabled(isInViewMode());
 
 		stateCombo = new SelectCombo("State Name");
@@ -125,6 +126,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		pinNumber = new IntegerField(this, "Pin Code");
 		pinNumber.setHelpInformation(true);
+		pinNumber.setRequired(true);
 		pinNumber.setDisabled(isInViewMode());
 		pinNumber.setValidators(integerRangeValidator);
 
@@ -132,7 +134,6 @@ public class TDSResponsiblePersonDetailsView extends
 				"Has Address changed since last return");
 		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setSelectedItem(0);
 		addressChangeCombo.setDisabled(isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
@@ -156,6 +157,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		mobileNumber = new IntegerField(this, "Mobile No.");
 		mobileNumber.setHelpInformation(true);
+		mobileNumber.setRequired(true);
 		mobileNumber.setDisabled(isInViewMode());
 		mobileNumber.setValidators(integerRangeValidator);
 
@@ -171,13 +173,11 @@ public class TDSResponsiblePersonDetailsView extends
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(responsiblePersonName, designation,
 				branchName, flatNo, buildingName, streetName, areaName,
-				cityName, stateCombo, pinNumber, addressChangeCombo, stdNumber,
-				telephoneNumber, mobileNumber, faxNumber, email);
+				cityName, stateCombo, pinNumber, addressChangeCombo);
 
 		financialYearCombo = new SelectCombo("Financial Year");
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setSelectedItem(0);
 		financialYearCombo.setDisabled(isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
@@ -194,14 +194,6 @@ public class TDSResponsiblePersonDetailsView extends
 		assessmentYearCombo.setHelpInformation(true);
 		assessmentYearCombo.initCombo(getFinancialYearList());
 		assessmentYearCombo.setDisabled(true);
-		assessmentYearCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-
-					}
-				});
 
 		returnType = new SelectCombo("Return Type");
 		returnType.setHelpInformation(true);
@@ -235,16 +227,19 @@ public class TDSResponsiblePersonDetailsView extends
 
 		panCode = new IntegerField(this, "PAN");
 		panCode.setHelpInformation(true);
+		panCode.setRequired(true);
 		panCode.setDisabled(isInViewMode());
 		panCode.setValidators(integerRangeValidator);
 
 		tanRegistration = new IntegerField(this, "TAN Registration");
 		tanRegistration.setHelpInformation(true);
+		tanRegistration.setRequired(true);
 		tanRegistration.setDisabled(isInViewMode());
 		tanRegistration.setValidators(integerRangeValidator);
 
 		otherDynamicForm = new DynamicForm();
-		otherDynamicForm.setFields(financialYearCombo, assessmentYearCombo,
+		otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
+				faxNumber, email, financialYearCombo, assessmentYearCombo,
 				returnType, existingTdsassess, panCode, tanRegistration);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -318,13 +313,19 @@ public class TDSResponsiblePersonDetailsView extends
 	}
 
 	private void updateObject() {
+
 		data.setResponsibleName(responsiblePersonName.getValue());
+
 		data.setBranch(branchName.getValue());
+
 		data.setFlatNo(flatNo.getValue());
+
 		data.setBuildingName(buildingName.getValue());
+
 		data.setStreet(streetName.getValue());
 
 		data.setArea(areaName.getValue());
+
 		data.setCity(cityName.getValue());
 
 		data.setStateName(stateCombo.getSelectedValue());
@@ -336,10 +337,17 @@ public class TDSResponsiblePersonDetailsView extends
 		} else {
 			data.setAddressChanged(false);
 		}
+		if (telephoneNumber.getValue().length() > 0) {
+			data.setTelephoneNumber(telephoneNumber.getNumber());
+		} else {
+			data.setTelephoneNumber(0);
+		}
 
-		data.setTelephoneNumber(telephoneNumber.getNumber());
-
-		data.setFaxNo(faxNumber.getNumber());
+		if (faxNumber.getValue().length() > 0) {
+			data.setFaxNo(faxNumber.getNumber());
+		} else {
+			data.setFaxNo(0);
+		}
 
 		data.setEmailAddress(email.getValue());
 
@@ -352,7 +360,12 @@ public class TDSResponsiblePersonDetailsView extends
 		data.setPanRegistrationNumber(tanRegistration.getNumber());
 
 		data.setMobileNumber(mobileNumber.getNumber());
-		data.setStdCode(stdNumber.getNumber());
+
+		if (stdNumber.getValue().length() > 0) {
+			data.setStdCode(stdNumber.getNumber());
+		} else {
+			data.setStdCode(0);
+		}
 
 		// private int returnType;
 		// private boolean existingTDSassesse;

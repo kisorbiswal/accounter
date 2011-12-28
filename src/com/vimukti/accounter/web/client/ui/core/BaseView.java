@@ -296,7 +296,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	public List<String> getYESNOList() {
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
 		names.add("YES");
 		names.add("NO");
 		return names;
@@ -312,11 +311,10 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	public List<String> getFinancialYearList() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("Select");
-		
+
 		ClientFinanceDate date = new ClientFinanceDate();
 		int year = date.getYear();
-		for (int i = year-10; i < year+10; i++) {
+		for (int i = year - 10; i < year + 10; i++) {
 			list.add(Integer.toString(i) + "-" + Integer.toString(i + 1));
 		}
 		return list;

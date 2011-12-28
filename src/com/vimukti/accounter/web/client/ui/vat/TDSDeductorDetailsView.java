@@ -56,6 +56,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected String statusSelected;
 	private String deductorTypeSelected;
 	private IntegerField stdNumber;
+	private SelectCombo stateCombo;
+	private TextItem panNumber;
+	private TextItem tanNumber;
 
 	@Override
 	public void init() {
@@ -108,21 +111,20 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		cityName.setHelpInformation(true);
 		cityName.setDisabled(isInViewMode());
 
-		// stateCombo = new SelectCombo("State");
-		// stateCombo.setHelpInformation(true);
-		// stateCombo.initCombo(getStatesList());
-		// stateCombo.setSelectedItem(0);
-		// stateCombo.setDisabled(isInViewMode());
-		// stateCombo.setRequired(true);
-		// stateCombo
-		// .addSelectionChangeHandler(new
-		// IAccounterComboSelectionChangeHandler<String>() {
-		//
-		// @Override
-		// public void selectedComboBoxItem(String selectItem) {
-		// stateSelected = selectItem;
-		// }
-		// });
+		stateCombo = new SelectCombo("State");
+		stateCombo.setHelpInformation(true);
+		stateCombo.initCombo(getStatesList());
+		stateCombo.setSelectedItem(0);
+		stateCombo.setDisabled(isInViewMode());
+		stateCombo.setRequired(true);
+		stateCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						stateSelected = selectItem;
+					}
+				});
 
 		pinNumber = new IntegerField(this, "Pin Code");
 		pinNumber.setHelpInformation(true);
@@ -134,7 +136,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				"Has Address changed since last return");
 		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
-		addressChangeCombo.setSelectedItem(0);
 		addressChangeCombo.setDisabled(isInViewMode());
 		addressChangeCombo.setRequired(true);
 		addressChangeCombo
@@ -165,19 +166,31 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		faxNumber.setDisabled(isInViewMode());
 		faxNumber.setValidators(integerRangeValidator);
 
+		panNumber = new TextItem("Pan Number");
+		panNumber.setHelpInformation(true);
+		panNumber.setDisabled(isInViewMode());
+		panNumber.setRequired(true);
+		panNumber.setValidators(integerRangeValidator);
+
+		tanNumber = new TextItem("Tan Number");
+		tanNumber.setHelpInformation(true);
+		tanNumber.setDisabled(isInViewMode());
+		tanNumber.setRequired(true);
+		tanNumber.setValidators(integerRangeValidator);
+
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
 		email.setDisabled(isInViewMode());
+
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(deductorName, branchName, flatNo,
-				buildingName, streetName, areaName, cityName, pinNumber,
-				addressChangeCombo, stdNumber, telephoneNumber, faxNumber,
-				email);
+				buildingName, streetName, areaName, cityName, stateCombo,
+				pinNumber, addressChangeCombo, stdNumber, telephoneNumber,
+				faxNumber, email);
 
 		statusCombo = new SelectCombo("Status");
 		statusCombo.setHelpInformation(true);
 		statusCombo.initCombo(getStatusTypes());
-		statusCombo.setSelectedItem(0);
 		statusCombo.setDisabled(isInViewMode());
 		statusCombo.setRequired(true);
 		statusCombo
@@ -187,28 +200,43 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					public void selectedComboBoxItem(String selectItem) {
 						statusSelected = selectItem;
 
-						if (statusSelected.equals(getStatusTypes().get(1))) {
+						if (statusSelected.equals(getStatusTypes().get(0))) {
 							deductorTypeOther.show();
 							deductorTypeGovernment.hide();
-
 							paoCode.setDisabled(true);
 							paoRegistration.setDisabled(true);
 							ddoCode.setDisabled(true);
 							ddoRegistration.setDisabled(true);
 							ministryCombo.setDisabled(true);
 							ministryNameOtehr.setDisabled(true);
+							govtState.setDisabled(true);
+
+							paoCode.setRequired(false);
+							paoRegistration.setRequired(false);
+							ddoCode.setRequired(false);
+							ddoRegistration.setRequired(false);
+							ministryCombo.setRequired(false);
+							ministryNameOtehr.setRequired(false);
+							govtState.setRequired(false);
 
 						} else {
 							deductorTypeOther.hide();
 							deductorTypeGovernment.show();
-
 							paoCode.setDisabled(false);
 							paoRegistration.setDisabled(false);
 							ddoCode.setDisabled(false);
 							ddoRegistration.setDisabled(false);
 							ministryCombo.setDisabled(false);
 							ministryNameOtehr.setDisabled(false);
+							govtState.setDisabled(false);
 
+							paoCode.setRequired(true);
+							paoRegistration.setRequired(true);
+							ddoCode.setRequired(true);
+							ddoRegistration.setRequired(true);
+							ministryCombo.setRequired(true);
+							ministryNameOtehr.setRequired(true);
+							govtState.setRequired(true);
 						}
 					}
 				});
@@ -246,9 +274,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		govtState = new SelectCombo("State");
 		govtState.setHelpInformation(true);
 		govtState.initCombo(getStatesList());
-		govtState.setSelectedItem(0);
-		govtState.setDisabled(isInViewMode());
-		govtState.setRequired(true);
 		govtState
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -289,18 +314,34 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-
+						if (selectItem.equals(getMinistryType().get(57))) {
+							ministryNameOtehr.setDisabled(false);
+							ministryNameOtehr.setRequired(true);
+						} else {
+							ministryNameOtehr.setDisabled(true);
+							ministryNameOtehr.setRequired(false);
+						}
 					}
 				});
 
 		ministryNameOtehr = new TextItem("Ministry/Dept. Name(Other)");
 		ministryNameOtehr.setHelpInformation(true);
-		ministryNameOtehr.setDisabled(isInViewMode());
+		ministryNameOtehr.setDisabled(true);
+		ministryNameOtehr.setRequired(false);
 
 		otherDynamicForm = new DynamicForm();
 		otherDynamicForm.setFields(statusCombo, deductorTypeOther,
 				deductorTypeGovernment, govtState, paoCode, paoRegistration,
-				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr);
+				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr,
+				panNumber, tanNumber);
+
+		paoCode.setDisabled(true);
+		paoRegistration.setDisabled(true);
+		ddoCode.setDisabled(true);
+		ddoRegistration.setDisabled(true);
+		ministryCombo.setDisabled(true);
+		ministryNameOtehr.setDisabled(true);
+		govtState.setDisabled(true);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("100%");
@@ -324,7 +365,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			streetName.setValue(data.getRoadName());
 			areaName.setValue(data.getArea());
 			cityName.setValue(data.getCity());
-			// stateCombo.setValue(data.getState());
 			pinNumber.setValue(Long.toString(data.getPinCode()));
 			telephoneNumber.setValue(Long.toString(data.getTelephoneNumber()));
 			faxNumber.setValue(Long.toString(data.getFaxNo()));
@@ -333,7 +373,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 			statusCombo.setValue(data.getStatus());
 
-			govtState.setValue(data.getGovtState());
 			paoCode.setValue(Long.toString(data.getPaoCode()));
 			paoRegistration.setValue(Long.toString(data.getPaoRegistration()));
 			ddoCode.setValue(Long.toString(data.getDdoCode()));
@@ -356,8 +395,8 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			streetName.setValue(company.getRegisteredAddress().getStreet());
 			areaName.setValue(company.getRegisteredAddress()
 					.getCountryOrRegion());
-			govtState.setValue(company.getRegisteredAddress()
-					.getStateOrProvinence());
+			// govtState.setValue(company.getRegisteredAddress()
+			// .getStateOrProvinence());
 			pinNumber.setValue(company.getRegisteredAddress()
 					.getZipOrPostalCode());
 			telephoneNumber.setValue(company.getPhone());
@@ -392,7 +431,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private List<String> getStatusTypes() {
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
 		names.add("Others");
 		names.add("Government");
 		return names;
@@ -500,33 +538,46 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		data.setGovtState(stateSelected);
 
-		if (paoCode.getValue().length() > 0) {
-			data.setPaoCode(paoCode.getNumber());
+		if (statusSelected.equals(getStatusTypes().get(0))) {
+			if (paoCode.getValue().length() > 0) {
+				data.setPaoCode(paoCode.getNumber());
+			} else {
+				data.setPaoCode(0);
+			}
+
+			if (paoRegistration.getValue().length() > 0) {
+				data.setPaoRegistration(paoRegistration.getNumber());
+			} else {
+				data.setPaoRegistration(0);
+			}
+
+			if (ddoCode.getValue().length() > 0) {
+				data.setDdoCode(ddoCode.getNumber());
+			} else {
+				data.setDdoCode(0);
+			}
+
+			if (ddoRegistration.getValue().length() > 0) {
+				data.setDdoRegistration(ddoRegistration.getNumber());
+			} else {
+				data.setDdoRegistration(0);
+			}
+
+			data.setMinistryDeptName(ministryCombo.getSelectedValue());
+
+			data.setMinistryDeptOtherName(ministryNameOtehr.getValue());
 		} else {
 			data.setPaoCode(0);
-		}
-
-		if (paoRegistration.getValue().length() > 0) {
-			data.setPaoRegistration(paoRegistration.getNumber());
-		} else {
 			data.setPaoRegistration(0);
-		}
-
-		if (ddoCode.getValue().length() > 0) {
-			data.setDdoCode(ddoCode.getNumber());
-		} else {
 			data.setDdoCode(0);
-		}
-
-		if (ddoRegistration.getValue().length() > 0) {
-			data.setDdoRegistration(ddoRegistration.getNumber());
-		} else {
 			data.setDdoRegistration(0);
+			data.setMinistryDeptName("");
+			data.setMinistryDeptOtherName("");
 		}
 
-		data.setMinistryDeptName(ministryCombo.getSelectedValue());
+		data.setPanNumber(panNumber.getValue());
 
-		data.setMinistryDeptOtherName(ministryNameOtehr.getValue());
+		data.setTanNumber(tanNumber.getValue());
 
 	}
 
