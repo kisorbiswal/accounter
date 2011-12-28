@@ -96,7 +96,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected int getPageSize() {
-		return 10;
+		return 25;
 	}
 
 	@Override
