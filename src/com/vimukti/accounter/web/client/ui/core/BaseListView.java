@@ -560,7 +560,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);
-				budgetData = budgetList.get(0);
+				if (budgetList.size() > 0)
+					budgetData = budgetList.get(0);
 
 				if (result.size() > 0) {
 					ClientBudget budget = (ClientBudget) result.get(0);
