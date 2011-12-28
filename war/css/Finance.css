@@ -2611,6 +2611,15 @@ input.date-field-textbox {
 .attachment_panel form table .gwt-Anchor, .attachment_panel .attachment_hpanel td .gwt-Anchor {
     color: #3299A4;
 }
+.currency_format_option td:last-child td {
+    padding: 5px 0 0 0;
+}
+.currency_format_option td:first-child div {
+    line-height: 2.1;
+}
+.currency_format_option {
+    padding-left: 8px;
+}
 .date_range_combo{
 	width: 120px;
 }
