@@ -176,7 +176,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	}
 
 	public String amountAsString(Double amount) {
-		return DataUtils.getAmountAsStringInPrimaryCurrency(amount);
+		return DataUtils.getAmountAsStrings(amount);
 	}
 
 	public String getPrimaryCurrencySymbol() {
