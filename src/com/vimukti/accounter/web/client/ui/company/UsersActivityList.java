@@ -264,12 +264,10 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				SafeHtmlBuilder shb = new SafeHtmlBuilder();
 				if (value.equalsIgnoreCase(messages.issuePayment())) {
 					shb.appendEscaped(value);
-				} else if (object.getActivityType() != ClientActivity.VOIDED) {
+				} else {
 					shb.appendHtmlConstant("<a href='#'>");
 					shb.appendEscaped(value);
 					shb.appendHtmlConstant("</a>");
-				} else {
-					shb.appendEscaped(value);
 				}
 				return shb.toSafeHtml();
 			}
@@ -319,6 +317,10 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			return buffer.toString();
 		case 5:
 			return messages.updatedPreferences();
+		case 7:
+			buffer.append(messages.Voided());
+			buffer.append(" : ");
+			return buffer.toString();
 		default:
 			break;
 		}

@@ -27,6 +27,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 	private YearOverYearToolBar toolBar;
 	private VerticalPanel graphPanel;
 	private int chartType;
+	private ClientAccount accountByName;
 
 	public YearOverYearPortlet(ClientPortletConfiguration pc, int chartType) {
 		super(pc, "", "", "100%");
@@ -96,22 +97,25 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			public void setDefaultDateRange(String defaultDateRange) {
 				dateRangeItemCombo.setSelected(defaultDateRange);
 				dateRangeChanged(defaultDateRange);
-				YearOverYearPortlet.this.updateData(
+				long updateData = YearOverYearPortlet.this.updateData(
 						getDateRangeType(defaultDateRange), getStartDate(),
 						getEndDate(), accountId);
+				accountCombo.setComboItem(Accounter.getCompany().getAccount(
+						updateData));
 			}
 		};
 		this.body.add(toolBar);
 	}
 
-	protected void updateData(int dateRangeType, ClientFinanceDate startDate,
+	protected long updateData(int dateRangeType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long accountId) {
 		AsyncCallback<ArrayList<YearOverYearPortletData>> callback = new AsyncCallback<ArrayList<YearOverYearPortletData>>() {
 
 			@Override
 			public void onSuccess(ArrayList<YearOverYearPortletData> result) {
 				if (result != null && (!result.isEmpty()))
-					updateGraphData(result);
+					if (accountByName != null)
+						updateGraphData(result);
 			}
 
 			@Override
@@ -120,7 +124,6 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			}
 		};
 		if (accountId == 0) {
-			ClientAccount accountByName;
 			if (chartType == YEAR_OVER_YEAR_EXPENSE) {
 				accountByName = Accounter.getCompany().getAccountByName(
 						"Consulting Income");
@@ -134,11 +137,12 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 				Label label = new Label(messages.noRecordsToShow());
 				graphPanel.add(label);
 				graphPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
-				return;
+				return 0;
 			}
 		}
 		Accounter.createHomeService().getAccountsBalancesByDate(startDate,
 				endDate, accountId, dateRangeType, callback);
+		return accountId;
 
 	}
 
@@ -156,8 +160,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			@Override
 			public void run() {
 				GraphChart chart = new GraphChart();
-				chart.setTitle(toolBar.accountCombo.getSelectedValue()
-						.getName());
+				chart.setTitle(accountByName.getName());
 				chart.accountNames = monthNames;
 				graphPanel.add(chart.createYearOverYearChart(balances));
 				completeInitialization();

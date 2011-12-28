@@ -35,7 +35,6 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 		dateRangeItemCombo = new SelectCombo(messages.dateRange());
 		dateRangeItemCombo.addStyleName("date_range_combo");
 		dateRangeItemCombo.initCombo(dateRangesList);
-		setDefaultDateRange(getSelectedItem().get(0));
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -80,6 +79,7 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 					.getName());
 		}
 		addItems(dateRangeItemCombo, accountCombo);
+		setDefaultDateRange(getSelectedItem().get(0));
 	}
 
 	protected abstract void refreshPortletData(String selectItem, long accountId);
