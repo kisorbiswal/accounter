@@ -428,7 +428,7 @@ public class ViewManager extends HorizontalPanel {
 				labelString = ((BaseListView) existingView)
 						.getAddNewLabelString();
 			}
-			if (labelString != null) {
+			if (labelString != null && !labelString.isEmpty()) {
 				addNewButton.setText(labelString);
 				group9.add(addNewButton);
 			} else {
