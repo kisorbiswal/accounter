@@ -218,6 +218,9 @@
 			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
 			<property name="timezone" column="TIMEZONE"></property>
 			<property name="companyEmail" column="COMPANY_EMAIL"></property>
+			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
+			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
+			<property name="currencyFormat" column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="legalName" column="LEGALNAME"></property>
 			<property name="phone" column="PHONE"></property>
