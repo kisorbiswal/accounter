@@ -7,39 +7,26 @@ public class ClientFixedAssetNote implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String note;
-	private long id;
-
 	private int version;
-	private long fixedAsset;
+	private ClientFixedAsset fixedAsset;
+	String note;
 
 	public ClientFixedAssetNote() {
 	}
 
-
 	@Override
 	public String getDisplayName() {
-		return null;
+		return "ClientFixedAssetNote";
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return "ClientFixedAssetNote";
 	}
 
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.FIXEDASSETNOTE;
-	}
-
-	@Override
-	public long getID() {
-		return this.id;
-	}
-
-	@Override
-	public void setID(long id) {
-		this.id = id;
 	}
 
 	public String getNote() {
@@ -68,11 +55,20 @@ public class ClientFixedAssetNote implements IAccounterCore {
 
 	}
 
-	public long getFixedAsset() {
+	public ClientFixedAsset getFixedAsset() {
 		return fixedAsset;
 	}
 
-	public void setFixedAsset(long fixedAsset) {
+	public void setFixedAsset(ClientFixedAsset fixedAsset) {
 		this.fixedAsset = fixedAsset;
+	}
+
+	@Override
+	public void setID(long id) {
+	}
+
+	@Override
+	public long getID() {
+		return 0;
 	}
 }

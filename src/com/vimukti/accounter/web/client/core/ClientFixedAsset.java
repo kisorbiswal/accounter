@@ -16,7 +16,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int METHOD_STRAIGHT_LINE = 1;
 	public static final int METHOD_REDUCING_BALANCE = 2;
 
@@ -248,7 +248,6 @@ public class ClientFixedAsset implements IAccounterCore {
 	// this.sellingOrDisposingFixedAsset = sellingOrDisposingFixedAsset;
 	// }
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -426,9 +425,9 @@ public class ClientFixedAsset implements IAccounterCore {
 
 	@Override
 	public void setVersion(int version) {
-		this.version=version;
+		this.version = version;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
