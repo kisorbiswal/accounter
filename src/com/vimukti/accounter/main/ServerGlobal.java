@@ -32,9 +32,11 @@ public class ServerGlobal extends AbstractGlobal {
 		AccounterNumberFormat accounterNumberFormat = ServerNumberFormatThred
 				.get();
 		if (accounterNumberFormat == null) {
-			accounterNumberFormat = AccounterNumberFormat.getCurrencyFormat();
+			accounterNumberFormat = new AccounterNumberFormat(preferences()
+					.getCurrencyFormat(), preferences().getDecimalNumber(),
+					true, preferences().getDecimalCharacter().charAt(0),
+					preferences().getDigitGroupCharacter().charAt(0));
 			ServerNumberFormatThred.set(accounterNumberFormat);
-			accounterNumberFormat.setCurrencyFormat(preferences());
 		}
 		return accounterNumberFormat;
 	}
