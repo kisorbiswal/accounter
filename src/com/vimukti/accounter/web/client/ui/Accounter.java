@@ -169,7 +169,6 @@ public class Accounter implements EntryPoint {
 
 	private static void initGUI() {
 		// Setting currency format
-		setCurrencyFormat();
 		reloadMacMenu();
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
