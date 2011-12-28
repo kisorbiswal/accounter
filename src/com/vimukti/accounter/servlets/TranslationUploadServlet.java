@@ -91,6 +91,9 @@ public class TranslationUploadServlet extends BaseServlet {
 		BufferedReader br = new BufferedReader(new FileReader(ff));
 		String line = null;
 		while ((line = br.readLine()) != null) {
+			if (line.startsWith("#")) {
+				continue;
+			}
 			String[] split = line.split("=");
 			String keyValue = split[0];
 			String value = split[1];
