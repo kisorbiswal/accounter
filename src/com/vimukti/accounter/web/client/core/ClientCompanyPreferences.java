@@ -21,7 +21,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long HAVE_W2_EMPLOYEES = 0x20L;
 
-	private static final long HAVE_1099_CONTRACTORS = 0x40L; 
+	private static final long HAVE_1099_CONTRACTORS = 0x40L;
 
 	private static final long TRACK_EMPLOYEE_EXPENSES = 0x80L;
 
@@ -135,6 +135,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private String dateFormat;
 
+	private String currencyFormat;
+
 	private long locationTrackingId;
 
 	double logSpaceUsed;
@@ -176,6 +178,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	int endingPeriodForVATreporting = VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC;
 
 	private String decimalCharacte = ".";
+	private String digitGroupCharacter = ",";
 
 	// currency related properties
 	private ClientCurrency primaryCurrency;
@@ -234,6 +237,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public ClientCompanyPreferences() {
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
 				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW | REPORT_VAT_ON_ACURAL_BASIS);
+		this.currencyFormat = '\u00A4' + "#,##0.00;-" + '\u00A4' + "#,##0.00";
 	}
 
 	public long getTrackFinanceDate() {
@@ -698,7 +702,10 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public String getDecimalCharacter() {
 		return decimalCharacte;
+	}
 
+	public void setDecimalCharacte(String decimalCharacte) {
+		this.decimalCharacte = decimalCharacte;
 	}
 
 	@Override
@@ -726,8 +733,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		// this.id=id;
 
 	}
-
-
 
 	/**
 	 * 
@@ -1301,6 +1306,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return decimalNumber;
 	}
 
+	public String getDigitGroupCharacter() {
+		return digitGroupCharacter;
+	}
+
+	public void setDigitGroupCharacter(String digitGroupCharacter) {
+		this.digitGroupCharacter = digitGroupCharacter;
+	}
+
 	/**
 	 * @param decimalNumber
 	 *            the decimalNumber to set
@@ -1322,6 +1335,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		set(AUTOMATIC_CREDITS_APPLY, isSetCreditsApplyAutomaticEnabled);
 	}
 
+	public String getCurrencyFormat() {
+		return currencyFormat;
+	}
+
+	public void setCurrencyFormat(String currencyFormat) {
+		this.currencyFormat = currencyFormat;
+	}
+
 	public boolean isDiscountPerDetailLine() {
 		return get(TRANSACTION_DISCOUNT_PER_DETAIL_LINE);
 	}
@@ -1333,5 +1354,4 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public boolean isCreditsApplyAutomaticEnable() {
 		return get(AUTOMATIC_CREDITS_APPLY);
 	}
-
 }
