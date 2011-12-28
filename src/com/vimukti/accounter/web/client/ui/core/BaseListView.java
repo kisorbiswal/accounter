@@ -415,21 +415,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			});
 			grid.setVisibleRange(start, pageSize);
 			SimplePager pager = new SimplePager(TextLocation.CENTER,
-					(Resources) GWT.create(Resources.class), true,
+					(Resources) GWT.create(Resources.class), false,
 					pageSize * 2, true);
 			pager.setDisplay(grid);
 			mainVLay.add(pager);
-
-			// paginationPanle = new PaginationPanle<T>(pageSize);
-			// paginationPanle.addPageChangeListner(new PageChangeHandler<T>() {
-			//
-			// @Override
-			// public void onPageChange(int start, int length) {
-			// BaseListView.this.onPageChange(start, length);
-			// }
-			//
-			// });
-			// mainVLay.add(paginationPanle);
 		}
 		add(mainVLay);
 		setSize("100%", "100%");
