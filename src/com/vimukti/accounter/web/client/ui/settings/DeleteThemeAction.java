@@ -30,7 +30,7 @@ public class DeleteThemeAction extends Action {
 	public void run() {
 		try {
 			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
-					Accounter.messages().deleteThemeLabel(), "",
+					messages.deleteThemeLabel(), "",
 					(ClientBrandingTheme) data);
 			deleteThemeDialog.show();
 			deleteThemeDialog.center();

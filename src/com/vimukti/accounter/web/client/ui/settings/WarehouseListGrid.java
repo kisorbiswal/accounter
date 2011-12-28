@@ -55,10 +55,10 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().warehouseCode(),
-				Accounter.messages().warehouseName(),
-				Accounter.messages().ddiNumber(),
-				Accounter.messages().items(), Accounter.messages().delete() };
+		return new String[] { messages.warehouseCode(),
+				messages.warehouseName(),
+				messages.ddiNumber(),
+				messages.items(), messages.delete() };
 	}
 
 	@Override

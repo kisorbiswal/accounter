@@ -5,8 +5,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.fixedassets.NewFixedAssetView;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.forms.SelectItem;
  */
 public class DepreciationMethodCombo extends SelectItem {
 
+	AccounterMessages messages=Global.get().messages();
 	int selectedDeprciationMethod = 0;
 	private NewFixedAssetView newFixedAssetView;
 
@@ -56,8 +58,8 @@ public class DepreciationMethodCombo extends SelectItem {
 	public void initCombo() {
 		setValueMap(new String[] {
 				"",
-				Accounter.messages().straightLine(),
-				Accounter.messages()
+				messages.straightLine(),
+				messages
 						.reducingBalance() });
 	}
 
@@ -77,10 +79,10 @@ public class DepreciationMethodCombo extends SelectItem {
 		case 0:
 			return "";
 		case 1:
-			return Accounter.messages()
+			return messages
 					.straightLine();
 		case 2:
-			return Accounter.messages()
+			return messages
 					.reducingBalance();
 		}
 		return "";

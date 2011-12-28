@@ -11,7 +11,7 @@ public class TaxItemDetailReportAction extends Action {
 
 	public TaxItemDetailReportAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

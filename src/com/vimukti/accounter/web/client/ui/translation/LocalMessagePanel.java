@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -133,7 +134,7 @@ public class LocalMessagePanel extends HorizontalPanel {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(Global.get().messages()
 						.unableToVoteThisTranslation(caught.toString()));
 			}
 

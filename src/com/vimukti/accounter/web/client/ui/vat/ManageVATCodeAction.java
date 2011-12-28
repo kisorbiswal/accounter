@@ -13,7 +13,7 @@ public class ManageVATCodeAction extends Action {
 
 	public ManageVATCodeAction() {
 		super();
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	@Override

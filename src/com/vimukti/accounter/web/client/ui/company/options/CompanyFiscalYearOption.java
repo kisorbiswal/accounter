@@ -62,7 +62,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 			monthNam.add(monthNames[i]);
 		}
 
-		dateItemLable.setText(Accounter.messages().preventPostBefore());
+		dateItemLable.setText(messages.preventPostBefore());
 		DateTimeFormat dateFormat = DateTimeFormat
 				.getFormat(getCompanyPreferences().getDateFormat());
 		dateItem.setFormat(new DateBox.DefaultFormat(dateFormat));
@@ -81,7 +81,7 @@ public class CompanyFiscalYearOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().FiscalTaxYear();
+		return messages.FiscalTaxYear();
 	}
 
 	@Override

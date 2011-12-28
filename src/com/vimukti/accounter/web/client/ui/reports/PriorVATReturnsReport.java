@@ -17,7 +17,7 @@ public class PriorVATReturnsReport extends AbstractReportView<VATSummary> {
 
 	public PriorVATReturnsReport() {
 
-		super(false, Accounter.messages()
+		super(false, messages
 				.pleaseSelectVATAgencyAndEndingDateToViewReport());
 		isVATPriorReport = true;
 		isVATSummaryReport = true;

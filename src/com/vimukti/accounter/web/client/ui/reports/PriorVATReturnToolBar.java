@@ -34,16 +34,16 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] dateRangeArray = { Accounter.messages().all(),
-				Accounter.messages().thisWeek(),
-				Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(),
-				Accounter.messages().lastMonth(),
-				Accounter.messages().thisFinancialYear(),
-				Accounter.messages().lastFinancialYear(),
-				Accounter.messages().thisFinancialQuarter(),
-				Accounter.messages().lastFinancialQuarter(),
-				Accounter.messages().financialYearToDate(),
+		String[] dateRangeArray = { messages.all(),
+				messages.thisWeek(),
+				messages.thisMonth(),
+				messages.lastWeek(),
+				messages.lastMonth(),
+				messages.thisFinancialYear(),
+				messages.lastFinancialYear(),
+				messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate(),
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
 				// FinanceApplication.constants().endThisWeekToDate(),
@@ -71,9 +71,9 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.messages().custom() };
+				messages.custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.messages()
+		vatAgencyCombo = new TAXAgencyCombo(messages
 				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		// vatAgencyCombo.setWidth(40);
@@ -91,7 +91,7 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 					}
 				});
 
-		dateRangeCombo = new SelectCombo(Accounter.messages().dateRange());
+		dateRangeCombo = new SelectCombo(messages.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -99,21 +99,21 @@ public class PriorVATReturnToolBar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo
-				.setComboItem(Accounter.messages().financialYearToDate());
-		dateRangeCombo.setName(Accounter.messages().dateRange());
+				.setComboItem(messages.financialYearToDate());
+		dateRangeCombo.setName(messages.dateRange());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (!dateRangeCombo.getSelectedValue().equals(
-								Accounter.messages().custom())) {
+								messages.custom())) {
 							dateRangeChanged(dateRangeCombo.getSelectedValue());
 						}
 					}
 				});
 
-		endingDateCombo = new SelectCombo(Accounter.messages()
+		endingDateCombo = new SelectCombo(messages
 				.chooseEndingDate());
 		endingDateCombo.setHelpInformation(true);
 		endingDateCombo

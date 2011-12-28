@@ -61,12 +61,12 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().locationTracking(Global.get().Location());
+		return messages.locationTracking(Global.get().Location());
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().locationTracking(Global.get().Location());
+		return messages.locationTracking(Global.get().Location());
 	}
 
 	interface LocationTrackingPageUiBinder extends
@@ -75,9 +75,9 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	public void initData() {
 		long locationType = getCompanyPreferences().getLocationTrackingId();
-		locationTrackingCheckBoxLabel.setText(Accounter.messages()
+		locationTrackingCheckBoxLabel.setText(messages
 				.locationTracking(Global.get().Location()));
-		radioButtonsHeaderLabel.setText(Accounter.messages().useTerminologyFor(
+		radioButtonsHeaderLabel.setText(messages.useTerminologyFor(
 				Global.get().Location()));
 		switch ((int) locationType) {
 		case ClientLocation.BUSINESS:
@@ -150,20 +150,20 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		locationTrackingDescriptionLabel.setText(messages
 				.locationTrackingDescription());
 		locationTrackingDescriptionLabel.setStyleName("organisation_comment");
-		locationRadioButton.setName(Accounter.messages().locationGroup());
-		locationRadioButton.setHTML(Accounter.messages().location());
-		buisinessRadioButton.setName(Accounter.messages().locationGroup());
-		buisinessRadioButton.setHTML(Accounter.messages().buisiness());
-		departmentRadioButton.setName(Accounter.messages().locationGroup());
-		departmentRadioButton.setHTML(Accounter.messages().department());
-		divisionRadioButton.setName(Accounter.messages().locationGroup());
-		divisionRadioButton.setHTML(Accounter.messages().division());
-		propertyRadioButton.setName(Accounter.messages().locationGroup());
-		propertyRadioButton.setHTML(Accounter.messages().property());
-		storeRadioButton.setName(Accounter.messages().locationGroup());
-		storeRadioButton.setHTML(Accounter.messages().store());
-		territoryRadioButton.setName(Accounter.messages().locationGroup());
-		territoryRadioButton.setHTML(Accounter.messages().territory());
+		locationRadioButton.setName(messages.locationGroup());
+		locationRadioButton.setHTML(messages.location());
+		buisinessRadioButton.setName(messages.locationGroup());
+		buisinessRadioButton.setHTML(messages.buisiness());
+		departmentRadioButton.setName(messages.locationGroup());
+		departmentRadioButton.setHTML(messages.department());
+		divisionRadioButton.setName(messages.locationGroup());
+		divisionRadioButton.setHTML(messages.division());
+		propertyRadioButton.setName(messages.locationGroup());
+		propertyRadioButton.setHTML(messages.property());
+		storeRadioButton.setName(messages.locationGroup());
+		storeRadioButton.setHTML(messages.store());
+		territoryRadioButton.setName(messages.locationGroup());
+		territoryRadioButton.setHTML(messages.territory());
 		radioButtonPanel.getElement().getStyle()
 				.setPaddingLeft(
 						(messages.useTerminologyFor(Global.get().Location())

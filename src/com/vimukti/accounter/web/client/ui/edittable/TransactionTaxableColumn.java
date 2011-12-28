@@ -26,6 +26,6 @@ public class TransactionTaxableColumn extends
 
 	@Override
 	public IsWidget getHeader() {
-		return new Label(Accounter.messages().taxable());
+		return new Label(messages.taxable());
 	}
 }

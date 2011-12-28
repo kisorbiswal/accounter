@@ -36,16 +36,16 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] dateRangeArray = { Accounter.messages().all(),
-				Accounter.messages().thisWeek(),
-				Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(),
-				Accounter.messages().lastMonth(),
-				Accounter.messages().thisFinancialYear(),
-				Accounter.messages().lastFinancialYear(),
-				Accounter.messages().thisFinancialQuarter(),
-				Accounter.messages().lastFinancialQuarter(),
-				Accounter.messages().financialYearToDate(),
+		String[] dateRangeArray = { messages.all(),
+				messages.thisWeek(),
+				messages.thisMonth(),
+				messages.lastWeek(),
+				messages.lastMonth(),
+				messages.thisFinancialYear(),
+				messages.lastFinancialYear(),
+				messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate(),
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
 				// FinanceApplication.constants().endThisWeekToDate(),
@@ -73,9 +73,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.messages().custom() };
+				messages.custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(Accounter.messages()
+		vatAgencyCombo = new TAXAgencyCombo(messages
 				.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
@@ -103,7 +103,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		}
 
-		dateRangeItem = new SelectCombo(Accounter.messages().dateRange());
+		dateRangeItem = new SelectCombo(messages.dateRange());
 		dateRangeItem.setHelpInformation(true);
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
@@ -111,7 +111,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
-		dateRangeItem.setComboItem(Accounter.messages().financialYearToDate());
+		dateRangeItem.setComboItem(messages.financialYearToDate());
 		dateRangeItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -133,11 +133,11 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.messages().from());
+		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(Accounter.messages().to());
+		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -156,7 +156,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 			}
 		});
 
-		updateButton = new Button(Accounter.messages().update());
+		updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -174,9 +174,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// This will update the dates in the date range layout
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, endDate);
-				dateRangeItem.setDefaultValue(Accounter.messages().custom());
-				dateRangeItem.setComboItem(Accounter.messages().custom());
-				setSelectedDateRange(Accounter.messages().custom());
+				dateRangeItem.setDefaultValue(messages.custom());
+				dateRangeItem.setComboItem(messages.custom());
+				setSelectedDateRange(messages.custom());
 			}
 		});
 
@@ -187,7 +187,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 		// set the Date Range to End this Calendar quarter to date
 		// setDefaultDateRange(dateRangeArray);
 
-		Button printButton = new Button(Accounter.messages().print());
+		Button printButton = new Button(messages.print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {

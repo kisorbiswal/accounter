@@ -38,7 +38,7 @@ public abstract class TransactionVatCodeColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().taxCode();
+		return messages.taxCode();
 	}
 
 	@Override

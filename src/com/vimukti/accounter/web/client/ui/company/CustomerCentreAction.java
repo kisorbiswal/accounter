@@ -15,7 +15,7 @@ public class CustomerCentreAction extends Action {
 
 	public CustomerCentreAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

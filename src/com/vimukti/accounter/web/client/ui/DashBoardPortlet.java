@@ -16,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
 
 public abstract class DashBoardPortlet extends WorkbenchPanel {
 
-	protected AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private HTML title = new HTML();
 	private String name;

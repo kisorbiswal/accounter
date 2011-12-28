@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -51,9 +53,10 @@ public class DisplayAndPrintSettings extends Composite implements HasText {
 	}
 
 	private void createControls() {
-		deafaultDisplayAndPrintSettingsLabel.setText(Accounter.messages()
+		AccounterMessages messages=Global.get().messages();
+		deafaultDisplayAndPrintSettingsLabel.setText(messages
 				.getDefaultDisplayAndPrintSettings());
-		deafaultDisplayAndPrintSettingsCheckBox.setText(Accounter.messages().getTurnOnTextWrappinginReportColumns());
+		deafaultDisplayAndPrintSettingsCheckBox.setText(messages.getTurnOnTextWrappinginReportColumns());
 	}
 
 	@Override

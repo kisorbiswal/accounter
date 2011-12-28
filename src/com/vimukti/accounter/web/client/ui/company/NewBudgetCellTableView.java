@@ -38,22 +38,18 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
-	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = Accounter
-			.messages().ActualAmountfromlastfiscalyear();
-	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = Accounter
-			.messages().ActualAmountfromthisfiscalyear();
-	public static final String NO_AMOUNT = Accounter.messages()
-			.StartfromScratch();
-	public static final String COPY_FROM_EXISTING = Accounter.messages()
+	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = messages
+			.ActualAmountfromlastfiscalyear();
+	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = messages
+			.ActualAmountfromthisfiscalyear();
+	public static final String NO_AMOUNT = messages.StartfromScratch();
+	public static final String COPY_FROM_EXISTING = messages
 			.CopyfromExistingBudget();
 
-	public static final String SUBDIVIDE_DONT = Accounter.messages()
-			.DontSubdevide();
-	public static final String SUBDIVIDE_BUSINESS = Accounter.messages()
-			.buisiness();
-	public static final String SUBDIVIDE_CLASS = Accounter.messages().Class();
-	public static final String SUBDIVIDE_CUSTOMER = Accounter.messages()
-			.Customer();
+	public static final String SUBDIVIDE_DONT = messages.DontSubdevide();
+	public static final String SUBDIVIDE_BUSINESS = messages.buisiness();
+	public static final String SUBDIVIDE_CLASS = messages.Class();
+	public static final String SUBDIVIDE_CUSTOMER = messages.Customer();
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;
@@ -115,8 +111,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.addStyleName(Accounter.messages().labelTitle());
-		lab1.setText(Accounter.messages().newBudget());
+		lab1.addStyleName(messages.labelTitle());
+		lab1.setText(messages.newBudget());
 
 		budgetStartWithSelect = new SelectCombo(Global.get().messages()
 				.budgetStartWith());
@@ -130,7 +126,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem == COPY_FROM_EXISTING) {
-							String budgetTitle = Accounter.messages()
+							String budgetTitle = messages
 									.CopyvaluesfromExistingBudget();
 							CopyBudgetDialogue copybudgetDialogue = new CopyBudgetDialogue(
 									budgetTitle, "", budgetList);
@@ -177,10 +173,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetNameText = new TextItem(Accounter.messages().payeeName(
-				Accounter.messages().budget()));
-		budgetNameText.setToolTip(Accounter.messages()
-				.giveTheNameAccordingToYourID(this.getAction().getViewName()));
+		budgetNameText = new TextItem(messages.payeeName(messages.budget()));
+		budgetNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
+				.getAction().getViewName()));
 		budgetNameText.setHelpInformation(true);
 		budgetNameText.setRequired(true);
 		budgetNameText.setWidth(100);
@@ -204,8 +199,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 			onEditChangeControls();
 		}
 
-		budgetInfoForm = UIUtils.form(Accounter.messages()
-				.chartOfAccountsInformation());
+		budgetInfoForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetInfoForm.setWidth("100%");
 
 		topHLay = new HorizontalPanel();
@@ -464,8 +458,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 				for (ClientBudget budget : budgetList) {
 					if (budgetName.equals(budget.getBudgetName())) {
-						result.addError(name, Accounter.messages()
-								.alreadyExist());
+						result.addError(name, messages.alreadyExist());
 						break;
 					}
 				}
@@ -485,8 +478,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 			}
 		}
 		if (errorAdded == false) {
-			result.addError(allGivenRecords, Accounter.messages()
-					.noAmountAddedtoAccounts());
+			result.addError(allGivenRecords, messages.noAmountAddedtoAccounts());
 
 		}
 

@@ -30,7 +30,7 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 		this.listOfFiscalYear = listOfperiods;
 		createControls();
 		center();
-		if (title.equalsIgnoreCase(Accounter.messages().editFiscalYear())) {
+		if (title.equalsIgnoreCase(messages.editFiscalYear())) {
 			initData();
 		} else {
 			initNewFiscalYearData();
@@ -91,19 +91,19 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 
 	private void createControls() {
 		createFiscalYearLabel = new HTML();
-		createFiscalYearLabel.setHTML(Accounter.messages().createFascalYear());
+		createFiscalYearLabel.setHTML(messages.createFascalYear());
 		descriptionLabel = new HTML();
-		descriptionLabel.setHTML(Accounter.messages()
+		descriptionLabel.setHTML(messages
 				.enterAppropriateFiscalYear());
 		startOfFiscalYear = new DateItem();
 		startOfFiscalYear.setHelpInformation(true);
 		startOfFiscalYear.setRequired(true);
 		// startOfFiscalYear.setDisabled(true);
-		startOfFiscalYear.setTitle(Accounter.messages().startOfFiscalYear());
+		startOfFiscalYear.setTitle(messages.startOfFiscalYear());
 		endOfFiscalYear = new DateItem();
 		endOfFiscalYear.setRequired(true);
 		endOfFiscalYear.setHelpInformation(true);
-		endOfFiscalYear.setTitle(Accounter.messages().endOfFiscalYear());
+		endOfFiscalYear.setTitle(messages.endOfFiscalYear());
 		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(startOfFiscalYear, endOfFiscalYear);
 		mainVlayout = new VerticalPanel();
@@ -166,23 +166,23 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (startOfFiscalYear.getDateBox().getValue().isEmpty()) {
-			result.addError(startOfFiscalYear, Accounter.messages()
+			result.addError(startOfFiscalYear, messages
 					.startFiscalHTML());
 		} else if (endOfFiscalYear.getDateBox().getValue().isEmpty()) {
-			result.addError(startOfFiscalYear, Accounter.messages()
+			result.addError(startOfFiscalYear, messages
 					.endFiscalHTML());
 		} else if (endOfFiscalYear.getDate()
 				.before(startOfFiscalYear.getDate())) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.fiscalStartEndCompreHTML());
 		} else if (checkFiscalYearExists()) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.fiscalYearAlreadyExists());
 		} else if (checkStartDateExists()) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.fiscalYearStartDateAlreadyExists());
 		} else if (checkEndDateExists()) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.fiscalYearEndDateAlreadyExists());
 		}
 		return result;
@@ -220,9 +220,9 @@ public class CreateFiscalYearDialog extends BaseDialog<ClientFiscalYear> {
 	@Override
 	protected boolean onOK() {
 		ClientFiscalYear fiscalYear = null;
-		if (title.equalsIgnoreCase(Accounter.messages().editFiscalYear())) {
+		if (title.equalsIgnoreCase(messages.editFiscalYear())) {
 			fiscalYear = getEditFiscalYear();
-		} else if (title.equalsIgnoreCase(Accounter.messages()
+		} else if (title.equalsIgnoreCase(messages
 				.createFascalYear())) {
 			fiscalYear = getNewFiscalYear();
 		}

@@ -77,7 +77,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
 		lab1.setText("e-TDS Filling");
-		lab1.addStyleName(Accounter.messages().labelTitle());
+		lab1.addStyleName(messages.labelTitle());
 
 		formType = new SelectCombo("Form No.");
 		formType.setHelpInformation(true);
@@ -157,12 +157,12 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 					}
 				});
 
-		dynamicFormLeft = UIUtils.form(Accounter.messages()
+		dynamicFormLeft = UIUtils.form(messages
 				.chartOfAccountsInformation());
 		dynamicFormLeft.setWidth("100%");
 		dynamicFormLeft.setFields(formType, financialYearCombo);
 
-		dynamicFormRight = UIUtils.form(Accounter.messages()
+		dynamicFormRight = UIUtils.form(messages
 				.chartOfAccountsInformation());
 		dynamicFormRight.setWidth("100%");
 		dynamicFormRight.setFields(quaterSelectionCombo, slectAssecementYear);

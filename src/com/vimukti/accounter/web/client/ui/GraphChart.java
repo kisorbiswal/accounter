@@ -15,12 +15,16 @@ import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
 import com.google.gwt.visualization.client.visualizations.corechart.Options;
 import com.google.gwt.visualization.client.visualizations.corechart.PieChart;
 import com.google.gwt.visualization.client.visualizations.corechart.PieChart.PieOptions;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class GraphChart {
 
+	AccounterMessages messages=Global.get().messages();
+	
 	ArrayList<Double> graph_Values = new ArrayList<Double>();
 	ArrayList<Object> x_Axis_Labels = new ArrayList<Object>();
 	public List<String> accountNames;
@@ -288,19 +292,19 @@ public class GraphChart {
 		DataTable data = DataTable.create();
 
 		if (chartType == INCOME_EXPENSE_BREAKDOWN_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, Accounter.messages().date());
-			data.addColumn(ColumnType.NUMBER, Accounter.messages().income());
-			data.addColumn(ColumnType.NUMBER, Accounter.messages().expense());
+			data.addColumn(ColumnType.STRING, messages.date());
+			data.addColumn(ColumnType.NUMBER, messages.income());
+			data.addColumn(ColumnType.NUMBER, messages.expense());
 		} else if (chartType == ACCOUNTS_PAYABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, Accounter.messages().date());
+			data.addColumn(ColumnType.STRING, messages.date());
 			data.addColumn(ColumnType.NUMBER);
 
 		} else if (chartType == ACCOUNTS_RECEIVABLE_CHART_TYPE) {
-			data.addColumn(ColumnType.STRING, Accounter.messages().date());
-			data.addColumn(ColumnType.NUMBER, Accounter.messages().revenue());
+			data.addColumn(ColumnType.STRING, messages.date());
+			data.addColumn(ColumnType.NUMBER, messages.revenue());
 		} else {
-			data.addColumn(ColumnType.STRING, Accounter.messages().date());
-			data.addColumn(ColumnType.NUMBER, Accounter.messages().balance());
+			data.addColumn(ColumnType.STRING, messages.date());
+			data.addColumn(ColumnType.NUMBER, messages.balance());
 		}
 
 		if (chartType == BANK_ACCOUNT_CHART_TYPE) {

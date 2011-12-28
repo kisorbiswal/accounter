@@ -35,7 +35,7 @@ public class FileVATView extends AbstractFileTAXView {
 			gridView.init();
 			// gridView.setHeight("250px");
 			gridView.addStyleName("file-vat");
-			gridView.addEmptyMessage(Accounter.messages().selectVatAgency());
+			gridView.addEmptyMessage(messages.selectVatAgency());
 		}
 		return gridView;
 	}
@@ -116,7 +116,7 @@ public class FileVATView extends AbstractFileTAXView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().fileTAX();
+		return messages.fileTAX();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class FileVATView extends AbstractFileTAXView {
 		if (this.selectedTaxAgency == null || startDate.getDate() == 0
 				|| endDate.getDate() == 0) {
 			gridView.removeLoadingImage();
-			gridView.addEmptyMessage(Accounter.messages().selectVatAgency());
+			gridView.addEmptyMessage(messages.selectVatAgency());
 			disableprintButton();
 			return;
 		}
@@ -141,7 +141,7 @@ public class FileVATView extends AbstractFileTAXView {
 					@Override
 					public void onException(AccounterException caught) {
 						// gridView.clear();
-						gridView.addEmptyMessage(Accounter.messages()
+						gridView.addEmptyMessage(messages
 								.norecordstoshowinbetweentheselecteddates());
 						// UIUtils.err(FinanceApplication.constants()
 						// .failedToRetrieveVatBoxesForVATAgency()

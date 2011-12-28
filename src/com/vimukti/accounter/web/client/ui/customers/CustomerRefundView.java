@@ -115,7 +115,7 @@ public class CustomerRefundView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
 			} else {
@@ -130,9 +130,9 @@ public class CustomerRefundView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(Accounter.messages().customerRefund(
+		Label lab1 = new Label(messages.customerRefund(
 				Global.get().Customer()));
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
 
@@ -197,7 +197,7 @@ public class CustomerRefundView extends
 			public void onBlur(BlurEvent event) {
 				Double givenAmount = amtText.getAmount();
 				if (DecimalUtil.isLessThan(givenAmount, 0)) {
-					addError(amtText, Accounter.messages().noNegativeAmounts());
+					addError(amtText, messages.noNegativeAmounts());
 					setRefundAmount(0.00D);
 
 				} else if (!DecimalUtil.isLessThan(givenAmount, 0)) {
@@ -222,11 +222,11 @@ public class CustomerRefundView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText
-								.setValue(Accounter.messages().toBePrinted());
+								.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromSelect.getValue() == null)
-							checkNoText.setValue(Accounter.messages()
+							checkNoText.setValue(messages
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
@@ -240,12 +240,12 @@ public class CustomerRefundView extends
 		});
 
 		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (!paymentMethodCombo.getSelectedValue().equals(
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.messages().check())))
+				UIUtils.getpaymentMethodCheckBy_CompanyType(
+						messages.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -262,7 +262,7 @@ public class CustomerRefundView extends
 		bankBalText.setHelpInformation(true);
 		bankBalText.setDisabled(true);
 
-		custBalText = new AmountField(Accounter.messages().payeeBalance(
+		custBalText = new AmountField(messages.payeeBalance(
 				Global.get().Customer()), this, getBaseCurrency());
 		custBalText.setHelpInformation(true);
 		custBalText.setDisabled(true);
@@ -407,8 +407,8 @@ public class CustomerRefundView extends
 		String value;
 		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
-					Accounter.messages().toBePrinted())) {
-				value = String.valueOf(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
@@ -416,10 +416,10 @@ public class CustomerRefundView extends
 			String checknumber;
 			checknumber = this.checkNumber;
 			if (checknumber == null) {
-				checknumber = Accounter.messages().toBePrinted();
+				checknumber = messages.toBePrinted();
 			}
-			if (checknumber.equals(Accounter.messages().toBePrinted()))
-				value = Accounter.messages().toBePrinted();
+			if (checknumber.equals(messages.toBePrinted()))
+				value = messages.toBePrinted();
 			else
 				value = String.valueOf(checknumber);
 		}
@@ -491,8 +491,8 @@ public class CustomerRefundView extends
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(
-						Accounter.messages().toBePrinted())) {
-					checkNoText.setValue(Accounter.messages().toBePrinted());
+						messages.toBePrinted())) {
+					checkNoText.setValue(messages.toBePrinted());
 					printCheck.setValue(true);
 				} else {
 					checkNoText.setValue(transaction.getCheckNumber());
@@ -551,7 +551,7 @@ public class CustomerRefundView extends
 		if (isTrackTax()) {
 			if (taxCodeSelect != null)
 				if (!taxCodeSelect.validate()) {
-					result.addError(taxCodeSelect, Accounter.messages()
+					result.addError(taxCodeSelect, messages
 							.pleaseEnter(taxCodeSelect.getTitle()));
 				}
 		}
@@ -562,8 +562,8 @@ public class CustomerRefundView extends
 
 		if (transaction.getTotal() <= 0) {
 			amtText.highlight();
-			result.addError(amtText, Accounter.messages()
-					.valueCannotBe0orlessthan0(Accounter.messages().amount()));
+			result.addError(amtText, messages
+					.valueCannotBe0orlessthan0(messages.amount()));
 		}
 		if (!AccounterValidator.isValidCustomerRefundAmount(
 				amtText.getAmount(), payFromSelect.getSelectedValue())) {
@@ -660,7 +660,7 @@ public class CustomerRefundView extends
 		paymentMethodSelected(transaction.getPaymentMethod());
 
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.messages().toBePrinted());
+			checkNoText.setValue(messages.toBePrinted());
 		}
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -691,7 +691,7 @@ public class CustomerRefundView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().customerRefund(Global.get().Customer());
+		return messages.customerRefund(Global.get().Customer());
 	}
 
 	@Override

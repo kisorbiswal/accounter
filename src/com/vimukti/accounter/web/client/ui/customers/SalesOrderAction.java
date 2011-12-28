@@ -16,7 +16,7 @@ public class SalesOrderAction extends Action {
 
 	public SalesOrderAction() {
 		super();
-		this.catagory = Accounter.messages().sales();
+		this.catagory = messages.sales();
 	}
 
 	public SalesOrderAction(ClientSalesOrder salesOrder,

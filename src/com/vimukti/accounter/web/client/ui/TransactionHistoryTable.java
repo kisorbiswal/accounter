@@ -8,6 +8,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -15,7 +16,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 
 public class TransactionHistoryTable extends CellTable<ClientTransactionLog> {
 	private AsyncDataProvider<ClientTransactionLog> listDataProvider;
-	private AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private long transctionId;
 	private AbstractTransactionBaseView<ClientTransaction> baseView;
 

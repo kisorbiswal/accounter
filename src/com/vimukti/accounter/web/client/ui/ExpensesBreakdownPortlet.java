@@ -64,7 +64,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		VerticalPanel vPanel = new VerticalPanel();
 		FlexTable fTable = new FlexTable();
 
-		Button addExpenseBtn = new Button(Accounter.messages().addExpenses());
+		Button addExpenseBtn = new Button(messages.addExpenses());
 		addExpenseBtn.addStyleName("addAccountPortlet");
 		addExpenseBtn.addClickHandler(new ClickHandler() {
 
@@ -105,7 +105,7 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		});
 		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 		// Label empExpLabel =
-		// getLabel(Accounter.messages().employeeExpenses());
+		// getLabel(messages.employeeExpenses());
 		Anchor ccExpLabel = new Anchor(messages.creditCardExpenses());
 		ccExpLabel.addClickHandler(new ClickHandler() {
 

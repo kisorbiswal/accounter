@@ -14,7 +14,7 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 	public PurchaseByVendorSummaryAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

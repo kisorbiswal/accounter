@@ -11,7 +11,7 @@ public class AccounterClassListAction extends Action {
 
 	public AccounterClassListAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override
@@ -25,8 +25,7 @@ public class AccounterClassListAction extends Action {
 			@Override
 			public void onCreated() {
 				AccounterClassListDialog dialog = new AccounterClassListDialog(
-						Accounter.messages().manageAccounterClass(), Accounter
-								.messages().toAddAccounterClass());
+						messages.manageAccounterClass(), messages.toAddAccounterClass());
 				dialog.show();
 
 			}

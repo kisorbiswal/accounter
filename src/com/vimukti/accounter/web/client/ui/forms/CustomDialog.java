@@ -9,6 +9,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class CustomDialog extends DialogBox {
@@ -20,6 +22,7 @@ public class CustomDialog extends DialogBox {
 	private boolean isShowHelpBtn;
 	private boolean isShowCloseBtn;
 	private HorizontalPanel imageHorizontalPanel;
+	protected static AccounterMessages messages = Global.get().messages();
 
 	public CustomDialog() {
 		showHeader();
@@ -47,18 +50,14 @@ public class CustomDialog extends DialogBox {
 	public void showHeader() {
 
 		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
-		cross.setTitle(Accounter.messages().clickThisTo(
-				Accounter.messages().close().toLowerCase(),
-				Accounter.messages().dialog()));
+		cross.setTitle(messages.clickThisTo(messages.close().toLowerCase(),
+				messages.dialog()));
 		// help = new Image("/images/help-icon.png");
 		help = new Image(Accounter.getFinanceImages().helpIcon());
 		help.setStyleName("dialog_help_icon");
-		help.setTitle(Accounter
-				.messages()
-				.clickThisTo(Accounter.messages().help(), "")
-				.replace(Accounter.messages().to().toLowerCase() + " ",
-						Accounter.messages().For())
-				.replace(Accounter.messages().This(), ""));
+		help.setTitle(messages.clickThisTo(messages.help(), "")
+				.replace(messages.to().toLowerCase() + " ", messages.For())
+				.replace(messages.This(), ""));
 		// help.setStyleName("helpAlign");
 		caption = new HTML();
 

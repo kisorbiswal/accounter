@@ -11,7 +11,7 @@ public class DepositDetailAction extends Action {
 
 	public DepositDetailAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

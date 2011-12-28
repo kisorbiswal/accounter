@@ -26,9 +26,9 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().date(),
-				Accounter.messages().number(), Accounter.messages().name(),
-				Accounter.messages().memo(), Accounter.messages().amount() };
+		return new String[] { messages.date(),
+				messages.number(), messages.name(),
+				messages.memo(), messages.amount() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {

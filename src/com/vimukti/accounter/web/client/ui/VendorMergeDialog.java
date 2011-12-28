@@ -42,7 +42,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	public VendorMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.messages().merge());
+		okbtn.setText(messages.merge());
 		createControls();
 		center();
 	}
@@ -60,29 +60,29 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		vendorCombo = createVendorCombo();
 		vendorCombo1 = createVendorCombo1();
 
-		vendorIDTextItem = new TextItem(Accounter.messages().payeeID(
+		vendorIDTextItem = new TextItem(messages.payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem.setHelpInformation(true);
 
-		vendorIDTextItem1 = new TextItem(Accounter.messages().payeeID(
+		vendorIDTextItem1 = new TextItem(messages.payeeID(
 				Global.get().Vendor()));
 		vendorIDTextItem1.setHelpInformation(true);
 		vendorIDTextItem.setDisabled(true);
 		vendorIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem(Accounter.messages().active());
+		status = new CheckboxItem(messages.active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.messages().active());
+		status1 = new CheckboxItem(messages.active());
 		status1.setValue(false);
 		status1.setHelpInformation(true);
 
-		balanceTextItem = new TextItem(Accounter.messages().balance());
+		balanceTextItem = new TextItem(messages.balance());
 		balanceTextItem.setHelpInformation(true);
 
-		balanceTextItem1 = new TextItem(Accounter.messages().balance());
+		balanceTextItem1 = new TextItem(messages.balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 		balanceTextItem1.setDisabled(true);
@@ -100,7 +100,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo1() {
-		vendorCombo1 = new VendorCombo(Accounter.messages().payeeTo(
+		vendorCombo1 = new VendorCombo(messages.payeeTo(
 				Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
@@ -120,7 +120,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo() {
-		vendorCombo = new VendorCombo(Accounter.messages().payeeFrom(
+		vendorCombo = new VendorCombo(messages.payeeFrom(
 				Global.get().Vendor()), false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
@@ -159,7 +159,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		if (fromclientVendor != null && toClientVendor != null) {
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
 				result.addError(fromclientVendor,
-						Accounter.messages().notMove(Global.get().vendors()));
+						messages.notMove(Global.get().vendors()));
 			}
 		}
 

@@ -3,17 +3,20 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class AccounterAsync2 {
 
+	static AccounterMessages messages=Global.get().messages();
+	
 	private static PopupPanel loadingMessageDialog;
 
 	public static void createAsync(final CreateViewAsyncCallback callback) {
 
-		loadingMessageDialog = UIUtils.getLoadingMessageDialog(Accounter
-				.messages().processingRequest());
+		loadingMessageDialog = UIUtils.getLoadingMessageDialog(messages.processingRequest());
 		loadingMessageDialog.center();
 
 		GWT.runAsync(new RunAsyncCallback() {
@@ -25,7 +28,7 @@ public class AccounterAsync2 {
 
 			public void onFailure(Throwable e) {
 				loadingMessageDialog.removeFromParent();
-				Accounter.showError(Accounter.messages().unableToshowtheview());
+				Accounter.showError(messages.unableToshowtheview());
 			}
 		});
 	}

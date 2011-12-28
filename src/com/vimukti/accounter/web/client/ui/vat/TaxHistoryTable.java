@@ -27,7 +27,7 @@
 //	TaxHistoryTable(SelectionChangedHandler<ClientTAXReturn> callBack) {
 //		initColumns();
 //		this.callBack = callBack;
-//		HTML emptyMessage = new HTML(Accounter.messages().taxHistoryEmpty());
+//		HTML emptyMessage = new HTML(messages.taxHistoryEmpty());
 //		emptyMessage.setHeight("150px");
 //		setEmptyTableWidget(emptyMessage);
 //	}
@@ -97,13 +97,13 @@
 //			}
 //		};
 //
-//		this.addColumn(periodStartDate, Accounter.messages().periodStartDate());
-//		this.addColumn(periodEndDate, Accounter.messages().periodEndDate());
-//		this.addColumn(vatFileDate, Accounter.messages().vatFileDate());
-//		this.addColumn(netAmountDue, Accounter.messages().netAmountDue());
-//		this.addColumn(totalPaymentMade, Accounter.messages()
+//		this.addColumn(periodStartDate, messages.periodStartDate());
+//		this.addColumn(periodEndDate, messages.periodEndDate());
+//		this.addColumn(vatFileDate, messages.vatFileDate());
+//		this.addColumn(netAmountDue, messages.netAmountDue());
+//		this.addColumn(totalPaymentMade, messages
 //				.totalPaymentMade());
-//		this.addColumn(status, Accounter.messages().select());
+//		this.addColumn(status, messages.select());
 //	}
 //
 //	public void setData(List<ClientTAXReturn> data) {

@@ -23,10 +23,10 @@ public class TemplateCombo extends CustomCombo {
 
 	public ArrayList<String> getTempletes() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add(Accounter.messages().classicTemplate());
-		list.add(Accounter.messages().ModernTemplate());
-		list.add(Accounter.messages().PlainTemplate());
-		list.add(Accounter.messages().ProfessionalTemplate());
+		list.add(messages.classicTemplate());
+		list.add(messages.ModernTemplate());
+		list.add(messages.PlainTemplate());
+		list.add(messages.ProfessionalTemplate());
 
 		// File dir = new File("../templetes");
 		//
@@ -67,7 +67,7 @@ public class TemplateCombo extends CustomCombo {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.messages().Template();
+		return messages.Template();
 	}
 
 	@Override

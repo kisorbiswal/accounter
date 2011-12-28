@@ -49,7 +49,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	}
 
 	protected void doCreateContents() {
-		messages = Accounter.messages();
+		messages = messages;
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 

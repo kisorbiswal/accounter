@@ -96,9 +96,9 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		}
 		popup.clear();
 		FlexTable table = new FlexTable();
-		Label valueLabel = new Label(Accounter.messages().value());
-		Label unitLabel = new Label(Accounter.messages().unit());
-		Label wareHouseLabel = new Label(Accounter.messages().wareHouse());
+		Label valueLabel = new Label(messages.value());
+		Label unitLabel = new Label(messages.unit());
+		Label wareHouseLabel = new Label(messages.wareHouse());
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				row.getQuantity().getUnit());
@@ -174,7 +174,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().quantity();
+		return messages.quantity();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -154,7 +155,7 @@ public class ClientMeasurement implements IAccounterCore {
 			}
 		}
 
-		throw new IllegalArgumentException(Accounter.messages()
+		throw new IllegalArgumentException(Global.get().messages()
 				.specifiedunittypenotfoundinmeasure());
 	}
 

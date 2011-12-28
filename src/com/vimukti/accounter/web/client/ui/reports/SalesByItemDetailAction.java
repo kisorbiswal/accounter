@@ -17,7 +17,7 @@ public class SalesByItemDetailAction extends Action {
 
 	public SalesByItemDetailAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

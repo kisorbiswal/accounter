@@ -70,7 +70,7 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 		closeButton = new Button();
 		openButton = new Button();
 		changeButton = new Button();
-		closeButton.setTitle(Accounter.messages().closeFiscalYear());
+		closeButton.setTitle(messages.closeFiscalYear());
 		addButton(closeButton);
 		closeButton.addClickHandler(new ClickHandler() {
 
@@ -78,19 +78,19 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 
 			}
 		});
-		openButton.setTitle(Accounter.messages().openFiscalYear());
+		openButton.setTitle(messages.openFiscalYear());
 		addButton(openButton);
 		openButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
 			}
 		});
-		changeButton.setTitle(Accounter.messages().changeStartDate());
+		changeButton.setTitle(messages.changeStartDate());
 		addButton(changeButton);
 		changeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				new ChangeStartDateDialog(Accounter.messages().title(),
-						Accounter.messages().description()).show();
+				new ChangeStartDateDialog(messages.title(),
+						messages.description()).show();
 			}
 		});
 		// setHeight(250);
@@ -102,13 +102,13 @@ public class FiscalYearListDialog extends GroupDialog<ClientFiscalYear> {
 			}
 
 			public void onFirstButtonClick() {
-				showAddEditFiscalYear(Accounter.messages().createFascalYear(),
-						Accounter.messages().description(), null);
+				showAddEditFiscalYear(messages.createFascalYear(),
+						messages.description(), null);
 			}
 
 			public void onSecondButtonClick() {
-				showAddEditFiscalYear(Accounter.messages().editFiscalYear(),
-						Accounter.messages().description(), null);
+				showAddEditFiscalYear(messages.editFiscalYear(),
+						messages.description(), null);
 			}
 
 			public void onThirdButtonClick() {

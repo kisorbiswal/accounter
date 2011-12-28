@@ -54,7 +54,7 @@ public class CustomerPrePaymentView extends
 	Double toBeSetCustomerBalance;
 	protected boolean isClose;
 	protected String paymentMethod = UIUtils
-			.getpaymentMethodCheckBy_CompanyType(Accounter.messages().check());
+			.getpaymentMethodCheckBy_CompanyType(messages.check());
 
 	private ArrayList<DynamicForm> listforms;
 	protected String checkNumber = null;
@@ -120,7 +120,7 @@ public class CustomerPrePaymentView extends
 		this.addressListOfCustomer = null;
 		this.depositInAccount = null;
 		this.paymentMethod = UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
+				.getpaymentMethodCheckBy_CompanyType(messages
 						.check());
 		amountText.setAmount(0D);
 		// endBalText.setAmount(getAmountInTransactionCurrency(0D));
@@ -340,7 +340,7 @@ public class CustomerPrePaymentView extends
 
 					@Override
 					public void onException(AccounterException t) {
-						checkNo.setValue(Accounter.messages().toBePrinted());
+						checkNo.setValue(messages.toBePrinted());
 						return;
 					}
 
@@ -371,9 +371,9 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void createControls() {
-		Label lab1 = new Label(Accounter.messages().payeePrePayment(
+		Label lab1 = new Label(messages.payeePrePayment(
 				Global.get().Customer()));
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
@@ -412,7 +412,7 @@ public class CustomerPrePaymentView extends
 		bankBalText.setWidth(100);
 		bankBalText.setDisabled(true);
 
-		customerBalText = new AmountField(Accounter.messages().payeeBalance(
+		customerBalText = new AmountField(messages.payeeBalance(
 				Global.get().Customer()), this, getBaseCurrency());
 		customerBalText.setHelpInformation(true);
 		customerBalText.setDisabled(true);
@@ -436,7 +436,7 @@ public class CustomerPrePaymentView extends
 
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setComboItem(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(Accounter.messages()
+				.getpaymentMethodCheckBy_CompanyType(messages
 						.check()));
 		// printCheck = new CheckboxItem(messages.toBePrinted());
 		// printCheck.setValue(true);
@@ -544,7 +544,7 @@ public class CustomerPrePaymentView extends
 	}
 
 	private AddressCombo createBillToComboItem(String address) {
-		AddressCombo addressCombo = new AddressCombo(Accounter.messages()
+		AddressCombo addressCombo = new AddressCombo(messages
 				.address(), false);
 		addressCombo.setHelpInformation(true);
 		addressCombo
@@ -569,8 +569,7 @@ public class CustomerPrePaymentView extends
 
 	private TextItem createCheckNumberItm() {
 		TextItem checkNoTextItem = new TextItem(
-				UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-						.messages().checkNo()));
+				UIUtils.getpaymentMethodCheckBy_CompanyType(messages.checkNo()));
 		checkNoTextItem.setHelpInformation(true);
 		return checkNoTextItem;
 	}
@@ -603,7 +602,7 @@ public class CustomerPrePaymentView extends
 					Double amount = DataUtils.getAmountStringAsDouble(value
 							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.noNegativeAmounts());
 						amountText.setAmount(0.00D);
 
@@ -802,7 +801,7 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payeePayment(Global.get().Customer());
+		return messages.payeePayment(Global.get().Customer());
 	}
 
 	@Override

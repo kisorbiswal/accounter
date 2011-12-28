@@ -63,14 +63,14 @@
 //
 //		List<String> removeHeaderBackground = new ArrayList<String>();
 //
-//		HTML lab1 = new HTML(Accounter.messages().creaditHTML());
+//		HTML lab1 = new HTML(messages.creaditHTML());
 //
 //		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
 //		labeldateNoLayout.setSize("auto", "100%");
 //		labeldateNoLayout.add(lab1);
 //
 //		Map<String, String> dateNumMap = getMap(new String[] {
-//				Accounter.messages().customerName(Global.get().Customer()),
+//				messages.customerName(Global.get().Customer()),
 //				Accounter.getCompany().getCustomer(creditMemo.getCustomer())
 //						.getName(),
 //				messages.creditDate(),
@@ -107,7 +107,7 @@
 //			}
 //		}
 //
-//		Map<String, String> billAdrsMap = getMap(Accounter.messages()
+//		Map<String, String> billAdrsMap = getMap(messages
 //				.customerBillTo(Global.get().Customer()), billAdrs);
 //		FlexTable billToTable = util.getWidget(2, 1, billAdrsMap, true);
 //		billToTable.setSize("280px", "150px");

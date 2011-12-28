@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -18,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * @author Malcom Fernandez
  */
 public abstract class CustomCombo<T> extends DropDownCombo<T> {
-	protected static final AccounterMessages messages = Accounter.messages();
+	protected static AccounterMessages messages=Global.get().messages();
 
 	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols) {
 		super(title, isAddNewRequire, noOfCols);
@@ -28,14 +29,14 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				if (title.substring(i - 1).equalsIgnoreCase("s"))
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
-						Accounter.messages().name()))
-					title = title.replace(Accounter.messages().name(), "")
+						messages.name()))
+					title = title.replace(messages.name(), "")
 							.toLowerCase();
 			if (isAddNewRequire)
-				super.setToolTip(Accounter.messages()
+				super.setToolTip(messages
 						.selectWhichWeHaveInOurCompanyOrAddNew(title));
 			else
-				super.setToolTip(Accounter.messages()
+				super.setToolTip(messages
 						.selectWhichWeHaveInOurCompany(title));
 		}
 	}
@@ -48,10 +49,10 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				if (title.substring(i - 1).equalsIgnoreCase("s"))
 					title = title.replace("s", "");
 				else if (title.substring(i - 4, i).equalsIgnoreCase(
-						Accounter.messages().name()))
-					title = title.replace(Accounter.messages().name(), "")
+						messages.name()))
+					title = title.replace(messages.name(), "")
 							.toLowerCase();
-			super.setToolTip(Accounter.messages()
+			super.setToolTip(messages
 					.selectWhichWeHaveInOurCompanyOrAddNew(title));
 		}
 	}
@@ -77,7 +78,7 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 				if (!GWT.isScript()) {
 					caught.printStackTrace();
 					Accounter
-							.showError(Accounter.messages().sorryFailedToAdd());
+							.showError(messages.sorryFailedToAdd());
 				}
 
 			}

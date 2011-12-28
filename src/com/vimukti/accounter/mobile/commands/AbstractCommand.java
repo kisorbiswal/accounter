@@ -147,9 +147,9 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 			return ClientAddress.TYPE_POSTAL;
 		else if (type.equalsIgnoreCase("5"))
 			return ClientAddress.TYPE_HOME;
-		else if (type.equalsIgnoreCase(Accounter.messages().company()))
+		else if (type.equalsIgnoreCase(messages.company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase(Accounter.messages()
+		else if (type.equalsIgnoreCase(messages
 				.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 

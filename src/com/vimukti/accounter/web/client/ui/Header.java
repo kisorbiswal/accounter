@@ -18,11 +18,15 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends FlowPanel {
 
+	protected static AccounterMessages messages = Global.get().messages();
+	
 	private Image userImage;
 
 	public static Label companyNameLabel;
@@ -35,7 +39,7 @@ public class Header extends FlowPanel {
 
 	private VerticalPanel panel1;
 	private HorizontalPanel panel2, panel3;
-	private String gettingStartedStatus = Accounter.messages()
+	private String gettingStartedStatus = messages
 			.hideGettingStarted();
 	private MenuBar helpBar;
 	private ClientCompany company = null;
@@ -99,14 +103,14 @@ public class Header extends FlowPanel {
 			}
 		}
 		// userName.setWidth("100%");
-		logout = new Anchor(Accounter.messages().logoutHTML(), "/main/logout");
+		logout = new Anchor(messages.logoutHTML(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((messages.logout().length() * 4) + 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new Anchor(Accounter.messages().helpHTML());
+		help = new Anchor(messages.helpHTML());
 		// help.setWidth(((messages.help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");
@@ -133,7 +137,7 @@ public class Header extends FlowPanel {
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
-		companiesLink = new Anchor(Accounter.messages().companies(),
+		companiesLink = new Anchor(messages.companies(),
 				"/main/companies");
 		companiesLink.addStyleName("companiesLink");
 
@@ -179,7 +183,7 @@ public class Header extends FlowPanel {
 	}
 
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem(Accounter.messages().help(),
+		MenuItem menuItem = helpBar.addItem(messages.help(),
 				getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
@@ -191,7 +195,7 @@ public class Header extends FlowPanel {
 	private CustomMenuBar getHelpMenuBar() {
 
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(Accounter.messages().helpCenter(), true,
+		helpMenu.addItem(messages.helpCenter(), true,
 				new Command() {
 
 					@Override
@@ -204,14 +208,14 @@ public class Header extends FlowPanel {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals(Accounter.messages()
+				if (gettingStartedStatus.equals(messages
 						.hideGettingStarted())) {
 					// DashBoardView.hideGettingStarted();
-					changeHelpBarContent(Accounter.messages()
+					changeHelpBarContent(messages
 							.showGettingStarted());
 				} else {
 					// DashBoardView.showGettingStarted();
-					changeHelpBarContent(Accounter.messages()
+					changeHelpBarContent(messages
 							.hideGettingStarted());
 				}
 			}

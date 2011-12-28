@@ -21,9 +21,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class TransactionAttachmentPanel extends SimplePanel {
+	protected static AccounterMessages messages=Global.get().messages();
+	
 	private static final String ATTACHMENT_URL = "/do/uploadattachment";
 
 	VerticalPanel attachmentTable;
@@ -55,7 +59,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		final FileUpload uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
-		browseFileAnchor = new Anchor(Accounter.messages().chooseFile());// Choose
+		browseFileAnchor = new Anchor(messages.chooseFile());// Choose
 																			// File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
@@ -79,7 +83,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			public void onSubmit(SubmitEvent event) {
 				if (uploadFile.getFilename() == null
 						|| uploadFile.getFilename().length() <= 0) {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.noImageisselected());
 					return;
 				}
@@ -106,7 +110,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				attachment.setName(text);
 				attachment.setSize(Long.parseLong(split[1]));
 
-				browseFileAnchor.setText(Accounter.messages().chooseFile());// Choose
+				browseFileAnchor.setText(messages.chooseFile());// Choose
 																			// File
 				// Hide that button
 				uploadButton.setVisible(false);
@@ -127,7 +131,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 		uploadForm.add(hPanel);
 
-		uploadButton = new Button(Accounter.messages().upload());
+		uploadButton = new Button(messages.upload());
 		uploadButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -227,7 +231,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				return true;
 
 		}
-		Accounter.showInformation(Accounter.messages().pleaseSelect("File"));
+		Accounter.showInformation(messages.pleaseSelect("File"));
 		return false;
 
 	}

@@ -7,7 +7,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.company.AddBudgetAmountDialogue;
@@ -16,7 +15,6 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 
-	AccounterMessages messages = Accounter.messages();
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
 	List<ClientBudgetItem> budgetItem = new ArrayList<ClientBudgetItem>();
 
@@ -209,7 +207,7 @@ public class BudgetAccountGrid extends BaseListGrid<ClientBudgetItem> {
 	@Override
 	public void onDoubleClick(final ClientBudgetItem obj) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		String budgetTitle = Accounter.messages().AddBudgetfor(
+		String budgetTitle = messages.AddBudgetfor(
 				obj.getAccountsName());
 		AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
 				budgetTitle, "", map, obj);

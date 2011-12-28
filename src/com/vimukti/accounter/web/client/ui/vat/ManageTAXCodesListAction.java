@@ -23,7 +23,7 @@ public class ManageTAXCodesListAction extends Action {
 	 */
 	public ManageTAXCodesListAction() {
 		super();
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	/*

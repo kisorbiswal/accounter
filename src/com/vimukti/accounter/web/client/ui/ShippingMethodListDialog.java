@@ -100,10 +100,10 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	public void showAddEditTermDialog(ClientShippingMethod rec) {
 		String arr[] = new String[2];
-		arr[0] = Accounter.messages().shippingMethod();
-		arr[1] = Accounter.messages().description();
+		arr[0] = messages.shippingMethod();
+		arr[1] = messages.description();
 		inputDlg = new InputDialog(this,
-				Accounter.messages().shippingMethod(), "", arr) {
+				messages.shippingMethod(), "", arr) {
 		};
 		inputDlg.getTextItems().get(1).setRequired(false);
 		inputDlg.setWidth("325px");
@@ -138,8 +138,8 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name(),
-				Accounter.messages().description() };
+		return new String[] { messages.name(),
+				messages.description() };
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 	@Override
 	public String toString() {
-		return Accounter.messages().shippingMethodListDialog();
+		return messages.shippingMethodListDialog();
 	}
 
 	@Override
@@ -162,13 +162,13 @@ public class ShippingMethodListDialog extends GroupDialog<ClientShippingMethod> 
 
 			if (shippingMethod == null) {
 				if (shippingMethodByName != null) {
-					result.addError(this, Accounter.messages()
+					result.addError(this, messages
 							.shippingMethodAlreadyExists());
 				}
 			} else {
 				if (!(shippingMethod.getName().equalsIgnoreCase(methodName) ? true
 						: shippingMethodByName != null ? false : true)) {
-					result.addError(this, Accounter.messages().alreadyExist());
+					result.addError(this, messages.alreadyExist());
 				}
 			}
 		}

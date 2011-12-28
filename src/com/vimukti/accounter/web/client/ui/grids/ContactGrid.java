@@ -95,7 +95,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		return new String[] { messages.primary(), messages.contactName(),
 				messages.title(), messages.businessPhone(), messages.email(),
 				" " };
@@ -197,7 +197,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 
 	private String getValidMail(String email) {
 		if (!UIUtils.isValidEmail(email)) {
-			Accounter.showError(Accounter.messages().invalidEmail());
+			Accounter.showError(messages.invalidEmail());
 			return "";
 		} else
 			return email;
@@ -210,7 +210,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			return String.valueOf(phone);
 		} catch (Exception e) {
 			if (valueString.length() != 0) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.invalidBusinessPhoneVal());
 				return "";
 			}

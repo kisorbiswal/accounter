@@ -74,7 +74,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					showAddEditTaxGroup(taxGroup);
 				} else {
 					Accounter
-							.showError(Accounter.messages().selectATaxGroup());
+							.showError(messages.selectATaxGroup());
 					new Exception();
 				}
 			}
@@ -87,7 +87,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 					deleteObject(taxGroup);
 				} else
 					Accounter
-							.showError(Accounter.messages().selectATaxGroup());
+							.showError(messages.selectATaxGroup());
 
 			}
 		};
@@ -98,12 +98,12 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 	public void showAddEditTaxGroup(final ClientTAXGroup taxGroup) {
 
 		if (taxGroup != null) {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
-					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
+					.taxGroup(), messages.toAddOrRemoveTaxCode(),
 					taxGroup);
 		} else {
-			salesTaxGroupDialog = new SalesTaxGroupDialog(Accounter.messages()
-					.taxGroup(), Accounter.messages().toAddOrRemoveTaxCode(),
+			salesTaxGroupDialog = new SalesTaxGroupDialog(messages
+					.taxGroup(), messages.toAddOrRemoveTaxCode(),
 					null);
 		}
 
@@ -133,7 +133,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		ClientTAXGroup clientTAXGroup = company.getTaxGroupByName(groupName);
 		if (!(taxGroup.getName().equalsIgnoreCase(groupName) ? true
 				: clientTAXGroup == null)) {
-			Accounter.showError(Accounter.messages().alreadyExist());
+			Accounter.showError(messages.alreadyExist());
 		} else {
 			taxGroup.setName(groupName);
 			taxGroup.setTaxItems(getSelectedTaxItems(taxGroup));
@@ -181,7 +181,7 @@ public class SalesTaxGroupListDialog extends GroupDialog<ClientTAXGroup> {
 		ClientTAXGroup taxGroupByName = company.getTaxGroupByName(taxGroup
 				.getName());
 		if (itemByName != null || taxGroupByName != null) {
-			Accounter.showError(Accounter.messages().alreadyExist());
+			Accounter.showError(messages.alreadyExist());
 		} else
 			saveOrUpdate(taxGroup);
 

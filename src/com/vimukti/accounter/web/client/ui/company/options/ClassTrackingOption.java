@@ -93,8 +93,8 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		classTrackingdescriptionLabel.setText(messages
 				.classTrackingDescription());
 		classTrackingdescriptionLabel.setStyleName("organisation_comment");
-		classTrackingCheckBox.setText(Accounter.messages().classTracking());
-		classWarningCheckBox.setText(Accounter.messages().classWarning());
+		classTrackingCheckBox.setText(messages.classTracking());
+		classWarningCheckBox.setText(messages.classWarning());
 		// classesOnSalesLabel.setText(messages.classesonsales());
 		// onePerTransactionRadio.setName(messages
 		// .classunderscoretracking());
@@ -133,12 +133,12 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().classTracking();
+		return messages.classTracking();
 	}
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().classTracking();
+		return messages.classTracking();
 	}
 
 }

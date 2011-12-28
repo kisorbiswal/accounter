@@ -56,10 +56,10 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { Accounter.messages().firstName(),
-				Accounter.messages().lastName(),
-				Accounter.messages().userRole(),
-				Accounter.messages().emailId(), Accounter.messages().status(),
+		return new String[] { messages.firstName(),
+				messages.lastName(),
+				messages.userRole(),
+				messages.emailId(), messages.status(),
 				"" };
 	}
 
@@ -88,8 +88,7 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 		case 3:
 			return obj.getEmail();
 		case 4:
-			return obj.isActive() ? Accounter.messages().active() : Accounter
-					.messages().inActive();
+			return obj.isActive() ? messages.active() : messages.inActive();
 		case 5:
 			return Accounter.getFinanceImages().delete();
 		default:
@@ -114,13 +113,13 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 			ClientUser user = Accounter.getUser();
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.youCantDeleteYourSelf());
 				} else {
 					showWarnDialog(obj);
 				}
 			} else {
-				Accounter.showInformation(Accounter.messages()
+				Accounter.showInformation(messages
 						.youdonthavepermissionstodeleteuser());
 			}
 		}

@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	private ScrollPanel pageDetailsPanel;
-	private AccounterMessages messages = Accounter.messages();
 	private List<PreferencePage> preferencePages;
 
 	@Override
@@ -116,8 +115,8 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getCatogiriesInfoPage() {
-		PreferencePage catogiriesInfoPage = new PreferencePage(Accounter
-				.messages().categories());
+		PreferencePage catogiriesInfoPage = new PreferencePage(
+				messages.categories());
 		LocationTrackingOption locationTrackingOption = new LocationTrackingOption();
 		ClassTrackingOption classTrackingPage = new ClassTrackingOption();
 		catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
@@ -126,8 +125,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 	}
 
 	private PreferencePage getCompanyInfoPage() {
-		PreferencePage companyInfoPage = new PreferencePage(Accounter
-				.messages().company());
+		PreferencePage companyInfoPage = new PreferencePage(messages.company());
 
 		CompanyInfoOption companyInfoOption = new CompanyInfoOption();
 		CompanyDateFormateOption formateOption = new CompanyDateFormateOption();

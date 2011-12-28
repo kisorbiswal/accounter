@@ -13,7 +13,7 @@ public class StockSettingsAction extends Action {
 
 	public StockSettingsAction() {
 		super();
-		this.catagory = Accounter.messages().stockSettings();
+		this.catagory = messages.stockSettings();
 	}
 
 	@Override

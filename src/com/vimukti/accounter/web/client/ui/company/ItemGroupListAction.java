@@ -16,7 +16,7 @@ public class ItemGroupListAction extends Action {
 
 	public ItemGroupListAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override
@@ -30,8 +30,7 @@ public class ItemGroupListAction extends Action {
 
 			@Override
 			public void onCreated() {
-				ItemGroupListDialog dialog = new ItemGroupListDialog(Accounter
-						.messages().manageItemGroup(), Accounter.messages()
+				ItemGroupListDialog dialog = new ItemGroupListDialog(messages.manageItemGroup(), messages
 						.toAddItemGroup());
 				dialog.show();
 

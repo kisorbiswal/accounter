@@ -12,7 +12,7 @@ public class VaTItemDetailAction extends Action {
 
 	public VaTItemDetailAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

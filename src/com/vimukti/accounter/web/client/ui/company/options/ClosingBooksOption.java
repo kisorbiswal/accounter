@@ -50,7 +50,7 @@ public class ClosingBooksOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().closingthebooks();
+		return messages.closingthebooks();
 	}
 
 	@Override

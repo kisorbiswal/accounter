@@ -16,7 +16,7 @@ public class AdjustTAXAction extends Action {
 	public AdjustTAXAction(int type) {
 		super();
 		type = type;
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	@Override

@@ -100,8 +100,8 @@
 //
 //	@Override
 //	protected String[] getColumns() {
-//		return new String[] { Accounter.messages().currencyCode(),
-//				Accounter.messages().currencyName() };
+//		return new String[] { messages.currencyCode(),
+//				messages.currencyName() };
 //	}
 //
 //	@Override

@@ -18,7 +18,7 @@ public class CashFlowStatementAction extends Action {
 
 	public CashFlowStatementAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 
 	public WareHouseViewAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	@Override
@@ -60,8 +60,7 @@ public class WareHouseViewAction extends Action<ClientWarehouse> {
 
 	@Override
 	public String getText() {
-		return Accounter
-				.messages().wareHouse();
+		return messages.wareHouse();
 	}
 
 }

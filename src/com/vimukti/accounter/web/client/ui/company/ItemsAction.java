@@ -41,7 +41,7 @@ public class ItemsAction extends Action {
 					ItemListView.isSalesType = true;
 				} else if (getCatagory()
 						.equals(
-								Accounter.messages().bothCustomerAndVendor(
+								messages.bothCustomerAndVendor(
 										Global.get().Customer(),
 										Global.get().Vendor()))) {
 					ItemListView.isPurchaseType = true;
@@ -77,7 +77,7 @@ public class ItemsAction extends Action {
 		if (getCatagory().equals(Global.get().Customer()))
 			return "customerItems";
 		if (getCatagory().equals(
-				Accounter.messages().bothCustomerAndVendor(
+				messages.bothCustomerAndVendor(
 						Global.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
@@ -94,7 +94,7 @@ public class ItemsAction extends Action {
 		if (getCatagory().equals(Global.get().Customer()))
 			return "customerItems";
 		if (getCatagory().equals(
-				Accounter.messages().bothCustomerAndVendor(
+				messages.bothCustomerAndVendor(
 						Global.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else

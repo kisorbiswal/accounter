@@ -12,7 +12,7 @@ public class LocationGroupListAction extends Action {
 
 	public LocationGroupListAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override
@@ -27,8 +27,8 @@ public class LocationGroupListAction extends Action {
 			public void onCreated() {
 
 				LocationGroupListDialog dialog = new LocationGroupListDialog(
-						Accounter.messages().manageLocationGroup(
-								Global.get().Location()), Accounter.messages()
+						messages.manageLocationGroup(
+								Global.get().Location()), messages
 								.toAddLocation());
 				dialog.show();
 

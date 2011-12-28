@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.countries;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
@@ -7,6 +9,7 @@ import com.vimukti.accounter.web.client.util.OrganizationType;
 
 public class UnitedStates extends AbstractCountryPreferences {
 
+	protected static AccounterMessages messages=Global.get().messages();
 	/**
 	 * 
 	 */
@@ -39,20 +42,19 @@ public class UnitedStates extends AbstractCountryPreferences {
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
 		OrganizationType[] types = {
-				new OrganizationType("", Accounter.messages()
-						.soleProprietorship(), Accounter.messages()
+				new OrganizationType("", messages
+						.soleProprietorship(), messages
 						.soleProprietorshipDesc()),
-				new OrganizationType("", Accounter.messages()
-						.partnershipOrLLP(), Accounter.messages()
+				new OrganizationType("", messages
+						.partnershipOrLLP(), messages
 						.partnershipOrLLPDesc()),
-				new OrganizationType("", Accounter.messages().LLC(), Accounter
-						.messages().LLCDesc()),
-				new OrganizationType("", Accounter.messages().corporation(),
-						Accounter.messages().corporationDesc()),
-				new OrganizationType("", Accounter.messages().sCorporation(),
-						Accounter.messages().sCorporationDesc()),
-				new OrganizationType("", Accounter.messages().nonProfit(),
-						Accounter.messages().nonProfitDesc()) };
+				new OrganizationType("", messages.LLC(), messages.LLCDesc()),
+				new OrganizationType("", messages.corporation(),
+						messages.corporationDesc()),
+				new OrganizationType("", messages.sCorporation(),
+						messages.sCorporationDesc()),
+				new OrganizationType("", messages.nonProfit(),
+						messages.nonProfitDesc()) };
 		return types;
 	}
 

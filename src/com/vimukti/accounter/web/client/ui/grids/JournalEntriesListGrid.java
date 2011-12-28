@@ -87,7 +87,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		return new String[] { messages.no(), messages.date(), messages.memo(),
 				messages.amount(), messages.Voided()
 
@@ -107,7 +107,7 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 				showWarningDialog(obj, col);
 			} else if (obj.getReference().equals(
 					messages.journalEntryforRunningDepreciation())) {
-				Accounter.showWarning(Accounter.messages()
+				Accounter.showWarning(messages
 						.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
 						AccounterType.ERROR);
 			}
@@ -125,9 +125,9 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {
 		String msg = null;
 		if (col == 4 && !obj.isVoid()) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
 		} else if (col == 5) {
-			msg = Accounter.messages().doyouwanttoDeletetheTransaction();
+			msg = messages.doyouwanttoDeletetheTransaction();
 
 		}
 		Accounter.showWarning(msg, AccounterType.WARNING,

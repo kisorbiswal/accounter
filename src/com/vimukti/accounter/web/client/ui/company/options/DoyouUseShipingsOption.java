@@ -30,7 +30,7 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().Doyoudoshipping();
+		return messages.Doyoudoshipping();
 	}
 
 	@Override
@@ -41,15 +41,15 @@ public class DoyouUseShipingsOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().Doyoudoshipping();
+		return messages.Doyoudoshipping();
 	}
 
 	@Override
 	public void createControls() {
 		shippingmedescritionLabel
-				.setText(Accounter.messages().Thisoptioncanbeusedtoenable());
+				.setText(messages.Thisoptioncanbeusedtoenable());
 		shippingmedescritionLabel.setStyleName("organisation_comment");
-		useShipMethods.setText(Accounter.messages().Doyoudoshipping());
+		useShipMethods.setText(messages.Doyoudoshipping());
 		useShipMethods.setStyleName("bold");
 	}
 

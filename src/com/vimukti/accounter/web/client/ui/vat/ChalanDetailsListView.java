@@ -93,7 +93,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 			grid.addData(chalans);
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 

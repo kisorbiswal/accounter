@@ -72,9 +72,9 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().wareHouse(),
-				Accounter.messages().itemName(),
-				Accounter.messages().adjustmentQty() };
+		return new String[] { messages.wareHouse(),
+				messages.itemName(),
+				messages.adjustmentQty() };
 	}
 
 }

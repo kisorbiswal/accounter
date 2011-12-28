@@ -70,11 +70,11 @@ public class SalesPersonListGrid extends BaseListGrid<ClientSalesPerson> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().active(),
-				Accounter.messages().salesPerson(),
-				Accounter.messages().address(), Accounter.messages().city(),
-				Accounter.messages().state(), Accounter.messages().zipCode(),
-				Accounter.messages().phone(), Accounter.messages().fax(), " " };
+		return new String[] { messages.active(),
+				messages.salesPerson(),
+				messages.address(), messages.city(),
+				messages.state(), messages.zipCode(),
+				messages.phone(), messages.fax(), " " };
 
 	}
 

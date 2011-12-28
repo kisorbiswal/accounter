@@ -86,7 +86,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.date(), messages.no(),
 					Global.get().messages().payeeName(Global.get().Vendor()),
@@ -165,7 +165,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			showWarningDialog(obj, this.getAccounterCoreType(obj),
 					this.getTransactionID(obj), col);
 		} else {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.expensecantbevoiditisApproved());
 		}
 	}

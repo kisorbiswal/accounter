@@ -11,6 +11,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
@@ -25,7 +26,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 
 	ListDataProvider<ClientBudgetItem> listDataProvider = new ListDataProvider<ClientBudgetItem>();
 
-	private final AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 
 	int rowSelected;
 
@@ -98,7 +99,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 						rowSelected = index;
 
 						HashMap<String, String> map = new HashMap<String, String>();
-						String budgetTitle = Accounter.messages().AddBudgetfor(
+						String budgetTitle = messages.AddBudgetfor(
 								object.getAccountsName());
 						AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
 								budgetTitle, "", map, object);

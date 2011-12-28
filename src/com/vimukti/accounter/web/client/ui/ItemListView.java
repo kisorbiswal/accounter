@@ -72,7 +72,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(messages().totalSalesPrice() + " = "
+			totalLabel.setText(messages.totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
 		}
 	}
@@ -95,14 +95,14 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addNewItem();
+			return messages.addNewItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().productList();
+		return messages.productList();
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void setCatageoryType(String catagory) {
@@ -155,11 +155,11 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (this.catageory.equals(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
-		} else if (this.catageory.equals(messages().vendor())
-				|| this.catageory.equals(messages().vendor())) {
+		} else if (this.catageory.equals(messages.vendor())
+				|| this.catageory.equals(messages.vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
-		} else if (this.catageory.equals(messages().bothCustomerAndVendor(
+		} else if (this.catageory.equals(messages.bothCustomerAndVendor(
 				Global.get().Customer(), Global.get().Vendor()))) {
 			isSalesType = isPurchaseType = true;
 		}
@@ -206,16 +206,16 @@ public class ItemListView extends BaseListView<ClientItem> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
-			viewSelect.setComboItem(messages().active());
+			viewSelect.setComboItem(messages.active());
 		} else {
-			viewSelect.setComboItem(messages().inActive());
+			viewSelect.setComboItem(messages.inActive());
 		}
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return messages().items();
+		return messages.items();
 	}
 
 	@Override

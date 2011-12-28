@@ -27,6 +27,6 @@ public class TransactionQuantityColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().quantity();
+		return messages.quantity();
 	}
 }

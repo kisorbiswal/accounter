@@ -136,14 +136,14 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void viewTypeCombo() {
 		if (activeInActiveSelect == null) {
-			activeInActiveSelect = new SelectCombo(Accounter.messages().show());
+			activeInActiveSelect = new SelectCombo(messages.show());
 			activeInActiveSelect.setHelpInformation(true);
 
 			List<String> activetypeList = new ArrayList<String>();
-			activetypeList.add(Accounter.messages().active());
-			activetypeList.add(Accounter.messages().inActive());
+			activetypeList.add(messages.active());
+			activetypeList.add(messages.inActive());
 			activeInActiveSelect.initCombo(activetypeList);
-			activeInActiveSelect.setComboItem(Accounter.messages().active());
+			activeInActiveSelect.setComboItem(messages.active());
 			activeInActiveSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -151,7 +151,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase(Accounter.messages().active())) {
+										.toString().equalsIgnoreCase(messages.active())) {
 									onActiveChangedListener();
 								} else {
 									onInActiveChangedlistener();
@@ -186,22 +186,22 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
-			trasactionViewSelect = new SelectCombo(Accounter.messages()
+			trasactionViewSelect = new SelectCombo(messages
 					.currentView());
 			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
-			transactionTypeList.add(Accounter.messages().allTransactions());
-			transactionTypeList.add(Accounter.messages().cashPurchases());
-			transactionTypeList.add(Accounter.messages().bills());
-			transactionTypeList.add(Accounter.messages().payBills());
-			transactionTypeList.add(Accounter.messages().cheques());
-			transactionTypeList.add(Accounter.messages().payeeCreditNotes(
+			transactionTypeList.add(messages.allTransactions());
+			transactionTypeList.add(messages.cashPurchases());
+			transactionTypeList.add(messages.bills());
+			transactionTypeList.add(messages.payBills());
+			transactionTypeList.add(messages.cheques());
+			transactionTypeList.add(messages.payeeCreditNotes(
 					Global.get().Vendor()));
-			transactionTypeList.add(Accounter.messages().expenses());
-			transactionTypeList.add(Accounter.messages().purchaseOrders());
+			transactionTypeList.add(messages.expenses());
+			transactionTypeList.add(messages.purchaseOrders());
 			trasactionViewSelect.initCombo(transactionTypeList);
-			trasactionViewSelect.setComboItem(Accounter.messages()
+			trasactionViewSelect.setComboItem(messages
 					.allTransactions());
 			trasactionViewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -222,7 +222,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
-			trasactionViewTypeSelect = new SelectCombo(Accounter.messages()
+			trasactionViewTypeSelect = new SelectCombo(messages
 					.type());
 			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
@@ -280,7 +280,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 							+ messages.payeeCreditNotes(Global.get().Vendor()));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				Accounter.messages().expenses())) {
+				messages.expenses())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_EXPENSES,
 					messages.allExpenses());
 			transactiontypebyStatusMap.put(
@@ -290,7 +290,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 					messages.cashExpenses());
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				Accounter.messages().purchaseOrders())) {
+				messages.purchaseOrders())) {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.ALL_PURCHASE_ORDERS,
 					messages.allPurchaseOrders());
@@ -314,25 +314,25 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 	}
 
 	private void transactionDateRangeSelector() {
-		dateRangeSelector = new SelectCombo(Accounter.messages().date());
+		dateRangeSelector = new SelectCombo(messages.date());
 
 		dateRangeList = new ArrayList<String>();
-		String[] dateRangeArray = { Accounter.messages().all(),
-				Accounter.messages().thisWeek(),
-				Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(),
-				Accounter.messages().lastMonth(),
-				Accounter.messages().thisFinancialYear(),
-				Accounter.messages().lastFinancialYear(),
-				Accounter.messages().thisFinancialQuarter(),
-				Accounter.messages().lastFinancialQuarter(),
-				Accounter.messages().financialYearToDate() };
+		String[] dateRangeArray = { messages.all(),
+				messages.thisWeek(),
+				messages.thisMonth(),
+				messages.lastWeek(),
+				messages.lastMonth(),
+				messages.thisFinancialYear(),
+				messages.lastFinancialYear(),
+				messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate() };
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
 		dateRangeSelector.initCombo(dateRangeList);
 
-		dateRangeSelector.setComboItem(Accounter.messages().all());
+		dateRangeSelector.setComboItem(messages.all());
 		dateRangeSelector
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 					@Override
@@ -358,7 +358,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().payees(Global.get().Vendor());
+		return messages.payees(Global.get().Vendor());
 	}
 
 	@Override
@@ -469,13 +469,13 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 				messages.cheques())) {
 			return TYPE_WRITE_CHECK;
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				Accounter.messages().payeeCreditNotes(Global.get().Vendor()))) {
+				messages.payeeCreditNotes(Global.get().Vendor()))) {
 			return TYPE_VENDOR_CREDIT_MEMO;
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				Accounter.messages().expenses())) {
+				messages.expenses())) {
 			return TYPE_EXPENSE;
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				Accounter.messages().purchaseOrders())) {
+				messages.purchaseOrders())) {
 			return TYPE_PURCHASE_ORDER;
 		}
 		return TYPE_ALL_TRANSACTION;
@@ -487,13 +487,13 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
 		// getLastandOpenedFiscalYearEndDate();
-		if (dateRange.equals(Accounter.messages().thisWeek())) {
+		if (dateRange.equals(messages.thisWeek())) {
 			startDate = getWeekStartDate();
 			endDate.setDay(startDate.getDay() + 6);
 			endDate.setMonth(startDate.getMonth());
 			endDate.setYear(startDate.getYear());
 		}
-		if (dateRange.equals(Accounter.messages().thisMonth())) {
+		if (dateRange.equals(messages.thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
 					1);
 			Calendar endCal = Calendar.getInstance();
@@ -503,14 +503,14 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 			endDate = new ClientFinanceDate(endCal.getTime());
 
 		}
-		if (dateRange.equals(Accounter.messages().lastWeek())) {
+		if (dateRange.equals(messages.lastWeek())) {
 			endDate = getWeekStartDate();
 			endDate.setDay(endDate.getDay() - 1);
 			startDate = new ClientFinanceDate(endDate.getDate());
 			startDate.setDay(startDate.getDay() - 6);
 
 		}
-		if (dateRange.equals(Accounter.messages().lastMonth())) {
+		if (dateRange.equals(messages.lastMonth())) {
 			int day;
 			if (date.getMonth() == 0) {
 				day = getMonthLastDate(11, date.getYear() - 1);
@@ -524,11 +524,11 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 						date.getMonth() - 1, day);
 			}
 		}
-		if (dateRange.equals(Accounter.messages().thisFinancialYear())) {
+		if (dateRange.equals(messages.thisFinancialYear())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
-		if (dateRange.equals(Accounter.messages().lastFinancialYear())) {
+		if (dateRange.equals(messages.lastFinancialYear())) {
 
 			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
 			startDate.setYear(startDate.getYear() - 1);
@@ -541,13 +541,13 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 			endDate.setYear(endDate.getYear() - 1);
 
 		}
-		if (dateRange.equals(Accounter.messages().thisFinancialQuarter())) {
+		if (dateRange.equals(messages.thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
-		if (dateRange.equals(Accounter.messages().lastFinancialQuarter())) {
+		if (dateRange.equals(messages.lastFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
@@ -555,7 +555,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);
 		}
-		if (dateRange.equals(Accounter.messages().financialYearToDate())) {
+		if (dateRange.equals(messages.financialYearToDate())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = new ClientFinanceDate();
 		}

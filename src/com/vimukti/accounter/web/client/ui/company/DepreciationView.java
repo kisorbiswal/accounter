@@ -83,11 +83,11 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.setSize("100%", "");
 
-		Label titleLabel = new Label(Accounter.messages().depreciation());
-		titleLabel.setStyleName(Accounter.messages().labelTitle());
+		Label titleLabel = new Label(messages.depreciation());
+		titleLabel.setStyleName(messages.labelTitle());
 		mainPanel.add(titleLabel);
 
-		startDateButton = new Button(Accounter.messages().startDate());
+		startDateButton = new Button(messages.startDate());
 		startDateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -97,7 +97,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button rollBackDepreciation = new Button(Accounter.messages()
+		Button rollBackDepreciation = new Button(messages
 				.rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
 
@@ -113,9 +113,9 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		buttonPanel.add(rollBackDepreciation);
 		mainPanel.add(buttonPanel);
 
-		fromLabel = new Label(Accounter.messages().depricatiedFrom());
+		fromLabel = new Label(messages.depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(Accounter.messages().ddMMyyyy());
+		format = DateTimeFormat.getFormat(messages.ddMMyyyy());
 		depreciatedToCombo = new ListBox();
 
 		depreciatedToCombo.addChangeHandler(new ChangeHandler() {
@@ -128,7 +128,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		});
 		depreciatedToCombo.setWidth("100%");
 
-		Button updateButton = new Button(Accounter.messages().update());
+		Button updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -140,7 +140,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		HorizontalPanel panel = new HorizontalPanel();
 		panel.setSpacing(10);
 		panel.add(fromLabel);
-		panel.add(new HTML(Accounter.messages().depreciateTo()));
+		panel.add(new HTML(messages.depreciateTo()));
 		panel.add(depreciatedToCombo);
 		// panel.add(updateButton);
 		mainPanel.add(panel);
@@ -188,7 +188,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 							date.getYear(), date.getMonth(), date.getDay() + 1);
 				}
 				fromLabel
-						.setText(Accounter.messages().depreciatefrom()
+						.setText(messages.depreciatefrom()
 								+ format.format(depreciationStartDate
 										.getDateAsObject()));
 				for (String dateArray : getDatesArray()) {
@@ -241,7 +241,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 		// }
 
-		DateTimeFormat format = DateTimeFormat.getFormat(Accounter.messages()
+		DateTimeFormat format = DateTimeFormat.getFormat(messages
 				.ddMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
@@ -358,7 +358,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.depreciationfailed());
 
 					}
@@ -375,7 +375,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (!(assets.size() > 0)) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseselectaFixedAsset());
 		}
 		result.add(super.validate());
@@ -409,8 +409,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			String dateString = depreciatedToCombo.getValue(index).toString();
 
-			depreciationEndDate = UIUtils.stringToDate(dateString, Accounter
-					.messages().ddMMyyyy());
+			depreciationEndDate = UIUtils.stringToDate(dateString, messages.ddMMyyyy());
 
 			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
@@ -464,10 +463,10 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 							dummyEntriesList);
 				}
 			} else
-				grid.addEmptyMessage(Accounter.messages()
+				grid.addEmptyMessage(messages
 						.noDepreciableFixedAssetstoshow());
 		} else
-			grid.addEmptyMessage(Accounter.messages()
+			grid.addEmptyMessage(messages
 					.noDepreciableFixedAssetstoshow());
 
 	}
@@ -530,7 +529,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().depreciation();
+		return messages.depreciation();
 	}
 
 	@Override

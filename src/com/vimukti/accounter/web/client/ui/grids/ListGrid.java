@@ -43,6 +43,7 @@ import com.google.gwt.view.client.HasRows;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -91,7 +92,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	private boolean isEditEnable;
 
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
-	protected AccounterMessages messages = Accounter.messages();
+	protected static AccounterMessages messages=Global.get().messages();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
@@ -313,8 +314,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		PopupPanel popupPanel = new PopupPanel();
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		TextItem textField = new TextItem(Accounter.messages().quantity());
-		SelectCombo selectCombo = new SelectCombo(Accounter.messages().units());
+		TextItem textField = new TextItem(messages.quantity());
+		SelectCombo selectCombo = new SelectCombo(messages.units());
 		selectCombo.setWidth("50%");
 		DynamicForm dynamicForm = new DynamicForm();
 		dynamicForm.setNumCols(4);

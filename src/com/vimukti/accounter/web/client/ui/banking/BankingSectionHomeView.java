@@ -56,7 +56,7 @@ public class BankingSectionHomeView extends BaseHomeView {
 		// addWidgetLinkLayout.setHeight(20);
 
 		LinkItem addWidgetLink = new LinkItem();
-		addWidgetLink.setLinkTitle(Accounter.messages().addWidget());
+		addWidgetLink.setLinkTitle(messages.addWidget());
 		addWidgetLink.setShowTitle(false);
 		// addWidgetLink.setAlign(Alignment.RIGHT);
 
@@ -202,11 +202,11 @@ public class BankingSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = { Accounter.messages().bankingSummary(),
-				Accounter.messages().checkIssued(),
-				Accounter.messages().deposit(),
-				Accounter.messages().fundTransfered(),
-				Accounter.messages().creditCardCharges() };
+		String[] totalWidget = { messages.bankingSummary(),
+				messages.checkIssued(),
+				messages.deposit(),
+				messages.fundTransfered(),
+				messages.creditCardCharges() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {

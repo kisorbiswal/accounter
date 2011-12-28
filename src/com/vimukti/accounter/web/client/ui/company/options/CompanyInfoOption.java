@@ -232,13 +232,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		isShowRegisteredAddressCheckBox.setText(messages
 				.registeredAddressComment());
 		// Website
-		companyWebsiteHeaderLabel.setText(Accounter.messages().webSite());
+		companyWebsiteHeaderLabel.setText(messages.webSite());
 
 		// Email
 		emailIDDescriptionLabel.setText(messages.emailIdDescription());
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
-		companyEmailHeaderLabel.setText(Accounter.messages().emailId());
+		companyEmailHeaderLabel.setText(messages.emailId());
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -247,18 +247,18 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				if (email != null && !email.isEmpty()
 						&& !UIUtils.isValidEmail(email)) {
 					companyEmailTextBox.setText("");
-					Accounter.showError(Accounter.messages().invalidEmail());
+					Accounter.showError(messages.invalidEmail());
 				}
 			}
 		});
 
 		// Name
-		legalNameLabel.setText(Accounter.messages().legalName());
-		companyNameLabel.setText(Accounter.messages().companyName());
+		legalNameLabel.setText(messages.legalName());
+		companyNameLabel.setText(messages.companyName());
 		isShowLegalName.setText(messages.registeredAddressComment());
 
 		// Phone Number
-		companyPhoneNumberLabel.setText(Accounter.messages().phoneNumber());
+		companyPhoneNumberLabel.setText(messages.phoneNumber());
 	}
 
 	private void rCountryChanged() {

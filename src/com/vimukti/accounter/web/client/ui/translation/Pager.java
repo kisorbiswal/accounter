@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 
@@ -34,7 +35,7 @@ public abstract class Pager extends HorizontalPanel implements PagerListener {
 	}
 
 	public void updateRange() {
-		rangeLabel.setText(Accounter.messages()
+		rangeLabel.setText(Global.get().messages()
 				.range(getStartRange(), endRange));
 	}
 

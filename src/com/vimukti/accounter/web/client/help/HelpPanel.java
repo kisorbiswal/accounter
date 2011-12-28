@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 
@@ -27,7 +28,7 @@ public class HelpPanel extends Composite implements HasText {
 
 	public HelpPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		setLabelText(Accounter.messages().help());
+		setLabelText(Global.get().messages().help());
 		Face upFace = button.getUpFace();
 		upFace.setImage(new Image(Accounter.getFinanceImages().helpDialogIcon()));
 		Face downFace = button.getDownFace();

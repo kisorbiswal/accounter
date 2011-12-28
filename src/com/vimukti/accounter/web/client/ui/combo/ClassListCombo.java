@@ -42,8 +42,7 @@ public class ClassListCombo extends CustomCombo<ClientAccounterClass> {
 
 	@Override
 	public void onAddNew() {
-		CreateClassDialog classDialog = new CreateClassDialog(null, Accounter
-				.messages().createClass(), "");
+		CreateClassDialog classDialog = new CreateClassDialog(null, messages.createClass(), "");
 		classDialog.addSuccessCallback(newClassHandler);
 	}
 

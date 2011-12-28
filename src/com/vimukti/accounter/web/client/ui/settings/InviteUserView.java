@@ -56,13 +56,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		custForm = new DynamicForm();
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
-		firstNametext = new TextItem(Accounter.messages().firstName());
+		firstNametext = new TextItem(messages.firstName());
 		firstNametext.setRequired(true);
 		firstNametext.setDisabled(isInViewMode());
-		lastNametext = new TextItem(Accounter.messages().lastName());
+		lastNametext = new TextItem(messages.lastName());
 		lastNametext.setRequired(true);
 		lastNametext.setDisabled(isInViewMode());
-		emailField = new EmailField(Accounter.messages().email());
+		emailField = new EmailField(messages.email());
 		emailField.setRequired(true);
 		emailField.setDisabled(isInViewMode());
 		emailField.addChangeHandler(new ChangeHandler() {
@@ -73,7 +73,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					final String em = emailField.getValue().toString().trim();
 					if (em.length() != 0) {
 						if (!UIUtils.isValidEmail(em)) {
-							Accounter.showError(Accounter.messages()
+							Accounter.showError(messages
 									.invalidEmail());
 							emailField.setText("");
 						} else {
@@ -97,8 +97,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 																.get(i)
 																.getEmail())) {
 															Accounter
-																	.showError(Accounter
-																			.messages()
+																	.showError(messages
 																			.mailExistedAlready());
 															emailField
 																	.setText("");
@@ -111,8 +110,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 												public void onException(
 														AccounterException caught) {
 													Accounter
-															.showError(Accounter
-																	.messages()
+															.showError(messages
 																	.failedtoloadusersList());
 												}
 											});
@@ -122,17 +120,17 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				}
 			}
 		});
-		userManagementBox = new CheckBox(Accounter.messages()
+		userManagementBox = new CheckBox(messages
 				.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
-		String choose = Accounter.messages()
+		String choose = messages
 				.chooselevelaccessyouwantthisusertohave();
 		Label chooseLabel = new Label(choose);
 		// chooseLabel.getElement().getStyle().setPadding(5, Unit.PX);
-		Label setPerLabel = new Label(Accounter.messages().setUserpermissions());
+		Label setPerLabel = new Label(messages.setUserpermissions());
 		setPerLabel.addStyleName("inviteUserLabel");
 
-		Label manageLabel = new Label(Accounter.messages().manageUsers());
+		Label manageLabel = new Label(messages.manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
 
 		custForm.setFields(firstNametext, lastNametext, emailField);
@@ -590,14 +588,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
 		if (isEmailIDExist(getData())) {
-			result.addError(emailField, Accounter.messages()
+			result.addError(emailField, messages
 					.userExistsWithThisMailId());
 		}
 
 		if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
 				.getValue())) {
 			result.addError(emailField,
-					Accounter.messages().pleaseSelect(messages.levelOfAccess()));
+					messages.pleaseSelect(messages.levelOfAccess()));
 		}
 
 		// for checking the userList for another admin role
@@ -612,7 +610,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		if (getData().getID() != 0) {
 			if (hasAnotherAdmin == false)
-				result.addError(getData(), Accounter.messages()
+				result.addError(getData(), messages
 						.cannotCreateUserAsTheirIsNoUserWithAdminRole());
 		} else {
 			clearError(getData());
@@ -646,7 +644,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().inviteUser();
+		return messages.inviteUser();
 	}
 
 	@Override

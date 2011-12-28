@@ -28,7 +28,7 @@ public class AddWidgetDialog extends BaseDialog {
 	private WidgetCreator creator;
 
 	public AddWidgetDialog(BaseHomeView parent) {
-		super(Accounter.messages().addWidget());
+		super(messages.addWidget());
 
 		if (parent instanceof CustomerSectionHomeView) {
 			this.customerParent = (CustomerSectionHomeView) parent;
@@ -67,9 +67,9 @@ public class AddWidgetDialog extends BaseDialog {
 		Label label = new Label();
 		// label.setWidth100();
 		if (addablePortletList.toArray().length > 0) {
-			label.setText(Accounter.messages().widgetsAvailable());
+			label.setText(messages.widgetsAvailable());
 		} else {
-			label.setText(Accounter.messages()
+			label.setText(messages
 					.widgetsAlreadyOnYourHomepageLabel());
 		}
 

@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientPayVAT extends ClientTransaction {
 
 	/**
@@ -149,6 +151,16 @@ public class ClientPayVAT extends ClientTransaction {
 		clientPayVATClone.transactionPayVAT = transactionPayVATList;
 
 		return clientPayVATClone;
+	}
+
+	@Override
+	public String getName() {
+		return Global.get().messages().payTax();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getName();
 	}
 
 }

@@ -97,7 +97,7 @@ public class PortletFactory {
 	}
 
 	public String getPortletName(ClientPortletConfiguration pc) {
-		AccounterMessages messages = Accounter.messages();
+		AccounterMessages messages = Global.get().messages();
 		String portletName = "";
 		String name = pc.getName();
 		if (name.equals(BANK_ACCOUNT)) {

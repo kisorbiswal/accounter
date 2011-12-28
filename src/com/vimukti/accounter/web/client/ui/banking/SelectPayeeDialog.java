@@ -23,7 +23,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	// private ClientCompany company;
 	public SelectPayeeDialog() {
-		super(Accounter.messages().selectPayeeType(), Accounter.messages()
+		super(messages.selectPayeeType(), messages
 				.selectOneOfFollowingPayee());
 
 		// company = FinanceApplication.getCompany();
@@ -42,9 +42,9 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(Accounter.messages().customer(), Global.get()
+		typeRadio.setValueMap(messages.customer(), Global.get()
 				.Vendor());
-		typeRadio.setDefaultValue(Accounter.messages().customer());
+		typeRadio.setDefaultValue(messages.customer());
 
 		DynamicForm typeForm = new DynamicForm();
 		// typeForm.setIsGroup(true);
@@ -64,7 +64,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (typeRadio.getValue() == null) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseSelecPaymentType());
 		}
 		return result;
@@ -89,7 +89,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 			action.run(null, true);
 
-		} else if (radio.equals(Accounter.messages().customer())) {
+		} else if (radio.equals(messages.customer())) {
 			NewCustomerAction action = ActionFactory.getNewCustomerAction();
 			action.setCallback(new ActionCallback<ClientCustomer>() {
 

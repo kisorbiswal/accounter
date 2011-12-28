@@ -11,7 +11,7 @@ public class TaxHistoryAction extends Action {
 
 	public TaxHistoryAction() {
 		super();
-		catagory = Accounter.messages().tax();
+		catagory = messages.tax();
 	}
 
 	@Override

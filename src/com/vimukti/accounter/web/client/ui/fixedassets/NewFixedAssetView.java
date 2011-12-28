@@ -286,7 +286,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		descrptionLabel = new Label(messages.description());
 		descriptionTxtArea = new TextAreaItem();
-		descriptionTxtArea.setToolTip(Accounter.messages()
+		descriptionTxtArea.setToolTip(messages
 				.writeCommentsForThis(this.getAction().getViewName())
 				.replace(messages.comments(), messages.description()));
 		descriptionTxtArea.setWidth("100px");
@@ -650,16 +650,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// .assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
 		// Global.get().account()));
 		infoLabl2 = new Label(
-				Accounter
-						.messages()
+				messages
 						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
 		infoLabl2.addStyleName("requiredField");
 
 		// accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
 		// .messages().accumulatedDepreciationAccount(
 		// Global.get().account()));
-		accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
-				.messages().accumulatedDepreciationAccount());
+		accumulatedDepreciationAccount = new FixedAssetAccountCombo(messages.accumulatedDepreciationAccount());
 		accumulatedDepreciationAccount
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -1085,10 +1083,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (validateAccount()) {
 				result.addError(accountCombo,
 				/*
-				 * Accounter .messages()
+				 * messages
 				 * .accandaccumulatedDepreciationAccShouldnotbesame(
 				 * Global.get().account())
-				 */Accounter.messages()
+				 */messages
 						.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
 		}

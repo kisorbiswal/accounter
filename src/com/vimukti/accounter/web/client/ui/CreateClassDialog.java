@@ -31,7 +31,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 
 		trackClassForm = new DynamicForm();
 
-		createClassTextItem = new TextItem(Accounter.messages().className());
+		createClassTextItem = new TextItem(messages.className());
 
 		if (accounterClass != null && !accounterClass.getClassName().isEmpty()) {
 			createClassTextItem.setValue(accounterClass.getClassName());
@@ -54,7 +54,7 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		ValidationResult result = new ValidationResult();
 		if (createClassTextItem.getValue().equals("")
 				|| createClassTextItem.getValue() == null) {
-			result.addError(createClassTextItem, Accounter.messages()
+			result.addError(createClassTextItem, messages
 					.pleaseEnter(createClassTextItem.getTitle()));
 		}
 		return result;

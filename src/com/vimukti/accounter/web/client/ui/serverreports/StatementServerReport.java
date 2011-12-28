@@ -106,7 +106,7 @@ public class StatementServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().payeeStatement(Global.get().Customer());
+		return messages.payeeStatement(Global.get().Customer());
 	}
 
 	@Override

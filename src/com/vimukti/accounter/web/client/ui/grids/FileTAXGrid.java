@@ -12,7 +12,7 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 		super(isMultiSelectionEnable);
 		isEnable = false;
 		init();
-		addEmptyMessage(Accounter.messages().selectTAXAgency());
+		addEmptyMessage(messages.selectTAXAgency());
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class FileTAXGrid extends ListGrid<ClientTAXReturnEntry> {
 		case 0:
 			ClientTAXItem taxItem = Accounter.getCompany().getTAXItem(
 					obj.getTaxItem());
-			return Accounter.messages().taxItemWithRate(taxItem.getName(),
+			return messages.taxItemWithRate(taxItem.getName(),
 					taxItem.getTaxRate());
 		case 1:
 			return Utility.getTransactionName(obj.getTransactionType());

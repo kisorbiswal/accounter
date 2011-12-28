@@ -29,8 +29,8 @@ public class ShippingTermListAction extends Action {
 			@Override
 			public void onCreated() {
 				ShippingTermListDialog dialog = new ShippingTermListDialog(
-						Accounter.messages().manageShippingTermList(),
-						Accounter.messages().toAddShippingTerm());
+						messages.manageShippingTermList(),
+						messages.toAddShippingTerm());
 				dialog.show();
 
 			}

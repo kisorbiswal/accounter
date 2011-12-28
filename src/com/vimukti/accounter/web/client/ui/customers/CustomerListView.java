@@ -58,7 +58,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNew(Global.get().Customer());
+			return messages.addaNew(Global.get().Customer());
 		else
 			return "";
 	}
@@ -66,7 +66,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages().payeeList(Global.get().Customer());
+		return messages.payeeList(Global.get().Customer());
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		// }
 		// }
 		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// grid.addEmptyMessage(messages.noRecordsToShow());
 		//
 		// getTotalLayout(grid);
 	}
@@ -162,9 +162,9 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
-			viewSelect.setComboItem(messages().active());
+			viewSelect.setComboItem(messages.active());
 		} else {
-			viewSelect.setComboItem(messages().inActive());
+			viewSelect.setComboItem(messages.inActive());
 		}
 
 	}
@@ -197,7 +197,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().payees(Global.get().Customers());
+		return messages.payees(Global.get().Customers());
 	}
 
 	@Override
@@ -214,9 +214,9 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> selectTypes = new ArrayList<String>();
-		selectTypes.add(messages().active());
-		selectTypes.add(messages().inActive());
-		viewSelect.setComboItem(messages().active());
+		selectTypes.add(messages.active());
+		selectTypes.add(messages.inActive());
+		viewSelect.setComboItem(messages.active());
 		return selectTypes;
 	}
 }

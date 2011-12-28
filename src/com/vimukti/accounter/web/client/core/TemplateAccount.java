@@ -6,6 +6,8 @@ package com.vimukti.accounter.web.client.core;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -133,14 +135,15 @@ public class TemplateAccount implements Serializable, IsSerializable {
 	}
 
 	public int getCashFlowAsInt() {
+		AccounterMessages messages=Global.get().messages();
 		if (cashFlowType == null) {
 			return ClientAccount.CASH_FLOW_CATEGORY_FINANCING;
 		}
-		if (cashFlowType.equals(Accounter.messages().financing())) {
+		if (cashFlowType.equals(messages.financing())) {
 			return ClientAccount.CASH_FLOW_CATEGORY_FINANCING;
-		} else if (cashFlowType.equals(Accounter.messages().investing())) {
+		} else if (cashFlowType.equals(messages.investing())) {
 			return ClientAccount.CASH_FLOW_CATEGORY_INVESTING;
-		} else if (cashFlowType.equals(Accounter.messages().operating())) {
+		} else if (cashFlowType.equals(messages.operating())) {
 			return ClientAccount.CASH_FLOW_CATEGORY_OPERATING;
 		} else {
 			return ClientAccount.CASH_FLOW_CATEGORY_FINANCING;

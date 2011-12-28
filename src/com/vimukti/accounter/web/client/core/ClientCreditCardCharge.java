@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ClientCreditCardCharge extends ClientTransaction {
@@ -140,7 +141,7 @@ public class ClientCreditCardCharge extends ClientTransaction {
 
 	@Override
 	public String getName() {
-		return Accounter.messages().creditCardCharge();
+		return Global.get().messages().creditCardCharge();
 	}
 
 	@Override

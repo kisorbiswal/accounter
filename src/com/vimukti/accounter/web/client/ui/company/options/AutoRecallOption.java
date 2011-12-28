@@ -48,7 +48,7 @@ public class AutoRecallOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().AutoRecall();
+		return messages.AutoRecall();
 	}
 
 	@Override

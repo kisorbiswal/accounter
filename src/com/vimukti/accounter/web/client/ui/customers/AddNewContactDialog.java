@@ -43,22 +43,22 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	private TextItem[] getTextItems() {
 		List<TextItem> items = new ArrayList<TextItem>();
 
-		nameItem = new TextItem(Accounter.messages().name());
+		nameItem = new TextItem(messages.name());
 		nameItem.setHelpInformation(true);
 		nameItem.setRequired(true);
 		items.add(nameItem);
 
-		titleItem = new TextItem(Accounter.messages().title());
+		titleItem = new TextItem(messages.title());
 		titleItem.setHelpInformation(true);
 		titleItem.setRequired(false);
 		items.add(titleItem);
 
-		businessPhoneItem = new TextItem(Accounter.messages().businessPhone());
+		businessPhoneItem = new TextItem(messages.businessPhone());
 		businessPhoneItem.setHelpInformation(true);
 		businessPhoneItem.setRequired(false);
 		items.add(businessPhoneItem);
 
-		emailItem = new EmailField(Accounter.messages().email());
+		emailItem = new EmailField(messages.email());
 		emailItem.setHelpInformation(true);
 		emailItem.setRequired(false);
 		items.add(emailItem);
@@ -88,7 +88,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		ValidationResult result = new ValidationResult();
 
 		if (nameItem.getValue().isEmpty()) {
-			result.addError(nameItem, Accounter.messages().Pleaseenterthecontactname());
+			result.addError(nameItem, messages.Pleaseenterthecontactname());
 		}
 
 		if (emailItem.getValue().length() > 0) {

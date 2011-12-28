@@ -18,38 +18,38 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 
 public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 	RadioGroupItem typeRadio;
-	private final String TAXGROUP = Accounter.messages().taxGroup();
-	private final String TAXITEM = Accounter.messages().taxItem();
-	private final String GROUP = Accounter.messages().group();
+	private final String TAXGROUP = messages.taxGroup();
+	private final String TAXITEM = messages.taxItem();
+	private final String GROUP = messages.group();
 	private FormItem actionSource;
 
 	// private ViewConfiguration configuration;
 	public TaxDialog() {
-		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
-		setText(Accounter.messages().tax());
+		super(messages.tax(), messages.selectOneType());
+		setText(messages.tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack) {
-		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
-		setText(Accounter.messages().tax());
+		super(messages.tax(), messages.selectOneType());
+		setText(messages.tax());
 		createControls();
 		center();
 	}
 
 	public <T> TaxDialog(AccounterAsyncCallback<T> callBack,
 			FormItem actionSource) {
-		super(Accounter.messages().tax(), Accounter.messages().selectOneType());
+		super(messages.tax(), messages.selectOneType());
 		this.actionSource = actionSource;
-		setText(Accounter.messages().tax());
+		setText(messages.tax());
 		createControls();
 		center();
 	}
 
 	private void createControls() {
 		mainPanel.setSpacing(3);
-		typeRadio = new RadioGroupItem(Accounter.messages().tax(), GROUP);
+		typeRadio = new RadioGroupItem(messages.tax(), GROUP);
 		typeRadio.setShowTitle(false);
 		typeRadio.setValue(TAXGROUP, TAXITEM);
 		DynamicForm typeForm = new DynamicForm();
@@ -80,7 +80,7 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 		ValidationResult result = new ValidationResult();
 		String radio = typeRadio.getValue().toString();
 		if (!radio.equals(TAXGROUP) && !radio.equals(TAXITEM)) {
-			result.addError(this, Accounter.messages().pleaseSelectTaxType());
+			result.addError(this, messages.pleaseSelectTaxType());
 		}
 		return result;
 	}

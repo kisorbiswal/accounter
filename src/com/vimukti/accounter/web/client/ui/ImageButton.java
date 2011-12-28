@@ -3,10 +3,13 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class ImageButton extends Button {
 
 	private ImageResource res;
+	protected static AccounterMessages messages=Global.get().messages();
 
 	public ImageButton(ImageResource res) {
 		this.res = res;

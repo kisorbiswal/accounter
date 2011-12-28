@@ -62,6 +62,6 @@ public class TransactionDiscountColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().discPerc();
+		return messages.discPerc();
 	}
 }

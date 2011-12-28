@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -128,10 +130,14 @@ public class TaxItemsForm extends DynamicForm {
 				totalTax += taxAmount;
 
 				if (taxRate != 0) {
-					AmountLabel amountLabel = new AmountLabel(Accounter
-							.messages().taxAtOnValue(
-									DataUtils.getAmountAsStringInPrimaryCurrency(taxRate),
-									DataUtils.getAmountAsStringInPrimaryCurrency(value)));
+					AmountLabel amountLabel = new AmountLabel(
+							Global.get()
+									.messages()
+									.taxAtOnValue(
+											DataUtils
+													.getAmountAsStringInPrimaryCurrency(taxRate),
+											DataUtils
+													.getAmountAsStringInPrimaryCurrency(value)));
 					amountLabel.setAmount(taxAmount);
 
 					items[i] = amountLabel;

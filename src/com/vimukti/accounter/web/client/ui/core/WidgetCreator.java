@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
@@ -34,9 +35,9 @@ public class WidgetCreator {
 	}
 
 	public Portlet getWidgetByName(String widgetName) {
-		// if (widgetName.equals(Accounter.messages().WELCOME())) {
+		// if (widgetName.equals(messages.WELCOME())) {
 		// return getWelcomePortlet();
-		// } else if (widgetName.equals(Accounter.messages().BANKINGSUMMARY()))
+		// } else if (widgetName.equals(messages.BANKINGSUMMARY()))
 		// {
 		// return getBankingSummaryWidget();
 		// }
@@ -326,7 +327,7 @@ public class WidgetCreator {
 		grid.removeLoadingImage();
 		grid.initParentAndChildIcons(Accounter.getFinanceImages()
 				.customerIcon(), Accounter.getFinanceImages().customerIcon());
-		grid.addParentWithChilds(Accounter.messages().DebtorsTotal(), result);
+		grid.addParentWithChilds(Global.get().messages().DebtorsTotal(), result);
 	}
 
 	public void setCustomerWidgetHeight(int height) {

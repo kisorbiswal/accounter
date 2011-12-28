@@ -217,11 +217,11 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
 		String[] totalWidget = {
-				Accounter.messages().newPayee(Global.get().Customer()),
-				Accounter.messages().salesItem(),
-				Accounter.messages().paymentReceived(),
-				Accounter.messages().cashSales(),
-				Accounter.messages().creditAndRefunds() };
+				messages.newPayee(Global.get().Customer()),
+				messages.salesItem(),
+				messages.paymentReceived(),
+				messages.cashSales(),
+				messages.creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {

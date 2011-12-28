@@ -18,7 +18,7 @@ public class EditProfileAction extends Action {
 	}
 
 	private void runAsync(Object data) {
-		view = new EditProfileDialog(Accounter.messages().editProfile(), null);
+		view = new EditProfileDialog(messages.editProfile(), null);
 		view.show();
 		view.center();
 	}

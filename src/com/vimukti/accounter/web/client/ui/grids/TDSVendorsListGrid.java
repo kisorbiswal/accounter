@@ -95,27 +95,27 @@ public class TDSVendorsListGrid extends BaseListGrid<ClientTDSInfo> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.messages().active();
+				colArray[index] = messages.active();
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().payeeName(
+				colArray[index] = messages.payeeName(
 						Global.get().Vendor());
 				break;
 
 			case 2:
-				colArray[index] = Accounter.messages().date();
+				colArray[index] = messages.date();
 				break;
 			case 3:
-				colArray[index] = Accounter.messages().originalAmount();
+				colArray[index] = messages.originalAmount();
 				break;
 			case 4:
-				colArray[index] = Accounter.messages().payment();
+				colArray[index] = messages.payment();
 				break;
 			case 5:
-				colArray[index] = Accounter.messages().percentage();
+				colArray[index] = messages.percentage();
 				break;
 			case 6:
-				colArray[index] = Accounter.messages().tds();
+				colArray[index] = messages.tds();
 				break;
 			default:
 				break;

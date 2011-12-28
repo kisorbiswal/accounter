@@ -38,31 +38,31 @@ public class ManageVATView extends AbstractBaseView {
 
 	private void createControls() {
 
-		Label stLabel = new Label(Accounter.messages()
+		Label stLabel = new Label(messages
 				.thisWndHelpYoyManageVATTasks());
-		Label vatLabel = new Label(Accounter.messages().fileVATReturnNow());
+		Label vatLabel = new Label(messages.fileVATReturnNow());
 
-		CaptionPanel capAssignPanel = new CaptionPanel(Accounter.messages()
+		CaptionPanel capAssignPanel = new CaptionPanel(messages
 				.getStarted());
-		CaptionPanel capPayVatPanel = new CaptionPanel(Accounter.messages()
+		CaptionPanel capPayVatPanel = new CaptionPanel(messages
 				.payVATOwing());
-		CaptionPanel capTaskPanel = new CaptionPanel(Accounter.messages()
+		CaptionPanel capTaskPanel = new CaptionPanel(messages
 				.relatedTask());
 
-		vatButton = new Button(Accounter.messages().fileVATReturn());
-		Button closeButton = new Button(Accounter.messages().close());
-		Button helpButton = new Button(Accounter.messages().help());
+		vatButton = new Button(messages.fileVATReturn());
+		Button closeButton = new Button(messages.close());
+		Button helpButton = new Button(messages.help());
 
 		final Image icon = new Image();
 		icon.setResource(Accounter.getFinanceImages().justifyLeft());
 
-		Hyperlink assignlink = new Hyperlink(Accounter.messages()
+		Hyperlink assignlink = new Hyperlink(messages
 				.assignVatCodesToItems(), "foo");
-		Hyperlink viewLink = new Hyperlink(Accounter.messages().viewVATItems(),
+		Hyperlink viewLink = new Hyperlink(messages.viewVATItems(),
 				"link1");
-		Hyperlink openLink = new Hyperlink(Accounter.messages()
+		Hyperlink openLink = new Hyperlink(messages
 				.openVATCodeList(), "link2");
-		Hyperlink adjLink = new Hyperlink(Accounter.messages().adjustVATDue(),
+		Hyperlink adjLink = new Hyperlink(messages.adjustVATDue(),
 				"link3");
 
 		VerticalPanel vPanel = new VerticalPanel();
@@ -144,7 +144,7 @@ public class ManageVATView extends AbstractBaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().manageVatCodes();
+		return messages.manageVatCodes();
 	}
 
 }

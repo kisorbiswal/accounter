@@ -19,19 +19,18 @@ public class AddBankDialog extends BaseDialog {
 
 	private TextItem bankNameText;
 	private AccounterAsyncCallback<ClientBank> callBack;
-	AccounterMessages messages = Accounter.messages();
 
 	public AddBankDialog(AbstractBaseView<ClientBank> parent) {
-		super(Accounter.messages().addBank(), null);
+		super(messages.addBank(), null);
 		createControls();
 		center();
 	}
 
 	private void createControls() {
 
-		setText(Accounter.messages().addBank());
+		setText(messages.addBank());
 
-		bankNameText = new TextItem(Accounter.messages().bankName());
+		bankNameText = new TextItem(messages.bankName());
 		bankNameText.setRequired(true);
 		DynamicForm bankForm = new DynamicForm();
 		bankForm.setFields(bankNameText);

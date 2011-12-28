@@ -22,7 +22,7 @@ public class JournalEntryListView extends
 	List<ClientJournalEntry> allEntries;
 
 	public JournalEntryListView() {
-		super(Accounter.messages().all());
+		super(messages.all());
 		isDeleteDisable = true;
 	}
 
@@ -33,12 +33,12 @@ public class JournalEntryListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addNewJournalEntry();
+		return messages.addNewJournalEntry();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().journalEntryList();
+		return messages.journalEntryList();
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class JournalEntryListView extends
 	public void onSuccess(PaginationList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);
@@ -92,7 +92,7 @@ public class JournalEntryListView extends
 		// listOfTypes.add(FinanceApplication.constants().cashBasis());
 		// listOfTypes.add(FinanceApplication.constants()
 		// .voidedCashBasis());
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
@@ -145,11 +145,11 @@ public class JournalEntryListView extends
 		// grid.setRecords(deletedRecs);
 		//
 		// }
-		if (viewSelect.getSelectedValue().equalsIgnoreCase(Accounter.messages().all())) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase(messages.all())) {
 			grid.setRecords(initialRecords);
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 	}
 
@@ -178,7 +178,7 @@ public class JournalEntryListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages().journalEntries();
+		return messages.journalEntries();
 	}
 
 }

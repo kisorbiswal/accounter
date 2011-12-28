@@ -59,7 +59,7 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().purchaseByVendorDetail(
+		return messages.purchaseByVendorDetail(
 				Global.get().vendor());
 	}
 

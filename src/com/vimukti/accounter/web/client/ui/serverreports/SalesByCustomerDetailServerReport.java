@@ -58,7 +58,7 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().salesByCustomerDetail(
+		return messages.salesByCustomerDetail(
 				Global.get().Customer());
 	}
 

@@ -114,8 +114,7 @@ public class TransferFundsDialog extends BaseDialog<ClientTransferFund> {
 
 		// Transfer From
 
-		accountComboFrom = new IncomeAndExpensesAccountCombo(Accounter
-				.messages().fromAccount());
+		accountComboFrom = new IncomeAndExpensesAccountCombo(messages.fromAccount());
 
 		accountComboFrom.setRequired(true);
 		// accountComboFrom.setWidth("*");

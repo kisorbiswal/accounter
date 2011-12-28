@@ -25,19 +25,19 @@ public class NewItemAction extends Action<ClientItem> {
 
 	public NewItemAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	public NewItemAction(boolean forCustomer) {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 		this.forCustomer = forCustomer;
 	}
 
 	public NewItemAction(ClientItem item,
 			AccounterAsyncCallback<Object> callback, boolean forCustomer) {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 		this.forCustomer = forCustomer;
 		// this.baseView = baseView;
 	}
@@ -150,7 +150,7 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public String getText() {
-		return Accounter.messages()
+		return messages
 				.newItem();
 	}
 }

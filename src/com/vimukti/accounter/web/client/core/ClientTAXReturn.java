@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientTAXReturn extends ClientTransaction {
 
 	/**
@@ -206,6 +208,16 @@ public class ClientTAXReturn extends ClientTransaction {
 	public ClientTAXReturn clone() {
 		// TODO Auto-generated method stub
 		return (ClientTAXReturn) super.clone();
+	}
+
+	@Override
+	public String getName() {
+		return Global.get().messages().taxReturn();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getName();
 	}
 
 }

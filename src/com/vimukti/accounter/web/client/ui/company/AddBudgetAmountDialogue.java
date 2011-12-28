@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -22,14 +21,14 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class AddBudgetAmountDialogue extends BaseDialog {
 
-	private static final String MONTHS = Accounter.messages().months();
-	private static final String QUARTERS = Accounter.messages().Quarters();
-	private static final String YEARS = Accounter.messages().years();
+	private static final String MONTHS = messages.months();
+	private static final String QUARTERS = messages.Quarters();
+	private static final String YEARS = messages.years();
 
-	private static final String NEAREST_AMOUNT = Accounter.messages().NearestAmount();
-	private static final String NEAREST_TEN = Accounter.messages().NearestTen();
-	private static final String NEAREST_HUNDRED = Accounter.messages().NearestHundred();
-	private static final String NONE = Accounter.messages().none();
+	private static final String NEAREST_AMOUNT = messages.NearestAmount();
+	private static final String NEAREST_TEN = messages.NearestTen();
+	private static final String NEAREST_HUNDRED = messages.NearestHundred();
+	private static final String NONE = messages.none();
 
 	IntegerField janAmount;
 	IntegerField febAmount;
@@ -167,7 +166,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		budgetInfoForm.setFields(budgetAddBy);
 
-		budgetRoundOfMethod = new SelectCombo(Accounter.messages().RoundOffBudgetAmountto());
+		budgetRoundOfMethod = new SelectCombo(messages.RoundOffBudgetAmountto());
 		budgetRoundOfMethod.setHelpInformation(true);
 		budgetRoundOfMethod.initCombo(getBudgetCalculationTypesList());
 		budgetRoundOfMethod.setSelected(NONE);
@@ -197,12 +196,12 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		vPanel.add(advanceCalculationVPanel);
 
 		final String[] stringArray = {
-				Accounter.messages().CalendarDaysAnnualAmountNoofDaysinMonth365or366(),
-				Accounter.messages().CalendarMonthAnnualAmount12() };
+				messages.CalendarDaysAnnualAmountNoofDaysinMonth365or366(),
+				messages.CalendarMonthAnnualAmount12() };
 
 		for (int i = 0; i < stringArray.length; i++) {
 			String sport = stringArray[i];
-			final RadioButton radioButton = new RadioButton(Accounter.messages().sport(), sport);
+			final RadioButton radioButton = new RadioButton(messages.sport(), sport);
 			radioButton.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -224,7 +223,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			vPanel.add(radioButton);
 		}
 
-		discloserPanel = new DisclosurePanel(Accounter.messages().AdvanceBudgetCalculation());
+		discloserPanel = new DisclosurePanel(messages.AdvanceBudgetCalculation());
 		discloserPanel.setContent(vPanel);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();

@@ -532,8 +532,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public SalesPersonCombo createSalesPersonComboItem() {
 
-		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(Accounter
-				.messages().salesPerson());
+		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(messages.salesPerson());
 		salesPersonCombo.setHelpInformation(true);
 		salesPersonCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
@@ -683,8 +682,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	public PaymentTermsCombo createPaymentTermsSelectItem() {
 
-		PaymentTermsCombo comboItem = new PaymentTermsCombo(Accounter
-				.messages().paymentTerms());
+		PaymentTermsCombo comboItem = new PaymentTermsCombo(messages.paymentTerms());
 		comboItem.setHelpInformation(true);
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {

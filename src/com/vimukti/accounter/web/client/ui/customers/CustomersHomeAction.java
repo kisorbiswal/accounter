@@ -32,7 +32,7 @@ public class CustomersHomeAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, null, false,
 					CustomersHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.messages().failedToLoadCustomerHome(
+			Accounter.showError(messages.failedToLoadCustomerHome(
 					Global.get().Customer()));
 		}
 

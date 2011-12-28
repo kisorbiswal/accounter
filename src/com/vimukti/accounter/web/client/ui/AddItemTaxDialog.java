@@ -23,15 +23,14 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 
 	private void initiliase() {
 		taxText = new TextItem();
-		taxText.setTitle(Accounter.messages().itemTax());
+		taxText.setTitle(messages.itemTax());
 		taxText.setRequired(true);
 		taxText.setColSpan(3);
 
 		taxableRadio = new RadioGroupItem();
 		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
-		taxableRadio.setValueMap(Accounter.messages().taxable(), Accounter
-				.messages().nonTaxable());
+		taxableRadio.setValueMap(messages.taxable(), messages.nonTaxable());
 
 		form = new DynamicForm();
 		form.setNumCols(4);

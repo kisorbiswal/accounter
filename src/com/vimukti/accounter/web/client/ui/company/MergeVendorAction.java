@@ -16,8 +16,7 @@ public class MergeVendorAction extends Action {
 	@Override
 	public void run() {
 		VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
-				messages.mergeVendors(Global.get().vendors()), Accounter
-						.messages().payeeMergeDescription(
+				messages.mergeVendors(Global.get().vendors()), messages.payeeMergeDescription(
 								Global.get().vendor()));
 		vendorMergeDialog.show();
 	}

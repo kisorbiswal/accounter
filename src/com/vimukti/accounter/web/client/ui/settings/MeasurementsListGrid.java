@@ -46,10 +46,10 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().measurementName(),
-				Accounter.messages().measurementDescription(),
-				Accounter.messages().unitName(), Accounter.messages().factor(),
-				Accounter.messages().delete() };
+		return new String[] { messages.measurementName(),
+				messages.measurementDescription(),
+				messages.unitName(), messages.factor(),
+				messages.delete() };
 	}
 
 	@Override

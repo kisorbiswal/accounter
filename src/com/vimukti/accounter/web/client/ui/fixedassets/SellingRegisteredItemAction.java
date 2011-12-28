@@ -12,7 +12,7 @@ public class SellingRegisteredItemAction extends Action {
 
 	public SellingRegisteredItemAction() {
 		super();
-		this.catagory = Accounter.messages().fixedAssets();
+		this.catagory = messages.fixedAssets();
 	}
 
 	@Override

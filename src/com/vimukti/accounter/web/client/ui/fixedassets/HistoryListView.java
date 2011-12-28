@@ -53,7 +53,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return messages().history();
+		return messages.history();
 	}
 
 	/*
@@ -115,9 +115,9 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -141,7 +141,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().history();
+		return messages.history();
 	}
 
 }

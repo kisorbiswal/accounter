@@ -88,7 +88,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	protected boolean isDatesArranged;
 
 	public AbstractReportView() {
-		emptyMsg = Accounter.messages().noRecordsToShow();
+		emptyMsg = messages.noRecordsToShow();
 	}
 
 	public AbstractReportView(boolean showGridFooter, String emptyMsg) {
@@ -378,7 +378,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 		if (data != null) {
 			String dateRange = null;
 			dateRange = getPreviousReportDateRange(data);
-			if (dateRange.equals(Accounter.messages().custom())) {
+			if (dateRange.equals(messages.custom())) {
 				toolbar.setStartAndEndDates(getPreviousReportStartDate(data),
 						getPreviousReportEndDate(data));
 			}

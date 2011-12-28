@@ -22,10 +22,10 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 public class RecurringTransactionsListView extends
 		TransactionsListView<ClientRecurringTransaction> {
 
-	private final static String ALL = Accounter.messages().all();
-	private final static String SCHEDULED = Accounter.messages().scheduled();
-	private final static String REMAINDER = Accounter.messages().reminder();
-	private final static String UNSCHEDULED = Accounter.messages()
+	private final static String ALL = messages.all();
+	private final static String SCHEDULED = messages.scheduled();
+	private final static String REMAINDER = messages.reminder();
+	private final static String UNSCHEDULED = messages
 			.unScheduled();
 
 	private Button useButton, newButton, editButton;
@@ -37,7 +37,7 @@ public class RecurringTransactionsListView extends
 	private List<ClientRecurringTransaction> recurringTransactions;
 
 	public RecurringTransactionsListView() {
-		super(Accounter.messages().all());
+		super(messages.all());
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class RecurringTransactionsListView extends
 
 		HorizontalPanel panel = new HorizontalPanel();
 
-		useButton = new Button(messages().use());
+		useButton = new Button(messages.use());
 		useButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -71,7 +71,7 @@ public class RecurringTransactionsListView extends
 			}
 		});
 
-		newButton = new Button(messages().new1());
+		newButton = new Button(messages.new1());
 		newButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -80,7 +80,7 @@ public class RecurringTransactionsListView extends
 			}
 		});
 
-		editButton = new Button(messages().edit());
+		editButton = new Button(messages.edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -101,8 +101,8 @@ public class RecurringTransactionsListView extends
 		if (selection != null) {
 			grid.onDoubleClick(selection);
 		} else {
-			Accounter.showError(messages()
-					.pleaseSelectARowTo(messages().edit()));
+			Accounter.showError(messages
+					.pleaseSelectARowTo(messages.edit()));
 		}
 	}
 
@@ -134,7 +134,7 @@ public class RecurringTransactionsListView extends
 					callBack);
 		} else {
 			Accounter
-					.showError(messages().pleaseSelectARowTo(messages().use()));
+					.showError(messages.pleaseSelectARowTo(messages.use()));
 		}
 	}
 
@@ -147,7 +147,7 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		listOfTypes = new ArrayList<String>();
 		listOfTypes.add(ALL);
@@ -185,7 +185,7 @@ public class RecurringTransactionsListView extends
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		for (ClientRecurringTransaction recTransaction : recurringTransactions) {
-			if (text.equals(messages().all())) {
+			if (text.equals(messages.all())) {
 				grid.addData(recTransaction);
 				continue;
 			}
@@ -212,13 +212,13 @@ public class RecurringTransactionsListView extends
 		grid.setSelection(null);
 
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().recurringTransactionsList();
+		return messages.recurringTransactionsList();
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class RecurringTransactionsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().recurringTransactions();
+		return messages.recurringTransactions();
 	}
 
 	@Override

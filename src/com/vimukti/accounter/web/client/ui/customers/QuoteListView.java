@@ -25,7 +25,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	public static final int STATUS_ACCECPTED = 2;
 
 	public QuoteListView(int type) {
-		super(Accounter.messages().open());
+		super(messages.open());
 		this.type = type;
 		// isDeleteDisable = true;
 	}
@@ -49,12 +49,12 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	protected String getAddNewLabelString() {
 		if (type == ClientEstimate.QUOTES
 				&& Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNewQuote();
+			return messages.addaNewQuote();
 		else if (getPreferences().isDelayedchargesEnabled()) {
 			if (type == ClientEstimate.CHARGES) {
-				return messages().addNewCharge();
+				return messages.addNewCharge();
 			} else if (type == ClientEstimate.CREDITS) {
-				return messages().addNew(messages().credit());
+				return messages.addNew(messages.credit());
 			}
 		}
 		return "";
@@ -63,11 +63,11 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	@Override
 	protected String getListViewHeading() {
 		if (type == ClientEstimate.CHARGES) {
-			return messages().chargesList();
+			return messages.chargesList();
 		} else if (type == ClientEstimate.CREDITS) {
-			return messages().creditsList();
+			return messages.creditsList();
 		}
-		return messages().quotesList();
+		return messages.quotesList();
 	}
 
 	@Override
@@ -100,13 +100,13 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().open());
-		listOfTypes.add(messages().rejected());
-		listOfTypes.add(messages().accepted());
-		listOfTypes.add(messages().expired());
-		listOfTypes.add(messages().all());
-		listOfTypes.add(messages().close());
-		listOfTypes.add(messages().applied());
+		listOfTypes.add(messages.open());
+		listOfTypes.add(messages.rejected());
+		listOfTypes.add(messages.accepted());
+		listOfTypes.add(messages.expired());
+		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.close());
+		listOfTypes.add(messages.applied());
 		return listOfTypes;
 	}
 
@@ -115,44 +115,44 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 		grid.removeAllRecords();
 
 		for (ClientEstimate estimate : listOfEstimates) {
-			if (text.equals(messages().open())) {
+			if (text.equals(messages.open())) {
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().rejected())) {
+			if (text.equals(messages.rejected())) {
 				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED)
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().accepted())) {
+			if (text.equals(messages.accepted())) {
 				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().expired())) {
+			if (text.equals(messages.expired())) {
 				ClientFinanceDate expiryDate = new ClientFinanceDate(
 						estimate.getExpirationDate());
 				if (expiryDate.before(new ClientFinanceDate()))
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().applied())) {
+			if (text.equals(messages.applied())) {
 				if (estimate.getStatus() == ClientEstimate.STATUS_APPLIED)
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().close())) {
+			if (text.equals(messages.close())) {
 				if (estimate.getStatus() == ClientEstimate.STATUS_CLOSE)
 					grid.addData(estimate);
 				continue;
 			}
-			if (text.equals(messages().all())) {
+			if (text.equals(messages.all())) {
 				grid.addData(estimate);
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 	}
 
@@ -179,11 +179,11 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	@Override
 	protected String getViewTitle() {
 		if (type == ClientEstimate.CREDITS) {
-			return messages().credits();
+			return messages.credits();
 		} else if (type == ClientEstimate.CHARGES) {
-			return messages().Charges();
+			return messages.Charges();
 		}
-		return messages().quotes();
+		return messages.quotes();
 	}
 
 	@Override

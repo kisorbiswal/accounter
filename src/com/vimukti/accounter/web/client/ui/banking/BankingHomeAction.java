@@ -12,7 +12,7 @@ public class BankingHomeAction extends Action {
 
 	public BankingHomeAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	/**

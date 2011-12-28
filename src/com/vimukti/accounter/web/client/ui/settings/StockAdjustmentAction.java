@@ -12,7 +12,7 @@ public class StockAdjustmentAction extends Action<ClientStockAdjustment> {
 
 	public StockAdjustmentAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	@Override

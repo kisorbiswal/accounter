@@ -22,7 +22,7 @@ public class NewReconcileAccountAction extends Action<ClientReconciliation> {
 	 */
 	public NewReconcileAccountAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	@Override

@@ -145,9 +145,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	@Override
 	protected int sort(AccountRegister obj1, AccountRegister obj2, int index) {
 		if (!(Utility.getTransactionName(obj1.getType()).equalsIgnoreCase(
-				Accounter.messages().openingBalance()) || Utility
+				messages.openingBalance()) || Utility
 				.getTransactionName(obj2.getType()).equalsIgnoreCase(
-						Accounter.messages().openingBalance()))) {
+						messages.openingBalance()))) {
 			switch (index) {
 			case 0:
 				ClientFinanceDate date1 = obj1.getDate();
@@ -198,7 +198,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.messages()
+		Accounter.showWarning(messages
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

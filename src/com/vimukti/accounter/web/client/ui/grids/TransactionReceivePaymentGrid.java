@@ -212,7 +212,7 @@ public class TransactionReceivePaymentGrid extends
 				double totalValue = item.getCashDiscount() + item.getWriteOff()
 						+ item.getAppliedCredits() + item.getPayment();
 				if (AccounterValidator.isValidReceive_Payment(item
-						.getAmountDue(), totalValue, Accounter.messages()
+						.getAmountDue(), totalValue, messages
 						.receivePaymentExcessDue())) {
 					paymentView.recalculateGridAmounts();
 					updateTotalPayment(0.0);
@@ -255,7 +255,7 @@ public class TransactionReceivePaymentGrid extends
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.receivePaymentExcessDue());
 			}
 		}
@@ -363,7 +363,7 @@ public class TransactionReceivePaymentGrid extends
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
-								Accounter.showInformation(Accounter.messages()
+								Accounter.showInformation(messages
 										.failedTogetCreditsListAndPayments(
 												customer.getName()));
 
@@ -517,7 +517,7 @@ public class TransactionReceivePaymentGrid extends
 				creditsAndPaymentsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation(Accounter.messages()
+			Accounter.showInformation(messages
 					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
@@ -611,7 +611,7 @@ public class TransactionReceivePaymentGrid extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.messages()
+			throw new Exception(messages
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -662,7 +662,7 @@ public class TransactionReceivePaymentGrid extends
 	protected boolean validatePaymentValue() {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.messages()
+				.getAmountDue(), totalValue, messages
 				.receiveAmountPayDue())) {
 			return true;
 		} else

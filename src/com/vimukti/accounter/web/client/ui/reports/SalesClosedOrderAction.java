@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class SalesClosedOrderAction extends Action {
 	public SalesClosedOrderAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

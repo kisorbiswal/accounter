@@ -19,7 +19,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().measurementList();
+		return messages.measurementList();
 	}
 
 	@Override
@@ -43,13 +43,13 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().measurementList();
+		return messages.measurementList();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
+				.equalsIgnoreCase(messages.readOnly()))
 			return ActionFactory.getAddMeasurementAction();
 		else
 			return null;
@@ -58,8 +58,8 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
-			return Accounter.messages().addNewMeasurement();
+				.equalsIgnoreCase(messages.readOnly()))
+			return messages.addNewMeasurement();
 		else
 			return "";
 	}
@@ -82,9 +82,9 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}

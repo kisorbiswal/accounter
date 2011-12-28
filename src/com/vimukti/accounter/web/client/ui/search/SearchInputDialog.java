@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.SearchInput;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
@@ -54,7 +53,6 @@ public class SearchInputDialog extends BaseDialog {
 	List<ClientAccount> accounts;
 	private AmountField amountField;
 	private SimplePager pager;
-	protected AccounterMessages messages = Accounter.messages();
 
 	private String[] transactionNames = { messages.all(), messages.bill(),
 			messages.billPayment(), messages.cashExpense(), messages.charge(),

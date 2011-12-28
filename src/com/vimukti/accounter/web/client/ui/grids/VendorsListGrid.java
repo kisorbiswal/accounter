@@ -50,7 +50,7 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { Accounter.messages().name(), Accounter.messages().balance() };
+		return new String[] { messages.name(), messages.balance() };
 
 	}
 
@@ -128,7 +128,7 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onValueChange(PayeeList obj, int col, Object value) {
-		Accounter.showInformation(Accounter.messages().onvaluechangecalled());
+		Accounter.showInformation(messages.onvaluechangecalled());
 	}
 
 	@Override

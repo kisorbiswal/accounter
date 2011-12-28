@@ -20,7 +20,7 @@ public class CustomersAction extends Action {
 
 	public CustomersAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

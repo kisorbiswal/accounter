@@ -16,11 +16,11 @@ public class SalesClosedOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions("", Accounter.messages().present(),
-				Accounter.messages().lastMonth(), Accounter.messages()
-						.last3Months(), Accounter.messages().last6Months(),
-				Accounter.messages().lastYear(), Accounter.messages()
-						.untilEndOfYear(), Accounter.messages().custom());
+		toolbar.setDateRanageOptions("", messages.present(),
+				messages.lastMonth(), messages
+						.last3Months(), messages.last6Months(),
+				messages.lastYear(), messages
+						.untilEndOfYear(), messages.custom());
 	}
 
 	@Override

@@ -73,10 +73,10 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.paymentDate(), messages.no(),
-					Accounter.messages().payeeName(Global.get().Customer()),
+					messages.payeeName(Global.get().Customer()),
 					messages.payMethod(), messages.checkNo(),
 					messages.amountPaid(), messages.voided()
 			// , ""
@@ -84,7 +84,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		}
 		return new String[] { messages.type(), messages.paymentDate(),
 				messages.no(),
-				Accounter.messages().payeeName(Global.get().Customer()),
+				messages.payeeName(Global.get().Customer()),
 				messages.payMethod(), messages.checkNo(),
 				messages.amountPaid(), messages.voided()
 		// , ""
@@ -136,7 +136,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 7 && !obj.isVoided()) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 7) {
 		// msg = "Do you want to Delete the Transaction";
@@ -186,7 +186,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
+					if (!viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

@@ -519,8 +519,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 					&& !paymentMethodCombo
 							.getSelectedValue()
 							.equals(UIUtils
-									.getpaymentMethodCheckBy_CompanyType(Accounter
-											.messages().check()))) {
+									.getpaymentMethodCheckBy_CompanyType(messages
+											.check()))) {
 				checkNoText.setDisabled(true);
 			}
 		}
@@ -1308,8 +1308,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				@Override
 				public void onFailure(Throwable caught) {
 					if (caught instanceof InvocationException) {
-						Accounter.showMessage(Accounter.messages()
-								.sessionExpired());
+						Accounter.showMessage(messages.sessionExpired());
 					} else {
 						int errorCode = ((AccounterException) caught)
 								.getErrorCode();
@@ -1369,8 +1368,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-								.messages().check()))) {
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+								.check()))) {
 			checkNoText.setDisabled(true);
 		} else {
 			checkNoText.setDisabled(isInViewMode());

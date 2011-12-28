@@ -13,7 +13,7 @@ public class ECSalesListAction extends Action {
 
 	public ECSalesListAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

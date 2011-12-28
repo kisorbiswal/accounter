@@ -46,7 +46,7 @@ public class FileTAXView extends AbstractFileTAXView {
 							grid.setRecords(result);
 							enableprintButton();
 						} else {
-							grid.addEmptyMessage(Accounter.messages()
+							grid.addEmptyMessage(messages
 									.selectTAXAgency());
 						}
 					}

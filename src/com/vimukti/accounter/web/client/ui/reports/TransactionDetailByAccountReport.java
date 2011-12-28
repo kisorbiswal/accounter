@@ -51,7 +51,7 @@ public class TransactionDetailByAccountReport extends
 		AccounterAsyncCallback<ClientTAXReturn> callback = new AccounterAsyncCallback<ClientTAXReturn>() {
 
 			public void onException(AccounterException caught) {
-				Accounter.showMessage(Accounter.messages().sessionExpired());
+				Accounter.showMessage(messages.sessionExpired());
 			}
 
 			public void onResultSuccess(ClientTAXReturn result) {

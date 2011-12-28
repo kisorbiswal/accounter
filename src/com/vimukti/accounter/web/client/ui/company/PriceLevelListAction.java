@@ -29,7 +29,7 @@ public class PriceLevelListAction extends Action {
 			@Override
 			public void onCreated() {
 				PriceLevelListDialog dialog = new PriceLevelListDialog(
-						Accounter.messages().managePriceLevelListGroup(), " ");
+						messages.managePriceLevelListGroup(), " ");
 				dialog.show();
 
 			}

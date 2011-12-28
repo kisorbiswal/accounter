@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.help.HelpDialog;
 import com.vimukti.accounter.web.client.help.HelpPanel;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -50,6 +51,8 @@ import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
 
 public class ViewManager extends HorizontalPanel {
 
+	protected static AccounterMessages messages = Global.get().messages();
+	
 	private static final int VIEW_MANAGER_BODY_WIDTH = 1000;
 
 	private static final int REQUIRED_SPACE = 350;
@@ -301,7 +304,7 @@ public class ViewManager extends HorizontalPanel {
 	 * @param command
 	 */
 	private void tryToClose(final IEditableView editView, final Command command) {
-		Accounter.showWarning(Accounter.messages().W_106(),
+		Accounter.showWarning(messages.W_106(),
 				AccounterType.WARNINGWITHCANCEL, new ErrorDialogHandler() {
 
 					@Override
@@ -376,16 +379,16 @@ public class ViewManager extends HorizontalPanel {
 					+ action.getText());
 		}
 		if (exportButton != null)
-			exportButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.messages().exportToCSV(),
+			exportButton.setTitle(messages.clickThisTo(
+					messages.exportToCSV(),
 					existingView.getAction().getViewName()));
 		if (printButton != null)
-			printButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.messages().print(),
+			printButton.setTitle(messages.clickThisTo(
+					messages.print(),
 					existingView.getAction().getViewName()));
 		if (editButton != null)
-			editButton.setTitle(Accounter.messages().clickThisTo(
-					Accounter.messages().edit(),
+			editButton.setTitle(messages.clickThisTo(
+					messages.edit(),
 					existingView.getAction().getViewName()));
 		viewHolder.add(newview);
 		updateButtons();
@@ -584,13 +587,13 @@ public class ViewManager extends HorizontalPanel {
 		group7 = new ButtonGroup();
 		group8 = new ButtonGroup();
 		group9 = new ButtonGroup();
-		viewTitleLabel = new Label(Accounter.messages().dashBoard());
+		viewTitleLabel = new Label(messages.dashBoard());
 		viewTitleLabel.addStyleName("viewTitle");
 
 		previousButton = new ImageButton(Accounter.getFinanceImages()
 				.previousIcon());
-		previousButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.messages().previous()));
+		previousButton.setTitle(messages.clickThisToOpen(
+				messages.previous()));
 		previousButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -599,8 +602,8 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 		nextButton = new ImageButton(Accounter.getFinanceImages().nextIcon());
-		nextButton.setTitle(Accounter.messages().clickThisToOpen(
-				Accounter.messages().next()));
+		nextButton.setTitle(messages.clickThisToOpen(
+				messages.next()));
 		nextButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -608,7 +611,7 @@ public class ViewManager extends HorizontalPanel {
 				History.forward();
 			}
 		});
-		printButton = new ImageButton(Accounter.messages().print(), Accounter
+		printButton = new ImageButton(messages.print(), Accounter
 				.getFinanceImages().Print1Icon());
 
 		printButton.addClickHandler(new ClickHandler() {
@@ -620,7 +623,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		exportButton = new ImageButton(Accounter.messages().exportToCSV(),
+		exportButton = new ImageButton(messages.exportToCSV(),
 				Accounter.getFinanceImages().exportIcon());
 		exportButton.addClickHandler(new ClickHandler() {
 
@@ -631,7 +634,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		editButton = new ImageButton(Accounter.messages().edit(), Accounter
+		editButton = new ImageButton(messages.edit(), Accounter
 				.getFinanceImages().editIcon());
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -644,7 +647,7 @@ public class ViewManager extends HorizontalPanel {
 		});
 
 		configButton = new ImageButton(
-				Accounter.messages().configurePortlets(), Accounter
+				messages.configurePortlets(), Accounter
 						.getFinanceImages().portletPageSettings());
 		configButton.addStyleName("settingsButton");
 		configButton.addClickHandler(new ClickHandler() {
@@ -656,7 +659,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		addCustomerButton = new ImageButton(Accounter.messages().addNew(
+		addCustomerButton = new ImageButton(messages.addNew(
 				Global.get().Customer()), Accounter.getFinanceImages()
 				.portletPageSettings());
 		addCustomerButton.addStyleName("settingsButton");
@@ -668,7 +671,7 @@ public class ViewManager extends HorizontalPanel {
 			}
 		});
 
-		addVendorButton = new ImageButton(Accounter.messages().addNew(
+		addVendorButton = new ImageButton(messages.addNew(
 				Global.get().Vendor()), Accounter.getFinanceImages()
 				.portletPageSettings());
 		addVendorButton.addStyleName("settingsButton");
@@ -682,8 +685,8 @@ public class ViewManager extends HorizontalPanel {
 
 		closeButton = new ImageButton(Accounter.getFinanceImages()
 				.closeButton());
-		closeButton.setTitle(Accounter.messages().clickThisTo(
-				Accounter.messages().close(), Accounter.messages().view()));
+		closeButton.setTitle(messages.clickThisTo(
+				messages.close(), messages.view()));
 		closeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -694,8 +697,8 @@ public class ViewManager extends HorizontalPanel {
 
 		searchButton = new ImageButton(Accounter.getFinanceImages()
 				.searchButton());
-		searchButton.setTitle(Accounter.messages().clickThisTo(
-				Accounter.messages().open(), Accounter.messages().search()));
+		searchButton.setTitle(messages.clickThisTo(
+				messages.open(), messages.search()));
 		searchButton.addClickHandler(new ClickHandler() {
 
 			@Override

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -55,7 +56,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	@Override
 	public String getBody() {
 		if (body == null || body.toString().isEmpty()) {
-			this.body.append(Accounter.messages().noRecordsToShow());
+			this.body.append(Global.get().messages().noRecordsToShow());
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}

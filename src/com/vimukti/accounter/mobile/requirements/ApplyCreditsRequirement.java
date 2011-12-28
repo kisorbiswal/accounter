@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
@@ -118,7 +119,7 @@ public abstract class ApplyCreditsRequirement extends MultiRequirement<Double> {
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.messages()
+			throw new Exception(Global.get().messages()
 					.youdnthaveBalToApplyCredits());
 	}
 

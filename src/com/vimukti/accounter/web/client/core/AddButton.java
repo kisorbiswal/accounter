@@ -11,21 +11,21 @@ public class AddButton extends ImageButton {
 	private AbstractBaseView<?> view;
 
 	public AddButton(AbstractBaseView<?> baseView) {
-		super(Accounter.messages().add(), Accounter.getFinanceImages()
+		super(messages.add(), Accounter.getFinanceImages()
 				.addIcon());
 		this.view = baseView;
 		if (this.view instanceof MakeDepositView)
-			this.setTitle(Accounter.messages().clickToAddContact(
+			this.setTitle(messages.clickToAddContact(
 					baseView.getAction().getViewName()).replace(
-					Accounter.messages().contact(),
-					Accounter.messages().transfer()));
+					messages.contact(),
+					messages.transfer()));
 		else if (this.view instanceof JournalEntryView)
-			this.setTitle(Accounter.messages().clickToAddContact(
+			this.setTitle(messages.clickToAddContact(
 					baseView.getAction().getViewName()).replace(
-					Accounter.messages().contact(),
-					Accounter.messages().transaction()));
+					messages.contact(),
+					messages.transaction()));
 		else
-			this.setTitle(Accounter.messages().clickToAddContact(
+			this.setTitle(messages.clickToAddContact(
 					baseView.getAction().getViewName()));
 	}
 }

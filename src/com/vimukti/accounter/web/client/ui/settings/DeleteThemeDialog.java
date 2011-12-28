@@ -25,11 +25,11 @@ public class DeleteThemeDialog extends BaseDialog {
 	private void createControls() {
 		VerticalPanel deletePanel = new VerticalPanel();
 
-		deleteHtml = new HTML(Accounter.messages().sureToDelete(
+		deleteHtml = new HTML(messages.sureToDelete(
 				brandingTheme.getThemeName()));
-		undoneHtml = new HTML(Accounter.messages().undoneHtml());
+		undoneHtml = new HTML(messages.undoneHtml());
 		undoneHtml.addStyleName("bold_HTML");
-		okbtn.setText(Accounter.messages().delete());
+		okbtn.setText(messages.delete());
 
 		deletePanel.add(deleteHtml);
 		deletePanel.add(undoneHtml);
@@ -47,7 +47,7 @@ public class DeleteThemeDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (brandingTheme.isDefault()) {
-			result.addError(this, Accounter.messages().wecantDeleteThisTheme(
+			result.addError(this, messages.wecantDeleteThisTheme(
 					brandingTheme.getThemeName()));
 		}
 		return result;

@@ -28,40 +28,40 @@
 //	}
 //
 //	private void createControls() {
-//		Label lab1 = new Label(Accounter.messages().adjustSalesTax());
+//		Label lab1 = new Label(messages.adjustSalesTax());
 //		// lab1.setWrap(false);
 //		// lab1.setAutoFit(true);
 //
-//		Label lab2 = new Label(Accounter.messages().selectDate());
+//		Label lab2 = new Label(messages.selectDate());
 //		lab2.setHeight("1px");
 //		// lab2.setOverflow(Overflow.VISIBLE);
 //		// lab2.setWrap(false);
 //		lab2.setWidth("100%");
 //
-//		DateItem effectDate = UIUtils.date(Accounter.messages()
+//		DateItem effectDate = UIUtils.date(messages
 //				.dateEffective(), null);
 //		effectDate.setRequired(true);
 //
-//		IntegerField entryText = new IntegerField(this, Accounter.messages()
+//		IntegerField entryText = new IntegerField(this, messages
 //				.journalEntryNo());
 //
-//		SelectItem incSelect = new SelectItem(Accounter.messages().taxIncome());
+//		SelectItem incSelect = new SelectItem(messages.taxIncome());
 //		incSelect.setRequired(true);
 //
-//		SelectItem codeSelect = new SelectItem(Accounter.messages()
+//		SelectItem codeSelect = new SelectItem(messages
 //				.taxCodeAdjust());
 //		codeSelect.setRequired(true);
 //
-//		RadioGroupItem incDecRadio = new RadioGroupItem(Accounter.messages()
+//		RadioGroupItem incDecRadio = new RadioGroupItem(messages
 //				.adjust());
 //
-//		incDecRadio.setValueMap(Accounter.messages().increase(), Accounter
+//		incDecRadio.setValueMap(messages.increase(), Accounter
 //				.messages().decrease());
 //
-//		AmountField amtText = new AmountField(Accounter.messages().amount(),
+//		AmountField amtText = new AmountField(messages.amount(),
 //				this,getBaseCurrency());
 //		TextItem memoText = new TextItem();
-//		memoText.setTitle(Accounter.messages().memo());
+//		memoText.setTitle(messages.memo());
 //
 //		final DynamicForm taxForm = new DynamicForm();
 //		taxForm.setFields(effectDate, entryText, incSelect, codeSelect,

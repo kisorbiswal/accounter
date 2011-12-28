@@ -21,7 +21,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 
 	public SalesQuoteListDialog(SalesOrderView parentView,
 			List<ClientEstimate> estimates) {
-		super(Accounter.messages().quoteList());
+		super(messages.quoteList());
 		salesView = parentView;
 		this.estimates = estimates;
 		createControl();
@@ -36,7 +36,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 		VerticalPanel mainLayout = new VerticalPanel();
 		mainLayout.setSize("100%", "100%");
 		mainLayout.setSpacing(3);
-		Label infoLabel = new Label(Accounter.messages().selectQuote());
+		Label infoLabel = new Label(messages.selectQuote());
 
 		mainLayout.add(infoLabel);
 

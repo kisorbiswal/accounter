@@ -66,7 +66,7 @@ public class CustomerTransactionsHistoryGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		return new String[] { messages.date(), messages.type(), messages.no(),
 				messages.memo(), messages.dueDate(), messages.amount(),
 				messages.status() };

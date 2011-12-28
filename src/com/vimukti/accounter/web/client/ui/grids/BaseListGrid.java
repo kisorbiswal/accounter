@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
@@ -22,7 +21,6 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	private final List<Integer> cellsWidth = new ArrayList<Integer>();
 	protected IAccounterCRUDServiceAsync rpcDoSerivce;
-	protected AccounterMessages messages = Accounter.messages();
 	private final int[] columnType;
 	protected double total;
 	protected String viewType;
@@ -120,7 +118,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	protected void showWarningDialog(T obj, final AccounterCoreType coreType,
 			final long transactionsID, final int col) {
 		String msg = null;
-		msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+		msg = messages.doyouwanttoVoidtheTransaction();
 		// else if (col == 7) {
 		// if (!viewType.equalsIgnoreCase("Deleted"))
 		// msg = "Do you want to Delete the Transaction";
@@ -164,7 +162,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	abstract protected int[] setColTypes();
 
 	protected void showWarnDialog(final T object) {
-		Accounter.showWarning(Accounter.messages().doyouwanttoDelete()
+		Accounter.showWarning(messages.doyouwanttoDelete()
 				+ ((IAccounterCore) object).getName(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

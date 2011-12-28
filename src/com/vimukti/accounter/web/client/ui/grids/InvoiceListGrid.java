@@ -106,7 +106,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.date(), messages.no(),
 					Global.get().messages().payeeName(Global.get().Customer()),
@@ -169,7 +169,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
 		if (!obj.isVoided() && col == 9) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -219,8 +219,8 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 			public void onResultSuccess(Boolean result) {
 				if (result) {
 
-					if (viewType.equalsIgnoreCase(Accounter.messages().open())
-							|| viewType.equalsIgnoreCase(Accounter.messages().overDue()))
+					if (viewType.equalsIgnoreCase(messages.open())
+							|| viewType.equalsIgnoreCase(messages.overDue()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

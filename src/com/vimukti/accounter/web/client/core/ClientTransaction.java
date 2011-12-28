@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -739,15 +740,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return this != null && this instanceof ClientReceiveVAT;
 	}
 
-	@Override
-	public String getDisplayName() {
-		return Accounter.messages().transaction();
-	}
-
-	@Override
-	public String getName() {
-		return Accounter.messages().transaction();
-	}
 
 	public long getTransactionDate() {
 		return transactionDate;

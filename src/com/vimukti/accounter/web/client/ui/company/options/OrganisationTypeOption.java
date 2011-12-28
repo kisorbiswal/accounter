@@ -79,7 +79,7 @@ public class OrganisationTypeOption extends AbstractPreferenceOption {
 				.nonProfit());
 		other = new RadioButton(messages.organisation(), messages.otherNone());
 
-		Label organizeText = new Label(Accounter.messages()
+		Label organizeText = new Label(messages
 				.howIsYourCompanyOrganizedDesc());
 		Label uninCorporated = new Label(messages.soleProprietorshipDesc());
 		Label morePartners = new Label(messages.partnershipOrLLPDesc());

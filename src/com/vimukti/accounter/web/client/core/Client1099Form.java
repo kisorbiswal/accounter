@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class Client1099Form implements IAccounterCore {
@@ -125,7 +126,7 @@ public class Client1099Form implements IAccounterCore {
 		}
 		String taxId = this.vendor.getTaxId();
 		if (taxId != null && !taxId.equals(""))
-			information.append(Accounter.messages().taxId()).append(taxId);
+			information.append(Global.get().messages().taxId()).append(taxId);
 		return new SafeHtml() {
 
 			@Override

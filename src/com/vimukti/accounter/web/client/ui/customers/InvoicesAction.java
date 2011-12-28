@@ -82,7 +82,7 @@ public class InvoicesAction extends Action {
 		if (viewType == null) {
 			return HistoryTokens.INVOICES;
 		} else if (viewType.equals(messages.overDue())) {
-			return Accounter.messages().overDueInvoices();
+			return messages.overDueInvoices();
 		}
 		return "";
 	}

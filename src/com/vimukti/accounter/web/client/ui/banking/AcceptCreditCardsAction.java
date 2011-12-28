@@ -9,7 +9,7 @@ public class AcceptCreditCardsAction extends Action {
 
 	public AcceptCreditCardsAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	// @Override

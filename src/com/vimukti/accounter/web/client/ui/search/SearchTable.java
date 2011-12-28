@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
@@ -22,7 +23,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 public class SearchTable extends CellTable<SearchResultlist> {
 
 	private AsyncDataProvider<SearchResultlist> listDataProvider;
-	private AccounterMessages messages = Accounter.messages();
+	private AccounterMessages messages = Global.get().messages();
 	private SearchInput input;
 
 	public SearchTable(SearchInput input) {

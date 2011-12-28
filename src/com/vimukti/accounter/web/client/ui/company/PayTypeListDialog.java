@@ -28,12 +28,12 @@
 //
 //		final String description;
 //
-//		title = Accounter.messages().addOrEditPayType();
-//		description = Accounter.messages().toAddPayType();
+//		title = messages.addOrEditPayType();
+//		description = messages.toAddPayType();
 //		DialogGrid grid = getGrid();
-//		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.messages()
+//		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, messages
 //				.active());
-//		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, Accounter.messages()
+//		grid.addColumn(ListGrid.COLUMN_TYPE_TEXT, messages
 //				.description());
 //
 //		groupDialogButtonHandler = new GroupDialogButtonsHandler() {

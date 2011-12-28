@@ -34,7 +34,7 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().unitName();
+				return messages.unitName();
 			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
@@ -52,7 +52,7 @@ public abstract class AddUnitsGrid extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().getFactorName();
+				return messages.getFactorName();
 			}
 
 		});

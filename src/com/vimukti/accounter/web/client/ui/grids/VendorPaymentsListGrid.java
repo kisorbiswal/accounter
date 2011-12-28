@@ -86,7 +86,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
 		if (col == 9 && !obj.isVoided()) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
 		}
 		
 		Accounter.showWarning(msg, AccounterType.WARNING,
@@ -131,7 +131,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (viewType != null && !viewType.equalsIgnoreCase(Accounter.messages().all()))
+					if (viewType != null && !viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;
@@ -148,7 +148,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),

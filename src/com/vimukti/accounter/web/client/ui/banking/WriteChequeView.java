@@ -606,7 +606,7 @@ public class WriteChequeView extends
 		}
 
 		// setting paymentmethod
-		transaction.setPaymentMethod(Accounter.messages().check());
+		transaction.setPaymentMethod(messages.check());
 
 		// Setting Address
 		// transaction.setAddress(billingAddress);
@@ -774,8 +774,7 @@ public class WriteChequeView extends
 						if (isInViewMode() && payee != null) {
 							if (payee.getType() != selectItem.getType()) {
 								Accounter
-										.showError(Accounter
-												.messages()
+										.showError(messages
 												.youcannotchangeaCustomertypetoVendortype(
 														Global.get().customer(),
 														Global.get().Vendor()));
@@ -1041,7 +1040,7 @@ public class WriteChequeView extends
 
 		FlowPanel vendorAccountFlowPanel = new FlowPanel();
 		vendorAccountsDisclosurePanel = new DisclosurePanel(
-				Accounter.messages().ItemizebyAccount());
+				messages.ItemizebyAccount());
 		vendorAccountFlowPanel.add(transactionVendorAccountTable);
 		vendorAccountFlowPanel.add(accountTableButton);
 		vendorAccountsDisclosurePanel.setContent(vendorAccountFlowPanel);

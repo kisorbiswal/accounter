@@ -16,7 +16,7 @@ public class JournalEntriesAction extends Action {
 
 	public JournalEntriesAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

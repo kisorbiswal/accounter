@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 public abstract class AbstractTransactionTable extends
 		EditTable<ClientTransactionItem> {
 
-	AccounterMessages messages = Accounter.messages();
 
 	double lineTotal;
 	double taxableLineTotal;
@@ -223,15 +222,15 @@ public abstract class AbstractTransactionTable extends
 			if (transactionItem.getAccountable() == null) {
 				result.addError(
 						"GridItem-" + transactionItem.getType(),
-						Accounter.messages().pleaseSelect(
+						messages.pleaseSelect(
 								Utility.getItemType(transactionItem.getType())));
 			}
 			if (enableTax && showTaxCode) {
 				if (transactionItem.getTaxCode() == 0) {
 					result.addError(
 							"GridItemUK-" + transactionItem.getAccount(),
-							Accounter.messages().pleaseSelect(
-									Accounter.messages().taxCode()));
+							messages.pleaseSelect(
+									messages.taxCode()));
 				}
 
 			}
@@ -261,7 +260,7 @@ public abstract class AbstractTransactionTable extends
 			}
 		}
 		if (DecimalUtil.isLessThan(lineTotal, 0.0)) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.invalidTransactionAmount());
 		}
 		return result;

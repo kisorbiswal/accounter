@@ -13,7 +13,7 @@ public class NewFixedAssetAction extends Action {
 
 	public NewFixedAssetAction() {
 		super();
-		this.catagory = Accounter.messages().fixedAssets();
+		this.catagory = messages.fixedAssets();
 	}
 
 	@Override

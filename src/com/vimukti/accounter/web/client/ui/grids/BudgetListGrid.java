@@ -50,7 +50,7 @@ public class BudgetListGrid extends BaseListGrid<ClientBudgetItem> {
 				break;
 
 			case 1:
-				colArray[index] = Accounter.messages().total();
+				colArray[index] = messages.total();
 				break;
 			default:
 				break;

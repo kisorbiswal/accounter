@@ -18,13 +18,13 @@ public class MakeDepositAction extends Action {
 
 	public MakeDepositAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	public MakeDepositAction(ClientMakeDeposit makeDeposit,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 
 	}
 

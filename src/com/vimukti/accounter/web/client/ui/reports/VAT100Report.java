@@ -22,31 +22,29 @@ public class VAT100Report extends AbstractReportView<VATSummary> {
 	protected Double box4amount = 0.0D;
 
 	public VAT100Report() {
-		super(false, Accounter.messages().noRecordsToShow());
+		super(false, messages.noRecordsToShow());
 		this.serverReport = new VAT100ServerReport(this);
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.messages().all(), Accounter
-				.messages().thisWeek(), Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(), Accounter.messages()
+		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(), messages.thisMonth(),
+				messages.lastWeek(), messages
 						.lastMonth(),
-				Accounter.messages().thisFinancialYear(), Accounter
-						.messages().lastFinancialYear(), Accounter.messages()
-						.thisFinancialQuarter(), Accounter.messages()
-						.lastFinancialQuarter(), Accounter.messages()
-						.financialYearToDate(), Accounter.messages()
-						.lastVATQuarter(), Accounter.messages()
-						.lastVATQuarterToDate(), Accounter.messages().custom());
+				messages.thisFinancialYear(), messages.lastFinancialYear(), messages
+						.thisFinancialQuarter(), messages
+						.lastFinancialQuarter(), messages
+						.financialYearToDate(), messages
+						.lastVATQuarter(), messages
+						.lastVATQuarterToDate(), messages.custom());
 
 		// Make rpc request for default VAT Agency and default DateRange
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getTaxAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
 			if (vatAgency.getName().equalsIgnoreCase(
-					Accounter.messages().hmCustomsExciseVAT())) {
+					messages.hmCustomsExciseVAT())) {
 				ClientFinanceDate date = new ClientFinanceDate();
 				int month = (date.getMonth()) % 3;
 				int startMonth = date.getMonth() - month;

@@ -27,11 +27,11 @@ public class ReceivedPaymentListView extends
 	private int viewType;
 
 	public ReceivedPaymentListView() {
-		super(Accounter.messages().paid());
+		super(messages.paid());
 	}
 
 	public ReceivedPaymentListView(int type) {
-		super(Accounter.messages().paid());
+		super(messages.paid());
 		this.transactionType = type;
 	}
 
@@ -47,16 +47,16 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addaNewPayment();
+		return messages.addaNewPayment();
 
 	}
 
 	@Override
 	protected String getListViewHeading() {
 		if (transactionType == ClientTransaction.TYPE_CUSTOMER_PREPAYMENT) {
-			return messages().payeePayments(Global.get().Customer());
+			return messages.payeePayments(Global.get().Customer());
 		}
-		return messages().getReceivedPaymentListViewHeading();
+		return messages.getReceivedPaymentListViewHeading();
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class ReceivedPaymentListView extends
 		grid.removeAllRecords();
 		grid.setRecords(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
@@ -93,21 +93,21 @@ public class ReceivedPaymentListView extends
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().all());
-		listOfTypes.add(messages().paid());
+		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.paid());
 		// listOfTypes.add(OPEN);
 		// listOfTypes.add(FULLY_APPLIED);
-		listOfTypes.add(messages().voided());
+		listOfTypes.add(messages.voided());
 		return listOfTypes;
 	}
 
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equals(messages().paid())) {
+		if (text.equals(messages.paid())) {
 			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (text.equals(messages().voided())) {
+		} else if (text.equals(messages.voided())) {
 			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equals(messages().all())) {
+		} else if (text.equals(messages.all())) {
 			viewType = ClientTransaction.VIEW_ALL;
 		}
 		onPageChange(0, getPageSize());
@@ -135,7 +135,7 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages().recievePayments();
+		return messages.recievePayments();
 	}
 
 	@Override

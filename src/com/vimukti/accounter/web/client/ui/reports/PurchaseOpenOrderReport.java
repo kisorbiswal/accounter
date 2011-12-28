@@ -18,14 +18,12 @@ public class PurchaseOpenOrderReport extends
 	@Override
 	public void init() {
 		super.init();
-		toolbar.setDateRanageOptions(Accounter.messages().all(), Accounter
-				.messages().thisWeek(), Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(), Accounter.messages()
+		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(), messages.thisMonth(),
+				messages.lastWeek(), messages
 						.lastMonth(),
-				Accounter.messages().thisFinancialYear(), Accounter
-						.messages().lastFinancialYear(), Accounter.messages()
-						.thisFinancialQuarter(), Accounter.messages()
-						.lastFinancialQuarter(), Accounter.messages().custom());
+				messages.thisFinancialYear(), messages.lastFinancialYear(), messages
+						.thisFinancialQuarter(), messages
+						.lastFinancialQuarter(), messages.custom());
 	}
 
 	@Override

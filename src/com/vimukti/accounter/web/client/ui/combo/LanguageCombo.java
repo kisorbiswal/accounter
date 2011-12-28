@@ -69,7 +69,7 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 			if (object.getLanguageTooltip().equals(object.getLanguageName())) {
 				return object.getLanguageName();
 			} else {
-				return Accounter.messages().languageName(
+				return messages.languageName(
 						object.getLanguageName(), object.getLanguageTooltip());
 			}
 		return "";

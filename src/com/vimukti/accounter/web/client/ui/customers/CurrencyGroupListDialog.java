@@ -75,7 +75,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 		if (currency.getFormalName().toLowerCase()
 				.contains(primaryCurrencyString.toLowerCase())) {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.CannotDeletePrimaryCurrency());
 		} else {
 			return (ClientCurrency) listGridView.getSelection();
@@ -120,7 +120,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
 		ClientCurrency currency = getCompany().getPrimaryCurrency();
 		if (currency != null && clientCurrency.getID() == currency.getID()) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.CannotDeletePrimaryCurrency());
 		}
 		return result;

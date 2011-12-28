@@ -84,10 +84,10 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().active(),
-				Accounter.messages().code(),
-				Accounter.messages().description(),
-				Accounter.messages().taxable(), "" };
+		return new String[] { messages.active(),
+				messages.code(),
+				messages.description(),
+				messages.taxable(), "" };
 	}
 
 	@Override

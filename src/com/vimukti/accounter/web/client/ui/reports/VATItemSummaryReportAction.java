@@ -10,7 +10,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class VATItemSummaryReportAction extends Action {
 	public VATItemSummaryReportAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

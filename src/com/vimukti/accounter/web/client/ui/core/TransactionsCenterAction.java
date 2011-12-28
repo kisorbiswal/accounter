@@ -9,7 +9,7 @@ public class TransactionsCenterAction extends Action<Object> {
 
 	public TransactionsCenterAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

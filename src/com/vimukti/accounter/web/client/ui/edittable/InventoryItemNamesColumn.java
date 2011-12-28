@@ -18,7 +18,7 @@ public class InventoryItemNamesColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().name();
+		return messages.name();
 	}
 
 	@Override

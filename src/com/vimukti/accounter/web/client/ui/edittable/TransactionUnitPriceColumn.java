@@ -48,6 +48,6 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	protected String getColumnName() {
-		return getColumnNameWithCurrency(Accounter.messages().unitPrice());
+		return getColumnNameWithCurrency(messages.unitPrice());
 	}
 }

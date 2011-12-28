@@ -7,8 +7,10 @@ import java.util.Set;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientPhone;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -20,6 +22,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class PhoneFaxForm extends DynamicForm {
+	protected static AccounterMessages messages=Global.get().messages();
+	
 	private SelectCombo businessPhoneSelect, businessFaxSelect;
 	public TextItem businessPhoneText;
 	public TextItem businessFaxText;
@@ -36,9 +40,9 @@ public class PhoneFaxForm extends DynamicForm {
 		allFaxes = new LinkedHashMap<Integer, ClientFax>();
 		setPhonesAndFaxes(phones, faxes);
 		setIsGroup(true);
-		setGroupTitle(Accounter.messages().phoneAndFaxNumbers());
+		setGroupTitle(messages.phoneAndFaxNumbers());
 		setNumCols(2);
-		businessPhoneSelect = new SelectCombo(Accounter.messages().phone());
+		businessPhoneSelect = new SelectCombo(messages.phone());
 		businessPhoneSelect.setHelpInformation(true);
 		// businessPhoneSelect.setWidth(85);
 		businessPhoneSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -58,11 +62,11 @@ public class PhoneFaxForm extends DynamicForm {
 					}
 				});
 
-		businessPhoneText = new TextItem(Accounter.messages().phone());
+		businessPhoneText = new TextItem(messages.phone());
 		businessPhoneText
-				.setToolTip(Accounter.messages().phoneNumberOf(category));
-		businessPhoneText.setToolTip(Accounter.messages().giveOf(
-				Accounter.messages().phoneNumber(), category));
+				.setToolTip(messages.phoneNumberOf(category));
+		businessPhoneText.setToolTip(messages.giveOf(
+				messages.phoneNumber(), category));
 		businessPhoneText.setHelpInformation(true);
 		// businessPhoneText.setShowTitle(false);
 		businessPhoneText.setWidth(100);
@@ -82,7 +86,7 @@ public class PhoneFaxForm extends DynamicForm {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorWidget.addError(this, Accounter.messages()
+							errorWidget.addError(this, messages
 									.incorrectInformation());
 							// Accounter
 							// .showError(AccounterErrorType.INCORRECTINFORMATION);
@@ -112,7 +116,7 @@ public class PhoneFaxForm extends DynamicForm {
 			businessPhoneText.setValue(toBeShownPhone.getNumber());
 		} else
 			businessPhoneSelect.setDefaultToFirstOption(true);
-		businessFaxSelect = new SelectCombo(Accounter.messages().fax());
+		businessFaxSelect = new SelectCombo(messages.fax());
 		businessFaxSelect.setHelpInformation(true);
 		businessFaxSelect.setWidth(85);
 		businessFaxSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -131,9 +135,9 @@ public class PhoneFaxForm extends DynamicForm {
 							businessFaxText.setValue("");
 					}
 				});
-		businessFaxText = new TextItem(Accounter.messages().fax());
-		businessFaxText.setToolTip(Accounter.messages().giveOf(
-				Accounter.messages().fax(), category));
+		businessFaxText = new TextItem(messages.fax());
+		businessFaxText.setToolTip(messages.giveOf(
+				messages.fax(), category));
 		businessFaxText.setHelpInformation(true);
 		businessFaxText.setWidth(100);
 		// businessFaxText.setShowTitle(false);
@@ -154,7 +158,7 @@ public class PhoneFaxForm extends DynamicForm {
 						// + AccounterErrorType.INCORRECTINFORMATION
 						// + ".");
 						// BaseView.commentPanel.setVisible(true);
-						errorWidget.addError(this, Accounter.messages()
+						errorWidget.addError(this, messages
 								.incorrectInformation());
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

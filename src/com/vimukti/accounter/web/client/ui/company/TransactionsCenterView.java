@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView {
 
-	AccounterMessages messages = Accounter.messages();
 
 	public BaseListView<T> baseListView;
 	private HorizontalPanel mainPanel;
@@ -245,7 +244,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().transactionscenter();
+		return messages.transactionscenter();
 	}
 
 	@Override

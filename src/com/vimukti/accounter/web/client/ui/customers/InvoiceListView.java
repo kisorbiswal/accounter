@@ -30,7 +30,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	private int viewId;
 
 	public InvoiceListView() {
-		super(Accounter.messages().open());
+		super(messages.open());
 		isDeleteDisable = true;
 		// getLastandOpenedFiscalYearEndDate();
 	}
@@ -47,7 +47,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	// }
 
 	public InvoiceListView(int typeInvoicesOnly) {
-		super(Accounter.messages().all());
+		super(messages.all());
 		isDeleteDisable = true;
 		this.transactionType = typeInvoicesOnly;
 	}
@@ -72,11 +72,11 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (transactionType == 0
 					|| transactionType == ClientTransaction.TYPE_INVOICE) {
-				return messages().addaNewInvoice();
+				return messages.addaNewInvoice();
 			} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-				return messages().newCreditNotes();
+				return messages.newCreditNotes();
 			} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
-				return messages().newCashSale();
+				return messages.newCashSale();
 			}
 		}
 		return "";
@@ -86,13 +86,13 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	protected String getListViewHeading() {
 		if (transactionType == 0
 				|| transactionType == ClientTransaction.TYPE_INVOICE) {
-			return messages().invoiceList();
+			return messages.invoiceList();
 		} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
-			return messages().customerCreditNotes();
+			return messages.customerCreditNotes();
 		} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
-			return messages().cashSalesList();
+			return messages.cashSalesList();
 		}
-		return messages().invoiceList();
+		return messages.invoiceList();
 	}
 
 	@Override
@@ -131,19 +131,19 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		List<String> listOfTypes = new ArrayList<String>();
 		if (transactionType == 0
 				|| transactionType == ClientTransaction.TYPE_INVOICE) {
-			listOfTypes.add(messages().open());
-			listOfTypes.add(messages().overDue());
+			listOfTypes.add(messages.open());
+			listOfTypes.add(messages.overDue());
 		}
-		listOfTypes.add(messages().voided());
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.voided());
+		listOfTypes.add(messages.all());
 		if (viewType != null && !viewType.equals("")) {
 			viewSelect.setComboItem(viewType);
 		} else {
 			if (transactionType == 0
 					|| transactionType == ClientTransaction.TYPE_INVOICE) {
-				viewSelect.setComboItem(messages().open());
+				viewSelect.setComboItem(messages.open());
 			} else {
-				viewSelect.setComboItem(messages().all());
+				viewSelect.setComboItem(messages.all());
 			}
 		}
 		return listOfTypes;
@@ -152,24 +152,24 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages().open())) {
+		if (text.equalsIgnoreCase(messages.open())) {
 			viewId = ClientTransaction.VIEW_OPEN;
-		} else if (text.equalsIgnoreCase(messages().voided())) {
+		} else if (text.equalsIgnoreCase(messages.voided())) {
 			viewId = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equalsIgnoreCase(messages().overDue())) {
+		} else if (text.equalsIgnoreCase(messages.overDue())) {
 			viewId = ClientTransaction.VIEW_OVERDUE;
-		} else if (text.equalsIgnoreCase(messages().all())) {
+		} else if (text.equalsIgnoreCase(messages.all())) {
 			viewId = ClientTransaction.VIEW_ALL;
 		}
 		onPageChange(0, getPageSize());
 
 		// grid.removeAllRecords();
-		// if (text.equals(messages().all())) {
+		// if (text.equals(messages.all())) {
 		// for (InvoicesList invoice : listOfInvoices) {
 		// invoice.setPrint(false);
 		// grid.addData(invoice);
 		// }
-		// } else if (text.equals(messages().open())) {
+		// } else if (text.equals(messages.open())) {
 		// for (InvoicesList invoice : listOfInvoices) {
 		// if (invoice.getBalance() != null
 		// && DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
@@ -182,7 +182,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		// }
 		// }
 		//
-		// } else if (text.equals(messages().overDue())) {
+		// } else if (text.equals(messages.overDue())) {
 		// for (InvoicesList invoice : listOfInvoices) {
 		// if (invoice.getBalance() != null
 		// && DecimalUtil.isGreaterThan(invoice.getBalance(), 0)
@@ -194,14 +194,14 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		// grid.addData(invoice);
 		// }
 		// }
-		// } else if (text.equals(messages().voided())) {
+		// } else if (text.equals(messages.voided())) {
 		// for (InvoicesList invoice : listOfInvoices) {
 		// if (invoice.isVoided()) {
 		// invoice.setPrint(false);
 		// grid.addData(invoice);
 		// }
 		// }
-		// } else if (text.equals(messages().draft())) {
+		// } else if (text.equals(messages.draft())) {
 		// for (InvoicesList invoice : listOfInvoices) {
 		// if (invoice.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 		// invoice.setPrint(false);
@@ -212,13 +212,13 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		// }
 		//
 		// if (grid.getRecords().isEmpty()) {
-		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// grid.addEmptyMessage(messages.noRecordsToShow());
 		// }
 	}
 
 	private void refreshDatesAndRecords() {
 		if (dateRangeSelector.getValue() != null
-				&& dateRangeSelector.getValue().equals(messages().all())) {
+				&& dateRangeSelector.getValue().equals(messages.all())) {
 			startDate = null;
 			endDate = null;
 			callRPCMethod();
@@ -309,8 +309,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	public void showDialogBox(String description) {
-		InvoicePrintDialog printDialog = new InvoicePrintDialog(Accounter
-				.messages().selectReports(), "", description);
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(messages.selectReports(), "", description);
 		printDialog.show();
 		printDialog.center();
 	}
@@ -322,7 +321,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	protected String getViewTitle() {
-		return messages().invoices();
+		return messages.invoices();
 	}
 
 	@Override
@@ -403,13 +402,13 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	private int checkViewType(String view) {
-		if (viewType.equalsIgnoreCase(messages().open())) {
+		if (viewType.equalsIgnoreCase(messages.open())) {
 			viewId = ClientTransaction.VIEW_OPEN;
-		} else if (viewType.equalsIgnoreCase(messages().voided())) {
+		} else if (viewType.equalsIgnoreCase(messages.voided())) {
 			viewId = ClientTransaction.VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages().overDue())) {
+		} else if (viewType.equalsIgnoreCase(messages.overDue())) {
 			viewId = ClientTransaction.VIEW_OVERDUE;
-		} else if (viewType.equalsIgnoreCase(messages().all())) {
+		} else if (viewType.equalsIgnoreCase(messages.all())) {
 			viewId = ClientTransaction.VIEW_ALL;
 		}
 		return viewId;

@@ -37,13 +37,13 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	@Override
 	protected String[] getColumns() {
 		if (accountType == ClientAccount.TYPE_BANK)
-			return new String[] { Accounter.messages().date(), messages.type(),
-					(Accounter.messages().checkNo() + "."), messages.payTo(),
+			return new String[] { messages.date(), messages.type(),
+					(messages.checkNo() + "."), messages.payTo(),
 					messages.memo(), messages.Account(), messages.payment(),
 					messages.deposit(), messages.currentBalance(),
 					messages.voided() };
 		else if (accountType == ClientAccount.TYPE_CREDIT_CARD)
-			return new String[] { Accounter.messages().date(), messages.type(),
+			return new String[] { messages.date(), messages.type(),
 					messages.docNo(), messages.payTo(), messages.memo(),
 					messages.Account(), messages.charge(), messages.payment(),
 					messages.currentBalance(), messages.voided() };
@@ -183,7 +183,7 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(Accounter.messages()
+		Accounter.showWarning(messages
 				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
 				new ErrorDialogHandler() {
 

@@ -104,7 +104,7 @@ public abstract class ItemNameColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().name();
+		return messages.name();
 	}
 
 	public void setItemForCustomer(boolean isForCustomer) {

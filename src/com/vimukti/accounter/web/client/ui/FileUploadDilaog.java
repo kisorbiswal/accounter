@@ -54,7 +54,6 @@ public class FileUploadDilaog extends CustomDialog {
 	private String title;
 	private HTML detailsHtml1, helpHtml, chooseHtml, chooseHtml1, detailsHtml2,
 			detailsHtml3, detailsHtml4, detailsHtml5;
-	AccounterMessages messages;
 
 	public FileUploadDilaog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback, String[] fileTypes,
@@ -73,7 +72,7 @@ public class FileUploadDilaog extends CustomDialog {
 	}
 
 	protected void doCreateContents() {
-		messages = Accounter.messages();
+		messages = messages;
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 		final String fileID = createID();
@@ -298,7 +297,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.setName(fileID);
 		upload.getElement().setAttribute("size", "50");
 
-		HTML label = new HTML(Accounter.messages().removeHTML());
+		HTML label = new HTML(messages.removeHTML());
 		label.addStyleName("remove_html");
 		label.setWidth("60px");
 		label.setHeight("25px");
@@ -353,10 +352,10 @@ public class FileUploadDilaog extends CustomDialog {
 			if (isCustomTemplateUpload) {
 				// for custom file error message
 				Accounter
-						.showInformation(Accounter.messages().noFileSelected());
+						.showInformation(messages.noFileSelected());
 			} else {
 				// for image error message
-				Accounter.showInformation(Accounter.messages()
+				Accounter.showInformation(messages
 						.noImageisselected());
 			}
 			return;
@@ -462,7 +461,7 @@ public class FileUploadDilaog extends CustomDialog {
 			final AccounterAsyncCallback<ClientBrandingTheme> callback,
 			String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setHeader(Accounter.messages().accept(), "text/html");
+		builder.setHeader(messages.accept(), "text/html");
 		// Create a callback object to handle the result
 		RequestCallback requestCallback = new RequestCallback() {
 			public void onError(Request request, Throwable exception) {

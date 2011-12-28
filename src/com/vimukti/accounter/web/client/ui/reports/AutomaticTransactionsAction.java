@@ -12,7 +12,7 @@ public class AutomaticTransactionsAction extends
 		Action<TransactionDetailByAccount> {
 
 	public AutomaticTransactionsAction() {
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

@@ -25,11 +25,11 @@ public class ChangePasswordDialog extends BaseDialog {
 
 	private void createControls() {
 
-		oldPasswordTextItem = new PasswordItem(Accounter.messages()
+		oldPasswordTextItem = new PasswordItem(messages
 				.oldPassword());
-		newPasswordTextItem = new PasswordItem(Accounter.messages()
+		newPasswordTextItem = new PasswordItem(messages
 				.newPassword());
-		confirmNewPasswordTextItem = new PasswordItem(Accounter.messages()
+		confirmNewPasswordTextItem = new PasswordItem(messages
 				.confirmNewPassword());
 
 		oldPasswordTextItem.setRequired(true);
@@ -46,7 +46,7 @@ public class ChangePasswordDialog extends BaseDialog {
 				confirmNewPasswordTextItem);
 
 		mainPanel.add(textItemsForm);
-		okbtn.setText(Accounter.messages().save());
+		okbtn.setText(messages.save());
 
 		setBodyLayout(mainPanel);
 
@@ -74,22 +74,21 @@ public class ChangePasswordDialog extends BaseDialog {
 							public void onResultSuccess(Boolean result) {
 								if (result) {
 									removeFromParent();
-									Accounter.showInformation(Accounter
-											.messages()
+									Accounter.showInformation(messages
 											.passwordSuccessfullyChanged());
 								} else {
-									Accounter.showError(Accounter.messages()
+									Accounter.showError(messages
 											.youHaveEnteredWrongPassword());
 								}
 							}
 
 						});
 			} else {
-				addError(this, Accounter.messages().passwordsnotmatched());
+				addError(this, messages.passwordsnotmatched());
 				return false;
 			}
 		} else {
-			addError(this, Accounter.messages()
+			addError(this, messages
 					.passwordshouldcontainminimum6characters());
 			return false;
 		}

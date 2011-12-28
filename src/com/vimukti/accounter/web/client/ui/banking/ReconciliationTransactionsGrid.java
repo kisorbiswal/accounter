@@ -9,6 +9,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -26,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.grids.columns.CheckBoxColumn;
 public class ReconciliationTransactionsGrid extends
 		CellTable<ClientReconciliationItem> {
 
-	private AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private ListDataProvider<ClientReconciliationItem> dataProvider = new ListDataProvider<ClientReconciliationItem>();
 	private SelectionChangedHandler<ClientReconciliationItem> clearedTransactionCallback;
 	private ReconciliationView view;

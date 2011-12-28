@@ -21,8 +21,8 @@ public class CustomerGroupListAction extends Action {
 			@Override
 			public void onCreated() {
 				CustomerGroupListDialog dialog = new CustomerGroupListDialog(
-						Accounter.messages().manageCustomerGroup(
-								Global.get().Customer()), Accounter.messages()
+						messages.manageCustomerGroup(
+								Global.get().Customer()), messages
 								.toAddPayeeGroup(Global.get().Customer()));
 				dialog.show();
 

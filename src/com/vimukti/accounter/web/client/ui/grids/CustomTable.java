@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -77,6 +78,7 @@ public abstract class CustomTable extends VerticalPanel {
 	private boolean hasLoadingImage;
 	protected int width;
 
+	protected static AccounterMessages messages=Global.get().messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 
 	public CustomTable() {
@@ -111,7 +113,7 @@ public abstract class CustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert(Accounter.messages()
+			Window.alert(messages
 					.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
@@ -237,7 +239,7 @@ public abstract class CustomTable extends VerticalPanel {
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
-		Label label = new Label(Accounter.messages().pleaseWaitDataIsLoading());
+		Label label = new Label(messages.pleaseWaitDataIsLoading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,
 				HasVerticalAlignment.ALIGN_MIDDLE);

@@ -28,7 +28,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 	// private static String CANCELLED = "Cancelled";
 
 	public SalesOrderListView() {
-		super(Accounter.messages().open());
+		super(messages.open());
 		isDeleteDisable = true;
 	}
 
@@ -43,14 +43,14 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addNewSalesOrder();
+			return messages.addNewSalesOrder();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().salesOrderList();
+		return messages.salesOrderList();
 	}
 
 	@Override
@@ -120,9 +120,9 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().all());
-		listOfTypes.add(messages().completed());
-		listOfTypes.add(messages().cancelled());
+		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.completed());
+		listOfTypes.add(messages.cancelled());
 		return listOfTypes;
 	}
 
@@ -131,33 +131,33 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 		grid.removeAllRecords();
 		if (listOfSalesOrder != null) {
 			for (SalesOrdersList salesOrder : listOfSalesOrder) {
-				if (text.equals(messages().open())) {
+				if (text.equals(messages.open())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| salesOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages()
+						salesDetailView.itemsGrid.addEmptyMessage(messages
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(messages().completed())) {
+				if (text.equals(messages.completed())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages()
+						salesDetailView.itemsGrid.addEmptyMessage(messages
 								.noRecordsToShow());
 					}
 					continue;
 				}
-				if (text.equals(messages().cancelled())) {
+				if (text.equals(messages.cancelled())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages()
+						salesDetailView.itemsGrid.addEmptyMessage(messages
 								.noRecordsToShow());
 					}
 					continue;
@@ -166,10 +166,10 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 		if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
-			salesDetailView.itemsGrid.addEmptyMessage(messages()
+			salesDetailView.itemsGrid.addEmptyMessage(messages
 					.noRecordsToShow());
 		}
 	}
@@ -230,7 +230,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().salesOrders();
+		return messages.salesOrders();
 	}
 
 }

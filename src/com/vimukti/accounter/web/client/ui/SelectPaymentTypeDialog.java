@@ -17,7 +17,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 
 	public SelectPaymentTypeDialog() {
-		super(Accounter.messages().selectPaymentType(), Accounter.messages()
+		super(messages.selectPaymentType(), messages
 				.selectPaymentType());
 		createControls();
 		center();
@@ -25,15 +25,15 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		setText(Accounter.messages().selectPaymentType());
+		setText(messages.selectPaymentType());
 
 		typeRadio = new RadioGroupItem();
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 		String paymentType;
-		paymentType = Accounter.messages().payeePayment(Global.get().Vendor());
+		paymentType = messages.payeePayment(Global.get().Vendor());
 
-		typeRadio.setValueMap(paymentType, Accounter.messages().customerRefund(
+		typeRadio.setValueMap(paymentType, messages.customerRefund(
 				Global.get().Customer()));
 
 		typeRadio.setDefaultValue(paymentType);
@@ -42,7 +42,7 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		typeForm.setWidth("100%");
 
 		typeForm.setIsGroup(true);
-		typeForm.setGroupTitle(Accounter.messages().paymentDocuments());
+		typeForm.setGroupTitle(messages.paymentDocuments());
 		typeForm.setFields(typeRadio);
 
 		VerticalPanel mainVLay = new VerticalPanel();
@@ -62,11 +62,11 @@ public class SelectPaymentTypeDialog extends BaseDialog {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 			String paymentType;
-			paymentType = Accounter.messages().payeePayment(
+			paymentType = messages.payeePayment(
 					Global.get().Vendor());
 			if (radio.equals(paymentType)) {
 				ActionFactory.getNewVendorPaymentAction().run(null, false);
-			} else if (radio.equals(Accounter.messages().customerRefund(
+			} else if (radio.equals(messages.customerRefund(
 					Global.get().Customer()))) {
 
 				ActionFactory.getCustomerRefundAction().run(null, false);

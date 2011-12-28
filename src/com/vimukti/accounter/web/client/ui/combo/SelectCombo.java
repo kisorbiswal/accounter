@@ -8,13 +8,13 @@ public class SelectCombo extends CustomCombo<String> {
 
 	public SelectCombo(String title) {
 		super(title, false, 1);
-		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
+		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
 				title));
 	}
 
 	public SelectCombo(String title, boolean isAddNewRequired) {
 		super(title, isAddNewRequired, 1);
-		super.setToolTip(Accounter.messages().selectWhichWeHaveInOurCompany(
+		super.setToolTip(messages.selectWhichWeHaveInOurCompany(
 				title));
 	}
 

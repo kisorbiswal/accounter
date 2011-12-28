@@ -53,7 +53,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	protected String getAddNewLabelString() {
 
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNewsalesPerson();
+			return messages.addaNewsalesPerson();
 		else
 			return "";
 	}
@@ -61,7 +61,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages().salesPersonList();
+		return messages.salesPersonList();
 	}
 
 	// @Override
@@ -100,7 +100,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 	}
 
@@ -122,9 +122,9 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -150,7 +150,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		if (salesPersons != null)
 			this.grid.setRecords(salesPersons);
 		else
-			this.grid.addEmptyMessage(messages().noRecordsToShow());
+			this.grid.addEmptyMessage(messages.noRecordsToShow());
 
 		super.saveSuccess(object);
 	}
@@ -179,7 +179,7 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().salesPersons();
+		return messages.salesPersons();
 	}
 
 }

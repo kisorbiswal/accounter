@@ -75,7 +75,7 @@ public class IntegerField extends TextItem {
 									Global.get()
 											.messages()
 											.pleaseEnter(
-													Accounter.messages()
+													messages
 															.validNumber()));
 						}
 						// Accounter
@@ -83,7 +83,7 @@ public class IntegerField extends TextItem {
 
 					}
 				} catch (Exception e) {
-					Accounter.showError(Accounter.messages().invalidInfo());
+					Accounter.showError(messages.invalidInfo());
 				}
 
 			}

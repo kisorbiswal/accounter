@@ -361,7 +361,7 @@ public abstract class TransactionPayBillTable extends
 					double totalValue = getTotalValue(row);
 					if (DecimalUtil.isGreaterThan(totalValue,
 							row.getAmountDue())) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.totalPaymentNotExceedDueForSelectedRecords());
 						row.setPayment(previous);
 					}
@@ -731,7 +731,7 @@ public abstract class TransactionPayBillTable extends
 			getCreditsAndPaymentsDialiog().show();
 
 		} else {
-			Accounter.showInformation(Accounter.messages()
+			Accounter.showInformation(messages
 					.noCreditsForThisVendor(Global.get().vendor()));
 		}
 
@@ -902,7 +902,7 @@ public abstract class TransactionPayBillTable extends
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
-								Accounter.showInformation(Accounter.messages()
+								Accounter.showInformation(messages
 										.failedTogetCreditsListAndPayments(
 												vendor.getName()));
 

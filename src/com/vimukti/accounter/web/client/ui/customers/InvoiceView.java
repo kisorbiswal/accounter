@@ -201,12 +201,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (transaction == null
 				|| transaction.getStatus() == ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-			lab1 = new Label(Accounter.messages().invoice());
+			lab1 = new Label(messages.invoice());
 		else {
-			lab1 = new Label(Accounter.messages().invoice());
+			lab1 = new Label(messages.invoice());
 		}
 
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -220,9 +220,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transactionDateItem.setHelpInformation(true);
 		transactionNumber = createTransactionNumberItem();
 
-		transactionNumber.setTitle(Accounter.messages().invoiceNo());
+		transactionNumber.setTitle(messages.invoiceNo());
 		listforms = new ArrayList<DynamicForm>();
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.messages()
+		brandingThemeTypeCombo = new BrandingThemeCombo(messages
 				.brandingTheme());
 
 		locationCombo = createLocationCombo();
@@ -246,7 +246,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		labeldateNoLayout.add(datepanel);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+		customerCombo = createCustomerComboItem(messages.payeeName(
 				Global.get().Customer()));
 		customerCombo.setHelpInformation(true);
 		customerCombo.setWidth("100%");
@@ -261,7 +261,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		billToTextArea.setHelpInformation(true);
 		billToTextArea.setWidth(100);
 
-		billToTextArea.setTitle(Accounter.messages().billTo());
+		billToTextArea.setTitle(messages.billTo());
 		billToTextArea.setDisabled(isInViewMode());
 		billToTextArea.setHelpInformation(true);
 
@@ -269,7 +269,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			public void onClick(ClickEvent event) {
-				new AddressDialog("", "", billToTextArea, Accounter.messages().billTo(),
+				new AddressDialog("", "", billToTextArea, messages.billTo(),
 						allAddresses);
 
 			}
@@ -279,7 +279,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			@Override
 			public void onFocus(FocusEvent event) {
-				new AddressDialog("", "", billToTextArea, Accounter.messages().billTo(),
+				new AddressDialog("", "", billToTextArea, messages.billTo(),
 						allAddresses);
 
 			}
@@ -334,7 +334,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shippingMethodsCombo = createShippingMethodCombo();
 
 		dueDateItem = new DateField(messages.dueDate());
-		dueDateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+		dueDateItem.setToolTip(messages.selectDateUntilDue(
 				this.getAction().getViewName()));
 		dueDateItem.setHelpInformation(true);
 		dueDateItem.setEnteredDate(getTransactionDate());
@@ -396,7 +396,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		Button printButton = new Button();
 
-		printButton.setText(Accounter.messages().print());
+		printButton.setText(messages.print());
 		printButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -704,7 +704,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.messages().shippingTerms());
+				messages.shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -745,7 +745,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	public void showMenu(Widget button) {
-		setMenuItems(button, Accounter.messages().productOrServiceItem());
+		setMenuItems(button, messages.productOrServiceItem());
 
 	}
 
@@ -1353,16 +1353,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.dueDateItem.getDate(), getTransactionDate())) {
-			result.addError(this.dueDateItem, Accounter.messages().the() + " "
+			result.addError(this.dueDateItem, messages.the() + " "
 					+ messages.dueDate() + " " + " "
-					+ Accounter.messages().cannotbeearlierthantransactiondate());
+					+ messages.cannotbeearlierthantransactiondate());
 		}
 
 		boolean isSelected = transactionsTree.validateTree();
 		if (!isSelected) {
 			if (transaction.getTotal() <= 0
 					&& customerTransactionTable.isEmpty()) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.transactiontotalcannotbe0orlessthan0());
 			}
 			result.add(customerTransactionTable.validateGrid());
@@ -1424,7 +1424,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelect(
+			Accounter.showError(messages.pleaseSelect(
 					Global.get().customer()));
 		} else {
 
@@ -1507,7 +1507,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			public void onFailure(Throwable caught) {
 				if (caught instanceof InvocationException) {
 					Accounter
-							.showMessage(Accounter.messages().sessionExpired());
+							.showMessage(messages.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
@@ -1625,7 +1625,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().invoice();
+		return messages.invoice();
 	}
 
 	@Override
@@ -1704,7 +1704,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

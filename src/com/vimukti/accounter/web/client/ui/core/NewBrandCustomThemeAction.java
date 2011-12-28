@@ -18,11 +18,11 @@ public class NewBrandCustomThemeAction extends Action {
 	@Override
 	public void run() {
 		if (isDependent) {
-			customThemeDialog = new NewCustomThemeDialog(Accounter.messages()
+			customThemeDialog = new NewCustomThemeDialog(messages
 					.editBrandingThemeLabel(), (ClientBrandingTheme) data,
 					isDependent);
 		} else {
-			customThemeDialog = new NewCustomThemeDialog(Accounter.messages()
+			customThemeDialog = new NewCustomThemeDialog(messages
 					.newBrandTheme(), (ClientBrandingTheme) data, isDependent);
 		}
 		customThemeDialog.show();

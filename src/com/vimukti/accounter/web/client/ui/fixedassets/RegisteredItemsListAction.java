@@ -23,7 +23,7 @@ public class RegisteredItemsListAction extends Action {
 	 */
 	public RegisteredItemsListAction() {
 		super();
-		this.catagory = Accounter.messages().fixedAssets();
+		this.catagory = messages.fixedAssets();
 	}
 
 	/*

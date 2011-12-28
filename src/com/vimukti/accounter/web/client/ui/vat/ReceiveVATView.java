@@ -95,8 +95,8 @@ public class ReceiveVATView extends
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
 
-		Label lab = new Label(Accounter.messages().tAXRefund());
-		lab.setStyleName(Accounter.messages().labelTitle());
+		Label lab = new Label(messages.tAXRefund());
+		lab.setStyleName(messages.labelTitle());
 		// lab.setHeight("35px");
 		// date = new DateField(companyConstants.date());
 		// date.setHelpInformation(true);
@@ -106,8 +106,8 @@ public class ReceiveVATView extends
 		transactionDateItem = createTransactionDateItem();
 
 		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(Accounter.messages().no());
-		transNumber.setToolTip(Accounter.messages().giveNoTo(
+		transNumber.setTitle(messages.no());
+		transNumber.setToolTip(messages.giveNoTo(
 				this.getAction().getViewName()));
 
 		depositInAccCombo = new DepositInAccountCombo(messages.depositIn());
@@ -158,11 +158,11 @@ public class ReceiveVATView extends
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText
-								.setValue(Accounter.messages().toBePrinted());
+								.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(Accounter.messages()
+							checkNoText.setValue(messages
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
@@ -176,13 +176,12 @@ public class ReceiveVATView extends
 		});
 
 		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-								.messages().check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -320,7 +319,7 @@ public class ReceiveVATView extends
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
 			} else {
@@ -356,7 +355,7 @@ public class ReceiveVATView extends
 		loadData(filterList);
 		int size = grid.getRecords().size();
 		if (size == 0)
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	private void calculateEndingBalance() {
@@ -439,8 +438,8 @@ public class ReceiveVATView extends
 
 		if (transaction.getCheckNumber() != null) {
 			if (transaction.getCheckNumber().equals(
-					Accounter.messages().toBePrinted())) {
-				checkNoText.setValue(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				checkNoText.setValue(messages.toBePrinted());
 				printCheck.setValue(true);
 			} else {
 				checkNoText.setValue(transaction.getCheckNumber());
@@ -486,9 +485,9 @@ public class ReceiveVATView extends
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.failedtogettheTransactionPayVATList());
-						grid.addEmptyMessage(Accounter.messages()
+						grid.addEmptyMessage(messages
 								.noFiledTaxEntriesToReceive());
 
 					}
@@ -503,7 +502,7 @@ public class ReceiveVATView extends
 						entries = result;
 						if (result.size() == 0) {
 							// Accounter.showInformation("No PayVAT list to show");
-							grid.addEmptyMessage(Accounter.messages()
+							grid.addEmptyMessage(messages
 									.noFiledTaxEntriesToReceive());
 						} else {
 
@@ -553,7 +552,7 @@ public class ReceiveVATView extends
 
 					@Override
 					public void onException(AccounterException caught) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.failedToGetTransactionNumber());
 					}
 
@@ -579,13 +578,13 @@ public class ReceiveVATView extends
 		result.add(mainform.validate());
 		if (isInViewMode()) {
 			if (grid.getRecords().isEmpty()) {
-				result.addError(grid, Accounter.messages()
+				result.addError(grid, messages
 						.youdonthaveanyfiledVATentriestoselect());
 			}
 		}
 
 		if (grid == null || grid.getRecords().isEmpty()) {
-			result.addError(grid, Accounter.messages()
+			result.addError(grid, messages
 					.youdonthaveanyfiledVATentriestoselect());
 		} else {
 			result.add(grid.validateGrid());
@@ -593,7 +592,7 @@ public class ReceiveVATView extends
 		if (!(grid.getRecords().isEmpty())
 				&& grid.getSelectedRecords().size() == 0) {
 			result.addError(grid,
-					Accounter.messages().pleaseSelect(messages.fileVAT()));
+					messages.pleaseSelect(messages.fileVAT()));
 		}
 		if (isInViewMode()) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
@@ -667,8 +666,8 @@ public class ReceiveVATView extends
 		String value;
 		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
-					Accounter.messages().toBePrinted())) {
-				value = String.valueOf(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
@@ -676,10 +675,10 @@ public class ReceiveVATView extends
 			String checknumber;
 			checknumber = this.checkNumber;
 			if (checknumber == null) {
-				checknumber = Accounter.messages().toBePrinted();
+				checknumber = messages.toBePrinted();
 			}
-			if (checknumber.equals(Accounter.messages().toBePrinted()))
-				value = Accounter.messages().toBePrinted();
+			if (checknumber.equals(messages.toBePrinted()))
+				value = messages.toBePrinted();
 			else
 				value = String.valueOf(checknumber);
 		}
@@ -826,7 +825,7 @@ public class ReceiveVATView extends
 		grid.setDisabled(false);
 		grid.setCanEdit(true);
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.messages().toBePrinted());
+			checkNoText.setValue(messages.toBePrinted());
 		}
 		super.onEdit();
 
@@ -847,7 +846,7 @@ public class ReceiveVATView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().tAXRefund();
+		return messages.tAXRefund();
 	}
 
 	@Override

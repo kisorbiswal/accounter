@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 public class WareHouseTransferAction extends Action<ClientStockTransfer> {
 	public WareHouseTransferAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	private WareHouseTransferView view;

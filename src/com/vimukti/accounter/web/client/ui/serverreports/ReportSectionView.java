@@ -55,7 +55,7 @@ public class ReportSectionView extends BaseHomeView {
 		// reportLabel.setHeight(20);
 		mainLayout.add(reportLabel);
 
-		DynamicForm companyAndFinancialForm = UIUtils.form(Accounter.messages()
+		DynamicForm companyAndFinancialForm = UIUtils.form(messages
 				.companyAndFinancial());
 		companyAndFinancialForm.setWidth("50%");
 		companyAndFinancialForm.setHeight("40%");

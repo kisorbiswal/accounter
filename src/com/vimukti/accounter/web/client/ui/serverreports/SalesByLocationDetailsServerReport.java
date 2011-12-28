@@ -40,9 +40,9 @@ public class SalesByLocationDetailsServerReport extends
 	@Override
 	public String getTitle() {
 		if (!isLocation) {
-			return Accounter.messages().salesByClassDetails();
+			return messages.salesByClassDetails();
 		}
-		return Accounter.messages().getSalesByLocationDetails(
+		return messages.getSalesByLocationDetails(
 				Global.get().Location());
 	}
 

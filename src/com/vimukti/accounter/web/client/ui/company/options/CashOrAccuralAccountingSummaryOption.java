@@ -35,17 +35,17 @@ public class CashOrAccuralAccountingSummaryOption extends
 	}
 
 	public void createControls() {
-		accountingMethodForSummaryLabel.setText(Accounter.messages()
+		accountingMethodForSummaryLabel.setText(messages
 				.getDefaultAccountingMethodForSummary());
-		cashRadioButton.setName(Accounter.messages().cashoraccural());
-		cashRadioButton.setHTML(Accounter.messages().cash());
-		accuralRadioButton.setName(Accounter.messages().cashoraccural());
-		accuralRadioButton.setHTML(Accounter.messages().accrual());
+		cashRadioButton.setName(messages.cashoraccural());
+		cashRadioButton.setHTML(messages.cash());
+		accuralRadioButton.setName(messages.cashoraccural());
+		accuralRadioButton.setHTML(messages.accrual());
 	}
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().cashOrAccural();
+		return messages.cashOrAccural();
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class CashOrAccuralAccountingSummaryOption extends
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().cashOrAccural();
+		return messages.cashOrAccural();
 	}
 
 }

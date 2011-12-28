@@ -55,7 +55,7 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		trackEstimateHeader.setText(messages.trackingEstimates());
 		yesRadioButton.setText(messages.yes());
 		noRadioButton.setText(messages.no());
-		useDelayedCharges.setText(Accounter.messages().delayedCharges());
+		useDelayedCharges.setText(messages.delayedCharges());
 		useDelayedCharges.setStyleName("bold");
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
 

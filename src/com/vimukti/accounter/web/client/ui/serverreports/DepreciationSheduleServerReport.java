@@ -35,7 +35,7 @@ public class DepreciationSheduleServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().depreciationShedule();
+		return messages.depreciationShedule();
 	}
 
 	@Override

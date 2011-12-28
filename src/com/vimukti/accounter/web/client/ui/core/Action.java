@@ -76,9 +76,8 @@ public abstract class Action<T> implements Command {
 
 	public String getViewModeText() {
 		String viewText = getText();
-		if (viewText.contains(Accounter.messages().new1())) {
-			viewText = viewText.replace(Accounter.messages().new1(), Accounter
-					.messages().view());
+		if (viewText.contains(messages.new1())) {
+			viewText = viewText.replace(messages.new1(), messages.view());
 		}
 		return viewText;
 	}
@@ -226,8 +225,8 @@ public abstract class Action<T> implements Command {
 	public void setViewName(String viewName) {
 		this.viewName = viewName;
 		if (viewName == null && this.getText() != null)
-			if (getText().contains(Accounter.messages().new1()))
-				this.viewName = this.getText().replace(Accounter.messages().new1(), "")
+			if (getText().contains(messages.new1()))
+				this.viewName = this.getText().replace(messages.new1(), "")
 						.toLowerCase().trim();
 			else
 				this.viewName = this.getText().toLowerCase();
@@ -239,9 +238,8 @@ public abstract class Action<T> implements Command {
 
 	public String getEditText() {
 		String editText = getText();
-		if (editText.contains(Accounter.messages().new1())) {
-			editText = editText.replace(Accounter.messages().new1(), Accounter
-					.messages().edit());
+		if (editText.contains(messages.new1())) {
+			editText = editText.replace(messages.new1(), messages.edit());
 		}
 		return editText;
 	}

@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.FileUploadDilaog;
@@ -65,8 +64,6 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private Label measureLabel;
 	private FlexTable textBoxTable;
 	private List<String> listOfFontNames, listOfFontSizes;
-	private final AccounterMessages messages = Accounter.messages();
-	private final AccounterMessages accounterMessages = Accounter.messages();
 	private DynamicForm nameForm;
 	private ArrayList<String> templatesList;
 
@@ -143,8 +140,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private void createControls() {
 		tabSet = new DecoratedTabPanel();
 
-		tabSet.add(getGeneralLayout(), Accounter.messages().general());
-		tabSet.add(getTemplateLayout(), Accounter.messages().templates());
+		tabSet.add(getGeneralLayout(), messages.general());
+		tabSet.add(getTemplateLayout(), messages.templates());
 		tabSet.selectTab(0);
 		tabSet.setSize("100%", "100%");
 
@@ -157,8 +154,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private VerticalPanel getGeneralLayout() {
 
 		VerticalPanel panel = new VerticalPanel();
-		HTML titleHtml = new HTML(Accounter.messages().newBrandTheme());
-		titleHtml.setStyleName(Accounter.messages().labelTitle());
+		HTML titleHtml = new HTML(messages.newBrandTheme());
+		titleHtml.setStyleName(messages.labelTitle());
 
 		mainLayoutPanel = new HorizontalPanel();
 		check_radioPanel = new HorizontalPanel();
@@ -367,7 +364,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		// .inclusive());
 		// inclusiveButton.setChecked(true);
 
-		contactDetailHtml = new HTML(accounterMessages.contactDetailsHtml());
+		contactDetailHtml = new HTML(messages.contactDetailsHtml());
 		contactDetailsArea = new TextArea();
 		contactDetailsArea.setStyleName("contact-deatils-area");
 
@@ -504,7 +501,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		addressItem.setChecked(true);
 		logoItem = new CheckBox(messages.showLogo());
 		logoItem.setChecked(true);
-		paypalEmailHtml = new HTML(accounterMessages.paypalEmailHtml());
+		paypalEmailHtml = new HTML(messages.paypalEmailHtml());
 		paypalTextBox = new TextItem();
 		paypalTextBox.textBox.setTitle(messages.paypalEmail());
 

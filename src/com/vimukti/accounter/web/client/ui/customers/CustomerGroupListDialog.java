@@ -65,7 +65,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 					showAddEditGroupDialog((ClientCustomerGroup) listGridView
 							.getSelection());
 				} else {
-					Accounter.showError(Accounter.messages().selectTaxGroup());
+					Accounter.showError(messages.selectTaxGroup());
 					new Exception();
 				}
 
@@ -96,8 +96,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(this, Accounter.messages().payeeGroup(
-				Global.get().Customer()), "", Accounter.messages()
+		inputDlg = new InputDialog(this, messages.payeeGroup(
+				Global.get().Customer()), "", messages
 				.payeeGroup(Global.get().Customer())) {
 		};
 
@@ -126,7 +126,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name() };
+		return new String[] { messages.name() };
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			ClientCustomerGroup customerGroupByName = company
 					.getCustomerGroupByName(UIUtils.toStr(value));
 			if (customerGroupByName != null) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 			// if (customerGroup != null) {
@@ -168,7 +168,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 							inputDlg.getTextItems().get(0).getValue()
 									.toString());
 			if (customerGroupByName2 != null) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.payeeGroupAlreadyExists(Global.get().Customer()));
 			}
 		}

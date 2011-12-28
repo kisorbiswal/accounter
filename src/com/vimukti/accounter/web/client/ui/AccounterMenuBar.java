@@ -5,14 +5,12 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenu;
 import com.vimukti.accounter.web.client.ui.IMenuFactory.IMenuBar;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class AccounterMenuBar extends HorizontalPanel {
 
-	private final AccounterMessages messages = Accounter.messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 	private final IMenuFactory factory;
 	public static String oldToken;

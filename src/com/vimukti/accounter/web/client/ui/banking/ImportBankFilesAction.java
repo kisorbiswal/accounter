@@ -9,7 +9,7 @@ public class ImportBankFilesAction extends Action {
 
 	public ImportBankFilesAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	/**

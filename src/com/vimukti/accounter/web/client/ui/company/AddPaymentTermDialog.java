@@ -58,13 +58,13 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		integerRangeValidator = new IntegerRangeValidator();
 
-		payTermText = new TextItem(Accounter.messages().paymentTerm());
+		payTermText = new TextItem(messages.paymentTerm());
 		payTermText.setHelpInformation(true);
 		payTermText.setRequired(true);
 
 		fixedDaysPanel = new VerticalPanel();
 		fixedDaysForm = new DynamicForm();
-		fixedDays = new RadioButton("paymentTermType", Accounter.messages()
+		fixedDays = new RadioButton("paymentTermType", messages
 				.fixedNumberOfDays());
 		fixedDays.setValue(true);
 		fixedDays.addClickHandler(new ClickHandler() {
@@ -75,10 +75,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 				dateDrivenForm.setDisabled(true);
 			}
 		});
-		netDueIn = new IntegerField(this, Accounter.messages().netDueIn());
-		discountField = new AmountField(Accounter.messages()
+		netDueIn = new IntegerField(this, messages.netDueIn());
+		discountField = new AmountField(messages
 				.discountPercentageIs(), this);
-		discountDue = new IntegerField(this, Accounter.messages()
+		discountDue = new IntegerField(this, messages
 				.discountIfPaidWithin());
 
 		fixedDaysForm.setFields(netDueIn, discountField, discountDue);
@@ -87,7 +87,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		dateDrivenPanel = new VerticalPanel();
 		dateDrivenForm = new DynamicForm();
-		dateDriven = new RadioButton("paymentTermType", Accounter.messages()
+		dateDriven = new RadioButton("paymentTermType", messages
 				.dateDriven());
 		dateDriven.addClickHandler(new ClickHandler() {
 
@@ -97,13 +97,13 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 				fixedDaysForm.setDisabled(true);
 			}
 		});
-		netDueBefore = new IntegerField(this, Accounter.messages()
+		netDueBefore = new IntegerField(this, messages
 				.netDueBefore());
 		// IntegerField nextMonthDue = new IntegerField(this,
 		// "Due the next month if paid before");
-		discountPerField = new AmountField(Accounter.messages()
+		discountPerField = new AmountField(messages
 				.discountPercentageIs(), this);
-		discountPaidBefore = new IntegerField(this, Accounter.messages()
+		discountPaidBefore = new IntegerField(this, messages
 				.discountIfPaidBefore());
 
 		dateDrivenForm.setFields(netDueBefore, discountPerField,
@@ -112,10 +112,10 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		dateDrivenPanel.add(dateDriven);
 		dateDrivenPanel.add(dateDrivenForm);
 
-		// descText = new TextItem(Accounter.messages().description());
+		// descText = new TextItem(messages.description());
 		// descText.setHelpInformation(true);
 		//
-		// dayText = new IntegerField(this, Accounter.messages().dueDays());
+		// dayText = new IntegerField(this, messages.dueDays());
 		// dayText.setHelpInformation(true);
 		// // dayText.setWidth(20);
 		// dayText.setValidators(integerRangeValidator);
@@ -314,21 +314,21 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		ValidationResult result = new ValidationResult();
 		if (payTermText.getValue().trim() == null
 				|| payTermText.getValue().trim().length() == 0) {
-			result.addError(this, Accounter.messages().pleaseEnterPayTerm());
+			result.addError(this, messages.pleaseEnterPayTerm());
 		}
 		if (fixedDays.getValue()) {
 			if (netDueIn.getNumber() == null) {
 				result.addError(
 						this,
-						Accounter.messages().pleaseEnter(
-								Accounter.messages().dueDays()));
+						messages.pleaseEnter(
+								messages.dueDays()));
 			}
 		} else {
 			if (netDueBefore.getNumber() == null) {
 				result.addError(
 						this,
-						Accounter.messages().pleaseEnter(
-								Accounter.messages().dueDays()));
+						messages.pleaseEnter(
+								messages.dueDays()));
 			}
 		}
 		return result;

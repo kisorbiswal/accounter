@@ -12,6 +12,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -21,7 +22,7 @@ import com.vimukti.accounter.web.client.util.CoreEventHandler;
 public abstract class AbstractDropDownTable<T extends IAccounterCore> extends
 		CellTable<T> {
 
-	protected AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private RowSelectHandler<T> rowSelectHandler;
 	private List<T> data;
 	private ListDataProvider<T> dataProvider;

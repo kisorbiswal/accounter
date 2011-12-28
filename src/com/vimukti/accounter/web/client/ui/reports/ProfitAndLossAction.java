@@ -18,7 +18,7 @@ public class ProfitAndLossAction extends Action {
 
 	public ProfitAndLossAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

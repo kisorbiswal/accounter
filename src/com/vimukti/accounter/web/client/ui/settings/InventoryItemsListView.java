@@ -65,7 +65,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 				total += item.getSalesPrice();
 		}
 		if (totalLabel != null) {
-			totalLabel.setText(messages().totalSalesPrice() + " = "
+			totalLabel.setText(messages.totalSalesPrice() + " = "
 					+ DataUtils.getAmountAsStringInPrimaryCurrency(total));
 		}
 	}
@@ -84,14 +84,14 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNewInventoryItem();
+			return messages.addaNewInventoryItem();
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().productList();
+		return messages.productList();
 	}
 
 	@Override
@@ -126,11 +126,11 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 	}
 
 	public void setCatageoryType(String catagory) {
-		this.catageory = messages().inventory();
+		this.catageory = messages.inventory();
 	}
 
 	@Override
@@ -157,9 +157,9 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
-			viewSelect.setComboItem(messages().active());
+			viewSelect.setComboItem(messages.active());
 		} else {
-			viewSelect.setComboItem(messages().inActive());
+			viewSelect.setComboItem(messages.inActive());
 		}
 
 	}
@@ -183,7 +183,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().items();
+		return messages.items();
 	}
 
 }

@@ -78,14 +78,14 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 		for (int index = 0; index < colArray.length; index++) {
 			switch (index) {
 			case 0:
-				colArray[index] = Accounter.messages().active();
+				colArray[index] = messages.active();
 				break;
 			case 1:
-				colArray[index] = Accounter.messages().payeeName(
+				colArray[index] = messages.payeeName(
 						Global.get().Customer());
 				break;
 			case 2:
-				colArray[index] = Accounter.messages().currentMonth();
+				colArray[index] = messages.currentMonth();
 				colsMap.put(2, getCurrentMonth());
 				break;
 			case 3:
@@ -109,10 +109,10 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colsMap.put(6, getCurrentMonth() - 5);
 				break;
 			case 8:
-				colArray[index] = Accounter.messages().yearToDate();
+				colArray[index] = messages.yearToDate();
 				break;
 			case 9:
-				colArray[index] = Accounter.messages().balance();
+				colArray[index] = messages.balance();
 				break;
 			case 10:
 				colArray[index] = "";

@@ -26,7 +26,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addaNewTaxItem();
+			return messages.addaNewTaxItem();
 		else
 			return "";
 	}
@@ -34,7 +34,7 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getListViewHeading() {
 
-		return messages().taxItemsList();
+		return messages.taxItemsList();
 	}
 
 	@Override
@@ -111,9 +111,9 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -122,9 +122,9 @@ public class SalesTaxItemsView extends BaseListView<ClientTAXItem> {
 	protected String getViewTitle() {
 		String constant;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			constant = messages().manageSalesItems();
+			constant = messages.manageSalesItems();
 		else
-			constant = messages().salesTaxItems();
+			constant = messages.salesTaxItems();
 		return constant;
 	}
 

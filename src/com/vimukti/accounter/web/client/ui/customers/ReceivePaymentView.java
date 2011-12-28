@@ -194,11 +194,11 @@ public class ReceivePaymentView extends
 
 							@Override
 							public void onException(AccounterException caught) {
-								Accounter.showError(Accounter.messages()
-										.failedToGetRecievePayments(
-												Global.get().customer())
+								Accounter.showError(messages
+										.failedToGetRecievePayments(Global
+												.get().customer())
 										+ selectedCustomer.getName());
-								gridView.addEmptyMessage(Accounter.messages()
+								gridView.addEmptyMessage(messages
 										.noRecordsToShow());
 							}
 
@@ -220,8 +220,8 @@ public class ReceivePaymentView extends
 									addTransactionRecievePayments(result);
 								} else {
 									gridView.removeAllRecords();
-									gridView.addEmptyMessage(Accounter
-											.messages().noRecordsToShow());
+									gridView.addEmptyMessage(messages
+											.noRecordsToShow());
 									totalInoiceAmt = 0.00d;
 									totalDueAmt = 0.00d;
 									transactionTotal = 0.00d;
@@ -543,13 +543,12 @@ public class ReceivePaymentView extends
 		else {
 			lab = new Label(Utility.getTransactionName(transactionType));
 		}
-		lab.setStyleName(Accounter.messages().labelTitle());
+		lab.setStyleName(messages.labelTitle());
 		// transactionDateItem = createTransactionDateItem();
 		transactionDateItem = new DateField(messages.date());
 		transactionDateItem
-				.setToolTip(Accounter.messages()
-						.selectDateWhenTransactioCreated(
-								this.getAction().getViewName()));
+				.setToolTip(messages.selectDateWhenTransactioCreated(this
+						.getAction().getViewName()));
 		transactionDateItem.setHelpInformation(true);
 		if (transaction != null && transaction.getDate() != null) {
 			transactionDateItem.setEnteredDate(transaction.getDate());
@@ -609,10 +608,9 @@ public class ReceivePaymentView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages()
-				.receivedFrom());
+		customerCombo = createCustomerComboItem(messages.receivedFrom());
 
-		amtText = new AmountField(Accounter.messages().amountReceived(), this,
+		amtText = new AmountField(messages.amountReceived(), this,
 				getBaseCurrency());
 
 		amtText.setHelpInformation(true);
@@ -636,7 +634,7 @@ public class ReceivePaymentView extends
 					paymentAmountChanged(amount);
 
 					if (DecimalUtil.isLessThan(amount, 0)) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.noNegativeAmountsReceived());
 						amtText.setAmount(0.00D);
 
@@ -652,7 +650,7 @@ public class ReceivePaymentView extends
 
 		});
 
-		tdsAmount = new AmountField(Accounter.messages().tdsAmount(), this,
+		tdsAmount = new AmountField(messages.tdsAmount(), this,
 				getBaseCurrency());
 		tdsAmount.setDisabled(isInViewMode());
 		tdsAmount.addBlurHandler(new BlurHandler() {
@@ -671,14 +669,15 @@ public class ReceivePaymentView extends
 		payForm = new DynamicForm();
 		// payForm.setWidth("90%");
 		payForm.setIsGroup(true);
-		payForm.setGroupTitle(Accounter.messages().payment());
+		payForm.setGroupTitle(messages.payment());
 
 		payForm.setFields(customerCombo, amtText, paymentMethodCombo, checkNo);
 		payForm.setStyleName("align-form");
 		// payForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		customerNonEditablebalText = new AmountField(Accounter.messages()
-				.payeeBalance(Global.get().Customer()), this, getBaseCurrency());
+		customerNonEditablebalText = new AmountField(
+				messages.payeeBalance(Global.get().Customer()), this,
+				getBaseCurrency());
 		customerNonEditablebalText.setHelpInformation(true);
 		customerNonEditablebalText.setWidth(100);
 		customerNonEditablebalText.setDisabled(true);
@@ -690,7 +689,7 @@ public class ReceivePaymentView extends
 		if (locationTrackingEnabled)
 			depoForm.setFields(locationCombo);
 		depoForm.setIsGroup(true);
-		depoForm.setGroupTitle(Accounter.messages().deposit());
+		depoForm.setGroupTitle(messages.deposit());
 		depoForm.setFields(customerNonEditablebalText, depositInCombo);
 		// depoForm.getCellFormatter().setWidth(0, 0, "203px");
 
@@ -704,19 +703,19 @@ public class ReceivePaymentView extends
 		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
 
 		currencyWidget = createCurrencyFactorWidget();
-		Label lab1 = new Label(Accounter.messages().dueForPayment());
+		Label lab1 = new Label(messages.dueForPayment());
 
 		initListGrid();
 
-		unUsedCreditsText = new AmountLabel(Accounter.messages()
-				.unusedCreditsWithCurrencyName(
-						getCompany().getPrimaryCurrency().getFormalName()));
+		unUsedCreditsText = new AmountLabel(
+				messages.unusedCreditsWithCurrencyName(getCompany()
+						.getPrimaryCurrency().getFormalName()));
 		unUsedCreditsText.setHelpInformation(true);
 		unUsedCreditsText.setDisabled(true);
 
-		unUsedPaymentsText = new AmountLabel(Accounter.messages()
-				.unusedPayments(
-						getCompany().getPrimaryCurrency().getFormalName()));
+		unUsedPaymentsText = new AmountLabel(
+				messages.unusedPayments(getCompany().getPrimaryCurrency()
+						.getFormalName()));
 		unUsedPaymentsText.setHelpInformation(true);
 		unUsedPaymentsText.setDisabled(true);
 
@@ -1050,7 +1049,7 @@ public class ReceivePaymentView extends
 			return;
 
 		this.paymentMethod = paymentMethod2;
-		if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 			checkNo.setDisabled(false);
 		} else {
 			checkNo.setDisabled(true);
@@ -1088,18 +1087,17 @@ public class ReceivePaymentView extends
 
 		if (gridView == null || gridView.getRecords().isEmpty()
 				|| gridView.getSelectedRecords().size() == 0) {
-			result.addError(gridView, Accounter.messages()
-					.pleaseSelectAnyOneOfTheTransactions());
+			result.addError(gridView,
+					messages.pleaseSelectAnyOneOfTheTransactions());
 		} else if (gridView.getAllRows().isEmpty()) {
-			result.addError(gridView, Accounter.messages().selectTransaction());
+			result.addError(gridView, messages.selectTransaction());
 		} else
 			result.add(gridView.validateGrid());
 
 		if (!isInViewMode()) {
 			if (!AccounterValidator.isValidRecievePaymentAmount(
 					totalWithTDS.getAmount(), this.transactionTotal)) {
-				result.addError(amtText, Accounter.messages()
-						.recievePaymentTotalAmount());
+				result.addError(amtText, messages.recievePaymentTotalAmount());
 			}
 		}
 
@@ -1158,8 +1156,7 @@ public class ReceivePaymentView extends
 				@Override
 				public void onFailure(Throwable caught) {
 					if (caught instanceof InvocationException) {
-						Accounter.showMessage(Accounter.messages()
-								.sessionExpired());
+						Accounter.showMessage(messages.sessionExpired());
 					} else {
 						int errorCode = ((AccounterException) caught)
 								.getErrorCode();
@@ -1182,7 +1179,7 @@ public class ReceivePaymentView extends
 			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 		} else if (transaction.isVoid() || transaction.isDeleted()) {
 
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.youcanteditreceivePaymentitisvoidedordeleted());
 
 		}
@@ -1197,8 +1194,7 @@ public class ReceivePaymentView extends
 		amtText.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		if (paymentMethod != null
-				&& paymentMethod
-						.equalsIgnoreCase(Accounter.messages().cheque())) {
+				&& paymentMethod.equalsIgnoreCase(messages.cheque())) {
 			checkNo.setDisabled(false);
 		}
 
@@ -1238,7 +1234,7 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().receivePayment();
+		return messages.receivePayment();
 	}
 
 	private CustomerCombo createCustomerComboItem(String title) {
@@ -1289,7 +1285,7 @@ public class ReceivePaymentView extends
 	private DepositInAccountCombo createDepositInComboItem() {
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
-				Accounter.messages().depositIn());
+				messages.depositIn());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -1332,13 +1328,13 @@ public class ReceivePaymentView extends
 
 	public void modifyForeignCurrencyTotalWidget() {
 
-		unUsedCreditsText.setTitle(Accounter.messages()
-				.unusedCreditsWithCurrencyName(
-						currencyWidget.getSelectedCurrency().getFormalName()));
-		unUsedPaymentsText.setTitle(Accounter.messages().unusedPayments(
-				currencyWidget.getSelectedCurrency().getFormalName()));
-		amtText.setTitle(Accounter.messages().amountReceivedWithCurrencyName(
-				currencyWidget.getSelectedCurrency().getFormalName()));
+		unUsedCreditsText.setTitle(messages
+				.unusedCreditsWithCurrencyName(currencyWidget
+						.getSelectedCurrency().getFormalName()));
+		unUsedPaymentsText.setTitle(messages.unusedPayments(currencyWidget
+				.getSelectedCurrency().getFormalName()));
+		amtText.setTitle(messages.amountReceivedWithCurrencyName(currencyWidget
+				.getSelectedCurrency().getFormalName()));
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class BudgetAction extends Action {
 
 	public BudgetAction() {
 		super();
-		this.catagory = Accounter.messages().budget();
+		this.catagory = messages.budget();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

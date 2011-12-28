@@ -133,7 +133,7 @@ public abstract class CustomerAccountTransactionTable extends
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.messages().amount());
+				return getColumnNameWithCurrency(messages.amount());
 			}
 		});
 

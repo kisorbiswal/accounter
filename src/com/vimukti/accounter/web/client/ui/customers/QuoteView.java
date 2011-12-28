@@ -197,8 +197,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	@Override
 	public void showMenu(Widget button) {
 		setMenuItems(button,
-		// Accounter.messages().accounts(Global.get().Account()),
-				Accounter.messages().productOrServiceItem());
+		// messages.accounts(Global.get().Account()),
+				messages.productOrServiceItem());
 		// FinanceApplication.constants().comment(),
 		// FinanceApplication.constants().VATItem());
 
@@ -308,7 +308,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// setTitle(UIUtils.title(messages.quote()));
 		Label lab1 = new Label(title);
 		// + "(" + getTransactionStatus() + ")");
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		lab1.setStyleName(messages.labelTitle());
 		// lab1.setHeight("35px");
 
 		transactionDateItem = createTransactionDateItem();
@@ -349,12 +349,12 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		// labeldateNoLayout.add(lab1);
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+		customerCombo = createCustomerComboItem(messages.payeeName(
 				Global.get().customer()));
 		contactCombo = createContactComboItem();
 		billToTextArea = new TextAreaItem();
 		billToTextArea.setWidth(100);
-		billToTextArea.setTitle(Accounter.messages().billTo());
+		billToTextArea.setTitle(messages.billTo());
 		billToTextArea.setDisabled(true);
 
 		shipToCombo = createShipToComboItem();
@@ -385,7 +385,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			shipToAddress.setDisabled(true);
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
@@ -1021,9 +1021,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
-			result.addError(this.quoteExpiryDate, Accounter.messages().the()
+			result.addError(this.quoteExpiryDate, messages.the()
 					+ " " + messages.expirationDate() + " " + " "
-					+ Accounter.messages().cannotbeearlierthantransactiondate());
+					+ messages.cannotbeearlierthantransactiondate());
 		}
 		result.add(customerTransactionTable.validateGrid());
 		if (isTrackTax()) {
@@ -1084,11 +1084,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			@Override
 			public void onFailure(Throwable caught) {
 				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
-					Accounter.showError(Accounter.messages()
+					Accounter.showError(messages
 							.thisQuoteAlreadyAccepted());
 				} else if (caught instanceof InvocationException) {
 					Accounter
-							.showMessage(Accounter.messages().sessionExpired());
+							.showMessage(messages.sessionExpired());
 				} else {
 					int errorCode = ((AccounterException) caught)
 							.getErrorCode();
@@ -1187,7 +1187,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().quote();
+		return messages.quote();
 	}
 
 	@Override
@@ -1258,7 +1258,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

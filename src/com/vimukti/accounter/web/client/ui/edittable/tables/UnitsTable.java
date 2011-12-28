@@ -30,7 +30,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(Accounter.messages()
+				Label columnHeader = new Label(messages
 						.defaultWare());
 				return columnHeader;
 			}
@@ -56,7 +56,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().unitName();
+				return messages.unitName();
 			}
 		});
 		this.addColumn(new TextEditColumn<ClientUnit>() {
@@ -78,7 +78,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().factor();
+				return messages.factor();
 			}
 
 		});
@@ -116,14 +116,14 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 		ValidationResult result = new ValidationResult();
 		ClientUnit defaultUnit = getDefaultUnit();
 		if (getRecords() == null || getRecords().isEmpty()) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseEnterAtleastOneUnit());
 		} else if (defaultUnit == null) {
-			result.addError(this, Accounter.messages()
+			result.addError(this, messages
 					.pleaseSelectDefaultUnit());
 		}
 		// else if (defaultUnit.getFactor() == 0) {
-		// result.addError(this, Accounter.messages()
+		// result.addError(this, messages
 		// .factorForDefaultUnitShouldNotbeZero());
 		// }
 		else {
@@ -131,11 +131,11 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 				if (unit.getName() == null || unit.getName().isEmpty()) {
 					result.addError(
 							this,
-							Accounter.messages().pleaseEnter(
-									Accounter.messages().unitName()));
+							messages.pleaseEnter(
+									messages.unitName()));
 					break;
 				} else if (DecimalUtil.isEquals(unit.getFactor(), 0)) {
-					result.addError(this, Accounter.messages()
+					result.addError(this, messages
 							.factorsShouldNotbeZero());
 					break;
 				}

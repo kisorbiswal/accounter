@@ -69,7 +69,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsandPayments());
+		super(messages.applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.customer = customer;
 		this.canEdit = canEdit;
@@ -86,7 +86,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsandPayments());
+		super(messages.applyCreditsandPayments());
 		this.currencyProvider = currencyProvider;
 		this.vendor = venddor;
 		this.canEdit = canEdit;
@@ -105,7 +105,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback,
 			ICurrencyProvider currencyProvider) {
-		super(Accounter.messages().applyCreditsandPayments(), "");
+		super(messages.applyCreditsandPayments(), "");
 		this.currencyProvider = currencyProvider;
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
@@ -195,7 +195,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.messages().therearenocreditstoshow());
+			grid.addEmptyMessage(messages.therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
 			int row = grid.indexOf(cr);
@@ -363,7 +363,7 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 			}
 		}
 		if (totalAmount > amountDue) {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.amountToUseMustLessthanTotal());
 			showError();
 		}
@@ -520,11 +520,11 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	protected boolean onOK() {
 		double totalAmount = totAmtUseText.getAmount();
 		if (updatedCreditsAndPayments.isEmpty() && totalAmount > 0) {
-			Accounter.showError(Accounter.messages().noCreditsToApply());
+			Accounter.showError(messages.noCreditsToApply());
 			showError();
 			return false;
 		} else if (totalAmount > amountDue) {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.amountToUseMustLessthanTotal());
 			showError();
 			return false;

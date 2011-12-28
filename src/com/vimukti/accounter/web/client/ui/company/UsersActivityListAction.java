@@ -12,7 +12,7 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	public UsersActivityListAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

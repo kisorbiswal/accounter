@@ -31,10 +31,10 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { Accounter.messages().cash(),
-				Accounter.messages().accrual() };
+		String[] reportBasisArray = { messages.cash(),
+				messages.accrual() };
 
-		taxAgencyCombo = new TAXAgencyCombo(Accounter.messages()
+		taxAgencyCombo = new TAXAgencyCombo(messages
 				.selectTAXAgency(), false);
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo
@@ -53,7 +53,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		selectedAgency = taxAgencyCombo.getSelectedValue();
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(Accounter.messages().from());
+		fromItem.setTitle(messages.from());
 		fromItem.setEnteredDate(new ClientFinanceDate());
 
 		fromItem.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -74,7 +74,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 
-		toItem.setTitle(Accounter.messages().to());
+		toItem.setTitle(messages.to());
 		toItem.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override
@@ -86,7 +86,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 			}
 		});
-		updateButton = new Button(Accounter.messages().update());
+		updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -100,12 +100,12 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 				reportRequest();
 
-				setSelectedDateRange(Accounter.messages().custom());
+				setSelectedDateRange(messages.custom());
 			}
 
 		});
 
-		Button printButton = new Button(Accounter.messages().print());
+		Button printButton = new Button(messages.print());
 
 		printButton.addClickHandler(new ClickHandler() {
 

@@ -12,7 +12,7 @@ public class GeneralSettingsAction extends Action {
 
 	public GeneralSettingsAction() {
 		super();
-		this.catagory = Accounter.messages().settings();
+		this.catagory = messages.settings();
 	}
 
 	/**

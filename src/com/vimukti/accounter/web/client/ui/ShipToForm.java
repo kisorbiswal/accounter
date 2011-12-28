@@ -13,7 +13,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -25,6 +27,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
  */
 
 public class ShipToForm extends DynamicForm {
+	protected static AccounterMessages messages=Global.get().messages();
+	
 	LinkedHashMap<Integer, ClientAddress> allAddresses;
 	ClientAddress toBeShown = null;
 	public SelectCombo businessSelect;
@@ -32,19 +36,19 @@ public class ShipToForm extends DynamicForm {
 
 	public ShipToForm(Set<ClientAddress> addresses) {
 
-		Label l1 = new Label(Accounter.messages().enterAddress());
+		Label l1 = new Label(messages.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
-		businessSelect = new SelectCombo(Accounter.messages().shipTo());
+		businessSelect = new SelectCombo(messages.shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.messages().gwtListBox());
+				messages.gwtListBox());
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());
-		addressTypes.remove(Accounter.messages().billTo());
+		addressTypes.remove(messages.billTo());
 		businessSelect.initCombo(addressTypes);
 		businessSelect.setDefaultToFirstOption(true);
 
@@ -101,7 +105,7 @@ public class ShipToForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-		setGroupTitle(Accounter.messages().addresses());
+		setGroupTitle(messages.addresses());
 		setNumCols(2);
 		// setFields(businessSelect, addrArea);
 		setFields(businessSelect, addrArea);
@@ -178,7 +182,7 @@ public class ShipToForm extends DynamicForm {
 
 					addrArea.setValue(getValidAddress(address));
 
-					businessSelect.setSelected(Accounter.messages().shipTo());
+					businessSelect.setSelected(messages.shipTo());
 				}
 
 			}

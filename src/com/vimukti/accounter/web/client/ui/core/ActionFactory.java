@@ -12,7 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
@@ -234,7 +233,7 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorsListAction;
 
 public class ActionFactory {
 
-	public static AccounterMessages messages = Accounter.messages();
+	public static AccounterMessages messages = Global.get().messages();
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
 		return new GeneralSettingsAction();
@@ -691,7 +690,7 @@ public class ActionFactory {
 		} else if (vendor) {
 			return new ItemsAction(Global.get().vendor());
 		} else
-			return new ItemsAction(Accounter.messages().bothCustomerAndVendor(
+			return new ItemsAction(messages.bothCustomerAndVendor(
 					Global.get().Customer(), Global.get().Vendor()));
 	}
 

@@ -11,25 +11,25 @@
 // */
 //public enum CustomButtonType {
 //
-//	SAVE_AND_CLOSE(Accounter.messages().saveAndClose()),
+//	SAVE_AND_CLOSE(messages.saveAndClose()),
 //
-//	SAVE_AND_NEW(Accounter.messages().saveAndNew()),
+//	SAVE_AND_NEW(messages.saveAndNew()),
 //
-//	REGISTER(Accounter.messages().register()),
+//	REGISTER(messages.register()),
 //
-//	ADD(Accounter.messages().add()),
+//	ADD(messages.add()),
 //
-//	EDIT(Accounter.messages().edit()),
+//	EDIT(messages.edit()),
 //
-//	DELETE(Accounter.messages().delete()),
+//	DELETE(messages.delete()),
 //
-//	REVIEW_JOURNAL(Accounter.messages().reviewJournal()),
+//	REVIEW_JOURNAL(messages.reviewJournal()),
 //
-//	CANCEL(Accounter.messages().cancel()),
+//	CANCEL(messages.cancel()),
 //
-//	APPROVE(Accounter.messages().approve()),
+//	APPROVE(messages.approve()),
 //
-//	SUBMIT(Accounter.messages().submit());
+//	SUBMIT(messages.submit());
 //
 //	private String title;
 //

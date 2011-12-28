@@ -76,10 +76,10 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 		if (payeeId == 0) {
 			if (isVendor) {
-				Accounter.showError(Accounter.messages().pleaseSelect(
+				Accounter.showError(messages.pleaseSelect(
 						Global.get().Vendor()));
 			} else {
-				Accounter.showError(Accounter.messages().pleaseSelect(
+				Accounter.showError(messages.pleaseSelect(
 						Global.get().Customer()));
 			}
 		} else {
@@ -101,10 +101,10 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void exportToCsv() {
 		if (payeeId == 0) {
 			if (isVendor) {
-				Accounter.showError(Accounter.messages().pleaseSelect(
+				Accounter.showError(messages.pleaseSelect(
 						Global.get().Vendor()));
 			} else {
-				Accounter.showError(Accounter.messages().pleaseSelect(
+				Accounter.showError(messages.pleaseSelect(
 						Global.get().Customer()));
 			}
 		} else {
@@ -173,7 +173,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return Accounter.messages().all();
+		return messages.all();
 	}
 	
 	

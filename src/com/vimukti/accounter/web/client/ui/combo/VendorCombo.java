@@ -62,7 +62,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog(Accounter.messages()
+		QuickAddDialog dialog = new QuickAddDialog(messages
 				.newPayee(Global.get().vendor()));
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this));

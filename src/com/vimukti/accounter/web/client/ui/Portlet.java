@@ -21,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.widgets.WorkbenchPanel;
  */
 
 public abstract class Portlet extends WorkbenchPanel {
-	protected static AccounterMessages messages = Accounter.messages();
+	protected static AccounterMessages messages = Global.get().messages();
 
 	public static final int TYPE_I_OWE = 1;
 	public static final int TYPE_OWE_TO_ME = 2;

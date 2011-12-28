@@ -40,7 +40,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 					@Override
 					public void onException(AccounterException exception) {
-						grid.addEmptyMessage(messages().noRecordsToShow());
+						grid.addEmptyMessage(messages.noRecordsToShow());
 					}
 
 					@Override
@@ -50,7 +50,7 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 						if (result != null && !result.isEmpty()) {
 							grid.addRecords(result);
 						} else {
-							grid.addEmptyMessage(messages().noRecordsToShow());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 						}
 						grid.sort(10, false);
 					}
@@ -59,13 +59,13 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().stockAdjustments();
+		return messages.stockAdjustments();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
+				.equalsIgnoreCase(messages.readOnly()))
 			return ActionFactory.getStockAdjustmentAction();
 		else
 			return null;
@@ -89,9 +89,9 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -99,16 +99,16 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
-			return Accounter.messages().addaNew(
-					Accounter.messages().stockAdjustment());
+				.equalsIgnoreCase(messages.readOnly()))
+			return messages.addaNew(
+					messages.stockAdjustment());
 		else
 			return "";
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().stockAdjustments();
+		return messages.stockAdjustments();
 	}
 
 }

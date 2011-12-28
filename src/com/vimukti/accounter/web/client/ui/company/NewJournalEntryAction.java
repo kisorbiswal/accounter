@@ -13,13 +13,13 @@ public class NewJournalEntryAction extends Action {
 
 	public NewJournalEntryAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	public NewJournalEntryAction( ClientJournalEntry journalEntry,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

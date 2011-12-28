@@ -12,7 +12,7 @@ public class WarehouseTransferListAction extends Action<ClientStockTransfer> {
 
 	public WarehouseTransferListAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	@Override

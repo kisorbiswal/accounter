@@ -25,7 +25,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	private String itemname;
 
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
-		super(Accounter.messages().selectItemType(), Accounter.messages()
+		super(messages.selectItemType(), messages
 				.selectOneOfItem());
 		this.forCustomer = isGeneratedFromCustomer;
 		createControls();
@@ -46,19 +46,17 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		boolean sellProducts = company.getPreferences().isSellProducts();
 		if (getPreferences().isInventoryEnabled()) {
 			if (sellProducts && sellServices) {
-				typeRadio.setValueMap(Accounter.messages().serviceItem(),
-						Accounter.messages().inventoryItem(), Accounter
-								.messages().nonInventoryItem());
-				typeRadio.setDefaultValue(Accounter.messages().serviceItem());
+				typeRadio.setValueMap(messages.serviceItem(),
+						messages.inventoryItem(), messages.nonInventoryItem());
+				typeRadio.setDefaultValue(messages.serviceItem());
 			} else if (sellProducts) {
-				typeRadio.setValueMap(Accounter.messages().inventoryItem(),
-						Accounter.messages().nonInventoryItem());
-				typeRadio.setDefaultValue(Accounter.messages().inventoryItem());
+				typeRadio.setValueMap(messages.inventoryItem(),
+						messages.nonInventoryItem());
+				typeRadio.setDefaultValue(messages.inventoryItem());
 			}
 		} else {
-			typeRadio.setValueMap(Accounter.messages().serviceItem(), Accounter
-					.messages().productItem());
-			typeRadio.setDefaultValue(Accounter.messages().serviceItem());
+			typeRadio.setValueMap(messages.serviceItem(), messages.productItem());
+			typeRadio.setDefaultValue(messages.serviceItem());
 		}
 
 		typeForm = new DynamicForm();
@@ -84,28 +82,28 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		if (typeRadio.getValue() != null) {
 			String radio = typeRadio.getValue().toString();
 
-			if (radio.equals(Accounter.messages().serviceItem())) {
+			if (radio.equals(messages.serviceItem())) {
 				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_SERVICE);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.messages().inventoryItem())) {
+			} else if (radio.equals(messages.inventoryItem())) {
 				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_INVENTORY_PART);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.messages().nonInventoryItem())) {
+			} else if (radio.equals(messages.nonInventoryItem())) {
 				NewItemAction action = new NewItemAction( forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.setCallback(getCallback());
 				action.setItemText(itemname);
 				action.run();
-			} else if (radio.equals(Accounter.messages().productItem())) {
+			} else if (radio.equals(messages.productItem())) {
 				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);

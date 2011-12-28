@@ -29,7 +29,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 	private UnitsTable unitsTable;
 	private Button addUnitButton;
 	private DynamicForm addMeasurmentForm;
-	private AccounterMessages settingsMessages = Accounter.messages();
+	private AccounterMessages settingsMessages = messages;
 
 	public AddMeasurementView() {
 

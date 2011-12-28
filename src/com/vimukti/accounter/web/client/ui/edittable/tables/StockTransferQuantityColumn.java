@@ -63,8 +63,8 @@ public class StockTransferQuantityColumn extends
 		}
 		popup.clear();
 		FlexTable table = new FlexTable();
-		Label valueLabel = new Label(Accounter.messages().value());
-		Label unitLabel = new Label(Accounter.messages().unit());
+		Label valueLabel = new Label(messages.value());
+		Label unitLabel = new Label(messages.unit());
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
 				row.getQuantity().getUnit());
@@ -146,7 +146,7 @@ public class StockTransferQuantityColumn extends
 
 	@Override
 	protected String getColumnName() {
-		return Accounter.messages().transferQuantity();
+		return messages.transferQuantity();
 	}
 
 }

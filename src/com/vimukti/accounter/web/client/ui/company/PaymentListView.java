@@ -37,11 +37,11 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	public static final int TYPE_VENDOR_CHECKS = 2;
 
 	public PaymentListView() {
-		super(Accounter.messages().notIssued());
+		super(messages.notIssued());
 	}
 
 	public PaymentListView(int checkType) {
-		super(Accounter.messages().notIssued());
+		super(messages.notIssued());
 		this.checkType = checkType;
 	}
 
@@ -62,20 +62,20 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (checkType == 0) {
-			return messages().addaNewPayment();
+			return messages.addaNewPayment();
 		} else {
-			return messages().writeCheck();
+			return messages.writeCheck();
 		}
 	}
 
 	@Override
 	protected String getListViewHeading() {
 		if (checkType == 0) {
-			return messages().paymentsList();
+			return messages.paymentsList();
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
-			return messages().payeeChecks(Global.get().Customer());
+			return messages.payeeChecks(Global.get().Customer());
 		} else {
-			return messages().payeeChecks(Global.get().Vendor());
+			return messages.payeeChecks(Global.get().Vendor());
 		}
 	}
 
@@ -89,7 +89,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		grid.removeAllRecords();
 		grid.setRecords(result);
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
@@ -113,10 +113,10 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	protected java.util.List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().notIssued());
-		listOfTypes.add(messages().issued());
-		listOfTypes.add(messages().Voided());
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.notIssued());
+		listOfTypes.add(messages.issued());
+		listOfTypes.add(messages.Voided());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
@@ -161,7 +161,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().payments();
+		return messages.payments();
 	}
 
 	@Override

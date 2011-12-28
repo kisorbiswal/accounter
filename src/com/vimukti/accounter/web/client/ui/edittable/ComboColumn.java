@@ -38,9 +38,8 @@ public abstract class ComboColumn<T, C extends IAccounterCore> extends
 
 			@Override
 			public void onAddNew(final String text) {
-				NewItemDialog dialog = new NewItemDialog(Accounter.messages()
-						.addNew(""), Accounter.messages().Thenameyouentered(
-						text)) {
+				NewItemDialog dialog = new NewItemDialog(messages.addNew(""),
+						messages.Thenameyouentered(text)) {
 					@Override
 					protected boolean onOK() {
 						displayTable.addNewItem(text);

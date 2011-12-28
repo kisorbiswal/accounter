@@ -26,11 +26,11 @@ public class NewQuoteAction extends Action {
 		this.type = type;
 
 		if (type == ClientEstimate.QUOTES) {
-			title = Accounter.messages().quote();
+			title = messages.quote();
 		} else if (type == ClientEstimate.CHARGES) {
-			title = Accounter.messages().charge();
+			title = messages.charge();
 		} else if (type == ClientEstimate.CREDITS) {
-			title = Accounter.messages().credit();
+			title = messages.credit();
 		}
 
 	}
@@ -58,13 +58,13 @@ public class NewQuoteAction extends Action {
 					type = ((ClientEstimate) data).getEstimateType();
 					switch (type) {
 					case ClientEstimate.QUOTES:
-						title = Accounter.messages().quote();
+						title = messages.quote();
 						break;
 					case ClientEstimate.CHARGES:
-						title = Accounter.messages().charge();
+						title = messages.charge();
 						break;
 					case ClientEstimate.CREDITS:
-						title = Accounter.messages().credit();
+						title = messages.credit();
 						break;
 					default:
 						break;
@@ -120,11 +120,11 @@ public class NewQuoteAction extends Action {
 	@Override
 	public String getText() {
 		if (type == ClientEstimate.QUOTES) {
-			title = Accounter.messages().newQuote();
+			title = messages.newQuote();
 		} else if (type == ClientEstimate.CHARGES) {
-			title = Accounter.messages().newCharge();
+			title = messages.newCharge();
 		} else if (type == ClientEstimate.CREDITS) {
-			title = Accounter.messages().newCredit();
+			title = messages.newCredit();
 		}
 		return title;
 	}

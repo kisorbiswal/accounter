@@ -14,7 +14,7 @@ public class ARAgingSummaryReportAction extends Action<DummyDebitor> {
 
 	public ARAgingSummaryReportAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 
 	}
 

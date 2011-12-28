@@ -37,16 +37,16 @@ public class QuickAddDialog extends CustomDialog {
 		Label nameLabel = new Label();
 		textBox = new TextBoxItem();
 
-		nameLabel.setText(Accounter.messages().name());
+		nameLabel.setText(messages.name());
 		horizontalPanel.getElement().getStyle().setMargin(5, Unit.PX);
 		horizontalPanel.setSpacing(6);
 
 		horizontalPanel.add(nameLabel);
 		horizontalPanel.add(textBox);
 
-		quickAddBtn = new Button(Accounter.messages().QuickAdd());
-		Button addAllInfoBtn = new Button(Accounter.messages().AddAllInfo());
-		Button cancelBtn = new Button(Accounter.messages().cancel());
+		quickAddBtn = new Button(messages.QuickAdd());
+		Button addAllInfoBtn = new Button(messages.AddAllInfo());
+		Button cancelBtn = new Button(messages.cancel());
 
 		quickAddBtn.addClickHandler(new ClickHandler() {
 

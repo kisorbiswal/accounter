@@ -52,8 +52,8 @@ public class WareHouseItemsListGrid extends BaseListGrid<ClientItemStatus> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().itemName(),
-				Accounter.messages().availableQty() };
+		return new String[] { messages.itemName(),
+				messages.availableQty() };
 	}
 
 }

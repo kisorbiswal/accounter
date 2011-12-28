@@ -25,8 +25,7 @@ public class CreditRatingListAction extends Action {
 			@Override
 			public void onCreated() {
 				CreditRatingListDialog dialog = new CreditRatingListDialog(
-						Accounter.messages().creditRatingList(), Accounter
-								.messages().toAddCreditRating());
+						messages.creditRatingList(), messages.toAddCreditRating());
 				dialog.show();
 
 			}

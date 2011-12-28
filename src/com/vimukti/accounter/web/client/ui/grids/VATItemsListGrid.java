@@ -61,11 +61,11 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().active(),
-				Accounter.messages().product(),
-				Accounter.messages().vatAgency(),
-				Accounter.messages().description(),
-				Accounter.messages().rate(), "" };
+		return new String[] { messages.active(),
+				messages.product(),
+				messages.vatAgency(),
+				messages.description(),
+				messages.rate(), "" };
 	}
 
 	/*

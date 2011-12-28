@@ -19,7 +19,7 @@ public class RecurringsListAction extends Action<ClientRecurringTransaction> {
 
 	public RecurringsListAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 	private ClientCurrency currency;
 
 	public CustomerWidgetGrid() {
-		super(Accounter.messages().noDebitorstoShow());
+		super(messages.noDebitorstoShow());
 		currency = Accounter.getCompany().getPrimaryCurrency();
 	}
 
@@ -62,11 +62,11 @@ public class CustomerWidgetGrid extends TreeGrid<DummyDebitor> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "", Accounter.messages().dayszeroto30(),
-				Accounter.messages().days30to60(),
-				Accounter.messages().days60to90(),
-				Accounter.messages().older(),
-				Accounter.messages().totalBalance() };
+		return new String[] { "", messages.dayszeroto30(),
+				messages.days30to60(),
+				messages.days60to90(),
+				messages.older(),
+				messages.totalBalance() };
 	}
 
 	@Override

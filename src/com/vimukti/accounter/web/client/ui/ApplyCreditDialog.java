@@ -25,19 +25,19 @@
 //
 //public class ApplyCreditDialog extends BaseDialog<ClientCustomer> {
 //
-//	private static final String ATTR_CREDIT_AMOUNT = Accounter.messages()
+//	private static final String ATTR_CREDIT_AMOUNT = messages
 //			.credit();
 //
-//	private final String ATTR_DATE = Accounter.messages().date();
+//	private final String ATTR_DATE = messages.date();
 //
-//	private final String ATTR_MEMO = Accounter.messages().memo();
+//	private final String ATTR_MEMO = messages.memo();
 //
-//	private final String ATTR_BALANCE = Accounter.messages().balance();
+//	private final String ATTR_BALANCE = messages.balance();
 //
-//	private final String ATTR_AMOUNT_TO_USE = Accounter.messages()
+//	private final String ATTR_AMOUNT_TO_USE = messages
 //			.amountToUse();
 //
-//	private final String ATTR_ID = Accounter.messages().id();
+//	private final String ATTR_ID = messages.id();
 //	AmountField amtDueText, totCredAmtText, cashDiscText, totBalText,
 //			adjPayText, totAmtUseText;
 //	DialogGrid grid;
@@ -57,7 +57,7 @@
 //	private IGenericCallback<String> callback;
 //
 //	public ApplyCreditDialog() {
-//		super(Accounter.messages().applyCreditsandPayments(), "");
+//		super(messages.applyCreditsandPayments(), "");
 //		createControls();
 //		center();
 //	}
@@ -69,7 +69,7 @@
 //			int key,
 //			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 //			IGenericCallback<String> callback) {
-//		super(Accounter.messages().applyCreditsandPayments(), "");
+//		super(messages.applyCreditsandPayments(), "");
 //		this.key = key;
 //		this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 //		this.amountDue = amountDue;
@@ -81,38 +81,38 @@
 //	}
 //
 //	private void createControls() {
-//		Label lab1 = new Label(Accounter.messages().applyCreditsandPayments());
+//		Label lab1 = new Label(messages.applyCreditsandPayments());
 //		lab1.setWidth("100%");
 //		// lab1.setAutoHeight();
 //
-//		amtDueText = new AmountField(Accounter.messages().amountDue(), this,getBaseCurrency());
+//		amtDueText = new AmountField(messages.amountDue(), this,getBaseCurrency());
 //		amtDueText.setColSpan(1);
 //		amtDueText.setValue(amountDue);
 //		amtDueText.setDisabled(true);
 //
-//		totCredAmtText = new AmountField(Accounter.messages()
+//		totCredAmtText = new AmountField(messages
 //				.totalCreditAmount(), this,getBaseCurrency());
 //		totCredAmtText.setColSpan(1);
 //		totCredAmtText.setDisabled(true);
 //
-//		cashDiscText = new AmountField(Accounter.messages().cashDiscount(),
+//		cashDiscText = new AmountField(messages.cashDiscount(),
 //				this,getBaseCurrency());
 //		cashDiscText.setColSpan(1);
 //		cashDiscText.setValue(cashDiscount);
 //		cashDiscText.setDisabled(true);
 //
-//		totBalText = new AmountField(Accounter.messages().totalBalance(), this,getBaseCurrency());
+//		totBalText = new AmountField(messages.totalBalance(), this,getBaseCurrency());
 //		totBalText.setColSpan(1);
 //		totBalText.setDisabled(true);
 //
-//		adjPayText = new AmountField(Accounter.messages().adjustedPayment(),
+//		adjPayText = new AmountField(messages.adjustedPayment(),
 //				this,getBaseCurrency());
 //		adjPayText.setColSpan(1);
 //		adjPayText.setDisabled(true);
 //		adjPayText.setValue(amountAsString(DataUtils.getBalance(amountDue)
 //				- DataUtils.getBalance(cashDiscount)));
 //
-//		totAmtUseText = new AmountField(Accounter.messages()
+//		totAmtUseText = new AmountField(messages
 //				.totalAmountToUse(), this,getBaseCurrency());
 //		totAmtUseText.setColSpan(1);
 //		totAmtUseText.setDisabled(true);
@@ -234,7 +234,7 @@
 //		//
 //		// });
 //		// okbtn.setAutoFit(true);
-//		okbtn.setTitle(Accounter.messages().adjust());
+//		okbtn.setTitle(messages.adjust());
 //		// addInputDialogHandler(new InputDialogHandler() {
 //		//
 //		// public void onCancel() {
@@ -314,11 +314,11 @@
 //
 //	protected void setGridFields() {
 //		grid.addColumn(ListGrid.COLUMN_TYPE_CHECK, "");
-//		grid.addColumns(new String[] { Accounter.messages().date(),
-//				Accounter.messages().memo(),
-//				Accounter.messages().creditAmount(),
-//				Accounter.messages().balance(),
-//				Accounter.messages().amountToUse() });
+//		grid.addColumns(new String[] { messages.date(),
+//				messages.memo(),
+//				messages.creditAmount(),
+//				messages.balance(),
+//				messages.amountToUse() });
 //	}
 //
 //	@Override

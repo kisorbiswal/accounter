@@ -90,7 +90,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(this, Accounter.messages()
+		itemGroupDg = new ItemGroupDialog(this, messages
 				.itemGroup(), "", itemGroup);
 
 		itemGroupDg.show();
@@ -115,7 +115,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name(),
+		return new String[] { messages.name(),
 		// FinanceApplication.constants().price()
 		};
 	}
@@ -139,7 +139,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		} else {
 			ClientItemGroup itemGroupByName = company.getItemGroupByName(name);
 			if (itemGroupByName != null) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.anItemGroupAlreadyExistswiththisname());
 			}
 		}

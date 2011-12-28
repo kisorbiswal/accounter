@@ -18,14 +18,14 @@ public class CreditCardChargeAction extends Action {
 
 	public CreditCardChargeAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 
 	}
 
 	public CreditCardChargeAction(ClientCreditCardCharge creditCardCharge,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	@Override

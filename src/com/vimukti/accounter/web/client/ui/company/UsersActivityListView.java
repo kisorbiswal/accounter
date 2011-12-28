@@ -48,11 +48,11 @@ public class UsersActivityListView extends BaseView {
 		mainPanel.setWidth("100%");
 		customizationDialog = new ActivityCustomizationDialog(
 				messages.customize());
-		titleItem = new Label(Accounter.messages().usersActivityLogTitle());
-		titleItem.setStyleName(Accounter.messages().labelTitle());
+		titleItem = new Label(messages.usersActivityLogTitle());
+		titleItem.setStyleName(messages.labelTitle());
 
-		fromdate = new DateField(Accounter.messages().fromDate());
-		toDate = new DateField(Accounter.messages().endDate());
+		fromdate = new DateField(messages.fromDate());
+		toDate = new DateField(messages.endDate());
 		fromdate.setEnteredDate(new ClientFinanceDate());
 		toDate.setEnteredDate(new ClientFinanceDate());
 
@@ -64,7 +64,7 @@ public class UsersActivityListView extends BaseView {
 				customiseActivityLog();
 			}
 		});
-		updateButton = new Button(Accounter.messages().update());
+		updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override

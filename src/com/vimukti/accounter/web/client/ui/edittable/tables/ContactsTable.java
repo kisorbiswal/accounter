@@ -52,7 +52,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(Accounter.messages().primary());
+				Label columnHeader = new Label(messages.primary());
 				return columnHeader;
 			}
 
@@ -83,7 +83,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().contactName();
+				return messages.contactName();
 			}
 		});
 
@@ -106,7 +106,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().title();
+				return messages.title();
 			}
 		});
 
@@ -119,7 +119,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidPhone(value))
 					row.setBusinessPhone(value);
 				else {
-					Accounter.showError(Accounter.messages()
+					Accounter.showError(messages
 							.invalidBusinessPhoneVal());
 					row.setBusinessPhone("");
 				}
@@ -137,7 +137,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().businessPhone();
+				return messages.businessPhone();
 			}
 
 			@Override
@@ -170,7 +170,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 				if (UIUtils.isValidEmail(value))
 					row.setEmail(value);
 				else {
-					Accounter.showError(Accounter.messages().invalidEmail());
+					Accounter.showError(messages.invalidEmail());
 					row.setEmail("");
 				}
 			}
@@ -187,7 +187,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().email();
+				return messages.email();
 			}
 
 			@Override
@@ -279,7 +279,7 @@ public abstract class ContactsTable extends EditTable<ClientContact> {
 										.getBusinessPhone()
 										.equals(getAllRows().get(j)
 												.getBusinessPhone()))
-							result.addError(this, Accounter.messages()
+							result.addError(this, messages
 									.youHaveEnteredduplicateContacts());
 					}
 				}

@@ -90,10 +90,10 @@ public class ItemsGrid extends BaseListGrid<ClientTransactionItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { Accounter.messages().name(),
-				Accounter.messages().quantity(),
-				Accounter.messages().unitPrice(),
-				Accounter.messages().total() };
+		return new String[] { messages.name(),
+				messages.quantity(),
+				messages.unitPrice(),
+				messages.total() };
 	}
 
 	@Override

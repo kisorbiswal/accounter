@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditColumn<R> {
@@ -10,6 +12,8 @@ public abstract class EditColumn<R> {
 	private EditTable<R> table;
 	private Label columnHeader;
 
+	protected AccounterMessages messages=Global.get().messages();
+	
 	public boolean onChange(R row) {
 		return false;
 

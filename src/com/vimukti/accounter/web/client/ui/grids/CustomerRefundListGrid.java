@@ -67,7 +67,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		return new String[] { messages.paymentDate(), messages.paymentNo(),
 				messages.status(), messages.issueDate(), messages.name(),
 				messages.paymentMethod(), messages.amountPaid(),
@@ -109,7 +109,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
 		if (col == 7) {
-			msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -157,7 +157,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
+					if (!viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

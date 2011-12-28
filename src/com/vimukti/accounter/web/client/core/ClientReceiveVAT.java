@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientReceiveVAT extends ClientTransaction {
 
 	/**
@@ -197,5 +199,15 @@ public class ClientReceiveVAT extends ClientTransaction {
 
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
+	}
+
+	@Override
+	public String getName() {
+		return Global.get().messages().receiveTAX();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getName();
 	}
 }

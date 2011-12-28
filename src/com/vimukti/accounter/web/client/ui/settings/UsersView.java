@@ -75,7 +75,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 					@Override
 					public void onException(AccounterException caught) {
 						usersListGrid.removeLoadingImage();
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.failedtoloadusersList());
 					}
 				});
@@ -93,7 +93,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(Accounter.messages()
+		generalSettingsHTML = new HTML(messages
 				.generalSettingsLabel());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
@@ -120,12 +120,12 @@ public class UsersView extends BaseView<ClientUserInfo> {
 				ActionFactory.getGeneralSettingsAction().run(null, false);
 			}
 		});
-		titleLabel = new Label(Accounter.messages().usersTitle());
+		titleLabel = new Label(messages.usersTitle());
 
 		titleLabel.removeStyleName("gwt-Label");
-		titleLabel.setStyleName(Accounter.messages().labelTitle());
+		titleLabel.setStyleName(messages.labelTitle());
 
-		inviteUserButton = new Button(Accounter.messages().inviteUser());
+		inviteUserButton = new Button(messages.inviteUser());
 		inviteUserButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -134,8 +134,8 @@ public class UsersView extends BaseView<ClientUserInfo> {
 			}
 		});
 		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getUsersPanel(), Accounter.messages().users());
-		tabPanel.add(getRecentActivityPanel(), Accounter.messages()
+		tabPanel.add(getUsersPanel(), messages.users());
+		tabPanel.add(getRecentActivityPanel(), messages
 				.recentActivity());
 		tabPanel.selectTab(0);
 
@@ -217,7 +217,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().users();
+		return messages.users();
 	}
 
 	@Override

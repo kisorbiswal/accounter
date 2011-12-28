@@ -133,11 +133,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText
-								.setValue(Accounter.messages().toBePrinted());
+								.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(Accounter.messages()
+							checkNoText.setValue(messages
 									.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
@@ -151,13 +151,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		});
 
 		checkNoText = new TextItem(messages.chequeNo());
-		checkNoText.setValue(Accounter.messages().toBePrinted());
+		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-								.messages().check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -297,7 +296,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(Accounter.messages().cheque())) {
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
 				printCheck.setDisabled(false);
 				checkNoText.setDisabled(false);
 			} else {
@@ -458,8 +457,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		if (transaction.getCheckNumber() != null) {
 			if (transaction.getCheckNumber().equals(
-					Accounter.messages().toBePrinted())) {
-				checkNoText.setValue(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				checkNoText.setValue(messages.toBePrinted());
 				printCheck.setValue(true);
 			} else {
 				checkNoText.setValue(transaction.getCheckNumber());
@@ -664,8 +663,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		String value;
 		if (!isInViewMode()) {
 			if (checkNoText.getValue().equals(
-					Accounter.messages().toBePrinted())) {
-				value = String.valueOf(Accounter.messages().toBePrinted());
+					messages.toBePrinted())) {
+				value = String.valueOf(messages.toBePrinted());
 
 			} else
 				value = String.valueOf(checkNoText.getValue());
@@ -673,10 +672,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			String checknumber;
 			checknumber = this.checkNumber;
 			if (checknumber == null) {
-				checknumber = Accounter.messages().toBePrinted();
+				checknumber = messages.toBePrinted();
 			}
-			if (checknumber.equals(Accounter.messages().toBePrinted()))
-				value = Accounter.messages().toBePrinted();
+			if (checknumber.equals(messages.toBePrinted()))
+				value = messages.toBePrinted();
 			else
 				value = String.valueOf(checknumber);
 		}
@@ -754,7 +753,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		taxAgencyCombo.setDisabled(isInViewMode());
 		payFromAccCombo.setDisabled(isInViewMode());
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
-			checkNoText.setValue(Accounter.messages().toBePrinted());
+			checkNoText.setValue(messages.toBePrinted());
 		}
 		super.onEdit();
 

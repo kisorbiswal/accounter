@@ -33,7 +33,7 @@
 //
 //	public FinanceDashboard() {
 //		dashboard = this;
-//		dashboardPreference = Accounter.messages()
+//		dashboardPreference = messages
 //				.welcomeBankingSummary();
 //		/*
 //		 * FinanceApplication.getUser().getUserPreferences()
@@ -209,13 +209,13 @@
 //
 //	public void getAddableWidgets(String[] widgetOnSectionPage) {
 //		String[] totalWidget = {
-//				Accounter.messages().welcome(),
-//				Accounter.messages().bankingSummary(),
-//				Accounter.messages().profitAndLoss(),
-//				Accounter.messages().creditOverview(),
-//				Accounter.messages().debitOverview(),
-//				Accounter.messages().latestQuote(),
-//				Accounter.messages().expenses() };
+//				messages.welcome(),
+//				messages.bankingSummary(),
+//				messages.profitAndLoss(),
+//				messages.creditOverview(),
+//				messages.debitOverview(),
+//				messages.latestQuote(),
+//				messages.expenses() };
 //
 //		boolean isAvailable = false;
 //

@@ -143,7 +143,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = Accounter.messages();
+		messages = messages;
 		if (type == 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
@@ -182,11 +182,11 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 		String msg = null;
 		if (type == 0) {
 			if (col == 9 && !obj.isVoided()) {
-				msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+				msg = messages.doyouwanttoVoidtheTransaction();
 			}
 		} else {
 			if (col == 7 && !obj.isVoided()) {
-				msg = Accounter.messages().doyouwanttoVoidtheTransaction();
+				msg = messages.doyouwanttoVoidtheTransaction();
 			}
 		}
 		// else if (col == 9) {
@@ -242,7 +242,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
+					if (!viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					obj.setVoided(true);

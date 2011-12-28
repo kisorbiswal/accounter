@@ -12,7 +12,7 @@ public class VATSummaryReportAction extends Action {
 
 	public VATSummaryReportAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

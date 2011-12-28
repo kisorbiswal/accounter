@@ -14,7 +14,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	public CustomerCombo(String title) {
 		super(title);
 		super
-				.setToolTip(Accounter.messages()
+				.setToolTip(messages
 						.selectWhichWeHaveInOurCompanyOrAddNew(
 								Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
@@ -23,7 +23,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 	public CustomerCombo(String title, boolean isAddNewRequire) {
 		super(title, isAddNewRequire, 1);
 		if (isAddNewRequire)
-			super.setToolTip(Accounter.messages()
+			super.setToolTip(messages
 					.selectWhichWeHaveInOurCompanyOrAddNew(
 							Global.get().Customer()));
 		initCombo(getCompany().getCustomers());
@@ -68,7 +68,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog(Accounter.messages().NewCustomer());
+		QuickAddDialog dialog = new QuickAddDialog(messages.NewCustomer());
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this));
 		dialog.show();

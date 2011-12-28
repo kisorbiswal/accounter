@@ -13,7 +13,7 @@ public class CheckDetailReportAction extends Action {
 
 	public CheckDetailReportAction(String string) {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

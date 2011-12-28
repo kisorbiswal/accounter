@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientSalesOrder extends ClientTransaction {
 
 	/**
@@ -374,5 +376,15 @@ public class ClientSalesOrder extends ClientTransaction {
 		salesOrder.transactionReceivePayment = transactionReceivePayments;
 
 		return salesOrder;
+	}
+
+	@Override
+	public String getName() {
+		return Global.get().messages().salesOrder();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getName();
 	}
 }

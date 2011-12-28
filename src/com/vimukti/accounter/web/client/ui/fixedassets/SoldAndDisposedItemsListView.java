@@ -40,7 +40,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addNewAsset();
+		return messages.addNewAsset();
 	}
 
 	/*
@@ -50,7 +50,7 @@ public class SoldAndDisposedItemsListView extends
 	 */
 	@Override
 	protected String getListViewHeading() {
-		return messages().soldAndDisposedItems();
+		return messages.soldAndDisposedItems();
 	}
 
 	/*
@@ -107,9 +107,9 @@ public class SoldAndDisposedItemsListView extends
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -159,7 +159,7 @@ public class SoldAndDisposedItemsListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages().soldDisposedItems();
+		return messages.soldDisposedItems();
 	}
 
 }

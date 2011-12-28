@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.comet.AccounterCometSerializer;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -54,7 +55,7 @@ public class MainFinanceWindow extends VerticalPanel {
 	public static Map<String, Action> actions;
 	private CometClient cometClient;
 
-	AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private boolean shouldReconnect = true;
 
 	public MainFinanceWindow() {
@@ -659,7 +660,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getAccountRegisterAction().getHistoryToken(),
 				ActionFactory.getAccountRegisterAction());
 		actions.put("overDueInvoices",
-				ActionFactory.getInvoicesAction(Accounter.messages().overDue()));
+				ActionFactory.getInvoicesAction(messages.overDue()));
 		actions.put(ActionFactory.getUserDetailsAction().getHistoryToken(),
 				ActionFactory.getUserDetailsAction());
 		actions.put(ActionFactory.getPrepare1099MISCAction().getHistoryToken(),

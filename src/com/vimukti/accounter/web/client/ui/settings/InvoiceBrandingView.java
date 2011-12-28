@@ -94,7 +94,7 @@ public class InvoiceBrandingView<T> extends
 		titleLabel = new Label(messages.invoiceBranding());
 		titleLabel.removeStyleName("gwt-Label");
 
-		titleLabel.setStyleName(Accounter.messages().labelTitle());
+		titleLabel.setStyleName(messages.labelTitle());
 		generalSettingsHTML.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -386,7 +386,7 @@ public class InvoiceBrandingView<T> extends
 
 		subLayPanel = new VerticalPanel();
 
-		editButton = new Button(Accounter.messages().edit());
+		editButton = new Button(messages.edit());
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -397,7 +397,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		copyThemeButton = new Button(Accounter.messages().copy());
+		copyThemeButton = new Button(messages.copy());
 		copyThemeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -406,7 +406,7 @@ public class InvoiceBrandingView<T> extends
 			}
 		});
 
-		deleteButton = new Button(Accounter.messages().delete());
+		deleteButton = new Button(messages.delete());
 		deleteButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -538,7 +538,7 @@ public class InvoiceBrandingView<T> extends
 		}
 
 		if ((theme.getFileName() == null)) {
-			uploadPictureHtml = new HTML(Accounter.messages().uploadLogo());
+			uploadPictureHtml = new HTML(messages.uploadLogo());
 			uploadPictureHtml.setWidth("104px");
 			uploadPictureHtml.setVisible(true);
 			uploadPictureHtml.addMouseOverHandler(new MouseOverHandler() {
@@ -580,7 +580,7 @@ public class InvoiceBrandingView<T> extends
 			original.append("/>");
 			uploadPictureHtml = new HTML("" + original);
 		}
-		changeLogoHtml = new HTML(Accounter.messages().changeLogo());
+		changeLogoHtml = new HTML(messages.changeLogo());
 		changeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -606,7 +606,7 @@ public class InvoiceBrandingView<T> extends
 				changeLogo(theme);
 			}
 		});
-		removeLogoHtml = new HTML(Accounter.messages().removeLogo());
+		removeLogoHtml = new HTML(messages.removeLogo());
 		removeLogoHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -630,7 +630,7 @@ public class InvoiceBrandingView<T> extends
 			@Override
 			public void onClick(ClickEvent event) {
 				if (theme.getFileName() == null) {
-					Accounter.showInformation(Accounter.messages()
+					Accounter.showInformation(messages
 							.noLogoIsAdded());
 				} else {
 					removeLogo(theme);
@@ -706,7 +706,7 @@ public class InvoiceBrandingView<T> extends
 		buttonPanel2.setWidth("100%");
 
 		// optionsButton.setStyleName("ibutton-right-align") ;
-		if (theme.getName().equalsIgnoreCase(Accounter.messages().standard())) {
+		if (theme.getName().equalsIgnoreCase(messages.standard())) {
 			deleteButton.setVisible(false);
 			buttonPanel2.getElement().getParentElement()
 					.setAttribute("width", "12%");
@@ -798,12 +798,12 @@ public class InvoiceBrandingView<T> extends
 		if (object != null) {
 			super.saveSuccess(object);
 		} else
-			saveFailed(new AccounterException(Accounter.messages().failed()));
+			saveFailed(new AccounterException(messages.failed()));
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().invoiceBranding();
+		return messages.invoiceBranding();
 	}
 
 	@Override

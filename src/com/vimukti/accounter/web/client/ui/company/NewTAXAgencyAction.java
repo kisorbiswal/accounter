@@ -25,7 +25,7 @@ public class NewTAXAgencyAction extends Action<ClientTAXAgency> {
 		// ClientCompany.ACCOUNTING_TYPE_US)
 		// flag = messages.company();
 		// else
-		flag = Accounter.messages().tax();
+		flag = messages.tax();
 		this.catagory = flag;
 	}
 

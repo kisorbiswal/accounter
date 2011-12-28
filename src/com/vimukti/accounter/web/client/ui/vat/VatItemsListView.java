@@ -35,7 +35,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return messages().addaNewTaxItem();
+			return messages.addaNewTaxItem();
 		} else {
 			return "";
 		}
@@ -43,7 +43,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().vatItemsList();
+		return messages.vatItemsList();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
@@ -90,9 +90,9 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -134,7 +134,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().vatItemList();
+		return messages.vatItemList();
 	}
 
 }

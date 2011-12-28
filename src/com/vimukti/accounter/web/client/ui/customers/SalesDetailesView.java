@@ -90,47 +90,47 @@ public class SalesDetailesView extends AbstractView {
 
 		Label headerLabel = new Label();
 		headerLabel.setHeight("22px");
-		headerLabel.setText(Accounter.messages().salesOrderDetails());
+		headerLabel.setText(messages.salesOrderDetails());
 		headerLabel.setStylePrimaryName("headerlabel");
 		add(headerLabel);
 
 		flexTable.clear();
 
 		Label orderNumberLabel = new Label();
-		orderNumberLabel.setText(Accounter.messages().orderNumber());
+		orderNumberLabel.setText(messages.orderNumber());
 		orderNumberLabel.setStyleName("selectedview_labelstyle");
 
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(Accounter.messages().payeeOrderNumber(
+		conLabel.setText(messages.payeeOrderNumber(
 				Global.get().customer()));
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
 
 		Label dueDate = new Label();
-		dueDate.setText(Accounter.messages().dueDate());
+		dueDate.setText(messages.dueDate());
 		dueDate.setStyleName("selectedview_labelstyle");
 
 		dueDateField = new HTML();
 
 		Label statusLabel = new Label();
-		statusLabel.setText(Accounter.messages().status());
+		statusLabel.setText(messages.status());
 		statusLabel.setStyleName("selectedview_labelstyle");
 
 		statusField = new HTML();
 
 		Label itemsLabel = new Label();
-		itemsLabel.setText(Accounter.messages().items());
+		itemsLabel.setText(messages.items());
 		itemsLabel.setStyleName("selectedview_labelstyle");
 
 		Label billingAddress = new Label();
-		billingAddress.setText(Accounter.messages().billingAddress());
+		billingAddress.setText(messages.billingAddress());
 		billingAddress.setStyleName("selectedview_labelstyle");
 
 		Label shippingAddress = new Label();
-		shippingAddress.setText(Accounter.messages().shippingAddress());
+		shippingAddress.setText(messages.shippingAddress());
 		shippingAddress.setStyleName("selectedview_textarea_label");
 
 		billingAdress = new HTML("");
@@ -141,7 +141,7 @@ public class SalesDetailesView extends AbstractView {
 
 		itemsGrid = new ItemsGrid(false);
 		itemsGrid.init();
-		itemsGrid.addEmptyMessage(Accounter.messages().noProductstoshow());
+		itemsGrid.addEmptyMessage(messages.noProductstoshow());
 
 		flexTable.setWidget(1, 0, orderNumberLabel);
 		flexTable.setWidget(2, 0, conLabel);
@@ -173,7 +173,7 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(Accounter.messages()
+		flexTable.setWidget(0, 0, new HTML(messages
 				.selectATaskNotetoSeeTheDetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
@@ -201,11 +201,11 @@ public class SalesDetailesView extends AbstractView {
 				.getDateByCompanyType(new ClientFinanceDate(salesOrder
 						.getDueDate())));
 		if (salesOrder.getStatus() == 101)
-			statusField.setText(Accounter.messages().open());
+			statusField.setText(messages.open());
 		else if (salesOrder.getStatus() == 102)
-			statusField.setText(Accounter.messages().completed());
+			statusField.setText(messages.completed());
 		else if (salesOrder.getStatus() == 103)
-			statusField.setText(Accounter.messages().cancelled());
+			statusField.setText(messages.cancelled());
 		ClientAddress address = salesOrder.getBillingAddress();
 		if (address != null) {
 			billingAdress.setHTML(addressInfo(address));

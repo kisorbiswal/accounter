@@ -28,26 +28,26 @@ public class CountryRegionDialog extends BaseDialog {
 		form2 = new DynamicForm();
 
 		countryRegionNameItem = new TextItem();
-		countryRegionNameItem.setTitle(Accounter.messages()
+		countryRegionNameItem.setTitle(messages
 				.countryRegionName());
 		// countryRegionNameItem.setWidth("100%");
 		countryRegionNameItem.setRequired(true);
 
 		TextItem a3CodeItem = new TextItem();
-		a3CodeItem.setTitle(Accounter.messages().athreeCode());
+		a3CodeItem.setTitle(messages.athreeCode());
 		// a3CodeItem.setWrapTitle(false);
 
 		TextItem a2CodeItem = new TextItem();
-		a2CodeItem.setTitle(Accounter.messages().atwoCode());
+		a2CodeItem.setTitle(messages.atwoCode());
 		// a2CodeItem.setWrapTitle(false);
 
 		TextItem isoCodeItem = new TextItem();
-		isoCodeItem.setTitle(Accounter.messages().isoCode());
+		isoCodeItem.setTitle(messages.isoCode());
 		// isoCodeItem.setWrapTitle(false);
 
 		form1.setFields(countryRegionNameItem);
 		form2.setFields(a3CodeItem, a2CodeItem, isoCodeItem);
-		form2.setGroupTitle(Accounter.messages().countryRegionCode());
+		form2.setGroupTitle(messages.countryRegionCode());
 		form2.setIsGroup(true);
 
 		bodyLayout.add(form1);

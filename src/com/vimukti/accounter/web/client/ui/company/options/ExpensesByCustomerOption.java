@@ -30,7 +30,7 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 	@Override
 	public String getTitle() {
 
-		return Accounter.messages().ExpensesbyCustomer(Global.get().Customer());
+		return messages.ExpensesbyCustomer(Global.get().Customer());
 	}
 
 	@Override
@@ -43,16 +43,16 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().ExpensesbyCustomer(Global.get().Customer());
+		return messages.ExpensesbyCustomer(Global.get().Customer());
 	}
 
 	@Override
 	public void createControls() {
-		expenseandProductandServiceTrackingbyCustomer.setText(Accounter
-				.messages().Expenseandproductservicetrackingbycustomer(
-						Global.get().customer()));
+		expenseandProductandServiceTrackingbyCustomer.setText(messages
+				.Expenseandproductservicetrackingbycustomer(Global.get()
+						.customer()));
 		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
-		UseBillableExpenseCheckBox.setText(Accounter.messages()
+		UseBillableExpenseCheckBox.setText(messages
 				.Usebillableexpensesandproductsservices());
 		UseBillableExpenseCheckBox.setStyleName("bold");
 		;

@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -63,7 +62,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().budgetList();
+		return messages.budgetList();
 	}
 
 	@Override
@@ -74,12 +73,12 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addNewBudget();
+		return messages.addNewBudget();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return messages().payees(Global.get().messages().budgets());
+		return messages.payees(messages.budgets());
 	}
 
 	@Override
@@ -136,7 +135,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		getTotalLayout(grid);
 	}
@@ -162,7 +161,7 @@ public class BudgetListView extends BaseListView<ClientBudget> {
 			}
 		}
 		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 
 		getTotalLayout(grid);
 	}

@@ -109,7 +109,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 				colArray[index] = "Assessment Year";
 				break;
 			case 2:
-				colArray[index] = Accounter.messages().totalAmount();
+				colArray[index] = messages.totalAmount();
 				break;
 			case 3:
 				colArray[index] = "Chalan Period";

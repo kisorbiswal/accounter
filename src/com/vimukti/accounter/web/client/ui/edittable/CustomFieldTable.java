@@ -41,7 +41,7 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().name();
+				return messages.name();
 			}
 		});
 		this.addColumn(new CheckboxEditColumn<ClientCustomField>() {
@@ -101,7 +101,7 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 
 	private void showWarningDialog(final ClientCustomField row) {
 
-		Accounter.showWarning(Accounter.messages()
+		Accounter.showWarning(messages
 				.areYouwantToDeletecustomField(),
 
 		AccounterType.WARNING, new ErrorDialogHandler() {

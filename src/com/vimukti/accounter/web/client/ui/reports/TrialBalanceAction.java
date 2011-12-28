@@ -17,7 +17,7 @@ public class TrialBalanceAction extends Action {
 
 	public TrialBalanceAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

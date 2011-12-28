@@ -14,7 +14,7 @@ public class WareHouseItemsListAction extends Action<ClientItemStatus> {
 	public WareHouseItemsListAction(long wareHouse) {
 		super();
 		this.wareHouse = wareHouse;
-		this.catagory = Accounter.messages().wareHouse();
+		this.catagory = messages.wareHouse();
 	}
 
 	@Override

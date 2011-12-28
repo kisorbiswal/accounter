@@ -266,7 +266,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	// }
 	@Override
 	public String toString() {
-		return Accounter.messages().actionClassNameis(
+		return messages.actionClassNameis(
 				this.getAction().getText());
 	}
 

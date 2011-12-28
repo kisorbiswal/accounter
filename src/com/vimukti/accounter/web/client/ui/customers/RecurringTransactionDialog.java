@@ -20,7 +20,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -39,7 +38,6 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 public class RecurringTransactionDialog extends
 		BaseDialog<ClientRecurringTransaction> {
 
-	private final static AccounterMessages messages = Accounter.messages();
 	private TextItem nameField;
 	private DateField startDateField;
 	private DateField endDateField;
@@ -135,27 +133,27 @@ public class RecurringTransactionDialog extends
 
 		dynamicForms = new ArrayList<DynamicForm>();
 
-		nameField = new TextItem(Accounter.messages().name());
+		nameField = new TextItem(messages.name());
 		nameField.setRequired(true);
 		nameField.setHelpInformation(true);
 
-		daysInAdvanceField = new TextItem(Accounter.messages().daysInAdvance());
+		daysInAdvanceField = new TextItem(messages.daysInAdvance());
 		daysInAdvanceLabel = new LabelItem();
 		daysInAdvanceLabel.setShowTitle(false);
-		daysInAdvanceLabel.setValue(Accounter.messages().toCreate());
+		daysInAdvanceLabel.setValue(messages.toCreate());
 
-		notifyAboutCreatedTransactions = new CheckboxItem(Accounter.messages()
+		notifyAboutCreatedTransactions = new CheckboxItem(messages
 				.notifyAboutCreatedTransactions());
 
-		daysBeforeToRemind = new TextItem(Accounter.messages().remindMe());
+		daysBeforeToRemind = new TextItem(messages.remindMe());
 		daysBeforeLabel = new LabelItem();
 		daysBeforeLabel.setShowTitle(false);
-		daysBeforeLabel.setValue(Accounter.messages().daysBefore());
+		daysBeforeLabel.setValue(messages.daysBefore());
 		notificationForm = new DynamicForm();
 		notificationForm.setNumCols(4);
 		notificationForm.setFields(notifyAboutCreatedTransactions);
 
-		occurrencesField = new TextItem(Accounter.messages()
+		occurrencesField = new TextItem(messages
 				.endAfterSpecifiedOccurences());
 		occurrencesField.addBlurHandler(new BlurHandler() {
 
@@ -188,19 +186,19 @@ public class RecurringTransactionDialog extends
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 		ClientFinanceDate financeDate = new ClientFinanceDate(cal.getTime());
 
-		startDateField = new DateField(Accounter.messages().startDate());
+		startDateField = new DateField(messages.startDate());
 		startDateField.setRequired(true);
 		startDateField.setEnteredDate(financeDate);
 		startDateField.setHelpInformation(true);
 
-		endDateField = new DateField(Accounter.messages().endDate());
+		endDateField = new DateField(messages.endDate());
 		endDateField.setEnteredDate(financeDate);
 		endDateField.setHelpInformation(true);
 
 		alertWhenRangeEnded = new CheckboxItem(
 				messages.alertWhenRangeHasEnded());
 
-		actionComboField = new SelectCombo(Accounter.messages().action());
+		actionComboField = new SelectCombo(messages.action());
 		actionComboField.initCombo(getActionOptions());
 		actionComboField.setRequired(true);
 		actionComboField.setHelpInformation(true);
@@ -254,7 +252,7 @@ public class RecurringTransactionDialog extends
 
 	private void initRadioBtns() {
 		onSpecificWeekRadioBtn = new RadioButton(
-				Accounter.messages().monthly(), Accounter.messages()
+				messages.monthly(), messages
 						.onSpecificWeek());
 		onSpecificWeekRadioBtn.addClickHandler(new ClickHandler() {
 
@@ -270,8 +268,8 @@ public class RecurringTransactionDialog extends
 			}
 		});
 
-		onSpecificDayRadioBtn = new RadioButton(Accounter.messages().monthly(),
-				Accounter.messages().onSpecificDay());
+		onSpecificDayRadioBtn = new RadioButton(messages.monthly(),
+				messages.onSpecificDay());
 		onSpecificDayRadioBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -369,26 +367,26 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:// Daily
 				panel = getDailyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.messages()
+				intervalValueField.setIntervalTypeLabel(messages
 						.days());
 				break;
 			case 1: // weekly
 				enableAllCombos();
 				panel = getWeeklyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.messages()
+				intervalValueField.setIntervalTypeLabel(messages
 						.weeks());
 
 				break;
 			case 2: // monthly
 				panel = getMonthlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.messages()
+				intervalValueField.setIntervalTypeLabel(messages
 						.months());
 
 				break;
 			case 3: // yearly
 				enableAllCombos();
 				panel = getYearlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(Accounter.messages()
+				intervalValueField.setIntervalTypeLabel(messages
 						.years());
 				break;
 			}
@@ -588,7 +586,7 @@ public class RecurringTransactionDialog extends
 
 		intervalTypeCombo.setSelected(getIntervalTypeOptions().get(2));
 		intervalValueField.setIntervalValue(1);
-		intervalValueField.setIntervalTypeLabel(Accounter.messages().months());
+		intervalValueField.setIntervalTypeLabel(messages.months());
 		onSpecificDayRadioBtn.setValue(true);
 		weekOfMonthCombo.setDisabled(true);
 		dayOfWeekCombo.setDisabled(true);
@@ -859,9 +857,9 @@ public class RecurringTransactionDialog extends
 
 	private List<String> getActionOptions() {
 		List<String> options = new ArrayList<String>();
-		options.add(Accounter.messages().Saveasdraft());
-		options.add(Accounter.messages().approve());
-		options.add(Accounter.messages().Approveandsend());
+		options.add(messages.Saveasdraft());
+		options.add(messages.approve());
+		options.add(messages.Approveandsend());
 		return options;
 	}
 

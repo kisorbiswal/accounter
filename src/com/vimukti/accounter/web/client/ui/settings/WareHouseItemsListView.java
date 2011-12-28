@@ -52,7 +52,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 						if (result != null && !result.isEmpty()) {
 							grid.setRecords(result);
 						} else {
-							grid.addEmptyMessage(messages().noRecordsToShow());
+							grid.addEmptyMessage(messages.noRecordsToShow());
 						}
 						grid.sort(10, false);
 					}
@@ -77,16 +77,16 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().itemsDash(
+		return messages.itemsDash(
 				getCompany().getWarehouse(wareHouse).getName());
 	}
 
@@ -103,7 +103,7 @@ public class WareHouseItemsListView extends BaseListView<ClientItemStatus> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().wareHouseItems();
+		return messages.wareHouseItems();
 	}
 
 }

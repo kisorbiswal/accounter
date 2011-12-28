@@ -19,7 +19,7 @@ public class CustomerTransactionHistoryAction extends Action {
 
 	public CustomerTransactionHistoryAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean dependent) {

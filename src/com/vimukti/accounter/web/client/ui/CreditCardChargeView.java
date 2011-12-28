@@ -364,8 +364,7 @@ public class CreditCardChargeView extends
 		billingAddress = null;
 		addressList = null;
 		// billToCombo.setDisabled(isEdit);
-		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(Accounter
-				.messages().check());
+		paymentMethod = UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check());
 		payFromAccount = 0;
 		// phoneSelect.setValueMap("");
 		setMemoTextAreaItem("");
@@ -379,9 +378,9 @@ public class CreditCardChargeView extends
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
-		titlelabel = new Label(Accounter.messages().creditCardCharge());
+		titlelabel = new Label(messages.creditCardCharge());
 		titlelabel.removeStyleName("gwt-Label");
-		titlelabel.addStyleName(Accounter.messages().labelTitle());
+		titlelabel.addStyleName(messages.labelTitle());
 		// titlelabel.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		transactionNumber = createTransactionNumberItem();
@@ -453,7 +452,7 @@ public class CreditCardChargeView extends
 
 				});
 
-		contactCombo = new ContactCombo(Accounter.messages().contactName(),
+		contactCombo = new ContactCombo(messages.contactName(),
 				true);
 		contactCombo.setHelpInformation(true);
 		contactCombo.setDisabled(true);
@@ -476,28 +475,28 @@ public class CreditCardChargeView extends
 		// contactNameSelect.setWidth(100);
 		// formItems.add(contactNameSelect);
 		// billToCombo = createBillToComboItem();
-		billToAreaItem = new TextAreaItem(Accounter.messages().billTo());
+		billToAreaItem = new TextAreaItem(messages.billTo());
 		billToAreaItem.setWidth(100);
 		billToAreaItem.setDisabled(true);
 		// formItems.add(billToCombo);
-		phoneSelect = new TextItem(Accounter.messages().phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect = new TextItem(messages.phone());
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				Global.get().vendor()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(Accounter.messages().vendor());
+		vendorForm = UIUtils.form(messages.vendor());
 		// vendorForm.setWidth("100%");
 		vendorForm.setFields(vendorNameSelect, contactCombo, phoneSelect,
 				billToAreaItem);
 		vendorForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
 		// vendorForm.getCellFormatter().setWidth(0, 0, "180px");
 
-		payMethSelect = new SelectCombo(Accounter.messages().paymentMethod());
+		payMethSelect = new SelectCombo(messages.paymentMethod());
 		payMethSelect.setRequired(true);
 		List<String> paymentMthds = new ArrayList<String>();
-		paymentMthds.add(Accounter.messages().creditCard());
+		paymentMthds.add(messages.creditCard());
 		payMethSelect.initCombo(paymentMthds);
 		payMethSelect.setDefaultToFirstOption(true);
 		payMethSelect.setDisabled(true);
@@ -507,24 +506,24 @@ public class CreditCardChargeView extends
 
 		payFrmSelect = createPayFromselectItem();
 		payFrmSelect.setPopupWidth("510px");
-		payFrmSelect.setTitle(Accounter.messages().payFrom());
+		payFrmSelect.setTitle(messages.payFrom());
 		payFromAccount = 0;
 		payFrmSelect.setColSpan(0);
 		// formItems.add(payFrmSelect);
 
-		cheqNoText = new TextItem(Accounter.messages().chequeNo());
+		cheqNoText = new TextItem(messages.chequeNo());
 		cheqNoText.setHelpInformation(true);
 		cheqNoText.setDisabled(isInViewMode());
 		cheqNoText.setWidth(100);
 		// formItems.add(cheqNoText);
 
-		delivDate = new DateField(Accounter.messages().deliveryDate());
+		delivDate = new DateField(messages.deliveryDate());
 		delivDate.setHelpInformation(true);
 		delivDate.setColSpan(1);
 		delivDate.setValue(new ClientFinanceDate());
 		// formItems.add(delivDate);
 
-		termsForm = UIUtils.form(Accounter.messages().terms());
+		termsForm = UIUtils.form(messages.terms());
 		// termsForm.setWidth("100%");
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
@@ -537,7 +536,7 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel(Accounter.messages().netAmount());
+		netAmount = new AmountLabel(messages.netAmount());
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
@@ -547,7 +546,7 @@ public class CreditCardChargeView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();
 
-		vatinclusiveCheck = new CheckboxItem(Accounter.messages()
+		vatinclusiveCheck = new CheckboxItem(messages
 				.amountIncludesVat());
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 
@@ -1061,8 +1060,8 @@ public class CreditCardChargeView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		// payMethSelect.setDisabled(isEdit);
-		if (paymentMethod.equals(Accounter.messages().check())
-				|| paymentMethod.equals(Accounter.messages().cheque())) {
+		if (paymentMethod.equals(messages.check())
+				|| paymentMethod.equals(messages.cheque())) {
 			cheqNoText.setDisabled(isInViewMode());
 		} else {
 			cheqNoText.setDisabled(!isInViewMode());
@@ -1117,7 +1116,7 @@ public class CreditCardChargeView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().creditCardCharge();
+		return messages.creditCardCharge();
 	}
 
 	public ClientVendor getSelectedVendor() {
@@ -1221,7 +1220,7 @@ public class CreditCardChargeView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

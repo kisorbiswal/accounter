@@ -1568,8 +1568,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
 			addError(
 					accNoText,
-					Accounter
-							.messages()
+					messages
 							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 							+ "  "
 							+ nominalCodeRange[0]

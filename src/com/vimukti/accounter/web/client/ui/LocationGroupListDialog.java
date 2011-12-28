@@ -80,14 +80,14 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public void showAddEditGroupDialog(ClientLocation rec) {
 		clientLocation = rec;
-		locationGroupDg = new NewLocationDialog(this, Accounter.messages()
+		locationGroupDg = new NewLocationDialog(this, messages
 				.locationTracking(Global.get().Location()), "", clientLocation);
 		locationGroupDg.show();
 	}
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().locationName(
+		return new String[] { messages.locationName(
 				Global.get().Location()), };
 	}
 
@@ -141,7 +141,7 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 			ClientLocation locationGroupByName = company
 					.getLocationByName(name);
 			if (locationGroupByName != null) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.aLocationAlreadyExistswiththisname());
 			}
 		}

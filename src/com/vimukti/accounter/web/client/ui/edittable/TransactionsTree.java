@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -25,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -33,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public abstract class TransactionsTree<T> extends SimplePanel {
 	Tree tree;
+	protected static AccounterMessages messages=Global.get().messages();
 
 	ICurrencyProvider currencyProvider;
 	boolean showTaxCode;
@@ -59,7 +62,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	}
 
 	private void createColumns(boolean isAllrowsSelected) {
-		CheckBox checkBox = new CheckBox(Accounter.messages().selectAll());
+		CheckBox checkBox = new CheckBox(messages.selectAll());
 		checkBox.setValue(isAllrowsSelected);
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -102,7 +105,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.unableToLoadRequiredQuote());
 					}
 
@@ -153,7 +156,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		};
 		horizontalPanel.add(transactionLabel);
-		horizontalPanel.add(new Label(Accounter.messages()
+		horizontalPanel.add(new Label(messages
 				.totalWithCurrencyName(transactionLink)
 				+ " : "
 				+ estimate.getTotal()));
@@ -205,11 +208,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addBillableTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (billableTree == null) {
-			billableTree = getTransactionsTree(isSelected, Accounter.messages()
+			billableTree = getTransactionsTree(isSelected, messages
 					.billabelList());
 			tree.addItem(billableTree);
 		}
-		String transactionLink = Accounter.messages().billabe();
+		String transactionLink = messages.billabe();
 		billableTree.addItem(getChildTransactionTree(transactionLink, estimate,
 				isSelected));
 	}
@@ -234,11 +237,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addQuotesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (quotesTree == null) {
-			quotesTree = getTransactionsTree(isSelected, Accounter.messages()
+			quotesTree = getTransactionsTree(isSelected, messages
 					.quotesList());
 			tree.addItem(quotesTree);
 		}
-		String transactionLink = Accounter.messages().quote();
+		String transactionLink = messages.quote();
 		quotesTree.addItem(getChildTransactionTree(transactionLink, estimate,
 				isSelected));
 	}
@@ -248,11 +251,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addChargesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (chargesTree == null) {
-			chargesTree = getTransactionsTree(isSelected, Accounter.messages()
+			chargesTree = getTransactionsTree(isSelected, messages
 					.chargesList());
 			tree.addItem(chargesTree);
 		}
-		String transactionLink = Accounter.messages().charge();
+		String transactionLink = messages.charge();
 		chargesTree.addItem(getChildTransactionTree(transactionLink, estimate,
 				isSelected));
 	}
@@ -260,11 +263,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addCreditsTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (creditsTree == null) {
-			creditsTree = getTransactionsTree(isSelected, Accounter.messages()
+			creditsTree = getTransactionsTree(isSelected, messages
 					.creditsList());
 			tree.addItem(creditsTree);
 		}
-		creditsTree.addItem(getChildTransactionTree(Accounter.messages()
+		creditsTree.addItem(getChildTransactionTree(messages
 				.credit(), estimate, isSelected));
 	}
 

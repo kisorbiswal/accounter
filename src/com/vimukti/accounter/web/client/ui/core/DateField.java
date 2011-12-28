@@ -4,7 +4,9 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
@@ -12,6 +14,7 @@ public class DateField extends DateItem {
 	private ClientFinanceDate startDate;
 
 	private ClientFinanceDate endDate;
+	protected static AccounterMessages messages=Global.get().messages();
 
 	// private Date enteredDate;
 
@@ -44,18 +47,18 @@ public class DateField extends DateItem {
 					// enteredDate = getDate();
 
 					if (startDate != null && getDate().compareTo(startDate) < 0)
-						throw new Exception(Accounter.messages().cantearlierThanStart()
+						throw new Exception(messages.cantearlierThanStart()
 								);
 
 					if (endDate != null && getDate().compareTo(endDate) > 0)
-						throw new Exception(Accounter.messages().cantbeAfterEnd());
+						throw new Exception(messages.cantbeAfterEnd());
 
 					setEnteredDate(getDate());
 
 				} catch (Exception e) {
 					// if (enteredDate == null)
 					Accounter
-							.showError(Accounter.messages().incorrectInformation());
+							.showError(messages.incorrectInformation());
 
 				}
 			}

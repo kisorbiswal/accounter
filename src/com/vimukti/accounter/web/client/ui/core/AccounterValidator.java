@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -34,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid;
 public class AccounterValidator {
 
 	private static ClientCompany company;
-	static AccounterMessages messages = Accounter.messages();
+	static AccounterMessages messages = Global.get().messages();
 
 	public static boolean isPositiveAmount(Double amt) {
 		if (DecimalUtil.isLessThan(amt, 0.00)

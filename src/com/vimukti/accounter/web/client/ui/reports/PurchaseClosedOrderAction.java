@@ -11,7 +11,7 @@ public class PurchaseClosedOrderAction extends Action {
 
 	public PurchaseClosedOrderAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

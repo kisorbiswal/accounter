@@ -212,7 +212,7 @@ public class SalesOrderView extends
 			shipToAddress.businessSelect.setDisabled(true);
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
@@ -226,7 +226,7 @@ public class SalesOrderView extends
 		// custForm.getCellFormatter().setWidth(0, 1, "180px");
 		// custForm.getCellFormatter().setWidth(0, 0, "225px");
 
-		customerOrderText = new TextItem(Accounter.messages().payeeOrderNo(
+		customerOrderText = new TextItem(messages.payeeOrderNo(
 				Global.get().customer()));
 		customerOrderText.setWidth(50);
 		customerOrderText.setColSpan(1);
@@ -1071,7 +1071,7 @@ public class SalesOrderView extends
 	protected DateField createDueDateItem() {
 
 		DateField dateItem = new DateField(messages.dueDate());
-		dateItem.setToolTip(Accounter.messages().selectDateUntilDue(
+		dateItem.setToolTip(messages.selectDateUntilDue(
 				this.getAction().getViewName()));
 		dateItem.setTitle(messages.dueDate());
 		dateItem.setColSpan(1);
@@ -1148,7 +1148,7 @@ public class SalesOrderView extends
 		if (this.rpcUtilService == null)
 			return;
 		if (getCustomer() == null) {
-			Accounter.showError(Accounter.messages().pleaseSelect(
+			Accounter.showError(messages.pleaseSelect(
 					Global.get().customer()));
 		} else {
 			this.rpcUtilService.getEstimates(getCustomer().getID(),
@@ -1510,7 +1510,7 @@ public class SalesOrderView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

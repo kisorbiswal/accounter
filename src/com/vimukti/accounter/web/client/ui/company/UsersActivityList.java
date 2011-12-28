@@ -17,6 +17,7 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -34,7 +35,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 	private AsyncDataProvider<ClientActivity> listDataProvider;
 	private ClientFinanceDate fromDate, endDate;
-	private final AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	boolean addButton = true;
 	private long value;
 
@@ -174,7 +175,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				if (object.getObjectID() == 0) {
 					return null;
 				} else {
-					return Accounter.messages().Get();
+					return messages.Get();
 				}
 
 			}

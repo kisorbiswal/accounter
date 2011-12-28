@@ -150,8 +150,7 @@ public class ItemView extends BaseView<ClientItem> {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
 
-		nameText = new TextItem(this.type == TYPE_SERVICE ? Accounter
-				.messages().serviceName() : messages.productName());
+		nameText = new TextItem(this.type == TYPE_SERVICE ? messages.serviceName() : messages.productName());
 		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
@@ -198,7 +197,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(Accounter.messages()
+		salesDescArea.setToolTip(messages
 				.writeCommentsForThis(this.getAction().getViewName())
 				.replace(messages.comments(), messages.salesDescription()));
 		salesPriceText = new AmountField(messages.salesPrice(), this,

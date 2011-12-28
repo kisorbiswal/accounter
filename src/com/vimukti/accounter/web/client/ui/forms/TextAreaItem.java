@@ -30,7 +30,7 @@ public class TextAreaItem extends FormItem<String> {
 		if (isMemo) {
 			textArea.removeStyleName("gwt-TextArea");
 			textArea.addStyleName("memoTextArea");
-			textArea.setTitle(Accounter.messages().writeCommentsForThis(
+			textArea.setTitle(messages.writeCommentsForThis(
 					view.getAction().getViewName()));
 		}
 	}

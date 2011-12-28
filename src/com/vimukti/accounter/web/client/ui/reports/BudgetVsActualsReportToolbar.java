@@ -47,7 +47,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 
 	public void createControls() {
 
-		budgetName = new SelectCombo(Accounter.messages().budget());
+		budgetName = new SelectCombo(messages.budget());
 		budgetName.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (String str : budgetArray) {
@@ -69,7 +69,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 					}
 				});
 
-		dateRangeSelect = new SelectCombo(Accounter.messages().dateRange());
+		dateRangeSelect = new SelectCombo(messages.dateRange());
 		dateRangeSelect.setHelpInformation(true);
 		dateRangeSelect.initCombo(getDateRangeList());
 		dateRangeSelect.setSelectedItem(2);
@@ -89,7 +89,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 					}
 				});
 
-		monthSelectCombo = new SelectCombo(Accounter.messages().month());
+		monthSelectCombo = new SelectCombo(messages.month());
 		monthSelectCombo.setHelpInformation(true);
 		monthSelectCombo.initCombo(getMonthsList());
 		monthSelectCombo.setSelectedItem(0);
@@ -102,7 +102,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 					}
 				});
 
-		quaterlySelectCombo = new SelectCombo(Accounter.messages().quarterly());
+		quaterlySelectCombo = new SelectCombo(messages.quarterly());
 		quaterlySelectCombo.setHelpInformation(true);
 		quaterlySelectCombo.initCombo(getQuatersList());
 		quaterlySelectCombo.setSelectedItem(0);

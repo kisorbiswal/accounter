@@ -2,6 +2,11 @@ package com.vimukti.accounter.web.client.util;
 
 public abstract class AbstractCountryPreferences implements ICountryPreferences {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public OrganizationType[] getOrganizationTypes() {
 		// TODO Auto-generated method stub

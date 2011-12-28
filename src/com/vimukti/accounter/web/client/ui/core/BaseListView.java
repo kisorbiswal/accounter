@@ -22,6 +22,7 @@ import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
@@ -62,15 +63,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		ISavableView<Map<String, Object>> {
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
-	public static AccounterMessages messages;
+	protected static AccounterMessages messages = Global.get().messages();
 	public int start, length;
 
 	public BaseListView() {
-		messages = Accounter.messages();
-	}
-
-	protected AccounterMessages messages() {
-		return messages;
 	}
 
 	protected List<String> getViewSelectTypes() {
@@ -156,7 +152,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		viewSelect = getSelectItem();
 		if (this instanceof BudgetListView) {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(messages().currentBudget());
+				viewSelect = new SelectCombo(messages.currentBudget());
 				viewSelect.setHelpInformation(true);
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -175,14 +171,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		} else {
 			if (viewSelect == null) {
-				viewSelect = new SelectCombo(messages().currentView());
+				viewSelect = new SelectCombo(messages.currentView());
 				viewSelect.setHelpInformation(true);
 				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
-				typeList.add(messages().active());
-				typeList.add(messages().inActive());
+				typeList.add(messages.active());
+				typeList.add(messages.inActive());
 				viewSelect.initCombo(typeList);
-				viewSelect.setComboItem(messages().active());
+				viewSelect.setComboItem(messages.active());
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -205,14 +201,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		dateRangeSelector = getDateRangeSelectItem();
 
 		if (dateRangeSelector == null) {
-			dateRangeSelector = new SelectCombo(messages().date());
+			dateRangeSelector = new SelectCombo(messages.date());
 			dateRangeSelector.setHelpInformation(true);
 			// dateRangeSelector.setWidth("150px");
 			List<String> typeList = new ArrayList<String>();
-			typeList.add(messages().active());
-			typeList.add(messages().inActive());
+			typeList.add(messages.active());
+			typeList.add(messages.inActive());
 			dateRangeSelector.initCombo(typeList);
-			dateRangeSelector.setDefaultValue(messages().active());
+			dateRangeSelector.setDefaultValue(messages.active());
 			dateRangeSelector.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -227,7 +223,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setTitle(messages().from());
+		fromItem.setTitle(messages.from());
 		if (Accounter.getStartDate() != null) {
 			fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		} else {
@@ -235,7 +231,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		}
 		toItem = new DateItem();
 		toItem.setHelpInformation(true);
-		toItem.setTitle(messages().to());
+		toItem.setTitle(messages.to());
 		toItem.setDatethanFireEvent(Accounter.getCompany()
 				.getCurrentFiscalYearEndDate());
 		// .getLastandOpenedFiscalYearEndDate());
@@ -243,7 +239,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dateRangeSelector.addComboItem(messages().custom());
+				dateRangeSelector.addComboItem(messages.custom());
 				dateRangeSelector.setComboItem(messages.custom());
 				updateButton.setEnabled(true);
 			}
@@ -252,25 +248,25 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-				dateRangeSelector.addComboItem(messages().custom());
+				dateRangeSelector.addComboItem(messages.custom());
 				dateRangeSelector.setComboItem(messages.custom());
 				updateButton.setVisible(true);
 			}
 		});
-		updateButton = new Button(messages().update());
+		updateButton = new Button(messages.update());
 		updateButton.setEnabled(false);
 		updateButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (dateRangeSelector.getSelectedValue().equals(
-						messages().custom())) {
+						messages.custom())) {
 					customManage();
 				}
 			}
 		});
 
-		prepare1099MiscForms = new Button(messages().prepare1099MiscForms());
+		prepare1099MiscForms = new Button(messages.prepare1099MiscForms());
 		prepare1099MiscForms.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -280,7 +276,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			}
 		});
 
-		budgetEdit = new Button(messages().edit());
+		budgetEdit = new Button(messages.edit());
 		budgetEdit.setWidth("10");
 		budgetEdit.addClickHandler(new ClickHandler() {
 
@@ -536,10 +532,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	@Override
 	public void onFailure(Throwable exception) {
 		if (exception instanceof AccounterException) {
-			Accounter.showError(messages().failedRequest());
+			Accounter.showError(messages.failedRequest());
 			return;
 		}
-		Accounter.showMessage(messages().sessionExpired());
+		Accounter.showMessage(messages.sessionExpired());
 	}
 
 	@Override
@@ -560,7 +556,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 				}
 				if (typeList.size() < 1) {
 					budgetItemsExists = false;
-					typeList.add(Accounter.messages().NoBudgetadded());
+					typeList.add(messages.NoBudgetadded());
 				}
 				viewSelect.initCombo(typeList);
 				viewSelect.setSelectedItem(0);

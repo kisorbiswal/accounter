@@ -19,7 +19,7 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	public NewTAXCodeAction() {
 		super();
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	@Override

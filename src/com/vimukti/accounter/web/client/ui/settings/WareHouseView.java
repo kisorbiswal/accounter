@@ -170,7 +170,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
 
 		titleItem = new Label(messages.wareHouse());
-		titleItem.setStyleName(Accounter.messages().labelTitle());
+		titleItem.setStyleName(messages.labelTitle());
 
 		vPanel = new VerticalPanel();
 		vPanel.setWidth("100%");
@@ -353,7 +353,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().wareHouse();
+		return messages.wareHouse();
 	}
 
 	@Override

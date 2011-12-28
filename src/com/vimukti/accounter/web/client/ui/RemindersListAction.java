@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class RemindersListAction extends Action<ClientReminder> {
 
 	public RemindersListAction() {
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

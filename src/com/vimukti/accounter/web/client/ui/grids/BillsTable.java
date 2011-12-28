@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.grids.columns.AccounterTextColumn;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
  */
 public class BillsTable extends BaseTable<BillsList> {
 
+	protected static AccounterMessages messages = Global.get().messages();
 	@Override
 	public void init() {
 
@@ -137,7 +139,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return type1.compareTo(type2);
 			}
 		};
-		this.addColumn(type, Accounter.messages().type());
+		this.addColumn(type, messages.type());
 
 		AccounterTextColumn<BillsList> date = new AccounterTextColumn<BillsList>() {
 
@@ -161,7 +163,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return 0;
 			}
 		};
-		this.addColumn(date, Accounter.messages().date());
+		this.addColumn(date, messages.date());
 
 		AccounterTextColumn<BillsList> no = new AccounterTextColumn<BillsList>() {
 
@@ -188,7 +190,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				}
 			}
 		};
-		this.addColumn(no, Accounter.messages().no());
+		this.addColumn(no, messages.no());
 
 		AccounterTextColumn<BillsList> vendor = new AccounterTextColumn<BillsList>() {
 
@@ -228,7 +230,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return o1.getOriginalAmount().compareTo(o2.getOriginalAmount());
 			}
 		};
-		this.addColumn(originalAmount, Accounter.messages().originalAmount());
+		this.addColumn(originalAmount, messages.originalAmount());
 
 		DecimalTextColumn<BillsList> balance = new DecimalTextColumn<BillsList>() {
 
@@ -254,7 +256,7 @@ public class BillsTable extends BaseTable<BillsList> {
 				return new Width(65.0);
 			}
 		};
-		this.addColumn(balance, Accounter.messages().balance());
+		this.addColumn(balance, messages.balance());
 
 		ImageActionColumn<BillsList> isVoid = new ImageActionColumn<BillsList>() {
 
@@ -272,7 +274,7 @@ public class BillsTable extends BaseTable<BillsList> {
 								.getAccounterCoreType(object.getType()), object
 								.getTransactionId());
 					} else {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.expensecantbevoiditisApproved());
 					}
 				}
@@ -293,7 +295,7 @@ public class BillsTable extends BaseTable<BillsList> {
 			}
 
 		};
-		this.addColumn(isVoid, Accounter.messages().isVoid());
+		this.addColumn(isVoid, messages.isVoid());
 	}
 
 }

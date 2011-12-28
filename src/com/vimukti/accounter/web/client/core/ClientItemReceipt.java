@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import com.vimukti.accounter.web.client.Global;
+
 public class ClientItemReceipt extends ClientTransaction {
 
 	/**
@@ -180,5 +182,15 @@ public class ClientItemReceipt extends ClientTransaction {
 		clientItemReceiptClone.vendorAddress = this.vendorAddress.clone();
 		clientItemReceiptClone.shippingAddress = this.shippingAddress.clone();
 		return clientItemReceiptClone;
+	}
+
+	@Override
+	public String getName() {
+		return Global.get().messages().itemReceipt();
+	}
+
+	@Override
+	public String getDisplayName() {
+		return getName();
 	}
 }

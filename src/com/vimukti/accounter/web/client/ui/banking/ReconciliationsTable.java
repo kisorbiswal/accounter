@@ -11,10 +11,12 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
@@ -29,14 +31,14 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 		implements IDeleteCallback {
 
 	private ListDataProvider<ClientReconciliation> dataprovider = new ListDataProvider<ClientReconciliation>();
-
+	protected static AccounterMessages messages=Global.get().messages();
 	/**
 	 * Creates new Instance
 	 */
 	public ReconciliationsTable() {
 		initColumns();
 		dataprovider.addDataDisplay(this);
-		HTML emptyMessage = new HTML(Accounter.messages()
+		HTML emptyMessage = new HTML(messages
 				.reconciliationsEmpty());
 		emptyMessage.setHeight("150px");
 		setEmptyTableWidget(emptyMessage);
@@ -59,7 +61,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return Accounter.messages().oneToOther(
+				return messages.oneToOther(
 						object.getStartDate().toString(),
 						object.getEndDate().toString());
 			}
@@ -108,13 +110,13 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 			}
 		};
 
-		this.addColumn(reconciliationDate, Accounter.messages()
+		this.addColumn(reconciliationDate, messages
 				.ReconciliationDate());
-		this.addColumn(reconciliationPeriod, Accounter.messages()
+		this.addColumn(reconciliationPeriod, messages
 				.ReconciliationPeriod());
-		this.addColumn(openingBalance, Accounter.messages().openBalance());
-		this.addColumn(closingBalance, Accounter.messages().ClosingBalance());
-		this.addColumn(show, Accounter.messages().show());
+		this.addColumn(openingBalance, messages.openBalance());
+		this.addColumn(closingBalance, messages.ClosingBalance());
+		this.addColumn(show, messages.show());
 		this.addColumn(delete);
 	}
 

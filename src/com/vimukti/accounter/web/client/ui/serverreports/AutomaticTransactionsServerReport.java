@@ -25,7 +25,7 @@ public class AutomaticTransactionsServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().automaticTransactions();
+		return messages.automaticTransactions();
 	}
 
 	@Override

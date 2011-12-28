@@ -16,13 +16,12 @@ public class ClientGlobal extends AbstractGlobal {
 
 	@Override
 	public AccounterMessages messages() {
-		return Accounter.messages();
+		return Accounter.getMessages();
 	}
 
 	@Override
 	public String toCurrencyFormat(double amount, String currencyCode) {
-		AccounterNumberFormat nf = AccounterNumberFormat
-				.getCurrencyFormat(preferences().getDecimalNumber());
+		AccounterNumberFormat nf = AccounterNumberFormat.getCurrencyFormat();
 		return nf.format(amount, currencyCode);
 	}
 

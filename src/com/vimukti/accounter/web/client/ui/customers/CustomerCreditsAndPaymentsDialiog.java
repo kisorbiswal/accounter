@@ -80,9 +80,9 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public CustomerCreditsAndPaymentsDialiog(ClientCustomer customer,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionReceivePayment record) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor(),
+		super(messages.applyCreditsAndPaymentsFor(),
 		// + (customer != null ? customer.getName() : ""),
-				Accounter.messages().applyCreditsandPayments());
+				messages.applyCreditsandPayments());
 		this.customer = customer;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -97,9 +97,8 @@ public class CustomerCreditsAndPaymentsDialiog extends
 	public CustomerCreditsAndPaymentsDialiog(ClientVendor venddor,
 			List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments,
 			boolean canEdit, ClientTransactionPayBill record) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor()
-				+ (venddor != null ? venddor.getName() : ""), Accounter
-				.messages().applyCreditsandPayments());
+		super(messages.applyCreditsAndPaymentsFor()
+				+ (venddor != null ? venddor.getName() : ""), messages.applyCreditsandPayments());
 		this.vendor = venddor;
 		this.canEdit = canEdit;
 		updatedCreditsAndPayments = updatedCustomerCreditsAndPayments;
@@ -117,7 +116,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			int key,
 			LinkedHashMap<String, List<ClientTransactionCreditsAndPayments>> creditsAndPaymentsMap,
 			IGenericCallback<String> callback) {
-		super(Accounter.messages().applyCreditsAndPaymentsFor(), "");
+		super(messages.applyCreditsAndPaymentsFor(), "");
 		this.key = key;
 		// this.creditsAndPaymentsMap = creditsAndPaymentsMap;
 
@@ -201,7 +200,7 @@ public class CustomerCreditsAndPaymentsDialiog extends
 			grid.removeAllRecords();
 			grid.setRecords(creditsAndPayments);
 		} else {
-			grid.addEmptyMessage(Accounter.messages().therearenocreditstoshow());
+			grid.addEmptyMessage(messages.therearenocreditstoshow());
 		}
 		for (ClientCreditsAndPayments cr : creditsAndPayments) {
 			int row = grid.indexOf(cr);

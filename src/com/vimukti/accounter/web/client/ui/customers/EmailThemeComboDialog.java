@@ -23,7 +23,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(Accounter.messages()
+		brandingThemeTypeCombo = new BrandingThemeCombo(messages
 				.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
@@ -54,7 +54,7 @@ public class EmailThemeComboDialog extends BrandingThemeComboDialog {
 	@Override
 	protected boolean onOK() {
 		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-			brandingThemeTypeCombo.setSelected(Accounter.messages()
+			brandingThemeTypeCombo.setSelected(messages
 					.standardTheme());
 		}
 		showEmailView();

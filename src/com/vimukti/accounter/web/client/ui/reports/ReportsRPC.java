@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
@@ -70,7 +71,7 @@ public class ReportsRPC {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showMessage(Accounter.messages().sessionExpired());
+				Accounter.showMessage(Global.get().messages().sessionExpired());
 			}
 
 			@Override

@@ -355,18 +355,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return vatinclusiveCheck;
 	}
 
-	protected AmountField getDiscountField(){
-		discountField=new AmountField(messages.discount(), this);
+	protected AmountField getDiscountField() {
+		discountField = new AmountField(messages.discount(), this);
 		discountField.setDisabled(isInViewMode());
 		discountField.addBlurHandler(new BlurHandler() {
-			
+
 			@Override
 			public void onBlur(BlurEvent event) {
 				updateDiscountValues();
 			}
 		});
 		return discountField;
-		
+
 	}
 
 	protected abstract void updateDiscountValues();
@@ -388,7 +388,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages().failedToGetTransactionNumber());
+				Accounter.showError(messages.failedToGetTransactionNumber());
 
 			}
 
@@ -426,9 +426,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected DateField createTransactionDateItem() {
 
 		final DateField dateItem = new DateField(messages.date());
-		dateItem.setToolTip(Accounter
-				.messages()
-				.selectDateWhenTransactioCreated(this.getAction().getViewName()));
+		dateItem.setToolTip(messages.selectDateWhenTransactioCreated(this
+				.getAction().getViewName()));
 		dateItem.setHelpInformation(true);
 		// if (this instanceof VendorBillView)
 		// dateItem.setShowTitle(true);
@@ -736,8 +735,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			payVatMethodList.add(payVatMethodArray[i]);
 		}
 
-		final SelectCombo paymentMethodSelect = new SelectCombo(Accounter
-				.messages().paymentMethod());
+		final SelectCombo paymentMethodSelect = new SelectCombo(
+				messages.paymentMethod());
 		paymentMethodSelect.setHelpInformation(true);
 
 		paymentMethodSelect.setRequired(true);
@@ -784,9 +783,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		HorizontalPanel panel = new HorizontalPanel();
 
 		HTML text = new HTML();
-		text.setHTML("<a>"+Accounter.messages().ThisisatemplateusedinRecurring()+"</a>");
+		text.setHTML("<a>" + messages.ThisisatemplateusedinRecurring() + "</a>");
 		Anchor click = new Anchor();
-		click.setHTML(Accounter.messages().Clickhere());
+		click.setHTML(messages.Clickhere());
 		click.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -795,7 +794,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		});
 		HTML recur = new HTML();
-		recur.setHTML("<a>"+Accounter.messages().tochangetherecurringschedule());
+		recur.setHTML("<a>" + messages.tochangetherecurringschedule());
 
 		panel.add(text);
 		panel.add(click);
@@ -811,9 +810,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter
-								.showError(Accounter.messages().Unabletoopenrecurringtransactio()
-										+ caught);
+						Accounter.showError(messages
+								.Unabletoopenrecurringtransactio() + caught);
 					}
 
 					@Override
@@ -934,8 +932,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 			} else if (itm.equals(messages.comment())) {
 				image = Accounter.getFinanceMenuImages().comments();
-			} else if (itm.equals(Accounter.messages().salesTax()) || (itm.equals(Accounter.messages().serviceItem()))
-					|| (itm.equals(Accounter.messages().service()))) {
+			} else if (itm.equals(messages.salesTax())
+					|| (itm.equals(messages.serviceItem()))
+					|| (itm.equals(messages.service()))) {
 				if (sellServices) {
 					image = Accounter.getFinanceMenuImages().salestax();
 				} else {
@@ -1518,7 +1517,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public ClassListCombo createAccounterClassListCombo() {
-		classListCombo = new ClassListCombo(Accounter.messages().accounterClass(), true);
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
 		classListCombo.setHelpInformation(true);
 		classListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {

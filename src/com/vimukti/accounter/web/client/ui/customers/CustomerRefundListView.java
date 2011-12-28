@@ -34,11 +34,11 @@ public class CustomerRefundListView extends
 	private static final int STATUS_ISSUED = 2;
 
 	public CustomerRefundListView() {
-		super(Accounter.messages().issued());
+		super(messages.issued());
 	}
 
 	public CustomerRefundListView(int transactionType) {
-		super(Accounter.messages().issued());
+		super(messages.issued());
 		this.transactionType = transactionType;
 	}
 
@@ -49,13 +49,13 @@ public class CustomerRefundListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addaNew(
-				messages().customerRefund(Global.get().Customer()));
+		return messages.addaNew(
+				messages.customerRefund(Global.get().Customer()));
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().getCustomersRefundListViewHeading(
+		return messages.getCustomersRefundListViewHeading(
 				Global.get().Customer());
 	}
 
@@ -78,9 +78,9 @@ public class CustomerRefundListView extends
 		super.onSuccess(result);
 		listOfCustomerRefund = result;
 		filterList(viewSelect != null ? viewSelect.getSelectedValue()
-				: messages().notIssued());
+				: messages.notIssued());
 		grid.setViewType(viewSelect != null ? viewSelect.getSelectedValue()
-				: messages().notIssued());
+				: messages.notIssued());
 		grid.sort(10, false);
 	}
 
@@ -121,10 +121,10 @@ public class CustomerRefundListView extends
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		listOfTypes.add(messages().notIssued());
-		listOfTypes.add(messages().issued());
-		listOfTypes.add(messages().voided());
-		listOfTypes.add(messages().all());
+		listOfTypes.add(messages.notIssued());
+		listOfTypes.add(messages.issued());
+		listOfTypes.add(messages.voided());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
@@ -132,7 +132,7 @@ public class CustomerRefundListView extends
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		for (CustomerRefundsList customerRefund : listOfCustomerRefund) {
-			if (text.equals(messages().notIssued())) {
+			if (text.equals(messages.notIssued())) {
 				if ((customerRefund.getStatus() == STATUS_NOT_ISSUED || customerRefund
 						.getStatus() == STATUS_PARTIALLY_PAID)
 						&& (!customerRefund.isVoided())) {
@@ -140,14 +140,14 @@ public class CustomerRefundListView extends
 				}
 				continue;
 			}
-			if (text.equals(messages().issued())) {
+			if (text.equals(messages.issued())) {
 				if (customerRefund.getStatus() == STATUS_ISSUED
 						&& (!customerRefund.isVoided())) {
 					grid.addData(customerRefund);
 				}
 				continue;
 			}
-			if (text.equals(messages().voided())) {
+			if (text.equals(messages.voided())) {
 				if (customerRefund.isVoided() && !customerRefund.isDeleted()) {
 					grid.addData(customerRefund);
 				}
@@ -158,12 +158,12 @@ public class CustomerRefundListView extends
 			// grid.addData(customerRefund);
 			// continue;
 			// }
-			if (text.equals(messages().all())) {
+			if (text.equals(messages.all())) {
 				grid.addData(customerRefund);
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
@@ -190,6 +190,6 @@ public class CustomerRefundListView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages().customerRefunds(Global.get().Customer());
+		return messages.customerRefunds(Global.get().Customer());
 	}
 }

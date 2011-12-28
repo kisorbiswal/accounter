@@ -12,7 +12,7 @@ public class AddMeasurementAction extends Action<ClientMeasurement> {
 
 	public AddMeasurementAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	@Override

@@ -95,8 +95,8 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	public void showAddEditGroupDialog(ClientCreditRating rec) {
 		creditRating = rec;
-		String creditRateString = Accounter.messages().creditRating();
-		inputDlg = new InputDialog(this, Accounter.messages().creditRating(),
+		String creditRateString = messages.creditRating();
+		inputDlg = new InputDialog(this, messages.creditRating(),
 				"", creditRateString) {
 		};
 
@@ -126,7 +126,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name() };
+		return new String[] { messages.name() };
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class CreditRatingListDialog extends GroupDialog<ClientCreditRating> {
 			ClientCreditRating creditRating = company
 					.getCreditRatingByName(name);
 			if (creditRating != null) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.creditRatingAlreadyExists());
 			}
 		}

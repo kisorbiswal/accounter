@@ -16,9 +16,9 @@ public class PreferencesAction extends Action {
 	public PreferencesAction() {
 		super();
 		if (CATEGORY == COMPANY)
-			this.catagory = Accounter.messages().company();
+			this.catagory = messages.company();
 		else if (CATEGORY == SETTINGS)
-			this.catagory = Accounter.messages().settings();
+			this.catagory = messages.settings();
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class PreferencesAction extends Action {
 					PreferencesAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.failedToLoadCompanyPreferences());
 		}
 

@@ -32,7 +32,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 	}
 
 	public void createControls() {
-		doYouLabelItem.setText(Accounter.messages().Numbers());
+		doYouLabelItem.setText(messages.Numbers());
 		useCustomerNo.setText(messages.usePayeeId(Global.get().customer()));
 		useVendorNo.setText(messages.usePayeeId(Global.get().vendor()));
 		useAccountNo.setText(messages.useAccountNos());
@@ -40,7 +40,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().Numbers();
+		return messages.Numbers();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class DoyouUseOption extends AbstractPreferenceOption {
 
 	@Override
 	public String getAnchor() {
-		return Accounter.messages().Numbers();
+		return messages.Numbers();
 	}
 
 	@Override

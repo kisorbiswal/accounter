@@ -82,14 +82,12 @@ public class PercentageField extends TextItem {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
 								
-								errorsWidget.addError(this, Accounter
-										.messages().cantenternegnumber());
+								errorsWidget.addError(this, messages.cantenternegnumber());
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
 								
-								errorsWidget.addError(this, Accounter
-										.messages().cantentermorethat100());
+								errorsWidget.addError(this, messages.cantentermorethat100());
 								
 								setPercentage(0.0);
 							} else

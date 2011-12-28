@@ -14,7 +14,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -33,17 +35,17 @@ public class AddressForm extends DynamicForm {
 	private TextAreaItem addrArea;
 
 	public AddressForm(Set<ClientAddress> addresses) {
-
-		Label l1 = new Label(Accounter.messages().enterAddress());
+		AccounterMessages messages=Global.get().messages();
+		Label l1 = new Label(messages.enterAddress());
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 
 		setAddresses(addresses);
 
-		businessSelect = new SelectCombo(Accounter.messages().address());
+		businessSelect = new SelectCombo(messages.address());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
 		businessSelect.getMainWidget().removeStyleName(
-				Accounter.messages().gwtListBox());
+				messages.gwtListBox());
 		businessSelect.initCombo(new ClientAddress().getAddressTypes());
 
 		businessSelect
@@ -114,7 +116,7 @@ public class AddressForm extends DynamicForm {
 			addrArea.setValue(toToSet);
 		} else
 			// businessSelect.setDefaultToFirstOption(Boolean.TRUE);
-			setGroupTitle(Accounter.messages().addresses());
+			setGroupTitle(messages.addresses());
 		setNumCols(2);
 		setFields(businessSelect, addrArea);
 	}

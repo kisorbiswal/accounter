@@ -37,7 +37,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(messages().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		// listOfTypes.add(DRAFT);
 		viewSelect.initCombo(getViewSelectTypes());
@@ -64,21 +64,21 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	@Override
 	protected SelectCombo getDateRangeSelectItem() {
-		dateRangeSelector = new SelectCombo(messages().date());
-		String[] dateRangeArray = { messages().all(), messages().thisWeek(),
-				messages().thisMonth(), messages().lastWeek(),
-				messages().lastMonth(), messages().thisFinancialYear(),
-				messages().lastFinancialYear(),
-				messages().thisFinancialQuarter(),
-				messages().lastFinancialQuarter(),
-				messages().financialYearToDate() };
+		dateRangeSelector = new SelectCombo(messages.date());
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(),
+				messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate() };
 		final List<String> dateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRanges.add(dateRangeArray[i]);
 		}
 		dateRangeSelector.initCombo(dateRanges);
 
-		dateRangeSelector.setComboItem(messages().all());
+		dateRangeSelector.setComboItem(messages.all());
 		// if (UIUtils.isMSIEBrowser())
 		// dateRangeSelector.setWidth("105px");
 
@@ -87,12 +87,12 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem != null
-								&& !selectItem.equals(messages().custom())) {
+								&& !selectItem.equals(messages.custom())) {
 							dateRangeChanged(dateRangeSelector
 									.getSelectedValue());
 							grid.setViewType(dateRangeSelector
 									.getSelectedValue());
-							dateRangeSelector.removeComboItem(messages()
+							dateRangeSelector.removeComboItem(messages
 									.custom());
 							updateButton.setEnabled(false);
 						}
@@ -108,13 +108,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
 		// getLastandOpenedFiscalYearEndDate();
-		if (dateRange.equals(messages().thisWeek())) {
+		if (dateRange.equals(messages.thisWeek())) {
 			startDate = getWeekStartDate();
 			endDate.setDay(startDate.getDay() + 6);
 			endDate.setMonth(startDate.getMonth());
 			endDate.setYear(startDate.getYear());
 		}
-		if (dateRange.equals(messages().thisMonth())) {
+		if (dateRange.equals(messages.thisMonth())) {
 			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
 					1);
 			Calendar endCal = Calendar.getInstance();
@@ -124,14 +124,14 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			endDate = new ClientFinanceDate(endCal.getTime());
 
 		}
-		if (dateRange.equals(messages().lastWeek())) {
+		if (dateRange.equals(messages.lastWeek())) {
 			endDate = getWeekStartDate();
 			endDate.setDay(endDate.getDay() - 1);
 			startDate = new ClientFinanceDate(endDate.getDate());
 			startDate.setDay(startDate.getDay() - 6);
 
 		}
-		if (dateRange.equals(messages().lastMonth())) {
+		if (dateRange.equals(messages.lastMonth())) {
 			int day;
 			if (date.getMonth() == 0) {
 				day = getMonthLastDate(11, date.getYear() - 1);
@@ -145,11 +145,11 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 						date.getMonth() - 1, day);
 			}
 		}
-		if (dateRange.equals(messages().thisFinancialYear())) {
+		if (dateRange.equals(messages.thisFinancialYear())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 		}
-		if (dateRange.equals(messages().lastFinancialYear())) {
+		if (dateRange.equals(messages.lastFinancialYear())) {
 
 			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
 			startDate.setYear(startDate.getYear() - 1);
@@ -162,13 +162,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			endDate.setYear(endDate.getYear() - 1);
 
 		}
-		if (dateRange.equals(messages().thisFinancialQuarter())) {
+		if (dateRange.equals(messages.thisFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
 			getCurrentQuarter();
 		}
-		if (dateRange.equals(messages().lastFinancialQuarter())) {
+		if (dateRange.equals(messages.lastFinancialQuarter())) {
 			startDate = new ClientFinanceDate();
 			endDate = getCompany().getCurrentFiscalYearEndDate();
 			// getLastandOpenedFiscalYearEndDate();
@@ -176,7 +176,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 			startDate.setYear(startDate.getYear() - 1);
 			endDate.setYear(endDate.getYear() - 1);
 		}
-		if (dateRange.equals(messages().financialYearToDate())) {
+		if (dateRange.equals(messages.financialYearToDate())) {
 			startDate = getCompany().getCurrentFiscalYearStartDate();
 			endDate = new ClientFinanceDate();
 		}

@@ -14,7 +14,7 @@ public class SalesPersonAction extends Action {
 
 	public SalesPersonAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	@Override

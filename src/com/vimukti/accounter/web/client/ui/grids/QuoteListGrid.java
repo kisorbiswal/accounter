@@ -126,7 +126,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	protected String[] getColumns() {
 		if (type == ClientEstimate.QUOTES) {
 			return new String[] { messages.date(), messages.no(),
-					Accounter.messages().payeeName(Global.get().Customer()),
+					messages.payeeName(Global.get().Customer()),
 					messages.phone(), messages.expirationDate(),
 					messages.deliveryDate(), messages.totalPrice(),
 					messages.reject()
@@ -134,7 +134,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 			};
 		} else {
 			return new String[] { messages.date(), messages.no(),
-					Accounter.messages().payeeName(Global.get().Customer()),
+					messages.payeeName(Global.get().Customer()),
 					messages.totalPrice(), messages.reject() };
 		}
 	}
@@ -361,7 +361,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@Override
 	public void saveSuccess(IAccounterCore object) {
 		if (object instanceof ClientEstimate) {
-			if (!viewType.equalsIgnoreCase(Accounter.messages().all()))
+			if (!viewType.equalsIgnoreCase(messages.all()))
 				deleteRecord((ClientEstimate) object);
 			updateData((ClientEstimate) object);
 		}

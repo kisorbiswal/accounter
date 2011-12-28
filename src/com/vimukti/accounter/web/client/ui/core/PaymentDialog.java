@@ -11,19 +11,19 @@ import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 public class PaymentDialog extends BaseDialog {
 	RadioGroupItem typeRadio;
 	private final String RECEIVE_PAYMENT = messages.receivePayment();
-	private final String CUSTOMER_PREPAYMENT = Accounter.messages()
+	private final String CUSTOMER_PREPAYMENT = messages
 			.payeePrePayment(Global.get().Customer());
 
 	public PaymentDialog() {
-		super(Accounter.messages().payments(), "");
-		setText(Accounter.messages().payments());
+		super(messages.payments(), "");
+		setText(messages.payments());
 		createControls();
 		center();
 	}
 
 	public PaymentDialog(AccounterAsyncCallback<IAccounterCore> callBack) {
-		super(Accounter.messages().payments(), "");
-		setText(Accounter.messages().payments());
+		super(messages.payments(), "");
+		setText(messages.payments());
 		createControls();
 		center();
 	}

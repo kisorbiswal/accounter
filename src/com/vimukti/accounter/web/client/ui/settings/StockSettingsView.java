@@ -38,7 +38,7 @@ public class StockSettingsView extends BaseView {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().stockSettings();
+		return messages.stockSettings();
 	}
 
 	public void init() {
@@ -77,36 +77,36 @@ public class StockSettingsView extends BaseView {
 	private void createControls() {
 
 		Label infoLabel;
-		infoLabel = new Label(Accounter.messages().stockSettings());
+		infoLabel = new Label(messages.stockSettings());
 		infoLabel.removeStyleName("gwt-Label");
 
-		infoLabel.setStyleName(Accounter.messages().labelTitle());
+		infoLabel.setStyleName(messages.labelTitle());
 		adjustDate = new DateItem(null);
 		adjustDate.setHelpInformation(true);
 		adjustDate.setDatethanFireEvent(new ClientFinanceDate());
 
-		entryNo = new IntegerField(this, Accounter.messages().no());
+		entryNo = new IntegerField(this, messages.no());
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		warehouseComboSelect = new WarehouseCombo(Accounter.messages().stockwarehouseCombo());
+		warehouseComboSelect = new WarehouseCombo(messages.stockwarehouseCombo());
 
-		itemComboSelect = new SelectCombo(Accounter.messages().stockItemType());
+		itemComboSelect = new SelectCombo(messages.stockItemType());
 		List<String> combolist = new ArrayList<String>();
 		combolist.add("Product");
 		combolist.add("Service");
 		itemComboSelect.initCombo(combolist);
-		itemGroupComboSelect = new ItemCombo(Accounter.messages().stockItemName(), 0);
-		adjustmentQuantity = new IntegerField(this,Accounter.messages().stockAdjustmentQuantity());
+		itemGroupComboSelect = new ItemCombo(messages.stockItemName(), 0);
+		adjustmentQuantity = new IntegerField(this,messages.stockAdjustmentQuantity());
 		entryNo.setWidth(100);
 		itemIncomeAmoutText = new LabelItem();
 		itemExpenseAmountText = new LabelItem();
 		itemIncomeAmoutTextlabel = new LabelItem();
 		itemExpenseAmountTextlabel = new LabelItem();
-		itemIncomeAmoutTextlabel.setValue(Accounter.messages().stockItemIncomeAccount());
-		itemExpenseAmountTextlabel.setValue(Accounter.messages().stockItemExpenseAccount());
-		amountText = new AmountField(Accounter.messages().stockItemAmount(),this,getBaseCurrency());
-		memo = new TextAreaItem(Accounter.messages().stockMemo());
+		itemIncomeAmoutTextlabel.setValue(messages.stockItemIncomeAccount());
+		itemExpenseAmountTextlabel.setValue(messages.stockItemExpenseAccount());
+		amountText = new AmountField(messages.stockItemAmount(),this,getBaseCurrency());
+		memo = new TextAreaItem(messages.stockMemo());
 		memo.setMemo(false,this);
 		memo.setWidth(100);
 

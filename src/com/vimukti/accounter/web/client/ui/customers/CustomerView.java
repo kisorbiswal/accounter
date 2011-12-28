@@ -1050,7 +1050,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customFieldForm = UIUtils.CustomFieldsform(messages.terms());
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
-		tdsCheckBox = new CheckboxItem(Accounter.messages()
+		tdsCheckBox = new CheckboxItem(messages
 				.willDeductTDSforUs());
 		tdsCheckBox.setDisabled(isInViewMode());
 
@@ -1086,11 +1086,11 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		vatregno.setDisabled(isInViewMode());
 		custTaxCode.setDisabled(isInViewMode());
 
-		customFieldDialog = new CustomFieldDialog(this, Accounter.messages().CustomField(),
-				Accounter.messages().ManageCustomFields());
+		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
+				messages.ManageCustomFields());
 
 		addCustomFieldButton = new Button();
-		addCustomFieldButton.setText(Accounter.messages().ManageCustomFields());
+		addCustomFieldButton.setText(messages.ManageCustomFields());
 		addCustomFieldButton.setWidth("100%");
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
@@ -1114,7 +1114,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		rightVLay.setWidth("100%");
 		HorizontalPanel customField = new HorizontalPanel();
 		customField.setWidth("100%");
-		Label customLable = new Label(Accounter.messages().CustomFieldstext());
+		Label customLable = new Label(messages.CustomFieldstext());
 		customField.add(customLable);
 		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);

@@ -62,7 +62,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 
 		ValidationResult result = new ValidationResult();
 		if (clientCurrency == null) {
-			result.addError(this, Accounter.messages().selectcurrency());
+			result.addError(this, messages.selectcurrency());
 
 		} else {
 			String value = clientCurrency.getName();
@@ -71,7 +71,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 				if(currency.getName()!=null)
 				if (currency.getName().equalsIgnoreCase(value)
 						&& currency.getID() != clientCurrency.getID()) {
-					result.addError(this, Accounter.messages()
+					result.addError(this, messages
 							.CurrencyAlreadyExists());
 				}
 			}

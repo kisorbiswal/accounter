@@ -82,15 +82,15 @@ public class AccounterDialog extends CustomDialog {
 			if (isError) {
 
 				imageUrl = Accounter.getFinanceImages().errorIcon();
-				setText(Accounter.messages().ERROR());
+				setText(messages.ERROR());
 
 			} else {
 
 				imageUrl = Accounter.getFinanceImages().infoIcon();
-				setText(Accounter.messages().INFORMATION());
+				setText(messages.INFORMATION());
 			}
 
-			okButton = new Button(Accounter.messages().ok());
+			okButton = new Button(messages.ok());
 			okButton.setWidth("80px");
 
 			// buttonLayout.setAlign(Alignment.RIGHT);
@@ -109,10 +109,10 @@ public class AccounterDialog extends CustomDialog {
 		} else {
 
 			imageUrl = Accounter.getFinanceImages().warnIcon();
-			setText(Accounter.messages().WARNING());
-			yesButton = new Button(Accounter.messages().yes());
+			setText(messages.WARNING());
+			yesButton = new Button(messages.yes());
 			yesButton.setWidth("60px");
-			noButton = new Button(Accounter.messages().no());
+			noButton = new Button(messages.no());
 			noButton.setWidth("60px");
 			yesButton.addClickHandler(new ClickHandler() {
 
@@ -139,7 +139,7 @@ public class AccounterDialog extends CustomDialog {
 			});
 			// buttonLayout.setAlign(Alignment.RIGHT);
 			if (this.type.equals(AccounterType.WARNINGWITHCANCEL)) {
-				cancelButton = new Button(Accounter.messages().cancel());
+				cancelButton = new Button(messages.cancel());
 				buttonLayout.add(yesButton);
 				buttonLayout.add(noButton);
 				buttonLayout.add(cancelButton);

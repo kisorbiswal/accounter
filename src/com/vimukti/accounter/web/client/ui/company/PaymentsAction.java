@@ -20,9 +20,9 @@ public class PaymentsAction extends Action {
 	public PaymentsAction(int category) {
 		super();
 		if (category == COMPANY)
-			catagory = Accounter.messages().company();
+			catagory = messages.company();
 		else
-			catagory = Accounter.messages().banking();
+			catagory = messages.banking();
 	}
 
 	@Override

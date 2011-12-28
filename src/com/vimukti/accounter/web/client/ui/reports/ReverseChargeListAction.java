@@ -13,7 +13,7 @@ public class ReverseChargeListAction extends Action {
 
 	public ReverseChargeListAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	@Override

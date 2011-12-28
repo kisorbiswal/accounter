@@ -17,7 +17,7 @@ public class ReceiveVATAction extends Action {
 
 	public ReceiveVATAction() {
 		super();
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	@Override

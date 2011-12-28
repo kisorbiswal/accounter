@@ -9,13 +9,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.vimukti.accounter.web.client.Global;
 
 public class CustomMenuItem extends MenuItem {
 
 	public CustomMenuItem(String text, Command cmd) {
 		super(text, false, cmd);
 		this.getElement().addClassName(
-				Accounter.messages().menuItemImage());
+				Global.get().messages().menuItemImage());
 	}
 
 	public void setIcon(ImageResource image) {

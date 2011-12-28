@@ -32,12 +32,12 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages().addNewAsset();
+		return messages.addNewAsset();
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().pendingItemsList();
+		return messages.pendingItemsList();
 	}
 
 	@Override
@@ -121,16 +121,16 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return messages().pendingItemsList();
+		return messages.pendingItemsList();
 	}
 
 }

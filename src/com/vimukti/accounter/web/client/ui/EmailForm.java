@@ -7,7 +7,9 @@ import java.util.Set;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEmail;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
@@ -21,6 +23,9 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * 
  */
 public class EmailForm extends DynamicForm {
+	
+	AccounterMessages messages=Global.get().messages();
+	
 	private SelectCombo businesEmailSelect;
 	private LinkedHashMap<Integer, ClientEmail> allEmails;
 	private ClientEmail toBeShownEmail = null;
@@ -34,10 +39,10 @@ public class EmailForm extends DynamicForm {
 		allEmails = new LinkedHashMap<Integer, ClientEmail>();
 		setEmails(emails);
 		setIsGroup(true);
-		setGroupTitle(Accounter.messages().emailAndInternet());
+		setGroupTitle(messages.emailAndInternet());
 		setNumCols(3);
 
-		businesEmailSelect = new SelectCombo(Accounter.messages().email());
+		businesEmailSelect = new SelectCombo(messages.email());
 		businesEmailSelect.setHelpInformation(true);
 		// businesEmailSelect.setWidth(85);
 		businesEmailSelect.getMainWidget().removeStyleName("gwt-ListBox");
@@ -58,9 +63,9 @@ public class EmailForm extends DynamicForm {
 					}
 				});
 
-		businesEmailText = new EmailField(Accounter.messages().email());
-		businesEmailSelect.setToolTip(Accounter.messages().giveOf(
-				Accounter.messages().email(), view));
+		businesEmailText = new EmailField(messages.email());
+		businesEmailSelect.setToolTip(messages.giveOf(
+				messages.email(), view));
 		businesEmailText.setHelpInformation(true);
 		businesEmailText.setWidth(100);
 		businesEmailText.setShowTitle(true);
@@ -81,7 +86,7 @@ public class EmailForm extends DynamicForm {
 						// + AccounterErrorType.INVALID_EMAIL + ".");
 						// BaseView.commentPanel.setVisible(true);
 
-						errorWidget.addError(this, Accounter.messages()
+						errorWidget.addError(this, messages
 								.invalidEmail());
 						// Accounter.showError(messages.invalidEmail());
 						// businesEmailText.setText("");
@@ -100,9 +105,9 @@ public class EmailForm extends DynamicForm {
 				}
 			}
 		});
-		webText = new TextItem(Accounter.messages().webPageAddress());
-		webText.setToolTip(Accounter.messages().giveOf(
-				Accounter.messages().webSite(), view));
+		webText = new TextItem(messages.webPageAddress());
+		webText.setToolTip(messages.giveOf(
+				messages.webSite(), view));
 		webText.setHelpInformation(true);
 		webText.setWidth(100);
 		LinkItem emptyItem = new LinkItem();

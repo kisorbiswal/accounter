@@ -12,7 +12,7 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	public InventoryItemsAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 	}
 
 	@Override

@@ -105,8 +105,8 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(Accounter.messages().newCashSale());
-		lab1.setStyleName(Accounter.messages().labelTitle());
+		Label lab1 = new Label(messages.newCashSale());
+		lab1.setStyleName(messages.labelTitle());
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
 				.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -141,19 +141,19 @@ public class CashSalesView extends
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(datepanel);
 
-		customerCombo = createCustomerComboItem(Accounter.messages().payeeName(
+		customerCombo = createCustomerComboItem(messages.payeeName(
 				Global.get().Customer()));
 		customerCombo.setRequired(false);
 		contactCombo = createContactComboItem();
 
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(Accounter.messages().phoneNumberOf(
+		phoneSelect.setToolTip(messages.phoneNumberOf(
 				this.getAction().getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(isInViewMode());
 
-		billToTextArea = new TextAreaItem(Accounter.messages().billTo());
+		billToTextArea = new TextAreaItem(messages.billTo());
 		billToTextArea.setDisabled(true);
 		shipToAddress = new ShipToForm(null);
 		shipToAddress.getCellFormatter().getElement(0, 0).getStyle()
@@ -293,7 +293,7 @@ public class CashSalesView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(Accounter.messages()
+		accountsDisclosurePanel = new DisclosurePanel(messages
 				.ItemizebyAccount());
 		accountFlowPanel.add(customerAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
@@ -344,7 +344,7 @@ public class CashSalesView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(Accounter.messages()
+		itemsDisclosurePanel = new DisclosurePanel(messages
 				.ItemizebyProductService());
 		itemsFlowPanel.add(customerItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
@@ -481,7 +481,7 @@ public class CashSalesView extends
 	private ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				Accounter.messages().shippingTerms());
+				messages.shippingTerms());
 		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
@@ -538,7 +538,7 @@ public class CashSalesView extends
 				&& taxCodeSelect != null
 				&& taxCodeSelect.getValue() != ""
 				&& !taxCodeSelect.getName().equalsIgnoreCase(
-						Accounter.messages().none()))
+						messages.none()))
 			taxCodeSelect.setComboItem(this.taxCode);
 
 		if (customer.getPhoneNo() != null)
@@ -1146,7 +1146,7 @@ public class CashSalesView extends
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().cashSales();
+		return messages.cashSales();
 	}
 
 	@Override
@@ -1233,7 +1233,7 @@ public class CashSalesView extends
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
-			foreignCurrencyamountLabel.setTitle(Accounter.messages()
+			foreignCurrencyamountLabel.setTitle(messages
 					.currencyTotal(
 							currencyWidget.getSelectedCurrency()
 									.getFormalName()));

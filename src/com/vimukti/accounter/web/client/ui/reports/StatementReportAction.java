@@ -18,7 +18,7 @@ public class StatementReportAction extends Action {
 		super();
 		this.isVendor = isVendor;
 		this.payeeId = payeeId;
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 
 	}
 

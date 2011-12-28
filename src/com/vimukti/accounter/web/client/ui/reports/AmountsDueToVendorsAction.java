@@ -18,7 +18,7 @@ public class AmountsDueToVendorsAction extends Action {
 
 	public AmountsDueToVendorsAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 	}
 
 	// @Override

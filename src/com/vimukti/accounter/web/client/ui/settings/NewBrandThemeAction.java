@@ -17,7 +17,7 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	public NewBrandThemeAction() {
 		super();
-		this.catagory = Accounter.messages().settings();
+		this.catagory = messages.settings();
 	}
 
 	@Override
@@ -46,10 +46,10 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 	private void runAysnc(Object data, Boolean isDependent) {
 		try {
 			if (data == null) {
-				view = new NewBrandingThemeView(Accounter.messages()
+				view = new NewBrandingThemeView(messages
 						.brandingTheme(), "");
 			} else {
-				view = new NewBrandingThemeView(Accounter.messages()
+				view = new NewBrandingThemeView(messages
 						.editBrandThemeLabel(), "", (ClientBrandingTheme) data);
 
 			}

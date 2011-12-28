@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
@@ -60,6 +62,8 @@ public abstract class AdminCustomTable extends VerticalPanel {
 	Element bodyrowElem;
 
 	protected boolean disable;
+	
+	AccounterMessages messages=Global.get().messages();
 	/**
 	 * on cell Doubled clicked , cell& row index coming wrong, so that I used
 	 * this variable hold to cell& row index when cell single clicked
@@ -107,7 +111,7 @@ public abstract class AdminCustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert(Accounter.messages()
+			Window.alert(messages
 					.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
@@ -234,7 +238,7 @@ public abstract class AdminCustomTable extends VerticalPanel {
 		imagePanel = new HorizontalPanel();
 		imagePanel.setStyleName("loading-panel");
 		imagePanel.add(new Image(Accounter.getFinanceImages().loadingImage()));
-		Label label = new Label(Accounter.messages().pleaseWaitDataIsLoading());
+		Label label = new Label(messages.pleaseWaitDataIsLoading());
 		imagePanel.add(label);
 		imagePanel.setCellVerticalAlignment(label,
 				HasVerticalAlignment.ALIGN_MIDDLE);

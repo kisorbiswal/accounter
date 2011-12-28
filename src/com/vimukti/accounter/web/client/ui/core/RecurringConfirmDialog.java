@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 
@@ -28,7 +27,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 
 	public RecurringConfirmDialog() {
 		super(true);
-		setText(Accounter.messages().pleaseConfirm());
+		setText(messages.pleaseConfirm());
 		setModal(true);
 		createControls();
 		gotoRecurringBtn.setFocus(true);
@@ -44,7 +43,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 		headerLayout = new HorizontalPanel();
 		headerLayout.setWidth("430px");
 		Label label = new Label();
-		label.setText(Accounter.messages()
+		label.setText(messages
 				.youSuccessfullyCreatedRecurringTemplate());
 		headerLayout.add(label);
 
@@ -61,7 +60,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		this.gotoRecurringBtn = new Button(Accounter.messages()
+		this.gotoRecurringBtn = new Button(messages
 				.gotoRecurringTransactionsList());
 
 		gotoRecurringBtn.addClickHandler(new ClickHandler() {
@@ -73,7 +72,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 			}
 		});
 
-		keepWorkingBtn = new Button(Accounter.messages()
+		keepWorkingBtn = new Button(messages
 				.keepWorkingOnThisTransaction());
 		keepWorkingBtn.addClickHandler(new ClickHandler() {
 

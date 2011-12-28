@@ -18,7 +18,7 @@ public class DepreciationSheduleReport extends
 
 	// private int reportType = REPORT_TYPE_D;
 	public DepreciationSheduleReport() {
-		super(false, Accounter.messages().noRecordsToShow());
+		super(false, messages.noRecordsToShow());
 		this.serverReport = new DepreciationSheduleServerReport(this);
 		this.serverReport.setIshowGridFooter(false);
 	}

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -2142,7 +2143,6 @@ public class ClientCompany implements IAccounterCore {
 
 	}
 
-
 	public void setFixedAssets(ArrayList<ClientFixedAsset> fixedAssets) {
 		this.fixedAssets = fixedAssets;
 	}
@@ -3027,7 +3027,8 @@ public class ClientCompany implements IAccounterCore {
 	public ClientCurrency getPrimaryCurrency() {
 		long id2 = getPreferences().getPrimaryCurrency().id;
 		if (id2 == 0) {
-			throw new RuntimeException(Accounter.messages().primaryCurrencyIdisZero());
+			throw new RuntimeException(Global.get().messages()
+					.primaryCurrencyIdisZero());
 		}
 		return getCurrency(id2);
 	}

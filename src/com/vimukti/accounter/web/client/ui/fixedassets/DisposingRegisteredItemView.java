@@ -36,7 +36,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	 */
 	@Override
 	protected DynamicForm getDetailForm() {
-		dateDisposed = new DateField(Accounter.messages().dateDisposed());
+		dateDisposed = new DateField(messages.dateDisposed());
 		dateDisposed.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(dateDisposed.getYear() + 1900);
 		dateDisposed.addDateValueChangeHandler(new DateValueChangeHandler() {

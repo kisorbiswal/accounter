@@ -41,7 +41,7 @@ public class BrandingThemeComboAction extends Action {
 	private void runAsync(List<InvoicesList> listData) {
 
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				Accounter.messages().selectThemes(), "", listData);
+				messages.selectThemes(), "", listData);
 		comboDialog.show();
 		comboDialog.center();
 
@@ -49,7 +49,7 @@ public class BrandingThemeComboAction extends Action {
 
 	private void runAsync(Object data, Boolean isDependent) {
 		BrandingThemeComboDialog comboDialog = new BrandingThemeComboDialog(
-				Accounter.messages().selectThemes(), "",
+				messages.selectThemes(), "",
 				(ClientTransaction) data);
 		comboDialog.show();
 		comboDialog.center();

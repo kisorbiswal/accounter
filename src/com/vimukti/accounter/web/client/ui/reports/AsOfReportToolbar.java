@@ -31,18 +31,18 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { Accounter.messages().cash(),
-				Accounter.messages().accrual() };
-		String[] dateRangeArray = { Accounter.messages().all(),
-				Accounter.messages().thisWeek(),
-				Accounter.messages().thisMonth(),
-				Accounter.messages().lastWeek(),
-				Accounter.messages().lastMonth(),
-				Accounter.messages().thisFinancialYear(),
-				Accounter.messages().lastFinancialYear(),
-				Accounter.messages().thisFinancialQuarter(),
-				Accounter.messages().lastFinancialQuarter(),
-				Accounter.messages().financialYearToDate(),
+		String[] reportBasisArray = { messages.cash(),
+				messages.accrual() };
+		String[] dateRangeArray = { messages.all(),
+				messages.thisWeek(),
+				messages.thisMonth(),
+				messages.lastWeek(),
+				messages.lastMonth(),
+				messages.thisFinancialYear(),
+				messages.lastFinancialYear(),
+				messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(),
+				messages.financialYearToDate(),
 
 				// FinanceApplication.constants().today(),
 				// FinanceApplication.constants().endThisWeek(),
@@ -71,7 +71,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 				// .previousFiscalYearSameDates(),
 				// FinanceApplication.constants().lastCalenderYear(),
 				// FinanceApplication.constants().previousCalenderYear(),
-				Accounter.messages().custom() };
+				messages.custom() };
 
 		LabelItem report = new LabelItem();
 		report.setTitle("Report Basis - Accrual");
@@ -84,7 +84,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// // report basic is not yet implemented, so disable the feature.
 		// reportBasisItem.setDisabled(true);
 
-		dateRangeCombo = new SelectCombo(Accounter.messages().dateRange());
+		dateRangeCombo = new SelectCombo(messages.dateRange());
 		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
@@ -93,7 +93,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
 		dateRangeCombo
-				.setComboItem(Accounter.messages().financialYearToDate());
+				.setComboItem(messages.financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -127,14 +127,14 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				if (date != null) {
 					if (!date.after(startDate))
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.pleaseSelectDateAfterCompanyStartDate()
 								+ UIUtils.getDateStringByDate(startDate
 										.toString()));
 					else
 						changeDates(startDate, date);
 				} else {
-					Accounter.showError(Accounter.messages()
+					Accounter.showError(messages
 							.pleaseSelectDate());
 				}
 
@@ -150,7 +150,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		else
 			customDate.setValue(new ClientFinanceDate());
 
-		updateButton = new Button(Accounter.messages().update());
+		updateButton = new Button(messages.update());
 		// updateButton.setEnabled(false);
 		updateButton.addClickHandler(new ClickHandler() {
 
@@ -162,9 +162,9 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						startDate, customDate.getDate());
-				dateRangeCombo.setDefaultValue(Accounter.messages().custom());
-				dateRangeCombo.setComboItem(Accounter.messages().custom());
-				setSelectedDateRange(Accounter.messages().custom());
+				dateRangeCombo.setDefaultValue(messages.custom());
+				dateRangeCombo.setComboItem(messages.custom());
+				setSelectedDateRange(messages.custom());
 
 			}
 		});

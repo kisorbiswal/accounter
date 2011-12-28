@@ -23,7 +23,7 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().warehouseList();
+		return messages.warehouseList();
 	}
 
 	@Override
@@ -60,13 +60,13 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().warehouseList();
+		return messages.warehouseList();
 	}
 
 	@Override
 	protected Action getAddNewAction() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
+				.equalsIgnoreCase(messages.readOnly()))
 			return ActionFactory.getWareHouseViewAction();
 		else
 			return null;
@@ -75,8 +75,8 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages().readOnly()))
-			return Accounter.messages().addNewWarehouse();
+				.equalsIgnoreCase(messages.readOnly()))
+			return messages.addNewWarehouse();
 		else
 			return "";
 	}
@@ -99,9 +99,9 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}

@@ -11,7 +11,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -19,6 +20,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
  * 
  */
 public class RadioGroupItem extends FormItem<String> {
+
+	protected static AccounterMessages messages = Global.get().messages();
 
 	RadioButton radioButton;
 	VerticalPanel vPanel;
@@ -56,7 +59,7 @@ public class RadioGroupItem extends FormItem<String> {
 
 		for (String string : buttonTitles) {
 			if (this.grouoName == null) {
-				this.grouoName = Accounter.messages().radioButtonGroup();
+				this.grouoName = messages.radioButtonGroup();
 			}
 			radioButton = new RadioButton(this.grouoName, string);
 			this.radioButtonList.add(radioButton);
@@ -70,15 +73,13 @@ public class RadioGroupItem extends FormItem<String> {
 
 	public void setValueMap(String title1, String title2) {
 
-		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
-				title1);
+		radioButton = new RadioButton(messages.radioButtonGroup(), title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
 
-		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
-				title2);
+		radioButton = new RadioButton(messages.radioButtonGroup(), title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
@@ -88,22 +89,19 @@ public class RadioGroupItem extends FormItem<String> {
 
 	public void setValueMap(String title1, String title2, String title3) {
 
-		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
-				title1);
+		radioButton = new RadioButton(messages.radioButtonGroup(), title1);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
 
-		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
-				title2);
+		radioButton = new RadioButton(messages.radioButtonGroup(), title2);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}
 		this.radioButtonList.add(radioButton);
 
-		radioButton = new RadioButton(Accounter.messages().radioButtonGroup(),
-				title3);
+		radioButton = new RadioButton(messages.radioButtonGroup(), title3);
 		if (this.clickHandler != null) {
 			this.radioButton.addClickHandler(clickHandler);
 		}

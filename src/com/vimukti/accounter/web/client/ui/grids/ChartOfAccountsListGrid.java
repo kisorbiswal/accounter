@@ -78,12 +78,12 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] getColumns() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			messages = Accounter.messages();
+			messages = messages;
 			return new String[] { messages.active(), messages.no(),
 					messages.name(), messages.type(), messages.balance(),
 					messages.register(), "" };
 		} else {
-			messages = Accounter.messages();
+			messages = messages;
 			return new String[] { messages.active(), messages.name(),
 					messages.type(), messages.balance(), messages.register(),
 					"" };

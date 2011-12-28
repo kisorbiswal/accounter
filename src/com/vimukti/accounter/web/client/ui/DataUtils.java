@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.RegExpValidator;
@@ -9,6 +10,8 @@ import com.vimukti.accounter.web.client.ui.forms.Validator;
 
 public class DataUtils {
 
+	protected static AccounterMessages messages=Global.get().messages();
+	
 	public static Validator phoneValidator() {
 		Validator custValidator = new Validator() {
 
@@ -42,13 +45,13 @@ public class DataUtils {
 
 	public static Validator emailValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.messages().emailFormatExpr());
+		validator.setExpression(messages.emailFormatExpr());
 		return validator;
 	}
 
 	public static Validator webValidator() {
 		RegExpValidator validator = new RegExpValidator();
-		validator.setExpression(Accounter.messages().webFormatExpr());
+		validator.setExpression(messages.webFormatExpr());
 		return validator;
 	}
 

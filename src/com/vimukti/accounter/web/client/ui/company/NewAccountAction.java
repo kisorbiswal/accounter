@@ -20,7 +20,7 @@ public class NewAccountAction extends Action<ClientAccount> {
 
 	public NewAccountAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	// public void setBaseCanvas(AbstractBaseView<?> baseView) {

@@ -10,7 +10,7 @@ public class UsersAction extends Action {
 
 	public UsersAction() {
 		super();
-		this.catagory = Accounter.messages().settings();
+		this.catagory = messages.settings();
 	}
 
 	@Override

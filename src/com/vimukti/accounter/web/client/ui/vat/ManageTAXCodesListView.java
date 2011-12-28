@@ -41,7 +41,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			return messages().addaNewTaxCode();
+			return messages.addaNewTaxCode();
 		} else {
 			return "";
 		}
@@ -49,7 +49,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().taxCodesList();
+		return messages.taxCodesList();
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 			}
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 
@@ -130,16 +130,16 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return messages().vatCodeList();
+		return messages.vatCodeList();
 	}
 
 }

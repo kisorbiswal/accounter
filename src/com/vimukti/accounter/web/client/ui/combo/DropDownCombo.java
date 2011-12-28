@@ -26,8 +26,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.CustomComboItem;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -36,7 +36,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 
 	protected IAccounterComboSelectionChangeHandler<T> handler;
 
-	protected AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private boolean isAddNewRequire;
 	private DropDownTable<T> dropDown;
 	private int cols;
@@ -81,11 +81,11 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 			protected String getColumnValue(T object, int col) {
 				if (object.equals("addNewCaption")) {
 					if (cols > 1)
-						return (col == 1) ? Accounter.messages()
+						return (col == 1) ? messages
 								.comboDefaultAddNew(getDefaultAddNewCaption())
 								: "  ";
 					else
-						return Accounter.messages().comboDefaultAddNew(
+						return messages.comboDefaultAddNew(
 								getDefaultAddNewCaption());
 				}
 				return getColumnData(object, col);
@@ -431,7 +431,7 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (value == null) {
 			super.setValue("");
 		} else {
-			if (!value.equals(Accounter.messages().comboDefaultAddNew(
+			if (!value.equals(messages.comboDefaultAddNew(
 					getDefaultAddNewCaption())))
 				super.setValue(value);
 		}

@@ -79,14 +79,14 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			return messages().addNew(messages().Account());
+			return messages.addNew(messages.Account());
 		else
 			return "";
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages().payeesList(messages().Accounts());
+		return messages.payeesList(messages.Accounts());
 	}
 
 	@Override
@@ -116,9 +116,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
-			viewSelect.setComboItem(messages().active());
+			viewSelect.setComboItem(messages.active());
 		} else {
-			viewSelect.setComboItem(messages().inActive());
+			viewSelect.setComboItem(messages.inActive());
 		}
 	}
 
@@ -158,8 +158,8 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> selectTypes = new ArrayList<String>();
-		selectTypes.add(messages().active());
-		selectTypes.add(messages().inActive());
+		selectTypes.add(messages.active());
+		selectTypes.add(messages.inActive());
 		return selectTypes;
 	}
 
@@ -180,7 +180,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		// }
 		// }
 		// if (grid.getRecords().isEmpty()) {
-		// grid.addEmptyMessage(messages().noRecordsToShow());
+		// grid.addEmptyMessage(messages.noRecordsToShow());
 		// }
 	}
 
@@ -207,7 +207,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages().Account();
+		return messages.Account();
 	}
 
 }

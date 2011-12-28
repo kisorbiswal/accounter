@@ -12,12 +12,12 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class EditTable<R> extends SimplePanel {
 
-	protected AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages=Global.get().messages();
 	private FlexTable table;
 	private ArrayList<ArrayList<EditColumn<R>>> columns = new ArrayList<ArrayList<EditColumn<R>>>();
 	private CellFormatter cellFormatter;

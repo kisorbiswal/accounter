@@ -19,7 +19,7 @@ public class ARAgingDetailAction extends Action<AgedDebtors> {
 
 	public ARAgingDetailAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 
 	}
 

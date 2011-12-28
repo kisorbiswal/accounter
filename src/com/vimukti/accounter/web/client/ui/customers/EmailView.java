@@ -90,7 +90,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		AccounterMessages messages = Global.get().messages();
 
-		fromAddcombo = new EmailCombo(Accounter.messages().from(), false);
+		fromAddcombo = new EmailCombo(messages.from(), false);
 		ArrayList<String> toAdd = fromAddcombo.getToAddress();
 
 		from = toAdd.get(0);
@@ -108,7 +108,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		ccAddress.setRequired(false);
 		ccAddress.setWidth(80);
 
-		subject = new TextItem(Accounter.messages().subject());
+		subject = new TextItem(messages.subject());
 		subject.setWidth(80);
 
 		emailBody = new TextAreaItem();
@@ -212,7 +212,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 	private String getValidMail(String email) {
 		if (email.trim().length() != 0) {
 			if (!UIUtils.isValidMultipleEmailIds(email)) {
-				Accounter.showError(Accounter.messages().invalidEmail());
+				Accounter.showError(messages.invalidEmail());
 				return "";
 			} else
 				return email;
@@ -254,17 +254,17 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 				&& toAddress.getValue().trim().length() == 0) {
 			result.addError(
 					fromAddcombo,
-					Accounter.messages().pleaseEnter(
-							Accounter.messages().to() + " & "
-									+ Accounter.messages().from()));
+					messages.pleaseEnter(
+							messages.to() + " & "
+									+ messages.from()));
 		} else if (from.trim().length() == 0) {
 			result.addError(
 					fromAddcombo,
-					Accounter.messages().pleaseEnter(
-							Accounter.messages().from()));
+					messages.pleaseEnter(
+							messages.from()));
 		} else if (toAddress.getValue().trim().length() == 0) {
 			result.addError(toAddress,
-					Accounter.messages().pleaseEnter(Accounter.messages().to()));
+					messages.pleaseEnter(messages.to()));
 		} else if (UIUtils.isValidEmail(from)
 				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
 						.toString())) {

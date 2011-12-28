@@ -114,7 +114,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return Accounter.messages().dueDate();
+					return messages.dueDate();
 				}
 			};
 			this.addColumn(dateCoulmn);
@@ -145,7 +145,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().invoice();
+				return messages.invoice();
 			}
 		};
 		this.addColumn(invoiceNumber);
@@ -165,7 +165,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.messages()
+				return getColumnNameWithCurrency(messages
 						.invoiceAmount());
 			}
 
@@ -198,7 +198,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(Accounter.messages()
+					return getColumnNameWithCurrency(messages
 							.amountDue());
 				}
 
@@ -240,7 +240,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().discountDate();
+				return messages.discountDate();
 			}
 		};
 		// this.addColumn(discountDateColumn);
@@ -265,7 +265,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().cashDiscount();
+				return messages.cashDiscount();
 			}
 
 			@Override
@@ -297,7 +297,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().writeOff();
+				return messages.writeOff();
 			}
 
 			@Override
@@ -327,7 +327,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return Accounter.messages().appliedCredits();
+				return messages.appliedCredits();
 			}
 
 			@Override
@@ -356,7 +356,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(Accounter.messages().payment());
+				return getColumnNameWithCurrency(messages.payment());
 			}
 
 			@Override
@@ -414,7 +414,7 @@ public abstract class TransactionReceivePaymentTable extends
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.receivePaymentExcessDue());
 			}
 		}
@@ -439,7 +439,7 @@ public abstract class TransactionReceivePaymentTable extends
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
-								Accounter.showInformation(Accounter.messages()
+								Accounter.showInformation(messages
 										.failedTogetCreditsListAndPayments(
 												customer.getName()));
 
@@ -610,7 +610,7 @@ public abstract class TransactionReceivePaymentTable extends
 				newAppliedCreditsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation(Accounter.messages()
+			Accounter.showInformation(messages
 					.noCreditsforthiscustomer(Global.get().customer()));
 		}
 		if (!canEdit) {
@@ -723,7 +723,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(Accounter.messages()
+			throw new Exception(messages
 					.youdnthaveBalToApplyCredits());
 	}
 
@@ -778,7 +778,7 @@ public abstract class TransactionReceivePaymentTable extends
 			ClientTransactionReceivePayment selectedObject) {
 		double totalValue = getTotalValue(selectedObject);
 		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, Accounter.messages()
+				.getAmountDue(), totalValue, messages
 				.receiveAmountPayDue())) {
 			return true;
 		} else

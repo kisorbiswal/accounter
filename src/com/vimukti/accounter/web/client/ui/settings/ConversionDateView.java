@@ -14,9 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -35,7 +33,6 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 	private List<String> monthList;
 	private List<String> yearList;
 	private Button saveButton, cancelButton;
-	private AccounterMessages messages = Accounter.messages();
 
 	@Override
 	public void fitToSize(int height, int width) {
@@ -58,7 +55,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		titleHtml = new HTML(messages.conversionDate());
 		superTitleHtml = new HTML(messages.conversionBalanceTitle());
 
-		bodyHtml = new HTML(Accounter.messages()
+		bodyHtml = new HTML(messages
 				.conversationDateSelectionHTML());
 
 		bodycommentHtml = new HTML(messages.conversionBodyComment());
@@ -95,7 +92,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 			@Override
 			public String asString() {
 				// TODO Auto-generated method stub
-				return Accounter.messages().bodyFooter();
+				return messages.bodyFooter();
 			}
 		};
 		monthCombo.initCombo(monthList);
@@ -269,7 +266,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().conversionDate();
+		return messages.conversionDate();
 	}
 
 	@Override

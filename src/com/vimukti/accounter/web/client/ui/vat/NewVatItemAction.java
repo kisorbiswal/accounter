@@ -14,7 +14,7 @@ public class NewVatItemAction extends Action<ClientTAXItem> {
 
 	public NewVatItemAction() {
 		super();
-		this.catagory = Accounter.messages().tax();
+		this.catagory = messages.tax();
 	}
 
 	@Override

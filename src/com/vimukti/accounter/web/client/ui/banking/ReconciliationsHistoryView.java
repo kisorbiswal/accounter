@@ -52,7 +52,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		mainPanel.setWidth("100%");
 		DynamicForm form = new DynamicForm();
 		form.setItems(bankAccountsCombo);
-		Label label = new Label(Accounter.messages().ReconciliationsList());
+		Label label = new Label(messages.ReconciliationsList());
 		label.setStyleName("bold");
 
 		mainPanel.add(form);
@@ -158,8 +158,8 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 	}
 
 	public void showDialogBox(String description) {
-		InvoicePrintDialog printDialog = new InvoicePrintDialog(Accounter
-				.messages().selectReports(), "", description);
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(
+				messages.selectReports(), "", description);
 		printDialog.show();
 		printDialog.center();
 	}

@@ -318,7 +318,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
-		accInfoForm = UIUtils.form(Accounter.messages().payeeInformation(
+		accInfoForm = UIUtils.form(messages.payeeInformation(
 				messages.Account()));
 
 		statusCheck = new CheckboxItem(messages.active());
@@ -366,8 +366,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 					}
 				});
-		liabilitySalesAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().salesLiabilityAccount());
+		liabilitySalesAccountCombo = new VATAgencyAccountCombo(messages.salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo
@@ -382,8 +381,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilitySalesAccountCombo.setRequired(true);
 
-		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(Accounter
-				.messages().purchaseLiabilityAccount());
+		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(messages.purchaseLiabilityAccount());
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo
@@ -436,7 +434,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm = new DynamicForm();
 		// memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
-		memoArea.setToolTip(Accounter.messages().writeCommentsForThis(
+		memoArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());

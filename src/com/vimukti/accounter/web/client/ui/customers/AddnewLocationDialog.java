@@ -57,7 +57,7 @@ public class AddnewLocationDialog extends BaseDialog<ClientLocation> {
 	private void createControls() {
 		form = new DynamicForm();
 		form.setWidth("100%");
-		locationName = new TextItem(Accounter.messages().AddLocation());
+		locationName = new TextItem(messages.AddLocation());
 		locationName.setHelpInformation(true);
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();

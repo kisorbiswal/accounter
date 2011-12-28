@@ -23,13 +23,13 @@ public class ReconciliationsListAction extends Action {
 	 */
 	public ReconciliationsListAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	public ReconciliationsListAction(ClientReconciliation reconcilation,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class ReconciliationsListAction extends Action {
 
 	@Override
 	public String getText() {
-		return Accounter.messages().ReconciliationsList();
+		return messages.ReconciliationsList();
 	}
 
 }

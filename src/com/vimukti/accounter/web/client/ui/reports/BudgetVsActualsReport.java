@@ -35,7 +35,7 @@ public class BudgetVsActualsReport extends AbstractReportView<ClientBudgetList> 
 
 		budgetId = id;
 		if (budgetId == 999L) {
-			super.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			super.addEmptyMessage(messages.noRecordsToShow());
 		} else {
 			Accounter.createReportService().getBudgetItemsList(id, this);
 		}

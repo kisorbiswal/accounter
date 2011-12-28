@@ -34,7 +34,7 @@ public class CustomFieldDialog extends BaseDialog {
 		super(title, description);
 		this.parentView = view;
 		setWidth("650px");
-		okbtn.setText(Accounter.messages().save());
+		okbtn.setText(messages.save());
 		createControls();
 		setPopupPosition(200, 200);
 		initData();
@@ -50,7 +50,7 @@ public class CustomFieldDialog extends BaseDialog {
 		customFieldTable = new CustomFieldTable();
 
 		addNew = new Button();
-		addNew.setText(Accounter.messages().add());
+		addNew.setText(messages.add());
 		addNew.addClickHandler(new ClickHandler() {
 
 			@Override

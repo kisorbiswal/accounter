@@ -41,7 +41,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 	public CustomerMergeDialog(String title, String descript) {
 		super(title, descript);
 		setWidth("650px");
-		okbtn.setText(Accounter.messages().merge());
+		okbtn.setText(messages.merge());
 		createControls();
 		center();
 		clientCustomer1 = null;
@@ -61,31 +61,31 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem(Accounter.messages().payeeID(
+		customerIDTextItem = new TextItem(messages.payeeID(
 				Global.get().Customer()));
 
 		customerIDTextItem.setHelpInformation(true);
 		customerIDTextItem.setDisabled(true);
 
-		customerIDTextItem1 = new TextItem(Accounter.messages().payeeID(
+		customerIDTextItem1 = new TextItem(messages.payeeID(
 				Global.get().Customer()));
 
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
 
-		status = new CheckboxItem(Accounter.messages().active());
+		status = new CheckboxItem(messages.active());
 		status.setValue(false);
 
 		status.setHelpInformation(true);
 
-		status1 = new CheckboxItem(Accounter.messages().active());
+		status1 = new CheckboxItem(messages.active());
 		status1.setValue(false);
 
-		balanceTextItem = new TextItem(Accounter.messages().balance());
+		balanceTextItem = new TextItem(messages.balance());
 		balanceTextItem.setHelpInformation(true);
 		balanceTextItem.setDisabled(true);
 
-		balanceTextItem1 = new TextItem(Accounter.messages().balance());
+		balanceTextItem1 = new TextItem(messages.balance());
 		balanceTextItem1.setHelpInformation(true);
 		balanceTextItem1.setDisabled(true);
 		customerCombo.setRequired(true);
@@ -105,7 +105,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo1() {
 
-		customerCombo1 = new CustomerCombo(Accounter.messages().payeeTo(
+		customerCombo1 = new CustomerCombo(messages.payeeTo(
 				Global.get().Customer()), false);
 		customerCombo1.setHelpInformation(true);
 		customerCombo1.setRequired(true);
@@ -127,10 +127,10 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo() {
 
-		customerCombo = new CustomerCombo(Accounter.messages().payeeFrom(
+		customerCombo = new CustomerCombo(messages.payeeFrom(
 				Global.get().Customer()), false);
 
-		customerCombo = new CustomerCombo(Accounter.messages().payeeFrom(
+		customerCombo = new CustomerCombo(messages.payeeFrom(
 				Global.get().Customer()), false);
 
 		customerCombo.setHelpInformation(true);
@@ -171,7 +171,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		if (clientCustomer != null && clientCustomer1 != null) {
 			if (clientCustomer1.getID() == clientCustomer.getID()) {
 				result.addError(clientCustomer,
-						Accounter.messages().notMove(Global.get().customers()));
+						messages.notMove(Global.get().customers()));
 				return result;
 			}
 		}

@@ -130,7 +130,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatCodeTxt.setWidth(100);
 		vatCodeTxt.setDisabled(isInViewMode());
 		description = new TextAreaItem();
-		description.setToolTip(Accounter.messages()
+		description.setToolTip(messages
 				.writeCommentsForThis(this.getAction().getViewName())
 				.replace(messages.comments(), messages.description()));
 		description.setHelpInformation(true);

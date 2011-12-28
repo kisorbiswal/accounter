@@ -23,22 +23,22 @@ import com.vimukti.accounter.web.client.ui.grids.RemindersListGrid;
 
 public class RemindersListView extends BaseListView<ClientReminder> {
 
-	public static String ALL = Accounter.messages().all();
-	public static String BILL = Accounter.messages().bill();
-	public static String CASH_EXPENSE = Accounter.messages().cashExpense();
-	public static String CASH_SALES = Accounter.messages().cashSale();
-	public static String CASH_PURCHASE = Accounter.messages().cashPurchase();
-	public static String CREDIT_CARD_EXPENSE = Accounter.messages()
+	public static String ALL = messages.all();
+	public static String BILL = messages.bill();
+	public static String CASH_EXPENSE = messages.cashExpense();
+	public static String CASH_SALES = messages.cashSale();
+	public static String CASH_PURCHASE = messages.cashPurchase();
+	public static String CREDIT_CARD_EXPENSE = messages
 			.creditCardExpense();
-	public static String CUSTOMER_CREDIT_MEMO = Accounter.messages()
+	public static String CUSTOMER_CREDIT_MEMO = messages
 			.customerCreditNote(Global.get().Customer());
-	public static String DEPOSIT_TRANSFER_FUNDS = Accounter.messages()
+	public static String DEPOSIT_TRANSFER_FUNDS = messages
 			.depositTransferFunds();
-	public static String INVOICE = Accounter.messages().invoice();
-	public static String QUOTE = Accounter.messages().quote();
-	public static String VENDOR_CREDIT_MEMO = Accounter.messages()
+	public static String INVOICE = messages.invoice();
+	public static String QUOTE = messages.quote();
+	public static String VENDOR_CREDIT_MEMO = messages
 			.vendorCreditMemo();
-	public static String WRITE_CHECK = Accounter.messages().writeCheck();
+	public static String WRITE_CHECK = messages.writeCheck();
 
 	Map<String, Integer> typesMap = new HashMap<String, Integer>();
 
@@ -72,7 +72,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 		HorizontalPanel panel = new HorizontalPanel();
 
-		createButton = new Button(Accounter.messages().createSelected());
+		createButton = new Button(messages.createSelected());
 		createButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -81,7 +81,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 			}
 		});
 
-		skipButton = new Button(Accounter.messages().skipSelected());
+		skipButton = new Button(messages.skipSelected());
 		skipButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -102,7 +102,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 			if (isCreate) {
 				for (ClientReminder reminder : records) {
 					if (!reminder.isValid()) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.someSelectedRecordsAreNeedToBeEdited());
 						return;
 					}
@@ -129,7 +129,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 			Accounter.createCRUDService().createOrSkipTransactions(records,
 					isCreate, callBack);
 		} else {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.pleaseSelectAtLeastOneRecord());
 		}
 	}
@@ -152,9 +152,9 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
 		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages().active());
+		// viewSelect.setComboItem(messages.active());
 		// } else {
-		// viewSelect.setComboItem(messages().inActive());
+		// viewSelect.setComboItem(messages.inActive());
 		// }
 
 	}
@@ -167,7 +167,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 	@Override
 	protected String getListViewHeading() {
-		return Accounter.messages().remindersList();
+		return messages.remindersList();
 	}
 
 	@Override
@@ -183,12 +183,12 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().remindersList();
+		return messages.remindersList();
 	}
 
 	@Override
 	protected SelectCombo getSelectItem() {
-		viewSelect = new SelectCombo(Accounter.messages().currentView());
+		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.setHelpInformation(true);
 		initTypesMap();
 		List<String> listOfTypes = new ArrayList<String>(typesMap.keySet());
@@ -229,7 +229,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 			grid.setRecords(reminders);
 		}
 		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(Accounter.messages().noRecordsToShow());
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
 	}
 

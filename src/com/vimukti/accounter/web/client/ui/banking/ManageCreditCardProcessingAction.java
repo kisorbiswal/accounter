@@ -8,7 +8,7 @@ public class ManageCreditCardProcessingAction extends Action {
 
 	public ManageCreditCardProcessingAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	/**

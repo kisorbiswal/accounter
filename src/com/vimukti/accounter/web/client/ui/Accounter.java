@@ -266,11 +266,8 @@ public class Accounter implements EntryPoint {
 		return endDate;
 	}
 
-	public static String getAppName() {
-		return Accounter.messages().accounter();
-	}
 
-	public static AccounterMessages messages() {
+	public static AccounterMessages getMessages() {
 		if (messages == null) {
 			try {
 				messages = (AccounterMessages) GWT
@@ -392,7 +389,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		Button loginBtn = new Button(messages().logIn());
+		Button loginBtn = new Button(getMessages().logIn());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override

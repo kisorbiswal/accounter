@@ -25,9 +25,9 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 	}
 
 	private void createControls() {
-		firstNameTextItem = new TextItem(Accounter.messages().firstName());
+		firstNameTextItem = new TextItem(messages.firstName());
 		firstNameTextItem.setValue(clientUser.getFirstName());
-		lastNameTextItem = new TextItem(Accounter.messages().lastName());
+		lastNameTextItem = new TextItem(messages.lastName());
 		lastNameTextItem.setValue(clientUser.getLastName());
 		mainPanel = new VerticalPanel();
 		DynamicForm form = new DynamicForm();
@@ -35,7 +35,7 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		form.setNumCols(2);
 		form.setFields(firstNameTextItem, lastNameTextItem);
 		mainPanel.add(form);
-		okbtn.setText(Accounter.messages().save());
+		okbtn.setText(messages.save());
 		setBodyLayout(mainPanel);
 
 	}
@@ -46,11 +46,11 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 		String lastName = lastNameTextItem.getValue();
 		if (firstName.isEmpty() || firstName == null || lastName.isEmpty()
 				|| lastName == null) {
-			addError(this, Accounter.messages().nameShouldnotbeempty());
+			addError(this, messages.nameShouldnotbeempty());
 			return false;
 		} else if (firstName.equals(clientUser.getFirstName())
 				&& lastName.equals(clientUser.getLastName())) {
-			addError(this, Accounter.messages().bothnamessameasprevious());
+			addError(this, messages.bothnamessameasprevious());
 			return false;
 		} else {
 			final ClientUserInfo userInfo = clientUser.toUserInfo();
@@ -68,12 +68,12 @@ public class EditProfileDialog extends BaseDialog<ClientUserInfo> {
 						public void onResultSuccess(Long result) {
 							if (result != null) {
 								removeFromParent();
-								Accounter.showInformation(Accounter.messages()
+								Accounter.showInformation(messages
 										.updatedSuccessfully());
 								Header.userName.setText(userInfo.getFullName());
 								getCallback().actionResult(userInfo);
 							} else {
-								addError(this, Accounter.messages()
+								addError(this, messages
 										.yourPresentPasswordisWrong());
 							}
 						}

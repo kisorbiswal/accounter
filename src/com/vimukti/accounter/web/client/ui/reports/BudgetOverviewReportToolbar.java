@@ -48,7 +48,7 @@ public class BudgetOverviewReportToolbar extends ReportToolbar {
 
 	public void createControls() {
 
-		budgetName = new SelectCombo(Accounter.messages().budget());
+		budgetName = new SelectCombo(messages.budget());
 		budgetName.setHelpInformation(true);
 		statusList = new ArrayList<String>();
 		for (String str : budgetArray) {

@@ -23,11 +23,15 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class FormItem<T> {
 
+	protected static AccounterMessages messages=Global.get().messages();
+	
 	private String title;
 	private String name;
 	private T value;
@@ -349,7 +353,7 @@ public abstract class FormItem<T> {
 		}
 	}
 
-	public String helpMessage = Accounter.messages().help();
+	public String helpMessage = messages.help();
 	public PopupPanel popupPanel;
 
 	public void displayHelpMessage(MouseUpEvent event) {
@@ -377,7 +381,7 @@ public abstract class FormItem<T> {
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
 				result.addError(item,
-						Accounter.messages().pleaseEnter(item.getTitle()));
+						messages.pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;

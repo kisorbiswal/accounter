@@ -14,7 +14,7 @@ public class APAgingSummaryReportAction extends Action<DummyDebitor> {
 
 	public APAgingSummaryReportAction() {
 		super();
-		this.catagory = Accounter.messages().report();
+		this.catagory = messages.report();
 
 	}
 

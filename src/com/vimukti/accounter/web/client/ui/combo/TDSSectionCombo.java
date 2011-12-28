@@ -27,7 +27,7 @@ public class TDSSectionCombo extends CustomCombo<ClientAccount> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return Accounter.messages().paymentMethod();
+		return messages.paymentMethod();
 	}
 
 	public void init() {

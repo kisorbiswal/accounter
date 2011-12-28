@@ -113,25 +113,25 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { Accounter.messages().active(),
-					Accounter.messages().itemName(),
-					Accounter.messages().description(),
-					Accounter.messages().type(),
-					Accounter.messages().salesPrice(),
-					Accounter.messages().purchasePrice(), "" };
+			return new String[] { messages.active(),
+					messages.itemName(),
+					messages.description(),
+					messages.type(),
+					messages.salesPrice(),
+					messages.purchasePrice(), "" };
 		} else if (ItemListView.isPurchaseType) {
-			return new String[] { Accounter.messages().active(),
-					Accounter.messages().itemName(),
-					Accounter.messages().description(),
-					Accounter.messages().type(),
-					Accounter.messages().purchasePrice(), "" };
+			return new String[] { messages.active(),
+					messages.itemName(),
+					messages.description(),
+					messages.type(),
+					messages.purchasePrice(), "" };
 
 		} else {
-			return new String[] { Accounter.messages().active(),
-					Accounter.messages().itemName(),
-					Accounter.messages().description(),
-					Accounter.messages().type(),
-					Accounter.messages().salesPrice(), "" };
+			return new String[] { messages.active(),
+					messages.itemName(),
+					messages.description(),
+					messages.type(),
+					messages.salesPrice(), "" };
 
 		}
 	}

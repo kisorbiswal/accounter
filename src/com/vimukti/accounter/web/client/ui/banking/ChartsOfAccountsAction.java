@@ -13,7 +13,7 @@ public class ChartsOfAccountsAction extends Action {
 
 	public ChartsOfAccountsAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

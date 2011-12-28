@@ -87,7 +87,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	public void showAddEditPriceLevel(ClientPriceLevel rec) {
-		dialog = new AddPriceLevelDialog(this, Accounter.messages()
+		dialog = new AddPriceLevelDialog(this, messages
 				.priceLevel(), "");
 		priceLevel = rec;
 		if (priceLevel != null) {
@@ -96,9 +96,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			dialog.percentText.setPercentage(priceLevel.getPercentage());
 
 			String increaseOrDecrease = priceLevel
-					.isPriceLevelDecreaseByThisPercentage() ? Accounter
-					.messages().decreasePriceLevelByThisPercentage()
-					: Accounter.messages()
+					.isPriceLevelDecreaseByThisPercentage() ? messages.decreasePriceLevelByThisPercentage()
+					: messages
 							.increasePriceLevelByThisPercentage();
 
 			dialog.levelRadio.setValue(increaseOrDecrease);
@@ -121,7 +120,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
-					.equals(Accounter.messages()
+					.equals(messages
 							.decreasePriceLevelByThisPercentage()));
 		}
 		saveOrUpdate(priceLevel);
@@ -140,7 +139,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
-					.equals(Accounter.messages()
+					.equals(messages
 							.decreasePriceLevelByThisPercentage()));
 		}
 		saveOrUpdate(priceLevel);
@@ -161,8 +160,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { Accounter.messages().name(),
-				Accounter.messages().percentage() };
+		return new String[] { messages.name(),
+				messages.percentage() };
 	}
 
 	@Override
@@ -181,11 +180,11 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			if (priceLevel != null) {
 				if (!(priceLevel.getName().equalsIgnoreCase(name) ? true
 						: priceLevelByName == null)) {
-					result.addError(this, Accounter.messages().alreadyExist());
+					result.addError(this, messages.alreadyExist());
 				}
 			} else {
 				if (priceLevelByName != null) {
-					result.addError(this, Accounter.messages()
+					result.addError(this, messages
 							.priceLevelAlreadyExists());
 				}
 			}

@@ -14,7 +14,7 @@ public class NewCashBasisJournalEntryAction extends Action {
 
 	public NewCashBasisJournalEntryAction() {
 		super();
-		this.catagory = Accounter.messages().company();
+		this.catagory = messages.company();
 	}
 
 	// @Override
@@ -35,7 +35,7 @@ public class NewCashBasisJournalEntryAction extends Action {
 			MainFinanceWindow.getViewManager().showView(new JournalEntryView(),
 					null, false, this);
 		} catch (Exception e) {
-			Accounter.showError(Accounter.messages()
+			Accounter.showError(messages
 					.failedToLoadCashBasisJournalEntry());
 		}
 

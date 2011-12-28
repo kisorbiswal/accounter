@@ -428,8 +428,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 											addRecord(entry);
 										}
 									} else
-										grid.addEmptyMessage(Accounter
-												.messages().noRecordsToShow());
+										grid.addEmptyMessage(messages.noRecordsToShow());
 
 								}
 

@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -410,17 +412,17 @@ public class ClientTransactionItem implements IAccounterCore {
 	public String toString() {
 		try {
 			StringBuffer buffer = new StringBuffer();
-
+			AccounterMessages messages = Global.get().messages();
 			switch (type) {
 			case ClientTransactionItem.TYPE_ACCOUNT:
-				buffer.append(Accounter.messages().Account() + String.valueOf(account));
+				buffer.append(messages.Account() + String.valueOf(account));
 				break;
 
 			case ClientTransactionItem.TYPE_ITEM:
-				buffer.append(Accounter.messages().item() + String.valueOf(item));
+				buffer.append(messages.item() + String.valueOf(item));
 
 			default:
-				buffer.append(Accounter.messages().comment() + String.valueOf(description));
+				buffer.append(messages.comment() + String.valueOf(description));
 				break;
 			}
 

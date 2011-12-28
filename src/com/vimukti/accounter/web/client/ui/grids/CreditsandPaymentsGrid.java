@@ -196,7 +196,7 @@ public class CreditsandPaymentsGrid extends
 					// || balance != 0 ? ((amtTouse
 					// .compareTo(item.getActualAmt()) > 0) ? true : false)
 					// : false) {
-					Accounter.showError(Accounter.messages()
+					Accounter.showError(messages
 							.receivedPaymentAppliedCreditsAmount());
 					setText(indexOf(item),
 							4,
@@ -204,7 +204,7 @@ public class CreditsandPaymentsGrid extends
 									item.getAmtTouse(), currency));
 				} else {
 					if (DecimalUtil.isLessThan(balance, 0)) {
-						Accounter.showError(Accounter.messages()
+						Accounter.showError(messages
 								.receivedPaymentAppliedCreditsAmount());
 						setText(indexOf(item),
 								4,
@@ -219,7 +219,7 @@ public class CreditsandPaymentsGrid extends
 
 						updateAmountValues();
 						if (!newdialog.validTotalAmountUse()) {
-							Accounter.showError(Accounter.messages()
+							Accounter.showError(messages
 									.amountToUseMustLessthanTotal());
 							editingRecord.setAmtTouse(prevAmtToUse);
 							editingRecord.setBalance(prevBalance);
@@ -230,7 +230,7 @@ public class CreditsandPaymentsGrid extends
 
 				}
 			} catch (Exception e) {
-				Accounter.showError(Accounter.messages().invalidAmount());
+				Accounter.showError(messages.invalidAmount());
 			}
 
 			break;
@@ -353,7 +353,7 @@ public class CreditsandPaymentsGrid extends
 		ValidationResult result = new ValidationResult();
 		if (this.getRecords().size() > 0
 				&& this.getSelectedRecords().size() == 0) {
-			result.addError(this, Accounter.messages().selectTransaction());
+			result.addError(this, messages.selectTransaction());
 		}
 		return result;
 	}

@@ -33,7 +33,7 @@ public class MISC1099TransactionDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return Accounter.messages().MISC1099TransactionDetailByVendor(
+		return messages.MISC1099TransactionDetailByVendor(
 				Global.get().Vendor());
 	}
 
@@ -97,7 +97,7 @@ public class MISC1099TransactionDetailServerReport extends
 			int box1099 = record.getBox1099();
 			String box = "";
 			if (box1099 > 0) {
-				box = Accounter.messages().box() + box1099;
+				box = messages.box() + box1099;
 			}
 			return box;
 

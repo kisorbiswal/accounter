@@ -68,7 +68,7 @@
 //
 //		grid = new DialogGrid<EstimatesAndSalesOrdersList>(true);
 //		grid.addColumns(messages.date(), messages.no(),
-//				messages.type(), Accounter.messages().payeeName(
+//				messages.type(), messages.payeeName(
 //						Global.get().Customer()), messages.total(),
 //				messages.remainingTotal());
 //		grid.setView(this);

@@ -7,7 +7,6 @@ import java.util.Map;
 
 public abstract class Command {
 	MobileConstants constants;
-	MobileMessages messages;
 	private Map<Object, Object> attributes = new HashMap<Object, Object>();
 	private List<Requirement> requirements = new ArrayList<Requirement>();
 	private boolean isDone;
@@ -46,10 +45,6 @@ public abstract class Command {
 
 	}
 
-	public MobileMessages messages() {
-		return messages;
-
-	}
 
 	public boolean isAllRequirementsFulfilled() {
 		// TODO

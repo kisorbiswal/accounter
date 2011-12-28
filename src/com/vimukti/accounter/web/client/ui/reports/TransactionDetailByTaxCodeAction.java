@@ -15,7 +15,7 @@
 //
 //	public TransactionDetailByTaxCodeAction(String text) {
 //		super(text);
-//		this.catagory = Accounter.messages().report();
+//		this.catagory = messages.report();
 //	}
 //
 //	public void runAsync(final Object data, final Boolean isDependent) {
@@ -24,7 +24,7 @@
 //
 //			@Override
 //			public void onCreated() {
-//				Accounter.showInformation(Accounter.messages()
+//				Accounter.showInformation(messages
 //						.thisReportNotYetImplemented());
 //
 //			}

@@ -12,7 +12,7 @@ public class MeasurementListAction extends Action<ClientMeasurement> {
 
 	public MeasurementListAction() {
 		super();
-		this.catagory = Accounter.messages().inventory();
+		this.catagory = messages.inventory();
 
 	}
 

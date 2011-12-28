@@ -22,10 +22,10 @@ public class SaveAndNewButtom extends ImageButton {
 	 * Creates new Instance
 	 */
 	public SaveAndNewButtom(AbstractBaseView<?> view) {
-		super(Accounter.messages().saveAndNew(), Accounter.getFinanceImages()
+		super(messages.saveAndNew(), Accounter.getFinanceImages()
 				.saveAndNew());
 		this.view = view;
-		this.setTitle(Accounter.messages().clickThisToOpenNew(
+		this.setTitle(messages.clickThisToOpenNew(
 				view.getAction().getViewName()));
 		// this.addStyleName("saveAndNew-Btn");
 		addClichHandler();

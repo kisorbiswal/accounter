@@ -11,8 +11,8 @@ public class InviteUserAction extends Action {
 
 	public InviteUserAction() {
 		super();
-		this.catagory = Accounter.messages().settings() + " > "
-				+ Accounter.messages().users();
+		this.catagory = messages.settings() + " > "
+				+ messages.users();
 	}
 
 	@Override

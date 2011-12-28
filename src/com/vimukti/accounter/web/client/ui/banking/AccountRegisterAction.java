@@ -16,12 +16,12 @@ public class AccountRegisterAction extends Action<ClientAccount> {
 	public AccountRegisterAction(ClientAccount account) {
 		super();
 		this.account = account;
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	public AccountRegisterAction() {
 		super();
-		this.catagory = Accounter.messages().banking();
+		this.catagory = messages.banking();
 	}
 
 	@Override

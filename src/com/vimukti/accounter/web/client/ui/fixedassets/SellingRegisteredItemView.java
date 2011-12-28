@@ -86,28 +86,28 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	private void createControls() {
 
 		listforms = new ArrayList<DynamicForm>();
-		detailsLabel = new Label(Accounter.messages().details());
-		detailsLabel.setStyleName(Accounter.messages().labelTitle());
+		detailsLabel = new Label(messages.details());
+		detailsLabel.setStyleName(messages.labelTitle());
 
 		detailsForm = getDetailForm();
 
 		depriciationForFinancialyearLabel = new Label();
-		depriciationForFinancialyearLabel.setStyleName(Accounter.messages()
+		depriciationForFinancialyearLabel.setStyleName(messages
 				.labelTitle());
 
-		depriciationForFinancialyearLabel.setText(Accounter.messages()
+		depriciationForFinancialyearLabel.setText(messages
 				.depriciationForThe()
-				+ yearValue + Accounter.messages().financialYear());
+				+ yearValue + messages.financialYear());
 
 		HorizontalPanel topPanel = new HorizontalPanel();
 		topPanel.add(detailsForm);
 
 		QuestionLabel = new Label();
-		QuestionLabel.setText(Accounter.messages()
+		QuestionLabel.setText(messages
 				.howMuchDepriciationShouldBeIcludedInThisFinancialYear());
 		QuestionItem = new RadioGroupItem();
-		noDepOption = Accounter.messages().noDepreciationThisFinancialYear();
-		allDepOption = Accounter.messages().allDepreciationUpToIncluding();
+		noDepOption = messages.noDepreciationThisFinancialYear();
+		allDepOption = messages.allDepreciationUpToIncluding();
 		QuestionItem.setValues(new ClickHandler() {
 
 			@Override
@@ -119,7 +119,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
-		dateItemCombo = new SelectItem(Accounter.messages().date());
+		dateItemCombo = new SelectItem(messages.date());
 		dateForm = new DynamicForm();
 		dateForm.setWidth("50%");
 		dateForm.setFields(dateItemCombo);
@@ -132,10 +132,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 		notesArea = new TextAreaItem();
 		notesArea.setWidth(100);
-		notesArea.setToolTip(Accounter.messages().writeCommentsForThis(
+		notesArea.setToolTip(messages.writeCommentsForThis(
 				this.getAction().getViewName()).replace(
-				Accounter.messages().comments(), Accounter.messages().notes()));
-		notesArea.setTitle(Accounter.messages().notes());
+				messages.comments(), messages.notes()));
+		notesArea.setTitle(messages.notes());
 
 		textAreaForm = new DynamicForm();
 		// textAreaForm.setWidth("100%");
@@ -168,7 +168,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return
 	 */
 	protected DynamicForm getDetailForm() {
-		datesold = new DateField(Accounter.messages().datesold());
+		datesold = new DateField(messages.datesold());
 		datesold.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(datesold.getYear());
 		datesold.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -182,7 +182,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		accountCombo = createDebitAccountCombo();
 		accountCombo.setRequired(true);
 
-		salepriceText = new AmountField(Accounter.messages()
+		salepriceText = new AmountField(messages
 				.salepriceExcludingTax(), this, getBaseCurrency());
 		salepriceText.setRequired(true);
 		salepriceText.setWidth(100);
@@ -198,7 +198,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected void openJournalDialog(
 			FixedAssetSellOrDisposeReviewJournal journalObject) {
-		dialog = new JournalViewDialog(Accounter.messages().journalView(), "",
+		dialog = new JournalViewDialog(messages.journalView(), "",
 				journalObject);
 		dialog.addInputDialogHandler(new InputDialogHandler() {
 
@@ -281,9 +281,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected void dateSelected() {
 		yearValue = String
 				.valueOf(getSoldorDisposedDateField().getYear() );
-		depriciationForFinancialyearLabel.setText(Accounter.messages()
+		depriciationForFinancialyearLabel.setText(messages
 				.depriciationForThe()
-				+ yearValue + "     " + Accounter.messages().financialYear());
+				+ yearValue + "     " + messages.financialYear());
 		initDateCombo();
 	}
 
@@ -387,16 +387,16 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		// is valid sell or dispose date?
 		result.add(detailsForm.validate());
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
-			result.addError(salepriceText, Accounter.messages().zeroAmount());
+			result.addError(salepriceText, messages.zeroAmount());
 		}
 		if (AccounterValidator.validate_Radiovalue(QuestionItem.getValue())) {
-			result.addError(QuestionItem, Accounter.messages()
+			result.addError(QuestionItem, messages
 					.shouldSelectRadio());
 		}
 
 		if (QuestionItem.getValue().equals(allDepOption)) {
 			if (AccounterValidator.isNullValue(dateItemCombo.getValue())) {
-				result.addError(dateItemCombo, Accounter.messages()
+				result.addError(dateItemCombo, messages
 						.requiredFields());
 			}
 		}
@@ -405,9 +405,9 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			if (AccounterValidator.isValidSellorDisposeDate(
 					new ClientFinanceDate(asset.getPurchaseDate()),
 					getSoldorDisposedDateField().getEnteredDate())) {
-				result.addError(dateItemCombo, Accounter.messages().datesold()
+				result.addError(dateItemCombo, messages.datesold()
 						+ " "
-						+ Accounter.messages().conditionalMsg()
+						+ messages.conditionalMsg()
 						+ "  ("
 						+ UIUtils.getDateStringFormat(new ClientFinanceDate(
 								asset.getPurchaseDate())) + "  )");
@@ -435,7 +435,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(Accounter.messages()
+				Accounter.showError(messages
 						.receiveJournalisFailed());
 			}
 
@@ -526,7 +526,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			// ActionFactory.getSoldDisposedListAction().run(null,
 			// false);
 		} else
-			saveFailed(new AccounterException(Accounter.messages().failed()));
+			saveFailed(new AccounterException(messages.failed()));
 
 	}
 
@@ -562,8 +562,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	}
 
 	private DebitAccountCombo createDebitAccountCombo() {
-		DebitAccountCombo accountCombo = new DebitAccountCombo(Accounter
-				.messages().accountToDebitForSale());
+		DebitAccountCombo accountCombo = new DebitAccountCombo(messages.accountToDebitForSale());
 
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -627,12 +626,12 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	protected String getViewTitle() {
-		return Accounter.messages().sellingRegisteredItem();
+		return messages.sellingRegisteredItem();
 	}
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		reviewJournal = new Button(Accounter.messages().reviewJournal());
+		reviewJournal = new Button(messages.reviewJournal());
 
 		reviewJournal.addClickHandler(new ClickHandler() {
 

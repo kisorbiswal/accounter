@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
@@ -31,7 +30,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 public abstract class TreeGrid<T> extends CustomTable {
 
 	List<Object> objects = new ArrayList<Object>();
-	protected AccounterMessages messages = Accounter.messages();
 
 	String currentParent;
 

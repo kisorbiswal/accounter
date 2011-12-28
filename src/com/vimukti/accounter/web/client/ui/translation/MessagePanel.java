@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.translate.TranslateServiceAsync;
@@ -24,7 +25,7 @@ public class MessagePanel extends VerticalPanel {
 	private TranslateServiceAsync async = Accounter.createTranslateService();
 	private VerticalPanel mainPanel, localMessagesPanel;
 
-	private AccounterMessages messages = Accounter.messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private boolean canApprove;
 
 	public MessagePanel(TranslationView view, String language,

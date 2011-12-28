@@ -108,7 +108,7 @@ public class JournalEntryView extends
 		List<ClientTransactionItem> allEntries = grid.getAllRows();
 		for (ClientTransactionItem entry : allEntries) {
 			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
-				result.addError(this, Accounter.messages()
+				result.addError(this, messages
 						.valueCannotBe0orlessthan0(messages.amount()));
 			}
 		}
@@ -261,7 +261,7 @@ public class JournalEntryView extends
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(messages.no());
-		jourNoText.setToolTip(Accounter.messages().giveNoTo(
+		jourNoText.setToolTip(messages.giveNoTo(
 				this.getAction().getViewName()));
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
