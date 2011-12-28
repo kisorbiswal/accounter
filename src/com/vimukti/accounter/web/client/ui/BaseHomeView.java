@@ -49,7 +49,8 @@ public class BaseHomeView extends AbstractView<Object> {
 					(Resources) GWT.create(Resources.class), true,
 					pageSize * 2, true);
 			pager.setDisplay(payeeGrid);
-			pager.setWidth("50%");
+			pager.addStyleName("pager-images");
+			leftLayout.setSpacing(10);
 			leftLayout.add(payeeGrid);
 			leftLayout.add(pager);
 		}
