@@ -54,6 +54,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int TDSTRANSACTIONITEM = 84;
 	public static final int TDSRESPONSIBLEPERSON = 85;
 	public static final int TDSDEDUCTORMASTER = 86;
+	public static final int REPORT_GROUP = 87;
 
 	String getName();
 
@@ -66,6 +67,6 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 
 	long getID();
 
-//	String getClientClassSimpleName();
+	// String getClientClassSimpleName();
 
 }
