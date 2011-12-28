@@ -253,9 +253,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public boolean canPrint() {
-		if (baseListView instanceof IPrintableView) {
-			return ((IPrintableView) baseListView).canPrint();
-		}
+		// if (baseListView instanceof IPrintableView) {
+		// return ((IPrintableView) baseListView).canPrint();
+		// }
 		return false;
 	}
 
