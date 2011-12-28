@@ -46,7 +46,7 @@ public class LocalInfoCache {
 				String[] split = strLine.split("=");
 				String key = split[0].trim();
 				String[] values = split[1].trim().split(",");
-				createDateTimeFormatInfo(dateTimeFormatInfo, key, values);
+				createDateTimeFormatInfoObj(dateTimeFormatInfo, key, values);
 			}
 			DayAndMonthUtil dayAndMonthUtil = new DayAndMonthUtil(
 					(DateTimeFormatInfo) dateTimeFormatInfo);
@@ -59,13 +59,14 @@ public class LocalInfoCache {
 	}
 
 	/**
+	 * Creating DateTimeFormatInfo Object depending on Keys
 	 * 
 	 * @param dateTimeFormatInfo
 	 * @param key
 	 * @param values
 	 * @return
 	 */
-	private static DummyDateTimeFormatInfo createDateTimeFormatInfo(
+	private static DummyDateTimeFormatInfo createDateTimeFormatInfoObj(
 			DummyDateTimeFormatInfo dateTimeFormatInfo, String key,
 			String[] values) {
 		if (key.equalsIgnoreCase("eras")) {
