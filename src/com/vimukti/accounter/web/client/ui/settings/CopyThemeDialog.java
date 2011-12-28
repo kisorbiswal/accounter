@@ -6,7 +6,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 
@@ -64,6 +63,14 @@ public class CopyThemeDialog extends BaseDialog {
 					.getInvoiceTempleteName());
 			clientBrandingTheme.setCreditNoteTempleteName(theme
 					.getCreditNoteTempleteName());
+			clientBrandingTheme.setQuoteTemplateName(theme
+					.getQuoteTemplateName());
+			clientBrandingTheme.setOverDueInvoiceTitle(theme
+					.getOverDueInvoiceTitle());
+			clientBrandingTheme.setCreditMemoTitle(theme.getCreditMemoTitle());
+			clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
+			clientBrandingTheme.setQuoteTitle(theme.getQuoteTitle());
+			clientBrandingTheme.setPayPalEmailID(theme.getPayPalEmailID());
 		} else {
 			// for regular BrandingTheme
 			clientBrandingTheme.setPageSizeType(theme.getPageSizeType());
@@ -78,6 +85,7 @@ public class CopyThemeDialog extends BaseDialog {
 					.getOverDueInvoiceTitle());
 			clientBrandingTheme.setCreditMemoTitle(theme.getCreditMemoTitle());
 			clientBrandingTheme.setStatementTitle(theme.getStatementTitle());
+			clientBrandingTheme.setQuoteTitle(theme.getQuoteTitle());
 			clientBrandingTheme.setContactDetails(theme.getContactDetails());
 			clientBrandingTheme.setTerms_And_Payment_Advice(theme
 					.getTerms_And_Payment_Advice());
@@ -95,6 +103,8 @@ public class CopyThemeDialog extends BaseDialog {
 					.getInvoiceTempleteName());
 			clientBrandingTheme.setCreditNoteTempleteName(theme
 					.getCreditNoteTempleteName());
+			clientBrandingTheme.setQuoteTemplateName(theme
+					.getQuoteTemplateName());
 			clientBrandingTheme.setCustomFile(false);
 		}
 		return clientBrandingTheme;
