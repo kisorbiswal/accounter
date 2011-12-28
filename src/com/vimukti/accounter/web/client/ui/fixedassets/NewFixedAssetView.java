@@ -618,11 +618,11 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 					if (isInViewMode() && value.length() != 0) {
 						ClientFixedAssetNote note = new ClientFixedAssetNote();
 						note.setNote(value);
-						// List<ClientFixedAssetNote> noteList = data
-						// .getFixedAssetNotes();
-						// noteList.add(note);
+						List<ClientFixedAssetNote> noteList = data
+								.getFixedAssetNotes();
+						noteList.add(note);
 						// data.setFixedAssetNotes(noteList);
-						saveOrUpdate(data);
+						// aveOrUpdate(data);
 					}
 				}
 				return true;
