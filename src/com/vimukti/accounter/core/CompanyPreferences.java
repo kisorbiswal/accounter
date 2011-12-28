@@ -157,6 +157,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	FinanceDate startDate = new FinanceDate();
 
 	private int decimalNumber;
+	private String decimalCharacte = ".";
+	private String digitGroupCharacter = ",";
 
 	private FinanceDate depreciationStartDate = new FinanceDate();
 
@@ -180,6 +182,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	// currency related properties
 	private Currency primaryCurrency;
+
+	private String currencyFormat;
 
 	// Organization type
 	private int organizationType;
@@ -1532,5 +1536,29 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public boolean isCreditsApplyAutomaticEnable() {
 		return get(AUTOMATIC_CREDITS_APPLY);
+	}
+
+	public String getCurrencyFormat() {
+		return currencyFormat;
+	}
+
+	public void setCurrencyFormat(String currencyFormat) {
+		this.currencyFormat = currencyFormat;
+	}
+
+	public String getDecimalCharacte() {
+		return decimalCharacte;
+	}
+
+	public void setDecimalCharacte(String decimalCharacte) {
+		this.decimalCharacte = decimalCharacte;
+	}
+
+	public String getDigitGroupCharacter() {
+		return digitGroupCharacter;
+	}
+
+	public void setDigitGroupCharacter(String digitGroupCharacter) {
+		this.digitGroupCharacter = digitGroupCharacter;
 	}
 }
