@@ -37,12 +37,14 @@ import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.images.FinanceImages;
 import com.vimukti.accounter.web.client.images.FinanceMenuImages;
 import com.vimukti.accounter.web.client.theme.ThemeImages;
@@ -126,7 +128,8 @@ public class Accounter implements EntryPoint {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter.showError(Accounter.messages.AccounterLoadingFailed());
+							Accounter.showError(Accounter.messages
+									.AccounterLoadingFailed());
 						}
 					});
 					RootPanel.get("mainWindow").add(header);
@@ -134,7 +137,6 @@ public class Accounter implements EntryPoint {
 					RootPanel.get("mainWindow").add(setupWizard);
 				} else {
 					Accounter.setCompany(company);
-
 					Accounter.setUser(company.getLoggedInUser());
 					startDate = company.getTransactionStartDate();
 					endDate = company.getTransactionStartDate();
@@ -166,6 +168,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	private static void initGUI() {
+		// Setting currency format
+		setCurrencyFormat();
 		reloadMacMenu();
 		mainWindow = new MainFinanceWindow();
 		RootPanel.get("mainWindow").add(mainWindow);
@@ -307,6 +311,7 @@ public class Accounter implements EntryPoint {
 		boolean isAdmin = JNSI.getIsAdmin("isAdmin");
 		IGlobal global = GWT.create(ClientGlobal.class);
 		Global.set(global);
+
 		if (isAdmin) {
 			return;
 		}
@@ -628,5 +633,18 @@ public class Accounter implements EntryPoint {
 		};
 		Accounter.createCRUDService().doCreateIssuePaymentEffect(obj,
 				transactionCallBack);
+	}
+
+	public static void setCurrencyFormat() {
+		ClientCompanyPreferences preferences = getCompany().getPreferences();
+		AccounterNumberFormat
+				.setCurrencyPattern(preferences.getCurrencyFormat(),
+						preferences.getDecimalNumber());
+		AccounterNumberFormat currencyFormat = AccounterNumberFormat
+				.getCurrencyFormat();
+		currencyFormat.decimalSeparator = preferences.getDecimalCharacter()
+				.charAt(0);
+		currencyFormat.groupingSeparator = preferences.getDigitGroupCharacter()
+				.charAt(0);
 	}
 }
