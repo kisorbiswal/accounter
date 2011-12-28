@@ -146,8 +146,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		zipLabel.setText(messages.zipCode());
 		countryLabel.setText(messages.country());
 		phoneLabel.setText(messages.phone());
-		phone.setTitle(messages.phoneNumberOf(
-				messages.company()));
+		phone.setTitle(messages.phoneNumberOf(messages.company()));
 		faxLabel.setText(messages.fax());
 		emailAdressLabel.setText(messages.emailId());
 		webSiteLabel.setText(messages.webSite());
@@ -171,7 +170,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				countryChanged();
 			}
 		});
-		countryChanged();
 
 		this.timezones = CoreUtils.getTimeZonesAsList();
 		for (String tz : timezones) {
@@ -185,6 +183,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				break;
 			}
 		}
+		countryChanged();
 
 	}
 
@@ -199,7 +198,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 		String countryName = country.getItemText(selectedCountry);
 		setCountry(countryName);
-		ICountryPreferences countryPreferences = CountryPreferenceFactory
+		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
 			setStates(countryPreferences.getStates());
@@ -212,12 +211,28 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				}
 			}
 			List<String> monthNames = CoreUtils.getMonthNames();
+			stateChanged(countryPreferences);
 			preferences.setFiscalYearFirstMonth(monthNames
 					.indexOf(countryPreferences
 							.getDefaultFiscalYearStartingMonth()));
+			stateListBox.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					stateChanged(countryPreferences);
+				}
+			});
 		} else {
 			System.err.println(countryName);
 		}
+	}
+
+	private void stateChanged(ICountryPreferences countryPreferences) {
+		String selectedState = stateListBox.getItemText(stateListBox
+				.getSelectedIndex());
+		int selectedTimeZone = timezones.indexOf(countryPreferences
+				.getDefaultTimeZone(selectedState));
+		timezoneslistbox.setSelectedIndex(selectedTimeZone);
 	}
 
 	private String getDefaultTzOffsetStr() {
@@ -363,8 +378,8 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 			return true;
 
 		} else {
-			Accounter.showError(messages.pleaseEnter(displayNameLabel
-					.getText()));
+			Accounter
+					.showError(messages.pleaseEnter(displayNameLabel.getText()));
 			return false;
 		}
 
