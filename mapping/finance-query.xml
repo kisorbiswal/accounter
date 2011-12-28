@@ -8888,12 +8888,12 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=8
+		WHERE T.SAVE_STATUS  &lt;&gt; 204 AND T.T_TYPE=8
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
+		T.COMPANY_ID=:companyId  AND T.T_DATE
 		BETWEEN :fromDate AND :toDate AND
 		I.DUE_DATE &lt;= :currentDate AND
-		C.ID=:customerId
+		C.ID=:customerId 
 		ORDER BY DUE_DATE
 	</sql-query>
 
@@ -9017,7 +9017,6 @@
 		ELSE
 		FALSE
 		END AS
-		ISVOIDED,S
 		ISVOIDED,
 		NULL AS DUE_DATE,
 		0.0 AS BALANCE,
@@ -9166,7 +9165,7 @@
 		THEN TRUE
 		ELSE
 		FALSE
-		END AS ISVOIDED,
+		END AS IS_VOIDED,
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		RP.CHECK_NUMBER
