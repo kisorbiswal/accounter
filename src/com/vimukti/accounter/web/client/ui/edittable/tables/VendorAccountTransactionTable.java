@@ -42,10 +42,10 @@ public abstract class VendorAccountTransactionTable extends
 		addEmptyRecords();
 	}
 
-	public VendorAccountTransactionTable(boolean needDiscount,
-			boolean enableTax, boolean showTaxCode,
+	public VendorAccountTransactionTable(boolean enableTax,
+			boolean showTaxCode, boolean enableDisCount, boolean showDiscount,
 			ICurrencyProvider currencyProvider, boolean isCustomerAllowedToAdd) {
-		super(1, needDiscount, isCustomerAllowedToAdd, currencyProvider);
+		super(1, enableDisCount, isCustomerAllowedToAdd, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		addEmptyRecords();
