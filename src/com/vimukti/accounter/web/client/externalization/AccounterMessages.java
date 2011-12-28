@@ -13,8 +13,6 @@ public interface AccounterMessages extends Messages {
 
 	public String accandaccumulatedDepreciationAccShouldnotbesame();
 
-	public String accept();
-
 	public String accepted();
 
 	// public String Accounnumbers();
@@ -5649,5 +5647,7 @@ public interface AccounterMessages extends Messages {
 	public String postiveCurrencyFormat();
 
 	public String negativeCurrencyFormat();
+
+	public String acceptEstimate();
 
 }

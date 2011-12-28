@@ -350,12 +350,10 @@ public class FileUploadDilaog extends CustomDialog {
 
 			if (isCustomTemplateUpload) {
 				// for custom file error message
-				Accounter
-						.showInformation(messages.noFileSelected());
+				Accounter.showInformation(messages.noFileSelected());
 			} else {
 				// for image error message
-				Accounter.showInformation(messages
-						.noImageisselected());
+				Accounter.showInformation(messages.noImageisselected());
 			}
 			return;
 		}
@@ -460,7 +458,7 @@ public class FileUploadDilaog extends CustomDialog {
 			final AccounterAsyncCallback<ClientBrandingTheme> callback,
 			String parentId) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
-		builder.setHeader(messages.accept(), "text/html");
+		builder.setHeader("Accept", "text/html");
 		// Create a callback object to handle the result
 		RequestCallback requestCallback = new RequestCallback() {
 			public void onError(Request request, Throwable exception) {

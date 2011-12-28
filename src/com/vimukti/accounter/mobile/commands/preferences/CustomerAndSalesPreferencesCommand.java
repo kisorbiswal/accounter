@@ -129,14 +129,12 @@ public class CustomerAndSalesPreferencesCommand extends
 		});
 
 		list.add(new StringListRequirement(INCLUDE_ESTIMATES, getMessages()
-				.accept() + " " + getMessages().estimate(), getMessages()
-				.accept() + " " + getMessages().estimate(), true, true, null) {
+				.acceptEstimate(), getMessages().acceptEstimate(), true, true,
+				null) {
 			@Override
 			protected String getSelectString() {
-				return getMessages()
-						.pleaseSelect(
-								getMessages().accept() + " "
-										+ getMessages().estimate());
+				return getMessages().pleaseSelect(
+						getMessages().acceptEstimate());
 			}
 
 			@Override
