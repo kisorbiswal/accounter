@@ -109,18 +109,16 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		ActionFactory.getNewFixedAssetAction().run(obj, false);
+
 	}
 
 	@Override
-	protected void onClick(ClientFixedAsset obj, int row, int col) {
-
+	protected void onDoubleClick(ClientFixedAsset obj, int row, int index) {
 		if (!(Accounter.getUser().getUserRole().equals(RolePermissions.ADMIN) || Accounter
 				.getUser().getUserRole()
 				.equals(RolePermissions.FINANCIAL_ADVISER)))
 			return;
-
-		switch (col) {
+		switch (index) {
 		case 5:
 			openHistoryView(obj);
 			break;
@@ -130,7 +128,16 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 7:
 			showWarnDialog(obj);
 			break;
+		default:
+			ActionFactory.getNewFixedAssetAction().run(obj, false);
+			break;
 		}
+
+	}
+
+	@Override
+	protected void onClick(ClientFixedAsset obj, int row, int col) {
+
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {
