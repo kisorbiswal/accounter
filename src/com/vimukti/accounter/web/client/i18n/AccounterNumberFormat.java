@@ -3,10 +3,12 @@ package com.vimukti.accounter.web.client.i18n;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.CurrencyData;
 import com.google.gwt.i18n.client.CurrencyList;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.client.constants.NumberConstants;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 /**
@@ -297,14 +299,13 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 public class AccounterNumberFormat {
 
 	// Sets of constants as defined for the current locale from CLDR.
-	protected static final NumberConstants localizedNumberConstants = LocaleInfo
-			.getCurrentLocale().getNumberConstants();
+	protected static NumberConstants localizedNumberConstants;
 
 	/**
 	 * Current NumberConstants interface to use, see
 	 * {@link #setForcedLatinDigits(boolean)} for changing it.
 	 */
-	protected static NumberConstants defaultNumberConstants = localizedNumberConstants;
+	protected static NumberConstants defaultNumberConstants;
 
 	// Cached instances of standard formatters.
 	private static AccounterNumberFormat cachedCurrencyFormat;
@@ -531,6 +532,18 @@ public class AccounterNumberFormat {
 		return currencyData;
 	}
 
+	public static String toPrecision(double d, int digits) {
+		if (GWT.isScript()) {
+			return toPrecisionScript(d, digits);
+		} else {
+			return toPrecisionServer(d, digits);
+		}
+	}
+
+	protected static String toPrecisionServer(double d, int digits) {
+		return String.valueOf(d);// TODO
+	}
+
 	/**
 	 * Convert a double to a string with {@code digits} precision. The resulting
 	 * string may still be in exponential notation.
@@ -541,7 +554,7 @@ public class AccounterNumberFormat {
 	 *            number of digits of precision to include
 	 * @return non-localized string representation of {@code d}
 	 */
-	private static native String toPrecision(double d, int digits) /*-{
+	protected static native String toPrecisionScript(double d, int digits) /*-{
 		return d.toPrecision(digits);
 	}-*/;
 
@@ -573,7 +586,7 @@ public class AccounterNumberFormat {
 	private String negativeSuffix = "";
 
 	// Locale specific symbol collection.
-	private final NumberConstants numberConstants;
+	// private final NumberConstants numberConstants;
 
 	// The pattern to use for formatting and parsing.
 	private final String pattern;
@@ -619,9 +632,8 @@ public class AccounterNumberFormat {
 	 * @param userSuppliedPattern
 	 *            true if the pattern was supplied by the user
 	 */
-	protected AccounterNumberFormat(String pattern, int numberOfDecimals,
+	public AccounterNumberFormat(String pattern, int numberOfDecimals,
 			boolean isCurrency) {
-		this.numberConstants = defaultNumberConstants;
 		this.pattern = pattern;
 		if (isCurrency) {
 			this.isCurrencyFormat = true;
@@ -636,6 +648,13 @@ public class AccounterNumberFormat {
 		}
 	}
 
+	public AccounterNumberFormat(String pattern, int numberOfDecimals,
+			boolean isCurrency, char decimalSeparator, char groupingSeparator) {
+		this(pattern, numberOfDecimals, isCurrency);
+		this.decimalSeparator = decimalSeparator;
+		this.groupingSeparator = groupingSeparator;
+	}
+
 	/**
 	 * This method formats a double to produce a string.
 	 * 
@@ -645,7 +664,7 @@ public class AccounterNumberFormat {
 	 */
 	public String format(double number) {
 		if (Double.isNaN(number)) {
-			return numberConstants.notANumber();
+			return "NaN";
 		}
 		boolean isNegative = ((number < 0.0) || (number == 0.0 && 1 / number < 0.0));
 		if (isNegative) {
@@ -654,7 +673,7 @@ public class AccounterNumberFormat {
 		StringBuilder buf = new StringBuilder();
 		if (Double.isInfinite(number)) {
 			buf.append(isNegative ? negativePrefix : positivePrefix);
-			buf.append(numberConstants.infinity());
+			buf.append('\u221E');
 			buf.append(isNegative ? negativeSuffix : positiveSuffix);
 			return buf.toString();
 		}
@@ -842,11 +861,11 @@ public class AccounterNumberFormat {
 		}
 
 		// Process digits or special values, and find decimal position.
-		if (valueOnly.equals(numberConstants.infinity())) {
-			inOutPos[0] += numberConstants.infinity().length();
+		if (valueOnly.equals('\u221E')) {
+			inOutPos[0] += 1;
 			ret = Double.POSITIVE_INFINITY;
-		} else if (valueOnly.equals(numberConstants.notANumber())) {
-			inOutPos[0] += numberConstants.notANumber().length();
+		} else if (valueOnly.equals("NaN")) {
+			inOutPos[0] += 3;
 			ret = Double.NaN;
 		} else {
 			int[] tempPos = { 0 };
@@ -921,7 +940,7 @@ public class AccounterNumberFormat {
 			addExponent(digits);
 			// the above call has invalidated digitsLength == digits.length()
 		}
-		char zeroChar = numberConstants.zeroDigit().charAt(0);
+		char zeroChar = '0';
 		if (zeroChar != '0') {
 			localizeDigits(digits, zeroChar);
 		}
@@ -977,13 +996,6 @@ public class AccounterNumberFormat {
 	}
 
 	/**
-	 * Returns the NumberConstants instance for this formatter.
-	 */
-	protected NumberConstants getNumberConstants() {
-		return numberConstants;
-	}
-
-	/**
 	 * Returns the prefix to use for positive values.
 	 */
 	protected String getPositivePrefix() {
@@ -1010,10 +1022,10 @@ public class AccounterNumberFormat {
 	 * @param digits
 	 */
 	private void addExponent(StringBuilder digits) {
-		digits.append(numberConstants.exponentialSymbol());
+		digits.append("E");
 		if (exponent < 0) {
 			exponent = -exponent;
-			digits.append(numberConstants.minusSign());
+			digits.append("-");
 		}
 		String exponentDigits = String.valueOf(exponent);
 		for (int i = exponentDigits.length(); i < minExponentDigits; ++i) {
@@ -1125,7 +1137,7 @@ public class AccounterNumberFormat {
 		if ('0' <= ch && ch <= '0' + 9) {
 			return (ch - '0');
 		} else {
-			char zeroChar = numberConstants.zeroDigit().charAt(0);
+			char zeroChar = '0';
 			return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar)
 					: -1);
 		}
@@ -1224,7 +1236,7 @@ public class AccounterNumberFormat {
 						}
 						multiplier = 100;
 					}
-					affix.append(numberConstants.percent());
+					affix.append("%");
 					break;
 				case PATTERN_PER_MILLE:
 					if (!inNegativePattern) {
@@ -1235,7 +1247,7 @@ public class AccounterNumberFormat {
 						}
 						multiplier = 1000;
 					}
-					affix.append(numberConstants.perMill());
+					affix.append('\u2030');
 					break;
 				case PATTERN_MINUS:
 					affix.append("-");
@@ -1265,7 +1277,7 @@ public class AccounterNumberFormat {
 		boolean sawExponent = false;
 		boolean sawDigit = false;
 		int scale = 1;
-		String exponentChar = numberConstants.exponentialSymbol();
+		String exponentChar = "E";
 
 		StringBuffer normalizedText = new StringBuffer();
 		for (; pos[0] < text.length(); ++pos[0]) {
@@ -1293,7 +1305,7 @@ public class AccounterNumberFormat {
 				sawExponent = true;
 			} else if (ch == '+' || ch == '-') {
 				normalizedText.append(ch);
-			} else if (ch == numberConstants.percent().charAt(0)) {
+			} else if (ch == '%') {
 				if (scale != 1) {
 					break;
 				}
@@ -1302,7 +1314,7 @@ public class AccounterNumberFormat {
 					++pos[0];
 					break;
 				}
-			} else if (ch == numberConstants.perMill().charAt(0)) {
+			} else if (ch == '\u2030') {
 				if (scale != 1) {
 					break;
 				}
@@ -1351,7 +1363,7 @@ public class AccounterNumberFormat {
 			pos += parseAffix(pattern, pos, affix, true);
 			negativeSuffix = affix.toString();
 		} else {
-			negativePrefix = numberConstants.minusSign() + positivePrefix;
+			negativePrefix = '-' + positivePrefix;
 			negativeSuffix = positiveSuffix;
 		}
 	}
@@ -1589,8 +1601,12 @@ public class AccounterNumberFormat {
 
 	public static AccounterNumberFormat getCurrencyFormat() {
 		if (cachedCurrencyFormat == null) {
+			ClientCompanyPreferences preferences = Global.get().preferences();
 			cachedCurrencyFormat = new AccounterNumberFormat(
-					defaultNumberConstants.currencyPattern(), 2, true);
+					preferences.getCurrencyFormat(),
+					preferences.getDecimalNumber(), true, preferences
+							.getDecimalCharacter().charAt(0), preferences
+							.getDigitGroupCharacter().charAt(0));
 		}
 		return cachedCurrencyFormat;
 	}
