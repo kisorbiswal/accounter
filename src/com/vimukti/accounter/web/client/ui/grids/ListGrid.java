@@ -485,7 +485,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			@Override
 			public void onClick(ClickEvent event) {
 				widgetClicked((Anchor) event.getSource());
-				//onDoubleClick(obj);
+				onDoubleClick(obj);
 			}
 		});
 		ar.setText(value.toString());

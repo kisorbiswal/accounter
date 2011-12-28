@@ -92,8 +92,9 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 			if (radio.equals(TAXGROUP)) {
 				// try {
-				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(messages
-						.taxGroup(), messages.toAddOrRemoveTaxCode(), null);
+				SalesTaxGroupDialog dialog = new SalesTaxGroupDialog(
+						messages.taxGroup(), messages.toAddOrRemoveTaxCode(),
+						null);
 				dialog.setCallback(new ActionCallback<ClientTAXGroup>() {
 
 					@Override
@@ -120,6 +121,11 @@ public class TaxDialog extends BaseDialog<ClientTAXItemGroup> {
 
 		}
 		hide();
+		return true;
+	}
+
+	@Override
+	protected boolean onCancel() {
 		return true;
 	}
 
