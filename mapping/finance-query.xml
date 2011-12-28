@@ -7081,7 +7081,7 @@
 		FROM
 		ACTIVITY AT
 		WHERE
-		CASE
+		(CASE
 		WHEN :logoutOrLogin
 		THEN
 		(AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
@@ -7109,7 +7109,7 @@
 		WHEN :reconciliations
 		THEN
 		AT.OBJECT_TYPE='82'
-		END
+		END)
 		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
 		AND
 		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
@@ -7138,7 +7138,7 @@
 		FROM
 		ACTIVITY AT
 		WHERE
-		CASE
+		(CASE
 		WHEN :logoutOrLogin
 		THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
 		END
@@ -7165,7 +7165,7 @@
 		WHEN :reconciliations
 		THEN
 		AT.OBJECT_TYPE='82'
-		END
+		END)
 		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
 		AND
 		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
