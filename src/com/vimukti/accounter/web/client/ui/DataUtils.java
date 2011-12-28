@@ -413,8 +413,14 @@ class NumberFormat2 {
 	 * @return
 	 */
 	public static NumberFormat2 getInstance() {
-		NumberFormat2 nf = new NumberFormat2();
-		return nf;
+		NumberFormat2 instance = new NumberFormat2();
+		instance.setDecimalSeparator(Global.get().preferences()
+				.getDecimalCharacter());
+		instance.setInputDecimalSeparator(Global.get().preferences()
+				.getDecimalCharacter());
+		instance.setGroupingSeparator(Global.get().preferences()
+				.getDigitGroupCharacter());
+		return instance;
 	}
 
 	/**
@@ -454,8 +460,12 @@ class NumberFormat2 {
 		nf.isCurrency(true);
 		nf.setCurrencySymbol(curSymbol);
 		if (!useCommas) {
-			nf.setDecimalSeparator(COMMA);
-			nf.setGroupingSeparator(PERIOD);
+			nf.setInputDecimalSeparator(Global.get().preferences()
+					.getDecimalCharacter());
+			nf.setDecimalSeparator(Global.get().preferences()
+					.getDecimalCharacter());
+			nf.setGroupingSeparator(Global.get().preferences()
+					.getDigitGroupCharacter());
 		}
 		nf.setFixedPrecision(2);
 		return nf;
@@ -470,6 +480,11 @@ class NumberFormat2 {
 		NumberFormat2 nf = new NumberFormat2();
 		nf.setShowGrouping(false);
 		nf.setFixedPrecision(0);
+		nf.setInputDecimalSeparator(Global.get().preferences()
+				.getDecimalCharacter());
+		nf.setDecimalSeparator(Global.get().preferences().getDecimalCharacter());
+		nf.setGroupingSeparator(Global.get().preferences()
+				.getDigitGroupCharacter());
 		return nf;
 	}
 
@@ -478,6 +493,11 @@ class NumberFormat2 {
 		nf.isPercentage(true);
 		nf.setFixedPrecision(2);
 		nf.setShowGrouping(false);
+		nf.setInputDecimalSeparator(Global.get().preferences()
+				.getDecimalCharacter());
+		nf.setDecimalSeparator(Global.get().preferences().getDecimalCharacter());
+		nf.setGroupingSeparator(Global.get().preferences()
+				.getDigitGroupCharacter());
 		return nf;
 	}
 
