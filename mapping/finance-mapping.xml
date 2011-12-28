@@ -1376,11 +1376,7 @@
 			<list-index column="LAST_HISTORY" />
 			<one-to-many class="FixedAssetHistory" />
 		</list>
-		<list name="fixedAssetNotes" cascade="save-update,delete">
-			<key column="FIXED_ASSET_ID"></key>
-			<list-index column="IDX" />
-			<one-to-many class="FixedAssetNote" />
-		</list>
+
 
 		<!--<list name="fixedAssetsHistory" cascade="save-update,delete"> <key 
 			column="FIXED_ASSET_HISTORY_ID"></key> <list-index column="IDX" /> <one-to-many 
@@ -1454,13 +1450,6 @@
 			<generator class="identity" />
 		</id>
 		<property name="note" type="text" column="NOTE"></property>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
 		<many-to-one name="fixedAsset" class="FixedAsset" column="FIXED_ASSET_ID">
 		</many-to-one>
 	</class>
