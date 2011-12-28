@@ -59,6 +59,9 @@ public class NewVendorAction extends Action<ClientVendor> {
 				}
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewVendorAction.this);
+				if (isEditable()) {
+					view.onEdit();
+				}
 
 			}
 
@@ -110,11 +113,19 @@ public class NewVendorAction extends Action<ClientVendor> {
 	}
 
 	public void setisVendorViewEditable(boolean isEditable) {
-		this.isEditable = isEditable;
+		this.setEditable(isEditable);
 	}
 
 	@Override
 	public String getText() {
 		return Global.get().messages().newPayee(Global.get().Vendor());
+	}
+
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	public void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 }
