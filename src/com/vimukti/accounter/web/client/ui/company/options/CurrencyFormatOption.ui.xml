@@ -31,7 +31,7 @@
 					<g:ListBox ui:field="positiveCurrencyFormatCombo"/>
 					<g:ListBox ui:field="negativeCurrencyFormatCombo"/>
 					<g:TextBox ui:field="decimalSymbolTextBox"/>
-					<g:ListBox ui:field="noOfDigitsAfterDecimalTextBox"/>
+					<g:TextBox ui:field="noOfDigitsAfterDecimalTextBox"/>
 					<g:TextBox ui:field="digitGroupingSymbolTextBox"/>
 					<g:ListBox ui:field="digitGroupingCombo"/>
 				</g:VerticalPanel>
