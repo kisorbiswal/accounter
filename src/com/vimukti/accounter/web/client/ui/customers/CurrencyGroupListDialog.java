@@ -51,7 +51,13 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 			@Override
 			public void onSecondButtonClick() {
-				ShowAddEditDialog((ClientCurrency) listGridView.getSelection());
+				ClientCurrency selection = (ClientCurrency) listGridView
+						.getSelection();
+				if (!selection.equals(getCompany().getPrimaryCurrency())) {
+					ShowAddEditDialog(selection);
+				} else {
+					Accounter.showError(messages.CannotDeletePrimaryCurrency());
+				}
 			}
 
 			@Override
@@ -75,8 +81,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 
 		if (currency.getFormalName().toLowerCase()
 				.contains(primaryCurrencyString.toLowerCase())) {
-			Accounter.showError(messages
-					.CannotDeletePrimaryCurrency());
+			Accounter.showError(messages.CannotDeletePrimaryCurrency());
 		} else {
 			return (ClientCurrency) listGridView.getSelection();
 		}
@@ -120,8 +125,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 		clientCurrency = (ClientCurrency) listGridView.getSelection();
 		ClientCurrency currency = getCompany().getPrimaryCurrency();
 		if (currency != null && clientCurrency.getID() == currency.getID()) {
-			result.addError(this, messages
-					.CannotDeletePrimaryCurrency());
+			result.addError(this, messages.CannotDeletePrimaryCurrency());
 		}
 		return result;
 	}
