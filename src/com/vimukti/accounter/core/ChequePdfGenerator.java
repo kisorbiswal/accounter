@@ -67,15 +67,18 @@ public class ChequePdfGenerator {
 						.getAmount());
 				int a = getAmountLineIndex(numberInWords,
 						layout.getAmountWordsLin1Width());
-				String line1 = numberInWords;
+				String line1 = "";
 				String line2 = "";
 				if (a > 0) {
-					line1 = numberInWords.substring(0, a);
-					line2 = numberInWords.substring(a, numberInWords.length());
-					int b = getAmountLineIndex(line2,
-							layout.getAmountWordsLin2Width());
-					if (b > 0) {
-						line2 = line2.substring(0, b);
+					line1 = numberInWords.substring(0, a - 1);
+					if (a < numberInWords.length()) {
+						line2 = numberInWords.substring(a,
+								numberInWords.length());
+						int b = getAmountLineIndex(line2,
+								layout.getAmountWordsLin2Width());
+						if (b > 0) {
+							line2 = line2.substring(0, b);
+						}
 					}
 				}
 
