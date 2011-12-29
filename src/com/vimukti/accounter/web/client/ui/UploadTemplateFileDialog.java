@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -32,7 +31,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private String title;
 	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4,
 			detailsHtml5;
-	AccounterMessages messages;
 
 	private TextItem invoiceBox, creditNoteBox, quoteBox;
 
@@ -49,7 +47,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	}
 
 	protected void doCreateContents() {
-		messages = messages;
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
 
