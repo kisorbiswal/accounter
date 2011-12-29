@@ -738,7 +738,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return this != null && this instanceof ClientReceiveVAT;
 	}
 
-
 	public long getTransactionDate() {
 		return transactionDate;
 	}
@@ -930,7 +929,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 				discount = code;
 				continue;
 			}
-			if (!code.equals(discount)) {
+
+			if (code != null && !code.equals(discount)) {
 				return true;
 			}
 		}
