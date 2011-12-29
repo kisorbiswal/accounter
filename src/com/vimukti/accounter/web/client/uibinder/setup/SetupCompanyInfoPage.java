@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -20,8 +22,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -102,6 +106,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	private ClientAddress address;
 	private List<String> countries, statesList, timezones;
+	private boolean isValidCompanyname;
 
 	interface SetupCompanyInfoPageUiBinder extends
 			UiBinder<Widget, SetupCompanyInfoPage> {
@@ -185,6 +190,13 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		}
 		countryChanged();
 
+		companyName.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				verifyCompanyName(companyName.getText());
+			}
+		});
 	}
 
 	/**
@@ -345,38 +357,38 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		return false;
 	}
 
+	private void verifyCompanyName(String companyName) {
+		if (companyName == null || companyName.isEmpty()) {
+			return;
+		}
+		companyName = companyName.trim();
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException exception) {
+				isValidCompanyname = false;
+				Accounter.showError(messages.companyNameAlreadyExits());
+				SetupCompanyInfoPage.this.companyName.setText("");
+			}
+
+			@Override
+			public void onResultSuccess(Boolean isExists) {
+				if (isExists) {
+					onException(null);
+				} else {
+					isValidCompanyname = true;
+				}
+			}
+		};
+		Accounter.createCompanyInitializationService().isCompanyNameExists(
+				companyName, callback);
+	}
+
 	@Override
 	protected boolean validate() {
-		if (companyName.getText().trim() != null
-				&& companyName.getText().trim() != ""
-				&& companyName.getText().trim().length() != 0) {
-			/*
-			 * if (taxId.getText().trim() != null && taxId.getText().trim() !=
-			 * "" && taxId.getText().trim().length() != 0) { if
-			 * (Accounter.getCompany().getAccountingType() ==
-			 * ClientCompany.ACCOUNTING_TYPE_US) { if (taxId.getText().length()
-			 * == 10) { if (taxId.getText().indexOf(2) == '-' &&
-			 * checkIfNotNumber(taxId.getText().substring( 0, 1)) &&
-			 * checkIfNotNumber(taxId.getText().substring( 3, 9))) { return
-			 * true; } else { Accounter.showError(accounterMessages
-			 * .vatIDValidationDesc()); return false; } } else {
-			 * Accounter.showError(accounterMessages .vatIDValidationDesc());
-			 * return false; } } else if
-			 * (Accounter.getCompany().getAccountingType() ==
-			 * ClientCompany.ACCOUNTING_TYPE_UK) { if (taxId.getText().length()
-			 * == 10) { if (taxId.getText().indexOf(2) == '-' &&
-			 * checkIfNotNumber(taxId.getText().substring( 0, 1)) &&
-			 * checkIfNotNumber(taxId.getText().substring( 3, 9))) { return
-			 * true; } else { Accounter.showError(accounterMessages
-			 * .vatIDValidationDesc()); return false; } } else {
-			 * Accounter.showError(accounterMessages .vatIDValidationDesc());
-			 * return false; } } else if
-			 * (Accounter.getCompany().getAccountingType() ==
-			 * ClientCompany.ACCOUNTING_TYPE_INDIA) { return true; } else {
-			 * return true; } } else { return true; }
-			 */
-			return true;
-
+		String companyName = this.companyName.getText();
+		if (companyName != null && !companyName.isEmpty()) {
+			return isValidCompanyname;
 		} else {
 			Accounter
 					.showError(messages.pleaseEnter(displayNameLabel.getText()));

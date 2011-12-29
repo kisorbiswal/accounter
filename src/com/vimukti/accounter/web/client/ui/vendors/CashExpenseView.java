@@ -563,9 +563,10 @@ public class CashExpenseView extends
 			bottomLayout.add(memoForm);
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				bottomLayout.add(form);
+				form.setFields(taxCodeSelect);
 			}
+			form.setFields(vatinclusiveCheck);
+			bottomLayout.add(form);
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
 					form.setFields(discountField);

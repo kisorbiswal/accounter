@@ -453,7 +453,6 @@ public class CreditCardExpenseView extends
 			}
 		});
 
-		vatinclusiveCheck = getVATInclusiveCheckBox();
 		FlowPanel itemsFlowPanel = new FlowPanel();
 		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
@@ -533,15 +532,16 @@ public class CreditCardExpenseView extends
 
 			botPanel.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				botPanel.add(form);
+				form.setFields(taxCodeSelect);
+
 			}
+			form.setFields(vatinclusiveCheck);
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
 					form.setFields(discountField);
-					botPanel.add(form);
 				}
 			}
+			botPanel.add(form);
 			botPanel.add(totalForm);
 			botPanel.setCellWidth(totalForm, "30%");
 

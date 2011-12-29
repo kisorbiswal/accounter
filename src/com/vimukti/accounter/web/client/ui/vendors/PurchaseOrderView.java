@@ -184,22 +184,13 @@ public class PurchaseOrderView extends
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
-
+			DynamicForm form = new DynamicForm();
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
-				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				prodAndServiceHLay.add(form);
-
-				// this.taxCode =
-				// getTaxCodeForTransactionItems(this.transactionItems);
-				// if (taxCode != null) {
-				// this.taxCodeSelect
-				// .setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
-				// }
-				// this.transactionTotalNonEditableText.setAmount(transaction
-				// .getTotal());
+				form.setFields(taxCodeSelect);
 			}
+			form.setFields(vatinclusiveCheck);
+			prodAndServiceHLay.add(form);
 
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);

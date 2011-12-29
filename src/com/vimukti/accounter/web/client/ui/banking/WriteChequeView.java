@@ -889,14 +889,12 @@ public class WriteChequeView extends
 				form.setFields(taxCodeSelect);
 				vatPanel.setCellHorizontalAlignment(form, ALIGN_CENTER);
 				vatPanel.add(form);
-				if (isTrackPaidTax()) {
-					form.setFields(vatinclusiveCheck);
-					form.addStyleName("boldtext");
-				}
-
 				vatPanel.add(form);
 				vatPanel.setCellHorizontalAlignment(form, ALIGN_RIGHT);
-
+			}
+			if (isTrackPaidTax()) {
+				form.setFields(vatinclusiveCheck);
+				form.addStyleName("boldtext");
 			}
 		}
 

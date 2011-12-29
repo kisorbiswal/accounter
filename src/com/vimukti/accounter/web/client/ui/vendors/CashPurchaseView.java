@@ -461,9 +461,10 @@ public class CashPurchaseView extends
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
 				// taxCodeSelect.setVisible(isInViewMode());
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				bottomLayout.add(form);
+				form.setFields(taxCodeSelect);
 			}
+			form.setFields(vatinclusiveCheck);
+			bottomLayout.add(form);
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
 					form.setFields(discountField);
@@ -795,12 +796,7 @@ public class CashPurchaseView extends
 	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
-		if (getPreferences().isTrackPaidTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
-			// if (vatinclusiveCheck != null)
-			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
-		}
+
 		super.saveAndUpdateView();
 
 		createAlterObject();
@@ -811,10 +807,6 @@ public class CashPurchaseView extends
 		ClientCashPurchase saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
-			transaction.setNetAmount(netAmount.getAmount());
-			// if (vatinclusiveCheck != null)
-			// cashPurchase.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-			// .getValue());
 		}
 		return saveView;
 	}
@@ -886,6 +878,14 @@ public class CashPurchaseView extends
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getAmount());
 				}
+			}
+		}
+
+		if (isTrackPaidTax()) {
+			transaction.setNetAmount(netAmount.getAmount());
+			if (vatinclusiveCheck != null) {
+				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
+						.getValue());
 			}
 		}
 	}
@@ -1073,9 +1073,12 @@ public class CashPurchaseView extends
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
 		discountField.setDisabled(isInViewMode());
-		if (locationTrackingEnabled)
+		if (locationTrackingEnabled) {
 			locationCombo.setDisabled(isInViewMode());
-		taxCodeSelect.setDisabled(isInViewMode());
+		}
+		if (taxCodeSelect != null) {
+			taxCodeSelect.setDisabled(isInViewMode());
+		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
@@ -1157,7 +1160,8 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void refreshTransactionGrid() {
-		// vendorTransactionTable.refreshAllRecords();
+		vendorAccountTransactionTable.updateTotals();
+		vendorItemTransactionTable.updateTotals();
 	}
 
 	private void settabIndexes() {

@@ -462,10 +462,13 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else {
 				if (serverObject instanceof Transaction) {
-					if (!((Transaction) serverObject).getReconciliationItems()
-							.isEmpty()) {
+					Transaction transaction = (Transaction) serverObject;
+					if (!transaction.getReconciliationItems().isEmpty()) {
 						throw new AccounterException(
 								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+					} else if (transaction.getCreditsAndPayments() != null) {
+						transaction.getCreditsAndPayments()
+								.canEdit(transaction);
 					}
 				}
 				if (canDelete(serverClass.getSimpleName(),

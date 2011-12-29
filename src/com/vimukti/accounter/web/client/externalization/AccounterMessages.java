@@ -5650,6 +5650,8 @@ public interface AccounterMessages extends Messages {
 
 	public String negativeCurrencyFormat();
 
+	public String companyNameAlreadyExits();
+
 	public String acceptEstimate();
 
 	public String billsAndExpenses();

@@ -99,7 +99,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		super(title, "");
 		this.clientLocation = clientLocation2;
 		this.locationGroupListDialog = locationGroupListDialog;
-		//setWidth("600px");
+		// setWidth("600px");
 		initilize();
 		createControls();
 		initData();
@@ -111,8 +111,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		preferences = Accounter.getCompany().getPreferences();
 		titleTextBox = new TextItem(Global.get().messages().title());
-		companyNameTextBox = new TextItem(Global.get().messages()
-				.companyName());
+		companyNameTextBox = new TextItem(Global.get().messages().companyName());
 		email = new TextItem(Global.get().messages().emailId());
 		phone = new TextItem(Global.get().messages().phone());
 	}
@@ -137,8 +136,8 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					new AddressDialog("", "", companyAdressTextArea, messages.billTo(),
-							allAddresses);
+					new AddressDialog("", "", companyAdressTextArea, messages
+							.billTo(), allAddresses);
 				}
 			});
 
@@ -150,15 +149,16 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 			if (this.clientLocation != null) {
 				locationName.setValue(clientLocation.getName());
 			}
-			final CheckBox titleCheckBox = new CheckBox(messages
-					.useDifferentTitle());
-			final CheckBox companyNameCheckBox = new CheckBox(messages.useDifferentComapanyName());
-			final CheckBox addressCheckBox = new CheckBox(messages
-					.useDifferentAddrerss());
-			final CheckBox emailCheckBox = new CheckBox(messages
-					.useDifferentEmail());
-			final CheckBox phoneCheckBox = new CheckBox(messages
-					.useDifferentPhoneNumber());
+			final CheckBox titleCheckBox = new CheckBox(
+					messages.useDifferentTitle());
+			final CheckBox companyNameCheckBox = new CheckBox(
+					messages.useDifferentComapanyName());
+			final CheckBox addressCheckBox = new CheckBox(
+					messages.useDifferentAddrerss());
+			final CheckBox emailCheckBox = new CheckBox(
+					messages.useDifferentEmail());
+			final CheckBox phoneCheckBox = new CheckBox(
+					messages.useDifferentPhoneNumber());
 			addDynamicForm.setItems(titleTextBox);
 			addComapnyNameForm.setItems(companyNameTextBox);
 			addAddressForm.setItems(companyAdressTextArea);
@@ -299,6 +299,11 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 			toToSet += address.getCountryOrRegion();
 		}
 		return toToSet;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }

@@ -11172,6 +11172,19 @@
 		C.ID=:customerId
 		 
 	</sql-query>
+	
+	<sql-query name="getClientByCompany">
+		<query-param name="clientEmail" type="string" />
+		<query-param name="companyName" type="string" />
+		
+		select c.id 
+		from client c left join users u on u.client_id=c.id 
+		left join company com on com.id=u.company_id 
+		where c.email_id=:clientEmail and  LOWER(com.trading_name)=:companyName limit 1;
+		
+	</sql-query>
+	
+	
 
 
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

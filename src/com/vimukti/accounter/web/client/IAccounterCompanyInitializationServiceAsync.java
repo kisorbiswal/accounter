@@ -27,4 +27,6 @@ public interface IAccounterCompanyInitializationServiceAsync {
 
 	void getCompany(AsyncCallback<ClientCompany> callback);
 
+	void isCompanyNameExists(String companyName, AsyncCallback<Boolean> callback);
+
 }

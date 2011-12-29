@@ -308,8 +308,9 @@ public class CustomerCreditMemoView extends
 			nonEditablePanel.add(netAmountForm);
 			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
+				form.setFields(taxCodeSelect);
 			}
+			form.setFields(vatinclusiveCheck);
 		}
 
 		if (isTrackDiscounts()) {

@@ -382,6 +382,25 @@ public class ClientCompany implements IAccounterCore {
 		}, this.taxItems);
 	}
 
+	public ArrayList<ClientTAXItem> getActiveTaxItemsWithOutTDS() {
+
+		return Utility.filteredList(new ListFilter<ClientTAXItem>() {
+
+			@Override
+			public boolean filter(ClientTAXItem e) {
+				if (!e.isActive()) {
+					return false;
+				}
+				ClientTAXAgency taxAgency = getTaxAgency(e.getTaxAgency());
+				if (taxAgency != null) {
+					return taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS;
+				} else {
+					return false;
+				}
+			}
+		}, this.taxItems);
+	}
+
 	public ArrayList<ClientTAXItem> getTaxItems() {
 		return taxItems;
 	}

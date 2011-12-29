@@ -130,9 +130,9 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 		vatCodeTxt.setWidth(100);
 		vatCodeTxt.setDisabled(isInViewMode());
 		description = new TextAreaItem();
-		description.setToolTip(messages
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(messages.comments(), messages.description()));
+		description.setToolTip(messages.writeCommentsForThis(
+				this.getAction().getViewName()).replace(messages.comments(),
+				messages.description()));
 		description.setHelpInformation(true);
 		description.setWidth(100);
 		description.setTitle(messages.description());
@@ -161,8 +161,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientTAXItemGroup selectItem) {
-						if (selectItem != null)
+						if (selectItem != null) {
 							selectedVATPurchaseAcc = selectItem.getID();
+							vatItemComboForSales.syncronize(selectItem);
+						}
 					}
 				});
 
@@ -177,8 +179,10 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 					@Override
 					public void selectedComboBoxItem(
 							ClientTAXItemGroup selectItem) {
-						if (selectItem != null)
+						if (selectItem != null) {
 							selectedVATSAlesAcc = selectItem.getID();
+							vatItemComboForPurchases.syncronize(selectItem);
+						}
 					}
 				});
 		vatNameForm = new DynamicForm();

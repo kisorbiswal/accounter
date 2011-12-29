@@ -275,4 +275,21 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Client client = getClient(getUserEmail());
 		return client.getCountry();
 	}
+
+	@Override
+	public boolean isCompanyNameExists(String companyName)
+			throws AccounterException {
+		if (companyName == null) {
+			return true;
+		}
+		companyName = companyName.trim().toLowerCase();
+		Session hibernateSession = HibernateUtil.getCurrentSession();
+		String email = (String) getThreadLocalRequest().getSession()
+				.getAttribute(BaseServlet.EMAIL_ID);
+		Number clientId = (Number) hibernateSession
+				.getNamedQuery("getClientByCompany")
+				.setParameter("clientEmail", email)
+				.setParameter("companyName", companyName).uniqueResult();
+		return clientId != null;
+	}
 }

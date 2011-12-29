@@ -27,5 +27,7 @@ public interface IAccounterCompanyInitializationService extends RemoteService {
 	public ClientCompany getCompany() throws AccounterException;
 
 	public String getCountry();
-	
+
+	boolean isCompanyNameExists(String companyName) throws AccounterException;
+
 }

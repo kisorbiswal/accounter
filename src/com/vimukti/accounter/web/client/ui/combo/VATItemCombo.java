@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -67,8 +68,23 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 	public List<ClientTAXItemGroup> getFilteredVATItems(boolean salesItems) {
 		List<ClientTAXItemGroup> vatItmsList = new ArrayList<ClientTAXItemGroup>();
 		ArrayList<ClientTAXGroup> taxGroups = getCompany().getTaxGroups();
+		Iterator<ClientTAXGroup> iterator = taxGroups.iterator();
+		while (iterator.hasNext()) {
+			List<ClientTAXItem> taxItems = iterator.next().getTaxItems();
+			for (ClientTAXItem taxitem : taxItems) {
+				ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+						taxitem.getTaxAgency());
+				if (taxAgency != null) {
+					if (taxAgency.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
+						iterator.remove();
+					}
+				}
+			}
+		}
+
 		vatItmsList.addAll(taxGroups);
-		vatItmsList.addAll(getCompany().getActiveTaxItems());
+		vatItmsList.addAll(getCompany().getActiveTaxItemsWithOutTDS());
+
 		// for (ClientTAXItem vatItem : getCompany().getActiveTaxItems()) {
 		// if (vatItem.isPercentage()) {
 		// ClientTAXAgency taxAgency = getCompany().getTaxAgency(
@@ -212,6 +228,12 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 			return object.getName();
 		}
 		return null;
+	}
+
+	public void syncronize(ClientTAXItemGroup selectItem) {
+		if (getComboitemsByName(getDisplayName(selectItem)).isEmpty()) {
+			addComboItem(selectItem);
+		}
 	}
 
 }

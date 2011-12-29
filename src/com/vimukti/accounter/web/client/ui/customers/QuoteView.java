@@ -563,9 +563,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			if (isTaxPerDetailLine()) {
 				nonEditablePanel.add(vatTotalNonEditableText);
 			} else {
-				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				vatForm.setFields(taxCodeSelect);
 				nonEditablePanel.add(salesTaxTextNonEditable);
 			}
+			vatForm.setFields(vatinclusiveCheck);
 		}
 
 		if (isTrackDiscounts()) {

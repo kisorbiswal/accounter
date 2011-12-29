@@ -688,11 +688,9 @@ public class VendorBillView extends
 
 		if (isTrackTax() && isTrackPaidTax()) {
 			if (!isTaxPerDetailLine()) {
-				form.setFields(taxCodeSelect, vatinclusiveCheck);
-				taxPanel.add(form);
-				taxPanel.setCellHorizontalAlignment(form,
-						HasHorizontalAlignment.ALIGN_LEFT);
+				form.setFields(taxCodeSelect);
 			}
+			form.setFields(vatinclusiveCheck);
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
 			netAmountForm.setFields(netAmount);
@@ -703,9 +701,11 @@ public class VendorBillView extends
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
 				form.setFields(discountField);
-				taxPanel.add(form);
 			}
 		}
+		taxPanel.add(form);
+		taxPanel.setCellHorizontalAlignment(form,
+				HasHorizontalAlignment.ALIGN_LEFT);
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 

@@ -548,13 +548,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			amountsForm.setFields(netAmountLabel);
 			nonEditablePanel.add(amountsForm);
 			if (!isTaxPerDetailLine()) {
-				vatForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				vatForm.setFields(taxCodeSelect);
 				nonEditablePanel.add(salesTaxTextNonEditable);
-				prodAndServiceHLay.add(vatForm);
+
 			} else {
 				nonEditablePanel.add(vatTotalNonEditableText);
 			}
+			vatForm.setFields(vatinclusiveCheck);
 		}
+		prodAndServiceHLay.add(vatForm);
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
 				vatForm.setFields(discountField);

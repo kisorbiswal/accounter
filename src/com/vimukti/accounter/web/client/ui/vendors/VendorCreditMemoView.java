@@ -462,9 +462,11 @@ public class VendorCreditMemoView extends
 
 			bottomLayout1.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				taxForm.setItems(taxCodeSelect, vatinclusiveCheck);
-				bottomLayout1.add(taxForm);
+				taxForm.setItems(taxCodeSelect);
+
 			}
+			taxForm.setFields(vatinclusiveCheck);
+			bottomLayout1.add(taxForm);
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
 					taxForm.setFields(discountField);

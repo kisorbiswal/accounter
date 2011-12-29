@@ -54,8 +54,8 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		ValidationResult result = new ValidationResult();
 		if (createClassTextItem.getValue().equals("")
 				|| createClassTextItem.getValue() == null) {
-			result.addError(createClassTextItem, messages
-					.pleaseEnter(createClassTextItem.getTitle()));
+			result.addError(createClassTextItem,
+					messages.pleaseEnter(createClassTextItem.getTitle()));
 		}
 		return result;
 	};
@@ -87,4 +87,8 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

@@ -241,7 +241,6 @@ public class CashSalesView extends
 		taxTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableLabel();
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		netAmountLabel = createNetAmountLabel();
-		vatinclusiveCheck = getVATInclusiveCheckBox();
 
 		transactionTotalBaseCurrencyText = createTransactionTotalNonEditableLabel(getCompany()
 				.getPrimaryCurrency());
@@ -381,8 +380,9 @@ public class CashSalesView extends
 			nonEditablePanel.add(netAmountForm);
 			nonEditablePanel.add(taxTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				taxForm.setFields(taxCodeSelect, vatinclusiveCheck);
+				taxForm.setFields(taxCodeSelect);
 			}
+			taxForm.setFields(vatinclusiveCheck);
 		}
 		if (isTrackDiscounts()) {
 			if (!isDiscountPerDetailLine()) {
