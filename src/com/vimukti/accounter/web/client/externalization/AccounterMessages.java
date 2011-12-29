@@ -2852,7 +2852,7 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterTheWordsAsItis();
 
 	public String pleaseEntervalidCurrencyFactor();
-	
+
 	public String pleaseEnterValidOccurrencesField();
 
 	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String payee);
@@ -5661,5 +5661,7 @@ public interface AccounterMessages extends Messages {
 	public String allCahrges();
 
 	public String exampleFormat();
+
+	public String profitAndLossByLocation(String location);
 
 }

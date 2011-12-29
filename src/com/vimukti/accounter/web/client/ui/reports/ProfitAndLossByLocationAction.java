@@ -14,6 +14,7 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	public ProfitAndLossByLocationAction(boolean isLocation) {
 		super();
+		this.catagory = messages.report();
 		this.isLocation = isLocation;
 	}
 
@@ -70,8 +71,8 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	@Override
 	public String getText() {
-		String actionstring = messages.profitAndLoss() + " By "
-				+ Global.get().Location();
+		String actionstring = messages.profitAndLossByLocation(Global.get()
+				.Location());
 		if (!isLocation) {
 			actionstring = messages.profitAndLossbyClass();
 		}
