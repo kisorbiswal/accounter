@@ -1003,9 +1003,11 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	public void addCreditsAndPayments(List<ClientCreditsAndPayments> credits) {
+		updatedCustomerCreditsAndPayments.clear();
 		if (credits == null || credits.isEmpty()) {
 			return;
 		}
+
 		for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
 			ClientCreditsAndPayments credit = getCreditWithTransaction(credits,
 					cap.getID());
