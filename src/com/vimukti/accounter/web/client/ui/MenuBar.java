@@ -161,7 +161,7 @@ public class MenuBar {
 		}
 		inventoryMenu.addMenuItem(messages.stockAdjustments(),
 				HistoryTokens.STOCKADJUSTMENTS);
-		inventoryMenu.addMenuItem(messages.measurement(),
+		inventoryMenu.addMenuItem(messages.measurementList(),
 				HistoryTokens.MEASUREMENTLIST);
 
 		return inventoryMenu;
@@ -600,7 +600,7 @@ public class MenuBar {
 		// HistoryTokens.DEPOSIT);
 
 		if (isKeepTrackofBills) {
-			bankingMenuBar.addMenuItem(messages.payBills(),
+			bankingMenuBar.addMenuItem(messages.payBill(),
 					HistoryTokens.PAYBILL);
 		}
 
@@ -621,7 +621,7 @@ public class MenuBar {
 
 		bankingListMenuBar.addMenuItem(messages.payments(),
 				HistoryTokens.PAYMENTS);
-		bankingListMenuBar.addMenuItem(messages.bankAccount(),
+		bankingListMenuBar.addMenuItem(messages.bankAccounts(),
 				HistoryTokens.BANKACCOUNTS);
 
 		return bankingListMenuBar;
