@@ -26,8 +26,8 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class TransactionAttachmentPanel extends SimplePanel {
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	private static final String ATTACHMENT_URL = "/do/uploadattachment";
 
 	VerticalPanel attachmentTable;
@@ -37,6 +37,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	FormPanel uploadForm;
 	private Anchor browseFileAnchor;
 	private Button uploadButton;
+	private FileUpload uploadFile;
 
 	public TransactionAttachmentPanel() {
 		createControls();
@@ -57,10 +58,10 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
 		uploadForm.setMethod(FormPanel.METHOD_POST);
 		HorizontalPanel hPanel = new HorizontalPanel();
-		final FileUpload uploadFile = new FileUpload();
+		uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
 		browseFileAnchor = new Anchor(messages.chooseFile());// Choose
-																			// File
+																// File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
 		uploadFile.setName(createID());
@@ -83,8 +84,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			public void onSubmit(SubmitEvent event) {
 				if (uploadFile.getFilename() == null
 						|| uploadFile.getFilename().length() <= 0) {
-					Accounter.showInformation(messages
-							.noImageisselected());
+					Accounter.showInformation(messages.noImageisselected());
 					return;
 				}
 
@@ -111,7 +111,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				attachment.setSize(Long.parseLong(split[1]));
 
 				browseFileAnchor.setText(messages.chooseFile());// Choose
-																			// File
+																// File
 				// Hide that button
 				uploadButton.setVisible(false);
 				attachmentTable.add(getAttachmentField(attachment));
@@ -290,6 +290,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 	public void setEnable(boolean isEnable) {
 		uploadForm.setVisible(isEnable);
 		browseFileAnchor.setEnabled(isEnable);
+		uploadFile.setEnabled(isEnable);
 		for (int i = 0; i < attachmentTable.getWidgetCount(); i++) {
 			Widget widget = attachmentTable.getWidget(i);
 			if (widget instanceof HorizontalPanel) {
