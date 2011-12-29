@@ -15,6 +15,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.Global;
@@ -41,6 +42,9 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 
 	public UsersActivityList() {
 		createControls();
+		HTML emptyMessage = new HTML(messages.noRecordsToShow());
+		emptyMessage.setHeight("150px");
+		setEmptyTableWidget(emptyMessage);
 	}
 
 	public UsersActivityList(ClientFinanceDate fromdate,
@@ -49,6 +53,9 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		this.setEndDate(endDate);
 		this.setCustomiseValue(value);
 		createControls();
+		HTML emptyMessage = new HTML(messages.noRecordsToShow());
+		emptyMessage.setHeight("150px");
+		setEmptyTableWidget(emptyMessage);
 	}
 
 	private void createControls() {
