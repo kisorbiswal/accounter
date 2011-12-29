@@ -28,8 +28,10 @@ import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -880,9 +882,27 @@ public class CustomerManager extends Manager {
 			TransactionHistory transactionHistory = new TransactionHistory();
 			object = (Object[]) iterator.next();
 			transactionHistory.setTransactionId((Long) object[0]);
-
-			transactionHistory.setName(Utility
-					.getTransactionName((Integer) object[2]));
+			int ttype = (Integer) object[2];
+			if (ttype == ClientTransaction.TYPE_ESTIMATE) {
+				Session currentSession = HibernateUtil.getCurrentSession();
+				Estimate estimate = (Estimate) currentSession.get(
+						Estimate.class, (Long) object[0]);
+				if (estimate.getEstimateType() == Estimate.BILLABLEEXAPENSES) {
+					continue;
+				}
+				if (estimate.getEstimateType() == Estimate.CHARGES) {
+					transactionHistory
+							.setName(Global.get().messages().charge());
+				} else if (estimate.getEstimateType() == Estimate.QUOTES) {
+					transactionHistory.setName(Global.get().messages().quote());
+				} else {
+					transactionHistory
+							.setName(Global.get().messages().credit());
+				}
+			} else {
+				transactionHistory.setName(Utility
+						.getTransactionName((Integer) object[2]));
+			}
 
 			transactionHistory.setType((Integer) object[2]);
 			// transactionHistory
@@ -1043,6 +1063,26 @@ public class CustomerManager extends Manager {
 						.setParameter("paymentmethod", typeOfRPString);
 				return query.list();
 			}
+		} else if (transactionType == Transaction.TYPE_ESTIMATE) {
+			int typeOfEstiate = 1;
+			queryName = "getAllQuotesByCustomer";
+			if (transactionStatusType == TransactionHistory.ALL_QUOTES) {
+				typeOfEstiate = 1;
+
+			} else if (transactionStatusType == TransactionHistory.ALL_CREDITS) {
+				typeOfEstiate = 2;
+
+			} else { // charges
+				typeOfEstiate = 3;
+			}
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId)
+					.setParameter("estimateType", typeOfEstiate);
+			return query.list();
+
 		} else {
 			queryName = "getAllTransactionsByCustomer";
 
