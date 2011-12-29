@@ -25,8 +25,8 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 	private String assesmentYear;
 	private int returnType;
 	private boolean existingTDSassesse;
-	private long panNumber;
-	private long panRegistrationNumber;
+	private String panNumber;
+	private String tanNumber;
 
 	private long mobileNumber;
 	private long stdCode;
@@ -210,20 +210,12 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 		this.existingTDSassesse = existingTDSassesse;
 	}
 
-	public long getPanNumber() {
+	public String getPanNumber() {
 		return panNumber;
 	}
 
-	public void setPanNumber(long panNumber) {
+	public void setPanNumber(String panNumber) {
 		this.panNumber = panNumber;
-	}
-
-	public long getPanRegistrationNumber() {
-		return panRegistrationNumber;
-	}
-
-	public void setPanRegistrationNumber(long panRegistrationNumber) {
-		this.panRegistrationNumber = panRegistrationNumber;
 	}
 
 	public long getStdCode() {
@@ -240,6 +232,21 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 
 	public void setMobileNumber(long mobileNumber) {
 		this.mobileNumber = mobileNumber;
+	}
+
+	/**
+	 * @return the tanNumber
+	 */
+	public String getTanNumber() {
+		return tanNumber;
+	}
+
+	/**
+	 * @param tanNumber
+	 *            the tanNumber to set
+	 */
+	public void setTanNumber(String tanNumber) {
+		this.tanNumber = tanNumber;
 	}
 
 }

@@ -385,7 +385,29 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 			}
 
 		};
-		surchargeCol
+		deducteeCodeCol
+				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
+
+					@Override
+					public void update(int index, ClientETDSFilling object,
+							String value) {
+						// TODO Auto-generated method stub
+
+					}
+
+				});
+
+		Column<ClientETDSFilling, String> remarkCol = new Column<ClientETDSFilling, String>(
+				new SelectionCell(getRemarkValues())) {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+		};
+		remarkCol
 				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
 					@Override
@@ -441,6 +463,8 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 				});
 
+		this.setColumnWidth(deducteeCodeCol, "150px");
+		this.setColumnWidth(remarkCol, "150px");
 		this.setColumnWidth(serialNoColumn, "100px");
 		this.setColumnWidth(bankBsrCodeColumn, "100px");
 		this.setColumnWidth(dateTaxDepositedColumn, "100px");
@@ -457,7 +481,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 		this.setColumnWidth(totalTaxDeductedCol, "100px");
 		this.setColumnWidth(totalTaxDepositedCol, "100px");
 		this.setColumnWidth(dateDeductionCol, "100px");
-		this.setColumnWidth(deducteeCodeCol, "150px");
+
 		this.setColumnWidth(rateCol, "100px");
 		this.setColumnWidth(bookEntryCol, "100px");
 
@@ -480,6 +504,8 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 		this.addColumn(dateDeductionCol, "Date of Deduction");
 		this.addColumn(deducteeCodeCol,
 				"Deductee Code(01-Company/02-other than Company)");
+		this.addColumn(remarkCol,
+				"Remark(Reason for non-Deduction/lower deduction/higher deduction/threshold)");
 		this.addColumn(rateCol, "Rate at which Tax Deducted");
 		this.addColumn(bookEntryCol, "Paid by book entry or otherwise");
 
@@ -490,6 +516,15 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 		list.add("01");
 		list.add("02");
+
+		return list;
+	}
+
+	private List<String> getRemarkValues() {
+		ArrayList<String> list = new ArrayList<String>();
+
+		list.add("A");
+		list.add("B");
 
 		return list;
 	}

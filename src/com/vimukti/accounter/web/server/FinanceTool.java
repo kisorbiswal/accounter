@@ -3871,9 +3871,40 @@ public class FinanceTool {
 		}
 	}
 
+	public List<ClientTDSChalanDetail> getChalanList(int formNo, int quater,
+			int startYear, int endYear, Long companyId) throws DAOException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<ClientTDSChalanDetail> chalanList = new ArrayList<ClientTDSChalanDetail>();
+		try {
+
+			Query query = session.getNamedQuery("getTdsChalanDetails")
+					.setEntity("company", getCompany(companyId))
+					.setParameter("formNum", formNo)
+					.setParameter("quarter", quater)
+					.setParameter("startYear", startYear)
+					.setParameter("endYear", endYear);
+
+			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
+					.list();
+			int i = 1;
+			for (TDSChalanDetail chalan : chalansGot) {
+
+				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
+						.toClientObject(chalan, ClientTDSChalanDetail.class);
+				chalanList.add(clientObject);
+			}
+			return chalanList;
+		} catch (Exception e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+
 	public List<ClientTDSResponsiblePerson> getResponsiblePersonDetails(
 			Long companyId) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
+
+		PaginationList<ClientTDSChalanDetail> chalanList = new PaginationList<ClientTDSChalanDetail>();
 
 		try {
 

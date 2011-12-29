@@ -18,6 +18,10 @@ public class ETDSAnnexuresGenerator {
 	private String finalString;
 	private ClientTDSDeductorMasters deductor;
 	private ClientTDSResponsiblePerson responsiblePerson;
+	private String formNo;
+	private String quater;
+	private String startYear;
+	private String endYear;
 
 	public ETDSAnnexuresGenerator() {
 
@@ -28,14 +32,14 @@ public class ETDSAnnexuresGenerator {
 	 * on new line
 	 */
 	String startNewLine() {
-		return "\n";
+		return "\r\n";
 	}
 
 	/**
 	 * line end must end with a newline character. Hex Values : "0D" & "0A".
 	 */
 	String endLine() {
-		return "\n";
+		return "\r\n";
 	}
 
 	/**
@@ -159,7 +163,8 @@ public class ETDSAnnexuresGenerator {
 				+ addDelimiter();
 
 		// Form Number Value must be 26Q.
-		batchHeaderString = batchHeaderString + "26Q" + addDelimiter();
+		batchHeaderString = batchHeaderString + generateFormText(formNo)
+				+ addDelimiter();
 
 		// Transaction Type (Not applicable) NA 0 O No value should be specified
 		// Batch Updation Indicator (Not applicable) NA 0 O No value should be
@@ -213,7 +218,7 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString + getDeductorAddress(5)
 				+ addDelimiter();
 
-		batchHeaderString = batchHeaderString + getState() + addDelimiter();
+		// batchHeaderString = batchHeaderString + getState() + addDelimiter();
 
 		// PIN Code of Deductor
 		batchHeaderString = batchHeaderString + getDeductorPINCode()
@@ -258,8 +263,8 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString + getResponsiblePersonAddress(5)
 				+ addDelimiter();
 
-		batchHeaderString = batchHeaderString + getResponsiblePersonState()
-				+ addDelimiter();
+		// batchHeaderString = batchHeaderString + getResponsiblePersonState()
+		// + addDelimiter();
 
 		batchHeaderString = batchHeaderString + getResponsiblePersonPin()
 				+ addDelimiter();
@@ -327,6 +332,20 @@ public class ETDSAnnexuresGenerator {
 		return batchHeaderString;
 	}
 
+	private String generateFormText(String formNo2) {
+		int parseInt = Integer.parseInt(formNo2);
+		if (parseInt == 1) {
+			return "26Q";
+		} else if (parseInt == 2) {
+			return "27Q";
+		} else if (parseInt == 3) {
+			return "27EQ";
+		} else {
+			return null;
+		}
+
+	}
+
 	/**
 	 * Optional for deductor type Central Govt. (A), State Govt. (S), Statutory
 	 * Body - Central Govt. (D), Statutory Body - State Govt. (E), Autonomous
@@ -377,14 +396,9 @@ public class ETDSAnnexuresGenerator {
 		if (ministryDeptName.length() > 0) {
 			return getMinistryCode(ministryDeptName);
 		} else {
-			return "^";
+			return addDelimiter();
 		}
 
-		// if (getMinistryCode().equals("99")) {
-		// return deductor.getMinistryDeptOtherName();
-		// } else {
-		// return "^";
-		// }
 	}
 
 	/**
@@ -399,8 +413,12 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtMinistryName() {
-
-		return getMinistryCode(deductor.getMinistryDeptName());
+		String ministryDeptName = deductor.getMinistryDeptName();
+		if (ministryDeptName.length() > 0) {
+			return getMinistryCode(ministryDeptName);
+		} else {
+			return addDelimiter();
+		}
 	}
 
 	/**
@@ -453,7 +471,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getGovtSateName() {
 		if (deductor.getGovtState() != null)
-			return deductor.getGovtState();
+			return getStateCode(deductor.getGovtState());
 		else
 			return "^";
 
@@ -561,24 +579,24 @@ public class ETDSAnnexuresGenerator {
 		return Long.toString(responsiblePerson.getPinCode());
 	}
 
-	/**
-	 * Responsible Person's State INTEGER 2 M Numeric code for state. For list
-	 * of State codes, refer to the Annexure below.
-	 * 
-	 * @return
-	 */
-	private String getResponsiblePersonState() {
-
-		String code = null;
-		List<String> stateNames = Utility.getStatesList();
-
-		for (int i = 0; i < stateNames.size(); i++) {
-			if (responsiblePerson.getStateName().equals(stateNames.get(i))) {
-				code = stateNames.get(i);
-			}
-		}
-		return code;
-	}
+	// /**
+	// * Responsible Person's State INTEGER 2 M Numeric code for state. For list
+	// * of State codes, refer to the Annexure below.
+	// *
+	// * @return
+	// */
+	// private String getResponsiblePersonState() {
+	//
+	// String code = null;
+	// List<String> stateNames = Utility.getStatesList();
+	//
+	// for (int i = 0; i < stateNames.size(); i++) {
+	// if (responsiblePerson.getStateName().equals(stateNames.get(i))) {
+	// code = stateNames.get(i);
+	// }
+	// }
+	// return code;
+	// }
 
 	/**
 	 * Responsible Person's Address1 CHAR 25 M Mention the address of the
@@ -594,19 +612,31 @@ public class ETDSAnnexuresGenerator {
 		String address = null;
 		switch (i) {
 		case 1:
-			address = responsiblePerson.getBuildingName();
+			if (responsiblePerson.getBuildingName() != null)
+				address = responsiblePerson.getBuildingName();
+			else
+				address = addDelimiter();
 			break;
 		case 2:
-			address = responsiblePerson.getStateName();
+			if (responsiblePerson.getStreet() != null)
+				address = responsiblePerson.getStreet();
+			else
+				address = addDelimiter();
 			break;
 		case 3:
-			address = responsiblePerson.getArea();
+			if (responsiblePerson.getArea() != null)
+				address = responsiblePerson.getArea();
+			else
+				address = addDelimiter();
 			break;
 		case 4:
-			address = responsiblePerson.getCity();
+			if (responsiblePerson.getCity() != null)
+				address = responsiblePerson.getCity();
+			else
+				address = addDelimiter();
 			break;
 		case 5:
-			address = responsiblePerson.getStateName();
+			address = getStateCode(responsiblePerson.getStateName());
 			break;
 		default:
 			break;
@@ -622,7 +652,10 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonDesignation() {
-		return responsiblePerson.getDesignation();
+		if (responsiblePerson.getDesignation() != null)
+			return responsiblePerson.getDesignation();
+		else
+			return addDelimiter();
 	}
 
 	/**
@@ -632,7 +665,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getResponsiblePersonName() {
-		return responsiblePerson.getName();
+		return responsiblePerson.getResponsibleName();
 	}
 
 	/**
@@ -644,10 +677,12 @@ public class ETDSAnnexuresGenerator {
 	private String getDeductorType() {
 		String code = null;
 		List<String> deductorCodes = Utility.getDeductorCodes();
+		List<String> deductorTypes = Utility.getDeductorTypes();
 
 		for (int i = 0; i < deductorCodes.size(); i++) {
-			if (deductor.getDeductorType().equals(deductorCodes.get(i))) {
+			if (deductor.getDeductorType().equals(deductorTypes.get(i))) {
 				code = deductorCodes.get(i);
+				break;
 			}
 		}
 		return code;
@@ -732,8 +767,9 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getState() {
-		// TODO Auto-generated method stub
-		return null;
+
+		String state = deductor.getState();
+		return getStateCode(state);
 	}
 
 	/**
@@ -748,19 +784,31 @@ public class ETDSAnnexuresGenerator {
 		String address = null;
 		switch (i) {
 		case 1:
-			address = deductor.getBuildingName();
+			if (deductor.getBuildingName() != null)
+				address = deductor.getBuildingName();
+			else
+				address = addDelimiter();
 			break;
 		case 2:
-			address = deductor.getRoadName();
+			if (deductor.getRoadName() != null)
+				address = deductor.getRoadName();
+			else
+				address = addDelimiter();
 			break;
 		case 3:
-			address = deductor.getArea();
+			if (deductor.getArea() != null)
+				address = deductor.getArea();
+			else
+				address = addDelimiter();
 			break;
 		case 4:
-			address = deductor.getCity();
+			if (deductor.getCity() != null)
+				address = deductor.getCity();
+			else
+				address = addDelimiter();
 			break;
 		case 5:
-			address = deductor.getState();
+			address = getState();
 			break;
 		default:
 			break;
@@ -784,7 +832,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getNameDeductor() {
-		return deductor.getName();
+		return deductor.getDeductorName();
 	}
 
 	/**
@@ -794,7 +842,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getYearQuarter() {
 		// TODO Auto-generated method stub
-		return null;
+		return quater;
 	}
 
 	/**
@@ -803,8 +851,9 @@ public class ETDSAnnexuresGenerator {
 	 * cannot be a future financial year
 	 */
 	private String getFinancialYear() {
-
-		return null;
+		String[] split = endYear.split("");
+		String finalDate = startYear + split[3] + split[4];
+		return finalDate;
 	}
 
 	/**
@@ -814,7 +863,13 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getAssesmentYear() {
 
-		return null;
+		String t1 = Integer.toString((Integer.parseInt(startYear) + 1));
+		String t2 = Integer.toString((Integer.parseInt(endYear) + 1));
+
+		String[] split = t2.split("");
+
+		String finalDate = t1 + split[3] + split[4];
+		return finalDate;
 	}
 
 	/**
@@ -852,12 +907,18 @@ public class ETDSAnnexuresGenerator {
 		for (String string : statesName) {
 			if (string.equals(stateName)) {
 				stateCode = Integer.toString(code);
+				break;
 			} else if (string.equals("OTHERS")) {
 				stateCode = Integer.toString(99);
 			}
 			code++;
 		}
-		return stateCode;
+
+		if (Integer.parseInt(stateCode) < 10) {
+			return "0" + stateCode;
+		} else {
+			return stateCode;
+		}
 
 	}
 
@@ -900,10 +961,12 @@ public class ETDSAnnexuresGenerator {
 		for (String string : ministryNameList) {
 			if (string.equals(ministryName)) {
 				ministryCode = Integer.toString(code);
+				break;
 			} else if (string.equals("Others")) {
 				ministryCode = Integer.toString(99);
+				break;
 			} else {
-				ministryCode = "^";
+				ministryCode = addDelimiter();
 			}
 			code++;
 		}
@@ -926,6 +989,15 @@ public class ETDSAnnexuresGenerator {
 
 		deductor = tdsDeductorMasterDetails2.get(0);
 		responsiblePerson = responsiblePersonDetails2.get(0);
+
+	}
+
+	public void setFormDetails(String formNo, String quater, String startYear,
+			String endYear) {
+		this.formNo = formNo;
+		this.quater = quater;
+		this.startYear = startYear;
+		this.endYear = endYear;
 
 	}
 

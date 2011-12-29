@@ -172,6 +172,9 @@ public class TdsChalanTransactionItemsTable extends
 			@Override
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				row.setSurchargeAmount(value);
+
+				row.setTdsTotal(row.getTaxAmount() + value + row.getEduCess());
+				getTable().update(row);
 				if (isSelected) {
 					tdsChalanDetails.setSurchargeValuesToField(value, true);
 				}
@@ -206,6 +209,9 @@ public class TdsChalanTransactionItemsTable extends
 			@Override
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				row.setEduCess(value);
+				row.setTdsTotal(row.getTaxAmount() + value
+						+ row.getSurchargeAmount());
+				getTable().update(row);
 				if (isSelected) {
 					tdsChalanDetails.setEduCessValuesToField(value, true);
 				}

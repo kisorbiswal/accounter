@@ -278,12 +278,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 		budgetEdit = new Button(messages.edit());
 		budgetEdit.setWidth("10");
+
 		budgetEdit.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (budgetItemsExists == true) {
-
 					ActionFactory.getNewBudgetAction().run(budgetData, false);
 				}
 			}
@@ -561,9 +561,13 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 								.getName());
 					}
 					grid.setRecords(budgetItems);
+					budgetEdit.setEnabled(true);
 				} else {
-					List<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
-					grid.setRecords(budgetItems);
+					// List<ClientBudgetItem> budgetItems = new
+					// ArrayList<ClientBudgetItem>();
+					// grid.setRecords(budgetItems);
+					grid.addEmptyMessage(messages.noRecordsToShow());
+					budgetEdit.setEnabled(false);
 				}
 
 			} else if (this instanceof CustomerListView

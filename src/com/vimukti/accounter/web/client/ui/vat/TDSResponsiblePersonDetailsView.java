@@ -44,8 +44,8 @@ public class TDSResponsiblePersonDetailsView extends
 	private SelectCombo financialYearCombo;
 	private SelectCombo returnType;
 	private SelectCombo existingTdsassess;
-	private IntegerField panCode;
-	private IntegerField tanRegistration;
+	private TextItem panCode;
+	private TextItem tanNumber;
 
 	private SelectCombo assessmentYearCombo;
 	private TextItem designation;
@@ -128,7 +128,6 @@ public class TDSResponsiblePersonDetailsView extends
 		pinNumber.setHelpInformation(true);
 		pinNumber.setRequired(true);
 		pinNumber.setDisabled(isInViewMode());
-		pinNumber.setValidators(integerRangeValidator);
 
 		addressChangeCombo = new SelectCombo(
 				"Has Address changed since last return");
@@ -148,23 +147,19 @@ public class TDSResponsiblePersonDetailsView extends
 		stdNumber = new IntegerField(this, "Std Code");
 		stdNumber.setHelpInformation(true);
 		stdNumber.setDisabled(isInViewMode());
-		stdNumber.setValidators(integerRangeValidator);
 
 		telephoneNumber = new IntegerField(this, "Telephone No.");
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
-		telephoneNumber.setValidators(integerRangeValidator);
 
 		mobileNumber = new IntegerField(this, "Mobile No.");
 		mobileNumber.setHelpInformation(true);
 		mobileNumber.setRequired(true);
 		mobileNumber.setDisabled(isInViewMode());
-		mobileNumber.setValidators(integerRangeValidator);
 
 		faxNumber = new IntegerField(this, "Fax No.");
 		faxNumber.setHelpInformation(true);
 		faxNumber.setDisabled(isInViewMode());
-		faxNumber.setValidators(integerRangeValidator);
 
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
@@ -225,22 +220,20 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		panCode = new IntegerField(this, "PAN");
+		panCode = new TextItem("PAN Number");
 		panCode.setHelpInformation(true);
 		panCode.setRequired(true);
 		panCode.setDisabled(isInViewMode());
-		panCode.setValidators(integerRangeValidator);
 
-		tanRegistration = new IntegerField(this, "TAN Registration");
-		tanRegistration.setHelpInformation(true);
-		tanRegistration.setRequired(true);
-		tanRegistration.setDisabled(isInViewMode());
-		tanRegistration.setValidators(integerRangeValidator);
+		tanNumber = new TextItem("TAN Number");
+		tanNumber.setHelpInformation(true);
+		tanNumber.setRequired(true);
+		tanNumber.setDisabled(isInViewMode());
 
 		otherDynamicForm = new DynamicForm();
 		otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
 				faxNumber, email, financialYearCombo, assessmentYearCombo,
-				returnType, existingTdsassess, panCode, tanRegistration);
+				returnType, existingTdsassess, panCode, tanNumber);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("100%");
@@ -355,9 +348,9 @@ public class TDSResponsiblePersonDetailsView extends
 
 		data.setAssesmentYear(assessmentYearCombo.getSelectedValue());
 
-		data.setPanNumber(panCode.getNumber());
+		data.setPanNumber(panCode.getValue());
 
-		data.setPanRegistrationNumber(tanRegistration.getNumber());
+		data.setTanNumber(tanNumber.getValue());
 
 		data.setMobileNumber(mobileNumber.getNumber());
 

@@ -1,41 +1,78 @@
 package com.vimukti.accounter.core;
 
 import java.util.List;
+import java.util.Set;
 
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
+import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 
 public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 	String fileText = null;
+	private ClientTDSChalanDetail chalanDetails;
+	private ClientTDSTransactionItem transactionItems;
+	private List<ClientTDSChalanDetail> chalanDetailsList;
+	private Company companyGot;
+	private Vendor vendorFinal;
+
+	private int runningSerialNumber;
+	private int runningChalanNumber;
+	private int lineNumber;
 
 	public Form26QAnnexureGenerator() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Form26QAnnexureGenerator(
 			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
-			List<ClientTDSResponsiblePerson> responsiblePersonDetails2) {
+			List<ClientTDSResponsiblePerson> responsiblePersonDetails2,
+			Company company) {
 		super.setDetails(tdsDeductorMasterDetails2, responsiblePersonDetails2);
-		generateFile();
+
+		companyGot = company;
 
 	}
 
 	public String generateFile() {
 
-		fileText = startNewLine();
-		fileText = fileText + generateFileHeaderRecord();
+		fileText = generateFileHeaderRecord();
 		fileText = fileText + generateBatchHeaderRecord();
+		int i = 3;
+		int chalNum = 1;
+		for (ClientTDSChalanDetail chalan : chalanDetailsList) {
+			chalanDetails = chalan;
+			setLineNumber(i);
+			setRunningChalanNumber(chalNum);
+			chalNum++;
+			fileText = fileText + generateChalanVoucherDetailsRecord();
+			int serNum = 1;
+			for (ClientTDSTransactionItem items : chalanDetails
+					.getTransactionItems()) {
+				setRunningSerialNumber(serNum);
+				serNum++;
+				Set<Vendor> vendors = companyGot.getVendors();
+				for (Vendor vendor : vendors) {
+					if (vendor.getID() == items.getVendorID()) {
+						vendorFinal = vendor;
+					}
+				}
+				i++;
+				transactionItems = items;
+				setLineNumber(i);
+				fileText = fileText + generateDeducteeDetailsRecord();
+			}
+			i++;
+		}
+
 		return fileText;
 	}
 
-	public String generateDeducteeDetailsRecord(int lineNumber) {
+	public String generateDeducteeDetailsRecord() {
 
-		String deucteeDetailsRecordString = null;
-		deucteeDetailsRecordString = getLineNumber(lineNumber) + addDelimiter();
+		String deucteeDetailsRecordString = getLineNumber() + addDelimiter();
 
 		// Record Type Value "DD"(Deductee Detail) for Deductee-detail record
-
 		deucteeDetailsRecordString = deucteeDetailsRecordString + "DD"
 				+ addDelimiter();
 
@@ -43,7 +80,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 				+ getBatchNumber() + addDelimiter();
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ getRunningChalanNmber() + addDelimiter();
+				+ getRunningChalanNumber() + addDelimiter();
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ getRunningSerialNumber() + addDelimiter();
@@ -100,9 +137,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		// Total Value of Purchase (Not applicable)
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ addDelimiter();
-		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ addDelimiter();
+				+ addDelimiter() + addDelimiter();
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ getAmountOFpaymentorCredit() + addDelimiter();
@@ -141,7 +176,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ addDelimiter() + addDelimiter() + addDelimiter();
 
-		return deucteeDetailsRecordString;
+		return deucteeDetailsRecordString + endLine();
 
 	}
 
@@ -163,8 +198,13 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBookEntry() {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (chalanDetails.isBookEntry()) {
+			return "Y";
+		} else {
+			return "N";
+		}
+
 	}
 
 	/**
@@ -176,8 +216,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getRateAtWhichTaxDeducted() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(vendorFinal.getTAXItem().getTaxRate());
 	}
 
 	/**
@@ -188,8 +227,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateOnWhichTaxCollected() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(transactionItems.getTransactionDate());
 	}
 
 	/**
@@ -198,8 +236,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateonWhichAmountPaid() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(transactionItems.getTransactionDate());
 	}
 
 	/**
@@ -209,8 +246,9 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getAmountOFpaymentorCredit() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getTaxAmount()
+				+ transactionItems.getSurchargeAmount()
+				+ transactionItems.getEduCess());
 	}
 
 	/**
@@ -224,8 +262,9 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalTaxDeposited() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getTaxAmount()
+				+ transactionItems.getSurchargeAmount()
+				+ transactionItems.getEduCess());
 	}
 
 	/**
@@ -235,8 +274,9 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalIncomeTaxDeductedatSource() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getTaxAmount()
+				+ transactionItems.getSurchargeAmount()
+				+ transactionItems.getEduCess());
 	}
 
 	/**
@@ -249,8 +289,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSECess() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getEduCess());
 	}
 
 	/**
@@ -261,8 +300,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * is "A" or "null" then value should be greater than or equal to 0.00
 	 */
 	private String getTDSSurchargeforPeriod() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getSurchargeAmount());
 	}
 
 	/**
@@ -275,8 +313,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSIncomeTaxforPeriod() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(transactionItems.getTaxAmount());
 	}
 
 	/**
@@ -285,8 +322,8 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteeName() {
-		// TODO Auto-generated method stub
-		return null;
+		String name = vendorFinal.getName();
+		return name;
 	}
 
 	/**
@@ -297,8 +334,8 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getPANRefNo() {
-		// TODO Auto-generated method stub
-		return null;
+		return addDelimiter();
+
 	}
 
 	/**
@@ -315,8 +352,12 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteePan() {
-		// TODO Auto-generated method stub
-		return null;
+		if (vendorFinal.getPANno() != null) {
+			return vendorFinal.getPANno();
+		} else {
+			return "PANNOTAVBL";
+		}
+
 	}
 
 	/**
@@ -329,25 +370,23 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		return null;
 	}
 
-	/**
-	 * Running serial no to indicate detail record no.
-	 * 
-	 * @return
-	 */
-	private String getRunningSerialNumber() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Running serial number for 'Challan Detail' records in a batch.
-	 * 
-	 * @return
-	 */
-	private String getRunningChalanNmber() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// /**
+	// * Running serial no to indicate detail record no.
+	// *
+	// * @return
+	// */
+	// private String getRunningSerialNumber() {
+	// return null;
+	// }
+	//
+	// /**
+	// * Running serial number for 'Challan Detail' records in a batch.
+	// *
+	// * @return
+	// */
+	// private String getRunningChalanNmber() {
+	// return null;
+	// }
 
 	/**
 	 * Value should be same as 'Batch Number' field in 'Batch Header' record
@@ -355,12 +394,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBatchNumber() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private String getLineNumber(int lineNumber) {
-		return Integer.toString(lineNumber);
+		return "1";
 	}
 
 	/**
@@ -370,10 +404,10 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @param lineNumber
 	 * @return
 	 */
-	public String generateChalanVoucherDetailsRecord(int lineNumber) {
+	public String generateChalanVoucherDetailsRecord() {
 
 		String chalanDetailsRecordString = null;
-		chalanDetailsRecordString = getLineNumber(lineNumber) + addDelimiter();
+		chalanDetailsRecordString = getLineNumber() + addDelimiter();
 
 		// Record Type
 		chalanDetailsRecordString = chalanDetailsRecordString + "CD"
@@ -383,7 +417,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 				+ getBatchNumber() + addDelimiter();
 
 		chalanDetailsRecordString = chalanDetailsRecordString
-				+ getRunningChalanNmber() + addDelimiter();
+				+ getRunningChalanNumber() + addDelimiter();
 
 		chalanDetailsRecordString = chalanDetailsRecordString
 				+ getDeducteeRecordsCount() + addDelimiter();
@@ -454,7 +488,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		chalanDetailsRecordString = chalanDetailsRecordString + addDelimiter();
 
 		chalanDetailsRecordString = chalanDetailsRecordString
-				+ getTotalTaxDeposited() + addDelimiter();
+				+ getTotalIncomeTaxinChalan() + addDelimiter();
 
 		chalanDetailsRecordString = chalanDetailsRecordString
 				+ getTotalIncomeTaxinChalan() + addDelimiter();
@@ -483,7 +517,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		// Record Hash (Not applicable)
 		chalanDetailsRecordString = chalanDetailsRecordString + addDelimiter();
 
-		return chalanDetailsRecordString;
+		return chalanDetailsRecordString + endLine();
 
 	}
 
@@ -493,8 +527,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getInternalChalanReferenceNo() {
-		// TODO Auto-generated method stub
-		return null;
+		return addDelimiter();
 	}
 
 	/**
@@ -506,8 +539,12 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getByBookEntry() {
-		// TODO Auto-generated method stub
-		return null;
+		if (chalanDetails.isBookEntry()) {
+			return "Y";
+		} else {
+			return "N";
+		}
+
 	}
 
 	/**
@@ -519,8 +556,8 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getChequeDDNo() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return Long.toString(chalanDetails.getCheckNumber());
 	}
 
 	/**
@@ -529,8 +566,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSOtherAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getOtherAmount());
 	}
 
 	/**
@@ -539,18 +575,15 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSInterestAMount() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getIncomeTaxAmount());
 	}
 
 	private String getTotalECessinChalan() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getEducationCessAmount());
 	}
 
 	private String getTotalSurchargeinChalan() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getSurchangePaidAmount());
 	}
 
 	/**
@@ -559,8 +592,9 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalIncomeTaxinChalan() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getIncomeTaxAmount()
+				+ chalanDetails.getEducationCessAmount()
+				+ chalanDetails.getSurchangePaidAmount());
 	}
 
 	/**
@@ -577,8 +611,12 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalOLTASDepositeAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		Double total = chalanDetails.getIncomeTaxAmount()
+				+ chalanDetails.getSurchangePaidAmount()
+				+ chalanDetails.getEducationCessAmount()
+				+ chalanDetails.getInterestPaidAmount()
+				+ chalanDetails.getOtherAmount();
+		return Double.toString(total);
 	}
 
 	/**
@@ -590,8 +628,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getOLTASOtherAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getOtherAmount());
 	}
 
 	/**
@@ -603,8 +640,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getOLTASInterestAmount() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getInterestPaidAmount());
 	}
 
 	/**
@@ -616,8 +652,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getOLTASECess() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getEducationCessAmount());
 	}
 
 	/**
@@ -629,8 +664,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getOLTASSurcharge() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getSurchangePaidAmount());
 	}
 
 	/**
@@ -642,8 +676,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getOLTASIncomeTax() {
-		// TODO Auto-generated method stub
-		return null;
+		return Double.toString(chalanDetails.getIncomeTaxAmount());
 	}
 
 	/**
@@ -652,8 +685,11 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getSection() {
-		// TODO Auto-generated method stub
-		return null;
+		if (chalanDetails.getPaymentSection() != null) {
+			return getSectionCode(chalanDetails.getPaymentSection());
+		} else {
+			return addDelimiter();
+		}
 	}
 
 	/**
@@ -664,8 +700,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateofBankChalanNo() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(chalanDetails.getDateTaxPaid());
 	}
 
 	/**
@@ -678,8 +713,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBankBranchCode() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(chalanDetails.getBankBsrCode());
 	}
 
 	/**
@@ -692,8 +726,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTransferVoucherNo() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(chalanDetails.getChalanSerialNumber());
 	}
 
 	/**
@@ -706,8 +739,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBankChalanNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return Long.toString(chalanDetails.getBankChalanNumber());
 	}
 
 	/**
@@ -718,7 +750,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getNILChalanIndicator() {
 		// TODO Auto-generated method stub
-		return null;
+		return addDelimiter();
 	}
 
 	/**
@@ -727,8 +759,54 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteeRecordsCount() {
-		// TODO Auto-generated method stub
-		return null;
+		return Integer.toString(chalanDetails.getTransactionItems().size());
+	}
+
+	public void setFormDetails(String formNo, String quater, String startYear,
+			String endYear) {
+		super.setFormDetails(formNo, quater, startYear, endYear);
+	}
+
+	public void setChalanDetailsList(List<ClientTDSChalanDetail> chalanList2) {
+		chalanDetailsList = chalanList2;
+	}
+
+	public int getRunningSerialNumber() {
+		return runningSerialNumber;
+	}
+
+	public void setRunningSerialNumber(int runningSerialNumber) {
+		this.runningSerialNumber = runningSerialNumber;
+	}
+
+	/**
+	 * @return the runningChalanNumber
+	 */
+	public int getRunningChalanNumber() {
+		return runningChalanNumber;
+	}
+
+	/**
+	 * @param runningChalanNumber
+	 *            the runningChalanNumber to set
+	 */
+	public void setRunningChalanNumber(int runningChalanNumber) {
+		this.runningChalanNumber = runningChalanNumber;
+	}
+
+	/**
+	 * @return the lineNumber
+	 */
+	public int getLineNumber() {
+		return lineNumber;
+	}
+
+	/**
+	 * @param lineNumber
+	 *            the lineNumber to set
+	 */
+	public void setLineNumber(int lineNumber) {
+		this.lineNumber = lineNumber;
 	}
 
 }

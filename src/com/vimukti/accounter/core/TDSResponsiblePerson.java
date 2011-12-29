@@ -31,7 +31,7 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	private String assesmentYear;
 	private int returnType;
 	private boolean existingTDSassesse;
-	private long panNumber;
+	private String panNumber;
 	private long panRegistrationNumber;
 
 	private long mobileNumber;
@@ -192,11 +192,11 @@ public class TDSResponsiblePerson extends CreatableObject implements
 		this.existingTDSassesse = existingTDSassesse;
 	}
 
-	public long getPanNumber() {
+	public String getPanNumber() {
 		return panNumber;
 	}
 
-	public void setPanNumber(long panNumber) {
+	public void setPanNumber(String panNumber) {
 		this.panNumber = panNumber;
 	}
 

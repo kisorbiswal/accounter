@@ -144,10 +144,12 @@ public class BudgetOverviewServerReport extends
 	public String[] getColunms() {
 
 		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
-				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
-				DayAndMonthUtil.mayS(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
-				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(), DayAndMonthUtil.oct(),
-				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
+				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(),
+				DayAndMonthUtil.apr(), DayAndMonthUtil.mayS(),
+				DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(),
+				DayAndMonthUtil.oct(), DayAndMonthUtil.nov(),
+				DayAndMonthUtil.dec(), getMessages().total() };
 
 	}
 
@@ -212,6 +214,8 @@ public class BudgetOverviewServerReport extends
 			sectionName1 = getMessages().income();
 		} else if (record.getAccount().getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
 			sectionName1 = messages.costOfGoodSold();
+		} else {
+			return;
 		}
 
 		if (sectionDepth == 0) {
@@ -227,6 +231,7 @@ public class BudgetOverviewServerReport extends
 			} else {
 				return;
 			}
+
 		}
 		// Go on recursive calling if we reached this place
 		processRecord(record);
@@ -240,13 +245,16 @@ public class BudgetOverviewServerReport extends
 
 			@Override
 			public void OnSectionAdd(Section<ClientBudgetList> section) {
-				if (section.title.equals(getMessages().grossProfit())) {
-					section.data[0] = "";
+				if (section.title != null) {
+					if (section.title.equals(getMessages().grossProfit())) {
+						section.data[0] = "";
+					}
 				}
 			}
 
 			@Override
 			public void OnSectionEnd(Section<ClientBudgetList> section) {
+
 				if (section.title.equals(getMessages().income())) {
 					janincome = Double.valueOf(section.data[1].toString());
 					febincome = Double.valueOf(section.data[2].toString());
@@ -472,10 +480,12 @@ public class BudgetOverviewServerReport extends
 	public String[] getDynamicHeaders() {
 
 		return new String[] { getMessages().name(), DayAndMonthUtil.jan(),
-				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
-				DayAndMonthUtil.mayS(), DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
-				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(), DayAndMonthUtil.oct(),
-				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), getMessages().total() };
+				DayAndMonthUtil.feb(), DayAndMonthUtil.mar(),
+				DayAndMonthUtil.apr(), DayAndMonthUtil.mayS(),
+				DayAndMonthUtil.jun(), DayAndMonthUtil.jul(),
+				DayAndMonthUtil.aug(), DayAndMonthUtil.sep(),
+				DayAndMonthUtil.oct(), DayAndMonthUtil.nov(),
+				DayAndMonthUtil.dec(), getMessages().total() };
 
 	}
 

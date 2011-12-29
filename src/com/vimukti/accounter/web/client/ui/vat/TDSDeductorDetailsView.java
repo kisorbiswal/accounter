@@ -154,12 +154,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		stdNumber = new IntegerField(this, "Std Code");
 		stdNumber.setHelpInformation(true);
 		stdNumber.setDisabled(isInViewMode());
-		stdNumber.setValidators(integerRangeValidator);
 
 		telephoneNumber = new IntegerField(this, "Telephone No.");
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
-		telephoneNumber.setValidators(integerRangeValidator);
 
 		faxNumber = new IntegerField(this, "Fax No.");
 		faxNumber.setHelpInformation(true);
@@ -170,13 +168,11 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		panNumber.setHelpInformation(true);
 		panNumber.setDisabled(isInViewMode());
 		panNumber.setRequired(true);
-		panNumber.setValidators(integerRangeValidator);
 
 		tanNumber = new TextItem("Tan Number");
 		tanNumber.setHelpInformation(true);
 		tanNumber.setDisabled(isInViewMode());
 		tanNumber.setRequired(true);
-		tanNumber.setValidators(integerRangeValidator);
 
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
@@ -470,6 +466,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		ValidationResult result = new ValidationResult();
 
 		result.add(taxDynamicForm.validate());
+
 		result.add(otherDynamicForm.validate());
 
 		if (stateSelected == null) {
@@ -536,36 +533,30 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		data.setDeductorType(deductorTypeSelected);
 
-		data.setGovtState(stateSelected);
-
-		if (statusSelected.equals(getStatusTypes().get(0))) {
+		if (statusSelected.equals(getStatusTypes().get(1))) {
 			if (paoCode.getValue().length() > 0) {
 				data.setPaoCode(paoCode.getNumber());
 			} else {
 				data.setPaoCode(0);
 			}
-
 			if (paoRegistration.getValue().length() > 0) {
 				data.setPaoRegistration(paoRegistration.getNumber());
 			} else {
 				data.setPaoRegistration(0);
 			}
-
 			if (ddoCode.getValue().length() > 0) {
 				data.setDdoCode(ddoCode.getNumber());
 			} else {
 				data.setDdoCode(0);
 			}
-
 			if (ddoRegistration.getValue().length() > 0) {
 				data.setDdoRegistration(ddoRegistration.getNumber());
 			} else {
 				data.setDdoRegistration(0);
 			}
-
 			data.setMinistryDeptName(ministryCombo.getSelectedValue());
-
 			data.setMinistryDeptOtherName(ministryNameOtehr.getValue());
+			data.setGovtState(govtState.getSelectedValue());
 		} else {
 			data.setPaoCode(0);
 			data.setPaoRegistration(0);
@@ -573,6 +564,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			data.setDdoRegistration(0);
 			data.setMinistryDeptName("");
 			data.setMinistryDeptOtherName("");
+			data.setGovtState("");
 		}
 
 		data.setPanNumber(panNumber.getValue());

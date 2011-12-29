@@ -47,10 +47,9 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private IntegerField bankBsrCode;
 	private DynamicForm taxDynamicForm;
 	private DynamicForm otherDynamicForm;
-	// private TDSTransactionItemGrid grid;
 	TdsChalanTransactionItemsTable table;
 	private SelectCombo chalanPeriod;
-	private IntegerField bankChalanNumber;
+	private IntegerField chalanSerialNumber;
 	private SelectCombo tdsDepositedBY;
 	private SelectCombo selectFormTypeCombo;
 	private SelectCombo slectAssecementYear;
@@ -62,7 +61,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 	int formTypeSeclected = 1;
 	String assessmentYear;
-	String paymentSectionSelected;
+	String paymentSectionSelected = null;
 	private SelectCombo natureOfPaymentCombo27Q;
 	private SelectCombo natureOfPaymentCombo27EQ;
 	int modeOfPayment = 1;
@@ -118,16 +117,28 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 							natureOfPaymentCombo27Q.hide();
 							natureOfPaymentCombo27EQ.hide();
 
+							natureOfPaymentCombo26Q.setRequired(true);
+							natureOfPaymentCombo27Q.setRequired(false);
+							natureOfPaymentCombo27EQ.setRequired(false);
+
 						} else if (selectItem.equals(getFormTypes().get(1))) {
 							formTypeSeclected = 2;
 							natureOfPaymentCombo26Q.hide();
 							natureOfPaymentCombo27Q.show();
 							natureOfPaymentCombo27EQ.hide();
+
+							natureOfPaymentCombo26Q.setRequired(false);
+							natureOfPaymentCombo27Q.setRequired(true);
+							natureOfPaymentCombo27EQ.setRequired(false);
 						} else if (selectItem.equals(getFormTypes().get(2))) {
 							formTypeSeclected = 3;
 							natureOfPaymentCombo26Q.hide();
 							natureOfPaymentCombo27Q.hide();
 							natureOfPaymentCombo27EQ.show();
+
+							natureOfPaymentCombo26Q.setRequired(false);
+							natureOfPaymentCombo27Q.setRequired(false);
+							natureOfPaymentCombo27EQ.setRequired(true);
 						}
 
 					}
@@ -254,7 +265,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		natureOfPaymentCombo26Q.initCombo(get26QSectionsList());
 		natureOfPaymentCombo26Q.setRequired(true);
 		natureOfPaymentCombo26Q.setDisabled(isInViewMode());
-		natureOfPaymentCombo26Q.setSelectedItem(0);
 		natureOfPaymentCombo26Q
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -269,7 +279,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		natureOfPaymentCombo27Q.initCombo(get27QSectionsList());
 		natureOfPaymentCombo27Q.setRequired(true);
 		natureOfPaymentCombo27Q.setDisabled(isInViewMode());
-		natureOfPaymentCombo27Q.setSelectedItem(0);
 		natureOfPaymentCombo27Q
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -284,7 +293,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		natureOfPaymentCombo27EQ.initCombo(get27EQSectionsList());
 		natureOfPaymentCombo27EQ.setRequired(true);
 		natureOfPaymentCombo27EQ.setDisabled(isInViewMode());
-		natureOfPaymentCombo27EQ.setSelectedItem(0);
 		natureOfPaymentCombo27EQ
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -298,7 +306,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		modeOFPaymentCombo.setHelpInformation(true);
 		modeOFPaymentCombo.initCombo(getPaymentItems());
 		modeOFPaymentCombo.setDisabled(isInViewMode());
-		modeOFPaymentCombo.setSelectedItem(0);
 		modeOFPaymentCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -316,12 +323,12 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 					}
 				});
 
-		bankChalanNumber = new IntegerField(this, "Chalan Serial No.");
-		bankChalanNumber.setHelpInformation(true);
-		bankChalanNumber.setRequired(true);
-		bankChalanNumber.setWidth(100);
-		bankChalanNumber.setDisabled(isInViewMode());
-		bankChalanNumber.setValidators(integerRangeValidator);
+		chalanSerialNumber = new IntegerField(this, "Chalan Serial No.");
+		chalanSerialNumber.setHelpInformation(true);
+		chalanSerialNumber.setRequired(true);
+		chalanSerialNumber.setWidth(100);
+		chalanSerialNumber.setDisabled(isInViewMode());
+		chalanSerialNumber.setValidators(integerRangeValidator);
 
 		chalanPeriod = new SelectCombo("Chalan Period");
 		chalanPeriod.setHelpInformation(true);
@@ -409,7 +416,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(selectFormTypeCombo, financialYearCombo,
-				bankChalanNumber, chalanPeriod, modeOFPaymentCombo,
+				chalanSerialNumber, chalanPeriod, modeOFPaymentCombo,
 				tdsDepositedBY);
 
 		otherDynamicForm = new DynamicForm();
@@ -647,6 +654,8 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		data.setAssesmentYearStart(Integer.parseInt(tokens[0]));
 		data.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
 
+		data.setChalanSerialNumber(chalanSerialNumber.getNumber());
+
 		data.setIncomeTaxAmount(incomeTaxAmount.getAmount());
 		data.setSurchangePaidAmount(surchargePaidAmount.getAmount());
 		data.setEducationCessAmount(eduCessAmount.getAmount());
@@ -657,7 +666,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		data.setPaymentSection(paymentSectionSelected);
 		data.setPaymentMethod(modeOfPayment);
 
-		data.setBankChalanNumber(bankChalanNumber.getNumber());
+		data.setBankChalanNumber(chalanSerialNumber.getNumber());
 		data.setChalanPeriod(chalanPeriod.getSelectedIndex() + 1);
 
 		if (checkNumber.getNumber() != null) {

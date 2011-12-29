@@ -262,40 +262,32 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
-			quater1Amount.setValue(Double.toString(Double.parseDouble(janAmount
-					.getValue())
-					+ Double.parseDouble(febAmount.getValue())
-					+ Double.parseDouble(marAmount.getValue())));
+			quater1Amount.setValue(Double.toString(janAmount.getAmount()
+					+ febAmount.getAmount() + marAmount.getAmount()));
 
 			quater2Amount = new AmountField(messages.quarterPeriod("2",
 					DayAndMonthUtil.apr(), DayAndMonthUtil.mayS()), this);
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
-			quater2Amount.setValue(Double.toString(Double.parseDouble(aprAmount
-					.getValue())
-					+ Double.parseDouble(mayAmount.getValue())
-					+ Double.parseDouble(junAmount.getValue())));
+			quater2Amount.setValue(Double.toString(aprAmount.getAmount()
+					+ mayAmount.getAmount() + junAmount.getAmount()));
 
 			quater3Amount = new AmountField(messages.quarterPeriod("3",
 					DayAndMonthUtil.jun(), DayAndMonthUtil.sep()), this);
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
-			quater3Amount.setValue(Double.toString(Double.parseDouble(julAmount
-					.getValue())
-					+ Double.parseDouble(augAmount.getValue())
-					+ Double.parseDouble(septAmount.getValue())));
+			quater3Amount.setValue(Double.toString(julAmount.getAmount())
+					+ augAmount.getAmount() + septAmount.getAmount());
 
 			quater4Amount = new AmountField(messages.quarterPeriod("4",
 					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()), this);
 			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);
-			quater4Amount.setValue(Double.toString(Double.parseDouble(octAmount
-					.getValue())
-					+ Double.parseDouble(novAmount.getValue())
-					+ Double.parseDouble(decAmount.getValue())));
+			quater4Amount.setValue(Double.toString(octAmount.getAmount()
+					+ novAmount.getAmount() + decAmount.getAmount()));
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(quater1Amount, quater2Amount,
@@ -307,19 +299,13 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			annualAmount.setHelpInformation(true);
 			annualAmount.setRequired(false);
 			annualAmount.setWidth(100);
-			annualAmount.setValue(Double.toString(Double.parseDouble(janAmount
-					.getValue())
-					+ Double.parseDouble(febAmount.getValue())
-					+ Double.parseDouble(marAmount.getValue())
-					+ Double.parseDouble(aprAmount.getValue())
-					+ Double.parseDouble(mayAmount.getValue())
-					+ Double.parseDouble(junAmount.getValue())
-					+ Double.parseDouble(julAmount.getValue())
-					+ Double.parseDouble(augAmount.getValue())
-					+ Double.parseDouble(septAmount.getValue())
-					+ Double.parseDouble(octAmount.getValue())
-					+ Double.parseDouble(novAmount.getValue())
-					+ Double.parseDouble(decAmount.getValue())));
+			annualAmount.setValue(Double.toString(janAmount.getAmount()
+					+ febAmount.getAmount() + marAmount.getAmount()
+					+ aprAmount.getAmount() + mayAmount.getAmount()
+					+ junAmount.getAmount() + julAmount.getAmount()
+					+ augAmount.getAmount() + septAmount.getAmount()
+					+ octAmount.getAmount() + novAmount.getAmount()
+					+ decAmount.getAmount()));
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(annualAmount);
@@ -333,102 +319,78 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		if (budgetAddBy.getSelectedValue() == MONTHS) {
 
 			newMap.put(DayAndMonthUtil.jan(),
-					janAmount.getValue() != null ? janAmount.getValue()
+					janAmount.getAmount() != null ? janAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.feb(),
-					febAmount.getValue() != null ? febAmount.getValue()
+					febAmount.getAmount() != null ? febAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.mar(),
-					marAmount.getValue() != null ? marAmount.getValue()
+					marAmount.getAmount() != null ? marAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.apr(),
-					aprAmount.getValue() != null ? aprAmount.getValue()
+					aprAmount.getAmount() != null ? aprAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.mayS(),
-					mayAmount.getValue() != null ? mayAmount.getValue()
+					mayAmount.getAmount() != null ? mayAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.jun(),
-					junAmount.getValue() != null ? junAmount.getValue()
+					junAmount.getAmount() != null ? junAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.jul(),
-					julAmount.getValue() != null ? julAmount.getValue()
+					julAmount.getAmount() != null ? julAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.aug(),
-					augAmount.getValue() != null ? augAmount.getValue()
+					augAmount.getAmount() != null ? augAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.sep(),
-					septAmount.getValue() != null ? septAmount.getValue()
+					septAmount.getAmount() != null ? septAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.oct(),
-					octAmount.getValue() != null ? octAmount.getValue()
+					octAmount.getAmount() != null ? octAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.nov(),
-					novAmount.getValue() != null ? novAmount.getValue()
+					novAmount.getAmount() != null ? novAmount.getAmount()
 							.toString() : "0");
 
 			newMap.put(DayAndMonthUtil.dec(),
-					decAmount.getValue() != null ? decAmount.getValue()
+					decAmount.getAmount() != null ? decAmount.getAmount()
 							.toString() : "0");
 
 		} else if (budgetAddBy.getSelectedValue() == QUARTERS) {
 
 			String one, two, three, four;
 
-			if (quater1Amount.getValue() != null)
-				one = Double
-						.toString(round(
-								false,
-								0,
-								roundOff,
-								calculation,
-								Double.parseDouble(quater1Amount.getValue()) / 3.00,
-								2));
+			if (quater1Amount.getAmount() != null)
+				one = Double.toString(round(false, 0, roundOff, calculation,
+						quater1Amount.getAmount() / 3.00, 2));
 			else
 				one = "0.00";
 
-			if (quater2Amount.getValue() != null)
-				two = Double
-						.toString(round(
-								false,
-								0,
-								roundOff,
-								calculation,
-								Double.parseDouble(quater2Amount.getValue()) / 3.00,
-								2));
+			if (quater2Amount.getAmount() != null)
+				two = Double.toString(round(false, 0, roundOff, calculation,
+						quater2Amount.getAmount() / 3.00, 2));
 			else
 				two = "0.00";
 
-			if (quater3Amount.getValue() != null)
-				three = Double
-						.toString(round(
-								false,
-								0,
-								roundOff,
-								calculation,
-								Double.parseDouble(quater3Amount.getValue()) / 3.00,
-								2));
+			if (quater3Amount.getAmount() != null)
+				three = Double.toString(round(false, 0, roundOff, calculation,
+						quater3Amount.getAmount() / 3.00, 2));
 			else
 				three = "0.00";
 
-			if (quater4Amount.getValue() != null)
-				four = Double
-						.toString(round(
-								false,
-								0,
-								roundOff,
-								calculation,
-								Double.parseDouble(quater4Amount.getValue()) / 3.00,
-								2));
+			if (quater4Amount.getAmount() != null)
+				four = Double.toString(round(false, 0, roundOff, calculation,
+						quater4Amount.getAmount() / 3.00, 2));
 			else
 				four = "0.00";
 
@@ -462,66 +424,54 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			if (calculation == 1) {
 				valueToDivide = 365.00;
 			}
-			if (annualAmount.getValue() != null) {
+			if (annualAmount.getAmount() != null) {
 
 				newMap.put(DayAndMonthUtil.jan(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.feb(), Double.toString(round(true,
-						28, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						28, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.mar(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.apr(), Double.toString(round(true,
-						30, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						30, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.mayS(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.jun(), Double.toString(round(true,
-						30, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						30, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.jul(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.aug(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.sep(), Double.toString(round(true,
-						30, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						30, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.oct(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.nov(), Double.toString(round(true,
-						30, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						30, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.dec(), Double.toString(round(true,
-						31, roundOff, calculation,
-						Double.parseDouble(annualAmount.getValue())
+						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 			} else {
 				String one;
