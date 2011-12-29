@@ -563,8 +563,10 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 					receivePayment.getTdsTotal())) {
 				Account tdsAccount = getTDSAccount();
 				if (tdsAccount != null) {
-					tdsAccount.updateCurrentBalance(this, this.tdsTotal
-							- receivePayment.getTdsTotal(), currencyFactor);
+					tdsAccount.updateCurrentBalance(this,
+							receivePayment.getTdsTotal(), currencyFactor);
+					tdsAccount.updateCurrentBalance(this, -tdsTotal,
+							currencyFactor);
 					session.save(tdsAccount);
 				}
 			}
