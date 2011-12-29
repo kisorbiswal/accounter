@@ -700,9 +700,10 @@ public class MakeDepositView extends
 		lab.addStyleName("lable-title");
 		// lab.setHeight("50px");
 		date = UIUtils.date(messages.date(), this);
-
+		date.setDisabled(isInViewMode());
 		// set the transactionDate while creation
 		setTransactionDate(date.getValue());
+
 		date.addDateValueChangeHandler(new DateValueChangeHandler() {
 
 			@Override

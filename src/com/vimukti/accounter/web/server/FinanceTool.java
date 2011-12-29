@@ -3311,18 +3311,19 @@ public class FinanceTool {
 		try {
 			tx = session.beginTransaction();
 			PortletPageConfiguration serverObj = null;
-			if (pageConfiguration.getId() != 0) {
-				serverObj = (PortletPageConfiguration) session.get(
-						PortletPageConfiguration.class,
-						pageConfiguration.getId());
-			} else {
-				serverObj = new PortletPageConfiguration();
-			}
-			new ServerConvertUtil().toServerObject(serverObj,
-					(IAccounterCore) pageConfiguration, session);
-
+			String pageName = pageConfiguration.getPageName();
 			User user = AccounterThreadLocal.get();
-			serverObj.setUser(user);
+			long userId = user.getID();
+			Query query = session.getNamedQuery("getPortletPageConfiguration")
+					.setParameter("pageName", pageName)
+					.setParameter("userId", userId);
+			serverObj = (PortletPageConfiguration) query.uniqueResult();
+			if (serverObj == null) {
+				serverObj = new PortletPageConfiguration();
+				serverObj.setUser(user);
+			}
+			serverObj = new ServerConvertUtil().toServerObject(serverObj,
+					(IAccounterCore) pageConfiguration, session);
 			session.saveOrUpdate(serverObj);
 			tx.commit();
 			return true;

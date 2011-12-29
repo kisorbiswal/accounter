@@ -8888,12 +8888,12 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.SAVE_STATUS  &lt;&gt; 204 AND T.T_TYPE=8
+		WHERE T.SAVE_STATUS &lt;&gt; 204 AND T.T_TYPE=8
 		AND
-		T.COMPANY_ID=:companyId  AND T.T_DATE
+		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :fromDate AND :toDate AND
 		I.DUE_DATE &lt;= :currentDate AND
-		C.ID=:customerId 
+		C.ID=:customerId
 		ORDER BY DUE_DATE
 	</sql-query>
 
@@ -9321,7 +9321,8 @@
 		FALSE
 		END AS
 		ISVOIDED,
-		NULL AS DUE_DATE,
+		NULL AS
+		DUE_DATE,
 		0.0 AS BALANCE,
 		T.STATUS AS
 		TRANSACTION_STATUS
@@ -9345,7 +9346,8 @@
 		C.ID
 		WHERE T.T_TYPE=5 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate and
+		BETWEEN
+		:fromDate AND :toDate and
 		C.ID=:customerId
 	</sql-query>
 
@@ -9814,7 +9816,8 @@
 		END
 		AND
 		T.COMPANY_ID=:companyId AND
-		T.T_DATE BETWEEN :fromDate AND :toDate
+		T.T_DATE
+		BETWEEN :fromDate AND :toDate
 		ORDER
 		BY
 		VENDOR_NAME
@@ -10189,10 +10192,12 @@
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =6  AND EB.BALANCE_DUE &gt;0.0 
+		T.T_TYPE =6 AND EB.BALANCE_DUE
+		&gt;0.0
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND 
-		V.ID =:vendorId 
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND
+		:toDate AND
+		V.ID =:vendorId
 
 	</sql-query>
 
@@ -10261,9 +10266,11 @@
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =6 AND EB.BALANCE_DUE &gt;0.0 
+		T.T_TYPE =6 AND EB.BALANCE_DUE
+		&gt;0.0
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND
+		:toDate AND
 		EB.DUE_DATE > :currentDate AND V.ID =:vendorId
 
 	</sql-query>
@@ -11092,9 +11099,8 @@
 		T.ID IS NOT NULL THEN T.T_DATE
 		BETWEEN :startDate AND :endDate ELSE
 		TRUE END) AND A.ID=:accountId GROUP BY A.ID
-
 	</sql-query>
-	
+
 	<sql-query name="getAllQuotesByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
