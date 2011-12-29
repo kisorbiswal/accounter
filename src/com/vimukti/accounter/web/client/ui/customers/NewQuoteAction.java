@@ -24,6 +24,7 @@ public class NewQuoteAction extends Action {
 	public NewQuoteAction(int type) {
 		super();
 		this.type = type;
+		this.catagory = Global.get().Customer();
 
 		if (type == ClientEstimate.QUOTES) {
 			title = messages.quote();

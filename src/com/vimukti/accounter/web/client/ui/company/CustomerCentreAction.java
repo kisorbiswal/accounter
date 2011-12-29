@@ -15,7 +15,7 @@ public class CustomerCentreAction extends Action {
 
 	public CustomerCentreAction() {
 		super();
-		this.catagory = messages.Customer();
+		this.catagory = Global.get().Customer();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {

@@ -13,7 +13,7 @@ public class VendorCenterAction extends Action {
 
 	public VendorCenterAction() {
 		super();
-		this.catagory = messages.Vendor();
+		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
