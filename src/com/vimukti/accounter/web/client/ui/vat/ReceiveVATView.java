@@ -633,8 +633,13 @@ public class ReceiveVATView extends
 
 		if (transactionDateItem.getEnteredDate() != null)
 			transaction.setDate(transactionDateItem.getEnteredDate().getDate());
-
-		transaction.setDepositIn(selectedDepositInAccount.getID());
+		long accountId;
+		if (selectedDepositInAccount != null) {
+			accountId = selectedDepositInAccount.getID();
+		} else {
+			accountId = 0;
+		}
+		transaction.setDepositIn(accountId);
 		transaction.setPaymentMethod(paymentMethod);
 		if (checkNoText.getValue() != null
 				&& !checkNoText.getValue().equals("")) {
