@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -30,7 +31,11 @@ public class NewItemAction extends Action<ClientItem> {
 
 	public NewItemAction(boolean forCustomer) {
 		super();
-		this.catagory = messages.company();
+		if (forCustomer) {
+			this.catagory = Global.get().Customer();
+		} else {
+			this.catagory = Global.get().Vendor();
+		}
 		this.forCustomer = forCustomer;
 	}
 
@@ -150,7 +155,6 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public String getText() {
-		return messages
-				.newItem();
+		return messages.newItem();
 	}
 }

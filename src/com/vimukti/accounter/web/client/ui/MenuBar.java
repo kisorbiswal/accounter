@@ -714,7 +714,7 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
-			newVendorMenuBar.addMenuItem(messages.newItem() + "s",
+			newVendorMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMSUPPLIERS);
 		}
 		if (canDoBanking || canDoManageAccounts) {
