@@ -25,7 +25,6 @@ public class CustomerRefundListView extends
 		TransactionsListView<CustomerRefundsList> {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund;
-	private int transactionType;
 
 	// private static String DELETED="Deleted";
 
@@ -37,11 +36,6 @@ public class CustomerRefundListView extends
 		super(messages.issued());
 	}
 
-	public CustomerRefundListView(int transactionType) {
-		super(messages.issued());
-		this.transactionType = transactionType;
-	}
-
 	@Override
 	protected Action getAddNewAction() {
 		return ActionFactory.getCustomerRefundAction();
@@ -49,14 +43,14 @@ public class CustomerRefundListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addaNew(
-				messages.customerRefund(Global.get().Customer()));
+		return messages.addaNew(messages
+				.customerRefund(Global.get().Customer()));
 	}
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.getCustomersRefundListViewHeading(
-				Global.get().Customer());
+		return messages.getCustomersRefundListViewHeading(Global.get()
+				.Customer());
 	}
 
 	@Override

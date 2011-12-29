@@ -28,7 +28,6 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView {
 
-
 	public BaseListView<T> baseListView;
 	private HorizontalPanel mainPanel;
 
@@ -126,8 +125,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		} else if (itemName.equalsIgnoreCase(getMessages().customerRefunds(
 				Global.get().Customer()))) {
 
-			baseListView = (BaseListView<T>) new CustomerRefundListView(
-					ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+			baseListView = (BaseListView<T>) new CustomerRefundListView();
 
 		} else if (itemName.equalsIgnoreCase(getMessages().billCredits())) {
 
@@ -174,7 +172,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		} else if (itemName.equalsIgnoreCase(getMessages().transferFunds())) {
 			// TODO
 		}
-		
+
 		mainPanel.add(baseListView);
 		mainPanel.setCellWidth(baseListView, "100%");
 		MainFinanceWindow.getViewManager().updateButtons();
