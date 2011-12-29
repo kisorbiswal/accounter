@@ -703,7 +703,7 @@ input [type="checkbox"] {
 	color: #28757D;
 	text-decoration: underline;
 }
-.accounterLogo {
+.accounterLogoimage {
 	padding: 0 0 15px 10px;
 	background: url("/images/Accounter_logo_title.png") no-repeat scroll 0 0 transparent;
     display: inline-block;
