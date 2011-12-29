@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.company.CurrencyFormatDialog;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
@@ -137,7 +138,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
 		TerminologyOption terminologyOption = new TerminologyOption();
 		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
-		NumberFormatOption numberFormatOption = new NumberFormatOption();
+		// NumberFormatOption numberFormatOption = new NumberFormatOption();
 		CurrencyFormatOption currencyFormatOption = new CurrencyFormatOption();
 
 		companyInfoPage.addPreferenceOption(companyInfoOption);
@@ -150,7 +151,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		companyInfoPage.addPreferenceOption(timeZoneOption);
 		companyInfoPage.addPreferenceOption(terminologyOption);
 		companyInfoPage.addPreferenceOption(taxOption);
-		companyInfoPage.addPreferenceOption(numberFormatOption);
+		// companyInfoPage.addPreferenceOption(numberFormatOption);
 		companyInfoPage.addPreferenceOption(currencyFormatOption);
 
 		return companyInfoPage;
@@ -210,8 +211,14 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 						pageDetailsPanel.clear();
 						pageDetailsPanel.add(page);
 					}
-					pageDetailsPanel.ensureVisible(option);
-
+					if (option instanceof CurrencyFormatOption) {
+						CurrencyFormatDialog dialog = new CurrencyFormatDialog(
+								messages.currencyFormat());
+						dialog.show();
+						dialog.center();
+					} else {
+						pageDetailsPanel.ensureVisible(option);
+					}
 				}
 			});
 		}

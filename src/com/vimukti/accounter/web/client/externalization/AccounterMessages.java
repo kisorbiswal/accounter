@@ -5660,4 +5660,6 @@ public interface AccounterMessages extends Messages {
 
 	public String allCahrges();
 
+	public String exampleFormat();
+
 }

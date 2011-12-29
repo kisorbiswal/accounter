@@ -2651,3 +2651,15 @@ input.date-field-textbox {
 .pager-images{
 	width:auto !important;
 }
+.currency_format_label{
+	font-weight: bold;
+}
+.currency_format_border{
+	border: ipx solid;
+}
+.currency_format_align td:first-child{
+	padding-right:20px;
+}
+.currency_format_align{
+	margin:10px;
+}

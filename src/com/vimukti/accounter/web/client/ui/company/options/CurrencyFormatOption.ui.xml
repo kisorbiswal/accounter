@@ -10,10 +10,10 @@
 		<g:VerticalPanel>
 			<g:FlowPanel ui:field="flowPanel">
 				<g:HorizontalPanel>
-					<g:Label  ui:field="positiveLabel"/>
-					<g:TextBox ui:field="positiveTextBox"/>
-					<g:Label ui:field="negaLabel"/>
-					<g:TextBox ui:field="negativeTextBox"/>
+					<g:Label ui:field="positiveLabel" />
+					<g:TextBox ui:field="positiveTextBox" />
+					<g:Label ui:field="negaLabel" />
+					<g:TextBox ui:field="negativeTextBox" />
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 			<g:HorizontalPanel styleName="currency_format_option">
@@ -27,13 +27,13 @@
 					<g:Label ui:field="digitGroupingLabel" />
 				</g:VerticalPanel>
 				<g:VerticalPanel>
-					<g:ListBox ui:field="currencySymbolCombo"/>
-					<g:ListBox ui:field="positiveCurrencyFormatCombo"/>
-					<g:ListBox ui:field="negativeCurrencyFormatCombo"/>
-					<g:TextBox ui:field="decimalSymbolTextBox"/>
-					<g:TextBox ui:field="noOfDigitsAfterDecimalTextBox"/>
-					<g:TextBox ui:field="digitGroupingSymbolTextBox"/>
-					<g:ListBox ui:field="digitGroupingCombo"/>
+					<g:ListBox ui:field="currencySymbolCombo" />
+					<g:ListBox ui:field="positiveCurrencyFormatCombo" />
+					<g:ListBox ui:field="negativeCurrencyFormatCombo" />
+					<g:TextBox ui:field="decimalSymbolTextBox" />
+					<g:TextBox ui:field="noOfDigitsAfterDecimalTextBox" />
+					<g:TextBox ui:field="digitGroupingSymbolTextBox" />
+					<g:ListBox ui:field="digitGroupingCombo" />
 				</g:VerticalPanel>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>

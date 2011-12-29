@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public class NumberFormatOption extends AbstractPreferenceOption {
 
@@ -58,30 +57,32 @@ public class NumberFormatOption extends AbstractPreferenceOption {
 
 	@Override
 	public void onSave() {
-		if (normalFormatRadioButton.getValue()) {
-			getCompanyPreferences().setNegativeNumberShownType(
-					ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL);
-		} else if (withInParathesisFormatRadioButton.getValue()) {
-			getCompanyPreferences()
-					.setNegativeNumberShownType(
-							ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES);
-		} else if (minusWithInParanthesisRadioButton.getValue()) {
-			getCompanyPreferences()
-					.setNegativeNumberShownType(
-							ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES);
-		} else if (withInTrailingMinusRadioButton.getValue()) {
-			getCompanyPreferences()
-					.setNegativeNumberShownType(
-							ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS);
-		} else {
-			getCompanyPreferences().setNegativeNumberShownType(
-					ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL);
-		}
-
-		if (decimalDigitLimitCombo.getSelectedIndex() != -1) {
-			getCompanyPreferences().setDecimalNumber(
-					decimalDigitLimitCombo.getSelectedIndex());
-		}
+		// if (normalFormatRadioButton.getValue()) {
+		// getCompanyPreferences().setNegativeNumberShownType(
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL);
+		// } else if (withInParathesisFormatRadioButton.getValue()) {
+		// getCompanyPreferences()
+		// .setNegativeNumberShownType(
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES);
+		// } else if (minusWithInParanthesisRadioButton.getValue()) {
+		// getCompanyPreferences()
+		// .setNegativeNumberShownType(
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES);
+		// } else if (withInTrailingMinusRadioButton.getValue()) {
+		// getCompanyPreferences()
+		// .setNegativeNumberShownType(
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS);
+		// } else {
+		// getCompanyPreferences().setNegativeNumberShownType(
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL);
+		// }
+		//
+		// comboLabel.getElement().getParentElement()
+		// .setAttribute("width", "250px");
+		// if (decimalDigitLimitCombo.getSelectedIndex() != -1) {
+		// getCompanyPreferences().setDecimalNumber(
+		// decimalDigitLimitCombo.getSelectedIndex());
+		// }
 	}
 
 	@Override
@@ -116,19 +117,23 @@ public class NumberFormatOption extends AbstractPreferenceOption {
 
 	@Override
 	public void initData() {
-		if (getCompanyPreferences().getNegativeNumberShownType() == ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL) {
-			normalFormatRadioButton.setValue(true);
-		} else if (getCompanyPreferences().getNegativeNumberShownType() == ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES) {
-			withInParathesisFormatRadioButton.setValue(true);
-		} else if (getCompanyPreferences().getNegativeNumberShownType() == ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES) {
-			minusWithInParanthesisRadioButton.setValue(true);
-		} else if (getCompanyPreferences().getNegativeNumberShownType() == ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS) {
-			withInTrailingMinusRadioButton.setValue(true);
-		} else {
-			normalFormatRadioButton.setValue(true);
-		}
-
-		decimalDigitLimitCombo.setSelectedIndex(getCompanyPreferences()
-				.getDecimalNumber());
+		// if (getCompanyPreferences().getNegativeNumberShownType() ==
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL) {
+		// normalFormatRadioButton.setValue(true);
+		// } else if (getCompanyPreferences().getNegativeNumberShownType() ==
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_WITHIN_PARENTHESES) {
+		// withInParathesisFormatRadioButton.setValue(true);
+		// } else if (getCompanyPreferences().getNegativeNumberShownType() ==
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_MINUS_WITHIN_PARENTHESES) {
+		// minusWithInParanthesisRadioButton.setValue(true);
+		// } else if (getCompanyPreferences().getNegativeNumberShownType() ==
+		// ClientCompanyPreferences.NEGATIVE_NUMBER_WITH_TRAILING_MINUS) {
+		// withInTrailingMinusRadioButton.setValue(true);
+		// } else {
+		// normalFormatRadioButton.setValue(true);
+		// }
+		//
+		// decimalDigitLimitCombo.setSelectedIndex(getCompanyPreferences()
+		// .getDecimalNumber());
 	}
 }
