@@ -55,7 +55,8 @@
 			<command title="vendorAndPurchases" />
 			<command title="customersAndSales" />
 			<command title="categories" />
-			<command title="datenumberFormatPreferences" />
+			<command title="DateFormats" />
+			<command title="currencyFormat" />
 		</outputs>
 	</pattern>
 

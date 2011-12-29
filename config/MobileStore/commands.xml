@@ -1131,7 +1131,7 @@
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.preferences.NumberFormatPreferencesCommand"
-		name="datenumberFormatPreferences">
+		name="DateFormats">
 	</command>
 
 	<command
@@ -1227,5 +1227,8 @@
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.CreateBankCommand"
 		name="newBank">
+	</command>
+	<command clazz="com.vimukti.accounter.mobile.commands.preferences.CurrencyFormatCommand"
+		name="currencyFormat">
 	</command>
 </commands>

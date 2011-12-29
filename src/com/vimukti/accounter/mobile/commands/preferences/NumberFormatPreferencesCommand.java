@@ -3,13 +3,10 @@ package com.vimukti.accounter.mobile.commands.preferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
-import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
-import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
@@ -22,8 +19,6 @@ public class NumberFormatPreferencesCommand extends
 	private static final String USE_VENDOR_NUMBERS = "usevendornumbers";
 	private static final String USE_ACCOUNT_NUMBERS = "useaccountnumbers";
 	private static final String TIMEZONE = "timezone";
-	private static final String NEGATIVE_NUMBER_FORMAT = "negativenumberformat";
-	private static final String DECIMAL_DIGIT_LIMIT = "decimaldigitlimit";
 	private static final String FISCAL_MONTH = "fiscalamonth";
 
 	@Override
@@ -34,10 +29,6 @@ public class NumberFormatPreferencesCommand extends
 		get(USE_VENDOR_NUMBERS).setValue(preferences.getUseVendorId());
 		get(USE_ACCOUNT_NUMBERS).setValue(preferences.getUseAccountNumbers());
 		get(TIMEZONE).setValue(preferences.getTimezone());
-		get(NEGATIVE_NUMBER_FORMAT).setValue(
-				getNegativeNumFormats().get(
-						preferences.getNegativeNumberShownType()));
-		get(DECIMAL_DIGIT_LIMIT).setValue(preferences.getDecimalNumber());
 		// get(FISCAL_MONTH).setValue(
 		// getFiscalYearMonths()
 		// .get(preferences.getFiscalYearFirstMonth()));
@@ -175,86 +166,6 @@ public class NumberFormatPreferencesCommand extends
 				return null;
 			}
 		});
-
-		list.add(new StringListRequirement(NEGATIVE_NUMBER_FORMAT,
-				getMessages()
-						.pleaseSelect(getMessages().negativeNumberFormat()),
-				getMessages().negativeNumberFormat(), true, true, null) {
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages().pleaseSelect(
-						getMessages().negativeNumberFormat());
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().hasSelected(
-						getMessages().negativeNumberFormat());
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return getNegativeNumFormats();
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-		});
-
-		list.add(new ListRequirement<Integer>(DECIMAL_DIGIT_LIMIT,
-				getMessages().pleaseSelect(getMessages().decimalDigitLimit()),
-				getMessages().decimalDigitLimit(), true, true, null) {
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages().pleaseSelect(
-						getMessages().decimalDigitLimit());
-			}
-
-			@Override
-			protected Record createRecord(Integer value) {
-				Record record = new Record(value);
-				record.add(getMessages().decimalDigitLimit(), value);
-				return record;
-			}
-
-			@Override
-			protected String getDisplayValue(Integer value) {
-				return String.valueOf(value);
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().decimalDigitLimit());
-			}
-
-			@Override
-			protected boolean filter(Integer e, String name) {
-				return false;
-			}
-
-			@Override
-			protected List<Integer> getLists(Context context) {
-				List<Integer> lists = new ArrayList<Integer>();
-				for (int i = 0; i < 10; i++) {
-					lists.add(i);
-				}
-				return lists;
-			}
-		});
 	}
 
 	protected List<String> getNegativeNumFormats() {
@@ -300,8 +211,6 @@ public class NumberFormatPreferencesCommand extends
 		Boolean useVendorNos = get(USE_VENDOR_NUMBERS).getValue();
 		Boolean useAccountNos = get(USE_ACCOUNT_NUMBERS).getValue();
 		String timeZone = get(TIMEZONE).getValue();
-		String negativeNumFormat = get(NEGATIVE_NUMBER_FORMAT).getValue();
-		Integer decimalLimit = get(DECIMAL_DIGIT_LIMIT).getValue();
 		// String fiscalMonth = get(FISCAL_MONTH).getValue();
 		preferences.setDateFormat(dateFormat);
 		preferences.setUseCustomerId(useCustomerNos);
@@ -310,9 +219,6 @@ public class NumberFormatPreferencesCommand extends
 		// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
 		// fiscalMonth));
 		preferences.setTimezone(timeZone);
-		preferences.setNegativeNumberShownType(getNegativeNumFormats().indexOf(
-				negativeNumFormat) + 1);
-		preferences.setDecimalNumber(decimalLimit);
 		savePreferences(context, preferences);
 		return null;
 	}

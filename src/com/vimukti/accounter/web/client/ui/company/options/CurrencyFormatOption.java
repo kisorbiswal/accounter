@@ -14,10 +14,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class CurrencyFormatOption extends AbstractPreferenceOption {
@@ -292,7 +292,7 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 
 		String currencyPattern = pValue + ";" + nValue;
 		companyPreferences.setCurrencyFormat(currencyPattern);// @#,##0.00 S1D1
-		Accounter.setCurrencyFormat();
+		Global.get().getFormater().setCurrencyFormat(companyPreferences);
 	}
 
 	private String getDecimalString() {
