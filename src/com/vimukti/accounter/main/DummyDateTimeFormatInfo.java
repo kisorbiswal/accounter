@@ -1,6 +1,6 @@
 package com.vimukti.accounter.main;
 
-import com.google.gwt.i18n.shared.DateTimeFormatInfo;
+import com.google.gwt.i18n.client.DateTimeFormatInfo;
 
 public class DummyDateTimeFormatInfo implements DateTimeFormatInfo {
 
