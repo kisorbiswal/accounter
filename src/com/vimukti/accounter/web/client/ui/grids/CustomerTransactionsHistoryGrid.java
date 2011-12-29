@@ -3,9 +3,9 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -26,7 +26,7 @@ public class CustomerTransactionsHistoryGrid extends
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE, };
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_IMAGE, };
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class CustomerTransactionsHistoryGrid extends
 		case 0:
 			return UIUtils.getDateByCompanyType(transactionHistory.getDate());
 		case 1:
-			return Utility.getTransactionName((transactionHistory.getType()));
+			return transactionHistory.getName();
 		case 2:
 			return transactionHistory.getNumber();
 		case 3:
@@ -50,7 +50,12 @@ public class CustomerTransactionsHistoryGrid extends
 				return "";
 
 		case 5:
-			return transactionHistory.getAmount();
+			return DataUtils.getAmountAsStringInCurrency(transactionHistory
+					.getAmount(),
+					getCompany().getCurrency(selectedCustomer.getCurrency())
+							.getSymbol());
+
+			// return transactionHistory.getAmount();
 
 		case 6:
 			if (!transactionHistory.getIsVoid())

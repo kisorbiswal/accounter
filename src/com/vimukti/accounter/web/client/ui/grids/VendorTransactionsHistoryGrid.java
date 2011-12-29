@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -23,7 +24,7 @@ public class VendorTransactionsHistoryGrid extends
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
+				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_IMAGE, };
@@ -50,7 +51,11 @@ public class VendorTransactionsHistoryGrid extends
 				return "";
 
 		case 5:
-			return transactionHistory.getAmount();
+			return DataUtils.getAmountAsStringInCurrency(transactionHistory
+					.getAmount(),
+					getCompany().getCurrency(selectedVendor.getCurrency())
+							.getSymbol());
+			// transactionHistory.getAmount();
 
 		case 6:
 			ClientAccount account = getCompany().getAccount(
