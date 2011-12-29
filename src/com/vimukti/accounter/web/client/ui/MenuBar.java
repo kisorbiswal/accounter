@@ -218,22 +218,15 @@ public class MenuBar {
 		fixedAssetMenu.addSeparatorItem();
 		fixedAssetMenu.addMenuItem(messages.depreciation(),
 				HistoryTokens.DEPRICATION);
-		fixedAssetMenu.addMenuItem(getFixedAssetListMenu(messages
-				.fixedAssetsList()));
 		fixedAssetMenu.addSeparatorItem();
+		fixedAssetMenu.addMenuItem(messages.pendingItemsList(),
+				HistoryTokens.PENDINGITEMS);
+		fixedAssetMenu.addMenuItem(messages.registeredItemsList(),
+				HistoryTokens.REGISTEREDITEMS);
+		fixedAssetMenu.addMenuItem(messages.soldAndDisposedItems(),
+				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
 
 		return fixedAssetMenu;
-	}
-
-	private Menu getFixedAssetListMenu(String listMessage) {
-		Menu fixedAssetListMenu = new Menu(listMessage);
-		fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
-				HistoryTokens.PENDINGITEMS);
-		fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
-				HistoryTokens.REGISTEREDITEMS);
-		fixedAssetListMenu.addMenuItem(messages.soldAndDisposedItems(),
-				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
-		return fixedAssetListMenu;
 	}
 
 	private Menu getVATMenu(String string) {
@@ -957,13 +950,6 @@ public class MenuBar {
 				HistoryTokens.RECURRINGTRANSACTIONS);
 		companyListMenuBar.addMenuItem(messages.remindersList(),
 				HistoryTokens.RECURRINGREMINDERS);
-		companyListMenuBar.addMenuItem(messages.pendingItemsList(),
-				HistoryTokens.PENDINGITEMS);
-		companyListMenuBar.addMenuItem(messages.registeredItemsList(),
-				HistoryTokens.REGISTEREDITEMS);
-
-		companyListMenuBar.addMenuItem(messages.soldDisposedItems(),
-				HistoryTokens.SOLIDDISPOSEDFIXEDASSETS);
 
 		return companyListMenuBar;
 	}
