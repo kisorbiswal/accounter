@@ -571,8 +571,8 @@ public class MenuBar {
 					HistoryTokens.TRANSACTIONDETAILBYTAXITEM);
 		}
 		if (isLocationTrackingEnabled) {
-			companyAndFinancialMenuBar.addMenuItem(messages.profitAndLoss()
-					+ "By" + Global.get().Location(),
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.profitAndLossByLocation(Global.get().Location()),
 					HistoryTokens.PROFITANDLOSSBYLOCATION);
 		}
 		if (isClassTrackingEnabled) {
