@@ -211,16 +211,19 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 	}
 
 	protected void update() {
-		String value = groups[digitGroupNum].replaceAll(",", digitGroupSymbol);
+		String value = groups[digitGroupNum].replaceAll(",",
+				AccounterNumberFormat.quoteReplacement(digitGroupSymbol));
 		value += decimalSymbol;
 		for (int i = 0; i < noOfDigitsAfterDecimal; i++) {
 			value += "0";
 		}
 
-		String pValue = posForValue[posNum].replaceAll("S", currencySymbol)
+		String pValue = posForValue[posNum].replaceAll("S",
+				AccounterNumberFormat.quoteReplacement(currencySymbol))
 				.replaceAll("1D1", value);
 
-		String nValue = negForValue[negNum].replaceAll("S", currencySymbol)
+		String nValue = negForValue[negNum].replaceAll("S",
+				AccounterNumberFormat.quoteReplacement(currencySymbol))
 				.replaceAll("1D1", value);
 
 		positiveTextBox.setValue(pValue);
@@ -232,7 +235,8 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 		digitGroupingCombo.clear();
 		for (int i = 0; i < groups.length; i++) {
 			String value = groups[i];
-			value = value.replaceAll(",", digitGroupSymbol);
+			value = value.replaceAll(",",
+					AccounterNumberFormat.quoteReplacement(digitGroupSymbol));
 			digitGroupingCombo.addItem(value);
 		}
 		digitGroupingCombo.setSelectedIndex(digitGroupNum);
@@ -251,8 +255,10 @@ public class CurrencyFormatOption extends AbstractPreferenceOption {
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < rawData.length; i++) {
 			String value = rawData[i];
-			value = value.replaceAll("S", currencySymbol);
-			value = value.replaceAll("D", decimalSymbol);
+			value = value.replaceAll("S",
+					AccounterNumberFormat.quoteReplacement(currencySymbol));
+			value = value.replaceAll("D",
+					AccounterNumberFormat.quoteReplacement(decimalSymbol));
 			list.add(value);
 		}
 		return list;
