@@ -11,6 +11,11 @@ import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
 public class VendorCenterAction extends Action {
 	protected VendorCenterView view;
 
+	public VendorCenterAction() {
+		super();
+		this.catagory = messages.Vendor();
+	}
+
 	@Override
 	public String getText() {
 		return messages.vendorCentre(Global.get().Vendor());
