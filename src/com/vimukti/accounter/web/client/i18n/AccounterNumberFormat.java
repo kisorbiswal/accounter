@@ -707,7 +707,7 @@ public class AccounterNumberFormat {
 				: quoteReplacement(currencyCode));
 	}
 
-	private static String quoteReplacement(String s) {
+	public static String quoteReplacement(String s) {
 		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
 			return s;
 		StringBuffer sb = new StringBuffer();
