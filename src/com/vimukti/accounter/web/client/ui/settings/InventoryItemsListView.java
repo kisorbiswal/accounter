@@ -25,7 +25,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	private ArrayList<ClientItem> listOfItems = new ArrayList<ClientItem>();
 
 	private String catageory;
-	private boolean isActiveAccounts;
+	private boolean isActiveAccounts = true;
 
 	public InventoryItemsListView() {
 		super();
