@@ -976,14 +976,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 
-			if (transaction.getPaymentMethod().equals(messages.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNoText.setDisabled(isInViewMode());
-			} else {
-				printCheck.setDisabled(!isInViewMode());
-				checkNoText.setDisabled(!isInViewMode());
-			}
-
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
 					checkNoText.setValue(messages.toBePrinted());
