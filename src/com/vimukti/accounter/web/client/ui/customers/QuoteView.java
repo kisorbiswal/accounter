@@ -1280,7 +1280,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	@Override
 	public boolean canPrint() {
-		return false;
+		EditMode mode = getMode();
+		if (type == ClientEstimate.QUOTES) {
+			if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	@Override
