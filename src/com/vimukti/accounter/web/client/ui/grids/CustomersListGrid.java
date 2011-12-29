@@ -84,8 +84,7 @@ public class CustomersListGrid extends BaseListGrid<PayeeList> {
 
 	private void addDataToGrid() {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, 0, 0, false,
-				new AsyncCallback<PaginationList<PayeeList>>() {
+				true, 0, -1, new AsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
 					public void onSuccess(PaginationList<PayeeList> result) {
