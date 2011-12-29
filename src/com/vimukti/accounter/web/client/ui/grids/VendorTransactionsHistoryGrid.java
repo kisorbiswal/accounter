@@ -91,7 +91,7 @@ public class VendorTransactionsHistoryGrid extends
 	}
 
 	protected void onClick(TransactionHistory obj, int row, int col) {
-		onDoubleClick(obj);
+		// onDoubleClick(obj);
 	}
 
 	@Override
