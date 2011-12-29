@@ -23,8 +23,8 @@ import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
  */
 public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
-	private PayFromAccountsCombo accountCombo;
+	private BankAccountCombo accountCombo;
 	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
@@ -160,7 +160,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 							@Override
 							public void onSuccess(String result) {
 								UIUtils.downloadFileFromTemp(result);
-								createIssuePayment();
+								// createIssuePayment();
 							}
 
 							@Override
@@ -269,7 +269,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		checkNoText.setHelpInformation(true);
 		checkNoText.setWidth(100);
 
-		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
+		accountCombo = new BankAccountCombo(messages.Account());
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
