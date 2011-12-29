@@ -92,7 +92,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	private boolean isEditEnable;
 
 	ClientCurrency currency = getCompany().getPrimaryCurrency();
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
 
 	private int editEventType = 1;
 	protected RecordClickHandler<T> recordClickHandler;
@@ -980,8 +980,10 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		selectedObject = null;
 		this.objects.remove(row);
 		this.removeRow(row);
-		if (this.objects.size() > 0)
+		if (this.objects.size() > 0) {
 			this.adjustCellsWidth(0, this.body);
+		}
+		deleteRowFromPager();
 	}
 
 	/**
@@ -1097,5 +1099,18 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	public void updateRange(Range range) {
 		visibleRange = range;
+	}
+
+	private void deleteRowFromPager() {
+		int length = visibleRange.getLength();// page size
+		int start = visibleRange.getStart();
+		int curLen = rowCount - start - 1;// -1 for delete record
+		if (curLen == 0) {// page become empty
+			start -= length;// Prev page
+		}
+		if (start < 0) {// If current page is first page
+			start = 0;
+		}
+		setVisibleRange(start, length);// Reload page
 	}
 }
