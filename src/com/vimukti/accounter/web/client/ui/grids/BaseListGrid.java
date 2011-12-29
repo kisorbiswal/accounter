@@ -186,6 +186,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	protected abstract void executeDelete(T object);
 
+	@Override
 	protected void onValueChange(T obj, int col, Object value) {
 
 	}
@@ -198,6 +199,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		return null;
 	}
 
+	@Override
 	protected void onDoubleClick(T obj, int row, int index) {
 		onDoubleClick(obj);
 	};
@@ -218,7 +220,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	public void deleteSuccess(IAccounterCore result) {
 		// Accounter.showInformation("Deleted Successfully");
 		deleteRecord(this.getSelection());
-		view.deleteSuccess(result);
+		if (view != null) {
+			view.deleteSuccess(result);
+		}
 	}
 
 	@Override
