@@ -165,8 +165,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return getColumnNameWithCurrency(messages
-						.invoiceAmount());
+				return getColumnNameWithCurrency(messages.invoiceAmount());
 			}
 
 			@Override
@@ -198,8 +197,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return getColumnNameWithCurrency(messages
-							.amountDue());
+					return getColumnNameWithCurrency(messages.amountDue());
 				}
 
 				@Override
@@ -414,8 +412,7 @@ public abstract class TransactionReceivePaymentTable extends
 			} else if (DecimalUtil.isGreaterThan(totalValue,
 					transactionReceivePayment.getAmountDue())
 					|| DecimalUtil.isEquals(totalValue, 0)) {
-				result.addError(this, messages
-						.receivePaymentExcessDue());
+				result.addError(this, messages.receivePaymentExcessDue());
 			}
 		}
 		return result;
@@ -440,8 +437,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 							public void onException(AccounterException caught) {
 								Accounter.showInformation(messages
-										.failedTogetCreditsListAndPayments(
-												customer.getName()));
+										.failedTogetCreditsListAndPayments(customer
+												.getName()));
 
 								gotCreditsAndPayments = false;
 								return;
@@ -681,9 +678,9 @@ public abstract class TransactionReceivePaymentTable extends
 							return false;
 						}
 
-						selectedObject
-								.setAppliedCredits(newAppliedCreditsDialiog
-										.getTotalCreditAmount());
+						selectedObject.setAppliedCredits(
+								newAppliedCreditsDialiog.getTotalCreditAmount(),
+								true);
 						updatePayment(selectedObject);
 						recalculateGridAmounts();
 						update(selectedObject);
@@ -723,8 +720,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
-			throw new Exception(messages
-					.youdnthaveBalToApplyCredits());
+			throw new Exception(messages.youdnthaveBalToApplyCredits());
 	}
 
 	public class TempCredit {
@@ -777,9 +773,9 @@ public abstract class TransactionReceivePaymentTable extends
 	protected boolean validatePaymentValue(
 			ClientTransactionReceivePayment selectedObject) {
 		double totalValue = getTotalValue(selectedObject);
-		if (AccounterValidator.isValidReceive_Payment(selectedObject
-				.getAmountDue(), totalValue, messages
-				.receiveAmountPayDue())) {
+		if (AccounterValidator.isValidReceive_Payment(
+				selectedObject.getAmountDue(), totalValue,
+				messages.receiveAmountPayDue())) {
 			return true;
 		} else
 			return false;
@@ -919,7 +915,7 @@ public abstract class TransactionReceivePaymentTable extends
 		obj.setPayment(0.0d);
 		// obj.setCashDiscount(0.0d);
 		obj.setWriteOff(0.0d);
-		obj.setAppliedCredits(0.0d);
+		obj.setAppliedCredits(0.0d, false);
 		obj.setDummyDue(obj.getAmountDue());
 	}
 
@@ -956,7 +952,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	private void onSelectionChanged(ClientTransactionReceivePayment obj,
 			boolean isChecked) {
-
+		recalculateGridAmounts();
 		int row = indexOf(obj);
 		if (isChecked) {
 			selectedValues.add(row);

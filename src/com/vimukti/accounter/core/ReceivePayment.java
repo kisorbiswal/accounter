@@ -597,13 +597,14 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 							.getTransactionReceivePayment()) {
 						List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tReceivePayment
 								.getTransactionCreditsAndPayments();
-						for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
-							if (tcp.getCreditsAndPayments().getID() == tcp2
-									.getCreditsAndPayments().getID()) {
-								isExists = true;
-								break;
+						if (transactionCreditsAndPayments != null)
+							for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
+								if (tcp.getCreditsAndPayments().getID() == tcp2
+										.getCreditsAndPayments().getID()) {
+									isExists = true;
+									break;
+								}
 							}
-						}
 
 					}
 					if (!isExists) {

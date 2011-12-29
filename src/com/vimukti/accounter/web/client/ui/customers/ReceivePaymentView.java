@@ -145,7 +145,7 @@ public class ReceivePaymentView extends
 		 */
 		gridView.newAppliedCreditsDialiog = null;
 		gridView.creditsStack = null;
-		// gridView.initCreditsAndPayments(getCustomer());
+		gridView.initCreditsAndPayments(getCustomer());
 
 		if (!isInViewMode()) {
 			gridView.removeAllRecords();
@@ -235,45 +235,31 @@ public class ReceivePaymentView extends
 
 	public void calculateUnusedCredits() {
 
-		Double totalCredits = 0D;
+		double totalCredits = 0D;
 		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
-
-			totalCredits += credit.getBalance();
+			totalCredits += credit.getCreditAmount();
 		}
-		this.unUsedCreditsText.setAmount(totalCredits);
 
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
-			List<ClientTransactionReceivePayment> allRows = null;
-			allRows = gridView.getAllRows();
+			List<ClientTransactionReceivePayment> allRows = gridView
+					.getSelectedRecords();
 			for (ClientTransactionReceivePayment c : allRows) {
 				if (totalCredits == 0) {
-					c.setAppliedCredits(totalCredits);
 					continue;
 				}
-				if (c.getAmountDue() > totalCredits && totalCredits != 0) {
-					if (c.getPayment() == 0)
-						// c.setPayment(totalCredits);
-						c.setAppliedCredits(totalCredits);
-					c.setCreditsApplied(true);
-					totalCredits = 0D;
-					this.unUsedCreditsText.setAmount(totalCredits);
-				} else if (totalCredits != 0) {
-					// c.setPayment(0);
-					c.setAppliedCredits(c.getAmountDue());
-					totalCredits = totalCredits - c.getAmountDue();
-					c.setCreditsApplied(true);
+				if (c.creditsAppliedManually) {
+					totalCredits -= c.getAppliedCredits();
+					continue;
 				}
-
-				this.unUsedCreditsText.setAmount(totalCredits);
+				double creditsToApply = Math
+						.min(c.getAmountDue(), totalCredits);
+				c.setAppliedCredits(creditsToApply, false);
+				totalCredits -= creditsToApply;
+				c.setCreditsApplied(true);
 				gridView.update(c);
 			}
-
 		}
-
-		//
-		// this.unUsedCreditsTextForeignCurrency
-		// .setAmount(getAmountInTransactionCurrency(totalCredits));
-
+		this.unUsedCreditsText.setAmount(totalCredits);
 	}
 
 	private void setCustomerBalance(Double balance) {
@@ -293,10 +279,6 @@ public class ReceivePaymentView extends
 			return;
 		totalInoiceAmt = 0.00d;
 		totalDueAmt = 0.00d;
-		Double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
-			totalCredits += credit.getBalance();
-		}
 		List<ClientTransactionReceivePayment> records = new ArrayList<ClientTransactionReceivePayment>();
 
 		for (ReceivePaymentTransactionList rpt : result) {
@@ -341,7 +323,7 @@ public class ReceivePaymentView extends
 
 			record.setWriteOff(rpt.getWriteOff());
 
-			record.setAppliedCredits(rpt.getAppliedCredits());
+			record.setAppliedCredits(rpt.getAppliedCredits(), false);
 
 			record.setPayment(0);
 
@@ -350,11 +332,6 @@ public class ReceivePaymentView extends
 
 			totalInoiceAmt += rpt.getInvoiceAmount();
 			totalDueAmt += rpt.getAmountDue();
-
-			// TODO
-
-			record.setAppliedCredits(totalCredits);
-			totalCredits = totalCredits - record.getAppliedCredits();
 
 			records.add(record);
 
@@ -365,7 +342,7 @@ public class ReceivePaymentView extends
 			payment.setAmountDue(payment.getPayment()
 					+ payment.getAppliedCredits());
 			payment.setPayment(0.00D);
-			payment.setAppliedCredits(0.00D);
+			payment.setAppliedCredits(0.00D, false);
 			gridView.addTransactionCreditsAndPayments(payment
 					.getTransactionCreditsAndPayments());
 			records.add(payment);

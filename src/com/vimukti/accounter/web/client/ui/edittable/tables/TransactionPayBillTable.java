@@ -667,15 +667,16 @@ public abstract class TransactionPayBillTable extends
 								creditRec = new TempCredit();
 								for (ClientTransactionPayBill pb : getSelectedRecords()) {
 									if (pb.isCreditsApplied()) {
-										for (Integer idx : pb.getTempCredits()
-												.keySet()) {
-											if (recordIndx == idx)
-												((TempCredit) pb
-														.getTempCredits().get(
-																idx))
-														.setRemainingBalance(rec
-																.getBalance());
-										}
+										if (pb.getTempCredits() != null)
+											for (Integer idx : pb
+													.getTempCredits().keySet()) {
+												if (recordIndx == idx)
+													((TempCredit) pb
+															.getTempCredits()
+															.get(idx))
+															.setRemainingBalance(rec
+																	.getBalance());
+											}
 									}
 								}
 								creditRec.setRemainingBalance(rec.getBalance());
@@ -707,9 +708,9 @@ public abstract class TransactionPayBillTable extends
 
 							creditsStack.push(appliedCredits);
 
-							selectedObject
-									.setAppliedCredits(getCreditsAndPaymentsDialiog()
-											.getTotalCreditAmount());
+							selectedObject.setAppliedCredits(
+									getCreditsAndPaymentsDialiog()
+											.getTotalCreditAmount(), true);
 
 							selectedObject.setPayment(selectedObject
 									.getAmountDue()
@@ -731,8 +732,8 @@ public abstract class TransactionPayBillTable extends
 			getCreditsAndPaymentsDialiog().show();
 
 		} else {
-			Accounter.showInformation(messages
-					.noCreditsForThisVendor(Global.get().vendor()));
+			Accounter.showInformation(messages.noCreditsForThisVendor(Global
+					.get().vendor()));
 		}
 
 	}
@@ -903,8 +904,8 @@ public abstract class TransactionPayBillTable extends
 
 							public void onException(AccounterException caught) {
 								Accounter.showInformation(messages
-										.failedTogetCreditsListAndPayments(
-												vendor.getName()));
+										.failedTogetCreditsListAndPayments(vendor
+												.getName()));
 
 								gotCreditsAndPayments = false;
 								return;
@@ -972,7 +973,8 @@ public abstract class TransactionPayBillTable extends
 
 			obj.setPayment(0.0);
 			// obj.setCashDiscount(0);
-			obj.setAppliedCredits(0);
+			//NO NEED TO APPLY CREDITS HERE
+			// obj.setAppliedCredits(0, false);
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);
 		}
@@ -1073,7 +1075,7 @@ public abstract class TransactionPayBillTable extends
 		deleteTotalPayment(obj);
 		obj.setPayment(0.0d);
 		// obj.setCashDiscount(0.0d);
-		obj.setAppliedCredits(0.0d);
+		obj.setAppliedCredits(0.0d, false);
 		obj.setTdsAmount(0.00D);
 		update(obj);
 		adjustAmountAndEndingBalance();

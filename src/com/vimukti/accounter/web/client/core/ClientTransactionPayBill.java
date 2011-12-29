@@ -43,6 +43,9 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	double remainingCreditBalance;
 	boolean isCreditsApplied;
 
+	//Check credits applly manually or automatically
+	public boolean creditsAppliedManually = false;
+
 	public boolean isCreditsApplied() {
 		return isCreditsApplied;
 	}
@@ -229,9 +232,11 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	/**
 	 * @param appliedCredits
 	 *            the appliedCredits to set
+	 * @param b
 	 */
-	public void setAppliedCredits(double appliedCredits) {
+	public void setAppliedCredits(double appliedCredits, boolean isManual) {
 		this.appliedCredits = appliedCredits;
+		creditsAppliedManually = isManual;
 	}
 
 	/**
@@ -341,7 +346,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		this.id = id;
 
 	}
-
 
 	public void setDummyDue(double amountDue) {
 		this.dummyDue = amountDue;

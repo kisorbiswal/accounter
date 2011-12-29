@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -387,6 +388,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	 * credits or on record's paymentvalue change
 	 */
 	public void adjustPaymentValue(ClientTransactionPayBill rec) {
+
 		Double amountDue = rec.getAmountDue();
 		Double cashDiscount = rec.getCashDiscount();
 		Double credit = rec.getAppliedCredits();
@@ -394,7 +396,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		// (rec).setPayment(payments);
 		(rec).setCashDiscount(cashDiscount);
-		(rec).setAppliedCredits(credit);
 
 		grid.update(rec);
 		adjustAmountAndEndingBalance();
@@ -795,32 +796,32 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.getUpdatedCustomerCreditsAndPayments();
 		if (updatedCustomerCreditsAndPayments != null) {
 			for (ClientCreditsAndPayments credit : updatedCustomerCreditsAndPayments) {
-				totalCredits += credit.getBalance();
+				totalCredits += credit.getCreditAmount();
 			}
 		}
-		this.unUsedCreditsText.setAmount(totalCredits);
 
+		
+		//To apply credits automatically to transactionItems by enable Apply credits preferencess.
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
-
-			for (ClientTransactionPayBill c : grid.getAllRows()) {
-
-				if (c.getAmountDue() > totalCredits && totalCredits != 0) {
-					if (c.getPayment() == 0)
-						c.setAppliedCredits(totalCredits);
-
-					totalCredits = 0D;
-					this.unUsedCreditsText.setAmount(totalCredits);
-				} else if (totalCredits != 0) {
-					c.setAppliedCredits(c.getAmountDue());
-					totalCredits = totalCredits - c.getAmountDue();
-
+			List<ClientTransactionPayBill> allRows = grid.getSelectedRecords();
+			for (ClientTransactionPayBill c : allRows) {
+				if (totalCredits == 0) {
+					continue;
 				}
-
+				if (c.creditsAppliedManually) {
+					totalCredits -= c.getAppliedCredits();
+					continue;
+				}
+				double creditsToApply = Math
+						.min(c.getAmountDue(), totalCredits);
+				c.setAppliedCredits(creditsToApply, false);
+				totalCredits -= creditsToApply;
 				c.setCreditsApplied(true);
-				this.unUsedCreditsText.setAmount(totalCredits);
+				c.setPayment(c.getAmountDue() - c.getAppliedCredits());
 				grid.update(c);
 			}
 		}
+		this.unUsedCreditsText.setAmount(totalCredits);
 
 	}
 
@@ -1215,7 +1216,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			record.setCashDiscount(record.getCashDiscount()
 					+ cont.getCashDiscount());
 
-			record.setAppliedCredits(cont.getCredits());
+			record.setAppliedCredits(cont.getCredits(), false);
 
 			record.setDiscountDate(cont.getDiscountDate() != null ? cont
 					.getDiscountDate().getDate() : 0);
@@ -1246,7 +1247,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.getTransactionPayBill()) {
 			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
 			bill.setPayment(0.00D);
-			bill.setAppliedCredits(0.00D);
+			bill.setAppliedCredits(0.00D, false);
 			grid.addTransactionCreditsAndPayments(bill
 					.getTransactionCreditsAndPayments());
 

@@ -45,6 +45,9 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	public transient boolean isInvoice;
 
+	//Check credits applly manually or automatically
+	public boolean creditsAppliedManually = false;
+
 	long journalEntry;
 
 	double amountDue;
@@ -242,8 +245,9 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 	 *            the appliedCredits to set
 	 */
 
-	public void setAppliedCredits(double appliedCredits) {
+	public void setAppliedCredits(double appliedCredits, boolean isManual) {
 		this.appliedCredits = appliedCredits;
+		this.creditsAppliedManually = isManual;
 	}
 
 	/**
@@ -341,7 +345,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		this.id = id;
 
 	}
-
 
 	public void setNumber(String number) {
 		this.number = number;

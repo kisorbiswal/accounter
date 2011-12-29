@@ -254,8 +254,9 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 
 			record.setWriteOff(receivePaymentTransaction.getWriteOff());
 
-			record.setAppliedCredits(receivePaymentTransaction
-					.getAppliedCredits());
+			//for applying credits manually to pass true as second argument
+			record.setAppliedCredits(
+					receivePaymentTransaction.getAppliedCredits(), false);
 			record.setPayment(receivePaymentTransaction.getPayment());
 
 			if (receivePaymentTransaction.getType() == ClientTransaction.TYPE_INVOICE) {
@@ -270,8 +271,8 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 				record.setJournalEntry(receivePaymentTransaction
 						.getTransactionId());
 			}
-			record.setAppliedCredits(receivePaymentTransaction
-					.getAppliedCredits());
+			record.setAppliedCredits(
+					receivePaymentTransaction.getAppliedCredits(), false);
 			records.add(record);
 		}
 		return records;

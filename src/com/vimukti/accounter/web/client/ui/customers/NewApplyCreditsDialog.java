@@ -379,11 +379,6 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 	private void showError() {
 
 		resetRecords();
-		if (record != null) {
-			record.setAppliedCredits(0.0d);
-		} else if (transactionPaybill != null) {
-			transactionPaybill.setAppliedCredits(0.0d);
-		}
 		if (updatedCreditsAndPayments.isEmpty()) {
 			totAmtUseText.setAmount(0.0d);
 		} else if (getTotalUnuseCreditAmount() > amountDue) {

@@ -470,7 +470,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			record.setCashDiscount(curntRec.getCashDiscount());
 
-			record.setAppliedCredits(curntRec.getCredits());
+			//For applying credits manully pass true as second argument
+			record.setAppliedCredits(curntRec.getCredits(), false);
 
 			record.setDiscountDate(curntRec.getDiscountDate().getDate());
 
