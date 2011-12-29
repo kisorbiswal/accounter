@@ -138,7 +138,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
 		TerminologyOption terminologyOption = new TerminologyOption();
 		TrackOrChargeTaxOption taxOption = new TrackOrChargeTaxOption();
-		// NumberFormatOption numberFormatOption = new NumberFormatOption();
 		CurrencyFormatOption currencyFormatOption = new CurrencyFormatOption();
 
 		companyInfoPage.addPreferenceOption(companyInfoOption);
@@ -151,7 +150,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		companyInfoPage.addPreferenceOption(timeZoneOption);
 		companyInfoPage.addPreferenceOption(terminologyOption);
 		companyInfoPage.addPreferenceOption(taxOption);
-		// companyInfoPage.addPreferenceOption(numberFormatOption);
 		companyInfoPage.addPreferenceOption(currencyFormatOption);
 
 		return companyInfoPage;
