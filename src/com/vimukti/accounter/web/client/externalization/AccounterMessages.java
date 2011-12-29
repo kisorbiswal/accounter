@@ -5666,4 +5666,6 @@ public interface AccounterMessages extends Messages {
 
 	public String profitAndLossByLocation(String location);
 
+	public String noPayeeSelected(String payee);
+
 }

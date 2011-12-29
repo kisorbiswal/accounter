@@ -168,8 +168,8 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	private void onActiveChangedListener() {
 		custGrid.setSelectedCustomer(null);
-		detailsPanel.custname.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Customer()));
+		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
+				.Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
 		isActiveAccounts = true;
@@ -179,8 +179,8 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	private void onInActiveChangedlistener() {
 		custGrid.setSelectedCustomer(null);
-		detailsPanel.custname.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Customer()));
+		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
+				.Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
 		isActiveAccounts = false;

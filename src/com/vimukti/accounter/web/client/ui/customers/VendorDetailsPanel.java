@@ -69,8 +69,7 @@ public class VendorDetailsPanel extends VerticalPanel {
 				+ " :");
 		headingPanel.add(heading);
 		vendName = new Label();
-		vendName.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Vendor()));
+		vendName.setText(messages.noPayeeSelected(Global.get().Vendor()));
 		headingPanel.add(heading);
 		headingPanel.add(vendName);
 		headingPanel.setCellWidth(heading, "50%");

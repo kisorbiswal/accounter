@@ -66,8 +66,7 @@ public class CustomerDetailsPanel extends VerticalPanel {
 		heading = new Label(messages.payeeDetails(Global.get().Customers())
 				+ " :");
 		custname = new Label();
-		custname.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Customer()));
+		custname.setText(messages.noPayeeSelected(Global.get().Customer()));
 		headingPanel.add(heading);
 		headingPanel.add(custname);
 		headingPanel.setCellWidth(heading, "50%");
@@ -110,7 +109,8 @@ public class CustomerDetailsPanel extends VerticalPanel {
 			openingBalance.setAmount(selectedCustomer.getOpeningBalance());
 
 			notes.setValue(selectedCustomer.getMemo());
-			notes.getMainWidget().getElement().getParentElement().addClassName("customer-detail-notespanel");
+			notes.getMainWidget().getElement().getParentElement()
+					.addClassName("customer-detail-notespanel");
 
 		} else {
 			name.setValue("");

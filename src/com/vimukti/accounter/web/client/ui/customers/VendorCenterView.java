@@ -195,8 +195,8 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void onActiveChangedListener() {
 		vendorlistGrid.setSelectedVendor(null);
-		detailsPanel.vendName.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Vendor()));
+		detailsPanel.vendName.setText(messages.noPayeeSelected(Global.get()
+				.Vendor()));
 		this.selectedVendor = null;
 		onVendorSelected();
 		isActiveAccounts = true;
@@ -206,8 +206,8 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void onInActiveChangedlistener() {
 		vendorlistGrid.setSelectedVendor(null);
-		detailsPanel.vendName.setText(messages.no() + " "
-				+ messages.payeeSelected(Global.get().Vendor()));
+		detailsPanel.vendName.setText(messages.noPayeeSelected(Global.get()
+				.Vendor()));
 		this.selectedVendor = null;
 		onVendorSelected();
 		isActiveAccounts = false;
