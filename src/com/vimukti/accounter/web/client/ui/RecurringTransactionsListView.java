@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -10,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -25,8 +27,7 @@ public class RecurringTransactionsListView extends
 	private final static String ALL = messages.all();
 	private final static String SCHEDULED = messages.scheduled();
 	private final static String REMAINDER = messages.reminder();
-	private final static String UNSCHEDULED = messages
-			.unScheduled();
+	private final static String UNSCHEDULED = messages.unScheduled();
 
 	private Button useButton, newButton, editButton;
 
@@ -101,8 +102,7 @@ public class RecurringTransactionsListView extends
 		if (selection != null) {
 			grid.onDoubleClick(selection);
 		} else {
-			Accounter.showError(messages
-					.pleaseSelectARowTo(messages.edit()));
+			Accounter.showError(messages.pleaseSelectARowTo(messages.edit()));
 		}
 	}
 
@@ -133,8 +133,7 @@ public class RecurringTransactionsListView extends
 			Accounter.createHomeService().getTransactionToCreate(selection, 0,
 					callBack);
 		} else {
-			Accounter
-					.showError(messages.pleaseSelectARowTo(messages.use()));
+			Accounter.showError(messages.pleaseSelectARowTo(messages.use()));
 		}
 	}
 
@@ -244,4 +243,15 @@ public class RecurringTransactionsListView extends
 		return null;
 	}
 
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		Iterator<ClientRecurringTransaction> iterator = recurringTransactions
+				.iterator();
+		while (iterator.hasNext()) {
+			ClientRecurringTransaction next = iterator.next();
+			if (next.getID() == result.getID()) {
+				iterator.remove();
+			}
+		}
+	}
 }

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -123,5 +124,11 @@ public class RecurringsListGrid extends
 				messages.transactionType(), messages.interval(),
 				messages.prevSchedule(), messages.nextSchedule(),
 				messages.amount(), "" };
+	}
+	
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		view.deleteSuccess(result);
+		deleteRecord(this.getSelection());
 	}
 }
