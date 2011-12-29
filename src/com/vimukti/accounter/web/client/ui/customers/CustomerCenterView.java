@@ -15,7 +15,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -54,6 +56,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 	List<String> dateRangeList, typeList;
 	ClientFinanceDate startDate, endDate;
 	Map<Integer, String> transactiontypebyStatusMap;
+	private boolean isActiveAccounts = true;
 
 	public CustomerCenterView() {
 
@@ -92,6 +95,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		viewform.setNumCols(2);
 		custGrid = new CustomersListGrid();
 		custGrid.init();
+		initCustomersListGrid();
 		leftVpPanel.add(custGrid);
 		leftVpPanel.setSpacing(5);
 
@@ -168,7 +172,8 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 				+ messages.payeeSelected(Global.get().Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
-		custGrid.filterList(true);
+		isActiveAccounts = true;
+		initCustomersListGrid();
 
 	}
 
@@ -178,7 +183,8 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 				+ messages.payeeSelected(Global.get().Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
-		custGrid.filterList(false);
+		isActiveAccounts = false;
+		initCustomersListGrid();
 
 	}
 
@@ -368,6 +374,30 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 					}
 				});
 
+	}
+
+	private void initCustomersListGrid() {
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
+				isActiveAccounts, 0, -1,
+				new AsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onSuccess(PaginationList<PayeeList> result) {
+						custGrid.removeAllRecords();
+						if (result.size() == 0) {
+							custGrid.addEmptyMessage(messages
+									.youDontHaveAny(Global.get().Customers()));
+						} else {
+							custGrid.setRecords(result);
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 	}
 
 	private void OncusotmerSelected() {

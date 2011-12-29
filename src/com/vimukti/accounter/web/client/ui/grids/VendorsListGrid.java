@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -26,7 +23,6 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 
 	public VendorsListGrid() {
 		super(false, true);
-		addDataToGrid();
 	}
 
 	@Override
@@ -80,49 +76,6 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 	@Override
 	public void addEmptyMessage(String msg) {
 		super.addEmptyMessage(msg);
-	}
-
-	private void addDataToGrid() {
-		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				true, 0, -1, new AsyncCallback<PaginationList<PayeeList>>() {
-
-					@Override
-					public void onSuccess(PaginationList<PayeeList> result) {
-						if (result.size() == 0) {
-							addEmptyMessage(messages.youDontHaveAny(Global
-									.get().Vendors()));
-						} else {
-							for (PayeeList payeeList : result) {
-								listOfVendors = result;
-								if (payeeList.isActive())
-									addData(payeeList);
-							}
-						}
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
-
-	}
-
-	public void filterList(boolean isActive) {
-		removeAllRecords();
-		if (listOfVendors != null) {
-			for (PayeeList vendor : listOfVendors) {
-				if (isActive) {
-					if (vendor.isActive() == true)
-						addData(vendor);
-				} else if (vendor.isActive() == false) {
-					addData(vendor);
-				}
-			}
-		}
-		if (getRecords().size() == 0)
-			addEmptyMessage(messages.youDontHaveAny(Global.get().Vendors()));
 	}
 
 	@Override

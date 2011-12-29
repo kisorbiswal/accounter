@@ -14,8 +14,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -59,6 +61,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 	List<String> dateRangeList, typeList;
 	ClientFinanceDate startDate, endDate;
 	Map<Integer, String> transactiontypebyStatusMap;
+	private boolean isActiveAccounts = true;
 
 	public VendorCenterView() {
 
@@ -93,8 +96,8 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		viewform.getElement().getParentElement().setAttribute("align", "left");
 		vendorlistGrid = new VendorsListGrid();
 		vendorlistGrid.init();
+		initVendorListGrid();
 		leftVpPanel.add(vendorlistGrid);
-
 		vendorlistGrid.getElement().getParentElement()
 				.setAttribute("width", "15%");
 		vendorlistGrid.setStyleName("cusotmerCentrGrid");
@@ -134,6 +137,30 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	}
 
+	private void initVendorListGrid() {
+		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
+				isActiveAccounts, 0, -1,
+				new AsyncCallback<PaginationList<PayeeList>>() {
+
+					@Override
+					public void onSuccess(PaginationList<PayeeList> result) {
+						vendorlistGrid.removeAllRecords();
+						if (result.size() == 0) {
+							vendorlistGrid.addEmptyMessage(messages
+									.youDontHaveAny(Global.get().Vendors()));
+						} else {
+							vendorlistGrid.setRecords(result);
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+	}
+
 	private void viewTypeCombo() {
 		if (activeInActiveSelect == null) {
 			activeInActiveSelect = new SelectCombo(messages.show());
@@ -151,8 +178,10 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase(messages.active())) {
+										.toString()
+										.equalsIgnoreCase(messages.active())) {
 									onActiveChangedListener();
+
 								} else {
 									onInActiveChangedlistener();
 								}
@@ -170,7 +199,8 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 				+ messages.payeeSelected(Global.get().Vendor()));
 		this.selectedVendor = null;
 		onVendorSelected();
-		vendorlistGrid.filterList(true);
+		isActiveAccounts = true;
+		initVendorListGrid();
 
 	}
 
@@ -180,14 +210,13 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 				+ messages.payeeSelected(Global.get().Vendor()));
 		this.selectedVendor = null;
 		onVendorSelected();
-		vendorlistGrid.filterList(false);
-
+		isActiveAccounts = false;
+		initVendorListGrid();
 	}
 
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
-			trasactionViewSelect = new SelectCombo(messages
-					.currentView());
+			trasactionViewSelect = new SelectCombo(messages.currentView());
 			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
@@ -196,13 +225,12 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 			transactionTypeList.add(messages.bills());
 			transactionTypeList.add(messages.payBills());
 			transactionTypeList.add(messages.cheques());
-			transactionTypeList.add(messages.payeeCreditNotes(
-					Global.get().Vendor()));
+			transactionTypeList.add(messages.payeeCreditNotes(Global.get()
+					.Vendor()));
 			transactionTypeList.add(messages.expenses());
 			transactionTypeList.add(messages.purchaseOrders());
 			trasactionViewSelect.initCombo(transactionTypeList);
-			trasactionViewSelect.setComboItem(messages
-					.allTransactions());
+			trasactionViewSelect.setComboItem(messages.allTransactions());
 			trasactionViewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -222,8 +250,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
-			trasactionViewTypeSelect = new SelectCombo(messages
-					.type());
+			trasactionViewTypeSelect = new SelectCombo(messages.type());
 			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
 			trasactionViewTypeSelect
@@ -317,16 +344,11 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		dateRangeSelector = new SelectCombo(messages.date());
 
 		dateRangeList = new ArrayList<String>();
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
-				messages.lastFinancialQuarter(),
-				messages.financialYearToDate() };
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(), messages.financialYearToDate() };
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
