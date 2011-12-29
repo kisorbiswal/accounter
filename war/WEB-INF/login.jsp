@@ -12,13 +12,29 @@
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css" rel="stylesheet" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
+
+
+<%
+   String app = request.getHeader( "Nativeapp" );
+   boolean isNative = ( app != null && !app.equals(""));
+   if( isNative ){ %>
+   
+   <% } %>
 <script  type="text/javascript" >
 <%
 	String news = request.getAttribute("news").toString();
 %>
 	var news=<%= news%>;
+	var isNative=<%= isNative%>;
 	
 	$(document).ready(function() {
+		if(isNative){
+			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+		}else{
+			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+		}
+		
+		
 	$('#submitButton').click(function() {
 	 $("#submitButton").addClass("login-focus");
 	$("#accounterForm").validate({
@@ -31,6 +47,9 @@
 			password: "<i18n:i18n msg='pleaseenterpassword'/>",
 			}
 		});
+	
+	
+	
 	});
 	if(news.list.length>0){
 		$('#unChangedNewsDiv>h3>a').attr("href" ,news.list[0].url);
@@ -89,17 +108,14 @@
 	});	
 </script>
 
-<%
-   String app = request.getHeader( "Nativeapp" );
-   boolean isNative = ( app != null && !app.equals(""));
-   if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>">
-   <% } %>
+
 </head>
 	<body>
 	 
 	     <div id="commanNewContainer">
-			  <div class="new_logo_field"><a class="accounterLogoimage" href="/site/home">	Accounter Logo</a></div>
+			  <div id="accounterlogofield" class="new_logo_field">
+			   
+			  </div>
 			  
 			  <div class="new_login_page">
 			  <div id ="feedDiv">

@@ -21,6 +21,12 @@
 <link type="text/css" href="../css/ss.css" rel="stylesheet" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
+<%
+   String app = request.getHeader( "Nativeapp" );
+   boolean isNative = ( app != null && !app.equals(""));
+   if( isNative ){ %>
+   
+   <% } %>
 <script  type="text/javascript" >
 <!--
  $.validator.setDefaults({
@@ -30,12 +36,19 @@
 	}
 });
 -->
+var isNative=<%= isNative%>;
 $.validator.addMethod("no_special_characters", function(value, element) {
     return this.optional(element) ||
         value.match(/^[a-zA-Z0-9_]*[a-zA-Z][a-zA-Z0-9_]*$/);
 }, "Company ID shouldn't contain special characters");
 
 	$(document).ready(function() {
+	   if(isNative){
+			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+		}else{
+			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+		}
+		
 		$('#submitButton').removeAttr('disabled');
 		$('#newsletter').attr('checked', true);
 		$('#mid-box4').attr('autocomplete', 'off');
@@ -112,19 +125,12 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	});
 </script>
 
-<%
-   String app = request.getHeader( "Nativeapp" );
-   boolean isNative = ( app != null && !app.equals(""));
-   if( isNative ){ %>
-   <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>" />
-   <% } %>
-   
-   
-
 </head>
 <body>
 	<div id="commanContainer" class="signup-container">	
-  <a class="accounterLogoimage" href="/site/home">	Accounter Logo</a>
+     <div id="accounterlogofield" class="new_logo_field">
+			   
+	 </div>
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50" />
   
   <c:if test="${errormessage!=null}">
