@@ -31,7 +31,7 @@
 		</g:VerticalPanel>
 		<g:VerticalPanel ui:field="decimalMainPanel">
 			<g:Label ui:field="decimalHeaderLabel" styleName="header" />
-			<g:HorizontalPanel>
+			<g:HorizontalPanel styleName="decimal_digitlimit">
 				<g:Label ui:field="comboLabel" />
 				<g:ListBox visibleItemCount="1" ui:field="decimalDigitLimitCombo"
 					width="80px" />
