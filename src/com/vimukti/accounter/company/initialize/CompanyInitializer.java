@@ -85,15 +85,20 @@ public abstract class CompanyInitializer {
 
 		createDefaultFiledAccount();
 
-		createDefaultChequeLayout();
 		company.setEncryptionKey(SecureUtils.createID(16));
+
+		session.saveOrUpdate(company);
+
+		ChequeLayout layout = createDefaultChequeLayout();
+		session.saveOrUpdate(layout);
+		company.getChequeLayouts().add(layout);
 		session.saveOrUpdate(company);
 
 		init();
 
 	}
 
-	private void createDefaultChequeLayout() {
+	private ChequeLayout createDefaultChequeLayout() {
 		ChequeLayout layout = new ChequeLayout();
 		layout.setPayeeNameTop(1.25);
 		layout.setPayeeNameLeft(2.20);
@@ -127,7 +132,7 @@ public abstract class CompanyInitializer {
 		layout.setChequeHeight(8.50);
 		layout.setAuthorisedSignature("");
 		layout.setCompany(company);
-		company.getChequeLayouts().add(layout);
+		return layout;
 	}
 
 	private void createDefaultFiledAccount() {
