@@ -137,7 +137,7 @@ public class VendorsListCommand extends AbstractCommand {
 		try {
 			return financeTool.getPayeeList(ClientTransaction.CATEGORY_VENDOR,
 					(isActive.equals(getMessages().active()) ? true : false),
-					0, -1, false, context.getCompany().getID());
+					0, -1, context.getCompany().getID());
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
