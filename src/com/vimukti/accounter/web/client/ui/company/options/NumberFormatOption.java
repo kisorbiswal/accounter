@@ -78,8 +78,6 @@ public class NumberFormatOption extends AbstractPreferenceOption {
 					ClientCompanyPreferences.NEGATIVE_NUMBER_NORMAL);
 		}
 
-		comboLabel.getElement().getParentElement()
-				.setAttribute("width", "250px");
 		if (decimalDigitLimitCombo.getSelectedIndex() != -1) {
 			getCompanyPreferences().setDecimalNumber(
 					decimalDigitLimitCombo.getSelectedIndex());
