@@ -887,7 +887,8 @@ public class RecurringTransactionDialog extends
 		case 1:
 			String value = occurrencesField.getValue();
 			if (value == null || value.isEmpty()) {
-				result.addError(occurrencesField, messages.validNumber());
+				result.addError(occurrencesField,
+						messages.pleaseEnterValidOccurrencesField());
 			}
 		case 2:
 			ClientFinanceDate endDate = endDateField.getDate();

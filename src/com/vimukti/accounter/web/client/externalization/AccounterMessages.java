@@ -2852,6 +2852,8 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterTheWordsAsItis();
 
 	public String pleaseEntervalidCurrencyFactor();
+	
+	public String pleaseEnterValidOccurrencesField();
 
 	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String payee);
 
