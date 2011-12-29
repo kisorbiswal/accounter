@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -108,7 +109,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 	 * TransactionReceivePayment
 	 */
 	// @ReffereredObject
-	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
+	List<TransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<TransactionCreditsAndPayments>();
 
 	/**
 	 * Variable to indicate whether this is a voided transaction or not

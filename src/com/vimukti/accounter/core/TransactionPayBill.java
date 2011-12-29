@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.CallbackException;
@@ -100,7 +101,7 @@ public class TransactionPayBill extends CreatableObject implements
 	 * available credits of the payee.
 	 */
 	// @ReffereredObject
-	List<TransactionCreditsAndPayments> transactionCreditsAndPayments;
+	List<TransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<TransactionCreditsAndPayments>();
 
 	/**
 	 * This is to indicate whether the transaction is voided or not
