@@ -832,6 +832,9 @@ public class CompanyManager extends Manager {
 				result.add(account);
 			}
 		}
+		if (!isActiveaccount) {
+			total = result.size();
+		}
 		result.setTotalCount(total);
 		result.setStart(start);
 		return result;
