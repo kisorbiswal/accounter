@@ -99,7 +99,7 @@
 	<body>
 	 
 	     <div id="commanNewContainer">
-			  <div class="new_logo_field"><img src="/images/Accounter_logo_title.png" class="accounterLogo" alt ="accounter logo"/></div>
+			  <div class="new_logo_field"><a class="accounterLogoimage" href="/site/home">	Accounter Logo</a></div>
 			  
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
