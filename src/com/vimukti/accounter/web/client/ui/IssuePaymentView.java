@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientChequeLayout;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -148,11 +149,13 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 					cheque.setDate(payment.getDate());
 					printCheques.add(cheque);
 				}
-
-				rpcUtilService.printCheques(
-						getCompany().getCheckLayout(
-								selectedPayFromAccount.getID()).getID(),
-						printCheques, new AsyncCallback<String>() {
+				ClientChequeLayout checkLayout = getCompany().getCheckLayout(
+						selectedPayFromAccount.getID());
+				if (checkLayout == null) {
+					checkLayout = getCompany().getCheckLayout(0);
+				}
+				rpcUtilService.printCheques(checkLayout.getID(), printCheques,
+						new AsyncCallback<String>() {
 
 							@Override
 							public void onSuccess(String result) {
