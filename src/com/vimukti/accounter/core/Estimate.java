@@ -397,7 +397,11 @@ public class Estimate extends Transaction {
 		}
 		setNetAmount(lineTotal);
 		setTaxTotal(totalTax);
-		setTotal(totalTax + lineTotal);
+		if (!amountsIncludeVAT) {
+			setTotal(totalTax + lineTotal);
+		} else {
+			setTotal(lineTotal);
+		}
 	}
 
 	public void setTaxTotal(double taxTotal) {
