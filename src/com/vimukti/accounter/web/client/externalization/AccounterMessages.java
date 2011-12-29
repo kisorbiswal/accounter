@@ -5652,4 +5652,10 @@ public interface AccounterMessages extends Messages {
 
 	public String billsAndExpenses();
 
+	public String allQuotes();
+
+	public String allCredits();
+
+	public String allCahrges();
+
 }
