@@ -1962,11 +1962,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
 			if (clientTransactionItem != null) {
-				discount = clientTransactionItem.getDiscount();
-				if (discount != 0.0D)
-					break;
-				else
-					continue;
+				Double discountValue = clientTransactionItem.getDiscount();
+				if (discountValue != null) {
+					discount = discountValue.doubleValue();
+					if (discount != 0.0D)
+						break;
+					else
+						continue;
+				}
 			}
 		}
 		return discount;
