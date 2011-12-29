@@ -8,7 +8,6 @@ import java.util.Map;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -25,10 +24,6 @@ import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
  */
 public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	Label addAccLabel, hierLabel, lab1;
-
-	protected List<ClientAccount> allAccounts;
-	private ClientAccount toBeDelete;
-	private List<ClientAccount> listOfAccounts;
 	public int typeOfAccount;
 
 	public ChartOfAccountsView() {
@@ -48,15 +43,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		grid.deleteRecord(toBeDelete);
-		allAccounts.remove(toBeDelete);
-		// Accounter.showInformation(toBeDelete.getName()
-		// + FinanceApplication.constants()
-		// .isDeletedSuccessfully());
 	}
 
 	public static ChartOfAccountsView getInstance() {
@@ -87,11 +73,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	@Override
 	protected String getListViewHeading() {
 		return messages.payeesList(messages.Accounts());
-	}
-
-	@Override
-	public void initListCallback() {
-		super.initListCallback();
 	}
 
 	@Override
@@ -132,7 +113,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
-		listOfAccounts = result;
 		start = result.getStart();
 		grid.removeAllRecords();
 		grid.setRecords(result);
@@ -167,21 +147,6 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 	protected void filterList(boolean isActive) {
 		isActiveAccounts = isActive;
 		onPageChange(0, getPageSize());
-		// grid.removeAllRecords();
-		// for (ClientAccount account : listOfAccounts) {
-		// if (isActive) {
-		// if (account.getIsActive() == true)
-		// grid.addData(account);
-		// // if (grid.getRecords().isEmpty()) {
-		// // grid.addEmptyMessage(AccounterWarningType.RECORDSEMPTY);
-		// // }
-		// } else if (account.getIsActive() == false) {
-		// grid.addData(account);
-		// }
-		// }
-		// if (grid.getRecords().isEmpty()) {
-		// grid.addEmptyMessage(messages.noRecordsToShow());
-		// }
 	}
 
 	@Override
