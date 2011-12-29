@@ -328,7 +328,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<List<ClientTransactionPayTAX>> callBack);
 
 	public void getPayeeList(int transactionCategory, boolean isActive,
-			int strat, int length, boolean isPagenationRequired,
+			int strat, int length,
 			AsyncCallback<PaginationList<PayeeList>> callBack);
 
 	public void getInvoiceList(long fromDate, long toDate, int invoicesType,
