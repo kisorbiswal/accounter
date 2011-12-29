@@ -67,20 +67,11 @@ public class ChequePdfGenerator {
 						.getAmount());
 				int a = getAmountLineIndex(numberInWords,
 						layout.getAmountWordsLin1Width());
-				String line1 = "";
-				String line2 = "";
-				if (a > 0) {
-					line1 = numberInWords.substring(0, a - 1);
-					if (a < numberInWords.length()) {
-						line2 = numberInWords.substring(a,
-								numberInWords.length());
-						int b = getAmountLineIndex(line2,
-								layout.getAmountWordsLin2Width());
-						if (b > 0) {
-							line2 = line2.substring(0, b);
-						}
-					}
-				}
+				String line1 = numberInWords.substring(0, a);
+				numberInWords = numberInWords.substring(a);
+				a = getAmountLineIndex(numberInWords,
+						layout.getAmountWordsLin2Width());
+				String line2 = numberInWords.substring(0, a);
 
 				// Amount words line1
 				addString(directContent, topPading, line1,
@@ -135,7 +126,7 @@ public class ChequePdfGenerator {
 			}
 			line1 = tryl + " ";
 		}
-		return line1.length();
+		return line1.trim().length();
 	}
 
 	private static void addString(PdfContentByte directContent, int pageTop,
@@ -144,7 +135,10 @@ public class ChequePdfGenerator {
 		ColumnText text = new ColumnText(directContent);
 		setCoOrdinats(text, pageTop, (float) left, (float) top, (float) width);
 		text.setAlignment(Element.ALIGN_JUSTIFIED);
-		text.addText(new Chunk(string));
+		Chunk chunk = new Chunk(string);
+		chunk.setTextRenderMode(PdfContentByte.TEXT_RENDER_MODE_FILL_CLIP, 1,
+				null);
+		text.addText(chunk);
 		text.go();
 	}
 
