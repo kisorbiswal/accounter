@@ -49,7 +49,7 @@ public class LocalInfoCache {
 				createDateTimeFormatInfoObj(dateTimeFormatInfo, key, values);
 			}
 			DayAndMonthUtil dayAndMonthUtil = new DayAndMonthUtil(
-					(DateTimeFormatInfo) dateTimeFormatInfo);
+					dateTimeFormatInfo);
 			return dayAndMonthUtil;
 		} catch (Exception e) {
 			e.printStackTrace();
