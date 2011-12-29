@@ -89,13 +89,6 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void initListCallback() {
-		// super.initListCallback();
-		onPageChange(0, getPageSize());
-
-	}
-
-	@Override
 	protected void initGrid() {
 		grid = new TAXAgencyListGrid(false);
 		grid.init();
@@ -137,7 +130,7 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-				isActiveAccounts, start, length, true, this);
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
@@ -205,7 +198,6 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	protected String getViewTitle() {
 		return messages.payees(messages.taxAgencies());
 	}
-
 
 	@Override
 	protected List<String> getViewSelectTypes() {
