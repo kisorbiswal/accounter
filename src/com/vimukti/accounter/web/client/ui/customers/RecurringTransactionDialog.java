@@ -142,8 +142,8 @@ public class RecurringTransactionDialog extends
 		daysInAdvanceLabel.setShowTitle(false);
 		daysInAdvanceLabel.setValue(messages.toCreate());
 
-		notifyAboutCreatedTransactions = new CheckboxItem(messages
-				.notifyAboutCreatedTransactions());
+		notifyAboutCreatedTransactions = new CheckboxItem(
+				messages.notifyAboutCreatedTransactions());
 
 		daysBeforeToRemind = new TextItem(messages.remindMe());
 		daysBeforeLabel = new LabelItem();
@@ -153,8 +153,7 @@ public class RecurringTransactionDialog extends
 		notificationForm.setNumCols(4);
 		notificationForm.setFields(notifyAboutCreatedTransactions);
 
-		occurrencesField = new TextItem(messages
-				.endAfterSpecifiedOccurences());
+		occurrencesField = new TextItem(messages.endAfterSpecifiedOccurences());
 		occurrencesField.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -251,9 +250,8 @@ public class RecurringTransactionDialog extends
 	}
 
 	private void initRadioBtns() {
-		onSpecificWeekRadioBtn = new RadioButton(
-				messages.monthly(), messages
-						.onSpecificWeek());
+		onSpecificWeekRadioBtn = new RadioButton(messages.monthly(),
+				messages.onSpecificWeek());
 		onSpecificWeekRadioBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -367,27 +365,23 @@ public class RecurringTransactionDialog extends
 			switch (selected) {
 			case 0:// Daily
 				panel = getDailyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(messages
-						.days());
+				intervalValueField.setIntervalTypeLabel(messages.days());
 				break;
 			case 1: // weekly
 				enableAllCombos();
 				panel = getWeeklyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(messages
-						.weeks());
+				intervalValueField.setIntervalTypeLabel(messages.weeks());
 
 				break;
 			case 2: // monthly
 				panel = getMonthlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(messages
-						.months());
+				intervalValueField.setIntervalTypeLabel(messages.months());
 
 				break;
 			case 3: // yearly
 				enableAllCombos();
 				panel = getYearlyIntervalLayout();
-				intervalValueField.setIntervalTypeLabel(messages
-						.years());
+				intervalValueField.setIntervalTypeLabel(messages.years());
 				break;
 			}
 
@@ -957,9 +951,6 @@ public class RecurringTransactionDialog extends
 		intervalValueField.setDisabled(selected);
 		endDateTypeForm.setDisabled(selected);
 		actionComboField.setDisabled(selected);
-		dayOfWeekCombo.setDisabled(selected);
-		dayOfMonthCombo.setDisabled(selected);
-		weekOfMonthCombo.setDisabled(selected);
 		monthOfYearCombo.setDisabled(selected);
 		intervalTypeCombo.setDisabled(selected);
 		endDateTypeCombo.setDisabled(selected);
@@ -967,6 +958,29 @@ public class RecurringTransactionDialog extends
 		onSpecificWeekRadioBtn.setEnabled(!selected);
 		unbilledChargesCkBox.setDisabled(selected);
 		notificationForm.setDisabled(selected);
+		if (getIntervalTypeOptions().indexOf(
+				intervalTypeCombo.getSelectedValue()) == 2
+				&& !selected) {
+			if (onSpecificDayRadioBtn.getValue()) {
+				dayOfMonthCombo.setDisabled(selected);
+
+				weekOfMonthCombo.setDisabled(!selected);
+				dayOfWeekCombo.setDisabled(!selected);
+			} else if (onSpecificWeekRadioBtn.getValue()) {
+				weekOfMonthCombo.setDisabled(selected);
+				dayOfWeekCombo.setDisabled(selected);
+
+				dayOfMonthCombo.setDisabled(!selected);
+			} else {
+				dayOfWeekCombo.setDisabled(selected);
+				dayOfMonthCombo.setDisabled(selected);
+				weekOfMonthCombo.setDisabled(selected);
+			}
+		} else {
+			dayOfWeekCombo.setDisabled(selected);
+			dayOfMonthCombo.setDisabled(selected);
+			weekOfMonthCombo.setDisabled(selected);
+		}
 	}
 
 	@Override
