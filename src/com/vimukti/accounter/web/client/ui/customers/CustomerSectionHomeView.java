@@ -8,9 +8,11 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.AddWidgetDialog;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -190,7 +192,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, start, length, true,
+				true, start, length,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
@@ -209,12 +211,9 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	}
 
 	public void getAddableWidgets(String[] widgetOnSectionPage) {
-		String[] totalWidget = {
-				messages.newPayee(Global.get().Customer()),
-				messages.salesItem(),
-				messages.paymentReceived(),
-				messages.cashSales(),
-				messages.creditAndRefunds() };
+		String[] totalWidget = { messages.newPayee(Global.get().Customer()),
+				messages.salesItem(), messages.paymentReceived(),
+				messages.cashSales(), messages.creditAndRefunds() };
 		boolean isAvailable = false;
 
 		for (int i = 0; i < totalWidget.length; i++) {
@@ -260,7 +259,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	public void setPrevoiusOutput(Object preObject) {
 
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, 0, 0, true,
+				true, 0, 0,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
@@ -277,6 +276,21 @@ public class CustomerSectionHomeView extends BaseHomeView {
 					public void onException(AccounterException caught) {
 					}
 				});
+	}
+
+	@Override
+	public void deleteFailed(AccounterException caught) {
+		super.deleteFailed(caught);
+		AccounterException accounterException = caught;
+		int errorCode = accounterException.getErrorCode();
+		String errorString = AccounterExceptions.getErrorString(errorCode);
+		Accounter.showError(errorString);
+	}
+
+	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		super.deleteSuccess(result);
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

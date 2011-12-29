@@ -21,8 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
  */
 public class ReceivedPaymentListView extends
 		TransactionsListView<ReceivePaymentsList> {
-
-	private List<ReceivePaymentsList> listOfRecievePayments;
 	private int transactionType;
 	private int viewType;
 
@@ -60,14 +58,8 @@ public class ReceivedPaymentListView extends
 	}
 
 	@Override
-	public void initListCallback() {
-		onPageChange(0, getPageSize());
-	}
-
-	@Override
 	public void onSuccess(PaginationList<ReceivePaymentsList> result) {
 		super.onSuccess(result);
-		listOfRecievePayments = result;
 		grid.removeAllRecords();
 		grid.setRecords(result);
 		if (grid.getRecords().isEmpty())
@@ -101,6 +93,7 @@ public class ReceivedPaymentListView extends
 		return listOfTypes;
 	}
 
+	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equals(messages.paid())) {
@@ -143,6 +136,7 @@ public class ReceivedPaymentListView extends
 		return 25;
 	}
 
+	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),

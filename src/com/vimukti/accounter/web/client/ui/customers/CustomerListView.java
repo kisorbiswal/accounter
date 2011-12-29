@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -23,8 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
 public class CustomerListView extends BaseListView<PayeeList> {
-
-	private List<PayeeList> listOfCustomers;
 
 	public CustomerListView() {
 
@@ -80,19 +76,11 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void initListCallback() {
-		// super.initListCallback();
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-		// this);
-		onPageChange(0, getPageSize());
-
-	}
-
-	@Override
 	protected void initGrid() {
 		grid = new CustomerListGrid();
 		// grid.addStyleName("listgrid-tl");
 		grid.init();
+
 		// listOfCustomers = FinanceApplication.getCompany().getCustomers();
 		// filterList(true);
 		// getTotalLayout(grid);
@@ -131,12 +119,11 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				isActiveAccounts, start, length, true, this);
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
-		this.listOfCustomers = result;
 		grid.sort(10, false);
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
@@ -198,17 +185,6 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return messages.payees(Global.get().Customers());
-	}
-
-	@Override
-	public void deleteSuccess(IAccounterCore result) {
-		Iterator<PayeeList> iterator = listOfCustomers.iterator();
-		while (iterator.hasNext()) {
-			PayeeList next = iterator.next();
-			if (next.getID() == result.getID()) {
-				iterator.remove();
-			}
-		}
 	}
 
 	@Override

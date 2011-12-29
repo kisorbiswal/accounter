@@ -101,14 +101,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	@Override
-	public void initListCallback() {
-		// super.initListCallback();
-		// refreshDatesAndRecords();
-
-		onPageChange(0, getPageSize());
-	}
-
-	@Override
 	public void onSuccess(PaginationList<InvoicesList> result) {
 		grid.removeLoadingImage();
 		listOfInvoices = result;
@@ -309,7 +301,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	public void showDialogBox(String description) {
-		InvoicePrintDialog printDialog = new InvoicePrintDialog(messages.selectReports(), "", description);
+		InvoicePrintDialog printDialog = new InvoicePrintDialog(
+				messages.selectReports(), "", description);
 		printDialog.show();
 		printDialog.center();
 	}
