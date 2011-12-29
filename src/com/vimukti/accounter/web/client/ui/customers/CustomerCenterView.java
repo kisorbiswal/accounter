@@ -33,7 +33,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
-
+	public static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
 	private static final int TYPE_RECEIVE_PAYMENT = 12;
@@ -147,7 +147,8 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 						public void selectedComboBoxItem(String selectItem) {
 							if (activeInActiveSelect.getSelectedValue() != null) {
 								if (activeInActiveSelect.getSelectedValue()
-										.toString().equalsIgnoreCase(messages.active())) {
+										.toString()
+										.equalsIgnoreCase(messages.active())) {
 									onActiveChangedListener();
 								} else {
 									onInActiveChangedlistener();
@@ -183,21 +184,22 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	private void transactionViewSelectCombo() {
 		if (trasactionViewSelect == null) {
-			trasactionViewSelect = new SelectCombo(messages
-					.currentView());
+			trasactionViewSelect = new SelectCombo(messages.currentView());
 			trasactionViewSelect.setHelpInformation(true);
 
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			transactionTypeList.add(messages.invoices());
+			transactionTypeList.add(messages.quotes());
+			transactionTypeList.add(messages.Charges());
+			transactionTypeList.add(messages.credits());
 			transactionTypeList.add(messages.allcashSales());
 			transactionTypeList.add(messages.receivedPayments());
 			transactionTypeList.add(messages.CustomerCreditNotes());
-			transactionTypeList.add(messages.customerRefunds(
-					Global.get().Customer()));
+			transactionTypeList.add(messages.customerRefunds(Global.get()
+					.Customer()));
 			trasactionViewSelect.initCombo(transactionTypeList);
-			trasactionViewSelect.setComboItem(messages
-					.allTransactions());
+			trasactionViewSelect.setComboItem(messages.allTransactions());
 			trasactionViewSelect
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -217,8 +219,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	private void transactionViewTypeSelectCombo() {
 		if (trasactionViewTypeSelect == null) {
-			trasactionViewTypeSelect = new SelectCombo(messages
-					.type());
+			trasactionViewTypeSelect = new SelectCombo(messages.type());
 			trasactionViewTypeSelect.setHelpInformation(true);
 			getMessagesList();
 			trasactionViewTypeSelect
@@ -256,6 +257,22 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 				messages.allcashSales())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CASHSALES,
 					messages.all() + " " + messages.allcashSales());
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.quotes())) {
+
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_QUOTES,
+					messages.allQuotes());
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.credits())) {
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_CREDITS,
+					messages.allCredits());
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.Charges())) {
+
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_CHARGES,
+					messages.allCahrges());
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.receivedPayments())) {
@@ -327,16 +344,11 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		dateRangeSelector = new SelectCombo(messages.date());
 
 		dateRangeList = new ArrayList<String>();
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
-				messages.lastFinancialQuarter(),
-				messages.financialYearToDate() };
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(), messages.financialYearToDate() };
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
 		}
@@ -471,22 +483,23 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 	}
 
 	protected int getTransactionType() {
-
-		if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.invoices())) {
+		String selectedValue = trasactionViewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.invoices())) {
 
 			return TYPE_INVOICE;
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.allcashSales())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.allcashSales())) {
 			return TYPE_CAHSSALE;
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.receivedPayments())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.receivedPayments())) {
 			return TYPE_RECEIVE_PAYMENT;
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.CustomerCreditNotes())) {
+		} else if (selectedValue.equalsIgnoreCase(messages
+				.CustomerCreditNotes())) {
 			return TYPE_CREDITNOTE;
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.customerRefunds(Global.get().Customer()))) {
+		} else if (selectedValue.equalsIgnoreCase(messages.quotes())
+				|| selectedValue.equalsIgnoreCase(messages.credits())
+				|| selectedValue.equalsIgnoreCase(messages.Charges())) {
+			return TYPE_ESTIMATE;
+		} else if (selectedValue.equalsIgnoreCase(messages
+				.customerRefunds(Global.get().Customer()))) {
 			return TYPE_CUSTOMER_REFUND;
 		}
 		return TYPE_ALL_TRANSACTION;
