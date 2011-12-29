@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 public class BillListView extends TransactionsListView<BillsList> {
 	protected List<BillsList> allEnterBills;
 	private int transactionType;
-	private int viewType;
 
 	private BillListView() {
 		super(messages.all());
@@ -84,7 +83,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("currentView", viewSelect.getValue().toString());
+		map.put("currentView", viewSelect.getSelectedValue().toString());
 		map.put("dateRange", dateRangeSelector.getValue().toString());
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
@@ -147,17 +146,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected void filterList(String text) {
-
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages.open())) {
-			viewType = ClientTransaction.VIEW_OPEN;
-		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equalsIgnoreCase(messages.overDue())) {
-			viewType = ClientTransaction.VIEW_OVERDUE;
-		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewType = ClientTransaction.VIEW_ALL;
-		}
 		onPageChange(0, getPageSize());
 	}
 
@@ -193,8 +182,20 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
+		int viewType = 0;
+		String text = this.viewType;
+		if (text.equalsIgnoreCase(messages.open())) {
+			viewType = ClientTransaction.VIEW_OPEN;
+		} else if (text.equalsIgnoreCase(messages.voided())) {
+			viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (text.equalsIgnoreCase(messages.overDue())) {
+			viewType = ClientTransaction.VIEW_OVERDUE;
+		} else if (text.equalsIgnoreCase(messages.all())) {
+			viewType = ClientTransaction.VIEW_ALL;
+		}
 		Accounter.createHomeService().getBillsAndItemReceiptList(false,
 				transactionType, getStartDate().getDate(),
 				getEndDate().getDate(), start, length, viewType, this);
+		viewSelect.setComboItem(text);
 	}
 }
