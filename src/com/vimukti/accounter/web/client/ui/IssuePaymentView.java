@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.core.ValidationResult.Error;
 import com.vimukti.accounter.web.client.core.Lists.IssuePaymentTransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -139,6 +140,18 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				for (Object errorSource : lastErrorSourcesFromValidation) {
+					clearError(errorSource);
+				}
+				ValidationResult validationResult = validateView();
+				lastErrorSourcesFromValidation.clear();
+				if (validationResult.haveErrors()) {
+					for (Error error : validationResult.getErrors()) {
+						addError(error.getSource(), error.getMessage());
+						lastErrorSourcesFromValidation.add(error.getSource());
+					}
+					return;
+				}
 				List<ClientTransactionIssuePayment> selectedRecords = grid
 						.getSelectedRecords();
 				List<PrintCheque> printCheques = new ArrayList<PrintCheque>();
@@ -160,7 +173,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 							@Override
 							public void onSuccess(String result) {
 								UIUtils.downloadFileFromTemp(result);
-								// createIssuePayment();
+								createIssuePayment();
 							}
 
 							@Override
@@ -178,6 +191,19 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		cancelButton = new CancelButton(this);
 		buttonBar.add(printButton);
 		buttonBar.add(cancelButton);
+	}
+
+	protected ValidationResult validateView() {
+		ValidationResult result = FormItem.validate(accountCombo);
+		if (grid.getRecords().isEmpty()) {
+			result.addError(grid,
+					messages.noTransactionIsAvailableToIssuePayments());
+		} else {
+			if (grid.getSelectedRecords().size() == 0)
+				result.addError(grid,
+						messages.pleaseSelectAnyOneOfTheTransactions());
+		}
+		return result;
 	}
 
 	protected void addRecord(IssuePaymentTransactionsList entry) {
