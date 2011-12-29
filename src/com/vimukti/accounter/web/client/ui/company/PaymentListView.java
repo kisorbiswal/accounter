@@ -22,8 +22,6 @@ import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
  * 
  */
 public class PaymentListView extends TransactionsListView<PaymentsList> {
-	List<PaymentsList> allPayments;
-	private List<PaymentsList> listOfPayments;
 	private int checkType;
 	private int viewType;
 	// private static String DELETED = "Deleted";
@@ -80,11 +78,6 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	}
 
 	@Override
-	public void initListCallback() {
-		onPageChange(0, getPageSize());
-	}
-
-	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
 		grid.removeAllRecords();
 		grid.setRecords(result);
@@ -111,6 +104,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		// FinanceApplication.createHomeService().getPaymentsList(this);
 	}
 
+	@Override
 	protected java.util.List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
 		listOfTypes.add(messages.notIssued());
@@ -120,6 +114,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		return listOfTypes;
 	}
 
+	@Override
 	protected void filterList(String text) {
 
 		grid.removeAllRecords();
