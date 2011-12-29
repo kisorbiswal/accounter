@@ -124,7 +124,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 </head>
 <body>
 	<div id="commanContainer" class="signup-container">	
-  <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="Accounter Logo" />	
+  <a class="accounterLogo" href="/site/home">	Accounter Logo</a>
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50" />
   
   <c:if test="${errormessage!=null}">
@@ -140,6 +140,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
   <c:if test="${successmessage==null}">
     <form id="accounterForm" method="post" action="/main/signup">
+      <div class="signup-left">   
 	   <div>
 	      <span class="mandatory"><i18n:i18n msg='mandatoryMsg'/></span>
 	   </div>
@@ -423,6 +424,27 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   <div class="signup-submit">
 	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="13" />
 	   </div>
+	   
+	 </div>
+	 <div class="signup-right">
+	     <div class="simple-get-started">
+	        <h3>Simple to get Started:</h3>
+	        <ul>
+	          <li>No Creditcard required</li>
+	          <li>Free to singup</li>
+	          <li>Cancel at anytime</li>
+	        </ul>
+	     </div> 
+	     <div class="benfits">
+	        <h3>Benfits:</h3>
+	        <ul>
+	          <li>Access from anywhere</li>
+	          <li>Multiple companies</li>
+	          <li>Print Reports & Invocies</li>
+	        </ul>
+	     </div>
+	 </div>
+	   
 	</form>
   </c:if>
   <div class="form-bottom-options">
