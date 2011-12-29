@@ -64,7 +64,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
 	protected static AccounterMessages messages = Global.get().messages();
-	public int start, length;
+	public int start;
 
 	public BaseListView() {
 	}
