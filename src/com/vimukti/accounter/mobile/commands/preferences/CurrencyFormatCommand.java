@@ -16,13 +16,11 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 
 public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 
-	private static final String POSITIVE_NUMBER = "positivenumberrange";
-	private static final String NEGATIVE_NUMBER = "negativenumberrange";
-	private static final String CURRENCY_SYMBOL = "currencysymbol";
 	private static final String POSTIVE_CURR_FORMAT = "positivecurrencyformat";
 	private static final String NEGATIVE_CURR_FORMAT = "negaticecurrencyformat";
 	private static final String DECIMAL_SYMBOL = "decimalSymbol";
@@ -42,8 +40,6 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		ClientCompanyPreferences preferences = context.getPreferences();
-		get(CURRENCY_SYMBOL).setValue(
-				preferences.getPrimaryCurrency().getSymbol());
 		get(NO_OF_DIGITS_AFTER_NO).setValue(
 				String.valueOf(preferences.getDecimalNumber()));
 		get(DECIMAL_SYMBOL).setValue(preferences.getDecimalCharacter());
@@ -55,15 +51,16 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		return null;
 	}
 
-	protected void update() {
+	protected String[] update() {
 		if (!isAllReqDone) {
-			return;
+			return null;
 		}
 		String digitGroupSymbol = get(DIGIT_GROUPING_SYMBOL).getValue();
 		String noOfDigitsAfterDecimal = get(NO_OF_DIGITS_AFTER_NO).getValue();
 		String decimalSymbol = get(DECIMAL_SYMBOL).getValue();
 		String value = groups[0].replaceAll(",", digitGroupSymbol);
-		String currencySymbol = get(CURRENCY_SYMBOL).getValue();
+		String currencySymbol = getPreferences().getPrimaryCurrency()
+				.getSymbol();
 		value += decimalSymbol;
 		for (int i = 0; i < Integer.valueOf(noOfDigitsAfterDecimal); i++) {
 			value += "0";
@@ -97,8 +94,7 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		String nValue = negForValue[negNum].replaceAll("S", currencySymbol)
 				.replaceAll("1D1", value);
 
-		get(POSITIVE_NUMBER).setValue(pValue);
-		get(NEGATIVE_NUMBER).setValue(nValue);
+		return new String[] { pValue, nValue };
 	}
 
 	protected List<String> getDigitGroupingValues() {
@@ -122,35 +118,19 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 	}
 
 	private List<String> getValues(String[] rawData) {
-		String currencySymbol = get(CURRENCY_SYMBOL).getValue();
+		String currencySymbol = getPreferences().getPrimaryCurrency()
+				.getSymbol();
 		String decimalSymbol = get(DECIMAL_SYMBOL).getValue();
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < rawData.length; i++) {
 			String value = rawData[i];
-			value = value.replaceAll("S", quoteReplacement(currencySymbol));
-			value = value.replaceAll("D", quoteReplacement(decimalSymbol));
+			value = value.replaceAll("S",
+					AccounterNumberFormat.quoteReplacement(currencySymbol));
+			value = value.replaceAll("D",
+					AccounterNumberFormat.quoteReplacement(decimalSymbol));
 			list.add(value);
 		}
 		return list;
-	}
-
-	private static String quoteReplacement(String s) {
-		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
-			return s;
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
-			if (c == '\\') {
-				sb.append('\\');
-				sb.append('\\');
-			} else if (c == '$') {
-				sb.append('\\');
-				sb.append('$');
-			} else {
-				sb.append(c);
-			}
-		}
-		return sb.toString();
 	}
 
 	private List<String> getNegativeFormatValues() {
@@ -173,42 +153,6 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		StringListRequirement currencySymbolReq = new StringListRequirement(
-				CURRENCY_SYMBOL, getMessages().pleaseSelect(
-						getMessages().currencySymbol()), getMessages()
-						.currencySymbol(), false, true, null) {
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages()
-						.hasSelected(getMessages().currencySymbol());
-			}
-
-			@Override
-			protected String getSelectString() {
-				return getMessages().pleaseSelect(
-						getMessages().currencySymbol());
-			}
-
-			@Override
-			protected List<String> getLists(Context context) {
-				return CurrencyFormatCommand.this.getCurrencySymbols(context);
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return getMessages().youDontHaveAny("Currency symbols");
-			}
-
-			@Override
-			public void setValue(Object value) {
-				super.setValue(value);
-				update();
-			}
-		};
-		currencySymbolReq.setEditable(false);
-		list.add(currencySymbolReq);
-
 		StringRequirement decimalSymbolReq = new StringRequirement(
 				DECIMAL_SYMBOL, "", getMessages().decimalSymbol(), false, true) {
 			@Override
@@ -328,16 +272,6 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 			}
 		};
 		list.add(negativeFomatReq);
-
-		StringRequirement positiveNumberReq = new StringRequirement(
-				POSITIVE_NUMBER, "", getMessages().positive(), true, true);
-		positiveNumberReq.setEditable(false);
-		list.add(positiveNumberReq);
-
-		StringRequirement negativeNumberReq = new StringRequirement(
-				NEGATIVE_NUMBER, "", getMessages().negative(), true, true);
-		negativeNumberReq.setEditable(false);
-		list.add(negativeNumberReq);
 	}
 
 	protected List<String> getCurrencySymbols(Context context) {
@@ -386,5 +320,14 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		Global.get().getFormater().setCurrencyFormat(companyPreferences);
 		savePreferences(context, companyPreferences);
 		return null;
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		String[] updatedStrings = update();
+		makeResult.add(1, getMessages().currencySymbol() + " : "
+				+ getPreferences().getPrimaryCurrency().getSymbol());
+		makeResult.add(1, getMessages().positive() + " : " + updatedStrings[0]);
+		makeResult.add(1, getMessages().negative() + " : " + updatedStrings[1]);
 	}
 }
