@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -76,6 +79,34 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 			return messages.creditCardExpensesList();
 		}
 		return messages.expensesList();
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("currentView", viewSelect.getValue().toString());
+		map.put("dateRange", dateRangeSelector.getValue().toString());
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("start", start);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		String currentView = (String) map.get("currentView");
+		viewSelect.setComboItem(currentView);
+		String dateRange1 = (String) map.get("dateRange");
+		dateRangeSelector.setComboItem(dateRange1);
+		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
+		setStartDate(startDate1);
+		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
+		setEndDate(endDate1);
+		start = (Integer) map.get("start");
+		onPageChange(start, getPageSize());
 	}
 
 	@Override

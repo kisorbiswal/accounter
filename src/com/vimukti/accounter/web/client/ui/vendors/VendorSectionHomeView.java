@@ -184,7 +184,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				true, start, length, true,
+				true, start, length,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
@@ -254,7 +254,7 @@ public class VendorSectionHomeView extends BaseHomeView {
 
 	public void setPrevoiusOutput(Object preObject) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				true, 0, 0, false,
+				true, 0, 0,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override

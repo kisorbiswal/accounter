@@ -77,7 +77,9 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	public void initListCallback() {
-		onPageChange(0, getPageSize());
+		if (getPageSize() <= 0) {
+			onPageChange(0, getPageSize());
+		}
 	}
 
 	@Override

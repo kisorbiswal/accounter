@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 
 public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
-	protected List<PaymentsList> allPayments;
 	private int transactionType;
 	private int viewType;
 
@@ -52,12 +51,6 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	@Override
 	protected String getListViewHeading() {
 		return messages.payeePaymentList(Global.get().Vendor());
-	}
-
-	@Override
-	public void initListCallback() {
-		onPageChange(0, getPageSize());
-
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.user.client.Window;
@@ -27,8 +26,6 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
  * 
  */
 public class VendorListView extends BaseListView<PayeeList> {
-
-	private List<PayeeList> listOfPayees;
 	private boolean isActiveAccounts = true;
 
 	public VendorListView() {
@@ -120,14 +117,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
-	public void initListCallback() {
-		// super.initListCallback();
-		// Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-		// this);
-		onPageChange(0, getPageSize());
-	}
-
-	@Override
 	protected void initGrid() {
 		grid = new VendorListGrid(false);
 		grid.init();
@@ -140,28 +129,6 @@ public class VendorListView extends BaseListView<PayeeList> {
 	protected void filterList(boolean isActive) {
 		isActiveAccounts = isActive;
 		onPageChange(0, getPageSize());
-		// grid.removeAllRecords();
-		// grid.setTotal();
-		// for (PayeeList payee : listOfPayees) {
-		// if (isActive) {
-		// if (payee.isActive() == true) {
-		// if (payee.getType() == ClientPayee.TYPE_TAX_AGENCY
-		// && !(getCompany().getPreferences().isTrackTax())) {
-		// continue;
-		// }
-		// grid.addData(payee);
-		// }
-		//
-		// } else if (payee.isActive() == false) {
-		// grid.addData(payee);
-		//
-		// }
-		//
-		// }
-		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages.noRecordsToShow());
-		//
-		// getTotalLayout(grid);
 	}
 
 	@Override
@@ -197,12 +164,11 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_VENDOR,
-				isActiveAccounts, start, length, true, this);
+				isActiveAccounts, start, length, this);
 	}
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
-		this.listOfPayees = result;
 		grid.sort(10, false);
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
