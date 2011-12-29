@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -11,8 +13,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.ImageButton;
+import com.vimukti.accounter.web.client.ui.combo.BankAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -27,7 +32,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 	private VerticalPanel allPanel;
 	private ChequeLayoutWidget widget;
 	private ClientChequeLayout layout;
-	private AccountCombo accountCombo;
+	private BankAccountCombo accountCombo;
 	private TextItem signatureItem;
 	private AmountField chequeWidth, chequeHeight, payeeTop, payeeLeft,
 			payeeWidth, amountWordsTopOne, amountWordsLeftOne,
@@ -38,6 +43,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			signatoryWidth;
 	private Label noteLabel, pageFormatsLabel;
 
+	private ClientAccount selectedAccount;
+
 	@Override
 	public void init() {
 		super.init();
@@ -46,7 +53,10 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 	@Override
 	public void initData() {
-		accountCombo.setComboItem(getCompany().getAccount(layout.getAccount()));
+		ClientAccount account = getCompany().getAccount(layout.getAccount());
+		if (account != null) {
+			accountCombo.setComboItem(account);
+		}
 		signatureItem.setValue(layout.getAuthorisedSignature());
 		chequeWidth.setAmount(layout.getChequeWidth());
 		chequeHeight.setAmount(layout.getChequeHeight());
@@ -71,35 +81,28 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		signatoryTop.setAmount(layout.getSignatoryTop());
 		signatoryLeft.setAmount(layout.getSignatoryLeft());
 		signatoryWidth.setAmount(layout.getSignatoryWidth());
-
 	}
 
 	private void createControls() {
-		layout = getCompany().getCheckLayout(0);// Loading default cheque layout
+		resetLayout(false);
+		// Loading default cheque layout
 		allPanel = new VerticalPanel();
 		VerticalPanel panel = new VerticalPanel();
 
-		accountCombo = new AccountCombo(messages.bankAccount()) {
-
-			@Override
-			protected List<ClientAccount> getAccounts() {
-				return getCompany().getAccounts(ClientAccount.TYPE_BANK);
-			}
-		};
+		accountCombo = new BankAccountCombo(messages.bankAccount());
+		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						ClientChequeLayout checkLayout = getCompany()
-								.getCheckLayout(selectItem.getID());
-						layout = checkLayout;
-						initData();
+						CheckPrintingSettingView.this.selectedAccount = selectItem;
+						resetLayout(true);
 					}
 				});
 		signatureItem = new TextItem();
-		signatureItem.setValue(layout.getAuthorisedSignature() == null ? ""
-				: layout.getAuthorisedSignature());
+		signatureItem.setValue(layout == null ? "" : layout
+				.getAuthorisedSignature());
 		signatureItem.setTitle(messages.authorisedSignatory());
 		signatureItem.addBlurHandler(new BlurHandler() {
 
@@ -147,6 +150,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			@Override
 			public void onChange(double value) {
 				widget.setChequeWidth(value);
+				chequeWidth.setAmount(value);
+				adjustChequeWidthFields();
 			}
 
 		});
@@ -156,6 +161,8 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 			@Override
 			public void onChange(double value) {
 				widget.setChequeHeight(value);
+				chequeHeight.setAmount(value);
+				adjustChequeTopFields();
 			}
 
 		});
@@ -167,7 +174,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setPayeeNameTop(value);
+				if (topValidation(value)) {
+					widget.setPayeeNameTop(value);
+					payeeTop.setAmount(value);
+				} else {
+					payeeTop.setAmount(layout.getPayeeNameTop());
+				}
 			}
 
 		});
@@ -176,7 +188,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setPayeeNameLeft(value);
+				if (widthValidation(payeeWidth.getAmount() + value)) {
+					widget.setPayeeNameLeft(value);
+					payeeLeft.setAmount(value);
+				} else {
+					payeeLeft.setAmount(layout.getPayeeNameLeft());
+				}
 			}
 
 		});
@@ -185,7 +202,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setPayeeNameWidth(value);
+				if (widthValidation(payeeLeft.getAmount() + value)) {
+					widget.setPayeeNameWidth(value);
+					payeeWidth.setAmount(value);
+				} else {
+					payeeWidth.setAmount(layout.getPayeeNameWidth());
+				}
 			}
 
 		});
@@ -197,7 +219,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin1Top(value);
+				if (topValidation(value)) {
+					widget.setAmountWordsLin1Top(value);
+					amountWordsTopOne.setAmount(value);
+				} else {
+					amountWordsTopOne.setAmount(layout.getAmountWordsLin1Top());
+				}
 			}
 		});
 
@@ -206,7 +233,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin1Left(value);
+				if (widthValidation(amountWordsWidthOne.getAmount() + value)) {
+					widget.setAmountWordsLin1Left(value);
+					amountWordsLeftOne.setAmount(value);
+				} else {
+					amountWordsLeftOne.setAmount(layout
+							.getAmountWordsLin1Left());
+				}
 			}
 
 		});
@@ -215,7 +248,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin1Width(value);
+				if (widthValidation(amountWordsLeftOne.getAmount() + value)) {
+					widget.setAmountWordsLin1Width(value);
+					amountWordsWidthOne.setAmount(value);
+				} else {
+					amountWordsWidthOne.setAmount(layout
+							.getAmountWordsLin1Width());
+				}
 			}
 
 		});
@@ -227,7 +266,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin2Top(value);
+				if (topValidation(value)) {
+					widget.setAmountWordsLin2Top(value);
+					amountWordsTopTwo.setAmount(value);
+				} else {
+					amountWordsTopTwo.setAmount(layout.getAmountWordsLin2Top());
+				}
 			}
 
 		});
@@ -236,7 +280,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin2Left(value);
+				if (widthValidation(amountWordsWidthTwo.getAmount() + value)) {
+					widget.setAmountWordsLin2Left(value);
+					amountWordsLeftTwo.setAmount(value);
+				} else {
+					amountWordsLeftTwo.setAmount(layout
+							.getAmountWordsLin2Left());
+				}
 			}
 
 		});
@@ -245,7 +295,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountWordsLin2Width(value);
+				if (widthValidation(amountWordsLeftTwo.getAmount() + value)) {
+					widget.setAmountWordsLin2Width(value);
+					amountWordsWidthTwo.setAmount(value);
+				} else {
+					amountWordsWidthTwo.setAmount(layout
+							.getAmountWordsLin2Width());
+				}
 			}
 
 		});
@@ -257,7 +313,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountFigTop(value);
+				if (topValidation(value)) {
+					widget.setAmountFigTop(value);
+					amountFigTop.setAmount(value);
+				} else {
+					amountFigTop.setAmount(layout.getAmountFigTop());
+				}
 			}
 
 		});
@@ -266,7 +327,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountFigLeft(value);
+				if (widthValidation(amountFigWidth.getAmount() + value)) {
+					widget.setAmountFigLeft(value);
+					amountFigLeft.setAmount(value);
+				} else {
+					amountFigLeft.setAmount(layout.getAmountFigLeft());
+				}
 			}
 
 		});
@@ -275,7 +341,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setAmountFigWidth(value);
+				if (widthValidation(amountFigLeft.getAmount() + value)) {
+					widget.setAmountFigWidth(value);
+					amountFigWidth.setAmount(value);
+				} else {
+					amountFigWidth.setAmount(layout.getAmountFigWidth());
+				}
 			}
 
 		});
@@ -287,7 +358,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setChequeDateTop(value);
+				if (topValidation(value)) {
+					widget.setChequeDateTop(value);
+					chequeDateTop.setAmount(value);
+				} else {
+					chequeDateTop.setAmount(layout.getChequeDateTop());
+				}
 			}
 
 		});
@@ -296,8 +372,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setChequeDateLeft(value);
-
+				if (widthValidation(chequeDateWidth.getAmount() + value)) {
+					widget.setChequeDateLeft(value);
+					chequeDateLeft.setAmount(value);
+				} else {
+					chequeDateLeft.setAmount(layout.getChequeDateLeft());
+				}
 			}
 
 		});
@@ -306,7 +386,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setChequeDateWidth(value);
+				if (widthValidation(chequeDateLeft.getAmount() + value)) {
+					widget.setChequeDateWidth(value);
+					chequeDateWidth.setAmount(value);
+				} else {
+					chequeDateWidth.setAmount(layout.getChequeDateWidth());
+				}
 			}
 
 		});
@@ -318,7 +403,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setCompanyNameTop(value);
+				if (topValidation(value)) {
+					widget.setCompanyNameTop(value);
+					companyTop.setAmount(value);
+				} else {
+					companyTop.setAmount(layout.getCompanyNameTop());
+				}
 			}
 
 		});
@@ -327,7 +417,13 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setCompanyNameLeft(value);
+				if (widthValidation(companyWidth.getAmount() + value)) {
+					widget.setCompanyNameLeft(value);
+					companyLeft.setAmount(value);
+				} else {
+					companyLeft.setAmount(layout.getCompanyNameLeft());
+				}
+
 			}
 
 		});
@@ -336,7 +432,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setCompanyNameWidth(value);
+				if (widthValidation(companyLeft.getAmount() + value)) {
+					widget.setCompanyNameWidth(value);
+					companyWidth.setAmount(value);
+				} else {
+					companyWidth.setAmount(layout.getCompanyNameWidth());
+				}
 			}
 
 		});
@@ -348,7 +449,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setSignatoryTop(value);
+				if (topValidation(value)) {
+					widget.setSignatoryTop(value);
+					signatoryTop.setAmount(value);
+				} else {
+					signatoryTop.setAmount(layout.getSignatoryTop());
+				}
 			}
 
 		});
@@ -357,7 +463,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setSignatoryLeft(value);
+				if (widthValidation(signatoryWidth.getAmount() + value)) {
+					widget.setSignatoryLeft(value);
+					signatoryLeft.setAmount(value);
+				} else {
+					signatoryLeft.setAmount(layout.getSignatoryLeft());
+				}
 			}
 
 		});
@@ -366,8 +477,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 
 			@Override
 			public void onChange(double value) {
-				widget.setSignatoryWidth(value);
-
+				if (widthValidation(signatoryLeft.getAmount() + value)) {
+					widget.setSignatoryWidth(value);
+					signatoryWidth.setAmount(value);
+				} else {
+					signatoryWidth.setAmount(layout.getSignatoryWidth());
+				}
 			}
 
 		});
@@ -407,37 +522,158 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		this.add(allPanel);
 		allPanel.setWidth("100%");
 		this.setCellHorizontalAlignment(allPanel, ALIGN_LEFT);
+
+		ImageButton saveButton = new ImageButton(messages.saveAndClose(),
+				Accounter.getFinanceImages().saveAndClose());
+		saveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				onSave(false);
+			}
+		});
+		saveButton.addStyleName("saveAndClose-Btn");
+		getButtonBar().add(saveButton);
+
+		ImageButton resetButton = new ImageButton("Reset", Accounter
+				.getFinanceImages().saveAndClose());
+		resetButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				resetLayout(true);
+			}
+		});
+		resetButton.addStyleName("saveAndClose-Btn");
+		getButtonBar().add(resetButton);
+	}
+
+	protected void adjustChequeTopFields() {
+		Double amount = chequeHeight.getAmount();
+		if (payeeTop.getAmount() > amount) {
+			payeeTop.setAmount(amount);
+			widget.setPayeeNameTop(amount);
+		}
+		if (amountWordsTopOne.getAmount() > amount) {
+			amountWordsTopOne.setAmount(amount);
+			widget.setAmountWordsLin1Top(amount);
+		}
+		if (amountWordsTopTwo.getAmount() > amount) {
+			amountWordsTopTwo.setAmount(amount);
+			widget.setAmountWordsLin2Top(amount);
+		}
+		if (amountFigTop.getAmount() > amount) {
+			amountFigTop.setAmount(amount);
+			widget.setAmountFigTop(amount);
+		}
+		if (chequeDateTop.getAmount() > amount) {
+			chequeDateTop.setAmount(amount);
+			widget.setChequeDateTop(amount);
+		}
+		if (companyTop.getAmount() > amount) {
+			companyTop.setAmount(amount);
+			widget.setCompanyNameTop(amount);
+		}
+		if (signatoryTop.getAmount() > amount) {
+			signatoryTop.setAmount(amount);
+			widget.setSignatoryTop(amount);
+		}
+	}
+
+	protected void adjustChequeWidthFields() {
+		Double amount = chequeWidth.getAmount();
+		if (payeeWidth.getAmount() + payeeLeft.getAmount() > amount) {
+			payeeWidth.setAmount(0.0);
+			widget.setPayeeNameWidth(0.0);
+			payeeLeft.setAmount(amount);
+			widget.setPayeeNameLeft(amount);
+		}
+
+		if (amountWordsWidthOne.getAmount() + amountWordsLeftOne.getAmount() > amount) {
+			amountWordsWidthOne.setAmount(0.0);
+			widget.setAmountWordsLin1Width(0.0);
+			amountWordsLeftOne.setAmount(amount);
+			widget.setAmountWordsLin1Left(amount);
+		}
+
+		if (amountWordsWidthTwo.getAmount() + amountWordsLeftTwo.getAmount() > amount) {
+			amountWordsWidthTwo.setAmount(0.0);
+			widget.setAmountWordsLin2Width(0.0);
+			amountWordsLeftTwo.setAmount(amount);
+			widget.setAmountWordsLin2Left(amount);
+		}
+
+		if (amountFigLeft.getAmount() + amountFigWidth.getAmount() > amount) {
+			amountFigLeft.setAmount(amount);
+			widget.setAmountFigLeft(amount);
+			amountFigWidth.setAmount(0.0);
+			widget.setAmountFigWidth(0.0);
+		}
+		if (chequeDateLeft.getAmount() + chequeDateWidth.getAmount() > amount) {
+			chequeDateLeft.setAmount(amount);
+			widget.setChequeDateLeft(amount);
+			chequeDateWidth.setAmount(0.0);
+			widget.setChequeDateWidth(0.0);
+		}
+		if (companyLeft.getAmount() + companyWidth.getAmount() > amount) {
+			companyLeft.setAmount(amount);
+			widget.setCompanyNameLeft(amount);
+			companyWidth.setAmount(0.0);
+			widget.setCompanyNameWidth(0.0);
+		}
+		if (signatoryLeft.getAmount() + signatoryWidth.getAmount() > amount) {
+			signatoryLeft.setAmount(amount);
+			widget.setSignatoryLeft(amount);
+			signatoryWidth.setAmount(0.0);
+			widget.setSignatoryWidth(0.0);
+		}
+	}
+
+	protected void resetLayout(boolean isResetWidget) {
+		ClientChequeLayout checkLayout;
+		boolean hasLayout = true;
+		if (this.selectedAccount == null) {
+			checkLayout = getCompany().getCheckLayout(0);
+			hasLayout = false;
+		} else {
+			checkLayout = getCompany().getCheckLayout(
+					this.selectedAccount.getID());
+			if (checkLayout == null) {
+				checkLayout = getCompany().getCheckLayout(0);
+				hasLayout = false;
+			}
+		}
+		this.layout = (ClientChequeLayout) checkLayout.clone();
+		if (!hasLayout) {
+			this.layout.setID(0);
+		}
+		if (isResetWidget) {
+			widget.setChequeLayout(layout);
+			initData();
+		}
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.chequePrintSetting();
 	}
 
 	@Override
 	public List getForms() {
-
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void addHandelers(final AmountField src,
@@ -449,14 +685,12 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 				Double amount = Double.valueOf(src.textBox.getText());
 				if (keyCode == KeyCodes.KEY_UP) {
 					amount = amount + 0.1;
-					src.setAmount(amount);
 					handler.onChange(amount);
 				} else if (keyCode == KeyCodes.KEY_DOWN) {
 					amount = amount - 0.1;
 					if (amount <= 0) {
 						amount = 0d;
 					}
-					src.setAmount(amount);
 					handler.onChange(amount);
 				}
 			}
@@ -475,4 +709,34 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		void onChange(double value);
 	}
 
+	@Override
+	protected boolean isSaveButtonAllowed() {
+		return false;
+	}
+
+	@Override
+	public ValidationResult validate() {
+		ValidationResult validate = super.validate();
+		ClientAccount selectedValue = accountCombo.getSelectedValue();
+		if (selectedValue == null) {
+			validate.addError(accountCombo,
+					messages.pleaseSelect(messages.bankAccount()));
+		}
+		return validate;
+	}
+
+	private boolean topValidation(double value) {
+		return chequeHeight.getAmount() >= value;
+	}
+
+	private boolean widthValidation(double value) {
+		return chequeWidth.getAmount() >= value;
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		layout.setAccount(selectedAccount.getID());
+		layout.setAuthorisedSignature(signatureItem.getValue());
+		saveOrUpdate(layout);
+	}
 }

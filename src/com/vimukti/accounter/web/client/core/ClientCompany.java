@@ -182,7 +182,7 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientCustomField> customFields;
 
-	private Set<ClientChequeLayout> chequeLayouts;
+	private List<ClientChequeLayout> chequeLayouts;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -1941,6 +1941,10 @@ public class ClientCompany implements IAccounterCore {
 				ClientWarehouse warehouse = (ClientWarehouse) accounterCoreObject;
 				Utility.updateClientList(warehouse, warehouses);
 				break;
+			case CHEQUE_LAYOUT:
+				ClientChequeLayout chequeLayout = (ClientChequeLayout) accounterCoreObject;
+				Utility.updateClientList(chequeLayout, chequeLayouts);
+				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -3140,10 +3144,6 @@ public class ClientCompany implements IAccounterCore {
 			if (layout.getAccount() == bankAccountId) {
 				return layout;
 			}
-		}
-		// To suspend from recursive;
-		if (bankAccountId != 0) {
-			return getCheckLayout(0);
 		}
 		// Should not reach this line
 		return null;

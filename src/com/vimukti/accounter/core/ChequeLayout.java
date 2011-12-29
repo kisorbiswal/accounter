@@ -1,8 +1,16 @@
 package com.vimukti.accounter.core;
 
+import org.json.JSONException;
 
-public class ChequeLayout extends CreatableObject {
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
+public class ChequeLayout extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BankAccount account;
 	private String authorisedSignature;
 	private double chequeHeight;
@@ -28,6 +36,10 @@ public class ChequeLayout extends CreatableObject {
 	private double signatoryTop;
 	private double signatoryLeft;
 	private double signatoryWidth;
+
+	public ChequeLayout() {
+		super();
+	}
 
 	public BankAccount getAccount() {
 		return account;
@@ -227,6 +239,16 @@ public class ChequeLayout extends CreatableObject {
 
 	public void setSignatoryWidth(double signatoryWidth) {
 		this.signatoryWidth = signatoryWidth;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		return true;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
 	}
 
 }

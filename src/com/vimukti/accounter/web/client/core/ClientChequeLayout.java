@@ -63,6 +63,7 @@ public class ClientChequeLayout implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
+		this.id = id;
 	}
 
 	@Override
@@ -268,5 +269,37 @@ public class ClientChequeLayout implements IAccounterCore {
 
 	public void setSignatoryWidth(double signatoryWidth) {
 		this.signatoryWidth = signatoryWidth;
+	}
+
+	public ClientChequeLayout clone() {
+		ClientChequeLayout layout = new ClientChequeLayout();
+		layout.setVersion(this.getVersion());
+		layout.setID(this.getID());
+		layout.setAccount(this.getAccount());
+		layout.setAuthorisedSignature(this.getAuthorisedSignature());
+		layout.setChequeHeight(this.getChequeHeight());
+		layout.setChequeWidth(this.getChequeWidth());
+		layout.setPayeeNameTop(this.getPayeeNameTop());
+		layout.setPayeeNameLeft(this.getPayeeNameLeft());
+		layout.setPayeeNameWidth(this.getPayeeNameWidth());
+		layout.setAmountWordsLin1Top(this.getAmountWordsLin1Top());
+		layout.setAmountWordsLin1Left(this.getAmountWordsLin1Left());
+		layout.setAmountWordsLin1Width(this.getAmountWordsLin1Width());
+		layout.setAmountWordsLin2Top(this.getAmountWordsLin2Top());
+		layout.setAmountWordsLin2Left(this.getAmountWordsLin2Left());
+		layout.setAmountWordsLin2Width(this.getAmountWordsLin2Width());
+		layout.setAmountFigTop(this.getAmountFigTop());
+		layout.setAmountFigLeft(this.getAmountFigLeft());
+		layout.setAmountFigWidth(this.getAmountFigWidth());
+		layout.setChequeDateTop(this.getChequeDateTop());
+		layout.setChequeDateLeft(this.getChequeDateLeft());
+		layout.setChequeDateWidth(this.getChequeDateWidth());
+		layout.setCompanyNameTop(this.getCompanyNameTop());
+		layout.setCompanyNameLeft(this.getCompanyNameLeft());
+		layout.setCompanyNameWidth(this.getCompanyNameWidth());
+		layout.setSignatoryTop(this.getSignatoryTop());
+		layout.setSignatoryLeft(this.getSignatoryLeft());
+		layout.setSignatoryWidth(this.getSignatoryWidth());
+		return layout;
 	}
 }

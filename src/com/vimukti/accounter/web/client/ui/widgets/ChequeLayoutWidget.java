@@ -202,8 +202,10 @@ public class ChequeLayoutWidget extends SimplePanel {
 		authoritySignatoryLbl.setWidth(chequeLayout.getSignatoryWidth() + "cm");
 		authoritySignatoryLbl.setText(chequeLayout.getAuthorisedSignature());
 
-		chequeBody.setHeight(chequeLayout.getChequeHeight() + "cm");
-		chequeBody.setWidth(chequeLayout.getChequeHeight() + "cm");
+		setChequeWidth(chequeLayout.getChequeWidth());
+		setChequeHeight(chequeLayout.getChequeHeight());
+		// chequeBody.setHeight(chequeLayout.getChequeHeight() + "cm");
+		// chequeBody.setWidth(chequeLayout.getChequeWidth() + "cm");
 	}
 
 	public void setPayeeNameTop(double payeeNameTop) {

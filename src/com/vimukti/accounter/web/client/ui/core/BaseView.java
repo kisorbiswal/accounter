@@ -183,12 +183,18 @@ public abstract class BaseView<T extends IAccounterCore> extends
 						Accounter.getFinanceImages().approve());
 				buttonBar.add(verifyButton);
 			}
-			buttonBar.add(saveAndCloseButton);
-			buttonBar.add(saveAndNewButton);
+			if (isSaveButtonAllowed()) {
+				buttonBar.add(saveAndCloseButton);
+				buttonBar.add(saveAndNewButton);
+			}
 
 		}
 
 		buttonBar.add(cancelButton);
+	}
+
+	protected boolean isSaveButtonAllowed() {
+		return true;
 	}
 
 	protected boolean canVoid() {
