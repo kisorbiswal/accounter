@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.core.Form26QAnnexureGenerator;
+import com.vimukti.accounter.core.Form27EQAnnexureGenerator;
+import com.vimukti.accounter.core.Form27QAnnexureGenerator;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
@@ -28,7 +30,13 @@ public class GenerateETDSServlet extends BaseServlet {
 	private String startYear;
 	private String endYear;
 	private List<ClientTDSChalanDetail> chalanList;
+	private String codeList;
+	private String remarkList;
 
+	/**
+	 * call the rpc based on the parameter being passed from UI. and get the
+	 * data list to be printed.
+	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String companyName = getCompanyName(request);
@@ -39,6 +47,8 @@ public class GenerateETDSServlet extends BaseServlet {
 		quater = request.getParameter("quater");
 		startYear = request.getParameter("startYear");
 		endYear = request.getParameter("endYear");
+		codeList = request.getParameter("codeList");
+		remarkList = request.getParameter("remarkList");
 
 		FinanceTool financetool = new FinanceTool();
 
@@ -71,6 +81,18 @@ public class GenerateETDSServlet extends BaseServlet {
 
 	}
 
+	/**
+	 * generate the text file by calling the respective form generator class and
+	 * print them to the text file.
+	 * 
+	 * @param request
+	 * @param response
+	 * @param companyName
+	 * @param chalanList2
+	 * @param tdsDeductorMasterDetails2
+	 * @param responsiblePersonDetails2
+	 * @throws IOException
+	 */
 	private void generateTextFile(HttpServletRequest request,
 			HttpServletResponse response, String companyName,
 			List<ClientTDSChalanDetail> chalanList2,
@@ -78,20 +100,75 @@ public class GenerateETDSServlet extends BaseServlet {
 			List<ClientTDSResponsiblePerson> responsiblePersonDetails2)
 			throws IOException {
 
-		Form26QAnnexureGenerator form26Q = new Form26QAnnexureGenerator(
-				tdsDeductorMasterDetails2, responsiblePersonDetails2,
-				getCompany(request));
-		form26Q.setFormDetails(formNo, quater, startYear, endYear);
-		form26Q.setChalanDetailsList(chalanList2);
-		String generateFile = form26Q.generateFile();
+		String generateFile = null;
+		int FormNo = Integer.parseInt(formNo);
+		if (FormNo == 1) {
+			Form26QAnnexureGenerator form26Q = new Form26QAnnexureGenerator(
+					tdsDeductorMasterDetails2, responsiblePersonDetails2,
+					getCompany(request), codeList, remarkList);
+			form26Q.setFormDetails(formNo, quater, startYear, endYear);
+			form26Q.setChalanDetailsList(chalanList2);
+			generateFile = form26Q.generateFile();
+
+		} else if (FormNo == 2) {
+			Form27QAnnexureGenerator form26Q = new Form27QAnnexureGenerator(
+					tdsDeductorMasterDetails2, responsiblePersonDetails2,
+					getCompany(request), codeList, remarkList);
+			form26Q.setFormDetails(formNo, quater, startYear, endYear);
+			form26Q.setChalanDetailsList(chalanList2);
+			generateFile = form26Q.generateFile();
+
+		} else if (FormNo == 3) {
+			Form27EQAnnexureGenerator form26Q = new Form27EQAnnexureGenerator(
+					tdsDeductorMasterDetails2, responsiblePersonDetails2,
+					getCompany(request), codeList, remarkList);
+			form26Q.setFormDetails(formNo, quater, startYear, endYear);
+			form26Q.setChalanDetailsList(chalanList2);
+			generateFile = form26Q.generateFile();
+
+		}
 
 		ServletOutputStream op = response.getOutputStream();
 		response.setHeader("Content-Disposition", "attachment; filename=\""
-				+ "write.txt" + "\"");
+				+ generateFileName(formNo, quater) + "\"");
 		byte[] bytes = generateFile.getBytes();
 		op.write(bytes);
 		op.flush();
 
+	}
+
+	/**
+	 * generate the file name based on the formNO and quarter selected
+	 * 
+	 * @param formNo
+	 * @param quater
+	 * @return
+	 */
+	private String generateFileName(String formNo, String quater) {
+
+		String formName = null;
+		int FormNo = Integer.parseInt(formNo);
+		if (FormNo == 1) {
+			formName = "26Q";
+		} else if (FormNo == 2) {
+			formName = "27Q";
+		} else if (FormNo == 3) {
+			formName = "27EQ";
+		}
+
+		String QuaterName = null;
+		int quaterNO = Integer.parseInt(quater);
+		if (quaterNO == 1) {
+			QuaterName = "RQ1";
+		} else if (quaterNO == 2) {
+			QuaterName = "RQ2";
+		} else if (quaterNO == 3) {
+			QuaterName = "RQ3";
+		} else if (quaterNO == 4) {
+			QuaterName = "RQ4";
+		}
+
+		return formName + QuaterName;
 	}
 
 	@Override

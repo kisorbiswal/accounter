@@ -22,6 +22,7 @@ public class ETDSAnnexuresGenerator {
 	private String quater;
 	private String startYear;
 	private String endYear;
+	private int chalanCount;
 
 	public ETDSAnnexuresGenerator() {
 
@@ -138,15 +139,19 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String addTodaysDate() {
 		FinanceDate date = new FinanceDate();
-		return date.toString();
+		return Integer.toString(date.getDay())
+				+ Integer.toString(date.getMonth())
+				+ Integer.toString(date.getYear());
 	}
 
 	/**
 	 * generate the Batch Header for the file
 	 * 
+	 * @param total
+	 * 
 	 * @return
 	 */
-	String generateBatchHeaderRecord() {
+	String generateBatchHeaderRecord(Double total) {
 
 		String batchHeaderString;
 
@@ -236,9 +241,6 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString
 				+ getResponsiblePersonAddressChange() + addDelimiter();
 
-		batchHeaderString = batchHeaderString + getTotalDepositeAmount()
-				+ addDelimiter();
-
 		batchHeaderString = batchHeaderString + getDeductorType()
 				+ addDelimiter();
 
@@ -284,7 +286,7 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString
 				+ getAddressChangeOFResponsiblePerson() + addDelimiter();
 
-		batchHeaderString = batchHeaderString + getTotalDespositeAmount()
+		batchHeaderString = batchHeaderString + Double.toString(total)
 				+ addDelimiter();
 
 		// Unmatched challan count
@@ -470,26 +472,31 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtSateName() {
-		if (deductor.getGovtState() != null)
-			return getStateCode(deductor.getGovtState());
-		else
-			return "^";
+		if (deductor.getGovtState() != null) {
+			if (deductor.getGovtState().length() < 1)
+				return addDelimiter();
+			else
+				return getStateCode(deductor.getGovtState());
+		} else
+			return addDelimiter();
 
 	}
 
-	/**
-	 * Mention the Total of Deposit Amount as per Challan.The value here should
-	 * be same as sum of values in field 'Total of Deposit Amount as per
-	 * Challan' in the 'Challan Detail' record ( please refer to the Challan
-	 * Detail' record section below ). Paisa Field (Decimal Value) of the Amount
-	 * must be 00.
-	 * 
-	 * @return
-	 */
-	private String getTotalDespositeAmount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	// /**
+	// * Mention the Total of Deposit Amount as per Challan.The value here
+	// should
+	// * be same as sum of values in field 'Total of Deposit Amount as per
+	// * Challan' in the 'Challan Detail' record ( please refer to the Challan
+	// * Detail' record section below ). Paisa Field (Decimal Value) of the
+	// Amount
+	// * must be 00.
+	// *
+	// * @return
+	// */
+	// private String getTotalDespositeAmount() {
+	// // TODO Auto-generated method stub
+	// return null;
+	// }
 
 	/**
 	 * Change of Address of Responsible person since last Return CHAR 1 M "Y" if
@@ -690,21 +697,6 @@ public class ETDSAnnexuresGenerator {
 	}
 
 	/**
-	 * Batch Total of - Total of Deposit Amount as per Challan INTEGER 15 M
-	 * Mention the Total of Deposit Amount as per Challan.The value here should
-	 * be same as sum of values in field 'Total of Deposit Amount as per
-	 * Challan' in the 'Challan Detail' record ( please refer to the Challan
-	 * Detail' record section below ). Paisa Field (Decimal Value) of the Amount
-	 * must be 00.
-	 * 
-	 * @return
-	 */
-	private String getTotalDepositeAmount() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
 	 * Change of Address of Responsible person since last Return CHAR 1 M "Y" if
 	 * address has changed after filing last return, "N" otherwise.
 	 * 
@@ -738,7 +730,6 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorSTDCode() {
-		// TODO Auto-generated method stub
 		return Long.toString(deductor.getStdCode());
 	}
 
@@ -841,8 +832,16 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getYearQuarter() {
-		// TODO Auto-generated method stub
-		return quater;
+		int parseInt = Integer.parseInt(quater);
+		if (parseInt == 1) {
+			return "Q1";
+		} else if (parseInt == 2) {
+			return "Q2";
+		} else if (parseInt == 3) {
+			return "Q3";
+		} else {
+			return "Q4";
+		}
 	}
 
 	/**
@@ -889,7 +888,7 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getChalanCount() {
-		return null;
+		return Integer.toString(chalanCount);
 	}
 
 	/**
@@ -900,7 +899,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	String getStateCode(String stateName) {
 
-		String stateCode = "1";
+		String stateCode = null;
 		List<String> statesName = new ArrayList<String>();
 		statesName = Utility.getStatesList();
 		int code = 1;
@@ -930,6 +929,8 @@ public class ETDSAnnexuresGenerator {
 	 */
 	String getSectionCode(String sectionName) {
 
+		String[] split = sectionName.split("-");
+
 		List<String> sectionNamesList = new ArrayList<String>();
 		sectionNamesList = Utility.getSectionNames();
 
@@ -939,8 +940,9 @@ public class ETDSAnnexuresGenerator {
 		sectionCodesList = Utility.getSectionCodes();
 
 		for (int i = 0; i < sectionNamesList.size(); i++) {
-			if (sectionName.equals(sectionNamesList.get(i))) {
+			if (split[0].equals(sectionNamesList.get(i))) {
 				codeReturned = sectionCodesList.get(i);
+				break;
 			}
 		}
 		return codeReturned;
@@ -999,6 +1001,10 @@ public class ETDSAnnexuresGenerator {
 		this.startYear = startYear;
 		this.endYear = endYear;
 
+	}
+
+	public void setChalanCount(int size) {
+		chalanCount = size;
 	}
 
 }

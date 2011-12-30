@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 
-public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
+public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 	String fileText = null;
 	private ClientTDSChalanDetail chalanDetails;
@@ -23,10 +23,10 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	String[] codeListArray;
 	String[] remarkListArray;
 
-	public Form26QAnnexureGenerator() {
+	public Form27QAnnexureGenerator() {
 	}
 
-	public Form26QAnnexureGenerator(
+	public Form27QAnnexureGenerator(
 			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
 			List<ClientTDSResponsiblePerson> responsiblePersonDetails2,
 			Company company, String codeList, String remarkList) {
