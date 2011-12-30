@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -235,8 +236,10 @@ public class GeneratePDFservlet extends BaseServlet {
 
 				output = "<html>" + output + "</html>";
 				java.io.InputStream inputStream = new ByteArrayInputStream(
-						output.getBytes());
-				InputStreamReader reader = new InputStreamReader(inputStream);
+						output.getBytes("UTF-8"));
+
+				InputStreamReader reader = new InputStreamReader(inputStream,
+						Charset.forName("UTF-8"));
 				converter.generatePdfDocuments(printTemplete, sos, reader);
 				break;
 
