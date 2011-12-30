@@ -91,7 +91,6 @@ public class RecurringTransactionsListView extends
 		});
 
 		panel.add(useButton);
-		panel.add(editButton);
 
 		add(panel);
 	}
