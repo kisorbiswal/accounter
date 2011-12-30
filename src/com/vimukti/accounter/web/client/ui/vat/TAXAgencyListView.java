@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.grids.TAXAgencyListGrid;
 public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	private List<PayeeList> listOfPayees;
-	private boolean isActiveAccounts = true;
 
 	public TAXAgencyListView() {
 		super();
@@ -100,7 +99,13 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActive = true;
+		} else {
+			isActive = false;
+		}
+		map.put("isActive", isActive);
 		map.put("start", start);
 		return map;
 	}
@@ -111,10 +116,9 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		if (isActiveAccounts) {
+		if (isActive) {
 			viewSelect.setComboItem(messages.active());
 		} else {
 			viewSelect.setComboItem(messages.inActive());
@@ -124,37 +128,19 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected int getPageSize() {
-		return 10;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_TAX_AGENCY,
-				isActiveAccounts, start, length, this);
+				isActive, start, length, this);
 	}
 
 	@Override
 	protected void filterList(boolean isActive) {
-		isActiveAccounts = isActive;
+		isActive = isActive;
 		onPageChange(0, getPageSize());
-		// grid.removeAllRecords();
-		// grid.setTotal();
-		// for (PayeeList payee : listOfPayees) {
-		// if (isActive) {
-		// if (payee.isActive()) {
-		// grid.addData(payee);
-		// }
-		//
-		// } else if (!payee.isActive()) {
-		// grid.addData(payee);
-		//
-		// }
-		//
-		// }
-		// if (grid.getRecords().isEmpty())
-		// grid.addEmptyMessage(messages.noRecordsToShow());
-		//
-		// getTotalLayout(grid);
 	}
 
 	@Override

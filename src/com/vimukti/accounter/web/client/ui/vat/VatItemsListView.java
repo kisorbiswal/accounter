@@ -75,7 +75,13 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActive = true;
+		} else {
+			isActive = false;
+		}
+		map.put("isActive", isActive);
 		map.put("start", start);
 		return map;
 	}
@@ -86,20 +92,19 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		// isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages.active());
-		// } else {
-		// viewSelect.setComboItem(messages.inActive());
-		// }
+		if (isActive) {
+			viewSelect.setComboItem(messages.active());
+		} else {
+			viewSelect.setComboItem(messages.inActive());
+		}
 
 	}
 
 	@Override
 	public void initListCallback() {
-
+		filterList(isActive);
 	}
 
 	@Override
