@@ -5649,6 +5649,22 @@ public interface AccounterMessages extends Messages {
 	public String postiveCurrencyFormat();
 
 	public String negativeCurrencyFormat();
+	
+	public String SimpletogetStarted();
+	
+	public String NoCreditcardrequired();
+	
+	public String Freetosingup();
+	
+	public String Cancelatanytime();
+	
+	public String Benfits();
+	
+	public String Accessfromanywhere();
+	
+	public String Multiplecompanies();
+	
+	public String PrintReportsInvocies();
 
 	public String companyNameAlreadyExits();
 
