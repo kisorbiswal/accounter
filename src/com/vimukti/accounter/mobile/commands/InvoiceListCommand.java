@@ -124,7 +124,7 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 			return new FinanceTool().getInventoryManager().getInvoiceList(
 					context.getCompany().getId(), getStartDate().getDate(),
 					getEndDate().getDate(), 0,
-					getViewByList().indexOf(viewType) + 1, 0, 100);
+					getViewByList().indexOf(viewType) + 1, 0, -1);
 		} catch (Exception e) {
 		}
 		return new ArrayList<InvoicesList>();

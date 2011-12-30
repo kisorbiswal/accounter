@@ -144,7 +144,6 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 				} else if (estimateType == ClientEstimate.CREDITS) {
 					list.add("newCredit");
 				}
-
 			}
 
 			@Override
@@ -171,7 +170,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			data = new FinanceTool().getCustomerManager().getEstimates(
 					context.getCompany().getID(), estimateType,
 					new FinanceDate(getStartDate()),
-					new FinanceDate(getEndDate()), 0, 0);
+					new FinanceDate(getEndDate()), 0, -1);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
