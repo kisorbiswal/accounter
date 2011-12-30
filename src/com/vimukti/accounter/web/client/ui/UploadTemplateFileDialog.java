@@ -1,9 +1,15 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -14,12 +20,12 @@ import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 @SuppressWarnings({ "deprecation" })
 public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
-
+	private static final String INVOICE = "INVOICE";
+	private static final String QUOTE = "QUOTE";
+	private static final String CREDITNOTE = "CREDITNOTE";
 	private ValueCallBack<ClientBrandingTheme> callback;
 	private FormPanel uploadForm;
 	private VerticalPanel mainLayout;
@@ -27,12 +33,15 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	private VerticalPanel uploadFormLayout;
 	private HorizontalPanel buttonHlay;
 	private ClientBrandingTheme brandingTheme;
-
+	private boolean closeAfterUploaded = true;
 	private String title;
 	private HTML detailsHtml1, detailsHtml2, detailsHtml3, detailsHtml4,
 			detailsHtml5;
 
-	private TextItem invoiceBox, creditNoteBox, quoteBox;
+	// private TextItem invoiceBox, creditNoteBox, quoteBox;
+	private FileUpload invoiceBtn, creditNoteBtn, quoteBtn;
+	private String[] fileTypes;
+	private ArrayList<FileUpload> uploadItems = new ArrayList<FileUpload>();
 
 	public UploadTemplateFileDialog(String title, String parentID,
 			ValueCallBack<ClientBrandingTheme> callback,
@@ -42,6 +51,7 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		setText(title);
 		this.callback = callback;
 		this.brandingTheme = theme;
+		this.fileTypes = new String[] { "odt", "docx" };
 		doCreateContents();
 		center();
 	}
@@ -49,6 +59,8 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	protected void doCreateContents() {
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
+		uploadForm.setEncoding(FormPanel.ENCODING_MULTIPART);
+		uploadForm.setMethod(FormPanel.METHOD_POST);
 
 		// Create a panel to hold all of the form widgets.
 		VerticalPanel vpaPanel = new VerticalPanel();
@@ -69,81 +81,48 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		detailsHtml5 = new HTML(messages.quote());
 		detailsHtml5.addStyleName("bold_HTML");
 
-		invoiceBox = new TextItem();
-		invoiceBox.addClickHandler(new ClickHandler() {
+		invoiceBtn = new FileUpload();
+		// final String fileID_1 = createID();
+		invoiceBtn.setName(INVOICE);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
-					@Override
-					public void execute(ClientBrandingTheme value) {
-						invoiceBox.setValue(value.getInvoiceTempleteName());
-					}
-				};
+		creditNoteBtn = new FileUpload();
+		// final String fileID_2 = createID();
+		creditNoteBtn.setName(CREDITNOTE);
 
-				FileUploadDilaog uploadDialog = new FileUploadDilaog(
-						"Upload Invoice template", "parent", callback, null,
-						brandingTheme, true);
-			}
-		});
+		quoteBtn = new FileUpload();
+		// final String fileID_3 = createID();
+		quoteBtn.setName(QUOTE);
 
-		creditNoteBox = new TextItem();
-		creditNoteBox.addClickHandler(new ClickHandler() {
+		uploadItems.add(invoiceBtn);
+		uploadItems.add(creditNoteBtn);
+		uploadItems.add(quoteBtn);
 
-			@Override
-			public void onClick(ClickEvent event) {
-				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
-					@Override
-					public void execute(ClientBrandingTheme value) {
-						creditNoteBox.setValue(value
-								.getCreditNoteTempleteName());
-					}
-				};
-
-				FileUploadDilaog uploadDialog = new FileUploadDilaog(
-						"Upload CreditNote template", "parent", callback, null,
-						brandingTheme, true);
-			}
-		});
-
-		quoteBox = new TextItem();
-		quoteBox.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ValueCallBack<ClientBrandingTheme> callback = new ValueCallBack<ClientBrandingTheme>() {
-					@Override
-					public void execute(ClientBrandingTheme value) {
-						quoteBox.setValue(value.getQuoteTemplateName());
-					}
-				};
-
-				FileUploadDilaog uploadDialog = new FileUploadDilaog(
-						"Upload Quote template", "parent", callback, null,
-						brandingTheme, true);
-			}
-		});
 		panel.add(detailsHtml1);
 		panel.setSpacing(5);
 		panel.add(detailsHtml2);
 		panel.setSpacing(5);
 		panel.add(detailsHtml3);
 		panel.setSpacing(5);
-		DynamicForm invoiceForm = new DynamicForm();
-		invoiceForm.setFields(invoiceBox);
-		panel.add(invoiceForm);
+
+		VerticalPanel invPanel = new VerticalPanel();
+		invPanel.add(invoiceBtn);
+		panel.add(invPanel);
+
 		panel.setSpacing(5);
 		panel.add(detailsHtml4);
 		panel.setSpacing(5);
-		DynamicForm creditNoteForm = new DynamicForm();
-		creditNoteForm.setFields(creditNoteBox);
-		panel.add(creditNoteForm);
+
+		VerticalPanel creditPanel = new VerticalPanel();
+		creditPanel.add(creditNoteBtn);
+		panel.add(creditPanel);
+
 		panel.setSpacing(5);
 		panel.add(detailsHtml5);
 		panel.setSpacing(5);
-		DynamicForm quoteForm = new DynamicForm();
-		quoteForm.setFields(quoteBox);
-		panel.add(quoteForm);
+
+		VerticalPanel quotePanel = new VerticalPanel();
+		quotePanel.add(quoteBtn);
+		panel.add(quotePanel);
 
 		vpaPanel.add(panel);
 
@@ -170,18 +149,35 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		uploadSubmitButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				processOnUpload();
-
 			}
 
 		});
 		closeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				close();
-
 			}
 		});
 
 		uploadForm.setWidget(vpaPanel);
+		uploadForm.addFormHandler(new FormHandler() {
+
+			@Override
+			public void onSubmit(FormSubmitEvent event) {
+			}
+
+			@Override
+			public void onSubmitComplete(FormSubmitCompleteEvent event) {
+
+				// processUploadAttachments(brandingTheme, callback);
+
+				String value = event.getResults();
+
+				if (brandingTheme == null) {
+					brandingTheme = new ClientBrandingTheme();
+				}
+				processResult(brandingTheme, value);
+			}
+		});
 
 		uploadFormLayout = new VerticalPanel();
 		uploadFormLayout.add(uploadForm);
@@ -191,14 +187,102 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		show();
 	}
 
-	private void processOnUpload() {
-		// TODO Auto-generated method stub
+	/**
+	 * this method is used to process the final result
+	 * 
+	 * @param brandingTheme
+	 * @param value
+	 *            (a.docx;b.docx;c.docx)or(a.odt;b.odt;c.odt)
+	 */
+	private void processResult(ClientBrandingTheme brandingTheme, String value) {
 
-		// brandingTheme.setInvoiceTempleteName(invoiceBox.getValue().toString());
-		// brandingTheme.setCreditNoteTempleteName(creditNoteBox.getValue()
-		// .toString());
-		saveOrUpdate(brandingTheme);
-		close();
+		if (value.trim().length() != 0) {
+			String[] split = value.split(";");
+			if (split[0].trim().length() > 0)
+				brandingTheme.setInvoiceTempleteName(split[0]);
+			if (split[1].trim().length() > 0)
+				brandingTheme.setCreditNoteTempleteName(split[1]);
+			if (split[2].trim().length() > 0)
+				brandingTheme.setQuoteTemplateName(split[2]);
+
+			processUploadAttachments(brandingTheme, callback);
+		}
+
+	}
+
+	protected void processOnUpload() {
+
+		if (!validateFileItems()) {
+			Accounter.showInformation(messages.noFileSelected());
+			return;
+		}
+		// we need to validate for images types only when uploading company
+		// logo for the BrandingTheme
+		if (fileTypes != null) {
+			boolean checkFiles = checkFiles(uploadItems);
+			if (!checkFiles)
+				return;
+		}
+		uploadForm.submit();
+	}
+
+	private boolean checkFiles(ArrayList<FileUpload> uploadItems) {
+
+		boolean canUpload = false;
+		for (FileUpload fileUpload : uploadItems) {
+			String filename = fileUpload.getFilename();
+			if (filename.trim().length() > 0) {
+				String type = filename.substring(filename.lastIndexOf('.') + 1);
+				for (String fileType : fileTypes) {
+					if (type.equalsIgnoreCase(fileType))
+						canUpload = true;
+				}
+			}
+
+		}
+		if (!canUpload)
+			Accounter.showInformation("Please select docx or odt file format.");
+		return canUpload;
+	}
+
+	private boolean checkFileType(String name) {
+		String type = name.substring(name.lastIndexOf('.') + 1);
+		for (String fileType : fileTypes) {
+			if (type.equalsIgnoreCase(fileType))
+				return true;
+		}
+		return false;
+	}
+
+	private void processUploadAttachments(ClientBrandingTheme result,
+			final ValueCallBack<ClientBrandingTheme> callback2) {
+
+		if (callback2 != null) {
+			callback2.execute(result);
+		}
+		if (closeAfterUploaded) {
+			close();
+		}
+
+	}
+
+	private boolean validateFileItems() {
+		// String ids="";
+		boolean fileSelected = false;
+		for (FileUpload upload : uploadItems) {
+			String filename = upload.getFilename();
+
+			if (filename != null && filename.length() > 0) {
+				fileSelected = true;
+			}
+		}
+
+		if (fileSelected) {
+			uploadForm.setAction("/do/uploadtemplatefile?themeId="
+					+ brandingTheme.getID());
+		}
+
+		return fileSelected;
 
 	}
 
@@ -213,8 +297,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 
 	@Override
 	public void setFocus() {
-		invoiceBox.setFocus();
-
 	}
 
 	@Override
@@ -223,4 +305,34 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		super.saveSuccess(object);
 		ActionFactory.getInvoiceBrandingAction().run(null, true);
 	}
+
+	public native static String createID()/*-{
+		var MES_UNIQUE_IDS = {};
+		var mes_generateUniqueId = function(charset, len, isNotInDOM) {
+			var i = 0;
+			if (!charset) {
+				charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			}
+			if (!len) {
+				len = 40;
+			}
+			var id = '', charsetlen = charset.length, charIndex;
+
+			// iterate on the length and get a random character for each position
+			for (i = 0; len > i; i += 1) {
+				charIndex = Math.random() * charsetlen;
+				id += charset.charAt(charIndex);
+			}
+
+			if (MES_UNIQUE_IDS[id] || (isNotInDOM)) {
+				MES_UNIQUE_IDS[id] = true; // add DOM ids to the map
+				return mes_generateUniqueId(charset, len, isNotInDOM);
+			}
+
+			MES_UNIQUE_IDS[id] = true;
+
+			return id;
+		};
+		return mes_generateUniqueId();
+	}-*/;
 }
