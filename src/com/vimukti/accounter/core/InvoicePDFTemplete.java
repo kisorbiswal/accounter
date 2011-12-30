@@ -384,7 +384,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			}
 
 			// setting the theme styles
-			t.setVariable("fontStyle", brandingTheme.getFont());
+			t.setVariable("fontStyle", "Code2000");// brandingTheme.getFont()
 			t.setVariable("font", brandingTheme.getFontSize());
 			t.setVariable(
 					"bottomMargin",
@@ -435,7 +435,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			t.addBlock("theme");
 
 			outPutString = t.getFileString();
-			System.err.println(outPutString);
 			return outPutString;
 
 		} catch (Exception e) {
