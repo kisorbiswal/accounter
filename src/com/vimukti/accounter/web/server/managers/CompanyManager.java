@@ -818,9 +818,11 @@ public class CompanyManager extends Manager {
 			throws AccounterException {
 		int total = 0;
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getBankAccountsOfType").setLong(
-				"companyId", companyId);
+		Query query = session.getNamedQuery("getBankAccountsOfType")
+				.setLong("companyId", companyId)
+				.setParameter("isActive", isActiveaccount);
 		total = query.list().size();
+		@SuppressWarnings("unchecked")
 		List<BigInteger> list = query.setFirstResult(start)
 				.setMaxResults(length).list();
 		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
@@ -831,9 +833,6 @@ public class CompanyManager extends Manager {
 			if (account.getIsActive() == isActiveaccount) {
 				result.add(account);
 			}
-		}
-		if (!isActiveaccount) {
-			total = result.size();
 		}
 		result.setTotalCount(total);
 		result.setStart(start);
