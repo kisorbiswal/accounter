@@ -74,7 +74,7 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
 
 	}

@@ -130,7 +130,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
 	}
 
@@ -150,6 +150,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		onPageChange(0, getPageSize());
+		this.viewType = text;
 	}
 
 	@Override
