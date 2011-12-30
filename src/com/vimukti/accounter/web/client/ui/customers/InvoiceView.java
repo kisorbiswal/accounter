@@ -825,6 +825,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 
 			vatTotalNonEditableText.setTransaction(transaction);
+			salesTaxTextNonEditable.setTransaction(transaction);
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
 					+ transactionsTree.getLineTotal());
 		}
@@ -1150,12 +1151,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
 
+		if ((transaction.getTransactionItems() != null && transaction
+				.getTransactionItems().isEmpty()) || !isInViewMode())
+			transaction.setTransactionItems(customerTransactionTable
+					.getAllRows());
+
 		if (salesTaxTextNonEditable != null) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) || !isInViewMode())
-				transaction.setTransactionItems(customerTransactionTable
-						.getAllRows());
 			salesTaxTextNonEditable.setTransaction(transaction);
+		}
+		if (vatTotalNonEditableText != null) {
+			vatTotalNonEditableText.setTransaction(transaction);
 		}
 
 	}
