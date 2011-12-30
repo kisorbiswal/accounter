@@ -100,10 +100,12 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		grid.removeLoadingImage();
 		listOfInvoices = result;
 		viewSelect.setComboItem(viewType);
+		if (grid.getRecords().isEmpty())
+			grid.addEmptyMessage(messages.noRecordsToShow());
 		grid.setRecords(result);
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
 	}
 
