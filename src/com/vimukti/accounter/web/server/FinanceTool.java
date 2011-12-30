@@ -2226,10 +2226,17 @@ public class FinanceTool {
 					.setSalesOrders(new ArrayList<SalesOrder>());
 			((Invoice) newTransaction)
 					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
+			((Invoice) newTransaction).setBalanceDue(newTransaction.getTotal());
+			((Invoice) newTransaction).setPayments(0);
+			((Invoice) newTransaction).updateStatus();
 		} else if (newTransaction instanceof EnterBill) {
 			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
 					.setTransactionPayBills(new HashSet<TransactionPayBill>());
+			((EnterBill) newTransaction).setBalanceDue(newTransaction
+					.getTotal());
+			((EnterBill) newTransaction).setPayments(0);
+			((EnterBill) newTransaction).updateStatus();
 		} else if (newTransaction instanceof JournalEntry) {
 			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
