@@ -59,6 +59,9 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 
 		int row = 0;
 		for (ClientUnit clientUnit : data.getUnits()) {
+			if (clientUnit.isEmpty()) {
+				continue;
+			}
 			if (clientUnit.isDefault()) {
 				unitsTable.add(clientUnit);
 				unitsTable.checkColumn(row, 0, true);
@@ -122,13 +125,7 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		ValidationResult result = new ValidationResult();
 		result.add(addMeasurmentForm.validate());
 		result.add(unitsTable.validate());
-		// validate measurement name?
-		// validate units grid
-		// if (nameItem.getValue().toString() == null
-		// || nameItem.getValue().toString().isEmpty()) {
-		// result.addError(nameItem, messages
-		// .pleaseEnteraValidMeasurementName());
-		// }
+		
 		return result;
 	}
 
@@ -137,20 +134,13 @@ public class AddMeasurementView extends BaseView<ClientMeasurement> {
 		updateData();
 		saveOrUpdate(getData());
 	}
-	
-	@Override
-	public ClientMeasurement saveView() {
-		ClientMeasurement saveView = super.saveView();
-		if (saveView != null){
-			updateData();
-			}
-		return saveView;
-	}
 
 	private void updateData() {
+		
 		data.setName(nameItem.getValue());
 		data.setDesctiption(description.getValue());
 		data.setUnits(unitsTable.getRecords());
+
 	}
 
 	@Override

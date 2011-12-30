@@ -29,8 +29,7 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 
 			@Override
 			public IsWidget getHeader() {
-				Label columnHeader = new Label(messages
-						.defaultWare());
+				Label columnHeader = new Label(messages.defaultWare());
 				return columnHeader;
 			}
 
@@ -88,10 +87,10 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 	private void onSelectionChanged(ClientUnit obj, boolean isChecked) {
 
 		List<ClientUnit> records = getSelectedRecords(0);
-		for (ClientUnit contact : records) {
-			int index = indexOf(contact);
+		for (ClientUnit unit : records) {
+			int index = indexOf(unit);
 			checkColumn(index, 0, false);
-			contact.setDefault(false);
+			unit.setDefault(false);
 		}
 
 		int row = indexOf(obj);
@@ -108,6 +107,21 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 	}
 
 	public boolean isEmpty() {
+		if (getAllRows().isEmpty())
+			return true;
+		for (int i = 0; i < getAllRows().size(); i++) {
+			if (getAllRows().get(i).getType().isEmpty()
+					&& getAllRows().get(i).getFactor() == 0) {
+				delete(getRecords().get(i));
+				i = 0;
+				continue;
+			} else {
+				if (getAllRows().isEmpty())
+					return true;
+				else
+					continue;
+			}
+		}
 		return false;
 	}
 
@@ -115,27 +129,24 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 		ValidationResult result = new ValidationResult();
 		ClientUnit defaultUnit = getDefaultUnit();
 		if (getRecords() == null || getRecords().isEmpty()) {
-			result.addError(this, messages
-					.pleaseEnterAtleastOneUnit());
+			result.addError(this, messages.pleaseEnterAtleastOneUnit());
 		} else if (defaultUnit == null) {
-			result.addError(this, messages
-					.pleaseSelectDefaultUnit());
+			result.addError(this, messages.pleaseSelectDefaultUnit());
 		}
-		// else if (defaultUnit.getFactor() == 0) {
-		// result.addError(this, messages
-		// .factorForDefaultUnitShouldNotbeZero());
-		// }
+		// } else if (defaultUnit.getFactor() == 0) {
+		// result.addError(this,
+		// messages.factorForDefaultUnitShouldNotbeZero());
 		else {
 			for (ClientUnit unit : getRecords()) {
+				if (unit.isEmpty()) {
+					continue;
+				}
 				if (unit.getName() == null || unit.getName().isEmpty()) {
-					result.addError(
-							this,
-							messages.pleaseEnter(
-									messages.unitName()));
+					result.addError(this,
+							messages.pleaseEnter(messages.unitName()));
 					break;
 				} else if (DecimalUtil.isEquals(unit.getFactor(), 0)) {
-					result.addError(this, messages
-							.factorsShouldNotbeZero());
+					result.addError(this, messages.factorsShouldNotbeZero());
 					break;
 				}
 			}
@@ -152,4 +163,5 @@ public abstract class UnitsTable extends EditTable<ClientUnit> {
 		}
 		return null;
 	}
+
 }

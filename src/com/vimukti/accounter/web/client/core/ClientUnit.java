@@ -143,7 +143,6 @@ public class ClientUnit implements IAccounterCore, Serializable,
 		return id;
 	}
 
-
 	public boolean isDefault() {
 		return isDefault;
 	}
@@ -151,18 +150,26 @@ public class ClientUnit implements IAccounterCore, Serializable,
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
 	}
-	
+
+	public boolean isEmpty() {
+		if ((this.type == null || this.type.trim().length() == 0)
+				&& (this.factor == 0)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		
+
 		if (this.type != null && !type.equals("")) {
 			buffer.append(type).append(",");
 		}
-		if (this.factor != 0.0 ) {
+		if (this.factor != 0.0) {
 			buffer.append(factor);
 		}
-		
 
 		return buffer.toString();
 	}
