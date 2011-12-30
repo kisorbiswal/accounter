@@ -34,7 +34,9 @@ import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -374,6 +376,29 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		// grid valid?
 
 		result.add(customerForm.validate());
+
+		String name = custNameText.getValue();
+
+		ClientVendor vendorByName = company.getVendorByName(name);
+
+		ClientCustomer customerByName = company.getCustomerByName(name);
+
+		ClientTAXAgency taxAgencyByName = company.getTaxAgenciesByName(name);
+
+		if (vendorByName != null) {
+			result.addError(custNameText, messages.alreadyExist());
+			return result;
+		}
+		if (taxAgencyByName != null) {
+			result.addError(custNameText, messages.alreadyExist());
+			return result;
+		}
+		if (customerByName != null
+				&& !(this.getData().getID() == customerByName.getID())) {
+			result.addError(custNameText, messages.alreadyExist());
+			return result;
+		}
+
 		ClientFinanceDate asOfDate = balanceDate.getEnteredDate();
 
 		gridView.validate(result);
@@ -1050,8 +1075,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customFieldForm = UIUtils.CustomFieldsform(messages.terms());
 		termsForm.setFields(payMethSelect, payTermsSelect, custGroupSelect);
 
-		tdsCheckBox = new CheckboxItem(messages
-				.willDeductTDSforUs());
+		tdsCheckBox = new CheckboxItem(messages.willDeductTDSforUs());
 		tdsCheckBox.setDisabled(isInViewMode());
 
 		if (getPreferences().isTrackTax()) {

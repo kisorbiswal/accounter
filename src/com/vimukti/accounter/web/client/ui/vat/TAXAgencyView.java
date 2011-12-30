@@ -21,9 +21,11 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -175,6 +177,17 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		String name = taxAgencyText.getValue().toString();
 
+		ClientVendor vendorByName = getCompany().getVendorByName(name);
+
+		ClientCustomer customerByName = getCompany().getCustomerByName(name);
+
+		if (customerByName != null) {
+			result.addError(taxAgencyText, messages.alreadyExist());
+		}
+		if (vendorByName != null) {
+			result.addError(taxAgencyText, messages.alreadyExist());
+		}
+
 		ClientTAXAgency taxAgenciesByName = getCompany().getTaxAgenciesByName(
 				name);
 
@@ -318,8 +331,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		taxAgencyForm.setFields(taxAgencyText);
 
 		accInfoForm = new DynamicForm();
-		accInfoForm = UIUtils.form(messages.payeeInformation(
-				messages.Account()));
+		accInfoForm = UIUtils
+				.form(messages.payeeInformation(messages.Account()));
 
 		statusCheck = new CheckboxItem(messages.active());
 		statusCheck.setValue(true);
@@ -366,7 +379,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 					}
 				});
-		liabilitySalesAccountCombo = new VATAgencyAccountCombo(messages.salesLiabilityAccount());
+		liabilitySalesAccountCombo = new VATAgencyAccountCombo(
+				messages.salesLiabilityAccount());
 		liabilitySalesAccountCombo.setHelpInformation(true);
 		liabilitySalesAccountCombo.setDisabled(isInViewMode());
 		liabilitySalesAccountCombo
@@ -381,7 +395,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 
 		liabilitySalesAccountCombo.setRequired(true);
 
-		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(messages.purchaseLiabilityAccount());
+		liabilityPurchaseAccountCombo = new VATAgencyAccountCombo(
+				messages.purchaseLiabilityAccount());
 		liabilityPurchaseAccountCombo.setHelpInformation(true);
 		liabilityPurchaseAccountCombo.setDisabled(isInViewMode());
 		liabilityPurchaseAccountCombo
@@ -434,8 +449,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		memoForm = new DynamicForm();
 		// memoForm.setWidth("50%");
 		memoArea = new TextAreaItem();
-		memoArea.setToolTip(messages.writeCommentsForThis(
-				this.getAction().getViewName()));
+		memoArea.setToolTip(messages.writeCommentsForThis(this.getAction()
+				.getViewName()));
 		memoArea.setHelpInformation(true);
 		memoArea.setDisabled(isInViewMode());
 		memoArea.setTitle(messages.memo());

@@ -238,7 +238,13 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		ClientCustomer customerByName = company.getCustomerByName(name);
 
+		ClientTAXAgency taxAgencyByName = company.getTaxAgenciesByName(name);
+
 		if (customerByName != null) {
+			result.addError(vendorNameText, messages.alreadyExist());
+			return result;
+		}
+		if (taxAgencyByName != null) {
 			result.addError(vendorNameText, messages.alreadyExist());
 			return result;
 		}
@@ -247,6 +253,7 @@ public class VendorView extends BaseView<ClientVendor> {
 			result.addError(vendorNameText, messages.alreadyExist());
 			return result;
 		}
+
 		data.setName(name);
 		data.setVendorNumber(vendorNoText.getValue().toString());
 		String error = objectExist(data);
