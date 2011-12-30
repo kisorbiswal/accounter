@@ -161,8 +161,8 @@ public class AdjustTAXView extends
 						} else {
 							clientTAXAgency = selectItem;
 							vatItemCombo.setDisabled(false);
-							vatItemCombo.initCombo(getCompany().getTaxItems(
-									selectItem));
+							vatItemCombo.initCombo(vatItemCombo
+									.getVATItmesByVATAgncy(selectItem));
 							vatItemCombo.setValue("");
 						}
 						if (selectItem != null) {
