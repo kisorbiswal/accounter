@@ -5,8 +5,16 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class AnchorEditColumn<T> extends EditColumn<T> {
+
+	private ICurrencyProvider currencyProvider;
+
+	public AnchorEditColumn(ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
+	}
 
 	@Override
 	public int getWidth() {
@@ -58,4 +66,19 @@ public abstract class AnchorEditColumn<T> extends EditColumn<T> {
 		anchor.addStyleName("anchor");
 	}
 
+	/**
+	 * set the Currency name to title.
+	 * 
+	 * @param name
+	 * @return {@link String}
+	 */
+	protected String getColumnNameWithCurrency(String name) {
+		String currencyName = Accounter.getCompany().getPrimaryCurrency()
+				.getFormalName();
+		if (currencyProvider.getTransactionCurrency() != null) {
+			currencyName = currencyProvider.getTransactionCurrency()
+					.getFormalName();
+		}
+		return messages.nameWithCurrency(name, currencyName);
+	}
 }

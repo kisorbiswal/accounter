@@ -243,7 +243,8 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		// this.addColumn(discountDateColumn);
 
-		AnchorEditColumn<ClientTransactionReceivePayment> cashDiscountColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
+		AnchorEditColumn<ClientTransactionReceivePayment> cashDiscountColumn = new AnchorEditColumn<ClientTransactionReceivePayment>(
+				currencyProvider) {
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
@@ -252,8 +253,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getValue(ClientTransactionReceivePayment row) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(row
-						.getCashDiscount());
+				return String.valueOf(row.getCashDiscount());
 			}
 
 			@Override
@@ -263,7 +263,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return messages.cashDiscount();
+				return getColumnNameWithCurrency(messages.cashDiscount());
 			}
 
 			@Override
@@ -275,7 +275,8 @@ public abstract class TransactionReceivePaymentTable extends
 			this.addColumn(cashDiscountColumn);
 		}
 
-		AnchorEditColumn<ClientTransactionReceivePayment> writeOffColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
+		AnchorEditColumn<ClientTransactionReceivePayment> writeOffColumn = new AnchorEditColumn<ClientTransactionReceivePayment>(
+				currencyProvider) {
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
@@ -295,7 +296,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return messages.writeOff();
+				return getColumnNameWithCurrency(messages.writeOff());
 			}
 
 			@Override
@@ -305,7 +306,8 @@ public abstract class TransactionReceivePaymentTable extends
 		};
 		this.addColumn(writeOffColumn);
 
-		AnchorEditColumn<ClientTransactionReceivePayment> appliedCreditsColumn = new AnchorEditColumn<ClientTransactionReceivePayment>() {
+		AnchorEditColumn<ClientTransactionReceivePayment> appliedCreditsColumn = new AnchorEditColumn<ClientTransactionReceivePayment>(
+				currencyProvider) {
 
 			@Override
 			protected void onClick(ClientTransactionReceivePayment row) {
@@ -325,7 +327,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getColumnName() {
-				return messages.appliedCredits();
+				return getColumnNameWithCurrency(messages.appliedCredits());
 			}
 
 			@Override
@@ -607,8 +609,8 @@ public abstract class TransactionReceivePaymentTable extends
 				newAppliedCreditsDialiog.updateFields();
 			}
 		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation(messages
-					.noCreditsforthiscustomer(Global.get().customer()));
+			Accounter.showInformation(messages.noCreditsforthiscustomer(Global
+					.get().customer()));
 		}
 		if (!canEdit) {
 			// creditsAndPaymentsDialiog = new

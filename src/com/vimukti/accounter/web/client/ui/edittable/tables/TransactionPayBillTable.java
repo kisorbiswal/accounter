@@ -251,7 +251,6 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void setValue(ClientTransactionPayBill row, String value) {
 				// No Need
-
 			}
 
 			@Override
@@ -270,7 +269,8 @@ public abstract class TransactionPayBillTable extends
 			}
 		};
 
-		AnchorEditColumn<ClientTransactionPayBill> discountColumn = new AnchorEditColumn<ClientTransactionPayBill>() {
+		AnchorEditColumn<ClientTransactionPayBill> discountColumn = new AnchorEditColumn<ClientTransactionPayBill>(
+				currencyProvider) {
 
 			@Override
 			protected void onClick(ClientTransactionPayBill row) {
@@ -279,13 +279,12 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getValue(ClientTransactionPayBill row) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(row
-						.getCashDiscount());
+				return String.valueOf(row.getCashDiscount());
 			}
 
 			@Override
 			protected String getColumnName() {
-				return messages.discount();
+				return getColumnNameWithCurrency(messages.discount());
 			}
 
 			@Override
@@ -299,7 +298,8 @@ public abstract class TransactionPayBillTable extends
 			this.addColumn(discountColumn);
 		}
 
-		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>() {
+		this.addColumn(new AnchorEditColumn<ClientTransactionPayBill>(
+				currencyProvider) {
 
 			@Override
 			protected void onClick(ClientTransactionPayBill row) {
@@ -314,7 +314,7 @@ public abstract class TransactionPayBillTable extends
 
 			@Override
 			protected String getColumnName() {
-				return messages.credits();
+				return getColumnNameWithCurrency(messages.credits());
 			}
 
 			@Override
@@ -973,7 +973,7 @@ public abstract class TransactionPayBillTable extends
 
 			obj.setPayment(0.0);
 			// obj.setCashDiscount(0);
-			//NO NEED TO APPLY CREDITS HERE
+			// NO NEED TO APPLY CREDITS HERE
 			// obj.setAppliedCredits(0, false);
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);

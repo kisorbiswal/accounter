@@ -89,7 +89,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 			discAccSelect.setComboItem(getSelectedWriteOffAccount());
 
 		discAmtText = new AmountField(messages.writeOffAmount(), this,
-				getBaseCurrency());
+				currencyProvider.getTransactionCurrency());
 		discAmtText.setDisabled(!canEdit);
 		setCashDiscountValue(writeOffAmount);
 
