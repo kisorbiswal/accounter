@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
@@ -25,6 +26,8 @@ public class StartDateDialog extends BaseDialog {
 	private ListBox dateBox;
 	private String initialDate;
 	protected boolean isDateChanged;
+	private DateTimeFormat format = DateTimeFormat.getFormat(getCompany()
+			.getPreferences().getDateFormat());
 
 	public StartDateDialog() {
 		super(messages.startDate(), "");
@@ -42,9 +45,9 @@ public class StartDateDialog extends BaseDialog {
 	private String getStartDateString() {
 		ClientFinanceDate startDate = new ClientFinanceDate(Accounter
 				.getCompany().getPreferences().getDepreciationStartDate());
-		String startDateString = startDate.toString();
+		String formatDate = format.format(startDate.getDateAsObject());
 
-		return startDateString;
+		return formatDate;
 	}
 
 	private void createControl() {
@@ -91,7 +94,7 @@ public class StartDateDialog extends BaseDialog {
 
 	private void fillDateCombo() {
 		for (ClientFinanceDate date : startDateList) {
-			dateBox.addItem(date.toString());
+			dateBox.addItem(format.format(date.getDateAsObject()));
 		}
 
 		setDefaultStartDate();
@@ -124,7 +127,7 @@ public class StartDateDialog extends BaseDialog {
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
 		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(messages.ddMMyyyy()));
+				(company.getPreferences().getDateFormat()));
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
