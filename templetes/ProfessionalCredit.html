@@ -1,9 +1,10 @@
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel='stylesheet' type='text/css' href='templetes/FinancePrint.css' media='all'></link>
 </head>
 <div class="hole_margin">
-<div style="font-family:segoe script;font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
+<div style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
  <table  style="font-family:${fontStyle};font-size:${font};margin-bottom:${bottomMargin};margin-top:${topMargin};">
   		<!-- $BeginBlock showlogo -->
   		<tr><td class="branding_theme_logo" align=${getLogoAlignment}> ${logoImage}</td></tr>
@@ -16,7 +17,7 @@
 	<tr>
 	    <td style="vertical-align: top;">
 		    <p class="title_font_size">
-				<font color="black" style="font-family:sans-serif;">
+				<font color="black" style="font-family:${fontStyle};">
 				<strong>${title}</strong></font>
 			</p>
 		</td>
@@ -59,7 +60,7 @@
 		<td style="vertical-align: top;" align="right" width="25%">
 			<div class="gwt-HTML">
 			<p>
-				<font style="font-family:sans-serif;">
+				<font style="font-family:${fontStyle};">
 				<strong> ${companyName}</strong></font><br>
 			</p>
 			</div>
