@@ -118,7 +118,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 		try {
 			allRecords = new FinanceTool().getVendorManager().getBillsList(
 					false, context.getCompany().getID(), 0,
-					getStartDate().getDate(), getEndDate().getDate(), 0, 100,
+					getStartDate().getDate(), getEndDate().getDate(), 0, -1,
 					getViewByList().indexOf(viewBY) + 1);
 		} catch (DAOException e) {
 			e.printStackTrace();
