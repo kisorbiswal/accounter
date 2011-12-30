@@ -129,4 +129,17 @@ public class NewQuoteAction extends Action {
 		}
 		return title;
 	}
+
+	@Override
+	public String getViewName() {
+		String viewName = "";
+		if (type == ClientEstimate.QUOTES) {
+			viewName = messages.quote();
+		} else if (type == ClientEstimate.CHARGES) {
+			viewName = messages.charge();
+		} else if (type == ClientEstimate.CREDITS) {
+			viewName = messages.credit();
+		}
+		return viewName;
+	}
 }

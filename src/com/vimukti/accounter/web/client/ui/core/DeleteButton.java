@@ -14,8 +14,6 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 
 public class DeleteButton extends ImageButton {
 
-	
-	
 	private AbstractBaseView<?> view;
 	private IAccounterCore obj;
 
@@ -23,13 +21,12 @@ public class DeleteButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public DeleteButton(AbstractBaseView<?> view, IAccounterCore obj) {
-		super(messages.delete(), Accounter.getFinanceImages()
-				.delete());
+		super(messages.delete(), Accounter.getFinanceImages().delete());
 		this.view = view;
 		this.obj = obj;
 		String name = obj != null ? obj.getName() : "";
-		this.setTitle(messages.clickThisTo(
-				messages.delete(), name));
+		this.setTitle(messages.clickThisTo(messages.delete(), view.getAction()
+				.getViewName()));
 		// this.addStyleName("saveAndNew-Btn");
 		addClichHandler();
 	}
@@ -75,8 +72,8 @@ public class DeleteButton extends ImageButton {
 			name = ReportUtility.getTransactionName(((ClientTransaction) obj)
 					.getType());
 			if (transaction.isTemplate()) {
-				warning = messages.recurringTemplateDeleteWarning(
-						name.toLowerCase());
+				warning = messages.recurringTemplateDeleteWarning(name
+						.toLowerCase());
 			}
 		} else {
 			if (obj.getName() != null) {
