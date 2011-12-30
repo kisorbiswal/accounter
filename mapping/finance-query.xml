@@ -5223,6 +5223,7 @@
 
 	<sql-query name="getCustomersList">
 		<query-param name="companyId" type="long" />
+		<query-param name="isActive" type="boolean" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
@@ -5534,13 +5535,14 @@
 		WHERE
 		P.TYPE
 		= 1 AND
-		P.COMPANY_ID=:companyId
+		P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
 		ORDER BY P.NAME
 
 	</sql-query>
 
 	<sql-query name="getVendorsList">
 		<query-param name="companyId" type="long" />
+		<query-param name="isActive" type="boolean" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
@@ -5824,13 +5826,14 @@
 		WHERE
 
 		P.TYPE = 2
-		AND P.COMPANY_ID=:companyId
+		AND P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
 		ORDER BY
 		P.NAME
 	</sql-query>
 
 	<sql-query name="getTAXAgencyList">
 		<query-param name="companyId" type="long" />
+		<query-param name="isActive" type="boolean" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="ACCOUNTER_TYPE" type="int" />
@@ -6114,7 +6117,7 @@
 		WHERE
 
 		P.TYPE = 4
-		AND P.COMPANY_ID=:companyId
+		AND P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
 		ORDER BY
 		P.NAME
 	</sql-query>
