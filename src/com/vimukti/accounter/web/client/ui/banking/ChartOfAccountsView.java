@@ -77,13 +77,19 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected int getPageSize() {
-		return 25;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActive = true;
+		} else {
+			isActive = false;
+		}
+		map.put("isActive", isActive);
 		map.put("start", start);
 		return map;
 	}
@@ -93,22 +99,20 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
-		if (isActiveAccounts) {
+		if (isActive) {
 			viewSelect.setComboItem(messages.active());
 		} else {
 			viewSelect.setComboItem(messages.inActive());
 		}
 	}
 
-	private boolean isActiveAccounts = true;
-
 	@Override
 	protected void onPageChange(int start, int length) {
-		Accounter.createHomeService().getAccounts(typeOfAccount,
-				isActiveAccounts, start, length, this);
+		Accounter.createHomeService().getAccounts(typeOfAccount, isActive,
+				start, length, this);
 	}
 
 	@Override
@@ -145,7 +149,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		isActiveAccounts = isActive;
+		isActive = isActive;
 		onPageChange(0, getPageSize());
 	}
 
