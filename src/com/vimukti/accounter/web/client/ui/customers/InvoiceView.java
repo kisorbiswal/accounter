@@ -738,7 +738,21 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 				@Override
 				public void onClick(ClickEvent event) {
-					ActionFactory.getEmailViewAction().run(transaction, false);
+					// ActionFactory.getEmailViewAction().run(transaction,
+					// false);
+					ArrayList<ClientBrandingTheme> themesList = Accounter
+							.getCompany().getBrandingTheme();
+
+					if (themesList.size() > 1) {
+						// if there are more than one branding themes, then show
+						// branding
+						// theme dialog box
+						ActionFactory.getEmailThemeComboAction().run(
+								transaction, false);
+					} else {
+						ActionFactory.getEmailViewAction().run(transaction,
+								themesList.get(0).getID(), false);
+					}
 				}
 			});
 		}
