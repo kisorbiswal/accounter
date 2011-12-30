@@ -47,6 +47,18 @@ public class QuotePdfTemplate implements PrintTemplete {
 
 			String image = getImage();
 
+			// setting the theme styles
+			t.setVariable("fontStyle", brandingTheme.getFont());
+			t.setVariable("font", brandingTheme.getFontSize());
+			t.setVariable(
+					"bottomMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getBottomMargin()));
+			t.setVariable(
+					"topMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getTopMargin()));
+
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -343,17 +355,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
 			}
-			// setting the theme styles
-			t.setVariable("fontStyle", brandingTheme.getFont());
-			t.setVariable("font", brandingTheme.getFontSize());
-			t.setVariable(
-					"bottomMargin",
-					NumberFormat.getInstance().format(
-							brandingTheme.getBottomMargin()));
-			t.setVariable(
-					"topMargin",
-					NumberFormat.getInstance().format(
-							brandingTheme.getTopMargin()));
+
 			t.setVariable("title", brandingTheme.getQuoteTitle());
 			// t.setVariable("addressPadding",
 			// String.valueOf(brandingTheme.getAddressPadding()));

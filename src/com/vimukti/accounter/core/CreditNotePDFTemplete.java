@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,6 +47,19 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		try {
 			MiniTemplator t = new MiniTemplator(getTempleteName());
 			externalizeStrings(t);
+
+			// setting the theme styles
+			t.setVariable("fontStyle", brandingTheme.getFont());
+			t.setVariable("font", brandingTheme.getFontSize());
+			t.setVariable(
+					"bottomMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getBottomMargin()));
+			t.setVariable(
+					"topMargin",
+					NumberFormat.getInstance().format(
+							brandingTheme.getTopMargin()));
+
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -266,7 +280,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 
 			String outPutString = t.getFileString();
-			System.err.println(outPutString);
 			return outPutString;
 		} catch (Exception e) {
 			System.err.println("credit memeo err......." + e.getMessage()
