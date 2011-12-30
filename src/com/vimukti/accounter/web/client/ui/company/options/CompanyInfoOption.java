@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -21,6 +24,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class CompanyInfoOption extends AbstractPreferenceOption {
 
@@ -211,7 +216,21 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			rCountryCombo.setSelectedIndex(countriesList.indexOf(getCompany()
 					.getTradingAddress().getCountryOrRegion()));
 		}
+		tCountryCombo.addChangeHandler(new ChangeHandler() {
 
+			@Override
+			public void onChange(ChangeEvent event) {
+				tCountryChanged();
+			}
+		});
+		tCountryChanged();
+		rCountryCombo.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				rCountryChanged();
+			}
+		});
 		rCountryChanged();
 		isShowRegisteredAddressCheckBox.setText(messages
 				.registeredAddressComment());
@@ -251,7 +270,9 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			return;
 		}
 		String countryName = rCountryCombo.getItemText(selectedCountry);
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryName);
+		final ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		List<String> states = Arrays.asList(countryPreferences.getStates());
 		rStateCombo.clear();
 		for (String state : states) {
 			rStateCombo.addItem(state);
@@ -271,7 +292,9 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 			return;
 		}
 		String countryName = tCountryCombo.getItemText(selectedCountry);
-		List<String> states = CoreUtils.getStatesAsListForCountry(countryName);
+		final ICountryPreferences countryPreferences = CountryPreferenceFactory
+				.get(countryName);
+		List<String> states = Arrays.asList(countryPreferences.getStates());
 		tStateCombo.clear();
 		for (String state : states) {
 			tStateCombo.addItem(state);
