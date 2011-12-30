@@ -14,6 +14,7 @@ import org.zefer.pd4ml.PD4PageMark;
 
 import com.vimukti.accounter.core.ITemplate;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class Converter {
 	private final Dimension dimension;
@@ -135,6 +136,9 @@ public class Converter {
 		try {
 
 			PD4ML pd4ml = new PD4ML();
+			File file = new File(ServerConfiguration.getFontsDir());
+			String absolutePath = file.getAbsolutePath();
+			pd4ml.useTTF(absolutePath, true);
 			System.err.println("PD4ML Obj created");
 			pd4ml.setPageInsets(new Insets(1, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
