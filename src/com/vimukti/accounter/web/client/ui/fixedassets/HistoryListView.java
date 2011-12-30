@@ -113,7 +113,7 @@ public class HistoryListView extends BaseListView<ClientFixedAssetHistory> {
 		}
 		// isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
+
 		// if (isActiveAccounts) {
 		// viewSelect.setComboItem(messages.active());
 		// } else {
