@@ -67,7 +67,6 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("isActive", isActiveAccounts);
 		map.put("start", start);
 		return map;
 	}
@@ -78,15 +77,7 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		// isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages.active());
-		// } else {
-		// viewSelect.setComboItem(messages.inActive());
-		// }
-
 	}
 
 	@Override

@@ -96,6 +96,7 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 
 	@Override
 	public void initListCallback() {
+		filterList(isActiveAccounts);
 	}
 
 	@Override
@@ -142,6 +143,12 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActiveAccounts = true;
+		} else {
+			isActiveAccounts = false;
+		}
 		map.put("isActive", isActiveAccounts);
 		map.put("start", start);
 		return map;
@@ -155,13 +162,11 @@ public class InventoryItemsListView extends BaseListView<ClientItem> {
 		}
 		isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
 		if (isActiveAccounts) {
 			viewSelect.setComboItem(messages.active());
 		} else {
 			viewSelect.setComboItem(messages.inActive());
 		}
-
 	}
 
 	@Override

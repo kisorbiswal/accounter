@@ -74,7 +74,6 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("isActive", isActiveAccounts);
 		map.put("start", start);
 		return map;
 	}
@@ -85,23 +84,14 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		// isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages.active());
-		// } else {
-		// viewSelect.setComboItem(messages.inActive());
-		// }
-
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
 		if (!Accounter.getUser().getUserRole()
 				.equalsIgnoreCase(messages.readOnly()))
-			return messages.addaNew(
-					messages.stockAdjustment());
+			return messages.addaNew(messages.stockAdjustment());
 		else
 			return "";
 	}
