@@ -79,6 +79,7 @@ import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
+import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXRateCalculation;
@@ -2219,12 +2220,13 @@ public class FinanceTool {
 		newTransaction.setHistory(null);
 
 		if (newTransaction instanceof Invoice) {
-			((Invoice) newTransaction).setEstimates(null);
-			((Invoice) newTransaction).setSalesOrders(null);
+			((Invoice) newTransaction).setEstimates(new ArrayList<Estimate>());
+			((Invoice) newTransaction)
+					.setSalesOrders(new ArrayList<SalesOrder>());
 			((Invoice) newTransaction)
 					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
 		} else if (newTransaction instanceof EnterBill) {
-			((EnterBill) newTransaction).setEstimates(null);
+			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
 					.setTransactionPayBills(new HashSet<TransactionPayBill>());
 		} else if (newTransaction instanceof JournalEntry) {
