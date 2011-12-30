@@ -379,7 +379,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	protected int getPageSize() {
-		return 10;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override

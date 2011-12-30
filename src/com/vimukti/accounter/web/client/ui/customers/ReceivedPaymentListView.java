@@ -133,7 +133,7 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected int getPageSize() {
-		return 25;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override

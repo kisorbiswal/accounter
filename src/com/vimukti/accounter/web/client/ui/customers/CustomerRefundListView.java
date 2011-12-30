@@ -102,6 +102,7 @@ public class CustomerRefundListView extends
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
+		this.viewType = currentView;
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
@@ -109,7 +110,6 @@ public class CustomerRefundListView extends
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
 		setEndDate(endDate1);
 		start = (Integer) map.get("start");
-		onPageChange(start, getPageSize());
 	}
 
 	@Override

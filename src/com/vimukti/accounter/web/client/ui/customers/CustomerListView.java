@@ -88,7 +88,7 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		isActiveAccounts = isActive;
+		isActive = isActive;
 		onPageChange(0, getPageSize());
 
 		// grid.removeAllRecords();
@@ -110,16 +110,13 @@ public class CustomerListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected int getPageSize() {
-		return 10;
+		return DEFAULT_PAGE_SIZE;
 	}
-
-	private boolean isActiveAccounts = true;
-	private int start;
 
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				isActiveAccounts, start, length, this);
+				isActive, start, length, this);
 	}
 
 	@Override
@@ -134,7 +131,13 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActive = true;
+		} else {
+			isActive = false;
+		}
+		map.put("isActive", isActive);
 		map.put("start", start);
 		return map;
 	}
@@ -145,15 +148,13 @@ public class CustomerListView extends BaseListView<PayeeList> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		if (isActiveAccounts) {
+		if (isActive) {
 			viewSelect.setComboItem(messages.active());
 		} else {
 			viewSelect.setComboItem(messages.inActive());
 		}
-
 	}
 
 	@Override

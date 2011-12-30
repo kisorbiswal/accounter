@@ -18,7 +18,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	private List<ClientEstimate> listOfEstimates;
 
-	private int type;
+	private final int type;
 
 	public static final int STATUS_OPEN = 0;
 	public static final int STATUS_REJECTED = 1;
@@ -188,7 +188,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected int getPageSize() {
-		return 25;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
