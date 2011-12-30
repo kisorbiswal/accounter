@@ -76,13 +76,6 @@ public class BillListView extends TransactionsListView<BillsList> {
 	}
 
 	@Override
-	public void initListCallback() {
-		if (getPageSize() <= 0) {
-			onPageChange(0, getPageSize());
-		}
-	}
-
-	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("currentView", viewSelect.getSelectedValue().toString());
@@ -100,6 +93,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
+		this.viewType = currentView;
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
@@ -107,7 +101,6 @@ public class BillListView extends TransactionsListView<BillsList> {
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
 		setEndDate(endDate1);
 		start = (Integer) map.get("start");
-		onPageChange(start, getPageSize());
 	}
 
 	@Override
@@ -123,11 +116,9 @@ public class BillListView extends TransactionsListView<BillsList> {
 	@Override
 	public void onSuccess(PaginationList<BillsList> result) {
 		allEnterBills = result;
-		grid.removeAllRecords();
 		grid.setRecords(result);
 		if (grid.getRecords().isEmpty())
 			grid.addEmptyMessage(messages.noRecordsToShow());
-
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
@@ -148,6 +139,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected void filterList(String text) {
+		this.viewType = text;
 		grid.removeAllRecords();
 		onPageChange(0, getPageSize());
 		this.viewType = text;
@@ -180,7 +172,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected int getPageSize() {
-		return 25;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override

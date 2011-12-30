@@ -99,8 +99,10 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
+		this.viewType = currentView;
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
+		dateRangeChanged(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
 		setStartDate(startDate1);
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
