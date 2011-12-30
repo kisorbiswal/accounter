@@ -1,14 +1,12 @@
 package com.vimukti.accounter.main;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import com.vimukti.accounter.utils.UTF8Control;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class LocalInfoCache {
@@ -29,39 +27,27 @@ public class LocalInfoCache {
 	 * @return
 	 */
 	private static DayAndMonthUtil createDayAndMonthUtil(Locale locale) {
-		String bundleName = toBundleName(
-				"com.vimukti.accounter.web.server.i18n.constants.DateTimeConstantsImpl",
-				locale);
-		String resourceName = toResourceName(bundleName, "properties");
-
-		try {
-			InputStream openStream = new LocalInfoCache().getClass()
-					.getClassLoader().getResource(resourceName).openStream();
-			DataInputStream in = new DataInputStream(openStream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String strLine;
-			// Read File Line By Line
-			DummyDateTimeFormatInfo dateTimeFormatInfo = new DummyDateTimeFormatInfo();
-			while ((strLine = br.readLine()) != null) {
-				if (strLine.length() == 0) {
-					continue;
+		ResourceBundle bundle = ResourceBundle
+				.getBundle(
+						"com.vimukti.accounter.web.server.i18n.constants.DateTimeConstantsImpl",
+						locale, new UTF8Control());
+		DummyDateTimeFormatInfo dateTimeFormatInfo = new DummyDateTimeFormatInfo();
+		Set<String> keySet = bundle.keySet();
+		for (String key : keySet) {
+			String[] values = null;
+			Object object = bundle.getObject(key);
+			if (object instanceof String) {
+				String[] split = object.toString().split(",");
+				values = new String[split.length];
+				for (int i = 0; i < split.length; i++) {
+					values[i] = split[i].trim();
 				}
-				if (strLine.charAt(0) == '#') {
-					continue;
-				}
-				String[] split = strLine.split("=");
-				String key = split[0].trim();
-				String[] values = split[1].trim().split(",");
-				createDateTimeFormatInfoObj(dateTimeFormatInfo, key, values);
+			} else {
+				values = (String[]) object;
 			}
-			DayAndMonthUtil dayAndMonthUtil = new DayAndMonthUtil(
-					dateTimeFormatInfo);
-			return dayAndMonthUtil;
-		} catch (Exception e) {
-			e.printStackTrace();
+			setValueToObject(dateTimeFormatInfo, key, values);
 		}
-
-		return null;
+		return new DayAndMonthUtil(dateTimeFormatInfo);
 	}
 
 	/**
@@ -72,7 +58,7 @@ public class LocalInfoCache {
 	 * @param values
 	 * @return
 	 */
-	private static DummyDateTimeFormatInfo createDateTimeFormatInfoObj(
+	private static void setValueToObject(
 			DummyDateTimeFormatInfo dateTimeFormatInfo, String key,
 			String[] values) {
 		if (key.equalsIgnoreCase("eras")) {
@@ -118,67 +104,5 @@ public class LocalInfoCache {
 		} else if (key.equalsIgnoreCase("weekendRange")) {
 			dateTimeFormatInfo.setWeekendEnd(Integer.parseInt(values[0]));
 		}
-		return dateTimeFormatInfo;
-
-	}
-
-	/**
-	 * Converts the given <code>baseName</code> and <code>locale</code> to the
-	 * bundle name. This method is called from the default implementation of the
-	 * {@link #newBundle(String, Locale, String, ClassLoader, boolean)
-	 * newBundle} and
-	 * {@link #needsReload(String, Locale, String, ClassLoader, ResourceBundle, long)
-	 * needsReload} methods.
-	 * 
-	 * @param baseName
-	 * @param locale
-	 * @return
-	 */
-	private static String toBundleName(String baseName, Locale locale) {
-		if (locale == Locale.ROOT) {
-			return baseName;
-		}
-
-		String language = locale.getLanguage();
-		String country = locale.getCountry();
-		String variant = locale.getVariant();
-
-		if (language == "" && country == "" && variant == "") {
-			return baseName;
-		}
-
-		StringBuilder sb = new StringBuilder(baseName);
-		sb.append('_');
-		if (variant != "") {
-			sb.append(language).append('_').append(country).append('_')
-					.append(variant);
-		} else if (country != "") {
-			sb.append(language).append('_').append(country);
-		} else {
-			sb.append(language);
-		}
-		return sb.toString();
-
-	}
-
-	/**
-	 * Converts the given <code>bundleName</code> to the form required by the
-	 * {@link ClassLoader#getResource ClassLoader.getResource} method by
-	 * replacing all occurrences of <code>'.'</code> in <code>bundleName</code>
-	 * with <code>'/'</code> and appending a <code>'.'</code> and the given file
-	 * <code>suffix</code>. For example, if <code>bundleName</code> is
-	 * <code>"foo.bar.MyResources_ja_JP"</code> and <code>suffix</code> is
-	 * <code>"properties"</code>, then
-	 * <code>"foo/bar/MyResources_ja_JP.properties"</code> is returned.
-	 * 
-	 * @param bundleName
-	 * @param suffix
-	 * @return
-	 */
-	public final static String toResourceName(String bundleName, String suffix) {
-		StringBuilder sb = new StringBuilder(bundleName.length() + 1
-				+ suffix.length());
-		sb.append(bundleName.replace('.', '/')).append('.').append(suffix);
-		return sb.toString();
 	}
 }
