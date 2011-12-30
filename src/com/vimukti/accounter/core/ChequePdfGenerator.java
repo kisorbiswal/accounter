@@ -34,7 +34,6 @@ public class ChequePdfGenerator {
 				842.0f));
 		File file = new File(ServerConfiguration.getTmpDir(),
 				SecureUtils.createID() + ".pdf");
-		System.out.println("Cheque file " + file.getAbsolutePath());
 		PdfWriter instance = PdfWriter.getInstance(document,
 				new FileOutputStream(file));
 		document.open();
@@ -152,4 +151,5 @@ public class ChequePdfGenerator {
 	private static float getPixel(float i) {
 		return DPI * i * 100 / 254;
 	}
+
 }
