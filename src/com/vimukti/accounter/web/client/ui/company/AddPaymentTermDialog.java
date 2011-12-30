@@ -36,7 +36,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 	private IntegerRangeValidator integerRangeValidator;
 	private DynamicForm dueForm;
 
-	private PaymentTermListDialog parent;
+	private final PaymentTermListDialog parent;
 
 	private VerticalPanel fixedDaysPanel, dateDrivenPanel;
 	public DynamicForm fixedDaysForm, dateDrivenForm;
@@ -63,8 +63,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		fixedDaysPanel = new VerticalPanel();
 		fixedDaysForm = new DynamicForm();
-		fixedDays = new RadioButton("paymentTermType", messages
-				.fixedNumberOfDays());
+		fixedDays = new RadioButton("paymentTermType",
+				messages.fixedNumberOfDays());
 		fixedDays.setValue(true);
 		fixedDays.addClickHandler(new ClickHandler() {
 
@@ -75,10 +75,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 			}
 		});
 		netDueIn = new IntegerField(this, messages.netDueIn());
-		discountField = new AmountField(messages
-				.discountPercentageIs(), this);
-		discountDue = new IntegerField(this, messages
-				.discountIfPaidWithin());
+		discountField = new AmountField(messages.discountPercentageIs(), this);
+		discountDue = new IntegerField(this, messages.discountIfPaidWithin());
 
 		fixedDaysForm.setFields(netDueIn, discountField, discountDue);
 		fixedDaysPanel.add(fixedDays);
@@ -86,8 +84,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 
 		dateDrivenPanel = new VerticalPanel();
 		dateDrivenForm = new DynamicForm();
-		dateDriven = new RadioButton("paymentTermType", messages
-				.dateDriven());
+		dateDriven = new RadioButton("paymentTermType", messages.dateDriven());
 		dateDriven.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -96,14 +93,13 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 				fixedDaysForm.setDisabled(true);
 			}
 		});
-		netDueBefore = new IntegerField(this, messages
-				.netDueBefore());
+		netDueBefore = new IntegerField(this, messages.netDueBefore());
 		// IntegerField nextMonthDue = new IntegerField(this,
 		// "Due the next month if paid before");
-		discountPerField = new AmountField(messages
-				.discountPercentageIs(), this);
-		discountPaidBefore = new IntegerField(this, messages
-				.discountIfPaidBefore());
+		discountPerField = new AmountField(messages.discountPercentageIs(),
+				this);
+		discountPaidBefore = new IntegerField(this,
+				messages.discountIfPaidBefore());
 
 		dateDrivenForm.setFields(netDueBefore, discountPerField,
 				discountPaidBefore);
@@ -317,17 +313,11 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		}
 		if (fixedDays.getValue()) {
 			if (netDueIn.getNumber() == null) {
-				result.addError(
-						this,
-						messages.pleaseEnter(
-								messages.dueDays()));
+				result.addError(this, messages.pleaseEnter(messages.dueDays()));
 			}
 		} else {
 			if (netDueBefore.getNumber() == null) {
-				result.addError(
-						this,
-						messages.pleaseEnter(
-								messages.dueDays()));
+				result.addError(this, messages.pleaseEnter(messages.dueDays()));
 			}
 		}
 		return result;
@@ -349,4 +339,8 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 		dateDrivenForm.setDisabled(!disable);
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

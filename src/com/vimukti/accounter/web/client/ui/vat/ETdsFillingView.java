@@ -288,7 +288,6 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 							ArrayList<ClientETDSFilling> result) {
 						eTDSList = result;
 						tdsCellTable.setDataProvidedValue(eTDSList);
-
 					}
 				});
 	}
@@ -303,8 +302,26 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 			@Override
 			public void onClick(ClickEvent event) {
+
+				List<ClientETDSFilling> dataList = tdsCellTable.getDataList();
+
+				String remarkList = "";
+				String codeList = "";
+				for (ClientETDSFilling widget : dataList) {
+					if (widget.getRemark() != null) {
+						remarkList = remarkList + widget.getRemark();
+					} else {
+						remarkList = remarkList + "-";
+					}
+					if (widget.getCompanyCode() != null) {
+						codeList = codeList + widget.getCompanyCode();
+					} else {
+						codeList = codeList + "-";
+					}
+				}
+
 				UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-						startYear, endYear);
+						startYear, endYear, codeList, remarkList);
 
 			}
 		});

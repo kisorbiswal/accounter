@@ -18,7 +18,7 @@ public class ItemGroupDialog extends BaseDialog<ClientItem> {
 	// private ItemDialogGrid dialoggrid;
 	private TextItem itemGtext;
 	private DynamicForm dform;
-	private ItemGroupListDialog parent;
+	private final ItemGroupListDialog parent;
 
 	// private Button menuButton;
 
@@ -141,5 +141,10 @@ public class ItemGroupDialog extends BaseDialog<ClientItem> {
 	public void setFocus() {
 		itemGtext.setFocus();
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 }

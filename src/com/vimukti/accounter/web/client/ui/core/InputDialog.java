@@ -22,10 +22,10 @@ public class InputDialog extends BaseDialog {
 	 * Instance variables
 	 */
 	private DynamicForm form;
-	private List<TextItem> textItems = new ArrayList<TextItem>();
+	private final List<TextItem> textItems = new ArrayList<TextItem>();
 	private TextItem textItem;
-	private String[] itemsNames;
-	private GroupDialog<?> parent;
+	private final String[] itemsNames;
+	private final GroupDialog<?> parent;
 
 	public InputDialog(GroupDialog<?> parentDialog, String title, String desc,
 			String... itemNames) {
@@ -121,4 +121,8 @@ public class InputDialog extends BaseDialog {
 		return parent.onOK();
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

@@ -90,8 +90,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	public void showAddEditGroupDialog(ClientItemGroup rec) {
 		itemGroup = rec;
-		itemGroupDg = new ItemGroupDialog(this, messages
-				.itemGroup(), "", itemGroup);
+		itemGroupDg = new ItemGroupDialog(this, messages.itemGroup(), "",
+				itemGroup);
 
 		itemGroupDg.show();
 	}
@@ -122,7 +122,7 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 
 	@Override
 	protected List<ClientItemGroup> getRecords() {
-		return (List<ClientItemGroup>) getCompany().getItemGroups();
+		return getCompany().getItemGroups();
 	}
 
 	@Override
@@ -139,8 +139,8 @@ public class ItemGroupListDialog extends GroupDialog<ClientItemGroup> {
 		} else {
 			ClientItemGroup itemGroupByName = company.getItemGroupByName(name);
 			if (itemGroupByName != null) {
-				result.addError(this, messages
-						.anItemGroupAlreadyExistswiththisname());
+				result.addError(this,
+						messages.anItemGroupAlreadyExistswiththisname());
 			}
 		}
 

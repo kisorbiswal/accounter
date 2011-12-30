@@ -16,16 +16,15 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class TDSResponsiblePersonDetailsView extends
 		BaseView<ClientTDSResponsiblePerson> {
 
-	private IntegerRangeValidator integerRangeValidator;
 	private TextItem responsiblePersonName;
 	private TextItem branchName;
 	private TextItem flatNo;
@@ -69,9 +68,6 @@ public class TDSResponsiblePersonDetailsView extends
 	}
 
 	private void createControls() {
-
-		integerRangeValidator = new IntegerRangeValidator();
-		integerRangeValidator.setMin(0);
 
 		responsiblePersonName = new TextItem("Name");
 		responsiblePersonName.setHelpInformation(true);
@@ -194,7 +190,6 @@ public class TDSResponsiblePersonDetailsView extends
 		returnType.setHelpInformation(true);
 		returnType.initCombo(getReturnTypeList());
 		returnType.setDisabled(isInViewMode());
-		returnType.setSelectedItem(0);
 		returnType.setRequired(true);
 		returnType
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -245,11 +240,55 @@ public class TDSResponsiblePersonDetailsView extends
 
 		this.add(verticalPanel);
 
+		if (data != null) {
+			upDateControls();
+		}
+
+	}
+
+	private void upDateControls() {
+		responsiblePersonName.setValue(data.getResponsibleName());
+		branchName.setValue(data.getBranch());
+		flatNo.setValue(data.getFlatNo());
+		buildingName.setValue(data.getBuildingName());
+		streetName.setValue(data.getStreet());
+		areaName.setValue(data.getArea());
+		cityName.setValue(data.getCity());
+		stateCombo.setSelected(data.getStateName());
+		pinNumber.setNumber(data.getPinCode());
+		telephoneNumber.setNumber(data.getTelephoneNumber());
+		faxNumber.setNumber(data.getFaxNo());
+		if (data.isAddressChanged()) {
+			addressChangeCombo.setSelected(getYESNOList().get(0));
+		} else {
+			addressChangeCombo.setSelected(getYESNOList().get(1));
+		}
+		email.setValue(data.getEmailAddress());
+		financialYearCombo.setSelected(data.getFinancialYear());
+
+		if (data.getReturnType() == 1) {
+			returnType.setSelected(getReturnTypeList().get(0));
+		} else {
+			returnType.setSelected(getReturnTypeList().get(1));
+		}
+
+		if (data.isExistingTDSassesse()) {
+			existingTdsassess.setSelected(getYESNOList().get(0));
+		} else {
+			existingTdsassess.setSelected(getYESNOList().get(1));
+		}
+		panCode.setValue(data.getPanNumber());
+		tanNumber.setValue(data.getTanNumber());
+
+		assessmentYearCombo.setSelected(data.getAssesmentYear());
+		designation.setValue(data.getDesignation());
+		stdNumber.setNumber(data.getStdCode());
+		mobileNumber.setNumber(data.getMobileNumber());
+
 	}
 
 	private List<String> getReturnTypeList() {
 		List<String> names = new ArrayList<String>();
-		names.add("Select");
 		names.add("Electronic");
 		names.add("Digital");
 		return names;
@@ -396,11 +435,20 @@ public class TDSResponsiblePersonDetailsView extends
 							@Override
 							public void onResultSuccess(
 									ArrayList<ClientTDSResponsiblePerson> result) {
-								// TODO Auto-generated method stub
-
+								if (result.size() > 0) {
+									data = result.get(0);
+									upDateControls();
+								}
 							}
 						});
 
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		// TODO Auto-generated method stub
+		super.createButtons(buttonBar);
+		saveAndNewButton.setVisible(false);
 	}
 
 }

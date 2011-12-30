@@ -187,7 +187,6 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				buttonBar.add(saveAndCloseButton);
 				buttonBar.add(saveAndNewButton);
 			}
-
 		}
 
 		buttonBar.add(cancelButton);

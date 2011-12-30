@@ -15,7 +15,7 @@ public class NewCurrencyListDialog extends BaseDialog {
 
 	private ClientCurrency clientCurrency;
 	private CurrencyListCombo listCombo;
-	private CurrencyGroupListDialog parent;
+	private final CurrencyGroupListDialog parent;
 
 	public NewCurrencyListDialog(CurrencyGroupListDialog parent, String text,
 			ClientCurrency clientCurrency) {
@@ -65,14 +65,13 @@ public class NewCurrencyListDialog extends BaseDialog {
 
 		} else {
 			String value = clientCurrency.getName();
-			
+
 			for (ClientCurrency currency : company.getCurrencies()) {
-				if(currency.getName()!=null)
-				if (currency.getName().equalsIgnoreCase(value)
-						&& currency.getID() != clientCurrency.getID()) {
-					result.addError(this, messages
-							.CurrencyAlreadyExists());
-				}
+				if (currency.getName() != null)
+					if (currency.getName().equalsIgnoreCase(value)
+							&& currency.getID() != clientCurrency.getID()) {
+						result.addError(this, messages.CurrencyAlreadyExists());
+					}
 			}
 
 		}
@@ -98,5 +97,10 @@ public class NewCurrencyListDialog extends BaseDialog {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 }

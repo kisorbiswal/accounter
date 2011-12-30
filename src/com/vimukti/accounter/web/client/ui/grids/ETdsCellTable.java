@@ -391,8 +391,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 					@Override
 					public void update(int index, ClientETDSFilling object,
 							String value) {
-						// TODO Auto-generated method stub
-
+						object.setCompanyCode(value);
 					}
 
 				});
@@ -413,8 +412,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 					@Override
 					public void update(int index, ClientETDSFilling object,
 							String value) {
-						// TODO Auto-generated method stub
-
+						object.setRemark(value);
 					}
 
 				});
@@ -426,7 +424,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Integer.toString(object.getTaxRate());
+				return null;
 
 			}
 		};
@@ -436,7 +434,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 					@Override
 					public void update(int index, ClientETDSFilling object,
 							String value) {
-						// TODO Auto-generated method stub
 
 					}
 
@@ -457,7 +454,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 					@Override
 					public void update(int index, ClientETDSFilling object,
 							String value) {
-						// TODO Auto-generated method stub
 
 					}
 
@@ -513,16 +509,14 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 	private List<String> getListValues() {
 		ArrayList<String> list = new ArrayList<String>();
-
 		list.add("01");
 		list.add("02");
-
 		return list;
 	}
 
 	private List<String> getRemarkValues() {
 		ArrayList<String> list = new ArrayList<String>();
-
+		list.add(" ");
 		list.add("A");
 		list.add("B");
 
@@ -556,10 +550,12 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 	public void setDataProvidedValue(ArrayList<ClientETDSFilling> eTDSList) {
 
 		List<ClientETDSFilling> list = listDataProvider.getList();
-		// list.removeAll(list);
-
+		list.clear();
+		//
+		int i = 0;
 		for (ClientETDSFilling clientETDSFilling : eTDSList) {
 			list.add(clientETDSFilling);
+			i++;
 		}
 	}
 

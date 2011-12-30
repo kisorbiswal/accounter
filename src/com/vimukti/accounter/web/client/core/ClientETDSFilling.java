@@ -26,6 +26,9 @@ public class ClientETDSFilling implements IAccounterCore {
 	private int taxRate;
 	private String bookEntry;
 
+	private String remark;
+	private String companyCode;
+
 	private long id;
 
 	@Override
@@ -197,6 +200,36 @@ public class ClientETDSFilling implements IAccounterCore {
 
 	public void setDeducteeID(long deducteeID) {
 		this.deducteeID = deducteeID;
+	}
+
+	/**
+	 * @return the remark
+	 */
+	public String getRemark() {
+		return remark;
+	}
+
+	/**
+	 * @param remark
+	 *            the remark to set
+	 */
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	/**
+	 * @return the companyCode
+	 */
+	public String getCompanyCode() {
+		return companyCode;
+	}
+
+	/**
+	 * @param companyCode
+	 *            the companyCode to set
+	 */
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
 	}
 
 }

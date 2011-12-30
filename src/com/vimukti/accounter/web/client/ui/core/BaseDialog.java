@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.core.client.Scheduler;
@@ -26,6 +28,7 @@ import com.vimukti.accounter.web.client.IAccounterHomeViewServiceAsync;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.ValidationResult.Error;
@@ -38,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.WarningsDialog;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * Base Dialog is abstract class which provides common ground for all small
@@ -67,7 +71,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 	protected ClientCompany company = Accounter.getCompany();
 	protected VerticalPanel mainPanel, mainVLayPanel;
 	public VerticalPanel errorPanel;
-	private Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
+	private final Map<Object, Widget> errorsMap = new HashMap<Object, Widget>();
 
 	private ActionCallback<T> callback;
 
@@ -435,4 +439,29 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 		return getCompany().getCurrency(currency);
 	}
 
+	public List<String> getFinancialYearList() {
+		ArrayList<String> list = new ArrayList<String>();
+
+		ClientFinanceDate date = new ClientFinanceDate();
+		int year = date.getYear();
+		for (int i = year - 10; i < year + 10; i++) {
+			list.add(Integer.toString(i) + "-" + Integer.toString(i + 1));
+		}
+		return list;
+	}
+
+	public List<String> getFinancialQuatersList() {
+		ArrayList<String> list = new ArrayList<String>();
+
+		list.add("Q1" + " " + DayAndMonthUtil.jan() + " - "
+				+ DayAndMonthUtil.mar());
+		list.add("Q2" + " " + DayAndMonthUtil.apr() + " - "
+				+ DayAndMonthUtil.jun());
+		list.add("Q3" + " " + DayAndMonthUtil.jul() + " - "
+				+ DayAndMonthUtil.sep());
+		list.add("Q4" + " " + DayAndMonthUtil.oct() + " - "
+				+ DayAndMonthUtil.dec());
+
+		return list;
+	}
 }

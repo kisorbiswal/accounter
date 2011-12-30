@@ -62,7 +62,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class UIUtils {
 	protected static AccounterMessages messages = Global.get().messages();
-	
+
 	public static boolean isDebug = true;
 	public static final int TYPE_SC_LOG = 1;
 	public static final int TYPE_WND_ALERT = 2;
@@ -260,8 +260,8 @@ public class UIUtils {
 	public static DateItem date(String t, AbstractBaseView view) {
 		DateItem di = new DateItem();
 		if (view != null)
-			di.setToolTip(messages.selectDateWhenTransactioCreated(
-					view.getAction().getViewName()));
+			di.setToolTip(messages.selectDateWhenTransactioCreated(view
+					.getAction().getViewName()));
 		di.setHelpInformation(true);
 		di.setTitle(t);
 		// di.setUseTextField(true);
@@ -571,8 +571,7 @@ public class UIUtils {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result == null || !result) {
-					onFailure(new Exception(messages
-							.unKnownExceptionGotNull()));
+					onFailure(new Exception(messages.unKnownExceptionGotNull()));
 					return;
 				}
 				// Accounter.stopExecution();
@@ -883,8 +882,7 @@ public class UIUtils {
 		List<String> listOfPaymentMethods = new ArrayList<String>();
 		listOfPaymentMethods.add(messages.cash());
 		listOfPaymentMethods.add(UIUtils
-				.getpaymentMethodCheckBy_CompanyType(messages
-						.check()));
+				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 		listOfPaymentMethods.add(messages.creditCard());
 		listOfPaymentMethods.add(messages.directDebit());
 		listOfPaymentMethods.add(messages.masterCard());
@@ -1026,8 +1024,7 @@ public class UIUtils {
 			return ClientAddress.TYPE_HOME;
 		else if (type.equalsIgnoreCase(messages.company()))
 			return ClientAddress.TYPE_COMPANY;
-		else if (type.equalsIgnoreCase(messages
-				.companyregistration()))
+		else if (type.equalsIgnoreCase(messages.companyregistration()))
 			return ClientAddress.TYPE_COMPANY_REGISTRATION;
 
 		return ClientAddress.TYPE_OTHER;
@@ -2246,12 +2243,13 @@ public class UIUtils {
 	}-*/;
 
 	public native static void generateETDSFillingtext(int formNo, int quarter,
-			int startYear, int endYear)/*-{
+			int startYear, int endYear, String codeList, String remarkList)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src", "/do/finance/GenerateETDSServlet?formNo="
 					+ formNo + "&quater=" + quarter + "&startYear=" + startYear
-					+ "&endYear=" + endYear);
+					+ "&endYear=" + endYear + "&codeList=" + codeList
+					+ "&remarkList=" + remarkList);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {

@@ -26,13 +26,11 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
-import com.vimukti.accounter.web.client.ui.core.IntegerRangeValidator;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TdsChalanTransactionItemsTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
-	private IntegerRangeValidator integerRangeValidator;
 	private AmountField incomeTaxAmount;
 	private AmountField surchargePaidAmount;
 	private AmountField eduCessAmount;
@@ -96,15 +94,11 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 	private void createControls() {
 
-		integerRangeValidator = new IntegerRangeValidator();
-		integerRangeValidator.setMin(0);
-
 		selectFormTypeCombo = new SelectCombo("Form Type");
 		selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
 		selectFormTypeCombo.setDisabled(isInViewMode());
 		selectFormTypeCombo.setRequired(true);
-		selectFormTypeCombo.setSelectedItem(0);
 		selectFormTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -152,7 +146,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		financialYearCombo = new SelectCombo("Financial Year");
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setSelectedItem(0);
 		financialYearCombo.setDisabled(isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
@@ -328,7 +321,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		chalanSerialNumber.setRequired(true);
 		chalanSerialNumber.setWidth(100);
 		chalanSerialNumber.setDisabled(isInViewMode());
-		chalanSerialNumber.setValidators(integerRangeValidator);
 
 		chalanPeriod = new SelectCombo("Chalan Period");
 		chalanPeriod.setHelpInformation(true);
@@ -350,7 +342,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		checkNumber.setHelpInformation(true);
 		checkNumber.setWidth(100);
 		checkNumber.setDisabled(isInViewMode());
-		checkNumber.setValidators(integerRangeValidator);
 
 		tdsDepositedBY = new SelectCombo("TDS Deposited by book entry");
 		tdsDepositedBY.setHelpInformation(true);
@@ -387,7 +378,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		bankBsrCode.setDisabled(isInViewMode());
 		bankBsrCode.setRequired(true);
 		bankBsrCode.setWidth(100);
-		bankBsrCode.setValidators(integerRangeValidator);
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);
@@ -626,6 +616,12 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		if (totalTDS != value) {
 			result.addError(totalAmountPaid, "TDS Amount not matched");
+		}
+
+		List<ClientTDSTransactionItem> allRows = table.getAllRows();
+		if (allRows.size() < 1) {
+			result.addError(financialYearCombo,
+					"No transaction added to chalan details");
 		}
 
 		if (financialYearSelected == false) {

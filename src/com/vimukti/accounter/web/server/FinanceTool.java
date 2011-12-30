@@ -3825,10 +3825,9 @@ public class FinanceTool {
 				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
 						.toClientObject(chalan, ClientTDSChalanDetail.class);
 
-				ClientETDSFilling eTDSObj = new ClientETDSFilling();
-				for (ClientTDSTransactionItem items : clientObject
+				for (ClientTDSTransactionItem item : clientObject
 						.getTransactionItems()) {
-
+					ClientETDSFilling eTDSObj = new ClientETDSFilling();
 					eTDSObj.setSerialNo(i);
 
 					double total = 0;
@@ -3844,23 +3843,24 @@ public class FinanceTool {
 					eTDSObj.setSectionForPayment(clientObject
 							.getPaymentSection());
 					eTDSObj.setTotalTDSfordeductees(total);
-					eTDSObj.setDeducteeID(items.getVendorID());
+					eTDSObj.setDeducteeID(item.getVendorID());
 					eTDSObj.setTotalTaxDeposited(0.00);
 					eTDSObj.setDateOFpayment(clientObject.getDateTaxPaid());
-					eTDSObj.setAmountPaid(0.00);
-					eTDSObj.setTds(items.getTaxAmount());
-					eTDSObj.setSurcharge(items.getSurchargeAmount());
-					eTDSObj.setEducationCess(items.getEduCess());
+					eTDSObj.setAmountPaid(total);
+					eTDSObj.setTds(item.getTaxAmount());
+					eTDSObj.setSurcharge(item.getSurchargeAmount());
+					eTDSObj.setEducationCess(item.getEduCess());
 					eTDSObj.setTotalTaxDEducted(total);
-					eTDSObj.setTotalTaxDeposited(0.00);
-					eTDSObj.setDateofDeduction(items.getTransactionDate());
+					eTDSObj.setTotalTaxDeposited(total);
+					eTDSObj.setDateofDeduction(item.getTransactionDate());
 					if (clientObject.isBookEntry())
 						eTDSObj.setBookEntry("YES");
 					else
 						eTDSObj.setBookEntry("NO");
 
-					i++;
 					etdsList.add(eTDSObj);
+					i++;
+
 				}
 
 			}

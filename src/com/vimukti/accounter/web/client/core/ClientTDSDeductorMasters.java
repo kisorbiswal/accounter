@@ -7,6 +7,8 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long id;
+
 	private String deductorName;
 	private String branch;
 	private String flatNo;
@@ -63,14 +65,12 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-		// TODO Auto-generated method stub
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
 	public String getBranch() {
