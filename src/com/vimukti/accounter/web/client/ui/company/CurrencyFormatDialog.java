@@ -48,7 +48,9 @@ public class CurrencyFormatDialog extends BaseDialog {
 	private ClientCompanyPreferences preferences;
 
 	String[] posForValue = { "S1D1", "1D1S", "S 1D1", "1D1 S" };
-	String[] negForValue = { "(S1D1)", "-1D1S", "S-1D1", "1D1S-", "(1D1S)" };
+	String[] negForValue = { "(S1D1)", "-S1D1", "S-1D1", "S1D1-", "(1D1S)",
+			"-1D1S", "1D1-S", "1D1S-", "1D1S-", "-S 1D1", "1D1 S-", "S 1D1-",
+			"S -1D1", "1D1- S", "(S 1D1)", "(1D1 S)" };
 
 	public CurrencyFormatDialog(String string) {
 		super(string);
