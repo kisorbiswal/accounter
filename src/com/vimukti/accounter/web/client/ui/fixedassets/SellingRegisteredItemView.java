@@ -112,6 +112,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				changeDateCombo(changedValue);
 			}
 		}, noDepOption, allDepOption);
+		QuestionItem.setValue(noDepOption);
 
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
