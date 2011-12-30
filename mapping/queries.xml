@@ -1714,8 +1714,9 @@
 
 	<sql-query name="getBankAccountsOfType">
 		<query-param name="companyId" type="long" />
+		<query-param name="isActive" type="boolean" />
 		SELECT a.ID FROM ACCOUNT a WHERE a.A_TYPE IN(1,2,19) AND
-		a.COMPANY_ID=:companyId
+		a.COMPANY_ID=:companyId AND A.IS_ACTIVE=:isActive
 	</sql-query>
 
 	<query name="getFiscalYears.of.company">
