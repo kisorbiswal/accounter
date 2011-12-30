@@ -5684,6 +5684,8 @@ public interface AccounterMessages extends Messages {
 
 	public String noPayeeSelected(String payee);
 
+	public String objectAlreadyDeleted();
+
 	public String trackingDiscountsDisabled();
 
 	public String trackingDiscountsEnabled();

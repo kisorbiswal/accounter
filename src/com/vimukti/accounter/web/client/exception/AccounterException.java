@@ -143,6 +143,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_DONT_HAVE_PERMISSION = 48;
 
+	public static final int ERROR_ALREADY_DELETED = 49;
+
 	protected int errorCode;
 
 	// private long id;

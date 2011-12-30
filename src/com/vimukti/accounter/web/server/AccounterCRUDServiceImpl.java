@@ -149,6 +149,10 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 			throws AccounterException {
 		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
 				accounterCoreType.getServerClassFullyQualifiedName(), id);
+		if (serverCore == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_ALREADY_DELETED);
+		}
 		return serverCore.canEdit(serverCore);
 	}
 

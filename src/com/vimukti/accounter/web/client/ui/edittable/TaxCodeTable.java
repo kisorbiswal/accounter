@@ -140,7 +140,9 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 
 				@Override
 				public void actionResult(ClientTAXCode result) {
-					selectRow(result);
+					if (filter.filter(result)) {
+						selectRow(result);
+					}
 				}
 			});
 			action.setTaxCodeName(text);

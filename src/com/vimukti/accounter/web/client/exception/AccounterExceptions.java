@@ -151,6 +151,8 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_DONT_HAVE_PERMISSION:
 			return accounterMessages.youDontHavePermission();
+		case AccounterException.ERROR_ALREADY_DELETED:
+			return accounterMessages.objectAlreadyDeleted();
 
 		default:
 			return null;

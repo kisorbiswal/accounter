@@ -22,4 +22,8 @@ public class NewItemDialog extends BaseDialog<ClientItem> {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

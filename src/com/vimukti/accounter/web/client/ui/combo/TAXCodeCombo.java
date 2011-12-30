@@ -50,9 +50,9 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 				@Override
 				public void actionResult(ClientTAXCode result) {
-
-					addItemThenfireEvent(result);
-
+					if (canAdd(result)) {
+						addItemThenfireEvent(result);
+					}
 				}
 			});
 
@@ -94,17 +94,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 		List<ClientTAXCode> taxCodeList = new ArrayList<ClientTAXCode>();
 		for (ClientTAXCode taxCode : activeTaxCodes) {
-			if (isSales) {
-				if (taxCode.getTAXItemGrpForSales() != 0) {
-					taxCodeList.add(taxCode);
-				}
-			} else {
-				if (taxCode.getTAXItemGrpForPurchases() != 0) {
-					taxCodeList.add(taxCode);
-				}
-			}
-			if (taxCode.getTAXItemGrpForSales() == 0
-					&& taxCode.getTAXItemGrpForPurchases() == 0) {
+			if (canAdd(taxCode)) {
 				taxCodeList.add(taxCode);
 			}
 		}
@@ -117,6 +107,25 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			}
 		});
 		return taxCodeList;
+	}
+
+	private boolean canAdd(ClientTAXCode taxCode) {
+		if ((isSales && isSalesType(taxCode))
+				|| (!isSales && isPurchaseType(taxCode))) {
+			return true;
+		} else if (taxCode.getTAXItemGrpForSales() == 0
+				&& taxCode.getTAXItemGrpForPurchases() == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isSalesType(ClientTAXCode taxCode) {
+		return taxCode.getTAXItemGrpForSales() != 0;
+	}
+
+	private boolean isPurchaseType(ClientTAXCode taxCode) {
+		return taxCode.getTAXItemGrpForPurchases() != 0;
 	}
 
 	public void setSelectedObj(long taxCodeID) {

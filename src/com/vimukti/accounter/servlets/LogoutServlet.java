@@ -54,7 +54,7 @@ public class LogoutServlet extends BaseServlet {
 			}
 		}
 		// Support user and OpendCompany
-		if (isSupportedUser && cid != null) {
+		if (isSupportedUser != null && isSupportedUser && cid != null) {
 			redirectExternal(req, resp, COMPANIES_URL);
 			req.getSession().removeAttribute(COMPANY_ID);
 		} else {

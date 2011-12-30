@@ -626,8 +626,8 @@ public class MenuBar {
 		vendorMenuBar.addMenuItem(messages.vendorCentre(Global.get().Vendor()),
 				HistoryTokens.VENDORCENTRE);
 
-		vendorMenuBar.addMenuItem(messages.payeesHome(Global.get().Vendors()),
-				HistoryTokens.VENDOREHOME, "S");
+		// vendorMenuBar.addMenuItem(messages.payeesHome(Global.get().Vendors()),
+		// HistoryTokens.VENDOREHOME, "S");
 
 		vendorMenuBar.addSeparatorItem();
 
@@ -734,9 +734,9 @@ public class MenuBar {
 				messages.customerCentre(Global.get().Customer()),
 				HistoryTokens.CUSTOMERCENTRE);
 
-		customerMenuBar.addMenuItem(
-				messages.payeesHome(Global.get().Customers()),
-				HistoryTokens.CUSTOMERHOME);
+		// customerMenuBar.addMenuItem(
+		// messages.payeesHome(Global.get().Customers()),
+		// HistoryTokens.CUSTOMERHOME);
 
 		customerMenuBar.addSeparatorItem();
 

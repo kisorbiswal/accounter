@@ -430,6 +430,10 @@ public class FinanceTool {
 			IAccounterServerCore serverObject = (IAccounterServerCore) session
 					.get(serverClass, Long.parseLong(arg1));
 
+			if (serverObject == null) {
+				throw new AccounterException(
+						AccounterException.ERROR_ALREADY_DELETED);
+			}
 			// if (objects != null && objects.size() > 0) {
 
 			// IAccounterServerCore serverObject = (IAccounterServerCore)
@@ -438,10 +442,7 @@ public class FinanceTool {
 			String userID = context.getUserEmail();
 			Company company = getCompany(context.getCompanyId());
 			User user1 = company.getUserByUserEmail(userID);
-			if (serverObject == null) {
-				throw new AccounterException(
-						AccounterException.ERROR_ILLEGAL_ARGUMENT);
-			}
+
 			if (serverObject instanceof FiscalYear) {
 				((FiscalYear) serverObject)
 						.canDelete((FiscalYear) serverObject);
@@ -2509,6 +2510,9 @@ public class FinanceTool {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = (Transaction) session.get(Transaction.class,
 				transactionId);
+		if (transaction == null) {
+			return new ArrayList<ClientTransactionLog>();
+		}
 		List<TransactionLog> history = transaction.getHistory();
 		List<ClientTransactionLog> transactionLogs = new ArrayList<ClientTransactionLog>();
 		Iterator iterator = history.iterator();
