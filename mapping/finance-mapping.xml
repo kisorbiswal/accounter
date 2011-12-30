@@ -1379,8 +1379,11 @@
 			<list-index column="LAST_HISTORY" />
 			<one-to-many class="FixedAssetHistory" />
 		</list>
-
-
+<list name="transactions" cascade="save-update,delete">
+			<key column="FIXED_ASSET_ID"></key>
+			<list-index column="IDX" />
+			<one-to-many class="Transaction" />
+		</list>
 		<!--<list name="fixedAssetsHistory" cascade="save-update,delete"> <key 
 			column="FIXED_ASSET_HISTORY_ID"></key> <list-index column="IDX" /> <one-to-many 
 			class="FixedAssetHistory" /> </list> -->
