@@ -20,8 +20,8 @@ class UrlCommand implements Command {
 
 	@Override
 	public void execute() {
-		History.newItem(url, false);
-		Accounter.getMainFinanceWindow().historyChanged(url);
+		History.newItem(url, true);
+		// Accounter.getMainFinanceWindow().historyChanged(url);
 	}
 
 }
