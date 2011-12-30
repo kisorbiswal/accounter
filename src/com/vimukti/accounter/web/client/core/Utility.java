@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -887,9 +886,13 @@ public class Utility implements IsSerializable, Serializable {
 		String snumber = Double.toString(number);
 
 		// pad with "0"
-		String mask = "000000000000";
-		DecimalFormat df = new DecimalFormat(mask);
-		snumber = df.format(number);
+		int dotIndex=snumber.indexOf('.');
+		if(dotIndex<0){
+			dotIndex=snumber.length();
+		}
+		for(;dotIndex<12;dotIndex++){
+			snumber="0"+snumber;
+		}
 
 		// XXXnnnnnnnnn
 		int billions = Integer.parseInt(snumber.substring(0, 3));
