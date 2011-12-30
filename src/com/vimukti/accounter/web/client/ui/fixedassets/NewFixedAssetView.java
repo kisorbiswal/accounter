@@ -143,7 +143,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
 			showAccumltdAccountForm();
 		}
-		accumulatedDepreciationAccountForm.setDisabled(disable);
 	}
 
 	private void initAssetNumber() {
