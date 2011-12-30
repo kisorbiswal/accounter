@@ -115,8 +115,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 		fromLabel = new Label(messages.depricatiedFrom());
 
-		format = DateTimeFormat.getFormat(getCompany().getPreferences()
-				.getDateFormat());
+		format = DateTimeFormat.getFormat(messages.ddMMyyyy());
 		depreciatedToCombo = new ListBox();
 
 		depreciatedToCombo.addChangeHandler(new ChangeHandler() {
@@ -242,8 +241,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		// }
 		// }
 
-		DateTimeFormat format = DateTimeFormat.getFormat(getCompany()
-				.getPreferences().getDateFormat());
+		DateTimeFormat format = DateTimeFormat.getFormat(messages.ddMMyyyy());
 		List<String> dates = new ArrayList<String>();
 		Calendar fromDateCal = Calendar.getInstance();
 		fromDateCal.setTime(depreciationStartDate.getDateAsObject());
@@ -408,8 +406,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			String dateString = depreciatedToCombo.getValue(index).toString();
 
-			depreciationEndDate = UIUtils.stringToDate(dateString, getCompany()
-					.getPreferences().getDateFormat());
+			depreciationEndDate = UIUtils.stringToDate(dateString,
+					messages.ddMMyyyy());
 
 			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
