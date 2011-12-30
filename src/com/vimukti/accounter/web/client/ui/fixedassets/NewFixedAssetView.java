@@ -286,9 +286,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		descrptionLabel = new Label(messages.description());
 		descriptionTxtArea = new TextAreaItem();
-		descriptionTxtArea.setToolTip(messages
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(messages.comments(), messages.description()));
+		descriptionTxtArea.setToolTip(messages.writeCommentsForThis(
+				this.getAction().getViewName()).replace(messages.comments(),
+				messages.description()));
 		descriptionTxtArea.setWidth("100px");
 		descriptionTxtArea.setWidth("800px");
 
@@ -650,14 +650,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		// .assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount(
 		// Global.get().account()));
 		infoLabl2 = new Label(
-				messages
-						.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
+				messages.assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount());
 		infoLabl2.addStyleName("requiredField");
 
 		// accumulatedDepreciationAccount = new FixedAssetAccountCombo(Accounter
 		// .messages().accumulatedDepreciationAccount(
 		// Global.get().account()));
-		accumulatedDepreciationAccount = new FixedAssetAccountCombo(messages.accumulatedDepreciationAccount());
+		accumulatedDepreciationAccount = new FixedAssetAccountCombo(
+				messages.accumulatedDepreciationAccount());
 		accumulatedDepreciationAccount
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
@@ -907,7 +907,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		data.setAssetNumber(assetNumberTxt.getValue() != null ? assetNumberTxt
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
-			if (accumulatedDepreciationAccount != null) {
+			if (accumulatedDepreciationAccount.getSelectedValue() != null) {
 				data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 						.getSelectedValue() != null ? accumulatedDepreciationAccount
 						.getSelectedValue().getID() : 0);
@@ -1083,11 +1083,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (validateAccount()) {
 				result.addError(accountCombo,
 				/*
-				 * messages
-				 * .accandaccumulatedDepreciationAccShouldnotbesame(
+				 * messages .accandaccumulatedDepreciationAccShouldnotbesame(
 				 * Global.get().account())
-				 */messages
-						.accandaccumulatedDepreciationAccShouldnotbesame());
+				 */messages.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
 		}
 		// }
@@ -1103,10 +1101,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	private ValidationResult validateAccumulatedDepreciationAccount() {
 		ValidationResult result = new ValidationResult();
 		if (accumulatedDepreciationAccount != null) {
-			// if (accumulatedDepreciationAccount.getSelectedValue() == null) {
-			// result.addError(accumulatedDepreciationAccount,
-			// messages.pleaseChooseAnAccount());
-			// }
+			if (accumulatedDepreciationAccount.getSelectedValue() == null) {
+				result.addError(accumulatedDepreciationAccount,
+						messages.pleaseChooseAnAccount());
+			}
 		}
 		return result;
 	}
