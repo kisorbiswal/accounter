@@ -1696,7 +1696,8 @@ public class FinanceTool {
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getDate());
+										.getTime()).getDate())
+						.setParameter("isActive", isActive);
 
 			} else if (category == Payee.TYPE_VENDOR) {
 
@@ -1750,7 +1751,9 @@ public class FinanceTool {
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getDate());
+										.getTime()).getDate())
+						.setParameter("isActive", isActive);
+				;
 			} else if (category == Payee.TYPE_TAX_AGENCY) {
 
 				query = session
@@ -1803,15 +1806,13 @@ public class FinanceTool {
 						.setParameter(
 								"previousFifthMonthEndDateCal",
 								new FinanceDate(previousFifthMonthEndDateCal
-										.getTime()).getDate());
+										.getTime()).getDate())
+						.setParameter("isActive", isActive);
+				;
 			}
 			List list = null;
-			if (length > 0) {
-				total = query.list().size();
-				list = query.setFirstResult(start).setMaxResults(length).list();
-			} else {
-				list = query.list();
-			}
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
 
 			if (list != null) {
 				Object[] object = null;
@@ -1888,12 +1889,7 @@ public class FinanceTool {
 
 				PaginationList<PayeeList> result = new PaginationList<PayeeList>();
 				for (PayeeList payee : queryResult) {
-					if (payee.isActive() == isActive) {
-						result.add(payee);
-					}
-				}
-				if (!isActive) {
-					total = result.getTotalCount();
+					result.add(payee);
 				}
 				result.setTotalCount(total);
 				result.setStart(start);
