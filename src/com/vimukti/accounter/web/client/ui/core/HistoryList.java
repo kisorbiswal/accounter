@@ -34,9 +34,12 @@ public class HistoryList {
 
 	public static class HistoryItem {
 		Action action;
-		HistoryItem(AbstractView<?> view,Action action) {
+		String token;
+
+		HistoryItem(AbstractView<?> view, Action action, String token) {
 			this.view = view;
-			this.action=action;
+			this.action = action;
+			this.token = token;
 		}
 
 		AbstractView<?> view;
@@ -44,7 +47,7 @@ public class HistoryList {
 
 	public HistoryItem getView(String token) {
 		for (HistoryItem item : list) {
-			if (item.action.getHistoryToken().equals(token)) {
+			if (item.token.equals(token)) {
 				return item;
 			}
 		}
@@ -60,7 +63,7 @@ public class HistoryList {
 		list.remove(list.size() - 1);
 		if (list.size() > 0) {
 			return list.remove(list.size() - 1);
-		}else{
+		} else {
 			return null;
 		}
 
@@ -68,11 +71,11 @@ public class HistoryList {
 
 	public void clear() {
 		for (HistoryItem item : list) {
-			item.view=null;
+			item.view = null;
 		}
 	}
 
 	public HistoryItem current() {
-		return list.get(list.size()-1);
+		return list.get(list.size() - 1);
 	}
 }
