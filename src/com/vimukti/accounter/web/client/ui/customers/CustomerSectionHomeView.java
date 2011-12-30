@@ -38,6 +38,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 
 	private String[] firstColumn;
 	private CustomerListView listView;
+	private final boolean isActiveAccounts = true;
 
 	public CustomerSectionHomeView() {
 		customerHomeView = this;
@@ -192,7 +193,7 @@ public class CustomerSectionHomeView extends BaseHomeView {
 	@Override
 	protected void onPageChange(int start, int length) {
 		Accounter.createHomeService().getPayeeList(ClientPayee.TYPE_CUSTOMER,
-				true, start, length,
+				isActiveAccounts, start, length,
 				new AccounterAsyncCallback<PaginationList<PayeeList>>() {
 
 					@Override
