@@ -57,7 +57,7 @@ public class JournalEntryListView extends
 	@Override
 	protected int getPageSize() {
 
-		return 10;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
@@ -67,6 +67,7 @@ public class JournalEntryListView extends
 
 	}
 
+	@Override
 	public void onSuccess(PaginationList<ClientJournalEntry> result) {
 		super.onSuccess(result);
 		if (grid.getRecords().isEmpty())
