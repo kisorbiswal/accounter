@@ -35,27 +35,26 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
-	public static final int TYPE_ESTIMATE = 7;
+	private static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
 	private static final int TYPE_RECEIVE_PAYMENT = 12;
 	private static final int TYPE_CREDITNOTE = 4;
 	private static final int TYPE_CUSTOMER_REFUND = 5;
 	private static final int TYPE_ALL_TRANSACTION = 100;
-	public ClientCustomer selectedCustomer;
+	private ClientCustomer selectedCustomer;
 	private List<PayeeList> listOfCustomers;
-	protected ArrayList<ClientFinanceDate> startEndDates;
-	protected ArrayList<TransactionHistory> records;
+	private ArrayList<TransactionHistory> records;
 
-	CustomerDetailsPanel detailsPanel;
-	CustomersListGrid custGrid;
-	protected SelectCombo activeInActiveSelect, trasactionViewSelect,
+	private CustomerDetailsPanel detailsPanel;
+	private CustomersListGrid custGrid;
+	private SelectCombo activeInActiveSelect, trasactionViewSelect,
 			trasactionViewTypeSelect, dateRangeSelector;
-	VerticalPanel transactionGridpanel;
-	CustomerTransactionsHistoryGrid custHistoryGrid;
-	List<String> dateRangeList, typeList;
-	ClientFinanceDate startDate, endDate;
-	Map<Integer, String> transactiontypebyStatusMap;
+	private VerticalPanel transactionGridpanel;
+	private CustomerTransactionsHistoryGrid custHistoryGrid;
+	private List<String> dateRangeList, typeList;
+	private ClientFinanceDate startDate, endDate;
+	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 
 	public CustomerCenterView() {
@@ -197,8 +196,10 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 			transactionTypeList.add(messages.allTransactions());
 			transactionTypeList.add(messages.invoices());
 			transactionTypeList.add(messages.quotes());
-			transactionTypeList.add(messages.Charges());
-			transactionTypeList.add(messages.credits());
+			if (getCompany().getPreferences().isDelayedchargesEnabled()) {
+				transactionTypeList.add(messages.Charges());
+				transactionTypeList.add(messages.credits());
+			}
 			transactionTypeList.add(messages.allcashSales());
 			transactionTypeList.add(messages.receivedPayments());
 			transactionTypeList.add(messages.CustomerCreditNotes());
@@ -433,19 +434,17 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	@Override
 	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -497,7 +496,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		}
 	}
 
-	protected int getTransactionStatusType() {
+	private int getTransactionStatusType() {
 		if (trasactionViewTypeSelect.getSelectedValue() != null) {
 			Set<Integer> keySet = transactiontypebyStatusMap.keySet();
 			for (Integer integerKey : keySet) {
@@ -512,7 +511,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	}
 
-	protected int getTransactionType() {
+	private int getTransactionType() {
 		String selectedValue = trasactionViewSelect.getSelectedValue();
 		if (selectedValue.equalsIgnoreCase(messages.invoices())) {
 
@@ -536,7 +535,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	}
 
-	public void dateRangeChanged(String dateRange) {
+	private void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
@@ -629,7 +628,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		return newDate;
 	}
 
-	public int getMonthLastDate(int month, int year) {
+	private int getMonthLastDate(int month, int year) {
 		int lastDay;
 		switch (month) {
 		case 0:
@@ -655,7 +654,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		return lastDay;
 	}
 
-	public void getCurrentQuarter() {
+	private void getCurrentQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();
 

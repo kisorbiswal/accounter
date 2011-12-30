@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
@@ -100,9 +101,9 @@ public class CustomerDetailsPanel extends VerticalPanel {
 					.getFormalName());
 
 			fax.setValue(selectedCustomer.getFaxNo());
-
-			customersince.setValue(new ClientFinanceDate(selectedCustomer
-					.getPayeeSince()).toString());
+			customersince.setValue(UIUtils
+					.getDateByCompanyType(new ClientFinanceDate(
+							selectedCustomer.getPayeeSince())));
 
 			webpageadress.setValue(selectedCustomer.getWebPageAddress());
 
