@@ -434,19 +434,19 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	 </div>
 	 <div class="signup-right">
 	     <div class="simple-get-started">
-	        <h3>Simple to get Started:</h3>
+	        <h3><i18n:i18n msg='SimpletogetStarted'/>:</h3>
 	        <ul>
-	          <li>No Creditcard required</li>
-	          <li>Free to singup</li>
-	          <li>Cancel at anytime</li>
+	          <li><i18n:i18n msg='NoCreditcardrequired'/></li>
+	          <li><i18n:i18n msg='Freetosingup'/></li>
+	          <li><i18n:i18n msg='Cancelatanytime'/></li>
 	        </ul>
 	     </div> 
 	     <div class="benfits">
-	        <h3>Benfits:</h3>
+	        <h3><i18n:i18n msg='Benfits'/>:</h3>
 	        <ul>
-	          <li>Access from anywhere</li>
-	          <li>Multiple companies</li>
-	          <li>Print Reports & Invocies</li>
+	          <li><i18n:i18n msg='Accessfromanywhere'/></li>
+	          <li><i18n:i18n msg='Multiplecompanies'/></li>
+	          <li><i18n:i18n msg='PrintReportsInvocies'/></li>
 	        </ul>
 	     </div>
 	 </div>
