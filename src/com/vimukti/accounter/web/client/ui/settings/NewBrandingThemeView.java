@@ -562,7 +562,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		fontNameArray = new String[] { messages.arial(), messages.calibri(),
 				messages.cambria(), messages.georgia(), messages.myriad(),
 				messages.tahoma(), messages.timesNewRoman(),
-				messages.trebuchet() };
+				messages.trebuchet(), "Code2000" };
 		fontSizeArray = new String[] { messages.pointnumber(8),
 				messages.pointnumber(9), messages.pointnumber(10),
 				messages.pointnumber(11),
