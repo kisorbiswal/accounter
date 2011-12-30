@@ -296,10 +296,10 @@ public abstract class CompanyInitializer {
 		session.save(creditCardCompanies);
 
 		BrandingTheme brandingTheme = new BrandingTheme("Standard",
-				SecureUtils.createID(), 1.35, 1.00, 1.00, "Times New Roman",
-				"10pt", "INVOICE", "CREDIT", "STATEMENT", "QUOTE",
-				"(None Added)", true, "(None Added)", "(None Added)",
-				"Classic Template", "Classic Template", "Classic Template");
+				SecureUtils.createID(), 1.35, 1.00, 1.00, "Code2000", "10pt",
+				"INVOICE", "CREDIT", "STATEMENT", "QUOTE", "(None Added)",
+				true, "(None Added)", "(None Added)", "Classic Template",
+				"Classic Template", "Classic Template");
 		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
 
