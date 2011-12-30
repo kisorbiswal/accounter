@@ -64,7 +64,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected BaseListGrid grid;
 	boolean budgetItemsExists = false;
 	protected static AccounterMessages messages = Global.get().messages();
-	public int start;
+	protected int start;
+	protected boolean isActive = true;
+	public static final int DEFAULT_PAGE_SIZE = 50;
 
 	public BaseListView() {
 	}
@@ -173,12 +175,12 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			if (viewSelect == null) {
 				viewSelect = new SelectCombo(messages.currentView());
 				viewSelect.setHelpInformation(true);
+				viewSelect.setComboItem(messages.active());
 				// viewSelect.setWidth("150px");
 				List<String> typeList = new ArrayList<String>();
 				typeList.add(messages.active());
 				typeList.add(messages.inActive());
 				viewSelect.initCombo(typeList);
-				viewSelect.setComboItem(messages.active());
 				viewSelect
 						.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -188,11 +190,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 									if (viewSelect.getSelectedValue()
 											.toString()
 											.equalsIgnoreCase("Active"))
-										filterList(true);
+										filterList(isActive);
 									else
-										filterList(false);
+										filterList(isActive);
 								}
-
 							}
 						});
 			}
@@ -413,7 +414,6 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							.getNewRange().getLength());
 				}
 			});
-			grid.setVisibleRange(start, pageSize);
 			SimplePager pager = new SimplePager(TextLocation.CENTER,
 					(Resources) GWT.create(Resources.class), false,
 					pageSize * 2, true);
@@ -491,6 +491,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public void initListCallback() {
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
+		if (getPageSize() != -1) {
+			grid.setVisibleRange(start, getPageSize());
+		}
 	}
 
 	protected AccounterAsyncCallback<Boolean> getGeneralizedDeleteCallBack(
