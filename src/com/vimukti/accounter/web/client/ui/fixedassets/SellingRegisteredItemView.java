@@ -646,4 +646,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		getJournalViewObjet(getTempFixedAssetObject());
 	}
 
+	@Override
+	public boolean canEdit() {
+		return false;
+	}
 }
