@@ -48,11 +48,14 @@ public class Converter {
 	public void generatePdfReports(ITemplate template, OutputStream outputStream)
 			throws Exception {
 
-		File pdfTempFile = File.createTempFile("crdedit", ".pdf");
+		File pdfTempFile = File.createTempFile("credit", ".pdf");
 		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
 		try {
 
 			PD4ML pd4ml = new PD4ML();
+			File file = new File(ServerConfiguration.getFontsDir());
+			String absolutePath = file.getAbsolutePath();
+			pd4ml.useTTF(absolutePath, true);
 			System.err.println("PD4ML Obj created");
 			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
