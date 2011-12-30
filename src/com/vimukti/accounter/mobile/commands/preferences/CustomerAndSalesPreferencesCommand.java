@@ -119,12 +119,12 @@ public class CustomerAndSalesPreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return "Tracking Discounts enabled";
+				return getMessages().trackingDiscountsEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Tracking Discounts disabled";
+				return getMessages().trackingDiscountsDisabled();
 			}
 		});
 
