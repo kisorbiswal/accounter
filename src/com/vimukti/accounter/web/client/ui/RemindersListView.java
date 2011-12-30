@@ -28,16 +28,14 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 	public static String CASH_EXPENSE = messages.cashExpense();
 	public static String CASH_SALES = messages.cashSale();
 	public static String CASH_PURCHASE = messages.cashPurchase();
-	public static String CREDIT_CARD_EXPENSE = messages
-			.creditCardExpense();
+	public static String CREDIT_CARD_EXPENSE = messages.creditCardExpense();
 	public static String CUSTOMER_CREDIT_MEMO = messages
 			.customerCreditNote(Global.get().Customer());
 	public static String DEPOSIT_TRANSFER_FUNDS = messages
 			.depositTransferFunds();
 	public static String INVOICE = messages.invoice();
 	public static String QUOTE = messages.quote();
-	public static String VENDOR_CREDIT_MEMO = messages
-			.vendorCreditMemo();
+	public static String VENDOR_CREDIT_MEMO = messages.vendorCreditMemo();
 	public static String WRITE_CHECK = messages.writeCheck();
 
 	Map<String, Integer> typesMap = new HashMap<String, Integer>();
@@ -51,6 +49,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 	public void initListCallback() {
 		super.initListCallback();
 		Accounter.createHomeService().getRemindersList(this);
+		filterList(viewSelect.getSelectedValue());
 	}
 
 	@Override
@@ -129,15 +128,15 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 			Accounter.createCRUDService().createOrSkipTransactions(records,
 					isCreate, callBack);
 		} else {
-			Accounter.showError(messages
-					.pleaseSelectAtLeastOneRecord());
+			Accounter.showError(messages.pleaseSelectAtLeastOneRecord());
 		}
 	}
 
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		// map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		map.put("selectedOption", selectedValue);
 		map.put("start", start);
 		return map;
 	}
@@ -148,15 +147,31 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		// isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		// if (isActiveAccounts) {
-		// viewSelect.setComboItem(messages.active());
-		// } else {
-		// viewSelect.setComboItem(messages.inActive());
-		// }
-
+		String object = (String) viewDate.get("selectedOption");
+		if (object.equalsIgnoreCase(ALL)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(BILL)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(CASH_EXPENSE)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(CASH_PURCHASE)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(CASH_SALES)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(CREDIT_CARD_EXPENSE)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(CUSTOMER_CREDIT_MEMO)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(DEPOSIT_TRANSFER_FUNDS)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(INVOICE)) {
+			viewSelect.setComboItem(object);
+		} else if (object.equalsIgnoreCase(QUOTE)) {
+			viewSelect.setComboItem(VENDOR_CREDIT_MEMO);
+		} else if (object.equalsIgnoreCase(WRITE_CHECK)) {
+			viewSelect.setComboItem(object);
+		}
 	}
 
 	@Override

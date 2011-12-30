@@ -28,7 +28,6 @@ public class ItemListView extends BaseListView<ClientItem> {
 	private ArrayList<ClientItem> listOfItems = new ArrayList<ClientItem>();
 
 	private String catageory;
-	private boolean isActiveAccounts = true;
 
 	/*
 	 * To Identify from which view the request is generated.i.e SalesItemview or
@@ -107,6 +106,7 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	@Override
 	public void initListCallback() {
+		filterList(isActive);
 	}
 
 	@Override
@@ -159,8 +159,8 @@ public class ItemListView extends BaseListView<ClientItem> {
 				|| this.catageory.equals(messages.vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
-		} else if (this.catageory.equals(messages.bothCustomerAndVendor(
-				Global.get().Customer(), Global.get().Vendor()))) {
+		} else if (this.catageory.equals(messages.bothCustomerAndVendor(Global
+				.get().Customer(), Global.get().Vendor()))) {
 			isSalesType = isPurchaseType = true;
 		}
 	}
@@ -191,7 +191,13 @@ public class ItemListView extends BaseListView<ClientItem> {
 	@Override
 	public Map<String, Object> saveView() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isActive", isActiveAccounts);
+		String selectedValue = viewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.active())) {
+			isActive = true;
+		} else {
+			isActive = false;
+		}
+		map.put("isActive", isActive);
 		map.put("start", start);
 		return map;
 	}
@@ -202,15 +208,13 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		isActive = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
-		onPageChange(start, getPageSize());
-		if (isActiveAccounts) {
+		if (isActive) {
 			viewSelect.setComboItem(messages.active());
 		} else {
 			viewSelect.setComboItem(messages.inActive());
 		}
-
 	}
 
 	@Override
