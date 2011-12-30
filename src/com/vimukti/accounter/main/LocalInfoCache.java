@@ -3,13 +3,13 @@ package com.vimukti.accounter.main;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import com.google.gwt.i18n.client.DateTimeFormatInfo;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class LocalInfoCache {
@@ -17,7 +17,7 @@ public class LocalInfoCache {
 
 	public static DayAndMonthUtil get(Locale locale) {
 		DayAndMonthUtil dayAndMonthUtil = map.get(locale);
-		if (map == null) {
+		if (dayAndMonthUtil == null) {
 			dayAndMonthUtil = createDayAndMonthUtil(locale);
 			map.put(locale, dayAndMonthUtil);
 		}
@@ -34,15 +34,22 @@ public class LocalInfoCache {
 				"com.vimukti.accounter.web.server.i18n.constants.DateTimeConstantsImpl",
 				locale);
 		String resourceName = toResourceName(bundleName, "properties");
-		FileInputStream fstream;
+
 		try {
-			fstream = new FileInputStream(resourceName);
-			DataInputStream in = new DataInputStream(fstream);
+			InputStream openStream = new LocalInfoCache().getClass()
+					.getClassLoader().getResource(resourceName).openStream();
+			DataInputStream in = new DataInputStream(openStream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
 			// Read File Line By Line
 			DummyDateTimeFormatInfo dateTimeFormatInfo = new DummyDateTimeFormatInfo();
 			while ((strLine = br.readLine()) != null) {
+				if (strLine.length() == 0) {
+					continue;
+				}
+				if (strLine.charAt(0) == '#') {
+					continue;
+				}
 				String[] split = strLine.split("=");
 				String key = split[0].trim();
 				String[] values = split[1].trim().split(",");
