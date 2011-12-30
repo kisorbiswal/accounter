@@ -136,7 +136,9 @@ public class NewVendorPaymentView extends
 			// }
 
 			endBalText.setAmount(transaction.getEndingBalance());
-			vendorBalText.setAmount(vendor.getBalance());
+			if (vendor != null) {
+				vendorBalText.setAmount(vendor.getBalance());
+			}
 
 			if (transaction.getCheckNumber() != null) {
 				if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
