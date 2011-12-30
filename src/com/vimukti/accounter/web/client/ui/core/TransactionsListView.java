@@ -68,10 +68,8 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
 				messages.lastMonth(), messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
-				messages.lastFinancialQuarter(),
-				messages.financialYearToDate() };
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(), messages.financialYearToDate() };
 		final List<String> dateRanges = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRanges.add(dateRangeArray[i]);
@@ -92,8 +90,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 									.getSelectedValue());
 							grid.setViewType(dateRangeSelector
 									.getSelectedValue());
-							dateRangeSelector.removeComboItem(messages
-									.custom());
+							dateRangeSelector.removeComboItem(messages.custom());
 							updateButton.setEnabled(false);
 						}
 					}
@@ -341,14 +338,15 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
+		this.viewType = currentView;
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
+		dateRangeChanged(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
 		setStartDate(startDate1);
 		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
 		setEndDate(endDate1);
 		start = (Integer) map.get("start");
-		onPageChange(start, getPageSize());
 	}
 
 	@Override
