@@ -39,28 +39,27 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	private static final int TYPE_CASH_PURCHASE = 2;
 	private static final int TYPE_ENTER_BILL = 6;
-	public static final int TYPE_PAY_BILL = 11;
-	public static final int TYPE_WRITE_CHECK = 15;
-	public static final int TYPE_PURCHASE_ORDER = 22;
+	private static final int TYPE_PAY_BILL = 11;
+	private static final int TYPE_WRITE_CHECK = 15;
+	private static final int TYPE_PURCHASE_ORDER = 22;
 	private static final int TYPE_ALL_TRANSACTION = 100;
-	public static final int TYPE_ISSUE_PAYMENT = 9;
-	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
-	public static final int TYPE_EXPENSE = 18;
+	private static final int TYPE_VENDOR_CREDIT_MEMO = 14;
+	private static final int TYPE_EXPENSE = 18;
 
-	public ClientVendor selectedVendor;
+	private ClientVendor selectedVendor;
 	private List<PayeeList> listOfVendors;
 	protected ArrayList<ClientFinanceDate> startEndDates;
-	protected ArrayList<TransactionHistory> records;
+	private ArrayList<TransactionHistory> records;
 
-	VendorDetailsPanel detailsPanel;
-	VendorsListGrid vendorlistGrid;
-	protected SelectCombo activeInActiveSelect, trasactionViewSelect,
+	private VendorDetailsPanel detailsPanel;
+	private VendorsListGrid vendorlistGrid;
+	private SelectCombo activeInActiveSelect, trasactionViewSelect,
 			trasactionViewTypeSelect, dateRangeSelector;
-	VerticalPanel transactionGridpanel;
-	VendorTransactionsHistoryGrid vendHistoryGrid;
-	List<String> dateRangeList, typeList;
-	ClientFinanceDate startDate, endDate;
-	Map<Integer, String> transactiontypebyStatusMap;
+	private VerticalPanel transactionGridpanel;
+	private VendorTransactionsHistoryGrid vendHistoryGrid;
+	private List<String> dateRangeList, typeList;
+	private ClientFinanceDate startDate, endDate;
+	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 
 	public VendorCenterView() {
@@ -460,7 +459,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		}
 	}
 
-	protected int getTransactionStatusType() {
+	private int getTransactionStatusType() {
 		if (trasactionViewTypeSelect.getSelectedValue() != null) {
 			Set<Integer> keySet = transactiontypebyStatusMap.keySet();
 			for (Integer integerKey : keySet) {
@@ -475,7 +474,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	}
 
-	protected int getTransactionType() {
+	private int getTransactionType() {
 
 		if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.cashPurchases())) {
@@ -504,7 +503,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	}
 
-	public void dateRangeChanged(String dateRange) {
+	private void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
@@ -597,7 +596,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		return newDate;
 	}
 
-	public int getMonthLastDate(int month, int year) {
+	private int getMonthLastDate(int month, int year) {
 		int lastDay;
 		switch (month) {
 		case 0:
@@ -623,7 +622,7 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		return lastDay;
 	}
 
-	public void getCurrentQuarter() {
+	private void getCurrentQuarter() {
 
 		ClientFinanceDate date = new ClientFinanceDate();
 
