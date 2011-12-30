@@ -259,8 +259,12 @@ public class CustomerManager extends Manager {
 					.setParameter("estimateType", type)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate);
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
 			if (list != null) {
 				return new ArrayList<Estimate>(list);
 			} else
