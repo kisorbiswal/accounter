@@ -1,7 +1,5 @@
 package com.vimukti.accounter.utils;
 
-
-
 // Copyright 2003-2010 Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland
 // www.source-code.biz, www.inventec.ch/chdh
 //
@@ -244,6 +242,7 @@ public class MiniTemplator {
 			TemplateSyntaxException {
 		TemplateSpecification templateSpec = new TemplateSpecification();
 		templateSpec.templateFileName = templateFileName;
+		templateSpec.charset = Charset.forName("utf-8");
 		init(templateSpec);
 	}
 
