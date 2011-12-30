@@ -240,6 +240,10 @@ public class ServerConfiguration {
 		return "config/MobileStore";
 	}
 
+	public static String getFontsDir() {
+		return "config/fonts";
+	}
+
 	public static boolean isEnableConsoleChatServer() {
 		return enableConsoleChatServer;
 	}
