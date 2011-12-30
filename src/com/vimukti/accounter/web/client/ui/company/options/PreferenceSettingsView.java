@@ -209,14 +209,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 						pageDetailsPanel.clear();
 						pageDetailsPanel.add(page);
 					}
-					if (option instanceof CurrencyFormatOption) {
-						CurrencyFormatDialog dialog = new CurrencyFormatDialog(
-								messages.currencyFormat());
-						dialog.show();
-						dialog.center();
-					} else {
-						pageDetailsPanel.ensureVisible(option);
-					}
+					pageDetailsPanel.ensureVisible(option);
 				}
 			});
 		}

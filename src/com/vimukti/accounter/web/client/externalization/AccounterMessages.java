@@ -5690,4 +5690,6 @@ public interface AccounterMessages extends Messages {
 
 	public String trackingDiscountsEnabled();
 
+	public String changeCurrencyFormat();
+
 }
