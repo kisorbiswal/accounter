@@ -135,6 +135,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		 * null.But while registering,this asset must hav a linked account.So,we
 		 * need to display when "edit" is Selected
 		 */
+
 		if (selectedOption != null
 				&& selectedOption.equalsIgnoreCase(messages.edit())
 				&& isInViewMode() && data.getAssetAccount() != 0
@@ -142,7 +143,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				&& mainVPanel.getWidgetIndex(accumltdAccVPanel) == -1) {
 			showAccumltdAccountForm();
 		}
-
+		accumulatedDepreciationAccountForm.setDisabled(disable);
 	}
 
 	private void initAssetNumber() {
@@ -717,6 +718,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			accumulatedDepreciationAccount
 					.setComboItem(getCompany().getAccount(
 							data.getLinkedAccumulatedDepreciationAccount()));
+
 		}
 		accumulatedDepreciationAccountForm = new DynamicForm();
 		accumulatedDepreciationAccountForm
@@ -1204,7 +1206,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 	@Override
 	public boolean canEdit() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -1254,4 +1256,5 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	protected boolean canDelete() {
 		return true;
 	}
+
 }
