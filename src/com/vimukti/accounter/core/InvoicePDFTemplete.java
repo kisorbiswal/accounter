@@ -55,7 +55,9 @@ public class InvoicePDFTemplete implements PrintTemplete {
 			externalizeStrings(t);
 
 			String image = getImage();
-
+			// setting the theme styles
+			t.setVariable("fontStyle", brandingTheme.getFont());
+			t.setVariable("font", brandingTheme.getFontSize());
 			// setting logo Image
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
@@ -117,6 +119,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					t.setVariable("currency", currency.getFormalName().trim());
 					t.addBlock("currency");
 				}
+
+			// for DueDate
+			t.setVariable("dueDate",
+					Utility.getDateInSelectedFormat(invoice.getDueDate()));
+			t.addBlock("dueDateDetails");
 
 			// for customer VAT Registration Number
 			String vatRegistrationNumber = invoice.getCustomer()
@@ -352,9 +359,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 							/ currencyFactor, symbol));
 			t.addBlock("itemDetails");
 
-			t.setVariable("dueDate", invoice.getDueDate().toString());
-			t.addBlock("dueDateDetails");
-
 			boolean hasTermsNpaypalId = false;
 			String termsNCondn = forNullValue(
 					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
@@ -383,9 +387,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				t.addBlock("termsNpaypalId");
 			}
 
-			// setting the theme styles
-			t.setVariable("fontStyle", "Code2000");// brandingTheme.getFont()
-			t.setVariable("font", brandingTheme.getFontSize());
 			t.setVariable(
 					"bottomMargin",
 					NumberFormat.getInstance().format(
