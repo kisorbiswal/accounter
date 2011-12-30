@@ -41,13 +41,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		// getLastandOpenedFiscalYearEndDate();
 	}
 
-	// @Override
-	// public void initData() {
-	//
-	// }
-
 	public InvoiceListView(int typeInvoicesOnly) {
-		super(messages.all());
+		super(messages.open());
 		isDeleteDisable = true;
 		this.transactionType = typeInvoicesOnly;
 	}
@@ -104,7 +99,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	public void onSuccess(PaginationList<InvoicesList> result) {
 		grid.removeLoadingImage();
 		listOfInvoices = result;
-		grid.setViewType(viewType);
+		viewSelect.setComboItem(viewType);
 		grid.setRecords(result);
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);
