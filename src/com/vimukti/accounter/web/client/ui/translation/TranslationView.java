@@ -144,6 +144,11 @@ public class TranslationView extends AbstractPagerView<ClientMessage> {
 		this.setCellHorizontalAlignment(pager, HasAlignment.ALIGN_CENTER);
 	}
 
+	@Override
+	public void updateListData() {
+		addMessagesToView();
+	}
+
 	public void languageSelected(ClientLanguage selectItem) {
 		selectedLanguageLabel.setText(messages.selectedTranslated(selectItem
 				.getLanguageTooltip()));

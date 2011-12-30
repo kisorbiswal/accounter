@@ -31,7 +31,7 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 
 	@Override
 	public String getDefaultAddNewCaption() {
-		return messages.item();
+		return messages.taxCode();
 	}
 
 	@Override
@@ -77,11 +77,13 @@ public class TAXCodeCombo extends CustomCombo<ClientTAXCode> {
 			if (isSales) {
 				ClientTAXItem item = getCompany().getTaxItem(
 						object.getTAXItemGrpForSales());
-				return DataUtils.getAmountAsStringInPrimaryCurrency(item.getTaxRate()) + "%";
+				return DataUtils.getAmountAsStringInPrimaryCurrency(item
+						.getTaxRate()) + "%";
 			} else {
 				ClientTAXItem item = getCompany().getTaxItem(
 						object.getTAXItemGrpForPurchases());
-				return DataUtils.getAmountAsStringInPrimaryCurrency(item.getTaxRate()) + "%";
+				return DataUtils.getAmountAsStringInPrimaryCurrency(item
+						.getTaxRate()) + "%";
 			}
 		}
 		return null;
