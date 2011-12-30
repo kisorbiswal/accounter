@@ -108,6 +108,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		this.addStyleName("listgrid");
 	}
 
+	@Override
 	public void init() {
 		super.init();
 	}
@@ -175,6 +176,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	 * 
 	 * @param cell
 	 */
+	@Override
 	protected final void cellClicked(int row, int col) {
 		if (isContinueToexecuteEvent(row, col)) {
 			currentCol = isMultiSelectionEnable ? col - 1 : col;
@@ -205,6 +207,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		}
 	}
 
+	@Override
 	protected final void cellDoubleClicked(int row, int col) {
 		if (isContinueToexecuteEvent(row, col)) {
 			currentCol = isMultiSelectionEnable ? col - 1 : col;
@@ -452,7 +455,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_LINK:
-			addLink(obj, (String) data);
+			addLink(obj, data);
 			addCellStyles("gridLabelCell");
 			break;
 		case COLUMN_TYPE_DECIMAL_TEXTBOX:
@@ -473,7 +476,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridDecimalCell");
 			break;
 		case COLUMN_TYPE_QUANTITY_POPUP:
-			data = ((String) data);
+			data = data;
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
 		}
@@ -786,6 +789,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	 * 
 	 * @param cell
 	 */
+	@Override
 	public void headerCellClicked(int colIndex) {
 		if ((colIndex == 0 && isMultiSelectionEnable)
 				|| getColumnType(colIndex) == ListGrid.COLUMN_TYPE_IMAGE) {
@@ -1023,7 +1027,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	}
 
 	// HasRows
-	private Range visibleRange;
+	private Range visibleRange = new Range(0, 0);
 	private boolean isRowCountExact;
 	private int rowCount;
 	private Handler handler;
