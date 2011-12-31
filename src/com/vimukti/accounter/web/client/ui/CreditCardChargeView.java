@@ -960,7 +960,7 @@ public class CreditCardChargeView extends
 		if (isTrackTax()) {
 			netAmount.setAmount(lineTotal);
 			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+					.getTransactionItems().isEmpty()) && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(

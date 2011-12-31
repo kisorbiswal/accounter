@@ -129,8 +129,8 @@ public class ItemReceiptView extends
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
 		phoneSelect = new TextItem(messages.phone());
-		phoneSelect.setToolTip(messages.phoneNumberOf(
-				this.getAction().getCatagory()));
+		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
+				.getCatagory()));
 		phoneSelect.setHelpInformation(true);
 		phoneSelect.setWidth(100);
 		phoneSelect.setDisabled(false);
@@ -168,8 +168,8 @@ public class ItemReceiptView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
-		HTML lab2 = new HTML("<strong>"
-				+ messages.itemsAndExpenses() + "</strong>");
+		HTML lab2 = new HTML("<strong>" + messages.itemsAndExpenses()
+				+ "</strong>");
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
 				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
@@ -298,8 +298,8 @@ public class ItemReceiptView extends
 		// memoForm.setWidth("100%");
 		memoForm.setFields(memoTextAreaItem);
 
-		transactionTotalItem = new AmountField(messages.total(),
-				this, getBaseCurrency());
+		transactionTotalItem = new AmountField(messages.total(), this,
+				getBaseCurrency());
 		transactionTotalItem.setDisabled(true);
 		DynamicForm amountForm = new DynamicForm();
 		amountForm.setFields(transactionTotalItem);
@@ -393,7 +393,8 @@ public class ItemReceiptView extends
 
 	private PaymentTermsCombo createPaymentTermsSelectItem() {
 
-		PaymentTermsCombo comboItem = new PaymentTermsCombo(messages.paymentTerms());
+		PaymentTermsCombo comboItem = new PaymentTermsCombo(
+				messages.paymentTerms());
 
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
@@ -522,7 +523,7 @@ public class ItemReceiptView extends
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
 			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+					.getTransactionItems().isEmpty()) && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(
@@ -748,9 +749,9 @@ public class ItemReceiptView extends
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				deliveryDateItem.getEnteredDate(), this.transactionDate)) {
 
-			result.addError(deliveryDateItem, messages.the() + " "
-					+ messages.deliveryDate() + " " + " "
-					+ messages.cannotbeearlierthantransactiondate());
+			result.addError(deliveryDateItem,
+					messages.the() + " " + messages.deliveryDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
 
 		}
 		if (getAllTransactionItems().isEmpty()) {

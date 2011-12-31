@@ -751,7 +751,7 @@ public class CustomerCreditMemoView extends
 
 		if (taxTotalNonEditableText != null) {
 			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+					.getTransactionItems().isEmpty()) && !isInViewMode()) {
 				transaction.setTransactionItems(customerAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(

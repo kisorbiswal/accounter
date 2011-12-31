@@ -881,7 +881,7 @@ public class CashExpenseView extends
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
 			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) || !isInViewMode()) {
+					.getTransactionItems().isEmpty()) && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(

@@ -1152,7 +1152,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		this.salesTax = salesTax;
 
 		if ((transaction.getTransactionItems() != null && transaction
-				.getTransactionItems().isEmpty()) || !isInViewMode())
+				.getTransactionItems().isEmpty()) && !isInViewMode())
 			transaction.setTransactionItems(customerTransactionTable
 					.getAllRows());
 
