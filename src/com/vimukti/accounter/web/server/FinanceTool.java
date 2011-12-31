@@ -2240,6 +2240,8 @@ public class FinanceTool {
 		} else if (newTransaction instanceof JournalEntry) {
 			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
+		} else if (newTransaction instanceof Estimate) {
+			((Estimate) newTransaction).setUsedInvoice(null, session);
 		}
 
 		session.setFlushMode(flushMode);

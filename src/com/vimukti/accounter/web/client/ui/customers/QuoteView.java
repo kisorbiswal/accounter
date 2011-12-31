@@ -984,9 +984,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			// .getTotalTax());
 			if (transaction.getTransactionItems() != null
 					&& transaction.getTransactionItems().isEmpty()
-					|| !isInViewMode())
+					&& !isInViewMode()) {
 				transaction.setTransactionItems(customerTransactionTable
 						.getAllRows());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 
 			setSalesTax(customerTransactionTable.getTotalTax());
@@ -1007,9 +1008,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			salesTax = 0.0D;
 		this.salesTax = salesTax;
 		if ((transaction.getTransactionItems() != null && transaction
-				.getTransactionItems().isEmpty()) || !isInViewMode())
+				.getTransactionItems().isEmpty()) && !isInViewMode()) {
 			transaction.setTransactionItems(customerTransactionTable
 					.getAllRows());
+		}
 		salesTaxTextNonEditable.setTransaction(transaction);
 	}
 
