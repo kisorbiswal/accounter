@@ -578,7 +578,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
 
-		if (date.after(quarterStart) && date.before(quarterEnd)) {
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
 			currentQuarter = 1;
 		}
 		quarterStart.setMonth(quarterStart.getMonth() + 3);
@@ -588,7 +588,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
 
 		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
-		if (date.after(quarterStart) && date.before(quarterEnd)) {
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
 			currentQuarter = 2;
 		}
 		quarterStart.setMonth(quarterStart.getMonth() + 3);
@@ -598,7 +598,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
 
 		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
-		if (date.after(quarterStart) && date.before(quarterEnd)) {
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
 			currentQuarter = 3;
 		}
 		quarterStart.setMonth(quarterStart.getMonth() + 3);
@@ -608,7 +608,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		quarterEndCal.set(Calendar.DAY_OF_MONTH, quarterStart.getDay() - 1);
 
 		quarterEnd = new ClientFinanceDate(quarterEndCal.getTime());
-		if (date.after(quarterStart) && date.before(quarterEnd)) {
+		if (!date.before(quarterStart) && !date.after(quarterEnd)) {
 			currentQuarter = 4;
 		}
 		switch (currentQuarter) {
