@@ -149,7 +149,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		isActive = isActive;
+		this.isActive = isActive;
 		onPageChange(0, getPageSize());
 	}
 
