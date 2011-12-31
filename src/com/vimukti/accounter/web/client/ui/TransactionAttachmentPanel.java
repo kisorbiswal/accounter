@@ -64,7 +64,6 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 																// File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
-		uploadFile.setName(createID());
 		uploadFile.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -244,36 +243,6 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			attachmentTable.add(getAttachmentField(clientAttachment));
 		}
 	}
-
-	public native static String createID()/*-{
-		var MES_UNIQUE_IDS = {};
-		var mes_generateUniqueId = function(charset, len, isNotInDOM) {
-			var i = 0;
-			if (!charset) {
-				charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-			}
-			if (!len) {
-				len = 40;
-			}
-			var id = '', charsetlen = charset.length, charIndex;
-
-			// iterate on the length and get a random character for each position
-			for (i = 0; len > i; i += 1) {
-				charIndex = Math.random() * charsetlen;
-				id += charset.charAt(charIndex);
-			}
-
-			if (MES_UNIQUE_IDS[id] || (isNotInDOM)) {
-				MES_UNIQUE_IDS[id] = true; // add DOM ids to the map
-				return mes_generateUniqueId(charset, len, isNotInDOM);
-			}
-
-			MES_UNIQUE_IDS[id] = true;
-
-			return id;
-		};
-		return mes_generateUniqueId();
-	}-*/;
 
 	public List<ClientAttachment> getAttachments() {
 		return attachments;
