@@ -502,7 +502,7 @@ public class Depreciation extends CreatableObject implements
 				this.fixedAsset.setStatus(FixedAsset.STATUS_REGISTERED);
 				this.fixedAsset.setBookValue(this.fixedAsset.getBookValue()
 						- this.fixedAsset.getPurchasePrice());
-				this.fixedAsset.setSoldOrDisposedDate(new FinanceDate(0));
+				this.fixedAsset.setSoldOrDisposedDate(null);
 				// session.save(journalEntry);
 			}
 
