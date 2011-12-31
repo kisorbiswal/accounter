@@ -266,10 +266,6 @@
            
         </iframe>
         
-<script type="text/javascript">
- 
-})
-</script>
  
 	<%@ include file="./scripts.jsp" %>
 
