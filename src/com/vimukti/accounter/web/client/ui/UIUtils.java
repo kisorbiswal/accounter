@@ -1235,7 +1235,7 @@ public class UIUtils {
 		case ClientAccount.TYPE_OTHER_EXPENSE:
 			return ClientAccount.SUBBASETYPE_OTHER_EXPENSE;
 		case ClientAccount.TYPE_PAYPAL:
-			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
 		default:
 			return 0;
 		}
