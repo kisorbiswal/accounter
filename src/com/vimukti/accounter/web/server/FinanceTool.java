@@ -459,6 +459,8 @@ public class FinanceTool {
 				session.delete(serverObject);
 			} else if (serverObject instanceof Budget) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof TDSChalanDetail) {
+				session.delete(serverObject);
 			} else if (serverObject instanceof Transaction
 					&& ((Transaction) serverObject).isTemplate()) {
 				session.delete(((Transaction) serverObject)
@@ -3694,63 +3696,115 @@ public class FinanceTool {
 				.setParameter("companyId", companyId);
 		List list = query.list();
 		Iterator iterator = list.iterator();
+
+		ArrayList<ClientTDSChalanDetail> chalanList = new ArrayList<ClientTDSChalanDetail>();
+		ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
+				session.getNamedQuery("list.TdsChalanDetails")
+						.setEntity("company", getCompany(companyId)).list());
+
+		for (TDSChalanDetail chalan : chalansGot) {
+			ClientTDSChalanDetail clientObject = null;
+			try {
+				clientObject = new ClientConvertUtil().toClientObject(chalan,
+						ClientTDSChalanDetail.class);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+			chalanList.add(clientObject);
+		}
+
 		while (iterator.hasNext()) {
-			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
 
 			Object[] next = (Object[]) iterator.next();
 
 			Long vendorId = (Long) next[0];
-			clientTDSTransactionItem.setVendorID(vendorId);
-
 			Double tdsTotal = (Double) next[1];
-			clientTDSTransactionItem.setTaxAmount(tdsTotal);
-
 			Double total = (Double) next[2];
-			clientTDSTransactionItem.setTotalAmount(total);
-
 			Long date = (Long) next[3];
+			Long trID = (Long) next[4];
+
+			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
+			/*
+			 * if (arrayList.size() > 0) { if (arrayList.get(arrayList.size() -
+			 * 1).getVendorID() == vendorId) { double taxAmount =
+			 * arrayList.get(arrayList.size() - 1) .getTaxAmount(); taxAmount =
+			 * taxAmount + tdsTotal; double tdsTotal2 =
+			 * arrayList.get(arrayList.size() - 1) .getTdsTotal(); tdsTotal2 =
+			 * tdsTotal2 + total;
+			 * clientTDSTransactionItem.setVendorID(vendorId);
+			 * clientTDSTransactionItem.setTaxAmount(taxAmount);
+			 * clientTDSTransactionItem.setTotalAmount(tdsTotal2);
+			 * clientTDSTransactionItem.setTransactionDate(date);
+			 * clientTDSTransactionItem.setTransactionID(trID);
+			 * clientTDSTransactionItem.setSurchargeAmount(0);
+			 * clientTDSTransactionItem.setEduCess(0);
+			 * arrayList.remove(arrayList.size() - 1);
+			 * 
+			 * } else { clientTDSTransactionItem.setVendorID(vendorId);
+			 * clientTDSTransactionItem.setTaxAmount(tdsTotal);
+			 * clientTDSTransactionItem.setTotalAmount(total);
+			 * clientTDSTransactionItem.setTransactionDate(date);
+			 * clientTDSTransactionItem.setTransactionID(trID);
+			 * clientTDSTransactionItem.setSurchargeAmount(0);
+			 * clientTDSTransactionItem.setEduCess(0); } } else {
+			 */
+			clientTDSTransactionItem.setVendorID(vendorId);
+			clientTDSTransactionItem.setTaxAmount(tdsTotal);
+			clientTDSTransactionItem.setTotalAmount(total);
 			clientTDSTransactionItem.setTransactionDate(date);
-
+			clientTDSTransactionItem.setTransactionID(trID);
 			clientTDSTransactionItem.setSurchargeAmount(0);
-
 			clientTDSTransactionItem.setEduCess(0);
+			// }
 
-			ClientFinanceDate financeDate = new ClientFinanceDate(date);
+			// ClientFinanceDate financeDate = new ClientFinanceDate(date);
 
-			boolean isContains = false;
+			/*
+			 * boolean isContains = false;
+			 * 
+			 * switch (chalanPer) { case 0: if (isContains(janToMar,
+			 * financeDate.getMonth())) { isContains = true; } break;
+			 * 
+			 * case 1: if (isContains(aprToJun, financeDate.getMonth())) {
+			 * isContains = true; } break;
+			 * 
+			 * case 2: if (isContains(julToSep, financeDate.getMonth())) {
+			 * isContains = true; } break;
+			 * 
+			 * case 3: if (isContains(octToDec, financeDate.getMonth())) {
+			 * isContains = true; } break;
+			 * 
+			 * default: break; }
+			 */
 
-			switch (chalanPer) {
-			case 0:
-				if (isContains(janToMar, financeDate.getMonth())) {
-					isContains = true;
+			boolean present = false;
+			if (chalanList.size() > 0) {
+
+				for (ClientTDSChalanDetail chalan : chalanList) {
+					if (present == true) {
+						break;
+					}
+					for (ClientTDSTransactionItem item : chalan
+							.getTransactionItems()) {
+						if (clientTDSTransactionItem.getTransactionID() != item
+								.getTransactionID()) {
+							present = false;
+						} else {
+							present = true;
+							break;
+						}
+
+					}
 				}
-				break;
-
-			case 1:
-				if (isContains(aprToJun, financeDate.getMonth())) {
-					isContains = true;
-				}
-				break;
-
-			case 2:
-				if (isContains(julToSep, financeDate.getMonth())) {
-					isContains = true;
-				}
-				break;
-
-			case 3:
-				if (isContains(octToDec, financeDate.getMonth())) {
-					isContains = true;
-				}
-				break;
-
-			default:
-				break;
 			}
 
-			if (isContains) {
+			if (present == false) {
 				arrayList.add(clientTDSTransactionItem);
 			}
+
+			// if (isContains) {
+
+			// }
 
 		}
 		return arrayList;
@@ -3829,8 +3883,8 @@ public class FinanceTool {
 					.setEntity("company", getCompany(companyId))
 					.setParameter("formNum", formNo)
 					.setParameter("quarter", quater)
-					.setParameter("startYear", startYear)
-					.setParameter("endYear", endYear);
+					.setParameter("startYear", startYear + 1)
+					.setParameter("endYear", endYear + 1);
 
 			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
 					.list();
@@ -3858,6 +3912,7 @@ public class FinanceTool {
 					eTDSObj.setSectionForPayment(clientObject
 							.getPaymentSection());
 					eTDSObj.setTotalTDSfordeductees(total);
+					eTDSObj.setDateTaxDeposited(item.getTransactionDate());
 					eTDSObj.setDeducteeID(item.getVendorID());
 					eTDSObj.setTotalTaxDeposited(0.00);
 					eTDSObj.setDateOFpayment(clientObject.getDateTaxPaid());

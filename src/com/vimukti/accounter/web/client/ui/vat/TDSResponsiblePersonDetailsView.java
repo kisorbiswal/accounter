@@ -226,9 +226,13 @@ public class TDSResponsiblePersonDetailsView extends
 		tanNumber.setDisabled(isInViewMode());
 
 		otherDynamicForm = new DynamicForm();
+		// otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
+		// faxNumber, email, financialYearCombo, assessmentYearCombo,
+		// returnType, existingTdsassess, panCode, tanNumber);
+
 		otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
 				faxNumber, email, financialYearCombo, assessmentYearCombo,
-				returnType, existingTdsassess, panCode, tanNumber);
+				returnType, existingTdsassess);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("100%");
@@ -277,8 +281,11 @@ public class TDSResponsiblePersonDetailsView extends
 		} else {
 			existingTdsassess.setSelected(getYESNOList().get(1));
 		}
-		panCode.setValue(data.getPanNumber());
-		tanNumber.setValue(data.getTanNumber());
+		// panCode.setValue(data.getPanNumber());
+		// tanNumber.setValue(data.getTanNumber());
+
+		panCode.setValue("");
+		tanNumber.setValue("");
 
 		assessmentYearCombo.setSelected(data.getAssesmentYear());
 		designation.setValue(data.getDesignation());
@@ -446,7 +453,6 @@ public class TDSResponsiblePersonDetailsView extends
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
-		// TODO Auto-generated method stub
 		super.createButtons(buttonBar);
 		saveAndNewButton.setVisible(false);
 	}

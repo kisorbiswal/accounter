@@ -10,6 +10,7 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ETdsCellTable extends CellTable<ClientETDSFilling> {
@@ -25,12 +26,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 		setPageSize(50);
 		listDataProvider.addDataDisplay(this);
-		// List<ClientETDSFilling> list = listDataProvider.getList();
-		// ClientETDSFilling empty = new ClientETDSFilling();
-		// for (int i = 0; i < 5; i++) {
-		// list.add(empty);
-		// }
-
 		this.setWidth("100%", true);
 		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
@@ -65,7 +60,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Long.toString(object.getBankBSRCode());
+				return object.getBankBSRCode();
 
 			}
 		};
@@ -86,7 +81,8 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return null;
+				return new ClientFinanceDate(object.getDateTaxDeposited())
+						.toString();
 
 			}
 		};
@@ -96,7 +92,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 					@Override
 					public void update(int index, ClientETDSFilling object,
 							String value) {
-						// TODO Auto-generated method stub
 
 					}
 
@@ -171,7 +166,7 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return Accounter.getCompany().getVendor(object.getDeducteeID())
-						.getPanNumber();
+						.getTaxId();
 
 			}
 		};
@@ -424,7 +419,12 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return null;
+				return Double.toString(Accounter
+						.getCompany()
+						.getTaxItem(
+								Accounter.getCompany()
+										.getVendor(object.getDeducteeID())
+										.getTaxItemCode()).getTaxRate());
 
 			}
 		};
@@ -477,7 +477,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 		this.setColumnWidth(totalTaxDeductedCol, "100px");
 		this.setColumnWidth(totalTaxDepositedCol, "100px");
 		this.setColumnWidth(dateDeductionCol, "100px");
-
 		this.setColumnWidth(rateCol, "100px");
 		this.setColumnWidth(bookEntryCol, "100px");
 
@@ -526,21 +525,6 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 	public void sortRowData(int columnIndex, boolean isAscending) {
 		redraw();
 	}
-
-	/*
-	 * private void openLinkAction(final ClientETDSFilling object) {
-	 * HashMap<String, String> map = new HashMap<String, String>(); String
-	 * budgetTitle = "Add Budget for " + object.getAccountsName();
-	 * AddBudgetAmountDialogue assignAccountsTo1099Dialog = new
-	 * AddBudgetAmountDialogue( budgetTitle, "", map, object);
-	 * assignAccountsTo1099Dialog .setCallback(new
-	 * ActionCallback<HashMap<String, String>>() {
-	 * 
-	 * @Override public void actionResult(HashMap<String, String> result) {
-	 * refreshView(result, object);
-	 * 
-	 * } }); assignAccountsTo1099Dialog.show(); }
-	 */
 
 	public List<ClientETDSFilling> getDataList() {
 		List<ClientETDSFilling> list = listDataProvider.getList();

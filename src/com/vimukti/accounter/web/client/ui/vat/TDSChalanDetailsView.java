@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
@@ -25,9 +26,11 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TdsChalanTransactionItemsTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
@@ -42,7 +45,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private SelectCombo modeOFPaymentCombo;
 	private IntegerField checkNumber;
 	private DateField dateItem2;
-	private IntegerField bankBsrCode;
+	private TextItem bankBsrCode;
 	private DynamicForm taxDynamicForm;
 	private DynamicForm otherDynamicForm;
 	TdsChalanTransactionItemsTable table;
@@ -81,6 +84,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		super.init();
 		createControls();
 		setSize("100%", "100%");
+
 	}
 
 	public void initData() {
@@ -307,11 +311,9 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 						if (selectItem.equals(getPaymentItems().get(0))) {
 							modeOfPayment = 1;
-							checkNumber.show();
 
 						} else if (selectItem.equals(getPaymentItems().get(1))) {
 							modeOfPayment = 2;
-							checkNumber.hide();
 						}
 					}
 				});
@@ -334,7 +336,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						initRPCService();
+						// initRPCService();
 					}
 				});
 
@@ -373,7 +375,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		dateItem2.setTitle("Date on Tax Paid");
 		dateItem2.setDisabled(isInViewMode());
 
-		bankBsrCode = new IntegerField(this, "Bank BSR Code");
+		bankBsrCode = new TextItem("Bank BSR Code");
 		bankBsrCode.setHelpInformation(true);
 		bankBsrCode.setDisabled(isInViewMode());
 		bankBsrCode.setRequired(true);
@@ -428,6 +430,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		// grid.init();
 
 		table = new TdsChalanTransactionItemsTable(this);
+		table.setDisabled(isInViewMode());
 
 		HorizontalPanel horizontalPanel1 = new HorizontalPanel();
 		horizontalPanel1.setWidth("100%");
@@ -450,6 +453,71 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		natureOfPaymentCombo27Q.hide();
 		natureOfPaymentCombo27EQ.hide();
+
+		if (data != null) {
+			updateControls();
+		}
+
+	}
+
+	private void updateControls() {
+		incomeTaxAmount.setAmount(data.getIncomeTaxAmount());
+		surchargePaidAmount.setAmount(data.getSurchangePaidAmount());
+		eduCessAmount.setAmount(data.getEducationCessAmount());
+		interestPaidAmount.setAmount(data.getInterestPaidAmount());
+		penaltyPaidAmount.setAmount(data.getPenaltyPaidAmount());
+		otherAmountPaid.setAmount(data.getOtherAmount());
+		totalAmountPaid.setAmount(data.getIncomeTaxAmount()
+				+ data.getSurchangePaidAmount() + data.getEducationCessAmount()
+				+ data.getInterestPaidAmount() + data.getPenaltyPaidAmount()
+				+ data.getOtherAmount());
+
+		if (data.getPaymentMethod() == 1)
+			modeOFPaymentCombo.setSelected(getPaymentItems().get(0));
+		else
+			modeOFPaymentCombo.setSelected(getPaymentItems().get(1));
+		checkNumber.setNumber(data.getCheckNumber());
+		dateItem2.setValue(new ClientFinanceDate(data.getDateTaxPaid()));
+		bankBsrCode.setValue(data.getBankBsrCode());
+
+		if (data.getChalanPeriod() == 1) {
+			chalanPeriod.setSelected(getFinancialQuatersList().get(0));
+		} else if (data.getChalanPeriod() == 2) {
+			chalanPeriod.setSelected(getFinancialQuatersList().get(1));
+		} else if (data.getChalanPeriod() == 3) {
+			chalanPeriod.setSelected(getFinancialQuatersList().get(2));
+		} else if (data.getChalanPeriod() == 4) {
+			chalanPeriod.setSelected(getFinancialQuatersList().get(3));
+		}
+
+		chalanSerialNumber.setNumber(data.getChalanSerialNumber());
+
+		if (data.isBookEntry()) {
+			tdsDepositedBY.setSelected(getYESNOList().get(0));
+		} else {
+			tdsDepositedBY.setSelected(getYESNOList().get(1));
+		}
+
+		slectAssecementYear.setSelected(data.getAssesmentYearStart() + "-"
+				+ data.getAssessmentYearEnd());
+
+		if (data.getFormType() == 1) {
+			selectFormTypeCombo.setSelected(getFormTypes().get(0));
+			natureOfPaymentCombo26Q.setSelected(data.getPaymentSection());
+		} else if (data.getFormType() == 2) {
+			selectFormTypeCombo.setSelected(getFormTypes().get(1));
+			natureOfPaymentCombo27Q.setSelected(data.getPaymentSection());
+		} else if (data.getFormType() == 3) {
+			selectFormTypeCombo.setSelected(getFormTypes().get(2));
+			natureOfPaymentCombo27EQ.setSelected(data.getPaymentSection());
+		}
+
+		financialYearCombo.setSelected(Integer.toString(data
+				.getAssesmentYearStart() - 1)
+				+ "-"
+				+ Integer.toString(data.getAssessmentYearEnd() - 1));
+
+		table.setAllRows(data.getTransactionItems());
 
 	}
 
@@ -606,7 +674,8 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		List<ClientTDSTransactionItem> records = table.getAllRows();
 		double totalTDS = 0;
 		for (ClientTDSTransactionItem clientTDSTransactionItem : records) {
-			totalTDS = clientTDSTransactionItem.getTdsTotal() + totalTDS;
+			if (clientTDSTransactionItem.isBoxSelected())
+				totalTDS = clientTDSTransactionItem.getTdsTotal() + totalTDS;
 		}
 
 		double value = incomeTaxAmount.getAmount()
@@ -674,10 +743,10 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		data.setDateTaxPaid(dateItem2.getTime());
 
-		if (bankBsrCode.getNumber() != null) {
-			data.setBankBsrCode(bankBsrCode.getNumber());
+		if (bankBsrCode.getValue().length() > 0) {
+			data.setBankBsrCode(bankBsrCode.getValue());
 		} else {
-			data.setBankBsrCode(0);
+			data.setBankBsrCode("");
 		}
 
 		data.setTdsTransactionItems(table.getSelectedRecords(0));
@@ -701,25 +770,26 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	protected void initRPCService() {
 		super.initRPCService();
 
-		if (chalanPeriod != null) {
-			int chalanPer = chalanPeriod.getSelectedIndex();
+		// if (chalanPeriod != null) {
+		// int chalanPer = chalanPeriod.getSelectedIndex();
 
-			Accounter
-					.createHomeService()
-					.getTDSTransactionItemsList(
-							chalanPer,
-							new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
+		int chalanPer = 1;
+		Accounter
+				.createHomeService()
+				.getTDSTransactionItemsList(
+						chalanPer,
+						new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
 
-								@Override
-								public void onException(
-										AccounterException exception) {
-									exception.getStackTrace();
+							@Override
+							public void onException(AccounterException exception) {
+								exception.getStackTrace();
 
-								}
+							}
 
-								@Override
-								public void onResultSuccess(
-										ArrayList<ClientTDSTransactionItem> result) {
+							@Override
+							public void onResultSuccess(
+									ArrayList<ClientTDSTransactionItem> result) {
+								if (data.getID() == 0) {
 									if (result.size() > 0) {
 										items = result;
 										table.reDraw();
@@ -739,8 +809,9 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 									}
 
 								}
-							});
-		}
+							}
+						});
+
 	}
 
 	public void setSurchargeValuesToField(Object value, boolean b) {
@@ -774,6 +845,56 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			incomeTaxAmount.setAmount(incomeTaxAmount.getAmount() - taxAmount);
 		}
 		updateTotalTaxCollected();
+	}
+
+	@Override
+	public void onEdit() {
+		AccounterAsyncCallback<Boolean> editCallBack = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+				Accounter.showError(caught.getMessage());
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result)
+					enableFormItems();
+			}
+
+		};
+
+		this.rpcDoSerivce.canEdit(AccounterCoreType.TDSCHALANDETAIL,
+				data.getID(), editCallBack);
+	}
+
+	protected void enableFormItems() {
+		setMode(EditMode.EDIT);
+		incomeTaxAmount.setDisabled(false);
+		surchargePaidAmount.setDisabled(false);
+		eduCessAmount.setDisabled(false);
+		interestPaidAmount.setDisabled(false);
+		penaltyPaidAmount.setDisabled(false);
+		otherAmountPaid.setDisabled(false);
+		totalAmountPaid.setDisabled(false);
+		natureOfPaymentCombo26Q.setDisabled(false);
+		modeOFPaymentCombo.setDisabled(false);
+		checkNumber.setDisabled(false);
+		dateItem2.setDisabled(false);
+		bankBsrCode.setDisabled(false);
+		table.setDisabled(false);
+		chalanPeriod.setDisabled(false);
+		chalanSerialNumber.setDisabled(false);
+		tdsDepositedBY.setDisabled(false);
+		selectFormTypeCombo.setDisabled(false);
+		slectAssecementYear.setDisabled(false);
+
+		natureOfPaymentCombo27Q.setDisabled(false);
+		natureOfPaymentCombo27EQ.setDisabled(false);
+		financialYearCombo.setDisabled(false);
+		endingBalanceText.setDisabled(false);
+
+		super.onEdit();
 	}
 
 }

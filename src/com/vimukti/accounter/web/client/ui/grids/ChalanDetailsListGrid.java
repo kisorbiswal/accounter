@@ -83,7 +83,7 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 		case 4:
 			return new ClientFinanceDate(obj.getDateTaxPaid());
 		case 5:
-			return obj.getBsrCode();
+			return obj.getBankBsrCode();
 		default:
 			break;
 		}

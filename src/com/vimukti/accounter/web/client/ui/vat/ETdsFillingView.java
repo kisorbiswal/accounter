@@ -93,8 +93,6 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 					formNoSelected = 2;
 				} else if (selectItem.equals(getFormTypes().get(3))) {
 					formNoSelected = 3;
-				} else if (selectItem.equals(getFormTypes().get(4))) {
-					formNoSelected = 3;
 				}
 				initRPCService();
 			}

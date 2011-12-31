@@ -328,14 +328,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	public List<String> getFinancialQuatersList() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("Q1" + " " + DayAndMonthUtil.jan() + " - "
-				+ DayAndMonthUtil.mar());
-		list.add("Q2" + " " + DayAndMonthUtil.apr() + " - "
+		list.add("Q1" + " " + DayAndMonthUtil.apr() + " - "
 				+ DayAndMonthUtil.jun());
-		list.add("Q3" + " " + DayAndMonthUtil.jul() + " - "
+		list.add("Q2" + " " + DayAndMonthUtil.jul() + " - "
 				+ DayAndMonthUtil.sep());
-		list.add("Q4" + " " + DayAndMonthUtil.oct() + " - "
+		list.add("Q3" + " " + DayAndMonthUtil.oct() + " - "
 				+ DayAndMonthUtil.dec());
+		list.add("Q4" + " " + DayAndMonthUtil.jan() + " - "
+				+ DayAndMonthUtil.mar());
 
 		return list;
 	}
