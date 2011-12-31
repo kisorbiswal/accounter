@@ -320,8 +320,20 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 					lastdates[key]));
 			pos++;
 		}
-
-		return dateList;
+		String dateListPreferenceFormat[] = new String[months.length + 1];
+		int dateNum = 1;
+		for (String date : dateList) {
+			if (!date.equalsIgnoreCase(" ")) {
+				ClientFinanceDate stringToDate = UIUtils.stringToDate(date,
+						"dd MMMM yyyy");
+				String dateToString = UIUtils.dateToString(stringToDate
+						.getDateAsObject().getTime(), getPreferences()
+						.getDateFormat());
+				dateListPreferenceFormat[dateNum] = dateToString;
+				dateNum++;
+			}
+		}
+		return dateListPreferenceFormat;
 	}
 
 	private String[] getMonthStrings() {
