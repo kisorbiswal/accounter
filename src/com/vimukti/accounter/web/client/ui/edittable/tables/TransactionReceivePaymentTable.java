@@ -1005,7 +1005,7 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	public void addCreditsAndPayments(List<ClientCreditsAndPayments> credits) {
-		updatedCustomerCreditsAndPayments.clear();
+
 		if (credits == null || credits.isEmpty()) {
 			return;
 		}
