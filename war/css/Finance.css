@@ -2663,3 +2663,12 @@ input.date-field-textbox {
 .currency_format_align{
 	margin:10px;
 }
+.company-preferences-labels{
+	width:200px;
+}
+.companyInfoPanel td {
+    padding:5px 0 0 0;
+}
+.pre_scroll_table{
+	padding-left:10px;
+}
