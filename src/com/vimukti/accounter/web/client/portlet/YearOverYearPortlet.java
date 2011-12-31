@@ -126,15 +126,15 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 		if (accountId == 0) {
 			if (chartType == YEAR_OVER_YEAR_EXPENSE) {
 				if (Accounter.getCompany().getAccounts(
-						ClientAccount.TYPE_INCOME) != null) {
+						ClientAccount.TYPE_EXPENSE) != null) {
 					accountByName = Accounter.getCompany()
-							.getAccounts(ClientAccount.TYPE_INCOME).get(0);
+							.getAccounts(ClientAccount.TYPE_EXPENSE).get(0);
 				}
 			} else {
 				if (Accounter.getCompany().getAccounts(
-						ClientAccount.TYPE_EXPENSE) != null) {
-					Accounter.getCompany()
-							.getAccounts(ClientAccount.TYPE_EXPENSE).get(0);
+						ClientAccount.TYPE_INCOME) != null) {
+					accountByName = Accounter.getCompany()
+							.getAccounts(ClientAccount.TYPE_INCOME).get(0);
 				}
 			}
 			if (accountByName != null) {
@@ -142,7 +142,8 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			} else {
 				Label label = new Label(messages.noRecordsToShow());
 				graphPanel.add(label);
-				graphPanel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+				graphPanel.setCellHorizontalAlignment(label,
+						HasAlignment.ALIGN_CENTER);
 				return 0;
 			}
 		}
