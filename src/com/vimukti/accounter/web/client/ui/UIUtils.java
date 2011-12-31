@@ -501,7 +501,7 @@ public class UIUtils {
 	public static ClientFinanceDate stringToDate(String strdate,
 			String dateFormat) {
 		try {
-			strdate = strdate.replace("/", "-");
+			// strdate = strdate.replace("/", "-");
 
 			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
 			Date format = dateFormatter.parse(strdate);
