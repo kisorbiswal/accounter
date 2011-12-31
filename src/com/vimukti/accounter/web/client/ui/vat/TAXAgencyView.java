@@ -494,9 +494,14 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		addrsForm.setDisabled(isInViewMode());
 		phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
 				.getViewName());
+		phoneFaxForm.setDisabled(isInViewMode());
 		// phoneFaxForm.setWidth("100%");
-		emailForm = new EmailForm(null, null, this, this.getAction()
-				.getViewName());
+
+		emailForm = new EmailForm(null, null, this, this
+				.getAction().getViewName());
+
+		emailForm.setDisabled(isInViewMode());
+
 		// emailForm.setWidth("100%");
 
 		// rightVLay.setWidth("100%");
@@ -595,24 +600,12 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			fileAsText.setValue(data.getFileAs() != null ? data.getFileAs()
 					: "");
 
-			// Setting AddressForm
-			addrsForm = new AddressForm(data.getAddress());
-			// addrsForm.setWidth("100%");
-			addrsForm.setDisabled(isInViewMode());
-			// Setting Phone Fax Form
-			phoneFaxForm = new PhoneFaxForm(null, null, this, this.getAction()
-					.getViewName());
-			// phoneFaxForm.setWidth("100%");
+			addrsForm.setAddress(data.getAddress());
+
 			phoneFaxForm.businessPhoneText.setValue(data.getPhoneNo());
 			phoneFaxForm.businessFaxText.setValue(data.getFaxNo());
-			phoneFaxForm.setDisabled(isInViewMode());
 
-			// Setting Email Form
-			emailForm = new EmailForm(null, data.getWebPageAddress(), this,
-					this.getAction().getViewName());
 			emailForm.businesEmailText.setValue(data.getEmail());
-			// emailForm.setWidth("100%");
-			emailForm.setDisabled(isInViewMode());
 
 			// Setting Status Check
 			statusCheck.setValue(data.isActive());
