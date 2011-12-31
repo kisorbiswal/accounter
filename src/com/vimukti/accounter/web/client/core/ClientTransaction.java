@@ -96,7 +96,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	String number = "";
 	// String checkNumber = "";
 
-	List<ClientTransactionItem> transactionItems;
+	List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 	List<ClientTransactionMakeDeposit> transactionMakeDeposit;
 	List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 	List<ClientTransactionReceivePayment> transactionReceivePayment = new ArrayList<ClientTransactionReceivePayment>();

@@ -1,15 +1,24 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
+	private ICurrencyProvider currencyProvider;
+
 	public TransactionItemsTable() {
 		addStyleName("transactionitemsTable");
+	}
+
+	public TransactionItemsTable(ICurrencyProvider currencyProvider) {
+		this.currencyProvider = currencyProvider;
 	}
 
 	@Override
@@ -97,7 +106,17 @@ public class TransactionItemsTable extends EditTable<ClientTransactionItem> {
 
 			@Override
 			protected String getValue(ClientTransactionItem row) {
-				return String.valueOf(row.getLineTotal());
+				Double lineTotal = row.getLineTotal();
+				if (lineTotal != null && currencyProvider != null) {
+					ClientEstimate estimate = (ClientEstimate) row
+							.getTransaction();
+					if (currencyProvider.getTransactionCurrency().getID() != estimate
+							.getCurrency()) {
+						lineTotal = row.getLineTotal()
+								/ currencyProvider.getCurrencyFactor();
+					}
+				}
+				return DataUtils.getAmountAsStrings(lineTotal);
 			}
 
 			@Override

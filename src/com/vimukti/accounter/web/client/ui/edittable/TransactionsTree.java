@@ -35,7 +35,7 @@ import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public abstract class TransactionsTree<T> extends SimplePanel {
 	Tree tree;
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
 
 	ICurrencyProvider currencyProvider;
 	boolean showTaxCode;
@@ -156,10 +156,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		};
 		horizontalPanel.add(transactionLabel);
-		horizontalPanel.add(new Label(messages
-				.totalWithCurrencyName(transactionLink)
-				+ " : "
-				+ estimate.getTotal()));
+		double estimateTotal = estimate.getTotal();
+		if (currencyProvider.getTransactionCurrency().getID() != estimate
+				.getCurrency()) {
+			estimateTotal = estimateTotal
+					/ currencyProvider.getCurrencyFactor();
+		}
+		horizontalPanel
+				.add(new Label(messages.totalWithCurrencyName(transactionLink)
+						+ " : " + estimateTotal));
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -180,7 +185,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				}
 			}
 		});
-		TransactionItemsTable itemsTable = new TransactionItemsTable();
+		TransactionItemsTable itemsTable = new TransactionItemsTable(
+				currencyProvider);
 		transactionTree.addItem(itemsTable);
 		List<ClientTransactionItem> transactionItems = estimate
 				.getTransactionItems();
@@ -208,13 +214,43 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addBillableTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (billableTree == null) {
-			billableTree = getTransactionsTree(isSelected, messages
-					.billabelList());
+			billableTree = getTransactionsTree(isSelected,
+					messages.billabelList());
 			tree.addItem(billableTree);
 		}
 		String transactionLink = messages.billabe();
 		billableTree.addItem(getChildTransactionTree(transactionLink, estimate,
 				isSelected));
+	}
+
+	public void refreshBillableTransactionTree() {
+		if (billableTree == null) {
+			return;
+		}
+		for (int p = 0; p < billableTree.getChildCount(); p++) {
+			TreeItem child = billableTree.getChild(p);
+			ClientEstimate estimate = (ClientEstimate) child.getUserObject();
+			if (currencyProvider.getTransactionCurrency().getID() == estimate
+					.getCurrency()) {
+				continue;
+			}
+			double estimateTotal = estimate.getTotal();
+			estimateTotal = estimateTotal
+					/ currencyProvider.getCurrencyFactor();
+			String totalMsg = messages
+					.totalWithCurrencyName(messages.billabe())
+					+ " : "
+					+ estimateTotal;
+			TransactionItemsTable table = (TransactionItemsTable) child
+					.getChild(0).getWidget();
+			for (ClientTransactionItem item : table.getAllRows()) {
+				table.update(item);
+			}
+			Label totalLabel = (Label) ((HorizontalPanel) child.getWidget())
+					.getWidget(2);
+			totalLabel.setText(totalMsg);
+		}
+		updateTransactionTreeItemTotals();
 	}
 
 	private TreeItem getTransactionsTree(boolean isSelected, String message) {
@@ -237,8 +273,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addQuotesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (quotesTree == null) {
-			quotesTree = getTransactionsTree(isSelected, messages
-					.quotesList());
+			quotesTree = getTransactionsTree(isSelected, messages.quotesList());
 			tree.addItem(quotesTree);
 		}
 		String transactionLink = messages.quote();
@@ -251,8 +286,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addChargesTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (chargesTree == null) {
-			chargesTree = getTransactionsTree(isSelected, messages
-					.chargesList());
+			chargesTree = getTransactionsTree(isSelected,
+					messages.chargesList());
 			tree.addItem(chargesTree);
 		}
 		String transactionLink = messages.charge();
@@ -263,12 +298,12 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void addCreditsTransactionTreeItem(final ClientEstimate estimate,
 			boolean isSelected) {
 		if (creditsTree == null) {
-			creditsTree = getTransactionsTree(isSelected, messages
-					.creditsList());
+			creditsTree = getTransactionsTree(isSelected,
+					messages.creditsList());
 			tree.addItem(creditsTree);
 		}
-		creditsTree.addItem(getChildTransactionTree(messages
-				.credit(), estimate, isSelected));
+		creditsTree.addItem(getChildTransactionTree(messages.credit(),
+				estimate, isSelected));
 	}
 
 	protected void onSelectionChanged(Boolean value, TreeItem treeItem) {
@@ -366,6 +401,15 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			grandTotal -= transaction.getTotal();
 			lineTotal -= transaction.getNetAmount();
 			totalTax -= transaction.getTaxTotal();
+		} else if (transaction.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
+				&& currencyProvider.getTransactionCurrency().getID() != transaction
+						.getCurrency()) {
+			grandTotal += transaction.getTotal()
+					/ currencyProvider.getCurrencyFactor();
+			lineTotal += transaction.getNetAmount()
+					/ currencyProvider.getCurrencyFactor();
+			totalTax += transaction.getTaxTotal()
+					/ currencyProvider.getCurrencyFactor();
 		} else {
 			grandTotal += transaction.getTotal();
 			lineTotal += transaction.getNetAmount();

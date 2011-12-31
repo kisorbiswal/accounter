@@ -89,37 +89,6 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onClick(ClientTAXReturn obj, int row, int index) {
-		if (index == 6) {
-
-			ICountryPreferences countryPreferences = Accounter.getCompany()
-					.getCountryPreferences();
-			if (countryPreferences instanceof UnitedKingdom
-					&& countryPreferences.isVatAvailable()) {
-				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
-				vatDetails = getVATDetailsByBoxes(obj);
-				VATDetail vatDetail = new VATDetail();
-				vatDetail.setStartDate(new ClientFinanceDate(obj
-						.getPeriodStartDate()));
-				vatDetail.setEndDate(new ClientFinanceDate(obj
-						.getPeriodEndDate()));
-				ActionFactory.getVATExceptionDetailsReportAction().run(
-						vatDetails, true);
-			} else {
-
-				List<ClientTAXReturnEntry> taxEntries = null;
-				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
-				taxEntries = clientTAXReturn.getTaxReturnEntries();
-				details = getExceptionDetailData(taxEntries,
-						clientTAXReturn.getPeriodStartDate());
-
-				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
-						.getTaxItemExceptionDetailReportAction();
-				taxItemExceptionDetailReportAction
-						.setTaxReturn(clientTAXReturn);
-				taxItemExceptionDetailReportAction.run(details, true);
-			}
-		}
 
 	}
 
@@ -186,19 +155,51 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onDoubleClick(ClientTAXReturn obj, int row, int col) {
-		ICountryPreferences countryPreferences = Accounter.getCompany()
-				.getCountryPreferences();
-		if (countryPreferences instanceof UnitedKingdom
-				&& countryPreferences.isVatAvailable()) {
-			List<VATSummary> summaries = getSummaires(obj);
-			ActionFactory.getVATSummaryReportAction().run(summaries, false);
-		} else {
-			List<ClientTAXReturnEntry> taxEntries = null;
-			List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-			taxEntries = obj.getTaxReturnEntries();
-			details = getData(taxEntries);
-			ActionFactory.getTaxItemDetailReportAction().run(details, true);
+		if (col == 6) {
 
+			ICountryPreferences countryPreferences = Accounter.getCompany()
+					.getCountryPreferences();
+			if (countryPreferences instanceof UnitedKingdom
+					&& countryPreferences.isVatAvailable()) {
+				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
+				vatDetails = getVATDetailsByBoxes(obj);
+				VATDetail vatDetail = new VATDetail();
+				vatDetail.setStartDate(new ClientFinanceDate(obj
+						.getPeriodStartDate()));
+				vatDetail.setEndDate(new ClientFinanceDate(obj
+						.getPeriodEndDate()));
+				ActionFactory.getVATExceptionDetailsReportAction().run(
+						vatDetails, true);
+			} else {
+
+				List<ClientTAXReturnEntry> taxEntries = null;
+				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+				ClientTAXReturn clientTAXReturn = (ClientTAXReturn) obj;
+				taxEntries = clientTAXReturn.getTaxReturnEntries();
+				details = getExceptionDetailData(taxEntries,
+						clientTAXReturn.getPeriodStartDate());
+
+				TAXItemExceptionDetailReport taxItemExceptionDetailReportAction = ActionFactory
+						.getTaxItemExceptionDetailReportAction();
+				taxItemExceptionDetailReportAction
+						.setTaxReturn(clientTAXReturn);
+				taxItemExceptionDetailReportAction.run(details, true);
+			}
+		} else {
+			ICountryPreferences countryPreferences = Accounter.getCompany()
+					.getCountryPreferences();
+			if (countryPreferences instanceof UnitedKingdom
+					&& countryPreferences.isVatAvailable()) {
+				List<VATSummary> summaries = getSummaires(obj);
+				ActionFactory.getVATSummaryReportAction().run(summaries, false);
+			} else {
+				List<ClientTAXReturnEntry> taxEntries = null;
+				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+				taxEntries = obj.getTaxReturnEntries();
+				details = getData(taxEntries);
+				ActionFactory.getTaxItemDetailReportAction().run(details, true);
+
+			}
 		}
 	}
 

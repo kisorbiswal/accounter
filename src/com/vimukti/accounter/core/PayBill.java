@@ -813,6 +813,7 @@ public class PayBill extends Transaction {
 		// } else {
 		// return true;
 		// }
+		super.canEdit(clientObject);
 		return true;
 	}
 
@@ -861,6 +862,7 @@ public class PayBill extends Transaction {
 			map.put(vendor.getAccount(), (total - unusedAmount) < 0 ? -1
 					* (total - unusedAmount) : (total - unusedAmount));
 		}
+		map.put(payFrom, total - tdsTotal);
 		return map;
 	}
 

@@ -1025,6 +1025,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				newTransactionItem.setId(0);
 				newTransactionItem.setTaxCode(transactionItem.getTaxCode());
 				newTransactionItem.setOnSaveProccessed(false);
+				newTransactionItem.setLineTotal(newTransactionItem
+						.getLineTotal() * getCurrencyFactor());
+				newTransactionItem.setDiscount(newTransactionItem.getDiscount()
+						* getCurrencyFactor());
+				newTransactionItem.setUnitPrice(newTransactionItem
+						.getUnitPrice() * getCurrencyFactor());
+				newTransactionItem.setVATfraction(newTransactionItem
+						.getVATfraction() * getCurrencyFactor());
 				Estimate estimate = getCustomerEstimate(estimates,
 						newTransactionItem.getCustomer().getID());
 				if (estimate == null) {

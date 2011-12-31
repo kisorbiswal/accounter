@@ -1232,6 +1232,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	@Override
+	public ClientInvoice saveView() {
+		ClientInvoice saveView = super.saveView();
+		if (saveView != null) {
+			updateTransaction();
+		}
+		return saveView;
+	}
+
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		List<ClientTransaction> selectedRecords = transactionsTree
@@ -1242,7 +1251,29 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			if (clientTransaction instanceof ClientSalesOrder) {
 				salesOrders.add((ClientSalesOrder) clientTransaction);
 			} else {
-				estimates.add((ClientEstimate) clientTransaction);
+				ClientEstimate estimate = (ClientEstimate) clientTransaction;
+				if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
+						&& estimate.getCurrency() != getCurrencycode().getID()) {
+					estimate.setCurrency(getCurrencycode().getID());
+					estimate.setTotal(estimate.getTotal() / getCurrencyFactor());
+					estimate.setNetAmount(estimate.getNetAmount()
+							/ getCurrencyFactor());
+					estimate.setTaxTotal(estimate.getTaxTotal()
+							/ getCurrencyFactor());
+					for (ClientTransactionItem item : estimate
+							.getTransactionItems()) {
+						item.setLineTotal(item.getLineTotal()
+								/ getCurrencyFactor());
+						item.setDiscount(item.getDiscount()
+								/ getCurrencyFactor());
+						item.setUnitPrice(item.getUnitPrice()
+								/ getCurrencyFactor());
+						item.setVATfraction(item.getVATfraction()
+								/ getCurrencyFactor());
+					}
+
+				}
+				estimates.add(estimate);
 			}
 		}
 		transaction.setEstimates(estimates);
@@ -1716,6 +1747,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void updateAmountsFromGUI() {
 		modifyForeignCurrencyTotalWidget();
 		this.customerTransactionTable.updateAmountsFromGUI();
+		transactionsTree.refreshBillableTransactionTree();
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {

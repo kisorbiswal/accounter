@@ -37,8 +37,10 @@ public class VATAgencyAccountCombo extends AccountCombo {
 
 			@Override
 			public void actionResult(ClientAccount result) {
-				if (result.getDisplayName() != null || result.getName() != null)
+				if ((result.getDisplayName() != null || result.getName() != null)
+						&& canAdd(result)) {
 					addItemThenfireEvent(result);
+				}
 
 			}
 		});
@@ -52,14 +54,19 @@ public class VATAgencyAccountCombo extends AccountCombo {
 		accounts = new ArrayList<ClientAccount>();
 
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (Arrays.asList(ClientAccount.TYPE_INCOME,
-					ClientAccount.TYPE_EXPENSE,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_FIXED_ASSET).contains(account.getType()))
+			if (canAdd(account)) {
 				accounts.add(account);
+			}
 		}
 		return accounts;
+	}
+
+	private boolean canAdd(ClientAccount account) {
+		return Arrays.asList(ClientAccount.TYPE_INCOME,
+				ClientAccount.TYPE_EXPENSE,
+				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+				ClientAccount.TYPE_FIXED_ASSET).contains(account.getType());
 	}
 
 }
