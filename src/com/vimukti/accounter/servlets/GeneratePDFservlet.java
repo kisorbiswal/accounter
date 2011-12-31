@@ -55,6 +55,7 @@ import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -718,10 +719,10 @@ public class GeneratePDFservlet extends BaseServlet {
 					if (paginate) {
 						cb.beginText();
 						cb.setFontAndSize(bf, 9);
-						cb.showTextAligned(PdfContentByte.ALIGN_CENTER,
-								"" + pageOfCurrentReaderPDF + " of "
-										+ pdfReader.getNumberOfPages(), 520, 5,
-								0);
+						cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
+								+ pageOfCurrentReaderPDF + " "
+								+ Global.get().messages().of() + " "
+								+ pdfReader.getNumberOfPages(), 520, 5, 0);
 						cb.endText();
 					}
 				}
