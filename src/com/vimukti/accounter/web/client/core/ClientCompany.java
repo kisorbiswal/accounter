@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.portlet.PortletFactory;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.util.ChangeType;
 import com.vimukti.accounter.web.client.util.CoreEvent;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -2958,6 +2959,8 @@ public class ClientCompany implements IAccounterCore {
 				long number = Long.parseLong(account.getNumber());
 				if (number == lastUsedNo) {
 					lastUsedNo++;
+				} else if (DecimalUtil.isGreaterThan(number, lastUsedNo)) {
+					lastUsedNo = number + 1;
 				} else {
 					break;
 				}
