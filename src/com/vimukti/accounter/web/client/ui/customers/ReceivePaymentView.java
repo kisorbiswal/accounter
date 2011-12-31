@@ -120,7 +120,7 @@ public class ReceivePaymentView extends
 		amtText.setCurrency(currency);
 		tdsAmount.setCurrency(currency);
 		customerNonEditablebalText.setCurrency(currency);
-
+		gridView.updatedCustomerCreditsAndPayments.clear();
 		if (selectedCustomer == null) {
 			receivePaymentTransactionList = null;
 			return;
