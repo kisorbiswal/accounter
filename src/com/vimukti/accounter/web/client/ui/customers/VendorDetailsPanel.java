@@ -46,9 +46,7 @@ public class VendorDetailsPanel extends VerticalPanel {
 		fax.setTitle(messages.faxNumber());
 
 		vendorsince = new LabelItem();
-		vendorsince.setValue(UIUtils
-				.getDateByCompanyType(new ClientFinanceDate(selectedVendor
-						.getPayeeSince())));
+		vendorsince.setTitle(messages.payeeSince(Global.get().Vendor()));
 
 		webpageadress = new LabelItem();
 		webpageadress.setTitle(messages.webPageAddress());
@@ -106,8 +104,9 @@ public class VendorDetailsPanel extends VerticalPanel {
 
 			fax.setValue(selectedVendor.getFaxNo());
 
-			vendorsince.setValue(new ClientFinanceDate(selectedVendor
-					.getPayeeSince()).toString());
+			vendorsince.setValue(UIUtils
+					.getDateByCompanyType(new ClientFinanceDate(selectedVendor
+							.getPayeeSince())));
 
 			webpageadress.setValue(selectedVendor.getWebPageAddress());
 
