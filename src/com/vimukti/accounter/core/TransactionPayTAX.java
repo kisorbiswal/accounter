@@ -171,7 +171,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l && !payTAX.isDraftOrTemplate()) {
+		if (this.id == 0l && !payTAX.isDraftOrTemplate() && !payTAX.isVoid()) {
 			// this.liabilityAccount=this.vatAgency.getLiabilityAccount();
 
 			// We need to update the corresponding VATAgency's balance with this
@@ -246,7 +246,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

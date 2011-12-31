@@ -175,4 +175,9 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 		reconcileAccountCombo.setFocus();
 
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

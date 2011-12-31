@@ -503,7 +503,8 @@ public class VendorManager extends Manager {
 									.getCustomer().getName()
 									: ((wc.getVendor() != null) ? wc
 											.getVendor().getName() : wc
-											.getTaxAgency().getName()));
+											.getTaxAgency() != null ? wc
+											.getTaxAgency().getName() : ""));
 					issuePaymentTransaction.setMemo(wc.getMemo());
 					issuePaymentTransaction.setAmount(wc.getAmount());
 					issuePaymentTransaction.setPaymentMethod(wc

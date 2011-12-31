@@ -862,7 +862,9 @@ public class PayBill extends Transaction {
 			map.put(vendor.getAccount(), (total - unusedAmount) < 0 ? -1
 					* (total - unusedAmount) : (total - unusedAmount));
 		}
-		map.put(payFrom, total - tdsTotal);
+		if (payFrom != null) {
+			map.put(payFrom, total - tdsTotal);
+		}
 		return map;
 	}
 

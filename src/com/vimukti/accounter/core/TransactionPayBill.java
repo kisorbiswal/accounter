@@ -308,7 +308,8 @@ public class TransactionPayBill extends CreatableObject implements
 		this.isOnSaveProccessed = true;
 		if (payBill != null)
 			setCompany(payBill.getCompany());
-		if (this.getID() == 0l && !payBill.isDraftOrTemplate()) {
+		if (this.getID() == 0l && !payBill.isDraftOrTemplate()
+				&& !payBill.isVoid()) {
 
 			// this.enterBill.getVendor().updateBalance(session, this.payBill,
 			// -this.payment);

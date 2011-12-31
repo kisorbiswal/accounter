@@ -415,7 +415,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
 			return false;
 
-		if (!transaction.isDraftOrTemplate()) {
+		if (!transaction.isDraftOrTemplate() && !transaction.isVoid()) {
 			doCreateEffect(session);
 		}
 		return false;

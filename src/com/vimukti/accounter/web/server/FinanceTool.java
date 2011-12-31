@@ -327,8 +327,11 @@ public class FinanceTool {
 
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
-				transaction.onEdit((Transaction) clonedObject);
-
+				Transaction clonedTransaction = (Transaction) clonedObject;
+				if (!(transaction.getSaveStatus() == Transaction.STATUS_VOID && clonedTransaction
+						.getSaveStatus() == Transaction.STATUS_VOID)) {
+					transaction.onEdit(clonedTransaction);
+				}
 			}
 			if (serverObject instanceof Lifecycle) {
 				Lifecycle lifecycle = (Lifecycle) serverObject;

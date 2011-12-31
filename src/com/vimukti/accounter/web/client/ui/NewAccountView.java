@@ -1704,7 +1704,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			cardNumText.setDisabled(isInViewMode());
 		}
 		if (accountType == ClientAccount.TYPE_PAYPAL) {
-			typeSelect.setDisabled(isInViewMode());
+			if (typeSelect != null) {
+				typeSelect.setDisabled(isInViewMode());
+			}
 			paypalEmail.setDisabled(isInViewMode());
 		}
 		isSubAccountBox.setDisabled(isInViewMode());

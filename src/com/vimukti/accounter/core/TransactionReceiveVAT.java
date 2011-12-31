@@ -192,7 +192,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (this.id == 0l && !receiveVAT.isDraftOrTemplate()) {
+		if (this.id == 0l && !receiveVAT.isDraftOrTemplate()
+				&& !receiveVAT.isVoid()) {
 
 			this.taxAgency.updateBalance(session, this.taxReturn,
 					this.amountToReceive);
@@ -246,7 +247,7 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

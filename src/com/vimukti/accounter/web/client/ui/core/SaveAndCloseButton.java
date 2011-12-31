@@ -37,8 +37,8 @@ public class SaveAndCloseButton extends ImageButton {
 				.saveAndClose());
 		this.view = baseView;
 		this.addStyleName("saveAndClose-Btn");
-		this.setTitle(messages.clickThisTo(this.getText(),
-				view.getAction().getViewName()));
+		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
+				.getViewName()));
 		addHandler();
 	}
 
@@ -51,9 +51,12 @@ public class SaveAndCloseButton extends ImageButton {
 				// Need to clarify after implemented approval process.
 				if (view instanceof AbstractTransactionBaseView) {
 					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
-					if (!transactionView.isTemplate) {
-						transactionView.getTransactionObject().setSaveStatus(
-								ClientTransaction.STATUS_APPROVE);
+					ClientTransaction transaction = transactionView
+							.getTransactionObject();
+					if (!transactionView.isTemplate
+							&& transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
+						transaction
+								.setSaveStatus(ClientTransaction.STATUS_APPROVE);
 					}
 				}
 				view.onSave(false);

@@ -331,7 +331,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			return true;
 		this.isOnSaveProccessed = true;
 
-		if (receivePayment.isDraftOrTemplate()) {
+		if (receivePayment.isDraftOrTemplate() || receivePayment.isVoid()) {
 			return false;
 		}
 

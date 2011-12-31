@@ -22,11 +22,10 @@ public class SaveAndNewButtom extends ImageButton {
 	 * Creates new Instance
 	 */
 	public SaveAndNewButtom(AbstractBaseView<?> view) {
-		super(messages.saveAndNew(), Accounter.getFinanceImages()
-				.saveAndNew());
+		super(messages.saveAndNew(), Accounter.getFinanceImages().saveAndNew());
 		this.view = view;
-		this.setTitle(messages.clickThisToOpenNew(
-				view.getAction().getViewName()));
+		this.setTitle(messages.clickThisToOpenNew(view.getAction()
+				.getViewName()));
 		// this.addStyleName("saveAndNew-Btn");
 		addClichHandler();
 	}
@@ -41,9 +40,13 @@ public class SaveAndNewButtom extends ImageButton {
 			public void onClick(ClickEvent arg0) {
 				// Need to clarify after implemented approval process.
 				if (view instanceof AbstractTransactionBaseView) {
-					((AbstractTransactionBaseView<?>) view)
-							.getTransactionObject().setSaveStatus(
-									ClientTransaction.STATUS_APPROVE);
+					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
+					ClientTransaction transaction = transactionView
+							.getTransactionObject();
+					if (transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
+						transaction
+								.setSaveStatus(ClientTransaction.STATUS_APPROVE);
+					}
 				}
 				view.onSave(true);
 			}
