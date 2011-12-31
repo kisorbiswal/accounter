@@ -125,11 +125,17 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 		};
 		if (accountId == 0) {
 			if (chartType == YEAR_OVER_YEAR_EXPENSE) {
-				accountByName = Accounter.getCompany().getAccountByName(
-						"Consulting Income");
+				if (Accounter.getCompany().getAccounts(
+						ClientAccount.TYPE_INCOME) != null) {
+					accountByName = Accounter.getCompany()
+							.getAccounts(ClientAccount.TYPE_INCOME).get(0);
+				}
 			} else {
-				accountByName = Accounter.getCompany().getAccountByName(
-						"Advertising & Promotion");
+				if (Accounter.getCompany().getAccounts(
+						ClientAccount.TYPE_EXPENSE) != null) {
+					Accounter.getCompany()
+							.getAccounts(ClientAccount.TYPE_EXPENSE).get(0);
+				}
 			}
 			if (accountByName != null) {
 				accountId = accountByName.getID();
