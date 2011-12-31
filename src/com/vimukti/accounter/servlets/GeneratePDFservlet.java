@@ -1,5 +1,6 @@
 package com.vimukti.accounter.servlets;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -13,8 +14,8 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -25,6 +26,9 @@ import org.hibernate.Session;
 import org.zefer.pd4ml.PD4Constants;
 
 import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.FontFactoryImp;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfImportedPage;
@@ -81,6 +85,13 @@ public class GeneratePDFservlet extends BaseServlet {
 		super.service(arg0, arg1);
 	}
 
+	/**
+	 * to generate pdf using HTML files
+	 * 
+	 * @param request
+	 * @param response
+	 * @param companyName
+	 */
 	public void generateHtmlPDF(HttpServletRequest request,
 			HttpServletResponse response, String companyName) {
 
@@ -262,6 +273,13 @@ public class GeneratePDFservlet extends BaseServlet {
 		}
 	}
 
+	/**
+	 * to generate custom pdf template using odt & docx
+	 * 
+	 * @param request
+	 * @param response
+	 * @param companyName
+	 */
 	public void generateCustom2PDF(HttpServletRequest request,
 			HttpServletResponse response, String companyName) {
 		HashMap map = null;
@@ -637,7 +655,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			} else if (transaction instanceof Estimate) {
 				context = quotePdfGeneration.assignValues(context, report);
 			}
-
+			FontFactory.setFontImp(new FontFactoryImpEx());
 			if (multipleIds) {
 				Options options = Options.getTo(ConverterTypeTo.PDF).via(
 						ConverterTypeVia.ITEXT);
@@ -674,25 +692,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			OutputStream outputStream, boolean paginate) {
 		Document document = new Document();
 		try {
-			List<InputStream> pdfs = new ArrayList<InputStream>();
 
-			Iterator<String> fileIterator = fileNames.iterator();
-			while (fileIterator.hasNext()) {
-				String next = fileIterator.next();
-				pdfs.add(new FileInputStream(next));
-			}
-
-			List<PdfReader> readers = new ArrayList<PdfReader>();
-			int totalPages = 0;
-			Iterator<InputStream> iteratorPDFs = pdfs.iterator();
-
-			// Create Readers for the pdfs.
-			while (iteratorPDFs.hasNext()) {
-				InputStream pdf = iteratorPDFs.next();
-				PdfReader pdfReader = new PdfReader(pdf);
-				readers.add(pdfReader);
-				totalPages += pdfReader.getNumberOfPages();
-			}
 			// Create a writer for the outputstream
 			PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
@@ -702,21 +702,15 @@ public class GeneratePDFservlet extends BaseServlet {
 			PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
 			// data
 
-			PdfImportedPage page;
-			int currentPageNumber = 0;
-			int pageOfCurrentReaderPDF = 0;
-			Iterator<PdfReader> iteratorPDFReader = readers.iterator();
-
 			// Loop through the PDF files and add to the output.
-			while (iteratorPDFReader.hasNext()) {
-				PdfReader pdfReader = iteratorPDFReader.next();
-
+			for (String fileName : fileNames) {
+				PdfReader pdfReader = new PdfReader(fileName);
+				int pageOfCurrentReaderPDF = 0;
 				// Create a new page in the target for each source page.
 				while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
 					document.newPage();
 					pageOfCurrentReaderPDF++;
-					currentPageNumber++;
-					page = writer.getImportedPage(pdfReader,
+					PdfImportedPage page = writer.getImportedPage(pdfReader,
 							pageOfCurrentReaderPDF);
 					cb.addTemplate(page, 0, 0);
 
@@ -724,13 +718,13 @@ public class GeneratePDFservlet extends BaseServlet {
 					if (paginate) {
 						cb.beginText();
 						cb.setFontAndSize(bf, 9);
-						cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
-								+ currentPageNumber + " of " + totalPages, 520,
-								5, 0);
+						cb.showTextAligned(PdfContentByte.ALIGN_CENTER,
+								"" + pageOfCurrentReaderPDF + " of "
+										+ pdfReader.getNumberOfPages(), 520, 5,
+								0);
 						cb.endText();
 					}
 				}
-				pageOfCurrentReaderPDF = 0;
 			}
 
 			outputStream.flush();
@@ -750,4 +744,36 @@ public class GeneratePDFservlet extends BaseServlet {
 		}
 	}
 
+	public static class FontFactoryImpEx extends FontFactoryImp {
+
+		private static Properties properties;
+		private static String fontsPath = "./config/fonts/";
+
+		FontFactoryImpEx() {
+			properties = new Properties();
+			try {
+				properties.load(new FileInputStream(fontsPath
+						+ "pd4fonts.properties"));
+			} catch (Exception e) {
+
+			}
+		}
+
+		@Override
+		public Font getFont(String fontname, String encoding, boolean embedded,
+				float size, int style, Color color) {
+			try {
+				String fileName = properties.getProperty(fontname);
+				BaseFont bf = BaseFont.createFont(fontsPath + fileName,
+						BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				bf.setSubset(true);
+				return new Font(bf, size, style, color);
+			} catch (Exception e) {
+				Font font = super.getFont(fontname, encoding, true, size,
+						style, color);
+				return font;
+			}
+
+		}
+	}
 }
