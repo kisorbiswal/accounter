@@ -190,9 +190,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 									if (viewSelect.getSelectedValue()
 											.toString()
 											.equalsIgnoreCase("Active"))
-										filterList(isActive);
+										filterList(true);
 									else
-										filterList(isActive);
+										filterList(false);
 								}
 							}
 						});
