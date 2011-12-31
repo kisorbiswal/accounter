@@ -1,10 +1,13 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
-import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -37,7 +40,7 @@ public class VendorTransactionsHistoryGrid extends
 		case 0:
 			return UIUtils.getDateByCompanyType(transactionHistory.getDate());
 		case 1:
-			return Utility.getTransactionName((transactionHistory.getType()));
+			return transactionHistory.getName();
 		case 2:
 			return transactionHistory.getNumber();
 		case 3:
@@ -77,17 +80,42 @@ public class VendorTransactionsHistoryGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		return new String[] { messages.date(), messages.type(), messages.no(),
 				messages.memo(), messages.dueDate(), messages.amount(),
 				messages.Account(), messages.status() };
 	}
 
 	@Override
-	public void onDoubleClick(TransactionHistory obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+	public void onDoubleClick(final TransactionHistory obj) {
+		if (obj.getType() == 11) {
+			AccounterCoreType accounterCoreType = UIUtils
+					.getAccounterCoreType(obj.getType());
+			AccounterAsyncCallback<ClientPayBill> callback = new AccounterAsyncCallback<ClientPayBill>() {
+
+				@Override
+				public void onException(AccounterException caught) {
+					Accounter.showMessage(messages.sessionExpired());
+				}
+
+				@Override
+				public void onResultSuccess(ClientPayBill result) {
+					if (result != null) {
+						int type = result.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
+								: ClientTransaction.TYPE_VENDOR_PAYMENT;
+
+						ReportsRPC.openTransactionView(type,
+								obj.getTransactionId());
+					}
+				}
+			};
+
+			Accounter.createGETService().getObjectById(accounterCoreType,
+					obj.getTransactionId(), callback);
+		} else {
 			ReportsRPC.openTransactionView(obj.getType(),
 					obj.getTransactionId());
+		}
+
 	}
 
 	protected void onClick(TransactionHistory obj, int row, int col) {
