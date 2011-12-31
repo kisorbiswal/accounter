@@ -42,7 +42,7 @@ public class MobileMessageHandler extends Thread {
 			try {
 				MobileChannelContext take = queue.take();
 				messageReceived(take);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
