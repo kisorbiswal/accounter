@@ -120,13 +120,13 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long DONT_INCLUDE_ESTIMATES = 0x10000000000000L;
 	private static final long INCLUDE_ACCEPTED_ESTIMATES = 0x20000000000000L;
-	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x4000000000000L;
+	private static final long INCLUDE_PENDING_ACCEPTED_ESTIMATES = 0x40000000000000L;
 	public static final long ENABLE_PRICE_LEVEL = 0x100000000000000L;
 	public static final long AUTOMATIC_CREDITS_APPLY = 0x200000000000000L;
 
 	private static final long WANT_DISCOUNTS = 0x80000000000000L;
 
-	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x40000000000000L;
+	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 
 	private String dateFormat;
 
