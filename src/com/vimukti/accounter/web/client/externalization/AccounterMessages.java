@@ -1273,8 +1273,6 @@ public interface AccounterMessages extends Messages {
 
 	public String ddiNumber();
 
-	public String ddMMyyyy();
-
 	public String debit();
 
 	public String debitAmount();
