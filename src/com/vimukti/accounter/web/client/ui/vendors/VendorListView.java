@@ -126,7 +126,7 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	protected void filterList(boolean isActive) {
-		isActive = isActive;
+		this.isActive = isActive;
 		onPageChange(0, getPageSize());
 	}
 
