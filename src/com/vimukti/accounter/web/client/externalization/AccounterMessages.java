@@ -5324,4 +5324,6 @@ public interface AccounterMessages extends Messages {
 
 	public String ztozeroperc();
 
+	public String of();
+
 }
