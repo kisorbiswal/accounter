@@ -161,17 +161,17 @@ public class CreditCardExpenseView extends
 							taxCodeSelect.setComboItem(getCompany().getTAXCode(
 									code));
 						}
-						ClientCurrency currency = getCurrency(selectedVendor
-								.getCurrency());
-						if (currency.getID() != 0) {
-							currencyWidget.setSelectedCurrencyFactorInWidget(
-									currency, transactionDateItem.getDate()
-											.getDate());
-						} else {
-							currencyWidget
-									.setSelectedCurrency(getBaseCurrency());
-						}
-						modifyForeignCurrencyTotalWidget();
+						// ClientCurrency currency = getCurrency(selectedVendor
+						// .getCurrency());
+						// if (currency.getID() != 0) {
+						// currencyWidget.setSelectedCurrencyFactorInWidget(
+						// currency, transactionDateItem.getDate()
+						// .getDate());
+						// } else {
+						// currencyWidget
+						// .setSelectedCurrency(getBaseCurrency());
+						// }
+						// modifyForeignCurrencyTotalWidget();
 					}
 
 				});
@@ -588,7 +588,6 @@ public class CreditCardExpenseView extends
 					HasHorizontalAlignment.ALIGN_RIGHT);
 			currencyWidget.setDisabled(isInViewMode());
 		}
-
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
@@ -653,6 +652,17 @@ public class CreditCardExpenseView extends
 
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						payFromAccountSelected(selectItem.getID());
+						ClientCurrency currency = getCurrency(selectItem
+								.getCurrency());
+						if (currency.getID() != 0) {
+							currencyWidget.setSelectedCurrencyFactorInWidget(
+									currency, transactionDateItem.getDate()
+											.getDate());
+						} else {
+							currencyWidget
+									.setSelectedCurrency(getBaseCurrency());
+						}
+						modifyForeignCurrencyTotalWidget();
 						// selectedAccount = (Account) selectItem;
 						// adjustBalance();
 
@@ -684,17 +694,20 @@ public class CreditCardExpenseView extends
 					messages.pleaseSelect(messages.payFrom()));
 			creditCardCombo.highlight();
 		} else {
-			ClientAccount bankAccount = creditCardCombo.getSelectedValue();
+			// ClientAccount bankAccount = creditCardCombo.getSelectedValue();
 			// check if the currency of accounts is valid or not
-			if (bankAccount != null) {
-				ClientCurrency bankCurrency = getCurrency(bankAccount
-						.getCurrency());
-				if (!(bankCurrency.equals(getBaseCurrency()))
-						&& !(bankCurrency.equals(currency))) {
-					result.addError(creditCardCombo,
-							messages.selectProperBankAccount());
+
+			// ClientCurrency bankCurrency = getCurrency(bankAccount
+			// .getCurrency());
+			ClientVendor vendor = vendorCombo.getSelectedValue();
+			if (vendor != null) {
+				ClientCurrency vendorCurrency = getCompany().getCurrency(
+						vendor.getCurrency());
+				if (!(vendorCurrency.equals(getBaseCurrency()))
+						&& !(vendorCurrency.equals(currency))) {
+					result.addError(vendorCombo, messages.selectProperVendor());
 				} else {
-					creditCardCombo.removeStyleName("highlightedFormItem");
+					vendorCombo.removeStyleName("highlightedFormItem");
 				}
 			}
 		}

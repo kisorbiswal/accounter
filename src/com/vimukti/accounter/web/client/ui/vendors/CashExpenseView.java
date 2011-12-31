@@ -172,13 +172,17 @@ public class CashExpenseView extends
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
 		}
-		ClientAccount bankAccount = payFromCombo.getSelectedValue();
+		// ClientAccount bankAccount = payFromCombo.getSelectedValue();
 		// check if the currency of accounts is valid or not
-		if (bankAccount != null) {
-			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
-			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
-				result.addError(payFromCombo,
-						messages.selectProperBankAccount());
+		ClientVendor vendor = vendorCombo.getSelectedValue();
+		if (vendor != null) {
+			ClientCurrency vendorCurrency = getCompany().getCurrency(
+					vendor.getCurrency());
+			// ClientCurrency bankCurrency =
+			// getCurrency(bankAccount.getCurrency());
+			if (vendorCurrency != getBaseCurrency()
+					&& vendorCurrency != currency) {
+				result.addError(payFromCombo, messages.selectProperVendor());
 			}
 		}
 		return result;
@@ -663,12 +667,18 @@ public class CashExpenseView extends
 
 		this.accountBalText.setAmount(account.getCurrentBalance());
 		accountBalText.setCurrency(getCurrency(account.getCurrency()));
-		// ClientCurrency currency = getCurrency(account.getCurrency());
-		// if (currency != null && currency.getID() != 0) {
-		// currencyWidget.setSelectedCurrency(currency);
-		// } else {
-		// currencyWidget.setSelectedCurrency(getBaseCurrency());
-		// }
+		ClientCurrency currency = getCurrency(account.getCurrency());
+		if (currency.getID() != 0) {
+			currencyWidget.setSelectedCurrencyFactorInWidget(currency,
+					transactionDateItem.getDate().getDate());
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
 	}
 
 	protected void setCheckNumber() {
@@ -812,27 +822,22 @@ public class CashExpenseView extends
 		}
 
 		long currency = vendor.getCurrency();
-		ClientCurrency clientCurrency;
-		if (currency != 0) {
-			clientCurrency = getCompany().getCurrency(currency);
-			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
-					transactionDateItem.getDate().getDate());
-		} else {
-			clientCurrency = getCompany().getPrimaryCurrency();
-			if (clientCurrency != null) {
-				currencyWidget.setSelectedCurrency(clientCurrency);
-			}
-		}
+		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
+		// if (currency != 0) {
+		// clientCurrency = getCompany().getCurrency(currency);
+		// currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+		// transactionDateItem.getDate().getDate());
+		// } else {
+		// clientCurrency = getCompany().getPrimaryCurrency();
+		// if (clientCurrency != null) {
+		// currencyWidget.setSelectedCurrency(clientCurrency);
+		// }
+		// }
 		vendorBalText.setAmount(vendor.getBalance());
 		vendorBalText.setCurrency(clientCurrency);
 		vendorAccountTransactionTable.setTaxCode(code, false);
 		vendorItemTransactionTable.setTaxCode(code, false);
 
-		if (isMultiCurrencyEnabled()) {
-			super.setCurrency(getCompany().getCurrency(vendor.getCurrency()));
-			setCurrencyFactor(currencyWidget.getCurrencyFactor());
-			updateAmountsFromGUI();
-		}
 	}
 
 	@Override

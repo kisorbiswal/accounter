@@ -4111,6 +4111,8 @@ public interface AccounterMessages extends Messages {
 
 	public String selectProperBankAccount();
 
+	public String selectProperVendor();
+
 	public String selectPurchaseOrder();
 
 	public String selectQuote();
