@@ -28,5 +28,8 @@ if("true".equals(isTouch)){
 });	
 });
 	var emailId="<%= emailId%>";
+	if(emailId=="null"){
+		emailId ="enter yor email here"
+	}
 var isTouch=<%= isTouch%>;
 </script>
