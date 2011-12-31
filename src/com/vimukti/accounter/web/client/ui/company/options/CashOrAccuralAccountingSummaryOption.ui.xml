@@ -6,8 +6,8 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="10">
-		<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" spacing="6">
+	<g:VerticalPanel >
+		<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" >
 			<g:Label ui:field="accountingMethodForSummaryLabel"/>
 		</g:HorizontalPanel>
 		<g:RadioButton name="new name" ui:field="cashRadioButton"/>

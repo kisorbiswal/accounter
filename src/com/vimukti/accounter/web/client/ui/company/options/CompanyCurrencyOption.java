@@ -64,6 +64,7 @@ public class CompanyCurrencyOption extends AbstractPreferenceOption {
 	@Override
 	public void createControls() {
 		primaryCurrenyLabel.setText(messages.primaryCurrency());
+		primaryCurrenyLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 		currenciesList = CoreUtils.getCurrencies(getCompany().getCurrencies());
 		for (ClientCurrency currency : currenciesList) {
 			primaryCurrencyListBox.addItem(currency.getFormalName() + "\t"

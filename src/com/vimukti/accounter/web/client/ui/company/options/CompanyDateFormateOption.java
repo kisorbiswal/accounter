@@ -60,6 +60,7 @@ public class CompanyDateFormateOption extends AbstractPreferenceOption {
 	public void createControls() {
 
 		comboBoxLabel.setText(messages.DateFormat());
+		comboBoxLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 
 		dateFormateDescriptionlabel.setText(messages.DateFormats());
 		dateFormateDescriptionlabel.setStyleName("organisation_comment");

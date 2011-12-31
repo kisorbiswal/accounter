@@ -182,6 +182,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tradingAddressDescription.setStyleName("organisation_comment");
 		tradingAddressTitle.setText(messages.tradingAddress());
 		tAddress1Label.setText(messages.address1());
+		tAddress1Label.getElement().getParentElement().addClassName("company-preferences-labels");
 		tAddress2Label.setText(messages.address2());
 		tCityLabel.setText(messages.city());
 		tStateLabel.setText(messages.state());
@@ -198,6 +199,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		rStateComboLabel.setText(messages.state());
 		rPostalCodeLabel.setText(messages.postalCode());
 		rCountryComboLabel.setText(messages.country());
+		
 
 		for (int i = 0; i < countriesList.size(); i++) {
 			tCountryCombo.addItem(countriesList.get(i));
@@ -236,12 +238,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				.registeredAddressComment());
 		// Website
 		companyWebsiteHeaderLabel.setText(messages.webSite());
+		companyWebsiteHeaderLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 
 		// Email
 		emailIDDescriptionLabel.setText(messages.emailIdDescription());
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
 		companyEmailHeaderLabel.setText(messages.emailId());
+		companyEmailHeaderLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -257,11 +261,14 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 		// Name
 		legalNameLabel.setText(messages.legalName());
+		legalNameLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 		companyNameLabel.setText(messages.companyName());
+		companyNameLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 		isShowLegalName.setText(messages.registeredAddressComment());
 
 		// Phone Number
 		companyPhoneNumberLabel.setText(messages.phoneNumber());
+		companyPhoneNumberLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 	}
 
 	private void rCountryChanged() {

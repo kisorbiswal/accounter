@@ -6,7 +6,7 @@
 			font-weight: bold;
 		}
 	</ui:style>
-	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+	<g:VerticalPanel  styleName="companyInfoPanel">
 		<g:VerticalPanel>
 			<g:Label styleName="header" ui:field="ageingLabel" />
 			<g:Label ui:field="ageingdescriptionLabel" />

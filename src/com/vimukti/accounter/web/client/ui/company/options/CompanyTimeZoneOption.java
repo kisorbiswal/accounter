@@ -68,6 +68,7 @@ public class CompanyTimeZoneOption extends AbstractPreferenceOption {
 			}
 		}
 		timeZoneLabel.setText(messages.timezone());
+		timeZoneLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 
 	}
 

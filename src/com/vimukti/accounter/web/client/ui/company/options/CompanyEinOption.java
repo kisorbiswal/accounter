@@ -53,6 +53,7 @@ public class CompanyEinOption extends AbstractPreferenceOption {
 		EindescriptionLabel.setText(messages.EINDescription());
 		EindescriptionLabel.setStyleName("organisation_comment");
 		EINLabel.setText(messages.taxId());
+		EINLabel.getElement().getParentElement().addClassName("company-preferences-labels");
 	}
 
 	public CompanyEinOption(String firstName) {
