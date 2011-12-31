@@ -13,7 +13,7 @@
 	$.fn.contactable = function(options) {
 		var defaults = {
 			name : 'Name',
-			email : 'Email',
+			email : 'Enter your email here  ',
 			message : 'Message',
 			ajax : true,
 			subject : 'A contactable message'
