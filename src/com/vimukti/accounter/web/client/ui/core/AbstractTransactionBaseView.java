@@ -1662,7 +1662,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public Double getAmountInBaseCurrency(Double amount) {
 		if (currency != null && amount != null) {
-			if (currencyFactor < 1.0) {
+			if (currencyFactor < 0.0) {
 				currencyFactor = 1.0;
 			}
 			return amount * currencyFactor;
@@ -1912,7 +1912,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected void isValidCurrencyFactor(ValidationResult result) {
 		if (currencyWidget != null && !currencyWidget.isShowFactorField()) {
-			if (currencyWidget.getCurrencyFactor() == 0) {
+			if (currencyWidget.getCurrencyFactor() <= 0) {
 				result.addError(currencyWidget,
 						messages.pleaseEntervalidCurrencyFactor());
 			}
