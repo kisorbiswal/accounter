@@ -7965,7 +7965,7 @@
 		BETWEEN :startDate
 		AND :endDate
 		GROUP BY
-		AT.AMOUNT,A.NAME
+		A.NAME
 		ORDER BY AMOUNT DESC
 	</sql-query>
 

@@ -90,11 +90,13 @@ public class ServerSideMessages {
 			} catch (MissingResourceException e) {
 				language = "eng";
 			}
-			String msg = (String) session
-					.getNamedQuery("getLocalMessageForKey")
+			List list = session.getNamedQuery("getLocalMessageForKey")
 					.setString("language", language)
-					.setLong("client", clientId).setString("key", key)
-					.uniqueResult();
+					.setLong("client", clientId).setString("key", key).list();
+			String msg = null;
+			if (!list.isEmpty()) {
+				msg = (String) list.get(0);
+			}
 			if (msg == null) {
 				new AccounterException("no value found for '" + key + "'")
 						.printStackTrace();

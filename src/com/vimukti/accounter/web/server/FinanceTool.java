@@ -1892,12 +1892,16 @@ public class FinanceTool {
 					}
 				}
 				total = queryResult.size();
-				int toIndex = start + length;
-				if (toIndex > queryResult.size()) {
-					toIndex = queryResult.size();
-				}
 				PaginationList<PayeeList> result = new PaginationList<PayeeList>();
-				result.addAll(queryResult.subList(start, toIndex));
+				if (length < 0) {
+					result.addAll(queryResult);
+				} else {
+					int toIndex = start + length;
+					if (toIndex > queryResult.size()) {
+						toIndex = queryResult.size();
+					}
+					result.addAll(queryResult.subList(start, toIndex));
+				}
 				result.setTotalCount(total);
 				result.setStart(start);
 				return result;

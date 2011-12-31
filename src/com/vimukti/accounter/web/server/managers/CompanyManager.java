@@ -790,11 +790,13 @@ public class CompanyManager extends Manager {
 				}
 			}
 			total = list.size();
-			int max = start + length;
-			if (max > total) {
-				max = total;
+			if (length >= 0) {
+				int max = start + length;
+				if (max > total) {
+					max = total;
+				}
+				list = list.subList(start, max);
 			}
-			list = list.subList(start, max);
 		}
 		PaginationList<ClientAccount> result = new PaginationList<ClientAccount>();
 		for (Account a : list) {

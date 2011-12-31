@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.dom.client.Style.Unit;
@@ -18,15 +21,18 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.externalization.IMessageStats;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends FlowPanel {
 
 	protected static AccounterMessages messages = Global.get().messages();
-	
+
 	private Image userImage;
 
 	public static Label companyNameLabel;
@@ -39,8 +45,7 @@ public class Header extends FlowPanel {
 
 	private VerticalPanel panel1;
 	private HorizontalPanel panel2, panel3;
-	private String gettingStartedStatus = messages
-			.hideGettingStarted();
+	private String gettingStartedStatus = messages.hideGettingStarted();
 	private MenuBar helpBar;
 	private ClientCompany company = null;
 
@@ -137,8 +142,7 @@ public class Header extends FlowPanel {
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
-		companiesLink = new Anchor(messages.companies(),
-				"/main/companies");
+		companiesLink = new Anchor(messages.companies(), "/main/companies");
 		companiesLink.addStyleName("companiesLink");
 
 		panel1 = new VerticalPanel();
@@ -161,7 +165,6 @@ public class Header extends FlowPanel {
 		headerLinks = new SimplePanel();
 		headerLinks.addStyleName("header_links");
 
-		
 		panel3 = new HorizontalPanel();
 		panel3.setSpacing(6);
 		panel3.addStyleName("logout-help-welcome");
@@ -169,6 +172,9 @@ public class Header extends FlowPanel {
 		panel2.addStyleName("companies_title");
 		panel3.add(help);
 		panel3.add(logout);
+		if (Accounter.getUser().getEmail().equals("rajesh@vimukti.com")) {
+			panel3.add(createStatisticsLink());
+		}
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
 
 		this.add(panel1);
@@ -182,9 +188,41 @@ public class Header extends FlowPanel {
 		// DOM.appendChild(panel1.getElement(), spanEle);
 	}
 
+	private Anchor createStatisticsLink() {
+		Anchor saveStatistics = new Anchor("Save Statistics");
+		saveStatistics.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				IMessageStats messageStats = (IMessageStats) Global.get()
+						.messages();
+				ArrayList<String> messagesUsageOrder = messageStats
+						.getMessagesUsageOrder();
+				HashMap<String, Integer> messgaesUsageCount = messageStats
+						.getMessgaesUsageCount();
+				Accounter.createTranslateService().updateMessgaeStats(
+						messagesUsageOrder, messgaesUsageCount,
+						new AccounterAsyncCallback<Boolean>() {
+
+							@Override
+							public void onException(AccounterException exception) {
+								Accounter
+										.showInformation("Messgae Statistics Updation Failed!");
+							}
+
+							@Override
+							public void onResultSuccess(Boolean result) {
+								Accounter
+										.showInformation("Messgae Statistics Updated!");
+							}
+						});
+			}
+		});
+		return saveStatistics;
+	}
+
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem(messages.help(),
-				getHelpMenuBar());
+		MenuItem menuItem = helpBar.addItem(messages.help(), getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
@@ -195,28 +233,24 @@ public class Header extends FlowPanel {
 	private CustomMenuBar getHelpMenuBar() {
 
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(messages.helpCenter(), true,
-				new Command() {
+		helpMenu.addItem(messages.helpCenter(), true, new Command() {
 
-					@Override
-					public void execute() {
+			@Override
+			public void execute() {
 
-					}
-				});
+			}
+		});
 
 		helpMenu.addItem(gettingStartedStatus, new Command() {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals(messages
-						.hideGettingStarted())) {
+				if (gettingStartedStatus.equals(messages.hideGettingStarted())) {
 					// DashBoardView.hideGettingStarted();
-					changeHelpBarContent(messages
-							.showGettingStarted());
+					changeHelpBarContent(messages.showGettingStarted());
 				} else {
 					// DashBoardView.showGettingStarted();
-					changeHelpBarContent(messages
-							.hideGettingStarted());
+					changeHelpBarContent(messages.hideGettingStarted());
 				}
 			}
 		});

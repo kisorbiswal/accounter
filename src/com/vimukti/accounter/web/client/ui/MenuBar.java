@@ -216,10 +216,10 @@ public class MenuBar {
 
 		fixedAssetMenu.addMenuItem(messages.newFixedAsset(),
 				HistoryTokens.NEWFIXEDASSETS);
-		fixedAssetMenu.addSeparatorItem();
+		// fixedAssetMenu.addSeparatorItem();
 		fixedAssetMenu.addMenuItem(messages.depreciation(),
 				HistoryTokens.DEPRICATION);
-		fixedAssetMenu.addSeparatorItem();
+		// fixedAssetMenu.addSeparatorItem();
 		fixedAssetMenu.addMenuItem(messages.pendingItemsList(),
 				HistoryTokens.PENDINGITEMS);
 		fixedAssetMenu.addMenuItem(messages.registeredItemsList(),
