@@ -38,6 +38,7 @@ import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1808,8 +1809,26 @@ public class VendorManager extends Manager {
 			TransactionHistory transactionHistory = new TransactionHistory();
 			object = (Object[]) iterator.next();
 			transactionHistory.setTransactionId((Long) object[0]);
-			transactionHistory.setName(Utility
-					.getTransactionName((Integer) object[2]));
+
+			int ttype = (Integer) object[2];
+			if (ttype == ClientTransaction.TYPE_PAY_BILL) {
+				Session currentSession = HibernateUtil.getCurrentSession();
+				PayBill paybill = (PayBill) currentSession.get(PayBill.class,
+						(Long) object[0]);
+				if (paybill.getPayBillType() == PayBill.TYPE_PAYBILL) {
+					transactionHistory.setName(Global.get().messages()
+							.payBill());
+				} else {
+					transactionHistory.setName(Global.get().messages()
+							.payeePrePayment(Global.get().Vendor()));
+				}
+			} else {
+				transactionHistory.setName(Utility
+						.getTransactionName((Integer) object[2]));
+			}
+
+			// transactionHistory.setName(Utility
+			// .getTransactionName((Integer) object[2]));
 
 			transactionHistory.setType((Integer) object[2]);
 			transactionHistory.setNumber((String) object[3]);
