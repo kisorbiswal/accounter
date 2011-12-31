@@ -1206,6 +1206,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (cardNumText.getValue() != null)
 				data.setCardOrLoanNumber(cardNumText.getValue().toString());
 			break;
+		case ClientAccount.TYPE_PAYPAL:
+			if (paypalEmail.getValue() != null) {
+				data.setPaypalEmail(paypalEmail.getValue());
+			}
 		default:
 			if (selectedSubAccount != null)
 				data.setParent(selectedSubAccount.getID());
@@ -1252,7 +1256,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			setData(account);
 			initAccountTypeSelect();
 		} else {
-			initAccountTypeSelect();
+			accountType = data.getType();
 			if (accountType != ClientAccount.TYPE_BANK
 					&& accountType != ClientAccount.TYPE_CREDIT_CARD)
 				getSubAccounts();
@@ -1570,8 +1574,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
 			addError(
 					accNoText,
-					messages
-							.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
+					messages.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 							+ "  "
 							+ nominalCodeRange[0]
 							+ messages.to()
