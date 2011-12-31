@@ -716,7 +716,7 @@ public class CreateVendorCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(VENDOR_NUMBER).setValue(getNextVendorNumber());
+		get(VENDOR_NUMBER).setDefaultValue(getNextVendorNumber());
 		get(ACTIVE).setDefaultValue(true);
 		get(VENDOR_SINCE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE).setDefaultValue(Double.valueOf(0.0D));
