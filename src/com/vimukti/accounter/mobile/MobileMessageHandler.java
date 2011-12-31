@@ -66,9 +66,8 @@ public class MobileMessageHandler extends Thread {
 			e.printStackTrace();
 			processMessage = "Exception: " + e.getMessage();
 		}
-
-		sessions.get(context.getNetworkId())
-				.await(this, context.getNetworkId());
+		MobileSession mobileSession = sessions.get(context.getNetworkId());
+		mobileSession.await(this, context.getNetworkId());
 		context.send(processMessage);
 	}
 
@@ -93,12 +92,14 @@ public class MobileMessageHandler extends Thread {
 					session.setLanguage(language);
 					networkId = cookie;
 					context.changeNetworkId(cookie);
+					// context.setNetworkId(cookie);
 					return session.getLastReply();
 				} else {
 					session = new MobileSession();
 					sessions.put(networkId, session);
 					session.setLanguage(language);
 				}
+				context.setNetworkId(networkId);
 			}
 			ServerLocal.set(getLocal(session.getLanguage()));
 			Global.set(new ServerGlobal());
