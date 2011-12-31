@@ -77,6 +77,8 @@ public class MenuBar {
 
 	private boolean canDoManageAccounts;
 
+	private boolean isPriceLevelEnabled;
+
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
 
@@ -949,7 +951,6 @@ public class MenuBar {
 				HistoryTokens.RECURRINGTRANSACTIONS);
 		companyListMenuBar.addMenuItem(messages.remindersList(),
 				HistoryTokens.RECURRINGREMINDERS);
-
 		return companyListMenuBar;
 	}
 
@@ -980,6 +981,10 @@ public class MenuBar {
 		if (isLocationTracking) {
 			manageSupportListMenuBar.addMenuItem(messages.locationsList(),
 					HistoryTokens.LOCATIONGROUPLIST);
+		}
+		if (isPriceLevelEnabled) {
+			manageSupportListMenuBar.addMenuItem(messages.priceLevelList(),
+					HistoryTokens.PRICELEVELLIST);
 		}
 		return manageSupportListMenuBar;
 
@@ -1083,6 +1088,8 @@ public class MenuBar {
 		this.canDoInventory = canDoInventory(clientUser);
 
 		this.canDoManageAccounts = CanDoManageAccounts(clientUser);
+
+		this.isPriceLevelEnabled = preferences.isPricingLevelsEnabled();
 
 		getMenuBar();
 	}
