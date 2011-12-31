@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.NotSerializableException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -2333,10 +2334,11 @@ public class FinanceTool {
 
 				String output = printTemplete.getPdfData();
 
-				InputStream inputStream = new ByteArrayInputStream(
-						output.getBytes());
-				InputStreamReader reader = new InputStreamReader(inputStream);
+				java.io.InputStream inputStream = new ByteArrayInputStream(
+						output.getBytes("UTF-8"));
 
+				InputStreamReader reader = new InputStreamReader(inputStream,
+						Charset.forName("UTF-8"));
 				Converter converter = new Converter();
 				file = converter.getPdfFile(printTemplete, reader);
 			}
