@@ -702,4 +702,17 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		return endDate;
 	}
 
+	@Override
+	public void restoreView(ClientCustomer customer) {
+		this.selectedCustomer = customer;
+		if (this.selectedCustomer != null) {
+			custGrid.setSelectedCustomer(selectedCustomer);
+			OncusotmerSelected();
+		}
+	}
+
+	@Override
+	public ClientCustomer saveView() {
+		return selectedCustomer;
+	}
 }
