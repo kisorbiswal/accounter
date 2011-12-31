@@ -670,4 +670,18 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		return endDate;
 	}
 
+	@Override
+	public void restoreView(ClientVendor vendor) {
+		this.selectedVendor = vendor;
+		if (this.selectedVendor != null) {
+			vendorlistGrid.setSelectedVendor(selectedVendor);
+			onVendorSelected();
+		}
+	}
+
+	@Override
+	public ClientVendor saveView() {
+		return selectedVendor;
+	}
+
 }
