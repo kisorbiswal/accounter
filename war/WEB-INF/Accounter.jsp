@@ -267,13 +267,7 @@
         </iframe>
         
 <script type="text/javascript">
-$(document).ready(function(){
-	$(function(){
-		$('#contact').contactable({
-	recipient: 'test@test.com',
-	subject: 'A Feeback Message'
-});
-});
+ 
 })
 </script>
  
