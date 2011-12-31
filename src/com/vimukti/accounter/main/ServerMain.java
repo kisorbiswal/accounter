@@ -74,7 +74,9 @@ public class ServerMain extends Main {
 		// EMailMonitor.getInstance().start();
 		Global.set(new ServerGlobal());
 
-		loadAccounterMessages();
+		if (ServerConfiguration.isLoadMessages()) {
+			loadAccounterMessages();
+		}
 
 		stratChatServers();
 

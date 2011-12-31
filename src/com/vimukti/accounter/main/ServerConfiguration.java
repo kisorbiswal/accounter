@@ -36,6 +36,7 @@ public class ServerConfiguration {
 	private static String attchmentContainerName;
 	private static String uploadAttachmentEmailId;
 	private static String uploadAttachmentPassword;
+	private static boolean loadMessages;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -145,12 +146,19 @@ public class ServerConfiguration {
 			enableMobileChatServer = prop.getProperty("enableMobileChatServer",
 					null).equalsIgnoreCase("true");
 
+			loadMessages = prop.getProperty("loadMessages", null)
+					.equalsIgnoreCase("true");
+
 		} catch (NumberFormatException ne) {
 			System.err
 					.println("Invalid configuration for some numeric options");
 			System.exit(0);
 		}
 
+	}
+
+	public static boolean isLoadMessages() {
+		return loadMessages;
 	}
 
 	public static String getAttachmentsDir() {
