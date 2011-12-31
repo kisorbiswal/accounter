@@ -32,14 +32,14 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 public class JournalViewDialog extends BaseDialog {
 
 	private DynamicForm disposalSummaryForm, disposalJournalForm;
-	private FixedAssetSellOrDisposeReviewJournal journalAsset;
+	private final FixedAssetSellOrDisposeReviewJournal journalAsset;
 	private double creditTotal = 0.0, debitTotal = 0.0, lossorGainAmount,
 			totalCapitalGainAmount;
 	protected ClientAccount totalCapitalGainAccount,
 			LossorGainOnDisposalAccount;
 	private RevenueAccountCombo totalGainItem;
 	private RevenueAndExpenseAccountCombo lossOnDisposal, gainOnDisposal;
-	private ArrayList<DynamicForm> forms = new ArrayList<DynamicForm>();
+	private final ArrayList<DynamicForm> forms = new ArrayList<DynamicForm>();
 	private Map<String, Double> disposalJOurnal;
 	private Map<String, Double> journalSummary;
 
@@ -110,6 +110,11 @@ public class JournalViewDialog extends BaseDialog {
 		setBodyLayout(mainLayout);
 		center();
 		show();
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 	/**
@@ -296,6 +301,7 @@ public class JournalViewDialog extends BaseDialog {
 			this.totalCapitalGainAccount = account;
 	}
 
+	@Override
 	public ValidationResult validate() {
 		// for (DynamicForm form : this.forms)
 		// return AccounterValidator.validateForm(form, true);
