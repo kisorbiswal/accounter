@@ -259,7 +259,6 @@ public class JournalViewDialog extends BaseDialog {
 	private RevenueAccountCombo createTotalGainCombo() {
 		RevenueAccountCombo revenueCombo = new RevenueAccountCombo(
 				messages.totalCapitalGain(), false);
-		revenueCombo.setWidth(80);
 		revenueCombo.setRequired(true);
 		revenueCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -276,7 +275,6 @@ public class JournalViewDialog extends BaseDialog {
 		RevenueAndExpenseAccountCombo revenueandExpenceCombo = new RevenueAndExpenseAccountCombo(
 				title, false);
 		revenueandExpenceCombo.setRequired(true);
-		revenueandExpenceCombo.setWidth(80);
 		revenueandExpenceCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
