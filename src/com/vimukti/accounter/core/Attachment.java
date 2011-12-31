@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.main.upload.UploadAttachment;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class Attachment extends CreatableObject implements IAccounterServerCore {
@@ -46,9 +47,15 @@ public class Attachment extends CreatableObject implements IAccounterServerCore 
 		boolean onSave = super.onSave(session);
 		if (getID() == 0) {
 			setCompany(getCreatedBy().getCompany());
+			Company company = getCompany();
 			UploadAttachment attachment = new UploadAttachment(attachmentId,
 					UploadAttachment.CREATE, getName());
-			attachment.key = getCompany().getEncryptionKey().getBytes();
+			String encryptionKey = company.getEncryptionKey();
+			if (encryptionKey == null) {
+				company.setEncryptionKey(SecureUtils.createID(16));
+				session.saveOrUpdate(company);
+			}
+			attachment.key = company.getEncryptionKey().getBytes();
 			AttachmentFileServer.put(attachment);
 		}
 		return onSave;
