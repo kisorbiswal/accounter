@@ -623,7 +623,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(NUMBER).setValue(getNextCustomerNumber());
+		get(NUMBER).setDefaultValue(getNextCustomerNumber());
 		get(ACTIVE).setValue(true);
 		get(CUSTOMER_SINCEDATE).setDefaultValue(new ClientFinanceDate());
 		get(BALANCE_ASOF_DATE).setDefaultValue(new ClientFinanceDate());
