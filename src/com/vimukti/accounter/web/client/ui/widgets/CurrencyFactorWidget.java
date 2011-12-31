@@ -39,7 +39,7 @@ public class CurrencyFactorWidget extends DynamicForm {
 
 	private void factorFieldChagned(double factor) {
 		this.factor = factor;
-		if (factor == 0.0) {
+		if (factor <= 0.0) {
 			factor = 1.0;
 			this.factor = 1.0;
 			currencyForm.changeTextField(factor);
