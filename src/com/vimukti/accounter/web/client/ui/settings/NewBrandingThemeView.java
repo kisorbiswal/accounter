@@ -559,10 +559,9 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		inchButton = new RadioButton(messages.measureType(), messages.inch());
 		cmButton.setChecked(true);
 
-		fontNameArray = new String[] { messages.arial(), messages.calibri(),
-				messages.cambria(), messages.georgia(), messages.myriad(),
-				messages.tahoma(), messages.timesNewRoman(),
-				messages.trebuchet(), "Code2000" };
+		fontNameArray = new String[] { "Arial", "Calibri", "Cambria",
+				"Georgia", "Myriad", "Tahoma", "Times New Roman", "Trebuchet",
+				"Code2000" };
 		fontSizeArray = new String[] { messages.pointnumber(8),
 				messages.pointnumber(9), messages.pointnumber(10),
 				messages.pointnumber(11),

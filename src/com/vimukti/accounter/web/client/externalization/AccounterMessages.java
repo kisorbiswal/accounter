@@ -326,8 +326,6 @@ public interface AccounterMessages extends Messages {
 
 	public String arAgeingSummary();
 
-	public String arial();
-
 	public String asOf();
 
 	public String assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount();
@@ -559,10 +557,6 @@ public interface AccounterMessages extends Messages {
 	public String businessPhone();
 
 	public String buyChecksAndForms();
-
-	public String calibri();
-
-	public String cambria();
 
 	public String canada();
 
@@ -1641,8 +1635,6 @@ public interface AccounterMessages extends Messages {
 
 	public String generalSettingsLabel();
 
-	public String georgia();
-
 	public String germany();
 
 	public String get1099Information();
@@ -2296,8 +2288,6 @@ public interface AccounterMessages extends Messages {
 	public String mustSelectCustomerForBillable();
 
 	public String myFiscalYearsStartsIn();
-
-	public String myriad();
 
 	public String myTranslations();
 
@@ -3706,8 +3696,6 @@ public interface AccounterMessages extends Messages {
 
 	public String syncOnlinePayees();
 
-	public String tahoma();
-
 	public String tax();
 
 	public String taxable();
@@ -3876,8 +3864,6 @@ public interface AccounterMessages extends Messages {
 
 	public String thisWndHelpYoyManageVATTasks();
 
-	public String timesNewRoman();
-
 	public String timezone();
 
 	public String tinNumber();
@@ -4045,8 +4031,6 @@ public interface AccounterMessages extends Messages {
 	public String translateNote();
 
 	public String translation();
-
-	public String trebuchet();
 
 	public String trialBalance();
 
@@ -5649,21 +5633,21 @@ public interface AccounterMessages extends Messages {
 	public String postiveCurrencyFormat();
 
 	public String negativeCurrencyFormat();
-	
+
 	public String SimpletogetStarted();
-	
+
 	public String NoCreditcardrequired();
-	
+
 	public String Freetosingup();
-	
+
 	public String Cancelatanytime();
-	
+
 	public String Benfits();
-	
+
 	public String Accessfromanywhere();
-	
+
 	public String Multiplecompanies();
-	
+
 	public String PrintReportsInvocies();
 
 	public String companyNameAlreadyExits();

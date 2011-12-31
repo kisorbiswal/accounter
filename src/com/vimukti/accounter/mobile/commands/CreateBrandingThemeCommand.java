@@ -150,11 +150,9 @@ public class CreateBrandingThemeCommand extends AbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String fontNameArray[] = new String[] { getMessages().arial(),
-						getMessages().calibri(), getMessages().cambria(),
-						getMessages().georgia(), getMessages().myriad(),
-						getMessages().tahoma(), getMessages().timesNewRoman(),
-						getMessages().trebuchet() };
+				String fontNameArray[] = new String[] { "Arial", "Calibri",
+						"Cambria", "Georgia", "Myriad", "Tahoma",
+						"Times New Roman", "Trebuchet" };
 				fontList = new ArrayList<String>();
 				Collections.addAll(fontList, fontNameArray);
 				return fontList;
@@ -191,8 +189,10 @@ public class CreateBrandingThemeCommand extends AbstractCommand {
 
 			@Override
 			protected List<String> getLists(Context context) {
-				String[] fontSizeArray = new String[] { getMessages().pointnumber(8),
-						getMessages().pointnumber(9), getMessages().pointnumber(10),
+				String[] fontSizeArray = new String[] {
+						getMessages().pointnumber(8),
+						getMessages().pointnumber(9),
+						getMessages().pointnumber(10),
 						getMessages().pointnumber(11) };
 				fontSizeArrayList = new ArrayList<String>();
 				Collections.addAll(fontSizeArrayList, fontSizeArray);
