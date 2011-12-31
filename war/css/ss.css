@@ -790,6 +790,7 @@ a#fdbk_tab:hover {
 .delete_company {
 	text-decoration: none !important;
 	padding-top: 3px;
+	float:right;
 }
 .companies-list a:hover {
 	text-decoration: underline !important;
@@ -991,11 +992,6 @@ a#fdbk_tab:hover {
 	overflow: visible;
     white-space: nowrap;
     width: 100%;
-}
-.delete_company{
-    font-weight: bold;
-    margin-left: 15px;
-    color:red !important;
 }
 .signup-left,.signup-right{
 	float:left;
