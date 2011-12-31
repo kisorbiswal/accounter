@@ -25,7 +25,7 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	private int paymentMethod;
 	private long bankChalanNumber;
 	private long checkNumber;
-	private long bankBsrCode;
+	private String bankBsrCode;
 
 	private boolean bookEntry;
 	private long dateTaxPaid;
@@ -71,7 +71,6 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	public long getID() {
 		return id;
 	}
-
 
 	public double getIncomeTaxAmount() {
 		return incomeTaxAmount;
@@ -153,28 +152,27 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 		this.checkNumber = checkNumber;
 	}
 
-	public long getBsrCode() {
-		return bankBsrCode;
-	}
-
-	public void setBsrCode(long bsrCode) {
-		this.bankBsrCode = bsrCode;
-	}
-
-	public long getBankBsrCode() {
-		return bankBsrCode;
-	}
-
-	public void setBankBsrCode(long bankBsrCode) {
-		this.bankBsrCode = bankBsrCode;
-	}
-
 	public boolean isBookEntry() {
 		return bookEntry;
 	}
 
 	public void setBookEntry(boolean bookEntry) {
 		this.bookEntry = bookEntry;
+	}
+
+	/**
+	 * @return the bankBsrCode
+	 */
+	public String getBankBsrCode() {
+		return bankBsrCode;
+	}
+
+	/**
+	 * @param bankBsrCode
+	 *            the bankBsrCode to set
+	 */
+	public void setBankBsrCode(String bankBsrCode) {
+		this.bankBsrCode = bankBsrCode;
 	}
 
 	public long getDateTaxPaid() {

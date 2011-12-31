@@ -29,7 +29,7 @@ public class TDSChalanDetail extends CreatableObject implements
 	private int paymentMethod;
 	private long bankChalanNumber;
 	private long checkNumber;
-	private long bankBsrCode;
+	private String bankBsrCode;
 
 	private boolean bookEntry;
 	private long dateTaxPaid;
@@ -136,11 +136,11 @@ public class TDSChalanDetail extends CreatableObject implements
 		this.checkNumber = checkNumber;
 	}
 
-	public Long getBankBsrCode() {
+	public String getBankBsrCode() {
 		return bankBsrCode;
 	}
 
-	public void setBankBsrCode(Long bankBsrCode) {
+	public void setBankBsrCode(String bankBsrCode) {
 		this.bankBsrCode = bankBsrCode;
 	}
 
@@ -227,16 +227,15 @@ public class TDSChalanDetail extends CreatableObject implements
 	}
 
 	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		return true;
 	}
 
 }

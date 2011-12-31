@@ -10,7 +10,7 @@ public class ClientETDSFilling implements IAccounterCore {
 	private long deducteeID;
 
 	private int serialNo;
-	private long bankBSRCode;
+	private String bankBSRCode;
 	private long dateTaxDeposited;
 	private long chalanSerialNumber;
 	private String sectionForPayment;
@@ -74,11 +74,11 @@ public class ClientETDSFilling implements IAccounterCore {
 		this.serialNo = serialNo;
 	}
 
-	public long getBankBSRCode() {
+	public String getBankBSRCode() {
 		return bankBSRCode;
 	}
 
-	public void setBankBSRCode(long bankBSRCode) {
+	public void setBankBSRCode(String bankBSRCode) {
 		this.bankBSRCode = bankBSRCode;
 	}
 

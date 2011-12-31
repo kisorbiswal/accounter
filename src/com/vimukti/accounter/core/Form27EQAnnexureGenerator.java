@@ -373,12 +373,11 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteePan() {
-		if (vendorFinal.getPANno() != null) {
-			return vendorFinal.getPANno();
+		if (vendorFinal.getTaxId() != null) {
+			return vendorFinal.getTaxId();
 		} else {
 			return "PANNOTAVBL";
 		}
-
 	}
 
 	/**
@@ -740,7 +739,11 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBankBranchCode() {
-		return Long.toString(chalanDetails.getBankBsrCode());
+		String bankBsrCode = chalanDetails.getBankBsrCode();
+		if (bankBsrCode.length() > 1)
+			return bankBsrCode;
+		else
+			return addDelimiter();
 	}
 
 	/**

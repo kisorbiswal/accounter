@@ -2078,6 +2078,7 @@
 		<property name="eduCess" column="EDU_CESS"></property>
 		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"></property>
+		<property name="transactionID" column="TRANSACTION_ID"></property>
 	</class>
 
 

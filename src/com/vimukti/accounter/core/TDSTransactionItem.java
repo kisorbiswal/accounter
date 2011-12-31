@@ -35,6 +35,8 @@ public class TDSTransactionItem extends CreatableObject implements
 
 	private long transactionDate;
 
+	private long transactionID;
+
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
@@ -110,6 +112,21 @@ public class TDSTransactionItem extends CreatableObject implements
 
 	public void setEduCess(double eduCess) {
 		this.eduCess = eduCess;
+	}
+
+	/**
+	 * @return the transactionID
+	 */
+	public long getTransactionID() {
+		return transactionID;
+	}
+
+	/**
+	 * @param transactionID
+	 *            the transactionID to set
+	 */
+	public void setTransactionID(long transactionID) {
+		this.transactionID = transactionID;
 	}
 
 }

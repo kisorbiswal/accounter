@@ -26,6 +26,8 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	private double tdsTotal;
 
+	private long transactionID;
+
 	@Override
 	public int getVersion() {
 		return version;
@@ -123,6 +125,21 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	public void setBoxSelected(boolean boxSelected) {
 		this.boxSelected = boxSelected;
+	}
+
+	/**
+	 * @return the transactionID
+	 */
+	public long getTransactionID() {
+		return transactionID;
+	}
+
+	/**
+	 * @param transactionID
+	 *            the transactionID to set
+	 */
+	public void setTransactionID(long transactionID) {
+		this.transactionID = transactionID;
 	}
 
 }
