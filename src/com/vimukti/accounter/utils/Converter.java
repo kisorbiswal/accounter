@@ -209,6 +209,9 @@ public class Converter {
 		try {
 
 			PD4ML pd4ml = new PD4ML();
+			File file = new File(ServerConfiguration.getFontsDir());
+			String absolutePath = file.getAbsolutePath();
+			pd4ml.useTTF(absolutePath, true);
 			pd4ml.setPageInsets(new Insets(1, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
 			pd4ml.setPageSize(dimension);
