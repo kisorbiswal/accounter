@@ -337,6 +337,8 @@ public class HistoryTokens {
 
 	public static final String ACKNOWLEDGEMENTFORMTDS = "acknowledgementFormTDS";
 
+	public static final String PRICELEVELLIST = "priceLevels";
+
 	public HistoryTokens() {
 
 	}
