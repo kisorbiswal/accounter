@@ -19,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -107,8 +106,26 @@ public class TranslationUploadServlet extends BaseServlet {
 			Set<Key> keys = new HashSet<Key>();
 			keys.add(key);
 			message.setKeys(keys);
+			boolean insert = true;
+			for (Entry<Key, Message> entry : newMessages.entrySet()) {
+				Key k = entry.getKey();
+				Message v = entry.getValue();
+				if (v.getValue().equals(message.getValue())) {
+					v.getKeys().add(key);
+					insert = false;
+					break;
+				}
+			}
+			for (Key key2 : newMessages.keySet()) {
+				if (key2.equals(key)) {
+					insert = false;
+					break;
+				}
+			}
 
-			newMessages.put(key, message);
+			if (insert) {
+				newMessages.put(key, message);
+			}
 		}
 
 		checkMessages(newMessages);
@@ -118,140 +135,226 @@ public class TranslationUploadServlet extends BaseServlet {
 	}
 
 	private void checkMessages(Map<Key, Message> newMessages) {
-		Map<Key, Message> messagesToRemove = new HashMap<Key, Message>();
-		List<Message> messagesToDelete = new ArrayList<Message>();
-		// Key: Value
+		Session session = HibernateUtil.openSession();
+		List<Message> removed = new ArrayList<Message>();//
+		List<Message> addedMessages = new ArrayList<Message>();
 		for (Entry<Key, Message> entry : newMessages.entrySet()) {
 			Key key = entry.getKey();
 			Message value = entry.getValue();
-
-			Message oldMessage = getMessageByValue(value.getValue());
-			// Check if Value Exists
-			if (oldMessage != null) {// Yes
-				// Check If Key Same
+			boolean isInserted = false;
+			Message messageByMessage = getMessageByValue(value.getValue());
+			if (messageByMessage == null) {
+				isInserted = true;
+			} else {
 				boolean keySame = false;
-				Iterator<Key> iterator = oldMessage.getKeys().iterator();
-				while (iterator.hasNext()) {
-					Key next = iterator.next();
-					if (next.getKey().equals(key.getKey())) {
+				for (Key k : messageByMessage.getKeys()) {
+					if (k.equals(key)) {
 						keySame = true;
+						break;
 					}
 				}
-				if (keySame) {// YES
-					// Mark In Use =TRUE
-					messagesToRemove.put(key, value);
-				} else {// NO
-					// Copy All Local Messages from old message to this message
-					// and save
-					// Set<LocalMessage> localMessages = oldMessage
-					// .getLocalMessages();
-					// value.setLocalMessages(localMessages);
-					Set<Key> keys = oldMessage.getKeys();
-					keys.add(key);
-					oldMessage.setKeys(keys);
-					messagesToRemove.put(key, value);
+				if (!keySame) {
+					messageByMessage.getKeys().add(key);
 				}
-			} else {// NO
-				oldMessage = getMessageByKey(key);
-				// Check if Key Exists
-				if (oldMessage != null) {// YES
-					// Check if Local Messages exist to old key
-					if (!oldMessage.getLocalMessages().isEmpty()) {// YES
-						// Rename old key to a random key
-						// and mark in use =false
-						// insert new message
-						Set<Key> keys = new HashSet<Key>();
-						Iterator<Key> iterator = oldMessage.getKeys()
-								.iterator();
-						while (iterator.hasNext()) {
-							Key next = iterator.next();
-							if (next.getKey().equals(key.getKey())) {
-								keys.add(next);
-							}
+				isInserted = false;
+			}
+
+			List<Message> messageByKey = getMessageByKey(key);
+			if (messageByKey.isEmpty()) {
+				isInserted = true;
+			} else {
+				for (Message m : messageByKey) {
+					if (!m.getLocalMessages().isEmpty()) {
+						m.getKeys().remove(key);
+					} else {
+						if (!m.getValue().equals(value.getValue())) {
+							removed.add(m);
+							isInserted = true;
 						}
-						value.setKeys(keys);
-						oldMessage.setNotUsed(true);
-
-					} else {// NO
-						// Delete old one and insert new one
-						oldMessages.remove(oldMessage);
-						messagesToDelete.add(oldMessage);
 					}
-
-				} else {// NO
-					// Just insert the new message
 				}
 			}
-		}
-
-		for (Entry<Key, Message> entry : messagesToRemove.entrySet()) {
-			if (newMessages.containsValue(entry.getValue())) {
-				newMessages.remove(entry.getKey());
+			if (isInserted) {
+				addedMessages.add(value);
 			}
+
 		}
 
 		for (Message message : oldMessages) {
-			if (!newMessages.containsValue(message)) {
+			boolean contains = false;
+			for (Message newMessage : newMessages.values()) {
+				if (newMessage.getValue().equals(message.getValue())) {
+					contains = true;
+					break;
+				}
+			}
+			if (!contains) {
 				message.setNotUsed(true);
 			}
 		}
-
-		oldMessages.addAll(newMessages.values());
-
-		Session session = HibernateUtil.openSession();
 		try {
-			org.hibernate.Transaction deleteTransaction = session
-					.beginTransaction();
-			for (Message message : messagesToDelete) {
-				session.delete(message);
-			}
-			deleteTransaction.commit();
-
 			org.hibernate.Transaction transaction = session.beginTransaction();
-			for (Message message : oldMessages) {
-				if (message.getId() == 0) {
-					Query messageQuery = session.getNamedQuery(
-							"getMessageByValue").setParameter("value",
-							message.getValue());
-					for (Key key : message.getKeys()) {
-						Query keyQuery = session.getNamedQuery("getKeyByValue")
-								.setParameter("value", key.getKey());
-						Key duplicateKey = (Key) keyQuery.uniqueResult();
-						if (duplicateKey != null
-								&& key.getId() != duplicateKey.getId()) {
-							message.getKeys().remove(key);
-							message.getKeys().add(duplicateKey);
-						}
-					}
-					Message oldMessage = (Message) messageQuery.uniqueResult();
-					if (oldMessage != null) {
-						Set<Key> keys = oldMessage.getKeys();
-						keys.addAll(message.getKeys());
-						oldMessage.setKeys(keys);
-						message = oldMessage;
-					}
+			for (Message message : removed) {
+				if (message != null) {
+					session.delete(message);
+					oldMessages.remove(message);
 				}
+			}
+			oldMessages.addAll(addedMessages);
+			for (Message message : oldMessages) {
 				session.saveOrUpdate(message);
-
 			}
 			transaction.commit();
 		} finally {
 			session.close();
 		}
+		//
+		// Map<Key, Message> messagesToRemove = new HashMap<Key, Message>();
+		// List<Message> messagesToDelete = new ArrayList<Message>();
+		// // Key: Value
+		// for (Entry<Key, Message> entry : newMessages.entrySet()) {
+		// Key key = entry.getKey();
+		// Message value = entry.getValue();
+		//
+		// if (value.getValue().equals("*Example1   :")) {
+		// System.out.println("vb");
+		// }
+		//
+		// Message oldMessage = getMessageByValue(value.getValue());
+		// // Check if Value Exists
+		// if (oldMessage != null) {// Yes
+		// // Check If Key Same
+		// boolean keySame = false;
+		// Iterator<Key> iterator = oldMessage.getKeys().iterator();
+		// while (iterator.hasNext()) {
+		// Key next = iterator.next();
+		// if (next.getKey().equals(key.getKey())) {
+		// keySame = true;
+		// break;
+		// }
+		// }
+		// if (keySame) {// YES
+		// // Mark In Use =TRUE
+		// messagesToRemove.put(key, value);
+		// } else {// NO
+		// // Copy All Local Messages from old message to this message
+		// // and save
+		// // Set<LocalMessage> localMessages = oldMessage
+		// // .getLocalMessages();
+		// // value.setLocalMessages(localMessages);
+		// Set<Key> keys = oldMessage.getKeys();
+		// keys.add(key);
+		// oldMessage.setKeys(keys);
+		// messagesToRemove.put(key, value);
+		// }
+		// } else {// NO
+		// List<Message> oldMessagesByKey = getMessageByKey(key);
+		// // Check if Key Exists
+		// if (!oldMessagesByKey.isEmpty()) {// YES
+		// // Check if Local Messages exist to old key
+		// for (Message oldMessageByKey : oldMessagesByKey) {
+		//
+		// if (!oldMessageByKey.getLocalMessages().isEmpty()) {// YES
+		// // Rename old key to a random key
+		// // and mark in use =false
+		// // insert new message
+		// Set<Key> keys = new HashSet<Key>();
+		// Iterator<Key> iterator = oldMessageByKey.getKeys()
+		// .iterator();
+		// while (iterator.hasNext()) {
+		// Key next = iterator.next();
+		// if (next.getKey().equals(key.getKey())) {
+		// keys.add(next);
+		// }
+		// }
+		// value.setKeys(keys);
+		//
+		// oldMessageByKey.getKeys().remove(key);
+		// oldMessageByKey.setNotUsed(true);
+		// session.saveOrUpdate(oldMessageByKey);
+		// oldMessages.remove(oldMessageByKey);
+		// } else {// NO
+		// // Delete old one and insert new one
+		// oldMessages.remove(oldMessageByKey);
+		// messagesToDelete.add(oldMessageByKey);
+		// }
+		// }
+		// } else {// NO
+		// // Just insert the new message
+		// }
+		// }
+		// }
+
+		// for (Entry<Key, Message> entry : messagesToRemove.entrySet()) {
+		// if (newMessages.containsValue(entry.getValue())) {
+		// newMessages.remove(entry.getKey());
+		// }
+		// }
+		//
+		// for (Message message : oldMessages) {
+		// if (!newMessages.containsValue(message)) {
+		// message.setNotUsed(true);
+		// }
+		// }
+
+		// oldMessages.addAll(newMessages.values());
+
+		// try {
+		// org.hibernate.Transaction deleteTransaction = session
+		// .beginTransaction();
+		// for (Message message : removed) {
+		// if (message != null) {
+		// session.delete(message);
+		// }
+		// }
+		// deleteTransaction.commit();
+		//
+		// org.hibernate.Transaction transaction = session.beginTransaction();
+		// for (Message message : oldMessages) {
+		// if (message.getId() == 0) {
+		// Query messageQuery = session.getNamedQuery(
+		// "getMessageByValue").setParameter("value",
+		// message.getValue());
+		// for (Key key : message.getKeys()) {
+		// Query keyQuery = session.getNamedQuery("getKeyByValue")
+		// .setParameter("value", key.getKey());
+		// Key duplicateKey = (Key) keyQuery.uniqueResult();
+		// if (duplicateKey != null
+		// && key.getId() != duplicateKey.getId()) {
+		// message.getKeys().remove(key);
+		// message.getKeys().add(duplicateKey);
+		// }
+		// }
+		// Message oldMessage = (Message) messageQuery.uniqueResult();
+		// if (oldMessage != null) {
+		// Set<Key> keys = oldMessage.getKeys();
+		// keys.addAll(message.getKeys());
+		// oldMessage.setKeys(keys);
+		// message = oldMessage;
+		// }
+		// }
+		// session.saveOrUpdate(message);
+		//
+		// }
+		// transaction.commit();
+		// } finally {
+		// session.close();
+		// }
 
 	}
 
-	private Message getMessageByKey(Key key) {
+	private List<Message> getMessageByKey(Key key) {
+		List<Message> oldMessagesByKey = new ArrayList<Message>();
 		for (Message message : oldMessages) {
 			Iterator<Key> iterator = message.getKeys().iterator();
 			while (iterator.hasNext()) {
 				Key next = iterator.next();
 				if (next.getKey().equals(key.getKey())) {
-					return message;
+					oldMessagesByKey.add(message);
 				}
 			}
 		}
-		return null;
+		return oldMessagesByKey;
 	}
 
 	private Message getMessageByValue(String value) {
