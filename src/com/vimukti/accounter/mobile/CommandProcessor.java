@@ -135,6 +135,7 @@ public class CommandProcessor {
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = context.makeResult();
+			result.setHideCancel(false);
 			result.add("You got an Exception....@@@@@@@");
 		}
 		return result;
