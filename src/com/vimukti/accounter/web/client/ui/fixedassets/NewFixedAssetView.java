@@ -523,6 +523,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		depreciationAccount.setRequired(true);
 		depreciationMethod.setRequired(true);
 		depreciationRate.setRequired(true);
+		accumulatedDepreciationAccount.setRequired(true);
 	}
 
 	private List<ClientAccount> getFixedAssetAccounts() {
@@ -591,7 +592,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-
+						ClientAccount selectedValue = accumulatedDepreciationAccount
+								.getSelectedValue();
 						validateAccount();
 
 					}
@@ -996,7 +998,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			result.add(assetTypeForm.validate());
 			result.add(validateDepreciationRate());
 			result.add(depreciationForm.validate());
-			result.add(validateAccumulatedDepreciationAccount());
+			result.add(accumulatedDepreciationAccountForm.validate());
 		}
 		if (data != null
 				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
