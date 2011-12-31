@@ -98,8 +98,8 @@ public class MobileMessageHandler extends Thread {
 					session = new MobileSession();
 					sessions.put(networkId, session);
 					session.setLanguage(language);
+					context.setNetworkId(networkId);
 				}
-				context.setNetworkId(networkId);
 			}
 			ServerLocal.set(getLocal(session.getLanguage()));
 			Global.set(new ServerGlobal());
