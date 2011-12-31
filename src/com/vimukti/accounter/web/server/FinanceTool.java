@@ -1815,10 +1815,7 @@ public class FinanceTool {
 						.setParameter("isActive", isActive);
 				;
 			}
-			List list = null;
-			total = query.list().size();
-			list = query.setFirstResult(start).setMaxResults(length).list();
-
+			List list = query.list();
 			if (list != null) {
 				Object[] object = null;
 				String payeeName = null;
@@ -1891,11 +1888,13 @@ public class FinanceTool {
 						queryResult.add(payeeList);
 					}
 				}
-
-				PaginationList<PayeeList> result = new PaginationList<PayeeList>();
-				for (PayeeList payee : queryResult) {
-					result.add(payee);
+				total = queryResult.size();
+				int toIndex = start + length;
+				if (toIndex > queryResult.size()) {
+					toIndex = queryResult.size();
 				}
+				PaginationList<PayeeList> result = new PaginationList<PayeeList>();
+				result.addAll(queryResult.subList(start, toIndex));
 				result.setTotalCount(total);
 				result.setStart(start);
 				return result;
