@@ -53,7 +53,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	protected ListBox depreciatedToCombo;
 	private ArrayList<DynamicForm> listforms;
 	protected ClientFinanceDate depreciationEndDate;
-	private Button startDateButton;
+	private Button startDateButton, rollBackDepreciation;
 	protected ClientAccount account;
 	private final List<Long> assetIDList;
 	private List<ClientFiscalYear> openFiscalYears;
@@ -97,10 +97,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			}
 		});
 
-		Button rollBackDepreciation = new Button(
-				messages.rollBackDepreciation());
+		rollBackDepreciation = new Button(messages.rollBackDepreciation());
 		rollBackDepreciation.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
 				new RollBackDepreciationDialog();
@@ -111,8 +109,8 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		buttonPanel.setSpacing(10);
 		buttonPanel.add(startDateButton);
 		buttonPanel.add(rollBackDepreciation);
+		rollBackDepreciation.setVisible(false);
 		mainPanel.add(buttonPanel);
-
 		fromLabel = new Label(messages.depricatiedFrom());
 
 		format = DateTimeFormat.getFormat(getPreferences().getDateFormat());
@@ -165,9 +163,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	private void getDepriciationLastDate() {
-
 		AccounterAsyncCallback<ClientFinanceDate> callBack = new AccounterAsyncCallback<ClientFinanceDate>() {
-
 			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
@@ -194,10 +190,12 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 				for (String dateArray : getDatesArray()) {
 					depreciatedToCombo.addItem(dateArray);
 				}
-
+				if (depreciationStartDate.getDate() > getPreferences()
+						.getStartOfFiscalYear()) {
+					rollBackDepreciation.setVisible(true);
+				}
 				getDepreciableFixedAssets();
 			}
-
 		};
 		Accounter.createHomeService().getDepreciationLastDate(callBack);
 	}
