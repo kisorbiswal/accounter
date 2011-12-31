@@ -4,24 +4,29 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.i18n.Messages;
 
 public interface AccounterMessages extends Messages {
+	public String AAccountNumbershoublebeanumber();
 
-	// public String a2Code();
-
-	// public String a3Code();
-
-	// public String a4();
+	public String AAccountNumbershoublebepositive();
 
 	public String accandaccumulatedDepreciationAccShouldnotbesame();
 
 	public String accepted();
 
-	// public String Accounnumbers();
+	public String acceptedTermsandconditions();
 
-	public String account();
+	public String acceptEstimate();
+
+	public String acceptThetermsAndCondition();
+
+	public String Accessfromanywhere();
 
 	public String Account();
 
-	// public String accountDescription();
+	public String account();
+
+	public String accountBalances();
+
+	public String accountCashAccount();
 
 	public String accounter();
 
@@ -31,11 +36,17 @@ public interface AccounterMessages extends Messages {
 
 	public String accounterClassList();
 
-	// public String accounterTerminologies();
+	public String AccounterLoadingFailed();
 
 	public String accountervalidatorError();
 
 	public String accountFrom();
+
+	public String accountisActive();
+
+	public String accountisInActive();
+
+	public String accountisNotCashAccount();
 
 	public String accountName();
 
@@ -44,33 +55,31 @@ public interface AccounterMessages extends Messages {
 	public String accountNumberToolTipDesc(String startingRange,
 			String endingRange);
 
-	public String taxAgencie();
+	public String accountPayble();
 
-	// public String accountPayable();
-
-	// public String accountReceivable();
+	public String accountReceivable();
 
 	public String accountRegister();
 
 	public String Accounts();
 
+	public String accountsPayable();
+
+	public String accountsReceivable();
+
 	public String accountsSelected();
 
-	// public String accountTo();
+	public String accountsVsMonths();
+
+	public String accountsVsQuaters();
+
+	public String accountsVsTotal();
 
 	public String accountToDebitForSale();
 
-	// public String accountTransactionItems();
+	public String accounttransaction();
 
 	public String accountType();
-
-	// public String accountVScustom();
-
-	// public String accountVSmonths();
-
-	// public String accountVSquaters();
-
-	// public String accountVSyears();
 
 	public String accrual();
 
@@ -84,13 +93,27 @@ public interface AccounterMessages extends Messages {
 
 	public String actionClassNameis(String className);
 
+	public String activate();
+
+	public String activation();
+
+	public String activationCode();
+
 	public String active();
+
+	public String activeAccounts();
 
 	public String activity();
 
+	public String actual();
+
+	public String ActualAmountfromlastfiscalyear();
+
+	public String ActualAmountfromthisfiscalyear();
+
 	public String add();
 
-	// public String add3dots();
+	public String AddAllInfo();
 
 	public String addaNew(String transactionName);
 
@@ -114,15 +137,13 @@ public interface AccounterMessages extends Messages {
 
 	public String addBank();
 
-	// public String addBankAccount();
+	public String addBankAccount();
 
 	public String addBill();
 
+	public String AddBudgetfor(String accountsName);
+
 	public String addComparativeButton();
-
-	// public String addCountry();
-
-	// public String addCountryLabel();
 
 	public String addCurrency();
 
@@ -131,6 +152,8 @@ public interface AccounterMessages extends Messages {
 	public String addExpenses();
 
 	public String addLinks();
+
+	public String AddLocation();
 
 	public String addLogo();
 
@@ -142,13 +165,9 @@ public interface AccounterMessages extends Messages {
 
 	public String addNewAsset();
 
-	// public String addNewBrandingTheme();
-
 	public String addNewBudget();
 
 	public String addNewCharge();
-
-	// public String addNewCredit();
 
 	public String addNewEmployeeExpense();
 
@@ -166,15 +185,15 @@ public interface AccounterMessages extends Messages {
 
 	public String addNewSalesOrder();
 
-	public String addNewWareHouse();
-
 	public String addNewWarehouse();
+
+	public String addNewWareHouse();
 
 	public String addNewWarehouseTransfer();
 
 	public String addNote();
 
-	// public String addOrEditPayType();
+	public String addOf(String quotes);
 
 	public String addPaymentTermTitle();
 
@@ -198,11 +217,13 @@ public interface AccounterMessages extends Messages {
 
 	public String adjust();
 
-	// public String adjustedPayment();
+	public String adjustAlignmentAndReprint();
 
 	public String adjustmentAccount();
 
 	public String adjustmentQty();
+
+	public String adjustmentreason();
 
 	public String adjustments();
 
@@ -210,11 +231,17 @@ public interface AccounterMessages extends Messages {
 
 	public String adjustPayment();
 
-	// public String adjustSalesTax();
-
 	public String adjustTAXReturn();
 
 	public String adjustVATDue();
+
+	public String admin();
+
+	public String adminDesc();
+
+	public String adminuser();
+
+	public String AdvanceBudgetCalculation();
 
 	public String aftersaving();
 
@@ -234,21 +261,47 @@ public interface AccounterMessages extends Messages {
 
 	public String all();
 
+	public String allAccounts();
+
+	public String allBills();
+
+	public String allCahrges();
+
+	public String allCashExpenses();
+
+	public String allCashPurchases();
+
+	public String allcashSales();
+
+	public String allcheques();
+
+	public String allCreditCardExpenses();
+
+	public String allCreditMemos();
+
+	public String allCredits();
+
+	public String allCustomerRefunds();
+
 	public String allDepreciationUpToIncluding();
 
 	public String allExpenses();
 
-	// public String allHTML();
-
 	public String allowThisUsertoAddorRemoveusers();
 
-	// public String allPayees(String payee);
+	public String allPurchaseOrders();
+
+	public String allQuotes();
 
 	public String allRecords();
 
 	public String allTransactionDetails(String accountType);
 
+	public String allTransactions();
+
 	public String aLocationAlreadyExistswiththisname();
+
+	public String alreadyAccount();
 
 	public String alreadyAccountExist();
 
@@ -272,6 +325,12 @@ public interface AccounterMessages extends Messages {
 
 	public String amountIncludesVat();
 
+	public String amountInFigures();
+
+	public String amountInWordsLineOne();
+
+	public String amountInWordsLineTwo();
+
 	public String amountPaid();
 
 	public String amountReceived();
@@ -289,8 +348,6 @@ public interface AccounterMessages extends Messages {
 	public String amountToUse();
 
 	public String amountToUseMustLessthanTotal();
-
-	// public String amountWithCurrencyName(String currencyCode);
 
 	public String and();
 
@@ -316,6 +373,8 @@ public interface AccounterMessages extends Messages {
 
 	public String approve();
 
+	public String Approveandsend();
+
 	public String approved();
 
 	public String arAgeing();
@@ -325,6 +384,8 @@ public interface AccounterMessages extends Messages {
 	public String arAgeingDetails();
 
 	public String arAgeingSummary();
+
+	public String areYouwantToDeletecustomField();
 
 	public String asOf();
 
@@ -348,19 +409,35 @@ public interface AccounterMessages extends Messages {
 
 	public String assistant();
 
+	public String ASupplierAccountNumbershoublebeanumber();
+
+	public String ASupplierAccountNumbershoublebepositive();
+
 	public String athreeCode();
 
+	public String attachmentName();
+
 	public String attachments();
+
+	public String attachmentSize();
+
+	public String atTherateCopy();
 
 	public String atwoCode();
 
 	public String australia();
+
+	public String authorisedSignatory();
+
+	public String automaticallyApplycredits();
 
 	public String automaticSequencing();
 
 	public String automaticSequencingData();
 
 	public String automaticTransactions();
+
+	public String AutoRecall();
 
 	public String available();
 
@@ -369,6 +446,8 @@ public interface AccounterMessages extends Messages {
 	public String awaitingAuthorisation();
 
 	public String back();
+
+	public String backtoaccount();
 
 	public String balance();
 
@@ -382,13 +461,11 @@ public interface AccounterMessages extends Messages {
 
 	public String balanceSheet();
 
-	// public String balanceWithCurrencyName(String currencyCode);
+	public String bank();
 
 	public String bankAccount();
 
 	public String bankAccountInformation();
-
-	// public String bankAccountNo();
 
 	public String bankAccountNumber();
 
@@ -402,13 +479,13 @@ public interface AccounterMessages extends Messages {
 
 	public String banking();
 
+	public String bankingAndReconcialiation();
+
 	public String bankingHome();
 
 	public String bankingList();
 
 	public String bankingSummary();
-
-	// public String bankingTransactions();
 
 	public String bankName();
 
@@ -420,15 +497,25 @@ public interface AccounterMessages extends Messages {
 
 	public String belgium();
 
+	public String Benfits();
+
+	public String bill();
+
 	public String billabe();
 
 	public String billabelList();
 
+	public String billableExpenseCharge();
+
 	public String billAmount();
+
+	public String billCredits();
 
 	public String billDate();
 
 	public String billingAddress();
+
+	public String BILLION();
 
 	public String billNo();
 
@@ -438,15 +525,21 @@ public interface AccounterMessages extends Messages {
 
 	public String billPaidSoYouCantVoid();
 
+	public String billPayment();
+
+	public String billPayments();
+
 	public String bills();
+
+	public String billsAndExpenses();
 
 	public String billsAndItemReceipts();
 
 	public String billsAndItemReceiptsList();
 
-	public String billsDue();
+	public String billsAndPayments();
 
-	// public String billsDueOnOrBefore();
+	public String billsDue();
 
 	public String billsToPay();
 
@@ -457,6 +550,8 @@ public interface AccounterMessages extends Messages {
 	public String billTo();
 
 	public String blankTransaction();
+
+	public String blogaccounterlivecom();
 
 	public String bodyFooter();
 
@@ -478,59 +573,41 @@ public interface AccounterMessages extends Messages {
 
 	public String box();
 
-	public String boxNumber(int boxNumber);
-
-	// public String box10();
-
 	public String box1099();
 
 	public String box10Label();
 
-	// public String box13();
-
 	public String box13Label();
-
-	// public String box14();
 
 	public String box14Label();
 
+	public String box1Description();
+
 	public String box1Label();
 
-	// public String box2();
+	public String box2Description();
 
 	public String box2Label();
-
-	// public String box3();
 
 	public String box3Label();
 
 	public String box3TotalVATDue();
 
-	// public String box4();
-
 	public String box4Label();
-
-	// public String box5();
 
 	public String box5Label();
 
 	public String box5NetVATToPayOrReclaimIfNegative();
 
-	// public String box6();
-
 	public String box6Label();
-
-	// public String box7();
 
 	public String box7Label();
 
-	// public String box8();
-
 	public String box8Label();
 
-	// public String box9();
-
 	public String box9Label();
+
+	public String boxNumber(int boxNumber);
 
 	public String brandingTheme();
 
@@ -542,9 +619,13 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetFinancialYear();
 
+	public String budgetitem();
+
 	public String budgetList();
 
-	// public String budgetMonth();
+	public String budgetOverview();
+
+	public String budgets();
 
 	public String budgetStartWith();
 
@@ -552,19 +633,33 @@ public interface AccounterMessages extends Messages {
 
 	public String budgetView();
 
+	public String budgetvsActuals();
+
 	public String buisiness();
 
 	public String businessPhone();
 
 	public String buyChecksAndForms();
 
+	public String CalendarDaysAnnualAmountNoofDaysinMonth365or366();
+
+	public String CalendarMonthAnnualAmount12();
+
 	public String canada();
 
 	public String cancel();
 
+	public String cancelAccount();
+
+	public String Cancelatanytime();
+
 	public String cancelled();
 
+	public String cancelMyAccount();
+
 	public String cannotbeearlierthantransactiondate();
+
+	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
 
 	public String CannotDeletePrimaryCurrency();
 
@@ -578,9 +673,13 @@ public interface AccounterMessages extends Messages {
 
 	public String cantEdit();
 
+	public String cantEditOrDelete();
+
 	public String cantentermorethat100();
 
 	public String cantenternegnumber();
+
+	public String cantgetmydatain();
 
 	public String cantVoid();
 
@@ -616,11 +715,15 @@ public interface AccounterMessages extends Messages {
 
 	public String cashExpenses();
 
+	public String cashExpensesList();
+
 	public String cashFlowCategory();
 
 	public String cashFlowReport();
 
 	public String cashFlowStatement();
+
+	public String cashoraccural();
 
 	public String cashOrAccural();
 
@@ -632,9 +735,9 @@ public interface AccounterMessages extends Messages {
 
 	public String cashSales();
 
-	public String categories();
+	public String cashSalesList();
 
-	// public String category();
+	public String categories();
 
 	public String Category();
 
@@ -645,6 +748,10 @@ public interface AccounterMessages extends Messages {
 	public String cc();
 
 	public String change();
+
+	public String changeCompanySettings();
+
+	public String changeCurrencyFormat();
 
 	public String changeLogo();
 
@@ -660,7 +767,11 @@ public interface AccounterMessages extends Messages {
 
 	public String changingCurrencyComment();
 
+	public String charactersticsToShow();
+
 	public String charge();
+
+	public String chargeNo();
 
 	public String chargeOrTrackTax();
 
@@ -678,15 +789,35 @@ public interface AccounterMessages extends Messages {
 
 	public String checkDetail();
 
+	public String checking();
+
 	public String checkIssued();
 
 	public String checkNo();
 
+	public String checks();
+
 	public String cheque();
+
+	public String chequeDate();
+
+	public String chequeHeight();
 
 	public String chequeNo();
 
+	public String chequeParameters();
+
+	public String chequePrintSetting();
+
+	public String cheques();
+
+	public String chequeSize();
+
+	public String chequeWidth();
+
 	public String chooseEndingDate();
+
+	public String chooseFile();
 
 	public String chooselevelaccessyouwantthisusertohave();
 
@@ -695,6 +826,8 @@ public interface AccounterMessages extends Messages {
 	public String chooseVATAgency();
 
 	public String city();
+
+	public String Class();
 
 	public String classicTemplate();
 
@@ -712,6 +845,8 @@ public interface AccounterMessages extends Messages {
 
 	public String ClearedAmount();
 
+	public String Clickhere();
+
 	public String clickThisObjToOpen(String objType, String transactionName);
 
 	public String clickThisTo(String function, String transactionName);
@@ -727,6 +862,10 @@ public interface AccounterMessages extends Messages {
 	public String Client();
 
 	public String client();
+
+	public String clientAddresshome();
+
+	public String clientTDSChalanDetail();
 
 	public String close();
 
@@ -754,8 +893,6 @@ public interface AccounterMessages extends Messages {
 
 	public String comboDefaultAddNew(String comboType);
 
-	// public String command();
-
 	public String comment();
 
 	public String comments();
@@ -764,7 +901,13 @@ public interface AccounterMessages extends Messages {
 
 	public String commodityCode();
 
+	public String companies();
+
+	public String companieslist();
+
 	public String company();
+
+	public String companyAddress();
 
 	public String companyAndFinance();
 
@@ -772,15 +915,21 @@ public interface AccounterMessages extends Messages {
 
 	public String companyCommentHtml();
 
-	// public String companyDefaultTaxCode(String TAX);
+	public String companyDefaultTaxCode(String TAX);
 
 	public String companyHome();
+
+	public String CompanyIDexceededthemaximumlength();
+
+	public String CompanyIDshouldcontainatleastoneletterandnospecialcharacters();
 
 	public String companyInformation();
 
 	public String companyLists();
 
 	public String companyName();
+
+	public String companyNameAlreadyExits();
 
 	public String companyOrganization();
 
@@ -796,7 +945,11 @@ public interface AccounterMessages extends Messages {
 
 	public String conditionalMsg();
 
+	public String configurePortlets();
+
 	public String confirmNewPassword();
+
+	public String confirmPassword();
 
 	public String congratulations();
 
@@ -811,6 +964,10 @@ public interface AccounterMessages extends Messages {
 	public String contactNumber();
 
 	public String contacts();
+
+	public String contains();
+
+	public String continuetofront();
 
 	public String conversationDateSelectionHTML();
 
@@ -832,7 +989,11 @@ public interface AccounterMessages extends Messages {
 
 	public String copy();
 
+	public String CopyfromExistingBudget();
+
 	public String copyTheme();
+
+	public String CopyvaluesfromExistingBudget();
 
 	public String corporation();
 
@@ -842,13 +1003,9 @@ public interface AccounterMessages extends Messages {
 
 	public String costOfGoodSold();
 
+	public String costofGoodsSold();
+
 	public String country();
-
-	// public String countryCode();
-
-	// public String countryListLabel();
-
-	// public String countryName();
 
 	public String countryRegion();
 
@@ -860,13 +1017,17 @@ public interface AccounterMessages extends Messages {
 
 	public String create(String transactionName);
 
-	// public String createanyadditionalbankaccounts();
-
 	public String createClass();
 
 	public String created();
 
+	public String createdSucessFullysentAnActivationCodetoYourMail();
+
 	public String createFascalYear();
+
+	public String createInvoicesAndBills();
+
+	public String createNewCompany();
 
 	public String createSelected();
 
@@ -876,9 +1037,9 @@ public interface AccounterMessages extends Messages {
 
 	public String creating(String transactionName);
 
-	public String credit();
+	public String creatorName();
 
-	// public String creditAccount();
+	public String credit();
 
 	public String creditAmount();
 
@@ -896,9 +1057,7 @@ public interface AccounterMessages extends Messages {
 
 	public String creditCardExpenses();
 
-	// public String creditCardOrLineOfCredit();
-
-	// public String creditCardProcessing();
+	public String creditCardExpensesList();
 
 	public String creditLimit();
 
@@ -907,6 +1066,10 @@ public interface AccounterMessages extends Messages {
 	public String creditLimitShouldNotBeNull();
 
 	public String creditNo();
+
+	public String creditNote();
+
+	public String creditNoteDate();
 
 	public String creditNoteNo();
 
@@ -934,7 +1097,13 @@ public interface AccounterMessages extends Messages {
 
 	public String credits();
 
+	public String creditsApply();
+
 	public String creditsList();
+
+	public String creditsPayments();
+
+	public String creditTo();
 
 	public String creditTotalColon();
 
@@ -944,13 +1113,17 @@ public interface AccounterMessages extends Messages {
 
 	public String CurrencyAlreadyExists();
 
-	// public String currencyCode();
+	public String currencyFactor();
 
 	public String currencyFormalName();
+
+	public String currencyFormat();
 
 	public String currencyList();
 
 	public String currencyName();
+
+	public String currencySymbol();
 
 	public String currencyTotal(String currencyCode);
 
@@ -965,6 +1138,8 @@ public interface AccounterMessages extends Messages {
 	public String currentBudget();
 
 	public String currentLiabilities();
+
+	public String currentLiability();
 
 	public String currentMonth();
 
@@ -982,19 +1157,55 @@ public interface AccounterMessages extends Messages {
 
 	public String customerAndvendorSettings();
 
+	public String customerCentre(String Customer);
+
+	public String customerchecks();
+
+	public String customerCredit();
+
 	public String CustomerCreditNote();
 
 	public String customerCreditNote(String Customer);
 
+	public String CustomerCreditNotes();
+
+	public String customerCreditNotes();
+
 	public String customerDescription();
+
+	public String customergroup();
+
+	public String customerListCouldBeInitiated();
+
+	public String customerPayment();
+
+	public String customerprePayment();
 
 	public String customerRefund(String Customer);
 
-	// public String customerRefundIssued(String payee);
-
 	public String customerRefunds(String Customer);
 
+	public String customers();
+
+	public String Customers();
+
 	public String customersAndReceivable(String Customer);
+
+	public String customersAndSales(String customers);
+
+	public String customerTaxRegNo(String customer);
+
+	public String CustomField();
+
+	public String CustomFieldstext();
+
+	public String customiseActivityLog();
+
+	public String customize();
+
+	public String customTheme();
+
+	public String cuurentAccount();
 
 	public String cyprus();
 
@@ -1002,22 +1213,21 @@ public interface AccounterMessages extends Messages {
 
 	public String dashBoard();
 
+	public String dataExchange();
+
 	public String date();
 
-	public String datenumber(int dateNumber);
-
-	// public String date28();
-
-	// public String date29();
-
-	// public String date30();
-
-	// public String date31();
 	public String dateDisposed();
 
-	// public String dateEffective();
+	public String dateDriven();
 
 	public String dateEntered();
+
+	public String DateFormat();
+
+	public String DateFormats();
+
+	public String datenumber(int dateNumber);
 
 	public String dateofBirth();
 
@@ -1077,6 +1287,12 @@ public interface AccounterMessages extends Messages {
 
 	public String debtors();
 
+	public String DebtorsTotal();
+
+	public String decimalDigitLimit();
+
+	public String decimalSymbol();
+
 	public String decline();
 
 	public String decrease();
@@ -1087,17 +1303,37 @@ public interface AccounterMessages extends Messages {
 
 	public String decreaseVATLine();
 
-	// public String deduction();
-
 	public String defaultWare();
 
 	public String defaultWareHouse();
 
+	public String delayedCharges();
+
 	public String delete();
+
+	public String deleteAccount();
+
+	public String deleteaccountmsg();
+
+	public String deletecompany();
+
+	public String deletecompanyfromaccount();
+
+	public String deletecompanyfromallusers();
+
+	public String deletecompanyWarningMsg();
 
 	public String deleted();
 
+	public String deletedImmediatelyMsg();
+
 	public String deleteFiscalYear();
+
+	public String deleteMsg();
+
+	public String deleteMyAccount();
+
+	public String deletepermanentlyMsg();
 
 	public String deleteThemeLabel();
 
@@ -1118,6 +1354,12 @@ public interface AccounterMessages extends Messages {
 	public String depositFrom();
 
 	public String depositIn();
+
+	public String deposits();
+
+	public String depositTo();
+
+	public String depositTotal();
 
 	public String depositTransferFunds();
 
@@ -1143,6 +1385,8 @@ public interface AccounterMessages extends Messages {
 
 	public String descChrageTrackTax();
 
+	public String descOrMemo();
+
 	public String description();
 
 	public String despatchDate();
@@ -1157,6 +1401,10 @@ public interface AccounterMessages extends Messages {
 
 	public String differenceValidate();
 
+	public String digitGrouping();
+
+	public String digitGroupingDecimal();
+
 	public String dipositAccountAndTransferAccountShouldBeDiff();
 
 	public String directDebit();
@@ -1165,6 +1413,10 @@ public interface AccounterMessages extends Messages {
 
 	public String directProductsMaterialCosts();
 
+	public String disabled();
+
+	public String disabledTDS();
+
 	public String discount();
 
 	public String discountAccount();
@@ -1172,6 +1424,16 @@ public interface AccounterMessages extends Messages {
 	public String discountAmount();
 
 	public String discountDate();
+
+	public String discountIfPaidBefore();
+
+	public String discountIfPaidWithin();
+
+	public String discountInAllTransaction();
+
+	public String discountPercentageIs();
+
+	public String discounts();
 
 	public String discPerc();
 
@@ -1195,21 +1457,45 @@ public interface AccounterMessages extends Messages {
 
 	public String docNo();
 
+	public String docxDownloadMessage();
+
+	public String doesnthavethefeaturesIneed();
+
 	public String dollarMargin();
 
 	public String donar();
 
 	public String Donar();
 
+	public String donotChargeOrTrackTax();
+
+	public String doNottrackingEstimates();
+
+	public String doNottrackingLocation();
+
+	public String donotTrackingTaxPaid();
+
+	public String doNotuseBillabelExpenses();
+
+	public String donotUsedelayedCharges();
+
 	public String dontManageBillsYouOwe();
 
 	public String dontShowinList();
+
+	public String DontSubdevide();
 
 	public String dontTrackPaymentsFor1099();
 
 	public String dontWantToCreateEstimates();
 
 	public String dontWantToIncludeEstimates();
+
+	public String downloadDocxFiles();
+
+	public String downloadOdtFiles();
+
+	public String Doyoudoshipping();
 
 	public String doyouHaveEmployees();
 
@@ -1218,6 +1504,8 @@ public interface AccounterMessages extends Messages {
 	public String doYouWantTDS();
 
 	public String doyouwanttoDelete();
+
+	public String doyouwanttoDeleteObj(String name);
 
 	public String doyouwanttoDeletetheTransaction();
 
@@ -1237,11 +1525,9 @@ public interface AccounterMessages extends Messages {
 
 	public String dueForPayment();
 
-	// public String dueOnReceipt();
-
 	public String duplicateItemName();
 
-	// public String earning();
+	public String eachFileCanBeNoLongerThan();
 
 	public String ecSalesList();
 
@@ -1253,35 +1539,39 @@ public interface AccounterMessages extends Messages {
 
 	public String editAndCreate();
 
-	public String editBrandThemeLabel();
-
 	public String editBrandingThemeLabel();
 
-	// public String editCountry();
+	public String editBrandThemeLabel();
 
 	public String edited();
 
 	public String editFiscalYear();
 
+	public String editingCreditsFailed();
+
 	public String editProfile();
+
+	public String EIGHT();
+
+	public String EIGHTEEN();
+
+	public String EIGHTY();
 
 	public String ein();
 
 	public String EINDescription();
 
+	public String ELEVEN();
+
 	public String email();
 
-	public String emailnumber(int emailNumber);
-
-	// public String email1();
-
-	// public String email2();
-
-	// public String email3();
+	public String emailAddress();
 
 	public String emailAlerts();
 
 	public String emailAndInternet();
+
+	public String emailForActivation();
 
 	public String emailFormatExpr();
 
@@ -1289,29 +1579,23 @@ public interface AccounterMessages extends Messages {
 
 	public String emailIdDescription();
 
+	public String emailnumber(int emailNumber);
+
 	public String employee();
-
-	// public String employeeBlah();
-
-	// public String employeeEmpty();
 
 	public String employeeExpense();
 
 	public String employeeExpenses();
 
-	// public String employees();
-
-	// public String employeeTemployee();
-
 	public String employeeType();
-
-	// public String emptyexlematorymark1();
-
-	// public String emptyexlematorymark2();
 
 	public String emptyValue();
 
 	public String enableAutoRecall();
+
+	public String enabled();
+
+	public String enabledTDS();
 
 	public String enableInventoryTracking();
 
@@ -1331,9 +1615,9 @@ public interface AccounterMessages extends Messages {
 
 	public String endDateAfter();
 
-	public String endDateMustBeAfterToday();
-
 	public String endDateMustBeAfterStartDate();
+
+	public String endDateMustBeAfterToday();
 
 	public String endDateType();
 
@@ -1381,7 +1665,7 @@ public interface AccounterMessages extends Messages {
 
 	public String enterBills();
 
-	// public String enterNameOfCountry();
+	public String enteredEmailAlreadyRegistred();
 
 	public String enterPayments();
 
@@ -1393,9 +1677,9 @@ public interface AccounterMessages extends Messages {
 
 	public String enterYourCompanyInfo();
 
-	// public String enuffexlematorymark();
-
 	public String equity();
+
+	public String ERROR();
 
 	public String errorForaddresspadField();
 
@@ -1407,23 +1691,27 @@ public interface AccounterMessages extends Messages {
 
 	public String errorLoadingPurchaseOrder();
 
-	// public String errorLoadingQuote();
-
-	// public String errorLoadingSalesOrder();
-
 	public String errorMsg(String ERROR);
 
 	public String estimate();
 
+	public String estimateNo();
+
 	public String every();
 
-	public String exceptionDetails();
+	public String exact();
 
-	// public String exchangeGainAndLossesReport();
+	public String Example();
+
+	public String exampleFormat();
+
+	public String exceptionDetails();
 
 	public String expense();
 
 	public String expenseAccount();
+
+	public String Expenseandproductservicetrackingbycustomer(String customer);
 
 	public String expensecantbevoiditisApproved();
 
@@ -1437,6 +1725,8 @@ public interface AccounterMessages extends Messages {
 
 	public String expenses();
 
+	public String ExpensesbyCustomer(String customer);
+
 	public String expensesList();
 
 	public String expenseTotals();
@@ -1448,8 +1738,6 @@ public interface AccounterMessages extends Messages {
 	public String exportToCSV();
 
 	public String factor();
-
-	// public String factorForDefaultUnitShouldNotbeZero();
 
 	public String factorsShouldNotbeZero();
 
@@ -1493,8 +1781,6 @@ public interface AccounterMessages extends Messages {
 
 	public String failedtovoidPayBill();
 
-	// public String failedtovoidPayVAT();
-
 	public String failedtovoidReceivePayment();
 
 	public String failedtovoidReceiveVAT();
@@ -1513,6 +1799,8 @@ public interface AccounterMessages extends Messages {
 
 	public String fieldError();
 
+	public String FIFTY();
+
 	public String fileAs();
 
 	public String filedAmount();
@@ -1525,8 +1813,6 @@ public interface AccounterMessages extends Messages {
 
 	public String fileVAT();
 
-	// public String fileVATcantsavewithemptyvalues();
-
 	public String fileVATReturn();
 
 	public String fileVATReturnNow();
@@ -1537,31 +1823,39 @@ public interface AccounterMessages extends Messages {
 
 	public String filterByBilldueonorbefore();
 
+	public String financeLogger();
+
+	public String financialAdviser();
+
+	public String financialAdviserDesc();
+
 	public String financialDetails();
 
 	public String financialYear();
 
 	public String financialYearToDate();
 
+	public String financing();
+
 	public String financingActivities();
 
 	public String find();
 
-	// public String findbla();
+	public String findBy();
 
-	// public String findtat();
-
-	// public String findtis();
+	public String findByMustBeFilled();
 
 	public String finish();
 
-	// public String finishToCreate(String transactionName);
-
 	public String first();
+
+	public String FirstFiscalMonth();
 
 	public String firstName();
 
 	public String fiscalStartEndCompreHTML();
+
+	public String FiscalTaxYear();
 
 	public String fiscalYear();
 
@@ -1577,6 +1871,16 @@ public interface AccounterMessages extends Messages {
 
 	public String fiscalYearStartDateAlreadyExists();
 
+	public String FIVE();
+
+	public String fixedAssest();
+
+	public String fixedAsset();
+
+	public String fixedAssetHistory();
+
+	public String fixedAssetNote();
+
 	public String fixedAssets();
 
 	public String fixedAssetsList();
@@ -1584,6 +1888,8 @@ public interface AccounterMessages extends Messages {
 	public String fixedAssetsNewFixedAsset();
 
 	public String fixedAssetsPendingItemsList();
+
+	public String fixedNumberOfDays();
 
 	public String font();
 
@@ -1593,13 +1899,25 @@ public interface AccounterMessages extends Messages {
 
 	public String For();
 
+	public String forCompany();
+
+	public String forgotpasswordMsg();
+
+	public String forgottenPassword();
+
 	public String formLayoutsList();
 
+	public String FORTY();
+
 	public String foundRecords(int size, String name);
+
+	public String FOUR();
 
 	public String fourth();
 
 	public String france();
+
+	public String Freetosingup();
 
 	public String frequency();
 
@@ -1637,15 +1955,11 @@ public interface AccounterMessages extends Messages {
 
 	public String germany();
 
+	public String Get();
+
 	public String get1099Information();
 
-	// public String getCompanyFailed();
-
-	// public String getCompanyLegalCheckBoxText();
-
-	// public String getCompanyListFailed();
-
-	// public String getCustomersEmailId();
+	public String getallInvoices();
 
 	public String getCustomersRefundListViewHeading(String customer);
 
@@ -1659,11 +1973,13 @@ public interface AccounterMessages extends Messages {
 
 	public String getindustryhead();
 
-	// public String getJournalEntry();
+	public String getNewPassword();
 
-	// public String getLogUpto();
+	public String getNoDifferentLegalName();
 
-	// public String getNumbersandIdsTitle();
+	public String getOpendInvoices();
+
+	public String getOverdueInvoices();
 
 	public String getReceivedPaymentListViewHeading();
 
@@ -1671,17 +1987,7 @@ public interface AccounterMessages extends Messages {
 
 	public String getStarted();
 
-	// public String gettingStartedusingAccounter();
-
 	public String getTurnOnTextWrappinginReportColumns();
-
-	// public String getUnitName();
-
-	// public String getUser();
-
-	// public String getUserCameButFailed();
-
-	// public String getUserFailed();
 
 	public String giveNoTo(String transactionName);
 
@@ -1697,11 +2003,17 @@ public interface AccounterMessages extends Messages {
 
 	public String goToAccountsPayable();
 
+	public String gotoBankAccountsList();
+
 	public String gotoBanking();
 
 	public String goToExpenseCliams();
 
-	// public String grassAmount();
+	public String gotoRecurringTransactionsList();
+
+	public String gotoTasksAndMessages();
+
+	public String greater();
 
 	public String greece();
 
@@ -1711,11 +2023,15 @@ public interface AccounterMessages extends Messages {
 
 	public String group();
 
-	public String guest();
+	public String groupName();
 
 	public String Guest();
 
+	public String guest();
+
 	public String gwtListBox();
+
+	public String hadMultipleWarehouses();
 
 	public String halfYearly();
 
@@ -1749,11 +2065,11 @@ public interface AccounterMessages extends Messages {
 
 	public String hmCustomsExciseVAT();
 
+	public String hmRevenueCustomsVAT();
+
 	public String home();
 
 	public String howDoYouRefer();
-
-	// public String howDoYouReferYourAccounts();
 
 	public String howDoYouReferYourCustoemrs();
 
@@ -1767,6 +2083,8 @@ public interface AccounterMessages extends Messages {
 
 	public String howMuchDepriciationShouldBeIcludedInThisFinancialYear();
 
+	public String HUNDRED();
+
 	public String iamHere();
 
 	public String iBuyThisItem();
@@ -1775,19 +2093,29 @@ public interface AccounterMessages extends Messages {
 
 	public String ibuythisservice();
 
-	// public String id();
+	public String idNumber();
+
+	public String idonothaveabusinessyet();
 
 	public String idontBuyThisService();
 
+	public String iDontdoShipping();
+
 	public String idontSellThisService();
+
+	public String iDoShipping();
 
 	public String illegalArgument();
 
 	public String imfailed();
 
+	public String imLookingforpersonalfinancesoftware();
+
 	public String importBankFiles();
 
 	public String inActive();
+
+	public String inAllactiveAccounts();
 
 	public String inch();
 
@@ -1797,6 +2125,10 @@ public interface AccounterMessages extends Messages {
 
 	public String includeUnbilledCharges();
 
+	public String includeVATwithAmountDisabled();
+
+	public String includeVATwithAmountenabled();
+
 	public String income();
 
 	public String incomeAccount();
@@ -1804,6 +2136,8 @@ public interface AccounterMessages extends Messages {
 	public String incomeandDistribution();
 
 	public String incomeAndExpenseAccounts();
+
+	public String incomes();
 
 	public String incomeTotals();
 
@@ -1819,13 +2153,9 @@ public interface AccounterMessages extends Messages {
 
 	public String india();
 
-	// public String indirectCosts();
-
-	// public String indirectCostsTotal();
-
 	public String industry();
 
-	// public String industrySelectNote();
+	public String INFORMATION();
 
 	public String integrateWithBusinessContactManager();
 
@@ -1867,19 +2197,29 @@ public interface AccounterMessages extends Messages {
 
 	public String inventory();
 
+	public String inventoryAdjustments();
+
+	public String inventoryAssembly();
+
+	public String inventoryAsset();
+
 	public String inventoryItem();
 
 	public String inventoryItems();
 
 	public String InventoryLists();
 
+	public String inventoryPart();
+
 	public String inventoryTracking();
 
 	public String inventoryTrackingComment();
 
-	public String investingActivities();
+	public String inventoryWarehouse();
 
-	// public String inviteOtherUser();
+	public String investing();
+
+	public String investingActivities();
 
 	public String inviteUser();
 
@@ -1896,6 +2236,8 @@ public interface AccounterMessages extends Messages {
 	public String invoiced();
 
 	public String invoicedAmount();
+
+	public String invoiceDate();
 
 	public String invoiceFor();
 
@@ -1918,6 +2260,8 @@ public interface AccounterMessages extends Messages {
 
 	public String invoiceTemplete();
 
+	public String invoiceUsedInEstimates();
+
 	public String ireland();
 
 	public String isActive();
@@ -1937,6 +2281,8 @@ public interface AccounterMessages extends Messages {
 	public String isMultiCurrencyEnable();
 
 	public String isoCode();
+
+	public String isSubAccount();
 
 	public String issued();
 
@@ -1960,19 +2306,21 @@ public interface AccounterMessages extends Messages {
 
 	public String itemDescription();
 
-	// public String itemDetails();
-
 	public String itemFrom();
 
 	public String itemGroup();
 
 	public String itemGroupList();
 
+	public String itemGroupName();
+
 	public String itemInformation();
 
 	public String itemIsActive();
 
-	// public String itemIsInactive();
+	public String ItemizebyAccount();
+
+	public String ItemizebyProductService();
 
 	public String itemList();
 
@@ -1990,11 +2338,11 @@ public interface AccounterMessages extends Messages {
 
 	public String itemsDash(String name);
 
+	public String itemsGroupList();
+
 	public String itemStatus();
 
 	public String itemTax();
-
-	// public String itemTaxCode();
 
 	public String itemTo();
 
@@ -2008,19 +2356,25 @@ public interface AccounterMessages extends Messages {
 
 	public String journalEntryDate();
 
+	public String journalEntryforRunningDepreciation();
+
 	public String journalEntryList();
 
 	public String journalEntryNo();
 
 	public String journalView();
 
-	public String kenya();
+	public String keepUsingAccounter();
 
-	// public String keyFinancialIndicators();
+	public String keepWorkingOnThisTransaction();
+
+	public String kenya();
 
 	public String languageName(String languageName, String languageToolTip);
 
 	public String languages();
+
+	public String last();
 
 	public String last30Days();
 
@@ -2029,8 +2383,6 @@ public interface AccounterMessages extends Messages {
 	public String last45Days();
 
 	public String last6Months();
-
-	public String last();
 
 	public String lastActivityMessageForNote(String date, String userName);
 
@@ -2049,6 +2401,8 @@ public interface AccounterMessages extends Messages {
 
 	public String lastName();
 
+	public String lastOf(int limit);
+
 	public String lastVATQuarter();
 
 	public String lastVATQuarterToDate();
@@ -2059,17 +2413,17 @@ public interface AccounterMessages extends Messages {
 
 	public String latestQuote();
 
-	// public String ledger();
-
 	public String Ledger();
-
-	// public String Ledgers();
 
 	public String left();
 
 	public String legalCompanyName();
 
 	public String legalName();
+
+	public String Less();
+
+	public String levelOfAccess();
 
 	public String liabilities();
 
@@ -2079,13 +2433,27 @@ public interface AccounterMessages extends Messages {
 
 	public String liability();
 
+	public String limit();
+
 	public String lineTotal();
 
 	public String lineTotalAmount();
 
 	public String link();
 
+	public String listofItemsCouldNotBeInitiated();
+
+	public String listofPaymentMethodsCouldNotBeInitiated();
+
+	public String ListofPaymentTermsCouldNotBeInitiated();
+
 	public String listOfPeriods();
+
+	public String listofShippingMethodsCouldNotBeInitiated();
+
+	public String listofShippingTermsCouldNotBeInitiated();
+
+	public String listofTaxGroupsCouldNotBeInitiated();
 
 	public String LLC();
 
@@ -2113,6 +2481,8 @@ public interface AccounterMessages extends Messages {
 
 	public String loggedOut();
 
+	public String login();
+
 	public String logIn();
 
 	public String loginDate();
@@ -2133,11 +2503,19 @@ public interface AccounterMessages extends Messages {
 
 	public String logoType();
 
+	public String logout();
+
 	public String logoutHTML();
+
+	public String logutOrLogin();
 
 	public String longTermLiabilities();
 
+	public String longTermLiability();
+
 	public String lossOnDisposal();
+
+	public String lostyourpassword();
 
 	public String mailExistedAlready();
 
@@ -2163,11 +2541,15 @@ public interface AccounterMessages extends Messages {
 
 	public String manageAccounterClass();
 
+	public String manageAccounts();
+
 	public String manageBillsYouOwe();
 
 	public String manageCurrency();
 
 	public String manageCustomerGroup(String customer);
+
+	public String ManageCustomFields();
 
 	public String manageFiscalYear();
 
@@ -2213,9 +2595,15 @@ public interface AccounterMessages extends Messages {
 
 	public String managingList3();
 
+	public String mandatoryMsg();
+
 	public String marginTop();
 
+	public String master();
+
 	public String masterCard();
+
+	public String match();
 
 	public String matchTrasactions();
 
@@ -2257,17 +2645,28 @@ public interface AccounterMessages extends Messages {
 
 	public String mergeVendors(String vendor);
 
+	public String messagesAndTasks();
+
+	public String MILLION();
+
 	public String MISC1099TransactionDetailByVendor(String vendor);
 
 	public String mobile();
 
 	public String mobileNumber();
 
+	public String ModernTemplate();
+
+	public String Modifiedby(String userName, String dateformat,
+			String timeFormat);
+
 	public String modifiedTime();
 
 	public String moneyComingIn();
 
 	public String moneyGoingOut();
+
+	public String moneyMarket();
 
 	public String month();
 
@@ -2283,6 +2682,8 @@ public interface AccounterMessages extends Messages {
 
 	public String msg(String msg);
 
+	public String Multiplecompanies();
+
 	public String multipleWarehousesComment();
 
 	public String mustSelectCustomerForBillable();
@@ -2293,13 +2694,41 @@ public interface AccounterMessages extends Messages {
 
 	public String name();
 
+	public String nameAddress();
+
 	public String nameColon();
 
 	public String nameConflict();
 
+	public String nameOfPayee();
+
+	public String nameShouldbewithinThe1100to1179Ranage();
+
+	public String nameShouldbewithinThe1100to1199Ranage();
+
 	public String nameShouldnotbeempty();
 
 	public String nameWithCurrency(String name, String formalName);
+
+	public String NearestAmount();
+
+	public String NearestHundred();
+
+	public String NearestTen();
+
+	public String negative();
+
+	public String negativeCurrencyFormat();
+
+	public String negativeNumberFormat();
+
+	public String negativeNumberMinusWithInTheParathesis();
+
+	public String negativeNumberMinusWithInTheParathesisComment();
+
+	public String negativeNumberWithInTheParathesis();
+
+	public String negativeNumberWithInTheParathesisComment();
 
 	public String netAmount();
 
@@ -2312,6 +2741,10 @@ public interface AccounterMessages extends Messages {
 	public String netCashProvidedByinvestingActivities();
 
 	public String netCashProvidedByOperatingActivities();
+
+	public String netDueBefore();
+
+	public String netDueIn();
 
 	public String netherlands();
 
@@ -2343,6 +2776,8 @@ public interface AccounterMessages extends Messages {
 
 	public String newCashBasisJournalEntry();
 
+	public String newcashExpenses();
+
 	public String newCashPurchase();
 
 	public String newCashSale();
@@ -2355,6 +2790,8 @@ public interface AccounterMessages extends Messages {
 
 	public String newCreditCardCharge();
 
+	public String newCreditCardExpenses();
+
 	public String newCreditMemo();
 
 	public String newCreditNotes();
@@ -2362,6 +2799,8 @@ public interface AccounterMessages extends Messages {
 	public String newCreditsAndRefunds();
 
 	public String newCurrency();
+
+	public String NewCustomer();
 
 	public String newFiscalYear();
 
@@ -2379,6 +2818,8 @@ public interface AccounterMessages extends Messages {
 
 	public String newPassword();
 
+	public String newpasswordAndPreviouspasswordAreSame();
+
 	public String newPayee(String payee);
 
 	public String newProduct();
@@ -2394,6 +2835,8 @@ public interface AccounterMessages extends Messages {
 	public String newService();
 
 	public String newShippingTerm();
+
+	public String newsletter();
 
 	public String newStartDate();
 
@@ -2419,11 +2862,25 @@ public interface AccounterMessages extends Messages {
 
 	public String nigeria();
 
+	public String NINE();
+
+	public String NINETEEN();
+
+	public String NINTY();
+
 	public String no();
+
+	public String noAmountAddedtoAccounts();
+
+	public String noBanksToShow();
 
 	public String noBillsAreAvailableFirstAddABill(String payee);
 
+	public String NoBudgetadded();
+
 	public String nocompany();
+
+	public String NoCreditcardrequired();
 
 	public String noCreditsforthiscustomer(String customer);
 
@@ -2449,7 +2906,11 @@ public interface AccounterMessages extends Messages {
 
 	public String noFiledTaxEntriesToReceive();
 
+	public String noFileSelected();
+
 	public String noImageisselected();
+
+	public String noInventoryItemsAvilable();
 
 	public String noLogoIsAdded();
 
@@ -2461,9 +2922,7 @@ public interface AccounterMessages extends Messages {
 
 	public String noNegativeAmountsReceived();
 
-	public String unScheduled();
-
-	// public String nonInventory();
+	public String NonInventory();
 
 	public String nonInventoryItem();
 
@@ -2477,6 +2936,12 @@ public interface AccounterMessages extends Messages {
 
 	public String nonVoided();
 
+	public String noOfDigitsAfterDecimal();
+
+	public String noOfTransactions();
+
+	public String noPayeeSelected(String payee);
+
 	public String noProductstoshow();
 
 	public String noRecordsSelected();
@@ -2484,6 +2949,10 @@ public interface AccounterMessages extends Messages {
 	public String noRecordsToShow();
 
 	public String norecordstoshowinbetweentheselecteddates();
+
+	public String normalFormat();
+
+	public String normalFormatComment();
 
 	public String noSuchObject();
 
@@ -2493,25 +2962,47 @@ public interface AccounterMessages extends Messages {
 
 	public String note();
 
+	public String noteAllDimensions();
+
 	public String noteColon();
 
 	public String notes();
 
+	public String nothadMultipleWarehouses();
+
 	public String notifyAboutCreatedTransactions();
 
-	public String notIssued();
+	public String notifywhenworking();
 
-	// public String notIssuedPayments();
+	public String notInvoiced();
+
+	public String notIssued();
 
 	public String notMove(String payee);
 
 	public String notMoveAccount();
 
+	public String notPaid();
+
 	public String notPrimary();
 
 	public String noTransactionIsAvailableToIssuePayments();
 
+	public String noTransactionsToshow();
+
+	public String notReceived();
+
 	public String notSpecified();
+
+	public String notsubscribed();
+
+	public String nottrackProducandServicesbyCustomer();
+
+	public String notUsingCustomersNumbers();
+
+	public String notUsinguseAccountNos();
+
+	public String notUsinguseVendorNumbers();
 
 	public String notyetimplemented();
 
@@ -2521,17 +3012,33 @@ public interface AccounterMessages extends Messages {
 
 	public String numberConflict();
 
+	public String numberFormat();
+
+	public String Numbers();
+
+	public String numberShouldNotBeEmptyOr0();
+
+	public String numberWithTrailingMinus();
+
+	public String numberWithTrailingMinusComment();
+
 	public String objAlreadyExistsWithName(String payee);
 
 	public String objAlreadyExistsWithNameAndNo(String payee);
 
 	public String objAlreadyExistsWithNumber(String payee);
 
+	public String objectAlreadyDeleted();
+
 	public String objectInUse();
 
 	public String objectModified();
 
 	public String occurrencesCompleted();
+
+	public String odtDownloadMessage();
+
+	public String ofBudget();
 
 	public String ofTheCurrentMonth();
 
@@ -2543,6 +3050,8 @@ public interface AccounterMessages extends Messages {
 
 	public String oldPassword();
 
+	public String ONE();
+
 	public String oneOfTheAccountCurrencyShouldBePrimaryCurrency();
 
 	public String oneperDescription();
@@ -2551,11 +3060,13 @@ public interface AccounterMessages extends Messages {
 
 	public String oneperdetailline();
 
+	public String onePerDetailLineDescription();
+
 	public String onepertransaction();
 
-	public String oneToOther(String startDate, String endDate);
+	public String onePerTransactionDescription();
 
-	// public String oneUserCanEnterOneValueOnlyForEachMessage();
+	public String oneToOther(String startDate, String endDate);
 
 	public String onlineBanking();
 
@@ -2565,11 +3076,17 @@ public interface AccounterMessages extends Messages {
 
 	public String onSpecificWeek();
 
+	public String onvaluechangecalled();
+
 	public String open();
 
 	public String openBalance();
 
 	public String openBraseSoPleaseSelect();
+
+	public String openCreditMemos();
+
+	public String openedBills();
 
 	public String openFiscalYear();
 
@@ -2577,11 +3094,15 @@ public interface AccounterMessages extends Messages {
 
 	public String openingBalances();
 
+	public String openPurchaseOrders();
+
 	public String openVATCodeList();
 
-	// public String operating();
+	public String operating();
 
 	public String operatingActivities();
+
+	public String optional();
 
 	public String orderDate();
 
@@ -2597,9 +3118,9 @@ public interface AccounterMessages extends Messages {
 
 	public String otherAssets();
 
-	// public String otherDirectCosts();
+	public String otherCurrentAsset();
 
-	// public String otherDirectCostsTotal();
+	public String otherCurrentLiability();
 
 	public String otherExpense();
 
@@ -2613,7 +3134,11 @@ public interface AccounterMessages extends Messages {
 
 	public String otherNone();
 
+	public String otherReasons();
+
 	public String others();
+
+	public String overBudget();
 
 	public String overDue();
 
@@ -2625,6 +3150,8 @@ public interface AccounterMessages extends Messages {
 
 	public String overdueValue();
 
+	public String pageFormats();
+
 	public String pageLabel();
 
 	public String pageSize();
@@ -2633,19 +3160,33 @@ public interface AccounterMessages extends Messages {
 
 	public String paid();
 
-	// public String paidAmount();
-
 	public String paidTo();
 
 	public String pakistan();
 
 	public String panNumber();
 
+	public String parenAccountCurrencyShouldBeSame();
+
+	public String parenAccountTypeShouldBeSame();
+
+	public String parentAccount();
+
 	public String partialCompanySetup();
+
+	public String partiallyApplied();
+
+	public String partiallyInvoiced();
+
+	public String partiallyPaid();
+
+	public String partiallyReceived();
 
 	public String partnershipOrLLP();
 
 	public String partnershipOrLLPDesc();
+
+	public String password();
 
 	public String passwordshouldcontainminimum6characters();
 
@@ -2653,9 +3194,9 @@ public interface AccounterMessages extends Messages {
 
 	public String passwordSuccessfullyChanged();
 
-	public String Patient();
-
 	public String patient();
+
+	public String Patient();
 
 	public String payBill();
 
@@ -2669,7 +3210,11 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeBalance(String payee);
 
+	public String payeeChecks(String customer);
+
 	public String payeeCredit(String payee);
+
+	public String payeeCreditNotes(String payee);
 
 	public String payeeDetails(String payee);
 
@@ -2688,6 +3233,8 @@ public interface AccounterMessages extends Messages {
 	public String payeeInUse(String payee);
 
 	public String payeeList(String payee);
+
+	public String payeeListCouldBeInitiated();
 
 	public String payeeLists(String payee);
 
@@ -2717,6 +3264,8 @@ public interface AccounterMessages extends Messages {
 
 	public String payees(String payee);
 
+	public String payeeSelected(String payee);
+
 	public String payeesHome(String payee);
 
 	public String payeeSince(String payee);
@@ -2731,6 +3280,8 @@ public interface AccounterMessages extends Messages {
 
 	public String payeeTransactionHistory(String payee);
 
+	public String payerInformation();
+
 	public String payFrom();
 
 	public String payment();
@@ -2741,7 +3292,7 @@ public interface AccounterMessages extends Messages {
 
 	public String paymentFrom();
 
-	// public String paymentIncludeTDS();
+	public String paymentFromCustomer();
 
 	public String paymentInformation();
 
@@ -2771,9 +3322,13 @@ public interface AccounterMessages extends Messages {
 
 	public String payNo();
 
+	public String paypal();
+
 	public String paypalEmail();
 
 	public String paypalEmailHtml();
+
+	public String payrollLiability();
 
 	public String payTax();
 
@@ -2782,8 +3337,6 @@ public interface AccounterMessages extends Messages {
 	public String paytermsAlreadyExists();
 
 	public String payTo();
-
-	// public String payType();
 
 	public String payTypeList();
 
@@ -2815,17 +3368,41 @@ public interface AccounterMessages extends Messages {
 
 	public String phoneNumberOf(String payee);
 
+	public String PlainTemplate();
+
+	public String pleaseacceptTermsofuse();
+
+	public String pleaseAddItems();
+
 	public String pleaseChooseAnAccount();
 
+	public String pleaseConfirm();
+
+	public String pleaseconfirmyourpassword();
+
 	public String pleaseEnter(String fieldName);
+
+	public String pleaseenteradminpassword();
 
 	public String pleaseEnterAmountToPay();
 
 	public String pleaseEnterAmountToReceive();
 
+	public String pleaseenteranvalidemailaddress();
+
 	public String pleaseEnterAtleastOneUnit();
 
+	public String pleaseenteravalidemailaddress();
+
+	public String pleaseEnterCodeItShouldNotBeEmpty();
+
+	public String pleaseentercompanyID();
+
+	public String pleaseentercompanyname();
+
 	public String pleaseEnterName(String transaction);
+
+	public String pleaseEnterNameItShouldNotBeEmpty();
 
 	public String pleaseEnterNameOrNumber(String payee);
 
@@ -2833,25 +3410,39 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterPayTerm();
 
-	// public String pleaseEnterThe(String objectName, String name);
+	public String pleaseentertheactivationcodeyougotinthemail();
+
+	public String Pleaseenterthecontactname();
 
 	public String pleaseenterThemename();
 
 	public String pleaseenterthenote();
 
+	public String pleaseenterthesamepasswordasabove();
+
 	public String pleaseEnterTheWordsAsItis();
 
 	public String pleaseEntervalidCurrencyFactor();
+
+	public String pleaseEnterValidEmailId();
 
 	public String pleaseEnterValidOccurrencesField();
 
 	public String pleaseEnterVendorNumberItShouldNotBeEmpty(String payee);
 
+	public String pleaseenteryouremailid();
+
+	public String pleaseenteryourfirstname();
+
+	public String pleaseenteryourlastname();
+
+	public String pleaseenteryourpassword();
+
 	public String pleaseFindAttachedInvoice();
 
 	public String pleaseImplementMe();
 
-	public String pleaseSelectARowTo(String name);
+	public String pleaseprovideapassword();
 
 	public String pleaseSelecPaymentType();
 
@@ -2861,15 +3452,13 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSelectAnotherPurchaseTAXItem();
 
-	// public String pleaseSelectAnotherPurchaseTAXItemOfGroup();
-
 	public String pleaseSelectAnotherSalesTAXItem();
 
-	// public String pleaseSelectAnotherSalesTAXItemOfGroup();
-
-	// public String pleaseSelectAnyCustomer();
-
 	public String pleaseSelectAnyOneOfTheTransactions();
+
+	public String pleaseSelectAnyPayee(String Customer);
+
+	public String pleaseSelectARowTo(String name);
 
 	public String pleaseSelectAtLeastOneRecord();
 
@@ -2905,23 +3494,25 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSelectVATAgencyAndEndingDateToViewReport();
 
+	public String pleasevisitagainlaterFormoreinfovisit();
+
 	public String pleaseWaitDataIsLoading();
 
 	public String pointnumber(int pointNumber);
 
-	// public String point10();
-
-	// public String point11();
-
-	// public String point8();
-
-	// public String point9();
-
 	public String portugal();
+
+	public String positive();
 
 	public String post();
 
 	public String postalCode();
+
+	public String posted();
+
+	public String postiveCurrencyFormat();
+
+	public String preferences();
 
 	public String preferredShippingMethod();
 
@@ -2957,9 +3548,13 @@ public interface AccounterMessages extends Messages {
 
 	public String priceLevelList();
 
+	public String priceLevelsCouldNotBeInitiated();
+
 	public String primary();
 
 	public String primaryCurrency();
+
+	public String primaryCurrencyIdisZero();
 
 	public String print();
 
@@ -2969,11 +3564,15 @@ public interface AccounterMessages extends Messages {
 
 	public String printChecks();
 
+	public String printCheque();
+
 	public String PrintIsNotProvidedForCashSale();
 
 	public String printOn1099Form();
 
 	public String printOnInformationSheet();
+
+	public String PrintReportsInvocies();
 
 	public String printTAXReturn();
 
@@ -2985,7 +3584,11 @@ public interface AccounterMessages extends Messages {
 
 	public String priorVATReturns();
 
+	public String privacyPolicy();
+
 	public String ProblemWhileCreating(String company);
+
+	public String processingRequest();
 
 	public String product();
 
@@ -2999,17 +3602,21 @@ public interface AccounterMessages extends Messages {
 
 	public String productName();
 
-	public String productOrServiceItem();
+	public String productOrService();
 
-	// public String products();
+	public String productOrServiceItem();
 
 	public String productsOnly();
 
 	public String products_labelonly();
 
+	public String ProfessionalTemplate();
+
 	public String profitAndLoss();
 
 	public String profitAndLossbyClass();
+
+	public String profitAndLossByLocation(String location);
 
 	public String property();
 
@@ -3059,8 +3666,6 @@ public interface AccounterMessages extends Messages {
 
 	public String purchases();
 
-	// public String purchaseTaxItem();
-
 	public String purchaseType();
 
 	public String qty();
@@ -3072,17 +3677,29 @@ public interface AccounterMessages extends Messages {
 	public String quarterPeriod(String quarterNo, String startMonth,
 			String endMonth);
 
+	public String Quarters();
+
+	public String QuickAdd();
+
+	public String quickLinks();
+
 	public String quote();
 
 	public String quoteAndSalesOrderList();
 
 	public String quoteList();
 
+	public String quoteNo();
+
+	public String QuoteOverDueTitle();
+
 	public String quotes();
 
-	// public String quotesandsalesOrder();
-
 	public String quotesList();
+
+	public String quoteTemplate();
+
+	public String quoteTitle();
 
 	public String radioButtonGroup();
 
@@ -3090,7 +3707,13 @@ public interface AccounterMessages extends Messages {
 
 	public String rate();
 
+	public String readAccept();
+
 	public String readOnly();
+
+	public String readOnlyDesc();
+
+	public String readTermsAndConditions();
 
 	public String readyToCreate(String transactionName);
 
@@ -3100,11 +3723,17 @@ public interface AccounterMessages extends Messages {
 
 	public String recalculate();
 
+	public String receipientInformation();
+
 	public String receiptDate();
 
 	public String receiptFrom();
 
 	public String receiveAmountPayDue();
+
+	public String received();
+
+	public String receivedChequeNo();
 
 	public String receivedDate();
 
@@ -3118,6 +3747,22 @@ public interface AccounterMessages extends Messages {
 
 	public String receivedPayments();
 
+	public String receivedPaymentsbyCash();
+
+	public String receivedPaymentsbyCheque();
+
+	public String receivedPaymentsbyCreditCard();
+
+	public String receivedPaymentsbyDirectDebit();
+
+	public String receivedPaymentsbyMastercard();
+
+	public String receivedPaymentsbyOnlineBanking();
+
+	public String receivedPaymentsbyStandingOrder();
+
+	public String receivedPaymentsbySwitchMaestro();
+
 	public String receiveJournalisFailed();
 
 	public String receivePayment();
@@ -3126,9 +3771,13 @@ public interface AccounterMessages extends Messages {
 
 	public String receivePaymentExcessDue();
 
+	public String receiveTAX();
+
 	public String receiveVAT();
 
 	public String recentActivity();
+
+	public String recentTransactions();
 
 	public String recievePayments();
 
@@ -3139,6 +3788,8 @@ public interface AccounterMessages extends Messages {
 	public String recommendedAccountsComment();
 
 	public String recommendedNote();
+
+	public String reconcilationDetailByAccount();
 
 	public String Reconcile();
 
@@ -3152,15 +3803,19 @@ public interface AccounterMessages extends Messages {
 
 	public String ReconciliationsList();
 
+	public String reconciliationsReport();
+
 	public String recordExpenses();
 
 	public String recurring();
 
-	public String recurringTemplateDeleteWarning(String transactionName);
-
 	public String recurringDescription();
 
+	public String recurringTemplateDeleteWarning(String transactionName);
+
 	public String recurringTemplateHasEnded(String name);
+
+	public String recurringTransactions();
 
 	public String recurringTransactionsList();
 
@@ -3174,6 +3829,16 @@ public interface AccounterMessages extends Messages {
 
 	public String referenceNo();
 
+	public String refNo();
+
+	public String refundNo();
+
+	public String refundsByCash();
+
+	public String refundsByCheck();
+
+	public String refundsByCreditCard();
+
 	public String register();
 
 	public String registeredAddresDescription();
@@ -3184,6 +3849,8 @@ public interface AccounterMessages extends Messages {
 
 	public String registeredAsset();
 
+	public String registeredEmailId();
+
 	public String registeredItemsList();
 
 	public String reject();
@@ -3192,13 +3859,17 @@ public interface AccounterMessages extends Messages {
 
 	public String relatedTask();
 
-	public String remindMe();
+	public String remaining();
+
+	public String remainingTotal();
+
+	public String rememberMe();
 
 	public String reminder();
 
 	public String remindersList();
 
-	public String remainingTotal();
+	public String remindMe();
 
 	public String remove();
 
@@ -3212,11 +3883,23 @@ public interface AccounterMessages extends Messages {
 
 	public String reportBasisAccrual();
 
+	public String reportCommondActivated(String reportName);
+
+	public String reportCommondClosedSuccessfully(String reportName);
+
+	public String reportDetails(String reportName);
+
 	public String reports();
 
 	public String reportsHome();
 
 	public String requiredFields();
+
+	public String resendActivationcode();
+
+	public String reset();
+
+	public String resetPassword();
 
 	public String respondToYourRemindersAboutRecurringTemplates();
 
@@ -3225,10 +3908,6 @@ public interface AccounterMessages extends Messages {
 	public String returnsDueOnOrBefore();
 
 	public String revenue();
-
-	// public String revenueIncome();
-
-	// public String revenueIncomeTotal();
 
 	public String reverseChargeList();
 
@@ -3245,6 +3924,10 @@ public interface AccounterMessages extends Messages {
 	public String rollBackDepreciation();
 
 	public String rollbackDepreciationTo();
+
+	public String RoundOffBudgetAmountto();
+
+	public String saleNo();
 
 	public String salepriceExcludingTax();
 
@@ -3265,6 +3948,8 @@ public interface AccounterMessages extends Messages {
 	public String salesByLocationSummary(String location);
 
 	public String salesCloseOrder();
+
+	public String salesCustomization();
 
 	public String salesDescription();
 
@@ -3316,7 +4001,11 @@ public interface AccounterMessages extends Messages {
 
 	public String saveAndNew();
 
+	public String Saveasdraft();
+
 	public String saveTemplate();
+
+	public String saving();
 
 	public String scheduled();
 
@@ -3324,27 +4013,17 @@ public interface AccounterMessages extends Messages {
 
 	public String sCorporationDesc();
 
-	public String searchHere();
+	public String search();
 
-	// public String searchTheAccount();
+	public String searchHere();
 
 	public String second();
 
 	public String sectionhashnumber(int sectionhashNumber);
 
-	// public String sectionhash1();
-
-	// public String sectionhash2();
-
-	// public String sectionhash3();
-
-	// public String sectionhash4();
-
 	public String select();
 
 	public String selectAccountsToAssign();
-
-	// public String selectAccountType();
 
 	public String selectAll();
 
@@ -3354,13 +4033,15 @@ public interface AccounterMessages extends Messages {
 
 	public String selectATaxGroup();
 
+	public String selectATransactionToUpdate(String transactionName);
+
 	public String selectBankAccount();
 
-	public String selectcurrency();
+	public String selectCreteria();
 
 	public String selectCurrency();
 
-	// public String selectDate();
+	public String selectcurrency();
 
 	public String selectDateOfBirth(String salesperson);
 
@@ -3370,13 +4051,15 @@ public interface AccounterMessages extends Messages {
 
 	public String selectDateWhenTransactioCreated(String transactionName);
 
+	public String selectDiscountAccountDesc();
+
+	public String selectDiscountDesc();
+
 	public String selectDocument();
 
 	public String selected();
 
 	public String selectedAs(String displayName, String customer);
-
-	// public String selectedit(String transactionName);
 
 	public String selectedTaxGroupItem();
 
@@ -3408,6 +4091,8 @@ public interface AccounterMessages extends Messages {
 
 	public String selectInvoiceToPrint();
 
+	public String selectItemToUpdate();
+
 	public String selectItemType();
 
 	public String selectMultiple();
@@ -3432,11 +4117,7 @@ public interface AccounterMessages extends Messages {
 
 	public String selectQuote();
 
-	// public String selectQuoteOrSalesOrder();
-
 	public String selectReports();
-
-	// public String selectSalesOrder();
 
 	public String selectTAXAgency();
 
@@ -3456,6 +4137,8 @@ public interface AccounterMessages extends Messages {
 
 	public String selectTransaction();
 
+	public String selectTransactionType();
+
 	public String selectTypeOfThis(String transactionName);
 
 	public String selectVatAgency();
@@ -3473,6 +4156,10 @@ public interface AccounterMessages extends Messages {
 	public String sellingRegisteredItem();
 
 	public String send();
+
+	public String serverMaintanace();
+
+	public String serverundermaintainace();
 
 	public String service();
 
@@ -3516,6 +4203,12 @@ public interface AccounterMessages extends Messages {
 
 	public String setUserpermissions();
 
+	public String SEVEN();
+
+	public String SEVENTEEN();
+
+	public String SEVENTY();
+
 	public String shippingAddress();
 
 	public String shippingMethod();
@@ -3548,11 +4241,13 @@ public interface AccounterMessages extends Messages {
 
 	public String show();
 
-	// public String showAccounterNumbers();
+	public String showActivitiesFor();
 
 	public String showAll();
 
 	public String showAllAccounts();
+
+	public String showAllActivities();
 
 	public String showColumnHeadings();
 
@@ -3561,6 +4256,8 @@ public interface AccounterMessages extends Messages {
 	public String showHistory();
 
 	public String showLogo();
+
+	public String showOnlyTheseActivities();
 
 	public String showRegisteredAddress();
 
@@ -3574,7 +4271,25 @@ public interface AccounterMessages extends Messages {
 
 	public String showVatColumn();
 
+	public String signIn();
+
+	public String signinEmail();
+
+	public String signInusing();
+
 	public String signoutafterInactivity();
+
+	public String signUp();
+
+	public String signupAccounter();
+
+	public String SimpletogetStarted();
+
+	public String SIX();
+
+	public String SIXTY();
+
+	public String size();
 
 	public String skipSelected();
 
@@ -3592,6 +4307,8 @@ public interface AccounterMessages extends Messages {
 
 	public String someSelectedRecordsAreNeedToBeEdited();
 
+	public String sorryAccounterisdownformaintanance();
+
 	public String sorryFailedToAdd();
 
 	public String sorryNoHelp();
@@ -3604,9 +4321,13 @@ public interface AccounterMessages extends Messages {
 
 	public String specifiedunittypenotfoundinmeasure();
 
+	public String sport();
+
 	public String standard();
 
 	public String standardCost();
+
+	public String standardTemplate();
 
 	public String standardTheme();
 
@@ -3622,6 +4343,8 @@ public interface AccounterMessages extends Messages {
 
 	public String startFiscalHTML();
 
+	public String StartfromScratch();
+
 	public String startingChequeNo();
 
 	public String startOfFiscalYear();
@@ -3635,6 +4358,12 @@ public interface AccounterMessages extends Messages {
 	public String state();
 
 	public String statement();
+
+	public String statementDate();
+
+	public String statementNo();
+
+	public String statements();
 
 	public String statementTitle();
 
@@ -3678,13 +4407,25 @@ public interface AccounterMessages extends Messages {
 
 	public String subject();
 
-	// public String submit();
+	public String submit();
 
 	public String submitForApproval();
 
-	public String Supplier();
+	public String subscribed();
+
+	public String subTotal();
+
+	public String SubTotal();
+
+	public String successfullyregisteredyouremail();
+
+	public String summaryFor1099();
 
 	public String supplier();
+
+	public String Supplier();
+
+	public String support();
 
 	public String sureToDelete(String brandingThemeName);
 
@@ -3696,6 +4437,8 @@ public interface AccounterMessages extends Messages {
 
 	public String syncOnlinePayees();
 
+	public String takeslongtimetolearn();
+
 	public String tax();
 
 	public String taxable();
@@ -3706,6 +4449,12 @@ public interface AccounterMessages extends Messages {
 
 	public String taxAdjustment();
 
+	public String taxAgencie();
+
+	public String taxAgencies();
+
+	public String taxAgenciesList();
+
 	public String taxAgency();
 
 	public String taxAgencyDiscountPaymentTerm();
@@ -3714,9 +4463,9 @@ public interface AccounterMessages extends Messages {
 
 	public String taxAmount();
 
-	public String taxCode();
+	public String taxAtOnValue(String taxRate, String value);
 
-	// public String taxCodeAdjust();
+	public String taxCode();
 
 	public String taxCodesList();
 
@@ -3725,8 +4474,6 @@ public interface AccounterMessages extends Messages {
 	public String taxColumn();
 
 	public String taxDue();
-
-	// public String taxes();
 
 	public String taxExceptionMesg();
 
@@ -3747,8 +4494,6 @@ public interface AccounterMessages extends Messages {
 	public String taxHistoryEmpty();
 
 	public String taxId();
-
-	// public String taxIncome();
 
 	public String taxItem();
 
@@ -3798,21 +4543,27 @@ public interface AccounterMessages extends Messages {
 
 	public String tdsVendorsList();
 
+	public String Template();
+
 	public String templates();
 
-	public String Tenant();
+	public String TEN();
 
 	public String tenant();
+
+	public String Tenant();
 
 	public String terminology();
 
 	public String terms();
 
+	public String termsConditions();
+
 	public String termsLabel();
 
-	public String territory();
+	public String termsofUse();
 
-	// public String test();
+	public String territory();
 
 	public String thailand();
 
@@ -3826,9 +4577,15 @@ public interface AccounterMessages extends Messages {
 
 	public String themenamealreadyexist();
 
+	public String themeUploadMessage();
+
+	public String Thenameyouentered(String text);
+
 	public String thereAreNo(String recordType);
 
 	public String therearenocreditstoshow();
+
+	public String thereAreNoTransactionItemsToSave();
 
 	public String thereisNoRecordsTosave(String transactionType);
 
@@ -3838,11 +4595,17 @@ public interface AccounterMessages extends Messages {
 
 	public String third();
 
+	public String THIRTEEN();
+
+	public String THIRTY();
+
 	public String This();
 
 	public String thisFinancialQuarter();
 
 	public String thisFinancialYear();
+
+	public String ThisisatemplateusedinRecurring();
 
 	public String thisIsCommisionItem();
 
@@ -3852,9 +4615,9 @@ public interface AccounterMessages extends Messages {
 
 	public String thisMonth();
 
-	public String thisQuoteAlreadyAccepted();
+	public String Thisoptioncanbeusedtoenable();
 
-	// public String thisReportNotYetImplemented();
+	public String thisQuoteAlreadyAccepted();
 
 	public String thisVATQuarter();
 
@@ -3864,21 +4627,25 @@ public interface AccounterMessages extends Messages {
 
 	public String thisWndHelpYoyManageVATTasks();
 
+	public String THOUSAND();
+
+	public String THREE();
+
+	public String TIFTEEN();
+
 	public String timezone();
 
 	public String tinNumber();
 
 	public String title();
 
-	// public String titleToGoHere();
+	public String TIXTEEN();
 
 	public String to();
 
 	public String toAccount();
 
 	public String toAddAccounterClass();
-
-	// public String toAddAnItemTax();
 
 	public String toAddCreditRating();
 
@@ -3892,23 +4659,33 @@ public interface AccounterMessages extends Messages {
 
 	public String toAddPayeeGroup(String payee);
 
-	// public String toAddPayType();
-
 	public String toAddShippingMethod();
 
 	public String toAddShippingTerm();
 
 	public String toBePrinted();
 
+	public String tochangetherecurringschedule();
+
 	public String toCloseBooksOrFascalYear();
+
+	public String toCreate();
 
 	public String toDate();
 
 	public String today();
 
+	public String tooSlow();
+
 	public String top();
 
+	public String topCustomersBySales(String customer);
+
+	public String topItemsBySales();
+
 	public String topMargin();
+
+	public String topVendorsByExpense(String vendor);
 
 	public String total();
 
@@ -3920,13 +4697,13 @@ public interface AccounterMessages extends Messages {
 
 	public String totalAmount();
 
+	public String totalAmountReported();
+
 	public String totalAmountToUse();
 
 	public String totalBalance();
 
 	public String totalCapitalGain();
-
-	// public String totalCreditAmount();
 
 	public String totalCreditMemo();
 
@@ -3954,9 +4731,13 @@ public interface AccounterMessages extends Messages {
 
 	public String totalQuantity();
 
+	public String totalRate();
+
 	public String totalSales();
 
 	public String totalSalesPrice();
+
+	public String totalTax();
 
 	public String totalVATDueBOX3();
 
@@ -3964,19 +4745,35 @@ public interface AccounterMessages extends Messages {
 
 	public String toTransferFunds();
 
+	public String TOURTEEN();
+
 	public String toWarehouse();
 
 	public String track1099Form();
 
+	public String trackDiscount();
+
 	public String trackEmployeeExpenses();
 
+	public String trackingDiscounts();
+
+	public String trackingDiscountsDisabled();
+
+	public String trackingDiscountsEnabled();
+
 	public String trackingEstimates();
+
+	public String trackingTaxPaid();
 
 	public String trackingTaxPaidDisabled();
 
 	public String trackingTaxPaidEnabled();
 
+	public String trackOrChargeTax();
+
 	public String trackPaymentsFor1099();
+
+	public String trackProducandServicesbyCustomer();
 
 	public String trackTaxDisabled();
 
@@ -3985,6 +4782,8 @@ public interface AccounterMessages extends Messages {
 	public String tradingAddress();
 
 	public String tradingAddressDescription();
+
+	public String trailfree();
 
 	public String transaction();
 
@@ -4008,7 +4807,15 @@ public interface AccounterMessages extends Messages {
 
 	public String transactionName();
 
+	public String transactionNumberCouldNotBeInitiated();
+
 	public String transactionReconcilied();
+
+	public String transactions();
+
+	public String transactionscenter();
+
+	public String transactionsWereAutomaticallyCreated();
 
 	public String transactiontotalcannotbe0orlessthan0();
 
@@ -4034,9 +4841,15 @@ public interface AccounterMessages extends Messages {
 
 	public String trialBalance();
 
-	public String type();
+	public String TRILLION();
 
-	// public String u();
+	public String TWELVE();
+
+	public String TWENTY();
+
+	public String TWO();
+
+	public String type();
 
 	public String uk();
 
@@ -4050,15 +4863,17 @@ public interface AccounterMessages extends Messages {
 
 	public String unabletoLoadTheRequiredDeposit();
 
+	public String Unabletoopenrecurringtransactio();
+
 	public String unableToPerformTryAfterSomeTime();
 
 	public String unableToSaveNote(String exceptionName);
 
-	// public String unableToSaveThisTranslation(String exceptionName);
-
 	public String unableToshowtheview();
 
 	public String unableToVoteThisTranslation(String string);
+
+	public String unApplied();
 
 	public String unassignedAmount();
 
@@ -4072,13 +4887,21 @@ public interface AccounterMessages extends Messages {
 
 	public String unConfirmed();
 
+	public String unDepositedFunds();
+
 	public String underline();
+
+	public String underMaintanance();
 
 	public String undoneHtml();
 
 	public String unit();
 
+	public String unitDefault();
+
 	public String unitName();
+
+	public String unitNotDefault();
 
 	public String unitPrice();
 
@@ -4089,6 +4912,8 @@ public interface AccounterMessages extends Messages {
 	public String unKnownExceptionGotNull();
 
 	public String unPaid();
+
+	public String unScheduled();
 
 	public String unspecified();
 
@@ -4116,17 +4941,27 @@ public interface AccounterMessages extends Messages {
 
 	public String upload();
 
+	public String uploadAttachment();
+
 	public String uploadLogo();
 
-	// public String us();
+	public String uploadOneOrMoreTemplates();
 
 	public String usa();
 
 	public String use();
 
+	public String use3to60characters();
+
 	public String useAccountNos();
 
 	public String useAdjustButton();
+
+	public String useBillabelExpenses();
+
+	public String Usebillableexpensesandproductsservices();
+
+	public String useCustomersNumbers();
 
 	public String useDifferentAddrerss();
 
@@ -4140,6 +4975,8 @@ public interface AccounterMessages extends Messages {
 
 	public String usedinInvoiceSoYoucantEdit();
 
+	public String usedinReceivepayYoucantEdit();
+
 	public String usePayeeId(String payee);
 
 	public String user();
@@ -4151,8 +4988,6 @@ public interface AccounterMessages extends Messages {
 	public String userGuidelinesMessage();
 
 	public String userHTML();
-
-	// public String userLocal();
 
 	public String userName();
 
@@ -4168,7 +5003,17 @@ public interface AccounterMessages extends Messages {
 
 	public String useTerminologyFor(String location);
 
+	public String useVendorNumbers();
+
+	public String usingAccNumbers();
+
+	public String usingCustomerNumbers();
+
+	public String usingVendorNumbers();
+
 	public String usLetter();
+
+	public String validActivation();
 
 	public String validateEndAndStartDate();
 
@@ -4202,8 +5047,6 @@ public interface AccounterMessages extends Messages {
 
 	public String vatExceptionDetail();
 
-	// public String vatFileDate();
-
 	public String vatGroupList();
 
 	public String vatItemDetail();
@@ -4226,13 +5069,15 @@ public interface AccounterMessages extends Messages {
 
 	public String vatRegistrationNumber();
 
+	public String vatReturn();
+
 	public String vatReturnBox();
 
-	public String vendor1099(String vendor);
+	public String Vendor();
 
 	public String vendor();
 
-	public String Vendor();
+	public String vendor1099(String vendor);
 
 	public String vendorAndPurchases(String Vendor);
 
@@ -4240,13 +5085,19 @@ public interface AccounterMessages extends Messages {
 
 	public String vendorBill(String vendor);
 
-	// public String vendorBlah(String vendor);
+	public String vendorCentre(String vendor);
+
+	public String vendorchecks();
 
 	public String vendorCreditMemo();
 
 	public String vendorDescription();
 
 	public String vendorProductNo(String vendor);
+
+	public String vendors();
+
+	public String Vendors();
 
 	public String vendorsAndPayables(String vendor);
 
@@ -4258,27 +5109,27 @@ public interface AccounterMessages extends Messages {
 
 	public String vendorTDSCode(String vendor);
 
-	// public String vendorWhendor(String vendor);
-
 	public String venodrsThatMeetThreshold(String vendor);
 
 	public String view();
 
 	public String viewDisposalJournal();
 
+	public String viewReports();
+
 	public String viewVATItems();
 
-	public String Voided();
+	public String visa();
+
+	public String void1();
 
 	public String voided();
 
-	// public String voidedPayments();
+	public String Voided();
 
 	public String voucher();
 
 	public String voucherNo();
-
-	// public String want();
 
 	public String wanttoCreateEstimates();
 
@@ -4286,13 +5137,13 @@ public interface AccounterMessages extends Messages {
 
 	public String wareHouse();
 
+	public String warehouseAlreadyExistsWithCode();
+
 	public String warehouseCode();
 
 	public String wareHouseItems();
 
 	public String warehouseList();
-
-	// public String wareHouseLoadingError(String exceptionName);
 
 	public String warehouseName();
 
@@ -4302,9 +5153,11 @@ public interface AccounterMessages extends Messages {
 
 	public String wareName();
 
+	public String WARNING();
+
 	public String warnOfFascalYear();
 
-	// public String wat();
+	public String weareperformingmaintenance();
 
 	public String webFormatExpr();
 
@@ -4332,7 +5185,17 @@ public interface AccounterMessages extends Messages {
 
 	public String welcomeToStartup();
 
+	public String wentoutofbusiness();
+
 	public String whatDoYouSell();
+
+	public String whatsnew();
+
+	public String whoIOwe();
+
+	public String whoOwesMe();
+
+	public String whyareyouleavingAccounter();
 
 	public String whyshoudIUseRecommended();
 
@@ -4340,9 +5203,13 @@ public interface AccounterMessages extends Messages {
 
 	public String widgetsAvailable();
 
+	public String width();
+
+	public String willDeductTDSforUs();
+
 	public String writeCheck();
 
-	// public String writeChecks();
+	public String writeCheckPaid();
 
 	public String writeCheckTotalAmount();
 
@@ -4355,279 +5222,6 @@ public interface AccounterMessages extends Messages {
 	public String writeOffAmount();
 
 	public String writeOffPleaseAddDetails();
-
-	public String year();
-
-	public String yearly();
-
-	public String years();
-
-	public String yearToDate();
-
-	public String yes();
-
-	public String youcannotchangeaCustomertypetoVendortype(String customer,
-			String vendor);
-
-	public String youCannotEdiClosedFiscalYear();
-
-	public String youCannotSaveAblankRecurringTemplate();
-
-	public String youCantDeleteYourSelf();
-
-	public String youCantEdit(String transactionName);
-
-	public String youcanteditreceivePaymentitisvoidedordeleted();
-
-	public String youcantsavepaybillwith0amount();
-
-	public String youcantvoidJournalEntrycreatedbyrunningDeprecation();
-
-	public String youdnthaveBalToApplyCredits();
-
-	public String youDontHaveAny(String recordName);
-
-	public String youdonthaveanyfiledVATentriestoselect();
-
-	public String youDontHaveAnyItemsToTransfer();
-
-	public String youdonthavepermissionstodeleteuser();
-
-	public String youHaveEnteredduplicateContacts();
-
-	public String youHaveEnteredWrongPassword();
-
-	public String yourPresentPasswordisWrong();
-
-	public String yourTitle();
-
-	public String zeroAmount();
-
-	public String zipCode();
-
-	public String ztozeroperc();
-
-	public String productOrService();
-
-	public String descOrMemo();
-
-	public String refNo();
-
-	public String statementDate();
-
-	public String statementNo();
-
-	public String contains();
-
-	public String exact();
-
-	public String greater();
-
-	public String Less();
-
-	public String search();
-
-	public String invoiceDate();
-
-	public String selectCreteria();
-
-	public String customerTaxRegNo(String customer);
-
-	public String subTotal();
-
-	public String creditTo();
-
-	public String creditNoteDate();
-
-	public String adjustAlignmentAndReprint();
-
-	public String companyAddress();
-
-	public String idNumber();
-
-	public String receipientInformation();
-
-	public String payerInformation();
-
-	public String summaryFor1099();
-
-	public String totalAmountReported();
-
-	public String match();
-
-	public String bill();
-
-	public String billableExpenseCharge();
-
-	public String billPayment();
-
-	public String paymentFromCustomer();
-
-	public String chargeNo();
-
-	public String estimateNo();
-
-	public String saleNo();
-
-	public String receivedChequeNo();
-
-	public String refundNo();
-
-	public String noInventoryItemsAvilable();
-
-	public String configurePortlets();
-
-	public String whoIOwe();
-
-	public String whoOwesMe();
-
-	public String recentTransactions();
-
-	// public String messagesAndTasks();
-
-	public String quickLinks();
-
-	// public String goToIOweList();
-
-	// public String gotoWhoOweMeList();
-
-	// public String gotoTasksAndMessages();
-
-	// public String goToRecentTransactions();
-
-	public String cantEditOrDelete();
-
-	public String FirstFiscalMonth();
-
-	public String useCustomersNumbers();
-
-	public String useVendorNumbers();
-
-	public String enabledTDS();
-
-	public String disabledTDS();
-
-	public String enabled();
-
-	public String disabled();
-
-	public String delayedCharges();
-
-	public String trackProducandServicesbyCustomer();
-
-	public String reportCommondActivated(String reportName);
-
-	public String reportCommondClosedSuccessfully(String reportName);
-
-	public String reportDetails(String reportName);
-
-	// public String reportSelected(String reportName);
-
-	// public String youDontHaveAnyReports();
-
-	public String findBy();
-
-	public String void1();
-
-	public String youcannotEditDeleteDefaultTerms();
-
-	public String areYouwantToDeletecustomField();
-
-	public String lastOf(int limit);
-
-	public String usedinReceivepayYoucantEdit();
-
-	public String gotoBankAccountsList();
-
-	public String customize();
-
-	public String charactersticsToShow();
-
-	// public String SeeAllCompanies();
-
-	public String budgetOverview();
-
-	public String admin();
-
-	public String customers();
-
-	public String vendors();
-
-	public String Customers();
-
-	public String Vendors();
-
-	public String budgets();
-
-	public String taxAgencies();
-
-	public String transactions();
-
-	public String transactionsWereAutomaticallyCreated();
-
-	// public String openBalances();
-
-	public String getNoDifferentLegalName();
-
-	public String usingCustomerNumbers();
-
-	public String notUsingCustomersNumbers();
-
-	public String usingVendorNumbers();
-
-	public String notUsinguseVendorNumbers();
-
-	public String usingAccNumbers();
-
-	public String notUsinguseAccountNos();
-
-	public String donotChargeOrTrackTax();
-
-	public String trackingTaxPaid();
-
-	public String donotTrackingTaxPaid();
-
-	public String doNottrackingEstimates();
-
-	public String donotUsedelayedCharges();
-
-	public String iDoShipping();
-
-	public String iDontdoShipping();
-
-	public String hadMultipleWarehouses();
-
-	public String nothadMultipleWarehouses();
-
-	public String nottrackProducandServicesbyCustomer();
-
-	public String useBillabelExpenses();
-
-	public String doNotuseBillabelExpenses();
-
-	public String thereAreNoTransactionItemsToSave();
-
-	public String fixedNumberOfDays();
-
-	public String netDueIn();
-
-	public String discountPercentageIs();
-
-	public String discountIfPaidWithin();
-
-	public String dateDriven();
-
-	public String netDueBefore();
-
-	public String discountIfPaidBefore();
-
-	public String trackingDiscounts();
-
-	public String discounts();
-
-	public String selectDiscountDesc();
-
-	public String selectDiscountAccountDesc();
 
 	public String W_101();
 
@@ -4647,8 +5241,6 @@ public interface AccounterMessages extends Messages {
 
 	public String W_109();
 
-	// public String W_110();
-
 	public String W_111();
 
 	public String W_112();
@@ -4663,1017 +5255,75 @@ public interface AccounterMessages extends Messages {
 
 	public String W_117();
 
-	public String writeCheckPaid();
+	public String year();
 
-	public String noBanksToShow();
-
-	public String noTransactionsToshow();
-
-	public String adminuser();
-
-	public String accounttransaction();
-
-	public String adjustmentreason();
-
-	public String bank();
-
-	public String budgetitem();
-
-	public String creditsPayments();
-
-	public String customergroup();
-
-	public String customerprePayment();
-
-	// public String customerRefund();
-
-	public String financeLogger();
-
-	public String fixedAssest();
-
-	public String fixedAssetHistory();
-
-	public String fixedAssetNote();
-
-	public String doNottrackingLocation();
-
-	public String noAmountAddedtoAccounts();
-
-	public String editingCreditsFailed();
-
-	public String parentAccount();
-
-	public String companyDefaultTaxCode(String TAX);
-
-	public String isSubAccount();
-
-	public String parenAccountTypeShouldBeSame();
-
-	public String parenAccountCurrencyShouldBeSame();
-
-	public String addBankAccount();
-
-	public String cannotCreateUserAsTheirIsNoUserWithAdminRole();
-
-	public String newpasswordAndPreviouspasswordAreSame();
-
-	public String taxAgenciesList();
-
-	public String customTheme();
-
-	public String standardTemplate();
-
-	public String downloadOdtFiles();
-
-	public String downloadDocxFiles();
-
-	public String odtDownloadMessage();
-
-	public String docxDownloadMessage();
-
-	public String themeUploadMessage();
-
-	public String uploadOneOrMoreTemplates();
-
-	public String eachFileCanBeNoLongerThan();
-
-	public String noFileSelected();
-
-	public String creditNote();
-
-	public String doyouwanttoDeleteObj(String name);
-
-	public String showActivitiesFor();
-
-	public String showAllActivities();
-
-	public String showOnlyTheseActivities();
-
-	public String logutOrLogin();
-
-	public String recurringTransactions();
-
-	public String statements();
-
-	public String preferences();
-
-	public String salesCustomization();
-
-	public String dataExchange();
-
-	public String customiseActivityLog();
-
-	public String findByMustBeFilled();
-
-	public String currencyFactor();
-
-	public String whatsnew();
-
-	public String signIn();
-
-	public String signinEmail();
-
-	public String password();
-
-	public String rememberMe();
-
-	public String lostyourpassword();
-
-	public String signupAccounter();
-
-	public String signInusing();
-
-	public String login();
-
-	public String atTherateCopy();
-
-	public String termsConditions();
-
-	public String privacyPolicy();
-
-	public String support();
-
-	public String mandatoryMsg();
-
-	public String emailAddress();
-
-	public String confirmPassword();
-
-	public String readAccept();
-
-	public String termsofUse();
-
-	public String newsletter();
-
-	public String optional();
-
-	public String alreadyAccount();
-
-	public String trailfree();
-
-	public String forgottenPassword();
-
-	public String forgotpasswordMsg();
-
-	public String getNewPassword();
-
-	public String activation();
-
-	public String activationCode();
-
-	public String validActivation();
-
-	public String activate();
-
-	public String resendActivationcode();
-
-	public String emailForActivation();
-
-	public String registeredEmailId();
-
-	public String resetPassword();
-
-	public String reset();
-
-	public String signUp();
-
-	public String companieslist();
-
-	public String createNewCompany();
-
-	public String deleteAccount();
-
-	public String deletecompany();
-
-	public String deletecompanyWarningMsg();
-
-	public String deletecompanyfromaccount();
-
-	public String deletecompanyfromallusers();
-
-	public String deleteMsg();
-
-	public String deleteMyAccount();
-
-	public String deleteaccountmsg();
-
-	public String tooSlow();
-
-	public String takeslongtimetolearn();
-
-	public String cantgetmydatain();
-
-	public String doesnthavethefeaturesIneed();
-
-	public String wentoutofbusiness();
-
-	public String imLookingforpersonalfinancesoftware();
-
-	public String idonothaveabusinessyet();
-
-	public String whyareyouleavingAccounter();
-
-	public String otherReasons();
-
-	public String backtoaccount();
-
-	public String continuetofront();
-
-	public String nameShouldbewithinThe1100to1199Ranage();
-
-	public String accountisActive();
-
-	public String accountisInActive();
-
-	public String accountCashAccount();
-
-	public String accountisNotCashAccount();
-
-	public String accountPayble();
-
-	public String otherCurrentAsset();
-
-	public String accountReceivable();
-
-	public String inventoryAsset();
-
-	public String payrollLiability();
-
-	public String otherCurrentLiability();
-
-	public String paypal();
-
-	public String unitDefault();
-
-	public String unitNotDefault();
-
-	public String selectItemToUpdate();
-
-	public String cancelMyAccount();
-
-	public String cancelAccount();
-
-	public String deletepermanentlyMsg();
-
-	public String deletedImmediatelyMsg();
-
-	public String keepUsingAccounter();
-
-	public String activeAccounts();
-
-	public String inAllactiveAccounts();
-
-	public String allAccounts();
-
-	public String serverMaintanace();
-
-	public String pleaseenteradminpassword();
-
-	public String serverundermaintainace();
-
-	public String submit();
-
-	public String underMaintanance();
-
-	public String sorryAccounterisdownformaintanance();
-
-	public String weareperformingmaintenance();
-
-	public String pleasevisitagainlaterFormoreinfovisit();
-
-	public String blogaccounterlivecom();
-
-	public String notifywhenworking();
-
-	public String pleaseenteryouremailid();
-
-	public String successfullyregisteredyouremail();
-
-	public String pleaseEnterValidEmailId();
-
-	public String cuurentAccount();
-
-	public String checking();
-
-	public String moneyMarket();
-
-	public String saving();
-
-	public String nameShouldbewithinThe1100to1179Ranage();
-
-	public String selectATransactionToUpdate(String transactionName);
-
-	public String youdontHavepermissiosToinviteUser();
-
-	public String youDntHavePermissionToDoThis();
-
-	public String unDepositedFunds();
-
-	public String costofGoodsSold();
-
-	public String fixedAsset();
-
-	public String currentLiability();
-
-	public String longTermLiability();
-
-	public String accountsReceivable();
-
-	public String accountsPayable();
-
-	public String financing();
-
-	public String investing();
-
-	public String operating();
-
-	public String customerCredit();
-
-	public String customerPayment();
-
-	public String receiveTAX();
-
-	public String vatReturn();
-
-	public String notPaid();
-
-	public String partiallyPaid();
-
-	public String unApplied();
-
-	public String partiallyApplied();
-
-	public String posted();
-
-	public String notInvoiced();
-
-	public String partiallyInvoiced();
-
-	public String notReceived();
-
-	public String received();
-
-	public String partiallyReceived();
-
-	public String hmRevenueCustomsVAT();
-
-	public String journalEntryforRunningDepreciation();
-
-	public String box1Description();
-
-	public String box2Description();
-
-	public String master();
-
-	public String visa();
-
-	public String enteredEmailAlreadyRegistred();
-
-	public String subscribed();
-
-	public String notsubscribed();
-
-	public String createdSucessFullysentAnActivationCodetoYourMail();
-
-	public String acceptThetermsAndCondition();
-
-	public String addOf(String quotes);
-
-	public String acceptedTermsandconditions();
-
-	public String readTermsAndConditions();
-
-	public String taxAtOnValue(String taxRate, String value);
-
-	public String invoiceUsedInEstimates();
-
-	public String pleaseenteryourfirstname();
-
-	public String pleaseenteryourlastname();
-
-	public String pleaseentercompanyID();
-
-	public String CompanyIDshouldcontainatleastoneletterandnospecialcharacters();
-
-	public String CompanyIDexceededthemaximumlength();
-
-	public String pleaseentercompanyname();
-
-	public String pleaseprovideapassword();
-
-	public String yourpasswordmustbeatleast6characterslong();
-
-	public String pleaseenterthesamepasswordasabove();
-
-	public String pleaseenteravalidemailaddress();
-
-	public String pleaseacceptTermsofuse();
-
-	public String pleaseentertheactivationcodeyougotinthemail();
-
-	public String pleaseenteranvalidemailaddress();
-
-	public String pleaseenteryourpassword();
-
-	public String pleaseconfirmyourpassword();
-
-	public String use3to60characters();
-
-	public String logout();
-
-	public String pleaseEnterNameItShouldNotBeEmpty();
-
-	public String pleaseEnterCodeItShouldNotBeEmpty();
-
-	public String warehouseAlreadyExistsWithCode();
-
-	public String groupName();
-
-	public String itemGroupName();
-
-	public String pleaseAddItems();
-
-	public String totalRate();
-
-	public String itemsGroupList();
-
-	public String youCannotDeleteItemsGroup();
-
-	public String willDeductTDSforUs();
-
-	public String messagesAndTasks();
-
-	public String gotoTasksAndMessages();
-
-	public String printCheque();
-
-	public String processingRequest();
-
-	public String checks();
-
-	public String customerCreditNotes();
-
-	public String billCredits();
-
-	public String billPayments();
-
-	public String deposits();
-
-	public String inventoryAdjustments();
-
-	public String payeeChecks(String customer);
-
-	public String cashSalesList();
-
-	public String payeeCreditNotes(String payee);
-
-	public String customerchecks();
-
-	public String vendorchecks();
-
-	public String transactionscenter();
-
-	public String CustomerCreditNotes();
-
-	public String getallInvoices();
-
-	public String getOpendInvoices();
-
-	public String getOverdueInvoices();
-
-	public String receivedPaymentsbyCash();
-
-	public String receivedPaymentsbyCheque();
-
-	public String receivedPaymentsbyCreditCard();
-
-	public String receivedPaymentsbyDirectDebit();
-
-	public String receivedPaymentsbyMastercard();
-
-	public String receivedPaymentsbyOnlineBanking();
-
-	public String receivedPaymentsbyStandingOrder();
-
-	public String receivedPaymentsbySwitchMaestro();
-
-	public String allCreditMemos();
-
-	public String openCreditMemos();
-
-	public String allCustomerRefunds();
-
-	public String refundsByCash();
-
-	public String refundsByCheck();
-
-	public String refundsByCreditCard();
-
-	public String allcashSales();
-
-	public String allTransactions();
-
-	public String customerCentre(String Customer);
-
-	public String pleaseSelectAnyPayee(String Customer);
-
-	public String reconciliationsReport();
-
-	public String reconcilationDetailByAccount();
-
-	public String chequeParameters();
-
-	public String size();
-
-	public String pageFormats();
-
-	public String chequeSize();
-
-	public String noteAllDimensions();
-
-	public String nameOfPayee();
-
-	public String amountInWordsLineOne();
-
-	public String amountInWordsLineTwo();
-
-	public String authorisedSignatory();
-
-	public String forCompany();
-
-	public String chequeDate();
-
-	public String amountInFigures();
-
-	public String chequeWidth();
-
-	public String chequeHeight();
-
-	public String chequePrintSetting();
-
-	public String attachmentName();
-
-	public String attachmentSize();
-
-	public String creatorName();
-
-	public String uploadAttachment();
-
-	public String automaticallyApplycredits();
-
-	public String creditsApply();
-
-	public String depositTo();
-
-	public String companies();
-
-	public String budgetvsActuals();
-
-	public String accountsVsMonths();
-
-	public String accountsVsQuaters();
-
-	public String accountsVsTotal();
-
-	public String actual();
-
-	public String remaining();
-
-	public String ofBudget();
-
-	public String overBudget();
-
-	public String trackOrChargeTax();
-
-	public String normalFormat();
-
-	public String negativeNumberWithInTheParathesis();
-
-	public String negativeNumberMinusWithInTheParathesis();
-
-	public String numberWithTrailingMinus();
-
-	public String normalFormatComment();
-
-	public String negativeNumberWithInTheParathesisComment();
-
-	public String negativeNumberMinusWithInTheParathesisComment();
-
-	public String numberWithTrailingMinusComment();
-
-	public String decimalDigitLimit();
-
-	public String newcashExpenses();
-
-	public String newCreditCardExpenses();
-
-	public String cashExpensesList();
-
-	public String creditCardExpensesList();
-
-	public String quoteTemplate();
-
-	public String quoteTitle();
-
-	public String QuoteOverDueTitle();
-
-	public String quoteNo();
-
-	public String includeVATwithAmountenabled();
-
-	public String includeVATwithAmountDisabled();
-
-	public String totalTax();
-
-	public String customersAndSales(String customers);
-
-	public String numberFormat();
-
-	public String negativeNumberFormat();
-
-	public String nameAddress();
-
-	public String numberShouldNotBeEmptyOr0();
-
-	public String vendorCentre(String vendor);
-
-	public String allBills();
-
-	public String openedBills();
-
-	public String cheques();
-
-	public String allcheques();
-
-	public String allPurchaseOrders();
-
-	public String openPurchaseOrders();
-
-	public String allCashPurchases();
-
-	public String allCreditCardExpenses();
-
-	public String allCashExpenses();
-
-	public String payeeSelected(String payee);
-
-	public String accountBalances();
-
-	public String topCustomersBySales(String customer);
-
-	public String topVendorsByExpense(String vendor);
-
-	public String topItemsBySales();
-
-	public String noOfTransactions();
-
-	public String trackDiscount();
-
-	public String discountInAllTransaction();
-
-	public String onePerTransactionDescription();
-
-	public String onePerDetailLineDescription();
-
-	public String currencySymbol();
-
-	public String depositTotal();
-
-	public String createInvoicesAndBills();
-
-	public String billsAndPayments();
-
-	public String bankingAndReconcialiation();
-
-	public String changeCompanySettings();
-
-	public String manageAccounts();
-
-	public String financialAdviser();
-
-	public String viewReports();
-
-	public String youDontHavePermission();
-
-	public String levelOfAccess();
-
-	public String inventoryWarehouse();
-
-	public String readOnlyDesc();
-
-	public String adminDesc();
-
-	public String financialAdviserDesc();
-
-	public String limit();
-
-	public String incomes();
-
-	public String yearOverYearIncome();
+	public String yearly();
 
 	public String yearOverYearExpense();
 
-	public String AAccountNumbershoublebeanumber();
+	public String yearOverYearIncome();
 
-	public String AccounterLoadingFailed();
+	public String years();
 
-	public String AAccountNumbershoublebepositive();
+	public String yearToDate();
 
-	public String ActualAmountfromlastfiscalyear();
+	public String yes();
 
-	public String ActualAmountfromthisfiscalyear();
+	public String youcannotchangeaCustomertypetoVendortype(String customer,
+			String vendor);
 
-	public String StartfromScratch();
+	public String youCannotDeleteItemsGroup();
 
-	public String CopyfromExistingBudget();
+	public String youCannotEdiClosedFiscalYear();
 
-	public String DontSubdevide();
+	public String youcannotEditDeleteDefaultTerms();
 
-	public String Class();
+	public String youCannotSaveAblankRecurringTemplate();
 
-	public String CopyvaluesfromExistingBudget();
+	public String youCantDeleteYourSelf();
 
-	public String ManageCustomFields();
+	public String youCantEdit(String transactionName);
 
-	public String CustomField();
+	public String youcanteditreceivePaymentitisvoidedordeleted();
 
-	public String CustomFieldstext();
+	public String youcantsavepaybillwith0amount();
 
-	public String ASupplierAccountNumbershoublebeanumber();
+	public String youcantvoidJournalEntrycreatedbyrunningDeprecation();
 
-	public String ASupplierAccountNumbershoublebepositive();
+	public String youdnthaveBalToApplyCredits();
 
-	public String inventoryPart();
+	public String youDntHavePermissionToDoThis();
 
-	public String SubTotal();
+	public String youDontHaveAny(String recordName);
 
-	public String inventoryAssembly();
+	public String youdonthaveanyfiledVATentriestoselect();
 
-	public String NonInventory();
+	public String youDontHaveAnyItemsToTransfer();
 
-	public String clientAddresshome();
+	public String youDontHavePermission();
 
-	public String QuickAdd();
+	public String youdonthavepermissionstodeleteuser();
 
-	public String AddAllInfo();
+	public String youdontHavepermissiosToinviteUser();
 
-	public String AddBudgetfor(String accountsName);
+	public String youHaveEnteredduplicateContacts();
 
-	public String AddLocation();
+	public String youHaveEnteredWrongPassword();
 
-	public String AdvanceBudgetCalculation();
+	public String yourpasswordmustbeatleast6characterslong();
 
-	public String Saveasdraft();
+	public String yourPresentPasswordisWrong();
 
-	public String CalendarDaysAnnualAmountNoofDaysinMonth365or366();
-
-	public String CalendarMonthAnnualAmount12();
-
-	public String sport();
-
-	public String RoundOffBudgetAmountto();
-
-	public String NearestAmount();
-
-	public String NearestTen();
-
-	public String NearestHundred();
-
-	public String Quarters();
-
-	public String Approveandsend();
-
-	public String Modifiedby(String userName, String dateformat,
-			String timeFormat);
-
-	public String clientTDSChalanDetail();
-
-	public String customerListCouldBeInitiated();
-
-	public String cashoraccural();
-
-	public String DateFormat();
-
-	public String DateFormats();
-
-	public String Example();
-
-	public String ExpensesbyCustomer(String customer);
-
-	public String Expenseandproductservicetrackingbycustomer(String customer);
-
-	public String Usebillableexpensesandproductsservices();
-
-	public String FiscalTaxYear();
-
-	public String ItemizebyProductService();
-
-	public String ItemizebyAccount();
-
-	public String ListofPaymentTermsCouldNotBeInitiated();
-
-	public String transactionNumberCouldNotBeInitiated();
-
-	public String listofShippingMethodsCouldNotBeInitiated();
-
-	public String listofPaymentMethodsCouldNotBeInitiated();
-
-	public String listofTaxGroupsCouldNotBeInitiated();
-
-	public String payeeListCouldBeInitiated();
-
-	public String listofShippingTermsCouldNotBeInitiated();
-
-	public String listofItemsCouldNotBeInitiated();
-
-	public String priceLevelsCouldNotBeInitiated();
-
-	public String PlainTemplate();
-
-	public String ModernTemplate();
-
-	public String ProfessionalTemplate();
-
-	public String Template();
-
-	public String Thenameyouentered(String text);
-
-	public String Doyoudoshipping();
-
-	public String Thisoptioncanbeusedtoenable();
-
-	public String AutoRecall();
-
-	public String ERROR();
-
-	public String INFORMATION();
-
-	public String Get();
-
-	public String WARNING();
-
-	public String ThisisatemplateusedinRecurring();
-
-	public String Clickhere();
-
-	public String tochangetherecurringschedule();
-
-	public String Unabletoopenrecurringtransactio();
-
-	public String primaryCurrencyIdisZero();
-
-	public String chooseFile();
-
-	public String onvaluechangecalled();
-
-	public String DebtorsTotal();
-
-	public String NoBudgetadded();
-
-	public String NewCustomer();
-
-	public String THOUSAND();
-
-	public String MILLION();
-
-	public String BILLION();
-
-	public String TRILLION();
-
-	public String ZERO();
-
-	public String ONE();
-
-	public String TWO();
-
-	public String THREE();
-
-	public String FOUR();
-
-	public String FIVE();
-
-	public String SIX();
-
-	public String SEVEN();
-
-	public String EIGHT();
-
-	public String NINE();
-
-	public String TEN();
-
-	public String ELEVEN();
-
-	public String TWELVE();
-
-	public String THIRTEEN();
-
-	public String TOURTEEN();
-
-	public String TIFTEEN();
-
-	public String TIXTEEN();
-
-	public String SEVENTEEN();
-
-	public String EIGHTEEN();
-
-	public String NINETEEN();
-
-	public String TWENTY();
-
-	public String THIRTY();
-
-	public String FORTY();
-
-	public String FIFTY();
-
-	public String SIXTY();
-
-	public String SEVENTY();
-
-	public String EIGHTY();
-
-	public String NINTY();
-
-	public String HUNDRED();
-
-	public String Numbers();
-
-	public String gotoRecurringTransactionsList();
-
-	public String keepWorkingOnThisTransaction();
-
-	public String Pleaseenterthecontactname();
-
-	public String pleaseConfirm();
-
-	public String selectTransactionType();
-
-	public String toCreate();
+	public String yourTitle();
 
 	public String youSuccessfullyCreatedRecurringTemplate();
 
-	public String width();
+	public String ZERO();
 
-	public String currencyFormat();
+	public String zeroAmount();
 
-	public String positive();
+	public String zipCode();
 
-	public String negative();
-
-	public String decimalSymbol();
-
-	public String noOfDigitsAfterDecimal();
-
-	public String digitGroupingDecimal();
-
-	public String digitGrouping();
-
-	public String postiveCurrencyFormat();
-
-	public String negativeCurrencyFormat();
-
-	public String SimpletogetStarted();
-
-	public String NoCreditcardrequired();
-
-	public String Freetosingup();
-
-	public String Cancelatanytime();
-
-	public String Benfits();
-
-	public String Accessfromanywhere();
-
-	public String Multiplecompanies();
-
-	public String PrintReportsInvocies();
-
-	public String companyNameAlreadyExits();
-
-	public String acceptEstimate();
-
-	public String billsAndExpenses();
-
-	public String allQuotes();
-
-	public String allCredits();
-
-	public String allCahrges();
-
-	public String exampleFormat();
-
-	public String profitAndLossByLocation(String location);
-
-	public String noPayeeSelected(String payee);
-
-	public String objectAlreadyDeleted();
-
-	public String trackingDiscountsDisabled();
-
-	public String trackingDiscountsEnabled();
-
-	public String changeCurrencyFormat();
+	public String ztozeroperc();
 
 }
