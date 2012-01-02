@@ -407,9 +407,7 @@ public abstract class TransactionItemTableRequirement extends
 
 	protected abstract double getCurrencyFactor();
 
-	protected abstract Payee getPayee();
+	// protected abstract Payee getPayee();
 
-	protected Currency getCurrency() {
-		return getPayee().getCurrency();
-	}
+	protected abstract Currency getCurrency();
 }
