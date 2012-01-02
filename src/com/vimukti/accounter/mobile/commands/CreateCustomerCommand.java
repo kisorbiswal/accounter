@@ -53,8 +53,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreateCustomerCommand extends AbstractCommand {
 
-	protected static final String NUMBER = "customerNumber";
-	protected static final String BALANCE = "balance";
+	private static final String NUMBER = "customerNumber";
+	private static final String BALANCE = "balance";
 	private static final String PHONE = "phone";
 	private static final String FAX = "fax";
 	private static final String EMAIL = "email";
@@ -98,9 +98,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 				getMessages().payeeName(Global.get().Customer()), false, true) {
 			@Override
 			public void setValue(Object value) {
-				if (customer.getID() == 0
-						&& CreateCustomerCommand.this
-								.isCustomerExists((String) value)) {
+				if (CreateCustomerCommand.this.isCustomerExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
 					addFirstMessage(getMessages().pleaseEnter(
 							getMessages().payeeName(Global.get().Customer())));
