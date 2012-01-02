@@ -298,8 +298,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		DynamicForm emptyPanel = new DynamicForm();
 		emptyPanel.setWidth("10%");
 		itemHPanel.add(emptyPanel);
-		AccounterDOM.setAttribute(emptyPanel.getElement(), messages.width(),
-				"10%");
+		AccounterDOM.setAttribute(emptyPanel.getElement(), "width", "10%");
 		itemHPanel.add(purchaseInfoVPanel);
 
 		VerticalPanel itmInfoVPanel = new VerticalPanel();

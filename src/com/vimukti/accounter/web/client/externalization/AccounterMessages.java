@@ -5179,8 +5179,6 @@ public interface AccounterMessages extends Messages {
 
 	public String weight();
 
-	public String welcome();
-
 	public String welcomeToStartup();
 
 	public String wentoutofbusiness();
