@@ -3,10 +3,10 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -74,7 +74,7 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			for (Entry<String, String> entrySet : keyAndValues.entrySet()) {
 				String value = entrySet.getValue();
-				if (value.contains("'")) {
+				if (value != null && value.contains("'")) {
 					value = value.replace("'", "\\'");
 					entrySet.setValue(value);
 				}
