@@ -2389,31 +2389,23 @@ public class ClientCompany implements IAccounterCore {
 
 	public ClientFinanceDate getCurrentFiscalYearStartDate() {
 
+		Calendar cal = Calendar.getInstance();
 		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
-		startDate.setDay(1);
+		cal.setTime(startDate.getDateAsObject());
+		cal.set(Calendar.MONTH, preferences.getFiscalYearFirstMonth());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
 
-		// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		// boolean isCurrentOne = false;
-		// for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-		// isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-		// .get(i).getEndDate())
-		// && new ClientFinanceDate().after(clientFiscalYears.get(i)
-		// .getStartDate());
-		// if (isCurrentOne)
-		// return clientFiscalYears.get(i).getStartDate();
-		// }
-		// if (!isCurrentOne) {
-		// return getLastandOpenedFiscalYearStartDate();
-		// }
+		while (new ClientFinanceDate(cal.getTime())
+				.after(new ClientFinanceDate())) {
+			cal.add(Calendar.YEAR, -1);
+		}
+		startDate = new ClientFinanceDate(cal.getTime());
 		return startDate;
 	}
 
 	public ClientFinanceDate getCurrentFiscalYearEndDate() {
 
-		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
-		startDate.setDay(1);
+		ClientFinanceDate startDate = getCurrentFiscalYearStartDate();
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate.getDateAsObject());
@@ -2424,19 +2416,6 @@ public class ClientCompany implements IAccounterCore {
 
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
 
-		// List<ClientFiscalYear> clientFiscalYears = getFiscalYears();
-		// boolean isCurrentOne = false;
-		// for (int i = clientFiscalYears.size() - 1; i >= 0; i--) {
-		// isCurrentOne = new ClientFinanceDate().before(clientFiscalYears
-		// .get(i).getEndDate())
-		// && new ClientFinanceDate().after(clientFiscalYears.get(i)
-		// .getStartDate());
-		// if (isCurrentOne)
-		// return clientFiscalYears.get(i).getEndDate();
-		// }
-		// if (!isCurrentOne) {
-		// return getLastandOpenedFiscalYearEndDate();
-		// }
 		return endDate;
 	}
 
