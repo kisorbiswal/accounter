@@ -103,7 +103,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 		if (config.getPageName() == null) {
 			config.setPageName(name);
 		}
-		Accounter.createHomeService().savePortletConfig(config,
+		Accounter.createHomeService().savePortletPageConfig(config,
 				new AsyncCallback<Boolean>() {
 
 					@Override
@@ -122,7 +122,7 @@ public class PortletPage extends AbsolutePanel implements DragHandler {
 				});
 	}
 
-	private void updateConfiguration() {
+	public void updateConfiguration() {
 		ArrayList<ClientPortletConfiguration> configs = new ArrayList<ClientPortletConfiguration>();
 		for (PortletColumn column : columns) {
 			for (Portlet portlet : column.getPortlets()) {

@@ -9,6 +9,7 @@ public class ClientPortletPageConfiguration implements IAccounterCore {
 	 * 
 	 */
 	private static final long serialVersionUID = -7636165785304294651L;
+	private long id;
 	private int columns;
 	private String pageName;
 	List<ClientPortletConfiguration> portlets = new ArrayList<ClientPortletConfiguration>();
@@ -86,6 +87,14 @@ public class ClientPortletPageConfiguration implements IAccounterCore {
 
 	public void setPageName(String pageName) {
 		this.pageName = pageName;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }

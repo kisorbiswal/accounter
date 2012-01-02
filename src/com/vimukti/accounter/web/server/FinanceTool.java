@@ -73,6 +73,7 @@ import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayTAX;
 import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.ReceiveVAT;
@@ -121,6 +122,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
@@ -3346,6 +3348,9 @@ public class FinanceTool {
 				serverObj = new PortletPageConfiguration();
 				serverObj.setUser(user);
 			}
+			if (serverObj.getID() != 0) {
+				pageConfiguration.setId(serverObj.getID());
+			}
 			serverObj = new ServerConvertUtil().toServerObject(serverObj,
 					(IAccounterCore) pageConfiguration, session);
 			session.saveOrUpdate(serverObj);
@@ -4003,6 +4008,29 @@ public class FinanceTool {
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+	}
+
+	public boolean savePortletConfiguration(
+			ClientPortletConfiguration configuration) {
+		if (configuration == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			PortletConfiguration serverObj = new PortletConfiguration();
+			serverObj = new ServerConvertUtil().toServerObject(serverObj,
+					(IAccounterCore) configuration, session);
+			session.saveOrUpdate(serverObj);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			tx.rollback();
+			return false;
+		} finally {
 		}
 	}
 }

@@ -93,8 +93,8 @@ public class TopPayeesBySalesPortlet extends Portlet {
 			public void setDefaultDateRange(String defaultDateRange) {
 				dateRangeItemCombo.setSelected(defaultDateRange);
 				dateRangeChanged(defaultDateRange);
-				TopPayeesBySalesPortlet.this.updateData(getStartDate(),
-						getEndDate(), "5");
+				TopPayeesBySalesPortlet.this
+						.updateData(startDate, endDate, "5");
 			}
 		};
 		this.body.add(toolBar);

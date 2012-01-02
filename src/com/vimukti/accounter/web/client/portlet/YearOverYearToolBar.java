@@ -73,7 +73,7 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 								selectItem.getID());
 					}
 				});
-		if (getSelectedItem().size() != 1
+		if (getSelectedItem().size() != 1&& getSelectedItem().get(1) != null
 				&& Long.parseLong(getSelectedItem().get(1)) != 0) {
 			accountCombo.setSelected(Accounter.getCompany()
 					.getAccount(Long.parseLong(getSelectedItem().get(1)))

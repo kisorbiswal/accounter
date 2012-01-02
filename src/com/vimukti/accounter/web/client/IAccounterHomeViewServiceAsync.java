@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -411,7 +412,7 @@ public interface IAccounterHomeViewServiceAsync {
 	void getSearchResultByInput(SearchInput input, int start, int length,
 			AsyncCallback<PaginationList<SearchResultlist>> callBack);
 
-	public void savePortletConfig(ClientPortletPageConfiguration config,
+	public void savePortletPageConfig(ClientPortletPageConfiguration config,
 			AsyncCallback<Boolean> callback);
 
 	public void getMostRecentTransactionCurrencyFactor(long companyId,
@@ -500,5 +501,9 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void getResponsiblePersonDetails(
 			AsyncCallback<ArrayList<ClientTDSResponsiblePerson>> accounterAsyncCallback);
+
+	public void savePortletConfiguration(
+			ClientPortletConfiguration configuration,
+			AsyncCallback<Boolean> asyncCallback);
 
 }
