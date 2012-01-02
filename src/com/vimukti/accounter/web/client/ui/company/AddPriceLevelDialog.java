@@ -36,8 +36,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 		levelText = new TextItem(messages.priceLevel());
 		levelText.setHelpInformation(true);
 		levelText.setRequired(true);
-		percentText = new PercentageField(this, messages
-				.percentage());
+		percentText = new PercentageField(this, messages.percentage());
 		percentText.setHelpInformation(true);
 		percentText.setPercentage(1.0);
 		percentText.setRequired(true);
@@ -53,8 +52,7 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 				messages.increasePriceLevelByThisPercentage());
 		levelRadio.setDefaultValue(messages
 				.increasePriceLevelByThisPercentage());
-		setIncrOrDecrPercentValue(messages
-				.increasePriceLevelByThisPercentage());
+		setIncrOrDecrPercentValue(messages.increasePriceLevelByThisPercentage());
 		nameDescForm = new DynamicForm();
 		nameDescForm.setFields(levelText, percentText, levelRadio);
 		nameDescForm.setSize("100%", "100%");
@@ -116,6 +114,11 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 	public void setFocus() {
 		levelText.setFocus();
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }
