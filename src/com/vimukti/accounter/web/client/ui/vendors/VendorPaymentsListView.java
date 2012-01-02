@@ -93,15 +93,6 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	protected void filterList(String text) {
 
 		grid.removeAllRecords();
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
-			viewType = ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
-			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
-			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
-			viewType = ClientTransaction.TYPE_ALL;
-		}
 		onPageChange(0, getPageSize());
 	}
 
@@ -138,8 +129,21 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
+		checkViewType();
 		Accounter.createHomeService().getVendorPaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(), start,
 				length, viewType, this);
+	}
+
+	public void checkViewType() {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+			this.viewType = ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
+			this.viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
+			this.viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+			this.viewType = ClientTransaction.TYPE_ALL;
+		}
 	}
 }
