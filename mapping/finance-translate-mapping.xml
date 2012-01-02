@@ -40,7 +40,7 @@
 			<key column="MESSAGE_ID" />
 			<one-to-many class="LocalMessage" />
 		</set>
-		<set name="keys" table="KEY_MESSAGES" lazy="false" cascade="all">
+		<set name="keys" table="KEY_MESSAGES" lazy="false" cascade="save-update">
 			<key column="MESSAGE_ID"></key>
 			<many-to-many column="KEY_ID" class="Key" />
 		</set>
@@ -244,7 +244,7 @@
 		SELECT COUNT(*) FROM MESSAGE M WHERE (SELECT COUNT(*) FROM
 		LOCAL_MESSAGE LM
 		WHERE LM.MESSAGE_ID=M.ID AND LM.LANGUAGE=:lang AND
-		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm 
+		LM.IS_APPROVED=TRUE)=0 AND M.VALUE LIKE :searchTerm
 	</sql-query>
 
 	<query name="getLanguageById">
