@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.List;
 import java.util.Set;
 
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -248,7 +249,27 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateOnWhichTaxCollected() {
-		return Long.toString(transactionItems.getTransactionDate());
+		ClientFinanceDate date = new ClientFinanceDate(
+				transactionItems.getTransactionDate());
+
+		String day1, month1, year1;
+		if (Integer.toString(date.getDay()).length() < 2) {
+			day1 = "0" + Integer.toString(date.getDay());
+		} else {
+			day1 = Integer.toString(date.getDay());
+		}
+		if (Integer.toString(date.getMonth()).length() < 2) {
+			month1 = "0" + Integer.toString(date.getMonth());
+		} else {
+			month1 = Integer.toString(date.getMonth());
+		}
+		if (Integer.toString(date.getYear()).length() < 2) {
+			year1 = "0" + Integer.toString(date.getYear());
+		} else {
+			year1 = Integer.toString(date.getYear());
+		}
+
+		return day1 + month1 + year1;
 	}
 
 	/**
@@ -257,7 +278,28 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateonWhichAmountPaid() {
-		return Long.toString(transactionItems.getTransactionDate());
+
+		ClientFinanceDate date = new ClientFinanceDate(
+				transactionItems.getTransactionDate());
+
+		String day1, month1, year1;
+		if (Integer.toString(date.getDay()).length() < 2) {
+			day1 = "0" + Integer.toString(date.getDay());
+		} else {
+			day1 = Integer.toString(date.getDay());
+		}
+		if (Integer.toString(date.getMonth()).length() < 2) {
+			month1 = "0" + Integer.toString(date.getMonth());
+		} else {
+			month1 = Integer.toString(date.getMonth());
+		}
+		if (Integer.toString(date.getYear()).length() < 2) {
+			year1 = "0" + Integer.toString(date.getYear());
+		} else {
+			year1 = Integer.toString(date.getYear());
+		}
+
+		return day1 + month1 + year1;
 	}
 
 	/**
@@ -726,7 +768,28 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateofBankChalanNo() {
-		return Long.toString(chalanDetails.getDateTaxPaid());
+		ClientFinanceDate date = new ClientFinanceDate(
+				chalanDetails.getDateTaxPaid());
+
+		String day1, month1, year1;
+		if (Integer.toString(date.getDay()).length() < 2) {
+			day1 = "0" + Integer.toString(date.getDay());
+		} else {
+			day1 = Integer.toString(date.getDay());
+		}
+		if (Integer.toString(date.getMonth()).length() < 2) {
+			month1 = "0" + Integer.toString(date.getMonth());
+		} else {
+			month1 = Integer.toString(date.getMonth());
+		}
+		if (Integer.toString(date.getYear()).length() < 2) {
+			year1 = "0" + Integer.toString(date.getYear());
+		} else {
+			year1 = Integer.toString(date.getYear());
+		}
+
+		return day1 + month1 + year1;
+
 	}
 
 	/**
