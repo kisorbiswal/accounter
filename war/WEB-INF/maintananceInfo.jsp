@@ -1,7 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
+<%@page pageEncoding="UTF-8" %>
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title> <i18n:i18n msg='underMaintanance'/>| Accounter
 </title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />

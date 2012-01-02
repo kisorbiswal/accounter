@@ -1,5 +1,7 @@
+<%@page pageEncoding="UTF-8" %>
 <html>
 <head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>  Accounter Under Maintanance
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible">

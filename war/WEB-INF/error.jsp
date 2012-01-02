@@ -1,3 +1,4 @@
+<%@page pageEncoding="UTF-8" %>
 <html>
     <head>
        <title>Accounter</title>
