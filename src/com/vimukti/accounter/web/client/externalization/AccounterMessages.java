@@ -5324,4 +5324,6 @@ public interface AccounterMessages extends Messages {
 
 	public String of();
 
+	public String pleaseEnterValidLocationName(String locationName);
+
 }

@@ -80,15 +80,15 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 
 	public void showAddEditGroupDialog(ClientLocation rec) {
 		clientLocation = rec;
-		locationGroupDg = new NewLocationDialog(this, messages
-				.locationTracking(Global.get().Location()), "", clientLocation);
+		locationGroupDg = new NewLocationDialog(this,
+				messages.locationTracking(Global.get().Location()), "",
+				clientLocation);
 		locationGroupDg.show();
 	}
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { messages.locationName(
-				Global.get().Location()), };
+		return new String[] { messages.locationName(Global.get().Location()), };
 	}
 
 	@Override
@@ -128,7 +128,8 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 		ValidationResult result = new ValidationResult();
 		String name = locationGroupDg.getLocationGroupName().trim();
 		if (name.isEmpty())
-			result.addError(this, "Please Enter Valid Location Name");
+			result.addError(this, messages.pleaseEnterValidLocationName(Global
+					.get().Location()));
 		if (clientLocation != null) {
 			String locationGroupName = clientLocation.getName();
 			ClientLocation groupByName = company.getLocationByName(name);
@@ -141,8 +142,8 @@ public class LocationGroupListDialog extends GroupDialog<ClientLocation> {
 			ClientLocation locationGroupByName = company
 					.getLocationByName(name);
 			if (locationGroupByName != null) {
-				result.addError(this, messages
-						.aLocationAlreadyExistswiththisname());
+				result.addError(this,
+						messages.aLocationAlreadyExistswiththisname());
 			}
 		}
 
