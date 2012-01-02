@@ -182,7 +182,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
 											<option value="India">India</option>
-											<option value="">---------------------</option>
+											<option value="" disabled>---------------------</option>
 											<option value="Afghanistan">Afghanistan</option>
 											<option value="Albania">Albania</option>
 											<option value="Algeria">Algeria</option>
@@ -434,6 +434,15 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   
 	 </div>
+	 <div>
+	 <form id="openIdForm" method="post" action="/main/openid">
+	 <div>
+	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
+	   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
+	   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
+	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
+	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
+	   </form>
 	 <div class="signup-right">
 	     <div class="simple-get-started">
 	        <h3><i18n:i18n msg='SimpletogetStarted'/>:</h3>
@@ -451,7 +460,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	          <li><i18n:i18n msg='PrintReportsInvocies'/></li>
 	        </ul>
 	     </div>
-	 </div>
+	 </div></div>
 	   
 	</form>
   </c:if>
