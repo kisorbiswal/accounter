@@ -9,16 +9,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CaptionPanel;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -59,12 +53,10 @@ public class SearchInputDialog extends BaseDialog {
 	List<ClientAccount> accounts;
 	private AmountField amountField;
 	private SimplePager pager;
-	private DecoratedTabPanel tabPanel;
 
-	private final String[] transactionNames = { messages.all(),
-			messages.bill(), messages.billPayment(), messages.cashExpense(),
-			messages.charge(), messages.creditCardExpense(),
-			messages.creditCardCharge(),
+	private String[] transactionNames = { messages.all(), messages.bill(),
+			messages.billPayment(), messages.cashExpense(), messages.charge(),
+			messages.creditCardExpense(), messages.creditCardCharge(),
 			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
 			messages.cashSale(), messages.deposit(), messages.estimate(),
@@ -102,30 +94,8 @@ public class SearchInputDialog extends BaseDialog {
 			messages.exact(), messages.greater(), messages.Less() };
 	private final String[] searchByVatOptions = { messages.Account(),
 			messages.date(), messages.descOrMemo() };
-	private final String[] advanceFilterOptions = { messages.Account(),
-			messages.amount(), messages.date(), messages.item(),
-			messages.memo(), messages.name(), messages.number(),
-			messages.transactionType(), messages.ageing(), "Filed Date",
-			"Sales Tax Return Line", "Billing Status", "Class", "Cleared",
-			messages.customer() + messages.type(), "Detail Level",
-			messages.dueDate(), "Entered/Modified",
-			messages.estimate() + messages.active(), "F.O.B", "P.O.Number",
-			messages.jobTitle(), messages.name(), messages.streetAddress1(),
-			messages.streetAddress2(), messages.city(), "Province",
-			messages.postalCode(), messages.phoneNumber(),
-			messages.faxNumber(), messages.email(),
-			messages.accountNumber() + "/" + messages.note(), "Online Status",
-			messages.paid() + messages.status(), messages.paid() + "Through",
-			messages.paymentMethod(), "Payroll Item", "Posting Status",
-			"Printed Status", messages.received(), "Rep",
-			messages.salesTax() + messages.code(), messages.shipTo(),
-			"Ship Via", messages.templates(), messages.terms(),
-			messages.vendor() + messages.type(), messages.voided(),
-			"Is Adjustment" };
 
 	private TextItem findByItem;
-	private CaptionPanel captionPanel;
-	private ListBox filterList;
 
 	public SearchInputDialog(String string) {
 		super(string);
@@ -133,39 +103,7 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	public void createControls() {
-		tabPanel = new DecoratedTabPanel();
-		tabPanel.add(getSimplePanel(), "Simple");
-		tabPanel.add(getAdvanceTab(), "Advanced");
-		tabPanel.selectTab(0);
-		SimplePanel panel = new SimplePanel();
-		panel.add(tabPanel);
-		buttonPanel = new VerticalPanel();
-		buttonPanel.setSpacing(5);
-		buttonPanel.setHorizontalAlignment(HasAlignment.ALIGN_RIGHT);
-		findButton = new Button(messages.find());
-		findButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				makeResult();
-			}
-		});
-		closeButton = new Button(messages.close());
-		closeButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				close();
-			}
-		});
-		buttonPanel.add(findButton);
-		buttonPanel.add(closeButton);
-		buttonPanel.addStyleName("search_buttons");
-		setBodyLayout(panel);
-		setBodyLayout(buttonPanel);
-	}
-
-	private VerticalPanel getSimplePanel() {
 		mainForm = new DynamicForm();
 		typePanel = new HorizontalPanel();
 		transactionTypeCombo = new SelectCombo(messages.transactionType());
@@ -230,9 +168,34 @@ public class SearchInputDialog extends BaseDialog {
 		allFormPanel.add(findbyForm);
 		allFormPanel.add(matchIfForm);
 		allFormPanel.addStyleName("search_textbox_labels");
+
+		buttonPanel = new VerticalPanel();
+		buttonPanel.setSpacing(5);
+		buttonPanel.setHorizontalAlignment(HasAlignment.ALIGN_RIGHT);
+		findButton = new Button(messages.find());
+		findButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				makeResult();
+			}
+		});
+		closeButton = new Button(messages.close());
+		closeButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				close();
+			}
+		});
+		buttonPanel.add(findButton);
+		buttonPanel.add(closeButton);
+		buttonPanel.addStyleName("search_buttons");
+
 		panel = new HorizontalPanel();
 		panel.setStyleName("search-all-forms");
 		panel.add(allFormPanel);
+		panel.add(buttonPanel);
 
 		labelItem = new Label();
 		labelItem.setStyleName("label-status");
@@ -255,40 +218,6 @@ public class SearchInputDialog extends BaseDialog {
 		super.setHeight("200px");
 		setBodyLayout(mainPanel);
 		mainPanel.getElement().getParentElement().addClassName("search-width");
-		return mainPanel;
-	}
-
-	@SuppressWarnings("deprecation")
-	private HorizontalPanel getAdvanceTab() {
-		HorizontalPanel panel = new HorizontalPanel();
-		VerticalPanel chooseFilterPanel = new VerticalPanel();
-		Label filterLabel = new Label(messages.filter() + ":");
-		chooseFilterPanel.add(filterLabel);
-		captionPanel = new CaptionPanel("Choose Filter");
-		filterList = new ListBox();
-		filterList.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void onChange(Widget sender) {
-				addFilterSubOptionsToCaptionPanel();
-			}
-		});
-		filterList.setTitle("Filter:");
-		for (String str : advanceFilterOptions) {
-			filterList.addItem(str);
-		}
-		filterList.setVisibleItemCount(6);
-		chooseFilterPanel.add(filterList);
-		captionPanel.add(chooseFilterPanel);
-		panel.add(captionPanel);
-		return panel;
-	}
-
-	protected void addFilterSubOptionsToCaptionPanel() {
-		String option = advanceFilterOptions[filterList.getSelectedIndex()];
-		if (option.equals(advanceFilterOptions[0])) {
-
-		}
 	}
 
 	protected int getSearchByType(String value) {
@@ -354,11 +283,6 @@ public class SearchInputDialog extends BaseDialog {
 		}
 
 		return 0;
-	}
-
-	@Override
-	protected boolean onCancel() {
-		return true;
 	}
 
 	protected void makeResult() {
