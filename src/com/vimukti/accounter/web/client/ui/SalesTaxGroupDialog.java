@@ -114,8 +114,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	private void setAvailTaxItemsGridFields() {
-		availTaxItemsGrid.addColumns(new String[] {
-				messages.name(),
+		availTaxItemsGrid.addColumns(new String[] { messages.name(),
 				messages.currentRate() });
 	}
 
@@ -124,8 +123,7 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	}
 
 	private void setSelectedTaxItemsGridFields() {
-		selectTaxItemsGrid.addColumns(new String[] {
-				messages.name(),
+		selectTaxItemsGrid.addColumns(new String[] { messages.name(),
 				messages.currentRate() });
 
 	}
@@ -476,6 +474,10 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 	// @Override
 	// public Object getGridColumnValue(IsSerializable obj, int index) {
 	// return null;

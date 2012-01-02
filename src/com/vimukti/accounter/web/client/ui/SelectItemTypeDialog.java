@@ -25,8 +25,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 	private String itemname;
 
 	public SelectItemTypeDialog(boolean isGeneratedFromCustomer) {
-		super(messages.selectItemType(), messages
-				.selectOneOfItem());
+		super(messages.selectItemType(), messages.selectOneOfItem());
 		this.forCustomer = isGeneratedFromCustomer;
 		createControls();
 		center();
@@ -55,7 +54,8 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				typeRadio.setDefaultValue(messages.inventoryItem());
 			}
 		} else {
-			typeRadio.setValueMap(messages.serviceItem(), messages.productItem());
+			typeRadio.setValueMap(messages.serviceItem(),
+					messages.productItem());
 			typeRadio.setDefaultValue(messages.serviceItem());
 		}
 
@@ -97,7 +97,7 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(messages.nonInventoryItem())) {
-				NewItemAction action = new NewItemAction( forCustomer);
+				NewItemAction action = new NewItemAction(forCustomer);
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.setCallback(getCallback());
@@ -129,5 +129,10 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 
 	public void setItemname(String itemname) {
 		this.itemname = itemname;
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 }

@@ -856,8 +856,10 @@ public class PayBill extends Transaction {
 	@Override
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(creditsAndPayments.getPayee().getAccount(),
-				creditsAndPayments.getEffectingAmount());
+		if (creditsAndPayments != null) {
+			map.put(creditsAndPayments.getPayee().getAccount(),
+					creditsAndPayments.getEffectingAmount());
+		}
 		if (this.payBillType != TYPE_VENDOR_PAYMENT) {
 			map.put(vendor.getAccount(), (total - unusedAmount) < 0 ? -1
 					* (total - unusedAmount) : (total - unusedAmount));
