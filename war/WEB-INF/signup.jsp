@@ -182,7 +182,6 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
 											<option value="India">India</option>
-											<option value="" disabled>---------------------</option>
 											<option value="Afghanistan">Afghanistan</option>
 											<option value="Albania">Albania</option>
 											<option value="Algeria">Algeria</option>
