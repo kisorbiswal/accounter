@@ -65,10 +65,9 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 											getCompanyId(), value.getCurrency()
 													.getID(),
 											new ClientFinanceDate().getDate());
-							CreateCreditCardChargeCommand.this
-									.get(CURRENCY_FACTOR)
-									.setValue(
-											mostRecentTransactionCurrencyFactor);
+							CreateCreditCardChargeCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -96,8 +95,8 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateCreditCardChargeCommand.this.get(
-						VENDOR).getValue();
+				Vendor vendor = (Vendor) CreateCreditCardChargeCommand.this
+						.get(VENDOR).getValue();
 				return vendor.getCurrency();
 			}
 
@@ -125,10 +124,9 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-
-				return (Vendor) CreateCreditCardChargeCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateCreditCardChargeCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -180,9 +178,9 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCreditCardChargeCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateCreditCardChargeCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -525,8 +523,9 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateCreditCardChargeCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreateCreditCardChargeCommand.this.get(VENDOR)
+				.getValue()).getCurrency();
 	}
 
 }

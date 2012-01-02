@@ -87,8 +87,9 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 				rec.add(getMessages().originalAmount(), Global.get()
 						.toCurrencyFormat(value.getOriginalAmount(), symbol));
 				rec.add(getMessages().balance(),
-						Global.get().toCurrencyFormat(value.getBalance(),
-								symbol));
+						Global.get().toCurrencyFormat(
+								value.getBalance() == null ? 0.0 : value
+										.getBalance(), symbol));
 				return rec;
 			}
 
@@ -112,6 +113,11 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 		});
 	}
 
+	/**
+	 * 
+	 * @param context
+	 * @return {@link List<BillsList>}
+	 */
 	protected List<BillsList> getListData(Context context) {
 		String viewBY = get(VIEW_BY).getValue();
 		ArrayList<BillsList> allRecords = new ArrayList<BillsList>();

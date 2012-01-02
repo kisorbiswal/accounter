@@ -225,8 +225,8 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateCashPurchaseCommand.this
-						.get(VENDOR).getValue();
+				Vendor vendor = (Vendor) CreateCashPurchaseCommand.this.get(
+						VENDOR).getValue();
 				return vendor.getCurrency();
 			}
 
@@ -346,9 +346,9 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCashPurchaseCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateCashPurchaseCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -385,9 +385,9 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCashPurchaseCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateCashPurchaseCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 		});
@@ -566,8 +566,9 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateCashPurchaseCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreateCashPurchaseCommand.this.get(VENDOR).getValue())
+				.getCurrency();
 	}
 
 }

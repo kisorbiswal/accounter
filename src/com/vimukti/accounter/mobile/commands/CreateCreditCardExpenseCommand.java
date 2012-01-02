@@ -55,9 +55,64 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		list.add(new AccountRequirement(PAY_FROM, getMessages()
+				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
+				false, false, new ChangeListner<Account>() {
+
+					@Override
+					public void onSelection(Account value) {
+						double mostRecentTransactionCurrencyFactor;
+						try {
+							mostRecentTransactionCurrencyFactor = CommandUtils
+									.getMostRecentTransactionCurrencyFactor(
+											getCompanyId(), value.getCurrency()
+													.getID(),
+											new ClientFinanceDate().getDate());
+							CreateCreditCardExpenseCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
+						} catch (AccounterException e) {
+							e.printStackTrace();
+						}
+
+					}
+				}) {
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().payFrom());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (obj.getIsActive()
+							&& obj.getType() == ClientAccount.TYPE_CREDIT_CARD) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(getMessages().Accounts());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return false;
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("createAccount", "Credit card"));
+			}
+		});
+
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseEnterName(
 				Global.get().Vendor()), getMessages().payeeName(
-				Global.get().Vendor()), false, true,
+				Global.get().Vendor()), true, true,
 				new ChangeListner<Vendor>() {
 
 					@Override
@@ -70,20 +125,6 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 								break;
 							}
 						}
-
-						try {
-							double mostRecentTransactionCurrencyFactor = CommandUtils
-									.getMostRecentTransactionCurrencyFactor(
-											getCompanyId(), value.getCurrency()
-													.getID(),
-											new ClientFinanceDate().getDate());
-							CreateCreditCardExpenseCommand.this.get(
-									CURRENCY_FACTOR).setValue(
-									mostRecentTransactionCurrencyFactor);
-						} catch (AccounterException e) {
-							e.printStackTrace();
-						}
-
 					}
 				}) {
 
@@ -108,15 +149,15 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateCreditCardExpenseCommand.this.get(
-						VENDOR).getValue();
-				return vendor.getCurrency();
+				Account account = (Account) CreateCreditCardExpenseCommand.this
+						.get(PAY_FROM).getValue();
+				return account.getCurrency();
 			}
 
 		});
 
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
 
 			@Override
@@ -138,9 +179,10 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCreditCardExpenseCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				Account account = (Account) CreateCreditCardExpenseCommand.this
+						.get(PAY_FROM).getValue();
+				return account.getCurrency();
 			}
 
 			@Override
@@ -193,14 +235,15 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCreditCardExpenseCommand.this.get(VENDOR)
-						.getValue();
+			protected boolean isTrackTaxPaidAccount() {
+				return false;
 			}
 
 			@Override
-			protected boolean isTrackTaxPaidAccount() {
-				return false;
+			protected Currency getCurrency() {
+				Account account = (Account) CreateCreditCardExpenseCommand.this
+						.get(PAY_FROM).getValue();
+				return account.getCurrency();
 			}
 
 		});
@@ -250,41 +293,6 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 			protected String getEmptyString() {
 				return getMessages().youDontHaveAny(
 						getMessages().paymentMethod());
-			}
-		});
-		list.add(new AccountRequirement(PAY_FROM, getMessages()
-				.pleaseSelectPayFromAccount(), getMessages().bankAccount(),
-				false, false, null) {
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().payFrom());
-			}
-
-			@Override
-			protected List<Account> getLists(Context context) {
-				List<Account> filteredList = new ArrayList<Account>();
-				for (Account obj : context.getCompany().getAccounts()) {
-					if (obj.getIsActive()
-							&& obj.getType() == ClientAccount.TYPE_CREDIT_CARD) {
-						filteredList.add(obj);
-					}
-				}
-				return filteredList;
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getMessages().Accounts());
-			}
-
-			@Override
-			protected boolean filter(Account e, String name) {
-				return false;
-			}
-
-			@Override
-			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createAccount", "Credit card"));
 			}
 		});
 
@@ -359,7 +367,8 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 			return new Result();
 		}
 		Vendor supplier = get(VENDOR).getValue();
-		creditCardCharge.setVendor(supplier.getID());
+		if (supplier != null)
+			creditCardCharge.setVendor(supplier.getID());
 
 		Contact contact = get(CONTACT).getValue();
 		creditCardCharge.setContact(toClientContact(contact));
@@ -378,8 +387,8 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		creditCardCharge.setPhone(phone);
 
-		Account account = get(PAY_FROM).getValue();
-		creditCardCharge.setPayFrom(account.getID());
+		Account payFromAccount = get(PAY_FROM).getValue();
+		creditCardCharge.setPayFrom(payFromAccount.getID());
 
 		ClientFinanceDate deliveryDate = get(DELIVERY_DATE).getValue();
 		creditCardCharge.setDeliveryDate(deliveryDate.getDate());
@@ -398,7 +407,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 		String memo = get(MEMO).getValue();
 		creditCardCharge.setMemo(memo);
-		creditCardCharge.setCurrency(supplier.getCurrency().getID());
+		creditCardCharge.setCurrency(payFromAccount.getCurrency().getID());
 		creditCardCharge.setCurrencyFactor((Double) get(CURRENCY_FACTOR)
 				.getValue());
 		updateTotals(context, creditCardCharge, false);
@@ -486,7 +495,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 						creditCardCharge.getPaymentMethodForCommands(),
 						getMessages()));
 		get(PHONE).setValue(creditCardCharge.getPhone());
-		get("payFrom").setValue(
+		get(PAY_FROM).setValue(
 				CommandUtils.getServerObjectById(creditCardCharge.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
 		ClientCompanyPreferences preferences = context.getPreferences();
@@ -496,7 +505,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 					getTaxCodeForTransactionItems(
 							creditCardCharge.getTransactionItems(), context));
 		}
-		get("deliveryDate").setValue(
+		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
 		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
 		get(MEMO).setValue(creditCardCharge.getMemo());
@@ -550,7 +559,8 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateCreditCardExpenseCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Account) CreateCreditCardExpenseCommand.this.get(PAY_FROM)
+				.getValue()).getCurrency();
 	}
 }

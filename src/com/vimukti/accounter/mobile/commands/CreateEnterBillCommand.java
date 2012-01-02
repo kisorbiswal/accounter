@@ -166,8 +166,8 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateEnterBillCommand.this.get(VENDOR)
-						.getValue();
+				Vendor vendor = (Vendor) CreateEnterBillCommand.this
+						.get(VENDOR).getValue();
 				return vendor.getCurrency();
 			}
 
@@ -278,8 +278,9 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateEnterBillCommand.this.get(VENDOR).getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateEnterBillCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -312,8 +313,9 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateEnterBillCommand.this.get(VENDOR).getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateEnterBillCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -531,8 +533,9 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateEnterBillCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreateEnterBillCommand.this.get(VENDOR).getValue())
+				.getCurrency();
 	}
 
 }

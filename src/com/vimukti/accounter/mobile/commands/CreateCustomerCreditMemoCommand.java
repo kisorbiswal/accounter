@@ -170,9 +170,9 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCustomerCreditMemoCommand.this.get(
-						CUSTOMER).getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCustomerCreditMemoCommand.this.get(
+						CUSTOMER).getValue()).getCurrency();
 			}
 
 			@Override
@@ -207,9 +207,9 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCustomerCreditMemoCommand.this.get(
-						CUSTOMER).getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCustomerCreditMemoCommand.this.get(
+						CUSTOMER).getValue()).getCurrency();
 			}
 
 		});
@@ -402,9 +402,9 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateCustomerCreditMemoCommand.this.get(CUSTOMER)
-				.getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateCustomerCreditMemoCommand.this.get(CUSTOMER)
+				.getValue()).getCurrency();
 	}
 
 }

@@ -11,7 +11,6 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -168,10 +167,9 @@ public class CreateCustomerRefundCommand extends AbstractTransactionCommand {
 											getCompanyId(), value.getCurrency()
 													.getID(),
 											new ClientFinanceDate().getDate());
-							CreateCustomerRefundCommand.this
-									.get(CURRENCY_FACTOR)
-									.setValue(
-											mostRecentTransactionCurrencyFactor);
+							CreateCustomerRefundCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -383,9 +381,9 @@ public class CreateCustomerRefundCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateCustomerRefundCommand.this.get(CUSTOMER)
-				.getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateCustomerRefundCommand.this.get(CUSTOMER)
+				.getValue()).getCurrency();
 	}
 
 }

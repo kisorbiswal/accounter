@@ -80,8 +80,8 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 						CreateCashSaleCommand.this.get(CONTACT).setValue(null);
 						for (Contact contact : value.getContacts()) {
 							if (contact.isPrimary()) {
-								CreateCashSaleCommand.this.get(CONTACT).setValue(
-										contact);
+								CreateCashSaleCommand.this.get(CONTACT)
+										.setValue(contact);
 								break;
 							}
 						}
@@ -145,9 +145,9 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCashSaleCommand.this.get(CUSTOMER)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCashSaleCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 
 		});
@@ -196,9 +196,9 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCashSaleCommand.this.get(CUSTOMER)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCashSaleCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -666,8 +666,9 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateCashSaleCommand.this.get(CUSTOMER).getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateCashSaleCommand.this.get(CUSTOMER).getValue())
+				.getCurrency();
 	}
 
 }

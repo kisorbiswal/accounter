@@ -9,7 +9,6 @@ import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.mobile.Context;
@@ -72,14 +71,15 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getMessages().Vendor()), getMessages().vendor(), false, true,
-				new ChangeListner<Vendor>() {
+		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
+				getMessages().bankAccount()), getMessages().bankAccount(),
+				false, false, new ChangeListner<Account>() {
 
 					@Override
-					public void onSelection(Vendor value) {
+					public void onSelection(Account value) {
+						double mostRecentTransactionCurrencyFactor;
 						try {
-							double mostRecentTransactionCurrencyFactor = CommandUtils
+							mostRecentTransactionCurrencyFactor = CommandUtils
 									.getMostRecentTransactionCurrencyFactor(
 											getCompanyId(), value.getCurrency()
 													.getID(),
@@ -91,11 +91,49 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
-
 					}
-				})
+				}) {
 
-		{
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().payFrom());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> filteredList = new ArrayList<Account>();
+				for (Account obj : context.getCompany().getAccounts()) {
+					if (new ListFilter<Account>() {
+
+						@Override
+						public boolean filter(Account e) {
+							return e.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET)
+											.contains(e.getType());
+						}
+					}.filter(obj)) {
+						filteredList.add(obj);
+					}
+				}
+				return filteredList;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages()
+						.youDontHaveAny(getMessages().bankAccount());
+			}
+
+			@Override
+			protected boolean filter(Account e, String name) {
+				return e.getName().contains(name);
+			}
+		});
+		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
+				getMessages().Vendor()), getMessages().vendor(), true, true,
+				null) {
 
 			@Override
 			protected String getSetMessage() {
@@ -123,9 +161,9 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateCashExpenseCommand.this.get(VENDOR)
-						.getValue();
-				return vendor.getCurrency();
+				Account account = (Account) CreateCashExpenseCommand.this.get(
+						PAY_FROM).getValue();
+				return account.getCurrency();
 			}
 
 		});
@@ -177,47 +215,7 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 						getMessages().paymentMethod());
 			}
 		});
-		list.add(new AccountRequirement(PAY_FROM, getMessages().pleaseSelect(
-				getMessages().bankAccount()), getMessages().bankAccount(),
-				false, false, null) {
 
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().payFrom());
-			}
-
-			@Override
-			protected List<Account> getLists(Context context) {
-				List<Account> filteredList = new ArrayList<Account>();
-				for (Account obj : context.getCompany().getAccounts()) {
-					if (new ListFilter<Account>() {
-
-						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& Arrays
-											.asList(ClientAccount.TYPE_BANK,
-													ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-											.contains(e.getType());
-						}
-					}.filter(obj)) {
-						filteredList.add(obj);
-					}
-				}
-				return filteredList;
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return getMessages()
-						.youDontHaveAny(getMessages().bankAccount());
-			}
-
-			@Override
-			protected boolean filter(Account e, String name) {
-				return e.getName().contains(name);
-			}
-		});
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseSelect(getMessages().account()),
 				getMessages().Account(), true, true) {
@@ -256,12 +254,6 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCashExpenseCommand.this.get(VENDOR)
-						.getValue();
-			}
-
-			@Override
 			protected boolean isTrackTaxPaidAccount() {
 				return false;
 			}
@@ -269,6 +261,12 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return false;
+			}
+
+			@Override
+			protected Currency getCurrency() {
+				return ((Account) CreateCashExpenseCommand.this.get(PAY_FROM)
+						.getValue()).getCurrency();
 			}
 
 		});
@@ -295,9 +293,9 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateCashExpenseCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Account) CreateCashExpenseCommand.this.get(PAY_FROM)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -382,7 +380,8 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 		}
 		cashPurchase.setType(ClientTransaction.TYPE_CASH_EXPENSE);
 		Vendor vendor = get(VENDOR).getValue();
-		cashPurchase.setVendor(vendor.getID());
+		if (vendor != null)
+			cashPurchase.setVendor(vendor.getID());
 		String paymentMethod = get(PAYMENT_METHOD).getValue();
 		cashPurchase.setPaymentMethod(paymentMethod);
 		Account account = get(PAY_FROM).getValue();
@@ -406,7 +405,7 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			}
 		}
 		cashPurchase.setTransactionItems(items);
-		cashPurchase.setCurrency(vendor.getCurrency().getID());
+		cashPurchase.setCurrency(account.getCurrency().getID());
 		cashPurchase
 				.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
 		updateTotals(context, cashPurchase, false);
@@ -499,8 +498,9 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateCashExpenseCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Account) CreateCashExpenseCommand.this.get(PAY_FROM)
+				.getValue()).getCurrency();
 	}
 
 }

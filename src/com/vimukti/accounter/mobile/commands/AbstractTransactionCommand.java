@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -341,9 +340,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return 1.0;
 	}
 
-	protected abstract Payee getPayee();
+	// protected abstract Payee getPayee();
 
-	protected Currency getCurrency() {
-		return getPayee().getCurrency();
-	}
+	protected abstract Currency getCurrency();
+
 }

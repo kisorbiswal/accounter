@@ -75,7 +75,8 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 							}
 						}
 
-						CreateCreditNoteCommand.this.get(CONTACT).setValue(null);
+						CreateCreditNoteCommand.this.get(CONTACT)
+								.setValue(null);
 						for (Contact contact : value.getContacts()) {
 							if (contact.isPrimary()) {
 								CreateCreditNoteCommand.this.get(CONTACT)
@@ -154,9 +155,9 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -192,9 +193,9 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 		});
 
@@ -228,8 +229,8 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Customer customer = (Customer) CreateCreditNoteCommand.this.get(
-						CUSTOMER).getValue();
+				Customer customer = (Customer) CreateCreditNoteCommand.this
+						.get(CUSTOMER).getValue();
 				return customer.getCurrency();
 			}
 
@@ -412,8 +413,9 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateCreditNoteCommand.this.get(CUSTOMER).getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
+				.getValue()).getCurrency();
 	}
 
 }
