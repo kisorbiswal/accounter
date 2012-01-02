@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
- * this class is used to generate Invoice report in PDF format
+ * this class is used to generate Invoice report in PDF format using HTML file
  * 
  */
 public class InvoicePDFTemplete implements PrintTemplete {

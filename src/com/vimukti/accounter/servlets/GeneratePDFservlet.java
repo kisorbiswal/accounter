@@ -146,7 +146,6 @@ public class GeneratePDFservlet extends BaseServlet {
 				String[] ids = null;
 				if (objectId != null) {
 					ids = objectId.split(",");
-					System.err.println("length" + ids.length);
 					if (ids.length > 1) {
 						pageBreak = true;
 
@@ -301,7 +300,6 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			Long companyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
-			StringBuilder outPutString = new StringBuilder();
 			transactionType = 0;
 			try {
 				FinanceTool financetool = new FinanceTool();

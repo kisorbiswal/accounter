@@ -11,7 +11,8 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
- * this class is used to generate PDF file for Credit note Object
+ * this class is used to generate PDF file for Credit note Object using HTML
+ * file
  * 
  * @author G.Srinivas
  * 
@@ -196,13 +197,11 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			if (company.getPreferences().isTrackTax()) {
 				t.setVariable("subTotal", subTotal);
 				t.addBlock("subtotal");
-
 				// if (brandingTheme.isShowVatColumn()) {
 				// t.setVariable("vatlabel", "Tax ");
 				// t.setVariable("vatTotalValue", vatTotal);
 				// t.addBlock("VatTotal");
 				// }
-
 			}
 			t.setVariable("total", total);
 			t.addBlock("itemDetails");
@@ -232,37 +231,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			}
 			if (hasTermsNpaypalId) {
 				t.addBlock("termsNpaypalId");
-			}
-
-			// TODO for displaying regestration address and Company Registration
-			// Number
-			String regestrationAddress = "";
-			Address reg = company.getRegisteredAddress();
-
-			if (reg != null)
-				regestrationAddress = ("&nbsp;Registered Address: "
-						+ reg.getAddress1()
-						+ forUnusedAddress(reg.getStreet(), true)
-						+ forUnusedAddress(reg.getCity(), true)
-						+ forUnusedAddress(reg.getStateOrProvinence(), true)
-						+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-						+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
-
-			regestrationAddress = (company.getTradingName()
-					+ "&nbsp;&nbsp;&nbsp;" + regestrationAddress + ((company
-					.getRegistrationNumber() != null && !company
-					.getRegistrationNumber().equals("")) ? "<br/>Company Registration No: "
-					+ company.getRegistrationNumber()
-					: ""));
-
-			if (regestrationAddress != null
-					&& regestrationAddress.trim().length() > 0) {
-				if (brandingTheme.isShowRegisteredAddress()) {
-					// t.setVariable("tradingName", trName);
-					// t.setVariable("regestrationAddress",
-					// regestrationAddress);
-					// t.addBlock("regestrationAddress");
-				}
 			}
 
 			String outPutString = t.getFileString();
@@ -316,35 +284,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			return "";
 		}
 		return amount;
-	}
-
-	/*
-	 * For Max DecimalPoints
-	 */
-	private int getMaxDecimals(CustomerCreditMemo memo) {
-		String qty;
-		String max;
-		int temp = 0;
-		for (TransactionItem item : memo.getTransactionItems()) {
-			qty = String.valueOf(item.getQuantity());
-			max = qty.substring(qty.indexOf(".") + 1);
-			if (!max.equals("0")) {
-				if (temp < max.length()) {
-					temp = max.length();
-				}
-			}
-
-		}
-		return temp;
-	}
-
-	private static String insertCommas(String str) {
-
-		if (str.length() < 4) {
-			return str;
-		}
-		return insertCommas(str.substring(0, str.length() - 3)) + ","
-				+ str.substring(str.length() - 3, str.length());
 	}
 
 	private String getLogoAlignment() {

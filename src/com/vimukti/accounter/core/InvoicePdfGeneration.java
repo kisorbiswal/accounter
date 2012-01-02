@@ -304,16 +304,6 @@ public class InvoicePdfGeneration {
 		return value != null ? value : "";
 	}
 
-	private String getLogoAlignment() {
-		String logoAlignment = null;
-		if (brandingTheme.getLogoAlignmentType() == 1) {
-			logoAlignment = "left";
-		} else {
-			logoAlignment = "right";
-		}
-		return logoAlignment;
-	}
-
 	public String forZeroAmounts(String amount) {
 		String[] amt = amount.replace(".", "-").split("-");
 		if (amt[0].equals("0")) {

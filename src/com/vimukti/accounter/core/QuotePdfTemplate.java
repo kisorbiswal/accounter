@@ -12,12 +12,8 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
-/**
- * this class is used to generate Quote pdf files using custom files(odt and
- * docx files)
- * 
- * @author vimukti15
- * 
+/*
+ * this class is used to generate pdf using html files for Quote(Estimate)
  */
 public class QuotePdfTemplate implements PrintTemplete {
 
@@ -46,7 +42,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 		MiniTemplator t;
 
 		// TODO for displaying the company address
-
 		try {
 			t = new MiniTemplator(getTempleteName());
 
@@ -70,7 +65,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
 				t.setVariable("getLogoAlignment", logoAlligment);
-
 				t.setVariable("logoImage", image);
 				t.addBlock("showlogo");
 			}
@@ -78,7 +72,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			// setting invoice number
 			String invNumber = forNullValue(estimate.getNumber());
 			if (invNumber.trim().length() > 0) {
-
 				t.setVariable("invoiceNumber", invNumber);
 				t.addBlock("invNumberHead");
 			}
@@ -108,15 +101,12 @@ public class QuotePdfTemplate implements PrintTemplete {
 			PaymentTerms paymentterm = estimate.getPaymentTerm();
 			String payterm = paymentterm != null ? paymentterm.getName() : "";
 			if (payterm.trim().length() > 0) {
-
 				t.setVariable("paymentTerms", payterm);
-
 				t.addBlock("paymentTermsBlock");
 			}
 			// set status
 			int statusId = estimate.getStatus();
-			String status = getStatusString(statusId);
-			t.setVariable("status", status);
+			t.setVariable("status", getStatusString(statusId));
 
 			// for primary curreny
 			Currency currency = estimate.getCustomer().getCurrency();
@@ -287,7 +277,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			String subtotal = Utility.decimalConversation(
 					estimate.getNetAmount() / currencyFactor, symbol);
 			if (company.getPreferences().isTrackTax()) {
-
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
@@ -310,21 +299,14 @@ public class QuotePdfTemplate implements PrintTemplete {
 			String termsNCondn = forNullValue(
 					brandingTheme.getTerms_And_Payment_Advice()).replace("\n",
 					"<br/>");
-
-			if (termsNCondn.equalsIgnoreCase("(None Added)")) {
-				termsNCondn = "";
-			}
-			if (termsNCondn.trim().length() > 0) {
+			if (getMessage(termsNCondn).trim().length() > 0) {
 				hasTermsNpaypalId = true;
 				t.setVariable("termsAndPaymentAdvice", termsNCondn);
 				t.addBlock("termsAndAdvice");
 			}
 
 			String paypalEmail = forNullValue(brandingTheme.getPayPalEmailID());
-			if (paypalEmail.equalsIgnoreCase("(None Added)")) {
-				paypalEmail = "";
-			}
-			if (paypalEmail.trim().length() > 0) {
+			if (getMessage(paypalEmail).trim().length() > 0) {
 				hasTermsNpaypalId = true;
 				t.setVariable("email", paypalEmail);
 				t.addBlock("paypalemail");
@@ -335,8 +317,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			}
 
 			t.setVariable("title", brandingTheme.getQuoteTitle());
-			// t.setVariable("addressPadding",
-			// String.valueOf(brandingTheme.getAddressPadding()));
 
 			if (brandingTheme.isShowLogo()) {
 				t.addBlock("logo");
@@ -373,16 +353,24 @@ public class QuotePdfTemplate implements PrintTemplete {
 				}
 			}
 			t.addBlock("theme");
-
 			outPutString = t.getFileString();
-			System.err.println(outPutString);
 			return outPutString;
-
 		} catch (Exception e) {
-			System.err.println(e.getMessage() + "..." + e.getStackTrace()
-					+ "..." + e.getLocalizedMessage());
 		}
 		return "";
+	}
+
+	/**
+	 * used to compare the value
+	 * 
+	 * @param msg
+	 * @return
+	 */
+	private String getMessage(String msg) {
+		if (msg.equalsIgnoreCase("(None Added)")) {
+			msg = "";
+		}
+		return msg;
 	}
 
 	private void externalizeStrings(MiniTemplator t) {

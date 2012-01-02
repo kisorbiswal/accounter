@@ -16,6 +16,13 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
+/**
+ * this class is used to generate Quote pdf files using custom files(odt and
+ * docx files)
+ * 
+ * @author vimukti15
+ * 
+ */
 public class QuotePdfGeneration {
 
 	private Estimate estimate;
@@ -281,16 +288,6 @@ public class QuotePdfGeneration {
 
 	public String forNullValue(String value) {
 		return value != null ? value : "";
-	}
-
-	private String getLogoAlignment() {
-		String logoAlignment = null;
-		if (brandingTheme.getLogoAlignmentType() == 1) {
-			logoAlignment = "left";
-		} else {
-			logoAlignment = "right";
-		}
-		return logoAlignment;
 	}
 
 	public String forZeroAmounts(String amount) {
