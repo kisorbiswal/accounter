@@ -98,10 +98,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 											getCompanyId(), value.getCurrency()
 													.getID(),
 											new ClientFinanceDate().getDate());
-							CreateVendorCreditMemoCommand.this
-									.get(CURRENCY_FACTOR)
-									.setValue(
-											mostRecentTransactionCurrencyFactor);
+							CreateVendorCreditMemoCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -136,8 +135,8 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 				.currencyFactor()) {
 			@Override
 			protected Currency getCurrency() {
-				Vendor vendor = (Vendor) CreateVendorCreditMemoCommand.this.get(
-						VENDOR).getValue();
+				Vendor vendor = (Vendor) CreateVendorCreditMemoCommand.this
+						.get(VENDOR).getValue();
 				return vendor.getCurrency();
 			}
 
@@ -183,9 +182,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -217,9 +216,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR)
+						.getValue()).getCurrency();
 			}
 
 			@Override
@@ -429,8 +428,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreateVendorCreditMemoCommand.this.get(VENDOR)
+				.getValue()).getCurrency();
 	}
 
 }

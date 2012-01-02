@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.mobile.Context;
@@ -278,7 +278,7 @@ public class VATAdjustmentCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		return null;
 	}
 

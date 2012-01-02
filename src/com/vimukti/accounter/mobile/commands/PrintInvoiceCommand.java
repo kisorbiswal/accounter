@@ -16,7 +16,6 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
-import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;

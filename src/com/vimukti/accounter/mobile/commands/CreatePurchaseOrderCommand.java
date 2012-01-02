@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
@@ -261,15 +262,15 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
 			protected boolean isTrackTaxPaidAccount() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+
+			@Override
+			protected Currency getCurrency() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 		});
@@ -296,15 +297,15 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
 			protected double getCurrencyFactor() {
 				// TODO Auto-generated method stub
 				return 0;
+			}
+
+			@Override
+			protected Currency getCurrency() {
+				// TODO Auto-generated method stub
+				return null;
 			}
 
 		});
@@ -534,7 +535,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		// TODO Auto-generated method stub
 		return null;
 	}

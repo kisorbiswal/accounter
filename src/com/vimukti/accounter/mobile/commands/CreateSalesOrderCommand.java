@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
@@ -104,7 +105,8 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 
 					@Override
 					public void onSelection(Customer value) {
-						CreateSalesOrderCommand.this.get(CONTACT).setValue(null);
+						CreateSalesOrderCommand.this.get(CONTACT)
+								.setValue(null);
 					}
 				}) {
 
@@ -142,7 +144,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
+			protected Currency getCurrency() {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -402,7 +404,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		return null;
 	}
 

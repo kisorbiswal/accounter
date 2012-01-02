@@ -470,7 +470,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			record.setCashDiscount(curntRec.getCashDiscount());
 
-			//For applying credits manully pass true as second argument
+			// For applying credits manully pass true as second argument
 			record.setAppliedCredits(curntRec.getCredits(), false);
 
 			record.setDiscountDate(curntRec.getDiscountDate().getDate());
@@ -505,8 +505,9 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreatePayBillCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreatePayBillCommand.this.get(VENDOR).getValue())
+				.getCurrency();
 	}
 
 }

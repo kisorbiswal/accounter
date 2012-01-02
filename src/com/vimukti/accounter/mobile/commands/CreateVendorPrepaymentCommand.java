@@ -172,10 +172,9 @@ public class CreateVendorPrepaymentCommand extends AbstractTransactionCommand {
 											getCompanyId(), value.getCurrency()
 													.getID(),
 											new ClientFinanceDate().getDate());
-							CreateVendorPrepaymentCommand.this
-									.get(CURRENCY_FACTOR)
-									.setValue(
-											mostRecentTransactionCurrencyFactor);
+							CreateVendorPrepaymentCommand.this.get(
+									CURRENCY_FACTOR).setValue(
+									mostRecentTransactionCurrencyFactor);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -393,7 +392,8 @@ public class CreateVendorPrepaymentCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Vendor) CreateVendorPrepaymentCommand.this.get(VENDOR).getValue();
+	protected Currency getCurrency() {
+		return ((Vendor) CreateVendorPrepaymentCommand.this.get(VENDOR)
+				.getValue()).getCurrency();
 	}
 }

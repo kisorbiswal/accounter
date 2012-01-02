@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.Payee;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -348,7 +348,7 @@ public class CreateIssuePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		return null;
 	}
 }

@@ -110,8 +110,8 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 						CreateInvoiceCommand.this.get(CONTACT).setValue(null);
 						for (Contact contact : value.getContacts()) {
 							if (contact.isPrimary()) {
-								CreateInvoiceCommand.this.get(CONTACT).setValue(
-										contact);
+								CreateInvoiceCommand.this.get(CONTACT)
+										.setValue(contact);
 								break;
 							}
 						}
@@ -187,9 +187,9 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateInvoiceCommand.this.get(CUSTOMER)
-						.getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateInvoiceCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 		});
 
@@ -813,7 +813,8 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateInvoiceCommand.this.get(CUSTOMER).getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateInvoiceCommand.this.get(CUSTOMER).getValue())
+				.getCurrency();
 	}
 }

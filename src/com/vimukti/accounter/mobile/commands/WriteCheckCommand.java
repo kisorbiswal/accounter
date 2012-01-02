@@ -199,8 +199,9 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Payee) WriteCheckCommand.this.get(PAYEE).getValue();
+			protected Currency getCurrency() {
+				return ((Payee) WriteCheckCommand.this.get(PAYEE).getValue())
+						.getCurrency();
 			}
 
 			@Override
@@ -515,8 +516,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Payee) WriteCheckCommand.this.get(PAYEE).getValue();
+	protected Currency getCurrency() {
+		return ((Payee) WriteCheckCommand.this.get(PAYEE).getValue())
+				.getCurrency();
 	}
-
 }

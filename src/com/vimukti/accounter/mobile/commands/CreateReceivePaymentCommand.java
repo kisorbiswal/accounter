@@ -186,8 +186,8 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected Payee getPayee() {
-				return (Customer) CreateReceivePaymentCommand.this.get(CUSTOMER)
-						.getValue();
+				return (Customer) CreateReceivePaymentCommand.this
+						.get(CUSTOMER).getValue();
 			}
 
 		});
@@ -254,7 +254,7 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 
 			record.setWriteOff(receivePaymentTransaction.getWriteOff());
 
-			//for applying credits manually to pass true as second argument
+			// for applying credits manually to pass true as second argument
 			record.setAppliedCredits(
 					receivePaymentTransaction.getAppliedCredits(), false);
 			record.setPayment(receivePaymentTransaction.getPayment());
@@ -508,8 +508,8 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateReceivePaymentCommand.this.get(CUSTOMER)
-				.getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateReceivePaymentCommand.this.get(CUSTOMER)
+				.getValue()).getCurrency();
 	}
 }

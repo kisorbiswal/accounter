@@ -103,8 +103,10 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 											getCompanyId(), value.getCurrency()
 													.getID(),
 											new ClientFinanceDate().getDate());
-							CreateQuoteCommand.this.get(CURRENCY_FACTOR).setValue(
-									mostRecentTransactionCurrencyFactor);
+							CreateQuoteCommand.this
+									.get(CURRENCY_FACTOR)
+									.setValue(
+											mostRecentTransactionCurrencyFactor);
 						} catch (AccounterException e) {
 							e.printStackTrace();
 						}
@@ -154,8 +156,9 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
-			protected Payee getPayee() {
-				return (Customer) CreateQuoteCommand.this.get(CUSTOMER).getValue();
+			protected Currency getCurrency() {
+				return ((Customer) CreateQuoteCommand.this.get(CUSTOMER)
+						.getValue()).getCurrency();
 			}
 
 		});
@@ -554,8 +557,9 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
-		return (Customer) CreateQuoteCommand.this.get(CUSTOMER).getValue();
+	protected Currency getCurrency() {
+		return ((Customer) CreateQuoteCommand.this.get(CUSTOMER).getValue())
+				.getCurrency();
 	}
 
 }

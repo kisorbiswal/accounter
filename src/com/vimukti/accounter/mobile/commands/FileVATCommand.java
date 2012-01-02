@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -399,7 +399,7 @@ public class FileVATCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		// TODO Auto-generated method stub
 		return null;
 	}

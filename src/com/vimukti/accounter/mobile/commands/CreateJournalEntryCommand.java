@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.NumberUtils;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
@@ -402,7 +402,7 @@ public class CreateJournalEntryCommand extends AbstractTransactionCommand {
 	}
 
 	@Override
-	protected Payee getPayee() {
+	protected Currency getCurrency() {
 		// TODO Auto-generated method stub
 		return null;
 	}
