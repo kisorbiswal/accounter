@@ -114,8 +114,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			@Override
 			public void onSuccess(ArrayList<YearOverYearPortletData> result) {
 				if (result != null && (!result.isEmpty()))
-					if (accountByName != null)
-						updateGraphData(result);
+					updateGraphData(result);
 			}
 
 			@Override
@@ -153,7 +152,8 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 
 	}
 
-	protected void updateGraphData(ArrayList<YearOverYearPortletData> result) {
+	protected void updateGraphData(
+			final ArrayList<YearOverYearPortletData> result) {
 		final List<Double> balances = new ArrayList<Double>();
 		final List<String> monthNames = new ArrayList<String>();
 		Iterator<YearOverYearPortletData> iterator = result.iterator();
@@ -167,7 +167,9 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			@Override
 			public void run() {
 				GraphChart chart = new GraphChart();
-				chart.setTitle(accountByName.getName());
+				if (result != null) {
+					chart.setTitle(result.get(0).getName());
+				}
 				chart.accountNames = monthNames;
 				graphPanel.add(chart.createYearOverYearChart(balances));
 				completeInitialization();
