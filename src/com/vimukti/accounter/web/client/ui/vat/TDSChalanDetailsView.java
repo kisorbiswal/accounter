@@ -110,33 +110,14 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 					public void selectedComboBoxItem(String selectItem) {
 
 						if (selectItem.equals(getFormTypes().get(0))) {
-							formTypeSeclected = 1;
-							natureOfPaymentCombo26Q.show();
-							natureOfPaymentCombo27Q.hide();
-							natureOfPaymentCombo27EQ.hide();
-
-							natureOfPaymentCombo26Q.setRequired(true);
-							natureOfPaymentCombo27Q.setRequired(false);
-							natureOfPaymentCombo27EQ.setRequired(false);
-
+							formTypeSeclected = Form26Q;
+							changeFormTypeStatus(formTypeSeclected);
 						} else if (selectItem.equals(getFormTypes().get(1))) {
-							formTypeSeclected = 2;
-							natureOfPaymentCombo26Q.hide();
-							natureOfPaymentCombo27Q.show();
-							natureOfPaymentCombo27EQ.hide();
-
-							natureOfPaymentCombo26Q.setRequired(false);
-							natureOfPaymentCombo27Q.setRequired(true);
-							natureOfPaymentCombo27EQ.setRequired(false);
+							formTypeSeclected = Form27Q;
+							changeFormTypeStatus(formTypeSeclected);
 						} else if (selectItem.equals(getFormTypes().get(2))) {
-							formTypeSeclected = 3;
-							natureOfPaymentCombo26Q.hide();
-							natureOfPaymentCombo27Q.hide();
-							natureOfPaymentCombo27EQ.show();
-
-							natureOfPaymentCombo26Q.setRequired(false);
-							natureOfPaymentCombo27Q.setRequired(false);
-							natureOfPaymentCombo27EQ.setRequired(true);
+							formTypeSeclected = Form27EQ;
+							changeFormTypeStatus(formTypeSeclected);
 						}
 
 					}
@@ -460,6 +441,37 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 	}
 
+	protected void changeFormTypeStatus(int formTypeSeclected) {
+
+		if (formTypeSeclected == 1) {
+			natureOfPaymentCombo26Q.show();
+			natureOfPaymentCombo27Q.hide();
+			natureOfPaymentCombo27EQ.hide();
+
+			natureOfPaymentCombo26Q.setRequired(true);
+			natureOfPaymentCombo27Q.setRequired(false);
+			natureOfPaymentCombo27EQ.setRequired(false);
+		} else if (formTypeSeclected == 2) {
+			natureOfPaymentCombo26Q.hide();
+			natureOfPaymentCombo27Q.show();
+			natureOfPaymentCombo27EQ.hide();
+
+			natureOfPaymentCombo26Q.setRequired(false);
+			natureOfPaymentCombo27Q.setRequired(true);
+			natureOfPaymentCombo27EQ.setRequired(false);
+		} else if (formTypeSeclected == 3) {
+
+			natureOfPaymentCombo26Q.hide();
+			natureOfPaymentCombo27Q.hide();
+			natureOfPaymentCombo27EQ.show();
+
+			natureOfPaymentCombo26Q.setRequired(false);
+			natureOfPaymentCombo27Q.setRequired(false);
+			natureOfPaymentCombo27EQ.setRequired(true);
+		}
+
+	}
+
 	private void updateControls() {
 		incomeTaxAmount.setAmount(data.getIncomeTaxAmount());
 		surchargePaidAmount.setAmount(data.getSurchangePaidAmount());
@@ -504,19 +516,26 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		if (data.getFormType() == 1) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(0));
 			natureOfPaymentCombo26Q.setSelected(data.getPaymentSection());
+			formTypeSeclected = 1;
+			changeFormTypeStatus(formTypeSeclected);
+
 		} else if (data.getFormType() == 2) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(1));
 			natureOfPaymentCombo27Q.setSelected(data.getPaymentSection());
+			formTypeSeclected = 2;
+			changeFormTypeStatus(formTypeSeclected);
 		} else if (data.getFormType() == 3) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(2));
 			natureOfPaymentCombo27EQ.setSelected(data.getPaymentSection());
+			formTypeSeclected = 3;
+			changeFormTypeStatus(formTypeSeclected);
 		}
 
 		financialYearCombo.setSelected(Integer.toString(data
 				.getAssesmentYearStart() - 1)
 				+ "-"
 				+ Integer.toString(data.getAssessmentYearEnd() - 1));
-
+		financialYearSelected = true;
 		table.setAllRows(data.getTransactionItems());
 
 	}
@@ -882,17 +901,17 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		checkNumber.setDisabled(false);
 		dateItem2.setDisabled(false);
 		bankBsrCode.setDisabled(false);
-		table.setDisabled(false);
+		// table.setDisabled(false);
 		chalanPeriod.setDisabled(false);
 		chalanSerialNumber.setDisabled(false);
 		tdsDepositedBY.setDisabled(false);
 		selectFormTypeCombo.setDisabled(false);
 		slectAssecementYear.setDisabled(false);
-
 		natureOfPaymentCombo27Q.setDisabled(false);
 		natureOfPaymentCombo27EQ.setDisabled(false);
 		financialYearCombo.setDisabled(false);
 		endingBalanceText.setDisabled(false);
+		payFromAccCombo.setDisabled(false);
 
 		super.onEdit();
 	}

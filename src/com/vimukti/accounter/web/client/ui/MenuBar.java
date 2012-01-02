@@ -216,7 +216,7 @@ public class MenuBar {
 
 		fixedAssetMenu.addMenuItem(messages.newFixedAsset(),
 				HistoryTokens.NEWFIXEDASSETS);
-		// fixedAssetMenu.addSeparatorItem();
+		fixedAssetMenu.addSeparatorItem();
 		fixedAssetMenu.addMenuItem(messages.depreciation(),
 				HistoryTokens.DEPRICATION);
 		// fixedAssetMenu.addSeparatorItem();
@@ -352,8 +352,8 @@ public class MenuBar {
 
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
-		fixedAssetsReportMenu.addMenuItem(messages.depreciation(),
-				HistoryTokens.DEPRECIATIONSHEDULE);
+		fixedAssetsReportMenu.addMenuItem(messages.depreciation() + " "
+				+ messages.report(), HistoryTokens.DEPRECIATIONSHEDULE);
 		return fixedAssetsReportMenu;
 	}
 
