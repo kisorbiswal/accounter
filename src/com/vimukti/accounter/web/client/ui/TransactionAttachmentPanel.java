@@ -71,6 +71,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				isFileSelected = true;
 				String filename = uploadFile.getFilename();
 				browseFileAnchor.setText(filename);
+				uploadFile.setName(filename);
 				// Show button
 				uploadButton.setVisible(true);
 
