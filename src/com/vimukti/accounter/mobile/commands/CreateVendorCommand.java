@@ -739,7 +739,6 @@ public class CreateVendorCommand extends AbstractCommand {
 
 	public String objectExist(String vendorNumber) {
 		String error = null;
-		String vendorName = get(VENDOR_NAME).getValue();
 		Set<Vendor> list = getCompany().getVendors();
 		if (list == null || list.isEmpty())
 			return null;
@@ -748,13 +747,6 @@ public class CreateVendorCommand extends AbstractCommand {
 				continue;
 			}
 			if (vendorNumber.equals(old.getVendorNumber())) {
-				for (Vendor old2 : list) {
-					if (vendorName.equalsIgnoreCase(old2.getName())) {
-						error = getMessages().objAlreadyExistsWithNameAndNo(
-								Global.get().customer());
-						break;
-					}
-				}
 				return getMessages().objAlreadyExistsWithNumber(
 						Global.get().customer());
 			} else if (vendorNumber == null
