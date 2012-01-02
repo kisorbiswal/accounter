@@ -763,7 +763,6 @@ public class CreateCustomerCommand extends AbstractCommand {
 
 	public String objectExist(String customerNumber) {
 		String error = null;
-		String customerName = get(CUSTOMER_NAME).getValue();
 		Set<Customer> list = getCompany().getCustomers();
 		if (list == null || list.isEmpty())
 			return null;
@@ -772,13 +771,6 @@ public class CreateCustomerCommand extends AbstractCommand {
 				continue;
 			}
 			if (customerNumber.equals(old.getNumber())) {
-				for (Customer old2 : list) {
-					if (customerName.equalsIgnoreCase(old2.getName())) {
-						error = getMessages().objAlreadyExistsWithNameAndNo(
-								Global.get().customer());
-						break;
-					}
-				}
 				return getMessages().objAlreadyExistsWithNumber(
 						Global.get().customer());
 			} else if (customerNumber == null
