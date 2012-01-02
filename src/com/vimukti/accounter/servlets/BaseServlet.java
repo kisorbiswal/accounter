@@ -282,7 +282,7 @@ public class BaseServlet extends HttpServlet {
 	 * @return
 	 */
 	protected String createActivation(String emailID) {
-		String token = SecureUtils.createID(ACTIVATION_CODE_SIZE);
+		String token = SecureUtils.createNumberID(ACTIVATION_CODE_SIZE);
 		Activation activation = new Activation();
 		activation.setEmailId(emailID);
 		activation.setToken(token);
