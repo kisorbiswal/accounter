@@ -299,8 +299,12 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeesList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-		vatmenus.addMenuItem(messages.payeesList("Chalan Details"),
-				HistoryTokens.CHALANDETAILSLIST);
+		// if (company instanceof India) {
+		// if (tdsEnabled) {
+		// vatmenus.addMenuItem(messages.payeesList("Chalan Details"),
+		// HistoryTokens.CHALANDETAILSLIST);
+		// }
+		// }
 
 		return vatmenus;
 	}
