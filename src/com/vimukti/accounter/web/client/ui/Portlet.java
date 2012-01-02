@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -235,22 +234,7 @@ public abstract class Portlet extends WorkbenchPanel {
 	}
 
 	public void updateConfiguration() {
-		if (portletPage.config.getId() == 0) {
-			portletPage.updateConfiguration();
-			portletPage.updatePortletPage();
-		} else {
-			Accounter.createHomeService().savePortletConfiguration(
-					configuration, new AsyncCallback<Boolean>() {
-
-						@Override
-						public void onSuccess(Boolean arg0) {
-						}
-
-						@Override
-						public void onFailure(Throwable arg0) {
-							System.err.println(arg0.toString());
-						}
-					});
-		}
+		portletPage.updateConfiguration();
+		portletPage.updatePortletPage();
 	}
 }
