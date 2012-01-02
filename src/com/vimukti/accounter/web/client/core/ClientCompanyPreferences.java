@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.core.Transaction;
-
 public class ClientCompanyPreferences implements IAccounterCore {
 
 	/**
