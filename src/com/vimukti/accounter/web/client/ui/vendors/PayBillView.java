@@ -800,8 +800,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			}
 		}
 
-		
-		//To apply credits automatically to transactionItems by enable Apply credits preferencess.
+		// To apply credits automatically to transactionItems by enable Apply
+		// credits preferencess.
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 			List<ClientTransactionPayBill> allRows = grid.getSelectedRecords();
 			for (ClientTransactionPayBill c : allRows) {
@@ -845,6 +845,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return;
 		}
 
+		grid.updatedCustomerCreditsAndPayments.clear();
 		this.setVendor(vendor);
 
 		if (!isInViewMode()) {
@@ -858,6 +859,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		 */
 		grid.setCreditsAndPaymentsDialiog(null);
 		grid.setCreditsStack(null);
+
 		if (!isInViewMode()) {
 			grid.initCreditsAndPayments(vendor);
 		}
