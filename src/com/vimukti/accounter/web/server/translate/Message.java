@@ -16,7 +16,7 @@ public class Message implements Serializable {
 	Set<LocalMessage> localMessages;
 
 	Set<Key> keys;
-	
+
 	boolean isNotUsed;
 
 	public long getId() {
@@ -50,12 +50,17 @@ public class Message implements Serializable {
 	public void setKeys(Set<Key> keys) {
 		this.keys = keys;
 	}
-	
+
 	public boolean isNotUsed() {
 		return isNotUsed;
 	}
 
 	public void setNotUsed(boolean isNotUsed) {
 		this.isNotUsed = isNotUsed;
+	}
+
+	@Override
+	public String toString() {
+		return value;
 	}
 }
