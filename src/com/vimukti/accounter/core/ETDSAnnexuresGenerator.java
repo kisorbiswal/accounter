@@ -240,6 +240,8 @@ public class ETDSAnnexuresGenerator {
 				+ addDelimiter();
 		batchHeaderString = batchHeaderString + getDeductorAddress(5)
 				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getDeductorAddress(6)
+				+ addDelimiter();
 
 		// batchHeaderString = batchHeaderString + getState() + addDelimiter();
 
@@ -283,6 +285,9 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString + getResponsiblePersonAddress(5)
 				+ addDelimiter();
 
+		batchHeaderString = batchHeaderString + getResponsiblePersonAddress(6)
+				+ addDelimiter();
+
 		// batchHeaderString = batchHeaderString + getResponsiblePersonState()
 		// + addDelimiter();
 
@@ -322,29 +327,22 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString + addDelimiter();
 		batchHeaderString = batchHeaderString + addDelimiter();
 
-		batchHeaderString = batchHeaderString + getGovtSateName()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getGovtSateName();
 
-		batchHeaderString = batchHeaderString + getGovtPAOCode()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getGovtPAOCode();
 
-		batchHeaderString = batchHeaderString + getGovtDDOCode()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getGovtDDOCode();
 
-		batchHeaderString = batchHeaderString + getGovtMinistryName()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getGovtMinistryName();
 
-		batchHeaderString = batchHeaderString + getMinistryOtherName()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getMinistryOtherName();
 
 		// Filler 2
 		batchHeaderString = batchHeaderString + addDelimiter();
 
-		batchHeaderString = batchHeaderString + getGovtPAORegistrationCode()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getGovtPAORegistrationCode();
 
-		batchHeaderString = batchHeaderString + getDDORegistationCode()
-				+ addDelimiter();
+		batchHeaderString = batchHeaderString + getDDORegistationCode();
 
 		// Record Hash (Not applicable)
 		batchHeaderString = batchHeaderString + addDelimiter();
@@ -381,7 +379,7 @@ public class ETDSAnnexuresGenerator {
 		if (ddoRegistration == 0) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoRegistration);
+			return Long.toString(ddoRegistration) + addDelimiter();
 		}
 	}
 
@@ -400,7 +398,7 @@ public class ETDSAnnexuresGenerator {
 		if (ddoRegistration == 0) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoRegistration);
+			return Long.toString(ddoRegistration) + addDelimiter();
 		}
 	}
 
@@ -414,7 +412,7 @@ public class ETDSAnnexuresGenerator {
 		String ministryDeptName = deductor.getMinistryDeptName();
 
 		if (ministryDeptName.length() > 0) {
-			return getMinistryCode(ministryDeptName);
+			return getMinistryCode(ministryDeptName) + addDelimiter();
 		} else {
 			return addDelimiter();
 		}
@@ -435,7 +433,7 @@ public class ETDSAnnexuresGenerator {
 	private String getGovtMinistryName() {
 		String ministryDeptName = deductor.getMinistryDeptName();
 		if (ministryDeptName.length() > 0) {
-			return getMinistryCode(ministryDeptName);
+			return getMinistryCode(ministryDeptName) + addDelimiter();
 		} else {
 			return addDelimiter();
 		}
@@ -456,7 +454,7 @@ public class ETDSAnnexuresGenerator {
 		if (ddoCode == 0) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoCode);
+			return Long.toString(ddoCode) + addDelimiter();
 		}
 
 	}
@@ -476,7 +474,8 @@ public class ETDSAnnexuresGenerator {
 		if (paoCode == 0) {
 			return addDelimiter();
 		} else {
-			return Long.toString(paoCode);
+			return Long.toString(paoCode) + addDelimiter();
+
 		}
 	}
 
@@ -494,7 +493,7 @@ public class ETDSAnnexuresGenerator {
 			if (deductor.getGovtState().length() < 1)
 				return addDelimiter();
 			else
-				return getStateCode(deductor.getGovtState());
+				return getStateCode(deductor.getGovtState()) + addDelimiter();
 		} else
 			return addDelimiter();
 
@@ -540,7 +539,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getResponisblePersonTelephoenNumebr() {
 		long telephoneNumber = responsiblePerson.getTelephoneNumber();
-		if (telephoneNumber == 0) {
+		if (telephoneNumber > 0) {
 			return Long.toString(telephoneNumber);
 		} else {
 			return addDelimiter();
@@ -556,7 +555,7 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getResponsiblePersonSTDCode() {
 		long stdNumber = responsiblePerson.getStdCode();
-		if (stdNumber == 0) {
+		if (stdNumber > 0) {
 			return Long.toString(stdNumber);
 		} else {
 			return addDelimiter();
@@ -574,7 +573,7 @@ public class ETDSAnnexuresGenerator {
 	private String getResponsiblePersonMobileNumber() {
 
 		long mobileNum = responsiblePerson.getMobileNumber();
-		if (mobileNum == 0) {
+		if (mobileNum > 0) {
 			return Long.toString(mobileNum);
 		} else {
 			return addDelimiter();
@@ -661,6 +660,9 @@ public class ETDSAnnexuresGenerator {
 				address = addDelimiter();
 			break;
 		case 5:
+			address = addDelimiter();
+			break;
+		case 6:
 			address = getStateCode(responsiblePerson.getStateName());
 			break;
 		default:
@@ -738,7 +740,13 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorTelephoneNumber() {
-		return Long.toString(deductor.getTelephoneNumber());
+		long telephone = deductor.getTelephoneNumber();
+		if (telephone > 0) {
+			return Long.toString(telephone);
+		} else {
+			return addDelimiter();
+		}
+
 	}
 
 	/**
@@ -748,7 +756,12 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorSTDCode() {
-		return Long.toString(deductor.getStdCode());
+		long stdCode = deductor.getStdCode();
+		if (stdCode > 0) {
+			return Long.toString(stdCode);
+		} else {
+			return addDelimiter();
+		}
 	}
 
 	/**
@@ -793,30 +806,33 @@ public class ETDSAnnexuresGenerator {
 		String address = null;
 		switch (i) {
 		case 1:
-			if (deductor.getBuildingName() != null)
+			if (deductor.getBuildingName().length() > 1)
 				address = deductor.getBuildingName();
 			else
 				address = addDelimiter();
 			break;
 		case 2:
-			if (deductor.getRoadName() != null)
+			if (deductor.getRoadName().length() > 1)
 				address = deductor.getRoadName();
 			else
 				address = addDelimiter();
 			break;
 		case 3:
-			if (deductor.getArea() != null)
+			if (deductor.getArea().length() > 1)
 				address = deductor.getArea();
 			else
 				address = addDelimiter();
 			break;
 		case 4:
-			if (deductor.getCity() != null)
+			if (deductor.getCity().length() > 1)
 				address = deductor.getCity();
 			else
 				address = addDelimiter();
 			break;
 		case 5:
+			address = addDelimiter();
+			break;
+		case 6:
 			address = getState();
 			break;
 		default:

@@ -5322,6 +5322,10 @@ public interface AccounterMessages extends Messages {
 
 	public String ztozeroperc();
 
+
+	public String depreciationReport();
+
+
 	public String of();
 
 	public String pleaseEnterValidLocationName(String locationName);
