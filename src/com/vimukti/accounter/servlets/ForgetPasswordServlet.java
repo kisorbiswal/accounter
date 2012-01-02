@@ -6,9 +6,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -59,9 +61,13 @@ public class ForgetPasswordServlet extends BaseServlet {
 				return;
 			}
 
-			deleteActivationsByEmail(emailID);
-
-			String token = createActivation(emailID);
+			Activation activation = getActivationByEmailId(emailID);
+			String token = null;
+			if (activation == null) {
+				token = createActivation(emailID);
+			} else {
+				token = activation.getToken();
+			}
 
 			sendForgetPasswordLinkToUser(client, token);
 
@@ -78,8 +84,21 @@ public class ForgetPasswordServlet extends BaseServlet {
 		// String successMessage =
 		// "Reset Password link has been sent to the given emailId, Kindly check your Mail box.";
 		// req.setAttribute("successmessage", successMessage);
-		String message = "?message="+ACT_FROM_RESET;
+		String message = "?message=" + ACT_FROM_RESET;
 		redirectExternal(req, resp, ACTIVATION_URL + message);
+	}
+
+	private Activation getActivationByEmailId(String email) {
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			Query query = session.getNamedQuery("get.activation.by.emailid");
+			query.setParameter("emailId", email);
+			Activation val = (Activation) query.uniqueResult();
+			return val;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
