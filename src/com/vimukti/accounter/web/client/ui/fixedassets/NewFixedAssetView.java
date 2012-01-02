@@ -248,12 +248,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		depreciationForm.setDisabled(disable);
 		descriptionForm.setDisabled(disable);
 		saveAndCloseButton.setEnabled(!disable);
-		registerButton.setEnabled(disable);
+		registerButton.setEnabled(!disable);
 		if (acumulatedDeprcForm != null)
 			acumulatedDeprcForm.setDisabled(disable);
 		if (accumulatedDepreciationAccountForm != null
 				&& accumulatedDepreciationAccount != null)
 			accumulatedDepreciationAccountForm.setDisabled(disable);
+
 		/*
 		 * If an asset saved as a pending item,the linkedaccount might be
 		 * null.But while registering,this asset must hav a linked account.So,we
