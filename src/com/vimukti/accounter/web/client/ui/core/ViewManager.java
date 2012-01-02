@@ -63,7 +63,7 @@ public class ViewManager extends HorizontalPanel {
 	 */
 	public AbstractView<?> existingView;
 
-	private final Map<String, Object> viewDataHistory = new HashMap<String, Object>();
+	public final Map<String, Object> viewDataHistory = new HashMap<String, Object>();
 
 	private final MainFinanceWindow mainWindow;
 
