@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public class ChangeTracker {
 	static Logger log = Logger.getLogger(Account.class);
 
-	public static List<IAccounterCore> clientobjects = new ArrayList<IAccounterCore>();
+	public static ThreadLocal<List<IAccounterCore>> clientobjects=new ThreadLocal<List<IAccounterCore>>();
 
 	public static void put(IAccounterServerCore obj) {
 		if (obj == null || obj.getID() == 0)
@@ -41,19 +41,26 @@ public class ChangeTracker {
 		if (obj == null)
 			return;
 		log.info("Put Object:" + obj.toString());
-		clientobjects.add(obj);
+		get().add(obj);
 	}
 
-	public static void init() {
-		clientobjects = new ArrayList<IAccounterCore>();
+	private static List<IAccounterCore> get() {
+		List<IAccounterCore> list = clientobjects.get();
+		if(list==null){
+			list=new ArrayList<IAccounterCore>();
+			clientobjects.set(list);
+		}
+		return list;
 	}
+
 
 	public static IAccounterCore[] getChanges() {
-		return clientobjects.toArray(new IAccounterCore[clientobjects.size()]);
+		List<IAccounterCore> list = get();
+		return list.toArray(new IAccounterCore[list.size()]);
 	}
 
 	public static void clearChanges() {
-		clientobjects.clear();
+		get().clear();
 	}
 
 	public static void put(IAccounterServerCore serverObject,
@@ -91,7 +98,7 @@ public class ChangeTracker {
 
 		cmd.setID(core.getID());
 		cmd.setObjectType(core.getObjectType());
-		Utility.updateClientList(cmd, clientobjects);
+		Utility.updateClientList(cmd, get());
 	}
 
 }

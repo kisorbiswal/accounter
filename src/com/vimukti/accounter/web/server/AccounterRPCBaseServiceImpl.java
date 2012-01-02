@@ -23,7 +23,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
@@ -56,16 +55,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 
 	public AccounterRPCBaseServiceImpl() {
 		super();
-		initChangeTracker();
-		// financeTool = getFinanceTool();
-
 	}
 
-	private void initChangeTracker() {
-
-		ChangeTracker.init();
-
-	}
 
 	protected final void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
