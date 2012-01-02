@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.externalization.IMessageStats;
@@ -172,7 +173,9 @@ public class Header extends FlowPanel {
 		panel2.addStyleName("companies_title");
 		panel3.add(help);
 		panel3.add(logout);
-		if (Accounter.getUser().getEmail().equals("rajesh@vimukti.com")) {
+		ClientUser user = Accounter.getUser();
+		if (user != null && user.getEmail() != null
+				&& user.getEmail().trim().equals("support@accounterlive.com")) {
 			panel3.add(createStatisticsLink());
 		}
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);

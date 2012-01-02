@@ -42,7 +42,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 	Button createButton, skipButton;
 
-	List<ClientReminder> reminders;
+	List<ClientReminder> reminders = new ArrayList<ClientReminder>();
 	public String viewType;
 
 	@Override
@@ -54,6 +54,9 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientReminder> result) {
+		if (result == null) {
+			result = new PaginationList<ClientReminder>();
+		}
 		reminders = result;
 		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
