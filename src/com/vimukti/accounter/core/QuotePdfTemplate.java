@@ -12,6 +12,13 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
+/**
+ * this class is used to generate Quote pdf files using custom files(odt and
+ * docx files)
+ * 
+ * @author vimukti15
+ * 
+ */
 public class QuotePdfTemplate implements PrintTemplete {
 
 	private final Estimate estimate;
@@ -69,7 +76,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			}
 
 			// setting invoice number
-
 			String invNumber = forNullValue(estimate.getNumber());
 			if (invNumber.trim().length() > 0) {
 
@@ -78,23 +84,17 @@ public class QuotePdfTemplate implements PrintTemplete {
 			}
 
 			// setting estimate delivery date
-
 			String invDate = Utility.getDateInSelectedFormat(estimate
 					.getDeliveryDate());
 			if (invDate.trim().length() > 0) {
-
 				t.setVariable("deliveryDate", invDate);
-
 			}
 
 			// setting estimate expiration date
-
 			String expirationDate = Utility.getDateInSelectedFormat(estimate
 					.getExpirationDate());
 			if (invDate.trim().length() > 0) {
-
 				t.setVariable("expirationDate", expirationDate);
-
 			}
 
 			// setting phone number
@@ -102,15 +102,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			if (phone.trim().length() > 0) {
 				t.setVariable("phone", phone);
 				t.addBlock("phoneBlock");
-			}
-
-			// setting invoice customer number
-
-			String invCustomerNum = forNullValue(estimate.getCustomer()
-					.getNumber());
-			if (invCustomerNum.trim().length() > 0) {
-				t.setVariable("invoiceCustomerNumber", invCustomerNum);
-				t.addBlock("invCustNumHead");
 			}
 
 			// setting payment terms
@@ -156,19 +147,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 			String phoneStr = "";
 			boolean hasPhone = false;
 			Customer customer = estimate.getCustomer();
-			// Set<Contact> contacts = customer.getContacts();
-			// for (Contact contact : contacts) {
-			// if (contact.isPrimary()) {
-			// cname = contact.getName().trim();
-			//
-			// if (contact.getBusinessPhone().trim().length() > 0)
-			// phone = contact.getBusinessPhone();
-			// if (phone.trim().length() > 0) {
-			// hasPhone = true;
-			// }
-			//
-			// }
-			// }
 
 			// To get the selected contact name form Invoice
 			Contact selectedContact = estimate.getContact();
@@ -416,8 +394,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 		t.setVariable("i18_DeliveryDate", messages.deliveryDate());
 		t.setVariable("i18_ExpirationDate", messages.expirationDate());
 		t.setVariable("i18_Phone", messages.phone());
-		t.setVariable("i18_Customer_Number",
-				messages.payeeNumber(messages.customer()));
 		t.setVariable("i18_Bill_To", messages.billTo());
 		t.setVariable("i18_Ship_To", messages.shipTo());
 		t.setVariable("i18_Sales_Person", messages.salesPerson());
@@ -469,9 +445,8 @@ public class QuotePdfTemplate implements PrintTemplete {
 	public String getImage() {
 
 		StringBuffer original = new StringBuffer();
-		// String imagesDomain = "/do/downloadFileFromFile?";
-
-		original.append("<img style='width:90px;height:90px' src='file:///");
+		// original.append("<img style='width:90px;height:90px'  src='file:///");
+		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");
@@ -502,10 +477,6 @@ public class QuotePdfTemplate implements PrintTemplete {
 					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
 					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
 
-		// TODO For setting the Contact Details
-		// String contactDetails =
-		// forNullValue(brandingTheme.getContactDetails())
-		// .replace("\n", "<br/>");
 		String contactDetails = forNullValue(brandingTheme.getContactDetails());
 		if (contactDetails.contains("(None Added)")) {
 			contactDetails = "";

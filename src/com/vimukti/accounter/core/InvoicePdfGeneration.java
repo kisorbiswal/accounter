@@ -13,6 +13,14 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
+/**
+ * this class is used to generate Invoice pdf using custom template files(odt
+ * and docx format)
+ * 
+ * @author vimukti15
+ * 
+ */
+
 public class InvoicePdfGeneration {
 
 	private Invoice invoice;

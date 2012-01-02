@@ -19,7 +19,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 public class CreditNotePDFTemplete implements PrintTemplete {
 	private CustomerCreditMemo memo;
 	private BrandingTheme brandingTheme;
-	private int maxDecimalPoints;
 	private String templateName;
 
 	Company company;
@@ -33,7 +32,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		this.memo = memo;
 		this.brandingTheme = brandingTheme;
 		this.company = company;
-		this.maxDecimalPoints = getMaxDecimals(memo);
 		this.templateName = templateName;
 	}
 
@@ -64,7 +62,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			if (brandingTheme.isShowLogo()) {
 				String logoAlligment = getLogoAlignment();
 				t.setVariable("getLogoAlignment", logoAlligment);
-
 				String image = getImage().toString();
 				t.setVariable("logoImage", image);
 				t.addBlock("showlogo");
@@ -77,14 +74,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			// for title
 			t.setVariable("title", brandingTheme.getCreditMemoTitle());
 
-			int customerNumber = memo.getCustomer().getNumber() == null ? 0
-					: Integer.parseInt(memo.getCustomer().getNumber());
-
-			if (customerNumber > 0) {
-				t.setVariable("customerNumber", memo.getCustomer().getNumber());
-				// t.addBlock("customernum");
-			}
-
 			// for primary curreny
 			Currency currency = memo.getCustomer().getCurrency();
 			if (currency != null)
@@ -92,7 +81,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					t.setVariable("currency", currency.getFormalName().trim());
 
 				}
-
 			// for getting customer contact name
 			String cname = "";
 			String phone = "";
@@ -101,10 +89,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 			for (Contact contact : contacts) {
 				if (contact.isPrimary()) {
 					cname = contact.getName().trim();
-
 					if (contact.getBusinessPhone().trim().length() > 0)
 						phone = contact.getBusinessPhone();
-
 				}
 			}
 			// setting billing address
@@ -295,8 +281,6 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_Credit_To", messages.creditTo());
 		t.setVariable("i18_Credit_Note_Number", messages.creditNoteNo());
 		t.setVariable("i18_Credit_Note_Date", messages.creditNoteDate());
-		t.setVariable("i18_Customer_Number",
-				messages.payeeNumber(messages.Customer()));
 		t.setVariable("i18_Currency", messages.currency());
 		t.setVariable("i18_Name", messages.name());
 		t.setVariable("i18_Description", messages.description());
@@ -375,9 +359,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 
 	private StringBuffer getImage() {
 		StringBuffer original = new StringBuffer();
-		// String imagesDomain = "/do/downloadFileFromFile?";
-
-		original.append("<img style='width:90px;height:90px'  src='file:///");
+		// original.append("<img style='width:90px;height:90px'  src='file:///");
+		original.append("<img src='file:///");
 		original.append(ServerConfiguration.getAttachmentsDir() + "/"
 				+ company.getId() + "/" + brandingTheme.getFileName());
 		original.append("'/>");

@@ -13,6 +13,13 @@ import fr.opensagres.xdocreport.document.images.IImageProvider;
 import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
+/**
+ * this class is used to generate CreditMemo pdf using custom files(odt and docx
+ * file format)
+ * 
+ * @author vimukti15
+ * 
+ */
 public class CreditNotePdfGeneration {
 
 	private CustomerCreditMemo memo;
