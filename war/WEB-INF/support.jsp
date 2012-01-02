@@ -121,7 +121,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 							&nbsp;&nbsp;&nbsp;Hyderabad -500062<br />
 				</div>
 				<div id="contact_form_cont" class="contact_form_cont">
-					<form id="contactform" name="contactform" method="post" action="/site/support">
+					<form id="contactform" name="contactform" method="post" action="/main/support">
 						<fieldset class="fieldset">
 						<c:if test="${message != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
