@@ -24,7 +24,7 @@
 					
 					
 					<div class="" style="margin-top:25px;">
-						<p>Welcome to Accounter, a website or web application owned, designed and maintained by Vimukti Technologies Pvt. Ltd.(“Vimukti”, “we” or “us”). This following page will give you an over view of the conditions which will be applied while you are using our services. By accessing our website or using services provided by Accounter, you signify that you have read this Terms & Conditions document , understood and agrees to follow the Terms provided in front of you even if you are a registered customer or not.</p>	
+						<p>Welcome to Accounter, a website or web application owned, designed and maintained by Vimukti Technologies Pvt. Ltd.("Vimukti", "we" or "us"). This following page will give you an over view of the conditions which will be applied while you are using our services. By accessing our website or using services provided by Accounter, you signify that you have read this Terms & Conditions document , understood and agrees to follow the Terms provided in front of you even if you are a registered customer or not.</p>	
 					</div>
 					<br />
 					<div class="">
@@ -58,12 +58,12 @@
 		<br />
 		
 		<div class="">
-		<p>You may use your Accounter’s lo-gin information to access your Company Setting profile. On providing your email id to Accounter you consent to us to provide you with service related notice. You can stop the notification by modifying you Notification settings.</p>
+		<p>You may use your Accounter's lo-gin information to access your Company Setting profile. On providing your email id to Accounter you consent to us to provide you with service related notice. You can stop the notification by modifying you Notification settings.</p>
 	</div>
 	<br />
 	
 	<div class="">
-	<p>You agree not to use or execute any automated system like “robots”, “spiders” which request messages to Accounter server faster than a human can do using the standard web browser.You also agree not to collect or record any personal information from Accounter services. </p>
+	<p>You agree not to use or execute any automated system like "robots", "spiders" which request messages to Accounter server faster than a human can do using the standard web browser.You also agree not to collect or record any personal information from Accounter services. </p>
 </div>
 <br />
 

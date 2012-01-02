@@ -36,7 +36,7 @@
 					<br>
 					<div class="adjust-padding">
 						<p><b><u>Accounter for Business:</b></u></p>
-										<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Small businesses often maintain a high percentage of remote employees to cut down on real estate costs. Executives who travel, workers operating out of home offices, and “virtual” assistants all need access to timely and accurate financial data to perform their jobs as effectively as possible. Accounter online accounting software makes that possible, allowing any worker to access information about transactions and other financial activities from any Internet-enabled location.</p>
+										<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Small businesses often maintain a high percentage of remote employees to cut down on real estate costs. Executives who travel, workers operating out of home offices, and "virtual" assistants all need access to timely and accurate financial data to perform their jobs as effectively as possible. Accounter online accounting software makes that possible, allowing any worker to access information about transactions and other financial activities from any Internet-enabled location.</p>
 					</div>
 					<br>
 					<div class="adjust-padding">
