@@ -212,32 +212,6 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 	}
 
 	private List<String> getDatesArray() {
-		// Date startdate = depreciationStartDate;
-		// Date tempDate = new Date(FinanceApplication.getCompany()
-		// .getpreferences().getDepreciationStartDate());
-		// Date endDate = new Date(tempDate.getYear() + 1, tempDate.getMonth(),
-		// tempDate.getDate() - 1);
-		// int startMonth = startdate.getMonth();
-		// DateTimeFormat format = DateTimeFormat.getFormat(FinanceApplication
-		// .constants().ddMMMyyyy());
-		// String[] dateArray = new String[12];
-		// for (int i = startMonth, j = 0; i < 12; i++, j++) {
-		// int currentDate;
-		// if (i == 1 && startdate.getYear() % 400 == 0) {
-		// currentDate = 29;
-		// } else if (i == 0 || i == 2 || i == 4 || i == 6 || i == 7 || i == 9
-		// || i == 11) {
-		// currentDate = 31;
-		// } else if (i == 1) {
-		// currentDate = 28;
-		// } else {
-		// currentDate = 30;
-		// }
-		// Date date2 = new Date(startdate.getYear(), i, currentDate);
-		// if (date2.before(endDate) || date2.equals(endDate)) {
-		// dateArray[j] = format.format(date2);
-		// }
-		// }
 
 		DateTimeFormat format = DateTimeFormat.getFormat(getPreferences()
 				.getDateFormat());
