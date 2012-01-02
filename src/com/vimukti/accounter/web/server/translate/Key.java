@@ -61,4 +61,12 @@ public class Key implements Serializable {
 		this.usageOrder = usageOrder;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		Key key = (Key) obj;
+		if (key == null) {
+			return false;
+		}
+		return this.key.equals(key.key);
+	}
 }
