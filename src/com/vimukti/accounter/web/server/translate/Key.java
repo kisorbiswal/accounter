@@ -69,4 +69,9 @@ public class Key implements Serializable {
 		}
 		return this.key.equals(key.key);
 	}
+
+	@Override
+	public String toString() {
+		return key;
+	}
 }
