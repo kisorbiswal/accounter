@@ -44,7 +44,7 @@ public abstract class TransactionPayBillTable extends
 	private boolean gotCreditsAndPayments;
 	private CashDiscountDialog cashDiscountDialog;
 	private NewApplyCreditsDialog creditsAndPaymentsDialiog;
-	private List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+	public List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 
 	/* This stack tracks the recently applied credits */
 	private Stack<Map<Integer, Object>> creditsStack;
