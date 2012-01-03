@@ -212,7 +212,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (strID != 0)
 					data.setLinkedAccumulatedDepreciationAccount(strID);
 			}
-			if (data.getLinkedAccumulatedDepreciationAccount() == 0) {
+			if (getCompany().getAccount(data.getAssetAccount())
+					.getLinkedAccumulatedDepreciationAccount() == 0) {
 				showAccumltdAccountForm();
 			}
 			showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
