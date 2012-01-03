@@ -45,12 +45,15 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				if (unit != null) {
 					data.append(unit.getType());
 				}
-				data.append(" (W: ");
-				ClientWarehouse warehouse = Accounter.getCompany()
-						.getWarehouse(row.getWareHouse());
-				if (warehouse != null)
-					data.append(warehouse.getWarehouseCode());
-				data.append(")");
+				if (getPreferences().iswareHouseEnabled()) {
+					data.append(" (W: ");
+					ClientWarehouse warehouse = Accounter.getCompany()
+							.getWarehouse(row.getWareHouse());
+					if (warehouse != null)
+						data.append(warehouse.getWarehouseCode());
+					data.append(")");
+				}
+
 				return data.toString();
 			} else {
 				ClientQuantity value = row.getQuantity();
