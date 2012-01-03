@@ -17,7 +17,6 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.translate.Key;
-import com.vimukti.accounter.web.server.translate.LocalMessage;
 import com.vimukti.accounter.web.server.translate.Message;
 
 public class MessageLoader {
@@ -103,13 +102,8 @@ public class MessageLoader {
 					}
 				}
 				if (!hasKey) {
-					Set<LocalMessage> localMessages = messageByValue
-							.getLocalMessages();
-					removed.add(messageByValue);
-					removeKeys(messageByValue, removedKeys);
-					message.setLocalMessages(new HashSet<LocalMessage>(
-							localMessages));
-					insert = true;
+					messageByValue.getKeys().add(key);
+					insert = false;
 				}
 			} else {
 				insert = true;
