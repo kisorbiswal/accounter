@@ -152,9 +152,9 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 								if (activeInActiveSelect.getSelectedValue()
 										.toString()
 										.equalsIgnoreCase(messages.active())) {
-									onActiveChangedListener();
+									refreshActiveinActiveList(true);
 								} else {
-									onInActiveChangedlistener();
+									refreshActiveinActiveList(false);
 
 								}
 
@@ -165,26 +165,14 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 		}
 	}
 
-	private void onActiveChangedListener() {
+	private void refreshActiveinActiveList(boolean isActivelist) {
 		custGrid.setSelectedCustomer(null);
 		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
 				.Customer()));
 		this.selectedCustomer = null;
 		OncusotmerSelected();
-		isActiveAccounts = true;
+		isActiveAccounts = isActivelist;
 		initCustomersListGrid();
-
-	}
-
-	private void onInActiveChangedlistener() {
-		custGrid.setSelectedCustomer(null);
-		detailsPanel.custname.setText(messages.noPayeeSelected(Global.get()
-				.Customer()));
-		this.selectedCustomer = null;
-		OncusotmerSelected();
-		isActiveAccounts = false;
-		initCustomersListGrid();
-
 	}
 
 	private void transactionViewSelectCombo() {
@@ -247,12 +235,11 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 
 	private void getMessagesList() {
 		transactiontypebyStatusMap = new HashMap<Integer, String>();
-		if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.allTransactions())) {
+		String selectedValue = trasactionViewSelect.getSelectedValue();
+		if (selectedValue.equalsIgnoreCase(messages.allTransactions())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_TRANSACTIONS,
 					messages.allTransactions());
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.invoices())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.invoices())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_INVOICES,
 					messages.getallInvoices());
 			transactiontypebyStatusMap.put(TransactionHistory.OPENED_INVOICES,
@@ -260,29 +247,24 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.OVER_DUE_INVOICES,
 					messages.overDueInvoices());
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.allcashSales())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.allcashSales())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CASHSALES,
 					messages.all() + " " + messages.allcashSales());
 
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.quotes())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.quotes())) {
 
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_QUOTES,
 					messages.allQuotes());
 
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.credits())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.credits())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CREDITS,
 					messages.allCredits());
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.Charges())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.Charges())) {
 
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CHARGES,
 					messages.allCahrges());
 
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.receivedPayments())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.receivedPayments())) {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.ALL_RECEIVEDPAYMENTS, messages.all()
 							+ " " + messages.receivedPayments());
@@ -311,16 +293,16 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 					TransactionHistory.RECEV_PAY_BY_MAESTRO,
 					messages.receivedPaymentsbySwitchMaestro());
 
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.CustomerCreditNotes())) {
+		} else if (selectedValue.equalsIgnoreCase(messages
+				.CustomerCreditNotes())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CREDITMEMOS,
 					messages.allCreditMemos());
-			transactiontypebyStatusMap.put(
-					TransactionHistory.OPEND_CREDITMEMOS,
-					messages.openCreditMemos());
+			// transactiontypebyStatusMap.put(
+			// TransactionHistory.OPEND_CREDITMEMOS,
+			// messages.openCreditMemos());
 
-		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.customerRefunds(Global.get().Customer()))) {
+		} else if (selectedValue.equalsIgnoreCase(messages
+				.customerRefunds(Global.get().Customer()))) {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.REFUNDS_BY_CREDITCARD,
 					messages.refundsByCreditCard());
