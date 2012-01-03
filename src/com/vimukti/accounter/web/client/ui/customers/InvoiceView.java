@@ -998,7 +998,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				shipToAddress.setAddres(shippingAddress);
 			}
 			if (getCustomer() != null) {
-				this.addressListOfPayee = getCustomer().getAddress();
+				this.addressListOfCustomer = getCustomer().getAddress();
 			}
 
 			if (billingAddress != null) {
@@ -1346,7 +1346,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (priceLevel != null)
 			transaction.setPriceLevel(priceLevel.getID());
 
-		String orderNum = null;
 		if (orderNumText.getValue() != null
 				&& !orderNumText.getValue().equals(""))
 			orderNum = orderNumText.getValue().toString();
@@ -1705,6 +1704,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return customerTransactionTable.getAllRows();
+	}
+
+	@Override
+	protected boolean isBlankTransactionGrid() {
+		return customerTransactionTable.getAllRows().isEmpty();
 	}
 
 	@Override
