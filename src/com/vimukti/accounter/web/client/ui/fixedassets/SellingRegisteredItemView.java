@@ -110,13 +110,13 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			}
 		}, noDepOption, allDepOption);
 		QuestionItem.setValue(noDepOption);
-
 		DynamicForm radioForm = new DynamicForm();
 		radioForm.setFields(QuestionItem);
 		dateItemCombo = new SelectItem(messages.date());
 		dateForm = new DynamicForm();
 		dateForm.setWidth("50%");
 		dateForm.setFields(dateItemCombo);
+		changeDateCombo(noDepOption);
 
 		VerticalPanel radioVlayout = new VerticalPanel();
 		radioVlayout.setSpacing(10);
@@ -237,7 +237,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 */
 
 	protected ClientFixedAsset getSellOrDisposeObject() {
-		ClientFixedAsset sellorDisposeAsset = (ClientFixedAsset) data;
+		ClientFixedAsset sellorDisposeAsset = data;
 		sellorDisposeAsset.setSoldOrDisposedDate(getSoldorDisposedDateField()
 				.getEnteredDate().getDate());
 		ClientFinanceDate date = DateUtills.getDateFromString(dateItemCombo
@@ -339,7 +339,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				result.addError(dateItemCombo, messages.requiredFields());
 			}
 		}
-		ClientFixedAsset asset = (ClientFixedAsset) data;
+		ClientFixedAsset asset = data;
 		if (asset != null)
 			if (AccounterValidator.isValidSellorDisposeDate(
 					new ClientFinanceDate(asset.getPurchaseDate()),
@@ -362,6 +362,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		return datesold;
 	}
 
+	@Override
 	public void saveAndUpdateView() {
 		reviewJournal();
 	}
@@ -425,7 +426,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 	protected TempFixedAsset getPreparedTempAssetObject() {
 		TempFixedAsset tempFixedAsset = new TempFixedAsset();
-		ClientFixedAsset asset = (ClientFixedAsset) data;
+		ClientFixedAsset asset = data;
 		tempFixedAsset.setFixedAssetID(asset.getID());
 		tempFixedAsset.setPurchaseDate(new ClientFinanceDate(asset
 				.getPurchaseDate()));
@@ -475,7 +476,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
-		AccounterException accounterException = (AccounterException) exception;
+		AccounterException accounterException = exception;
 		int errorCode = accounterException.getErrorCode();
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
@@ -523,6 +524,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			this.accountForSale = account;
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 		return listforms;
 	}
