@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -107,13 +108,12 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	public void onDoubleClick(ClientFixedAsset obj) {
-		ActionFactory.getNewFixedAssetAction().run(obj, false);
+
 	}
 
 	@Override
-	protected void onClick(ClientFixedAsset obj, int row, int col) {
+	protected void onDoubleClick(ClientFixedAsset obj, int row, int col) {
 
-		List<ClientFixedAsset> records = getRecords();
 		switch (col) {
 		case 6:
 			openHistoryView(obj);
@@ -123,7 +123,16 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 			break;
 		case 8:
 			showWarnDialog(obj);
+			break;
+		default:
+			ActionFactory.getNewFixedAssetAction().run(obj, false);
+			break;
 		}
+	}
+
+	@Override
+	protected void onClick(ClientFixedAsset obj, int row, int col) {
+
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {
@@ -155,10 +164,9 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void executeUpdate(ClientFixedAsset asset, String value) {
 
-		// List<ClientFixedAssetNote> noteList = asset.getFixedAssetNotes();
-		// ClientFixedAssetNote note = new ClientFixedAssetNote();
-		// note.setNote(value);
-		// asset.getFixedAssetNotes().add(note);
+		ClientFixedAssetNote note = new ClientFixedAssetNote();
+		note.setNote(value);
+		asset.getFixedAssetNotes().add(note);
 		Accounter.createOrUpdate(this, asset);
 	}
 
