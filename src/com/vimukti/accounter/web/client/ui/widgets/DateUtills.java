@@ -4,8 +4,8 @@ import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * 
@@ -25,31 +25,18 @@ public class DateUtills {
 
 	public static String getDateAsString(Date date) {
 		DateTimeFormat dateFormatter = null;
-		dateFormatter = DateTimeFormat.getFormat(Accounter.getCompany()
-				.getPreferences().getDateFormat());
+		dateFormatter = DateTimeFormat.getFormat(Global.get().preferences()
+				.getDateFormat());
 		return dateFormatter.format(date);
 
 	}
 
-	public static String getDateAsString(long date) {
-		return getDateAsString(new ClientFinanceDate(date).getDateAsObject());
+	public static String getDateAsString(ClientFinanceDate date) {
+		return getDateAsString(date.getDateAsObject());
 	}
 
-	public Date parseDate(String date) {
-		String[] split = date.contains("/") ? date.split("/") : date
-				.contains("-") ? date.split("-") : spilitString(date);
-
-		if (split.length == 3) {
-
-			if (Accounter.getCompany().getPreferences().getDateFormat()
-					.equals("MM/dd/yyyy")) {
-				return processDate(split[1], split[0], split[2]);
-			} else {
-				return processDate(split[0], split[1], split[2]);
-			}
-
-		}
-		return null;
+	public static String getDateAsString(long date) {
+		return getDateAsString(new ClientFinanceDate(date).getDateAsObject());
 	}
 
 	public String[] spilitString(String date) {
@@ -315,5 +302,23 @@ public class DateUtills {
 		}
 		return "";
 
+	}
+
+	public static ClientFinanceDate getDateFromString(String value) {
+		return new ClientFinanceDate(parseDate(value));
+
+	}
+
+	public static Date parseDate(String value) {
+		if (value == null) {
+			return null;
+		}
+		value = value.trim();
+		if (value.isEmpty()) {
+			return null;
+		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(Global.get()
+				.preferences().getDateFormat());
+		return dateFormatter.parse(value);
 	}
 }

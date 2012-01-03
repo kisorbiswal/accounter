@@ -21,10 +21,10 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class VendorBillListDialog extends BaseDialog {
 
@@ -59,38 +59,37 @@ public class VendorBillListDialog extends BaseDialog {
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(messages.date(), messages
-				.no(), messages.type(), messages.payeeName(Global
-				.get().Vendor()), messages.total(), messages.remainingTotal());
+		grid.addColumns(messages.date(), messages.no(), messages.type(),
+				messages.payeeName(Global.get().Vendor()), messages.total(),
+				messages.remainingTotal());
 		grid.setCellsWidth(new Integer[] { 70, 50, 90, -1, 90, 95 });
 		grid.setView(this);
 		grid.init();
 
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersAndItemReceiptsList>() {
 
-					@Override
-					public void OnCellDoubleClick(
-							PurchaseOrdersAndItemReceiptsList core, int column) {
+			@Override
+			public void OnCellDoubleClick(
+					PurchaseOrdersAndItemReceiptsList core, int column) {
 
-						setRecord(core);
-						// try {
-						// ClientEstimate record = (ClientEstimate) core;
-						//
-						// String estimateId = record.getID();
-						// selectedEstimate = getEstimate(estimateId);
-						//
-						// if (invoiceView != null && selectedEstimate != null)
-						// invoiceView.selectedQuote(selectedEstimate);
-						//
-						// removeFromParent();
-						//
-						// } catch (Exception e) {
-						// Accounter.showError("Error Loading Quote...");
-						// }
+				setRecord(core);
+				// try {
+				// ClientEstimate record = (ClientEstimate) core;
+				//
+				// String estimateId = record.getID();
+				// selectedEstimate = getEstimate(estimateId);
+				//
+				// if (invoiceView != null && selectedEstimate != null)
+				// invoiceView.selectedQuote(selectedEstimate);
+				//
+				// removeFromParent();
+				//
+				// } catch (Exception e) {
+				// Accounter.showError("Error Loading Quote...");
+				// }
 
-					}
-				});
+			}
+		});
 
 		// getGridData();
 		// setQuoteList(estimates);
@@ -182,8 +181,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(messages
-						.errorLoadingItemReceipt());
+				Accounter.showError(messages.errorLoadingItemReceipt());
 			}
 
 			@Override
@@ -194,8 +192,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.ITEMRECEIPT,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -204,8 +202,7 @@ public class VendorBillListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(messages
-						.errorLoadingPurchaseOrder());
+				Accounter.showError(messages.errorLoadingPurchaseOrder());
 			}
 
 			@Override
@@ -216,8 +213,8 @@ public class VendorBillListDialog extends BaseDialog {
 			}
 
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -239,7 +236,7 @@ public class VendorBillListDialog extends BaseDialog {
 		if (record != null) {
 			switch (index) {
 			case 0:
-				return UIUtils.dateFormat(record.getDate());
+				return DateUtills.getDateAsString(record.getDate());
 			case 1:
 				return record.getTransactionNumber();
 			case 2:

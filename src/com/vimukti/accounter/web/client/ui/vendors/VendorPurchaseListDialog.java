@@ -17,17 +17,16 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid.RecordDoubleClickHandler;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class VendorPurchaseListDialog extends BaseDialog {
 
 	private ItemReceiptView itemReceiptView;
 	private List<PurchaseOrdersList> purchaseOrderList;
-
 
 	private DialogGrid grid;
 
@@ -54,27 +53,24 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		mainLayout.add(infoLabel);
 
 		grid = new DialogGrid(false);
-		grid.addColumns(messages.date(), messages
-				.no(), messages.type(), messages.payeeName(Global
-				.get().Vendor()), messages.total());
+		grid.addColumns(messages.date(), messages.no(), messages.type(),
+				messages.payeeName(Global.get().Vendor()), messages.total());
 		grid.setView(this);
 		grid.init();
 		grid.setColumnTypes(ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT);
-		grid
-				.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
+		grid.addRecordDoubleClickHandler(new RecordDoubleClickHandler<PurchaseOrdersList>() {
 
-					@Override
-					public void OnCellDoubleClick(PurchaseOrdersList record,
-							int column) {
+			@Override
+			public void OnCellDoubleClick(PurchaseOrdersList record, int column) {
 
-						if (record != null)
-							getPurchaseOrder(record);
+				if (record != null)
+					getPurchaseOrder(record);
 
-					}
+			}
 
-				});
+		});
 
 		// getGridData();
 		setPurchaseOrderList(purchaseOrderList);
@@ -157,8 +153,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(messages
-						.failedToGetPurchaseOrder());
+				Accounter.showError(messages.failedToGetPurchaseOrder());
 
 			}
 
@@ -170,8 +165,8 @@ public class VendorPurchaseListDialog extends BaseDialog {
 
 			}
 		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER, record
-				.getTransactionId(), callback);
+		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+				record.getTransactionId(), callback);
 
 	}
 
@@ -180,7 +175,7 @@ public class VendorPurchaseListDialog extends BaseDialog {
 		if (purchaseOrder != null) {
 			switch (index) {
 			case 0:
-				return UIUtils.dateFormat(purchaseOrder.getDate());
+				return DateUtills.getDateAsString(purchaseOrder.getDate());
 			case 1:
 				return purchaseOrder.getNumber();
 			case 2:

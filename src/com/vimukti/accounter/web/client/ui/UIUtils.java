@@ -296,103 +296,90 @@ public class UIUtils {
 		Accounter.showError(string);
 	}
 
-	public static String dateToString(long longFormat) {
-		try {
-			// SimpleDateFormat new
-			ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("MMM dd, yyyy hh:mm a");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-			// return date.toString();
-		}
-	}
+	// public static String dateToString(long longFormat) {
+	// try {
+	// // SimpleDateFormat new
+	// ClientFinanceDate date = new ClientFinanceDate(new Date(longFormat));
+	// DateTimeFormat dateFormatter = DateTimeFormat
+	// .getFormat("MMM dd, yyyy hh:mm a");
+	// String format = dateFormatter.format(date.getDateAsObject());
+	// return format;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// // return date.toString();
+	// }
+	// }
 
-	/*
-	 * @param longFormat the longvalue of the date
-	 * 
-	 * @param requiredFormat the format in which the need to be shown
-	 * 
-	 * @return datestring in specified format
-	 */
-	public static String dateToString(double longFormat, String requiredFormat) {
-		try {
-			// SimpleDateFormat new
-			Date date = new Date((long) longFormat);
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat(requiredFormat);
-			String format = dateFormatter.format(date);
-			return format;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-			// return date.toString();
-		}
-	}
+	// /*
+	// * @param longFormat the longvalue of the date
+	// *
+	// * @param requiredFormat the format in which the need to be shown
+	// *
+	// * @return datestring in specified format
+	// */
+	// public static String dateToString(double longFormat, String
+	// requiredFormat) {
+	// try {
+	// // SimpleDateFormat new
+	// Date date = new Date((long) longFormat);
+	// DateTimeFormat dateFormatter = DateTimeFormat
+	// .getFormat(requiredFormat);
+	// String format = dateFormatter.format(date);
+	// return format;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// // return date.toString();
+	// }
+	// }
 
-	public static String dateToString(ClientFinanceDate date) {
-		try {
-			if (date == null)
-				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	// public static String dateToString(ClientFinanceDate date) {
+	// try {
+	// if (date == null)
+	// return "";
+	// DateTimeFormat dateFormatter = DateTimeFormat
+	// .getFormat("yyyy-MM-dd");
+	// String format = dateFormatter.format(date.getDateAsObject());
+	// return format;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
+	//
 
-	public static String dateFormat(ClientFinanceDate date) {
-		try {
-			if (date == null)
-				return "";
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("dd/MM/yyyy");
-			String format = dateFormatter.format(date.getDateAsObject());
-			return format;
+	// public static String dateAsString(ClientFinanceDate date) {
+	// return date.toString();
+	// }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	// public static ClientFinanceDate stringToDate(String strdate) {
+	// try {
+	// strdate = strdate.replace("/", "-");
+	// DateTimeFormat dateFormatter = DateTimeFormat
+	// .getFormat("yyyy-MM-dd");
+	// if (strdate != null) {
+	// Date format = dateFormatter.parse(strdate);
+	// return new ClientFinanceDate(format);
+	// }
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// return null;
+	// }
 
-	public static String dateAsString(ClientFinanceDate date) {
-		return date.toString();
-	}
-
-	public static ClientFinanceDate stringToDate(String strdate) {
-		try {
-			strdate = strdate.replace("/", "-");
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
-			if (strdate != null) {
-				Date format = dateFormatter.parse(strdate);
-				return new ClientFinanceDate(format);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return null;
-	}
-
-	public static String stringToDate(Date strdate) {
-		try {
-			DateTimeFormat dateFormatter = DateTimeFormat
-					.getFormat("yyyy-MM-dd");
-			String format = dateFormatter.format(strdate);
-			return format;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+	// public static String stringToDate(Date strdate) {
+	// try {
+	// DateTimeFormat dateFormatter = DateTimeFormat
+	// .getFormat("yyyy-MM-dd");
+	// String format = dateFormatter.format(strdate);
+	// return format;
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
 
 	public static ClickHandler todoClick() {
 		return new ClickHandler() {
@@ -425,138 +412,19 @@ public class UIUtils {
 		return " " + value + " ";
 	}
 
-	public final static native String getCurrentDate()/*-{
-		var date = new Date();
-		var formate = "";
-		switch (date.getDay()) {
-		case 0:
-			formate += messages.sun();
-			break;
-		case 1:
-			formate += messages.mon();
-			break;
-		case 2:
-			formate += messages.tues();
-			break;
-		case 3:
-			formate += messages.wednes();
-			break;
-		case 4:
-			formate += messages.thurs();
-			break;
-		case 5:
-			formate += messages.fri();
-			break;
-		case 6:
-			formate += messages.satur();
-			break;
-		default:
-			null;
-			break;
-		}
-		formate += messages.daycomma();
-		switch (date.getMonth()) {
-		case 0:
-			formate += messages.JAN();
-			break;
-		case 1:
-			formate += messages.FEB();
-			break;
-		case 2:
-			formate += messages.MAR();
-			break;
-		case 3:
-			formate += messages.APR();
-			break;
-		case 4:
-			formate += messages.MAY();
-			break;
-		case 5:
-			formate += messages.JUN();
-			break;
-		case 6:
-			formate += messages.JUL();
-			break;
-		case 7:
-			formate += messages.AUG();
-			break;
-		case 8:
-			formate += messages.SEP();
-			break;
-		case 9:
-			formate += messages.OCT();
-			break;
-		case 10:
-			formate += messages.NOV();
-			break;
-		case 11:
-			formate += messages.DEC();
-			break;
-		}
-		formate += " " + date.getDate() + ", " + date.getFullYear();
-		//		$wnd.alert(formate);
-		return formate;
-	}-*/;
-
-	public static ClientFinanceDate stringToDate(String strdate,
-			String dateFormat) {
-		try {
-			// strdate = strdate.replace("/", "-");
-
-			DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
-			Date format = dateFormatter.parse(strdate);
-			return new ClientFinanceDate(format);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public final static native String getDateStringByDate(String dateString)/*-{
-		var date = new Date(dateString);
-		var formate = "";
-		switch (date.getMonth()) {
-		case 0:
-			formate += messages.JAN();
-			break;
-		case 1:
-			formate += messages.FEB();
-			break;
-		case 2:
-			formate += messages.MAR();
-			break;
-		case 3:
-			formate += messages.APR();
-			break;
-		case 4:
-			formate += messages.MAY();
-			break;
-		case 5:
-			formate += messages.JUN();
-			break;
-		case 6:
-			formate += messages.JUL();
-			break;
-		case 7:
-			formate += messages.AUG();
-			break;
-		case 8:
-			formate += messages.SEP();
-			break;
-		case 9:
-			formate += messages.OCT();
-			break;
-		case 10:
-			formate += messages.NOV();
-			break;
-		case 11:
-			formate += messages.DEC();
-			break;
-		formate += " " + date.getDate() + ", " + date.getFullYear();
-
-		return formate;
-	}
-	}-*/;
+	// public static ClientFinanceDate stringToDate(String strdate,
+	// String dateFormat) {
+	// try {
+	// // strdate = strdate.replace("/", "-");
+	//
+	// DateTimeFormat dateFormatter = DateTimeFormat.getFormat(dateFormat);
+	// Date format = dateFormatter.parse(strdate);
+	// return new ClientFinanceDate(format);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// return null;
+	// }
+	// }
 
 	public static <T extends IAccounterCore> AccounterAsyncCallback<Boolean> getGeneralizedUpdateCallBack(
 			final AbstractBaseView view, final T object) {

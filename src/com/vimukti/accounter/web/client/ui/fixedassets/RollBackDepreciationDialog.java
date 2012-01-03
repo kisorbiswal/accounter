@@ -19,11 +19,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class RollBackDepreciationDialog extends BaseDialog {
 
 	protected ClientFinanceDate lastDepreciationDate;
-	protected List<ClientFinanceDate> depreciationDate;
+	protected List<String> depreciationDate = new ArrayList<String>();
 	private ListBox dateBox;
 
 	public RollBackDepreciationDialog() {
@@ -58,11 +60,8 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		HTML prefixText = new HTML(messages.rollbackDepreciationTo());
 
 		dateBox = new ListBox();
-		if (depreciationDate != null) {
-			for (ClientFinanceDate date : depreciationDate) {
-				String dateString = UIUtils.getDateByCompanyType(date);
-				dateBox.addItem(dateString);
-			}
+		for (String date : depreciationDate) {
+			dateBox.addItem(date);
 		}
 
 		okbtn.setWidth("50px");
@@ -116,24 +115,22 @@ public class RollBackDepreciationDialog extends BaseDialog {
 		ClientFinanceDate tempDate = new ClientFinanceDate(
 				depreciationStartDate.getDate());
 
-		depreciationDate = new ArrayList<ClientFinanceDate>();
+		depreciationDate = new ArrayList<String>();
 
 		if (lastDepreciationDate != null) {
 
 			ClientFinanceDate tempLastDate = new ClientFinanceDate(
 					lastDepreciationDate.getDate());
 			tempLastDate.setDay(1);
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.MONTH, depreciationStartDate.getMonth());
 
-			while (!(tempDate.getDay() == tempLastDate.getDay()
-					&& tempDate.getMonth() == tempLastDate.getMonth() && tempDate
-						.getYear() == tempLastDate.getYear())) {
-
-				depreciationDate.add(new ClientFinanceDate(tempDate.getDate()));
-				int month = tempDate.getMonth();
-				tempDate.setMonth(month + 1);
-
+			while (depreciationStartDate.before(lastDepreciationDate)) {
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				depreciationDate.add(DateUtills.getDateAsString(cal.getTime()));
+				cal.add(Calendar.MONTH, 1);
 			}
-			depreciationDate.add(new ClientFinanceDate(tempDate.getDate()));
+
 		}
 
 	}
@@ -155,8 +152,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 	private void rollBackDepreciation() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
-		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(getPreferences().getDateFormat()));
+		ClientFinanceDate date = DateUtills.getDateFromString(dateString);
 
 		AccounterAsyncCallback<Boolean> callBack = new AccounterAsyncCallback<Boolean>() {
 

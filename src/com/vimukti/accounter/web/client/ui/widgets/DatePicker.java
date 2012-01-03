@@ -488,7 +488,7 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 		} else {
 			try {
 				// Date parsedDate = dateFormatter.parse(getText());
-				Date parsedDate = new DateUtills().parseDate(getText());
+				Date parsedDate = DateUtills.parseDate(getText());
 
 				if (canBeSelected(parsedDate))
 					selectedDate = parsedDate;

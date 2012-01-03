@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.AbstractTransactionGrid.RecordClickHandler;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * ListGrid is Table widget that supports editing & updating Cells.Sort Columns
@@ -693,7 +694,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 				public void onValueChange(ValueChangeEvent<Date> event) {
 
 					onWidgetValueChanged(datePicker,
-							UIUtils.stringToDate(event.getValue()));
+							DateUtills.getDateAsString(event.getValue()));
 
 				}
 			});

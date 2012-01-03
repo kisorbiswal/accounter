@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
-import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -1161,9 +1160,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (dueDateOnOrBefore != null) {
 			for (PayBillTransactionList cont : filterList) {
 				if (cont.getDueDate().before(dueDateOnOrBefore)
-						|| cont.getDueDate().equals(
-								UIUtils.stringToDate(UIUtils
-										.dateToString(dueDateOnOrBefore))))
+						|| cont.getDueDate().equals(dueDateOnOrBefore))
 					tempList.add(cont);
 
 			}

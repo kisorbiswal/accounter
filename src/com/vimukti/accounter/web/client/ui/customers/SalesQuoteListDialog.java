@@ -7,9 +7,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.grids.DialogGrid;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 
@@ -41,8 +41,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 
 		grid = new DialogGrid<ClientEstimate>(true);
 		grid.addColumns(messages.date(), messages.no(), messages.type(),
-				messages.payeeName(Global.get().Customer()), messages
-						.total());
+				messages.payeeName(Global.get().Customer()), messages.total());
 		grid.setCellsWidth(70, 30, 60, -1, 60);
 		grid.setView(this);
 		grid.init();
@@ -76,7 +75,7 @@ public class SalesQuoteListDialog extends BaseDialog<ClientEstimate> {
 		if (estimate != null) {
 			switch (index) {
 			case 0:
-				return UIUtils.dateFormat(estimate.getDate());
+				return DateUtills.getDateAsString(estimate.getDate());
 			case 1:
 				return estimate.getNumber();
 			case 2:

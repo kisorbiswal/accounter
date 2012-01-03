@@ -26,7 +26,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepreciationMethodCombo;
 import com.vimukti.accounter.web.client.ui.combo.FixedAssetAccountCombo;
@@ -48,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -659,16 +659,14 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				isAssetAccumulated = true;
 				infoLabel1 = new Label(
 						messages.purchaseDatePriorToFixedAssetsStartDate()
-								+ UIUtils
-										.getDateStringByDate(getDepreciationStartDate()
-												.toString())
+								+ DateUtills
+										.getDateAsString(getDepreciationStartDate())
 								+ messages.openBraseSoPleaseSelect());
 				infoLabel1.setStyleName("requiredField");
 				accmulatdDepreciationTxt = new AmountField(
-						messages.accumulatedDepreciationTo()
-								+ " "
-								+ UIUtils.getDateStringByDate(enteredDate
-										.toString()), this, getBaseCurrency());
+						messages.accumulatedDepreciationTo() + " "
+								+ DateUtills.getDateAsString(enteredDate),
+						this, getBaseCurrency());
 				accmulatdDepreciationTxt
 						.setValue(DataUtils
 								.getAmountAsStringInPrimaryCurrency(getDepreciationAmount()));

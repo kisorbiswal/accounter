@@ -8,13 +8,12 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 import com.vimukti.accounter.web.client.ui.customers.ItemsGrid;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * 
@@ -172,8 +171,8 @@ public class PurchaseDetailesView extends AbstractView {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(messages
-				.selectATaskNotetoSeeTheDetails()));
+		flexTable.setWidget(0, 0,
+				new HTML(messages.selectATaskNotetoSeeTheDetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
 	}
@@ -196,8 +195,8 @@ public class PurchaseDetailesView extends AbstractView {
 		if (purchaseOrder.getPurchaseOrderNumber() != null)
 			customerNumberField.setText(String.valueOf(purchaseOrder
 					.getPurchaseOrderNumber()));
-		dueDateField.setText(UIUtils.dateFormat(new ClientFinanceDate(
-				purchaseOrder.getDueDate())));
+		dueDateField.setText(DateUtills.getDateAsString(purchaseOrder
+				.getDueDate()));
 
 		if (purchaseOrder.getStatus() == 101)
 			statusField.setText(messages.open());

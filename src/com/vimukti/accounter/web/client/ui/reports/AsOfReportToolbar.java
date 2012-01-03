@@ -11,11 +11,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class AsOfReportToolbar extends ReportToolbar {
 
@@ -31,16 +31,11 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { messages.cash(),
-				messages.accrual() };
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] reportBasisArray = { messages.cash(), messages.accrual() };
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
 				messages.financialYearToDate(),
 
@@ -92,8 +87,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 		}
 		dateRangeCombo.initCombo(dateRangeList);
 		dateRangeCombo.setDefaultValue(dateRangeArray[0]);
-		dateRangeCombo
-				.setComboItem(messages.financialYearToDate());
+		dateRangeCombo.setComboItem(messages.financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -129,13 +123,11 @@ public class AsOfReportToolbar extends ReportToolbar {
 					if (!date.after(startDate))
 						Accounter.showError(messages
 								.pleaseSelectDateAfterCompanyStartDate()
-								+ UIUtils.getDateStringByDate(startDate
-										.toString()));
+								+ DateUtills.getDateAsString(startDate));
 					else
 						changeDates(startDate, date);
 				} else {
-					Accounter.showError(messages
-							.pleaseSelectDate());
+					Accounter.showError(messages.pleaseSelectDate());
 				}
 
 			}

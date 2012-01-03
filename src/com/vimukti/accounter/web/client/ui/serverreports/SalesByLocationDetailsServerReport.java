@@ -4,9 +4,9 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class SalesByLocationDetailsServerReport extends
 		AbstractFinaneReport<SalesByLocationDetails> {
@@ -41,8 +41,7 @@ public class SalesByLocationDetailsServerReport extends
 		if (!isLocation) {
 			return messages.salesByClassDetails();
 		}
-		return messages.getSalesByLocationDetails(
-				Global.get().Location());
+		return messages.getSalesByLocationDetails(Global.get().Location());
 	}
 
 	@Override
@@ -112,8 +111,7 @@ public class SalesByLocationDetailsServerReport extends
 		case 0:
 			return "";
 		case 1:
-			return UIUtils
-					.dateAsString(new ClientFinanceDate(record.getDate()));
+			return DateUtills.getDateAsString(record.getDate());
 		case 2:
 			return ReportUtility.getTransactionName(record.getType());
 		case 3:

@@ -16,9 +16,9 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class StartDateDialog extends BaseDialog {
 
@@ -55,8 +55,7 @@ public class StartDateDialog extends BaseDialog {
 				+ getStartDateString());
 
 		Label infoLabel = new Label();
-		infoLabel
-				.setText(messages.startDateForManagingFixedAsset());
+		infoLabel.setText(messages.startDateForManagingFixedAsset());
 		HTML prefixText = new HTML(messages.newStartDate());
 		dateBox = new ListBox();
 		dateBox.addChangeHandler(new ChangeHandler() {
@@ -94,7 +93,7 @@ public class StartDateDialog extends BaseDialog {
 
 	private void fillDateCombo() {
 		for (ClientFinanceDate date : startDateList) {
-			dateBox.addItem(format.format(date.getDateAsObject()));
+			dateBox.addItem(DateUtills.getDateAsString(date));
 		}
 
 		setDefaultStartDate();
@@ -126,8 +125,7 @@ public class StartDateDialog extends BaseDialog {
 
 	private void changeStartDate() {
 		String dateString = dateBox.getValue(dateBox.getSelectedIndex());
-		ClientFinanceDate date = UIUtils.stringToDate(dateString,
-				(company.getPreferences().getDateFormat()));
+		ClientFinanceDate date = DateUtills.getDateFromString(dateString);
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 

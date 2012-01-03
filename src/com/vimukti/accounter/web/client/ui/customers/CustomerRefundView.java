@@ -507,8 +507,9 @@ public class CustomerRefundView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 
-			if (customer != null)
+			if (customer != null){
 				custBalText.setAmount(customer.getBalance());
+			}
 
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());

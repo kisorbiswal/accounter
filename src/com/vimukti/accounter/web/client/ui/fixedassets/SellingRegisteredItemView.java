@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -31,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
@@ -39,8 +38,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.RadioGroupItem;
 import com.vimukti.accounter.web.client.ui.forms.SelectItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
-import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * 
@@ -61,8 +60,6 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	protected TextAreaItem notesArea;
 	protected JournalViewDialog dialog;
 	private ClientAccount accountForSale;
-	protected LinkedHashMap<String, ClientFinanceDate> dateValueMap = new LinkedHashMap<String, ClientFinanceDate>();
-	protected LinkedHashMap<Integer, Integer> monthsKey = new LinkedHashMap<Integer, Integer>();
 
 	private ArrayList<DynamicForm> listforms;
 	private Button reviewJournal;
@@ -243,8 +240,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		ClientFixedAsset sellorDisposeAsset = (ClientFixedAsset) data;
 		sellorDisposeAsset.setSoldOrDisposedDate(getSoldorDisposedDateField()
 				.getEnteredDate().getDate());
-		ClientFinanceDate date = dateValueMap.get(dateItemCombo.getValue()
-				.toString());
+		ClientFinanceDate date = DateUtills.getDateFromString(dateItemCombo
+				.getValue());
 		if (date != null)
 			sellorDisposeAsset.setDepreciationTillDate(date.getDate());
 
@@ -287,9 +284,10 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 */
 
 	private void initDateCombo() {
-		calucateDateCombo();
-		String dateList[] = getlastDates();
-		dateItemCombo.setValueMap(dateList);
+		ArrayList<String> dateList = getLastDates();
+		dateList.add(0, " ");
+		dateItemCombo
+				.setValueMap(dateList.toArray(new String[dateList.size()]));
 
 	}
 
@@ -300,82 +298,19 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	 * @return yearlist
 	 */
 
-	public String[] getlastDates() {
-		dateValueMap.clear();
-		String months[] = getMonthStrings();
-		int lastdates[] = getLastDateValues();
-		String dateList[] = new String[months.length + 1];
-		dateList[0] = " ";
-		String format;
-		Set<Integer> monthset = monthsKey.keySet();
-		int year, pos = 1;
-		for (int key : monthset) {
-			year = monthsKey.get(key);
-			if (getSoldorDisposedDateField().isLeapYear(year) && key == 1)
-				format = (lastdates[key] + 1) + " " + months[key] + " " + year;
-			else
-				format = lastdates[key] + " " + months[key] + " " + year;
-			dateList[pos] = format;
-			dateValueMap.put(format, new ClientFinanceDate((year), key,
-					lastdates[key]));
-			pos++;
+	public ArrayList<String> getLastDates() {
+		ArrayList<String> dateList = new ArrayList<String>();
+		Calendar cal = Calendar.getInstance();
+		ClientFinanceDate startDate = Accounter.getCompany()
+				.getCurrentFiscalYearStartDate();
+		cal.set(Calendar.MONTH, startDate.getMonth());
+		for (int x = 0; x < 12; x++) {
+			cal.set(Calendar.DAY_OF_MONTH,
+					cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			dateList.add(DateUtills.getDateAsString(cal.getTime()));
+			cal.add(Calendar.MONTH, 1);
 		}
-		String dateListPreferenceFormat[] = new String[months.length + 1];
-		int dateNum = 1;
-		for (String date : dateList) {
-			if (!date.equalsIgnoreCase(" ")) {
-				ClientFinanceDate stringToDate = UIUtils.stringToDate(date,
-						"dd MMMM yyyy");
-				String dateToString = UIUtils.dateToString(stringToDate
-						.getDateAsObject().getTime(), getPreferences()
-						.getDateFormat());
-				dateListPreferenceFormat[dateNum] = dateToString;
-				dateNum++;
-			}
-		}
-		return dateListPreferenceFormat;
-	}
-
-	private String[] getMonthStrings() {
-		return new String[] { DayAndMonthUtil.jan(), DayAndMonthUtil.feb(),
-				DayAndMonthUtil.mar(), DayAndMonthUtil.apr(),
-				DayAndMonthUtil.mayS(), DayAndMonthUtil.jun(),
-				DayAndMonthUtil.jul(), DayAndMonthUtil.aug(),
-				DayAndMonthUtil.sep(), DayAndMonthUtil.oct(),
-				DayAndMonthUtil.nov(), DayAndMonthUtil.dec(), };
-	}
-
-	private int[] getLastDateValues() {
-		return new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-	}
-
-	/**
-	 * Calculate the valid Dates based on the Depreciation Start Date
-	 */
-
-	private void calucateDateCombo() {
-		monthsKey.clear();
-		int monthvalue = 0, year = 0;
-		ClientFinanceDate startDate = new ClientFinanceDate(Accounter
-				.getCompany().getPreferences().getDepreciationStartDate());
-		ClientFinanceDate soldorDisposedate = getSoldorDisposedDateField()
-				.getEnteredDate();
-		if (soldorDisposedate.getMonth() >= startDate.getMonth()) {
-			monthvalue = startDate.getMonth();
-			year = soldorDisposedate.getYear();
-		} else if (soldorDisposedate.getMonth() < startDate.getMonth()) {
-			monthvalue = startDate.getMonth();
-			year = (soldorDisposedate.getYear()) - 1;
-		}
-		for (int month = 0; month < 12; month++) {
-			if (monthvalue > 11) {
-				monthvalue = 0;
-				year++;
-			}
-			monthsKey.put(monthvalue, year);
-			monthvalue++;
-
-		}
+		return dateList;
 	}
 
 	/**
@@ -498,8 +433,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 				noDepOption) ? true : false);
 		tempFixedAsset.setSoldOrDisposedDate(getSoldorDisposedDateField()
 				.getEnteredDate());
-		ClientFinanceDate date = dateValueMap.get(dateItemCombo.getValue()
-				.toString());
+		ClientFinanceDate date = DateUtills.getDateFromString(dateItemCombo
+				.getValue());
 		if (date != null)
 			tempFixedAsset.setDepreciationTillDate(date);
 		tempFixedAsset.setPurchasePrice(asset.getPurchasePrice());

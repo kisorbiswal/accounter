@@ -31,7 +31,6 @@ import com.vimukti.accounter.web.client.core.Lists.LinkAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
@@ -40,6 +39,7 @@ import com.vimukti.accounter.web.client.ui.fixedassets.RollBackDepreciationDialo
 import com.vimukti.accounter.web.client.ui.fixedassets.StartDateDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.DepreciationTreeGrid;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * 
@@ -381,8 +381,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 			// ClientFinanceDate clientFinanceDate = new ClientFinanceDate(
 			// dateString);
 
-			depreciationEndDate = UIUtils.stringToDate(dateString,
-					getPreferences().getDateFormat());
+			depreciationEndDate = DateUtills.getDateFromString(dateString);
 
 			AccounterAsyncCallback<DepreciableFixedAssetsList> callBack = new AccounterAsyncCallback<DepreciableFixedAssetsList>() {
 
