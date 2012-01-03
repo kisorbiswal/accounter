@@ -870,7 +870,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(customer);
 		}
-		this.addressListOfPayee = customer.getAddress();
+		this.addressListOfCustomer = customer.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
 
@@ -884,8 +884,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.setAddress(addresses);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-		if (addressListOfPayee != null) {
-			Iterator it = addressListOfPayee.iterator();
+		if (addressListOfCustomer != null) {
+			Iterator it = addressListOfCustomer.iterator();
 			while (it.hasNext()) {
 				ClientAddress add = (ClientAddress) it.next();
 
