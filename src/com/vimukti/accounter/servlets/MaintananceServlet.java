@@ -15,6 +15,7 @@ import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.server.i18n.ServerSideMessages;
 
 public class MaintananceServlet extends BaseServlet {
 
@@ -27,8 +28,11 @@ public class MaintananceServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setAttribute("CheckedValue", ServerConfiguration
-				.isUnderMaintainance());
+		req.setAttribute("CheckedValue",
+				ServerConfiguration.isUnderMaintainance());
+		if ("1".equals(req.getParameter("deleteMessages"))) {
+			ServerSideMessages.clearMessgae();
+		}
 		dispatch(req, resp, MAINTANANCE_VIEW);
 
 	}
@@ -63,14 +67,12 @@ public class MaintananceServlet extends BaseServlet {
 			session.saveOrUpdate(maintanance);
 			transaction.commit();
 			if (ServerConfiguration.isUnderMaintainance())
-				req
-						.setAttribute("message",
-								"Server will be under maintainence");
+				req.setAttribute("message", "Server will be under maintainence");
 			else
 				req.setAttribute("message",
 						"Removed  Server from  under maintainence");
-			req.setAttribute("CheckedValue", ServerConfiguration
-					.isUnderMaintainance());
+			req.setAttribute("CheckedValue",
+					ServerConfiguration.isUnderMaintainance());
 			transaction = session.beginTransaction();
 			for (MaintananceInfoUser user : usersList) {
 				UsersMailSendar.sendMailToMaintanaceInfoUsers(user);

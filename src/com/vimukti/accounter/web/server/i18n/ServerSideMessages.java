@@ -23,7 +23,7 @@ public class ServerSideMessages {
 
 	public static final boolean TRACK_MESSAGE_STATISTICS = Boolean.TRUE;
 
-	private static Map<String, String> keyMessages = new HashMap<String, String>();
+	private static Map<String, Map<String, String>> keyMessages = new HashMap<String, Map<String, String>>();
 
 	public static List<String> usageByOrder = new ArrayList<String>();
 
@@ -67,12 +67,26 @@ public class ServerSideMessages {
 			updateStats(key);
 		}
 
-		String messgae = keyMessages.get(key);
-		if (messgae != null) {
-			return messgae;
-		}
 		User user = AccounterThreadLocal.get();
+
 		Locale locale = ServerLocal.get();
+
+		String language = "";
+		try {
+			language = locale.getISO3Language();
+		} catch (MissingResourceException e) {
+			language = "eng";
+		}
+
+		Map<String, String> map = keyMessages.get(language);
+		if (map == null) {
+			map = new HashMap<String, String>();
+		}
+		String message = map.get(key);
+		if (message != null) {
+			return message;
+		}
+
 		Session session = HibernateUtil.getCurrentSession();
 		boolean sessionOpened = false;
 		if (session == null || !session.isOpen()) {
@@ -84,12 +98,7 @@ public class ServerSideMessages {
 			if (user != null) {
 				clientId = user.getClient().getID();
 			}
-			String language = "";
-			try {
-				language = locale.getISO3Language();
-			} catch (MissingResourceException e) {
-				language = "eng";
-			}
+
 			List list = session.getNamedQuery("getLocalMessageForKey")
 					.setString("language", language)
 					.setLong("client", clientId).setString("key", key).list();
@@ -103,7 +112,8 @@ public class ServerSideMessages {
 				return "";
 			}
 			// String replace = msg.replace("'", "\\'");
-			keyMessages.put(key, msg);
+			Map<String, String> langMessgaeMap = keyMessages.get(language);
+			langMessgaeMap.put(key, message);
 			return msg;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,6 +134,10 @@ public class ServerSideMessages {
 		} else {
 			usageByCount.put(key, 1);
 		}
+	}
+
+	public static void clearMessgae() {
+		keyMessages.clear();
 	}
 
 }
