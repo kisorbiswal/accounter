@@ -27,7 +27,6 @@ import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
@@ -450,6 +449,4 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long accountId, int chartType) throws AccounterException;
 
 	ArrayList<ClientTDSResponsiblePerson> getResponsiblePersonDetails();
-
-	boolean savePortletConfiguration(ClientPortletConfiguration configuration);
 }
