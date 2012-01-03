@@ -53,6 +53,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreatableObject;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.CustomField;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
@@ -465,6 +466,8 @@ public class FinanceTool {
 			} else if (serverObject instanceof Budget) {
 				session.delete(serverObject);
 			} else if (serverObject instanceof TDSChalanDetail) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof CustomField) {
 				session.delete(serverObject);
 			} else if (serverObject instanceof Transaction
 					&& ((Transaction) serverObject).isTemplate()) {
