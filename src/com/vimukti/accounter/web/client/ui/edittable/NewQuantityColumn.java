@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.settings.UnitCombo;
@@ -122,6 +123,18 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		final WarehouseCombo whCombo = new WarehouseCombo("");
 		whCombo.setComboItem(wareHouse);
 		whCombo.setShowTitle(false);
+		whCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientWarehouse>() {
+
+			@Override
+			public void selectedComboBoxItem(ClientWarehouse selectItem) {
+				if (!popup.isShowing()) {
+					if (selectItem != null) {
+						row.setWareHouse(selectItem.getID());
+						getTable().update(row);
+					}
+				}
+			}
+		});
 
 		table.setWidget(0, 0, valueLabel);
 		table.setWidget(1, 0, valueBox);
@@ -157,7 +170,7 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				getTable().update(row);
 			}
 		});
-		Widget widget = getTable().getWidget(row,this);
+		Widget widget = getTable().getWidget(row, this);
 		popup.setAutoHideEnabled(true);
 		popup.addStyleName("quantityPopup");
 		popup.showRelativeTo(widget);
