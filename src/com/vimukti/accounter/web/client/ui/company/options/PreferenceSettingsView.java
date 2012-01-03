@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.company.CurrencyFormatDialog;
 import com.vimukti.accounter.web.client.ui.company.PreferencePage;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;

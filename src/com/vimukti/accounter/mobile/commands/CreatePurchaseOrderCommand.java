@@ -168,7 +168,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getMessages().Vendor()), getMessages().vendor(), false, true,
+				getMessages().Vendor()), getMessages().Vendor(), false, true,
 				null)
 
 		{

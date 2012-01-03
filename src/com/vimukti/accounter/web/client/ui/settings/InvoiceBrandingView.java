@@ -72,7 +72,7 @@ public class InvoiceBrandingView<T> extends
 		company = Accounter.getCompany();
 		mainPanel = new VerticalPanel();
 		titlePanel = new VerticalPanel();
-		generalSettingsHTML = new HTML(messages.generalSettingsLabel());
+		generalSettingsHTML = new HTML(messages.generalSettings());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override

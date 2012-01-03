@@ -76,7 +76,7 @@ public class MostProfitableCustomersAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.mostProfitableCustomers(Global.get().customers());
+		return messages.mostProfitableCustomer(Global.get().customers());
 	}
 
 }

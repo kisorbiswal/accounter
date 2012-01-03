@@ -25,7 +25,7 @@ public class MISC1099TransactionDetailServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().name(), getMessages().date(),
-				getMessages().type(), getMessages().num(),
+				getMessages().type(), getMessages().number(),
 				getMessages().memo(), getMessages().box1099(),
 				getMessages().Account(), getMessages().amount() };
 	}
@@ -39,7 +39,7 @@ public class MISC1099TransactionDetailServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { getMessages().name(), getMessages().date(),
-				getMessages().type(), getMessages().num(),
+				getMessages().type(), getMessages().number(),
 				getMessages().memo(), getMessages().box1099(),
 				getMessages().Account(), getMessages().amount() };
 	}

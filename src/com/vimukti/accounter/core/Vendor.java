@@ -358,9 +358,9 @@ public class Vendor extends Payee {
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.vendor());
+		w.put(messages.type(), messages.Vendor());
 
-		w.put(messages.vendor() + " " + messages.number(), this.vendorNumber)
+		w.put(messages.Vendor() + " " + messages.number(), this.vendorNumber)
 				.gap();
 		if (this.expenseAccount != null)
 			w.put(messages.expenseAccount(), this.expenseAccount.getName());

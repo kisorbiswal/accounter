@@ -313,7 +313,7 @@ public class CreditCardCharge extends Transaction {
 		w.put(messages.amount(), this.total);
 
 		if (this.vendor != null)
-			w.put(messages.vendor(), this.vendor.getName()).gap();
+			w.put(messages.Vendor(), this.vendor.getName()).gap();
 
 		if (this.contact != null)
 			w.put(messages.contactName(), this.contact.getName());

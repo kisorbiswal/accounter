@@ -99,7 +99,7 @@ public abstract class MeasurementUnitRequirement extends
 		Record record = new Record(t);
 		record.add(getMessages().unitName(), t.getType());
 		record.add(getMessages().factor(), t.getFactor());
-		record.add(getMessages().isDefault(), t.isDefault());
+		record.add(getMessages().defaultWare(), t.isDefault());
 		return record;
 	}
 

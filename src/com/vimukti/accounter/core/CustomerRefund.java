@@ -407,7 +407,7 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), messages.customerRefund(messages.Customer()))
+		w.put(messages.type(), messages.customerRefund(messages.customer()))
 				.gap();
 
 		w.put(messages.no(), this.number);

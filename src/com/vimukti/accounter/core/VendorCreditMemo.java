@@ -327,7 +327,7 @@ public class VendorCreditMemo extends Transaction {
 		if (this.contact != null)
 			w.put(messages.contact(), this.contact.getName()).gap();
 		if (this.vendor != null)
-			w.put(messages.vendor(), this.vendor.getName());
+			w.put(messages.Vendor(), this.vendor.getName());
 
 		if (this.phone != null)
 			w.put(messages.phone(), this.phone).gap();

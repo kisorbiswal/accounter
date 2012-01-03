@@ -667,7 +667,7 @@ public class TransactionPayBill extends CreatableObject implements
 			w.put(messages.payBill(), this.payBill.getNumber());
 
 		if (this.vendor != null)
-			w.put(messages.vendor(), this.vendor.getName());
+			w.put(messages.Vendor(), this.vendor.getName());
 
 		if (this.billNumber != null)
 			w.put(messages.billNo(), this.billNumber);

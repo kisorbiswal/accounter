@@ -48,8 +48,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	public static final String SUBDIVIDE_DONT = messages.DontSubdevide();
 	public static final String SUBDIVIDE_BUSINESS = messages.buisiness();
-	public static final String SUBDIVIDE_CLASS = messages.Class();
-	public static final String SUBDIVIDE_CUSTOMER = messages.Customer();
+	public static final String SUBDIVIDE_CLASS = messages.accounterClass();
+	public static final String SUBDIVIDE_CUSTOMER = messages.customer();
 
 	private SelectCombo budgetStartWithSelect, budgetSubdevideBy;
 	private SelectCombo selectFinancialYear;

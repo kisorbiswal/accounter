@@ -83,7 +83,7 @@ public class TDSVendorsTable extends CellTable<ClientTDSInfo> implements
 
 		
 		AccounterMessages messages=Global.get().messages();
-		this.addColumn(vendorName, messages.vendor());
+		this.addColumn(vendorName, messages.Vendor());
 		this.addColumn(date, messages.date());
 		this.addColumn(originalBalance, messages.originalAmount());
 		this.addColumn(payment, messages.payment());

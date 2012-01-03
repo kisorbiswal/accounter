@@ -259,7 +259,7 @@ public class CustomerCenterView<T> extends BaseView<ClientCustomer> {
 					messages.getOpendInvoices());
 			transactiontypebyStatusMap.put(
 					TransactionHistory.OVER_DUE_INVOICES,
-					messages.getOverdueInvoices());
+					messages.overDueInvoices());
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.allcashSales())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CASHSALES,

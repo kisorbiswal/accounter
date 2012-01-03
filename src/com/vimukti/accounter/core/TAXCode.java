@@ -319,7 +319,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		if (this.TAXItemGrpForSales != null)
 			w.put(messages.taxItemForSales(), this.TAXItemGrpForSales.getName());
 
-		w.put(messages.isDefault(), this.isDefault).gap();
+		w.put(messages.defaultWare(), this.isDefault).gap();
 
 		w.put(messages.salesTax(), this.salesTaxRate);
 

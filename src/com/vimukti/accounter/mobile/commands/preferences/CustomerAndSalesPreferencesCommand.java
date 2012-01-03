@@ -182,14 +182,14 @@ public class CustomerAndSalesPreferencesCommand extends
 		});
 
 		list.add(new StringListRequirement(CUSTOMER_TERMINOLOGY, getMessages()
-				.Customer() + " " + getMessages().terminology(), getMessages()
-				.Customer() + " " + getMessages().terminology(), true, true,
+				.customer() + " " + getMessages().terminology(), getMessages()
+				.customer() + " " + getMessages().terminology(), true, true,
 				null) {
 
 			@Override
 			protected String getSelectString() {
 				return getMessages().pleaseSelect(
-						getMessages().Customer() + " "
+						getMessages().customer() + " "
 								+ getMessages().terminology());
 			}
 
@@ -201,7 +201,7 @@ public class CustomerAndSalesPreferencesCommand extends
 			@Override
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
-						getMessages().Customer() + " "
+						getMessages().customer() + " "
 								+ getMessages().terminology());
 			}
 
@@ -360,7 +360,7 @@ public class CustomerAndSalesPreferencesCommand extends
 
 	protected List<String> getCustomerTerminologies() {
 		List<String> customerTerms = new ArrayList<String>();
-		customerTerms.add(getMessages().Customer());
+		customerTerms.add(getMessages().customer());
 		customerTerms.add(getMessages().Client());
 		customerTerms.add(getMessages().Tenant());
 		customerTerms.add(getMessages().Donar());

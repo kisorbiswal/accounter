@@ -8,7 +8,6 @@ import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Measurement;
-import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Warehouse;

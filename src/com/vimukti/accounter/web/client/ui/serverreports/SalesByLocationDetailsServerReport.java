@@ -32,7 +32,7 @@ public class SalesByLocationDetailsServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { "", messages.date(), messages.type(),
 				messages.number(), messages.Account(),
-				messages.prouductOrService(), messages.amount(),
+				messages.productOrService(), messages.amount(),
 				messages.balance() };
 	}
 
@@ -48,7 +48,7 @@ public class SalesByLocationDetailsServerReport extends
 	public String[] getColunms() {
 		return new String[] { "", messages.date(), messages.type(),
 				messages.number(), messages.Account(),
-				messages.prouductOrService(), messages.amount(),
+				messages.productOrService(), messages.amount(),
 				messages.balance() };
 	}
 

@@ -155,8 +155,8 @@ public class ItemListView extends BaseListView<ClientItem> {
 		if (this.catageory.equals(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
-		} else if (this.catageory.equals(messages.vendor())
-				|| this.catageory.equals(messages.vendor())) {
+		} else if (this.catageory.equals(messages.Vendor())
+				|| this.catageory.equals(messages.Vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
 		} else if (this.catageory.equals(messages.bothCustomerAndVendor(Global

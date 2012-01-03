@@ -72,7 +72,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.payeesList(messages.Accounts());
+		return messages.payeeList(messages.Accounts());
 	}
 
 	@Override

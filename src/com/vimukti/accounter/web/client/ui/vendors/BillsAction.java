@@ -78,7 +78,7 @@ public class BillsAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.billsAndItemReceipts();
+		return messages.billsAndExpenses();
 	}
 
 }

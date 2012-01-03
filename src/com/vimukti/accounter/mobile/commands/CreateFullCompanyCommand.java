@@ -53,7 +53,7 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 			protected String getSetMessage() {
 				return getMessages().hasSelected(
 						getMessages()
-								.payeeTerminology(getMessages().Customer()));
+								.payeeTerminology(getMessages().customer()));
 			}
 
 			@Override
@@ -65,8 +65,8 @@ public class CreateFullCompanyCommand extends AbstractCompanyCommad {
 		list.add(new StringListRequirement(
 				SUPPLIER_TERMINOLOGY,
 				getMessages().pleaseEnter(
-						getMessages().payeeTerminology(getMessages().vendor())),
-				getMessages().payeeTerminology(getMessages().vendor()), true,
+						getMessages().payeeTerminology(getMessages().Vendor())),
+				getMessages().payeeTerminology(getMessages().Vendor()), true,
 				true, null) {
 
 			@Override

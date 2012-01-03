@@ -243,7 +243,7 @@ public class PurchaseOpenOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().orderDate(),
-				getMessages().vendor(),
+				getMessages().Vendor(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getMessages().amount() };

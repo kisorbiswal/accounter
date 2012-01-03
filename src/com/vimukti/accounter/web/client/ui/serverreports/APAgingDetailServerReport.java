@@ -199,16 +199,16 @@ public class APAgingDetailServerReport extends
 	}
 
 	private boolean addOneTothirty(AgedDebtors record) {
-		if (!sectiontypes.contains(getMessages().days30())) {
-			addTypeSection(getMessages().days30(), "");
+		if (!sectiontypes.contains(getMessages().dayszeroto30())) {
+			addTypeSection(getMessages().dayszeroto30(), "");
 			return false;
 		}
 		return true;
 	}
 
 	private boolean addThirtyToSixty(AgedDebtors record) {
-		if (!sectiontypes.contains(getMessages().days60())) {
-			addTypeSection(getMessages().days60(), "");
+		if (!sectiontypes.contains(getMessages().days30to60())) {
+			addTypeSection(getMessages().days30to60(), "");
 			return false;
 		}
 		return true;
@@ -216,8 +216,8 @@ public class APAgingDetailServerReport extends
 	}
 
 	private boolean addSixtyTo90(AgedDebtors record) {
-		if (!sectiontypes.contains(getMessages().days90())) {
-			addTypeSection(getMessages().days90(), "");
+		if (!sectiontypes.contains(getMessages().days60to90())) {
+			addTypeSection(getMessages().days60to90(), "");
 			return false;
 		}
 		return true;

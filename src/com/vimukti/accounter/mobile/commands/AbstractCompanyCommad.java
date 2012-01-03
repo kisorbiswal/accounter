@@ -252,7 +252,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 
 	protected List<String> getCustomerTerminologies() {
 		List<String> customerTerms = new ArrayList<String>();
-		customerTerms.add(getMessages().Customer());
+		customerTerms.add(getMessages().customer());
 		customerTerms.add(getMessages().Client());
 		customerTerms.add(getMessages().Tenant());
 		customerTerms.add(getMessages().Donar());

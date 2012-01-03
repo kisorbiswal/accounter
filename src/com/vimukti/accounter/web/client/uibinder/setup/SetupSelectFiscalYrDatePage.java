@@ -109,7 +109,7 @@ public class SetupSelectFiscalYrDatePage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return messages.setFiscalYear();
+		return messages.fiscalYear();
 	}
 
 }

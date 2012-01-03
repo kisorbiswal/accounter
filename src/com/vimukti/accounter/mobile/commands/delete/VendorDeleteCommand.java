@@ -13,7 +13,7 @@ public class VendorDeleteCommand extends AbstractDeleteCommand {
 			delete(AccounterCoreType.VENDOR, vendorId, context);
 		} catch (AccounterException e) {
 			addFirstMessage(context,
-					getMessages().payeeInUse(getMessages().vendor()));
+					getMessages().payeeInUse(getMessages().Vendor()));
 		}
 		return "Vendors";
 	}

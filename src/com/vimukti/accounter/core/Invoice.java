@@ -1127,7 +1127,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 		w.put(messages.date(), this.transactionDate.toString()).gap();
 
-		w.put(messages.Customer(), this.customer.name);
+		w.put(messages.customer(), this.customer.name);
 
 		w.put(messages.currency(), this.getCurrency().getFormalName()).gap();
 

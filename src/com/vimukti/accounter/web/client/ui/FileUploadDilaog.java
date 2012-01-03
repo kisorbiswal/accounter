@@ -296,7 +296,7 @@ public class FileUploadDilaog extends CustomDialog {
 		upload.setName(fileID);
 		upload.getElement().setAttribute("size", "50");
 
-		HTML label = new HTML(messages.removeHTML());
+		HTML label = new HTML(messages.remove());
 		label.addStyleName("remove_html");
 		label.setWidth("60px");
 		label.setHeight("25px");

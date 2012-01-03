@@ -399,7 +399,7 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return messages.setCompanyInfo();
+		return messages.comapnyInfo();
 	}
 
 }

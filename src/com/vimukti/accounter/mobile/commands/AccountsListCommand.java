@@ -80,7 +80,7 @@ public class AccountsListCommand extends AbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().payeesList(getMessages().Accounts());
+				return getMessages().payeeList(getMessages().Accounts());
 			}
 
 			@Override

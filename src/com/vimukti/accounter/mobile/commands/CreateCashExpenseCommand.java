@@ -132,7 +132,7 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			}
 		});
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getMessages().Vendor()), getMessages().vendor(), true, true,
+				getMessages().Vendor()), getMessages().Vendor(), true, true,
 				null) {
 
 			@Override

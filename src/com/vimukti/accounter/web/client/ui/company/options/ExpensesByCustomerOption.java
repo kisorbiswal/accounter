@@ -51,8 +51,7 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 				.Expenseandproductservicetrackingbycustomer(Global.get()
 						.customer()));
 		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
-		UseBillableExpenseCheckBox.setText(messages
-				.Usebillableexpensesandproductsservices());
+		UseBillableExpenseCheckBox.setText(messages.useBillabelExpenses());
 		UseBillableExpenseCheckBox.setStyleName("bold");
 		;
 	}

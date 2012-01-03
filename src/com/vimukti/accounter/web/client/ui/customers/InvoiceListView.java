@@ -85,7 +85,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		} else if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			return messages.customerCreditNotes();
 		} else if (transactionType == ClientTransaction.TYPE_CASH_SALES) {
-			return messages.cashSalesList();
+			return messages.cashSales();
 		}
 		return messages.invoiceList();
 	}

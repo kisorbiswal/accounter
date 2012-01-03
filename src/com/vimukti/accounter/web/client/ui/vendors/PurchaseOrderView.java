@@ -363,7 +363,7 @@ public class PurchaseOrderView extends
 			}
 
 		});
-		despatchDateItem = new DateField(messages.despatchDate());
+		despatchDateItem = new DateField(messages.dispatchDate());
 		despatchDateItem.setDisabled(isInViewMode());
 		if (isInViewMode()) {
 		} else

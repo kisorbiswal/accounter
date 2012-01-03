@@ -72,7 +72,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 		if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
 			return messages.payeeCreditNotes(Global.get().Vendor());
 		}
-		return messages.billsAndItemReceiptsList();
+		return messages.billsAndExpenses();
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected String getViewTitle() {
-		return messages.billsAndItemReceipts();
+		return messages.billsAndExpenses();
 	}
 
 	@Override

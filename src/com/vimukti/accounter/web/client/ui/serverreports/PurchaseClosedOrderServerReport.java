@@ -53,7 +53,7 @@ public class PurchaseClosedOrderServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { getMessages().orderDate(),
-				getMessages().vendor(),
+				getMessages().Vendor(),
 				getMessages().description(),
 				getMessages().quantity(), getMessages().value() };
 
@@ -150,7 +150,7 @@ public class PurchaseClosedOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().orderDate(),
-				getMessages().vendor(),
+				getMessages().Vendor(),
 				getMessages().description(),
 				getMessages().quantity(), getMessages().value() };
 

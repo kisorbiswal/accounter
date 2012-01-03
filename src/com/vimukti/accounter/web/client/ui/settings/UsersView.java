@@ -92,7 +92,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 
 		mainLayPanel = new VerticalPanel();
 		flexTable = new FlexTable();
-		generalSettingsHTML = new HTML(messages.generalSettingsLabel());
+		generalSettingsHTML = new HTML(messages.generalSettings());
 		generalSettingsHTML.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -118,7 +118,7 @@ public class UsersView extends BaseView<ClientUserInfo> {
 				ActionFactory.getGeneralSettingsAction().run(null, false);
 			}
 		});
-		titleLabel = new Label(messages.usersTitle());
+		titleLabel = new Label(messages.users());
 
 		titleLabel.removeStyleName("gwt-Label");
 		titleLabel.setStyleName("label-title");

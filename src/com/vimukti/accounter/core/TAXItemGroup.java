@@ -183,7 +183,7 @@ public class TAXItemGroup extends CreatableObject implements
 		w.put(messages.name(), this.name);
 		w.put(messages.description(), this.description);
 		w.put(messages.isActive(), this.isActive);
-		w.put(messages.isDefault(), this.isDefault);
+		w.put(messages.defaultWare(), this.isDefault);
 
 	}
 }

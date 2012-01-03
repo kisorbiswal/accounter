@@ -88,10 +88,9 @@ public class StockSettingsView extends BaseView {
 		entryNo.setHelpInformation(true);
 		entryNo.setWidth(100);
 
-		warehouseComboSelect = new WarehouseCombo(
-				messages.stockwarehouseCombo());
+		warehouseComboSelect = new WarehouseCombo(messages.wareHouse());
 
-		itemComboSelect = new SelectCombo(messages.stockItemType());
+		itemComboSelect = new SelectCombo(messages.itemType());
 		List<String> combolist = new ArrayList<String>();
 		combolist.add("Product");
 		combolist.add("Service");
@@ -108,7 +107,7 @@ public class StockSettingsView extends BaseView {
 		itemExpenseAmountTextlabel.setValue(messages.stockItemExpenseAccount());
 		amountText = new AmountField(messages.stockItemAmount(), this,
 				getBaseCurrency());
-		memo = new TextAreaItem(messages.stockMemo());
+		memo = new TextAreaItem(messages.memo());
 		memo.setMemo(false, this);
 		memo.setWidth(100);
 

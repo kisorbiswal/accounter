@@ -70,7 +70,7 @@ public class TerminologyOption extends AbstractPreferenceOption {
 		tenantsLabelRadioButton.setName(messages.group());
 		tenantsLabelRadioButton.setHTML(messages.Tenant());
 		custimersRadioBuitton.setName(messages.group());
-		custimersRadioBuitton.setHTML(messages.Customer());
+		custimersRadioBuitton.setHTML(messages.customer());
 		guestardioButton.setName(messages.group());
 		guestardioButton.setHTML(messages.Guest());
 		membersRadioButton.setName(messages.group());

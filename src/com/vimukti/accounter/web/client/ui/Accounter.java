@@ -390,7 +390,7 @@ public class Accounter implements EntryPoint {
 		data.getElement().getStyle().setMargin(10, Unit.PX);
 		data.getElement().getStyle().setFontSize(14, Unit.PX);
 		vPanel.add(data);
-		Button loginBtn = new Button(getMessages().logIn());
+		Button loginBtn = new Button(getMessages().login());
 		loginBtn.addClickHandler(new ClickHandler() {
 
 			@Override

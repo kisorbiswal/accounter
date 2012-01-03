@@ -42,8 +42,8 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 
 	public static final String SUBDIVIDE_DONT = messages.DontSubdevide();
 	public static final String SUBDIVIDE_BUSINESS = messages.businessPhone();
-	public static final String SUBDIVIDE_CLASS = messages.Class();
-	public static final String SUBDIVIDE_CUSTOMER = messages.Customer();
+	public static final String SUBDIVIDE_CLASS = messages.accounterClass();
+	public static final String SUBDIVIDE_CUSTOMER = messages.customer();
 
 	public static final String FISCAL_YEAR_1 = "FY2010 (Jan2010 - Dec2010)";
 	public static final String FISCAL_YEAR_2 = "FY2011 (Jan2011 - Dec2011)";

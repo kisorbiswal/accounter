@@ -294,7 +294,7 @@ public class CreditCardExpenseView extends
 		phoneSelect.setWidth(100);
 		// formItems.add(phoneSelect);
 
-		vendorForm = UIUtils.form(messages.vendor());
+		vendorForm = UIUtils.form(messages.Vendor());
 		vendorForm.setWidth("100%");
 		vendorForm.setFields(creditCardCombo, vendorCombo, contactCombo,
 				phoneSelect

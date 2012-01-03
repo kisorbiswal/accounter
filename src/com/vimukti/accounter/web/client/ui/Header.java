@@ -109,14 +109,14 @@ public class Header extends FlowPanel {
 			}
 		}
 		// userName.setWidth("100%");
-		logout = new Anchor(messages.logoutHTML(), "/main/logout");
+		logout = new Anchor(messages.logout(), "/main/logout");
 		logout.addStyleName("logout-html");
 		// logout.setWidth(((messages.logout().length() * 4) + 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new Anchor(messages.helpHTML());
+		help = new Anchor(messages.help());
 		// help.setWidth(((messages.help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");

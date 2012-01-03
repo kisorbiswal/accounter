@@ -64,7 +64,7 @@ public class BudgetAction extends Action {
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return messages.budgetView();
+		return messages.budget();
 	}
 
 }

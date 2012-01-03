@@ -148,8 +148,8 @@ public class StatementServerReport extends
 	}
 
 	private boolean addOneTothirty(PayeeStatementsList record) {
-		if (!sectiontypes.contains(getMessages().days30())) {
-			addTypeSection(getMessages().days30(), "");
+		if (!sectiontypes.contains(getMessages().dayszeroto30())) {
+			addTypeSection(getMessages().dayszeroto30(), "");
 			return false;
 		}
 		return true;

@@ -63,7 +63,7 @@ public class SetupTDSSelectionPage extends AbstractSetupPage {
 
 	@Override
 	public String getViewName() {
-		return messages.tdsSelection();
+		return messages.tds();
 	}
 
 }

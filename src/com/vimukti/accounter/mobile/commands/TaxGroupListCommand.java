@@ -51,7 +51,7 @@ public class TaxGroupListCommand extends AbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().manageSalesGroups();
+				return getMessages().manageSalesTaxGroups();
 			}
 
 			@Override

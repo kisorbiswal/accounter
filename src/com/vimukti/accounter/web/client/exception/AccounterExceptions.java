@@ -30,7 +30,7 @@ public class AccounterExceptions {
 			return accounterMessages.illegalArgument();
 
 		case AccounterException.ERROR_NO_SUCH_OBJECT:
-			return accounterMessages.noSuchObject();
+			return accounterMessages.cantVoid();
 
 		case AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS:
 			return accounterMessages.depositedFromUndepositedFunds();

@@ -6,6 +6,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 
 public class VendorAndPurchasePreferencesCommand extends
@@ -49,7 +50,9 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return getMessages().trackProducandServicesbyCustomer();
+				return getMessages()
+						.Expenseandproductservicetrackingbycustomer(
+								Global.get().Customer());
 			}
 
 			@Override

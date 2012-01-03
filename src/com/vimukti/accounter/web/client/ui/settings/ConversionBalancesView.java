@@ -112,7 +112,7 @@ public class ConversionBalancesView extends BaseView {
 
 		headerButtonPanel = new HorizontalPanel();
 		// grid=new
-		superHeaderHtml = new HTML(messages.generalSettingsLabel());
+		superHeaderHtml = new HTML("");
 		superHeaderHtml.addMouseOverHandler(new MouseOverHandler() {
 
 			@Override
@@ -157,7 +157,7 @@ public class ConversionBalancesView extends BaseView {
 		creditLabel = new AmountLabel(messages.totalCredits());
 		adjustmentLabel = new AmountLabel(messages.adjustments());
 		tabFlexTable = new FlexTable();
-		account = new Label(messages.conversionAccount());
+		account = new Label(messages.Account());
 		credit = new Label(messages.credit());
 		debit = new Label(messages.debit());
 

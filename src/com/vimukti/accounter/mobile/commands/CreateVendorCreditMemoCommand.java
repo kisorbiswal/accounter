@@ -80,7 +80,7 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 	protected void addRequirements(List<Requirement> list) {
 
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
-				getMessages().Vendor()), getMessages().vendor(), false, true,
+				getMessages().Vendor()), getMessages().Vendor(), false, true,
 				new ChangeListner<Vendor>() {
 
 					@Override

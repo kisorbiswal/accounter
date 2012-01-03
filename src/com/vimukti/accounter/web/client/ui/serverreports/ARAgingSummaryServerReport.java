@@ -37,7 +37,7 @@ public class ARAgingSummaryServerReport extends
 			return (record.getDebitdays_in30() + record.getDebitdays_in60()
 					+ record.getDebitdays_in90()
 					+ record.getDebitdays_inolder() + record
-					.getDebitdays_incurrent());
+						.getDebitdays_incurrent());
 		}
 
 		return null;
@@ -54,9 +54,10 @@ public class ARAgingSummaryServerReport extends
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { getMessages().debtor(), getMessages().days30(),
-				getMessages().days60(), getMessages().days90(),
-				getMessages().older(), getMessages().totalBalance() };
+		return new String[] { getMessages().debtor(),
+				getMessages().dayszeroto30(), getMessages().days30to60(),
+				getMessages().days60to90(), getMessages().older(),
+				getMessages().totalBalance() };
 	}
 
 	@Override
@@ -203,39 +204,42 @@ public class ARAgingSummaryServerReport extends
 	public int sort(DummyDebitor obj1, DummyDebitor obj2, int col) {
 		switch (col) {
 		case 0:
-			return obj1.getDebitorName().toLowerCase().compareTo(
-					obj2.getDebitorName().toLowerCase());
+			return obj1.getDebitorName().toLowerCase()
+					.compareTo(obj2.getDebitorName().toLowerCase());
 
 		case 1:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30() + obj1
-					.getDebitdays_incurrent()),
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_incurrent()),
 					(obj2.getDebitdays_in30() + obj2.getDebitdays_incurrent()));
 		case 2:
-			return UIUtils.compareDouble(obj1.getDebitdays_in60(), obj2
-					.getDebitdays_in60());
+			return UIUtils.compareDouble(obj1.getDebitdays_in60(),
+					obj2.getDebitdays_in60());
 		case 3:
-			return UIUtils.compareDouble(obj1.getDebitdays_in90(), obj2
-					.getDebitdays_in90());
+			return UIUtils.compareDouble(obj1.getDebitdays_in90(),
+					obj2.getDebitdays_in90());
 		case 4:
-			return UIUtils.compareDouble(obj1.getDebitdays_inolder(), obj2
-					.getDebitdays_inolder());
+			return UIUtils.compareDouble(obj1.getDebitdays_inolder(),
+					obj2.getDebitdays_inolder());
 		case 5:
-			return UIUtils.compareDouble((obj1.getDebitdays_in30()
-					+ obj1.getDebitdays_in60() + obj1.getDebitdays_in90()
-					+ obj1.getDebitdays_inolder() + obj1
-					.getDebitdays_incurrent()), (obj2.getDebitdays_in30()
-					+ obj2.getDebitdays_in60() + obj2.getDebitdays_in90()
-					+ obj2.getDebitdays_inolder() + obj2
-					.getDebitdays_incurrent()));
+			return UIUtils.compareDouble(
+					(obj1.getDebitdays_in30() + obj1.getDebitdays_in60()
+							+ obj1.getDebitdays_in90()
+							+ obj1.getDebitdays_inolder() + obj1
+							.getDebitdays_incurrent()),
+					(obj2.getDebitdays_in30() + obj2.getDebitdays_in60()
+							+ obj2.getDebitdays_in90()
+							+ obj2.getDebitdays_inolder() + obj2
+							.getDebitdays_incurrent()));
 		}
 		return 0;
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { getMessages().debtor(), getMessages().days30(),
-				getMessages().days60(), getMessages().days90(),
-				getMessages().older(), getMessages().totalBalance() };
+		return new String[] { getMessages().debtor(),
+				getMessages().dayszeroto30(), getMessages().days30to60(),
+				getMessages().days60to90(), getMessages().older(),
+				getMessages().totalBalance() };
 	}
 
 }

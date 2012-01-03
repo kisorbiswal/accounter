@@ -64,7 +64,7 @@ public class ManageSalesTaxGroupsAction extends Action<ClientTAXGroup> {
 	public String getText() {
 		String text;
 		if (Accounter.getUser().canDoInvoiceTransactions())
-			text = messages.manageSalesGroups();
+			text = messages.manageSalesTaxGroups();
 		else
 			text = messages.salesTaxGroups();
 		return text;

@@ -98,7 +98,7 @@ public class SetupIndustrySelectionWithAccountsPage extends AbstractSetupPage {
 
 	@Override
 	protected void createControls() {
-		selectIndustryhead.setText(messages.getindustryhead());
+		selectIndustryhead.setText(messages.industry());
 		headerLabel.setText(messages.selectYourIndustry());
 
 		customizeAccounter.setHTML(messages.selectIndustryInfoHTML1()

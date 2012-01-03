@@ -279,7 +279,7 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 			return getMessages().illegalArgument();
 
 		case AccounterException.ERROR_NO_SUCH_OBJECT:
-			return getMessages().noSuchObject();
+			return getMessages().cantVoid();
 
 		case AccounterException.ERROR_DEPOSITED_FROM_UNDEPOSITED_FUNDS:
 			return getMessages().depositedFromUndepositedFunds();

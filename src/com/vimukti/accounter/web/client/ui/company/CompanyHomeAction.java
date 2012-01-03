@@ -51,7 +51,7 @@ public class CompanyHomeAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.home();
+		return messages.dashBoard();
 	}
 
 }

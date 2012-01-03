@@ -1128,7 +1128,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		w.put(messages.details(), this.transactionItems);
 
 		if (this.vendor != null)
-			w.put(messages.vendor(), this.vendor.getName());
+			w.put(messages.Vendor(), this.vendor.getName());
 
 		if (this.contact != null)
 			w.put(messages.contact(), this.contact.getName());

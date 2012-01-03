@@ -387,7 +387,7 @@ public class WriteCheck extends Transaction {
 			w.put(messages.customer(), this.customer.getName()).gap();
 
 		if (this.vendor != null)
-			w.put(messages.vendor(), this.vendor.getName());
+			w.put(messages.Vendor(), this.vendor.getName());
 
 		if (this.taxAgency != null)
 			w.put(messages.taxAgencie(), this.taxAgency.getName()).gap();

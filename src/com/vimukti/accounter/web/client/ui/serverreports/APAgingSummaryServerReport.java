@@ -52,8 +52,8 @@ public class APAgingSummaryServerReport extends
 	public String[] getColunms() {
 
 		return new String[] { getMessages().creditor(),
-				getMessages().days30(), getMessages().days60(),
-				getMessages().days90(), getMessages().older(),
+				getMessages().dayszeroto30(), getMessages().days30to60(),
+				getMessages().days60to90(), getMessages().older(),
 				getMessages().totalBalance() };
 	}
 
@@ -236,8 +236,8 @@ public class APAgingSummaryServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().creditor(),
-				getMessages().days30(), getMessages().days60(),
-				getMessages().days90(), getMessages().older(),
+				getMessages().dayszeroto30(), getMessages().days30to60(),
+				getMessages().days60to90(), getMessages().older(),
 				getMessages().totalBalance() };
 	}
 

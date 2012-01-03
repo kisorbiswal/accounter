@@ -50,7 +50,7 @@ public class TAXAgencyListAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.payeesList(messages
+		return messages.payeeList(messages
 				.taxAgencies());
 	}
 

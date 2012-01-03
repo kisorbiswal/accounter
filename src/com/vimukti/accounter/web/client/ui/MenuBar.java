@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -298,7 +297,7 @@ public class MenuBar {
 
 		vatmenus.addMenuItem(messages.taxItemsList(), HistoryTokens.VATITEMS);
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
-		vatmenus.addMenuItem(messages.payeesList(messages.taxAgencies()),
+		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
 //		if (company instanceof India) {
 //			if (tdsEnabled) {
@@ -529,7 +528,7 @@ public class MenuBar {
 				messages.payeeStatement(Global.get().Customers()),
 				HistoryTokens.CUSTOMERSTATEMENT);
 		customersAndReceivableMenuBar.addMenuItem(
-				messages.payeeTransactionHistory(messages.Customer()),
+				messages.payeeTransactionHistory(messages.customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 
 		return customersAndReceivableMenuBar;

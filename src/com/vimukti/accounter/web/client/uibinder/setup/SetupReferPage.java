@@ -59,7 +59,7 @@ public class SetupReferPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(messages.terminology());
 		// adding Items to customer list box
-		customerListBox.addItem(messages.Customer());
+		customerListBox.addItem(messages.customer());
 		customerListBox.addItem(messages.Client());
 		customerListBox.addItem(messages.Tenant());
 		customerListBox.addItem(messages.Donar());
@@ -70,7 +70,7 @@ public class SetupReferPage extends AbstractSetupPage {
 		vendorListBox.addItem(messages.Vendor());
 		vendorListBox.addItem(messages.Supplier());
 
-		customerLabel.setText(messages.Customer());
+		customerLabel.setText(messages.customer());
 		vendorsLabel.setText(messages.Vendor());
 
 		customerCommentLabel.setText(messages

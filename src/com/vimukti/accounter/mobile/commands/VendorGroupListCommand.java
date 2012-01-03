@@ -46,7 +46,7 @@ public class VendorGroupListCommand extends AbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new ShowListRequirement<VendorGroup>(getMessages().vendor()
+		list.add(new ShowListRequirement<VendorGroup>(getMessages().Vendor()
 				+ " " + getMessages().group(), "", 20) {
 
 			@Override
@@ -58,14 +58,14 @@ public class VendorGroupListCommand extends AbstractCommand {
 			protected String getShowMessage() {
 
 				return getMessages().payeeList(
-						getMessages().vendor() + " " + getMessages().group());
+						getMessages().Vendor() + " " + getMessages().group());
 			}
 
 			@Override
 			protected String getEmptyString() {
 
 				return getMessages().youDontHaveAny(
-						getMessages().vendor() + " " + getMessages().group());
+						getMessages().Vendor() + " " + getMessages().group());
 
 			}
 

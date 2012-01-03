@@ -928,7 +928,7 @@ public class UIUtils {
 		case ClientPhone.MOBILE_PHONE_NUMBER:
 			return messages.mobile();
 		case ClientPhone.HOME_PHONE_NUMBER:
-			return messages.home();
+			return messages.dashBoard();
 		case ClientPhone.ASSISTANT_PHONE_NUMBER:
 			return messages.assistant();
 		case ClientPhone.OTHER_PHONE_NUMBER:
@@ -943,7 +943,7 @@ public class UIUtils {
 		case ClientFax.TYPE_BUSINESS:
 			return messages.company();
 		case ClientFax.TYPE_HOME:
-			return messages.home();
+			return messages.dashBoard();
 		case ClientFax.TYPE_OTHER:
 			return messages.other();
 		default:
@@ -956,7 +956,7 @@ public class UIUtils {
 			return ClientPhone.BUSINESS_PHONE_NUMBER;
 		else if (type.equalsIgnoreCase(messages.mobile()))
 			return ClientPhone.MOBILE_PHONE_NUMBER;
-		else if (type.equalsIgnoreCase(messages.home()))
+		else if (type.equalsIgnoreCase(messages.dashBoard()))
 			return ClientPhone.HOME_PHONE_NUMBER;
 		else if (type.equalsIgnoreCase(messages.assistant()))
 			return ClientPhone.ASSISTANT_PHONE_NUMBER;
@@ -970,7 +970,7 @@ public class UIUtils {
 	public static int getFaxType(String type) {
 		if (type.equalsIgnoreCase(messages.company()))
 			return ClientFax.TYPE_BUSINESS;
-		else if (type.equalsIgnoreCase(messages.home()))
+		else if (type.equalsIgnoreCase(messages.dashBoard()))
 			return ClientFax.TYPE_HOME;
 		else if (type.equalsIgnoreCase(messages.other()))
 			return ClientFax.TYPE_OTHER;
