@@ -169,7 +169,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				String value = dateTimeConstants.getString(key);
 				String[] splites = value.split("(?<!\\\\), ");
 				if (splites.length == 1) {
-					result.put(key, value);
+					result.put(key, getValue(value));
 				} else {
 					result.put(key, joinArray(splites));
 				}
@@ -185,17 +185,21 @@ public class OpenCompanyServlet extends BaseServlet {
 		if (value.length > 0) {
 			for (int x = 0; x < value.length - 1; x++) {
 				buffer.append('\'');
-				buffer.append(value[x]);
+				buffer.append(getValue(value[x]));
 				buffer.append('\'');
 				buffer.append(", ");
 			}
 			// add last one
 			buffer.append('\'');
-			buffer.append(value[value.length - 1]);
+			buffer.append(getValue(value[value.length - 1]));
 			buffer.append('\'');
 		}
 		buffer.append(']');
 		return buffer.toString();
+	}
+
+	private String getValue(String string) {
+		return string.replaceAll("\'", "\\\\\'");
 	}
 
 	private Locale getlocale() {
