@@ -113,6 +113,10 @@ public class ServerSideMessages {
 			}
 			// String replace = msg.replace("'", "\\'");
 			Map<String, String> langMessgaeMap = keyMessages.get(language);
+			if (langMessgaeMap == null) {
+				langMessgaeMap = new HashMap<String, String>();
+				keyMessages.put(language, langMessgaeMap);
+			}
 			langMessgaeMap.put(key, message);
 			return msg;
 		} catch (Exception e) {
