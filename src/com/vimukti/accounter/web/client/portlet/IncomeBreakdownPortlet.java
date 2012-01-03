@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
@@ -20,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.GraphChart;
 import com.vimukti.accounter.web.client.ui.GraphPointsPortlet;
+import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
@@ -58,26 +57,28 @@ public class IncomeBreakdownPortlet extends GraphPointsPortlet {
 	private void initToolBar() {
 		toolBar = new DateRangePortletToolBar() {
 			@Override
-			protected String getSelectedItem() {
+			protected void initOrSetConfigDataToPortletConfig() {
 				if (IncomeBreakdownPortlet.this.getConfiguration()
 						.getPortletMap().get(DATE_RANGE) != null) {
-					return IncomeBreakdownPortlet.this.getConfiguration()
-							.getPortletMap().get(DATE_RANGE);
+					portletConfigData.put(DATE_RANGE,
+							IncomeBreakdownPortlet.this.getConfiguration()
+									.getPortletMap().get(DATE_RANGE));
 				} else {
-					return messages.financialYearToDate();
+					portletConfigData.put(DATE_RANGE,
+							messages.financialYearToDate());
 				}
 			}
 
 			@Override
-			protected void refreshPortletData(String selectItem) {
+			protected void refreshPortletData() {
 				IncomeBreakdownPortlet.this.clearGraph();
-				dateRangeItemCombo.setSelected(selectItem);
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(DATE_RANGE, selectItem);
+				dateRangeItemCombo.setSelected(portletConfigData
+						.get(Portlet.DATE_RANGE));
 				IncomeBreakdownPortlet.this.getConfiguration().setPortletMap(
-						portletMap);
-				dateRangeChanged(selectItem);
+						portletConfigData);
+				dateRangeChanged(portletConfigData.get(Portlet.DATE_RANGE));
 				IncomeBreakdownPortlet.this.updateData(startDate, endDate);
+				updateConfiguration();
 			}
 
 			@Override

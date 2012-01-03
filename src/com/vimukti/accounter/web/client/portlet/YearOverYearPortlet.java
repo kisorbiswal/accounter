@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasAlignment;
@@ -54,43 +52,51 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 		toolBar = new YearOverYearToolBar(chartType) {
 
 			@Override
-			protected void refreshPortletData(String selectItem, long accountId) {
+			protected void refreshPortletData() {
 				YearOverYearPortlet.this.clearGrid();
-				dateRangeItemCombo.setSelected(selectItem);
-				if (accountId != 0) {
-					accountCombo.setSelected(Accounter.getCompany()
-							.getAccount(accountId).getName());
-				}
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(DATE_RANGE, selectItem);
-				portletMap.put(ACCOUNT_ID, String.valueOf(accountId));
+				dateRangeItemCombo.setSelected(portletConfigData
+						.get(DATE_RANGE));
+				accountCombo.setSelected(Accounter
+						.getCompany()
+						.getAccount(
+								Long.parseLong(portletConfigData
+										.get(ACCOUNT_ID))).getName());
+
 				YearOverYearPortlet.this.getConfiguration().setPortletMap(
-						portletMap);
-				dateRangeChanged(selectItem);
+						portletConfigData);
+				dateRangeChanged(portletConfigData.get(DATE_RANGE));
 				YearOverYearPortlet.this.updateData(
-						getDateRangeType(selectItem), startDate, endDate,
-						accountId);
+						getDateRangeType(portletConfigData.get(DATE_RANGE)),
+						startDate, endDate,
+						Long.parseLong(portletConfigData.get(ACCOUNT_ID)));
+				updateConfiguration();
 			}
 
 			@Override
-			protected List<String> getSelectedItem() {
-				List<String> list = new ArrayList<String>();
-				if (YearOverYearPortlet.this.getConfiguration().getPortletMap()
-						.get(DATE_RANGE) != null) {
-					list.add(YearOverYearPortlet.this.getConfiguration()
-							.getPortletMap().get(DATE_RANGE));
-				} else {
-					list.add(messages.thisMonth());
-				}
+			protected void initOrSetConfigDataToPortletConfig() {
 				if (YearOverYearPortlet.this.getConfiguration().getPortletMap()
 						.get(ACCOUNT_ID) != null) {
 					accountId = Long
 							.parseLong(YearOverYearPortlet.this
 									.getConfiguration().getPortletMap()
 									.get(ACCOUNT_ID));
-					list.add(String.valueOf(accountId));
+					portletConfigData
+							.put(ACCOUNT_ID, String.valueOf(accountId));
+				} else {
+					portletConfigData.put(ACCOUNT_ID,
+							String.valueOf(getAccountId(accountId)));
 				}
-				return list;
+
+				if (YearOverYearPortlet.this.getConfiguration().getPortletMap()
+						.get(DATE_RANGE) != null) {
+					portletConfigData
+							.put(DATE_RANGE,
+									YearOverYearPortlet.this.getConfiguration()
+											.getPortletMap().get(DATE_RANGE));
+				} else {
+					portletConfigData.put(DATE_RANGE, messages.thisMonth());
+				}
+
 			}
 
 			@Override
@@ -122,6 +128,14 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 
 			}
 		};
+
+		Accounter.createHomeService().getAccountsBalancesByDate(startDate,
+				endDate, accountId, dateRangeType, callback);
+		return accountId;
+
+	}
+
+	private long getAccountId(long accountId) {
 		if (accountId == 0) {
 			if (chartType == YEAR_OVER_YEAR_EXPENSE) {
 				if (Accounter.getCompany().getAccounts(
@@ -146,10 +160,7 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 				return 0;
 			}
 		}
-		Accounter.createHomeService().getAccountsBalancesByDate(startDate,
-				endDate, accountId, dateRangeType, callback);
 		return accountId;
-
 	}
 
 	protected void updateGraphData(

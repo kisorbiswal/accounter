@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 
@@ -19,6 +19,7 @@ public abstract class TopPayeesBySalesPortletToolBar extends PortletToolBar {
 	}
 
 	private void createControls() {
+		initOrSetConfigDataToPortletConfig();
 		dateRangesList = new ArrayList<String>();
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
@@ -30,17 +31,14 @@ public abstract class TopPayeesBySalesPortletToolBar extends PortletToolBar {
 		}
 		dateRangeItemCombo = new SelectCombo(messages.dateRange());
 		dateRangeItemCombo.initCombo(dateRangesList);
-		setDefaultDateRange(getSelectedItem().get(0));
+		setDefaultDateRange(portletConfigData.get(Portlet.DATE_RANGE));
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						dateRange = selectItem;
-						if (limit == null) {
-							limit = "5";
-						}
-						refreshPortletData(dateRange, limit);
+						portletConfigData.put(Portlet.DATE_RANGE, selectItem);
+						refreshPortletData();
 					}
 				});
 		limitCombo = new SelectCombo(messages.limit());
@@ -54,30 +52,11 @@ public abstract class TopPayeesBySalesPortletToolBar extends PortletToolBar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						limit = selectItem;
-						refreshPortletData(dateRange, limit);
+						portletConfigData.put(Portlet.LIMIT, selectItem);
+						refreshPortletData();
 					}
 				});
-		limitCombo.setSelected(getSelectedItem().get(1));
+		limitCombo.setSelected(portletConfigData.get(Portlet.LIMIT));
 		addItems(dateRangeItemCombo, limitCombo);
 	}
-
-	protected abstract void refreshPortletData(String selectItem, String limit);
-
-	@Override
-	public void changeDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-
-	}
-
-	@Override
-	public void setStartAndEndDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-
-	}
-
-	/**
-	 * get default date range for date range combo
-	 */
-	protected abstract List<String> getSelectedItem();
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -28,6 +28,7 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 	}
 
 	private void createControls() {
+		initOrSetConfigDataToPortletConfig();
 		dateRangesList = new ArrayList<String>();
 		for (int i = 0; i < monthDateRangeArray.length; i++) {
 			dateRangesList.add(monthDateRangeArray[i]);
@@ -40,7 +41,8 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						refreshPortletData(selectItem, accountId);
+						portletConfigData.put(Portlet.DATE_RANGE, selectItem);
+						refreshPortletData();
 					}
 				});
 
@@ -63,42 +65,20 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						if (YearOverYearToolBar.this.getSelectedDateRange() == null) {
-							YearOverYearToolBar.this
-									.setSelectedDateRange(messages.thisMonth());
-						}
-						accountId = selectItem.getID();
-						refreshPortletData(
-								YearOverYearToolBar.this.getSelectedDateRange(),
-								selectItem.getID());
+						portletConfigData.put(Portlet.ACCOUNT_ID,
+								String.valueOf(selectItem.getID()));
+						refreshPortletData();
 					}
 				});
-		if (getSelectedItem().size() != 1&& getSelectedItem().get(1) != null
-				&& Long.parseLong(getSelectedItem().get(1)) != 0) {
-			accountCombo.setSelected(Accounter.getCompany()
-					.getAccount(Long.parseLong(getSelectedItem().get(1)))
-					.getName());
+		if (portletConfigData.size() > 1
+				&& Long.parseLong(portletConfigData.get(Portlet.ACCOUNT_ID)) != 0) {
+			accountCombo.setSelected(Accounter
+					.getCompany()
+					.getAccount(
+							Long.parseLong(portletConfigData
+									.get(Portlet.ACCOUNT_ID))).getName());
 		}
 		addItems(dateRangeItemCombo, accountCombo);
-		setDefaultDateRange(getSelectedItem().get(0));
+		setDefaultDateRange(portletConfigData.get(Portlet.DATE_RANGE));
 	}
-
-	protected abstract void refreshPortletData(String selectItem, long accountId);
-
-	@Override
-	public void changeDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-
-	}
-
-	@Override
-	public void setStartAndEndDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-
-	}
-
-	/**
-	 * get default date range for date range combo
-	 */
-	protected abstract List<String> getSelectedItem();
 }

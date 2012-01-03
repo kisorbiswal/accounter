@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -18,6 +19,7 @@ public abstract class AccountBalancesPortletToolBar extends PortletToolBar {
 	}
 
 	private void createControls() {
+		initOrSetConfigDataToPortletConfig();
 		accountTypeCombo = new SelectCombo(messages.accountType());
 		accountTypesList = new ArrayList<String>();
 		int[] accountTypes = UIUtils.accountTypes;
@@ -26,20 +28,18 @@ public abstract class AccountBalancesPortletToolBar extends PortletToolBar {
 		}
 		accountTypeCombo.initCombo(accountTypesList);
 		this.addItems(accountTypeCombo);
-		accountTypeCombo.setSelected(updateComboData());
-		accountTypeChanged(updateComboData());
+		accountTypeCombo.setSelected(portletConfigData
+				.get(Portlet.ACCOUNT_TYPE));
+		setDefaultDateRange(portletConfigData.get(Portlet.ACCOUNT_TYPE));
 		accountTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						accountTypeChanged(selectItem);
+						portletConfigData.put(Portlet.ACCOUNT_TYPE, selectItem);
+						refreshPortletData();
 					}
 				});
 	}
-
-	protected abstract void accountTypeChanged(String selectItem);
-
-	protected abstract String updateComboData();
 
 }

@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -47,26 +45,30 @@ public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 			}
 
 			@Override
-			protected void refreshPortletData(String selectItem) {
+			protected void refreshPortletData() {
 				IncomeAndExpensesBreakdownPortlet.this.clearGrid();
-				dateRangeItemCombo.setSelected(selectItem);
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(DATE_RANGE, selectItem);
+				dateRangeItemCombo.setSelected(portletConfigData
+						.get(DATE_RANGE));
 				IncomeAndExpensesBreakdownPortlet.this.getConfiguration()
-						.setPortletMap(portletMap);
-				dateRangeChanged(selectItem);
+						.setPortletMap(portletConfigData);
+				dateRangeChanged(portletConfigData.get(DATE_RANGE));
 				IncomeAndExpensesBreakdownPortlet.this.updateData(
-						getDateRangeType(selectItem), startDate, endDate);
+						getDateRangeType(portletConfigData.get(DATE_RANGE)),
+						startDate, endDate);
+				updateConfiguration();
 			}
 
 			@Override
-			protected String getSelectedItem() {
+			protected void initOrSetConfigDataToPortletConfig() {
 				if (IncomeAndExpensesBreakdownPortlet.this.getConfiguration()
 						.getPortletMap().get(DATE_RANGE) != null) {
-					return IncomeAndExpensesBreakdownPortlet.this
-							.getConfiguration().getPortletMap().get(DATE_RANGE);
+					portletConfigData.put(
+							DATE_RANGE,
+							IncomeAndExpensesBreakdownPortlet.this
+									.getConfiguration().getPortletMap()
+									.get(DATE_RANGE));
 				} else {
-					return messages.thisMonth();
+					portletConfigData.put(DATE_RANGE, messages.thisMonth());
 				}
 			}
 
@@ -78,6 +80,7 @@ public class IncomeAndExpensesBreakdownPortlet extends GraphPointsPortlet {
 						getDateRangeType(defaultDateRange), getStartDate(),
 						getEndDate());
 			}
+
 		};
 		this.body.add(toolBar);
 	}

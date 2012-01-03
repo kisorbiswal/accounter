@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -32,23 +30,28 @@ public class AccountBalancesPortlet extends Portlet {
 		toolBar = new AccountBalancesPortletToolBar() {
 
 			@Override
-			protected void accountTypeChanged(String selectItem) {
-				AccountBalancesPortlet.this.clearGrid();
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(ACCOUNT_TYPE, selectItem);
-				AccountBalancesPortlet.this.getConfiguration().setPortletMap(
-						portletMap);
-				AccountBalancesPortlet.this.updateData(Utility
-						.getAccountType(selectItem));
+			protected void initOrSetConfigDataToPortletConfig() {
+				if (getConfiguration().getPortletMap().get(ACCOUNT_TYPE) != null) {
+					portletConfigData.put(ACCOUNT_TYPE, getConfiguration()
+							.getPortletMap().get(ACCOUNT_TYPE));
+				} else {
+					portletConfigData.put(ACCOUNT_TYPE, messages.income());
+				}
 			}
 
 			@Override
-			protected String updateComboData() {
-				if (getConfiguration().getPortletMap().get(ACCOUNT_TYPE) != null) {
-					return getConfiguration().getPortletMap().get(ACCOUNT_TYPE);
-				} else {
-					return messages.income();
-				}
+			protected void refreshPortletData() {
+				AccountBalancesPortlet.this.clearGrid();
+				AccountBalancesPortlet.this.getConfiguration().setPortletMap(
+						portletConfigData);
+				AccountBalancesPortlet.this.updateData(Utility
+						.getAccountType(portletConfigData.get(ACCOUNT_TYPE)));
+				updateConfiguration();
+			}
+
+			@Override
+			public void setDefaultDateRange(String defaultDateRange) {
+				updateData(Utility.getAccountType(defaultDateRange));
 			}
 
 		};

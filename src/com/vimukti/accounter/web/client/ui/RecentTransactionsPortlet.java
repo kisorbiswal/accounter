@@ -48,6 +48,7 @@ public class RecentTransactionsPortlet extends Portlet {
 						portletMap.put(LIMIT, selectItem);
 						getConfiguration().setPortletMap(portletMap);
 						updateData();
+						updateConfiguration();
 					}
 				});
 		updateData();

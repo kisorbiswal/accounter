@@ -1,9 +1,13 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-public class PortletToolBar extends ReportToolbar {
+public abstract class PortletToolBar extends ReportToolbar {
 
+	public Map<String, String> portletConfigData = new HashMap<String, String>();
 	public static final int THIS_MONTH = 0;
 	public static final int LAST_MONTH = 1;
 	public static final int THIS_FINANCIAL_YEAR = 2;
@@ -20,26 +24,6 @@ public class PortletToolBar extends ReportToolbar {
 			messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 			messages.lastFinancialQuarter() };
 
-	@Override
-	public void changeDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setStartAndEndDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setDefaultDateRange(String defaultDateRange) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public static int getDateRangeType(String dateRange) {
 		if (dateRange.equals(messages.thisMonth())) {
 			return THIS_MONTH;
@@ -55,6 +39,27 @@ public class PortletToolBar extends ReportToolbar {
 			return LAST_QUARTER;
 		}
 		return THIS_MONTH;
+	}
+
+	/**
+	 * get default date range for date range combo
+	 */
+	protected abstract void initOrSetConfigDataToPortletConfig();
+
+	protected abstract void refreshPortletData();
+
+	@Override
+	public void changeDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setStartAndEndDates(ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

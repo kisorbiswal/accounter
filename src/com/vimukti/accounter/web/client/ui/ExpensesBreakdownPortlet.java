@@ -1,10 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -193,27 +191,16 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	private void toolBarInitilization() {
 		toolBar = new DateRangePortletToolBar() {
 			@Override
-			protected String getSelectedItem() {
+			protected void initOrSetConfigDataToPortletConfig() {
 				if (ExpensesBreakdownPortlet.this.getConfiguration()
 						.getPortletMap().get(DATE_RANGE) != null) {
-					return ExpensesBreakdownPortlet.this.getConfiguration()
-							.getPortletMap().get(DATE_RANGE);
+					portletConfigData.put(DATE_RANGE,
+							ExpensesBreakdownPortlet.this.getConfiguration()
+									.getPortletMap().get(DATE_RANGE));
 				} else {
-					return messages.financialYearToDate();
+					portletConfigData.put(DATE_RANGE,
+							messages.financialYearToDate());
 				}
-			}
-
-			@Override
-			protected void refreshPortletData(String selectItem) {
-				ExpensesBreakdownPortlet.this.clearGraph();
-				dateRangeItemCombo.setSelected(selectItem);
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(DATE_RANGE, selectItem);
-				ExpensesBreakdownPortlet.this.getConfiguration().setPortletMap(
-						portletMap);
-				dateRangeChanged(selectItem);
-				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
-						endDate.getDate());
 			}
 
 			@Override
@@ -223,11 +210,20 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
 						endDate.getDate());
 			}
+
+			@Override
+			protected void refreshPortletData() {
+				ExpensesBreakdownPortlet.this.clearGraph();
+				dateRangeItemCombo.setSelected(portletConfigData
+						.get(Portlet.DATE_RANGE));
+				ExpensesBreakdownPortlet.this.getConfiguration().setPortletMap(
+						portletConfigData);
+				dateRangeChanged(portletConfigData.get(Portlet.DATE_RANGE));
+				ExpensesBreakdownPortlet.this.updateData(startDate.getDate(),
+						endDate.getDate());
+				updateConfiguration();
+			}
 		};
-	}
-
-	protected void refreshPortletData(String selectItem) {
-
 	}
 
 	public void updateData(long startDate, long endDate) {

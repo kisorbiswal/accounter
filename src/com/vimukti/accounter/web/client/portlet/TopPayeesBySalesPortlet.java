@@ -1,9 +1,6 @@
 package com.vimukti.accounter.web.client.portlet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -26,7 +23,8 @@ public class TopPayeesBySalesPortlet extends Portlet {
 
 	public TopPayeesBySalesPortlet(ClientPortletConfiguration configuration,
 			int portletType) {
-		super(configuration, "", "", "100%");
+		super(configuration, messages.topVendorsByExpense(Global.get()
+				.vendors()), "", "100%");
 		this.portletType = portletType;
 		setPortletTitle();
 	}
@@ -54,39 +52,38 @@ public class TopPayeesBySalesPortlet extends Portlet {
 		toolBar = new TopPayeesBySalesPortletToolBar() {
 
 			@Override
-			protected void refreshPortletData(String selectItem, String limit) {
+			protected void refreshPortletData() {
 				TopPayeesBySalesPortlet.this.clearGrid();
-				dateRangeItemCombo.setSelected(selectItem);
-				limitCombo.setSelected(limit);
-				Map<String, String> portletMap = new HashMap<String, String>();
-				portletMap.put(DATE_RANGE, selectItem);
-				portletMap.put(LIMIT, limit);
+				dateRangeItemCombo.setSelected(portletConfigData
+						.get(DATE_RANGE));
+				limitCombo.setSelected(portletConfigData.get(LIMIT));
 				TopPayeesBySalesPortlet.this.getConfiguration().setPortletMap(
-						portletMap);
-				dateRangeChanged(selectItem);
+						portletConfigData);
+				dateRangeChanged(portletConfigData.get(DATE_RANGE));
 				TopPayeesBySalesPortlet.this.updateData(startDate, endDate,
-						limit);
+						portletConfigData.get(LIMIT));
+				 updateConfiguration();
 			}
 
 			@Override
-			protected List<String> getSelectedItem() {
-				List<String> data = new ArrayList<String>();
+			protected void initOrSetConfigDataToPortletConfig() {
 				if (TopPayeesBySalesPortlet.this.getConfiguration()
 						.getPortletMap().get(DATE_RANGE) != null) {
-					data.add(TopPayeesBySalesPortlet.this.getConfiguration()
-							.getPortletMap().get(DATE_RANGE));
+					portletConfigData.put(DATE_RANGE,
+							TopPayeesBySalesPortlet.this.getConfiguration()
+									.getPortletMap().get(DATE_RANGE));
 				} else {
-					data.add(messages.financialYearToDate());
+					portletConfigData.put(DATE_RANGE,
+							messages.financialYearToDate());
 				}
 				if (TopPayeesBySalesPortlet.this.getConfiguration()
 						.getPortletMap().get(LIMIT) != null) {
-					data.add(TopPayeesBySalesPortlet.this.getConfiguration()
-							.getPortletMap().get(LIMIT));
+					portletConfigData.put(LIMIT, TopPayeesBySalesPortlet.this
+							.getConfiguration().getPortletMap().get(LIMIT));
 				} else {
-					data.add("5");
+					portletConfigData.put(LIMIT, "5");
 				}
 
-				return data;
 			}
 
 			@Override
@@ -95,6 +92,7 @@ public class TopPayeesBySalesPortlet extends Portlet {
 				dateRangeChanged(defaultDateRange);
 				TopPayeesBySalesPortlet.this
 						.updateData(startDate, endDate, "5");
+				// updateConfiguration();
 			}
 		};
 		this.body.add(toolBar);
