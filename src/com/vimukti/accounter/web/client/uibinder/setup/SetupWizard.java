@@ -133,8 +133,8 @@ public class SetupWizard extends VerticalPanel {
 
 			this.add(topPanel);
 
-			progressPanel.getElement().getParentElement().setClassName(
-					"progress_panel_hide");
+			progressPanel.getElement().getParentElement()
+					.setClassName("progress_panel_hide");
 
 			backButton = new Button(messages.back());
 			nextButton = new Button(messages.next());
@@ -257,10 +257,10 @@ public class SetupWizard extends VerticalPanel {
 		Calendar endCal = Calendar.getInstance();
 		endCal.setTime(fiscalYearStartDate.getDateAsObject());
 		endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 11);
-		endCal.set(Calendar.DATE, endCal
-				.getActualMaximum(Calendar.DAY_OF_MONTH));
-		ClientFinanceDate fiscalYearEndDate = new ClientFinanceDate(endCal
-				.getTime());
+		endCal.set(Calendar.DATE,
+				endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		ClientFinanceDate fiscalYearEndDate = new ClientFinanceDate(
+				endCal.getTime());
 
 		preferences.setStartOfFiscalYear(fiscalYearStartDate.getDate());
 		preferences.setEndOfFiscalYear(fiscalYearEndDate);
@@ -338,8 +338,8 @@ public class SetupWizard extends VerticalPanel {
 
 		progressPanel.add(progressTable);
 		progressTable.addStyleName("progress_panel_data");
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_show");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_show");
 	}
 
 	/**
@@ -351,8 +351,8 @@ public class SetupWizard extends VerticalPanel {
 
 	private void removeProgressPanel() {
 		progressPanel.remove(progressTable);
-		progressPanel.getElement().getParentElement().setClassName(
-				"progress_panel_hide");
+		progressPanel.getElement().getParentElement()
+				.setClassName("progress_panel_hide");
 	}
 
 	/**
@@ -444,7 +444,7 @@ public class SetupWizard extends VerticalPanel {
 		Window.Location.assign("/main/login");
 	}
 
-	public void initInterview(boolean isSkip) {
+	public void initInterview() {
 		showViewList = new ArrayList<AbstractSetupPage>();
 		images = new ArrayList<Image>();
 		for (int i = 0; i < allViewsList.size(); i++) {
