@@ -825,10 +825,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
-			netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
-					+ transactionsTree.getLineTotal());
 		}
-
+		netAmountLabel.setAmount(customerTransactionTable.getLineTotal()
+				+ transactionsTree.getLineTotal());
 		setTransactionTotal(customerTransactionTable.getGrandTotal()
 				+ transactionsTree.getGrandTotal());
 
@@ -873,7 +872,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (customer != null && customerCombo != null) {
 			customerCombo.setComboItem(customer);
 		}
-		this.addressListOfCustomer = customer.getAddress();
+		this.addressListOfPayee = customer.getAddress();
 		billingAddress = getAddress(ClientAddress.TYPE_BILL_TO);
 		if (billingAddress != null) {
 
@@ -887,8 +886,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		shipToAddress.setAddress(addresses);
 
 		allAddresses = new LinkedHashMap<Integer, ClientAddress>();
-		if (addressListOfCustomer != null) {
-			Iterator it = addressListOfCustomer.iterator();
+		if (addressListOfPayee != null) {
+			Iterator it = addressListOfPayee.iterator();
 			while (it.hasNext()) {
 				ClientAddress add = (ClientAddress) it.next();
 
@@ -1001,7 +1000,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				shipToAddress.setAddres(shippingAddress);
 			}
 			if (getCustomer() != null) {
-				this.addressListOfCustomer = getCustomer().getAddress();
+				this.addressListOfPayee = getCustomer().getAddress();
 			}
 
 			if (billingAddress != null) {
@@ -1033,9 +1032,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.dueDateItem
 					.setValue(transaction.getDueDate() != 0 ? new ClientFinanceDate(
 							transaction.getDueDate()) : getTransactionDate());
+			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
 				if (isTaxPerDetailLine()) {
-					netAmountLabel.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
@@ -1349,6 +1348,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (priceLevel != null)
 			transaction.setPriceLevel(priceLevel.getID());
 
+		String orderNum = null;
 		if (orderNumText.getValue() != null
 				&& !orderNumText.getValue().equals(""))
 			orderNum = orderNumText.getValue().toString();
@@ -1364,9 +1364,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			}
 		}
+		transaction.setNetAmount(netAmountLabel.getAmount());
 		if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
-			transaction.setNetAmount(netAmountLabel.getAmount());
 			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 			// } else {
 			// if (taxCode != null) {
@@ -1707,11 +1707,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public List<ClientTransactionItem> getAllTransactionItems() {
 		return customerTransactionTable.getAllRows();
-	}
-
-	@Override
-	protected boolean isBlankTransactionGrid() {
-		return customerTransactionTable.getAllRows().isEmpty();
 	}
 
 	@Override
