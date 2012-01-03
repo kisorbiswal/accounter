@@ -27,6 +27,7 @@ public class AccountRegisterCommand extends AbstractCommand {
 
 	private static final String SHOWTRANSACTION_TYPE = "ShowTransactions Type";
 	private static final String ACCOUNT = "account";
+	private static final String ACCOUNT_REGISTER = "accountRegister";
 	private ClientFinanceDate startDate, endDate;
 
 	@Override
@@ -99,9 +100,8 @@ public class AccountRegisterCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new ShowListRequirement<AccountRegister>(getMessages()
-				.accountRegister(), getMessages().pleaseEnter(
-				getMessages().name()), 20) {
+		list.add(new ShowListRequirement<AccountRegister>(ACCOUNT_REGISTER,
+				getMessages().pleaseEnter(getMessages().name()), 20) {
 
 			@Override
 			protected String onSelection(AccountRegister value) {
