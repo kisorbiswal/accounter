@@ -95,9 +95,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 <%
    String app = request.getHeader( "Nativeapp" );
-	String emailId = request.getAttribute("email").toString();
-	String firstname = request.getAttribute("firstname").toString(); 
-	String lastname = request.getAttribute("lastname").toString(); 
+	String userEmailId = request.getAttribute("email").toString();
+	String userFirstname = request.getAttribute("firstname").toString(); 
+	String userLastname = request.getAttribute("lastname").toString(); 
    boolean isNative = ( app != null && !app.equals(""));
    if( isNative ){ %>
    <link type="text/css" rel="stylesheet" href="../css/nativeLogin.css?version=<%= version%>" />
@@ -125,7 +125,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
   <c:if test="${successmessage==null}">
   <div id="gmailregister" class="common-box">
-   <span>There is no account registered with <strong>"<%= emailId %>"</strong>. please complete this form to create your account.</span>
+   <span>There is no account registered with <strong>"<%= userEmailId %>"</strong>. please complete this form to create your account.</span>
    </div>
     <form id="accounterForm" method="post" action="/main/openidsignup">
     <div>
@@ -133,15 +133,15 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div style="clear:both" class="check_label">
 	     <label>First Name</label><br />
-		 <input id="mid-box"  type="text" tabindex="4" name="firstName"  value = "<%= firstname %>" />	
+		 <input id="mid-box"  type="text" tabindex="4" name="firstName"  value = "<%= userFirstname %>" />	
 	   </div>
 	    <div class="check_label">
 	     <label>Last Name</label><br />
-		 <input id="mid-box1"  type="text" tabindex="5" name="lastName"  value = "<%= lastname %>"/>	
+		 <input id="mid-box1"  type="text" tabindex="5" name="lastName"  value = "<%= userLastname %>"/>	
 	   </div>
 	   <div class="check_label">
 	     <label>Email Address</label><br />
-		 <input id="mid-box2"  type="text"  tabindex="6" name="emailId" value = "<%= emailId %>"/>	
+		 <input id="mid-box2"  type="text"  tabindex="6" name="emailId" value = "<%= userEmailId %>"/>	
 	   </div>
 	   <div class="check_label">
 	     <label>Phone Number</label><br />
