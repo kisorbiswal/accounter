@@ -60,12 +60,9 @@ public class CustomerPrePaymentView extends
 	protected String checkNumber = null;
 	protected TextItem checkNo;
 	boolean isChecked = false;
-	private final boolean locationTrackingEnabled;
 
 	public CustomerPrePaymentView() {
 		super(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	@Override

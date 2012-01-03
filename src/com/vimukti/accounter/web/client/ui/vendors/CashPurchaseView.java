@@ -61,7 +61,6 @@ public class CashPurchaseView extends
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
 	private TextAreaItem billToAreaItem;
-	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
@@ -83,8 +82,6 @@ public class CashPurchaseView extends
 
 	@Override
 	protected void createControls() {
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 
 		titlelabel = new Label(messages.cashPurchase());
 		titlelabel.setStyleName("label-title");

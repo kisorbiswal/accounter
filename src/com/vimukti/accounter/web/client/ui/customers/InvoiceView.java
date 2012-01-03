@@ -81,7 +81,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
 	private Double salesTax = 0.0D;
-	private final boolean locationTrackingEnabled;
+	// private final boolean locationTrackingEnabled;
 	private DateField deliveryDate;
 	protected ClientSalesPerson salesPerson;
 	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
@@ -97,8 +97,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
+
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;

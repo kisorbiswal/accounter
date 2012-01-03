@@ -69,7 +69,6 @@ public class CashSalesView extends
 	protected DateField deliveryDate;
 	private ArrayList<DynamicForm> listforms;
 	private ShipToForm shipToAddress;
-	private final boolean locationTrackingEnabled;
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	private ClientPriceLevel priceLevel;
@@ -86,8 +85,6 @@ public class CashSalesView extends
 
 	public CashSalesView() {
 		super(ClientTransaction.TYPE_CASH_SALES);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	private void initCashSalesView() {

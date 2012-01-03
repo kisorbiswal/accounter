@@ -44,13 +44,10 @@ public class VendorCreditMemoView extends
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
-	private final boolean locationTrackingEnabled;
 	private DisclosurePanel accountsDisclosurePanel, itemsDisclosurePanel;
 
 	private VendorCreditMemoView() {
 		super(ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	@Override

@@ -58,7 +58,6 @@ public class NewVendorPaymentView extends
 	boolean isChecked = false;
 
 	private ArrayList<DynamicForm> listforms;
-	private final boolean locationTrackingEnabled;
 	private TaxItemCombo tdsCombo;
 	private CheckboxItem amountIncludeTds;
 	private AmountLabel vendorPayment;
@@ -71,8 +70,6 @@ public class NewVendorPaymentView extends
 
 	private NewVendorPaymentView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 
 	}
 

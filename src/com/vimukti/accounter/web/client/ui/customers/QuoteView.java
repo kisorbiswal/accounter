@@ -67,7 +67,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private PaymentTermsCombo payTermsSelect;
 	protected DateField quoteExpiryDate;
 	private ArrayList<DynamicForm> listforms;
-	private final boolean locationTrackingEnabled;
 
 	private CustomerItemTransactionTable customerTransactionTable;
 	private AddNewButton itemTableButton;
@@ -88,8 +87,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 		this.title = title;
 		this.type = type;
 	}
@@ -109,8 +106,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	public QuoteView(ClientCustomer customer) {
 		super(ClientTransaction.TYPE_ESTIMATE);
-		locationTrackingEnabled = Global.get().preferences()
-				.isLocationTrackingEnabled();
 	}
 
 	@Override

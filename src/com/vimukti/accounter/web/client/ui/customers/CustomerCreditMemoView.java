@@ -57,7 +57,6 @@ public class CustomerCreditMemoView extends
 	private Double salesTax = 0.0D;
 	private ArrayList<DynamicForm> listforms;
 	private TextAreaItem billToTextArea;
-	private final boolean locationTrackingEnabled;
 	private CustomerAccountTransactionTable customerAccountTransactionTable;
 	private CustomerItemTransactionTable customerItemTransactionTable;
 	protected ClientPriceLevel priceLevel;
@@ -71,8 +70,6 @@ public class CustomerCreditMemoView extends
 	public CustomerCreditMemoView() {
 
 		super(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	@Override

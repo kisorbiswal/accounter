@@ -50,7 +50,6 @@ public class CashExpenseView extends
 	public List<String> selectedComboList;
 	private ArrayList<DynamicForm> listforms;
 	protected Label titlelabel;
-	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	protected AddNewButton accountTableButton, itemTableButton;
@@ -248,8 +247,6 @@ public class CashExpenseView extends
 
 	@Override
 	protected void createControls() {
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 
 		titlelabel = new Label(messages.cashExpense());
 		titlelabel.setStyleName("label-title");

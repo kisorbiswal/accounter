@@ -71,7 +71,6 @@ public class VendorBillView extends
 
 	private ArrayList<DynamicForm> listforms;
 	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
-	private boolean locationTrackingEnabled;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
@@ -364,8 +363,6 @@ public class VendorBillView extends
 
 	@Override
 	protected void createControls() {
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 		Label lab1;
 		lab1 = new Label(messages.enterBill());
 

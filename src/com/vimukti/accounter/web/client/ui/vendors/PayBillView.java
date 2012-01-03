@@ -89,7 +89,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	protected ClientVendor vendor;
 	protected List<ClientVendor> vendors;
 	protected VendorCombo vendorCombo;
-	private final boolean locationTrackingEnabled;
 	private AmountLabel tdsPayableAmount;
 	private AmountLabel amountToVendor;
 	private double toBeSetEndingBalance;
@@ -98,8 +97,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	public PayBillView() {
 		super(ClientTransaction.TYPE_PAY_BILL);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	/*

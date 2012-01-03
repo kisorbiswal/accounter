@@ -114,15 +114,11 @@ public class MakeDepositView extends
 
 	// private VerticalPanel botRightPanel;
 
-	private boolean locationTrackingEnabled;
-
 	private String transactionNo;
 
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
 		calculatedTotal = 0D;
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	private void setTransactionNumberToMakeDepositObject() {

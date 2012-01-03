@@ -109,8 +109,6 @@ public class WriteChequeView extends
 	private VerticalPanel amountPanel;
 	private VerticalPanel vPanel;
 
-	private final boolean locationTrackingEnabled;
-
 	private VendorAccountTransactionTable transactionVendorAccountTable;
 	private AddNewButton accountTableButton;
 	private DisclosurePanel vendorAccountsDisclosurePanel;
@@ -128,8 +126,6 @@ public class WriteChequeView extends
 	private WriteChequeView() {
 		super(ClientTransaction.TYPE_WRITE_CHECK);
 		this.company = getCompany();
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 
 	}
 

@@ -214,6 +214,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private ArrayList<ClientAccounterClass> clientAccounterClasses = new ArrayList<ClientAccounterClass>();
 
 	public RecurringTransactionDialog recurringDialog;
+	// For location Tracking
+	protected final boolean locationTrackingEnabled;
 
 	protected boolean isTemplate;
 
@@ -232,6 +234,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		super();
 		this.transactionType = transactionType;
 		getVoidedPanel();
+
+		// Getting the location tracking is enable or not.
+		locationTrackingEnabled = Global.get().preferences()
+				.isLocationTrackingEnabled();
 	}
 
 	protected abstract void createControls();

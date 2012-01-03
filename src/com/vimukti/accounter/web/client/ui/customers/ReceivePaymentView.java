@@ -105,13 +105,9 @@ public class ReceivePaymentView extends
 	private ClientCustomer customer;
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
-	private final boolean locationTrackingEnabled;
 
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
-
 	}
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {

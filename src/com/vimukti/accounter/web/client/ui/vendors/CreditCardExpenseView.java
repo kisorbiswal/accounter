@@ -83,8 +83,6 @@ public class CreditCardExpenseView extends
 	// protected TextAreaItem billToAreaItem;
 	private List<ClientAccount> listOfAccounts;
 
-	private final boolean locationTrackingEnabled;
-
 	private VendorAccountTransactionTable vendorAccountTransactionTable;
 	private VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
@@ -93,10 +91,7 @@ public class CreditCardExpenseView extends
 	private TAXCodeCombo taxCodeSelect;
 
 	public CreditCardExpenseView() {
-
 		super(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 	}
 
 	@Override

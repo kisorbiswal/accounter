@@ -61,12 +61,8 @@ public class CustomerRefundView extends
 	private ArrayList<DynamicForm> listforms;
 	protected DynamicForm payForm;
 
-	private final boolean locationTrackingEnabled;
-
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-		locationTrackingEnabled = getCompany().getPreferences()
-				.isLocationTrackingEnabled();
 
 	}
 
@@ -507,7 +503,7 @@ public class CustomerRefundView extends
 			if (billingAddress != null)
 				billToaddressSelected(billingAddress);
 
-			if (customer != null){
+			if (customer != null) {
 				custBalText.setAmount(customer.getBalance());
 			}
 

@@ -72,9 +72,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected ClientTAXCode taxCode;
 
 	public AbstractBankTransactionView(int transactionType) {
-
 		super(transactionType);
-
 		bankingTransactionViewInstance = this;
 
 	}
@@ -169,7 +167,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	}
 
 	public PayFromAccountsCombo createPayFromselectItem() {
-		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(messages.paymentFrom());
+		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(
+				messages.paymentFrom());
 		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
