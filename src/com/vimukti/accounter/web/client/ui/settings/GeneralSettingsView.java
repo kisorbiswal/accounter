@@ -72,7 +72,7 @@ public class GeneralSettingsView extends AbstractBaseView {
 		titleHtml = new HTML(messages.generalSettings());
 		titleHtml.addStyleName("user-html");
 		titleHtml.setVisible(false);
-		conversionHTML = new HTML(messages.conversionHTML());
+		conversionHTML = new HTML(messages.conversionBalanaces());
 		conversationCommentHTML = new HTML(messages.conversionCommet());
 		conversationCommentHTML.addStyleName("conversion_commet");
 		invoiceBrandingHTML = new HTML(messages.invoiceBranding());

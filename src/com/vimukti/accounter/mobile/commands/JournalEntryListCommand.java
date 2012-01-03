@@ -72,7 +72,7 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(ClientJournalEntry entry) {
 				Record record = new Record(entry);
-				record.add(getMessages().voucherNo(), entry.getNumber());
+				record.add(getMessages().number(), entry.getNumber());
 				record.add(getMessages().date(), entry.getDate());
 				record.add(
 						getMessages().amount(),

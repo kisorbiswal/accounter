@@ -959,7 +959,7 @@ public interface AccounterMessages extends Messages {
 
 	public String conversationDateSelectionHTML();
 
-	public String conversionBalanaceHeader();
+	public String conversionBalanaces();
 
 	public String conversionBalance();
 
@@ -970,8 +970,6 @@ public interface AccounterMessages extends Messages {
 	public String conversionCommet();
 
 	public String conversionDate();
-
-	public String conversionHTML();
 
 	public String copy();
 
@@ -5046,10 +5044,6 @@ public interface AccounterMessages extends Messages {
 	public String voided();
 
 	public String Voided();
-
-	public String voucher();
-
-	public String voucherNo();
 
 	public String wanttoCreateEstimates();
 

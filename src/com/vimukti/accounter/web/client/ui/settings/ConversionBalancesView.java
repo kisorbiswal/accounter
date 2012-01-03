@@ -131,7 +131,7 @@ public class ConversionBalancesView extends BaseView {
 						.setTextDecoration(TextDecoration.NONE);
 			}
 		});
-		headerHtml = new HTML(messages.conversionBalanaceHeader());
+		headerHtml = new HTML(messages.conversionBalanaces());
 
 		addComparativeBalancesButton = new Button(
 				messages.addComparativeButton());
