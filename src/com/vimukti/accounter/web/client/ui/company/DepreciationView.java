@@ -124,7 +124,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 
 			}
 		});
-		depreciatedToCombo.setWidth("100%");
+		depreciatedToCombo.setWidth("100px");
 
 		Button updateButton = new Button(messages.update());
 		updateButton.addClickHandler(new ClickHandler() {
@@ -152,6 +152,7 @@ public class DepreciationView extends BaseView<ClientDepreciation> {
 		grid.initParentAndChildIcons(Accounter.getFinanceMenuImages()
 				.newAccount(), Accounter.getFinanceMenuImages().newFixedAsset());
 		gridPanel.add(grid);
+		gridPanel.setWidth("100%");
 
 		mainPanel.add(gridPanel);
 
