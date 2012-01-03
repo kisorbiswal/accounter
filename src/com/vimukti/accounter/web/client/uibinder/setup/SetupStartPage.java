@@ -85,7 +85,7 @@ public class SetupStartPage extends AbstractSetupPage {
 			@Override
 			public void onClick(ClickEvent event) {
 				isSkip = false;
-				setupWizard.initInterview(isSkip);
+				setupWizard.initInterview();
 			}
 		});
 
@@ -94,7 +94,7 @@ public class SetupStartPage extends AbstractSetupPage {
 			@Override
 			public void onClick(ClickEvent event) {
 				isSkip = true;
-				setupWizard.initInterview(isSkip);
+				setupWizard.initInterview();
 			}
 		});
 
