@@ -59,9 +59,8 @@ public class CreateJournalEntryCommand extends AbstractTransactionCommand {
 				getMessages().journalEntryNo()),
 				getMessages().journalEntryNo(), false, true));
 
-		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER,
-				getMessages().pleaseSelect(getMessages().voucherNo()),
-				getMessages().voucher(), true, false, true) {
+		list.add(new AbstractTableRequirement<ClientEntry>(VOUCHER, null, null,
+				true, false, true) {
 
 			@Override
 			protected void addRequirement(List<Requirement> list) {
