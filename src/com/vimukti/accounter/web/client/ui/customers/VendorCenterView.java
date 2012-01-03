@@ -26,16 +26,14 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
-import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorsListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
-public class VendorCenterView<T> extends BaseView<ClientVendor> {
+public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 
 	private static final int TYPE_CASH_PURCHASE = 2;
 	private static final int TYPE_ENTER_BILL = 6;
@@ -54,11 +52,9 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 	private VendorDetailsPanel detailsPanel;
 	private VendorsListGrid vendorlistGrid;
 	private SelectCombo activeInActiveSelect, trasactionViewSelect,
-			trasactionViewTypeSelect, dateRangeSelector;
+			trasactionViewTypeSelect;
 	private VerticalPanel transactionGridpanel;
 	private VendorTransactionsHistoryGrid vendHistoryGrid;
-	private List<String> dateRangeList, typeList;
-	private ClientFinanceDate startDate, endDate;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
 
@@ -329,36 +325,6 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		trasactionViewTypeSelect.setComboItem(typeList.get(0));
 	}
 
-	private void transactionDateRangeSelector() {
-		dateRangeSelector = new SelectCombo(messages.date());
-
-		dateRangeList = new ArrayList<String>();
-		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
-				messages.thisMonth(), messages.lastWeek(),
-				messages.lastMonth(), messages.thisFinancialYear(),
-				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
-				messages.lastFinancialQuarter(), messages.financialYearToDate() };
-		for (int i = 0; i < dateRangeArray.length; i++) {
-			dateRangeList.add(dateRangeArray[i]);
-		}
-		dateRangeSelector.initCombo(dateRangeList);
-
-		dateRangeSelector.setComboItem(messages.all());
-		dateRangeSelector
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						dateRangeSelector.setComboItem(selectItem);
-						if (dateRangeSelector.getValue() != null) {
-							dateRangeChanged(selectItem);
-							callRPC();
-
-						}
-					}
-				});
-
-	}
-
 	private void onVendorSelected() {
 		this.selectedVendor = vendorlistGrid.getSelectedVendor();
 		detailsPanel.showVendorDetails(selectedVendor);
@@ -384,18 +350,6 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 	}
 
 	@Override
-	public List<DynamicForm> getForms() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void deleteFailed(AccounterException caught) {
 		// TODO Auto-generated method stub
 
@@ -413,7 +367,8 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 	protected void createButtons(ButtonBar buttonBar) {
 	}
 
-	private void callRPC() {
+	@Override
+	protected void callRPC() {
 		vendHistoryGrid.clear();
 		if (selectedVendor != null) {
 			Accounter.createReportService().getVendorTransactionsList(
@@ -493,99 +448,6 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 
 	}
 
-	private void dateRangeChanged(String dateRange) {
-		ClientFinanceDate date = new ClientFinanceDate();
-		startDate = Accounter.getStartDate();
-		endDate = getCompany().getCurrentFiscalYearEndDate();
-		// getLastandOpenedFiscalYearEndDate();
-		if (dateRange.equals(messages.thisWeek())) {
-			startDate = getWeekStartDate();
-			endDate.setDay(startDate.getDay() + 6);
-			endDate.setMonth(startDate.getMonth());
-			endDate.setYear(startDate.getYear());
-		}
-		if (dateRange.equals(messages.thisMonth())) {
-			startDate = new ClientFinanceDate(date.getYear(), date.getMonth(),
-					1);
-			Calendar endCal = Calendar.getInstance();
-			endCal.setTime(new ClientFinanceDate().getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH,
-					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-			endDate = new ClientFinanceDate(endCal.getTime());
-
-		}
-		if (dateRange.equals(messages.lastWeek())) {
-			endDate = getWeekStartDate();
-			endDate.setDay(endDate.getDay() - 1);
-			startDate = new ClientFinanceDate(endDate.getDate());
-			startDate.setDay(startDate.getDay() - 6);
-
-		}
-		if (dateRange.equals(messages.lastMonth())) {
-			int day;
-			if (date.getMonth() == 0) {
-				day = getMonthLastDate(11, date.getYear() - 1);
-				startDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
-				endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
-			} else {
-				day = getMonthLastDate(date.getMonth() - 1, date.getYear());
-				startDate = new ClientFinanceDate(date.getYear(),
-						date.getMonth() - 1, 1);
-				endDate = new ClientFinanceDate(date.getYear(),
-						date.getMonth() - 1, day);
-			}
-		}
-		if (dateRange.equals(messages.thisFinancialYear())) {
-			startDate = getCompany().getCurrentFiscalYearStartDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-		}
-		if (dateRange.equals(messages.lastFinancialYear())) {
-
-			startDate = Accounter.getCompany().getCurrentFiscalYearStartDate();
-			startDate.setYear(startDate.getYear() - 1);
-			Calendar endCal = Calendar.getInstance();
-			endCal.setTime(Accounter.getCompany().getCurrentFiscalYearEndDate()
-					.getDateAsObject());
-			endCal.set(Calendar.DAY_OF_MONTH,
-					endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-			endDate = new ClientFinanceDate(endCal.getTime());
-			endDate.setYear(endDate.getYear() - 1);
-
-		}
-		if (dateRange.equals(messages.thisFinancialQuarter())) {
-			startDate = new ClientFinanceDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
-		}
-		if (dateRange.equals(messages.lastFinancialQuarter())) {
-			startDate = new ClientFinanceDate();
-			endDate = getCompany().getCurrentFiscalYearEndDate();
-			// getLastandOpenedFiscalYearEndDate();
-			getCurrentQuarter();
-			startDate.setYear(startDate.getYear() - 1);
-			endDate.setYear(endDate.getYear() - 1);
-		}
-		if (dateRange.equals(messages.financialYearToDate())) {
-			startDate = getCompany().getCurrentFiscalYearStartDate();
-			endDate = new ClientFinanceDate();
-		}
-		setStartDate(startDate);
-		setEndDate(endDate);
-	}
-
-	public ClientFinanceDate getWeekStartDate() {
-		ClientFinanceDate date = new ClientFinanceDate();
-		int day = date.getDay() % 6;
-		ClientFinanceDate newDate = new ClientFinanceDate();
-		if (day != 1) {
-			newDate.setDay(date.getDay() - day);
-		} else {
-			newDate.setDay(date.getDay());
-		}
-		return newDate;
-	}
-
 	private int getMonthLastDate(int month, int year) {
 		int lastDay;
 		switch (month) {
@@ -612,57 +474,9 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		return lastDay;
 	}
 
-	private void getCurrentQuarter() {
-
-		ClientFinanceDate date = new ClientFinanceDate();
-
-		int currentQuarter;
-		if ((date.getMonth() + 1) % 3 == 0) {
-			currentQuarter = (date.getMonth() + 1) / 3;
-		} else {
-			currentQuarter = ((date.getMonth() + 1) / 3) + 1;
-		}
-		switch (currentQuarter) {
-		case 1:
-			startDate = new ClientFinanceDate(date.getYear(), 0, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 2, 31);
-			break;
-
-		case 2:
-			startDate = new ClientFinanceDate(date.getYear(), 3, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 5, 30);
-			break;
-
-		case 3:
-			startDate = new ClientFinanceDate(date.getYear(), 6, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 8, 30);
-			break;
-		default:
-			startDate = new ClientFinanceDate(date.getYear(), 9, 1);
-			endDate = new ClientFinanceDate(date.getYear(), 11, 31);
-			break;
-		}
-	}
-
-	public void setStartDate(ClientFinanceDate startDate) {
-		this.startDate = startDate;
-	}
-
-	public ClientFinanceDate getStartDate() {
-		return startDate;
-	}
-
-	public void setEndDate(ClientFinanceDate endDate) {
-		this.endDate = endDate;
-	}
-
-	public ClientFinanceDate getEndDate() {
-		return endDate;
-	}
-
 	@Override
-	public void restoreView(ClientVendor vendor) {
-		this.selectedVendor = vendor;
+	public void restoreView(ClientPayee vendor) {
+		this.selectedVendor = (ClientVendor) vendor;
 		if (this.selectedVendor != null) {
 			vendorlistGrid.setSelectedVendor(selectedVendor);
 			onVendorSelected();
