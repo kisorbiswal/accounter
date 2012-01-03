@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui.widgets;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
@@ -90,87 +89,6 @@ public class DateUtills {
 				break;
 			}
 
-		}
-		return null;
-	}
-
-	public Date processDate(String dateFormat, String monthFormat,
-			String yearFormat) {
-		int temp = 0;
-		try {
-			// int day = evaluateMonthFormat(dateFormat);
-			int day = evaluateDate(dateFormat);
-			int month = evaluateMonthFormat(monthFormat);
-			if (isMonth) {
-				temp = day;
-				day = month;
-				month = temp;
-			}
-			int year = Integer.parseInt(yearFormat);
-			switch (month) {
-			case 2:
-				if (year % 4 == 0) {
-					if (day >= 1 && day <= 29) {
-						if (yearFormat.getBytes().length <= 3) {
-							return new Date(year + 100, month - 1, day);
-						}
-						return new Date(year - 1900, month - 1, day);
-					} else {
-						System.out
-								.println("Please Enter Valid Date for That Month");
-						break;
-					}
-				} else {
-					if (day >= 1 && day <= 28) {
-						if (yearFormat.getBytes().length <= 3) {
-							return new Date(year + 100, month - 1, day);
-						}
-						return new Date(year - 1900, month - 1, day);
-					} else {
-						System.out
-								.println("Please Enter Valid Date for That Month");
-						break;
-					}
-				}
-			case 4:
-			case 6:
-			case 9:
-			case 11:
-				if (day >= 1 && day <= 30) {
-					if (yearFormat.getBytes().length <= 3) {
-						return new Date(year + 100, month - 1, day);
-					}
-					return new Date(year - 1900, month - 1, day);
-				} else {
-					System.out
-							.println("Please Enter Valid Date for That Month");
-					break;
-				}
-			case 1:
-			case 3:
-			case 5:
-			case 7:
-			case 8:
-			case 10:
-			case 12:
-				if (day >= 1 && day <= 31) {
-					if (yearFormat.getBytes().length <= 3) {
-						return new Date(year + 100, month - 1, day);
-					}
-					return new Date(year - 1900, month - 1, day);
-				} else {
-					System.out
-							.println("Please Enter Valid Date for That Month");
-					break;
-				}
-			default:
-
-				break;
-			}
-		} catch (Exception e) {
-
-			Window.alert("Enter valid date");
-			return null;
 		}
 		return null;
 	}
