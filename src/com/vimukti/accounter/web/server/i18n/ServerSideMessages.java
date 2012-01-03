@@ -109,7 +109,7 @@ public class ServerSideMessages {
 			if (msg == null) {
 				new AccounterException("no value found for '" + key + "'")
 						.printStackTrace();
-				return "";
+				return key;
 			}
 			// String replace = msg.replace("'", "\\'");
 			Map<String, String> langMessgaeMap = keyMessages.get(language);
