@@ -163,7 +163,7 @@ public class CreateJournalEntryCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(getMessages().voucher());
+				return getMessages().noRecordsToShow();
 			}
 
 			@Override
