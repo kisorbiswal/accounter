@@ -80,11 +80,11 @@ public class GeneratePDFservlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String PAGE_BREAK = "<pd4ml:page.break>";
 
-	@Override
-	protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
-			throws ServletException, IOException {
-		super.service(arg0, arg1);
-	}
+	// @Override
+	// protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
+	// throws ServletException, IOException {
+	// super.service(arg0, arg1);
+	// }
 
 	/**
 	 * to generate pdf using HTML files
@@ -114,7 +114,7 @@ public class GeneratePDFservlet extends BaseServlet {
 
 			Long companyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
-			Session session = HibernateUtil.getCurrentSession();
+
 			StringBuilder outPutString = new StringBuilder();
 			transactionType = 0;
 			try {
@@ -227,7 +227,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				session.close();
+				// session.close();
 			}
 
 			response.setContentType("application/pdf");
@@ -252,6 +252,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				InputStreamReader reader = new InputStreamReader(inputStream,
 						Charset.forName("UTF-8"));
 				converter.generatePdfDocuments(printTemplete, sos, reader);
+
 				break;
 
 			default:
@@ -428,7 +429,12 @@ public class GeneratePDFservlet extends BaseServlet {
 				e.printStackTrace();
 			}
 		} finally {
-
+			try {
+				if (sos != null) {
+					sos.close();
+				}
+			} catch (Exception e) {
+			}
 		}
 	}
 
@@ -472,32 +478,39 @@ public class GeneratePDFservlet extends BaseServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String companyName = getCompanyName(request);
-		BrandingTheme brandingTheme = null;
-		if (companyName == null)
-			return;
+		Session session = null;
+		try {
+			session = HibernateUtil.getCurrentSession();
+			String companyName = getCompanyName(request);
+			BrandingTheme brandingTheme = null;
+			if (companyName == null)
+				return;
 
-		String brandingThemeId = request.getParameter("brandingThemeId");
-		FinanceTool financetool = new FinanceTool();
-		if (brandingThemeId != null) {
-			// If branding theme is valid, then check for isCustomFile.If
-			// isCustomFile is true , then call generateODT2PDF and if false,
-			// then call generateHtmlPDF
-			brandingTheme = (BrandingTheme) financetool.getManager()
-					.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
-							Long.parseLong(brandingThemeId));
+			String brandingThemeId = request.getParameter("brandingThemeId");
+			FinanceTool financetool = new FinanceTool();
+			if (brandingThemeId != null) {
+				// If branding theme is valid, then check for isCustomFile.If
+				// isCustomFile is true , then call generateODT2PDF and if
+				// false,
+				// then call generateHtmlPDF
+				brandingTheme = (BrandingTheme) financetool.getManager()
+						.getServerObjectForid(AccounterCoreType.BRANDINGTHEME,
+								Long.parseLong(brandingThemeId));
 
-			if (brandingTheme.isCustomFile()) {
-				// for genearting reports using XdocReport
-				generateCustom2PDF(request, response, companyName);
+				if (brandingTheme.isCustomFile()) {
+					// for genearting reports using XdocReport
+					generateCustom2PDF(request, response, companyName);
+				} else {
+					// for generating reports using html templates
+					generateHtmlPDF(request, response, companyName);
+				}
+
 			} else {
-				// for generating reports using html templates
-				generateHtmlPDF(request, response, companyName);
+				// for all kinds of other reports
+				generateCustom2PDF(request, response, companyName);
 			}
-
-		} else {
-			// for all kinds of other reports
-			generateCustom2PDF(request, response, companyName);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -725,10 +738,8 @@ public class GeneratePDFservlet extends BaseServlet {
 					}
 				}
 			}
-
 			outputStream.flush();
 			document.close();
-			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -741,6 +752,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				ioe.printStackTrace();
 			}
 		}
+
 	}
 
 	public static class FontFactoryImpEx extends FontFactoryImp {
