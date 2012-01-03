@@ -1082,7 +1082,16 @@ public class ReceivePaymentView extends
 				&& DecimalUtil.isGreaterThan(unUsedPaymentsText.getAmount(), 0)) {
 			result.addWarning(unUsedPaymentsText, messages.W_107());
 		}
+		ClientAccount bankAccount = depositInCombo.getSelectedValue();
+		// check if the currency of accounts is valid or not
+		if (bankAccount != null) {
+			ClientCurrency bankCurrency = getCurrency(bankAccount.getCurrency());
 
+			if (bankCurrency != getBaseCurrency() && bankCurrency != currency) {
+				result.addError(depositInCombo,
+						messages.selectProperBankAccount());
+			}
+		}
 		return result;
 	}
 
