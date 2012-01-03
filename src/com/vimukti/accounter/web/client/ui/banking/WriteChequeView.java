@@ -761,12 +761,12 @@ public class WriteChequeView extends
 						if (payee != null) {
 
 							transactionVendorAccountTable.resetRecords();
-							transaction.setTransactionItems(transactionVendorAccountTable
-									.getRecords());
+							transaction
+									.setTransactionItems(transactionVendorAccountTable
+											.getRecords());
 							if (taxCodeSelect.getSelectedValue() != null) {
 								transactionVendorAccountTable.setTaxCode(
-										getCompany().getTAXCode(
-												taxCodeSelect.getSelectedValue().getID())
+										taxCodeSelect.getSelectedValue()
 												.getID(), true);
 							}
 							vatTotalNonEditableText.setTransaction(transaction);

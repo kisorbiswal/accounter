@@ -853,10 +853,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			transaction.setTransactionItems(customerTransactionTable
 					.getRecords());
 			if (taxCodeSelect.getSelectedValue() != null) {
-				customerTransactionTable.setTaxCode(
-						getCompany().getTAXCode(
-								taxCodeSelect.getSelectedValue().getID())
-								.getID(), true);
+				customerTransactionTable.setTaxCode(taxCodeSelect
+						.getSelectedValue().getID(), true);
 			}
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
