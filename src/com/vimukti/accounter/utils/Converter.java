@@ -48,15 +48,15 @@ public class Converter {
 	public void generatePdfReports(ITemplate template, OutputStream outputStream)
 			throws Exception {
 
-		File pdfTempFile = File.createTempFile("credit", ".pdf");
-		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+		// File pdfTempFile = File.createTempFile("credit", ".pdf");
+		// java.io.FileOutputStream fos = new
+		// java.io.FileOutputStream(pdfTempFile);
 		try {
 
 			PD4ML pd4ml = new PD4ML();
 			File file = new File(ServerConfiguration.getFontsDir());
 			String absolutePath = file.getAbsolutePath();
 			pd4ml.useTTF(absolutePath, true);
-			System.err.println("PD4ML Obj created");
 			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
 			pd4ml.setPageSize(dimension);
@@ -107,23 +107,20 @@ public class Converter {
 			// "file:/home/vimukti80/Desktop/invioceHtml7431158160782287771.html",
 			// outputStream == null ? fos : outputStream);
 
-			pd4ml.render(new StringReader(template.getBody()),
-					outputStream == null ? fos : outputStream);
+			pd4ml.render(new StringReader(template.getBody()), outputStream);
 
 		} catch (Exception e) {
 			System.err.println("error occured");
 			e.printStackTrace();
 		} finally {
-			if (fos != null) {
-				fos.close();
-			}
+
 		}
 
 	}
 
 	/**
 	 * this method is used to generate PDF documents for Invoice and Credit Note
-	 * Memo
+	 * Memo and Quote(Estimate)
 	 * 
 	 * @param fileName
 	 * @param outputStream
@@ -133,9 +130,10 @@ public class Converter {
 	public void generatePdfDocuments(PrintTemplete template,
 			OutputStream outputStream, InputStreamReader reader)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(
-				template.getFileName().replace(" ", ""), ".pdf");
-		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+		// File pdfTempFile = File.createTempFile(
+		// template.getFileName().replace(" ", ""), ".pdf");
+		// java.io.FileOutputStream fos = new
+		// java.io.FileOutputStream(pdfTempFile);
 		try {
 
 			PD4ML pd4ml = new PD4ML();
@@ -160,14 +158,14 @@ public class Converter {
 			pd4ml.setPageFooter(footer);
 
 			// pd4ml.render(reader, fos);
-			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+			pd4ml.render(reader, outputStream);
 		} catch (Exception e) {
 			System.err.println("error occured");
 			e.printStackTrace();
 		} finally {
-			if (fos != null) {
-				fos.close();
-			}
+			// if (fos != null) {
+			// fos.close();
+			// }
 		}
 
 	}
@@ -175,13 +173,13 @@ public class Converter {
 	public void generatePdfDocuments(String fileName,
 			OutputStream outputStream, InputStreamReader reader)
 			throws Exception {
-		File pdfTempFile = File.createTempFile(fileName.replace(" ", ""),
-				".pdf");
-		java.io.FileOutputStream fos = new java.io.FileOutputStream(pdfTempFile);
+
 		try {
 
 			PD4ML pd4ml = new PD4ML();
-			System.err.println("PD4ML Obj created");
+			File file = new File(ServerConfiguration.getFontsDir());
+			String absolutePath = file.getAbsolutePath();
+			pd4ml.useTTF(absolutePath, true);
 			pd4ml.setPageInsets(new Insets(20, 10, 10, 10));
 			pd4ml.setHtmlWidth(950);
 			pd4ml.setPageSize(dimension);
@@ -189,14 +187,12 @@ public class Converter {
 			pd4ml.enableTableBreaks(true);
 			pd4ml.enableDebugInfo();
 
-			pd4ml.render(reader, outputStream == null ? fos : outputStream);
+			pd4ml.render(reader, outputStream);
 		} catch (Exception e) {
 			System.err.println("error occured");
 			e.printStackTrace();
 		} finally {
-			if (fos != null) {
-				fos.close();
-			}
+
 		}
 
 	}
