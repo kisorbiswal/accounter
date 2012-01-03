@@ -58,8 +58,8 @@ public class AttachmentFileServer extends Thread {
 		return null;
 	}
 
-	public static InputStream getAttachmentStream(String attachmentId,
-			byte[] keyData) {
+	public synchronized static InputStream getAttachmentStream(
+			String attachmentId, byte[] keyData) {
 		try {
 			FileInputStream fin = new FileInputStream(
 					getAttachmentFile(attachmentId));
