@@ -179,10 +179,10 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 								if (activeInActiveSelect.getSelectedValue()
 										.toString()
 										.equalsIgnoreCase(messages.active())) {
-									onActiveChangedListener();
+									refreshActiveinactiveList(true);
 
 								} else {
-									onInActiveChangedlistener();
+									refreshActiveinactiveList(false);
 								}
 							}
 
@@ -192,25 +192,15 @@ public class VendorCenterView<T> extends BaseView<ClientVendor> {
 		}
 	}
 
-	private void onActiveChangedListener() {
+	private void refreshActiveinactiveList(boolean isActiveList) {
 		vendorlistGrid.setSelectedVendor(null);
 		detailsPanel.vendName.setText(messages.noPayeeSelected(Global.get()
 				.Vendor()));
 		this.selectedVendor = null;
 		onVendorSelected();
-		isActiveAccounts = true;
+		isActiveAccounts = isActiveList;
 		initVendorListGrid();
 
-	}
-
-	private void onInActiveChangedlistener() {
-		vendorlistGrid.setSelectedVendor(null);
-		detailsPanel.vendName.setText(messages.noPayeeSelected(Global.get()
-				.Vendor()));
-		this.selectedVendor = null;
-		onVendorSelected();
-		isActiveAccounts = false;
-		initVendorListGrid();
 	}
 
 	private void transactionViewSelectCombo() {
