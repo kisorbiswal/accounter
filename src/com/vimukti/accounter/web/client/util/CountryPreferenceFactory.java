@@ -833,6 +833,163 @@ public class CountryPreferenceFactory {
 		if (countryCode.equals(TUVALU)) {
 			return new Tuvalu();
 		}
+
+		if (countryCode.equals(TURKEY)) {
+			return new Turkey();
+		}
+
+		if (countryCode.equals(MOLDOVA)) {
+			return new Moldova();
+		}
+
+		if (countryCode.equals(MONTSERRAT)) {
+			return new Montserrat();
+		}
+
+		if (countryCode.equals(MOROCCO)) {
+			return new Morocco();
+		}
+
+		if (countryCode.equals(NETHERLANDS)) {
+			return new Netherlands();
+		}
+
+		if (countryCode.equals(NEPAL)) {
+			return new Nepal();
+		}
+
+		if (countryCode.equals(NEW_ZEALAND)) {
+			return new NewZealand();
+		}
+
+		if (countryCode.equals(NICARAGUA)) {
+			return new Nicaragua();
+		}
+
+		if (countryCode.equals(NIGER)) {
+			return new Niger();
+		}
+
+		if (countryCode.equals(NIGERIA)) {
+			return new Nigeria();
+		}
+
+		if (countryCode.equals(NORWAY)) {
+			return new Norway();
+		}
+
+		if (countryCode.equals(OMAN)) {
+			return new Oman();
+		}
+
+		if (countryCode.equals(PANAMA)) {
+			return new Panama();
+		}
+
+		if (countryCode.equals(PARAGUAY)) {
+			return new Paraguay();
+		}
+
+		if (countryCode.equals(PHILIPPINES)) {
+			return new Philippines();
+		}
+
+		if (countryCode.equals(POLAN)) {
+			return new Poland();
+		}
+
+		if (countryCode.equals(PORTUGAL)) {
+			return new Portugal();
+		}
+
+		if (countryCode.equals(PUERTO_RICO)) {
+			return new PuertoRico();
+		}
+
+		if (countryCode.equals(QATAR)) {
+			return new Qatar();
+		}
+
+		if (countryCode.equals(ROMANIA)) {
+			return new Romania();
+		}
+
+		if (countryCode.equals(RUSSIA)) {
+			return new Russia();
+		}
+
+		if (countryCode.equals(SAINT_KITTS_AND_NEVIS)) {
+			return new SaintKittsAndNevis();
+		}
+
+		if (countryCode.equals(SAINT_LUCIA)) {
+			return new SaintLucia();
+		}
+
+		if (countryCode.equals(SAINT_VINCENT_AND_THE_GRENADINES)) {
+			return new SaintVincentAndTheGrenadines();
+		}
+
+		if (countryCode.equals(SENEGAL)) {
+			return new Senegal();
+		}
+
+		if (countryCode.equals(SINGAPORE)) {
+			return new Singapore();
+		}
+
+		if (countryCode.equals(SLOVAKIA)) {
+			return new Slovakia();
+		}
+
+		if (countryCode.equals(SLOVENIA)) {
+			return new Slovenia();
+		}
+
+		if (countryCode.equals(SPAIN)) {
+			return new Spain();
+		}
+
+		if (countryCode.equals(SRI_LANKA)) {
+			return new SriLanka();
+		}
+
+		if (countryCode.equals(SOUTH_AFRICA)) {
+			return new SouthAfrica();
+		}
+
+		if (countryCode.equals(SURINAME)) {
+			return new Suriname();
+		}
+
+		if (countryCode.equals(TAIWAN)) {
+			return new Taiwan();
+		}
+
+		if (countryCode.equals(TANZANIA)) {
+			return new Tanzania();
+		}
+
+		if (countryCode.equals(THAILAND)) {
+			return new Thailand();
+		}
+
+		if (countryCode.equals(TRINIDAD_AND_TOBAGO)) {
+			return new TrinidadAndTobago();
+		}
+
+		if (countryCode.equals(TUNISIA)) {
+			return new Tunisia();
+		}
+
+		if (countryCode.equals(TURKS_AND_CAICOS_ISLANDS)) {
+			return new TurksAndCaicosIslands();
+		}
+
+		if (countryCode.equals(UGANDA)) {
+			return new Uganda();
+		}
+
 		return new OtherCountry();
 	}
 
