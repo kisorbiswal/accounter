@@ -44,13 +44,11 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@Override
 	public List<ClientTransactionItem> getallTransactionItems(
 			ClientTransaction object) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void setTaxCode(long taxCode) {
-		// TODO Auto-generated method stub
 
 	}
 
