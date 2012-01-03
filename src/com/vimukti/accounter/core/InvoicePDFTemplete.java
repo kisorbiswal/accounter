@@ -368,8 +368,6 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 	private void externalizeStrings(MiniTemplator t) {
 		AccounterMessages messages = Global.get().messages();
-		Map<String, String> variables = t.getVariables();
-		System.out.println(variables);
 		t.setVariable("i18_Invoice_Number", messages.invoiceNo());
 		t.setVariable("i18_Invoice_Date", messages.invoiceDate());
 		t.setVariable("i18_Order_Number", messages.orderNumber());
@@ -396,6 +394,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_NetAmount", messages.netAmount());
 		t.setVariable("i18_VATRate", messages.taxCode());
 		t.setVariable("i18_VATAmount", messages.tax());
+		Map<String, String> variables = t.getVariables();
+		System.out.println(variables);
 	}
 
 	public String forUnusedAddress(String add, boolean isFooter) {
