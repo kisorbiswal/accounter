@@ -240,6 +240,10 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 	}
 
 	private void stateChanged(ICountryPreferences countryPreferences) {
+		int selectedIndex = stateListBox.getSelectedIndex();
+		if (selectedIndex < 0) {
+			return;
+		}
 		String selectedState = stateListBox.getItemText(stateListBox
 				.getSelectedIndex());
 		int selectedTimeZone = timezones.indexOf(countryPreferences
