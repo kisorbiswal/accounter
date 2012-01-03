@@ -102,8 +102,11 @@ public class MessageLoader {
 					}
 				}
 				if (!hasKey) {
+					Key k = getKeyFromDB(key.getKey());
+					if (k != null) {
+						key = k;
+					}
 					messageByValue.getKeys().add(key);
-					insert = false;
 				}
 			} else {
 				insert = true;
@@ -147,7 +150,7 @@ public class MessageLoader {
 							removeKeys(msg, removedKeys);
 							System.out
 									.println("Dulpicate messages with same key :"
-											+ messageByKey);
+											+ msg);
 						}
 					}
 				}
@@ -195,6 +198,12 @@ public class MessageLoader {
 		} finally {
 			session.close();
 		}
+	}
+
+	private static Key getKeyFromDB(String key) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		return (Key) currentSession.getNamedQuery("getKeyByValue")
+				.setString("value", key).uniqueResult();
 	}
 
 	private static void removeKeys(Message message, List<Key> removedKeys) {
