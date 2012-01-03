@@ -849,8 +849,19 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
 		if (this.getCustomer() != null && !this.getCustomer().equals(customer)
-				&& transaction.getID() == 0)
+				&& transaction.getID() == 0) {
 			customerTransactionTable.resetRecords();
+			transaction.setTransactionItems(customerTransactionTable
+					.getRecords());
+			if (taxCodeSelect.getSelectedValue() != null) {
+				customerTransactionTable.setTaxCode(
+						getCompany().getTAXCode(
+								taxCodeSelect.getSelectedValue().getID())
+								.getID(), true);
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
+			salesTaxTextNonEditable.setTransaction(transaction);
+		}
 
 		this.setCustomer(customer);
 		super.customerSelected(customer);

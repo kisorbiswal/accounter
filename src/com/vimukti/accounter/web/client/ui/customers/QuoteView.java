@@ -126,6 +126,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				this.customerTransactionTable.updateTotals();
 			}
 			this.customerTransactionTable.resetRecords();
+			transaction.setTransactionItems(customerTransactionTable
+					.getRecords());
+			if (taxCodeSelect.getSelectedValue() != null) {
+				customerTransactionTable.setTaxCode(
+						getCompany().getTAXCode(
+								taxCodeSelect.getSelectedValue().getID())
+								.getID(), true);
+			}
+			vatTotalNonEditableText.setTransaction(transaction);
+			salesTaxTextNonEditable.setTransaction(transaction);
 
 			currencyWidget.setSelectedCurrency(currency);
 		}
