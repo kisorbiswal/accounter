@@ -3,8 +3,6 @@
  */
 package com.vimukti.accounter.web.client.ui.grids;
 
-import java.util.List;
-
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -121,9 +119,6 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 7:
 			openNoteDialog(obj);
 			break;
-		case 8:
-			showWarnDialog(obj);
-			break;
 		default:
 			ActionFactory.getNewFixedAssetAction().run(obj, false);
 			break;
@@ -132,7 +127,13 @@ public class RegisteredItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-
+		switch (col) {
+		case 8:
+			showWarnDialog(obj);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {

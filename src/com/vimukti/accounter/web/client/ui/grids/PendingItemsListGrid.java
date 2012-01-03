@@ -125,9 +125,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 		case 6:
 			openNoteDialog(obj);
 			break;
-		case 7:
-			showWarnDialog(obj);
-			break;
 		default:
 			ActionFactory.getNewFixedAssetAction().run(obj, false);
 			break;
@@ -137,7 +134,13 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
-
+		switch (col) {
+		case 7:
+			showWarnDialog(obj);
+			break;
+		default:
+			break;
+		}
 	}
 
 	private void openHistoryView(ClientFixedAsset obj) {
