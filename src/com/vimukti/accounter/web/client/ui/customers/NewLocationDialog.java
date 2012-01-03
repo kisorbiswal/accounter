@@ -120,7 +120,7 @@ public class NewLocationDialog extends BaseDialog<ClientLocation> {
 		form = new DynamicForm();
 		form.setWidth("100%");
 
-		locationName = new TextItem(messages.add() + Global.get().Location());
+		locationName = new TextItem(messages.location() + " " + messages.name());
 		locationName.setHelpInformation(true);
 		locationName.setRequired(true);
 		VerticalPanel layout = new VerticalPanel();

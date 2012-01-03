@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -109,9 +108,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 
 	public void showAddEditGroupDialog(ClientVendorGroup rec) {
 		vendorGroup = rec;
-		inputDlg = new InputDialog(this, messages.payeeGroup(
-				Global.get().Vendor()), "", messages.payeeGroup(
-				Global.get().Vendor())) {
+		inputDlg = new InputDialog(this, messages.payeeGroup(Global.get()
+				.Vendor()), "", messages.payeeGroup(Global.get().Vendor())) {
 		};
 
 		if (vendorGroup != null) {
@@ -155,7 +153,8 @@ public class VendorGroupListDialog extends GroupDialog<ClientVendorGroup> {
 		if (inputDlg != null) {
 			String vendorName = inputDlg.getTextItems().get(0).getValue()
 					.toString();
-			ClientVendor vendorByName = company.getVendorByName(vendorName);
+			ClientVendorGroup vendorByName = company
+					.getVendorGroupByName(vendorName);
 			if (vendorGroup != null) {
 				if (!(vendorGroup.getName().equalsIgnoreCase(vendorName) ? true
 						: vendorByName == null)) {

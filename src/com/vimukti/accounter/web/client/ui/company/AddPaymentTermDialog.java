@@ -320,6 +320,7 @@ public class AddPaymentTermDialog extends BaseDialog<ClientPaymentTerms> {
 				result.addError(this, messages.pleaseEnter(messages.dueDays()));
 			}
 		}
+		result.add(parent.validate());
 		return result;
 	}
 

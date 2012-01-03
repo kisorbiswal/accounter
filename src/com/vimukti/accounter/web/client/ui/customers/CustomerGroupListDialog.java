@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.GroupDialog;
 import com.vimukti.accounter.web.client.ui.core.GroupDialogButtonsHandler;
@@ -61,20 +60,22 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			}
 
 			public void onSecondButtonClick() {
-				if (listGridView.getSelection() != null) {
-					showAddEditGroupDialog((ClientCustomerGroup) listGridView
-							.getSelection());
-				} else {
-					Accounter.showError(messages.selectTaxGroup());
-					new Exception();
-				}
-
+				showAddEditGroupDialog((ClientCustomerGroup) getSelectedRecord());
 			}
 
 			public void onThirdButtonClick() {
-				deleteObject((IAccounterCore) listGridView.getSelection());
-				if (customterGroups == null)
-					enableEditRemoveButtons(false);
+				if (listGridView != null) {
+					ClientCustomerGroup selectedGroup = (ClientCustomerGroup) listGridView
+							.getSelection();
+					if (selectedGroup != null && selectedGroup.isDefault()) {
+						return;
+					}
+
+					deleteObject((IAccounterCore) listGridView.getSelection());
+					if (customterGroups == null) {
+						enableEditRemoveButtons(false);
+					}
+				}
 			}
 
 		};
@@ -96,9 +97,8 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 
 	public void showAddEditGroupDialog(ClientCustomerGroup rec) {
 		customerGroup = rec;
-		inputDlg = new InputDialog(this, messages.payeeGroup(
-				Global.get().Customer()), "", messages
-				.payeeGroup(Global.get().Customer())) {
+		inputDlg = new InputDialog(this, messages.payeeGroup(Global.get()
+				.Customer()), "", messages.payeeGroup(Global.get().Customer())) {
 		};
 
 		if (customerGroup != null) {
@@ -150,26 +150,20 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 			String value = inputDlg.getTextItems().get(0).getValue().toString();
 			ClientCustomerGroup customerGroupByName = company
 					.getCustomerGroupByName(UIUtils.toStr(value));
-			if (customerGroupByName != null) {
-				result.addError(this, messages
-						.payeeGroupAlreadyExists(Global.get().Customer()));
+			if (customerGroup != null) {
+				if (!(customerGroup.getName().equalsIgnoreCase(value) ? true
+						: customerGroupByName == null)) {
+					result.addError(this, messages.alreadyExist());
+				}
 			}
-			// if (customerGroup != null) {
-			// if (!(customerGroup.getName().equalsIgnoreCase(
-			// UIUtils.toStr(value)) ? true
-			// : (Utility.isObjectExist(company.getCustomerGroups()
-			// ) ? false : true))) {
-			// result.addError(this, messages
-			// .customerGroupAlreadyExists());
-			// }
 		} else {
 			ClientCustomerGroup customerGroupByName2 = getCompany()
 					.getCustomerGroupByName(
 							inputDlg.getTextItems().get(0).getValue()
 									.toString());
 			if (customerGroupByName2 != null) {
-				result.addError(this, messages
-						.payeeGroupAlreadyExists(Global.get().Customer()));
+				result.addError(this, messages.payeeGroupAlreadyExists(Global
+						.get().Customer()));
 			}
 		}
 		return result;
@@ -192,7 +186,7 @@ public class CustomerGroupListDialog extends GroupDialog<ClientCustomerGroup> {
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

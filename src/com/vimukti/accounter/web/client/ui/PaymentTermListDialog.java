@@ -28,8 +28,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	private AddPaymentTermDialog dialog;
 
 	public PaymentTermListDialog() {
-		super(messages.managePaymentTerm(), messages
-				.paymentTermDescription());
+		super(messages.managePaymentTerm(), messages.paymentTermDescription());
 		createControls();
 		center();
 	}
@@ -96,9 +95,8 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 	}
 
 	public void showAddEditTermDialog(ClientPaymentTerms rec) {
-		dialog = new AddPaymentTermDialog(this, messages
-				.addPaymentTermTitle(), messages
-				.addPaymentTermTitleDesc());
+		dialog = new AddPaymentTermDialog(this, messages.addPaymentTermTitle(),
+				messages.addPaymentTermTitleDesc());
 		this.paymentTerm = rec;
 		if (rec != null) {
 			dialog.payTermText.setValue(rec.getName());
@@ -144,7 +142,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		ClientPaymentTerms clientPaymentTerms;
 		if (paymentTerm != null) {
 			clientPaymentTerms = paymentTerm;
-
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
@@ -194,7 +191,6 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 			// .getValue() != null ? dialog.dayText.getValue() : "0"));
 		} else {
 			clientPaymentTerms = new ClientPaymentTerms();
-
 			clientPaymentTerms
 					.setName(dialog.payTermText.getValue() != null ? dialog.payTermText
 							.getValue().toString() : "");
@@ -296,8 +292,7 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { messages.name(),
-				messages.description(),
+		return new String[] { messages.name(), messages.description(),
 				messages.dueDays(),
 		/* messages.cashDiscount() */};
 	}
@@ -314,15 +309,14 @@ public class PaymentTermListDialog extends GroupDialog<ClientPaymentTerms> {
 		if (paymentTerm != null) {
 			if (validateName(dialog.payTermText.getValue() != null ? dialog.payTermText
 					.getValue().toString() : "")) {
-				result.addError(this, messages.alreadyExist());
+				result.addError(this, messages.paytermsAlreadyExists());
 			}
 		} else {
 			String value = dialog.payTermText.getValue();
 			ClientPaymentTerms clientPaymentTerms = company
 					.getPaymentTermsByName(value);
 			if (clientPaymentTerms != null) {
-				result.addError(this, messages
-						.paytermsAlreadyExists());
+				result.addError(this, messages.paytermsAlreadyExists());
 			}
 		}
 		return result;
