@@ -81,12 +81,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		buttonsLayout.setSpacing(5);
 
 		button1 = new Button(messages.add());
-		button1.setTitle(messages.clickThisTo(
-				messages.addNewLine()
-						+ " "
-						+ this.getText().replace(
-								messages.manage(), ""),
-				messages.dialog()));
+		button1.setTitle(messages.clickThisTo(messages.addNewLine() + " "
+				+ this.getText().replace(messages.manage(), ""), ""));
 		button1.setWidth("80px");
 
 		button1.addClickHandler(new ClickHandler() {
@@ -101,9 +97,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		button2 = new Button(messages.edit());
 		button2.setEnabled(false);
 		button2.setWidth("80px");
-		button2.setTitle(messages.clickThisTo(
-				messages.edit(),
-				this.getText().replace(messages.manage(), "")));
+		button2.setTitle(messages.clickThisTo(messages.edit(), this.getText()
+				.replace(messages.manage(), "")));
 		button2.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -115,9 +110,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		button3 = new Button(this.messages.remove());
 		button3.setEnabled(false);
 		button3.setWidth("80px");
-		button2.setTitle(messages.clickThisTo(
-				messages.delete(),
-				this.getText().replace(messages.manage(), "")));
+		button2.setTitle(messages.clickThisTo(messages.delete(), this.getText()
+				.replace(messages.manage(), "")));
 		button3.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -138,8 +132,8 @@ public abstract class GroupDialog<T extends IAccounterCore> extends
 		bodyLayout.add(listGridView);
 		if (Accounter.getUser().canDoInvoiceTransactions())
 			bodyLayout.add(buttonsLayout);
-		buttonsLayout.getElement().getParentElement().setAttribute("width",
-				"25%");
+		buttonsLayout.getElement().getParentElement()
+				.setAttribute("width", "25%");
 		setBodyLayout(bodyLayout);
 		cancelBtn.setTitle(this.messages.close());
 		dialogHandler = new InputDialogHandler() {

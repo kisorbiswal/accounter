@@ -1363,8 +1363,6 @@ public interface AccounterMessages extends Messages {
 
 	public String details();
 
-	public String dialog();
-
 	public String didNotGetRecords(String name);
 
 	public String Difference();
@@ -5062,8 +5060,6 @@ public interface AccounterMessages extends Messages {
 	public String wareHouseTransfer();
 
 	public String warehouseTransferList();
-
-	public String wareName();
 
 	public String WARNING();
 

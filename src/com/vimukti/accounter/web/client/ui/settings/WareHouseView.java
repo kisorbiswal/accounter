@@ -228,7 +228,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		warehouseCodeItem.setDisabled(isInViewMode());
 
 		wareHouseNameItem = new TextItem();
-		wareHouseNameItem.setTitle(messages.wareName());
+		wareHouseNameItem.setTitle(messages.warehouseName());
 		wareHouseNameItem.setRequired(true);
 		wareHouseNameItem.setDisabled(isInViewMode());
 

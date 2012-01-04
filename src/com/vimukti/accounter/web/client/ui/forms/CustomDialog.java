@@ -50,8 +50,7 @@ public class CustomDialog extends DialogBox {
 	public void showHeader() {
 
 		cross = new Image(Accounter.getFinanceImages().dialougueCloseicon());
-		cross.setTitle(messages.clickThisTo(messages.close().toLowerCase(),
-				messages.dialog()));
+		cross.setTitle(messages.clickThisTo(messages.close().toLowerCase(), ""));
 		// help = new Image("/images/help-icon.png");
 		help = new Image(Accounter.getFinanceImages().helpIcon());
 		help.setStyleName("dialog_help_icon");
