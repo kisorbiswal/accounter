@@ -60,7 +60,7 @@
 	  </div>
     </div>
     <div class="form-bottom-options">
-      <a style="float:left" href="/main/logout"><i18n:i18n msg='logoutHTML'/></a>
+      <a style="float:left" href="/main/logout"><i18n:i18n msg='logout'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
     </div>
       </td>

@@ -5,7 +5,7 @@
 		name="my com">
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.LogoutCommand"
-		name="logoutHTML">
+		name="logout">
 		<alias>signout</alias>
 	</command>
 	<command clazz="com.vimukti.accounter.mobile.commands.AuthenticationCommand"

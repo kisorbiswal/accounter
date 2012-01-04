@@ -31,7 +31,7 @@
 			<command title="reports" />
 			<command if="inventoryEnabled" title="inventory" />
 			<command title="settings" />
-			<command title="logoutHTML" />
+			<command title="logout" />
 		</outputs>
 	</pattern>
 
