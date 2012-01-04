@@ -24,18 +24,19 @@ public class DownloadTempFileServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String filename = req.getParameter("filename");
+		String attachId = req.getParameter("attachmentId");
+		String fileName = req.getParameter("filename");
 		try {
 
-			if (filename != null) {
-				File file = new File(ServerConfiguration.getTmpDir(), filename);
+			if (attachId != null) {
+				File file = new File(ServerConfiguration.getTmpDir(), attachId);
 				if (!file.exists()) {
 					return;
 				}
 				int length = 0;
 				ServletOutputStream op = resp.getOutputStream();
-				resp.setHeader("Content-Disposition",
-						"attachment; filename=\"printcheque\"");
+				resp.setHeader("Content-Disposition", "attachment; filename=\""
+						+ fileName + "\"");
 				byte[] bbuf = new byte[BUFSIZE];
 				DataInputStream in = new DataInputStream(new FileInputStream(
 						file));
