@@ -101,4 +101,9 @@ public class AddBankDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }
