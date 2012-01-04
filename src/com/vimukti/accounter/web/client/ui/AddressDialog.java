@@ -222,6 +222,10 @@ public class AddressDialog extends BaseDialog<ClientAddress> {
 	}
 
 	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+	@Override
 	public void setFocus() {
 		address1.setFocus();
 
