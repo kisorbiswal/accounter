@@ -71,7 +71,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				String filename = uploadFile.getFilename();
+				String filename = getFileName(uploadFile.getFilename());
 				for (ClientAttachment attachment : attachments) {
 					if (attachment.getName().equals(filename)) {
 						Accounter.showError(messages
@@ -161,6 +161,14 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		this.add(mainPanel);
 	}
 
+	private String getFileName(String fileName) {
+		int backslashIndex = fileName.lastIndexOf("\\");
+		if (backslashIndex > -1) {
+			return fileName.substring(backslashIndex + 1);
+		}
+		return fileName;
+	}
+
 	protected HorizontalPanel getAttachmentField(
 			final ClientAttachment attachment) {
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -175,6 +183,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 					UIUtils.downloadTransactionAttachment(
 							attachment.getAttachmentId(), attachment.getName());
 				} else {
+					System.out.println(attachment.getName()
+							+ " attachment name");
 					UIUtils.downloadFileFromTemp(attachment.getName(),
 							attachment.getName());
 				}
