@@ -411,7 +411,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
 		prodAndServiceForm1.setWidth("100%");
-		prodAndServiceForm1.setNumCols(2);
+		prodAndServiceForm1.setNumCols(1);
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
 		// VerticalPanel vPanel = new VerticalPanel();

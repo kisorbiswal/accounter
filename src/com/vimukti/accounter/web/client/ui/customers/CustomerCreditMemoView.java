@@ -171,7 +171,7 @@ public class CustomerCreditMemoView extends
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		prodAndServiceForm1.getCellFormatter().addStyleName(0, 0,
 				"memoFormAlign");
-		prodAndServiceForm1.setNumCols(2);
+		prodAndServiceForm1.setNumCols(1);
 		prodAndServiceForm1.setWidth("100%");
 		prodAndServiceForm1.setFields(memoTextAreaItem);
 
