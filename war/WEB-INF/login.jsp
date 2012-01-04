@@ -116,9 +116,9 @@
 	 
 	     <div id="commanNewContainer">
 			  <div id="accounterlogofield" class="new_logo_field">
-			   
+			    
 			  </div>
-			  
+			  <%@ include file="./locale.jsp" %>
 			  <div class="new_login_page">
 			  <div id ="feedDiv">
 			  <h2><i18n:i18n msg='whatsnew'/></h2>
@@ -129,6 +129,7 @@
 			  </div>
 			   
 			   <div class="new_login_accounterform">
+			  
 			   <c:if test="${message != null}">
 			   <div id="login_error" class="common-box">
 					<span>${message} </span>
