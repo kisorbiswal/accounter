@@ -52,6 +52,10 @@
   		%>
   			last: 'end'
   		};
+		<%
+			boolean isRTL=(Boolean) request.getAttribute("isRTL");
+  		%>
+		var isRTL=<%= isRTL %>;
 	</script>
 		
     
