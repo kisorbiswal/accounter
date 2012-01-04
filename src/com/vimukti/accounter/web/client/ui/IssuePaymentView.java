@@ -172,7 +172,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 							@Override
 							public void onSuccess(String result) {
-								UIUtils.downloadFileFromTemp(result);
+								UIUtils.downloadFileFromTemp("printcheque",
+										result);
 								createIssuePayment();
 							}
 
