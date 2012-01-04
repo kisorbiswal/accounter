@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
@@ -107,6 +109,7 @@ public class BaseServlet extends HttpServlet {
 					"Could Not Complete the Request!");
 		}
 	}
+
 
 	protected Company getCompany(HttpServletRequest req) {
 		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);

@@ -50,8 +50,6 @@ public class MacMenuServlet extends BaseServlet {
 
 			try {
 
-				ServerLocal.set(req.getLocale());
-
 				resp.setContentType("text/xml");
 				XMLWriter writer = new XMLWriter(resp.getOutputStream());
 				generateXML(writer, company, emailId);

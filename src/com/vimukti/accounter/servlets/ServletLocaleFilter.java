@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -8,6 +9,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import com.vimukti.accounter.main.ServerLocal;
 
@@ -19,15 +22,34 @@ public class ServletLocaleFilter implements Filter {
 	}
 
 	@Override
-	public void doFilter(ServletRequest arg0, ServletResponse arg1,
-			FilterChain arg2) throws IOException, ServletException {
-		ServerLocal.set(arg0.getLocale());
-		arg2.doFilter(arg0, arg1);
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		ServerLocal.set(getLocale((HttpServletRequest) request));
+		chain.doFilter(request, response);
 	}
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException {
 
+	}
+
+	private Locale getLocale(HttpServletRequest request) {
+		String locale = getCookie(request, "locale");
+		if(locale!=null){
+			new Locale(locale);
+		}
+		return request.getLocale();
+	}
+
+	private String getCookie(HttpServletRequest request, String name) {
+		Cookie[] cookies = request.getCookies();
+		for (int i = 0; i < cookies.length; i++) {
+			Cookie cookie = cookies[i];
+			if (cookie.getName().equals(name)) {
+				return cookie.getValue();
+			}
+		}
+		return null;
 	}
 
 }
