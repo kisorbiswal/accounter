@@ -807,8 +807,6 @@ public interface AccounterMessages extends Messages {
 
 	public String chooseEndingDate();
 
-	public String chooseFile();
-
 	public String chooselevelaccessyouwantthisusertohave();
 
 	public String chooseLogo();
@@ -5236,12 +5234,12 @@ public interface AccounterMessages extends Messages {
 
 	public String ztozeroperc();
 
-
 	public String depreciationReport();
-
 
 	public String of();
 
 	public String pleaseEnterValidLocationName(String locationName);
+
+	public String attachaFile();
 
 }
