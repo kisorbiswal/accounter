@@ -164,8 +164,12 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				UIUtils.downloadTransactionAttachment(
-						attachment.getAttachmentId(), attachment.getName());
+				if (attachment.getID() != 0) {
+					UIUtils.downloadTransactionAttachment(
+							attachment.getAttachmentId(), attachment.getName());
+				} else {
+					UIUtils.downloadFileFromTemp(attachment.getName());
+				}
 			}
 		});
 
