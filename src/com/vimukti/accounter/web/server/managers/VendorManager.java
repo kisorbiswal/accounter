@@ -16,6 +16,9 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
@@ -34,6 +37,7 @@ import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionPayBill;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -1450,6 +1454,12 @@ public class VendorManager extends Manager {
 
 			Vendor vendor = (Vendor) session.get(Vendor.class,
 					fromClientVendor.getID());
+			User user = AccounterThreadLocal.get();
+
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					vendor);
+			session.save(activity);
+
 			company.getVendors().remove(vendor);
 			session.saveOrUpdate(company);
 			vendor.setCompany(null);

@@ -13,6 +13,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
@@ -25,6 +26,7 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -42,6 +44,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 
 public class CustomerManager extends Manager {
 
@@ -607,13 +611,22 @@ public class CustomerManager extends Manager {
 					.setLong("toID", toClientCustomer.getID())
 					.setEntity("company", company).executeUpdate();
 
+			User user = AccounterThreadLocal.get();
+
 			Customer customer = (Customer) session.get(Customer.class,
 					fromClientCustomer.getID());
+
+			Activity activity = new Activity(company, user,
+					ActivityType.MERGE, customer);
+			session.save(activity);
+
 			company.getCustomers().remove(customer);
 			session.saveOrUpdate(company);
 			customer.setCompany(null);
+
 			session.delete(customer);
 			tx.commit();
+
 		} catch (Exception e) {
 			tx.rollback();
 			e.printStackTrace();
