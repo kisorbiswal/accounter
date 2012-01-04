@@ -47,7 +47,10 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 	private void createControls() {
 		VerticalPanel mainPanel = new VerticalPanel();
-
+		mainPanel.setSpacing(9);
+		Label label = new Label(messages.attachments());
+		label.addStyleName("history_notes_label");
+		mainPanel.add(label);
 		attachmentTable = new VerticalPanel();
 		mainPanel.add(attachmentTable);
 		mainPanel.setWidth("100%");
@@ -60,7 +63,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		uploadFile = new FileUpload();
 		uploadFile.setEnabled(!isInViewMode());
-		browseFileAnchor = new Anchor(messages.chooseFile());// Choose
+		browseFileAnchor = new Anchor(messages.attachaFile());// Choose
 																// File
 		browseFileAnchor.setEnabled(!isInViewMode());
 		uploadFile.setVisible(false);
@@ -74,7 +77,6 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				uploadFile.setName(filename);
 				// Show button
 				uploadButton.setVisible(true);
-
 			}
 		});
 		hPanel.add(uploadFile);
@@ -110,8 +112,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 				attachment.setName(text);
 				attachment.setSize(Long.parseLong(split[1]));
 
-				browseFileAnchor.setText(messages.chooseFile());// Choose
-																// File
+				browseFileAnchor.setText(messages.attachaFile());// Choose
+																	// File
 				// Hide that button
 				uploadButton.setVisible(false);
 				attachmentTable.add(getAttachmentField(attachment));
@@ -124,7 +126,10 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				uploadFile.setVisible(true);
+				uploadFile.getElement().focus();
 				clickOnInputFile(uploadFile.getElement());
+				uploadFile.setVisible(false);
 			}
 		});
 		hPanel.add(browseFileAnchor);
