@@ -168,7 +168,8 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 					UIUtils.downloadTransactionAttachment(
 							attachment.getAttachmentId(), attachment.getName());
 				} else {
-					UIUtils.downloadFileFromTemp(attachment.getName());
+					UIUtils.downloadFileFromTemp(attachment.getName(),
+							attachment.getName());
 				}
 			}
 		});
