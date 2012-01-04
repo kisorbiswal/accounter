@@ -20,7 +20,7 @@
 	<inherits name="net.zschech.gwt.comet.Comet" />
 	<inherits name="com.google.gwt.visualization.Visualization" />
 	<inherits name="com.allen_sauer.gwt.dnd.gwt-dnd" />
-						
+
 	<!-- <inherits name="com.google.gwt.logging.Logging"/> -->
 
 	<!-- <inherits name='pl.balon.gwt.diagrams.Diagrams' /> -->
@@ -36,5 +36,9 @@
 	</generate-with>
 	<generate-with class="com.vimukti.accounter.web.server.i18n.LocaleGenerator">
 		<when-type-is class="com.google.gwt.i18n.client.impl.LocaleInfoImpl" />
+	</generate-with>
+	<generate-with
+		class="com.vimukti.accounter.web.server.i18n.CldrImplGenerator">
+		<when-type-is class="com.google.gwt.i18n.client.impl.CldrImpl" />
 	</generate-with>
 </module>
