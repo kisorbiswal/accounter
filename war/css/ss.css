@@ -660,6 +660,7 @@ form {
 	margin-left: 8px;
 	padding: 26px 10px 15px;
 	border-radius: 10px 10px 10px 10px;
+	clear:both;
 }
 #commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
 #commanNewContainer input[type="password"],#commanNewContainer select,#enterEmailDiv #emailField
@@ -1021,5 +1022,10 @@ a#fdbk_tab:hover {
 }
 .companies-list a:FIRST-CHILD {
 	float: left;
+}
+#language_picker select{
+	float: right;
+    width: 90px;
+    margin-bottom:5px;
 }
 /* End of the new Login and forgot password page*/
