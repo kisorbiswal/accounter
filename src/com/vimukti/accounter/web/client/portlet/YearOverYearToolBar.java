@@ -70,15 +70,12 @@ public abstract class YearOverYearToolBar extends PortletToolBar {
 						refreshPortletData();
 					}
 				});
+		this.addItems(dateRangeItemCombo, accountCombo);
 		if (portletConfigData.size() > 1
 				&& Long.parseLong(portletConfigData.get(Portlet.ACCOUNT_ID)) != 0) {
-			accountCombo.setSelected(Accounter
-					.getCompany()
-					.getAccount(
-							Long.parseLong(portletConfigData
-									.get(Portlet.ACCOUNT_ID))).getName());
+			accountCombo.setComboItem(Accounter.getCompany().getAccount(
+					Long.parseLong(portletConfigData.get(Portlet.ACCOUNT_ID))));
 		}
-		addItems(dateRangeItemCombo, accountCombo);
 		setDefaultDateRange(portletConfigData.get(Portlet.DATE_RANGE));
 	}
 }

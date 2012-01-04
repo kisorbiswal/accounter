@@ -103,17 +103,15 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 			public void setDefaultDateRange(String defaultDateRange) {
 				dateRangeItemCombo.setSelected(defaultDateRange);
 				dateRangeChanged(defaultDateRange);
-				long updateData = YearOverYearPortlet.this.updateData(
+				YearOverYearPortlet.this.updateData(
 						getDateRangeType(defaultDateRange), getStartDate(),
 						getEndDate(), accountId);
-				accountCombo.setComboItem(Accounter.getCompany().getAccount(
-						updateData));
 			}
 		};
 		this.body.add(toolBar);
 	}
 
-	protected long updateData(int dateRangeType, ClientFinanceDate startDate,
+	protected void updateData(int dateRangeType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long accountId) {
 		AsyncCallback<ArrayList<YearOverYearPortletData>> callback = new AsyncCallback<ArrayList<YearOverYearPortletData>>() {
 
@@ -131,8 +129,6 @@ public class YearOverYearPortlet extends GraphPointsPortlet {
 
 		Accounter.createHomeService().getAccountsBalancesByDate(startDate,
 				endDate, accountId, dateRangeType, callback);
-		return accountId;
-
 	}
 
 	private long getAccountId(long accountId) {
