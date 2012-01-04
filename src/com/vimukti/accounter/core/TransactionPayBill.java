@@ -356,8 +356,7 @@ public class TransactionPayBill extends CreatableObject implements
 								.getBalanceDue() - amount);
 
 			} else if (this.journalEntry != null) {
-				this.journalEntry.setBalanceDue(this.journalEntry
-						.getBalanceDue() - amount);
+				this.journalEntry.updateBalanceDue(-amount);
 			}
 
 		}
@@ -379,7 +378,7 @@ public class TransactionPayBill extends CreatableObject implements
 		return false;
 	}
 
-	private void doReverseEffect(boolean isDeleting) {
+	public void doReverseEffect(boolean isDeleting) {
 
 		Session session = HibernateUtil.getCurrentSession();
 		// this.payBill.getVendor().updateBalance(session, this.payBill,
@@ -426,8 +425,8 @@ public class TransactionPayBill extends CreatableObject implements
 			this.transactionMakeDeposit = null;
 
 		} else if (this.journalEntry != null) {
-			this.journalEntry.balanceDue += amount;
-			session.saveOrUpdate(this.journalEntry);
+			this.getJournalEntry().updateBalanceDue(amount);
+			session.saveOrUpdate(this.getJournalEntry());
 			this.journalEntry = null;
 		}
 		session.saveOrUpdate(this);

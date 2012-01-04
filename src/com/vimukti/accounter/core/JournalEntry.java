@@ -285,4 +285,8 @@ public class JournalEntry extends Transaction {
 
 		return valid;
 	}
+
+	public void updateBalanceDue(double balanceDue) {
+		setBalanceDue(getBalanceDue() + balanceDue);
+	}
 }

@@ -395,8 +395,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		} else if (this.journalEntry != null) {
 			// Update the Payments and the balance due of the corresponding
 			// customer's Journal Entry
-			this.journalEntry.setBalanceDue(this.journalEntry.getBalanceDue()
-					- amount);
+			this.journalEntry.updateBalanceDue(-amount);
 		}
 		return false;
 	}
@@ -485,8 +484,7 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 			this.customerRefund = null;
 
 		} else if (this.getJournalEntry() != null) {
-			this.getJournalEntry().setBalanceDue(
-					this.getJournalEntry().getBalanceDue() + amount);
+			this.getJournalEntry().updateBalanceDue(amount);
 			session.saveOrUpdate(this.getJournalEntry());
 			this.journalEntry = null;
 

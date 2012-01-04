@@ -634,6 +634,9 @@ public class PayBill extends Transaction {
 					session.saveOrUpdate(tcp.getCreditsAndPayments());
 				}
 			}
+
+			// tbillOld.doReverseEffect(true);
+
 		}
 
 	}
