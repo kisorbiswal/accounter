@@ -512,6 +512,15 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		return fixedAssetAccountsList;
 	}
 
+	@Override
+	public ClientFixedAsset saveView() {
+		ClientFixedAsset saveView = super.saveView();
+		if (saveView != null) {
+			updateAssetObject();
+		}
+		return saveView;
+	}
+
 	/*
 	 * The note dialog get opened in edit mode on selecting the "Add Note"
 	 * option in options combo And this note is saved into the asset object on
