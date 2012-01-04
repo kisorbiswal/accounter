@@ -71,8 +71,15 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				isFileSelected = true;
 				String filename = uploadFile.getFilename();
+				for (ClientAttachment attachment : attachments) {
+					if (attachment.getName().equals(filename)) {
+						Accounter.showError(messages
+								.attachmentNameShouldbeUniqueInTransaction());
+						return;
+					}
+				}
+				isFileSelected = true;
 				browseFileAnchor.setText(filename);
 				uploadFile.setName(filename);
 				// Show button
@@ -86,7 +93,7 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 			public void onSubmit(SubmitEvent event) {
 				if (uploadFile.getFilename() == null
 						|| uploadFile.getFilename().length() <= 0) {
-					Accounter.showInformation(messages.noImageisselected());
+					Accounter.showInformation(messages.noFileSelected());
 					return;
 				}
 
