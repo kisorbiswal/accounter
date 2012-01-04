@@ -27,8 +27,8 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
  */
 
 public class ShipToForm extends DynamicForm {
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	LinkedHashMap<Integer, ClientAddress> allAddresses;
 	ClientAddress toBeShown = null;
 	public SelectCombo businessSelect;
@@ -43,8 +43,7 @@ public class ShipToForm extends DynamicForm {
 		businessSelect = new SelectCombo(messages.shipTo());
 		businessSelect.setHelpInformation(true);
 		// businessSelect.setWidth(85);
-		businessSelect.getMainWidget().removeStyleName(
-				messages.gwtListBox());
+		businessSelect.getMainWidget().removeStyleName("gwt-ListBox");
 		List<String> addressTypes = new ArrayList<String>();
 
 		addressTypes.addAll(new ClientAddress().getAddressTypes());

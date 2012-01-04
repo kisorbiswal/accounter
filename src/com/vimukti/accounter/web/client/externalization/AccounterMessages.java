@@ -1989,8 +1989,6 @@ public interface AccounterMessages extends Messages {
 
 	public String guest();
 
-	public String gwtListBox();
-
 	public String hadMultipleWarehouses();
 
 	public String halfYearly();
