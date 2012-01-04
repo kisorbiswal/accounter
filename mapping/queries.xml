@@ -359,9 +359,11 @@
 		<query-param name="from" type="long" />
 		<query-param name="status" type="boolean" />
 		<query-param name="price" type="double" />
+		<query-param name="p_Price" type="double" />
+
 		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.Item set
-		salesPrice=:price,isActive=:status
+		salesPrice=:price,purchasePrice=:p_Price,isActive=:status
 		where
 		id=:from and company=:company
 	</query>
