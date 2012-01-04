@@ -549,8 +549,6 @@ public interface AccounterMessages extends Messages {
 
 	public String bodyFooter();
 
-	public String boldCell();
-
 	public String bookValue();
 
 	public String bothCustomerAndVendor(String customer, String vendor);
@@ -4808,8 +4806,6 @@ public interface AccounterMessages extends Messages {
 	public String unConfirmed();
 
 	public String unDepositedFunds();
-
-	public String underline();
 
 	public String underMaintanance();
 

@@ -205,15 +205,15 @@ public class ReportGrid<R> extends CustomTable {
 		this.setText(row, column, cellValue);
 
 		if (bold) {
-			cellFormatter.addStyleName(row, column, messages.boldCell());
+			cellFormatter.addStyleName(row, column, "bold-cell");
 		}
 
 		addDepthStyle(row, column, depth);
 
 		if (underline) {
-			cellFormatter.addStyleName(row, column, messages.underline());
+			cellFormatter.addStyleName(row, column, "underline");
 		}
-		cellFormatter.addStyleName(row, column, "Report Grid custom font");
+		cellFormatter.addStyleName(row, column, "Report-grid-custom-font");
 		cellFormatter.setAlignment(row, column,
 				HasHorizontalAlignment.ALIGN_LEFT,
 				HasVerticalAlignment.ALIGN_MIDDLE);
