@@ -11002,7 +11002,7 @@
 		:startDate
 		AND :endDate AND T.COMPANY_ID
 		=:companyId
-		GROUP BY C.ID ORDER BY TOTAL DESC LIMIT
+		GROUP BY C.ID,C.NAME,C.CURRENCY ORDER BY TOTAL DESC LIMIT
 		:limit
 
 	</sql-query>
@@ -11029,7 +11029,7 @@
 		T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.COMPANY_ID =:companyId
 		GROUP BY
-		C.ID ORDER BY TOTAL DESC LIMIT :limit
+		C.ID,C.NAME,C.CURRENCY ORDER BY TOTAL DESC LIMIT :limit
 
 	</sql-query>
 
@@ -11070,7 +11070,7 @@
 		I.IS_SELL_ITEM=TRUE AND
 		I.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		GROUP BY I.ID ORDER BY QUANTITY DESC LIMIT :limit
+		GROUP BY I.ID,I.NAME ORDER BY QUANTITY DESC LIMIT :limit
 
 	</sql-query>
 
@@ -11095,7 +11095,7 @@
 		I.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
-		GROUP BY I.ID ORDER BY QUANTITY DESC
+		GROUP BY I.ID,I.NAME ORDER BY QUANTITY DESC
 		LIMIT :limit
 
 	</sql-query>
@@ -11116,7 +11116,7 @@
 		WHERE A.COMPANY_ID =:companyId AND (CASE WHEN
 		T.ID IS NOT NULL THEN T.T_DATE
 		BETWEEN :startDate AND :endDate ELSE
-		TRUE END) AND A.ID=:accountId GROUP BY A.ID
+		TRUE END) AND A.ID=:accountId GROUP BY A.ID,A.NAME
 	</sql-query>
 
 	<sql-query name="getAllQuotesByCustomer">
