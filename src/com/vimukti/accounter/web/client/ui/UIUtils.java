@@ -2097,12 +2097,12 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public native static void downloadFileFromTemp(String result)/*-{
+	public native static void downloadFileFromTemp(String fileName,
+			String attachId)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
-			frame
-					.setAttribute("src", "/do/downloadtempfile?filename="
-							+ result);
+			frame.setAttribute("src", "/do/downloadtempfile?filename="
+					+ fileName + "&attachmentId=" + attachId);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
