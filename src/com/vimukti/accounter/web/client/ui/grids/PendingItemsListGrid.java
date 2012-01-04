@@ -38,13 +38,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	 */
 	@Override
 	protected int[] setColTypes() {
-		if (type != 0) {
-			return new int[] { ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
-					ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_LINK,
-					ListGrid.COLUMN_TYPE_IMAGE };
-		}
 		return new int[] { ListGrid.COLUMN_TYPE_LINK,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
