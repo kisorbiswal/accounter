@@ -679,7 +679,7 @@ public interface AccounterMessages extends Messages {
 
 	public String capitalAndReserves();
 
-	public String cardOrLoadNumber();
+	public String cardOrLoanNumber();
 
 	public String cash();
 

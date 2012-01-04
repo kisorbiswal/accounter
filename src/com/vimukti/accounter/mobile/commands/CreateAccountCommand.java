@@ -232,8 +232,8 @@ public class CreateAccountCommand extends AbstractCommand {
 
 		});
 		list.add(new NumberRequirement(CARD_OR_LOAD_NUMBER, getMessages()
-				.pleaseEnter(getMessages().cardOrLoadNumber()), getMessages()
-				.cardOrLoadNumber(), true, true) {
+				.pleaseEnter(getMessages().cardOrLoanNumber()), getMessages()
+				.cardOrLoanNumber(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {

@@ -61,7 +61,7 @@ $(document).ready(function() {
         <img src="/images/maintainence_show.jpg" class="accounterLogo" alt= "Maintanance"/> 
       </div>
       <div class="maintainence_message">
-	    <h3> <i18n:i18n msg='sorryAccounterisdownformaintanance'/> </h3>
+	    <h3> <i18n:i18n msg='sorryAccounterisdownformaintenance'/> </h3>
 	    <h5> <i18n:i18n msg='weareperformingmaintenance'/> </h5>
 	    <span> <i18n:i18n msg='pleasevisitagainlaterFormoreinfovisit'/> </span>
 	    <a target="_blank"  href="http://blog.accounterlive.com" style="color:RoyalBlue"> <i18n:i18n msg='blogaccounterlivecom'/> </a>

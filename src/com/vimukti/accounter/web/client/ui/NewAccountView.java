@@ -816,7 +816,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 			});
 			limitText.setDisabled(isInViewMode());
-			cardNumText = new IntegerField(this, messages.cardOrLoadNumber());
+			cardNumText = new IntegerField(this, messages.cardOrLoanNumber());
 			cardNumText.setHelpInformation(true);
 			cardNumText.setWidth(100);
 			cardNumText.setDisabled(isInViewMode());
