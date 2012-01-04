@@ -43,7 +43,7 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 
 	@Override
 	protected String getListViewHeading() {
-		return messages.vatItemsList();
+		return messages.taxItemsList();
 	}
 
 	@Override
