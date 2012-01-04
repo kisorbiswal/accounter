@@ -15,7 +15,9 @@ public enum ActivityType {
 
 	NOTE(6),
 
-	VOID(7);
+	VOID(7),
+
+	MERGE(8);
 
 	private int type;
 
@@ -45,6 +47,8 @@ public enum ActivityType {
 			return NOTE;
 		case 7:
 			return VOID;
+		case 8:
+			return MERGE;
 		}
 		return null;
 	}
