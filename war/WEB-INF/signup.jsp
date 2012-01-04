@@ -131,10 +131,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 <body>
 	<div id="commanContainer" class="signup-container">	
      <div id="accounterlogofield" class="new_logo_field">
-			   
 	 </div>
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50" />
-  
+  <%@ include file="./locale.jsp" %>
   <c:if test="${errormessage!=null}">
 	<div id="login_error" class="common-box">
 		<span>${errormessage}</span>

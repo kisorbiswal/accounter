@@ -37,8 +37,8 @@
   <td>
 	<div>
 		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
-		
 	</div>
+	 <%@ include file="./locale.jsp" %>
     <div class="company_lists">
        
        
