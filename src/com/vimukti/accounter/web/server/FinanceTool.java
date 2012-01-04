@@ -2066,10 +2066,6 @@ public class FinanceTool {
 					.setLong("toID", toClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery("update.merge.transactionexpense.old.tonew")
-			// .setLong("fromID", fromClientAccount.getID()).setLong(
-			// "toID", toClientAccount.getID()).setEntity(
-			// "company", company).executeUpdate();
 			session.getNamedQuery("update.merge.transactionitem.old.tonew")
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
@@ -2093,19 +2089,14 @@ public class FinanceTool {
 					.setLong("from", fromClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
-			// session.getNamedQuery("delete.account.entry.old").setLong("from",
-			// fromClientAccount.getID()).setEntity("company", company)
-			// .executeUpdate();
-
-			// ServerConvertUtil convertUtil = new ServerConvertUtil();
-			// Account account = new Account();
-			// account = convertUtil.toServerObject(account, fromClientAccount,
-			// session);
-			// session.delete(account);
-			//
-			// tx.commit();
 			Account account = (Account) session.get(Account.class,
 					fromClientAccount.getID());
+			User user = AccounterThreadLocal.get();
+
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					account);
+			session.save(activity);
+
 			company.getAccounts().remove(account);
 			session.saveOrUpdate(company);
 			account.setCompany(null);
@@ -2124,16 +2115,13 @@ public class FinanceTool {
 		Company company = getCompany(companyId);
 
 		try {
+
 			session.getNamedQuery("update.mergeItem.oldcost.tonewcost")
 					.setLong("from", toClientItem.getID())
 					.setBoolean("status", fromClientItem.isActive())
 					.setDouble("price", fromClientItem.getSalesPrice())
+					.setDouble("p_Price", fromClientItem.getPurchasePrice())
 					.setEntity("company", company).executeUpdate();
-
-			// session.getNamedQuery("update.merge.itembackup.old.tonew")
-			// .setLong("fromID", fromClientItem.getID())
-			// .setLong("toID", toClientItem.getID())
-			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.itemstatus.old.tonew")
 					.setLong("fromID", fromClientItem.getID())
@@ -2152,17 +2140,13 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
-			// session.getNamedQuery("delete.item.entry.old").setLong("from",
-			// fromClientItem.getID()).setEntity("company", company)
-			// .executeUpdate();
-
-			// ServerConvertUtil convertUtil = new ServerConvertUtil();
-			// Item item = new Item();
-			// item = convertUtil.toServerObject(item, fromClientItem, session);
-			// session.delete(item);
-			// tx.commit();
-
 			Item item = (Item) session.get(Item.class, fromClientItem.getID());
+
+			User user = AccounterThreadLocal.get();
+
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					item);
+			session.save(activity);
 			company.getItems().remove(item);
 			session.saveOrUpdate(company);
 			item.setCompany(null);
