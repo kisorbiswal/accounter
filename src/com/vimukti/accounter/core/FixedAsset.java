@@ -657,7 +657,7 @@ public class FixedAsset extends CreatableObject implements
 
 	@Override
 	public void onLoad(Session session, Serializable id) {
-		this.oldLinkedAccumulatedDepreciationAccount = linkedAccumulatedDepreciationAccount;
+		this.oldLinkedAccumulatedDepreciationAccount = accumulatedDepreciationAccount;
 		this.oldFixedAssetNotes = fixedAssetNotes;
 		this.oldStatus = status;
 	}
@@ -698,8 +698,8 @@ public class FixedAsset extends CreatableObject implements
 		// .getName();
 		// }
 
-		if (this.linkedAccumulatedDepreciationAccount != null) {
-			this.assetAccount.linkedAccumulatedDepreciationAccount = this.linkedAccumulatedDepreciationAccount;
+		if (this.accumulatedDepreciationAccount != null) {
+			this.assetAccount.linkedAccumulatedDepreciationAccount = this.accumulatedDepreciationAccount;
 		}
 
 		/**
@@ -804,12 +804,12 @@ public class FixedAsset extends CreatableObject implements
 					.getFullName());
 		}
 
-		if (this.linkedAccumulatedDepreciationAccount != null
+		if (this.accumulatedDepreciationAccount != null
 				&& this.oldLinkedAccumulatedDepreciationAccount != null
-				&& this.linkedAccumulatedDepreciationAccount.getID() != this.oldLinkedAccumulatedDepreciationAccount
+				&& this.accumulatedDepreciationAccount.getID() != this.oldLinkedAccumulatedDepreciationAccount
 						.getID()) {
 			Account account = this.getAssetAccount();
-			account.setLinkedAccumulatedDepreciationAccount(linkedAccumulatedDepreciationAccount);
+			account.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount);
 			session.saveOrUpdate(account);
 		}
 		if (this.oldStatus == STATUS_PENDING

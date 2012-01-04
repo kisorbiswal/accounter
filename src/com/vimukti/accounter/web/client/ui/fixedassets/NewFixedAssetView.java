@@ -210,10 +210,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			if (assetAcc != null) {
 				long strID = assetAcc.getLinkedAccumulatedDepreciationAccount();
 				if (strID != 0)
-					data.setLinkedAccumulatedDepreciationAccount(strID);
+					data.setAccumulatedDepreciationAccount(strID);
 			}
-			if (getCompany().getAccount(data.getAssetAccount())
-					.getLinkedAccumulatedDepreciationAccount() == 0) {
+			if (data.getAccumulatedDepreciationAccount() == 0) {
 				showAccumltdAccountForm();
 			}
 			showAccumultdDepAmountForm(purchaseDateTxt.getEnteredDate());
@@ -621,9 +620,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 
 		}
 		if (isInViewMode()) {
-			accumulatedDepreciationAccount
-					.setComboItem(getCompany().getAccount(
-							data.getLinkedAccumulatedDepreciationAccount()));
+			accumulatedDepreciationAccount.setComboItem(getCompany()
+					.getAccount(data.getAccumulatedDepreciationAccount()));
 
 		}
 		accumulatedDepreciationAccountForm = new DynamicForm();
@@ -812,8 +810,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
 			if (selectedAssetAccount.getLinkedAccumulatedDepreciationAccount() == 0) {
-				if (accumulatedDepreciationAccount.getSelectedValue() != null) {
-					data.setLinkedAccumulatedDepreciationAccount(accumulatedDepreciationAccount
+				if (accumulatedDepreciationAccount != null) {
+					data.setAccumulatedDepreciationAccount(accumulatedDepreciationAccount
 							.getSelectedValue() != null ? accumulatedDepreciationAccount
 							.getSelectedValue().getID() : 0);
 					selectedAssetAccount

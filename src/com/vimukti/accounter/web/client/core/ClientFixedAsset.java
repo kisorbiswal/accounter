@@ -90,7 +90,7 @@ public class ClientFixedAsset implements IAccounterCore {
 	 * Selling OR Disposing Fixed Asset
 	 * 
 	 */
-
+	private long accumulatedDepreciationAccount;
 	private long soldOrDisposedDate;
 
 	private long accountForSale;
@@ -438,4 +438,14 @@ public class ClientFixedAsset implements IAccounterCore {
 		}
 		return false;
 	}
+
+	public long getAccumulatedDepreciationAccount() {
+		return accumulatedDepreciationAccount;
+	}
+
+	public void setAccumulatedDepreciationAccount(
+			long accumulatedDepreciationAccount) {
+		this.accumulatedDepreciationAccount = accumulatedDepreciationAccount;
+	}
+
 }
