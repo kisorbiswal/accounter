@@ -183,8 +183,6 @@ public abstract class TransactionAttachmentPanel extends SimplePanel {
 					UIUtils.downloadTransactionAttachment(
 							attachment.getAttachmentId(), attachment.getName());
 				} else {
-					System.out.println(attachment.getName()
-							+ " attachment name");
 					UIUtils.downloadFileFromTemp(attachment.getName(),
 							attachment.getName());
 				}
