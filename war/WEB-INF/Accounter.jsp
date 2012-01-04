@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@page pageEncoding="UTF-8" %>
+<%@ taglib prefix="i18n" uri="/WEB-INF/i18n.tld"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!-- The HTML 4.01 Transitional DOCTYPE declaration-->
@@ -85,25 +86,35 @@
     <!--CSS for loading message at application Startup-->
     <style type="text/css">
         #loading {
-            border: 1px solid #ccc;
             position: absolute;
             left: 42%;
             top: 35%;
             padding: 2px;
             z-index: 20001;
             height: auto;
+            border: 1px solid #CCCCCC;
+            box-shadow: 0 0 10px #1A5158;
+            background: none repeat scroll 0 0 white;
+            border-radius: 10px 10px 10px 10px;
         }
 
         #loading a {
             color: #225588;
         }
+        #loading .loadingIndicator div{
+                color: #1A5158;
+			    font-size: 20px;
+			    font-weight: normal;
+			    padding-left: 10px;
+        }
         #loading .loadingIndicator {
-            background: white;
-            font: bold 13px tahoma, arial, helvetica;
-            padding: 10px;
-            margin: 0;
-            height: auto;
-            color: #444;
+			 color: #444444;
+			 font-family: tahoma,arial,helvetica;
+			 font-weight: bold;
+			 height: auto;
+			 line-height: normal;
+			 margin: 0;
+			 padding: 10px;
             
         }
 
@@ -214,7 +225,11 @@
 	<div id="loadingWrapper" style="visibility:visible">
 	<div id="loading">
 	    <div class="loadingIndicator">
-	        <img src="/images/Main-page-loading-bar.gif" alt="Main page"/><br/>
+	       <div class="loadingIndicator">
+             <div><i18n:i18n msg='loadingAccounter'/>,</div>
+	         <img src="/images/Main-page-loading.gif" alt="Main page">
+             <div><i18n:i18n msg='pleasewait'/>....</div>
+	      </div>
 	    </div>
 	</div>
 	</div>
