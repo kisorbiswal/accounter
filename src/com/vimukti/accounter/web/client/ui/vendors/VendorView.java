@@ -879,6 +879,7 @@ public class VendorView extends BaseView<ClientVendor> {
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), false);
+		customFieldForm.setDisabled(isInViewMode());
 
 	}
 
