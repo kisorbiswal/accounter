@@ -57,8 +57,9 @@ noindex:-o-prefocus,.ibutton {
 	.sales_tax_buttons td {
 		float: right;
 	}
-	.Empty-text {
-		padding: 3px 12px !important;
+	.group-toolbar .Empty-text {
+		padding: 3px 12px ;
+		padding:11px 13px\0 !important;
 	}
 	.grouped-buttons {
 		padding: 2px 0 !important;
@@ -807,7 +808,7 @@ input.dropdown-button {
 	display: inline;
 	float: left;
 	padding: 0 5px 5px;
-	padding: 4px 5px 5px\0  !important;
+	padding: 0px 5px 5px\0  !important;
 }
 
 .gwt-Button:FOCUS,.image-button:FOCUS {
@@ -2183,7 +2184,7 @@ input.date-field-textbox {
 .goToLink {
 	float: right;
 	font-size: 13px;
-	margin-top: 4px;
+	/*margin-top: 4px;*/
 	cursor: pointer;
 	color: #FFFFFF;
 }
@@ -2349,7 +2350,6 @@ input.date-field-textbox {
 
 .page_header {
 	width: 100%;
-	margin: 6px;
 	overflow: auto;
 	/*box-shadow: 1px 0 6px #1A5158;*/
 }
@@ -2548,6 +2548,7 @@ input.date-field-textbox {
 
 .companies_title {
 	background: none repeat scroll 0 0 #DED9D9;
+	margin:5px;
 }
 
 .company_settings_panel {
@@ -2671,4 +2672,7 @@ input.date-field-textbox {
 }
 .pre_scroll_table{
 	padding-left:10px;
+}
+.page_header img{
+	padding:5px;
 }
