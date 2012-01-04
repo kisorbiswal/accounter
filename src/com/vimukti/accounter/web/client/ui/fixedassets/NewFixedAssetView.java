@@ -809,6 +809,8 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		data.setAssetNumber(assetNumberTxt.getValue() != null ? assetNumberTxt
 				.getValue().toString() : "");
 		if (selectedAssetAccount != null) {
+			selectedAssetAccount = getCompany().getAccount(
+					selectedAssetAccount.getID());
 			if (selectedAssetAccount.getLinkedAccumulatedDepreciationAccount() == 0) {
 				if (accumulatedDepreciationAccount != null) {
 					data.setAccumulatedDepreciationAccount(accumulatedDepreciationAccount
