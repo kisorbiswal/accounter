@@ -7979,6 +7979,9 @@
 		SET CONSTRAINTS ALL DEFERRED;
 
 
+		delete from
+		cheque_layout where company_id=cid;
+		
 		delete from account_amounts using account where account_id=account.id
 		and account.company_id=cid;
 		delete from account_transaction where
@@ -8038,8 +8041,6 @@
 		delete from fixed_asset where company_id=cid;
 		delete
 		from fixed_asset_history where company_id=cid;
-		delete from
-		fixed_asset_note where company_id=cid;
 		delete from invoice_estimates
 		using estimate , transaction where
 		invoice_estimates.estimate_id=estimate.id and
@@ -8492,8 +8493,7 @@
 		delete from portlet_page_configuration using
 		users where user_id=users.id
 		and users.company_id=cid;
-		delete from
-		cheque_layout where company_id=cid;
+		
 		delete from
 		account where
 		company_id=cid;
