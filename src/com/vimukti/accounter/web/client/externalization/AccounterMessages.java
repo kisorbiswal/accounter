@@ -3633,8 +3633,6 @@ public interface AccounterMessages extends Messages {
 
 	public String quoteTitle();
 
-	public String radioButtonGroup();
-
 	public String range(int startNumber, int endNumber);
 
 	public String rate();
