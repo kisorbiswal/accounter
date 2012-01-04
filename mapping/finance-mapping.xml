@@ -1451,14 +1451,6 @@
 		<many-to-one name="fixedAsset" class="FixedAsset" column="FIXED_ASSET_ID">
 		</many-to-one>
 	</class>
-	<class name="FixedAssetNote" table="FIXED_ASSET_NOTE">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<property name="note" type="text" column="NOTE"></property>
-		<many-to-one name="fixedAsset" class="FixedAsset" column="FIXED_ASSET_ID">
-		</many-to-one>
-	</class>
 	<class name="VATReturnBox" table="VATRETURNBOX">
 		<id name="id" column="ID">
 			<generator class="identity" />
