@@ -328,6 +328,10 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			buffer.append(messages.Voided());
 			buffer.append(" : ");
 			return buffer.toString();
+		case 8:
+			buffer.append(messages.merge());
+			buffer.append(":");
+			return buffer.toString();
 		default:
 			break;
 		}
