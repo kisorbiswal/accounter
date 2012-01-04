@@ -446,7 +446,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	        <h3><i18n:i18n msg='SimpletogetStarted'/>:</h3>
 	        <ul>
 	          <li><i18n:i18n msg='NoCreditcardrequired'/></li>
-	          <li><i18n:i18n msg='Freetosingup'/></li>
+	          <li><i18n:i18n msg='Freetosignup'/></li>
 	          <li><i18n:i18n msg='Cancelatanytime'/></li>
 	        </ul>
 	     </div> 
