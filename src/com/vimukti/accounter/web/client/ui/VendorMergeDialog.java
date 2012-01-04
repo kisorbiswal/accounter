@@ -60,12 +60,11 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		vendorCombo = createVendorCombo();
 		vendorCombo1 = createVendorCombo1();
 
-		vendorIDTextItem = new TextItem(messages.payeeID(
-				Global.get().Vendor()));
+		vendorIDTextItem = new TextItem(messages.payeeID(Global.get().Vendor()));
 		vendorIDTextItem.setHelpInformation(true);
 
-		vendorIDTextItem1 = new TextItem(messages.payeeID(
-				Global.get().Vendor()));
+		vendorIDTextItem1 = new TextItem(
+				messages.payeeID(Global.get().Vendor()));
 		vendorIDTextItem1.setHelpInformation(true);
 		vendorIDTextItem.setDisabled(true);
 		vendorIDTextItem1.setDisabled(true);
@@ -100,8 +99,7 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo1() {
-		vendorCombo1 = new VendorCombo(messages.payeeTo(
-				Global.get().Vendor()));
+		vendorCombo1 = new VendorCombo(messages.payeeTo(Global.get().Vendor()));
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
 		vendorCombo1
@@ -120,8 +118,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo() {
-		vendorCombo = new VendorCombo(messages.payeeFrom(
-				Global.get().Vendor()), false);
+		vendorCombo = new VendorCombo(
+				messages.payeeFrom(Global.get().Vendor()), false);
 		vendorCombo.setHelpInformation(true);
 		vendorCombo.setRequired(true);
 		vendorCombo
@@ -182,13 +180,13 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 				fromclientVendor.getCurrency());
 		ClientCurrency currency2 = getCompany().getCurrency(
 				toClientVendor.getCurrency());
-		if (currency1 != currency2) {
+		if (!currency1.equals(currency2)) {
 			Accounter
 					.showError("Currencies of the both Suppliers must be same ");
 		} else {
 			Accounter.createHomeService().mergeVendor(fromclientVendor,
 					toClientVendor, this);
-
+			com.google.gwt.user.client.History.back();
 			return true;
 		}
 		return false;

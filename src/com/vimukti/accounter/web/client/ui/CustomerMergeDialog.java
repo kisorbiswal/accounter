@@ -61,14 +61,14 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		customerCombo = createCustomerCombo();
 		customerCombo1 = createCustomerCombo1();
 
-		customerIDTextItem = new TextItem(messages.payeeID(
-				Global.get().Customer()));
+		customerIDTextItem = new TextItem(messages.payeeID(Global.get()
+				.Customer()));
 
 		customerIDTextItem.setHelpInformation(true);
 		customerIDTextItem.setDisabled(true);
 
-		customerIDTextItem1 = new TextItem(messages.payeeID(
-				Global.get().Customer()));
+		customerIDTextItem1 = new TextItem(messages.payeeID(Global.get()
+				.Customer()));
 
 		customerIDTextItem1.setHelpInformation(true);
 		customerIDTextItem1.setDisabled(true);
@@ -105,8 +105,8 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo1() {
 
-		customerCombo1 = new CustomerCombo(messages.payeeTo(
-				Global.get().Customer()), false);
+		customerCombo1 = new CustomerCombo(messages.payeeTo(Global.get()
+				.Customer()), false);
 		customerCombo1.setHelpInformation(true);
 		customerCombo1.setRequired(true);
 
@@ -127,11 +127,11 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	private CustomerCombo createCustomerCombo() {
 
-		customerCombo = new CustomerCombo(messages.payeeFrom(
-				Global.get().Customer()), false);
+		customerCombo = new CustomerCombo(messages.payeeFrom(Global.get()
+				.Customer()), false);
 
-		customerCombo = new CustomerCombo(messages.payeeFrom(
-				Global.get().Customer()), false);
+		customerCombo = new CustomerCombo(messages.payeeFrom(Global.get()
+				.Customer()), false);
 
 		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
@@ -183,6 +183,7 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 
 	@Override
 	protected boolean onOK() {
+
 		if (clientCustomer1 != null && clientCustomer != null) {
 			if (clientCustomer1.getID() == clientCustomer.getID()) {
 				return false;
@@ -192,15 +193,17 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 				clientCustomer1.getCurrency());
 		ClientCurrency currency2 = getCompany().getCurrency(
 				clientCustomer.getCurrency());
-		if (currency1 != currency2) {
+		if (!currency1.equals(currency2)) {
 			Accounter
 					.showError("Currencies of the both customers must be same ");
 		} else {
 			Accounter.createHomeService().mergeCustomer(clientCustomer,
 					clientCustomer1, this);
+			com.google.gwt.user.client.History.back();
 			return true;
 		}
-		return false;
+
+		return true;
 	}
 
 	@Override

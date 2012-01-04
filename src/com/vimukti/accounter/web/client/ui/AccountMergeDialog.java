@@ -55,12 +55,12 @@ public class AccountMergeDialog extends BaseDialog implements
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
-		accountNumberTextItem = new TextItem(messages.payeeNumber(
-				messages.Account()));
+		accountNumberTextItem = new TextItem(messages.payeeNumber(messages
+				.Account()));
 		accountNumberTextItem.setHelpInformation(true);
 
-		accountNumberTextItem1 = new TextItem(messages.payeeNumber(
-				messages.Account()));
+		accountNumberTextItem1 = new TextItem(messages.payeeNumber(messages
+				.Account()));
 		accountNumberTextItem1.setHelpInformation(true);
 
 		name = new TextItem(messages.accountName());
@@ -89,8 +89,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
-		accountCombo1 = new OtherAccountsCombo(messages.payeeTo(
-				messages.Account()), false);
+		accountCombo1 = new OtherAccountsCombo(messages.payeeTo(messages
+				.Account()), false);
 		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
 		accountCombo1
@@ -109,8 +109,8 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	private OtherAccountsCombo createAccountCombo() {
-		accountCombo = new OtherAccountsCombo(messages.payeeFrom(
-				messages.Account()), false);
+		accountCombo = new OtherAccountsCombo(messages.payeeFrom(messages
+				.Account()), false);
 		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
@@ -132,8 +132,9 @@ public class AccountMergeDialog extends BaseDialog implements
 	private void customerSelected(ClientAccount selectItem) {
 
 		accountNumberTextItem.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(selectItem
-				.getOpeningBalance()));
+		balanceTextItem.setValue(DataUtils
+				.getAmountAsStringInPrimaryCurrency(selectItem
+						.getOpeningBalance()));
 
 		name.setValue(selectItem.getName());
 
@@ -141,8 +142,9 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	private void customerSelected1(ClientAccount selectItem) {
 		accountNumberTextItem1.setValue(String.valueOf(selectItem.getNumber()));
-		balanceTextItem1.setValue(DataUtils.getAmountAsStringInPrimaryCurrency(selectItem
-				.getOpeningBalance()));
+		balanceTextItem1.setValue(DataUtils
+				.getAmountAsStringInPrimaryCurrency(selectItem
+						.getOpeningBalance()));
 
 		name1.setValue(selectItem.getName());
 
@@ -154,15 +156,13 @@ public class AccountMergeDialog extends BaseDialog implements
 		if (toAccount != null && fromAccount != null) {
 			if ((toAccount.getID() == fromAccount.getID())
 					|| !(toAccount.getType() == fromAccount.getType())) {
-				result.addError(fromAccount, messages
-						.notMoveAccount());
+				result.addError(fromAccount, messages.notMoveAccount());
 				return result;
 			}
 
 			if ((toAccount.getID() == fromAccount.getID())
 					|| !(toAccount.getType() == fromAccount.getType())) {
-				result.addError(fromAccount, messages
-						.notMoveAccount());
+				result.addError(fromAccount, messages.notMoveAccount());
 				return result;
 			}
 			result = form.validate();
@@ -197,6 +197,7 @@ public class AccountMergeDialog extends BaseDialog implements
 		} else {
 			Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
 					this);
+			com.google.gwt.user.client.History.back();
 			return true;
 		}
 		return false;

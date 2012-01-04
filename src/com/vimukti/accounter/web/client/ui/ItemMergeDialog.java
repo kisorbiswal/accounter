@@ -184,7 +184,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		} else {
 			Accounter.createHomeService().mergeItem(fromClientItem,
 					toClientItem, this);
-
+			com.google.gwt.user.client.History.back();
 			return true;
 		}
 		return false;
