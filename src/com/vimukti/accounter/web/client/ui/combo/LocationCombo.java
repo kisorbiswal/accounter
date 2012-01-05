@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientLocation;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.LocationGroupListDialog;
@@ -78,11 +79,32 @@ public class LocationCombo extends CustomCombo<ClientLocation> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog("New "
+		final QuickAddDialog dialog = new QuickAddDialog("New "
 				+ Global.get().Location());
 		dialog.setDefaultText(textBox.getText());
-		dialog.setListener(new QuickAddListenerImpl(this));
+		dialog.setListener(new QuickAddListenerImpl(this) {
+			@Override
+			public IAccounterCore getData(String text) {
+				if (!isLocationExists(text, dialog)) {
+					return super.getData(text);
+				}
+				return null;
+			}
+		});
 		dialog.show();
+	}
+
+	protected boolean isLocationExists(String text, QuickAddDialog dialog) {
+		for (ClientLocation location : getCompany().getLocations()) {
+			if (location.getName().equals(text)) {
+				if (location instanceof ClientLocation) {
+					this.setComboItem((ClientLocation) location);
+					dialog.hide();
+				}
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

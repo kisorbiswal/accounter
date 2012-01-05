@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.ui.combo;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
@@ -61,11 +63,33 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	protected void selectionFaildOnClose() {
-		QuickAddDialog dialog = new QuickAddDialog(messages
-				.newPayee(Global.get().vendor()));
+		final QuickAddDialog dialog = new QuickAddDialog(
+				messages.newPayee(Global.get().vendor())) {
+
+		};
 		dialog.setDefaultText(textBox.getText());
-		dialog.setListener(new QuickAddListenerImpl(this));
+		dialog.setListener(new QuickAddListenerImpl(this) {
+			@Override
+			public IAccounterCore getData(String text) {
+				if (isVenodrExists(text)) {
+					return super.getData(text);
+				}
+				return null;
+			}
+		});
 		dialog.show();
+	}
+
+	protected boolean isVenodrExists(String text) {
+		for (ClientPayee customer : getCompany().getPayees()) {
+			if (customer.getName().equals(text)) {
+				if (customer instanceof ClientVendor) {
+					this.setComboItem((ClientVendor) customer);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
