@@ -319,7 +319,7 @@ public class InvoiceBrandingView<T> extends
 
 		VerticalPanel creditPanel = new VerticalPanel();
 		creditNoteHtml = new HTML("<p>" + messages.creditNoteTitle()
-				+ "<br/><br/></p>");
+				+ "<br/><br/><br/></p>");
 		creditNoteFileName = new HTML("<p>"
 				+ theme.getCreditNoteTempleteName().trim() + "</p>");
 		creditPanel.add(creditNoteHtml);
