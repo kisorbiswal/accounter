@@ -5237,5 +5237,9 @@ public interface AccounterMessages extends Messages {
 	public String pleasewait();
 
 	public String editCurrency();
+	
+	public String currentAccumulatedDepreciation();
+
+	public String deprecionToBePosted();
 
 }
