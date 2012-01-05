@@ -5236,4 +5236,6 @@ public interface AccounterMessages extends Messages {
 	
 	public String pleasewait();
 
+	public String editCurrency();
+
 }
