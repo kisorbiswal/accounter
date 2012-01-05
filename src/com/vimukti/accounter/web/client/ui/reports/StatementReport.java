@@ -76,11 +76,11 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 		if (payeeId == 0) {
 			if (isVendor) {
-				Accounter.showError(messages.pleaseSelect(
-						Global.get().Vendor()));
+				Accounter.showError(messages
+						.pleaseSelect(Global.get().Vendor()));
 			} else {
-				Accounter.showError(messages.pleaseSelect(
-						Global.get().Customer()));
+				Accounter.showError(messages.pleaseSelect(Global.get()
+						.Customer()));
 			}
 		} else {
 			if (isVendor) {
@@ -101,11 +101,11 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void exportToCsv() {
 		if (payeeId == 0) {
 			if (isVendor) {
-				Accounter.showError(messages.pleaseSelect(
-						Global.get().Vendor()));
+				Accounter.showError(messages
+						.pleaseSelect(Global.get().Vendor()));
 			} else {
-				Accounter.showError(messages.pleaseSelect(
-						Global.get().Customer()));
+				Accounter.showError(messages.pleaseSelect(Global.get()
+						.Customer()));
 			}
 		} else {
 			if (isVendor) {
@@ -173,10 +173,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public String getDefaultDateRange() {
-		return messages.all();
+		return messages.thisMonth();
 	}
-	
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
@@ -207,5 +206,5 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		map.put("endDate", endDate);
 		return map;
 	}
-	
+
 }
