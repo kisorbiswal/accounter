@@ -26,7 +26,7 @@ public class StartDateDialog extends BaseDialog {
 	private ListBox dateBox;
 	private String initialDate;
 	protected boolean isDateChanged;
-	private DateTimeFormat format = DateTimeFormat.getFormat(getCompany()
+	private final DateTimeFormat format = DateTimeFormat.getFormat(getCompany()
 			.getPreferences().getDateFormat());
 
 	public StartDateDialog() {
@@ -109,6 +109,7 @@ public class StartDateDialog extends BaseDialog {
 		}
 	}
 
+	@Override
 	protected void processCancel() {
 		removeFromParent();
 	}
@@ -116,6 +117,7 @@ public class StartDateDialog extends BaseDialog {
 	/**
 	 * Called when Ok button clicked
 	 */
+	@Override
 	protected void processOK() {
 		if (isDateChanged)
 			changeStartDate();
@@ -129,6 +131,7 @@ public class StartDateDialog extends BaseDialog {
 
 		AccounterAsyncCallback callBack = new AccounterAsyncCallback() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
@@ -156,6 +159,7 @@ public class StartDateDialog extends BaseDialog {
 	private void getStartdates() {
 		AccounterAsyncCallback<ArrayList<ClientFinanceDate>> callBack = new AccounterAsyncCallback<ArrayList<ClientFinanceDate>>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				saveFailed(caught);
 				return;
@@ -170,6 +174,11 @@ public class StartDateDialog extends BaseDialog {
 		};
 		Accounter.createHomeService().getFinancialYearStartDates(callBack);
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 	@Override
