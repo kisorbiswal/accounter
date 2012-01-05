@@ -872,7 +872,7 @@ public class FixedAsset extends CreatableObject implements
 					.setActionType(FixedAssetHistory.ACTION_TYPE_DISPOSED);
 			fixedAssetHistory.setActionDate(new FinanceDate());
 			fixedAssetHistory.setDetails("View disposal journal");
-			// fixedAssetHistory.setPostedJournalEntry(journalEntry);
+			fixedAssetHistory.setPostedJournalEntry(journalEntry);
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
 			fixedAssetHistory.setCompany(this.getCompany());
 
