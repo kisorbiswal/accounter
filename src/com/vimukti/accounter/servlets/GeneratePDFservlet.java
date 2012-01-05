@@ -229,7 +229,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			} finally {
 				// session.close();
 			}
-
+			FontFactory.setFontImp(new FontFactoryImpEx());
 			response.setContentType("application/pdf");
 			response.setHeader("Content-disposition", "attachment; filename="
 					+ fileName.replace(" ", "") + ".pdf");
@@ -335,7 +335,7 @@ public class GeneratePDFservlet extends BaseServlet {
 							getPageSizeType(brandingTheme.getPageSizeType()));
 
 				}
-
+			
 				// this is used to print multiple pdf documents at a time
 				if (objectId != null) {
 					transactionType = Integer.parseInt(request
