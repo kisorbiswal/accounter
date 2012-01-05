@@ -437,7 +437,7 @@
 		<query-param name="company" type="Company" />
 		select f.assetNumber from
 		com.vimukti.accounter.core.FixedAsset f where
-		f.company=:company
+		f.company=:company order by f.id
 	</query>
 
 	<query name="getTransactionNumber.by.type">
