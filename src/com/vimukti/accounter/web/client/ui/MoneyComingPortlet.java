@@ -80,14 +80,13 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 		draftLabel = getLabel(messages.invoicesDue());
 		overDueLabel = getLabel(messages.overDueInvoices());
-		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		updateAmounts();
 
-		draftAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(draftInvoiceAmount));
-		overDueAmtLabel = getAmountLabel(DataUtils
-				.getAmountAsStringInPrimaryCurrency(overDueInvoiceAmount));
+		draftAmtLabel = getAmountLabel(DataUtils.amountAsStringWithCurrency(
+				draftInvoiceAmount, getCompany().getPrimaryCurrency()));
+		overDueAmtLabel = getAmountLabel(DataUtils.amountAsStringWithCurrency(
+				overDueInvoiceAmount, getCompany().getPrimaryCurrency()));
 		overDueAmtLabel.getElement().getStyle().setPaddingLeft(10, Unit.PX);
 
 		fTable.setWidget(0, 0, draftLabel);
@@ -119,16 +118,16 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel
-							.setText(DataUtils
-									.getAmountAsStringInPrimaryCurrency(overDueInvoiceAmount));
+					overDueAmtLabel = getAmountLabel(DataUtils
+							.amountAsStringWithCurrency(overDueInvoiceAmount,
+									getCompany().getPrimaryCurrency()));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel
-							.setText(DataUtils
-									.getAmountAsStringInPrimaryCurrency(draftInvoiceAmount));
+					draftAmtLabel = getAmountLabel(DataUtils
+							.amountAsStringWithCurrency(draftInvoiceAmount,
+									getCompany().getPrimaryCurrency()));
 				}
 
 				Runnable runnable = new Runnable() {

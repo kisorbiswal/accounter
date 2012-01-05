@@ -53,11 +53,7 @@ public class CurrencyGroupListDialog extends GroupDialog<ClientCurrency> {
 			public void onSecondButtonClick() {
 				ClientCurrency selection = (ClientCurrency) listGridView
 						.getSelection();
-				if (!selection.equals(getCompany().getPrimaryCurrency())) {
-					ShowAddEditDialog(selection);
-				} else {
-					Accounter.showError(messages.CannotDeletePrimaryCurrency());
-				}
+				ShowAddEditDialog(selection);
 			}
 
 			@Override
