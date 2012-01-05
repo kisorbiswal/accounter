@@ -151,7 +151,7 @@ public class Converter {
 			PD4PageMark footer = new PD4PageMark();
 			footer.setHtmlTemplate("<html><p align ='center'>"
 					+ template.getFooter() + "</p></html>");
-			footer.setAreaHeight(70);
+			footer.setAreaHeight(90);
 			footer.setFontSize(10);
 			footer.setColor(Color.BLACK);
 
