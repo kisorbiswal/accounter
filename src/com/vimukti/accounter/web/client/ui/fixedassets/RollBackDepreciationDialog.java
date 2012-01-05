@@ -123,12 +123,19 @@ public class RollBackDepreciationDialog extends BaseDialog {
 					lastDepreciationDate.getDate());
 			tempLastDate.setDay(1);
 			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.MONTH, depreciationStartDate.getMonth());
-
+			cal.set(Calendar.MONTH, depreciationStartDate.getMonth() - 1);
+			cal.set(Calendar.YEAR, depreciationStartDate.getYear() - 1900);
 			while (depreciationStartDate.before(lastDepreciationDate)) {
 				cal.set(Calendar.DAY_OF_MONTH, 1);
 				depreciationDate.add(DateUtills.getDateAsString(cal.getTime()));
 				cal.add(Calendar.MONTH, 1);
+				if (depreciationStartDate.getMonth() == 12) {
+					depreciationStartDate.setYear(lastDepreciationDate
+							.getYear());
+				}
+				depreciationStartDate
+						.setMonth(depreciationStartDate.getMonth() == 12 ? 1
+								: depreciationStartDate.getMonth() + 1);
 			}
 
 		}
