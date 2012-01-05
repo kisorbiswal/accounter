@@ -304,11 +304,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		lablHPanel.add(labl);
 		// new item
 		newItemTxt = new TextItem(messages.newItem());
-		newItemTxt.setWidth("323px");
 		newItemTxt.setRequired(true);
 		// asset number
 		assetNumberTxt = new TextItem(messages.assetNumber());
-		assetNumberTxt.setWidth("323px");
 		assetNumberTxt.setRequired(true);
 		// Asset account.
 		accountCombo = new FixedAssetAccountCombo(messages.Account());
