@@ -756,6 +756,7 @@ input [type="checkbox"] {
 }
 .form-box li a {
 	font-size: 15px;
+	padding-left:10px;
 }
 .form-box div a:hover {
 	color: #3299A4 !important;
