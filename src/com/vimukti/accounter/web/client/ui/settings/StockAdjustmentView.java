@@ -223,13 +223,13 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (table.getAllRows().isEmpty()) {
+		List<ClientStockAdjustmentItem> allRows = table.getAllRows();
+		if (allRows.isEmpty()) {
 			result.addError(this, messages.noInventoryItemsAvilable());
 		}
-		for (ClientStockAdjustmentItem item : table.getAllRows()) {
-			if (item.getItem() != 0
-					&& (item.getAdjustmentQty().getValue() <= 0 || item
-							.getAdjustmentQty().getUnit() <= 0)) {
+		for (ClientStockAdjustmentItem item : allRows) {
+			if (item.getAdjustmentQty().getValue() <= 0
+					|| item.getAdjustmentQty().getUnit() <= 0) {
 				result.addError(this,
 						messages.pleaseSelectInventoryItemToSave());
 			}
