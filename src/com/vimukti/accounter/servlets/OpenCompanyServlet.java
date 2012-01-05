@@ -47,7 +47,8 @@ public class OpenCompanyServlet extends BaseServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String url = request.getRequestURI().toString();
-
+		request.setAttribute("isRTL",
+				getlocale().equals(new Locale("ar", "", "")));
 		String isTouch = (String) request.getSession().getAttribute(IS_TOUCH);
 		request.setAttribute(IS_TOUCH, isTouch == null ? "false" : isTouch);
 
@@ -138,8 +139,6 @@ public class OpenCompanyServlet extends BaseServlet {
 				}
 				transaction.commit();
 				user = HibernateUtil.initializeAndUnproxy(user);
-				request.setAttribute("isRTL",
-						getlocale().equals(new Locale("ar", "", "")));
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
