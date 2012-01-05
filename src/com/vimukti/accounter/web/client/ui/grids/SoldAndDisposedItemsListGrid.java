@@ -49,13 +49,11 @@ public class SoldAndDisposedItemsListGrid extends
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_LINK,
-				ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_IMAGE };
+				ListGrid.COLUMN_TYPE_LINK };
 	}
 
 	@Override
 	protected int getCellWidth(int index) {
-		if (index == 8)
-			return 20;
 		return super.getCellWidth(index);
 	}
 
@@ -96,9 +94,6 @@ public class SoldAndDisposedItemsListGrid extends
 			return messages.showHistory();
 		case 7:
 			return messages.addNote();
-		case 8:
-			return Accounter.getFinanceMenuImages().delete();
-			// return "/images/delete.png";
 		}
 		return "";
 	}
@@ -130,8 +125,6 @@ public class SoldAndDisposedItemsListGrid extends
 		case 7:
 			openNoteDialog(obj);
 			break;
-		case 8:
-			showWarnDialog(obj);
 		default:
 			ActionFactory.getNewFixedAssetAction().run(obj, false);
 			break;
@@ -190,7 +183,7 @@ public class SoldAndDisposedItemsListGrid extends
 		return new String[] { messages.item(), messages.assetNumber(),
 				messages.Account(), messages.disposalDate(),
 				messages.disposalPrice(), messages.gainsOrLosses(),
-				messages.showHistory(), messages.addNote(), "" };
+				messages.showHistory(), messages.addNote() };
 	}
 
 	@Override
