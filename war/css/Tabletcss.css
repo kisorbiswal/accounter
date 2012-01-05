@@ -11,7 +11,7 @@
 	background:url("../images/icon_arrow.png") no-repeat scroll right center white;
 }
 .MENU_BAR_BG table,.gwt-DialogBox,.gwt-MenuBarPopup div table:only-child,.recounciliation_grid,.editTable,.company_stackpanel_view,
-.gwt-StackPanelContent{
+.gwt-StackPanelContent,.cusotmerCentrGrid,.details-Panel{
 	 border:1px solid #918C8C;
 }
 .main-class-pannel,.gwt-PopupPanel,.gwt-TabPanelBottom{
@@ -125,7 +125,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 }
 .td01,.decor00,.decor02,.no-title .biz-decor-panel .td00,.no-title .biz-decor-panel .td01,
 .no-title .biz-decor-panel .td02,.no-title .biz-decor-panel .decor00,.no-title .biz-decor-panel .decor02{
-	height: 29px;
+	height: 33px;
 }
 body,.menubar-devider,.gwt-SuggestBox,.gwt-TextBox,.gwt-PasswordTextBox,.gridSelectBoxCell .downarrow-button,
 .gwt-Tree .gwt-TreeItem,.gridTextBoxCell input,input[type="checkbox"],.main-finance-window,
@@ -185,9 +185,9 @@ input[type="text"],textarea,.view_help_panel td:FIRST-CHILD table td,.helpdialog
 .no-title .main-w,.gridBody1 .gwt-HTML,.widget img,.dashboard_label{
 	padding:0 5px;
 }
-.group-toolbar{
+/*.group-toolbar{
 	padding:0 10px;
-}
+}*/
 .selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,.selectedview_medium_labelstyle,
 .grouped-buttons,.progress_panel_data td .gwt-Label,.progress_panel table tr td{
 	padding: 5px 0;
@@ -252,7 +252,7 @@ html,body{
 .gridBody1 tr td div,.selectedview,.childNode tr td,.parentNode tr td,.gridBody tr td div,.gridHeader tr td div{
 	overflow: hidden;
 }
-.gridHeader,.headerlabel {
+.gridHeader,.headerlabel,.customers_detail_panel{
 	border-bottom:1px solid #1a1a1a;
 	background: -webkit-gradient(linear, left top, left bottom, from(#E4E4E4), to(#DBDBDB)); /* for webkit browsers */
 	background: -moz-linear-gradient(top,  #E4E4E4,  #DBDBDB); /* for firefox 3.6+ */ 
@@ -1294,9 +1294,8 @@ input.date-field-textbox{
 .goToLink {
 	float: right;
 	font-size: 13px;
-	margin-top: 4px;
 	cursor: pointer;
-	color: #FFFFFF;
+	color: #686666;
 }
 
 .customfileddialog .no_records .norecord-empty-message{
@@ -1457,4 +1456,209 @@ input.date-field-textbox{
 	color:black;
 	background:none;
 	cursor: auto;
+}
+
+
+
+
+.company_settings_panel {
+	width: 100%;
+}
+
+.company_settings_panel .page_details_panel_td {
+	width: 80%;
+	border: 1px solid #1A5158;
+}
+
+.company_settings_panel .titles_panel_td {
+	width: 20%;
+	background: none repeat scroll 0 0 #F0F0F0;
+}
+
+.company_settings_panel .page_details_panel_td .pre_scroll_table {
+	height: 680px;
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+
+.options_panel a {
+	color: #000000;
+	text-decoration: none;
+	margin: 12px;
+}
+
+.options_panel a:HOVER {
+	color: #fff;
+}
+.menu_item_clicked,.optionClicked{
+	background: -webkit-gradient(linear, left top, left bottom, from(#686666), to(#565454));
+	background:-moz-linear-gradient(center top , #686666, #565454) repeat scroll 0 0 transparent;
+}
+.optionFocused,.menu_item_hover{
+	background: none repeat scroll 0 0 #686666;
+}
+
+.optionClicked a {
+	color: #fff;
+}
+
+.preferences_option {
+	padding: 5px 0 4px 9px;
+}
+
+.interval_Value table td:last-child div{
+	 padding-left: 25px !important;
+}
+
+.finance-portlet .listgrid {
+	border-width: 1px 0 0;
+}
+.companies_link_parent a:hover{
+	background: #ccc;
+}
+.attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor{
+	padding: 0 10px 0 0;
+}
+.attachment_panel form table .gwt-Anchor, .attachment_panel .attachment_hpanel td .gwt-Anchor {
+    color: #3299A4;
+}
+.currency_format_option td:last-child td {
+    padding: 5px 0 0 0;
+}
+.currency_format_option td:first-child div {
+    line-height: 2.1;
+}
+.currency_format_option {
+    padding-left: 8px;
+}
+.date_range_combo{
+	width: 120px;
+}
+.Transactions_center .gwt-Button {
+    margin-top: 8px;
+}	
+.chequeTopScal td{
+	 padding: 0 2px 0 1px;
+}
+.chequeLeftScal td div{
+	font-size: 13px;
+    line-height: 0.6;
+}
+.activity-text-color{
+	color:red;
+}
+.details-Panel table{
+	table-layout: fixed;
+}
+.decimal_digitlimit td:first-child {
+    width: 50%;
+}
+.customer-detail-notespanel{
+	word-wrap: break-word;
+}
+.customer-detail-notespanel div{
+	width:195px;
+}
+.pager-images{
+	width:auto !important;
+}
+.currency_format_label{
+	font-weight: bold;
+}
+.currency_format_border{
+	border: ipx solid;
+}
+.currency_format_align td:first-child{
+	padding-right:20px;
+}
+.currency_format_align{
+	margin:10px;
+}
+.company-preferences-labels{
+	width:200px;
+}
+.companyInfoPanel td {
+    padding:5px 0 0 0;
+}
+.pre_scroll_table{
+	padding-left:10px;
+}
+.page_header img{
+	padding:5px;
+}
+.tree_menu {
+    font-weight: bold;
+    margin-left: -10px;
+    font-size:17px !important;
+}
+.handCursor, .tree_menu {
+    color: black;
+    font-size: 15px !important;
+}
+.tree_list_panel td {
+    padding: 4px 5px 4px 18px;
+}
+.tree_list_panel {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-collapse: collapse;
+    width: 175px;
+}
+.preferences_option_title {
+	font-weight: bold;
+	color:black;
+	font-size:17px !important;
+}
+.tree_menu_item {
+    color: black;
+    display: block;
+    text-decoration: none;
+    width: 100%;
+}
+.customers_detail_panel {
+    padding: 3px;
+    border-left: 1px solid #918C8C;
+    border-right: 1px solid #918C8C;
+    border-top: 1px solid #918C8C;
+    border-bottom:0px;
+}
+.menu_item_clicked a{
+	color:white;
+}
+.cusotmerCentrGrid .gridBodyContainer {
+    height: 600px;
+}
+.checkpanel {
+    height: 280px;
+    overflow: scroll;
+    padding: 20px;
+}
+.chequeTopScal {
+    background: none repeat scroll 0 0 white;
+    margin-left: 40px;
+    padding: 0 5px;
+}
+.chequeLeftScal {
+    background: none repeat scroll 0 0 white;
+    margin-top: 20px;
+    padding: 4px 5px;
+}
+.chequeBackground {
+    background: none repeat scroll 0 0 #AAAAAA;
+    padding: 16px 10px 10px 17px;
+}
+.chequeBody {
+    background: none repeat scroll 0 0 white;
+    box-shadow: 5px 5px #000000;
+    margin-top: 4px;
+}
+.chequeTopScal td {
+    padding: 0 2px 0 1px;
+}
+.chequeLeftScal td div {
+    font-size: 13px;
+    line-height: 0.6;
+}
+.checkpanel {
+    min-height: 280px;
+    overflow: scroll;
+    padding: 20px;
 }
