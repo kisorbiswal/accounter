@@ -77,8 +77,8 @@ public class StockTransferQuantityColumn extends
 			ClientMeasurement measurement = Accounter.getCompany()
 					.getMeasurement(item.getMeasurement());
 			unitBox.initCombo(measurement.getUnits());
+			unitBox.setComboItem(measurement.getUnits().get(0));
 		}
-		unitBox.setComboItem(unit);
 		unitBox.setShowTitle(false);
 
 		table.setWidget(0, 0, valueLabel);
@@ -108,7 +108,7 @@ public class StockTransferQuantityColumn extends
 				getTable().update(row);
 			}
 		});
-		Widget widget = getTable().getWidget(row,this);
+		Widget widget = getTable().getWidget(row, this);
 		popup.setAutoHideEnabled(true);
 		popup.showRelativeTo(widget);
 	}
