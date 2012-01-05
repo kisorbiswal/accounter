@@ -5242,4 +5242,6 @@ public interface AccounterMessages extends Messages {
 
 	public String deprecionToBePosted();
 
+	public String pleaseSelectInventoryItemToSave();
+
 }

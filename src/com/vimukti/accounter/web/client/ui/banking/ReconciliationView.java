@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ReconciliationDailog;
+import com.vimukti.accounter.web.client.ui.ReconciliationDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
@@ -108,7 +108,7 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		changeBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ReconciliationDailog dialog = new ReconciliationDailog(Global
+				ReconciliationDialog dialog = new ReconciliationDialog(Global
 						.get().messages().Reconciliation(), data,
 						new ValueCallBack<ClientReconciliation>() {
 

@@ -1742,7 +1742,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				public void onClick(ClickEvent event) {
 					ClientReconciliation clientReconciliation = new ClientReconciliation();
 					clientReconciliation.setAccount(data);
-					ReconciliationDailog dialog = new ReconciliationDailog(
+					ReconciliationDialog dialog = new ReconciliationDialog(
 							Global.get().messages().Reconciliation(),
 							clientReconciliation);
 					dialog.show();

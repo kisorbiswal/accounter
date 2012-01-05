@@ -229,7 +229,8 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		for (ClientStockAdjustmentItem item : table.getAllRows()) {
 			if (item.getAdjustmentQty().getValue() <= 0
 					|| item.getAdjustmentQty().getUnit() <= 0) {
-				result.addError(this, messages.noRecordsSelected());
+				result.addError(this,
+						messages.pleaseSelectInventoryItemToSave());
 			}
 		}
 		return result;

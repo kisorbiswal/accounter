@@ -22,7 +22,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
  * @author Lingarao.R
  * 
  */
-public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
+public class ReconciliationDialog extends BaseDialog<ClientReconciliation>
 		implements WidgetWithErrors {
 
 	private ReconciliationAccountCombo reconcileAccountCombo;
@@ -33,12 +33,12 @@ public class ReconciliationDailog extends BaseDialog<ClientReconciliation>
 	private ClientAccount account;
 	private final ValueCallBack<ClientReconciliation> reconciliationCallback;
 
-	public ReconciliationDailog(String reconciliation,
+	public ReconciliationDialog(String reconciliation,
 			ClientReconciliation reconcilition) {
 		this(reconciliation, reconcilition, null);
 	}
 
-	public ReconciliationDailog(String reconciliation,
+	public ReconciliationDialog(String reconciliation,
 			ClientReconciliation reconcilition,
 			ValueCallBack<ClientReconciliation> callback) {
 		super(reconciliation, "");
