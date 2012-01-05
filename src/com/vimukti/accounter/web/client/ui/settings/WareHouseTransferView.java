@@ -47,7 +47,13 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 	private void createControls() {
 		listForms = new ArrayList<DynamicForm>();
 		mainPanel = new VerticalPanel();
-		fromCombo = new WarehouseCombo(messages.from());
+		fromCombo = new WarehouseCombo(messages.from()) {
+			@Override
+			public void addItemThenfireEvent(ClientWarehouse obj) {
+				super.addItemThenfireEvent(obj);
+				toCombo.initCombo(getCompany().getWarehouses());
+			}
+		};
 		fromCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientWarehouse>() {
 
@@ -62,7 +68,13 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 				});
 		fromCombo.setRequired(true);
 		fromCombo.setDisabled(isInViewMode());
-		toCombo = new WarehouseCombo(messages.to());
+		toCombo = new WarehouseCombo(messages.to()) {
+			@Override
+			public void addItemThenfireEvent(ClientWarehouse obj) {
+				super.addItemThenfireEvent(obj);
+				fromCombo.initCombo(getCompany().getWarehouses());
+			}
+		};
 		toCombo.setDisabled(isInViewMode());
 		toCombo.setRequired(true);
 		commentArea = new TextAreaItem();
