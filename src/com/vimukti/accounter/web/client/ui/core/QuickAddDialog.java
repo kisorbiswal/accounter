@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -38,9 +37,9 @@ public class QuickAddDialog extends CustomDialog {
 		textBox = new TextBoxItem();
 
 		nameLabel.setText(messages.name());
-		horizontalPanel.getElement().getStyle().setMargin(5, Unit.PX);
+		// horizontalPanel.getElement().getStyle().setMargin(5, Unit.PX);
 		horizontalPanel.setSpacing(6);
-
+		
 		horizontalPanel.add(nameLabel);
 		horizontalPanel.add(textBox);
 
@@ -53,7 +52,12 @@ public class QuickAddDialog extends CustomDialog {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (listener != null) {
-					quickAdd();
+					if (textBox.getText().length() > 0) {
+						quickAdd();
+					} else {
+						Accounter.showError(messages.nameShouldnotbeempty());
+						return;
+					}
 				}
 				hide();
 			}
@@ -89,7 +93,7 @@ public class QuickAddDialog extends CustomDialog {
 		buttonsPanel.add(addAllInfoBtn);
 		buttonsPanel.add(cancelBtn);
 
-		buttonsPanel.getElement().getStyle().setMargin(5, Unit.PX);
+		// buttonsPanel.getElement().getStyle().setMargin(5, Unit.PX);
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		mainPanel.add(horizontalPanel);
