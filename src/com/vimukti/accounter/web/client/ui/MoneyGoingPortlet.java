@@ -70,7 +70,6 @@ public class MoneyGoingPortlet extends GraphPointsPortlet {
 
 		draftLabel = getLabel(messages.billsDue());
 		overDueLabel = getLabel(messages.overDueBills());
-		overDueLabel.getElement().getStyle().setMarginLeft(10, Unit.PX);
 
 		draftAmtLabel = getAmountLabel(DataUtils.amountAsStringWithCurrency(
 				draftInvoiceAmount, getCompany().getPrimaryCurrency()));
