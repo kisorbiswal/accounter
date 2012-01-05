@@ -189,6 +189,9 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			Quantity tempQ = itemStatus.getQuantity();
 			if (substract) {
 				itemStatus.getQuantity().setValue(tempQ.getValue() - value);
+				if (itemStatus.getQuantity().getValue() <= 0) {
+					itemStatuses.remove(itemStatus);
+				}
 			} else {
 				itemStatus.getQuantity().setValue(tempQ.getValue() + value);
 			}
