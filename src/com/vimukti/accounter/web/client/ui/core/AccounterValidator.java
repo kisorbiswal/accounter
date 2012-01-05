@@ -1126,7 +1126,7 @@ public class AccounterValidator {
 
 	public static boolean isValidSellorDisposeDate(
 			ClientFinanceDate purchaseDate, ClientFinanceDate sellingDate) {
-		if (sellingDate.before(purchaseDate)
+		if (sellingDate.after(purchaseDate)
 				|| sellingDate.compareTo(purchaseDate) == 0) {
 			return false;
 		}
