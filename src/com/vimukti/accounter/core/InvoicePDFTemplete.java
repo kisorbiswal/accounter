@@ -477,6 +477,17 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				+ company.getRegistrationNumber()
 				: ""));
 
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
 		return regestrationAddress;
 	}
 }

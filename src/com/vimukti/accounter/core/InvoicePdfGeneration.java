@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.web.client.Global;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.document.images.ClassPathImageProvider;
@@ -189,6 +190,17 @@ public class InvoicePdfGeneration {
 				.getRegistrationNumber().equals("")) ? "\n Company Registration No: "
 				+ company.getRegistrationNumber()
 				: ""));
+		String phoneStr = forNullValue(company.getPreferences().getPhone());
+		if (phoneStr.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().phone() + " : " + phoneStr + ",";
+		}
+		String website = forNullValue(company.getPreferences().getWebSite());
+
+		if (website.trim().length() > 0) {
+			regestrationAddress = regestrationAddress
+					+ Global.get().messages().webSite() + " : " + website;
+		}
 
 		return regestrationAddress;
 
