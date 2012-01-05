@@ -13,17 +13,18 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class StatementServerReport extends
 		AbstractFinaneReport<PayeeStatementsList> {
 	private String sectionName = "";
-	private List<String> types = new ArrayList<String>();
-	private List<String> sectiontypes = new ArrayList<String>();
+	private final List<String> types = new ArrayList<String>();
+	private final List<String> sectiontypes = new ArrayList<String>();
 	private String curentParent;
 	public int precategory = 1001;
 	public String customerId;
-	private boolean isVendor;
+	private final boolean isVendor;
 
 	public StatementServerReport(boolean isVendor,
 			IFinanceReport<PayeeStatementsList> reportView) {
 		this.isVendor = isVendor;
 		this.reportView = reportView;
+
 	}
 
 	public StatementServerReport(boolean isVendor, long startDate,

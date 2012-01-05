@@ -50,10 +50,10 @@ public class CustomerTransactionHistoryServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.payeeTransactionHistory(
-				Global.get().Customer());
+		return messages.payeeTransactionHistory(Global.get().Customer());
 	}
 
+	@Override
 	public int getColumnWidth(int index) {
 		switch (index) {
 		case 1:
@@ -209,6 +209,7 @@ public class CustomerTransactionHistoryServerReport extends
 		return 0;
 	}
 
+	@Override
 	public void resetVariables() {
 		sectionDepth = 0;
 		sectionName = "";
@@ -306,5 +307,8 @@ public class CustomerTransactionHistoryServerReport extends
 	//
 	// generateReportPDF(this.getTitle(), gridhtml, dateRangeHtml);
 	// }
-
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
 }

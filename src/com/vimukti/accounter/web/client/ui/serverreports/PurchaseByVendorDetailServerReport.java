@@ -58,8 +58,12 @@ public class PurchaseByVendorDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.purchaseByVendorDetail(
-				Global.get().vendor());
+		return messages.purchaseByVendorDetail(Global.get().vendor());
+	}
+
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
 	}
 
 	@Override

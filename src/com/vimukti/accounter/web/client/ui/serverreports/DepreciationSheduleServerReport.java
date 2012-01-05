@@ -67,11 +67,6 @@ public class DepreciationSheduleServerReport extends
 	}
 
 	@Override
-	public boolean isWiderReport() {
-		return true;
-	}
-
-	@Override
 	protected String getPreviousReportDateRange(Object object) {
 		return ((BaseReport) object).getDateRange();
 	}

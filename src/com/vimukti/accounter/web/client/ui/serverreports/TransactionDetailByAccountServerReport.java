@@ -64,7 +64,7 @@ public class TransactionDetailByAccountServerReport extends
 
 	@Override
 	public String getDefaultDateRange() {
-		return messages.financialYearToDate();
+		return messages.thisMonth();
 	}
 
 	@Override

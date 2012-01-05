@@ -89,6 +89,11 @@ public class SalesByItemDetailServerReport extends
 	}
 
 	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
+	@Override
 	public void makeReportRequest(long start, long end) {
 		// if (this.financeTool == null)
 		// return;
@@ -229,6 +234,7 @@ public class SalesByItemDetailServerReport extends
 		return 0;
 	}
 
+	@Override
 	public void resetVariables() {
 		sectionDepth = 0;
 		sectionName = "";

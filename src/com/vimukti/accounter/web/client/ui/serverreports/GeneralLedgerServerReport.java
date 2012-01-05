@@ -23,4 +23,9 @@ public class GeneralLedgerServerReport extends
 	public String getTitle() {
 		return messages.generalLedgerReport();
 	}
+
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
 }

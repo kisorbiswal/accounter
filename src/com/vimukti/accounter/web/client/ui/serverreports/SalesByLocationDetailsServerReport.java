@@ -162,4 +162,9 @@ public class SalesByLocationDetailsServerReport extends
 		this.currentsectionName = "";
 	}
 
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
 }

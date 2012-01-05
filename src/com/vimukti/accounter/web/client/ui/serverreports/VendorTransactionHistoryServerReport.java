@@ -96,6 +96,7 @@ public class VendorTransactionHistoryServerReport extends
 		// }
 	}
 
+	@Override
 	public Object getColumnData(TransactionHistory record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
@@ -117,6 +118,7 @@ public class VendorTransactionHistoryServerReport extends
 		return null;
 	}
 
+	@Override
 	public void processRecord(TransactionHistory record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "", "" }, new String[] { "", "", "", "",
@@ -147,10 +149,12 @@ public class VendorTransactionHistoryServerReport extends
 		processRecord(record);
 	}
 
+	@Override
 	public ClientFinanceDate getEndDate(TransactionHistory obj) {
 		return obj.getEndDate();
 	}
 
+	@Override
 	public ClientFinanceDate getStartDate(TransactionHistory obj) {
 		return obj.getStartDate();
 	}
@@ -198,6 +202,7 @@ public class VendorTransactionHistoryServerReport extends
 		return 0;
 	}
 
+	@Override
 	public void resetVariables() {
 		sectionDepth = 0;
 		sectionName = "";
@@ -209,6 +214,11 @@ public class VendorTransactionHistoryServerReport extends
 		return new String[] { messages.payeeName(Global.get().vendor()),
 				messages.date(), messages.type(), messages.no(),
 				messages.Account(), messages.amount() };
+	}
+
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
 	}
 
 }

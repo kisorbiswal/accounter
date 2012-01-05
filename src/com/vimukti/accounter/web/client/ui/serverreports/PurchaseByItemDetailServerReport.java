@@ -45,6 +45,11 @@ public class PurchaseByItemDetailServerReport extends
 	}
 
 	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
+	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,

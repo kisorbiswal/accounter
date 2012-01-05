@@ -57,8 +57,7 @@ public class SalesByCustomerDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return messages.salesByCustomerDetail(
-				Global.get().Customer());
+		return messages.salesByCustomerDetail(Global.get().Customer());
 	}
 
 	@Override
@@ -184,6 +183,11 @@ public class SalesByCustomerDetailServerReport extends
 		return new String[] { Global.get().customer(), getMessages().date(),
 				getMessages().type(), getMessages().noDot(),
 				getMessages().amount() };
+	}
+
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
 	}
 
 }
