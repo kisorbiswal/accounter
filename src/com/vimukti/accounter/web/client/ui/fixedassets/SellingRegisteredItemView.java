@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.DebitAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -330,7 +329,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
 			result.addError(salepriceText, messages.zeroAmount());
 		}
-		if (AccounterValidator.validate_Radiovalue(QuestionItem.getValue())) {
+		if (!AccounterValidator.validate_Radiovalue(QuestionItem.getValue())) {
 			result.addError(QuestionItem, messages.shouldSelectRadio());
 		}
 
@@ -350,8 +349,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 								+ " "
 								+ messages.conditionalMsg()
 								+ "  ("
-								+ UIUtils
-										.getDateStringFormat(new ClientFinanceDate(
+								+ DateUtills
+										.getDateAsString(new ClientFinanceDate(
 												asset.getPurchaseDate()))
 								+ "  )");
 			}
@@ -582,7 +581,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				reviewJournal();
+				onSave(false);
 			}
 		});
 
