@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title> <i18n:i18n msg='accountRegister'/> | Accounter
+<title> <i18n:i18n msg='logIn'/> | Accounter
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
