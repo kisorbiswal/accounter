@@ -110,6 +110,12 @@ public class CommandUtils {
 		return null;
 	}
 
+	/**
+	 * Getting the start of the fiscal Year
+	 * 
+	 * @param preferences
+	 * @return {@link ClientFinanceDate}
+	 */
 	public static ClientFinanceDate getCurrentFiscalYearStartDate(
 			ClientCompanyPreferences preferences) {
 		ClientFinanceDate startDate = new ClientFinanceDate();
@@ -118,6 +124,12 @@ public class CommandUtils {
 		return startDate;
 	}
 
+	/**
+	 * Getting the end of the fiscal Year.
+	 * 
+	 * @param preferences
+	 * @return {@link ClientFinanceDate}
+	 */
 	public static ClientFinanceDate getCurrentFiscalYearEndDate(
 			ClientCompanyPreferences preferences) {
 
@@ -135,10 +147,18 @@ public class CommandUtils {
 		return endDate;
 	}
 
-	public static ClientAccount getAccountByName(Company company, String string) {
+	/**
+	 * Getting the Account By the name
+	 * 
+	 * @param company
+	 * @param accountName
+	 * @return {@link ClientAccount}
+	 */
+	public static ClientAccount getAccountByName(Company company,
+			String accountName) {
 		Set<Account> accounts = company.getAccounts();
 		for (Account account : accounts) {
-			if (account.getName().equals(string)) {
+			if (account.getName().equals(accountName)) {
 				return (ClientAccount) getClientObjectById(account.getID(),
 						AccounterCoreType.ACCOUNT, company.getId());
 			}
@@ -146,11 +166,18 @@ public class CommandUtils {
 		return null;
 	}
 
+	/**
+	 * Getting the Account By the name
+	 * 
+	 * @param company
+	 * @param accountName
+	 * @return {@link ClientBankAccount}
+	 */
 	public static ClientBankAccount getBankAccountByName(Company company,
-			String string) {
+			String accountName) {
 		Set<Account> accounts = company.getAccounts();
 		for (Account account : accounts) {
-			if (account.getName().equals(string)) {
+			if (account.getName().equals(accountName)) {
 				return (ClientBankAccount) getClientObjectById(account.getID(),
 						AccounterCoreType.BANK_ACCOUNT, company.getId());
 			}
