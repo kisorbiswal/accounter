@@ -435,6 +435,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
+			addEstimateTransactionItems();
 			return false;
 		}
 		if (this.total < 0) {
@@ -451,6 +452,33 @@ public class Invoice extends Transaction implements Lifecycle {
 		doCreateEffect(session);
 		return false;
 
+	}
+
+	private void addEstimateTransactionItems() {
+		Session session = HibernateUtil.getCurrentSession();
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
+		if (this.getEstimates() != null) {
+			for (Estimate estimate : this.getEstimates()) {
+				estimate = (Estimate) session.get(Estimate.class,
+						estimate.getID());
+				if (estimate != null) {
+					try {
+						for (TransactionItem item : estimate.transactionItems) {
+							TransactionItem clone = item.clone();
+							clone.transaction = this;
+							if (estimate.getEstimateType() == Estimate.CREDITS) {
+								clone.updateAsCredit();
+							}
+							this.transactionItems.add(clone);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 
 	@Override
