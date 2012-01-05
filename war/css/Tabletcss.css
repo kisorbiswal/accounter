@@ -1626,11 +1626,6 @@ input.date-field-textbox{
 .cusotmerCentrGrid .gridBodyContainer {
     height: 600px;
 }
-.checkpanel {
-    height: 280px;
-    overflow: scroll;
-    padding: 20px;
-}
 .chequeTopScal {
     background: none repeat scroll 0 0 white;
     margin-left: 40px;
