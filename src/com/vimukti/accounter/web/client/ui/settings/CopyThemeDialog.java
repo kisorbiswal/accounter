@@ -132,4 +132,8 @@ public class CopyThemeDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
