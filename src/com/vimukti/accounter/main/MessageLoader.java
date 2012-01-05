@@ -126,8 +126,11 @@ public class MessageLoader {
 									break;
 								}
 							}
-							removed.add(msg);
-							removeKeys(msg, removedKeys);
+							if (msg.getLocalMessages() == null
+									|| msg.getLocalMessages().isEmpty()) {
+								removed.add(msg);
+								removeKeys(msg, removedKeys);
+							}
 						}
 					} else {
 						for (Key k : msg.getKeys()) {
@@ -146,11 +149,14 @@ public class MessageLoader {
 					// find original one and delete all others
 					for (Message msg : messageByKey) {
 						if (!msg.getValue().equals(message.getValue())) {
-							removed.add(msg);
-							removeKeys(msg, removedKeys);
-							System.out
-									.println("Dulpicate messages with same key :"
-											+ msg);
+							if (msg.getLocalMessages() == null
+									|| msg.getLocalMessages().isEmpty()) {
+								removed.add(msg);
+								removeKeys(msg, removedKeys);
+								System.out
+										.println("Dulpicate messages with same key :"
+												+ msg);
+							}
 						}
 					}
 				}
