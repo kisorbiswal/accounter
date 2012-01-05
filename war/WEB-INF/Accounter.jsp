@@ -75,7 +75,7 @@
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
     Boolean isIpad =  (Boolean)request.getSession().getAttribute("IpadApp");
-   if( isNative && (isIpad != null && !isIpad )){ %>
+   if( isNative){ %>
    	<link type="text/css" rel="stylesheet" href="../css/native.css?version=<%= version%>" />
    <% } else if(isIpad != null && isIpad ){%>
   	 <link type="text/css" rel="stylesheet" href="../css/TabletClientcss.css?version=<%= version%>" />
