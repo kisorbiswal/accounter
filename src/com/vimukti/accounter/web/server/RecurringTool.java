@@ -33,7 +33,9 @@ public class RecurringTool extends Thread {
 
 	@Override
 	public void run() {
-		ServerLocal.set(Locale.ENGLISH);
+		if (ServerLocal.get() == null) {
+			ServerLocal.set(Locale.ENGLISH);
+		}
 		Session session = HibernateUtil.openSession();
 		org.hibernate.Transaction hibernateTransaction = null;
 		try {
