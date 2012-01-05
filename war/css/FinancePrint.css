@@ -267,3 +267,6 @@ table tr.gridHeaderRow td {
 .gridHeaderRow th{
 	padding-bottom :25px;
 }
+.bold,.boldcell,.bold-cell{
+	font-weight:bold;
+}
