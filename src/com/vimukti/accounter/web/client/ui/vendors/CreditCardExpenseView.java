@@ -1181,8 +1181,7 @@ public class CreditCardExpenseView extends
 		foreignCurrencyamountLabel.setAmount(grandTotal);
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) && !isInViewMode()) {
+			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getTransactionItems());
 				transaction.getTransactionItems().addAll(

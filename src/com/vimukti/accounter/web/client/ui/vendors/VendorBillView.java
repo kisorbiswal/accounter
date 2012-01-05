@@ -1016,8 +1016,7 @@ public class VendorBillView extends
 
 		netAmount.setAmount(lineTotal);
 		if (isTrackTax()) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) && !isInViewMode()) {
+			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(

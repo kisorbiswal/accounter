@@ -985,9 +985,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			// vatTotalNonEditableText.setAmount(customerTransactionTable
 			// .getTotalTax());
-			if (transaction.getTransactionItems() != null
-					&& transaction.getTransactionItems().isEmpty()
-					&& !isInViewMode()) {
+			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(customerTransactionTable
 						.getAllRows());
 			}

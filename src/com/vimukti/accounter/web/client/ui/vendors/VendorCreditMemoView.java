@@ -658,8 +658,7 @@ public class VendorCreditMemoView extends
 
 		netAmount.setAmount(lineTotal);
 		if (getPreferences().isTrackPaidTax()) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) && !isInViewMode()) {
+			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
 				transaction.getTransactionItems().addAll(

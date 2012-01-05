@@ -821,6 +821,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 				transaction.setEstimates(estimates);
 				transaction.setSalesOrders(salesOrders);
+				transaction.setTransactionItems(customerTransactionTable
+						.getTransactionItems());
 			}
 
 			vatTotalNonEditableText.setTransaction(transaction);

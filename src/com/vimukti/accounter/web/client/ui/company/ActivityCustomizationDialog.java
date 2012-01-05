@@ -123,6 +123,12 @@ public class ActivityCustomizationDialog extends BaseDialog {
 		return true;
 	}
 
+	@Override
+	protected boolean onCancel() {
+		this.removeFromParent();
+		return true;
+	}
+
 	private void setValue(long flag, Boolean value) {
 		if (value) {
 			this.result |= flag;

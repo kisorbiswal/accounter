@@ -1213,8 +1213,7 @@ public class WriteChequeView extends
 		}
 		double grandTotal = transactionVendorAccountTable.getLineTotal();
 		if (getPreferences().isTrackPaidTax()) {
-			if ((transaction.getTransactionItems() != null && transaction
-					.getTransactionItems().isEmpty()) && !isInViewMode()) {
+			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(transactionVendorAccountTable
 						.getAllRows());
 			}
