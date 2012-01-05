@@ -158,6 +158,13 @@ public class NewLoginServlet extends BaseServlet {
 		// have to reset his password(by using a flag on the user object)
 		HttpSession httpSession = request.getSession(true);
 
+		String header = request.getHeader("Ipadapp");
+		if (header != null) {
+			if (header.equalsIgnoreCase("1.1")) {
+				request.getSession().setAttribute("IpadApp", true);
+			}
+		}
+
 		String parameter = request.getParameter("message");
 		String activationType = (String) httpSession
 				.getAttribute(ACTIVATION_TYPE);
@@ -279,7 +286,8 @@ public class NewLoginServlet extends BaseServlet {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {}
+			} finally {
+			}
 
 		}
 
