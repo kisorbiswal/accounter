@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -146,4 +147,17 @@ public abstract class StockAdjustmentTable extends
 		}
 		super.setAllRows(rows);
 	}
+
+	@Override
+	public List<ClientStockAdjustmentItem> getAllRows() {
+		List<ClientStockAdjustmentItem> selectedRecords = new ArrayList<ClientStockAdjustmentItem>();
+		List<ClientStockAdjustmentItem> allRows = super.getAllRows();
+		for (ClientStockAdjustmentItem clientStockAdjustmentItem : allRows) {
+			if (clientStockAdjustmentItem.getItem() != 0) {
+				selectedRecords.add(clientStockAdjustmentItem);
+			}
+		}
+		return selectedRecords;
+	}
+
 }
