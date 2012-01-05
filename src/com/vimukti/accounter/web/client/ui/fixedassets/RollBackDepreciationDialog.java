@@ -174,7 +174,7 @@ public class RollBackDepreciationDialog extends BaseDialog {
 			public void onResultSuccess(Boolean result) {
 				History.newItem(ActionFactory.getDepriciationAction()
 						.getHistoryToken());
-				// ActionFactory.getDepriciationAction().run(null, true);
+				ActionFactory.getDepriciationAction().run(null, false);
 			}
 
 		};
@@ -186,6 +186,11 @@ public class RollBackDepreciationDialog extends BaseDialog {
 
 		Accounter.showInformation(messages.W_111());
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 	@Override
