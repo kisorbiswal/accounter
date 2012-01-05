@@ -479,7 +479,7 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 		return onhandQuantity;
 	}
 
-	public void setOnhandQuantity(int onhandQuantity) {
+	public void setOnhandQuantity(long onhandQuantity) {
 		this.onhandQuantity = onhandQuantity;
 	}
 
