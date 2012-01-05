@@ -54,9 +54,9 @@ public class SearchInputDialog extends BaseDialog {
 	private AmountField amountField;
 	private SimplePager pager;
 
-	private String[] transactionNames = { messages.all(), messages.bill(),
-			messages.billPayment(), messages.cashExpense(), messages.charge(),
-			messages.creditCardExpense(), messages.creditCardCharge(),
+	private final String[] transactionNames = { messages.all(),
+			messages.bill(), messages.billPayment(), messages.cashExpense(),
+			messages.charge(), messages.creditCardExpense(),
 			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
 			messages.cashSale(), messages.deposit(), messages.estimate(),
@@ -434,7 +434,7 @@ public class SearchInputDialog extends BaseDialog {
 	}
 
 	protected void close() {
-		com.google.gwt.user.client.History.back();
+		// com.google.gwt.user.client.History.back();
 		this.removeFromParent();
 	}
 
@@ -866,4 +866,8 @@ public class SearchInputDialog extends BaseDialog {
 		transactionTypeCombo.setFocus();
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
