@@ -338,7 +338,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
-		// createAndSaveEstimates(this.transactionItems, session);
 		// if (this.isBecameVoid()) {
 		//
 		// for (TransactionPayBill tx : this.transactionPayBills) {
@@ -658,6 +657,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				this.vendor.updateBalance(session, this, this.total);
 
 			}
+
+			for (Estimate estimate : enterBill.estimates) {
+				session.delete(estimate);
+			}
+			enterBill.estimates.clear();
+			this.createAndSaveEstimates(this.transactionItems, session);
 
 			/*
 			 * Updating PayBills if any created by using this EnterBill
