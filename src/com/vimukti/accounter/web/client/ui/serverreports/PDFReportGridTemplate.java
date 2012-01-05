@@ -142,7 +142,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		this.body.append("<td style=\"vertical-align: middle;\" class=\"");
 
 		if (bold) {
-			body.append("boldcell ");
+			body.append("bold ");
 		}
 
 		if (underline) {
