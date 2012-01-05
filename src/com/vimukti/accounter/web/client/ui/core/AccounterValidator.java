@@ -1126,9 +1126,9 @@ public class AccounterValidator {
 
 	public static boolean isValidSellorDisposeDate(
 			ClientFinanceDate purchaseDate, ClientFinanceDate sellingDate) {
-		if (sellingDate.before(purchaseDate)) {
-			if (!UIUtils.isdateEqual(sellingDate, purchaseDate))
-				return false;
+		if (sellingDate.before(purchaseDate)
+				|| sellingDate.compareTo(purchaseDate) == 0) {
+			return false;
 		}
 
 		return true;
@@ -1163,9 +1163,9 @@ public class AccounterValidator {
 
 	public static boolean validate_ZeroAmount(Double amount) {
 		if (DecimalUtil.isEquals(amount, 0.00)) {
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	public static boolean isValidPurchaseDate(ClientFinanceDate transactionDate) {
