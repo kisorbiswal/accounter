@@ -574,8 +574,8 @@ public class ItemView extends BaseView<ClientItem> {
 						if (result != null && !result.isEmpty()) {
 							for (ClientItemStatus clientItemStatus : result) {
 								if (clientItemStatus.getItem() == data.getID())
-									onHandQuantity.setValue(clientItemStatus
-											.getQuantity().toString());
+									onHandQuantity.setValue(Double.toString(clientItemStatus
+											.getQuantity().getValue()));
 							}
 						}
 					}
@@ -674,8 +674,10 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setItemTotalValue(itemTotalValue.getAmount());
 
 			if (onHandQuantity.getValue().length() > 0)
-				data.setOnhandQuantity(Integer.parseInt(onHandQuantity
-						.getValue()));
+				data.setOnhandQuantity(onHandQuantity
+						.getNumber());
+			
+			
 			else
 				data.setOnhandQuantity(0);
 			data.setAsOfDate(asOfDate.getValue());
