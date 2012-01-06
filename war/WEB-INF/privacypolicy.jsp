@@ -9,7 +9,7 @@
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
 </head>
 <body>

@@ -20,7 +20,7 @@
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 <script src="/jscripts/passwordStrength.js" type="text/javascript"></script>
 <%
@@ -432,7 +432,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   
 	 </div>
-	 <div>
+	 <div class="signup-right">
 	 <form id="openIdForm" method="post" action="/main/openid">
 	 <div>
 	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
@@ -441,7 +441,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
 	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
 	   </form>
-	 <div class="signup-right">
+	 <div>
 	     <div class="simple-get-started">
 	        <h3><i18n:i18n msg='SimpletogetStarted'/>:</h3>
 	        <ul>

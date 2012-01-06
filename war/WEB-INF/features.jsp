@@ -10,7 +10,7 @@
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
-<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="../css/vertical-tabs-styles.css?version=<%= version%>" />
 <script type="text/javascript" src="/jscripts/vertical-tabs-script.js"></script>
 
