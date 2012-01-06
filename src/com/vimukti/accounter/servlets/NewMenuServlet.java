@@ -20,7 +20,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
-import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -62,9 +61,9 @@ public class NewMenuServlet extends BaseServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				if (hibernateSession.isOpen()) {
-					hibernateSession.close();
-				}
+				// if (hibernateSession.isOpen()) {
+				// hibernateSession.close();
+				// }
 			}
 		}
 
