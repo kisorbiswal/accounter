@@ -35,17 +35,12 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { messages.cash(),
-				messages.accrual() };
+		String[] reportBasisArray = { messages.cash(), messages.accrual() };
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
 				messages.financialYearToDate(),
 				// FinanceApplication.constants().today(),
@@ -93,8 +88,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(messages
-				.financialYearToDate());
+		dateRangeItemCombo.setComboItem(messages.thisMonth());
 		// dateRangeItem.setDefaultValue(dateRangeArray[0]);
 		// dateRangeItem.addChangedHandler(new ChangeHandler() {
 		//
@@ -171,8 +165,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
 						fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(messages
-						.custom());
+				dateRangeItemCombo.setDefaultValue(messages.custom());
 				dateRangeItemCombo.setComboItem(messages.custom());
 				setSelectedDateRange(messages.custom());
 			}
@@ -187,6 +180,7 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		// printButton.setWidth(40);
 		printButton.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 
 			}
