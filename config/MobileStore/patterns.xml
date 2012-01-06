@@ -16,8 +16,8 @@
 			<text name="easySharing" />
 			<text name="informationFromInternetEnabledlocation" />
 			<text name="contact" />
-			<text name="https://www.accounterlive.com" />
-			<text name="Mail to:support@accounterlive.com" />
+			<text name="accounterLiveUrl" />
+			<text name="supportMalId" />
 		</outputs>
 	</pattern>
 	<pattern login="true">
