@@ -54,6 +54,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientReminder> result) {
+		super.onSuccess(result);
 		if (result == null) {
 			result = new PaginationList<ClientReminder>();
 		}
