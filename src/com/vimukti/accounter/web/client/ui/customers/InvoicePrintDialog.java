@@ -41,6 +41,11 @@ public class InvoicePrintDialog extends BaseDialog {
 	}
 
 	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
+	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
