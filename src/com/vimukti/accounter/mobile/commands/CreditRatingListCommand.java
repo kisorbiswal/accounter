@@ -42,9 +42,10 @@ public class CreditRatingListCommand extends AbstractCommand {
 			protected String onSelection(CreditRating value) {
 				return "editCreditRating " + value.getName();
 			}
+
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("createCreditRating");
+				list.add("editCreditRating");
 			}
 
 			@Override
@@ -67,7 +68,6 @@ public class CreditRatingListCommand extends AbstractCommand {
 				return getMessages().noRecordsToShow();
 			}
 
-			
 		});
 	}
 
