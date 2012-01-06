@@ -11,6 +11,7 @@ public class SearchResultlist implements IsSerializable, Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private int transactionType;
+	private int transactionSubType;
 	private ClientFinanceDate date;
 	// private String name;
 	private double amount;
@@ -63,6 +64,14 @@ public class SearchResultlist implements IsSerializable, Serializable {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public int getTransactionSubType() {
+		return transactionSubType;
+	}
+
+	public void setTransactionSubType(int transactionSubType) {
+		this.transactionSubType = transactionSubType;
 	}
 
 }

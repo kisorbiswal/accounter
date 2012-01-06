@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
@@ -109,8 +111,8 @@ public class SearchTable extends CellTable<SearchResultlist> {
 
 					@Override
 					public String asString() {
-						return Utility.getTransactionName(object
-								.getTransactionType());
+						return getTransactionName(object.getTransactionType(),
+								object.getTransactionSubType());
 					}
 				};
 			}
@@ -143,5 +145,21 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		this.setColumnWidth(typeColumn, "40px");
 		this.setColumnWidth(amountColumn, "20px");
 
+	}
+
+	private String getTransactionName(int transactionType,
+			int transactionSubType) {
+		if (transactionType == ClientTransaction.TYPE_ESTIMATE) {
+			if (transactionSubType == ClientEstimate.QUOTES) {
+				return messages.estimate();
+			} else if (transactionSubType == ClientEstimate.CHARGES) {
+				return messages.charge();
+			} else if (transactionSubType == ClientEstimate.CREDITS) {
+				return messages.credit();
+			}
+		} else {
+			return Utility.getTransactionName(transactionType);
+		}
+		return "";
 	}
 }

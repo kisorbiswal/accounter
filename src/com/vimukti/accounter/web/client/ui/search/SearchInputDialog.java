@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -56,7 +57,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	private final String[] transactionNames = { messages.all(),
 			messages.bill(), messages.billPayment(), messages.cashExpense(),
-			messages.charge(), messages.creditCardExpense(),
+			messages.creditCardExpense(),
 			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
 			messages.cashSale(), messages.deposit(), messages.estimate(),
@@ -298,6 +299,8 @@ public class SearchInputDialog extends BaseDialog {
 		input = new SearchInput();
 		input.setTransactionType(getTransactionType(transactionTypeCombo
 				.getSelectedValue()));
+		input.setTransactionSubType(getTransactionSubType(transactionTypeCombo
+				.getSelectedValue()));
 		input.setSearchbyType(getSearchByType(searchByTypeCombo
 				.getSelectedValue()));
 
@@ -357,6 +360,17 @@ public class SearchInputDialog extends BaseDialog {
 		resultPanel.setVisible(false);
 	}
 
+	private int getTransactionSubType(String selectedValue) {
+		if (selectedValue.equals(messages.estimate())) {
+			return ClientEstimate.QUOTES;
+		} else if (selectedValue.equals(messages.credit())) {
+			return ClientEstimate.CREDITS;
+		} else if (selectedValue.equals(messages.charge())) {
+			return ClientEstimate.CHARGES;
+		}
+		return 0;
+	}
+
 	protected void enableGridAndPager() {
 		labelItem.setVisible(false);
 		mainPanel.add(resultPanel);
@@ -395,6 +409,8 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages.cashExpense())) {
 			return ClientTransaction.TYPE_CASH_EXPENSE;
 		} else if (selectItem.equals(messages.charge())) {
+			return ClientTransaction.TYPE_ESTIMATE;
+		} else if (selectItem.equals(messages.credit())) {
 			return ClientTransaction.TYPE_ESTIMATE;
 		} else if (selectItem.equals(messages.writeCheck())) {
 			return ClientTransaction.TYPE_WRITE_CHECK;
@@ -852,6 +868,10 @@ public class SearchInputDialog extends BaseDialog {
 		List<String> transactionTypes = new ArrayList<String>();
 		for (String string : transactionNames) {
 			transactionTypes.add(string);
+		}
+		if (getCompany().getPreferences().isDelayedchargesEnabled()) {
+			transactionTypes.add(messages.charge());
+			transactionTypes.add(messages.credit());
 		}
 		return transactionTypes;
 	}

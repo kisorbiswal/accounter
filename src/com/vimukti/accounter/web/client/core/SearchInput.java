@@ -35,6 +35,7 @@ public class SearchInput implements IsSerializable, Serializable {
 	public static final int TYPE_ENTRY_NO = 21;
 
 	private int transactionType;
+	private int transactionSubType;
 	private int searchbyType;
 	private int matchType;
 	private String findBy;
@@ -90,6 +91,14 @@ public class SearchInput implements IsSerializable, Serializable {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public int getTransactionSubType() {
+		return transactionSubType;
+	}
+
+	public void setTransactionSubType(int transactionSubType) {
+		this.transactionSubType = transactionSubType;
 	}
 
 }

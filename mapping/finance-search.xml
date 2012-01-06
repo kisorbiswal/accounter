@@ -2187,6 +2187,7 @@
 	<sql-query name="getAllEstimatesByCustomerName">
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2218,6 +2219,7 @@
 		THEN
 		P.NAME LIKE :name
 		END END
+		AND E.ESTIMATETYPE=:estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2226,6 +2228,7 @@
 	<sql-query name="getAllEstimatesByInvoiceDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="date" type="long" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2249,6 +2252,7 @@
 		TRANSACTION T ON T.ID = I.ID
 		WHERE
 		T.T_DATE=:date
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2257,6 +2261,7 @@
 	<sql-query name="getAllEstimatesByDescOrMemo">
 		<query-param name="companyId" type="long" />
 		<query-param name="memo" type="string" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2277,6 +2282,7 @@
 		TRANSACTION T ON T.ID = E.ID
 		WHERE
 		T.MEMO LIKE :memo
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2286,6 +2292,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2320,6 +2327,7 @@
 		THEN I.NAME LIKE
 		:name
 		END END
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2329,6 +2337,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="name" type="string" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2362,6 +2371,7 @@
 		THEN A.NAME
 		LIKE :name
 		END END
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2371,6 +2381,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="number" type="string" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2399,6 +2410,7 @@
 		WHEN 3=:match
 		THEN T.NUMBER LIKE :number
 		END END
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2408,6 +2420,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="number" type="string" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2436,6 +2449,7 @@
 		WHEN 3=:match
 		THEN T.NUMBER LIKE :number
 		END END
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2445,6 +2459,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="number" type="string" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2472,6 +2487,7 @@
 		CASE
 		WHEN 3=:match
 		THEN T.NUMBER LIKE :number
+		AND E.ESTIMATETYPE =:estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2481,6 +2497,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="amount" type="double" />
 		<query-param name="match" type="int" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2520,6 +2537,7 @@
 		T.TOTAL =
 		:amount
 		END END END END
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
@@ -2528,6 +2546,7 @@
 	<sql-query name="getAllEstimatesByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="date" type="long" />
+		<query-param name="estimateType" type="int" />
 
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -2548,6 +2567,7 @@
 		TRANSACTION T ON T.ID = E.ID
 		WHERE
 		T.T_DATE=:date
+		AND E.ESTIMATETYPE = :estimateType
 		AND
 		T.COMPANY_ID=:companyId ORDER BY T.T_DATE
 
