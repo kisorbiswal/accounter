@@ -20,6 +20,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerGlobal;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IGlobal;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -218,12 +219,17 @@ public class NewMenuServlet extends BaseServlet {
 		XMLElement logoutElement = new XMLElement("MenuItem");
 		logoutElement.setAttribute("text", iGlobal.messages().logout());
 		logoutElement.setContent("main/logout");
+		
+		XMLElement companiesElement = new XMLElement("MenuItem");
+		companiesElement.setAttribute("text", iGlobal.messages().companies());
+		companiesElement.setContent("main/companies");
 
 		XMLElement passwordElement = new XMLElement("MenuItem");
 		passwordElement.setAttribute("text", iGlobal.messages().userDetails());
 		passwordElement.setContent("company/accounter#userDetails");
 
 		mainElement.addChild(logoutElement);
+		mainElement.addChild(companiesElement);
 		mainElement.addChild(passwordElement);
 
 	}

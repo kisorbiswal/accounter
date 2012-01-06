@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -258,12 +259,12 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-//		if (company instanceof India) {
-//			if (tdsEnabled) {
-//				vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
-//				vatmenu.addMenuItem(getForm16AMenu("TDS"));
-//			}
-//		}
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+				vatmenu.addMenuItem(getForm16AMenu("TDS"));
+			}
+		}
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
@@ -299,12 +300,12 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-//		if (company instanceof India) {
-//			if (tdsEnabled) {
-//				vatmenus.addMenuItem(messages.payeesList("Chalan Details"),
-//						HistoryTokens.CHALANDETAILSLIST);
-//			}
-//		}
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenus.addMenuItem("Chalan Details List",
+						HistoryTokens.CHALANDETAILSLIST);
+			}
+		}
 
 		return vatmenus;
 	}
@@ -686,14 +687,13 @@ public class MenuBar {
 				HistoryTokens.VENDORLIST);
 
 		if (canSeeInvoiceTransactions) {
-			vendorListMenuBar.addMenuItem(
-					messages.payees(Global.get().Vendors()) + " "
-							+ messages.items(), HistoryTokens.VENDORITEMS);
-
 			if (isKeepTrackofBills) {
 				vendorListMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
 			}
+			vendorListMenuBar.addMenuItem(
+					messages.payees(Global.get().Vendors()) + " "
+							+ messages.items(), HistoryTokens.VENDORITEMS);
 		}
 		if (canSeeBanking) {
 			vendorListMenuBar.addMenuItem(
@@ -777,14 +777,19 @@ public class MenuBar {
 		customerListMenuBar.addMenuItem(
 				messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
+		
 		if (canSeeInvoiceTransactions) {
-			customerListMenuBar.addMenuItem(
-					messages.payees(Global.get().Customers()) + " "
-							+ messages.items(), HistoryTokens.CUSTOMERITEMS);
+			
+			customerListMenuBar.addMenuItem(messages.invoices(),
+					HistoryTokens.INVOICES);
+			
 			if (isDoyouwantEstimates) {
 				customerListMenuBar.addMenuItem(messages.quotes(),
 						HistoryTokens.QUOTES);
 			}
+			customerListMenuBar.addMenuItem(
+					messages.payees(Global.get().Customers()) + " "
+							+ messages.items(), HistoryTokens.CUSTOMERITEMS);
 
 			if (isDelayedchargesEnabled) {
 				customerListMenuBar.addMenuItem(messages.Charges(),
@@ -793,8 +798,7 @@ public class MenuBar {
 						HistoryTokens.CREDITS);
 			}
 
-			customerListMenuBar.addMenuItem(messages.invoices(),
-					HistoryTokens.INVOICES);
+
 		}
 		if (canSeeBanking) {
 			customerListMenuBar.addMenuItem(messages.receivedPayments(),
