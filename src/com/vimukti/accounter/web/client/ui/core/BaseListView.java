@@ -532,6 +532,11 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void onSuccess(PaginationList<T> result) {
+		if (result.isEmpty()) {
+			grid.removeAllRecords();
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
 		grid.removeLoadingImage();
 		if (result != null) {
 			initialRecords = result;
