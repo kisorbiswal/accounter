@@ -118,16 +118,16 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 				if (result != null && result.size() > 0) {
 					overDueInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					overDueAmtLabel = getAmountLabel(DataUtils
+					overDueAmtLabel.setText(DataUtils
 							.amountAsStringWithCurrency(overDueInvoiceAmount,
 									getCompany().getPrimaryCurrency()));
 				}
 				if (result != null && result.size() > 0) {
 					draftInvoiceAmount = result.get(result.size() - 1);
 					result.remove(result.size() - 1);
-					draftAmtLabel = getAmountLabel(DataUtils
-							.amountAsStringWithCurrency(draftInvoiceAmount,
-									getCompany().getPrimaryCurrency()));
+					draftAmtLabel.setText(DataUtils.amountAsStringWithCurrency(
+							draftInvoiceAmount, getCompany()
+									.getPrimaryCurrency()));
 				}
 
 				Runnable runnable = new Runnable() {
