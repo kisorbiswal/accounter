@@ -2676,3 +2676,6 @@ input.date-field-textbox {
 .page_header img{
 	padding:5px;
 }
+.customers_detail_rightpanel td:FIRST-CHILD {
+	width:115px;
+}
