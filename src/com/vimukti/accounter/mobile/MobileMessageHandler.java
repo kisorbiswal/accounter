@@ -295,7 +295,7 @@ public class MobileMessageHandler extends Thread {
 		// ***** CHECKING AUTHENTICATION *******//
 		if (command == null && !session.isAuthenticated()) {
 			command = new AuthenticationCommand();
-			userMessage.setCommandString("logIn");
+			userMessage.setCommandString("login");
 			if (networkType != AccounterChatServer.NETWORK_TYPE_MOBILE) {
 				userMessage.setOriginalMsg("");// To know it is first
 				message = "";
