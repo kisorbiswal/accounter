@@ -1029,4 +1029,7 @@ a#fdbk_tab:hover {
     width: 90px;
     margin-bottom:5px;
 }
+.company_lists{
+	clear:both;
+}
 /* End of the new Login and forgot password page*/
