@@ -1,9 +1,12 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
+import java.util.Set;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -15,9 +18,13 @@ import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
 public class VendorDetailsPanel extends VerticalPanel {
 	ClientVendor selectedVendor;
-	LabelItem name, email, currency, fax, vendorsince, webpageadress, notes;
+	LabelItem name, email, currency, fax, vendorsince, webpageadress, notes,
+			address;
 	AmountLabel balance, openingBalance;
 	Label heading, vendName;
+	private ClientAddress payeeAddress;
+	private Set<ClientAddress> addressListOfVendor;
+	private DynamicForm leftform, rightform;
 	protected static final AccounterMessages messages = Global.get().messages();
 
 	public VendorDetailsPanel(ClientVendor clientVendor) {
@@ -56,12 +63,16 @@ public class VendorDetailsPanel extends VerticalPanel {
 		notes = new LabelItem();
 		notes.setTitle(messages.notes());
 
-		DynamicForm leftform = new DynamicForm();
-		DynamicForm rightform = new DynamicForm();
+		address = new LabelItem();
+		address.setTitle(messages.address());
+
+		leftform = new DynamicForm();
+		rightform = new DynamicForm();
 
 		leftform.setFields(name, balance, openingBalance, currency, vendorsince);
 
-		rightform.setFields(email, fax, webpageadress, notes);
+		rightform.setFields(email, fax, webpageadress, notes, address);
+		rightform.addStyleName("customers_detail_rightpanel");
 
 		HorizontalPanel hp = new HorizontalPanel();
 		HorizontalPanel headingPanel = new HorizontalPanel();
@@ -92,6 +103,8 @@ public class VendorDetailsPanel extends VerticalPanel {
 
 	protected void showVendorDetails(ClientVendor selectedVendor) {
 		if (selectedVendor != null) {
+
+			addressListOfVendor = selectedVendor.getAddress();
 			vendName.setText(selectedVendor.getName());
 			name.setValue(selectedVendor.getName());
 
@@ -113,6 +126,16 @@ public class VendorDetailsPanel extends VerticalPanel {
 			openingBalance.setAmount(selectedVendor.getOpeningBalance());
 
 			notes.setValue(selectedVendor.getMemo());
+			notes.getMainWidget().getElement().getParentElement()
+					.addClassName("customer-detail-notespanel");
+
+			payeeAddress = getAddress(ClientAddress.TYPE_BILL_TO);
+			if (payeeAddress != null) {
+
+				address.setValue(getValidAddress(payeeAddress));
+
+			} else
+				address.setValue("");
 
 		} else {
 			name.setValue("");
@@ -124,6 +147,7 @@ public class VendorDetailsPanel extends VerticalPanel {
 			webpageadress.setValue("");
 			openingBalance.setAmount(0.00);
 			notes.setValue("");
+			address.setValue("");
 		}
 	}
 
@@ -133,6 +157,45 @@ public class VendorDetailsPanel extends VerticalPanel {
 
 	public ClientVendor getVendor() {
 		return selectedVendor;
+	}
+
+	public ClientAddress getAddress(int type) {
+		for (ClientAddress address : addressListOfVendor) {
+			if (address.getType() == type) {
+				return address;
+			}
+
+		}
+		return null;
+	}
+
+	protected String getValidAddress(ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "," + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "," + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "," + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "," + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "," + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion() + ".";
+		}
+		return toToSet;
 	}
 
 }
