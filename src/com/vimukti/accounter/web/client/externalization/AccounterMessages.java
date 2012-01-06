@@ -4923,7 +4923,7 @@ public interface AccounterMessages extends Messages {
 
 	public String validateEndAndStartDate();
 
-	public String validNumber();
+	public String pleaseEnterValidNumber();
 
 	public String value();
 

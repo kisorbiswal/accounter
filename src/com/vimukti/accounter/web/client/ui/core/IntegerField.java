@@ -76,7 +76,7 @@ public class IntegerField extends TextItem {
 											.messages()
 											.pleaseEnter(
 													messages
-															.validNumber()));
+															.pleaseEnterValidNumber()));
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

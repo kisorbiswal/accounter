@@ -171,7 +171,7 @@ public class RecurringTransactionDialog extends
 				} catch (Exception e) {
 					e.printStackTrace();
 					RecurringTransactionDialog.this.addError(occurrencesField,
-							messages.validNumber());
+							messages.pleaseEnterValidNumber());
 					occurrencesField.setValue("");
 				}
 
