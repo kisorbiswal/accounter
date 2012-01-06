@@ -1884,7 +1884,7 @@ public class CoreUtils {
 			new ClientCurrency("Kenyan Shilling", "KES", "KSh"),
 			new ClientCurrency("NorthKorean Won", "KPW", "W"),
 			new ClientCurrency("SouthKorean Won", "KRW", "W"),
-			new ClientCurrency("Kuwaiti Dinar", "KWD", "د.ك"),
+			new ClientCurrency("Kuwaiti Dinar", "KWD", "KWD"),
 			new ClientCurrency("Kyrgyzstani Som", "KGS", "som "),
 			new ClientCurrency("Lao Pound", "LAK", "KN"),
 			new ClientCurrency("Latvian Lats", "LVL", "Ls"),
