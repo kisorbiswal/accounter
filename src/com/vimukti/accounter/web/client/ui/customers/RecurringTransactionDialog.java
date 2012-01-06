@@ -170,6 +170,7 @@ public class RecurringTransactionDialog extends
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					occurrencesField.highlight();
 					RecurringTransactionDialog.this.addError(occurrencesField,
 							messages.pleaseEnterValidNumber());
 					occurrencesField.setValue("");
