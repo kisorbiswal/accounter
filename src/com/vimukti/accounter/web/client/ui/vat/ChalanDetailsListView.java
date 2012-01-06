@@ -77,6 +77,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientTDSChalanDetail> result) {
+		super.onSuccess(result);
 		grid.removeLoadingImage();
 		listOfCHalans = result;
 		filterList(true);

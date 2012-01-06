@@ -145,6 +145,11 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
+		if (result.isEmpty()) {
+			grid.removeAllRecords();
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
 		this.listOfPayees = result;
 		grid.sort(10, false);
 		grid.setRecords(result);
