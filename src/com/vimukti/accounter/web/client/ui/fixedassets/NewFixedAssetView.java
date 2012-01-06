@@ -126,6 +126,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			} else if (data.getStatus() == ClientFixedAsset.STATUS_PENDING) {
 				assetOptions.setValueMap("", messages.edit());
 			} else {
+				assetOptions.setTitle("");
 				assetOptions.setVisible(false);
 			}
 			assetOptions.addChangeHandler(new ChangeHandler() {
