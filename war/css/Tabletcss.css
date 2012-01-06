@@ -1654,6 +1654,6 @@ input.date-field-textbox{
 }
 .checkpanel {
     min-height: 280px;
-    overflow: scroll;
+    overflow: auto;
     padding: 20px;
 }

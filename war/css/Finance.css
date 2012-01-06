@@ -2676,6 +2676,21 @@ input.date-field-textbox {
 .page_header img{
 	padding:5px;
 }
+.button_bar .delete_button{
+	background-color: #D13030;
+	border: 1px solid #A91D1D; 
+}
+.button_bar .delete_button:hover{
+	background-color:#A91D1D; 
+	border: 1px solid #A91D1D; 
+}
+.attachment_hpanel button{
+	padding:3px 12px 5px 12px;
+	margin-top: -2px;
+}
+.attachment_hpanel{
+	margin-bottom:5px;
+}
 .customers_detail_rightpanel td:FIRST-CHILD {
 	width:115px;
 }
