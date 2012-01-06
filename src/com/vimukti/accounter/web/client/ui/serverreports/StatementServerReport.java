@@ -64,6 +64,11 @@ public class StatementServerReport extends
 	}
 
 	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
+	@Override
 	public int getColumnWidth(int index) {
 		if (index == 1)
 			return 160;
