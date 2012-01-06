@@ -481,7 +481,12 @@ public class RecurringTransaction extends CreatableObject implements
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
-			while (calendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
+			int lastDayOfMonth = dayOfMonth;
+			if (lastDayOfMonth == -1) {
+				lastDayOfMonth = calendar
+						.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+			while (calendar.get(Calendar.DAY_OF_MONTH) != lastDayOfMonth) {
 				calendar.add(Calendar.DAY_OF_MONTH, 1);
 			}
 
@@ -564,8 +569,12 @@ public class RecurringTransaction extends CreatableObject implements
 		public Date next() {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(getInitialDateForNextSchedule().getAsDateObject());
-
-			while (calendar.get(Calendar.DAY_OF_MONTH) != dayOfMonth) {
+			int lastDayOfMonth = dayOfMonth;
+			if (lastDayOfMonth == -1) {
+				lastDayOfMonth = calendar
+						.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+			while (calendar.get(Calendar.DAY_OF_MONTH) != lastDayOfMonth) {
 				calendar.add(Calendar.DAY_OF_MONTH, 1);
 			}
 
@@ -653,7 +662,8 @@ public class RecurringTransaction extends CreatableObject implements
 				// if nextscheduleOn <= current date then iterate again
 				// NOTE: checking with server current time for now, it has to be
 				// changed to client time.
-			} while (!nextScheduleOn.after(new FinanceDate()));
+			} while (nextScheduleOn != null
+					&& !nextScheduleOn.after(new FinanceDate()));
 		}
 		// Need to clone the transaction object because it is coming from
 		// transaction view we need to save a transaction template.
