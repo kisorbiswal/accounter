@@ -271,8 +271,6 @@ public interface AccounterMessages extends Messages {
 
 	public String allCashPurchases();
 
-	public String allcashSales();
-
 	public String allcheques();
 
 	public String allCreditCardExpenses();

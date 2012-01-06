@@ -184,7 +184,7 @@ public class CustomerCenterView<T> extends
 				transactionTypeList.add(messages.Charges());
 				transactionTypeList.add(messages.credits());
 			}
-			transactionTypeList.add(messages.allcashSales());
+			transactionTypeList.add(messages.cashSales());
 			transactionTypeList.add(messages.receivedPayments());
 			transactionTypeList.add(messages.CustomerCreditNotes());
 			transactionTypeList.add(messages.customerRefunds(Global.get()
@@ -243,9 +243,9 @@ public class CustomerCenterView<T> extends
 			transactiontypebyStatusMap.put(
 					TransactionHistory.OVER_DUE_INVOICES,
 					messages.overDueInvoices());
-		} else if (selectedValue.equalsIgnoreCase(messages.allcashSales())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.cashSales())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CASHSALES,
-					messages.all() + " " + messages.allcashSales());
+					messages.all() + " " + messages.cashSales());
 
 		} else if (selectedValue.equalsIgnoreCase(messages.quotes())) {
 
@@ -454,7 +454,7 @@ public class CustomerCenterView<T> extends
 		if (selectedValue.equalsIgnoreCase(messages.invoices())) {
 
 			return TYPE_INVOICE;
-		} else if (selectedValue.equalsIgnoreCase(messages.allcashSales())) {
+		} else if (selectedValue.equalsIgnoreCase(messages.cashSales())) {
 			return TYPE_CAHSSALE;
 		} else if (selectedValue.equalsIgnoreCase(messages.receivedPayments())) {
 			return TYPE_RECEIVE_PAYMENT;
