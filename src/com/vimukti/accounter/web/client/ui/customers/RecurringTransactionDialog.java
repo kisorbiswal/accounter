@@ -553,6 +553,17 @@ public class RecurringTransactionDialog extends
 			if (data.getType() == ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
 				changeFieldsStausForNoneSelection(true);
 				return;
+			} else if (data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
+				daysAdvForm.clear();
+				notificationForm.clear();
+				notificationForm.setFields(daysBeforeToRemind, daysBeforeLabel);
+				changeFieldsStausForNoneSelection(false);
+			} else if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
+				daysAdvForm.clear();
+				daysAdvForm.setFields(daysInAdvanceField, daysInAdvanceLabel);
+				notificationForm.clear();
+				notificationForm.setFields(notifyAboutCreatedTransactions);
+				changeFieldsStausForNoneSelection(false);
 			}
 			startDateField.setValue(new ClientFinanceDate(data.getStartDate()));
 			unbilledChargesCkBox.setValue(data.isUnbilledChargesEnabled());
@@ -724,8 +735,9 @@ public class RecurringTransactionDialog extends
 		data.setEndDate(endDateField.getTime());
 		data.setUnbilledChargesEnabled(unbilledChargesCkBox.isChecked());
 		try {
-			data.setDaysInAdvanceToCreate(Integer.parseInt(daysInAdvanceField
-					.getValue()));
+			String value = daysInAdvanceField.getValue();
+			data.setDaysInAdvanceToCreate((value != null && !value.equals("")) ? Integer
+					.parseInt(value) : 0);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			// as this field is optional user may not enter value
@@ -934,7 +946,9 @@ public class RecurringTransactionDialog extends
 
 		public int getIngervalValue() {
 			try {
-				return Integer.parseInt(intervalValueField.getValue());
+				String value = intervalValueField.getValue();
+				return (value != null && !value.equals("")) ? Integer
+						.parseInt(value) : 0;
 			} catch (NumberFormatException e) {
 				return 0;
 			}
