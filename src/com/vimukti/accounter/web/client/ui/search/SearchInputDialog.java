@@ -645,6 +645,8 @@ public class SearchInputDialog extends BaseDialog {
 			setOptionsForSupplierTransactions(selectItem);
 		} else if (selectItem.equals(messages.charge())) {
 			setOptionsByCustomer(selectItem);
+		} else if (selectItem.equals(messages.credit())) {
+			setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.writeCheck())) {
 			setOptionsForPayeeList(selectItem);
 		} else if (selectItem.equals(messages.creditCardExpense())) {
