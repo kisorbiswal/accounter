@@ -845,7 +845,8 @@ public class SearchInputDialog extends BaseDialog {
 		for (String string : searchByCustomerOptions) {
 			list.add(string);
 		}
-		if (slectItem.equals(messages.charge())) {
+		if (slectItem.equals(messages.charge())
+				|| slectItem.equals(messages.credit())) {
 			list.remove(1);
 			list.remove(3);
 			list.add(messages.chargeNo());
