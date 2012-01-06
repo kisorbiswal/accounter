@@ -2011,11 +2011,22 @@ public class FixedAsset extends CreatableObject implements
 		ArrayList<Transaction> list = new ArrayList<Transaction>();
 		for (Transaction entry : transactions) {
 			if (entry.getDate().after(toDate)) {
+				deleteJounalId(entry);
 				list.add(entry);
 				session.delete(entry);
 			}
 		}
 		transactions.removeAll(list);
+	}
+
+	private void deleteJounalId(Transaction entry) {
+		for (FixedAssetHistory history : fixedAssetsHistory) {
+			if (history.getPostedJournalEntry() != null) {
+				if (history.getPostedJournalEntry().getID() == entry.getID()) {
+					history.setPostedJournalEntry(null);
+				}
+			}
+		}
 	}
 
 	@Override
