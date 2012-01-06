@@ -117,6 +117,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
+		super.onSuccess(result);
 		start = result.getStart();
 		grid.removeAllRecords();
 		grid.setRecords(result);
