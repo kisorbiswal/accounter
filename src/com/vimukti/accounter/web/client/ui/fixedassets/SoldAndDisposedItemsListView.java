@@ -76,6 +76,11 @@ public class SoldAndDisposedItemsListView extends
 
 					@Override
 					public void onSuccess(List<ClientFixedAsset> list) {
+						if (list.isEmpty()) {
+							grid.removeAllRecords();
+							grid.addEmptyMessage(messages.noRecordsToShow());
+							return;
+						}
 						grid.setRecords(list);
 						grid.sort(10, false);
 					}

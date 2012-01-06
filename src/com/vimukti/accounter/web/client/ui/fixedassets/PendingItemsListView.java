@@ -57,6 +57,11 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 
 					@Override
 					public void onSuccess(List<ClientFixedAsset> list) {
+						if (list.isEmpty()) {
+							grid.removeAllRecords();
+							grid.addEmptyMessage(messages.noRecordsToShow());
+							return;
+						}
 						grid.setRecords(list);
 						grid.sort(10, false);
 					}
