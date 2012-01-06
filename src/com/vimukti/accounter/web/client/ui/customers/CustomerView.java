@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Float;
@@ -615,6 +617,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				data.setVATRegistrationNumber(vatregno.getValue().toString());
 		}
 
+		HashMap<String, String> payeeFields = new HashMap<String, String>();
+		for (String fieldName : itemsField.keySet()) {
+			payeeFields.put(fieldName, itemsField.get(fieldName).getValue());
+		}
+		data.setPayeeFields(payeeFields);
+
 	}
 
 	private VerticalPanel getGeneralTab() {
@@ -753,6 +761,14 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		} else {
 			balanceForm.setFields(openingBalText, balanceDate, balanceText);
 		}
+
+		Map<String, String> fields = new HashMap<String, String>();
+		for (String fieldName : getCompany().getCountryPreferences()
+				.getCustomerFields()) {
+			fields.put(fieldName, "");
+		}
+		addFields(fields);
+
 		Label l1 = new Label(messages.contacts());
 		addButton = new AddButton(this);
 
@@ -1213,8 +1229,16 @@ public class CustomerView extends BaseView<ClientCustomer> {
 					data.getPriceLevel()).getDisplayName());
 		}
 
+		setPayeeFields(data.getPayeeFields());
 		super.initData();
 
+	}
+
+	private void setPayeeFields(HashMap<String, String> payeeFields) {
+		for (String key : payeeFields.keySet()) {
+			itemsField.get(key).setValue(payeeFields.get(key));
+			itemsField.get(key).setDisabled(isInViewMode());
+		}
 	}
 
 	private void initMainValues() {
@@ -1456,9 +1480,17 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		tdsCheckBox.setDisabled(isInViewMode());
 		memoArea.setDisabled(isInViewMode());
+		enablePayeeFields(data.getPayeeFields());
 		super.onEdit();
 
 	}
+	
+	private void enablePayeeFields(HashMap<String, String> payeeFields) {
+		for (String key : payeeFields.keySet()) {
+			itemsField.get(key).setDisabled(isInViewMode());
+		}
+	}
+
 
 	@Override
 	public void print() {
@@ -1497,6 +1529,21 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	@Override
 	protected boolean canVoid() {
 		return false;
+	}
+
+	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
+
+	private void addFields(Map<String, String> payeeFields) {
+		itemsField.clear();
+		for (String key : payeeFields.keySet()) {
+			String value = payeeFields.get(key);
+			TextItem item = new TextItem(key);
+			item.setValue(value);
+			item.setName(key);
+			balanceForm.setFields(item);
+			itemsField.put(key, item);
+			item.setDisabled(isInViewMode());
+		}
 	}
 
 }

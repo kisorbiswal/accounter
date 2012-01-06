@@ -5,7 +5,9 @@ package com.vimukti.accounter.web.client.uibinder.setup;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -17,6 +19,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -28,6 +31,8 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
@@ -188,6 +193,12 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 				break;
 			}
 		}
+
+		companyFieldsPanel = new VerticalPanel();
+		viewPanel.add(companyFieldsPanel);
+		viewPanel.setCellHorizontalAlignment(companyFieldsPanel,
+				HasAlignment.ALIGN_CENTER);
+
 		countryChanged();
 
 		companyName.addBlurHandler(new BlurHandler() {
@@ -207,12 +218,16 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (selectedCountry < 0) {
 			return;
 		}
-
 		String countryName = country.getItemText(selectedCountry);
 		setCountry(countryName);
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
+			Map<String, String> fields = new HashMap<String, String>();
+			for (String fieldName : countryPreferences.getCompanyFields()) {
+				fields.put(fieldName, "");
+			}
+			addFields(fields);
 			if (countryPreferences.getStates() != null) {
 				setStates(countryPreferences.getStates());
 			} else {
@@ -241,6 +256,25 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		} else {
 			System.err.println(countryName);
 		}
+	}
+
+	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
+
+	VerticalPanel companyFieldsPanel;
+
+	private void addFields(Map<String, String> companyFields) {
+		itemsField.clear();
+		companyFieldsPanel.clear();
+		DynamicForm form = new DynamicForm();
+		for (String key : companyFields.keySet()) {
+			String value = companyFields.get(key);
+			TextItem item = new TextItem(key);
+			item.setValue(value);
+			item.setName(key);
+			form.setFields(item);
+			itemsField.put(key, item);
+		}
+		companyFieldsPanel.add(form);
 	}
 
 	private void stateChanged(ICountryPreferences countryPreferences) {
@@ -307,6 +341,9 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 							.indexOf(preferences.getTimezone()));
 				}
 			}
+			if (!preferences.getCompanyFields().isEmpty()) {
+				addFields(preferences.getCompanyFields());
+			}
 		}
 	}
 
@@ -343,7 +380,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		if (timezoneslistbox.getSelectedIndex() != -1)
 			preferences.setTimezone(timezones.get(timezoneslistbox
 					.getSelectedIndex()));
-
+		HashMap<String, String> companyFields = new HashMap<String, String>();
+		for (String fieldName : itemsField.keySet()) {
+			companyFields.put(fieldName, itemsField.get(fieldName).getValue());
+		}
+		preferences.setCompanyFields(companyFields);
 	}
 
 	// private String getTimezoneId(String selectedTimezone){

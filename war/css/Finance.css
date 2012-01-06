@@ -2679,3 +2679,6 @@ input.date-field-textbox {
 .customers_detail_rightpanel td:FIRST-CHILD {
 	width:115px;
 }
+.company_fields td:FIRST-CHILD {
+	width:200px;
+}

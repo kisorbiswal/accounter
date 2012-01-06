@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.util;
 
+import java.util.ArrayList;
+
 public abstract class AbstractCountryPreferences implements ICountryPreferences {
 
 	/**
@@ -89,5 +91,23 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 	public String getAmountInwords(double amount) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ArrayList<String> getCompanyFields() {
+		return new ArrayList<String>();
+
+	}
+
+	@Override
+	public ArrayList<String> getCustomerFields() {
+		return new ArrayList<String>();
+
+	}
+
+	@Override
+	public ArrayList<String> getVendorFields() {
+		return new ArrayList<String>();
+
 	}
 }

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ClientCompanyPreferences implements IAccounterCore {
 
 	/**
@@ -223,6 +226,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	// private int negativeNumberShownType;
 
 	private int decimalNumber = 2;
+
+	private Map<String, String> companyFields = new HashMap<String, String>();
 
 	/**
 	 * Creates new Instance
@@ -1347,4 +1352,20 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	public boolean isCreditsApplyAutomaticEnable() {
 		return get(AUTOMATIC_CREDITS_APPLY);
 	}
+
+	/**
+	 * @return the companyFields
+	 */
+	public Map<String, String> getCompanyFields() {
+		return companyFields;
+	}
+
+	/**
+	 * @param companyFields
+	 *            the companyFields to set
+	 */
+	public void setCompanyFields(Map<String, String> companyFields) {
+		this.companyFields = companyFields;
+	}
+
 }

@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -13,6 +15,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -24,6 +27,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.Header;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
@@ -125,6 +130,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 	Label companyPhoneNumberLabel;
 	@UiField
 	TextBox companyPhoneNumberTextBox;
+	@UiField
+	VerticalPanel mainPanel;
 
 	private static CompanyInfoOptionUiBinder uiBinder = GWT
 			.create(CompanyInfoOptionUiBinder.class);
@@ -174,6 +181,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		legalNamePanel.setVisible(getCompanyPreferences().isShowLegalName());
 		// Phone Number
 		companyPhoneNumberTextBox.setText(getCompany().getPhone());
+
+		addFields(getCompany().getPreferences().getCompanyFields());
 	}
 
 	public void createControls() {
@@ -274,6 +283,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		companyPhoneNumberLabel.setText(messages.phoneNumber());
 		companyPhoneNumberLabel.getElement().getParentElement()
 				.addClassName("company-preferences-labels");
+		companyPhoneNumberLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 	}
 
 	private void rCountryChanged() {
@@ -284,14 +295,17 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		String countryName = rCountryCombo.getItemText(selectedCountry);
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
-		String[] states;
+		Map<String, String> fields = new HashMap<String, String>();
+		for (String fieldName : countryPreferences.getCompanyFields()) {
+			fields.put(fieldName, "");
+		}
+		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
 		} else {
 			states = new String[] { "" };
 		}
 		List<String> statesList = Arrays.asList(states);
-		rStateCombo.clear();
 		for (String state : statesList) {
 			rStateCombo.addItem(state);
 		}
@@ -304,6 +318,24 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		}
 	}
 
+	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
+
+	private void addFields(Map<String, String> fields) {
+		itemsField.clear();
+		DynamicForm form = new DynamicForm();
+		for (String key : fields.keySet()) {
+			String value = fields.get(key);
+			TextItem item = new TextItem(key);
+			item.setValue(value);
+			item.setName(key);
+			form.setFields(item);
+			itemsField.put(key, item);
+		}
+		mainPanel.add(form);
+		mainPanel.setCellHorizontalAlignment(form, HasAlignment.ALIGN_CENTER);
+		form.addStyleName("company_fields");
+	}
+
 	private void tCountryChanged() {
 		int selectedCountry = tCountryCombo.getSelectedIndex();
 		if (selectedCountry < 0) {
@@ -312,7 +344,7 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		String countryName = tCountryCombo.getItemText(selectedCountry);
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
-		String[] states;
+		String[] states = countryPreferences.getStates();
 		if (countryPreferences.getStates() != null) {
 			states = countryPreferences.getStates();
 		} else {
@@ -394,6 +426,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		Header.companyNameLabel.setText(companyNameTextBox.getValue());
 		// Phone Number
 		getCompany().setPhone(companyPhoneNumberTextBox.getValue());
+
+		HashMap<String, String> companyFields = new HashMap<String, String>();
+		for (String fieldName : itemsField.keySet()) {
+			companyFields.put(fieldName, itemsField.get(fieldName).getValue());
+		}
+		getCompany().getPreferences().setCompanyFields(companyFields);
+
 	}
 
 	@Override

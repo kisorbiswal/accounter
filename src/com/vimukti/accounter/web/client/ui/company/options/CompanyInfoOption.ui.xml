@@ -10,17 +10,16 @@
 			padding-left: 15px;
 		}
 	</ui:style>
-	<g:VerticalPanel  styleName="companyInfoPanel">
-		<g:VerticalPanel>
-			<g:HorizontalPanel >
+	<g:VerticalPanel styleName="companyInfoPanel">
+		<g:VerticalPanel ui:field="mainPanel">
+			<g:HorizontalPanel>
 				<g:Label ui:field="companyNameLabel" styleName="header" />
 				<g:TextBox ui:field="companyNameTextBox" visibleLength="60" />
 			</g:HorizontalPanel>
-			<g:HorizontalPanel >
+			<g:HorizontalPanel>
 				<g:CheckBox ui:field="isShowLegalName" />
 			</g:HorizontalPanel>
-			<g:HorizontalPanel ui:field="legalNamePanel"
-				>
+			<g:HorizontalPanel ui:field="legalNamePanel">
 				<g:Label ui:field="legalNameLabel" styleName="header" />
 				<g:TextBox ui:field="legalNameTextBox" />
 			</g:HorizontalPanel>
@@ -86,16 +85,15 @@
 					</g:Grid>
 				</g:VerticalPanel>
 			</g:VerticalPanel>
-			<g:HorizontalPanel >
+			<g:HorizontalPanel>
 				<g:CheckBox ui:field="isShowRegisteredAddressCheckBox" />
 			</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="registeredAddressPanel"
-				>
+			<g:VerticalPanel ui:field="registeredAddressPanel">
 				<g:Label ui:field="registeredAddressTitle"
 					horizontalAlignment="ALIGN_LEFT" styleName="header" />
 				<g:Label ui:field="registeredAddressDescription" />
 
-				<g:VerticalPanel  ui:field="registeredAddressSubPanel"
+				<g:VerticalPanel ui:field="registeredAddressSubPanel"
 					horizontalAlignment="ALIGN_LEFT">
 					<g:Grid>
 						<g:row>
@@ -153,7 +151,7 @@
 		</g:VerticalPanel>
 		<g:VerticalPanel>
 			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
-				<g:Grid >
+				<g:Grid>
 					<g:row>
 						<g:customCell>
 							<g:Label ui:field="companyEmailHeaderLabel" />
@@ -170,7 +168,7 @@
 		</g:VerticalPanel>
 		<g:VerticalPanel>
 			<g:VerticalPanel horizontalAlignment="ALIGN_LEFT">
-				<g:Grid >
+				<g:Grid>
 					<g:row>
 						<g:customCell>
 							<g:Label ui:field="companyWebsiteHeaderLabel" />

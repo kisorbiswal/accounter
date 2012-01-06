@@ -228,7 +228,7 @@
 			<property name="webSite" column="WEBSITE"></property>
 			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>
 			<property name="isShowRegisteredAddress" column="SHOW_REGISTERED_ADDRESS"></property>
-			<!-- <property name="negativeNumberShownType" column="NEGATIVE_NUMBER_SHOWN_TYPE"
+			<!-- <property name="negativeNumberShownType" column="NEGATIVE_NUMBER_SHOWN_TYPE" 
 				type='int'></property> -->
 			<property name="decimalNumber" column="DECIMAL_NUMBER" type='int'></property>
 			<component name="tradingAddress" class="Address">
@@ -248,6 +248,12 @@
 				<property name="isSelected" column="TRADING_IS_SELECTED"
 					not-null="true"></property>
 			</component>
+
+			<map name="companyFields" table="COMPANY_FIELDS" cascade="save-update,delete">
+				<key column="COMPANY_ID"></key>
+				<index column="field_name" type="string"></index>
+				<element column="field_value" type="string"></element>
+			</map>
 
 			<!-- Company Preferences -->
 			<property name="logSpaceUsed" column="CP_LOG_SPACE_USED"
@@ -924,6 +930,11 @@
 			<key column="PAYEE_ID" />
 			<one-to-many class="CustomFieldValue" />
 		</set>
+		<map name="payeeFields" table="PAYEE_FIELDS" cascade="save-update,delete">
+			<key column="PAYEE_ID"></key>
+			<index column="payee_field_name" type="string"></index>
+			<element column="payee_field_value" type="string"></element>
+		</map>
 
 		<set name="address" table="PAYEE_ADDRESS" cascade="save-update">
 			<key column="PAYEE_ID" not-null="true" />
@@ -1379,7 +1390,7 @@
 			<list-index column="LAST_HISTORY" />
 			<one-to-many class="FixedAssetHistory" />
 		</list>
-<list name="transactions" cascade="save-update,delete">
+		<list name="transactions" cascade="save-update,delete">
 			<key column="FIXED_ASSET_ID"></key>
 			<list-index column="IDX" />
 			<one-to-many class="Transaction" />

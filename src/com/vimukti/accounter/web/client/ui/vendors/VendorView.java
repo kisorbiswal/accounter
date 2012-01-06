@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.vendors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Float;
@@ -453,6 +455,12 @@ public class VendorView extends BaseView<ClientVendor> {
 				accInfoForm.setFields(track1099MISC);
 			}
 		}
+		Map<String, String> fields = new HashMap<String, String>();
+		for (String fieldName : getCompany().getCountryPreferences()
+				.getVendorFields()) {
+			fields.put(fieldName, "");
+		}
+		addFields(fields);
 
 		Label l1 = new Label(messages.contacts());
 
@@ -1117,6 +1125,12 @@ public class VendorView extends BaseView<ClientVendor> {
 		data.setTaxId(taxID.getValue());
 		data.setTrackPaymentsFor1099(track1099MISC.isChecked());
 
+		HashMap<String, String> payeeFields = new HashMap<String, String>();
+		for (String fieldName : itemsField.keySet()) {
+			payeeFields.put(fieldName, itemsField.get(fieldName).getValue());
+		}
+		data.setPayeeFields(payeeFields);
+
 	}
 
 	public void addAccountsToList() {
@@ -1208,6 +1222,28 @@ public class VendorView extends BaseView<ClientVendor> {
 			data.setFaxNo(data.getFaxNo());
 		initMainValues();
 		addPaymentMethodList();
+		setPayeeFields(data.getPayeeFields());
+	}
+
+	private void setPayeeFields(HashMap<String, String> payeeFields) {
+		for (String key : payeeFields.keySet()) {
+			itemsField.get(key).setValue(payeeFields.get(key));
+		}
+	}
+
+	Map<String, TextItem> itemsField = new HashMap<String, TextItem>();
+
+	private void addFields(Map<String, String> payeeFields) {
+		itemsField.clear();
+		for (String key : payeeFields.keySet()) {
+			String value = payeeFields.get(key);
+			TextItem item = new TextItem(key);
+			item.setValue(value);
+			item.setName(key);
+			balanceForm.setFields(item);
+			itemsField.put(key, item);
+			item.setDisabled(isInViewMode());
+		}
 	}
 
 	private void initMainValues() {
@@ -1478,8 +1514,15 @@ public class VendorView extends BaseView<ClientVendor> {
 		customFieldForm.setDisabled(isInViewMode());
 		addCustomFieldButton.setEnabled(!isInViewMode());
 		memoArea.setDisabled(isInViewMode());
+		enablePayeeFields(data.getPayeeFields());
 		super.onEdit();
 
+	}
+
+	private void enablePayeeFields(HashMap<String, String> payeeFields) {
+		for (String key : payeeFields.keySet()) {
+			itemsField.get(key).setDisabled(isInViewMode());
+		}
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -192,6 +195,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	int fiscalYearFirstMonth;
 	FinanceDate trackFinanceDate;
+
+	private Map<String, String> companyFields = new HashMap<String, String>();
 
 	private long preferencesFlag;
 
@@ -1555,5 +1560,20 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public void setDigitGroupCharacter(String digitGroupCharacter) {
 		this.digitGroupCharacter = digitGroupCharacter;
+	}
+
+	/**
+	 * @return the companyFields
+	 */
+	public Map<String, String> getCompanyFields() {
+		return companyFields;
+	}
+
+	/**
+	 * @param companyFields
+	 *            the companyFields to set
+	 */
+	public void setCompanyFields(Map<String, String> companyFields) {
+		this.companyFields = companyFields;
 	}
 }

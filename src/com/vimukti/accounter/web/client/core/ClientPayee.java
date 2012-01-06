@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -64,6 +65,8 @@ public abstract class ClientPayee implements IAccounterCore {
 	private String faxNo;
 
 	protected double openingBalance = 0D;
+
+	private HashMap<String, String> payeeFields = new HashMap<String, String>();
 
 	// UK variables
 	// boolean isEUVATExemptPayee;
@@ -473,6 +476,20 @@ public abstract class ClientPayee implements IAccounterCore {
 	public void setCustomFieldValues(
 			Set<ClientCustomFieldValue> customFieldValues) {
 		this.customFieldValues = customFieldValues;
+	}
+
+	/**
+	 * @return the payeeFields
+	 */
+	public HashMap<String, String> getPayeeFields() {
+		return payeeFields;
+	}
+
+	/**
+	 * @param payeeFields the payeeFields to set
+	 */
+	public void setPayeeFields(HashMap<String, String> payeeFields) {
+		this.payeeFields = payeeFields;
 	}
 
 }

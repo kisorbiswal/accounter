@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.util;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -39,5 +40,11 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 	boolean isServiceTaxDeductable();
 	
 	String getAmountInwords(double amount);
+	
+	ArrayList<String> getCompanyFields();
+
+	ArrayList<String> getCustomerFields();
+
+	ArrayList<String> getVendorFields();
 
 }

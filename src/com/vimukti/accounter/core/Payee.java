@@ -2,8 +2,10 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
@@ -97,6 +99,8 @@ public abstract class Payee extends CreatableObject implements
 	String serviceTaxRegistrationNumber;
 	String tinNumber;
 	protected Currency currency;
+
+	private Map<String, String> payeeFields = new HashMap<String, String>();
 
 	public transient boolean isOnSaveProccessed;
 
@@ -636,6 +640,21 @@ public abstract class Payee extends CreatableObject implements
 
 		}
 		return false;
+	}
+
+	/**
+	 * @return the payeeFields
+	 */
+	public Map<String, String> getPayeeFields() {
+		return payeeFields;
+	}
+
+	/**
+	 * @param payeeFields
+	 *            the payeeFields to set
+	 */
+	public void setPayeeFields(Map<String, String> payeeFields) {
+		this.payeeFields = payeeFields;
 	}
 
 }
