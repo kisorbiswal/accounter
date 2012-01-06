@@ -55,6 +55,8 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int TDSRESPONSIBLEPERSON = 85;
 	public static final int TDSDEDUCTORMASTER = 86;
 	public static final int REPORT_GROUP = 87;
+	public static final int BANK_STATEMENT = 88;
+	public static final int BANKSTATEMENT_RECORD = 88;
 
 	String getName();
 
