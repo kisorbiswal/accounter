@@ -80,7 +80,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			baseListView = (BaseListView<T>) new PaymentListView(
 					PaymentListView.TYPE_CUSTOMER_CHECKS);
 
-		} else if (itemName.equalsIgnoreCase(getMessages().allcashSales())) {
+		} else if (itemName.equalsIgnoreCase(getMessages().cashSales())) {
 
 			baseListView = (BaseListView<T>) new InvoiceListView(
 					ClientTransaction.TYPE_CASH_SALES);
@@ -210,7 +210,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 				customerItems.add(getMessages().Charges());
 				customerItems.add(getMessages().credits());
 			}
-			customerItems.add(getMessages().allcashSales());
+			customerItems.add(getMessages().cashSales());
 		}
 
 		if (Accounter.getUser().canSeeBanking()) {
