@@ -67,10 +67,9 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 			}
 		}, ResizeEvent.getType());
-		Button addReceivableInvoiceBtn = new Button(
-				messages.addReceivableInvoice());
-		addReceivableInvoiceBtn.addStyleName("addButtonPortlet");
-		addReceivableInvoiceBtn.addClickHandler(new ClickHandler() {
+		Button addInvoiceBtn = new Button(messages.addInvoice());
+		addInvoiceBtn.addStyleName("addButtonPortlet");
+		addInvoiceBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -96,7 +95,7 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 		fTable.addStyleName("fTablePortlet");
 
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			hPanel.add(addReceivableInvoiceBtn);
+			hPanel.add(addInvoiceBtn);
 
 		}
 

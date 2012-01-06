@@ -199,8 +199,6 @@ public interface AccounterMessages extends Messages {
 
 	public String addPaymentTermTitleDesc();
 
-	public String addReceivableInvoice();
-
 	public String address();
 
 	public String address1();
@@ -5241,6 +5239,8 @@ public interface AccounterMessages extends Messages {
 	public String deprecionToBePosted();
 
 	public String pleaseSelectInventoryItemToSave();
+
+	public String addInvoice();
 
 	public String bankStatements();
 
