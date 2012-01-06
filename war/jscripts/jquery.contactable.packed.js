@@ -23,7 +23,7 @@
 				.each(function(options) {
 					$(this)
 							.html(
-									'<div id="contactable"></div><form id="contactForm" method="" action=""><div id="loading"></div><div id="callback"></div><div class="holder"><input type="hidden" id="recipient" name="recipient" value="'
+									'<div id="contactable"></div><form id="contactForm" method="" action=""><div id="callback"></div><div class="holder"><input type="hidden" id="recipient" name="recipient" value="'
 											+ defaults.recipient
 											+ '" /><input type="hidden" id="subject" name="subject" value="'
 											+ defaults.subject
