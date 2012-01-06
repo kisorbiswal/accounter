@@ -58,6 +58,7 @@ public class MobileMessageHandler extends Thread {
 		// e1.printStackTrace();
 		// }
 		String processMessage;
+		Session openSession = HibernateUtil.openSession();
 		try {
 			processMessage = processMessage(context.getNetworkId(),
 					context.getMessage(), context.getAdaptorType(),
@@ -65,16 +66,17 @@ public class MobileMessageHandler extends Thread {
 		} catch (AccounterMobileException e) {
 			e.printStackTrace();
 			processMessage = "Exception: " + e.getMessage();
+		} finally {
+			if (openSession.isOpen()) {
+				openSession.close();
+			}
 		}
-		MobileSession mobileSession = sessions.get(context.getNetworkId());
-		mobileSession.await(this, context.getNetworkId());
 		context.send(processMessage);
 	}
 
 	private String processMessage(String networkId, String message,
 			AdaptorType adaptorType, int networkType, Result oldResult,
 			MobileChannelContext context) throws AccounterMobileException {
-		Session openSession = HibernateUtil.openSession();
 		try {
 			MobileSession session = sessions.get(networkId);
 			if (session == null || session.isExpired()) {
@@ -104,7 +106,7 @@ public class MobileMessageHandler extends Thread {
 			ServerLocal.set(getLocal(session.getLanguage()));
 			Global.set(new ServerGlobal());
 
-			session.sethibernateSession(openSession);
+			session.sethibernateSession(HibernateUtil.getCurrentSession());
 			session.reloadObjects();
 
 			MobileAdaptor adoptor = getAdaptor(adaptorType);
@@ -173,15 +175,13 @@ public class MobileMessageHandler extends Thread {
 			session.setLastReply(postProcess);
 			if (session.isExpired()) {
 				sessions.remove(networkId);
+			} else {
+				session.await(this, networkId);
 			}
 			return postProcess;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
-		} finally {
-			if (openSession.isOpen()) {
-				openSession.close();
-			}
 		}
 	}
 
