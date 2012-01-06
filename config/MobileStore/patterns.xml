@@ -25,7 +25,7 @@
 		<outputs>
 			<command title="company" />
 			<command if="trackTax" title="tax" />
-			<command title="Customer" />
+			<command title="customer" />
 			<command title="Vendor" />
 			<command title="banking" />
 			<command title="reports" />
@@ -127,7 +127,7 @@
 
 
 	<pattern login="true">
-		<input>Customer</input>
+		<input>customer</input>
 		<outputs>
 			<command title="newCustomer" />
 			<command title="createInvoice" />
