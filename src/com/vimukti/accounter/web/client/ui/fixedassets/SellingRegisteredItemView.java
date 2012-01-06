@@ -334,8 +334,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		}
 
 		if (QuestionItem.getValue().equals(allDepOption)) {
-			if (AccounterValidator.isNullValue(dateItemCombo.getValue())) {
-				result.addError(dateItemCombo, messages.requiredFields());
+			if (!AccounterValidator.isNullValue(dateItemCombo.getValue())) {
+				result.addError(dateItemCombo, messages.pleaseSelectDate());
 			}
 		}
 		ClientFixedAsset asset = data;
