@@ -213,7 +213,11 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
-			setStates(countryPreferences.getStates());
+			if (countryPreferences.getStates() != null) {
+				setStates(countryPreferences.getStates());
+			} else {
+				setStates(new String[] { "" });
+			}
 			List<ClientCurrency> currenciesList = CoreUtils
 					.getCurrencies(new ArrayList<ClientCurrency>());
 			for (int i = 0; i < currenciesList.size(); i++) {

@@ -182,7 +182,8 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		tradingAddressDescription.setStyleName("organisation_comment");
 		tradingAddressTitle.setText(messages.tradingAddress());
 		tAddress1Label.setText(messages.address1());
-		tAddress1Label.getElement().getParentElement().addClassName("company-preferences-labels");
+		tAddress1Label.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 		tAddress2Label.setText(messages.address2());
 		tCityLabel.setText(messages.city());
 		tStateLabel.setText(messages.state());
@@ -199,7 +200,6 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		rStateComboLabel.setText(messages.state());
 		rPostalCodeLabel.setText(messages.postalCode());
 		rCountryComboLabel.setText(messages.country());
-		
 
 		for (int i = 0; i < countriesList.size(); i++) {
 			tCountryCombo.addItem(countriesList.get(i));
@@ -238,14 +238,16 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 				.registeredAddressComment());
 		// Website
 		companyWebsiteHeaderLabel.setText(messages.webSite());
-		companyWebsiteHeaderLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		companyWebsiteHeaderLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 
 		// Email
 		emailIDDescriptionLabel.setText(messages.emailIdDescription());
 		emailIDDescriptionLabel.setStyleName("organisation_comment");
 
 		companyEmailHeaderLabel.setText(messages.emailId());
-		companyEmailHeaderLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		companyEmailHeaderLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 		companyEmailTextBox.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -261,14 +263,17 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 		// Name
 		legalNameLabel.setText(messages.legalName());
-		legalNameLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		legalNameLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 		companyNameLabel.setText(messages.companyName());
-		companyNameLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		companyNameLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 		isShowLegalName.setText(messages.registeredAddressComment());
 
 		// Phone Number
 		companyPhoneNumberLabel.setText(messages.phoneNumber());
-		companyPhoneNumberLabel.getElement().getParentElement().addClassName("company-preferences-labels");
+		companyPhoneNumberLabel.getElement().getParentElement()
+				.addClassName("company-preferences-labels");
 	}
 
 	private void rCountryChanged() {
@@ -279,15 +284,21 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		String countryName = rCountryCombo.getItemText(selectedCountry);
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
-		List<String> states = Arrays.asList(countryPreferences.getStates());
+		String[] states;
+		if (countryPreferences.getStates() != null) {
+			states = countryPreferences.getStates();
+		} else {
+			states = new String[] { "" };
+		}
+		List<String> statesList = Arrays.asList(states);
 		rStateCombo.clear();
-		for (String state : states) {
+		for (String state : statesList) {
 			rStateCombo.addItem(state);
 		}
 		ClientAddress address = getCompany().getRegisteredAddress();
 		if (address != null && address.getStateOrProvinence() != null) {
-			if (states.contains(address.getStateOrProvinence())) {
-				rStateCombo.setSelectedIndex(states.indexOf(address
+			if (statesList.contains(address.getStateOrProvinence())) {
+				rStateCombo.setSelectedIndex(statesList.indexOf(address
 						.getStateOrProvinence()));
 			}
 		}
@@ -301,17 +312,23 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 		String countryName = tCountryCombo.getItemText(selectedCountry);
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
-		List<String> states = Arrays.asList(countryPreferences.getStates());
+		String[] states;
+		if (countryPreferences.getStates() != null) {
+			states = countryPreferences.getStates();
+		} else {
+			states = new String[] { "" };
+		}
+		List<String> statesList = Arrays.asList(states);
 		tStateCombo.clear();
-		for (String state : states) {
+		for (String state : statesList) {
 			tStateCombo.addItem(state);
 		}
 		ClientAddress tradingAddress = getCompanyPreferences()
 				.getTradingAddress();
 		if (tradingAddress != null
 				&& tradingAddress.getStateOrProvinence() != null) {
-			if (states.contains(tradingAddress.getStateOrProvinence())) {
-				tStateCombo.setSelectedIndex(states.indexOf(tradingAddress
+			if (statesList.contains(tradingAddress.getStateOrProvinence())) {
+				tStateCombo.setSelectedIndex(statesList.indexOf(tradingAddress
 						.getStateOrProvinence()));
 			}
 		}
