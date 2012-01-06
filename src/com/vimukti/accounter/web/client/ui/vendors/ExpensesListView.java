@@ -33,9 +33,9 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	public void initListCallback() {
 		super.initListCallback();
-		Accounter.createHomeService()
-				.getBillsAndItemReceiptList(true, 0, getStartDate().getDate(),
-						getEndDate().getDate(), 0, 0, 0, this);
+		Accounter.createHomeService().getBillsAndItemReceiptList(true, 0,
+				getStartDate().getDate(), getEndDate().getDate(), 0, -1, 0,
+				this);
 	}
 
 	@Override
