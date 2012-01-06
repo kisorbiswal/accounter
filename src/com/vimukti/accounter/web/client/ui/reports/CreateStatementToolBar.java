@@ -29,7 +29,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 	private SelectCombo dateRangeItemCombo;
 	private List<String> dateRangeItemList;
 	private Button updateButton;
-	private boolean isVendor;
+	private final boolean isVendor;
 
 	public CreateStatementToolBar(boolean isVendor,
 			AbstractReportView reportView) {
@@ -40,17 +40,12 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
 		if (isVendor) {
 			vendorCombo = new VendorCombo("Choose Vendor", false);
@@ -91,8 +86,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 			dateRangeItemList.add(dateRangeArray[i]);
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
-		dateRangeItemCombo.setComboItem(messages
-				.financialYearToDate());
+		dateRangeItemCombo.setComboItem(messages.thisMonth());
+		dateRangeChanged(dateRangeItemCombo.getSelectedValue());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -124,8 +119,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
-				startDate = (ClientFinanceDate) fromItem.getValue();
-				endDate = (ClientFinanceDate) toItem.getValue();
+				startDate = fromItem.getValue();
+				endDate = toItem.getValue();
 			}
 		});
 		updateButton = new Button(messages.update());
@@ -137,8 +132,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 				setStartDate(fromItem.getDate());
 				setEndDate(toItem.getDate());
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItemCombo.setDefaultValue(messages
-						.custom());
+				dateRangeItemCombo.setDefaultValue(messages.custom());
 				dateRangeItemCombo.setComboItem(messages.custom());
 				setSelectedDateRange(messages.custom());
 
@@ -148,6 +142,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		Button printButton = new Button(messages.print());
 		printButton.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 
 			}
@@ -251,8 +246,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 		if (isVendor) {
 			if (getPayeeId() != 0) {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
-				reportview.makeReportRequest(selectedVendor.getID(),
-						startDate, endDate);
+				reportview.makeReportRequest(selectedVendor.getID(), startDate,
+						endDate);
 			}
 		} else {
 			if (getPayeeId() != 0) {
