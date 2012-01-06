@@ -506,6 +506,13 @@ public class ViewManager extends HorizontalPanel {
 			if (item.view == null) {
 				item.action.run();
 			} else {
+				// Save history
+				if (existingView instanceof ISavableView) {
+					viewDataHistory.put(existingView.getAction()
+							.getHistoryToken(), ((ISavableView) existingView)
+							.saveView());
+				}
+				existingView.removeFromParent();
 				this.existingView = item.view;
 				ActionCallback callback = current.action.getCallback();
 				if (data != null && callback != null) {

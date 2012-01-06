@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -93,6 +94,8 @@ public class ServerSideMessages {
 			session = HibernateUtil.openSession();
 			sessionOpened = true;
 		}
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
 		try {
 			long clientId = 0;
 			if (user != null) {
@@ -102,11 +105,10 @@ public class ServerSideMessages {
 			List list = session.getNamedQuery("getLocalMessageForKey")
 					.setString("language", language)
 					.setLong("client", clientId).setString("key", key).list();
-			String msg = null;
 			if (!list.isEmpty()) {
-				msg = (String) list.get(0);
+				message = (String) list.get(0);
 			}
-			if (msg == null) {
+			if (message == null) {
 				new AccounterException("no value found for '" + key + "'")
 						.printStackTrace();
 				return key;
@@ -118,10 +120,11 @@ public class ServerSideMessages {
 				keyMessages.put(language, langMessgaeMap);
 			}
 			langMessgaeMap.put(key, message);
-			return msg;
+			return message;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			session.setFlushMode(flushMode);
 			if (sessionOpened) {
 				session.close();
 			}

@@ -10,7 +10,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -108,8 +107,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 			bankAccountsCombo.addItem(account);
 		}
 		bankAccountsCombo.setSelectedItem(0);
-		bankAccountChanged((ClientBankAccount) bankAccountsCombo
-				.getSelectedValue());
+		bankAccountChanged(bankAccountsCombo.getSelectedValue());
 	}
 
 	@Override

@@ -43,8 +43,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 		headerLayout = new HorizontalPanel();
 		headerLayout.setWidth("430px");
 		Label label = new Label();
-		label.setText(messages
-				.youSuccessfullyCreatedRecurringTemplate());
+		label.setText(messages.youSuccessfullyCreatedRecurringTemplate());
 		headerLayout.add(label);
 
 		/**
@@ -60,8 +59,8 @@ public class RecurringConfirmDialog extends CustomDialog {
 		footerLayout.setSpacing(3);
 		// footerLayout.addStyleName("dialogfooter");
 
-		this.gotoRecurringBtn = new Button(messages
-				.gotoRecurringTransactionsList());
+		this.gotoRecurringBtn = new Button(
+				messages.gotoRecurringTransactionsList());
 
 		gotoRecurringBtn.addClickHandler(new ClickHandler() {
 
@@ -72,8 +71,7 @@ public class RecurringConfirmDialog extends CustomDialog {
 			}
 		});
 
-		keepWorkingBtn = new Button(messages
-				.keepWorkingOnThisTransaction());
+		keepWorkingBtn = new Button(messages.keepWorkingOnThisTransaction());
 		keepWorkingBtn.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -123,4 +121,8 @@ public class RecurringConfirmDialog extends CustomDialog {
 		super.onBrowserEvent(event);
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

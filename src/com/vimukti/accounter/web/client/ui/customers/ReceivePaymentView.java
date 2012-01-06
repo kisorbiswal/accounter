@@ -141,7 +141,6 @@ public class ReceivePaymentView extends
 		 */
 		gridView.newAppliedCreditsDialiog = null;
 		gridView.creditsStack = null;
-		gridView.initCreditsAndPayments(getCustomer());
 
 		if (!isInViewMode()) {
 			gridView.removeAllRecords();

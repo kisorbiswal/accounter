@@ -246,4 +246,9 @@ public class AccounterDialog extends CustomDialog {
 		super.show();
 		center();
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
