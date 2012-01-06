@@ -2695,5 +2695,11 @@ input.date-field-textbox {
 	width:115px;
 }
 .company_fields td:FIRST-CHILD {
-	width:200px;
+	width:200px; 
+}
+.reports_home_align td:FIRST-CHILD{
+	width:380px;
+}
+.reports_top_align{
+	margin-top: 10px;
 }
