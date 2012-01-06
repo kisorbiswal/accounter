@@ -300,14 +300,15 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 	public ArrayList<String> getLastDates() {
 		ArrayList<String> dateList = new ArrayList<String>();
 		Calendar cal = Calendar.getInstance();
-		ClientFinanceDate startDate = Accounter.getCompany()
-				.getCurrentFiscalYearStartDate();
-		cal.set(Calendar.MONTH, startDate.getMonth());
+		ClientFinanceDate startDate = new ClientFinanceDate(getPreferences()
+				.getStartOfFiscalYear());
+		cal.setTime(startDate.getDateAsObject());
 		for (int x = 0; x < 12; x++) {
 			cal.set(Calendar.DAY_OF_MONTH,
 					cal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			dateList.add(DateUtills.getDateAsString(cal.getTime()));
-			cal.add(Calendar.MONTH, 1);
+			startDate.setMonth(startDate.getMonth() + 1);
+			cal.setTime(startDate.getDateAsObject());
 		}
 		return dateList;
 	}
