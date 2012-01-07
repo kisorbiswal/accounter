@@ -65,7 +65,9 @@ public class GovTalkMessage {
 				getEnvelopVersion());
 
 		element.addChild(envelopElement);
-		element.addChild(getHeader().toXML());
+		if (header != null) {
+			element.addChild(header.toXML());
+		}
 		// element.addChild(getGovtTalkDetails().toXML());
 		if (body) {
 			// element.addChild(getBody().toXML());
