@@ -33,6 +33,22 @@ public class ActivationServlet extends BaseServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = req.getSession(true);
+
+		String destUrl = req.getParameter(PARAM_DESTINATION);
+		String emailId = (String) session.getAttribute(EMAIL_ID);
+
+		Session hbSession = HibernateUtil.getCurrentSession();
+		Client client = (Client) hbSession.getNamedQuery("getClient.by.mailId")
+				.setParameter(EMAIL_ID, emailId).uniqueResult();
+		if (client.isActive()) {
+			if (destUrl == null || destUrl.isEmpty()) {
+				redirectExternal(req, resp, COMPANIES_URL);
+			} else {
+				redirectExternal(req, resp, destUrl);
+			}
+			return;
+		}
+
 		String parameter = req.getParameter("message");
 		if (parameter != null) {
 			if (parameter.equals(ACT_FROM_SIGNUP)) {
@@ -70,7 +86,7 @@ public class ActivationServlet extends BaseServlet {
 			dispatch(req, resp, VIEW);
 			return;
 		}
-		token=token.toLowerCase().trim();
+		token = token.toLowerCase().trim();
 
 		// get activation record
 		Session hibernateSession = HibernateUtil.openSession();

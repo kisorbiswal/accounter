@@ -720,9 +720,13 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String LIABLITY_PENSIONS = "Pensions";
 	public static final String ddMMyyyy = "dd/MM/yyyy";
 	public static final String MMddyyyy = "MM/dd/yyyy";
+	public static final String yyyyMMdd = "yyyy/MM/dd";
 
 	public static final String TDS_TAX_PAYABLE = "TDS Tax Payable";
 	public static final String SERVICE_TAX_PAYABLE = "Service Tax Payable";
 	public static final String CENTRAL_SALES_TAX_PAYABLE = "Central Sales Tax Payable";
 	public static final String EXCHANGE_LOSS_OR_GAIN = "Exchange Loss or Gain";
+	public static final String GST_TAX_PAYABLE = "GST Tax Payable";
+	public static final String QST_TAX_PAYABLE = "QST Tax Payable";
+	public static final String CONSUMPTION_TAX_PAYABLE = "Consumption Tax Payable";;
 }

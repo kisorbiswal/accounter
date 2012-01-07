@@ -27,6 +27,8 @@ public class ServerConfiguration {
 	private static int mobileChatServerPort;
 	private static int mobileSSLChatServerPort;
 	public static boolean isDebugMode;
+	private static String validIP;
+	private static String emailLogger;
 
 	private static boolean enableConsoleChatServer;
 	private static boolean enableIMChatServer;
@@ -85,6 +87,10 @@ public class ServerConfiguration {
 					"mobileSSLChatServer", null));
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
+
+			setValidIP(prop.getProperty("validIP", null));
+			setEmailLogger(prop.getProperty("emailLogger", null));
+
 			attchmentContainerName = prop.getProperty("attchmentContainerName",
 					null);
 			uploadToRackSpace = prop.getProperty("uploadToRackSpace", "false")
@@ -294,6 +300,22 @@ public class ServerConfiguration {
 
 	public static String getUploadAttachmentPassword() {
 		return uploadAttachmentPassword;
+	}
+
+	public static String getValidIP() {
+		return validIP;
+	}
+
+	public static void setValidIP(String validIP) {
+		ServerConfiguration.validIP = validIP;
+	}
+
+	public static String getEmailLogger() {
+		return emailLogger;
+	}
+
+	public static void setEmailLogger(String emailLogger) {
+		ServerConfiguration.emailLogger = emailLogger;
 	}
 
 }

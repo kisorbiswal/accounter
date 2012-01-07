@@ -6,6 +6,7 @@ import java.util.HashSet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -63,6 +64,7 @@ public class SignupServlet extends BaseServlet {
 		emailId = emailId.toLowerCase();
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
+		HttpSession session = req.getSession(true);
 
 		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = null;
@@ -74,8 +76,6 @@ public class SignupServlet extends BaseServlet {
 				// TODO::: in login.jsp check for email id in the request if it
 				// is available set this email id in the email id field of login
 				// page
-				// HttpSession session = req.getSession(true);
-				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
 				Client client = getClient(emailId);
 				if (client.isDeleted()) {
@@ -93,6 +93,8 @@ public class SignupServlet extends BaseServlet {
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 					client.setDeleted(false);
 					saveEntry(client);
+					session.setAttribute(EMAIL_ID, emailId);
+
 					// Email to that user.
 					sendActivationEmail(token, client);
 					// Send to SignUp Success View
@@ -126,10 +128,13 @@ public class SignupServlet extends BaseServlet {
 
 				client.setDeleted(false);
 				saveEntry(client);
+				session.setAttribute(EMAIL_ID, emailId);
+
 				// Email to that user.
 				sendActivationEmail(token, client);
 				// Send to SignUp Success View
 				String message = "?message=" + ACT_FROM_SIGNUP;
+
 				redirectExternal(req, resp, ACTIVATION_URL + message);
 				transaction.commit();
 			}

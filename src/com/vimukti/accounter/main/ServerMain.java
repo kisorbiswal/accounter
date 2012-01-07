@@ -65,12 +65,29 @@ public class ServerMain extends Main {
 			loadAccounterMessages();
 		}
 
+		// Creating Email Log listener
+		createMailLogListener();
+
 		stratChatServers();
 
 		startRecurringTimer();
 
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
+
+	}
+
+	private static void createMailLogListener() {
+
+		String fileName = ServerConfiguration.getEmailLogger();
+		if (fileName != null) {
+
+			File file = new File(fileName);
+			if (file.exists()) {
+				new MailLogTailerListener(file);
+			}
+
+		}
 
 	}
 

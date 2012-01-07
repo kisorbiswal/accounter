@@ -29,6 +29,7 @@ public class Client {
 	private long lastLoginTime;
 	private Set<Language> languages;
 	private boolean isDeleted;
+	private boolean isEmailBounced;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -188,6 +189,14 @@ public class Client {
 
 	public void setDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
+	}
+
+	public boolean isEmailBounced() {
+		return isEmailBounced;
+	}
+
+	public void setEmailBounced(boolean isEmailBounced) {
+		this.isEmailBounced = isEmailBounced;
 	}
 
 }

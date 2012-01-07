@@ -22,6 +22,8 @@
 		<property name="lastLoginTime" column="LAST_LOGIN_TIME"
 			update="true"></property>
 		<property name="isDeleted" column="IS_DELETED" />
+		<property name="isEmailBounced" column="IS_EMAIL_BOUNCED" />
+
 		<set name="users" inverse="true">
 			<key column="CLIENT_ID"></key>
 			<one-to-many class="User" />
