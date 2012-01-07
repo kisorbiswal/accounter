@@ -55,20 +55,17 @@ public class DSP {
 
 	public void submit() throws Exception {
 		// Request
-		GovTalkMessage response = send(message.toXML(true),
-				"https://secure.gateway.gov.uk/submission");
+		GovTalkMessage response = send(
+				"https://secure.gateway.gov.uk/submission", true);
 
 		// Poll
-		response = send(message.toXML(true),
-				"https://secure.gateway.gov.uk/poll");
+		response = send("https://secure.gateway.gov.uk/poll", true);
 
 		// Re-Poll
-		response = send(message.toXML(true),
-				"https://secure.gateway.gov.uk/poll");
+		response = send("https://secure.gateway.gov.uk/poll", true);
 
 		// DELETE
-		response = send(message.toXML(true),
-				"https://secure.gateway.gov.uk/submission");
+		response = send("https://secure.gateway.gov.uk/submission", true);
 	}
 
 	private String getMD5(String password) throws Exception {
@@ -77,7 +74,7 @@ public class DSP {
 		return new Base64Encoder().encode(digest);
 	}
 
-	private GovTalkMessage send(String data, String path) {
+	private GovTalkMessage send(String path, boolean hasBody) {
 		try {
 			URL ourURL = new URL(path);
 			HttpURLConnection conn = (HttpURLConnection) ourURL
@@ -86,10 +83,7 @@ public class DSP {
 			conn.setRequestProperty("User-Agent",
 					"Mozilla/4.0 (compatible; JVM)");
 			conn.setDoOutput(true);
-			OutputStreamWriter wr = new OutputStreamWriter(
-					conn.getOutputStream());
-			wr.write(data);
-			wr.flush();
+			message.toXML(conn.getOutputStream(), hasBody);
 			return (GovTalkMessage) xStream.fromXML(conn.getInputStream());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
