@@ -3,6 +3,9 @@ package com.vimukti.accounter.taxreturn.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+
 public class GovtTalkDetails {
 	/**
 	 * 0..1
@@ -71,6 +74,21 @@ public class GovtTalkDetails {
 
 	public void setGovTalkErrors(GovTalkErrors govTalkErrors) {
 		this.govTalkErrors = govTalkErrors;
+	}
+
+	public IXMLElement toXML() {
+		XMLElement govtTalkDetailsElement = new XMLElement("GovtTalkDetails");
+
+		govtTalkDetailsElement.addChild(keys.toXML());
+		govtTalkDetailsElement.addChild(targetDetails.toXML());
+		govtTalkDetailsElement.addChild(gatewayValidation.toXML());
+		for (ChannelRouting channelRouting : channelRoutings) {
+			govtTalkDetailsElement.addChild(channelRouting.toXML());
+		}
+		govtTalkDetailsElement.addChild(govTalkErrors.toXML());
+		govtTalkDetailsElement.addChild(gatewayAdditions.toXML());
+		return govtTalkDetailsElement;
+
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.vimukti.accounter.taxreturn.core;
 
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+
 public class ID {
 	private String value = "ID Value";
 	private String type = "ID Type";
@@ -20,4 +23,9 @@ public class ID {
 		this.type = type;
 	}
 
+	public IXMLElement toXML() {
+		XMLElement idElement = new XMLElement("ID", value);
+		idElement.setAttribute("Type", type);
+		return idElement;
+	}
 }

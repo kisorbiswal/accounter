@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
 
 public class GovTalkError {
 	/**
@@ -73,8 +74,25 @@ public class GovTalkError {
 	}
 
 	public IXMLElement toXML() {
+		XMLElement govTalkErrorElement = new XMLElement("GovTalkError");
 
-		return null;
+		XMLElement raisedByElement = new XMLElement("RaisedBy", raisedBy);
+		XMLElement numberElement = new XMLElement("Number",
+				Integer.toString(number));
+		XMLElement typeElement = new XMLElement("Type", type);
+
+		govTalkErrorElement.addChild(raisedByElement);
+		govTalkErrorElement.addChild(numberElement);
+		govTalkErrorElement.addChild(typeElement);
+		for (String text : texts) {
+			XMLElement textElement = new XMLElement("Text", text);
+			govTalkErrorElement.addChild(textElement);
+		}
+		for (String location : locations) {
+			XMLElement locationElement = new XMLElement("Location", location);
+			govTalkErrorElement.addChild(locationElement);
+		}
+		return govTalkErrorElement;
 	}
 
 }

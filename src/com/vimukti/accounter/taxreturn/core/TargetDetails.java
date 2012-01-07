@@ -3,6 +3,9 @@ package com.vimukti.accounter.taxreturn.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+
 public class TargetDetails {
 
 	/**
@@ -27,5 +30,15 @@ public class TargetDetails {
 
 	public void setOrganisations(List<String> organisations) {
 		this.organisations = organisations;
+	}
+
+	public IXMLElement toXML() {
+		XMLElement element = new XMLElement("TargetDetails");
+		for (String organisation : organisations) {
+			XMLElement organisationElement = new XMLElement("Organisation",
+					organisation);
+			element.addChild(organisationElement);
+		}
+		return element;
 	}
 }

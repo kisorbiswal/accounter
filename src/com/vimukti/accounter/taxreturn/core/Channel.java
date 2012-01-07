@@ -1,5 +1,8 @@
 package com.vimukti.accounter.taxreturn.core;
 
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+
 public class Channel {
 	/**
 	 * 1..1
@@ -48,5 +51,21 @@ public class Channel {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public IXMLElement toXML() {
+		XMLElement channelElement = new XMLElement("Channel");
+
+		XMLElement uriElement = new XMLElement("URI", uRI);
+		XMLElement nameElement = new XMLElement("Name", name);
+		XMLElement productElement = new XMLElement("Product", product);
+		XMLElement versionElement = new XMLElement("Version", version);
+
+		channelElement.addChild(uriElement);
+		channelElement.addChild(nameElement);
+		channelElement.addChild(productElement);
+		channelElement.addChild(versionElement);
+
+		return channelElement;
 	}
 }
