@@ -309,10 +309,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setDate(new ClientFinanceDate(wc
 						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(wc.getNumber());
-				issuePaymentTransaction.setName((wc.getCustomer() != null) ? wc
-						.getCustomer().getName()
-						: ((wc.getVendor() != null) ? wc.getVendor().getName()
-								: null));
+				issuePaymentTransaction.setName(wc.getInFavourOf());
 				issuePaymentTransaction.setMemo(wc.getMemo());
 				issuePaymentTransaction.setAmount(wc.getAmount());
 				issuePaymentTransaction.setPaymentMethod(wc.getPaymentMethod());
@@ -502,13 +499,7 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setDate(new ClientFinanceDate(
 							(long) wc.getDate().getDate()));
 					issuePaymentTransaction.setNumber(wc.getNumber());
-					issuePaymentTransaction
-							.setName((wc.getCustomer() != null) ? wc
-									.getCustomer().getName()
-									: ((wc.getVendor() != null) ? wc
-											.getVendor().getName() : wc
-											.getTaxAgency() != null ? wc
-											.getTaxAgency().getName() : ""));
+					issuePaymentTransaction.setName(wc.getInFavourOf());
 					issuePaymentTransaction.setMemo(wc.getMemo());
 					issuePaymentTransaction.setAmount(wc.getAmount());
 					issuePaymentTransaction.setPaymentMethod(wc
@@ -1783,10 +1774,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction
 						.setCheckNumber(wc.getCheckNumber() == null ? " " : wc
 								.getCheckNumber());
-				issuePaymentTransaction.setName((wc.getCustomer() != null) ? wc
-						.getCustomer().getName()
-						: ((wc.getVendor() != null) ? wc.getVendor().getName()
-								: null));
+				issuePaymentTransaction.setName(wc.getInFavourOf());
 				issuePaymentTransaction.setPaymentNumber(wc.getNumber());
 				issuePaymentTransaction.setAmountPaid(wc.getTotal());
 				issuePaymentTransaction.setCurrency(wc.getCurrency().getID());
