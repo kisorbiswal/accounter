@@ -2703,3 +2703,6 @@ input.date-field-textbox {
 .reports_top_align{
 	margin-top: 10px;
 }
+.disposalSummaryForm td:last-child{
+	text-align: right;
+}
