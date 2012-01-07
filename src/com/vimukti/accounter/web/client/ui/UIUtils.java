@@ -1218,6 +1218,9 @@ public class UIUtils {
 		case ClientTransaction.TYPE_RECEIVE_TAX:
 			return AccounterCoreType.RECEIVEVAT;
 
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
+			return AccounterCoreType.PAYBILL;
+
 		}
 		return null;
 
