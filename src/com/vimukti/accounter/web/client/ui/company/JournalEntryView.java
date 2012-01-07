@@ -108,8 +108,8 @@ public class JournalEntryView extends
 		List<ClientTransactionItem> allEntries = grid.getAllRows();
 		for (ClientTransactionItem entry : allEntries) {
 			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
-				result.addError(this, messages
-						.valueCannotBe0orlessthan0(messages.amount()));
+				result.addError(this,
+						messages.valueCannotBe0orlessthan0(messages.amount()));
 			}
 		}
 		if (memoText.getValue().toString() != null
@@ -261,8 +261,8 @@ public class JournalEntryView extends
 		// lab1.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 		jourNoText = new TextItem(messages.no());
-		jourNoText.setToolTip(messages.giveNoTo(
-				this.getAction().getViewName()));
+		jourNoText
+				.setToolTip(messages.giveNoTo(this.getAction().getViewName()));
 		jourNoText.setHelpInformation(true);
 		jourNoText.setRequired(true);
 		jourNoText.addChangeHandler(new ChangeHandler() {
@@ -427,29 +427,35 @@ public class JournalEntryView extends
 	private void initJournalNumber() {
 		if (isInViewMode()) {
 			jourNoText.setValue(transaction.getNumber());
-			return;
+			if (transaction.getNumber().isEmpty()) {
+				setTransactionNumber();
+			}
 		} else {
-			rpcUtilService.getNextTransactionNumber(
-					ClientTransaction.TYPE_JOURNAL_ENTRY,
-					new AccounterAsyncCallback<String>() {
-
-						@Override
-						public void onException(AccounterException caught) {
-							Accounter.showError(messages
-									.failedToGetTransactionNumber());
-						}
-
-						@Override
-						public void onResultSuccess(String result) {
-							if (result == null) {
-								onFailure(new Exception());
-							}
-							jourNoText.setValue(String.valueOf(result));
-
-						}
-					});
+			setTransactionNumber();
 		}
 
+	}
+
+	private void setTransactionNumber() {
+		rpcUtilService.getNextTransactionNumber(
+				ClientTransaction.TYPE_JOURNAL_ENTRY,
+				new AccounterAsyncCallback<String>() {
+
+					@Override
+					public void onException(AccounterException caught) {
+						Accounter.showError(messages
+								.failedToGetTransactionNumber());
+					}
+
+					@Override
+					public void onResultSuccess(String result) {
+						if (result == null) {
+							onFailure(new Exception());
+						}
+						jourNoText.setValue(String.valueOf(result));
+
+					}
+				});
 	}
 
 	protected void addEmptRecords() {
