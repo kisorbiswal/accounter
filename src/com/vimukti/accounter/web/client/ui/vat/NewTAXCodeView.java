@@ -91,8 +91,8 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			if (!vat.isTaxable()) {
 				vatItemComboForPurchases.setValue("");
 				vatItemComboForSales.setValue("");
-				vatItemComboForPurchases.setDisabled(!isInViewMode());
-				vatItemComboForSales.setDisabled(!isInViewMode());
+				vatItemComboForPurchases.setDisabled(isInViewMode());
+				vatItemComboForSales.setDisabled(isInViewMode());
 			}
 			// vatCodeTxt.setValue(data.getName() != null ? data.getName() :
 			// "");
