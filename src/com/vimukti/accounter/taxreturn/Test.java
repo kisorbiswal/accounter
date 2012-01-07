@@ -2,6 +2,7 @@ package com.vimukti.accounter.taxreturn;
 
 import java.io.FileOutputStream;
 
+import com.vimukti.accounter.taxreturn.core.GatewayAdditions;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 import com.vimukti.accounter.taxreturn.core.GovtTalkDetails;
 import com.vimukti.accounter.taxreturn.core.Header;
@@ -29,5 +30,9 @@ public class Test {
 		govtTalkDetails.setTargetDetails(null);
 		govtTalkDetails.setGatewayValidation(null);
 		govtTalkDetails.setGovTalkErrors(null);
+		GatewayAdditions gatewayAdditions = govtTalkDetails
+				.getGatewayAdditions();
+		gatewayAdditions.setType(null);
+		gatewayAdditions.setValue(null);
 	}
 }
