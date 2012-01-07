@@ -590,13 +590,15 @@ form#contactForm input,.memoTextArea textarea,form#contactForm .submit,form#cont
     width: 359px !important;
 }
 .disable-TextField,.input[disabled='disabled'],textarea.disable-TextField{
-	background: none repeat scroll 0 0 white !important;
+	/*background: none repeat scroll 0 0 white !important;*/
+	color:#aaa !important;
 }
 .disable-TextField,.input[disabled='disabled']{
-	border: 1px solid black !important;
+	border: 1px solid #DDDDDD !important;
 }
 textarea.disable-TextField{
-	border: 1px solid #B1B1B1 !important;
+	border: 1px solid #DDDDDD !important;
+	color:#aaa !important;
 }
 .downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox{
 	position: relative;
@@ -1659,4 +1661,10 @@ input.date-field-textbox{
     min-height: 280px;
     overflow: scroll;
     padding: 20px;
+}
+.viewholder {
+    box-shadow: 0 2px 10px #1A5158;
+}
+.reportGridParent{
+	border:1px solid;
 }
