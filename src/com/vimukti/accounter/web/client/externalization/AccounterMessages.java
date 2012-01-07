@@ -5246,4 +5246,6 @@ public interface AccounterMessages extends Messages {
 
 	public String fileTAXReturn();
 
+	public String inFavourOf();
+
 }
