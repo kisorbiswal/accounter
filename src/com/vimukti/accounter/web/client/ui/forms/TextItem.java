@@ -90,7 +90,6 @@ public class TextItem extends FormItem<String> {
 	@Override
 	public void setValue(String value) {
 		if (value != null) {
-			value = value.trim();
 			this.textBox.setText(value);
 		}
 	}
