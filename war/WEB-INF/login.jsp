@@ -152,7 +152,7 @@
 					<label><i18n:i18n msg='rememberMe'/></label>
 				  </div>
 				  <div class="loginbutton">
-				     <input id="submitButton" style="width:60px" type="submit" class="allviews-common-button" name="login" value="<i18n:i18n msg='login'/>" tabindex="6"/>
+				     <input id="submitButton" type="submit" class="allviews-common-button" name="login" value="<i18n:i18n msg='login'/>" tabindex="6"/>
 				  </div>
 			   </form>
 			   <div class="form-bottom-options">
