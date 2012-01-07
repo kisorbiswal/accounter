@@ -1,7 +1,6 @@
 package com.vimukti.accounter.taxreturn;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -17,12 +16,11 @@ import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 
 public class DSP {
 
-	private GovTalkMessage message;
-
 	private XStream xStream;
+	private String body;
 
-	private DSP(GovTalkMessage message) {
-		this.message = message;
+	private DSP(String body) {
+		this.body = body;
 		init();
 		xStream = XStreamUtil.getXstream();
 	}
@@ -56,16 +54,26 @@ public class DSP {
 	public void submit() throws Exception {
 		// Request
 		GovTalkMessage response = send(
-				"https://secure.gateway.gov.uk/submission", true);
+				"https://secure.gateway.gov.uk/submission",
+				Test.getRequestMessage(body));
 
 		// Poll
-		response = send("https://secure.gateway.gov.uk/poll", true);
+		response = send(
+				"https://secure.gateway.gov.uk/poll",
+				Test.getPollMessage(response.getHeader().getMessageDatails()
+						.getCorrelationID()));
 
 		// Re-Poll
-		response = send("https://secure.gateway.gov.uk/poll", true);
+		response = send(
+				"https://secure.gateway.gov.uk/poll",
+				Test.getPollMessage(response.getHeader().getMessageDatails()
+						.getCorrelationID()));
 
 		// DELETE
-		response = send("https://secure.gateway.gov.uk/submission", true);
+		response = send(
+				"https://secure.gateway.gov.uk/submission",
+				Test.getDeleteMessage(response.getHeader().getMessageDatails()
+						.getCorrelationID()));
 	}
 
 	private String getMD5(String password) throws Exception {
@@ -74,7 +82,7 @@ public class DSP {
 		return new Base64Encoder().encode(digest);
 	}
 
-	private GovTalkMessage send(String path, boolean hasBody) {
+	private GovTalkMessage send(String path, GovTalkMessage message) {
 		try {
 			URL ourURL = new URL(path);
 			HttpURLConnection conn = (HttpURLConnection) ourURL
@@ -83,7 +91,7 @@ public class DSP {
 			conn.setRequestProperty("User-Agent",
 					"Mozilla/4.0 (compatible; JVM)");
 			conn.setDoOutput(true);
-			message.toXML(conn.getOutputStream(), hasBody);
+			message.toXML(conn.getOutputStream());
 			return (GovTalkMessage) xStream.fromXML(conn.getInputStream());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

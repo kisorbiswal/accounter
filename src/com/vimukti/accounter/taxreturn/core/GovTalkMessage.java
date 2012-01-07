@@ -55,7 +55,7 @@ public class GovTalkMessage {
 		this.body = body;
 	}
 
-	public void toXML(OutputStream stream, boolean body) throws Exception {
+	public void toXML(OutputStream stream) throws Exception {
 		XMLWriter writer = new XMLWriter(stream);
 
 		XMLElement element = new XMLElement("GovTalkMessage");
@@ -72,10 +72,8 @@ public class GovTalkMessage {
 		if (govtTalkDetails != null) {
 			element.addChild(govtTalkDetails.toXML());
 		}
-		if (body) {
-			// element.addChild(getBody().toXML());
-		} else {
-			element.addChild(new XMLElement("Body"));
+		if (body != null) {
+			element.addChild(getBody().toXML());
 		}
 		writer.write(element);
 		stream.flush();
