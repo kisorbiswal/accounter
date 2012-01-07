@@ -1637,9 +1637,10 @@ public class FixedAsset extends CreatableObject implements
 		String lessAccoummulatedDepreciation = this.getAssetAccount()
 				.getLinkedAccumulatedDepreciationAccount().getName();
 		String salesAccount = fixedAsset.getSalesAccountName();
-		String totalCapitalGainString = "Total Capital Gain";
-		String gainOnDisposal = "Gain on disposal";
-		String lossOnDisposal = "Loss on disposal";
+		String totalCapitalGainString = Global.get().messages()
+				.totalCapitalGain();
+		String gainOnDisposal = Global.get().messages().gainOnDisposal();
+		String lossOnDisposal = Global.get().messages().lossOnDisposal();
 
 		double salesPrice = fixedAsset.getSalesPrice();
 		double purchasePrice = fixedAsset.getPurchasePrice();
