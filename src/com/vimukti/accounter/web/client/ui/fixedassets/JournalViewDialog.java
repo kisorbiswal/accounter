@@ -125,7 +125,7 @@ public class JournalViewDialog extends BaseDialog {
 
 	private DynamicForm getDisposalSummaryForm() {
 		DynamicForm disposalSummaryForm = new DynamicForm();
-		disposalSummaryForm.setStyleName("borders");
+		disposalSummaryForm.addStyleName("borders disposalSummaryForm");
 		int row = 0;
 		double value = 0.0;
 		Set<String> summaryString = this.journalAsset.getDisposalSummary()
@@ -136,10 +136,8 @@ public class JournalViewDialog extends BaseDialog {
 				disposalSummaryForm.setText(row, 0, StringValue);
 				disposalSummaryForm.setText(row, 1, amountAsString(value));
 			}
-			disposalSummaryForm.getCellFormatter().setWidth(0, 0, "100%");
 			row++;
 		}
-
 		return disposalSummaryForm;
 	}
 
