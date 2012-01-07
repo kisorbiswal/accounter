@@ -1818,7 +1818,7 @@ public class CoreUtils {
 			new ClientCurrency("Albanian Lek", "ALL", "Lek"),
 			new ClientCurrency("Angolan Kwanza", "AOA", "Kz"),
 			new ClientCurrency("Argentine Peso", "ARS", "$"),
-			new ClientCurrency("Armenian Dram", "AMD", ""),
+			new ClientCurrency("Armenian Dram", "AMD", "Դ"),
 			new ClientCurrency("Aruban Guilder", "AWG", "Æ’"),
 			new ClientCurrency("Australian Dollar", "AUD", "$"),
 			new ClientCurrency("Azerbaijani Manat", "AZN", "ман"),
