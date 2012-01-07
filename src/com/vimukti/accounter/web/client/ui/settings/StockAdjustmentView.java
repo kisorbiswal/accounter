@@ -218,6 +218,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		wareHouseCombo.setDisabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
 		table.setDisabled(isInViewMode());
+		addButton.setEnabled(!isInViewMode());
 	}
 
 	@Override
