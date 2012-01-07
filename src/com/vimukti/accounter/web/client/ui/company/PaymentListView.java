@@ -79,16 +79,14 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
-		grid.removeAllRecords();
 		grid.setRecords(result);
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
-
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
-
+		if (result.isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
 	}
 
 	@Override
@@ -116,19 +114,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void filterList(String text) {
-
-		grid.removeAllRecords();
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
-			viewType = STATUS_NOT_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
-			viewType = STATUS_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
-			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
-			viewType = ClientTransaction.TYPE_ALL;
-		}
 		onPageChange(0, getPageSize());
-
 	}
 
 	@Override
@@ -166,7 +152,15 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-
+		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+			viewType = STATUS_NOT_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
+			viewType = STATUS_ISSUED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
+			viewType = ClientTransaction.VIEW_VOIDED;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+			viewType = ClientTransaction.TYPE_ALL;
+		}
 		if (checkType == 0) {
 			Accounter.createHomeService().getPaymentsList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
