@@ -74,7 +74,7 @@ public class IssuePaymentsAction extends Action {
 
 	@Override
 	public String getText() {
-		return messages.issuePayment();
+		return messages.printCheque();
 	}
 
 }
