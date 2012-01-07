@@ -135,22 +135,16 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				public void onChange(ChangeEvent event) {
 					selectedOption = assetOptions.getValue().toString();
 					if (selectedOption.equalsIgnoreCase(messages.sell())) {
-						if (isInViewMode()) {
-							Action action = ActionFactory
-									.getSellingRegisteredItemAction();
-							action.catagory = messages
-									.fixedAssetsNewFixedAsset();
-							action.run(data, true);
-						}
+						Action action = ActionFactory
+								.getSellingRegisteredItemAction();
+						action.catagory = messages.fixedAssetsNewFixedAsset();
+						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.dispose())) {
-						if (isInViewMode()) {
-							Action action = ActionFactory
-									.getDiposingRegisteredItemAction();
-							action.catagory = messages
-									.fixedAssetsNewFixedAsset();
-							action.run(data, true);
-						}
+						Action action = ActionFactory
+								.getDiposingRegisteredItemAction();
+						action.catagory = messages.fixedAssetsNewFixedAsset();
+						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
@@ -1096,6 +1090,12 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		});
 		buttonBar.add(registerButton, HasHorizontalAlignment.ALIGN_RIGHT);
 		this.cancelButton = new CancelButton(this);
+		cancelButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+			}
+		});
 		buttonBar.add(this.cancelButton, HasHorizontalAlignment.ALIGN_RIGHT);
 	}
 
