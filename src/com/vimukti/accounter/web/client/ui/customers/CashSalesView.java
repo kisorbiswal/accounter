@@ -760,7 +760,7 @@ public class CashSalesView extends
 				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany company = getCompany();
-
+			initTransactionsItems();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			customerSelected(this.customer);
 			if (this.getCustomer() != null) {
