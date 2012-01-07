@@ -8,7 +8,7 @@ public class ClientWriteCheck extends ClientTransaction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int TYPE_CUSTOMER = 1;
 	public static final int TYPE_VENDOR = 2;
 	public static final int TYPE_TAX_AGENCY = 4;
@@ -37,6 +37,8 @@ public class ClientWriteCheck extends ClientTransaction {
 	String inWords;
 
 	String checkNumber = ClientWriteCheck.IS_TO_BE_PRINTED;
+
+	String inFavourOf;
 
 	/**
 	 * @return the version
@@ -84,7 +86,6 @@ public class ClientWriteCheck extends ClientTransaction {
 	public void setBankAccount(long bankAccountId) {
 		this.bankAccount = bankAccountId;
 	}
-
 
 	/**
 	 * @return the customer
@@ -242,7 +243,6 @@ public class ClientWriteCheck extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.WRITECHECK;
@@ -251,5 +251,13 @@ public class ClientWriteCheck extends ClientTransaction {
 	public ClientWriteCheck clone() {
 		ClientWriteCheck writeCheck = (ClientWriteCheck) this.clone();
 		return writeCheck;
+	}
+
+	public String getInFavourOf() {
+		return inFavourOf;
+	}
+
+	public void setInFavourOf(String inFavourOf) {
+		this.inFavourOf = inFavourOf;
 	}
 }
