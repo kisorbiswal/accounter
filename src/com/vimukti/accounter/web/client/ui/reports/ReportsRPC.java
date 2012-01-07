@@ -388,6 +388,9 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			ActionFactory.CreditCardExpenseAction().run(transaction, false);
 			break;
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			ActionFactory.getNewJournalEntryAction().run(transaction, false);
+			break;
 
 		}
 	}
