@@ -703,8 +703,9 @@ public class AccounterNumberFormat {
 	 */
 	public String format(double number, String currencyCode) {
 		String string = this.format(number);
-		return string.replaceAll("\u00A4", currencyCode == null ? ""
-				: quoteReplacement(currencyCode));
+		return string.replaceAll("\u00A4",
+				currencyCode == null ? "" : quoteReplacement(currencyCode))
+				.trim();
 	}
 
 	public static String quoteReplacement(String s) {
