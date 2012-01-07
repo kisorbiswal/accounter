@@ -79,10 +79,6 @@ public class StockAdjustmentQuantityColumn extends
 					.getMeasurement(item.getMeasurement());
 			unitBox.initCombo(measurement.getUnits());
 			itemUnit = measurement.getDefaultUnit();
-		}
-		if (unit != null) {
-			unitBox.setComboItem(unit);
-		} else {
 			unitBox.setComboItem(itemUnit);
 		}
 		unitBox.setShowTitle(false);
@@ -114,7 +110,7 @@ public class StockAdjustmentQuantityColumn extends
 				getTable().update(row);
 			}
 		});
-		Widget widget = getTable().getWidget(row,this);
+		Widget widget = getTable().getWidget(row, this);
 		popup.setAutoHideEnabled(true);
 		popup.showRelativeTo(widget);
 	}
