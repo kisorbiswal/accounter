@@ -62,8 +62,8 @@ public class GovTalkMessage {
 		element.setAttribute("xmlns", "http://www.govtalk.gov.uk/CM/envelope");
 
 		if (envelopVersion != null) {
-			XMLElement envelopElement = new XMLElement("EnvelopVersion",
-					envelopVersion);
+			XMLElement envelopElement = new XMLElement("EnvelopVersion");
+			envelopElement.setContent(envelopVersion);
 			element.addChild(envelopElement);
 		}
 		if (header != null) {
