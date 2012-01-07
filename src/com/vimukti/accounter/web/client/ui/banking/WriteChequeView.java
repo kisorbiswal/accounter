@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
+import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class WriteChequeView extends
 		AbstractBankTransactionView<ClientWriteCheck> {
@@ -64,6 +65,7 @@ public class WriteChequeView extends
 	private PayFromAccountsCombo bankAccSelect;
 
 	private PayeeCombo paytoSelect;
+	private TextItem inFavourOf;
 	private AmountField balText, amtText;
 	private DynamicForm bankAccForm;
 
@@ -591,6 +593,8 @@ public class WriteChequeView extends
 		// Setting Type of the write check
 		transaction.setType(ClientTransaction.TYPE_WRITE_CHECK);
 
+		transaction.setInFavourOf(inFavourOf.getValue());
+
 		transaction.setCheckNumber(checkNo);
 
 		transaction.setTransactionDate(transactionDate.getDate());
@@ -758,13 +762,17 @@ public class WriteChequeView extends
 					@Override
 					public void selectedComboBoxItem(ClientPayee selectItem) {
 						amtText.setValue("0.00");
+						inFavourOf.setValue("");
+						inFavourOf.setValue(selectItem.getName());
+						inFavourOf.setDisabled(true);
 						if (payee != null) {
 
 							transactionVendorAccountTable.resetRecords();
 							transaction
 									.setTransactionItems(transactionVendorAccountTable
 											.getRecords());
-							if (taxCodeSelect.getSelectedValue() != null) {
+							if (taxCodeSelect != null
+									&& taxCodeSelect.getSelectedValue() != null) {
 								transactionVendorAccountTable.setTaxCode(
 										taxCodeSelect.getSelectedValue()
 												.getID(), true);
@@ -797,7 +805,6 @@ public class WriteChequeView extends
 					}
 
 				});
-
 		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
 		amtText.setWidth(100);
 		amtText.setAmount(0.00);
@@ -831,7 +838,10 @@ public class WriteChequeView extends
 
 		payForm = new DynamicForm();
 		// payForm.setWidth("100%");
-		payForm.setFields(paytoSelect, amtText);
+		inFavourOf = new TextItem(messages.payeeName(messages.payee()));
+		inFavourOf.setRequired(true);
+		inFavourOf.setDisabled(isInViewMode());
+		payForm.setFields(paytoSelect, inFavourOf, amtText);
 		// payForm.getCellFormatter().setWidth(0, 0, "170px");
 
 		currencyWidget = createCurrencyFactorWidget();
@@ -1416,6 +1426,7 @@ public class WriteChequeView extends
 		date.setDisabled(isInViewMode());
 		paytoSelect.setDisabled(isInViewMode());
 		// billToCombo.setDisabled(isInViewMode());
+		inFavourOf.setDisabled(isInViewMode());
 		amtText.setDisabled(isInViewMode());
 		toprintCheck.setDisabled(isInViewMode());
 		bankAccSelect.setDisabled(isInViewMode());
@@ -1556,6 +1567,7 @@ public class WriteChequeView extends
 		initBankaccountCombo();
 		updateAddressAndGrid();
 		amtText.setAmount(transaction.getAmount());
+		inFavourOf.setValue(transaction.getInFavourOf());
 		if (transaction.getAmount() != 0) {
 			validateAmountAndTotal();
 		}
