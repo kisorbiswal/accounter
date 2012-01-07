@@ -135,16 +135,22 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				public void onChange(ChangeEvent event) {
 					selectedOption = assetOptions.getValue().toString();
 					if (selectedOption.equalsIgnoreCase(messages.sell())) {
-						Action action = ActionFactory
-								.getSellingRegisteredItemAction();
-						action.catagory = messages.fixedAssetsNewFixedAsset();
-						action.run(data, true);
+						if (isInViewMode()) {
+							Action action = ActionFactory
+									.getSellingRegisteredItemAction();
+							action.catagory = messages
+									.fixedAssetsNewFixedAsset();
+							action.run(data, true);
+						}
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.dispose())) {
-						Action action = ActionFactory
-								.getDiposingRegisteredItemAction();
-						action.catagory = messages.fixedAssetsNewFixedAsset();
-						action.run(data, true);
+						if (isInViewMode()) {
+							Action action = ActionFactory
+									.getDiposingRegisteredItemAction();
+							action.catagory = messages
+									.fixedAssetsNewFixedAsset();
+							action.run(data, true);
+						}
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.showHistory())) {
 						Action action = ActionFactory.getHistoryListAction();
