@@ -161,11 +161,13 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 					&& countryPreferences.isVatAvailable()) {
 				List<VATDetail> vatDetails = new ArrayList<VATDetail>();
 				vatDetails = getVATDetailsByBoxes(obj);
-				VATDetail vatDetail = new VATDetail();
-				vatDetail.setStartDate(new ClientFinanceDate(obj
-						.getPeriodStartDate()));
-				vatDetail.setEndDate(new ClientFinanceDate(obj
-						.getPeriodEndDate()));
+				for (VATDetail detail : vatDetails) {
+					detail.setStartDate(new ClientFinanceDate(obj
+							.getPeriodStartDate()));
+					detail.setEndDate(new ClientFinanceDate(obj
+							.getPeriodEndDate()));
+				}
+
 				ActionFactory.getVATExceptionDetailsReportAction().run(
 						vatDetails, true);
 			} else {
