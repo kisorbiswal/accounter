@@ -847,6 +847,7 @@
 		<joined-subclass name="WriteCheck" table="WRITE_CHECKS">
 			<key column="ID" />
 			<property name="payToType" column="PAY_TO_TYPE"></property>
+			<property name="inFavourOf" column="IN_FAVOUR_OF"></property>
 			<many-to-one name="bankAccount" class="Account" cascade="save-update"
 				column="ACCOUNT_ID">
 			</many-to-one>

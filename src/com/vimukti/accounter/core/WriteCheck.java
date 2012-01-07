@@ -86,6 +86,8 @@ public class WriteCheck extends Transaction {
 	 */
 	String checkNumber = WriteCheck.IS_TO_BE_PRINTED;
 
+	String inFavourOf;
+
 	//
 
 	/**
@@ -418,5 +420,13 @@ public class WriteCheck extends Transaction {
 			valid = false;
 		}
 		return valid;
+	}
+
+	public String getInFavourOf() {
+		return inFavourOf;
+	}
+
+	public void setInFavourOf(String inFavourOf) {
+		this.inFavourOf = inFavourOf;
 	}
 }
