@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -314,12 +316,8 @@ public class JournalViewDialog extends BaseDialog {
 	 * Combo or not
 	 */
 	private boolean isComboname(String keyvalue) {
-		String[] combonames = getComboNames();
-		for (String value : combonames) {
-			if (value.equals(keyvalue))
-				return true;
-		}
-		return false;
+		List<String> combonames = Arrays.asList(getComboNames());
+		return combonames.indexOf(keyvalue) > -1;
 	}
 
 	/**
