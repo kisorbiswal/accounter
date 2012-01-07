@@ -110,7 +110,7 @@ public class AuditHistoryItem extends SimplePanel {
 								continue;
 							}
 							// int nextId = 0;
-							for (int w = 0; w < item.size(); w++) {
+							for (int w = 0; w < columns.size(); w++) {
 								String columnName = columns.get(w);
 								// JSONObject subObj = item.get(w).isObject();
 								JSONObject subObj = getObjectByColumnName(
@@ -198,10 +198,11 @@ public class AuditHistoryItem extends SimplePanel {
 			for (int i = 0; i < array.size(); i++) {
 				JSONObject object = array.get(i).isObject();
 				String key = getKey(object);
-				if (key.equals(columnName)) {
-					return object;
+				if (key != null) {
+					if (key.equals(columnName)) {
+						return object;
+					}
 				}
-
 			}
 		} else {
 			return jsonValue.isObject();
@@ -227,7 +228,7 @@ public class AuditHistoryItem extends SimplePanel {
 
 	private String getKey(JSONValue value) {
 		JSONObject obj = value.isObject();
-		if (obj == null) {
+		if ((obj == null) && (obj.isNull() == null)) {
 			// We don't know what to do if it is not object
 			return null;
 		}
