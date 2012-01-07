@@ -39,7 +39,7 @@ public class MessageDetails {
 	/**
 	 * Element cardinality 0..1
 	 */
-	private int gatewayTest = 800;
+	private Integer gatewayTest = 800;
 	/**
 	 * Element cardinality 0..1
 	 */
@@ -117,7 +117,7 @@ public class MessageDetails {
 		return gatewayTest;
 	}
 
-	public void setGatewayTest(int gatewayTest) {
+	public void setGatewayTest(Integer gatewayTest) {
 		this.gatewayTest = gatewayTest;
 	}
 
@@ -167,7 +167,7 @@ public class MessageDetails {
 					transformation);
 			messageDetailselement.addChild(transformationElement);
 		}
-		if (gatewayTest != 0) {
+		if (gatewayTest != null) {
 			XMLElement gateWayTestElement = new XMLElement("GatewayTest",
 					Integer.toString(gatewayTest));
 			messageDetailselement.addChild(gateWayTestElement);
