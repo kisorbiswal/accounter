@@ -987,8 +987,7 @@
 		CASE WHEN T.T_TYPE = 15
 		THEN WC.IN_FAVOUR_OF
 		WHEN T.T_TYPE = 17
-		THEN 'TaxAgency
-		Payment'
+		THEN 'Tax Agency Payment'
 		WHEN T.T_TYPE = 25
 		THEN 'VAT Agency Payment'
 		WHEN T.T_TYPE=11
