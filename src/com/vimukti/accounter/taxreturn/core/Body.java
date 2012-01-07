@@ -15,11 +15,9 @@ public class Body {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement bodyElement;
+		XMLElement bodyElement = new XMLElement("Body");
 		if (value != null) {
-			bodyElement = new XMLElement("Body", value);
-		} else {
-			bodyElement = new XMLElement("Body");
+			bodyElement.setContent(value);
 		}
 		return bodyElement;
 	}

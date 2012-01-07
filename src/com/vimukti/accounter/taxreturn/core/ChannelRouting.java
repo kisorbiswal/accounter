@@ -18,7 +18,7 @@ public class ChannelRouting {
 	/**
 	 * 1..1
 	 */
-	private String timestamp = "Date and time";
+	private String timestamp;
 
 	public ChannelRouting() {
 		getiDs().add(new ID());
@@ -59,7 +59,8 @@ public class ChannelRouting {
 			}
 		}
 		if (timestamp != null) {
-			XMLElement timestampElement = new XMLElement("Timestamp", timestamp);
+			XMLElement timestampElement = new XMLElement("Timestamp");
+			timestampElement.setContent(timestamp);
 			channelRoutingElement.addChild(timestampElement);
 		}
 		return channelRoutingElement;

@@ -11,12 +11,12 @@ public class Authentication {
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String role = "Role";
+	private String role;
 
 	/**
 	 * choice 1 Element cardinality 1..1
 	 */
-	private String value = "Value";
+	private String value;
 	/**
 	 * choice 1 Element cardinality 1..1
 	 */
@@ -59,17 +59,20 @@ public class Authentication {
 		XMLElement authenticationElement = new XMLElement("Authentication");
 
 		if (method != null) {
-			XMLElement methodElement = new XMLElement("Method", method);
+			XMLElement methodElement = new XMLElement("Method");
+			methodElement.setContent(method);
 			authenticationElement.addChild(methodElement);
 		}
 
 		if (role != null) {
-			XMLElement roleElement = new XMLElement("Role", role);
+			XMLElement roleElement = new XMLElement("Role");
+			roleElement.setContent(role);
 			authenticationElement.addChild(roleElement);
 		}
 
 		if (value != null) {
-			XMLElement valueElement = new XMLElement("Value", value);
+			XMLElement valueElement = new XMLElement("Value");
+			valueElement.setContent(value);
 			authenticationElement.addChild(valueElement);
 		}
 		if (signature != null) {

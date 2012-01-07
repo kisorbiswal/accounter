@@ -4,8 +4,8 @@ import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
 
 public class GatewayAdditions {
-	private String value = "GatewayAdditions Value";
-	private String type = "Gateway Addition Type";
+	private String value;
+	private String type;
 
 	public String getValue() {
 		return value;
@@ -24,11 +24,10 @@ public class GatewayAdditions {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement gatewayAdditions;
+		XMLElement gatewayAdditions = new XMLElement("GatewayAdditions");
 		if (value != null) {
-			gatewayAdditions = new XMLElement("GatewayAdditions", value);
-		} else {
-			gatewayAdditions = new XMLElement("GatewayAdditions");
+			gatewayAdditions.setContent(value);
+
 		}
 		if (type != null) {
 			gatewayAdditions.setAttribute("type", type);

@@ -4,9 +4,9 @@ import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
 
 public class ResponseEndPoint {
-	private String value = "Response End Point Value";
+	private String value;
 
-	private String pollInterval = "Poll Interval";
+	private String pollInterval;
 
 	public String getValue() {
 		return value;
@@ -25,8 +25,10 @@ public class ResponseEndPoint {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement responseEndPointElement = new XMLElement("ResponseEndPoint",
-				value);
+		XMLElement responseEndPointElement = new XMLElement("ResponseEndPoint");
+		if (value != null) {
+			responseEndPointElement.setContent(value);
+		}
 		if (pollInterval != null) {
 			responseEndPointElement.setAttribute("PollInterval", pollInterval);
 		}

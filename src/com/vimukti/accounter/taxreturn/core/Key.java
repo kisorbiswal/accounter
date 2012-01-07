@@ -5,9 +5,9 @@ import net.n3.nanoxml.XMLElement;
 
 public class Key {
 
-	private String value = "Value";
+	private String value;
 
-	private String type = "Type";
+	private String type;
 
 	public String getValue() {
 		return value;
@@ -26,11 +26,9 @@ public class Key {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement keyElement;
+		XMLElement keyElement = new XMLElement("Key");
 		if (value != null) {
-			keyElement = new XMLElement("Key", value);
-		} else {
-			keyElement = new XMLElement("Key");
+			keyElement.setContent(value);
 		}
 		if (type != null) {
 			keyElement.setAttribute("Type", type);

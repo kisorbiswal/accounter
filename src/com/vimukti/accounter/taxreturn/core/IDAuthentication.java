@@ -10,7 +10,7 @@ public class IDAuthentication {
 	/**
 	 * Element cardinality 1..1
 	 */
-	private String senderId = "Sender ID";
+	private String senderId ;
 	/**
 	 * Element cardinality 1..∞
 	 */
@@ -39,7 +39,8 @@ public class IDAuthentication {
 	public IXMLElement toXML() {
 		XMLElement iDAuthenticationElement = new XMLElement("IDAuthentication");
 		if (senderId != null) {
-			XMLElement senderIdElement = new XMLElement("SenderId", senderId);
+			XMLElement senderIdElement = new XMLElement("SenderId");
+			senderIdElement.setContent(senderId);
 			iDAuthenticationElement.addChild(senderIdElement);
 		}
 		if (authentications != null) {

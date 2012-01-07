@@ -10,15 +10,15 @@ public class GovTalkError {
 	/**
 	 * 1..1
 	 */
-	private String raisedBy = "Raised By";
+	private String raisedBy;
 	/**
 	 * 0..1
 	 */
-	private int number = 22;
+	private int number;
 	/**
 	 * 1..1
 	 */
-	private String type = "Gov Talk Error Type";
+	private String type;
 	/**
 	 * 0..∞
 	 */
@@ -29,8 +29,6 @@ public class GovTalkError {
 	private List<String> locations = new ArrayList<String>();
 
 	public GovTalkError() {
-		getTexts().add("Gov Talk Error Text");
-		getLocations().add("Gov Talk Error Location");
 	}
 
 	public String getRaisedBy() {
@@ -76,28 +74,31 @@ public class GovTalkError {
 	public IXMLElement toXML() {
 		XMLElement govTalkErrorElement = new XMLElement("GovTalkError");
 		if (raisedBy != null) {
-			XMLElement raisedByElement = new XMLElement("RaisedBy", raisedBy);
+			XMLElement raisedByElement = new XMLElement("RaisedBy");
+			raisedByElement.setContent(raisedBy);
 			govTalkErrorElement.addChild(raisedByElement);
 		}
 		if (number != 0) {
-			XMLElement numberElement = new XMLElement("Number",
-					Integer.toString(number));
+			XMLElement numberElement = new XMLElement("Number");
+			numberElement.setContent(Integer.toString(number));
 			govTalkErrorElement.addChild(numberElement);
 		}
 		if (type != null) {
-			XMLElement typeElement = new XMLElement("Type", type);
+			XMLElement typeElement = new XMLElement("Type");
+			typeElement.setContent(type);
 			govTalkErrorElement.addChild(typeElement);
 		}
 		if (texts != null) {
 			for (String text : texts) {
-				XMLElement textElement = new XMLElement("Text", text);
+				XMLElement textElement = new XMLElement("Text");
+				textElement.setContent(text);
 				govTalkErrorElement.addChild(textElement);
 			}
 		}
 		if (locations != null) {
 			for (String location : locations) {
-				XMLElement locationElement = new XMLElement("Location",
-						location);
+				XMLElement locationElement = new XMLElement("Location");
+				locationElement.setContent(location);
 				govTalkErrorElement.addChild(locationElement);
 			}
 		}

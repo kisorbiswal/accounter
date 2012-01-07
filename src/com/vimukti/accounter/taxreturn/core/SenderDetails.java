@@ -11,11 +11,11 @@ public class SenderDetails {
 	/**
 	 * Element cardinality 0..1
 	 */
-	private long x509Certificate = 988764;
+	private long x509Certificate;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String emailAddress = "***REMOVED***";
+	private String emailAddress;
 
 	public IDAuthentication getiDAuthentication() {
 		return iDAuthentication;
@@ -49,15 +49,16 @@ public class SenderDetails {
 		}
 		if (x509Certificate != 0) {
 			XMLElement x509CertificateElement = new XMLElement(
-					"x509Certificate", Long.toString(x509Certificate));
+					"x509Certificate");
+			x509CertificateElement.setContent(Long.toString(x509Certificate));
 			senderDatailsElement.addChild(x509CertificateElement);
 		}
 		if (emailAddress != null) {
-			XMLElement emailAddressElement = new XMLElement("EmailAddress",
-					emailAddress);
+			XMLElement emailAddressElement = new XMLElement("EmailAddress");
+			emailAddressElement.setContent(emailAddress);
 			senderDatailsElement.addChild(emailAddressElement);
 		}
-		
+
 		return senderDatailsElement;
 	}
 }

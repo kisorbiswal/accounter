@@ -7,27 +7,27 @@ public class MessageDetails {
 	/**
 	 * UnicodeNameString Element cardinality 1..1
 	 */
-	private String clazz = "messageDetails Class";
+	private String clazz;
 	/**
 	 * Element cardinality 1..1
 	 */
-	private String qualifier = "Qualifier";
+	private String qualifier;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String function = "function";
+	private String function;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String transactionID = "Transaction_ID";
+	private String transactionID;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String auditID = "Audit_ID";
+	private String auditID;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String correlationID = "Correlation_ID";
+	private String correlationID;
 	/**
 	 * Element cardinality 0..1 PollInterval?
 	 */
@@ -35,15 +35,15 @@ public class MessageDetails {
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String transformation = "Transformation";
+	private String transformation;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private Integer gatewayTest = 800;
+	private Integer gatewayTest;
 	/**
 	 * Element cardinality 0..1
 	 */
-	private String gatewayTimestamp = "Date And Time";
+	private String gatewayTimestamp;
 
 	public MessageDetails() {
 
@@ -133,48 +133,53 @@ public class MessageDetails {
 		XMLElement messageDetailselement = new XMLElement("MessageDetails");
 
 		if (clazz != null) {
-			XMLElement classElement = new XMLElement("Class", clazz);
+			XMLElement classElement = new XMLElement("Class");
+			classElement.setContent(clazz);
 			messageDetailselement.addChild(classElement);
 		}
 		if (qualifier != null) {
-			XMLElement qualifierElement = new XMLElement("Qualifier", qualifier);
+			XMLElement qualifierElement = new XMLElement("Qualifier");
+			qualifierElement.setContent(qualifier);
 			messageDetailselement.addChild(qualifierElement);
 		}
 		if (function != null) {
-			XMLElement functionElement = new XMLElement("Function", function);
+			XMLElement functionElement = new XMLElement("Function");
+			functionElement.setContent(function);
 			messageDetailselement.addChild(functionElement);
 		}
 		if (transactionID != null) {
-			XMLElement transactionIdElement = new XMLElement("TransactionID",
-					transactionID);
+			XMLElement transactionIdElement = new XMLElement("TransactionID");
+			transactionIdElement.setContent(transactionID);
 			messageDetailselement.addChild(transactionIdElement);
 		}
 		if (auditID != null) {
-			XMLElement auditIDElement = new XMLElement("AuditID", auditID);
+			XMLElement auditIDElement = new XMLElement("AuditID");
+			auditIDElement.setContent(auditID);
 			messageDetailselement.addChild(auditIDElement);
 		}
 
 		if (correlationID != null) {
-			XMLElement correlationIDElement = new XMLElement("CorrelationID",
-					correlationID);
+			XMLElement correlationIDElement = new XMLElement("CorrelationID");
+			correlationIDElement.setContent(correlationID);
 			messageDetailselement.addChild(correlationIDElement);
 		}
 		if (responseEndPoint != null) {
 			messageDetailselement.addChild(responseEndPoint.toXML());
 		}
 		if (transformation != null) {
-			XMLElement transformationElement = new XMLElement("Transformation",
-					transformation);
+			XMLElement transformationElement = new XMLElement("Transformation");
+			transformationElement.setContent(transformation);
 			messageDetailselement.addChild(transformationElement);
 		}
 		if (gatewayTest != null) {
-			XMLElement gateWayTestElement = new XMLElement("GatewayTest",
-					Integer.toString(gatewayTest));
+			XMLElement gateWayTestElement = new XMLElement("GatewayTest");
+			gateWayTestElement.setContent(Integer.toString(gatewayTest));
 			messageDetailselement.addChild(gateWayTestElement);
 		}
 		if (gatewayTimestamp != null) {
 			XMLElement gatewayTimeStampElement = new XMLElement(
-					"GatewayTimestamp", gatewayTimestamp);
+					"GatewayTimestamp");
+			gatewayTimeStampElement.setContent(gatewayTimestamp);
 			messageDetailselement.addChild(gatewayTimeStampElement);
 		}
 		return messageDetailselement;

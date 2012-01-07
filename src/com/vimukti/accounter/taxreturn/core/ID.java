@@ -4,8 +4,8 @@ import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
 
 public class ID {
-	private String value = "ID Value";
-	private String type = "ID Type";
+	private String value;
+	private String type;
 
 	public String getValue() {
 		return value;
@@ -25,11 +25,9 @@ public class ID {
 
 	public IXMLElement toXML() {
 
-		XMLElement idElement;
+		XMLElement idElement = new XMLElement("ID");
 		if (value != null) {
-			idElement = new XMLElement("ID", value);
-		} else {
-			idElement = new XMLElement("ID");
+			idElement.setContent(value);
 		}
 		if (type != null) {
 			idElement.setAttribute("Type", type);

@@ -7,11 +7,11 @@ public class GatewayValidation {
 	/**
 	 * 1..1
 	 */
-	private String processed = "Processed";
+	private String processed;
 	/**
 	 * 1..1
 	 */
-	private String result = "result";
+	private String result;
 
 	public String getProcessed() {
 		return processed;
@@ -33,11 +33,13 @@ public class GatewayValidation {
 		XMLElement gatewayValidationElement = new XMLElement(
 				"GatewayValidation");
 		if (processed != null) {
-			XMLElement processedElement = new XMLElement("Processed", processed);
+			XMLElement processedElement = new XMLElement("Processed");
+			processedElement.setContent(processed);
 			gatewayValidationElement.addChild(processedElement);
 		}
 		if (result != null) {
-			XMLElement resultElement = new XMLElement("Result", result);
+			XMLElement resultElement = new XMLElement("Result");
+			resultElement.setContent(result);
 			gatewayValidationElement.addChild(resultElement);
 		}
 		return gatewayValidationElement;

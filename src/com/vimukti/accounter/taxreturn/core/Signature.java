@@ -16,11 +16,9 @@ public class Signature {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement signatureElement;
+		XMLElement signatureElement = new XMLElement("Signature");
 		if (value != null) {
-			signatureElement = new XMLElement("Signature", value);
-		} else {
-			signatureElement = new XMLElement("Signature");
+			signatureElement.setContent(value);
 		}
 		return signatureElement;
 	}
