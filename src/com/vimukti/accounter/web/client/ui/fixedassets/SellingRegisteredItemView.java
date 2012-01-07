@@ -198,12 +198,13 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 			@Override
 			public boolean onOK() {
 				okClicked();
+				changeButtonBarMode(false);
 				return true;
 			}
 
 			@Override
 			public void onCancel() {
-				// Accounter.stopExecution();
+				changeButtonBarMode(false);
 			}
 		});
 	}
