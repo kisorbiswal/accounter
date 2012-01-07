@@ -715,4 +715,16 @@
 		<url-pattern>/translate/upload</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>EmailActivationServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.EmailActivateServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmailActivationServlet </servlet-name>
+		<url-pattern>/main/emailActivation</url-pattern>
+	</servlet-mapping>
+
 </web-app>
