@@ -5244,4 +5244,6 @@ public interface AccounterMessages extends Messages {
 
 	public String bankStatements();
 
+	public String fileTAXReturn();
+
 }
