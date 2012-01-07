@@ -20,6 +20,15 @@
 				document.location = '/main/companies' + '?' + $.param(params);
 			});
 		};
+		function createCompany(){
+			$(document).ready(function() {
+				var params= {
+					isTouch: touchDeviceTest(),
+					create:true
+				};
+				document.location = '/main/companies'+'?'+ $.param(params);
+			});
+		};
 		function touchDeviceTest() {
 			var el = document.createElement('div');
 			el.setAttribute('ongesturestart', 'return;');
@@ -46,7 +55,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-      	<div> <a href="/main/companies?create=true" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
+      	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	<ul><li>
 	    <c:if test="${companeyList != null}">
 		   <c:forEach var="company" items="${companeyList}">
