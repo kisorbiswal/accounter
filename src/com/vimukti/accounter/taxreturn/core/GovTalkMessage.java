@@ -1,7 +1,6 @@
 package com.vimukti.accounter.taxreturn.core;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.OutputStream;
 
 import net.n3.nanoxml.XMLElement;
 import net.n3.nanoxml.XMLWriter;
@@ -10,7 +9,7 @@ public class GovTalkMessage {
 	/**
 	 * Element cardinality 1..1
 	 */
-	private String envelopVersion = "Envelop Version";
+	private String envelopVersion;
 	/**
 	 * Element cardinality 1..1
 	 */
@@ -56,8 +55,7 @@ public class GovTalkMessage {
 		this.body = body;
 	}
 
-	public String toXML(boolean body) throws Exception {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+	public void toXML(OutputStream stream, boolean body) throws Exception {
 		XMLWriter writer = new XMLWriter(stream);
 
 		XMLElement element = new XMLElement("GovTalkMessage");
@@ -75,7 +73,8 @@ public class GovTalkMessage {
 			element.addChild(new XMLElement("Body"));
 		}
 		writer.write(element);
-		return writer.toString();
+		stream.flush();
+		stream.close();
 	}
 
 }
