@@ -24,6 +24,7 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsEntry;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
@@ -556,9 +557,10 @@ public class FixedAssestManager extends Manager {
 		String lessAccoummulatedDepreciation = fixedAsset
 				.getLinkedAccumulatedDepreciatedAccountName();
 		String salesAccount = fixedAsset.getSalesAccountName();
-		String totalCapitalGainString = "Total Capital Gain";
-		String gainOnDisposal = "Gain on disposal";
-		String lossOnDisposal = "Loss on disposal";
+		String totalCapitalGainString = Global.get().messages()
+				.totalCapitalGain();
+		String gainOnDisposal = Global.get().messages().gainOnDisposal();
+		String lossOnDisposal = Global.get().messages().lossOnDisposal();
 
 		double salesPrice = fixedAsset.getSalesPrice();
 		double purchasePrice = fixedAsset.getPurchasePrice();
