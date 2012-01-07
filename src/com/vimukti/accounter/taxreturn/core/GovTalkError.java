@@ -22,11 +22,28 @@ public class GovTalkError {
 	/**
 	 * 0..∞
 	 */
-	private List<String> texts = new ArrayList<String>();
+	private String text;
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	/**
 	 * 0..∞
 	 */
-	private List<String> locations = new ArrayList<String>();
+	private String location;
 
 	public GovTalkError() {
 	}
@@ -55,22 +72,6 @@ public class GovTalkError {
 		this.type = type;
 	}
 
-	public List<String> getTexts() {
-		return texts;
-	}
-
-	public void setTexts(List<String> texts) {
-		this.texts = texts;
-	}
-
-	public List<String> getLocations() {
-		return locations;
-	}
-
-	public void setLocations(List<String> locations) {
-		this.locations = locations;
-	}
-
 	public IXMLElement toXML() {
 		XMLElement govTalkErrorElement = new XMLElement("GovTalkError");
 		if (raisedBy != null) {
@@ -88,19 +89,15 @@ public class GovTalkError {
 			typeElement.setContent(type);
 			govTalkErrorElement.addChild(typeElement);
 		}
-		if (texts != null) {
-			for (String text : texts) {
-				XMLElement textElement = new XMLElement("Text");
-				textElement.setContent(text);
-				govTalkErrorElement.addChild(textElement);
-			}
+		if (text != null) {
+			XMLElement textElement = new XMLElement("Text");
+			textElement.setContent(text);
+			govTalkErrorElement.addChild(textElement);
 		}
-		if (locations != null) {
-			for (String location : locations) {
-				XMLElement locationElement = new XMLElement("Location");
-				locationElement.setContent(location);
-				govTalkErrorElement.addChild(locationElement);
-			}
+		if (location != null) {
+			XMLElement locationElement = new XMLElement("Location");
+			locationElement.setContent(location);
+			govTalkErrorElement.addChild(locationElement);
 		}
 		return govTalkErrorElement;
 	}
