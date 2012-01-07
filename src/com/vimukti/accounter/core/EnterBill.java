@@ -1052,6 +1052,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate.setDeliveryDate(new FinanceDate());
 					estimate.setNumber(NumberUtils.getNextTransactionNumber(
 							Transaction.TYPE_ESTIMATE, getCompany()));
+					estimate.setAmountsIncludeVAT(isAmountsIncludeVAT());
 				}
 				List<TransactionItem> transactionItems2 = estimate
 						.getTransactionItems();

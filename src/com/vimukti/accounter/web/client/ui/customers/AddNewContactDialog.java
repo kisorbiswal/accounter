@@ -138,4 +138,9 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 		nameItem.setFocus();
 
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

@@ -686,6 +686,7 @@ public abstract class TransactionReceivePaymentTable extends
 						updatePayment(selectedObject);
 						recalculateGridAmounts();
 						update(selectedObject);
+						setUnUsedCreditsTextAmount(newAppliedCreditsDialiog.totalBalances);
 						return false;
 					}
 
@@ -699,6 +700,8 @@ public abstract class TransactionReceivePaymentTable extends
 		newAppliedCreditsDialiog.show();
 
 	}
+
+	protected abstract void setUnUsedCreditsTextAmount(Double totalBalances);
 
 	public void revertCredits() {
 		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {

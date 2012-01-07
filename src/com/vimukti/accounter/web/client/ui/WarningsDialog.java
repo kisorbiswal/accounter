@@ -76,4 +76,9 @@ public class WarningsDialog extends AccounterDialog implements
 		return true;
 	}
 
+	@Override
+	protected boolean onCancel() {
+		warningHandler.onCancelClick();
+		return true;
+	}
 }

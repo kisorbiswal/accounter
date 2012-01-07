@@ -478,15 +478,6 @@
 		=:status
 	</query>
 
-	<query name="getPayVAT.form.accountId.and.status">
-		<query-param name="accountId" type="long" />
-		<query-param name="status" type="int" />
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.PayTAX pv where pv.company=:company
-		and pv.payFrom.id =:accountId and pv.saveStatus!=204 and pv.status
-		=:status
-	</query>
-
 	<query name="getReceiveVAT.form.accountId.and.status">
 		<query-param name="accountId" type="long" />
 		<query-param name="status" type="int" />
@@ -982,7 +973,7 @@
 		cr.company=:company
 	</query>
 
-	<query name="getPaySalesTax.by.payFromand.isvoid.status">
+	<query name="getPayTax.by.payFromand.isvoid.status">
 		<query-param name="id" type="long" />
 		<query-param name="status" type="int" />
 		<query-param name="company" type="Company" />

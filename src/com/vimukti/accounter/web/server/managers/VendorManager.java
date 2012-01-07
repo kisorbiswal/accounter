@@ -542,7 +542,7 @@ public class VendorManager extends Manager {
 			}
 
 			query = session
-					.getNamedQuery("getPaySalesTax.by.payFromand.isvoid.status")
+					.getNamedQuery("getPayTax.by.payFromand.isvoid.status")
 					.setParameter("id", accountId)
 					.setParameter(
 							"status",
@@ -594,34 +594,6 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setMemo(pst.getMemo());
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
-							.getPaymentMethod());
-
-					issuePaymentTransactionsList.add(issuePaymentTransaction);
-
-				}
-			}
-			query = session
-					.getNamedQuery("getPayVAT.form.accountId.and.status")
-					.setParameter("accountId", accountId)
-					.setParameter(
-							"status",
-							Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED)
-					.setEntity("company", company);
-			list = query.list();
-			if (list != null) {
-				Iterator i = list.iterator();
-				while (i.hasNext()) {
-					IssuePaymentTransactionsList issuePaymentTransaction = new IssuePaymentTransactionsList();
-					PayTAX pv = (PayTAX) i.next();
-					issuePaymentTransaction.setTransactionId(pv.getID());
-					issuePaymentTransaction.setType(pv.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pv.getDate().getDate()));
-					issuePaymentTransaction.setNumber(pv.getNumber());
-					issuePaymentTransaction.setName("VAT Agency Payment");
-					issuePaymentTransaction.setMemo(null);
-					issuePaymentTransaction.setAmount(pv.getTotal());
-					issuePaymentTransaction.setPaymentMethod(pv
 							.getPaymentMethod());
 
 					issuePaymentTransactionsList.add(issuePaymentTransaction);

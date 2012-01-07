@@ -424,6 +424,11 @@ public class ReceivePaymentView extends
 				ReceivePaymentView.this.calculateUnusedCredits();
 
 			}
+
+			@Override
+			protected void setUnUsedCreditsTextAmount(Double unUsedCredits) {
+				ReceivePaymentView.this.setUnUsedCredits(unUsedCredits);
+			}
 		};
 		gridView.setCustomer(this.getCustomer());
 		gridView.setDisabled(isInViewMode());
