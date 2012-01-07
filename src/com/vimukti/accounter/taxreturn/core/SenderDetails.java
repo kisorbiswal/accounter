@@ -40,19 +40,24 @@ public class SenderDetails {
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
-	
+
 	public IXMLElement toXML() {
+
 		XMLElement senderDatailsElement = new XMLElement("SenderDetails");
-
-		XMLElement x509CertificateElement = new XMLElement("x509Certificate",
-				Long.toString(getX509Certificate()));
-		XMLElement emailAddressElement = new XMLElement("EmailAddress",
-				getEmailAddress());
-
-		senderDatailsElement.addChild(getiDAuthentication().toXML());
-		senderDatailsElement.addChild(x509CertificateElement);
-		senderDatailsElement.addChild(emailAddressElement);
-
+		if (iDAuthentication != null) {
+			senderDatailsElement.addChild(iDAuthentication.toXML());
+		}
+		if (x509Certificate != 0) {
+			XMLElement x509CertificateElement = new XMLElement(
+					"x509Certificate", Long.toString(x509Certificate));
+			senderDatailsElement.addChild(x509CertificateElement);
+		}
+		if (emailAddress != null) {
+			XMLElement emailAddressElement = new XMLElement("EmailAddress",
+					emailAddress);
+			senderDatailsElement.addChild(emailAddressElement);
+		}
+		
 		return senderDatailsElement;
 	}
 }

@@ -38,14 +38,15 @@ public class IDAuthentication {
 
 	public IXMLElement toXML() {
 		XMLElement iDAuthenticationElement = new XMLElement("IDAuthentication");
-
-		XMLElement senderIdElement = new XMLElement("SenderId", getSenderId());
-
-		iDAuthenticationElement.addChild(senderIdElement);
-		for (Authentication authentication : getAuthentications()) {
-			iDAuthenticationElement.addChild(authentication.toXML());
+		if (senderId != null) {
+			XMLElement senderIdElement = new XMLElement("SenderId", senderId);
+			iDAuthenticationElement.addChild(senderIdElement);
 		}
-
+		if (authentications != null) {
+			for (Authentication authentication : authentications) {
+				iDAuthenticationElement.addChild(authentication.toXML());
+			}
+		}
 		return iDAuthenticationElement;
 	}
 }

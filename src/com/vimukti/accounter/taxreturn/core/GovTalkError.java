@@ -75,22 +75,31 @@ public class GovTalkError {
 
 	public IXMLElement toXML() {
 		XMLElement govTalkErrorElement = new XMLElement("GovTalkError");
-
-		XMLElement raisedByElement = new XMLElement("RaisedBy", raisedBy);
-		XMLElement numberElement = new XMLElement("Number",
-				Integer.toString(number));
-		XMLElement typeElement = new XMLElement("Type", type);
-
-		govTalkErrorElement.addChild(raisedByElement);
-		govTalkErrorElement.addChild(numberElement);
-		govTalkErrorElement.addChild(typeElement);
-		for (String text : texts) {
-			XMLElement textElement = new XMLElement("Text", text);
-			govTalkErrorElement.addChild(textElement);
+		if (raisedBy != null) {
+			XMLElement raisedByElement = new XMLElement("RaisedBy", raisedBy);
+			govTalkErrorElement.addChild(raisedByElement);
 		}
-		for (String location : locations) {
-			XMLElement locationElement = new XMLElement("Location", location);
-			govTalkErrorElement.addChild(locationElement);
+		if (number != 0) {
+			XMLElement numberElement = new XMLElement("Number",
+					Integer.toString(number));
+			govTalkErrorElement.addChild(numberElement);
+		}
+		if (type != null) {
+			XMLElement typeElement = new XMLElement("Type", type);
+			govTalkErrorElement.addChild(typeElement);
+		}
+		if (texts != null) {
+			for (String text : texts) {
+				XMLElement textElement = new XMLElement("Text", text);
+				govTalkErrorElement.addChild(textElement);
+			}
+		}
+		if (locations != null) {
+			for (String location : locations) {
+				XMLElement locationElement = new XMLElement("Location",
+						location);
+				govTalkErrorElement.addChild(locationElement);
+			}
 		}
 		return govTalkErrorElement;
 	}

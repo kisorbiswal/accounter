@@ -132,33 +132,51 @@ public class MessageDetails {
 	public IXMLElement toXML() {
 		XMLElement messageDetailselement = new XMLElement("MessageDetails");
 
-		XMLElement classElement = new XMLElement("Class", getClazz());
-		XMLElement qualifierElement = new XMLElement("Qualifier",
-				getQualifier());
-		XMLElement functionElement = new XMLElement("Function", getFunction());
-		XMLElement transactionIdElement = new XMLElement("TransactionID",
-				getTransactionID());
-		XMLElement auditIDElement = new XMLElement("AuditID", getAuditID());
-		XMLElement correlationIDElement = new XMLElement("CorrelationID",
-				getCorrelationID());
-		XMLElement transformationElement = new XMLElement("Transformation",
-				getTransformation());
-		XMLElement gateWayTestElement = new XMLElement("GatewayTest",
-				Integer.toString(getGatewayTest()));
-		XMLElement gatewayTimeStampElement = new XMLElement("GatewayTimestamp",
-				getGatewayTimestamp());
+		if (clazz != null) {
+			XMLElement classElement = new XMLElement("Class", clazz);
+			messageDetailselement.addChild(classElement);
+		}
+		if (qualifier != null) {
+			XMLElement qualifierElement = new XMLElement("Qualifier", qualifier);
+			messageDetailselement.addChild(qualifierElement);
+		}
+		if (function != null) {
+			XMLElement functionElement = new XMLElement("Function", function);
+			messageDetailselement.addChild(functionElement);
+		}
+		if (transactionID != null) {
+			XMLElement transactionIdElement = new XMLElement("TransactionID",
+					transactionID);
+			messageDetailselement.addChild(transactionIdElement);
+		}
+		if (auditID != null) {
+			XMLElement auditIDElement = new XMLElement("AuditID", auditID);
+			messageDetailselement.addChild(auditIDElement);
+		}
 
-		messageDetailselement.addChild(classElement);
-		messageDetailselement.addChild(qualifierElement);
-		messageDetailselement.addChild(functionElement);
-		messageDetailselement.addChild(transactionIdElement);
-		messageDetailselement.addChild(auditIDElement);
-		messageDetailselement.addChild(correlationIDElement);
-		messageDetailselement.addChild(getResponseEndPoint().toXML());
-		messageDetailselement.addChild(transformationElement);
-		messageDetailselement.addChild(gateWayTestElement);
-		messageDetailselement.addChild(gatewayTimeStampElement);
-
+		if (correlationID != null) {
+			XMLElement correlationIDElement = new XMLElement("CorrelationID",
+					correlationID);
+			messageDetailselement.addChild(correlationIDElement);
+		}
+		if (responseEndPoint != null) {
+			messageDetailselement.addChild(responseEndPoint.toXML());
+		}
+		if (transformation != null) {
+			XMLElement transformationElement = new XMLElement("Transformation",
+					transformation);
+			messageDetailselement.addChild(transformationElement);
+		}
+		if (gatewayTest != 0) {
+			XMLElement gateWayTestElement = new XMLElement("GatewayTest",
+					Integer.toString(gatewayTest));
+			messageDetailselement.addChild(gateWayTestElement);
+		}
+		if (gatewayTimestamp != null) {
+			XMLElement gatewayTimeStampElement = new XMLElement(
+					"GatewayTimestamp", gatewayTimestamp);
+			messageDetailselement.addChild(gatewayTimeStampElement);
+		}
 		return messageDetailselement;
 	}
 

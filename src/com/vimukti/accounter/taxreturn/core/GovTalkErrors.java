@@ -29,8 +29,10 @@ public class GovTalkErrors {
 
 	public IXMLElement toXML() {
 		XMLElement govTalkErrorsElement = new XMLElement("GovTalkErrors");
-		for (GovTalkError error : errors) {
-			govTalkErrorsElement.addChild(error.toXML());
+		if (errors != null) {
+			for (GovTalkError error : errors) {
+				govTalkErrorsElement.addChild(error.toXML());
+			}
 		}
 		return govTalkErrorsElement;
 	}

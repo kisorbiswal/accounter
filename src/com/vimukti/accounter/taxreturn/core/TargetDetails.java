@@ -34,10 +34,14 @@ public class TargetDetails {
 
 	public IXMLElement toXML() {
 		XMLElement element = new XMLElement("TargetDetails");
-		for (String organisation : organisations) {
-			XMLElement organisationElement = new XMLElement("Organisation",
-					organisation);
-			element.addChild(organisationElement);
+		if (organisations != null) {
+			for (String organisation : organisations) {
+				if (organisation != null) {
+					XMLElement organisationElement = new XMLElement(
+							"Organisation", organisation);
+					element.addChild(organisationElement);
+				}
+			}
 		}
 		return element;
 	}

@@ -16,7 +16,12 @@ public class Signature {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement signatureElement = new XMLElement("Signature", value);
+		XMLElement signatureElement;
+		if (value != null) {
+			signatureElement = new XMLElement("Signature", value);
+		} else {
+			signatureElement = new XMLElement("Signature");
+		}
 		return signatureElement;
 	}
 

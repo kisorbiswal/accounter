@@ -78,15 +78,26 @@ public class GovtTalkDetails {
 
 	public IXMLElement toXML() {
 		XMLElement govtTalkDetailsElement = new XMLElement("GovtTalkDetails");
-
-		govtTalkDetailsElement.addChild(keys.toXML());
-		govtTalkDetailsElement.addChild(targetDetails.toXML());
-		govtTalkDetailsElement.addChild(gatewayValidation.toXML());
-		for (ChannelRouting channelRouting : channelRoutings) {
-			govtTalkDetailsElement.addChild(channelRouting.toXML());
+		if (keys != null) {
+			govtTalkDetailsElement.addChild(keys.toXML());
 		}
-		govtTalkDetailsElement.addChild(govTalkErrors.toXML());
-		govtTalkDetailsElement.addChild(gatewayAdditions.toXML());
+		if (targetDetails != null) {
+			govtTalkDetailsElement.addChild(targetDetails.toXML());
+		}
+		if (gatewayValidation != null) {
+			govtTalkDetailsElement.addChild(gatewayValidation.toXML());
+		}
+		if (channelRoutings != null) {
+			for (ChannelRouting channelRouting : channelRoutings) {
+				govtTalkDetailsElement.addChild(channelRouting.toXML());
+			}
+		}
+		if (govTalkErrors != null) {
+			govtTalkDetailsElement.addChild(govTalkErrors.toXML());
+		}
+		if (gatewayAdditions != null) {
+			govtTalkDetailsElement.addChild(gatewayAdditions.toXML());
+		}
 		return govtTalkDetailsElement;
 
 	}

@@ -26,8 +26,15 @@ public class Key {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement keyElement = new XMLElement("Key", value);
-		keyElement.setAttribute("Type", type);
+		XMLElement keyElement;
+		if (value != null) {
+			keyElement = new XMLElement("Key", value);
+		} else {
+			keyElement = new XMLElement("Key");
+		}
+		if (type != null) {
+			keyElement.setAttribute("Type", type);
+		}
 		return keyElement;
 	}
 }

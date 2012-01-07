@@ -24,8 +24,16 @@ public class ID {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement idElement = new XMLElement("ID", value);
-		idElement.setAttribute("Type", type);
+
+		XMLElement idElement;
+		if (value != null) {
+			idElement = new XMLElement("ID", value);
+		} else {
+			idElement = new XMLElement("ID");
+		}
+		if (type != null) {
+			idElement.setAttribute("Type", type);
+		}
 		return idElement;
 	}
 }

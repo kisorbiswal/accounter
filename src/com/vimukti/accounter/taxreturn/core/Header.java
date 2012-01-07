@@ -30,10 +30,12 @@ public class Header {
 
 	public XMLElement toXML() {
 		XMLElement element = new XMLElement("Header");
-		
-		element.addChild(getMessageDatails().toXML());
-		element.addChild(getSenderDatails().toXML());
-		
+		if (messageDatails != null) {
+			element.addChild(messageDatails.toXML());
+		}
+		if (senderDatails != null) {
+			element.addChild(senderDatails.toXML());
+		}
 		return element;
 	}
 }

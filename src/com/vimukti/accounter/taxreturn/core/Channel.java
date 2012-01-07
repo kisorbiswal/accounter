@@ -55,17 +55,23 @@ public class Channel {
 
 	public IXMLElement toXML() {
 		XMLElement channelElement = new XMLElement("Channel");
+		if (uRI != null) {
+			XMLElement uriElement = new XMLElement("URI", uRI);
+			channelElement.addChild(uriElement);
+		}
 
-		XMLElement uriElement = new XMLElement("URI", uRI);
-		XMLElement nameElement = new XMLElement("Name", name);
-		XMLElement productElement = new XMLElement("Product", product);
-		XMLElement versionElement = new XMLElement("Version", version);
-
-		channelElement.addChild(uriElement);
-		channelElement.addChild(nameElement);
-		channelElement.addChild(productElement);
-		channelElement.addChild(versionElement);
-
+		if (name != null) {
+			XMLElement nameElement = new XMLElement("Name", name);
+			channelElement.addChild(nameElement);
+		}
+		if (product != null) {
+			XMLElement productElement = new XMLElement("Product", product);
+			channelElement.addChild(productElement);
+		}
+		if (version != null) {
+			XMLElement versionElement = new XMLElement("Version", version);
+			channelElement.addChild(versionElement);
+		}
 		return channelElement;
 	}
 }

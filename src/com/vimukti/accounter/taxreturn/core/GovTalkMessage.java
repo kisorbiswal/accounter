@@ -1,5 +1,6 @@
 package com.vimukti.accounter.taxreturn.core;
 
+import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
 import net.n3.nanoxml.XMLElement;
@@ -61,14 +62,17 @@ public class GovTalkMessage {
 		XMLElement element = new XMLElement("GovTalkMessage");
 		element.setAttribute("xmlns", "http://www.govtalk.gov.uk/CM/envelope");
 
-		XMLElement envelopElement = new XMLElement("EnvelopVersion",
-				getEnvelopVersion());
-
-		element.addChild(envelopElement);
+		if (envelopVersion != null) {
+			XMLElement envelopElement = new XMLElement("EnvelopVersion",
+					envelopVersion);
+			element.addChild(envelopElement);
+		}
 		if (header != null) {
 			element.addChild(header.toXML());
 		}
-		// element.addChild(getGovtTalkDetails().toXML());
+		if (govtTalkDetails != null) {
+			element.addChild(govtTalkDetails.toXML());
+		}
 		if (body) {
 			// element.addChild(getBody().toXML());
 		} else {

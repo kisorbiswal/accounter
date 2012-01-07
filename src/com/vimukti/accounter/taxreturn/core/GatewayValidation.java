@@ -32,10 +32,14 @@ public class GatewayValidation {
 	public IXMLElement toXML() {
 		XMLElement gatewayValidationElement = new XMLElement(
 				"GatewayValidation");
-		XMLElement processedElement = new XMLElement("Processed", processed);
-		XMLElement resultElement = new XMLElement("Result", result);
-		gatewayValidationElement.addChild(processedElement);
-		gatewayValidationElement.addChild(resultElement);
+		if (processed != null) {
+			XMLElement processedElement = new XMLElement("Processed", processed);
+			gatewayValidationElement.addChild(processedElement);
+		}
+		if (result != null) {
+			XMLElement resultElement = new XMLElement("Result", result);
+			gatewayValidationElement.addChild(resultElement);
+		}
 		return gatewayValidationElement;
 	}
 }

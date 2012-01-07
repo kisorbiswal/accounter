@@ -26,8 +26,10 @@ public class ResponseEndPoint {
 
 	public IXMLElement toXML() {
 		XMLElement responseEndPointElement = new XMLElement("ResponseEndPoint",
-				getValue());
-		responseEndPointElement.setAttribute("PollInterval", getPollInterval());
+				value);
+		if (pollInterval != null) {
+			responseEndPointElement.setAttribute("PollInterval", pollInterval);
+		}
 		return responseEndPointElement;
 	}
 

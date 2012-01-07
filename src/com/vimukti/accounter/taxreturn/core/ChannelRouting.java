@@ -50,13 +50,18 @@ public class ChannelRouting {
 
 	public IXMLElement toXML() {
 		XMLElement channelRoutingElement = new XMLElement("ChannelRouting");
-
-		channelRoutingElement.addChild(channel.toXML());
-		for (ID id : iDs) {
-			channelRoutingElement.addChild(id.toXML());
+		if (channel != null) {
+			channelRoutingElement.addChild(channel.toXML());
 		}
-		XMLElement timestampElement = new XMLElement("Timestamp", timestamp);
-		channelRoutingElement.addChild(timestampElement);
+		if (iDs != null) {
+			for (ID id : iDs) {
+				channelRoutingElement.addChild(id.toXML());
+			}
+		}
+		if (timestamp != null) {
+			XMLElement timestampElement = new XMLElement("Timestamp", timestamp);
+			channelRoutingElement.addChild(timestampElement);
+		}
 		return channelRoutingElement;
 	}
 }

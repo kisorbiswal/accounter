@@ -24,8 +24,15 @@ public class GatewayAdditions {
 	}
 
 	public IXMLElement toXML() {
-		XMLElement gatewayAdditions = new XMLElement("GatewayAdditions", value);
-		gatewayAdditions.setAttribute("type", type);
+		XMLElement gatewayAdditions;
+		if (value != null) {
+			gatewayAdditions = new XMLElement("GatewayAdditions", value);
+		} else {
+			gatewayAdditions = new XMLElement("GatewayAdditions");
+		}
+		if (type != null) {
+			gatewayAdditions.setAttribute("type", type);
+		}
 		return gatewayAdditions;
 	}
 }

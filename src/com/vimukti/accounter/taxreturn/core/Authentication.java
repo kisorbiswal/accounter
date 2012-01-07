@@ -58,17 +58,22 @@ public class Authentication {
 
 		XMLElement authenticationElement = new XMLElement("Authentication");
 
-		XMLElement methodElement = new XMLElement("Method", getMethod());
-		XMLElement roleElement = new XMLElement("Role", getRole());
+		if (method != null) {
+			XMLElement methodElement = new XMLElement("Method", method);
+			authenticationElement.addChild(methodElement);
+		}
 
-		authenticationElement.addChild(methodElement);
-		authenticationElement.addChild(roleElement);
-		if (getValue() != null) {
-			XMLElement valueElement = new XMLElement("Value", getValue());
+		if (role != null) {
+			XMLElement roleElement = new XMLElement("Role", role);
+			authenticationElement.addChild(roleElement);
+		}
+
+		if (value != null) {
+			XMLElement valueElement = new XMLElement("Value", value);
 			authenticationElement.addChild(valueElement);
 		}
-		if (getSignature() != null) {
-			authenticationElement.addChild(getSignature().toXML());
+		if (signature != null) {
+			authenticationElement.addChild(signature.toXML());
 		}
 
 		return authenticationElement;

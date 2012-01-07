@@ -26,8 +26,10 @@ public class Keys {
 
 	public IXMLElement toXML() {
 		XMLElement keysElement = new XMLElement("Keys");
-		for (Key key : keys) {
-			keysElement.addChild(key.toXML());
+		if (keys != null) {
+			for (Key key : keys) {
+				keysElement.addChild(key.toXML());
+			}
 		}
 		return keysElement;
 	}
