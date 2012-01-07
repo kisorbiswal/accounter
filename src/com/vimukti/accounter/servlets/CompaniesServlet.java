@@ -132,6 +132,8 @@ public class CompaniesServlet extends BaseServlet {
 		}
 
 		req.getSession().setAttribute(CREATE, "true");
+		req.getSession()
+				.setAttribute(IS_TOUCH, "" + req.getParameter(IS_TOUCH));
 		redirectExternal(req, resp, url);
 	}
 
