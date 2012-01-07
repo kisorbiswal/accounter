@@ -726,7 +726,7 @@ public class MenuBar {
 					HistoryTokens.VENDORCREDIT);
 		}
 		if (canDoBanking || canDoManageAccounts) {
-			newVendorMenuBar.addMenuItem(messages.newCheck(),
+			newVendorMenuBar.addMenuItem(messages.writeCheck(),
 					HistoryTokens.CHECK);
 		}
 
@@ -735,6 +735,9 @@ public class MenuBar {
 
 	private Menu getCustomerMenu(String string) {
 		Menu customerMenuBar = new Menu(string);
+
+		// customerMenuBar.addMenuItem(messages.importData(),
+		// HistoryTokens.IMPORTDATA);
 
 		customerMenuBar.addMenuItem(
 				messages.customerCentre(Global.get().Customer()),
@@ -777,12 +780,12 @@ public class MenuBar {
 		customerListMenuBar.addMenuItem(
 				messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
-		
+
 		if (canSeeInvoiceTransactions) {
-			
+
 			customerListMenuBar.addMenuItem(messages.invoices(),
 					HistoryTokens.INVOICES);
-			
+
 			if (isDoyouwantEstimates) {
 				customerListMenuBar.addMenuItem(messages.quotes(),
 						HistoryTokens.QUOTES);
@@ -797,7 +800,6 @@ public class MenuBar {
 				customerListMenuBar.addMenuItem(messages.credits(),
 						HistoryTokens.CREDITS);
 			}
-
 
 		}
 		if (canSeeBanking) {
