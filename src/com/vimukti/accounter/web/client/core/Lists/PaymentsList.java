@@ -49,6 +49,8 @@ public class PaymentsList implements IsSerializable, Serializable {
 	Double amountPaid = 0D;
 	boolean isVoided;
 
+	String inFavourOf;
+
 	// boolean isDeleted;
 
 	public boolean isDeleted() {
@@ -232,6 +234,14 @@ public class PaymentsList implements IsSerializable, Serializable {
 	 */
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public String getInFavourOf() {
+		return inFavourOf;
+	}
+
+	public void setInFavourOf(String inFavourOf) {
+		this.inFavourOf = inFavourOf;
 	}
 
 }
