@@ -565,6 +565,7 @@ public class WriteChequeView extends
 		return AccounterValidator.isPositiveAmount(total);
 	}
 
+	@Override
 	public ClientWriteCheck saveView() {
 		ClientWriteCheck saveView = super.saveView();
 		if (saveView != null) {
@@ -910,6 +911,7 @@ public class WriteChequeView extends
 			if (isTrackPaidTax()) {
 				form.setFields(vatinclusiveCheck);
 				form.addStyleName("boldtext");
+				vatPanel.add(form);
 			}
 		}
 
