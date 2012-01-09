@@ -1,11 +1,13 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 
-public class FinanceDate {
+public class FinanceDate implements IsSerializable, Serializable {
 
 	int year, month, day;
 	private int dayOfWeek;
@@ -412,6 +414,10 @@ public class FinanceDate {
 
 	public String toString() {
 		return this.day + "/" + this.month + "/" + this.year;
+	}
+
+	public String toString(String seperator) {
+		return this.day + seperator + this.month + seperator + this.year;
 	}
 
 	public void set(FinanceDate time) {

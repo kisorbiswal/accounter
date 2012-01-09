@@ -1964,4 +1964,12 @@
 		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
 		tc.assessmentYearEnd=:endYear
 	</query>
+	
+	<query name="getCustomer.by.name">
+		<query-param name="company" type="Company" />
+		<query-param name="name" type="String" />
+		from com.vimukti.accounter.core.Customer V where
+		V.company=:company and
+		V.name=:name
+	</query>
 </hibernate-mapping>
