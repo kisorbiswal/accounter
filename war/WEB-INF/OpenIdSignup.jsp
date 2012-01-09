@@ -108,7 +108,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 </head>
 <body>
 
-	<div id="commanContainer" class="signup-container">	
+	<div id="commanContainer" class="openid-signup-container" >	
   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="Accounter Logo" />	
   <img  style="display:none" src="/images/icons/loading-indicator.gif" alt="Loading" title="Loading" height="50" width="50" />
   
