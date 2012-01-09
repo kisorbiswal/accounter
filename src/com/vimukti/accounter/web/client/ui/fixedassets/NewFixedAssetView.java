@@ -114,6 +114,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				break;
 			case ClientFixedAsset.STATUS_REGISTERED:
 				labl.setText(messages.registeredAsset());
+				setRequiredFields();
 				break;
 			case ClientFixedAsset.STATUS_SOLD_OR_DISPOSED:
 				labl.setText(messages.assetSold());
