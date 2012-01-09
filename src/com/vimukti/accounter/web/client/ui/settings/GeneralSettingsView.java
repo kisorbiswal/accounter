@@ -217,8 +217,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				PreferencesAction.CATEGORY = PreferencesAction.SETTINGS;
-				ActionFactory.getPreferencesAction().run(null, false);
+				ActionFactory.getPreferencesAction(PreferencesAction.COMPANY)
+						.run(null, false);
 
 			}
 		});
@@ -226,8 +226,8 @@ public class GeneralSettingsView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				PreferencesAction.CATEGORY = PreferencesAction.SETTINGS;
-				ActionFactory.getPreferencesAction().run(null, false);
+				ActionFactory.getPreferencesAction(PreferencesAction.SETTINGS)
+						.run(null, false);
 				companySettingsHtml.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
 
