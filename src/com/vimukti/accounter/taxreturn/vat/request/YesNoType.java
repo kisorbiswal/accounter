@@ -1,8 +1,8 @@
-package com.vimukti.accounter.taxreturn.vat;
+package com.vimukti.accounter.taxreturn.vat.request;
 
 import net.n3.nanoxml.XMLElement;
 
-public class WorkHomeType {
+public class YesNoType {
 	private String value;
 
 	public String getValue() {
@@ -14,10 +14,10 @@ public class WorkHomeType {
 	}
 
 	public void toXML(XMLElement element, String attribute) {
-		if (value.equals("Work")) {
-			element.setAttribute(attribute, "Work");
+		if (value.equals("Yes")) {
+			element.setAttribute(attribute, "Yes");
 		} else {
-			element.setAttribute(attribute, "Home");
+			element.setAttribute(attribute, "No");
 		}
 	}
 }

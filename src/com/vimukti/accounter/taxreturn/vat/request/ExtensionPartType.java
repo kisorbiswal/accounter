@@ -1,4 +1,4 @@
-package com.vimukti.accounter.taxreturn.vat;
+package com.vimukti.accounter.taxreturn.vat.request;
 
 public class ExtensionPartType {
 

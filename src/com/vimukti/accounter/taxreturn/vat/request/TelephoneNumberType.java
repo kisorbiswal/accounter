@@ -1,4 +1,4 @@
-package com.vimukti.accounter.taxreturn.vat;
+package com.vimukti.accounter.taxreturn.vat.request;
 
 import net.n3.nanoxml.XMLElement;
 
