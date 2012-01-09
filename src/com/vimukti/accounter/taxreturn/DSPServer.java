@@ -1,9 +1,7 @@
 package com.vimukti.accounter.taxreturn;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -22,7 +20,10 @@ import com.vimukti.accounter.taxreturn.core.ResponseEndPoint;
 
 public class DSPServer extends Thread {
 	private static LinkedBlockingQueue<DSPMessage> queue = new LinkedBlockingQueue<DSPMessage>();
-	private static final String SUBMISSION_URL = "http://localhost:5665/LTS/LTSPostServlet";// https://secure.gateway.gov.uk/submission
+	private static final String SUBMISSION_URL = "http://localhost:5665/LTS/LTSPostServlet";
+	// https://www.tpvs.hmrc.gov.uk/HMRC/VATDEC;
+	// http://localhost:5665/LTS/LTSPostServlet;
+	// https://secure.gateway.gov.uk/submission
 	private XStream xStream;
 	private static DSPServer instance = new DSPServer();
 
@@ -70,7 +71,8 @@ public class DSPServer extends Thread {
 	}
 
 	public static void main(String[] args) throws Exception {
-		new DSPServer().submit(null);
+		new DSPServer().send(SUBMISSION_URL,
+				GovTalkMessageGenerator.getRequestMessage(Test.getMessage()));
 	}
 
 	public void submit(DSPMessage message) throws Exception {
@@ -151,19 +153,26 @@ public class DSPServer extends Thread {
 					"Mozilla/4.0 (compatible; JVM)");
 			conn.setDoOutput(true);
 
-			FileInputStream fileInputStream = new FileInputStream(
-					new File(
-							"C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
-							"vatrequest.xml"));
-			byte[] data = new byte[fileInputStream.available()];
-			fileInputStream.read(data);
-			OutputStream outputStream = conn.getOutputStream();
-			outputStream.write(data);
-			outputStream.flush();
-			outputStream.close();
+			// FileInputStream fileInputStream = new FileInputStream(
+			// new File(
+			// "C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
+			// "vatrequest.xml"));
+			// byte[] data = new byte[fileInputStream.available()];
+			// fileInputStream.read(data);
+			// OutputStream outputStream = conn.getOutputStream();
+			// outputStream.write(data);
+			// outputStream.flush();
+			// outputStream.close();
 
-			// message.toXML(conn.getOutputStream());
-			return (GovTalkMessage) xStream.fromXML(conn.getInputStream());
+			message.toXML(conn.getOutputStream());
+
+			InputStream inputStream = conn.getInputStream();
+			byte[] data1 = new byte[inputStream.available()];
+			inputStream.read(data1);
+			System.out.println(new String(data1));
+
+			return null;// (GovTalkMessage)
+						// xStream.fromXML(conn.getInputStream());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (Exception e) {

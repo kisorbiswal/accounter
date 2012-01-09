@@ -139,8 +139,11 @@ public class XStreamUtil {
 			public Object unmarshal(HierarchicalStreamReader arg0,
 					UnmarshallingContext arg1) {
 				ResponseEndPoint point = new ResponseEndPoint();
-				String attribute = arg0.getAttribute(0);
-				point.setPollInterval(attribute);
+				int attributeCount = arg0.getAttributeCount();
+				if (attributeCount > 0) {
+					String attribute = arg0.getAttribute(0);
+					point.setPollInterval(attribute);
+				}
 				String value = arg0.getValue().trim();
 				point.setValue(value);
 				return point;
@@ -230,8 +233,11 @@ public class XStreamUtil {
 			public Object unmarshal(HierarchicalStreamReader arg0,
 					UnmarshallingContext arg1) {
 				ID id = new ID();
-				String attribute = arg0.getAttribute(0);
-				id.setType(attribute);
+				int attributeCount = arg0.getAttributeCount();
+				if (attributeCount > 0) {
+					String attribute = arg0.getAttribute(0);
+					id.setType(attribute);
+				}
 				String value = arg0.getValue().trim();
 				id.setValue(value);
 				return id;

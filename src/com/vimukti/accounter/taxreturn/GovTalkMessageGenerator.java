@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.taxreturn.core.Authentication;
 import com.vimukti.accounter.taxreturn.core.Body;
+import com.vimukti.accounter.taxreturn.core.Channel;
 import com.vimukti.accounter.taxreturn.core.ChannelRouting;
 import com.vimukti.accounter.taxreturn.core.GatewayAdditions;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
@@ -77,12 +78,15 @@ public class GovTalkMessageGenerator {
 	}
 
 	public static GovTalkMessage getRequestMessage(DSPMessage dspMessage) {
+		if (dspMessage == null) {
+			return null;
+		}
 		GovTalkMessage message = new GovTalkMessage();
 		message.setEnvelopVersion("2.0");
 		Header header = message.getHeader();
 
 		MessageDetails messageDatails = header.getMessageDatails();
-		messageDatails.setClazz("HMRC-VAT-DEC-TIL");
+		messageDatails.setClazz("HMCE-VAT-DEC");
 		messageDatails.setQualifier("request");
 		messageDatails.setFunction("submit");
 		messageDatails.setCorrelationID("");
@@ -99,7 +103,7 @@ public class GovTalkMessageGenerator {
 				.getAuthentications();
 		Authentication authentication = new Authentication();
 		authentication.setMethod("clear");
-		authentication.setValue("***REMOVED***");
+		authentication.setValue("testing1");
 		authentication.setSignature(null);
 		authentications.add(authentication);
 
@@ -120,12 +124,12 @@ public class GovTalkMessageGenerator {
 		List<ChannelRouting> channelRoutings = govtTalkDetails
 				.getChannelRoutings();
 
-		// ChannelRouting routing = new ChannelRouting();
-		// Channel channel = routing.getChannel();
-		// channel.setuRI("0147");
-		// channel.setProduct("SDS");
-		// channel.setVersion("2.02");
-		// channelRoutings.add(routing);
+		ChannelRouting routing = new ChannelRouting();
+		Channel channel = routing.getChannel();
+		channel.setuRI("1995");
+		channel.setProduct("Accounter");
+		channel.setVersion("2.02");
+		channelRoutings.add(routing);
 
 		Body body = message.getBody();
 		IRenvelope iRenvelope = new IRenvelope();
@@ -137,7 +141,9 @@ public class GovTalkMessageGenerator {
 		iRenvelope.setiRheader(iRheader);
 		iRheader.getKeys().getKeys().add(key);
 		iRheader.setSender("Individual");
-		// PeriodID
+		iRheader.setPeriodID("2011-1");
+		iRheader.setPeriodStart("1");
+		iRheader.setPeriodEnd("22");
 		// IRmark
 
 		return message;
