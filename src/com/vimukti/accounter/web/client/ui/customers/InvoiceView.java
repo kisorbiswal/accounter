@@ -25,6 +25,7 @@ import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -1482,55 +1483,63 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	private void getEstimatesAndSalesOrder() {
-		if (this.rpcUtilService == null)
-			return;
-		if (getCustomer() == null) {
-			Accounter.showError(messages.pleaseSelect(Global.get().customer()));
-		} else {
+		ClientCompanyPreferences preferences = getCompany().getPreferences();
+		if (preferences.isDoyouwantEstimates()
+				|| preferences.isBillableExpsesEnbldForProductandServices()
+				|| preferences.isProductandSerivesTrackingByCustomerEnabled()
+				|| preferences.isDelayedchargesEnabled()) {
+			if (this.rpcUtilService == null)
+				return;
+			if (getCustomer() == null) {
+				Accounter.showError(messages.pleaseSelect(Global.get()
+						.customer()));
+			} else {
 
-			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
+				AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
 
-				@Override
-				public void onFailure(Throwable caught) {
-					return;
-				}
+					@Override
+					public void onFailure(Throwable caught) {
+						return;
+					}
 
-				@Override
-				public void onSuccess(
-						ArrayList<EstimatesAndSalesOrdersList> result) {
-					if (result == null)
-						onFailure(new Exception());
-					List<ClientTransaction> salesAndEstimates = transaction
-							.getSalesAndEstimates();
-					if (transaction.getID() != 0 && !result.isEmpty()) {
-						ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
-						for (ClientTransaction clientTransaction : salesAndEstimates) {
-							for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
-								if (estimatesalesorderlist.getTransactionId() == clientTransaction
-										.getID()) {
-									estimatesList.add(estimatesalesorderlist);
+					@Override
+					public void onSuccess(
+							ArrayList<EstimatesAndSalesOrdersList> result) {
+						if (result == null)
+							onFailure(new Exception());
+						List<ClientTransaction> salesAndEstimates = transaction
+								.getSalesAndEstimates();
+						if (transaction.getID() != 0 && !result.isEmpty()) {
+							ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
+							for (ClientTransaction clientTransaction : salesAndEstimates) {
+								for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
+									if (estimatesalesorderlist
+											.getTransactionId() == clientTransaction
+											.getID()) {
+										estimatesList
+												.add(estimatesalesorderlist);
+									}
 								}
 							}
-						}
 
-						for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
-							result.remove(estimatesAndSalesOrdersList);
+							for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
+								result.remove(estimatesAndSalesOrdersList);
+							}
 						}
+						transactionsTree.setAllrows(result,
+								transaction.getID() == 0 ? true
+										: salesAndEstimates.isEmpty());
+						transactionsTree.quotesSelected(transaction
+								.getEstimates() != null ? transaction
+								.getEstimates()
+								: new ArrayList<ClientEstimate>());
+						transactionsTree.setEnabled(!isInViewMode());
+						refreshTransactionGrid();
 					}
-					transactionsTree.setAllrows(
-							result,
-							transaction.getID() == 0 ? true : salesAndEstimates
-									.isEmpty());
-					transactionsTree
-							.quotesSelected(transaction.getEstimates() != null ? transaction
-									.getEstimates()
-									: new ArrayList<ClientEstimate>());
-					transactionsTree.setEnabled(!isInViewMode());
-					refreshTransactionGrid();
-				}
-			};
-			this.rpcUtilService.getEstimatesAndSalesOrdersList(getCustomer()
-					.getID(), callback);
+				};
+				this.rpcUtilService.getEstimatesAndSalesOrdersList(
+						getCustomer().getID(), callback);
+			}
 		}
 	}
 
