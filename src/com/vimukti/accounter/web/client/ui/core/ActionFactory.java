@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.ui.company.CustomersAction;
 import com.vimukti.accounter.web.client.ui.company.DepreciationAction;
 import com.vimukti.accounter.web.client.ui.company.EditProfileAction;
 import com.vimukti.accounter.web.client.ui.company.FormLayoutsListAction;
+import com.vimukti.accounter.web.client.ui.company.ImportDataAction;
 import com.vimukti.accounter.web.client.ui.company.IntegrateWithBusinessContactManagerAction;
 import com.vimukti.accounter.web.client.ui.company.ItemGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
@@ -403,8 +404,8 @@ public class ActionFactory {
 
 	}
 
-	public static PreferencesAction getPreferencesAction() {
-		return new PreferencesAction();
+	public static PreferencesAction getPreferencesAction(int catagory) {
+		return new PreferencesAction(catagory);
 	}
 
 	public static IntegrateWithBusinessContactManagerAction getIntegrateWithBusinessContactManagerAction() {
@@ -691,8 +692,8 @@ public class ActionFactory {
 		} else if (vendor) {
 			return new ItemsAction(Global.get().vendor());
 		} else
-			return new ItemsAction(messages.bothCustomerAndVendor(
-					Global.get().Customer(), Global.get().Vendor()));
+			return new ItemsAction(messages.bothCustomerAndVendor(Global.get()
+					.Customer(), Global.get().Vendor()));
 	}
 
 	public static QuotesAction getQuotesAction(int type) {
@@ -1332,6 +1333,10 @@ public class ActionFactory {
 
 	public static VendorCenterAction getVendorCentreAction() {
 		return new VendorCenterAction();
+	}
+
+	public static ImportDataAction getImportDataAction() {
+		return new ImportDataAction();
 	}
 
 	public static TDSAcknowledgementFormAction getTdsAcklowledgementForm() {
