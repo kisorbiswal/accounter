@@ -5247,10 +5247,19 @@ public interface AccounterMessages extends Messages {
 	public String fileTAXReturn();
 
 	public String accountNumberRangeCheck();
+
 	public String accounNumberRange();
 
 	public String inFavourOf();
 
 	public String areYouwantToDeleteReconcilationHistory();
+
+	public String downloadXmlFile();
+
+	public String downloadTxtFile();
+
+	public String selectTheDateRange();
+
+	public String generateIrasAuditFile();
 
 }

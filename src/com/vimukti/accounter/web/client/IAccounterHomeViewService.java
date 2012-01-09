@@ -452,4 +452,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientTDSResponsiblePerson> getResponsiblePersonDetails();
 
 	boolean savePortletConfiguration(ClientPortletConfiguration configuration);
+
+	String getIRASFileInformation(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, boolean isXml) throws AccounterException;
 }

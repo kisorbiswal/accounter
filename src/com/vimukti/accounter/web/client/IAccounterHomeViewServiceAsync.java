@@ -506,4 +506,8 @@ public interface IAccounterHomeViewServiceAsync {
 			ClientPortletConfiguration configuration,
 			AsyncCallback<Boolean> asyncCallback);
 
+	void getIRASFileInformation(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, boolean isXml,
+			AsyncCallback<String> callback);
+
 }
