@@ -33,6 +33,7 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 		VerticalPanel panel = new VerticalPanel();
 		DynamicForm form = new DynamicForm();
 		currencySymbolItem = new TextItem(messages.currencySymbol());
+		currencySymbolItem.setDisabled(true);
 		listCombo = new CurrencyListCombo(messages.addCurrency());
 		if (clientCurrency != null) {
 			listCombo.setComboItem(clientCurrency);
@@ -47,6 +48,7 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 		}
 		listCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCurrency>() {
+					@Override
 					public void selectedComboBoxItem(ClientCurrency item) {
 
 						clientCurrency.setName(item.getName());
