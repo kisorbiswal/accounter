@@ -27,6 +27,9 @@ public class IRenvelope {
 
 	public void toXML(XMLElement element) {
 		XMLElement iRenvelopeElement = new XMLElement("IRenvelope");
+		element.setAttribute("xmlns",
+				"http://www.govtalk.gov.uk/taxation/vat/ vatdeclaration/1");
+
 		element.addChild(iRenvelopeElement);
 
 		if (iRheader != null) {

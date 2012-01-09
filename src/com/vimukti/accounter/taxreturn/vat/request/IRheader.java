@@ -8,10 +8,10 @@ import net.n3.nanoxml.XMLElement;
 
 public class IRheader {
 
-	private Keys keys;
+	private Keys keys = new Keys();
 	private String periodID;
-	private Date periodStart;
-	private Date periodEnd;
+	private String periodStart;
+	private String periodEnd;
 	private Principal principal;
 	private Agent agent;
 	private String defaultCurrency;
@@ -35,19 +35,19 @@ public class IRheader {
 		this.periodID = periodID;
 	}
 
-	public Date getPeriodStart() {
+	public String getPeriodStart() {
 		return periodStart;
 	}
 
-	public void setPeriodStart(Date periodStart) {
+	public void setPeriodStart(String periodStart) {
 		this.periodStart = periodStart;
 	}
 
-	public Date getPeriodEnd() {
+	public String getPeriodEnd() {
 		return periodEnd;
 	}
 
-	public void setPeriodEnd(Date periodEnd) {
+	public void setPeriodEnd(String periodEnd) {
 		this.periodEnd = periodEnd;
 	}
 

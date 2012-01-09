@@ -17,7 +17,7 @@ public class VATDeclarationRequest {
 	private int netPurchasesAndInputs;
 	private int netECSupplies;
 	private int netECAcquisitions;
-	private int aasBalancingPayment;
+	private Integer aasBalancingPayment;
 	private String extensionPart;
 	private String finalReturn;
 
@@ -41,7 +41,7 @@ public class VATDeclarationRequest {
 
 		netECAcquisitions = (int) getBox(boxes, 9).getAmount();
 
-		aasBalancingPayment = (int) getBox(boxes, 10).getAmount();
+		// aasBalancingPayment = (int) getBox(boxes, 10).getAmount();
 
 		// extensionPart=?
 
@@ -49,7 +49,11 @@ public class VATDeclarationRequest {
 	}
 
 	private Box getBox(List<Box> boxes, int i) {
-		// TODO Auto-generated method stub
+		for (Box b : boxes) {
+			if (b.getBoxNumber() == i) {
+				return b;
+			}
+		}
 		return null;
 	}
 
@@ -153,64 +157,46 @@ public class VATDeclarationRequest {
 		XMLElement vATDeclarationRequestElement = new XMLElement(
 				"VATDeclarationRequest");
 		iRenvelopeElement.addChild(vATDeclarationRequestElement);
-		if (vatDueOnOutputs != 0) {
-			XMLElement vATDueOnOutputsElement = new XMLElement(
-					"VATDueOnOutputs");
-			vATDueOnOutputsElement.setContent(Double.toString(vatDueOnOutputs));
-			vATDeclarationRequestElement.addChild(vATDueOnOutputsElement);
-		}
-		if (vatDueOnECAcquisitions != 0) {
-			XMLElement vATDueOnECAcquisitionsElement = new XMLElement(
-					"VATDueOnECAcquisitions");
-			vATDueOnECAcquisitionsElement.setContent(Double
-					.toString(vatDueOnECAcquisitions));
-			vATDeclarationRequestElement
-					.addChild(vATDueOnECAcquisitionsElement);
-		}
-		if (totalVAT != 0) {
-			XMLElement totalVATElement = new XMLElement("TotalVAT");
-			totalVATElement.setContent(Double.toString(totalVAT));
-			vATDeclarationRequestElement.addChild(totalVATElement);
-		}
-		if (vatReclaimedOnInputs != 0) {
-			XMLElement vatReclaimedOnInputsElement = new XMLElement(
-					"VATReclaimedOnInputs");
-			vatReclaimedOnInputsElement.setContent(Double
-					.toString(vatReclaimedOnInputs));
-			vATDeclarationRequestElement.addChild(vatReclaimedOnInputsElement);
-		}
-		if (netVAT != 0) {
-			XMLElement netVATElement = new XMLElement("NetVAT");
-			netVATElement.setContent(Double.toString(netVAT));
-			vATDeclarationRequestElement.addChild(netVATElement);
-		}
-		if (netSalesAndOutputs != 0) {
-			XMLElement netSalesAndOutputsElement = new XMLElement(
-					"NetSalesAndOutputs");
-			netSalesAndOutputsElement.setContent(Integer
-					.toString(netSalesAndOutputs));
-			vATDeclarationRequestElement.addChild(netSalesAndOutputsElement);
-		}
-		if (netPurchasesAndInputs != 0) {
-			XMLElement netPurchasesAndInputsElement = new XMLElement(
-					"NetPurchasesAndInputs");
-			netPurchasesAndInputsElement.setContent(Integer
-					.toString(netPurchasesAndInputs));
-			vATDeclarationRequestElement.addChild(netPurchasesAndInputsElement);
-		}
-		if (netECSupplies != 0) {
-			XMLElement netECSuppliesElement = new XMLElement("NetECSupplies");
-			netECSuppliesElement.setContent(Integer.toString(netECSupplies));
-			vATDeclarationRequestElement.addChild(netECSuppliesElement);
-		}
-		if (netECAcquisitions != 0) {
-			XMLElement netECAcquisitionsElement = new XMLElement(
-					"NetECAcquisitions");
-			netECAcquisitionsElement.setContent(Integer
-					.toString(netECAcquisitions));
-			vATDeclarationRequestElement.addChild(netECAcquisitionsElement);
-		}
-		if (aasBalancingPayment != 0) {
+		XMLElement vATDueOnOutputsElement = new XMLElement("VATDueOnOutputs");
+		vATDueOnOutputsElement.setContent(Double.toString(vatDueOnOutputs));
+		vATDeclarationRequestElement.addChild(vATDueOnOutputsElement);
+		XMLElement vATDueOnECAcquisitionsElement = new XMLElement(
+				"VATDueOnECAcquisitions");
+		vATDueOnECAcquisitionsElement.setContent(Double
+				.toString(vatDueOnECAcquisitions));
+		vATDeclarationRequestElement.addChild(vATDueOnECAcquisitionsElement);
+		XMLElement totalVATElement = new XMLElement("TotalVAT");
+		totalVATElement.setContent(Double.toString(totalVAT));
+		vATDeclarationRequestElement.addChild(totalVATElement);
+		XMLElement vatReclaimedOnInputsElement = new XMLElement(
+				"VATReclaimedOnInputs");
+		vatReclaimedOnInputsElement.setContent(Double
+				.toString(vatReclaimedOnInputs));
+		vATDeclarationRequestElement.addChild(vatReclaimedOnInputsElement);
+		XMLElement netVATElement = new XMLElement("NetVAT");
+		netVATElement.setContent(Double.toString(netVAT));
+		vATDeclarationRequestElement.addChild(netVATElement);
+		XMLElement netSalesAndOutputsElement = new XMLElement(
+				"NetSalesAndOutputs");
+		netSalesAndOutputsElement.setContent(Integer
+				.toString(netSalesAndOutputs));
+		vATDeclarationRequestElement.addChild(netSalesAndOutputsElement);
+		XMLElement netPurchasesAndInputsElement = new XMLElement(
+				"NetPurchasesAndInputs");
+		netPurchasesAndInputsElement.setContent(Integer
+				.toString(netPurchasesAndInputs));
+		vATDeclarationRequestElement.addChild(netPurchasesAndInputsElement);
+		XMLElement netECSuppliesElement = new XMLElement("NetECSupplies");
+		netECSuppliesElement.setContent(Integer.toString(netECSupplies));
+		vATDeclarationRequestElement.addChild(netECSuppliesElement);
+
+		XMLElement netECAcquisitionsElement = new XMLElement(
+				"NetECAcquisitions");
+		netECAcquisitionsElement
+				.setContent(Integer.toString(netECAcquisitions));
+		vATDeclarationRequestElement.addChild(netECAcquisitionsElement);
+
+		if (aasBalancingPayment != null) {
 			XMLElement aasBalancingPaymentElement = new XMLElement(
 					"AASBalancingPayment");
 			aasBalancingPaymentElement.setContent(Integer
