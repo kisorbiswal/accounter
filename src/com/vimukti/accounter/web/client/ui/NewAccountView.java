@@ -464,7 +464,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		parentAccountCombo.setVisible(false);
 
 		leftLayout.add(accInfoForm);
-		leftLayout.add(currencyCombo);
+		if (isMultiCurrencyEnabled()) {
+			leftLayout.add(currencyCombo);
+		}
 		leftLayout.add(balanceForm);
 
 		currencyCombo.setVisible(ClientAccount
