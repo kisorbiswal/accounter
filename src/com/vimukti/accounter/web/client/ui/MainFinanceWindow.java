@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.ui.company.HelpItem;
 import com.vimukti.accounter.web.client.ui.company.ItemsAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.company.PaymentsAction;
+import com.vimukti.accounter.web.client.ui.company.PreferencesAction;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ViewManager;
@@ -347,8 +348,12 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewJournalEntryAction());
 		actions.put(ActionFactory.getNewAccountAction().getHistoryToken(),
 				ActionFactory.getNewAccountAction());
-		actions.put(ActionFactory.getPreferencesAction().getHistoryToken(),
-				ActionFactory.getPreferencesAction());
+		PreferencesAction preferencesAction = ActionFactory
+				.getPreferencesAction(PreferencesAction.COMPANY);
+		actions.put(preferencesAction.getHistoryToken(), preferencesAction);
+		preferencesAction = ActionFactory
+				.getPreferencesAction(PreferencesAction.SETTINGS);
+		actions.put(preferencesAction.getHistoryToken(), preferencesAction);
 		actions.put(ActionFactory.getManageSalesTaxGroupsAction()
 				.getHistoryToken(), ActionFactory
 				.getManageSalesTaxGroupsAction());
@@ -857,6 +862,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getVendorCentreAction().getHistoryToken(),
 				ActionFactory.getVendorCentreAction());
+
+		actions.put(ActionFactory.getImportDataAction().getHistoryToken(),
+				ActionFactory.getImportDataAction());
 
 		actions.put(ActionFactory.getUsersAction().getHistoryToken(),
 				ActionFactory.getUsersAction());

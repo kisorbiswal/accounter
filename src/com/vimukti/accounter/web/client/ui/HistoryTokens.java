@@ -242,6 +242,8 @@ public class HistoryTokens {
 
 	public static final String COMPANYPREFERENCES = "companyPreferences";
 
+	public static final String SETTINGS_COMPANYPREFERENCES = "companyPreferencesFromSettings";
+
 	public static final String BUDGET = "Budget";
 
 	public static final String MANAGESALESTAXGROUP = "manageSalesTaxGroups";
@@ -332,6 +334,8 @@ public class HistoryTokens {
 	public static final String PERSONDETAILS = "personDetails";
 
 	public static final String DEDUCTORDETAILS = "deductorDetails";
+
+	public static final String IMPORTDATA = "importData";
 
 	public static final String eTDSFILLING = "eTDSFilling";
 

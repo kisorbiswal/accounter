@@ -194,7 +194,7 @@ public class MenuBar {
 		// HistoryTokens.GENERALSETTINGS);
 		if (canChangeSettings) {
 			settingsMenuBar.addMenuItem(messages.companySettingsTitle(),
-					HistoryTokens.COMPANYPREFERENCES, "P");
+					HistoryTokens.SETTINGS_COMPANYPREFERENCES, "P");
 		}
 		if (canDoUserManagement) {
 			settingsMenuBar.addMenuItem(messages.users(), HistoryTokens.USERS,
@@ -879,13 +879,12 @@ public class MenuBar {
 
 		if (canChangeSettings) {
 			companyMenuBar.addMenuItem(messages.companyPreferences(),
-					HistoryTokens.COMPANYPREFERENCES, "P");
+					HistoryTokens.COMPANYPREFERENCES);
 			companyMenuBar.addSeparatorItem();
 		}
 
 		if (canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
-					"b");
+			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET);
 			companyMenuBar.addSeparatorItem();
 		}
 
