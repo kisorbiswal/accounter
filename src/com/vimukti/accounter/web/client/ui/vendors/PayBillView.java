@@ -1021,10 +1021,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
 			initAccounterClass();
+			initTransactionNumber();
 			adjustAmountAndEndingBalance();
 		}
 
 		initVendors();
+		initTransactionNumber();
 		initTransactionTotalNonEditableItem();
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
