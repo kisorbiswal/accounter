@@ -32,7 +32,7 @@ public class TransactionUnitPriceColumn extends TransactionAmountColumn {
 
 	@Override
 	public int getWidth() {
-		return 80;
+		return 100;
 	}
 
 	@Override

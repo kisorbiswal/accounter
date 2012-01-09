@@ -47,6 +47,8 @@ public abstract class VendorAccountTransactionTable extends
 		super(1, enableDisCount, isCustomerAllowedToAdd, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
+		this.enableDisCount = enableDisCount;
+		this.showDiscount = showDiscount;
 		addEmptyRecords();
 	}
 
