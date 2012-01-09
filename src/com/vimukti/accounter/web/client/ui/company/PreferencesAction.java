@@ -8,16 +8,16 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class PreferencesAction extends Action {
 	private PreferenceSettingsView page;
-	public static int CATEGORY;
+	public int CATEGORY;
 	public static final int COMPANY = 1;
 	public static final int SETTINGS = 2;
 
-	@SuppressWarnings("unchecked")
-	public PreferencesAction() {
+	public PreferencesAction(int catagory) {
 		super();
-		if (CATEGORY == COMPANY)
+		this.CATEGORY = catagory;
+		if (catagory == COMPANY)
 			this.catagory = messages.company();
-		else if (CATEGORY == SETTINGS)
+		else
 			this.catagory = messages.settings();
 	}
 
@@ -30,8 +30,7 @@ public class PreferencesAction extends Action {
 					PreferencesAction.this);
 		} catch (Exception e) {
 			e.printStackTrace();
-			Accounter.showError(messages
-					.failedToLoadCompanyPreferences());
+			Accounter.showError(messages.failedToLoadCompanyPreferences());
 		}
 
 	}
@@ -47,7 +46,11 @@ public class PreferencesAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "companyPreferences";
+		if (CATEGORY == COMPANY) {
+			return "companyPreferences";
+		} else {
+			return "companyPreferencesFromSettings";
+		}
 	}
 
 	@Override
