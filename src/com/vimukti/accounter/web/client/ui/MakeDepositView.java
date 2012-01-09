@@ -124,10 +124,12 @@ public class MakeDepositView extends
 	private void setTransactionNumberToMakeDepositObject() {
 		AccounterAsyncCallback<String> getTransactionNumberCallback = new AccounterAsyncCallback<String>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 
 			}
 
+			@Override
 			public void onResultSuccess(String result) {
 
 				if (result != null)
@@ -248,11 +250,13 @@ public class MakeDepositView extends
 
 		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 				Accounter.showError(messages.makeDepostTransationsListFailed());
 				gridView.removeAllRecords();
 			}
 
+			@Override
 			public void onResultSuccess(
 					List<ClientTransactionMakeDeposit> result) {
 				if (result == null) {
@@ -399,7 +403,7 @@ public class MakeDepositView extends
 		calculatedTotal = 0D;
 		for (ClientTransactionMakeDeposit rec : gridView.getRecords()) {
 
-			ClientTransactionMakeDeposit record = (ClientTransactionMakeDeposit) rec;
+			ClientTransactionMakeDeposit record = rec;
 			// FIXME--need to implement
 			// if (record.getAttributeAsBoolean(ATTR_CHECK)) {
 			// calculatedTotal += UIUtils.unFormat(
@@ -415,6 +419,7 @@ public class MakeDepositView extends
 
 	}
 
+	@Override
 	public ClientMakeDeposit saveView() {
 		ClientMakeDeposit saveView = super.saveView();
 		if (saveView != null) {
@@ -547,6 +552,7 @@ public class MakeDepositView extends
 		return selectedRecords;
 	}
 
+	@Override
 	protected void resetForms() {
 
 		// depoForm.resetValues();
@@ -585,13 +591,13 @@ public class MakeDepositView extends
 		super.initData();
 		getDepositInAccounts();
 		depositInSelect.setComboItem(getCompany().getAccount(
-				((ClientMakeDeposit) transaction).getDepositIn()));
+				transaction.getDepositIn()));
 		this.selectedDepositInAccount = getCompany().getAccount(
-				((ClientMakeDeposit) transaction).getDepositIn());
+				transaction.getDepositIn());
 		depositFromSelect.setComboItem(getCompany().getAccount(
-				((ClientMakeDeposit) transaction).getDepositFrom()));
+				transaction.getDepositFrom()));
 		this.selectedDepositFromAccount = getCompany().getAccount(
-				((ClientMakeDeposit) transaction).getDepositFrom());
+				transaction.getDepositFrom());
 		initFianancialAccounts();
 		initCashBackAccounts();
 
@@ -692,8 +698,8 @@ public class MakeDepositView extends
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
 		Label lab = new Label(messages.makeDeposit());
-		lab.removeStyleName("gwt-Label");
-		lab.addStyleName("lable-title");
+		// lab.removeStyleName("gwt-Label");
+		lab.setStyleName("label-title");
 		// lab.setHeight("50px");
 		date = UIUtils.date(messages.date(), this);
 		date.setDisabled(isInViewMode());
@@ -733,6 +739,7 @@ public class MakeDepositView extends
 		depositInSelect.setDisabled(isInViewMode());
 		depositInSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
 						checkForCurrencyType();
@@ -749,6 +756,7 @@ public class MakeDepositView extends
 		depositFromSelect.setDisabled(isInViewMode());
 		depositFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositFromAccount = selectItem;
 						checkForCurrencyType();
@@ -765,6 +773,7 @@ public class MakeDepositView extends
 		vendorSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientVendor selectItem) {
 						selectedVendor = selectItem;
 
@@ -774,6 +783,7 @@ public class MakeDepositView extends
 		financeAccountSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 					}
 				});
@@ -781,6 +791,7 @@ public class MakeDepositView extends
 		customerSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
 						// selectedCustomer = selectItem;
 
@@ -841,6 +852,7 @@ public class MakeDepositView extends
 		// cashBackAccountSelect.setRequired(true);
 		cashBackAccountSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedCashBackAccount = selectItem;
 
@@ -1070,6 +1082,7 @@ public class MakeDepositView extends
 		return new MakeDepositView();
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
@@ -1099,6 +1112,7 @@ public class MakeDepositView extends
 
 	}
 
+	@Override
 	public void onEdit() {
 		// if (transactionObject.canEdit) {
 		// Accounter.showWarning(AccounterWarningType.MAKEDEPOSIT_EDITING,
@@ -1234,6 +1248,7 @@ public class MakeDepositView extends
 		return messages.makeDeposit();
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		// Setting date
