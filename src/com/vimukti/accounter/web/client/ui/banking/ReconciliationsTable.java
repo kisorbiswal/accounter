@@ -18,9 +18,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
 
 /**
@@ -31,15 +33,15 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 		implements IDeleteCallback {
 
 	private ListDataProvider<ClientReconciliation> dataprovider = new ListDataProvider<ClientReconciliation>();
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
+
 	/**
 	 * Creates new Instance
 	 */
 	public ReconciliationsTable() {
 		initColumns();
 		dataprovider.addDataDisplay(this);
-		HTML emptyMessage = new HTML(messages
-				.reconciliationsEmpty());
+		HTML emptyMessage = new HTML(messages.reconciliationsEmpty());
 		emptyMessage.setHeight("150px");
 		setEmptyTableWidget(emptyMessage);
 	}
@@ -61,8 +63,7 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return messages.oneToOther(
-						object.getStartDate().toString(),
+				return messages.oneToOther(object.getStartDate().toString(),
 						object.getEndDate().toString());
 			}
 		};
@@ -71,7 +72,8 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getOpeningBalance());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object
+						.getOpeningBalance());
 			}
 		};
 
@@ -79,7 +81,8 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 
 			@Override
 			public String getValue(ClientReconciliation object) {
-				return DataUtils.getAmountAsStringInPrimaryCurrency(object.getClosingBalance());
+				return DataUtils.getAmountAsStringInPrimaryCurrency(object
+						.getClosingBalance());
 			}
 		};
 
@@ -99,9 +102,33 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 		ImageActionColumn<ClientReconciliation> delete = new ImageActionColumn<ClientReconciliation>() {
 
 			@Override
-			protected void onSelect(int index, ClientReconciliation object) {
+			protected void onSelect(int index, final ClientReconciliation object) {
 				// Accounter.getFinanceMenuImages().accounterRegisterIcon()
-				deleteReconciliation(object);
+
+				// Show the cofirmation dialog box before delete
+
+				Accounter.showWarning(
+						messages.areYouwantToDeleteReconcilationHistory(),
+						AccounterType.WARNINGWITHCANCEL,
+						new ErrorDialogHandler() {
+
+							@Override
+							public boolean onYesClick() {
+								deleteReconciliation(object);
+								return true;
+							}
+
+							@Override
+							public boolean onNoClick() {
+								return true;
+							}
+
+							@Override
+							public boolean onCancelClick() {
+								return true;
+							}
+						});
+
 			}
 
 			@Override
@@ -110,10 +137,8 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 			}
 		};
 
-		this.addColumn(reconciliationDate, messages
-				.ReconciliationDate());
-		this.addColumn(reconciliationPeriod, messages
-				.ReconciliationPeriod());
+		this.addColumn(reconciliationDate, messages.ReconciliationDate());
+		this.addColumn(reconciliationPeriod, messages.ReconciliationPeriod());
 		this.addColumn(openingBalance, messages.openBalance());
 		this.addColumn(closingBalance, messages.ClosingBalance());
 		this.addColumn(show, messages.show());
