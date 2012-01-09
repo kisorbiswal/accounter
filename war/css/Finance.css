@@ -2535,7 +2535,7 @@ input.date-field-textbox {
 	color: #666666;
 	display: block;
 	font-size: 1.4em;
-	padding: 3px 5px 6px 10px;
+	padding: 3px 5px 0 10px;
 	text-decoration: none;
 	width: 110px;
 	color: #454343;
