@@ -16,6 +16,7 @@ import com.vimukti.accounter.taxreturn.core.Body;
 import com.vimukti.accounter.taxreturn.core.GovTalkError;
 import com.vimukti.accounter.taxreturn.core.GovTalkErrors;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
+import com.vimukti.accounter.taxreturn.core.ResponseEndPoint;
 
 public class DSPServer extends Thread {
 	private static LinkedBlockingQueue<Body> queue = new LinkedBlockingQueue<Body>();
@@ -66,6 +67,8 @@ public class DSPServer extends Thread {
 	}
 
 	public void submit(Body body) throws Exception {
+		// http://localhost:5665/LTS/LTSPostServlet
+
 		// Request
 		GovTalkMessage response = send(
 				"https://secure.gateway.gov.uk/submission",
@@ -75,24 +78,26 @@ public class DSPServer extends Thread {
 			// TODO
 		}
 
-		wait(Long.parseLong(response.getHeader().getMessageDatails()
-				.getResponseEndPoint().getPollInterval()));
+		ResponseEndPoint responseEndPoint = response.getHeader()
+				.getMessageDatails().getResponseEndPoint();
+		wait(Long.parseLong(responseEndPoint.getPollInterval()));
 
-		// Poll
+		// Poll "https://secure.gateway.gov.uk/poll"
 		response = send(
-				"https://secure.gateway.gov.uk/poll",
+				responseEndPoint.getValue(),
 				GovTalkMessageGenerator.getPollMessage(response.getHeader()
 						.getMessageDatails().getCorrelationID()));
 		if (isContainErrors(response)) {
 			// TODO
 		}
 
-		wait(Long.parseLong(response.getHeader().getMessageDatails()
-				.getResponseEndPoint().getPollInterval()));
+		responseEndPoint = response.getHeader().getMessageDatails()
+				.getResponseEndPoint();
+		wait(Long.parseLong(responseEndPoint.getPollInterval()));
 
 		// Re-Poll
 		response = send(
-				"https://secure.gateway.gov.uk/poll",
+				responseEndPoint.getValue(),
 				GovTalkMessageGenerator.getPollMessage(response.getHeader()
 						.getMessageDatails().getCorrelationID()));
 
@@ -102,7 +107,8 @@ public class DSPServer extends Thread {
 
 		// DELETE
 		response = send(
-				"https://secure.gateway.gov.uk/submission",
+				response.getHeader().getMessageDatails().getResponseEndPoint()
+						.getValue(),
 				GovTalkMessageGenerator.getDeleteMessage(response.getHeader()
 						.getMessageDatails().getCorrelationID()));
 	}
