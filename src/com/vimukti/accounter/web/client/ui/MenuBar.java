@@ -908,6 +908,9 @@ public class MenuBar {
 		}
 		companyMenuBar.addMenuItem(getCompanyListMenu(messages.companyLists()));
 
+		companyMenuBar.addMenuItem(messages.generateIrasAuditFile(),
+				HistoryTokens.GST_FILE);
+
 		return companyMenuBar;
 	}
 

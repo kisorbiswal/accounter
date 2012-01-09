@@ -870,6 +870,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(
 				ActionFactory.getTdsAcklowledgementForm().getHistoryToken(),
 				ActionFactory.getTdsAcklowledgementForm());
+
+		actions.put(ActionFactory.getIARSInformationAction().getHistoryToken(),
+				ActionFactory.getIARSInformationAction());
 	}
 
 	public ClientCompany getCompany() {

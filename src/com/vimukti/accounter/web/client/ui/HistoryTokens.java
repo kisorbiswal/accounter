@@ -339,6 +339,8 @@ public class HistoryTokens {
 
 	public static final String PRICELEVELLIST = "priceLevels";
 
+	public static final String GST_FILE = "createGSTIncormationFile";
+
 	public HistoryTokens() {
 
 	}
