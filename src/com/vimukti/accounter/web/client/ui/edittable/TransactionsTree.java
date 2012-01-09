@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -111,6 +112,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 					@Override
 					public void onSuccess(ClientEstimate result) {
+
 						addAllQuoteTransactionTreeItem(result, false);
 					}
 				});
@@ -118,14 +120,26 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 	protected void addAllQuoteTransactionTreeItem(ClientEstimate result,
 			boolean isSelected) {
+		ClientCompanyPreferences preferences = Accounter.getCompany()
+				.getPreferences();
 		if (result.getEstimateType() == ClientEstimate.QUOTES) {
-			addQuotesTransactionTreeItem(result, isSelected);
+			if (preferences.isDoyouwantEstimates()) {
+				addQuotesTransactionTreeItem(result, isSelected);
+			}
 		} else if (result.getEstimateType() == ClientEstimate.CHARGES) {
-			addChargesTransactionTreeItem(result, isSelected);
+			if (preferences.isDelayedchargesEnabled()) {
+				addChargesTransactionTreeItem(result, isSelected);
+			}
 		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES) {
-			addBillableTransactionTreeItem(result, isSelected);
+			if (preferences.isBillableExpsesEnbldForProductandServices()
+					&& preferences
+							.isProductandSerivesTrackingByCustomerEnabled()) {
+				addBillableTransactionTreeItem(result, isSelected);
+			}
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
-			addCreditsTransactionTreeItem(result, isSelected);
+			if (preferences.isDelayedchargesEnabled()) {
+				addCreditsTransactionTreeItem(result, isSelected);
+			}
 		}
 		setEnabled(isinViewMode());
 	}
