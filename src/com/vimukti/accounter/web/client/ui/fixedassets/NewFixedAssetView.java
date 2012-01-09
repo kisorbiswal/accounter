@@ -134,6 +134,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				@Override
 				public void onChange(ChangeEvent event) {
 					selectedOption = assetOptions.getValue().toString();
+					assetOptions.setValue("");
 					if (selectedOption.equalsIgnoreCase(messages.sell())) {
 						Action action = ActionFactory
 								.getSellingRegisteredItemAction();
@@ -152,8 +153,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						action.run(data, true);
 					} else if (selectedOption.equalsIgnoreCase(messages
 							.addNote())) {
+						assetOptions.setValue(selectedOption);
 						openNoteDialog();
 					} else if (selectedOption.equalsIgnoreCase(messages.edit())) {
+						assetOptions.setValue(selectedOption);
 						onEdit();
 					}
 				}
