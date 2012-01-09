@@ -73,7 +73,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setFrom(senderEmail);
+		// emailMsg.setFrom(senderEmail);
 		emailMsg.setAttachment(file);
 
 		String[] toIds = recipientEmail.split(",");
@@ -122,8 +122,8 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setFrom("" + user.getFirstName() + "" + " <"
-				+ user.getEmailId() + ">");
+		// emailMsg.setFrom("" + user.getFirstName() + "" + " <"
+		// + user.getEmailId() + ">");
 		emailMsg.setRecepeant(user.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 
@@ -155,8 +155,8 @@ public class UsersMailSendar {
 		Client client = admin.getClient();
 		String content = propertyParser
 				.getProperty("contentForDefaultUser", "");
-		content = content.replaceAll("%USERNAME%", getUserName(client
-				.getFirstName()));
+		content = content.replaceAll("%USERNAME%",
+				getUserName(client.getFirstName()));
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = replaceServerUrl(content);
 
@@ -315,8 +315,8 @@ public class UsersMailSendar {
 		// String content = getContentForExternalUser();
 		String content = propertyParser.getProperty(
 				"contentForInviteExternalUser", "");
-		content = content.replaceAll("%USER%", getUserName(invitedClient
-				.getFirstName()));
+		content = content.replaceAll("%USER%",
+				getUserName(invitedClient.getFirstName()));
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
 		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
 		content = content.replaceAll("%COMPANY%", companyName);
@@ -330,16 +330,16 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setFrom("" + inviter.getFirstName() + "" + " <"
-				+ inviter.getEmailId() + ">");
+		// emailMsg.setFrom("" + inviter.getFirstName() + "" + " <"
+		// + inviter.getEmailId() + ">");
 		emailMsg.setRecepeant(invitedClient.getEmailId());
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), companyName);
 		EmailManager.getInstance().addJob(job);
 	}
 
 	private static String replaceServerUrl(String content) {
-		return content.replaceAll("%SERVERURL%", ServerConfiguration
-				.getMainServerDomain());
+		return content.replaceAll("%SERVERURL%",
+				ServerConfiguration.getMainServerDomain());
 	}
 
 	private static String getUserName(String name) {
@@ -367,8 +367,8 @@ public class UsersMailSendar {
 
 		String content = propertyParser.getProperty("contentForMaintanaceInfo",
 				"");
-		content = content.replaceAll("%USER%", getUserName(mainInfoUser
-				.getUserEmail()));
+		content = content.replaceAll("%USER%",
+				getUserName(mainInfoUser.getUserEmail()));
 
 		String subject = propertyParser.getProperty("subjectForMaintanaceInfo",
 				"");
