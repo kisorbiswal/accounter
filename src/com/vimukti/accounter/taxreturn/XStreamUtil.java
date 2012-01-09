@@ -84,7 +84,7 @@ public class XStreamUtil {
 		xStream.aliasType("IDAuthentication", IDAuthentication.class);
 
 		// Alias
-		xStream.aliasAttribute(IDAuthentication.class, "senderId", "SenderId");
+		xStream.aliasAttribute(IDAuthentication.class, "senderId", "SenderID");
 		xStream.alias("authentication", Authentication.class);
 		xStream.addImplicitCollection(IDAuthentication.class, "authentications");
 
