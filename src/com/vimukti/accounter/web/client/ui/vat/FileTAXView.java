@@ -23,9 +23,15 @@ public class FileTAXView extends AbstractFileTAXView {
 
 	@Override
 	protected void reloadGrid() {
+
+		if (selectedTaxAgency == null) {
+			Accounter.showError(messages.pleaseSelect(messages.taxAgency()));
+			return;
+		}
 		canSaveFileVat = true;
 		grid.removeAllRecords();
 		grid.addLoadingImagePanel();
+
 		rpcGetService.getTAXReturnEntries(selectedTaxAgency.getID(), fromDate
 				.getDate().getDate(), toDate.getDate().getDate(),
 				new AccounterAsyncCallback<List<ClientTAXReturnEntry>>() {
@@ -46,8 +52,7 @@ public class FileTAXView extends AbstractFileTAXView {
 							grid.setRecords(result);
 							enableprintButton();
 						} else {
-							grid.addEmptyMessage(messages
-									.selectTAXAgency());
+							grid.addEmptyMessage(messages.selectTAXAgency());
 						}
 					}
 
