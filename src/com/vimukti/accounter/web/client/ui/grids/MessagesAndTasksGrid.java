@@ -94,7 +94,7 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 
 		switch (index) {
 		case 0:
-			return 30;
+			return 40;
 		case 1:
 			return 65;
 		case 3:
