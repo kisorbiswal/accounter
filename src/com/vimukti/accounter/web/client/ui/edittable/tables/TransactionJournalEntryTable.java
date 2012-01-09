@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -224,12 +225,12 @@ public abstract class TransactionJournalEntryTable extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 
-		if (this.getAllRows().size() == 0) {
+		if (this.getTransactionItems().size() == 0) {
 			result.addError(this,
 					messages.thereisNoRecordsTosave(messages.journalEntry()));
 		}
 		// Validates account name
-		List<ClientTransactionItem> entrylist = this.getAllRows();
+		List<ClientTransactionItem> entrylist = this.getTransactionItems();
 		for (ClientTransactionItem entry : entrylist) {
 			long accountId = entry.getAccount();
 			for (ClientTransactionItem entry2 : entrylist) {
@@ -241,10 +242,14 @@ public abstract class TransactionJournalEntryTable extends
 			}
 		}
 		for (ClientTransactionItem entry : entrylist) {
+			if (entry.isEmpty()) {
+				continue;
+			}
 			if (entry.getAccount() == 0) {
 				result.addError(this, messages.pleaseEnter(messages.account()));
 			}
 		}
+
 		return result;
 	}
 
@@ -308,4 +313,13 @@ public abstract class TransactionJournalEntryTable extends
 		refreshTotals();
 	}
 
+	public List<ClientTransactionItem> getTransactionItems() {
+		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : getAllRows()) {
+			if (!item.isEmpty()) {
+				list.add(item);
+			}
+		}
+		return list;
+	}
 }
