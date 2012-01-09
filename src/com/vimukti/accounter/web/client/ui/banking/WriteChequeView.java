@@ -839,7 +839,7 @@ public class WriteChequeView extends
 
 		payForm = new DynamicForm();
 		// payForm.setWidth("100%");
-		inFavourOf = new TextItem(messages.payeeName(messages.payee()));
+		inFavourOf = new TextItem(messages.inFavourOf());
 		inFavourOf.setRequired(true);
 		inFavourOf.setDisabled(isInViewMode());
 		payForm.setFields(paytoSelect, inFavourOf, amtText);
