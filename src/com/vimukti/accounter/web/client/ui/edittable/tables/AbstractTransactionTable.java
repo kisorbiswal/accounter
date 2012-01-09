@@ -137,6 +137,7 @@ public abstract class AbstractTransactionTable extends
 
 	}
 
+	@Override
 	public void addRows(List<ClientTransactionItem> rows) {
 		for (ClientTransactionItem item : getRecords()) {
 			if (item.isEmpty()) {
@@ -278,11 +279,10 @@ public abstract class AbstractTransactionTable extends
 
 		Double vat = 0.0;
 		if (isShowPriceWithVat()) {
-			vat = ((ClientTransactionItem) record).getLineTotal()
-					- (100 * (((ClientTransactionItem) record).getLineTotal() / (100 + vatRate)));
+			vat = record.getLineTotal()
+					- (100 * (record.getLineTotal() / (100 + vatRate)));
 		} else {
-			vat = ((ClientTransactionItem) record).getLineTotal() * vatRate
-					/ 100;
+			vat = record.getLineTotal() * vatRate / 100;
 		}
 		return vat;
 	}
@@ -324,6 +324,7 @@ public abstract class AbstractTransactionTable extends
 	}
 
 	public void updateAmountsFromGUI() {
+		updateTotals();
 		for (ClientTransactionItem item : this.getAllRows()) {
 			updateFromGUI(item);
 			update(item);
@@ -349,6 +350,7 @@ public abstract class AbstractTransactionTable extends
 		}
 	}
 
+	@Override
 	protected abstract boolean isInViewMode();
 
 	public boolean isSales() {
