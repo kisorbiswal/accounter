@@ -94,6 +94,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		discAccSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						setSelectedDiscountAccount(selectItem);
 					}
@@ -127,9 +128,16 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		return null;
 	}
 
+	@Override
 	public ValidationResult validate() {
 		// if (getSelectedDiscountAccount() == null) {
-		return form.validate();
+		ValidationResult result = new ValidationResult();
+		result.add(form.validate());
+		if (discAmtText.getAmount() <= 0) {
+			result.addError(discAmtText,
+					messages.pleaseEnter(messages.discountAmount()));
+		}
+		return result;
 		// }
 		// return true;
 	}
@@ -149,6 +157,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 	}
 
+	@Override
 	public void saveSuccess(IAccounterCore object) {
 	}
 
@@ -165,6 +174,11 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	@Override
 	public void setFocus() {
 		discAccSelect.setFocus();
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }
