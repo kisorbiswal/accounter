@@ -4,15 +4,19 @@ import java.util.List;
 
 import com.vimukti.accounter.taxreturn.core.Authentication;
 import com.vimukti.accounter.taxreturn.core.Body;
-import com.vimukti.accounter.taxreturn.core.Channel;
 import com.vimukti.accounter.taxreturn.core.ChannelRouting;
 import com.vimukti.accounter.taxreturn.core.GatewayAdditions;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 import com.vimukti.accounter.taxreturn.core.GovtTalkDetails;
 import com.vimukti.accounter.taxreturn.core.Header;
 import com.vimukti.accounter.taxreturn.core.IDAuthentication;
+import com.vimukti.accounter.taxreturn.core.Key;
+import com.vimukti.accounter.taxreturn.core.Keys;
 import com.vimukti.accounter.taxreturn.core.MessageDetails;
 import com.vimukti.accounter.taxreturn.core.SenderDetails;
+import com.vimukti.accounter.taxreturn.vat.request.IRenvelope;
+import com.vimukti.accounter.taxreturn.vat.request.IRheader;
+import com.vimukti.accounter.taxreturn.vat.request.VATDeclarationRequest;
 
 public class GovTalkMessageGenerator {
 	public static GovTalkMessage getDeleteMessage(String correlationId) {
@@ -72,7 +76,7 @@ public class GovTalkMessageGenerator {
 		return message;
 	}
 
-	public static GovTalkMessage getRequestMessage(Body body) {
+	public static GovTalkMessage getRequestMessage(DSPMessage dspMessage) {
 		GovTalkMessage message = new GovTalkMessage();
 		message.setEnvelopVersion("2.0");
 		Header header = message.getHeader();
@@ -88,19 +92,24 @@ public class GovTalkMessageGenerator {
 		messageDatails.setGatewayTimestamp(null);
 
 		SenderDetails senderDatails = header.getSenderDatails();
-		senderDatails.setEmailAddress("***REMOVED***");
+		senderDatails.setEmailAddress(dspMessage.getEmailId());
 		IDAuthentication iDAuthentication = senderDatails.getiDAuthentication();
-		iDAuthentication.setSenderId("VATDEC059a01");
+		iDAuthentication.setSenderId(dspMessage.getSenderId());
 		List<Authentication> authentications = iDAuthentication
 				.getAuthentications();
 		Authentication authentication = new Authentication();
 		authentication.setMethod("clear");
-		// authentication.setRole("principal");
 		authentication.setValue("***REMOVED***");
 		authentication.setSignature(null);
 		authentications.add(authentication);
 
 		GovtTalkDetails govtTalkDetails = message.getGovtTalkDetails();
+		Keys keys = govtTalkDetails.getKeys();
+		Key key = new Key();
+		key.setType("VATRegNo");
+		key.setValue(dspMessage.getVatRegistrationNumber());
+		keys.getKeys().add(key);
+
 		govtTalkDetails.setTargetDetails(null);
 		govtTalkDetails.setGatewayValidation(null);
 		govtTalkDetails.setGovTalkErrors(null);
@@ -110,14 +119,27 @@ public class GovTalkMessageGenerator {
 		gatewayAdditions.setValue(null);
 		List<ChannelRouting> channelRoutings = govtTalkDetails
 				.getChannelRoutings();
-		ChannelRouting routing = new ChannelRouting();
-		Channel channel = routing.getChannel();
-		channel.setuRI("0147");
-		channel.setProduct("SDS");
-		channel.setVersion("2.02");
-		channelRoutings.add(routing);
 
-		message.setBody(body);
+		// ChannelRouting routing = new ChannelRouting();
+		// Channel channel = routing.getChannel();
+		// channel.setuRI("0147");
+		// channel.setProduct("SDS");
+		// channel.setVersion("2.02");
+		// channelRoutings.add(routing);
+
+		Body body = message.getBody();
+		IRenvelope iRenvelope = new IRenvelope();
+		body.setiRenvelope(iRenvelope);
+		iRenvelope.setvATDeclarationRequest(new VATDeclarationRequest(
+				dspMessage.getTaxReturn()));
+
+		IRheader iRheader = new IRheader();
+		iRenvelope.setiRheader(iRheader);
+		iRheader.getKeys().getKeys().add(key);
+		iRheader.setSender("Individual");
+		// PeriodID
+		// IRmark
+
 		return message;
 	}
 }

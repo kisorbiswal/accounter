@@ -15,16 +15,16 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import com.thoughtworks.xstream.XStream;
-import com.vimukti.accounter.taxreturn.core.Body;
 import com.vimukti.accounter.taxreturn.core.GovTalkError;
 import com.vimukti.accounter.taxreturn.core.GovTalkErrors;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 import com.vimukti.accounter.taxreturn.core.ResponseEndPoint;
 
 public class DSPServer extends Thread {
-	private static LinkedBlockingQueue<Body> queue = new LinkedBlockingQueue<Body>();
-
+	private static LinkedBlockingQueue<DSPMessage> queue = new LinkedBlockingQueue<DSPMessage>();
+	private static final String SUBMISSION_URL = "http://localhost:5665/LTS/LTSPostServlet";// https://secure.gateway.gov.uk/submission
 	private XStream xStream;
+	private static DSPServer instance = new DSPServer();
 
 	private DSPServer() {
 		init();
@@ -35,7 +35,7 @@ public class DSPServer extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				Body take = queue.take();
+				DSPMessage take = queue.take();
 				submit(take);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -73,13 +73,11 @@ public class DSPServer extends Thread {
 		new DSPServer().submit(null);
 	}
 
-	public void submit(Body body) throws Exception {
-		// http://localhost:5665/LTS/LTSPostServlet
-		// https://secure.gateway.gov.uk/submission
+	public void submit(DSPMessage message) throws Exception {
+
 		// Request
-		GovTalkMessage response = send(
-				"http://localhost:5665/LTS/LTSPostServlet",
-				GovTalkMessageGenerator.getRequestMessage(body));
+		GovTalkMessage response = send(SUBMISSION_URL,
+				GovTalkMessageGenerator.getRequestMessage(message));
 
 		if (isContainErrors(response)) {
 			// TODO
@@ -174,11 +172,15 @@ public class DSPServer extends Thread {
 		return null;
 	}
 
-	public synchronized static void put(Body body) {
+	public synchronized static void put(DSPMessage message) {
 		try {
-			queue.put(body);
+			queue.put(message);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static DSPServer getInstance() {
+		return instance;
 	}
 }

@@ -26,6 +26,8 @@ import com.vimukti.accounter.taxreturn.core.MessageDetails;
 import com.vimukti.accounter.taxreturn.core.ResponseEndPoint;
 import com.vimukti.accounter.taxreturn.core.SenderDetails;
 import com.vimukti.accounter.taxreturn.core.TargetDetails;
+import com.vimukti.accounter.taxreturn.vat.request.IRenvelope;
+import com.vimukti.accounter.taxreturn.vat.request.IRheader;
 
 public class XStreamUtil {
 	private static XStream xStream;
@@ -285,6 +287,49 @@ public class XStreamUtil {
 
 	private static void addBody() {
 		xStream.aliasType("Body", Body.class);
+
+		xStream.aliasAttribute(Body.class, "iRenvelope", "IRenvelope");
+		addIRenvelope();
+	}
+
+	private static void addIRenvelope() {
+		xStream.aliasType("IRenvelope", IRenvelope.class);
+
+		addIRheader();
+
+		// TODO
+	}
+
+	private static void addIRheader() {
+		xStream.aliasType("IRheader", IRheader.class);
+
+		xStream.aliasAttribute(IRheader.class, "periodID", "PeriodID");
+		xStream.aliasAttribute(IRheader.class, "periodStart", "PeriodStart");
+		xStream.aliasAttribute(IRheader.class, "periodEnd", "PeriodEnd");
+		xStream.aliasAttribute(IRheader.class, "principal", "Principal");
+		xStream.aliasAttribute(IRheader.class, "agent", "Agent");
+		xStream.aliasAttribute(IRheader.class, "defaultCurrency",
+				"DefaultCurrency");
+		xStream.aliasAttribute(IRheader.class, "manifest", "Manifest");
+		xStream.aliasAttribute(IRheader.class, "iRmark", "IRmark");
+		xStream.aliasAttribute(IRheader.class, "sender", "Sender");
+
+		addPrincipal();
+		addAgent();
+		addIRmark();
+	}
+
+	private static void addIRmark() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void addAgent() {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void addPrincipal() {
 		// TODO Auto-generated method stub
 
 	}

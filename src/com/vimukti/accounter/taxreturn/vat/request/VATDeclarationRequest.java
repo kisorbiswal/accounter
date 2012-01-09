@@ -1,6 +1,11 @@
 package com.vimukti.accounter.taxreturn.vat.request;
 
+import java.util.List;
+
 import net.n3.nanoxml.XMLElement;
+
+import com.vimukti.accounter.core.Box;
+import com.vimukti.accounter.core.TAXReturn;
 
 public class VATDeclarationRequest {
 	private double vatDueOnOutputs;
@@ -14,7 +19,39 @@ public class VATDeclarationRequest {
 	private int netECAcquisitions;
 	private int aasBalancingPayment;
 	private String extensionPart;
-	private YesNoType finalReturn;
+	private String finalReturn;
+
+	public VATDeclarationRequest(TAXReturn taxReturn) {
+		List<Box> boxes = taxReturn.getBoxes();
+		vatDueOnOutputs = getBox(boxes, 1).getAmount();
+
+		vatDueOnECAcquisitions = getBox(boxes, 2).getAmount();
+
+		totalVAT = getBox(boxes, 3).getAmount();
+
+		vatReclaimedOnInputs = getBox(boxes, 4).getAmount();
+
+		netVAT = getBox(boxes, 5).getAmount();
+
+		netSalesAndOutputs = (int) getBox(boxes, 6).getAmount();
+
+		netPurchasesAndInputs = (int) getBox(boxes, 7).getAmount();
+
+		netECSupplies = (int) getBox(boxes, 8).getAmount();
+
+		netECAcquisitions = (int) getBox(boxes, 9).getAmount();
+
+		aasBalancingPayment = (int) getBox(boxes, 10).getAmount();
+
+		// extensionPart=?
+
+		// finalReturn=?
+	}
+
+	private Box getBox(List<Box> boxes, int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public double getVatDueOnOutputs() {
 		return vatDueOnOutputs;
@@ -104,11 +141,11 @@ public class VATDeclarationRequest {
 		this.extensionPart = extensionPart;
 	}
 
-	public YesNoType getFinalReturn() {
+	public String getFinalReturn() {
 		return finalReturn;
 	}
 
-	public void setFinalReturn(YesNoType finalReturn) {
+	public void setFinalReturn(String finalReturn) {
 		this.finalReturn = finalReturn;
 	}
 
@@ -186,7 +223,8 @@ public class VATDeclarationRequest {
 			vATDeclarationRequestElement.addChild(extensionPartElement);
 		}
 		if (finalReturn != null) {
-			finalReturn.toXML(vATDeclarationRequestElement, "FinalReturn");
+			vATDeclarationRequestElement.setAttribute("FinalReturn",
+					finalReturn);
 		}
 	}
 
