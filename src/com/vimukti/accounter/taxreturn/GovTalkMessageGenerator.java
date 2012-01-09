@@ -72,7 +72,7 @@ public class GovTalkMessageGenerator {
 		return message;
 	}
 
-	public static GovTalkMessage getRequestMessage() {
+	public static GovTalkMessage getRequestMessage(Body body) {
 		GovTalkMessage message = new GovTalkMessage();
 		message.setEnvelopVersion("2.0");
 		Header header = message.getHeader();
@@ -117,8 +117,7 @@ public class GovTalkMessageGenerator {
 		channel.setVersion("2.02");
 		channelRoutings.add(routing);
 
-		Body body = message.getBody();
-		body.setValue("body");
+		message.setBody(body);
 		return message;
 	}
 }

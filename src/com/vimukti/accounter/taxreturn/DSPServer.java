@@ -1,12 +1,10 @@
 package com.vimukti.accounter.taxreturn;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.MessageDigest;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -14,22 +12,31 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
+import com.vimukti.accounter.taxreturn.core.Body;
+import com.vimukti.accounter.taxreturn.core.GovTalkError;
+import com.vimukti.accounter.taxreturn.core.GovTalkErrors;
 import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 
-public class DSP {
+public class DSPServer extends Thread {
+	private static LinkedBlockingQueue<Body> queue = new LinkedBlockingQueue<Body>();
 
 	private XStream xStream;
-	private String body;
 
-	private DSP(String body) {
-		this.body = body;
+	private DSPServer() {
 		init();
 		xStream = XStreamUtil.getXstream();
 	}
 
-	public static void main(String[] args) throws Exception {
-		new DSP("").submit();
+	@Override
+	public void run() {
+		while (true) {
+			try {
+				Body take = queue.take();
+				submit(take);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private void init() {
@@ -58,11 +65,11 @@ public class DSP {
 		}
 	}
 
-	public void submit() throws Exception {
+	public void submit(Body body) throws Exception {
 		// Request
 		GovTalkMessage response = send(
 				"https://secure.gateway.gov.uk/submission",
-				GovTalkMessageGenerator.getRequestMessage());
+				GovTalkMessageGenerator.getRequestMessage(body));
 
 		if (isContainErrors(response)) {
 			// TODO
@@ -101,15 +108,20 @@ public class DSP {
 	}
 
 	private boolean isContainErrors(GovTalkMessage response) {
-		// TODO Auto-generated method stub
-		return false;
+		GovTalkErrors govTalkErrors = response.getGovtTalkDetails()
+				.getGovTalkErrors();
+		if (govTalkErrors == null) {
+			return false;
+		}
+		List<GovTalkError> errors = govTalkErrors.getErrors();
+		return !errors.isEmpty();
 	}
 
-	private String getMD5(String password) throws Exception {
-		byte[] digest = MessageDigest.getInstance("MD5").digest(
-				password.toLowerCase().getBytes("UTF-8"));
-		return new Base64Encoder().encode(digest);
-	}
+	// private String getMD5(String password) throws Exception {
+	// byte[] digest = MessageDigest.getInstance("MD5").digest(
+	// password.toLowerCase().getBytes("UTF-8"));
+	// return new Base64Encoder().encode(digest);
+	// }
 
 	private GovTalkMessage send(String path, GovTalkMessage message) {
 		try {
@@ -121,18 +133,18 @@ public class DSP {
 					"Mozilla/4.0 (compatible; JVM)");
 			conn.setDoOutput(true);
 
-			FileInputStream fileInputStream = new FileInputStream(
-					new File(
-							"C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
-							"vatrequest.xml"));
-			byte[] data = new byte[fileInputStream.available()];
-			fileInputStream.read(data);
-			OutputStream outputStream = conn.getOutputStream();
-			outputStream.write(data);
-			outputStream.flush();
-			outputStream.close();
+			// FileInputStream fileInputStream = new FileInputStream(
+			// new File(
+			// "C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
+			// "vatrequest.xml"));
+			// byte[] data = new byte[fileInputStream.available()];
+			// fileInputStream.read(data);
+			// OutputStream outputStream = conn.getOutputStream();
+			// outputStream.write(data);
+			// outputStream.flush();
+			// outputStream.close();
 
-			// message.toXML(conn.getOutputStream());
+			message.toXML(conn.getOutputStream());
 			return (GovTalkMessage) xStream.fromXML(conn.getInputStream());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -142,4 +154,11 @@ public class DSP {
 		return null;
 	}
 
+	public synchronized static void put(Body body) {
+		try {
+			queue.put(body);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

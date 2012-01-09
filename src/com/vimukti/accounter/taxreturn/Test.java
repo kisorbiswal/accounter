@@ -7,7 +7,8 @@ import com.vimukti.accounter.taxreturn.core.GovTalkMessage;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
-		GovTalkMessage message = GovTalkMessageGenerator.getRequestMessage();// BodyValue
+		GovTalkMessage message = GovTalkMessageGenerator
+				.getRequestMessage(null);// BodyValue
 		// fillPoll("");//Acknw
 		// fillDelete("");//Response
 		FileOutputStream stream = new FileOutputStream(
