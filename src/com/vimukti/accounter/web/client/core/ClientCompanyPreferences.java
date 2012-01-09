@@ -129,6 +129,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 
+	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
+
 	private String dateFormat;
 
 	private String currencyFormat;
@@ -1366,6 +1368,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	 */
 	public void setCompanyFields(Map<String, String> companyFields) {
 		this.companyFields = companyFields;
+	}
+
+	public boolean isAccountnumberRangeCheckEnable() {
+		return get(ACCOUNTNUMBER_RANGE_CHECK);
+	}
+
+	public void setIsAccountNumberRangeCheck(boolean value) {
+
+		set(ACCOUNTNUMBER_RANGE_CHECK, value);
 	}
 
 }

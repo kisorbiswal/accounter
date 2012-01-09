@@ -25,7 +25,6 @@ public class MailLogTailerListener extends TailerListenerAdapter implements
 	}
 
 	Pattern pattern = Pattern.compile(".+<(.+?)>.+status=\\[(\\w+?)\\] (.+)");
-
 	@Override
 	public void handle(String line) {
 
