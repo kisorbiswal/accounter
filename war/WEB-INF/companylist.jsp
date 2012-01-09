@@ -45,10 +45,12 @@
   <tr>
   <td>
 	<div>
-		<img src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
+		<img style="float:left" src="/images/Accounter_logo_title.png" class="accounterLogo" alt="loading" />
 	</div>
+	<div style="float:right">
 	 <%@ include file="./locale.jsp" %>
-    <div class="company_lists">
+	</div>
+    <div class="company_lists" style="clear:both">
        
        
         <c:if test="${message != null}">
