@@ -82,6 +82,10 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 			Accounter.createHomeService().getTransactionToCreate(
 					obj.getRecurringTransaction(), obj.getTransactionDate(),
 					callBack);
+		} else if (col == 0) {
+			ReportsRPC.openTransactionView(obj.getRecurringTransaction()
+					.getTransaction().getType(), obj.getRecurringTransaction()
+					.getTransaction().getID());
 		}
 	}
 }
