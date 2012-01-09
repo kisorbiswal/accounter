@@ -2523,6 +2523,7 @@ input.date-field-textbox {
     padding-right: 4px;
     padding-top: 3px;
     width: 25px;
+    display:none;
 }
 
 .companies_title td:FIRST-CHILD {
@@ -2536,8 +2537,10 @@ input.date-field-textbox {
 	font-size: 1.4em;
 	padding: 3px 5px 6px 10px;
 	text-decoration: none;
-	width: 89px;
+	width: 110px;
 	color: #454343;
+	height:30px;
+	background: url("/images/companiesArrow.png") no-repeat scroll right center transparent;
 }
 
 .companyName-parent {
@@ -2603,7 +2606,7 @@ input.date-field-textbox {
 	border-width: 1px 0 0;
 }
 .companies_link_parent a:hover{
-	background: #ccc;
+	background: url("/images/companiesArrow.png") no-repeat scroll right center #ccc !important;
 }
 .attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor{
 	padding: 0 10px 0 0;
