@@ -1571,17 +1571,20 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 		}
 
-		if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
-			addError(
-					accNoText,
-					messages.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
-							+ "  "
-							+ nominalCodeRange[0]
-							+ messages.to()
-							+ nominalCodeRange[1]);
-			return false;
-		} else {
-			clearError(accNoText);
+		//Checking the account number range by company preferences 
+		if (getCompany().getPreferences().isAccountnumberRangeCheckEnable()) {
+			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
+				addError(
+						accNoText,
+						messages.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
+								+ "  "
+								+ nominalCodeRange[0]
+								+ messages.to()
+								+ nominalCodeRange[1]);
+				return false;
+			} else {
+				clearError(accNoText);
+			}
 		}
 		// }
 
