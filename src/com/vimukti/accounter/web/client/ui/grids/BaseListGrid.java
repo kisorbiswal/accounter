@@ -162,9 +162,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 	abstract protected int[] setColTypes();
 
 	protected void showWarnDialog(final T object) {
-		Accounter.showWarning(messages.doyouwanttoDelete()
-				+ ((IAccounterCore) object).getName(), AccounterType.WARNING,
-				new ErrorDialogHandler() {
+		Accounter.showWarning(messages
+				.doyouwanttoDeleteObj(((IAccounterCore) object).getName()),
+				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
 					public boolean onYesClick() {
