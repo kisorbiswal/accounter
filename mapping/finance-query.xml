@@ -7984,6 +7984,8 @@
 		delete from
 		cheque_layout where company_id=cid;
 		
+		delete from attachments where company_id=cid;
+		delete from message_or_task  where company_id=cid;
 		delete from account_amounts using account where account_id=account.id
 		and account.company_id=cid;
 		delete from account_transaction where
@@ -8096,6 +8098,7 @@
 		delete from purchase_order using transaction where
 		purchase_order.id=transaction.id and transaction.company_id=cid;
 		delete from recurring_transaction where company_id=cid;
+		delete from reminder where company_id=cid;
 		delete from
 		sales_order using transaction where
 		sales_order.id=transaction.id and
@@ -8105,12 +8108,15 @@
 		delete from shippingmethod where company_id=cid;
 		delete
 		from shippingterms where company_id=cid;
-		delete from stock_adjustment
-		where company_id=cid;
+		
 		delete from stock_adjustment_item using
 		stock_adjustment where
 		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
 		stock_adjustment.company_id=cid;
+		
+		delete from stock_adjustment
+		where company_id=cid;
+		
 		delete from item where company_id=cid;
 		delete from stock_transfer where company_id=cid;
 		delete from
@@ -8129,6 +8135,12 @@
 		delete from tax_item_groups where company_id=cid;
 		delete from tax_rate_calculation using transaction where
 		transaction_id=transaction.id and transaction.company_id=cid;
+		
+		delete
+		from transaction_pay_tax using tax_return , transaction where
+		tax_return.id=transaction_pay_tax.vat_return_id and transaction.id=tax_return.id and
+		transaction.company_id=cid;
+		
 		delete
 		from tax_return using transaction where tax_return.id=transaction.id
 		and transaction.company_id=cid;
@@ -8182,6 +8194,10 @@
 		delete from pay_bill using transaction
 		where pay_bill.id=transaction.id and
 		transaction.company_id=cid;
+		delete from
+		transaction_credits_and_payments using transaction_receive_payment, transaction where
+		transaction_receive_payment.id=transaction_credits_and_payments.transaction_receive_payment_id
+		and transaction_receive_payment.transaction_id=transaction.id and transaction.company_id=cid;
 		delete
 		from transaction_receive_payment using transaction where
 		transaction_id=transaction.id and transaction.company_id=cid;
@@ -8212,6 +8228,11 @@
 		write_checks.id=transaction.id and transaction.company_id=cid;
 		delete
 		from customer where company_id=cid;
+		delete from PORTLET_CONFIGURATION_PORTLETDATA using portlet_configuration,portlet_page_configuration, users
+		where portlet_configuration.id=PORTLET_CONFIGURATION_PORTLETDATA.id and
+		portlet_configuration.portlet_config_id=portlet_page_configuration.id
+		and portlet_page_configuration.user_id=users.id and
+		users.company_id=cid;
 		delete from portlet_configuration
 		using portlet_page_configuration, users
 		where
@@ -8379,10 +8400,12 @@
 		from shippingterms where company_id=cid;
 		delete from stock_adjustment
 		where company_id=cid;
+		
 		delete from stock_adjustment_item using
 		stock_adjustment where
 		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
 		stock_adjustment.company_id=cid;
+		
 		delete from item where company_id=cid;
 		delete from stock_transfer where company_id=cid;
 		delete from
@@ -8410,12 +8433,19 @@
 		transaction.company_id=cid;
 		delete from taxagency where company_id=cid;
 		delete from taxrates where company_id=cid;
+		
 		delete from
 		transaction_credits_and_payments using credits_and_payments ,
 		transaction where
 		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
 		and credits_and_payments.transaction_id=transaction.id and
 		transaction.company_id=cid;
+		
+		delete from
+		transaction_credits_and_payments using transaction_paybill where
+		transaction_paybill.id=transaction_credits_and_payments.transaction_paybill_id
+		and transaction_paybill.company_id=cid;
+		
 		delete from credits_and_payments using
 		transaction where
 		transaction_id=transaction.id and
@@ -8446,6 +8476,7 @@
 		from transaction_pay_tax using pay_tax , transaction where
 		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
 		transaction.company_id=cid;
+		
 		delete from pay_tax using transaction where
 		pay_tax.id=transaction.id and
 		transaction.company_id=cid;

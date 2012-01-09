@@ -1038,7 +1038,7 @@
 		</many-to-one>
 		<many-to-one name="payee" class="Payee" column="PAYEE_ID">
 		</many-to-one>
-		<set name="transactionCreditsAndPayments">
+		<set name="transactionCreditsAndPayments" cascade="delete">
 			<key column="CREDITS_AND_PAYMENTS_ID"></key>
 			<one-to-many class="TransactionCreditsAndPayments" />
 		</set>
