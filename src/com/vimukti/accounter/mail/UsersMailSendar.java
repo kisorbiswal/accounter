@@ -318,7 +318,8 @@ public class UsersMailSendar {
 		content = content.replaceAll("%USER%",
 				getUserName(invitedClient.getFirstName()));
 		content = content.replaceAll("%USERID%", invitedClient.getEmailId());
-		content = content.replaceAll("%SENDERNAME%", inviter.getEmailId());
+		content = content.replaceAll("%INVITED_USER_NAME%",
+				inviter.getFullName());
 		content = content.replaceAll("%COMPANY%", companyName);
 		content = content.replaceAll("%URL%", "http://accounterlive.com");
 		content = content.replaceAll("%PASSWORD%", invitedClient.getPassword());
