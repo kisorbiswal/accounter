@@ -8,6 +8,12 @@ public class ValidationResult {
 	private List<Warning> warnings = new ArrayList<ValidationResult.Warning>();
 
 	public void addError(Object obj, String msg) {
+		for (Error error : this.errors) {
+			if (error.getMessage().equals(msg)) {
+				return;
+			}
+		}
+
 		this.errors.add(new Error(obj, msg));
 	}
 
