@@ -133,7 +133,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		// if (getSelectedDiscountAccount() == null) {
 		ValidationResult result = new ValidationResult();
 		result.add(form.validate());
-		if (discAmtText.getAmount() <= 0) {
+		if (discAmtText.getAmount() < 0) {
 			result.addError(discAmtText,
 					messages.pleaseEnter(messages.discountAmount()));
 		}
