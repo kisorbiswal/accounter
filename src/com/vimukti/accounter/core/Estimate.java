@@ -372,7 +372,9 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		try {
-			updateTotals();
+			if (this.getEstimateType() == BILLABLEEXAPENSES) {
+				updateTotals();
+			}
 		} catch (AccounterException e) {
 		}
 		super.onSave(session);
@@ -395,11 +397,12 @@ public class Estimate extends Transaction {
 				totalTax += record.getVATfraction();
 			}
 		}
-		setNetAmount(lineTotal);
 		setTaxTotal(totalTax);
 		if (!amountsIncludeVAT) {
+			setNetAmount(lineTotal);
 			setTotal(totalTax + lineTotal);
 		} else {
+			setNetAmount(lineTotal - totalTax);
 			setTotal(lineTotal);
 		}
 	}
