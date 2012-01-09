@@ -638,7 +638,7 @@ form {
 	font-weight: normal;
 }
 #commanContainer{
-	width: 320px;
+	width: 375px;
 }
 #commanNewContainer,#commanContainer{
 	margin: 7em auto;
@@ -1026,8 +1026,8 @@ a#fdbk_tab:hover {
 }
 #language_picker select{
 	float: right;
-    width: 90px;
-    margin-bottom:5px;
+	width: 90px;
+	margin-top: 17px;
 }
 .company_lists{
 	clear:both;
