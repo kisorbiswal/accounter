@@ -1573,7 +1573,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			return true;
 		}
 
-		//Checking the account number range by company preferences 
+		// Checking the account number range by company preferences
 		if (getCompany().getPreferences().isAccountnumberRangeCheckEnable()) {
 			if (number < nominalCodeRange[0] || number > nominalCodeRange[1]) {
 				addError(
@@ -1650,7 +1650,9 @@ public class NewAccountView extends BaseView<ClientAccount> {
 	private void getNextAccountNo() {
 		long nextAccountNumber = getCompany().getNextAccountNumber(
 				UIUtils.getAccountSubBaseType(accountType));
-		accNoText.setValue(String.valueOf(nextAccountNumber));
+		if (nextAccountNumber != -1) {
+			accNoText.setValue(String.valueOf(nextAccountNumber));
+		}
 	}
 
 	@Override
