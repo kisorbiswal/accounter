@@ -124,9 +124,21 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new NewQuantityColumn());
+		this.addColumn(new NewQuantityColumn() {
+			@Override
+			protected void setValue(ClientTransactionItem row, String value) {
+				super.setValue(row, value);
+				update(row);
+			}
+		});
 
-		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
+		this.addColumn(new TransactionUnitPriceColumn(currencyProvider) {
+			@Override
+			public void setValue(ClientTransactionItem row, String value) {
+				super.setValue(row, value);
+				update(row);
+			}
+		});
 
 		if (needDiscount) {
 			if (showDiscount) {
