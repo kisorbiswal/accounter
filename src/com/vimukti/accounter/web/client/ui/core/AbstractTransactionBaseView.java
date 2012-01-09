@@ -354,12 +354,15 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isVATInclusive = event.getValue();
+				updateAmountsFromGUI();
 				refreshTransactionGrid();
 			}
 		});
 		vatinclusiveCheck.setDisabled(isInViewMode());
 		return vatinclusiveCheck;
 	}
+
+	protected abstract void refreshTransactionGrid();
 
 	protected AmountField getDiscountField() {
 		discountField = new AmountField(messages.discount(), this);
@@ -376,8 +379,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected abstract void updateDiscountValues();
-
-	protected abstract void refreshTransactionGrid();
 
 	protected void initTransactionNumber() {
 
