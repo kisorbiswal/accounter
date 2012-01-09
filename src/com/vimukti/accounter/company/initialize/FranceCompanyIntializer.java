@@ -96,6 +96,7 @@ public class FranceCompanyIntializer extends CompanyInitializer {
 		tvaStandardCode.setTAXItemGrpForPurchases(tvaStandardTaxItem);
 		tvaStandardCode.setTAXItemGrpForSales(tvaStandardTaxItem);
 		tvaStandardCode.setDefault(true);
+		session.save(tvaStandardCode);
 
 		TAXCode tvaSpecificCode = new TAXCode(company);
 		tvaSpecificCode.setName("taux spécifique 2.1%");
@@ -105,6 +106,7 @@ public class FranceCompanyIntializer extends CompanyInitializer {
 		tvaSpecificCode.setTAXItemGrpForPurchases(tvaSpecificTaxItem);
 		tvaSpecificCode.setTAXItemGrpForSales(tvaSpecificTaxItem);
 		tvaSpecificCode.setDefault(true);
+		session.save(tvaSpecificCode);
 
 		TAXCode tvaReducedCode = new TAXCode(company);
 		tvaReducedCode.setName("tarif réduit 5.5%");
