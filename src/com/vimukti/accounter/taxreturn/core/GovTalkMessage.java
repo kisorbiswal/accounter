@@ -56,13 +56,16 @@ public class GovTalkMessage {
 	}
 
 	public void toXML(OutputStream stream) throws Exception {
+		stream.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+				.getBytes("utf-8"));
 		XMLWriter writer = new XMLWriter(stream);
 
 		XMLElement element = new XMLElement("GovTalkMessage");
-		element.setAttribute("xmlns", "http://www.govtalk.gov.uk/CM/envelope");
+		element.setAttribute("xmlns:hd",
+				"http://www.govtalk.gov.uk/CM/envelope");
 
 		if (envelopVersion != null) {
-			XMLElement envelopElement = new XMLElement("EnvelopVersion");
+			XMLElement envelopElement = new XMLElement("EnvelopeVersion");
 			envelopElement.setContent(envelopVersion);
 			element.addChild(envelopElement);
 		}
@@ -79,5 +82,4 @@ public class GovTalkMessage {
 		stream.flush();
 		stream.close();
 	}
-
 }

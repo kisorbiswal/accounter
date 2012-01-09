@@ -33,7 +33,6 @@ public class GovtTalkDetails {
 	private GatewayAdditions gatewayAdditions = new GatewayAdditions();
 
 	public GovtTalkDetails() {
-		channelRoutings.add(new ChannelRouting());
 	}
 
 	public TargetDetails getTargetDetails() {
@@ -76,8 +75,16 @@ public class GovtTalkDetails {
 		this.govTalkErrors = govTalkErrors;
 	}
 
+	public List<ChannelRouting> getChannelRoutings() {
+		return channelRoutings;
+	}
+
+	public void setChannelRoutings(List<ChannelRouting> channelRoutings) {
+		this.channelRoutings = channelRoutings;
+	}
+
 	public IXMLElement toXML() {
-		XMLElement govtTalkDetailsElement = new XMLElement("GovtTalkDetails");
+		XMLElement govtTalkDetailsElement = new XMLElement("GovTalkDetails");
 		if (keys != null) {
 			govtTalkDetailsElement.addChild(keys.toXML());
 		}

@@ -10,14 +10,13 @@ public class IDAuthentication {
 	/**
 	 * Element cardinality 1..1
 	 */
-	private String senderId ;
+	private String senderId;
 	/**
 	 * Element cardinality 1..∞
 	 */
 	private List<Authentication> authentications = new ArrayList<Authentication>();
 
 	public IDAuthentication() {
-		getAuthentications().add(new Authentication());
 	}
 
 	public String getSenderId() {
@@ -39,7 +38,7 @@ public class IDAuthentication {
 	public IXMLElement toXML() {
 		XMLElement iDAuthenticationElement = new XMLElement("IDAuthentication");
 		if (senderId != null) {
-			XMLElement senderIdElement = new XMLElement("SenderId");
+			XMLElement senderIdElement = new XMLElement("SenderID");
 			senderIdElement.setContent(senderId);
 			iDAuthenticationElement.addChild(senderIdElement);
 		}

@@ -13,7 +13,6 @@ public class Keys {
 	private List<Key> keys = new ArrayList<Key>();
 
 	public Keys() {
-		getKeys().add(new Key());
 	}
 
 	public List<Key> getKeys() {
