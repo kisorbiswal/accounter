@@ -1032,4 +1032,7 @@ a#fdbk_tab:hover {
 .company_lists{
 	clear:both;
 }
+.openid-signup-container{
+	width:600px !important;
+}
 /* End of the new Login and forgot password page*/
