@@ -58,10 +58,10 @@ html,body,.view_manager,.myacc-form1 td input[type=text],.gridBodyContainer,.gri
 .error-panel,.commentPanel,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,
 .listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.gwt-TreeItem,
-.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG,.history_notes_view {
+.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,.view_manager_body,.MENU_BAR_BG,.history_notes_view,.Transactions_center {
 	width: 100%;
 }
-.textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td,.tax-form tr td,.financialDataTitle:FIRST-CHILD,
+.textbold td,.name-label,.label-company,.bold,.text-bold,.unreadmessage td ,.tax-form tr td,.financialDataTitle:FIRST-CHILD,
 .selected-page,.plain-panel-title,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMonth,.label-banking,
 .financialDataTitle,.lable-title,.listgridfooter td,.boldcell,.label-title-list,.label-title,.error-panel,.inviteUserLabel,
 .boldtext tr td div,.amountLabelPortlet,.selectedview_labelstyle,.selectedview_tiny_labelstyle,.selectedview_large_labelstyle,
@@ -806,7 +806,7 @@ iframe,.address div {
 .image-button{
     background-position: 10px center;
     padding:0px 10px 1px 34px;
-    background-color: #C4C0C0;
+    background-color: #E8E8E8;
 	border: 1px solid #918C8C;
 	color: black;
 	border-radius: 11px;
