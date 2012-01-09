@@ -61,8 +61,7 @@ public class GovTalkMessage {
 		XMLWriter writer = new XMLWriter(stream);
 
 		XMLElement element = new XMLElement("GovTalkMessage");
-		element.setAttribute("xmlns:hd",
-				"http://www.govtalk.gov.uk/CM/envelope");
+		element.setAttribute("xmlns", "http://www.govtalk.gov.uk/CM/envelope");
 
 		if (envelopVersion != null) {
 			XMLElement envelopElement = new XMLElement("EnvelopeVersion");
