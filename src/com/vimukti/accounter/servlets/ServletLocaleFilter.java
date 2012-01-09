@@ -35,8 +35,8 @@ public class ServletLocaleFilter implements Filter {
 
 	private Locale getLocale(HttpServletRequest request) {
 		String locale = getCookie(request, "locale");
-		if(locale!=null){
-			new Locale(locale);
+		if (locale != null) {
+			return new Locale(locale);
 		}
 		return request.getLocale();
 	}
