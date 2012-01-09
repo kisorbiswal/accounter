@@ -2100,4 +2100,11 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return tool.savePortletConfiguration(configuration);
 	}
 
+	@Override
+	public String getIRASFileInformation(ClientFinanceDate startDate,
+			ClientFinanceDate endDate, boolean isXml) throws AccounterException {
+		return getFinanceTool().getIRASFileInformationByDate(getCompanyId(),
+				startDate.getDate(), endDate.getDate(), isXml);
+	}
+
 }

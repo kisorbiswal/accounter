@@ -5,8 +5,10 @@ package com.vimukti.accounter.web.server;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -61,6 +63,11 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.IRASCompanyInfo;
+import com.vimukti.accounter.core.IRASGeneralLedgerLineInfo;
+import com.vimukti.accounter.core.IRASInformation;
+import com.vimukti.accounter.core.IRASPurchaseLineInfo;
+import com.vimukti.accounter.core.IRASSupplyLineInfo;
 import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
@@ -77,6 +84,7 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
@@ -110,6 +118,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.ClientLocalMessage;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -4019,5 +4028,335 @@ public class FinanceTool {
 			return false;
 		} finally {
 		}
+	}
+
+	public String getIRASFileInformationByDate(Long companyId, long startDate,
+			long endDate, boolean isXml) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		IRASInformation gstInformation = new IRASInformation();
+		Company company = getCompany(companyId);
+
+		IRASCompanyInfo companyInfo = new IRASCompanyInfo();
+		companyInfo.setCompanyName(company.getTradingName());
+		Map<String, String> companyFields = company.getPreferences()
+				.getCompanyFields();
+		String companyUEN = companyFields.get("CompanyUEN");
+		String gstNo = companyFields.get("GSTNo");
+		companyInfo.setCompanyUEN(companyUEN);
+		companyInfo.setGSTNo(gstNo);
+		companyInfo.setPeriodStart(new FinanceDate(startDate));
+
+		companyInfo.setPeriodEnd(new FinanceDate(endDate));
+		companyInfo.setIAFCreationDate(new FinanceDate());
+		companyInfo.setProductVersion("Accounter");
+		companyInfo.setIAFVersion("IAFv1.0.0");
+
+		gstInformation.setCompanyInfo(companyInfo);
+
+		List<IRASPurchaseLineInfo> purchaseLineInfo = new ArrayList<IRASPurchaseLineInfo>();
+
+		Query query = session.getNamedQuery("getPurchaseLineItems")
+				.setLong("startDate", startDate).setLong("endDate", endDate)
+				.setParameter("companyId", companyId);
+		List list = query.list();
+		Iterator iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			IRASPurchaseLineInfo gstPurchaseLineInfo = new IRASPurchaseLineInfo();
+			Object[] next = (Object[]) iterator.next();
+
+			String vendorName = (String) next[0];
+
+			Query namedQuery = session.getNamedQuery("getVendor.by.name")
+					.setParameter("name", vendorName)
+					.setEntity("company", company);
+			Vendor vendor = (Vendor) namedQuery.uniqueResult();
+			// String vendorUEN = vendor.getPayeeFields().get("SupplierUEN");
+			gstPurchaseLineInfo.setSupplierName(vendorName);
+			// gstPurchaseLineInfo.setSupplierUEN(vendorUEN);
+			gstPurchaseLineInfo.setInvoiceDate(new FinanceDate((Long) next[1]));
+			gstPurchaseLineInfo.setInvoiceNo((String) next[2]);
+			gstPurchaseLineInfo.setPermitNo("");
+			gstPurchaseLineInfo.setLineNo(0);
+			gstPurchaseLineInfo.setProductDescription((String) next[3]);
+
+			double price = (Double) next[4];
+
+			gstPurchaseLineInfo.setTaxCode((String) next[5]);
+
+			double taxAmount = (Double) next[6];
+
+			String currencyName = (String) next[7];
+			double currencyFactor = (Double) next[8];
+
+			gstPurchaseLineInfo.setPurchaseValueSGD(price * currencyFactor);
+			gstPurchaseLineInfo.setGSTValueSGD(taxAmount * currencyFactor);
+			gstPurchaseLineInfo.setLineNo((Long) next[9]);
+
+			if (currencyName.equals("SGD")) {
+				gstPurchaseLineInfo.setFCYCode("XXX");
+			} else {
+				gstPurchaseLineInfo.setFCYCode(currencyName);
+				gstPurchaseLineInfo.setPurchaseFCY(price);
+				gstPurchaseLineInfo.setGSTFCY(taxAmount);
+			}
+
+			purchaseLineInfo.add(gstPurchaseLineInfo);
+
+		}
+		gstInformation.setPurchaseLines(purchaseLineInfo);
+
+		List<IRASSupplyLineInfo> supplyLineInfo = new ArrayList<IRASSupplyLineInfo>();
+
+		Query supplyQuery = session.getNamedQuery("getSupplyLineItems")
+				.setLong("startDate", startDate).setLong("endDate", endDate)
+				.setParameter("companyId", companyId);
+		Iterator iterator1 = supplyQuery.list().iterator();
+
+		while (iterator1.hasNext()) {
+			IRASSupplyLineInfo gstSupplyLineInfo = new IRASSupplyLineInfo();
+			Object[] next = (Object[]) iterator1.next();
+
+			String customerName = (String) next[0];
+
+			Query namedQuery = session.getNamedQuery("getCustomer.by.name")
+					.setParameter("name", customerName)
+					.setEntity("company", company);
+			Customer customer = (Customer) namedQuery.uniqueResult();
+			// String customerUEN =
+			// customer.getPayeeFields().get("CustomerUEN");
+
+			gstSupplyLineInfo.setCustomerName(customerName);
+			// gstSupplyLineInfo.setCustomerUEN(customerUEN);
+			gstSupplyLineInfo.setInvoiceDate(new FinanceDate((Long) next[1]));
+			gstSupplyLineInfo.setInvoiceNo((String) next[2]);
+			gstSupplyLineInfo.setProductDescription((String) next[3]);
+
+			double price = (Double) next[4];
+
+			gstSupplyLineInfo.setTaxCode((String) next[5]);
+
+			double taxAmount = (Double) next[6];
+
+			String currencyName = (String) next[7];
+			double currencyFactor = (Double) next[8];
+
+			gstSupplyLineInfo.setSupplyValueSGD(price * currencyFactor);
+			gstSupplyLineInfo.setGSTValueSGD(taxAmount * currencyFactor);
+
+			gstSupplyLineInfo.setCountry((String) next[9]);
+			gstSupplyLineInfo.setLineNo((Long) next[10]);
+
+			if (currencyName.equals("SGD")) {
+				gstSupplyLineInfo.setFCYCode("XXX");
+			} else {
+				gstSupplyLineInfo.setFCYCode(currencyName);
+				gstSupplyLineInfo.setSupplyFCY(price);
+				gstSupplyLineInfo.setGSTFCY(taxAmount);
+			}
+
+			supplyLineInfo.add(gstSupplyLineInfo);
+
+		}
+		gstInformation.setSupplyLines(supplyLineInfo);
+
+		List<IRASGeneralLedgerLineInfo> glLineInfo = new ArrayList<IRASGeneralLedgerLineInfo>();
+
+		Query glQuery = session.getNamedQuery("getGLLineItems")
+				.setLong("startDate", startDate).setLong("endDate", endDate)
+				.setParameter("companyId", companyId);
+		Iterator iterator2 = glQuery.list().iterator();
+
+		while (iterator2.hasNext()) {
+			IRASGeneralLedgerLineInfo gstGLLineInfo = new IRASGeneralLedgerLineInfo();
+			Object[] next = (Object[]) iterator2.next();
+
+			gstGLLineInfo.setTransactionDate(new FinanceDate((Long) next[0]));
+			gstGLLineInfo.setAccountID((String) next[1]);
+			gstGLLineInfo.setAccountName((String) next[2]);
+			gstGLLineInfo.setTransactionDescription((String) next[3]);
+			gstGLLineInfo.setName((String) next[4]);
+			long transactionId = (Long) next[5];
+			gstGLLineInfo.setTransactionID(String.valueOf(transactionId));
+
+			gstGLLineInfo.setCredit((Double) next[6]);
+			gstGLLineInfo.setDebit((Double) next[7]);
+			gstGLLineInfo.setBalance((Double) next[8]);
+
+			Query namedQuery = session.getNamedQuery("getTransaction.by.id")
+					.setLong("transactionId", transactionId)
+					.setEntity("company", company);
+			Transaction transaction = (Transaction) namedQuery.uniqueResult();
+
+			if (transaction != null) {
+				String documentId = getSourceDocumentId(transaction);
+				String sourceType = getSourceType(transaction);
+
+				gstGLLineInfo.setSourceDocumentID(documentId);
+				gstGLLineInfo.setSourceType(sourceType);
+			}
+
+			glLineInfo.add(gstGLLineInfo);
+
+		}
+		gstInformation.setGeneralLedgerLines(glLineInfo);
+
+		if (isXml) {
+			return createXmlFile(gstInformation);
+		} else {
+			return createTxtFile(gstInformation);
+		}
+
+	}
+
+	protected String createTxtFile(IRASInformation result) {
+		FileOutputStream stream;
+		try {
+			File file = new File(ServerConfiguration.getTmpDir(),
+					SecureUtils.createID() + ".txt");
+			stream = new FileOutputStream(file);
+
+			DataOutputStream outputStream = new DataOutputStream(stream);
+
+			result.toTxt(outputStream);
+
+			return file.getName();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	protected String createXmlFile(IRASInformation result) {
+		FileOutputStream stream;
+		try {
+			File file = new File(ServerConfiguration.getTmpDir(),
+					SecureUtils.createID() + ".xml");
+
+			stream = new FileOutputStream(file);
+
+			result.toXML(stream);
+
+			return file.getName();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	String PURCHASES = "Purchases";
+	String CASH_RECEIPT = "Cash Receipt";
+	String AR = "AR";
+	String AP = "AP";
+	String INVENTORY = "Inventory";
+	String SALES = "Sales";
+	String CASH_DISBURSEMENT = "Cash Disbursement";
+	String GENERAL_JOURNAL = "General Journal";
+
+	private String getSourceType(Transaction transaction) {
+		switch (transaction.getType()) {
+		case Transaction.TYPE_CASH_PURCHASE:
+		case Transaction.TYPE_CASH_EXPENSE:
+		case Transaction.TYPE_PAY_BILL:
+			return PURCHASES;
+
+		case Transaction.TYPE_CASH_SALES:
+			return CASH_RECEIPT;
+
+		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
+		case Transaction.TYPE_CUSTOMER_REFUNDS:
+		case Transaction.TYPE_INVOICE:
+		case Transaction.TYPE_RECEIVE_TAX:
+			return AR;
+
+		case Transaction.TYPE_ENTER_BILL:
+		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
+		case Transaction.TYPE_EXPENSE:
+		case Transaction.TYPE_CREDIT_CARD_CHARGE:
+		case Transaction.TYPE_PAY_TAX:
+			return AP;
+
+		case Transaction.TYPE_JOURNAL_ENTRY:
+		case Transaction.TYPE_TRANSFER_FUND:
+		case Transaction.TYPE_MAKE_DEPOSIT:
+		case Transaction.TYPE_ADJUST_SALES_TAX:
+		case Transaction.TYPE_TAX_RETURN:
+		case Transaction.TYPE_WRITE_CHECK:
+			return GENERAL_JOURNAL;
+
+		case Transaction.TYPE_RECEIVE_PAYMENT:
+			return SALES;
+
+		default:
+			return null;
+		}
+	}
+
+	private String getSourceDocumentId(Transaction transaction) {
+
+		switch (transaction.getType()) {
+		case Transaction.TYPE_CASH_PURCHASE:
+		case Transaction.TYPE_CASH_SALES:
+		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case Transaction.TYPE_ENTER_BILL:
+		case Transaction.TYPE_JOURNAL_ENTRY:
+		case Transaction.TYPE_TRANSFER_FUND:
+		case Transaction.TYPE_PAY_BILL:
+		case Transaction.TYPE_VENDOR_CREDIT_MEMO:
+		case Transaction.TYPE_ADJUST_SALES_TAX:
+		case Transaction.TYPE_TAX_RETURN:
+		case Transaction.TYPE_RECEIVE_TAX:
+		case Transaction.TYPE_CREDIT_CARD_CHARGE:
+		case Transaction.TYPE_CREDIT_CARD_EXPENSE:
+		case Transaction.TYPE_CASH_EXPENSE:
+		case Transaction.TYPE_PAY_TAX:
+		case Transaction.TYPE_INVOICE:
+			return transaction.getNumber();
+
+		case Transaction.TYPE_CUSTOMER_PRE_PAYMENT:
+			if (transaction.getPaymentMethod().equals("Check")) {
+				CustomerPrePayment customerPrePayment = (CustomerPrePayment) transaction;
+				return customerPrePayment.getCheckNumber();
+			} else {
+				return transaction.getNumber();
+			}
+
+		case Transaction.TYPE_CUSTOMER_REFUNDS:
+			if (transaction.getPaymentMethod().equals("Check")) {
+				CustomerRefund customerRefund = (CustomerRefund) transaction;
+				return customerRefund.getCheckNumber();
+			} else {
+				return transaction.getNumber();
+			}
+
+		case Transaction.TYPE_RECEIVE_PAYMENT:
+			if (transaction.getPaymentMethod().equals("Check")) {
+				ReceivePayment receivePayment = (ReceivePayment) transaction;
+				return receivePayment.getCheckNumber();
+			} else {
+				return transaction.getNumber();
+			}
+
+		case Transaction.TYPE_WRITE_CHECK:
+			if (transaction.getPaymentMethod().equals("Check")) {
+				WriteCheck writeCheck = (WriteCheck) transaction;
+				return writeCheck.getCheckNumber();
+			} else {
+				return transaction.getNumber();
+			}
+
+			// case Transaction.TYPE_PAY_EXPENSE:
+			// if (transaction.getPaymentMethod().equals("Check")) {
+			// PayExpense payExpense = (PayExpense) transaction;
+			// return payExpense.getCheckNumber();
+			// } else {
+			// return transaction.getNumber();
+			// }
+
+		}
+		return "";
 	}
 }

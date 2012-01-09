@@ -41,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.company.ChartOfAccountsAction;
 import com.vimukti.accounter.web.client.ui.company.CheckPrintSettingAction;
 import com.vimukti.accounter.web.client.ui.company.CompanyHomeAction;
 import com.vimukti.accounter.web.client.ui.company.CountryRegionListAction;
+import com.vimukti.accounter.web.client.ui.company.CreateIRASInformationFileAction;
 import com.vimukti.accounter.web.client.ui.company.CreditRatingListAction;
 import com.vimukti.accounter.web.client.ui.company.CurrencyGroupListAction;
 import com.vimukti.accounter.web.client.ui.company.CustomerCentreAction;
@@ -1335,6 +1336,10 @@ public class ActionFactory {
 
 	public static TDSAcknowledgementFormAction getTdsAcklowledgementForm() {
 		return new TDSAcknowledgementFormAction();
+	}
+
+	public static CreateIRASInformationFileAction getIARSInformationAction() {
+		return new CreateIRASInformationFileAction();
 	}
 
 }
