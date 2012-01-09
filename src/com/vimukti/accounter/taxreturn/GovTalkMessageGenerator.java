@@ -40,7 +40,7 @@ public class GovTalkMessageGenerator {
 		govtTalkDetails.setChannelRoutings(null);
 
 		Body body = message.getBody();
-		body.setValue(null);
+		body.setiRenvelope(null);
 		return message;
 	}
 
@@ -68,7 +68,7 @@ public class GovTalkMessageGenerator {
 		govtTalkDetails.setGatewayAdditions(null);
 
 		Body body = message.getBody();
-		body.setValue(null);
+		body.setiRenvelope(null);
 		return message;
 	}
 

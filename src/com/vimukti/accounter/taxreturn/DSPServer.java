@@ -1,6 +1,9 @@
 package com.vimukti.accounter.taxreturn;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -66,16 +69,24 @@ public class DSPServer extends Thread {
 		}
 	}
 
+	public static void main(String[] args) throws Exception {
+		new DSPServer().submit(null);
+	}
+
 	public void submit(Body body) throws Exception {
 		// http://localhost:5665/LTS/LTSPostServlet
-
+		// https://secure.gateway.gov.uk/submission
 		// Request
 		GovTalkMessage response = send(
-				"https://secure.gateway.gov.uk/submission",
+				"http://localhost:5665/LTS/LTSPostServlet",
 				GovTalkMessageGenerator.getRequestMessage(body));
 
 		if (isContainErrors(response)) {
 			// TODO
+			GovTalkErrors govTalkErrors = response.getGovtTalkDetails()
+					.getGovTalkErrors();
+			System.err.println(govTalkErrors.getErrors().get(0).getText());
+			return;
 		}
 
 		ResponseEndPoint responseEndPoint = response.getHeader()
@@ -114,6 +125,9 @@ public class DSPServer extends Thread {
 	}
 
 	private boolean isContainErrors(GovTalkMessage response) {
+		if (response == null) {
+			return true;
+		}
 		GovTalkErrors govTalkErrors = response.getGovtTalkDetails()
 				.getGovTalkErrors();
 		if (govTalkErrors == null) {
@@ -139,18 +153,18 @@ public class DSPServer extends Thread {
 					"Mozilla/4.0 (compatible; JVM)");
 			conn.setDoOutput(true);
 
-			// FileInputStream fileInputStream = new FileInputStream(
-			// new File(
-			// "C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
-			// "vatrequest.xml"));
-			// byte[] data = new byte[fileInputStream.available()];
-			// fileInputStream.read(data);
-			// OutputStream outputStream = conn.getOutputStream();
-			// outputStream.write(data);
-			// outputStream.flush();
-			// outputStream.close();
+			FileInputStream fileInputStream = new FileInputStream(
+					new File(
+							"C:/Users/vimukti04/Desktop/accounter/HMRC-VAT/LTS3.10/HMRCTools/TestData/New folder",
+							"vatrequest.xml"));
+			byte[] data = new byte[fileInputStream.available()];
+			fileInputStream.read(data);
+			OutputStream outputStream = conn.getOutputStream();
+			outputStream.write(data);
+			outputStream.flush();
+			outputStream.close();
 
-			message.toXML(conn.getOutputStream());
+			// message.toXML(conn.getOutputStream());
 			return (GovTalkMessage) xStream.fromXML(conn.getInputStream());
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
