@@ -132,6 +132,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		// CompanyFiscalYearOption fiscalYearOption = new
 		// CompanyFiscalYearOption();
 		DoyouUseOption doyouUseOption = new DoyouUseOption();
+		AccountNumberRangeOption accountNumberRangeOption = new AccountNumberRangeOption();
 		CompanyCurrencyOption currencyOption = new CompanyCurrencyOption();
 		CreditsOption creditsOption = new CreditsOption();
 		CompanyTimeZoneOption timeZoneOption = new CompanyTimeZoneOption();
@@ -144,6 +145,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 		companyInfoPage.addPreferenceOption(einOption);
 		// companyInfoPage.addPreferenceOption(fiscalYearOption);
 		companyInfoPage.addPreferenceOption(doyouUseOption);
+		companyInfoPage.addPreferenceOption(accountNumberRangeOption);
 		companyInfoPage.addPreferenceOption(currencyOption);
 		companyInfoPage.addPreferenceOption(creditsOption);
 		companyInfoPage.addPreferenceOption(timeZoneOption);
