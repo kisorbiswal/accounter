@@ -5251,4 +5251,6 @@ public interface AccounterMessages extends Messages {
 
 	public String inFavourOf();
 
+	public String areYouwantToDeleteReconcilationHistory();
+
 }
