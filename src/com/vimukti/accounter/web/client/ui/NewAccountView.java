@@ -1581,8 +1581,8 @@ public class NewAccountView extends BaseView<ClientAccount> {
 						messages.theAccountNumberchosenisincorrectPleaschooseaNumberbetween()
 								+ "  "
 								+ nominalCodeRange[0]
-								+ messages.to()
-								+ nominalCodeRange[1]);
+								+ "  "
+								+ messages.to() + "  " + nominalCodeRange[1]);
 				return false;
 			} else {
 				clearError(accNoText);
