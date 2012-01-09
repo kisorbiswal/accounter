@@ -107,6 +107,9 @@ public class JournalEntryView extends
 
 		List<ClientTransactionItem> allEntries = grid.getAllRows();
 		for (ClientTransactionItem entry : allEntries) {
+			if (entry.isEmpty()) {
+				continue;
+			}
 			if (entry.getLineTotal() == null || entry.getLineTotal() == 0) {
 				result.addError(this,
 						messages.valueCannotBe0orlessthan0(messages.amount()));
