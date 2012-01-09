@@ -792,8 +792,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.getUpdatedCustomerCreditsAndPayments();
 		if (updatedCustomerCreditsAndPayments != null) {
 			for (ClientCreditsAndPayments credit : updatedCustomerCreditsAndPayments) {
-				totalCredits += credit.getCreditAmount();
+				totalCredits += credit.getBalance();
 			}
+		}
+
+		if (totalCredits == 0) {
+			this.unUsedCreditsText.setAmount(totalCredits);
+			return;
 		}
 
 		// To apply credits automatically to transactionItems by enable Apply
@@ -801,9 +806,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 			List<ClientTransactionPayBill> allRows = grid.getSelectedRecords();
 			for (ClientTransactionPayBill c : allRows) {
-				if (totalCredits == 0) {
-					continue;
-				}
 				if (c.creditsAppliedManually) {
 					totalCredits -= c.getAppliedCredits();
 					continue;

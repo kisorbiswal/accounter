@@ -232,20 +232,18 @@ public class ReceivePaymentView extends
 
 		double totalCredits = 0D;
 		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
-			totalCredits += credit.getCreditAmount();
+			totalCredits += credit.getBalance();
+		}
+
+		if (totalCredits == 0) {
+			this.unUsedCreditsText.setAmount(totalCredits);
+			return;
 		}
 
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 			List<ClientTransactionReceivePayment> allRows = gridView
 					.getSelectedRecords();
 			for (ClientTransactionReceivePayment c : allRows) {
-				if (totalCredits == 0) {
-					continue;
-				}
-				if (c.creditsAppliedManually) {
-					totalCredits -= c.getAppliedCredits();
-					continue;
-				}
 				double creditsToApply = Math
 						.min(c.getAmountDue(), totalCredits);
 				c.setAppliedCredits(creditsToApply, false);
@@ -254,7 +252,9 @@ public class ReceivePaymentView extends
 				gridView.update(c);
 			}
 		}
+
 		this.unUsedCreditsText.setAmount(totalCredits);
+
 	}
 
 	private void setCustomerBalance(Double balance) {
