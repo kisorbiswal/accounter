@@ -391,7 +391,9 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			ActionFactory.getNewJournalEntryAction().run(transaction, false);
 			break;
-
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+			ActionFactory.getCustomerRefundAction().run(transaction, false);
+			break;
 		}
 	}
 }
