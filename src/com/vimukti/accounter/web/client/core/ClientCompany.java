@@ -2945,7 +2945,11 @@ public class ClientCompany implements IAccounterCore {
 				}
 			}
 		}
-		if (lastUsedNo < codeRanges[1]) {
+		if (preferences.isAccountnumberRangeCheckEnable()) {
+			if (lastUsedNo < codeRanges[1]) {
+				return lastUsedNo;
+			}
+		} else {
 			return lastUsedNo;
 		}
 		return -1;
