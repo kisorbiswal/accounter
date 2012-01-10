@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
@@ -359,4 +360,8 @@ public interface IAccounterReportServiceAsync {
 			int transactionStatusType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionHistory>> callback);
+
+	public void getBudgetvsAcualReportData(long id, ClientFinanceDate start,
+			ClientFinanceDate end, int type,
+			AsyncCallback<ArrayList<BudgetActuals>> callback);
 }

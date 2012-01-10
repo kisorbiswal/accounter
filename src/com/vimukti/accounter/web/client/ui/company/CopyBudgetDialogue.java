@@ -16,7 +16,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 	SelectCombo selectBudget;
 	List<ClientBudget> budgetList;
 
-	String budgetName;
+	ClientBudget budgetName;
 
 	public CopyBudgetDialogue(String title, String desc) {
 		super(title, desc);
@@ -40,9 +40,6 @@ public class CopyBudgetDialogue extends BaseDialog {
 		for (ClientBudget budget : budgetList) {
 			selectBudget.addComboItem(budget.getBudgetName());
 		}
-		if (budgetList.size() < 1) {
-			selectBudget.addComboItem(messages.emptyValue());
-		}
 
 		selectBudget
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -52,7 +49,7 @@ public class CopyBudgetDialogue extends BaseDialog {
 						for (ClientBudget budget : budgetList) {
 							if (selectBudget.getSelectedValue().equals(
 									budget.getBudgetName())) {
-								budgetName = budget.getBudgetName();
+								budgetName = budget;
 								break;
 							}
 						}
@@ -78,8 +75,15 @@ public class CopyBudgetDialogue extends BaseDialog {
 	}
 
 	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
+	@Override
 	protected boolean onOK() {
-		getCallback().actionResult(budgetName);
+
+		if (budgetName != null)
+			getCallback().actionResult(budgetName);
 		return true;
 	}
 

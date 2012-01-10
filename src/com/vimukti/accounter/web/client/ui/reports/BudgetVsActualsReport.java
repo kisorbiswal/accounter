@@ -1,11 +1,12 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class BudgetVsActualsReport extends AbstractReportView<ClientBudgetList> {
+public class BudgetVsActualsReport extends AbstractReportView<BudgetActuals> {
 
 	long budgetId;
 	BudgetVsActualsServerReport serverreport;
@@ -18,10 +19,10 @@ public class BudgetVsActualsReport extends AbstractReportView<ClientBudgetList> 
 	}
 
 	@Override
-	public void OnRecordClick(ClientBudgetList record) {
+	public void OnRecordClick(BudgetActuals record) {
 
-		ReportsRPC.openTransactionView(record.getTransactionType(),
-				record.getTransactionId());
+//		ReportsRPC.openTransactionView(record.getTransactionType(),
+//				record.getTransactionId());
 	}
 
 	@Override
@@ -31,13 +32,13 @@ public class BudgetVsActualsReport extends AbstractReportView<ClientBudgetList> 
 
 	@Override
 	public void makeReportRequest(long id, ClientFinanceDate start,
-			ClientFinanceDate end) {
+			ClientFinanceDate end , int type) {
 
 		budgetId = id;
 		if (budgetId == 999L) {
 			super.addEmptyMessage(messages.noRecordsToShow());
 		} else {
-			Accounter.createReportService().getBudgetItemsList(id, this);
+		Accounter.createReportService().getBudgetvsAcualReportData(id,start,end,type, this);
 		}
 	}
 

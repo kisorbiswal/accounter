@@ -18,7 +18,10 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.Box;
+import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BudgetItem;
 import com.vimukti.accounter.core.CashPurchase;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.TAXAdjustment;
@@ -31,10 +34,13 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
+import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
@@ -3179,6 +3185,131 @@ public class ReportManager extends Manager {
 		// }
 
 		return resultTAXReturnEntries;
+	}
+
+	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(
+			FinanceDate startDate, FinanceDate endDate, long companyId,
+			long id, int type) throws AccounterException {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		FinanceDate startDate1 = getCurrentFiscalYearStartDate(company);
+
+		/*
+		 * Here endDate1 is used to store the previous month of endDate value
+		 */
+		int year = endDate.getYear();
+		int month = endDate.getMonth() - 1;
+		year = (month == 0) ? year - 1 : year;
+		month = (month == 0) ? 12 : month;
+		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+
+		if (year != startDate1.getYear())
+			startDate1 = new FinanceDate(year, 01, 01);
+		// + ((month + "").length() == 1 ? "0" + month : month) + "01");
+
+		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("startDate1", startDate1.getDate())
+				.setParameter("endDate1", endDate1.getDate())).list();
+
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		List<TrialBalance> queryResult = new ArrayList<TrialBalance>();
+		while ((iterator).hasNext()) {
+
+			TrialBalance t = new TrialBalance();
+			object = (Object[]) iterator.next();
+
+			// this condition is to filter unnecessary rows
+			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
+			// != 0.0) {
+
+			t.setAccountId(((BigInteger) object[0]).longValue());
+			t.setAccountName((String) object[1]);
+			t.setAccountNumber((String) object[2]);
+			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
+					.intValue());
+			t.setCashFlowCategory(object[4] == null ? 0 : ((Integer) object[4])
+					.intValue());
+			Account parentAccount = (object[5] == null) ? null
+					: (Account) session.get(Account.class,
+							((BigInteger) object[5]).longValue());
+			if (parentAccount != null) {
+				t.setParentAccount(parentAccount.getID());
+			}
+			t.setAmount(object[6] == null ? 0 : ((Double) object[6])
+					.doubleValue());
+			t.setTotalAmount(object[7] == null ? 0 : ((Double) object[7])
+					.doubleValue());
+			t.setAccountFlow((String) object[8]);
+			t.setBaseType(object[9] == null ? 0 : (Integer) object[9]);
+			t.setSubBaseType(object[10] == null ? 0 : (Integer) object[10]);
+			t.setGroupType(object[11] == null ? 0 : (Integer) object[11]);
+
+			queryResult.add(t);
+
+		}
+		List<TrialBalance> sortedResult = new ArrayList<TrialBalance>();
+		List<TrialBalance> otherExpenseList = new ArrayList<TrialBalance>();
+
+		sortedResult = sortTheList(queryResult);
+		int index = 0;
+		Iterator iter = sortedResult.listIterator();
+		while (iter.hasNext()) {
+			TrialBalance tb = (TrialBalance) iter.next();
+			if (tb.getAccountType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD)
+				index = sortedResult.indexOf(tb);
+			if (tb.getAccountType() == ClientAccount.TYPE_OTHER_EXPENSE) {
+				otherExpenseList.add(tb);
+				iter.remove();
+			}
+		}
+
+		ArrayList<Budget> budgetList = new ArrayList<Budget>(session
+				.getNamedQuery("list.Budget")
+				.setEntity("company", getCompany(companyId)).list());
+
+		PaginationList<ClientBudget> clientBudgetObjs = new PaginationList<ClientBudget>();
+
+		for (Budget budget : budgetList) {
+			ClientBudget clientObject = new ClientConvertUtil().toClientObject(
+					budget, ClientBudget.class);
+
+			clientBudgetObjs.add(clientObject);
+		}
+
+		ArrayList<BudgetActuals> actualList = new ArrayList<BudgetActuals>();
+		for (TrialBalance bal : queryResult) {
+
+			BudgetActuals actual = new BudgetActuals();
+			actual.setAccountName(bal.getAccountName());
+			actual.setAtualAmount(bal.getAmount());
+
+			for (Budget budget : budgetList) {
+				if (budget.getID() == id) {
+					List<BudgetItem> budgetItems = budget.getBudgetItems();
+					for (BudgetItem budgetItem : budgetItems) {
+						if (bal.getAccountId() == budgetItem.getAccount()
+								.getID()) {
+							actual.setBudgetAmount(budgetItem.getTotalAmount());
+							actualList.add(actual);
+							break;
+						} else {
+							actual.setBudgetAmount(0.00);
+							if (type == 0) {
+								actualList.add(actual);
+							}
+							break;
+						}
+					}
+				}
+			}
+
+		}
+		return actualList;
 	}
 
 }

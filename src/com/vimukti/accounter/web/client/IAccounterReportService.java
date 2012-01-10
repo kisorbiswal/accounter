@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
@@ -300,5 +301,9 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TransactionHistory> getVendorTransactionsList(long id,
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+
+	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(long id,
+			ClientFinanceDate start, ClientFinanceDate end, int type);
 
 }

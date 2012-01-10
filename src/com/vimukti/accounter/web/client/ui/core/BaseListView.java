@@ -535,6 +535,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (result.isEmpty()) {
 			grid.removeAllRecords();
 			grid.addEmptyMessage(messages.noRecordsToShow());
+			
+			if (this instanceof BudgetListView) {
+				budgetEdit.setEnabled(false);
+			}
 			return;
 		}
 		grid.removeLoadingImage();
@@ -571,9 +575,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					grid.setRecords(budgetItems);
 					budgetEdit.setEnabled(true);
 				} else {
-					// List<ClientBudgetItem> budgetItems = new
-					// ArrayList<ClientBudgetItem>();
-					// grid.setRecords(budgetItems);
+
 					grid.addEmptyMessage(messages.noRecordsToShow());
 					budgetEdit.setEnabled(false);
 				}

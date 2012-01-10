@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -38,10 +39,7 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
-	public static final String AUCTUAL_AMOUNT_LAST_FISCAL_YEAR = messages
-			.ActualAmountfromlastfiscalyear();
-	public static final String AUCTUAL_AMOUNT_THIS_FISCAL_YEAR = messages
-			.ActualAmountfromthisfiscalyear();
+
 	public static final String NO_AMOUNT = messages.StartfromScratch();
 	public static final String COPY_FROM_EXISTING = messages
 			.CopyfromExistingBudget();
@@ -131,14 +129,13 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 							CopyBudgetDialogue copybudgetDialogue = new CopyBudgetDialogue(
 									budgetTitle, "", budgetList);
 							copybudgetDialogue
-									.setCallback(new ActionCallback<String>() {
+									.setCallback(new ActionCallback<ClientBudget>() {
 
 										@Override
-										public void actionResult(String result) {
+										public void actionResult(ClientBudget result) {
 											refreshView(result);
 
 										}
-
 									});
 							copybudgetDialogue.show();
 						}
@@ -325,7 +322,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		for (long i = year - 10; i < year + 10; i++) {
 			finalString = "FY" + Long.toString(i) + "(" + startingMonth
-					+ Long.toString(i) + " - " + endingMonth + Long.toString(i)
+					+ Long.toString(i) + " - " + endingMonth + Long.toString(i+1)
 					+ ")";
 			list.add(finalString);
 		}
@@ -347,8 +344,6 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		List<String> list = new ArrayList<String>();
 
 		list.add(NO_AMOUNT);
-		list.add(AUCTUAL_AMOUNT_LAST_FISCAL_YEAR);
-		list.add(AUCTUAL_AMOUNT_THIS_FISCAL_YEAR);
 		list.add(COPY_FROM_EXISTING);
 
 		return list;
@@ -486,8 +481,10 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	}
 
-	private void refreshView(String result) {
-
+	private void refreshView(ClientBudget result) {
+		
+		budgetNameText.setValue(result.getBudgetName());
+		budgetCellTable.setDataProvided(result);
 	}
 
 	@Override

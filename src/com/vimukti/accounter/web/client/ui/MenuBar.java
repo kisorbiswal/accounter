@@ -423,8 +423,8 @@ public class MenuBar {
 
 		budgetMenu.addMenuItem(messages.budgetOverview(),
 				HistoryTokens.BUDGETREPORTOVERVIEW);
-		// budgetMenu.addMenuItem(messages.budgetvsActuals(),
-		// HistoryTokens.BUDGETVSACTUALS);
+		budgetMenu.addMenuItem(messages.budgetvsActuals(),
+				HistoryTokens.BUDGETVSACTUALS);
 
 		return budgetMenu;
 	}
@@ -879,12 +879,13 @@ public class MenuBar {
 
 		if (canChangeSettings) {
 			companyMenuBar.addMenuItem(messages.companyPreferences(),
-					HistoryTokens.COMPANYPREFERENCES);
+					HistoryTokens.COMPANYPREFERENCES, "P");
 			companyMenuBar.addSeparatorItem();
 		}
 
 		if (canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET);
+			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
+					"b");
 			companyMenuBar.addSeparatorItem();
 		}
 
@@ -906,9 +907,6 @@ public class MenuBar {
 			companyMenuBar.addSeparatorItem();
 		}
 		companyMenuBar.addMenuItem(getCompanyListMenu(messages.companyLists()));
-
-		companyMenuBar.addMenuItem(messages.generateIrasAuditFile(),
-				HistoryTokens.GST_FILE);
 
 		return companyMenuBar;
 	}

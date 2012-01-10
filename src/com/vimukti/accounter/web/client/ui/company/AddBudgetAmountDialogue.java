@@ -36,6 +36,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater4Amount, annualAmount;
 
 	HashMap<String, String> newMap;
+	int type = 0;
 
 	DynamicForm budgetInfoForm;
 	DynamicForm budgetAddForm;
@@ -56,6 +57,18 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		createControls();
 	}
 
+	public AddBudgetAmountDialogue(String budgetTitle, String desc,
+			ArrayList<Object> mapList, ClientBudgetItem object) {
+		
+		super(budgetTitle, desc);
+		newMap = new HashMap<String, String>();
+		defaultValues = object;
+		newMap = (HashMap<String, String>) mapList.get(0);
+		type = (Integer) mapList.get(1);
+		createControls();
+		
+	}
+
 	private void createControls() {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		setWidth("400px");
@@ -63,18 +76,24 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		budgetAddBy = new SelectCombo(messages.budgetAddBy());
 		budgetAddBy.setHelpInformation(true);
 		budgetAddBy.initCombo(getStartWithList());
-		budgetAddBy.setSelected(MONTHS);
+		budgetAddBy.setSelectedItem(type);
 		budgetAddBy
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem == MONTHS) {
-							resetView(MONTHS);
+							type = 0;
+							resetView(type);
+						
 						} else if (selectItem == QUARTERS) {
-							resetView(QUARTERS);
+							type = 1;
+							resetView(type);
+							
 						} else if (selectItem == YEARS) {
-							resetView(YEARS);
+							type = 2;
+							resetView(type);
+							
 						}
 					}
 
@@ -222,7 +241,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		setBodyLayout(verticalPanel);
 		center();
-		this.setDefaultValues();
+		
+		
+		setDefaultValues();
+		resetView(type);
 
 	}
 
@@ -247,15 +269,15 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		return list;
 	}
 
-	private void resetView(String viewType) {
-		if (viewType == MONTHS) {
+	private void resetView(int type2) {
+		if (type2 == 0) {
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
 					mayAmount, junAmount, julAmount, augAmount, septAmount,
 					octAmount, novAmount, decAmount);
 
-		} else if (viewType == QUARTERS) {
+		} else if (type2 == 1) {
 
 			quater1Amount = new AmountField(messages.quarterPeriod("1",
 					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()), this);
@@ -278,8 +300,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
-			quater3Amount.setValue(Double.toString(julAmount.getAmount())
-					+ augAmount.getAmount() + septAmount.getAmount());
+			quater3Amount.setValue(Double.toString(julAmount.getAmount()
+					+ augAmount.getAmount() + septAmount.getAmount()));
 
 			quater4Amount = new AmountField(messages.quarterPeriod("4",
 					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()), this);
@@ -293,7 +315,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			budgetAddForm.setFields(quater1Amount, quater2Amount,
 					quater3Amount, quater4Amount);
 
-		} else if (viewType == YEARS) {
+		} else if (type2 == 2) {
 
 			annualAmount = new AmountField("Annual", this);
 			annualAmount.setHelpInformation(true);
@@ -503,25 +525,30 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			}
 		}
 
-		getCallback().actionResult(newMap);
+		
+		ArrayList<Object> mapList = new ArrayList<Object>();
+		mapList.add(newMap);
+		mapList.add(type);
+		
+		getCallback().actionResult(mapList);
 		return true;
 	}
 
 	public void setDefaultValues() {
 
-		janAmount.setValue(Double.toString(defaultValues.getJanuaryAmount()));
-		febAmount.setValue(Double.toString(defaultValues.getFebruaryAmount()));
-		marAmount.setValue(Double.toString(defaultValues.getMarchAmount()));
-		aprAmount.setValue(Double.toString(defaultValues.getAprilAmount()));
-		mayAmount.setValue(Double.toString(defaultValues.getMayAmount()));
-		junAmount.setValue(Double.toString(defaultValues.getJuneAmount()));
-		julAmount.setValue(Double.toString(defaultValues.getJulyAmount()));
-		augAmount.setValue(Double.toString(defaultValues.getAugustAmount()));
+		janAmount.setAmount(defaultValues.getJanuaryAmount());
+		febAmount.setAmount(defaultValues.getFebruaryAmount());
+		marAmount.setAmount(defaultValues.getMarchAmount());
+		aprAmount.setAmount(defaultValues.getAprilAmount());
+		mayAmount.setAmount(defaultValues.getMayAmount());
+		junAmount.setAmount(defaultValues.getJuneAmount());
+		julAmount.setAmount(defaultValues.getJulyAmount());
+		augAmount.setAmount(defaultValues.getAugustAmount());
 		septAmount
-				.setValue(Double.toString(defaultValues.getSpetemberAmount()));
-		octAmount.setValue(Double.toString(defaultValues.getOctoberAmount()));
-		novAmount.setValue(Double.toString(defaultValues.getNovemberAmount()));
-		decAmount.setValue(Double.toString(defaultValues.getDecemberAmount()));
+				.setAmount(defaultValues.getSpetemberAmount());
+		octAmount.setAmount(defaultValues.getOctoberAmount());
+		novAmount.setAmount(defaultValues.getNovemberAmount());
+		decAmount.setAmount(defaultValues.getDecemberAmount());
 	}
 
 	@Override

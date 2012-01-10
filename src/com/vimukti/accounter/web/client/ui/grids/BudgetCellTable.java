@@ -29,6 +29,8 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 	protected AccounterMessages messages = Global.get().messages();
 
 	int rowSelected;
+	
+	int dialogueType = 0;
 
 	public BudgetCellTable() {
 		createControls();
@@ -99,21 +101,33 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 						rowSelected = index;
 
 						HashMap<String, String> map = new HashMap<String, String>();
+						
+						ArrayList<Object> mapList = new ArrayList<Object>();
+						mapList.add(map);
+						mapList.add(dialogueType);
+						
 						String budgetTitle = messages.AddBudgetfor(
 								object.getAccountsName());
 						AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
-								budgetTitle, "", map, object);
+								budgetTitle, "", mapList, object);
 						assignAccountsTo1099Dialog
-								.setCallback(new ActionCallback<HashMap<String, String>>() {
+								.setCallback(new ActionCallback<ArrayList<Object>>() {
 
 									@Override
 									public void actionResult(
-											HashMap<String, String> result) {
-										refreshView(result, object);
-
+											ArrayList<Object> result) {
+										// TODO Auto-generated method stub
+										HashMap<String, String> newMap	= (HashMap<String, String>) result.get(0);
+										dialogueType = (Integer) result.get(1);
+										
+										refreshView(newMap, object);
 									}
+
+
+								
 								});
 						assignAccountsTo1099Dialog.show();
+						
 					}
 				});
 
@@ -433,6 +447,9 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		obj.setAugustAmount(Double.parseDouble(result.get(DayAndMonthUtil.aug())));
 		obj.setOctoberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.oct())));
+		
+		
+		
 		obj.setNovemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.nov())));
 		obj.setSeptemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
@@ -482,12 +499,11 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 			for (ClientBudgetItem item : list) {
 				if (item.getAccount().getID() == budgetItem.getAccount()
 						.getID()) {
-					list.remove(i);
-					break;
+					list.set(i, budgetItem);
 				}
 				i++;
 			}
-			list.add(budgetItem);
+			//list.add(budgetItem);
 		}
 
 	}

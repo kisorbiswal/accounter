@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
+import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
@@ -3012,6 +3013,36 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return resultList;
+	}
+
+	@Override
+	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(long id,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int type) {
+
+		ArrayList<BudgetActuals> budgetActualsList = new ArrayList<BudgetActuals>();
+
+		long companyId = getCompanyId();
+		
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, companyId);
+
+		try {
+
+			budgetActualsList = getFinanceTool().getReportManager()
+					.getBudgetvsAcualReportData(financeDates[0], financeDates[1],
+							companyId,id,type);
+
+			BudgetActuals obj = new BudgetActuals();
+			if (budgetActualsList != null)
+				budgetActualsList.add((BudgetActuals) setStartEndDates(obj,
+						financeDates));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return budgetActualsList;
+	
 	}
 
 }

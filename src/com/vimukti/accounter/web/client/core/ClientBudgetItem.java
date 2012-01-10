@@ -16,19 +16,19 @@ public class ClientBudgetItem implements IAccounterCore {
 
 	ClientAccount account;
 
-	double januaryAmount = 0.0D;
-	double febrauaryAmount = 0.0D;
-	double marchAmount = 0.0D;
-	double aprilAmount = 0.0D;
-	double mayAmount = 0.0D;
-	double juneAmount = 0.0D;
-	double julyAmount = 0.0D;
-	double augustAmount = 0.0D;
-	double septemberAmount = 0.0D;
-	double octoberAmount = 0.0D;
-	double novemberAmount = 0.0D;
-	double decemberAmount = 0.0D;
-	double totalAmount = 0.0D;
+	double januaryAmount = 0.00;
+	double febrauaryAmount = 0.00;
+	double marchAmount = 0.00;
+	double aprilAmount = 0.00;
+	double mayAmount = 0.00;
+	double juneAmount = 0.00;
+	double julyAmount = 0.00;
+	double augustAmount = 0.00;
+	double septemberAmount = 0.00;
+	double octoberAmount = 0.00;
+	double novemberAmount = 0.00;
+	double decemberAmount = 0.00;
+	double totalAmount = 0.00;
 
 	@Override
 	public int getVersion() {
