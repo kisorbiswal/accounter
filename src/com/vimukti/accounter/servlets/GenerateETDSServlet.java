@@ -23,13 +23,14 @@ public class GenerateETDSServlet extends BaseServlet {
 	 * this servlet is used to generate the eTDs filling text file
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ClientTDSDeductorMasters> tdsDeductorMasterDetails;
-	private List<ClientTDSResponsiblePerson> responsiblePersonDetails;
+	private ClientTDSDeductorMasters tdsDeductorMasterDetails;
+	private ClientTDSResponsiblePerson responsiblePersonDetails;
 	private String formNo;
 	private String quater;
 	private String startYear;
 	private String endYear;
 	private List<ClientTDSChalanDetail> chalanList;
+	private String panList;
 	private String codeList;
 	private String remarkList;
 
@@ -47,6 +48,7 @@ public class GenerateETDSServlet extends BaseServlet {
 		quater = request.getParameter("quater");
 		startYear = request.getParameter("startYear");
 		endYear = request.getParameter("endYear");
+		panList = request.getParameter("panList");
 		codeList = request.getParameter("codeList");
 		remarkList = request.getParameter("remarkList");
 
@@ -96,8 +98,8 @@ public class GenerateETDSServlet extends BaseServlet {
 	private void generateTextFile(HttpServletRequest request,
 			HttpServletResponse response, String companyName,
 			List<ClientTDSChalanDetail> chalanList2,
-			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
-			List<ClientTDSResponsiblePerson> responsiblePersonDetails2)
+			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
+			ClientTDSResponsiblePerson responsiblePersonDetails2)
 			throws IOException {
 
 		String generateFile = null;
@@ -105,7 +107,7 @@ public class GenerateETDSServlet extends BaseServlet {
 		if (FormNo == 1) {
 			Form26QAnnexureGenerator form26Q = new Form26QAnnexureGenerator(
 					tdsDeductorMasterDetails2, responsiblePersonDetails2,
-					getCompany(request), codeList, remarkList);
+					getCompany(request), panList, codeList, remarkList);
 			form26Q.setFormDetails(formNo, quater, startYear, endYear);
 			form26Q.setChalanDetailsList(chalanList2);
 			generateFile = form26Q.generateFile();
@@ -113,7 +115,7 @@ public class GenerateETDSServlet extends BaseServlet {
 		} else if (FormNo == 2) {
 			Form27QAnnexureGenerator form26Q = new Form27QAnnexureGenerator(
 					tdsDeductorMasterDetails2, responsiblePersonDetails2,
-					getCompany(request), codeList, remarkList);
+					getCompany(request), panList, codeList, remarkList);
 			form26Q.setFormDetails(formNo, quater, startYear, endYear);
 			form26Q.setChalanDetailsList(chalanList2);
 			generateFile = form26Q.generateFile();
