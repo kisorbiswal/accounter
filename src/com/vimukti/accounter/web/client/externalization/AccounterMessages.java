@@ -385,6 +385,8 @@ public interface AccounterMessages extends Messages {
 
 	public String asOf();
 
+	public String assessmentYear();
+	
 	public String assetAccountYouHaveSelectedNeedsLinkedAccumulatedDepreciationAccount();
 
 	public String assetNumber();
@@ -1512,6 +1514,8 @@ public interface AccounterMessages extends Messages {
 	public String editingCreditsFailed();
 
 	public String editProfile();
+	
+	public String educationCess();
 
 	public String EIGHT();
 
@@ -1867,6 +1871,8 @@ public interface AccounterMessages extends Messages {
 
 	public String forgottenPassword();
 
+	public String formType();
+	
 	public String formLayoutsList();
 
 	public String FORTY();
@@ -2086,6 +2092,8 @@ public interface AccounterMessages extends Messages {
 	public String incomeAndExpenseAccounts();
 
 	public String incomes();
+	
+	public String incomeTax();
 
 	public String incomeTotals();
 
@@ -2107,6 +2115,8 @@ public interface AccounterMessages extends Messages {
 
 	public String integrateWithBusinessContactManager();
 
+	public String interestPaid();
+	
 	public String internal();
 
 	public String interval();
@@ -3047,6 +3057,8 @@ public interface AccounterMessages extends Messages {
 	public String originalAmount();
 
 	public String other();
+	
+	public String otherAmountPaid();
 
 	public String otherAssets();
 
@@ -3274,6 +3286,8 @@ public interface AccounterMessages extends Messages {
 
 	public String payVATOwing();
 
+	public String penaltyPaid();
+	
 	public String pendingAsset();
 
 	public String pendingItemsList();
@@ -4343,6 +4357,8 @@ public interface AccounterMessages extends Messages {
 
 	public String support();
 
+	public String surchargePaid();
+	
 	public String sureToDelete(String brandingThemeName);
 
 	public String sureToSaveFileVAT();
@@ -4454,6 +4470,8 @@ public interface AccounterMessages extends Messages {
 	public String tdsAmount();
 
 	public String tdsApplicable();
+	
+	public String tdsChallan();
 
 	public String tdsVendorsList();
 
@@ -4610,6 +4628,8 @@ public interface AccounterMessages extends Messages {
 	public String totalAllPayments();
 
 	public String totalAmount();
+	
+	public String totalAmountPaid();
 
 	public String totalAmountReported();
 
