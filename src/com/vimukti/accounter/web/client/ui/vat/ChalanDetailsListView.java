@@ -44,7 +44,6 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 	protected void initGrid() {
 		grid = new ChalanDetailsListGrid();
 		grid.init();
-
 	}
 
 	@Override
@@ -60,9 +59,7 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	protected Action getAddNewAction() {
-		ActionFactory.getTDSChalanDetailsView().run();
-		return null;
-
+		return ActionFactory.getTDSChalanDetailsView();
 	}
 
 	@Override
@@ -77,22 +74,18 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientTDSChalanDetail> result) {
-		super.onSuccess(result);
+		// super.onSuccess(result);
 		grid.removeLoadingImage();
 		listOfCHalans = result;
 		filterList(true);
-		grid.setViewType(viewSelect.getValue().toString());
-		grid.sort(10, false);
+		// grid.sort(10, false);
 	}
 
 	@Override
 	protected void filterList(boolean isActive) {
-		super.filterList(isActive);
 		grid.removeAllRecords();
 
-		for (ClientTDSChalanDetail chalans : listOfCHalans) {
-			grid.addData(chalans);
-		}
+		grid.setRecords(listOfCHalans);
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}

@@ -3,8 +3,6 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -12,17 +10,19 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ETdsCellTable;
 
@@ -46,6 +46,8 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	private int startYear;
 	private int endYear;
 	protected ArrayList<ClientETDSFilling> eTDSList;
+	private ClientTDSDeductorMasters deductor;
+	private ClientTDSResponsiblePerson responsiblePerson;
 
 	public ETdsFillingView() {
 
@@ -56,20 +58,47 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		super.init();
 		createControls();
 		setSize("100%", "100%");
-
-		if (data != null) {
-			onEdit();
-		}
-
 	}
 
 	public void initData() {
-		super.initData();
 		if (data == null) {
-			ClientETDSFilling account = new ClientETDSFilling();
-			setData(account);
+			setData(new ClientETDSFilling());
+			initCallBack();
 		}
+		getDeductorAndResponsiblePerson();
+	}
 
+	private void getDeductorAndResponsiblePerson() {
+		Accounter.createHomeService().getDeductorMasterDetails(
+				new AccounterAsyncCallback<ClientTDSDeductorMasters>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onResultSuccess(ClientTDSDeductorMasters result) {
+						deductor = result;
+					}
+				});
+
+		Accounter.createHomeService().getResponsiblePersonDetails(
+				new AccounterAsyncCallback<ClientTDSResponsiblePerson>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onResultSuccess(
+							ClientTDSResponsiblePerson result) {
+						responsiblePerson = result;
+					}
+				});
 	}
 
 	private void createControls() {
@@ -83,18 +112,19 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		formType.setHelpInformation(true);
 		formType.initCombo(getFormTypes());
 		formType.setSelectedItem(0);
+		formNoSelected = 1;
 		formType.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 			@Override
 			public void selectedComboBoxItem(String selectItem) {
-				if (selectItem.equals(getFormTypes().get(1))) {
+				if (selectItem.equals(getFormTypes().get(0))) {
 					formNoSelected = 1;
-				} else if (selectItem.equals(getFormTypes().get(2))) {
+				} else if (selectItem.equals(getFormTypes().get(1))) {
 					formNoSelected = 2;
-				} else if (selectItem.equals(getFormTypes().get(3))) {
+				} else if (selectItem.equals(getFormTypes().get(2))) {
 					formNoSelected = 3;
 				}
-				initRPCService();
+				initCallBack();
 			}
 		});
 
@@ -107,6 +137,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setSelectedItem(0);
+		String[] tokens = financialYearCombo.getSelectedValue().split("-");
+		startYear = Integer.parseInt(tokens[0]);
+		endYear = Integer.parseInt(tokens[1]);
 		financialYearCombo.setDisabled(isInViewMode());
 		financialYearCombo.setRequired(true);
 		financialYearCombo
@@ -122,7 +155,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 						startYear = Integer.parseInt(tokens[0]);
 						endYear = Integer.parseInt(tokens[1]);
-						initRPCService();
+						initCallBack();
 					}
 
 				});
@@ -131,6 +164,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		quaterSelectionCombo.setHelpInformation(true);
 		quaterSelectionCombo.initCombo(getFinancialQuatersList());
 		quaterSelectionCombo.setSelectedItem(0);
+		quaterSelected = 1;
 		quaterSelectionCombo.setDisabled(isInViewMode());
 		quaterSelectionCombo.setRequired(true);
 		quaterSelectionCombo
@@ -151,7 +185,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 								.get(3))) {
 							quaterSelected = 4;
 						}
-						initRPCService();
+						initCallBack();
 					}
 				});
 
@@ -169,7 +203,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		topHLay.add(dynamicFormRight);
 
 		tdsCellTable = new ETdsCellTable();
-		tdsCellTable.setStyleName("user_activity_log");
+		// tdsCellTable.setStyleName("user_activity_log");
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "300px");
@@ -207,8 +241,26 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 	@Override
 	public void saveAndUpdateView() {
-		saveOrUpdate(getData());
+		List<ClientETDSFilling> dataList = tdsCellTable.getAllRows();
 
+		String panList = "";
+		String remarkList = "";
+		String codeList = "";
+		for (ClientETDSFilling record : dataList) {
+			if (record.getRemark() != null) {
+				remarkList = remarkList + record.getRemark().trim();
+			}
+			remarkList = remarkList + "-";
+			codeList = codeList + record.getCompanyCode() + "-";
+			if (record.getPanOfDeductee() != null) {
+				panList = panList + record.getPanOfDeductee().trim();
+			}
+			panList = panList + "-";
+		}
+
+		UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
+				startYear, endYear, panList, codeList, remarkList);
+		changeButtonBarMode(false);
 	}
 
 	@Override
@@ -236,6 +288,26 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
+		if (getCompany().getTdsDeductor() == null) {
+			result.addError("deductor",
+					"TDS deductor details not entered yet. Please fill the details first.");
+		}
+
+		if (getCompany().getTdsResposiblePerson() == null) {
+			result.addError(
+					"responsible",
+					"TDS responsible person details not entered yet. Please fill the details first.");
+		}
+
+		List<ClientETDSFilling> records = tdsCellTable.getAllRows();
+
+		for (ClientETDSFilling row : records) {
+			if (row.getCompanyCode() == null || row.getCompanyCode().isEmpty()) {
+				result.addError(tdsCellTable,
+						"Please select deductee code for all records.");
+			}
+		}
+
 		return result;
 
 	}
@@ -259,7 +331,6 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	private List<String> getFormTypes() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("--select--");
 		list.add("26Q");
 		list.add("27Q");
 		list.add("27EQ");
@@ -267,10 +338,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		return list;
 	}
 
-	@Override
-	protected void initRPCService() {
-		// TODO Auto-generated method stub
-		super.initRPCService();
+	private void initCallBack() {
 		Accounter.createHomeService().getEtdsDetails(formNoSelected,
 				quaterSelected, startYear, endYear,
 				new AccounterAsyncCallback<ArrayList<ClientETDSFilling>>() {
@@ -285,7 +353,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 					public void onResultSuccess(
 							ArrayList<ClientETDSFilling> result) {
 						eTDSList = result;
-						tdsCellTable.setDataProvidedValue(eTDSList);
+						tdsCellTable.setAllRows(eTDSList);
 					}
 				});
 	}
@@ -293,37 +361,41 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		// super.createButtons(buttonBar);
-
-		ImageButton verifyButton = new ImageButton("Download .txt file",
-				Accounter.getFinanceImages().saveAndClose());
-		verifyButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				List<ClientETDSFilling> dataList = tdsCellTable.getDataList();
-
-				String remarkList = "";
-				String codeList = "";
-				for (ClientETDSFilling widget : dataList) {
-					if (widget.getRemark() != null) {
-						remarkList = remarkList + widget.getRemark();
-					} else {
-						remarkList = remarkList + "-";
-					}
-					if (widget.getCompanyCode() != null) {
-						codeList = codeList + widget.getCompanyCode();
-					} else {
-						codeList = codeList + "-";
-					}
-				}
-
-				UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-						startYear, endYear, codeList, remarkList);
-
-			}
-		});
-		buttonBar.add(verifyButton);
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.saveAndCloseButton.setText("Download .txt file");
+		buttonBar.add(saveAndCloseButton);
+		// ImageButton verifyButton = new ImageButton("Download .txt file",
+		// Accounter.getFinanceImages().saveAndClose());
+		// verifyButton.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		//
+		// onSave(false);
+		//
+		// List<ClientETDSFilling> dataList = tdsCellTable.getAllRows();
+		//
+		// String panList = "";
+		// String remarkList = "";
+		// String codeList = "";
+		// for (ClientETDSFilling record : dataList) {
+		// if (record.getRemark() != null) {
+		// remarkList = remarkList + record.getRemark().trim();
+		// }
+		// remarkList = remarkList + "-";
+		// codeList = codeList + record.getCompanyCode() + "-";
+		// if (record.getPanOfDeductee() != null) {
+		// panList = panList + record.getPanOfDeductee().trim();
+		// }
+		// panList = panList + "-";
+		// }
+		//
+		// UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
+		// startYear, endYear, panList, codeList, remarkList);
+		//
+		// }
+		// });
+		// buttonBar.add(verifyButton);
 
 	}
 }
