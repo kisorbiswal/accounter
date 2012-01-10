@@ -38,7 +38,11 @@ public class DashboardOweGrid extends ListGrid<ClientPayee> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		if (index == 1) {
+			return 200;
+		} else {
+			return -1;
+		}
 	}
 
 	@Override
