@@ -14,7 +14,6 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	private ClientTDSChalanDetail chalanDetails;
 	private ClientTDSTransactionItem transactionItems;
 	private List<ClientTDSChalanDetail> chalanDetailsList;
-	private Company companyGot;
 	private Vendor vendorFinal;
 
 	private int runningSerialNumber;
@@ -23,19 +22,14 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	String[] codeListArray;
 	String[] remarkListArray;
 
-	public Form27EQAnnexureGenerator() {
-	}
-
 	public Form27EQAnnexureGenerator(
-			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
-			List<ClientTDSResponsiblePerson> responsiblePersonDetails2,
+			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
+			ClientTDSResponsiblePerson responsiblePersonDetails2,
 			Company company, String codeList, String remarkList) {
-		super.setDetails(tdsDeductorMasterDetails2, responsiblePersonDetails2);
+		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company);
 
 		codeListArray = codeList.split("");
 		remarkListArray = remarkList.split("");
-
-		companyGot = company;
 
 	}
 
@@ -62,12 +56,12 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 			fileText = fileText + generateChalanVoucherDetailsRecord();
 			int serNum = 1;
 			for (ClientTDSTransactionItem items : chalanDetails
-					.getTransactionItems()) {
+					.getTdsTransactionItems()) {
 				setRunningSerialNumber(serNum);
 				serNum++;
-				Set<Vendor> vendors = companyGot.getVendors();
+				Set<Vendor> vendors = company.getVendors();
 				for (Vendor vendor : vendors) {
-					if (vendor.getID() == items.getVendorID()) {
+					if (vendor.getID() == items.getVendor()) {
 						vendorFinal = vendor;
 					}
 				}
@@ -267,7 +261,7 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getAmountOFpaymentorCredit() {
-		return Double.toString(transactionItems.getTaxAmount()
+		return Double.toString(transactionItems.getTdsAmount()
 				+ transactionItems.getSurchargeAmount()
 				+ transactionItems.getEduCess());
 	}
@@ -283,7 +277,7 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalTaxDeposited() {
-		return Double.toString(transactionItems.getTaxAmount()
+		return Double.toString(transactionItems.getTdsAmount()
 				+ transactionItems.getSurchargeAmount()
 				+ transactionItems.getEduCess());
 	}
@@ -295,7 +289,7 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalIncomeTaxDeductedatSource() {
-		return Double.toString(transactionItems.getTaxAmount()
+		return Double.toString(transactionItems.getTdsAmount()
 				+ transactionItems.getSurchargeAmount()
 				+ transactionItems.getEduCess());
 	}
@@ -334,7 +328,7 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSIncomeTaxforPeriod() {
-		return Double.toString(transactionItems.getTaxAmount());
+		return Double.toString(transactionItems.getTdsAmount());
 	}
 
 	/**

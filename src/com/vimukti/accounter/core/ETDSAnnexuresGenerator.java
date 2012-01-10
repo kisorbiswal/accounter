@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +21,21 @@ public class ETDSAnnexuresGenerator {
 	private String finalString;
 	private ClientTDSDeductorMasters deductor;
 	private ClientTDSResponsiblePerson responsiblePerson;
-	private String formNo;
-	private String quater;
-	private String startYear;
-	private String endYear;
-	private int chalanCount;
+	protected String formNo;
+	protected String quater;
+	protected String startYear;
+	protected String endYear;
+	protected int chalanCount;
 
-	public ETDSAnnexuresGenerator() {
+	protected Company company;
 
+	public ETDSAnnexuresGenerator(
+			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
+			ClientTDSResponsiblePerson responsiblePersonDetails2,
+			Company company) {
+		deductor = tdsDeductorMasterDetails2;
+		responsiblePerson = responsiblePersonDetails2;
+		this.company = company;
 	}
 
 	/**
@@ -309,7 +318,7 @@ public class ETDSAnnexuresGenerator {
 		batchHeaderString = batchHeaderString
 				+ getAddressChangeOFResponsiblePerson() + addDelimiter();
 
-		batchHeaderString = batchHeaderString + Double.toString(total)
+		batchHeaderString = batchHeaderString + getAmountAsString(total)
 				+ addDelimiter();
 
 		// Unmatched challan count
@@ -325,7 +334,7 @@ public class ETDSAnnexuresGenerator {
 		// AO Approval Number CHAR 15 O No value should be specified
 		// Last Deductor Type CHAR 1 NA No value should be specified
 		batchHeaderString = batchHeaderString + addDelimiter();
-		batchHeaderString = batchHeaderString + addDelimiter();
+		// batchHeaderString = batchHeaderString + addDelimiter();
 
 		batchHeaderString = batchHeaderString + getGovtSateName();
 
@@ -375,11 +384,11 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getDDORegistationCode() {
 
-		long ddoRegistration = deductor.getDdoRegistration();
-		if (ddoRegistration == 0) {
+		String ddoRegistration = deductor.getDdoRegistration();
+		if (ddoRegistration == null) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoRegistration) + addDelimiter();
+			return ddoRegistration + addDelimiter();
 		}
 	}
 
@@ -394,11 +403,11 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getGovtPAORegistrationCode() {
 
-		long ddoRegistration = deductor.getDdoRegistration();
-		if (ddoRegistration == 0) {
+		String ddoRegistration = deductor.getDdoRegistration();
+		if (ddoRegistration == null) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoRegistration) + addDelimiter();
+			return ddoRegistration + addDelimiter();
 		}
 	}
 
@@ -450,11 +459,11 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getGovtDDOCode() {
-		long ddoCode = deductor.getDdoCode();
-		if (ddoCode == 0) {
+		String ddoCode = deductor.getDdoCode();
+		if (ddoCode == null) {
 			return addDelimiter();
 		} else {
-			return Long.toString(ddoCode) + addDelimiter();
+			return ddoCode + addDelimiter();
 		}
 
 	}
@@ -470,11 +479,11 @@ public class ETDSAnnexuresGenerator {
 	 */
 	private String getGovtPAOCode() {
 
-		long paoCode = deductor.getPaoCode();
-		if (paoCode == 0) {
+		String paoCode = deductor.getPaoCode();
+		if (paoCode == null) {
 			return addDelimiter();
 		} else {
-			return Long.toString(paoCode) + addDelimiter();
+			return paoCode + addDelimiter();
 
 		}
 	}
@@ -542,7 +551,7 @@ public class ETDSAnnexuresGenerator {
 		if (telephoneNumber > 0) {
 			return Long.toString(telephoneNumber);
 		} else {
-			return addDelimiter();
+			return "";
 		}
 
 	}
@@ -558,7 +567,7 @@ public class ETDSAnnexuresGenerator {
 		if (stdNumber > 0) {
 			return Long.toString(stdNumber);
 		} else {
-			return addDelimiter();
+			return "";
 		}
 	}
 
@@ -576,7 +585,7 @@ public class ETDSAnnexuresGenerator {
 		if (mobileNum > 0) {
 			return Long.toString(mobileNum);
 		} else {
-			return addDelimiter();
+			return "";
 		}
 	}
 
@@ -636,31 +645,36 @@ public class ETDSAnnexuresGenerator {
 		String address = null;
 		switch (i) {
 		case 1:
-			if (responsiblePerson.getBuildingName() != null)
-				address = responsiblePerson.getBuildingName();
-			else
-				address = addDelimiter();
+			address = responsiblePerson.getFlatNo();
+			// if (responsiblePerson.getBuildingName() != null)
+			// address = responsiblePerson.getBuildingName();
+			// else
+			// address = addDelimiter();
 			break;
 		case 2:
-			if (responsiblePerson.getStreet() != null)
-				address = responsiblePerson.getStreet();
-			else
-				address = addDelimiter();
+			address = responsiblePerson.getBuildingName();
+			// if (responsiblePerson.getStreet() != null)
+			// address = responsiblePerson.getStreet();
+			// else
+			// address = addDelimiter();
 			break;
 		case 3:
-			if (responsiblePerson.getArea() != null)
-				address = responsiblePerson.getArea();
-			else
-				address = addDelimiter();
+			address = responsiblePerson.getStreet();
+			// if (responsiblePerson.getArea() != null)
+			// address = responsiblePerson.getArea();
+			// else
+			// address = addDelimiter();
 			break;
 		case 4:
-			if (responsiblePerson.getCity() != null)
-				address = responsiblePerson.getCity();
-			else
-				address = addDelimiter();
+			address = responsiblePerson.getArea();
+			// if (responsiblePerson.getCity() != null)
+			// address = responsiblePerson.getCity();
+			// else
+			// address = addDelimiter();
 			break;
 		case 5:
-			address = addDelimiter();
+			address = responsiblePerson.getCity();
+			// address = addDelimiter();
 			break;
 		case 6:
 			address = getStateCode(responsiblePerson.getStateName());
@@ -682,7 +696,7 @@ public class ETDSAnnexuresGenerator {
 		if (responsiblePerson.getDesignation() != null)
 			return responsiblePerson.getDesignation();
 		else
-			return addDelimiter();
+			return "";
 	}
 
 	/**
@@ -701,7 +715,7 @@ public class ETDSAnnexuresGenerator {
 	 * 
 	 * @return
 	 */
-	private String getDeductorType() {
+	protected String getDeductorType() {
 		String code = null;
 		List<String> deductorCodes = Utility.getDeductorCodes();
 		List<String> deductorTypes = Utility.getDeductorTypes();
@@ -744,7 +758,7 @@ public class ETDSAnnexuresGenerator {
 		if (telephone > 0) {
 			return Long.toString(telephone);
 		} else {
-			return addDelimiter();
+			return "";
 		}
 
 	}
@@ -756,11 +770,11 @@ public class ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeductorSTDCode() {
-		long stdCode = deductor.getStdCode();
-		if (stdCode > 0) {
-			return Long.toString(stdCode);
+		String stdCode = deductor.getStdCode();
+		if (stdCode != null) {
+			return stdCode;
 		} else {
-			return addDelimiter();
+			return "";
 		}
 	}
 
@@ -806,31 +820,36 @@ public class ETDSAnnexuresGenerator {
 		String address = null;
 		switch (i) {
 		case 1:
-			if (deductor.getBuildingName().length() > 1)
-				address = deductor.getBuildingName();
-			else
-				address = addDelimiter();
+			address = deductor.getFlatNo();
+			// if (deductor.getBuildingName().length() > 1)
+			// address = deductor.getBuildingName();
+			// else
+			// address = addDelimiter();
 			break;
 		case 2:
-			if (deductor.getRoadName().length() > 1)
-				address = deductor.getRoadName();
-			else
-				address = addDelimiter();
+			address = deductor.getBuildingName();
+			// if (deductor.getRoadName().length() > 1)
+			// address = deductor.getRoadName();
+			// else
+			// address = addDelimiter();
 			break;
 		case 3:
-			if (deductor.getArea().length() > 1)
-				address = deductor.getArea();
-			else
-				address = addDelimiter();
+			address = deductor.getRoadName();
+			// if (deductor.getArea().length() > 1)
+			// address = deductor.getArea();
+			// else
+			// address = addDelimiter();
 			break;
 		case 4:
-			if (deductor.getCity().length() > 1)
-				address = deductor.getCity();
-			else
-				address = addDelimiter();
+			address = deductor.getArea();
+			// if (deductor.getCity().length() > 1)
+			// address = deductor.getCity();
+			// else
+			// address = addDelimiter();
 			break;
 		case 5:
-			address = addDelimiter();
+			address = deductor.getCity();
+			// address = addDelimiter();
 			break;
 		case 6:
 			address = getState();
@@ -965,13 +984,11 @@ public class ETDSAnnexuresGenerator {
 
 		String[] split = sectionName.split("-");
 
-		List<String> sectionNamesList = new ArrayList<String>();
-		sectionNamesList = Utility.getSectionNames();
+		List<String> sectionNamesList = Utility.getSectionNames();
 
 		String codeReturned = null;
 
-		List<String> sectionCodesList = new ArrayList<String>();
-		sectionCodesList = Utility.getSectionCodes();
+		List<String> sectionCodesList = Utility.getSectionCodes();
 
 		for (int i = 0; i < sectionNamesList.size(); i++) {
 			if (split[0].equals(sectionNamesList.get(i))) {
@@ -1019,15 +1036,6 @@ public class ETDSAnnexuresGenerator {
 		return sectionName;
 	}
 
-	public void setDetails(
-			List<ClientTDSDeductorMasters> tdsDeductorMasterDetails2,
-			List<ClientTDSResponsiblePerson> responsiblePersonDetails2) {
-
-		deductor = tdsDeductorMasterDetails2.get(0);
-		responsiblePerson = responsiblePersonDetails2.get(0);
-
-	}
-
 	public void setFormDetails(String formNo, String quater, String startYear,
 			String endYear) {
 		this.formNo = formNo;
@@ -1041,4 +1049,29 @@ public class ETDSAnnexuresGenerator {
 		chalanCount = size;
 	}
 
+	public String getAmountAsString(double amount) {
+
+		DecimalFormat format = new DecimalFormat();
+		format.applyPattern("#0.00");
+
+		return format.format(amount);
+	}
+
+	public String getRate(double rate) {
+
+		DecimalFormat format = new DecimalFormat();
+		format.applyPattern("#0.0000");
+
+		return format.format(rate);
+	}
+
+	public String getAmountWithNoFractionPortion(double amount) {
+		return getAmountAsString(amount / 1);
+	}
+
+	protected String getDateAsString(FinanceDate date) {
+		SimpleDateFormat format = new SimpleDateFormat();
+		format.applyPattern("ddMMyyyy");
+		return format.format(date.getAsDateObject());
+	}
 }
