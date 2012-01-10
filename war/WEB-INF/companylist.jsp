@@ -41,7 +41,7 @@
 	</script>
   </head>
   <body>
-  <table id="commanContainer">
+  <table id="commanContainer" class="companies-list-page">
   <tr>
   <td>
 	<div>
