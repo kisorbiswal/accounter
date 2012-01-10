@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
-public class ETdsCellTable extends EditTable<ClientETDSFilling> {
+public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 
 	private List<ClientBank> getDeducteeCodes() {
 
@@ -34,6 +34,18 @@ public class ETdsCellTable extends EditTable<ClientETDSFilling> {
 		a.setName("A");
 		ClientBank b = new ClientBank();
 		b.setName("B");
+		list.add(a);
+		list.add(b);
+
+		return list;
+	}
+
+	private List<ClientBank> getGrossingUpIndicators() {
+		ArrayList<ClientBank> list = new ArrayList<ClientBank>();
+		ClientBank a = new ClientBank();
+		a.setName("Yes");
+		ClientBank b = new ClientBank();
+		b.setName("No");
 		list.add(a);
 		list.add(b);
 
@@ -558,6 +570,41 @@ public class ETdsCellTable extends EditTable<ClientETDSFilling> {
 				return false;
 			}
 		};
+
+		final BankDropDownTable grossingUpTable = new BankDropDownTable(
+				getGrossingUpIndicators());
+
+		ComboColumn<ClientETDSFilling, ClientBank> grossingUpCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+
+			@Override
+			public ClientBank getValue(ClientETDSFilling object) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Grossing up Indicator";
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+				row.setGrossingUpIndicator(newValue.getName());
+			}
+
+			@Override
+			public AbstractDropDownTable<ClientBank> getDisplayTable(
+					ClientETDSFilling row) {
+				return grossingUpTable;
+			}
+
+			@Override
+			public int getWidth() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+
 		this.addColumn(serialNoColumn);
 		this.addColumn(bankBsrCodeColumn);
 		this.addColumn(dateTaxDepositedColumn);
@@ -578,7 +625,12 @@ public class ETdsCellTable extends EditTable<ClientETDSFilling> {
 		this.addColumn(remarkCol);
 		this.addColumn(rateCol);
 		this.addColumn(bookEntryCol);
+		if (is27Q()) {
+			this.addColumn(grossingUpCol);
+		}
 	}
+
+	protected abstract boolean is27Q();
 
 	@Override
 	protected boolean isInViewMode() {
