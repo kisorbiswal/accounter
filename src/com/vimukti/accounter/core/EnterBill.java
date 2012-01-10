@@ -997,7 +997,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
 			throw new AccounterException(
-					AccounterException.ERROR_CANT_EDIT_DELETE);
+					AccounterException.ERROR_CANT_EDIT);
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		}
 
