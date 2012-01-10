@@ -46,7 +46,16 @@ public class CancelAccountServlet extends BaseServlet {
 
 			@Override
 			public void run() {
-				deleteAccount(httpSession);
+				Session session = HibernateUtil.openSession();
+				try {
+					deleteAccount(httpSession);
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally {
+					if (session.isOpen()) {
+						session.close();
+					}
+				}
 			}
 		}).start();
 		redirectExternal(req, resp, COMPANY_STATUS_URL);
