@@ -211,38 +211,32 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 	}
 
 	protected void processOnUpload() {
-
-		if (!validateFileItems()) {
+		String file_1 = uploadItems.get(0).getFilename() == null ? ""
+				: uploadItems.get(0).getFilename();
+		String file_2 = uploadItems.get(1).getFilename() == null ? ""
+				: uploadItems.get(1).getFilename();
+		String file_3 = uploadItems.get(2).getFilename() == null ? ""
+				: uploadItems.get(2).getFilename();
+		if (file_1.equals("") && file_2.equals("") && file_3.equals("")) {
 			Accounter.showInformation(messages.noFileSelected());
 			return;
 		}
-		// we need to validate for images types only when uploading company
-		// logo for the BrandingTheme
-		if (fileTypes != null) {
-			boolean checkFiles = checkFiles(uploadItems);
-			if (!checkFiles)
-				return;
-		}
-		uploadForm.submit();
-	}
+		for (FileUpload upload : uploadItems) {
+			String filename = upload.getFilename();
 
-	private boolean checkFiles(ArrayList<FileUpload> uploadItems) {
+			if (filename != null && filename.length() > 0) {
+				if (!(filename.endsWith("odt") || filename.endsWith("docx"))) {
 
-		boolean canUpload = false;
-		for (FileUpload fileUpload : uploadItems) {
-			String filename = fileUpload.getFilename();
-			if (filename.trim().length() > 0) {
-				String type = filename.substring(filename.lastIndexOf('.') + 1);
-				for (String fileType : fileTypes) {
-					if (type.equalsIgnoreCase(fileType))
-						canUpload = true;
+					Accounter.showInformation(messages
+							.selectFileOfTypeOdtOrDocx());
+					return;
 				}
 			}
-
 		}
-		if (!canUpload)
-			Accounter.showInformation("Please select docx or odt file format.");
-		return canUpload;
+
+		uploadForm.setAction("/do/uploadtemplatefile?themeId="
+				+ brandingTheme.getID());
+		uploadForm.submit();
 	}
 
 	private boolean checkFileType(String name) {
@@ -263,26 +257,6 @@ public class UploadTemplateFileDialog extends BaseDialog<ClientBrandingTheme> {
 		if (closeAfterUploaded) {
 			close();
 		}
-
-	}
-
-	private boolean validateFileItems() {
-		// String ids="";
-		boolean fileSelected = false;
-		for (FileUpload upload : uploadItems) {
-			String filename = upload.getFilename();
-
-			if (filename != null && filename.length() > 0) {
-				fileSelected = true;
-			}
-		}
-
-		if (fileSelected) {
-			uploadForm.setAction("/do/uploadtemplatefile?themeId="
-					+ brandingTheme.getID());
-		}
-
-		return fileSelected;
 
 	}
 
