@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -23,8 +24,8 @@ import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
@@ -32,7 +33,12 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.TdsChalanTransaction
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
+public class TDSChalanDetailsView extends
+		AbstractTransactionBaseView<ClientTDSChalanDetail> {
+
+	public TDSChalanDetailsView() {
+		super(ClientTransaction.TYPE_TDS_CHALLAN);
+	}
 
 	private AmountField incomeTaxAmount;
 	private AmountField surchargePaidAmount;
@@ -75,30 +81,10 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private AmountField endingBalanceText;
 	protected boolean financialYearSelected = false;
 
-	public TDSChalanDetailsView() {
-
-	}
-
 	@Override
-	public void init() {
-		super.init();
-		createControls();
-		setSize("100%", "100%");
+	protected void createControls() {
 
-	}
-
-	public void initData() {
-		super.initData();
-		if (data == null) {
-			ClientTDSChalanDetail tdsChalanDetailsData = new ClientTDSChalanDetail();
-			setData(tdsChalanDetailsData);
-		}
-
-	}
-
-	private void createControls() {
-
-		selectFormTypeCombo = new SelectCombo("Form Type");
+		selectFormTypeCombo = new SelectCombo(messages.formType());
 		selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
 		selectFormTypeCombo.setDisabled(isInViewMode());
@@ -123,12 +109,12 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 					}
 				});
 
-		slectAssecementYear = new SelectCombo("Assessment year");
+		slectAssecementYear = new SelectCombo(messages.assessmentYear());
 		slectAssecementYear.setHelpInformation(true);
 		slectAssecementYear.initCombo(getFinancialYearList());
 		slectAssecementYear.setDisabled(true);
 
-		financialYearCombo = new SelectCombo("Financial Year");
+		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setDisabled(isInViewMode());
@@ -147,7 +133,8 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 					}
 				});
 
-		incomeTaxAmount = new AmountField("Income Tax", this, getBaseCurrency());
+		incomeTaxAmount = new AmountField(messages.incomeTax(), this,
+				getBaseCurrency());
 		incomeTaxAmount.setHelpInformation(true);
 		incomeTaxAmount.setWidth(100);
 		incomeTaxAmount.setValue("0.00");
@@ -160,7 +147,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		surchargePaidAmount = new AmountField("Surcharge Paid", this,
+		surchargePaidAmount = new AmountField(messages.surchargePaid(), this,
 				getBaseCurrency());
 		surchargePaidAmount.setHelpInformation(true);
 		surchargePaidAmount.setWidth(100);
@@ -174,7 +161,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		eduCessAmount = new AmountField("Education Cess", this,
+		eduCessAmount = new AmountField(messages.educationCess(), this,
 				getBaseCurrency());
 		eduCessAmount.setHelpInformation(true);
 		eduCessAmount.setWidth(100);
@@ -188,7 +175,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		interestPaidAmount = new AmountField("Interest Paid", this,
+		interestPaidAmount = new AmountField(messages.interestPaid(), this,
 				getBaseCurrency());
 		interestPaidAmount.setHelpInformation(true);
 		interestPaidAmount.setWidth(100);
@@ -202,7 +189,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		penaltyPaidAmount = new AmountField("Penalty Paid", this,
+		penaltyPaidAmount = new AmountField(messages.penaltyPaid(), this,
 				getBaseCurrency());
 		penaltyPaidAmount.setHelpInformation(true);
 		penaltyPaidAmount.setWidth(100);
@@ -216,7 +203,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		otherAmountPaid = new AmountField("Other Amount Paid", this,
+		otherAmountPaid = new AmountField(messages.otherAmountPaid(), this,
 				getBaseCurrency());
 		otherAmountPaid.setHelpInformation(true);
 		otherAmountPaid.setWidth(100);
@@ -230,7 +217,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 			}
 		});
 
-		totalAmountPaid = new AmountField("Total Amount Paid", this,
+		totalAmountPaid = new AmountField(messages.totalAmountPaid(), this,
 				getBaseCurrency());
 		totalAmountPaid.setHelpInformation(true);
 		totalAmountPaid.setRequired(true);
@@ -403,14 +390,25 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 				eduCessAmount, totalAmountPaid);
 
 		belowForm2 = new DynamicForm();
-		belowForm2.setFields(interestPaidAmount, penaltyPaidAmount,
-				otherAmountPaid);
+		belowForm2.setFields(interestPaidAmount, otherAmountPaid);
 
 		// grid = new TDSTransactionItemGrid(this);
 		// grid.setCanEdit(true);
 		// grid.init();
 
-		table = new TdsChalanTransactionItemsTable(this);
+		table = new TdsChalanTransactionItemsTable() {
+
+			@Override
+			public void updateNonEditableFields() {
+				TDSChalanDetailsView.this.updateNonEditableItems();
+			}
+
+			@Override
+			protected boolean isInViewMode() {
+				return TDSChalanDetailsView.this.isInViewMode();
+			}
+
+		};
 		table.setDisabled(isInViewMode());
 
 		HorizontalPanel horizontalPanel1 = new HorizontalPanel();
@@ -434,11 +432,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 
 		natureOfPaymentCombo27Q.hide();
 		natureOfPaymentCombo27EQ.hide();
-
-		if (data != null) {
-			updateControls();
-		}
-
 	}
 
 	protected void changeFormTypeStatus(int formTypeSeclected) {
@@ -473,88 +466,81 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	}
 
 	private void updateControls() {
-		incomeTaxAmount.setAmount(data.getIncomeTaxAmount());
-		surchargePaidAmount.setAmount(data.getSurchangePaidAmount());
-		eduCessAmount.setAmount(data.getEducationCessAmount());
-		interestPaidAmount.setAmount(data.getInterestPaidAmount());
-		penaltyPaidAmount.setAmount(data.getPenaltyPaidAmount());
-		otherAmountPaid.setAmount(data.getOtherAmount());
-		totalAmountPaid.setAmount(data.getIncomeTaxAmount()
-				+ data.getSurchangePaidAmount() + data.getEducationCessAmount()
-				+ data.getInterestPaidAmount() + data.getPenaltyPaidAmount()
-				+ data.getOtherAmount());
+		incomeTaxAmount.setAmount(transaction.getIncomeTaxAmount());
+		surchargePaidAmount.setAmount(transaction.getSurchangePaidAmount());
+		eduCessAmount.setAmount(transaction.getEducationCessAmount());
+		interestPaidAmount.setAmount(transaction.getInterestPaidAmount());
+		penaltyPaidAmount.setAmount(transaction.getPenaltyPaidAmount());
+		otherAmountPaid.setAmount(transaction.getOtherAmount());
+		totalAmountPaid.setAmount(transaction.getIncomeTaxAmount()
+				+ transaction.getSurchangePaidAmount()
+				+ transaction.getEducationCessAmount()
+				+ transaction.getInterestPaidAmount()
+				+ transaction.getPenaltyPaidAmount()
+				+ transaction.getOtherAmount());
 
-		if (data.getPaymentMethod() == 1)
-			modeOFPaymentCombo.setSelected(getPaymentItems().get(0));
-		else
-			modeOFPaymentCombo.setSelected(getPaymentItems().get(1));
-		checkNumber.setNumber(data.getCheckNumber());
-		dateItem2.setValue(new ClientFinanceDate(data.getDateTaxPaid()));
-		bankBsrCode.setValue(data.getBankBsrCode());
+		modeOFPaymentCombo.setComboItem(transaction.getPaymentMethod());
+		checkNumber.setNumber(transaction.getCheckNumber());
+		dateItem2.setValue(new ClientFinanceDate(transaction.getDateTaxPaid()));
+		bankBsrCode.setValue(transaction.getBankBsrCode());
 
-		if (data.getChalanPeriod() == 1) {
+		if (transaction.getChalanPeriod() == 1) {
 			chalanPeriod.setSelected(getFinancialQuatersList().get(0));
-		} else if (data.getChalanPeriod() == 2) {
+		} else if (transaction.getChalanPeriod() == 2) {
 			chalanPeriod.setSelected(getFinancialQuatersList().get(1));
-		} else if (data.getChalanPeriod() == 3) {
+		} else if (transaction.getChalanPeriod() == 3) {
 			chalanPeriod.setSelected(getFinancialQuatersList().get(2));
-		} else if (data.getChalanPeriod() == 4) {
+		} else if (transaction.getChalanPeriod() == 4) {
 			chalanPeriod.setSelected(getFinancialQuatersList().get(3));
 		}
 
-		chalanSerialNumber.setNumber(data.getChalanSerialNumber());
+		chalanSerialNumber.setNumber(transaction.getChalanSerialNumber());
 
-		if (data.isBookEntry()) {
+		if (transaction.isBookEntry()) {
 			tdsDepositedBY.setSelected(getYESNOList().get(0));
 		} else {
 			tdsDepositedBY.setSelected(getYESNOList().get(1));
 		}
 
-		slectAssecementYear.setSelected(data.getAssesmentYearStart() + "-"
-				+ data.getAssessmentYearEnd());
+		slectAssecementYear.setSelected(transaction.getAssesmentYearStart()
+				+ "-" + transaction.getAssessmentYearEnd());
 
-		if (data.getFormType() == 1) {
+		if (transaction.getFormType() == 1) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(0));
-			natureOfPaymentCombo26Q.setSelected(data.getPaymentSection());
+			natureOfPaymentCombo26Q
+					.setSelected(transaction.getPaymentSection());
 			formTypeSeclected = 1;
 			changeFormTypeStatus(formTypeSeclected);
 
-		} else if (data.getFormType() == 2) {
+		} else if (transaction.getFormType() == 2) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(1));
-			natureOfPaymentCombo27Q.setSelected(data.getPaymentSection());
+			natureOfPaymentCombo27Q
+					.setSelected(transaction.getPaymentSection());
 			formTypeSeclected = 2;
 			changeFormTypeStatus(formTypeSeclected);
-		} else if (data.getFormType() == 3) {
+		} else if (transaction.getFormType() == 3) {
 			selectFormTypeCombo.setSelected(getFormTypes().get(2));
-			natureOfPaymentCombo27EQ.setSelected(data.getPaymentSection());
+			natureOfPaymentCombo27EQ.setSelected(transaction
+					.getPaymentSection());
 			formTypeSeclected = 3;
 			changeFormTypeStatus(formTypeSeclected);
 		}
 
-		financialYearCombo.setSelected(Integer.toString(data
+		financialYearCombo.setSelected(Integer.toString(transaction
 				.getAssesmentYearStart() - 1)
 				+ "-"
-				+ Integer.toString(data.getAssessmentYearEnd() - 1));
+				+ Integer.toString(transaction.getAssessmentYearEnd() - 1));
 		financialYearSelected = true;
-		table.setAllRows(data.getTransactionItems());
+		table.setAllRows(transaction.getTdsTransactionItems());
 
 	}
 
 	protected void updateTotalTaxCollected() {
-		totalAmountPaid.setAmount(0.00);
-		totalAmountPaid.setAmount(incomeTaxAmount.getAmount()
+		double totalTax = incomeTaxAmount.getAmount()
 				+ surchargePaidAmount.getAmount() + eduCessAmount.getAmount()
 				+ interestPaidAmount.getAmount()
-				+ penaltyPaidAmount.getAmount() + otherAmountPaid.getAmount());
-
-	}
-
-	protected void changeTotalAmount() {
-		totalAmountPaid.setAmount(0.00);
-		totalAmountPaid.setAmount(incomeTaxAmount.getAmount()
-				+ surchargePaidAmount.getAmount() + eduCessAmount.getAmount()
-				+ interestPaidAmount.getAmount()
-				+ penaltyPaidAmount.getAmount() + otherAmountPaid.getAmount());
+				+ penaltyPaidAmount.getAmount() + otherAmountPaid.getAmount();
+		totalAmountPaid.setAmount(totalTax);
 
 	}
 
@@ -642,8 +628,9 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 	private List<String> getPaymentItems() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("Cheque");
-		list.add("Cash/ePayment");
+		list.add(messages.cheque());
+		list.add(messages.cash());
+		list.add(messages.onlineBanking());
 		return list;
 	}
 
@@ -690,85 +677,73 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		result.add(taxDynamicForm.validate());
 		result.add(otherDynamicForm.validate());
 
-		List<ClientTDSTransactionItem> records = table.getAllRows();
-		double totalTDS = 0;
-		for (ClientTDSTransactionItem clientTDSTransactionItem : records) {
-			if (clientTDSTransactionItem.isBoxSelected())
-				totalTDS = clientTDSTransactionItem.getTdsTotal() + totalTDS;
-		}
-
-		double value = incomeTaxAmount.getAmount()
-				+ surchargePaidAmount.getAmount() + eduCessAmount.getAmount()
-				+ interestPaidAmount.getAmount()
-				+ penaltyPaidAmount.getAmount() + otherAmountPaid.getAmount();
-
-		if (totalTDS != value) {
-			result.addError(totalAmountPaid, "TDS Amount not matched");
-		}
-
-		List<ClientTDSTransactionItem> allRows = table.getAllRows();
+		List<ClientTDSTransactionItem> allRows = table.getSelectedRecords();
 		if (allRows.size() < 1) {
-			result.addError(financialYearCombo,
-					"No transaction added to chalan details");
+			result.addError(table, "No transaction added to chalan details");
 		}
-
-		if (financialYearSelected == false) {
-			result.addError(financialYearCombo,
-					"Select the financial year for eTDS");
-		}
-
 		return result;
 
 	}
 
 	@Override
 	public void saveAndUpdateView() {
-		updateObject();
+		updateTransaction();
 		saveOrUpdate(getData());
 
 	}
 
-	private void updateObject() {
+	@Override
+	protected void updateTransaction() {
+		// super.updateTransaction();
 
-		data.setFormType(formTypeSeclected);
+		transaction.setDate(new ClientFinanceDate().getDate());
+		transaction.setType(ClientTransaction.TYPE_TDS_CHALLAN);
+
+		transaction.setFormType(formTypeSeclected);
 
 		String delims = "-";
 		String[] tokens = assessmentYear.split(delims);
 
-		data.setAssesmentYearStart(Integer.parseInt(tokens[0]));
-		data.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
+		transaction.setAssesmentYearStart(Integer.parseInt(tokens[0]));
+		transaction.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
 
-		data.setChalanSerialNumber(chalanSerialNumber.getNumber());
+		transaction.setChalanSerialNumber(chalanSerialNumber.getNumber());
 
-		data.setIncomeTaxAmount(incomeTaxAmount.getAmount());
-		data.setSurchangePaidAmount(surchargePaidAmount.getAmount());
-		data.setEducationCessAmount(eduCessAmount.getAmount());
-		data.setInterestPaidAmount(interestPaidAmount.getAmount());
-		data.setPenaltyPaidAmount(penaltyPaidAmount.getAmount());
-		data.setOtherAmount(otherAmountPaid.getAmount());
+		transaction.setIncomeTaxAmount(incomeTaxAmount.getAmount());
+		transaction.setSurchangePaidAmount(surchargePaidAmount.getAmount());
+		transaction.setEducationCessAmount(eduCessAmount.getAmount());
+		transaction.setInterestPaidAmount(interestPaidAmount.getAmount());
+		transaction.setPenaltyPaidAmount(penaltyPaidAmount.getAmount());
+		transaction.setOtherAmount(otherAmountPaid.getAmount());
 
-		data.setPaymentSection(paymentSectionSelected);
-		data.setPaymentMethod(modeOfPayment);
+		transaction.setPaymentSection(paymentSectionSelected);
+		transaction.setPaymentMethod(modeOFPaymentCombo.getSelectedValue());
 
-		data.setBankChalanNumber(chalanSerialNumber.getNumber());
-		data.setChalanPeriod(chalanPeriod.getSelectedIndex() + 1);
+		transaction.setBankChalanNumber(chalanSerialNumber.getNumber());
+		transaction.setChalanPeriod(chalanPeriod.getSelectedIndex() + 1);
 
 		if (checkNumber.getNumber() != null) {
-			data.setCheckNumber(checkNumber.getNumber());
+			transaction.setCheckNumber(checkNumber.getNumber());
 		} else {
-			data.setCheckNumber(0);
+			transaction.setCheckNumber(0);
 		}
-		data.setBookEntry(bookEntry);
+		transaction.setBookEntry(bookEntry);
 
-		data.setDateTaxPaid(dateItem2.getTime());
+		transaction.setDateTaxPaid(dateItem2.getTime());
 
 		if (bankBsrCode.getValue().length() > 0) {
-			data.setBankBsrCode(bankBsrCode.getValue());
+			transaction.setBankBsrCode(bankBsrCode.getValue());
 		} else {
-			data.setBankBsrCode("");
+			transaction.setBankBsrCode("");
 		}
 
-		data.setTdsTransactionItems(table.getSelectedRecords(0));
+		if (payFromAccCombo.getSelectedValue() != null) {
+			transaction.setPayFrom(payFromAccCombo.getSelectedValue().getID());
+		}
+
+		transaction.setTotal(totalAmountPaid.getAmount());
+
+		transaction.setTdsTransactionItems(table.getSelectedRecords(0));
 
 	}
 
@@ -781,22 +756,12 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		String errorString = AccounterExceptions.getErrorString(errorCode);
 		Accounter.showError(errorString);
 
-		updateObject();
-
 	}
 
-	@Override
-	protected void initRPCService() {
-		super.initRPCService();
-
-		// if (chalanPeriod != null) {
-		// int chalanPer = chalanPeriod.getSelectedIndex();
-
-		int chalanPer = 1;
+	private void initCallBack() {
 		Accounter
 				.createHomeService()
 				.getTDSTransactionItemsList(
-						chalanPer,
 						new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
 
 							@Override
@@ -808,13 +773,13 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 							@Override
 							public void onResultSuccess(
 									ArrayList<ClientTDSTransactionItem> result) {
-								if (data.getID() == 0) {
+								if (transaction.getID() == 0) {
 									if (result.size() > 0) {
 										items = result;
 										table.reDraw();
 										for (ClientTDSTransactionItem clientTDSTransactionItem : result) {
-											clientTDSTransactionItem.setTdsTotal(clientTDSTransactionItem
-													.getTaxAmount()
+											clientTDSTransactionItem.setTdsAmount(clientTDSTransactionItem
+													.getTdsAmount()
 													+ clientTDSTransactionItem
 															.getSurchargeAmount()
 													+ clientTDSTransactionItem
@@ -830,40 +795,6 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 								}
 							}
 						});
-
-	}
-
-	public void setSurchargeValuesToField(Object value, boolean b) {
-
-		if (b == true) {
-			surchargePaidAmount.setAmount(surchargePaidAmount.getAmount()
-					+ Double.parseDouble(value.toString()));
-		} else {
-			surchargePaidAmount.setAmount(surchargePaidAmount.getAmount()
-					- Double.parseDouble(value.toString()));
-		}
-		updateTotalTaxCollected();
-	}
-
-	public void setEduCessValuesToField(Object value, boolean b) {
-		if (b == true) {
-			eduCessAmount.setAmount(eduCessAmount.getAmount()
-					+ Double.parseDouble(value.toString()));
-		} else {
-			eduCessAmount.setAmount(eduCessAmount.getAmount()
-					- Double.parseDouble(value.toString()));
-		}
-		updateTotalTaxCollected();
-	}
-
-	public void setTaxAmountValuesToField(double taxAmount, boolean b) {
-
-		if (b == true) {
-			incomeTaxAmount.setAmount(incomeTaxAmount.getAmount() + taxAmount);
-		} else {
-			incomeTaxAmount.setAmount(incomeTaxAmount.getAmount() - taxAmount);
-		}
-		updateTotalTaxCollected();
 	}
 
 	@Override
@@ -884,7 +815,7 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		};
 
 		this.rpcDoSerivce.canEdit(AccounterCoreType.TDSCHALANDETAIL,
-				data.getID(), editCallBack);
+				transaction.getID(), editCallBack);
 	}
 
 	protected void enableFormItems() {
@@ -916,4 +847,50 @@ public class TDSChalanDetailsView extends BaseView<ClientTDSChalanDetail> {
 		super.onEdit();
 	}
 
+	@Override
+	protected void initTransactionViewData() {
+		if (transaction == null) {
+			setData(new ClientTDSChalanDetail());
+			initCallBack();
+		} else {
+			updateControls();
+		}
+	}
+
+	@Override
+	public void updateNonEditableItems() {
+		double surchargeAmount = 0, eduCessAmount = 0, incomeTaxAmount = 0;
+		for (ClientTDSTransactionItem item : table.getSelectedRecords(0)) {
+			incomeTaxAmount += item.getTdsAmount();
+			surchargeAmount += item.getSurchargeAmount();
+			eduCessAmount += item.getEduCess();
+		}
+		this.incomeTaxAmount.setAmount(incomeTaxAmount);
+		this.surchargePaidAmount.setAmount(surchargeAmount);
+		this.eduCessAmount.setAmount(eduCessAmount);
+		updateTotalTaxCollected();
+	}
+
+	@Override
+	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void refreshTransactionGrid() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
+	}
 }

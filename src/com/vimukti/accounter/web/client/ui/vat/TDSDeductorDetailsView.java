@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -44,10 +45,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private SelectCombo statusCombo;
 	private SelectCombo deductorTypeOther;
 	private SelectCombo govtState;
-	private IntegerField paoCode;
+	private TextItem paoCode;
 	private IntegerField paoRegistration;
-	private IntegerField ddoCode;
-	private IntegerField ddoRegistration;
+	private TextItem ddoCode;
+	private TextItem ddoRegistration;
 	private SelectCombo ministryCombo;
 	private TextItem ministryNameOtehr;
 	private SelectCombo deductorTypeGovernment;
@@ -55,10 +56,12 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private boolean true_falseValue;
 	protected String statusSelected;
 	private String deductorTypeSelected;
-	private IntegerField stdNumber;
+	private TextItem stdNumber;
 	private SelectCombo stateCombo;
 	private TextItem panNumber;
 	private TextItem tanNumber;
+	private CheckboxItem addressSameBox;
+	private boolean isViewInitialised;
 
 	@Override
 	public void init() {
@@ -69,16 +72,6 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		// initRPCService();
 		if (data != null) {
 			onEdit();
-		}
-
-	}
-
-	public void initData() {
-		super.initData();
-
-		if (data == null) {
-			ClientTDSDeductorMasters deductorMasterDetails = new ClientTDSDeductorMasters();
-			setData(deductorMasterDetails);
 		}
 
 	}
@@ -153,7 +146,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		stdNumber = new IntegerField(this, "Std Code");
+		stdNumber = new TextItem("Std Code");
 		stdNumber.setHelpInformation(true);
 		stdNumber.setDisabled(isInViewMode());
 
@@ -174,6 +167,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		tanNumber.setHelpInformation(true);
 		tanNumber.setDisabled(isInViewMode());
 		tanNumber.setRequired(true);
+
+		addressSameBox = new CheckboxItem(
+				"Address same for resposible person also");
+		addressSameBox.setDisabled(isInViewMode());
 
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
@@ -248,7 +245,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		paoCode = new IntegerField(this, "PAO Code");
+		paoCode = new TextItem("PAO Code");
 		paoCode.setHelpInformation(true);
 		paoCode.setDisabled(isInViewMode());
 
@@ -256,11 +253,11 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		paoRegistration.setHelpInformation(true);
 		paoRegistration.setDisabled(isInViewMode());
 
-		ddoCode = new IntegerField(this, "DDO Code");
+		ddoCode = new TextItem("DDO Code");
 		ddoCode.setHelpInformation(true);
 		ddoCode.setDisabled(isInViewMode());
 
-		ddoRegistration = new IntegerField(this, "DDO Registration No.");
+		ddoRegistration = new TextItem("DDO Registration No.");
 		ddoRegistration.setHelpInformation(true);
 		ddoRegistration.setDisabled(isInViewMode());
 
@@ -294,7 +291,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		otherDynamicForm.setFields(statusCombo, deductorTypeOther,
 				deductorTypeGovernment, govtState, paoCode, paoRegistration,
 				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr,
-				panNumber, tanNumber);
+				panNumber, tanNumber, addressSameBox);
 
 		paoCode.setDisabled(true);
 		paoRegistration.setDisabled(true);
@@ -318,23 +315,12 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		deductorTypeGovernment.hide();
 
 		if (data != null) {
-
 			updateControls();
-
 		} else {
-			ClientCompany company = getCompany();
-			deductorName.setValue(company.getName());
-			cityName.setValue(company.getRegisteredAddress().getCity());
-			streetName.setValue(company.getRegisteredAddress().getStreet());
-			areaName.setValue(company.getRegisteredAddress()
-					.getCountryOrRegion());
-			// govtState.setValue(company.getRegisteredAddress()
-			// .getStateOrProvinence());
-			pinNumber.setValue(company.getRegisteredAddress()
-					.getZipOrPostalCode());
-			telephoneNumber.setValue(company.getPhone());
-			faxNumber.setValue(company.getFax());
+			updateControlsForNew();
 		}
+
+		isViewInitialised = true;
 
 	}
 
@@ -416,10 +402,10 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 			governmentSelected();
 			statusCombo.setSelected(data.getStatus());
 			deductorTypeGovernment.setValue(data.getDeductorType());
-			paoCode.setValue(Long.toString(data.getPaoCode()));
+			paoCode.setValue(data.getPaoCode());
 			paoRegistration.setValue(Long.toString(data.getPaoRegistration()));
-			ddoCode.setValue(Long.toString(data.getDdoCode()));
-			ddoRegistration.setValue(Long.toString(data.getDdoRegistration()));
+			ddoCode.setValue(data.getDdoCode());
+			ddoRegistration.setValue(data.getDdoRegistration());
 			ministryCombo.setValue(data.getMinistryDeptName());
 			ministryNameOtehr.setValue(data.getMinistryDeptOtherName());
 
@@ -427,7 +413,8 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		panNumber.setValue(data.getPanNumber());
 		tanNumber.setValue(data.getTanNumber());
-		stdNumber.setNumber(data.getStdCode());
+		addressSameBox.setValue(data.isAddressSameForResopsiblePerson());
+		stdNumber.setValue(data.getStdCode());
 
 	}
 
@@ -565,34 +552,34 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		data.setDeductorType(deductorTypeSelected);
 
 		if (statusSelected.equals(getStatusTypes().get(1))) {
-			if (paoCode.getValue().length() > 0) {
-				data.setPaoCode(paoCode.getNumber());
-			} else {
-				data.setPaoCode(0);
-			}
+			// if (paoCode.getValue().length() > 0) {
+			data.setPaoCode(paoCode.getValue());
+			// } else {
+			// data.setPaoCode("");
+			// }
 			if (paoRegistration.getValue().length() > 0) {
 				data.setPaoRegistration(paoRegistration.getNumber());
 			} else {
 				data.setPaoRegistration(0);
 			}
-			if (ddoCode.getValue().length() > 0) {
-				data.setDdoCode(ddoCode.getNumber());
-			} else {
-				data.setDdoCode(0);
-			}
-			if (ddoRegistration.getValue().length() > 0) {
-				data.setDdoRegistration(ddoRegistration.getNumber());
-			} else {
-				data.setDdoRegistration(0);
-			}
+			// if (ddoCode.getValue().length() > 0) {
+			data.setDdoCode(ddoCode.getValue());
+			// } else {
+			// data.setDdoCode(0);
+			// }
+			// if (ddoRegistration.getValue().length() > 0) {
+			data.setDdoRegistration(ddoRegistration.getValue());
+			// } else {
+			// data.setDdoRegistration(0);
+			// }
 			data.setMinistryDeptName(ministryCombo.getSelectedValue());
 			data.setMinistryDeptOtherName(ministryNameOtehr.getValue());
 			data.setGovtState(govtState.getSelectedValue());
 		} else {
-			data.setPaoCode(0);
+			data.setPaoCode("");
 			data.setPaoRegistration(0);
-			data.setDdoCode(0);
-			data.setDdoRegistration(0);
+			data.setDdoCode("");
+			data.setDdoRegistration("");
 			data.setMinistryDeptName("");
 			data.setMinistryDeptOtherName("");
 			data.setGovtState("");
@@ -600,11 +587,12 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		data.setPanNumber(panNumber.getValue());
 		data.setTanNumber(tanNumber.getValue());
-		if (stdNumber.getValue().length() > 0) {
-			data.setStdCode(stdNumber.getNumber());
-		} else {
-			data.setStdCode(0);
-		}
+		data.setAddressSameForResopsiblePerson(addressSameBox.getValue());
+		// if (stdNumber.getValue().length() > 0) {
+		data.setStdCode(stdNumber.getValue());
+		// } else {
+		// data.setStdCode(0);
+		// }
 
 	}
 
@@ -625,28 +613,44 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void initRPCService() {
 		// super.initRPCService();
 
-		Accounter
-				.createHomeService()
-				.getDeductorMasterDetails(
-						new AccounterAsyncCallback<ArrayList<ClientTDSDeductorMasters>>() {
+		Accounter.createHomeService().getDeductorMasterDetails(
+				new AccounterAsyncCallback<ClientTDSDeductorMasters>() {
 
-							@Override
-							public void onException(AccounterException exception) {
-								// TODO Auto-generated method stub
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
 
+					}
+
+					@Override
+					public void onResultSuccess(ClientTDSDeductorMasters result) {
+						if (result != null) {
+							data = result;
+							if (isViewInitialised) {
+								updateControls();
 							}
-
-							@Override
-							public void onResultSuccess(
-									ArrayList<ClientTDSDeductorMasters> result) {
-								if (result.size() > 0) {
-									data = result.get(0);
-									updateControls();
-								}
-
+						} else {
+							data = new ClientTDSDeductorMasters();
+							if (isViewInitialised) {
+								updateControlsForNew();
 							}
-						});
+						}
+					}
+				});
 
+	}
+
+	private void updateControlsForNew() {
+		ClientCompany company = getCompany();
+		deductorName.setValue(company.getName());
+		cityName.setValue(company.getRegisteredAddress().getCity());
+		streetName.setValue(company.getRegisteredAddress().getStreet());
+		areaName.setValue(company.getRegisteredAddress().getCountryOrRegion());
+		// govtState.setValue(company.getRegisteredAddress()
+		// .getStateOrProvinence());
+		pinNumber.setValue(company.getRegisteredAddress().getZipOrPostalCode());
+		telephoneNumber.setValue(company.getPhone());
+		faxNumber.setValue(company.getFax());
 	}
 
 	@Override

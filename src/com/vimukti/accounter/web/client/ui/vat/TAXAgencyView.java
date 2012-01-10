@@ -497,8 +497,8 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 		phoneFaxForm.setDisabled(isInViewMode());
 		// phoneFaxForm.setWidth("100%");
 
-		emailForm = new EmailForm(null, null, this, this
-				.getAction().getViewName());
+		emailForm = new EmailForm(null, null, this, this.getAction()
+				.getViewName());
 
 		emailForm.setDisabled(isInViewMode());
 
@@ -921,7 +921,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 	private SelectCombo createTaxTypeSelectCombo() {
 		SelectCombo taxTypeCombo = new SelectCombo(messages.taxType());
 		String[] types = new String[] { messages.salesTax(), messages.vat(),
-				messages.serviceTax(), messages.tds(), messages.other() };
+				messages.serviceTax(), messages.other() };
 		taxTypeCombo.initCombo(Arrays.asList(types));
 		taxTypeCombo.setDisabled(isInViewMode());
 		taxTypeCombo.setRequired(true);

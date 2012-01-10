@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -51,20 +52,13 @@ public class TDSResponsiblePersonDetailsView extends
 	private IntegerField stdNumber;
 	private IntegerField mobileNumber;
 
+	boolean viewIntialized;
+
 	@Override
 	public void init() {
 		super.init();
 		createControls();
 		setSize("100%", "100%");
-	}
-
-	public void initData() {
-		super.initData();
-		if (data == null) {
-			ClientTDSResponsiblePerson personDetails = new ClientTDSResponsiblePerson();
-			setData(personDetails);
-		}
-
 	}
 
 	private void createControls() {
@@ -231,8 +225,7 @@ public class TDSResponsiblePersonDetailsView extends
 		// returnType, existingTdsassess, panCode, tanNumber);
 
 		otherDynamicForm.setFields(stdNumber, telephoneNumber, mobileNumber,
-				faxNumber, email, financialYearCombo, assessmentYearCombo,
-				returnType, existingTdsassess);
+				faxNumber, email, returnType, existingTdsassess);
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setWidth("100%");
@@ -247,6 +240,8 @@ public class TDSResponsiblePersonDetailsView extends
 		if (data != null) {
 			upDateControls();
 		}
+
+		viewIntialized = true;
 
 	}
 
@@ -355,6 +350,8 @@ public class TDSResponsiblePersonDetailsView extends
 
 		data.setResponsibleName(responsiblePersonName.getValue());
 
+		data.setDesignation(designation.getValue());
+
 		data.setBranch(branchName.getValue());
 
 		data.setFlatNo(flatNo.getValue());
@@ -428,26 +425,44 @@ public class TDSResponsiblePersonDetailsView extends
 	protected void initRPCService() {
 		super.initRPCService();
 
-		Accounter
-				.createHomeService()
-				.getResponsiblePersonDetails(
-						new AccounterAsyncCallback<ArrayList<ClientTDSResponsiblePerson>>() {
+		Accounter.createHomeService().getResponsiblePersonDetails(
+				new AccounterAsyncCallback<ClientTDSResponsiblePerson>() {
 
-							@Override
-							public void onException(AccounterException exception) {
-								// TODO Auto-generated method stub
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
 
+					}
+
+					@Override
+					public void onResultSuccess(
+							ClientTDSResponsiblePerson result) {
+						if (result != null) {
+							data = result;
+							if (viewIntialized) {
+								upDateControls();
 							}
-
-							@Override
-							public void onResultSuccess(
-									ArrayList<ClientTDSResponsiblePerson> result) {
-								if (result.size() > 0) {
-									data = result.get(0);
-									upDateControls();
-								}
+						} else {
+							data = new ClientTDSResponsiblePerson();
+							ClientTDSDeductorMasters deductor = getCompany()
+									.getTdsDeductor();
+							if (deductor != null
+									&& deductor
+											.isAddressSameForResopsiblePerson()) {
+								data.setBranch(deductor.getBranch());
+								data.setFlatNo(deductor.getFlatNo());
+								data.setBuildingName(deductor
+										.getBuildingName());
+								data.setStreet(deductor.getRoadName());
+								data.setArea(deductor.getArea());
+								data.setCity(deductor.getCity());
+								data.setStateName(deductor.getState());
+								data.setPinCode(deductor.getPinCode());
+								upDateControls();
 							}
-						});
+						}
+					}
+				});
 
 	}
 
