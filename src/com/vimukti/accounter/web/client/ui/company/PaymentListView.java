@@ -79,6 +79,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
+		grid.removeAllRecords();
 		grid.setRecords(result);
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
