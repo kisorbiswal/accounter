@@ -25,16 +25,18 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 	private String status;
 	private String deductorType;
 	private String govtState;
-	private long paoCode;
+	private String paoCode;
 	private long paoRegistration;
-	private long ddoCode;
-	long ddoRegistration;
+	private String ddoCode;
+	String ddoRegistration;
 	private String ministryDeptName;
 	private String ministryDeptOtherName;
 
 	private String tanNumber;
 	private String panNumber;
-	private long stdCode;
+	private String stdCode;
+
+	private boolean isAddressSameForResopsiblePerson;
 
 	@Override
 	public int getVersion() {
@@ -193,11 +195,11 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 		this.govtState = govtState;
 	}
 
-	public long getPaoCode() {
+	public String getPaoCode() {
 		return paoCode;
 	}
 
-	public void setPaoCode(long paoCode) {
+	public void setPaoCode(String paoCode) {
 		this.paoCode = paoCode;
 	}
 
@@ -209,19 +211,19 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 		this.paoRegistration = paoRegistration;
 	}
 
-	public long getDdoCode() {
+	public String getDdoCode() {
 		return ddoCode;
 	}
 
-	public void setDdoCode(long ddoCode) {
+	public void setDdoCode(String ddoCode) {
 		this.ddoCode = ddoCode;
 	}
 
-	public long getDdoRegistration() {
+	public String getDdoRegistration() {
 		return ddoRegistration;
 	}
 
-	public void setDdoRegistration(long ddoRegistration) {
+	public void setDdoRegistration(String ddoRegistration) {
 		this.ddoRegistration = ddoRegistration;
 	}
 
@@ -265,12 +267,21 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 		this.panNumber = panNumber;
 	}
 
-	public long getStdCode() {
+	public String getStdCode() {
 		return stdCode;
 	}
 
-	public void setStdCode(long stdCode) {
+	public void setStdCode(String stdCode) {
 		this.stdCode = stdCode;
+	}
+
+	public boolean isAddressSameForResopsiblePerson() {
+		return isAddressSameForResopsiblePerson;
+	}
+
+	public void setAddressSameForResopsiblePerson(
+			boolean isAddressSameForResopsiblePerson) {
+		this.isAddressSameForResopsiblePerson = isAddressSameForResopsiblePerson;
 	}
 
 }

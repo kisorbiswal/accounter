@@ -193,6 +193,11 @@ public class ClientCompany implements IAccounterCore {
 	private ClientFinanceDate transactionEndDate;
 
 	private ClientAddress registeredAddress;
+
+	private ClientTDSDeductorMasters tdsDeductor;
+
+	private ClientTDSResponsiblePerson tdsResposiblePerson;
+
 	private int version;
 
 	private long cashDiscountAccount;
@@ -1965,6 +1970,12 @@ public class ClientCompany implements IAccounterCore {
 				ClientChequeLayout chequeLayout = (ClientChequeLayout) accounterCoreObject;
 				Utility.updateClientList(chequeLayout, chequeLayouts);
 				break;
+			case TDSDEDUCTORMASTER:
+				this.tdsDeductor = (ClientTDSDeductorMasters) accounterCoreObject;
+				break;
+			case TDSRESPONSIBLEPERSON:
+				this.tdsResposiblePerson = (ClientTDSResponsiblePerson) accounterCoreObject;
+				break;
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -3152,5 +3163,22 @@ public class ClientCompany implements IAccounterCore {
 		}
 		// Should not reach this line
 		return null;
+	}
+
+	public ClientTDSDeductorMasters getTdsDeductor() {
+		return tdsDeductor;
+	}
+
+	public void setTdsDeductor(ClientTDSDeductorMasters tdsDeductor) {
+		this.tdsDeductor = tdsDeductor;
+	}
+
+	public ClientTDSResponsiblePerson getTdsResposiblePerson() {
+		return tdsResposiblePerson;
+	}
+
+	public void setTdsResposiblePerson(
+			ClientTDSResponsiblePerson tdsResposiblePerson) {
+		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
 }

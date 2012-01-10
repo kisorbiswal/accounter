@@ -7,35 +7,32 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 	 * tax.
 	 */
 	private static final long serialVersionUID = 1L;
-	private int version;
 	private long id;
-
-	private boolean boxSelected;
 
 	private long vendor;
 
-	private double taxAmount;
+	private double totalAmount;
+
+	private double tdsAmount;
 
 	private double surchargeAmount;
 
 	private double eduCess;
 
-	private double totalAmount;
+	private double totalTax;
 
 	private long transactionDate;
 
-	private double tdsTotal;
-
-	private long transactionID;
+	private long transaction;
 
 	@Override
 	public int getVersion() {
-		return version;
+		return 0;
 	}
 
 	@Override
 	public void setVersion(int version) {
-		this.version = version;
+
 	}
 
 	@Override
@@ -63,20 +60,12 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 		return id;
 	}
 
-	public long getVendorID() {
+	public long getVendor() {
 		return vendor;
 	}
 
-	public void setVendorID(long vendorID) {
-		this.vendor = vendorID;
-	}
-
-	public double getTaxAmount() {
-		return taxAmount;
-	}
-
-	public void setTaxAmount(double taxAmount) {
-		this.taxAmount = taxAmount;
+	public void setVendor(long vendor) {
+		this.vendor = vendor;
 	}
 
 	public double getTotalAmount() {
@@ -111,35 +100,35 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 		this.eduCess = eduCess;
 	}
 
-	public double getTdsTotal() {
-		return tdsTotal;
-	}
-
-	public void setTdsTotal(double tdsTotal) {
-		this.tdsTotal = tdsTotal;
-	}
-
-	public boolean isBoxSelected() {
-		return boxSelected;
-	}
-
-	public void setBoxSelected(boolean boxSelected) {
-		this.boxSelected = boxSelected;
-	}
-
 	/**
 	 * @return the transactionID
 	 */
-	public long getTransactionID() {
-		return transactionID;
+	public long getTransaction() {
+		return transaction;
 	}
 
 	/**
 	 * @param transactionID
 	 *            the transactionID to set
 	 */
-	public void setTransactionID(long transactionID) {
-		this.transactionID = transactionID;
+	public void setTransaction(long transactionID) {
+		this.transaction = transactionID;
+	}
+
+	public double getTdsAmount() {
+		return tdsAmount;
+	}
+
+	public void setTdsAmount(double tdsAmount) {
+		this.tdsAmount = tdsAmount;
+	}
+
+	public double getTotalTax() {
+		return totalTax;
+	}
+
+	public void setTotalTax(double totalTax) {
+		this.totalTax = totalTax;
 	}
 
 }

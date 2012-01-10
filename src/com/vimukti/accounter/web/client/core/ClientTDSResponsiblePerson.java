@@ -7,6 +7,8 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long id;
+
 	private String responsibleName;
 	private String designation;
 	private String branch;
@@ -58,12 +60,12 @@ public class ClientTDSResponsiblePerson implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-
+		this.id = id;
 	}
 
 	@Override
 	public long getID() {
-		return 0;
+		return id;
 	}
 
 	public String getDesignation() {

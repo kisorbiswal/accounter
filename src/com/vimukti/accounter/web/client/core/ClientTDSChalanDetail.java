@@ -3,16 +3,14 @@ package com.vimukti.accounter.web.client.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class ClientTDSChalanDetail implements IAccounterCore {
+public class ClientTDSChalanDetail extends ClientTransaction {
 
 	/**
 	 * this class is used to maintain the details of chalan
 	 */
 	private static final long serialVersionUID = 1L;
-	private int version;
-	private long id;
 
 	private double incomeTaxAmount;
 	private double surchangePaidAmount;
@@ -22,7 +20,6 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	private double otherAmount;
 
 	private String paymentSection;
-	private int paymentMethod;
 	private long bankChalanNumber;
 	private long checkNumber;
 	private String bankBsrCode;
@@ -35,21 +32,13 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 	private int assesmentYearStart;
 	private int assessmentYearEnd;
 
+	private long payFrom;
+
 	private List<ClientTDSTransactionItem> tdsTransactionItems = new ArrayList<ClientTDSTransactionItem>();
 
 	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	@Override
 	public String getName() {
-		return Global.get().messages().clientTDSChalanDetail();
+		return Accounter.getMessages().tdsChallan();
 	}
 
 	@Override
@@ -126,14 +115,6 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 
 	public void setPaymentSection(String paymentSectionSelected) {
 		this.paymentSection = paymentSectionSelected;
-	}
-
-	public int getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(int paymentMethod) {
-		this.paymentMethod = paymentMethod;
 	}
 
 	public long getBankChalanNumber() {
@@ -223,15 +204,20 @@ public class ClientTDSChalanDetail implements IAccounterCore {
 		this.assessmentYearEnd = assessmentYearEnd;
 	}
 
-	public List<ClientTDSTransactionItem> getTransactionItems() {
+	public List<ClientTDSTransactionItem> getTdsTransactionItems() {
 		return tdsTransactionItems;
 	}
 
-	public void setTdsTransactionItems(List<ClientTDSTransactionItem> list) {
-		this.tdsTransactionItems = list;
+	public void setTdsTransactionItems(
+			List<ClientTDSTransactionItem> tdsTransactionItems) {
+		this.tdsTransactionItems = tdsTransactionItems;
 	}
 
-	public int getType() {
-		return IAccounterCore.TDSCHALANDETAIL;
+	public long getPayFrom() {
+		return payFrom;
+	}
+
+	public void setPayFrom(long payFrom) {
+		this.payFrom = payFrom;
 	}
 }

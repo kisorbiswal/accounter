@@ -56,6 +56,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	public static final int TYPE_VENDOR_PAYMENT = 25;
 	public static final int TYPE_RECEIVE_TAX = 31;
+	public static final int TYPE_TDS_CHALLAN = 34;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
