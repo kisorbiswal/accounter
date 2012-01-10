@@ -67,10 +67,15 @@ public abstract class VendorAccountTransactionTable extends
 	@Override
 	public void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
-			ClientTransactionItem item = new ClientTransactionItem();
-			item.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			add(item);
+			addEmptyRowAtLast();
 		}
+	}
+
+	@Override
+	public void addEmptyRowAtLast() {
+		ClientTransactionItem item = new ClientTransactionItem();
+		item.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		add(item);
 	}
 
 	@Override
@@ -81,7 +86,6 @@ public abstract class VendorAccountTransactionTable extends
 			@Override
 			public ListFilter<ClientAccount> getAccountsFilter() {
 				return new ListFilter<ClientAccount>() {
-
 					@Override
 					public boolean filter(ClientAccount account) {
 

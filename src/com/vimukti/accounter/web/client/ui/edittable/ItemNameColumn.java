@@ -62,6 +62,7 @@ public abstract class ItemNameColumn extends
 				row.setUnitPrice(unitPrice);
 			}
 			row.setAccountable(newValue);
+			onValueChange(row);
 			row.setDescription(getDiscription(newValue));
 			// row.setUnitPrice(newValue.getSalesPrice());
 			row.setTaxable(newValue.isTaxable());
@@ -134,5 +135,10 @@ public abstract class ItemNameColumn extends
 
 	public void setPriceLevel(ClientPriceLevel priceLevel) {
 		this.priceLevel = priceLevel;
+	}
+
+	@Override
+	public boolean isPrimaryColumn() {
+		return true;
 	}
 }

@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public abstract class EditTable<R> extends SimplePanel {
 
-	protected AccounterMessages messages=Global.get().messages();
+	protected AccounterMessages messages = Global.get().messages();
 	private FlexTable table;
 	private ArrayList<ArrayList<EditColumn<R>>> columns = new ArrayList<ArrayList<EditColumn<R>>>();
 	private CellFormatter cellFormatter;
@@ -61,7 +61,6 @@ public abstract class EditTable<R> extends SimplePanel {
 		// Set width
 		int width = column.getWidth();
 		if (width != -1) {
-
 			cellFormatter.setWidth(rowIndex, index, width + "px");
 		}
 	}
@@ -338,5 +337,8 @@ public abstract class EditTable<R> extends SimplePanel {
 			return null;
 		}
 		return table.getWidget(rowIndex, columnIndex);
+	}
+
+	public void addEmptyRowAtLast() {
 	}
 }

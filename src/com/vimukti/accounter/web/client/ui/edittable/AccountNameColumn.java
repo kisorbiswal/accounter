@@ -38,11 +38,17 @@ public abstract class AccountNameColumn extends
 		if (newValue != null) {
 			row.setDescription(newValue.getComment());
 			row.setTaxable(true);
+			onValueChange(row);
 		}
 	}
 
 	@Override
 	protected String getColumnName() {
 		return messages.name();
+	}
+
+	@Override
+	public boolean isPrimaryColumn() {
+		return true;
 	}
 }

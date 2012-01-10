@@ -65,10 +65,15 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 	@Override
 	public void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
-			ClientTransactionItem item = new ClientTransactionItem();
-			item.setType(ClientTransactionItem.TYPE_ITEM);
-			add(item);
+			addEmptyRowAtLast();
 		}
+	}
+
+	@Override
+	public void addEmptyRowAtLast() {
+		ClientTransactionItem item = new ClientTransactionItem();
+		item.setType(ClientTransactionItem.TYPE_ITEM);
+		add(item);
 	}
 
 	@Override

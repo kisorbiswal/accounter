@@ -54,10 +54,15 @@ public abstract class CustomerAccountTransactionTable extends
 	@Override
 	protected void addEmptyRecords() {
 		for (int i = 0; i < 4; i++) {
-			ClientTransactionItem item = new ClientTransactionItem();
-			item.setType(ClientTransactionItem.TYPE_ACCOUNT);
-			add(item);
+			addEmptyRowAtLast();
 		}
+	}
+
+	@Override
+	public void addEmptyRowAtLast() {
+		ClientTransactionItem item = new ClientTransactionItem();
+		item.setType(ClientTransactionItem.TYPE_ACCOUNT);
+		add(item);
 	}
 
 	@Override

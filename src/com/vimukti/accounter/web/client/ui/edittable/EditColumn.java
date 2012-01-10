@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
@@ -12,8 +14,8 @@ public abstract class EditColumn<R> {
 	private EditTable<R> table;
 	private Label columnHeader;
 
-	protected AccounterMessages messages=Global.get().messages();
-	
+	protected AccounterMessages messages = Global.get().messages();
+
 	public boolean onChange(R row) {
 		return false;
 
@@ -53,16 +55,30 @@ public abstract class EditColumn<R> {
 		return Accounter.getCompany().getPreferences();
 	}
 
-	protected void updateFromGUI(IsWidget widget, R row){
-		
+	protected void updateFromGUI(IsWidget widget, R row) {
+
 	}
 
 	public void updateHeader() {
 		if (getColumnName().length() > 0)
 			columnHeader.setText(getColumnName());
 	}
-	
-	public int getColumnSpan(){
+
+	public int getColumnSpan() {
 		return 1;
+	}
+
+	public boolean isPrimaryColumn() {
+		return false;
+	}
+
+	public void onValueChange(R row) {
+		if (isPrimaryColumn()) {
+			List<R> allRows = table.getAllRows();
+			// If this is last row
+			if (allRows.indexOf(row) == allRows.size() - 1) {
+				table.addEmptyRowAtLast();
+			}
+		}
 	}
 }
