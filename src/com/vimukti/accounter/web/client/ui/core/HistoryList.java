@@ -19,7 +19,7 @@ public class HistoryList {
 	}
 
 	public HistoryList() {
-		this(10);
+		this(50);
 	}
 
 	public void add(HistoryItem val) {
