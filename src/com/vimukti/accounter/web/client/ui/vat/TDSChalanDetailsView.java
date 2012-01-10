@@ -582,29 +582,35 @@ public class TDSChalanDetailsView extends
 	private List<String> get27QSectionsList() {
 
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("194E" + "-" + "10%");
-		list.add("195(a)" + "-" + "20%");
-		list.add("195(b)" + "-" + "10%");
-		list.add("195(c)" + "-" + "15%");
-		list.add("195(d)" + "-" + "20%");
-		list.add("195(e)" + "-" + "20%");
-		list.add("195(f)" + "-" + "30%");
-		list.add("195(f)" + "-" + "20%");
-		list.add("195(f)" + "-" + "10%");
-		list.add("195(g)" + "-" + "50%");
-		list.add("195(g)" + "-" + "30%");
-		list.add("195(g)" + "-" + "20%");
-		list.add("195(g)" + "-" + "10%");
-		list.add("195(h)" + "-" + "50%");
-		list.add("195(h)" + "-" + "30%");
-		list.add("195(h)" + "-" + "20%");
-		list.add("195(h)" + "-" + "10%");
-		list.add("195(i)" + "-" + "40%");
-		list.add("195(i)" + "-" + "30%");
-		list.add("196A" + "-" + "20%");
-		list.add("196B" + "-" + "10%");
-		list.add("196C" + "-" + "10%");
-		list.add("196D" + "-" + "20%");
+		list.add("94E");
+		list.add("195");
+		list.add("96A");
+		list.add("96B");
+		list.add("96C");
+		list.add("96D");
+		// list.add("194E" + "-" + "10%");
+		// list.add("195(a)" + "-" + "20%");
+		// list.add("195(b)" + "-" + "10%");
+		// list.add("195(c)" + "-" + "15%");
+		// list.add("195(d)" + "-" + "20%");
+		// list.add("195(e)" + "-" + "20%");
+		// list.add("195(f)" + "-" + "30%");
+		// list.add("195(f)" + "-" + "20%");
+		// list.add("195(f)" + "-" + "10%");
+		// list.add("195(g)" + "-" + "50%");
+		// list.add("195(g)" + "-" + "30%");
+		// list.add("195(g)" + "-" + "20%");
+		// list.add("195(g)" + "-" + "10%");
+		// list.add("195(h)" + "-" + "50%");
+		// list.add("195(h)" + "-" + "30%");
+		// list.add("195(h)" + "-" + "20%");
+		// list.add("195(h)" + "-" + "10%");
+		// list.add("195(i)" + "-" + "40%");
+		// list.add("195(i)" + "-" + "30%");
+		// list.add("196A" + "-" + "20%");
+		// list.add("196B" + "-" + "10%");
+		// list.add("196C" + "-" + "10%");
+		// list.add("196D" + "-" + "20%");
 
 		return list;
 	}
