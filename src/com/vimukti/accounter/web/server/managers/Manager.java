@@ -309,7 +309,11 @@ public class Manager {
 
 	protected FinanceDate getCurrentFiscalYearStartDate(Company company) {
 		FinanceDate startDate = new FinanceDate();
-		startDate.setMonth(company.getPreferences().getFiscalYearFirstMonth());
+		int firstMonth = company.getPreferences().getFiscalYearFirstMonth();
+		if(firstMonth>startDate.getMonth()){
+			startDate.setYear(startDate.getYear()-1);
+		}
+		startDate.setMonth(firstMonth);
 		startDate.setDate(1);
 		return startDate;
 	}
