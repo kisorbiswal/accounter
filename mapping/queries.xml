@@ -1952,6 +1952,18 @@
 		wc.company=:company and wc.transactionDate between :fromDate and
 		:toDate and wc.vendor != null
 	</query>
+	
+	<query name="getTdsResposiblePersonDetails">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TDSResponsiblePerson tc where
+		tc.company.id=:companyId
+	</query>
+	
+	<query name="getTdsDeductor">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TDSDeductorMasters tc where
+		tc.company.id=:companyId
+	</query>
 
 	<query name="getTdsChalanDetails">
 		<query-param name="company" type="Company" />
