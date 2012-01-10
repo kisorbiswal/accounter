@@ -2,7 +2,6 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
-
 /**
  * The salary components constituting Pay Structures are called Pay Heads. A Pay
  * Head may be an earning, which is paid to an employee, or a deduction, which
@@ -24,7 +23,35 @@ public class PayHead extends CreatableObject {
 	public static final int TYPE_LOANS_AND_ADVANCES = 8;
 	public static final int TYPE_REIMBURSEMENTS_TO_EMPLOYEES = 9;
 
+	public static final int CALCULATION_TYPE_ON_ATTENDANCE = 1;
+	public static final int CALCULATION_TYPE_AS_COMPUTED_VALUE = 2;
+	public static final int CALCULATION_TYPE_FLAT_RATE = 3;
+	public static final int CALCULATION_TYPE_ON_PRODUCTION = 4;
+	public static final int CALCULATION_TYPE_AS_USER_DEFINED = 5;
+
+	public static final int CALCULATION_TYPE_DAYS = 1;
+	public static final int CALCULATION_TYPE_WEEKS = 2;
+	public static final int CALCULATION_TYPE_MONTHS = 3;
+
+	public static final int ROUNDING_METHOD_DOWNWORD = 1;
+	public static final int ROUNDING_METHOD_NORMAL = 2;
+	public static final int ROUNDING_METHOD_UPWORD = 3;
+
+	private String name;
+
+	private String alias;
+
 	private int type;
+
+	private String nameToAppearInPaySlip;
+
+	private int calculationType;
+
+	private int calculationPeriod;
+
+	private int roundingMethod;
+
+	private boolean isAffectNetSalary;
 
 	private List<PayHeadField> companyFields;
 
@@ -73,6 +100,111 @@ public class PayHead extends CreatableObject {
 	 */
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	/**
+	 * @return the nameToAppearInPaySlip
+	 */
+	public String getNameToAppearInPaySlip() {
+		return nameToAppearInPaySlip;
+	}
+
+	/**
+	 * @param nameToAppearInPaySlip
+	 *            the nameToAppearInPaySlip to set
+	 */
+	public void setNameToAppearInPaySlip(String nameToAppearInPaySlip) {
+		this.nameToAppearInPaySlip = nameToAppearInPaySlip;
+	}
+
+	/**
+	 * @return the calculationType
+	 */
+	public int getCalculationType() {
+		return calculationType;
+	}
+
+	/**
+	 * @param calculationType
+	 *            the calculationType to set
+	 */
+	public void setCalculationType(int calculationType) {
+		this.calculationType = calculationType;
+	}
+
+	/**
+	 * @return the calculationPeriod
+	 */
+	public int getCalculationPeriod() {
+		return calculationPeriod;
+	}
+
+	/**
+	 * @param calculationPeriod
+	 *            the calculationPeriod to set
+	 */
+	public void setCalculationPeriod(int calculationPeriod) {
+		this.calculationPeriod = calculationPeriod;
+	}
+
+	/**
+	 * @return the roundingMethod
+	 */
+	public int getRoundingMethod() {
+		return roundingMethod;
+	}
+
+	/**
+	 * @param roundingMethod
+	 *            the roundingMethod to set
+	 */
+	public void setRoundingMethod(int roundingMethod) {
+		this.roundingMethod = roundingMethod;
+	}
+
+	/**
+	 * @return the isAffectNetSalary
+	 */
+	public boolean isAffectNetSalary() {
+		return isAffectNetSalary;
+	}
+
+	/**
+	 * @param isAffectNetSalary
+	 *            the isAffectNetSalary to set
+	 */
+	public void setAffectNetSalary(boolean isAffectNetSalary) {
+		this.isAffectNetSalary = isAffectNetSalary;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the alias
+	 */
+	public String getAlias() {
+		return alias;
+	}
+
+	/**
+	 * @param alias
+	 *            the alias to set
+	 */
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 }
