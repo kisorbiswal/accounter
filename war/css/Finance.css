@@ -2708,3 +2708,13 @@ input.date-field-textbox {
 .disposalSummaryForm td:last-child{
 	text-align: right;
 }
+.statement_import_options table td .gwt-Label{
+	width:150px;
+}
+.statement_import_options{
+	border: 1px solid #AAAAAA;
+    padding: 10px;
+}
+.statement_import_options table td{
+	padding:3px;
+}
