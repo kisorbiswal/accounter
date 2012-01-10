@@ -20,7 +20,7 @@ input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner
 body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter{
 	text-align: center;
 }
-.unavailable_page,.maintanance_subcont,#maintananceContainer,.form-box,#commanContainer form,.new_login_page,.admin_details_header{
+.unavailable_page,.maintanance_subcont,#maintananceContainer,.form-box,#commanContainer .accounterform,.new_login_page,.admin_details_header{
 	overflow: auto;
 }
 #mid-2,#mid,#but-g,#but-mid,.invoicing,#bank-layout,#contact-layout,.left-side-options,.terms-error input[type="checkbox"],.seperator,.left-middle,.image-text-button,
@@ -651,7 +651,7 @@ form {
 	font-size: 14px;
 	margin: 0;
 }
-#commanContainer form,.form-box,.new_login_page {
+#commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #B1B1B1;
 	border-radius: 3px 3px 3px 3px;
@@ -956,7 +956,7 @@ a#fdbk_tab:hover {
 .facebook_icon{
 	background: url("../images/Facebook.jpg") no-repeat scroll 5px 5px transparent;
 }
-.new_login_accounterform #openIdForm a:hover{
+.new_login_accounterform #openIdForm a:hover,#openIdForm a:hover{
 	border: 1px solid #CCCCCC;
     border-radius: 5px 5px 5px 5px;
 }
