@@ -2,6 +2,9 @@ package com.vimukti.accounter.core;
 
 import java.util.List;
 
+import org.json.JSONException;
+
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * An Employee Group allows you to group/classify the employees in a logical
@@ -15,7 +18,13 @@ import java.util.List;
  * @author Prasanna Kumar G
  * 
  */
-public class EmployeeGroup extends CreatableObject {
+public class EmployeeGroup extends CreatableObject implements
+		IAccounterServerCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 
@@ -66,5 +75,18 @@ public class EmployeeGroup extends CreatableObject {
 	 */
 	public void setPayStructure(PayStructure payStructure) {
 		this.payStructure = payStructure;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
 	}
 }
