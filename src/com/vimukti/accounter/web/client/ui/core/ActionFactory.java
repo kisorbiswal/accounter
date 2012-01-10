@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import java.util.List;
-
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientActivity;
@@ -16,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
-import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
 import com.vimukti.accounter.web.client.ui.banking.ChartsOfAccountsAction;
@@ -31,8 +28,6 @@ import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
-import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
-import com.vimukti.accounter.web.client.ui.banking.StatementReconcilationAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
@@ -1347,21 +1342,4 @@ public class ActionFactory {
 		return new CreateIRASInformationFileAction();
 	}
 
-	public static BankStatementAction getImportBankStatementAction() {
-		return new BankStatementAction();
-	}
-
-	/**
-	 * For Reconcilation
-	 * 
-	 * @return
-	 */
-	public static StatementReconcilationAction getStatementReconcilationAction() {
-		return new StatementReconcilationAction();
-	}
-
-	public static StatementImportViewAction getStatementImportViewAction(
-			List<String[]> data) {
-		return new StatementImportViewAction(data);
-	}
 }
