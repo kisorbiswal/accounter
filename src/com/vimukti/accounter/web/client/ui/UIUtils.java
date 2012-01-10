@@ -2114,13 +2114,14 @@ public class UIUtils {
 	}-*/;
 
 	public native static void generateETDSFillingtext(int formNo, int quarter,
-			int startYear, int endYear, String codeList, String remarkList)/*-{
+			int startYear, int endYear, String panList, String codeList,
+			String remarkList)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src", "/do/finance/GenerateETDSServlet?formNo="
 					+ formNo + "&quater=" + quarter + "&startYear=" + startYear
-					+ "&endYear=" + endYear + "&codeList=" + codeList
-					+ "&remarkList=" + remarkList);
+					+ "&endYear=" + endYear + "&panList=" + panList
+					+ "&codeList=" + codeList + "&remarkList=" + remarkList);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {
