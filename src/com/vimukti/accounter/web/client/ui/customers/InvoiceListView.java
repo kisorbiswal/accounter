@@ -97,16 +97,16 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void onSuccess(PaginationList<InvoicesList> result) {
+		grid.removeAllRecords();
 		if (result.isEmpty()) {
-			grid.removeAllRecords();
+			updateRecordsCount(result.getStart(), result.size(),
+					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
 		grid.removeLoadingImage();
 		listOfInvoices = result;
 		viewSelect.setComboItem(viewType);
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
 		grid.setRecords(result);
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);

@@ -62,13 +62,13 @@ public class ReceivedPaymentListView extends
 		super.onSuccess(result);
 		grid.removeAllRecords();
 		grid.setRecords(result);
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
-
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
 	}
 
 	@Override
