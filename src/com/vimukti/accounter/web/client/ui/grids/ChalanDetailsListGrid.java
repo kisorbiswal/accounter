@@ -26,13 +26,12 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT };
+				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
 	@Override
 	protected void executeDelete(ClientTDSChalanDetail object) {
-		// TODO Auto-generated method stub
-
+		deleteObject(object);
 	}
 
 	@Override
@@ -84,6 +83,8 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 			return new ClientFinanceDate(obj.getDateTaxPaid());
 		case 5:
 			return obj.getBankBsrCode();
+		case 6:
+			return Accounter.getFinanceMenuImages().delete();
 		default:
 			break;
 		}
@@ -93,38 +94,30 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	public void onDoubleClick(ClientTDSChalanDetail obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			ReportsRPC.openTransactionView(obj.getType(), obj.getID());
+		}
 	}
 
 	@Override
 	protected String[] getColumns() {
-		String[] colArray = new String[6];
-		for (int index = 0; index < colArray.length; index++) {
-			switch (index) {
-			case 0:
-				colArray[index] = "Form Type";
-				break;
-			case 1:
-				colArray[index] = "Assessment Year";
-				break;
-			case 2:
-				colArray[index] = messages.totalAmount();
-				break;
-			case 3:
-				colArray[index] = "Chalan Period";
-				break;
-			case 4:
-				colArray[index] = "Date of Payment";
-				break;
-			case 5:
-				colArray[index] = "Bank BSR Code";
-				break;
-			default:
-				break;
-			}
-		}
-		return colArray;
+		return new String[] { "Form Type", "Assessment Year",
+				messages.totalAmount(), "Chalan Period", "Date of Payment",
+				"Bank BSR Code", "" };
 	}
 
+	@Override
+	protected void onClick(ClientTDSChalanDetail obj, int row, int col) {
+		if (col == 6) {
+			showWarnDialog(obj);
+		}
+	}
+
+	@Override
+	protected int getCellWidth(int index) {
+		if (index == 6) {
+			return 15;
+		}
+		return -1;
+	}
 }

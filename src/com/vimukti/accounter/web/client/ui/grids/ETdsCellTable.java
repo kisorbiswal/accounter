@@ -3,187 +3,216 @@ package com.vimukti.accounter.web.client.ui.grids;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.SelectionCell;
-import com.google.gwt.cell.client.TextCell;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.view.client.ListDataProvider;
+import com.vimukti.accounter.web.client.core.ClientBank;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
+import com.vimukti.accounter.web.client.ui.edittable.BankDropDownTable;
+import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
+import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
-public class ETdsCellTable extends CellTable<ClientETDSFilling> {
+public class ETdsCellTable extends EditTable<ClientETDSFilling> {
 
-	ListDataProvider<ClientETDSFilling> listDataProvider = new ListDataProvider<ClientETDSFilling>();
+	private List<ClientBank> getDeducteeCodes() {
 
-	public ETdsCellTable() {
-		createControls();
-		this.addStyleName("budget-table");
+		ArrayList<ClientBank> list = new ArrayList<ClientBank>();
+		ClientBank a = new ClientBank();
+		a.setName("1");
+		ClientBank b = new ClientBank();
+		b.setName("2");
+		list.add(a);
+		list.add(b);
+		return list;
 	}
 
-	private void createControls() {
+	private List<ClientBank> getRemarkValues() {
+		ArrayList<ClientBank> list = new ArrayList<ClientBank>();
+		ClientBank a = new ClientBank();
+		a.setName("A");
+		ClientBank b = new ClientBank();
+		b.setName("B");
+		list.add(a);
+		list.add(b);
 
-		setPageSize(50);
-		listDataProvider.addDataDisplay(this);
-		this.setWidth("100%", true);
-		this.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
-		initTableColumns();
+		return list;
 	}
 
-	private void initTableColumns() {
+	@Override
+	protected void initColumns() {
 
-		Column<ClientETDSFilling, String> serialNoColumn = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> serialNoColumn = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return Integer.toString(object.getSerialNo());
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Sr. No.";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		serialNoColumn
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> bankBsrCodeColumn = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> bankBsrCodeColumn = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return object.getBankBSRCode();
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Bank BSR Code";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		bankBsrCodeColumn
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> dateTaxDepositedColumn = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> dateTaxDepositedColumn = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return new ClientFinanceDate(object.getDateTaxDeposited())
-						.toString();
+				return DateUtills.getDateAsString(object.getDateTaxDeposited());
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
 
 			}
+
+			@Override
+			protected String getColumnName() {
+				return "Date Tax deposited";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		dateTaxDepositedColumn
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> chalanSerialCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> chalanSerialCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return Long.toString(object.getChalanSerialNumber());
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Chalan Serial NO.";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		chalanSerialCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> sectionCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> sectionCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return object.getSectionForPayment();
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Section for payment";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		sectionCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> tdsTotalCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> tdsTotalCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return Double.toString(object.getTotalTDSfordeductees());
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Total TDS to be allocated among all deductees";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		tdsTotalCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> deducteePanCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> deducteePanCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Accounter.getCompany().getVendor(object.getDeducteeID())
-						.getTaxId();
+				return object.getPanOfDeductee();
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				row.setPanOfDeductee(value);
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "PAN of Deductee";
+			}
+
 		};
-		deducteePanCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> deducteeNameCOl = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> deducteeNameCOl = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
@@ -191,356 +220,370 @@ public class ETdsCellTable extends CellTable<ClientETDSFilling> {
 						.getName();
 
 			}
-		};
-		deducteeNameCOl
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> paymentDateCOl = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Long.toString(object.getDateOFpayment());
-
-			}
-		};
-		paymentDateCOl
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> amountPaidCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
-
-			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getAmountPaid());
-
-			}
-		};
-		amountPaidCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> TDSCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
-
-			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getTds());
-
-			}
-		};
-		TDSCol.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-			@Override
-			public void update(int index, ClientETDSFilling object, String value) {
+			protected void setValue(ClientETDSFilling row, String value) {
 				// TODO Auto-generated method stub
 
 			}
 
-		});
-
-		Column<ClientETDSFilling, String> surchargeCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+			@Override
+			protected String getColumnName() {
+				return "Deductee Name";
+			}
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getSurcharge());
-
+			protected boolean isEnable() {
+				return false;
 			}
 		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> educationCessCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> paymentDateCOl = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getEducationCess());
+				return DateUtills.getDateAsString(object.getDateOFpayment());
 
 			}
-		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> totalTaxDeductedCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getTotalTaxDEducted());
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
 
 			}
-		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> totalTaxDepositedCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
-				return Double.toString(object.getTotalTaxDeposited());
+			protected String getColumnName() {
+				return "Date of Payment/Credit";
+			}
 
+			@Override
+			protected boolean isEnable() {
+				return false;
 			}
 		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> dateDeductionCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> amountPaidCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Long.toString(object.getDateofDeduction());
+				return DataUtils.getAmountAsStrings(object.getAmountPaid());
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Amount Paid/Credited";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> deducteeCodeCol = new Column<ClientETDSFilling, String>(
-				new SelectionCell(getListValues())) {
+		TextEditColumn<ClientETDSFilling> TDSCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
+				return DataUtils.getAmountAsStrings(object.getTds());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "TDS";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		TextEditColumn<ClientETDSFilling> surchargeCol = new TextEditColumn<ClientETDSFilling>() {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				return DataUtils.getAmountAsStrings(object.getSurcharge());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Surcharge";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		TextEditColumn<ClientETDSFilling> educationCessCol = new TextEditColumn<ClientETDSFilling>() {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				return DataUtils.getAmountAsStrings(object.getEducationCess());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Education Cess";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		TextEditColumn<ClientETDSFilling> totalTaxDeductedCol = new TextEditColumn<ClientETDSFilling>() {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				return DataUtils.getAmountAsStrings(object
+						.getTotalTaxDEducted());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Total Tax Deducted";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		TextEditColumn<ClientETDSFilling> totalTaxDepositedCol = new TextEditColumn<ClientETDSFilling>() {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				return DataUtils.getAmountAsStrings(object
+						.getTotalTaxDeposited());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Total Tax Deposited";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		TextEditColumn<ClientETDSFilling> dateDeductionCol = new TextEditColumn<ClientETDSFilling>() {
+
+			@Override
+			public String getValue(ClientETDSFilling object) {
+				return DateUtills.getDateAsString(object.getDateofDeduction());
+
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Date of Deduction";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		};
+
+		final BankDropDownTable deducteeCodeTable = new BankDropDownTable(
+				getDeducteeCodes());
+
+		ComboColumn<ClientETDSFilling, ClientBank> deducteeCodeCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+
+			@Override
+			public ClientBank getValue(ClientETDSFilling object) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
-		};
-		deducteeCodeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						object.setCompanyCode(value);
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> remarkCol = new Column<ClientETDSFilling, String>(
-				new SelectionCell(getRemarkValues())) {
+			@Override
+			protected String getColumnName() {
+				return "Deductee Code(01-Company/02-other than Company)";
+			}
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+				row.setCompanyCode(newValue.getName());
+			}
+
+			@Override
+			public AbstractDropDownTable<ClientBank> getDisplayTable(
+					ClientETDSFilling row) {
+				return deducteeCodeTable;
+			}
+
+			@Override
+			public int getWidth() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		};
+
+		final BankDropDownTable remarkCodeTable = new BankDropDownTable(
+				getRemarkValues());
+
+		ComboColumn<ClientETDSFilling, ClientBank> remarkCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+
+			@Override
+			public ClientBank getValue(ClientETDSFilling object) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
+			@Override
+			protected String getColumnName() {
+				return "Remark(Reason for non-Deduction/lower deduction/higher deduction/threshold)";
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+				row.setRemark(newValue.getName());
+			}
+
+			@Override
+			public AbstractDropDownTable<ClientBank> getDisplayTable(
+					ClientETDSFilling row) {
+				return remarkCodeTable;
+			}
+
+			@Override
+			public int getWidth() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
 		};
-		remarkCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-						object.setRemark(value);
-					}
-
-				});
 
 		// SelectionCell deducteeCodeCol = new SelectionCell(null);
 
-		Column<ClientETDSFilling, String> rateCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> rateCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
-				return Double.toString(Accounter
-						.getCompany()
-						.getTaxItem(
-								Accounter.getCompany()
-										.getVendor(object.getDeducteeID())
-										.getTaxItemCode()).getTaxRate());
+				return DataUtils.getAmountAsStrings(object.getTaxRate());
+			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
 
 			}
+
+			@Override
+			protected String getColumnName() {
+				return "Rate at which Tax Deducted";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
 
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-
-					}
-
-				});
-
-		Column<ClientETDSFilling, String> bookEntryCol = new Column<ClientETDSFilling, String>(
-				new TextCell()) {
+		TextEditColumn<ClientETDSFilling> bookEntryCol = new TextEditColumn<ClientETDSFilling>() {
 
 			@Override
 			public String getValue(ClientETDSFilling object) {
 				return object.getBookEntry();
 
 			}
+
+			@Override
+			protected void setValue(ClientETDSFilling row, String value) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			protected String getColumnName() {
+				return "Paid by book entry or otherwise";
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
 		};
-		surchargeCol
-				.setFieldUpdater(new FieldUpdater<ClientETDSFilling, String>() {
-
-					@Override
-					public void update(int index, ClientETDSFilling object,
-							String value) {
-
-					}
-
-				});
-
-		this.setColumnWidth(deducteeCodeCol, "150px");
-		this.setColumnWidth(remarkCol, "150px");
-		this.setColumnWidth(serialNoColumn, "100px");
-		this.setColumnWidth(bankBsrCodeColumn, "100px");
-		this.setColumnWidth(dateTaxDepositedColumn, "100px");
-		this.setColumnWidth(chalanSerialCol, "100px");
-		this.setColumnWidth(sectionCol, "100px");
-		this.setColumnWidth(tdsTotalCol, "150px");
-		this.setColumnWidth(deducteePanCol, "100px");
-		this.setColumnWidth(deducteeNameCOl, "100px");
-		this.setColumnWidth(paymentDateCOl, "100px");
-		this.setColumnWidth(amountPaidCol, "100px");
-		this.setColumnWidth(TDSCol, "100px");
-		this.setColumnWidth(surchargeCol, "100px");
-		this.setColumnWidth(educationCessCol, "100px");
-		this.setColumnWidth(totalTaxDeductedCol, "100px");
-		this.setColumnWidth(totalTaxDepositedCol, "100px");
-		this.setColumnWidth(dateDeductionCol, "100px");
-		this.setColumnWidth(rateCol, "100px");
-		this.setColumnWidth(bookEntryCol, "100px");
-
-		this.addColumn(serialNoColumn, "Sr. No.");
-		this.addColumn(bankBsrCodeColumn, "Bank BSR Code");
-		this.addColumn(dateTaxDepositedColumn, "Date Tax deposited");
-		this.addColumn(chalanSerialCol, "Chalan Serial NO.");
-		this.addColumn(sectionCol, "Section for payment");
-		this.addColumn(tdsTotalCol,
-				"Total TDS to be allocated among all deductees");
-		this.addColumn(deducteePanCol, "PAN of Deductee");
-		this.addColumn(deducteeNameCOl, "Deductee Name");
-		this.addColumn(paymentDateCOl, "Date of Payment/Credit");
-		this.addColumn(amountPaidCol, "Amount Paid/Credited");
-		this.addColumn(TDSCol, "TDS");
-		this.addColumn(surchargeCol, "Surcharge");
-		this.addColumn(educationCessCol, "Education Cess");
-		this.addColumn(totalTaxDeductedCol, "Total Tax Deducted");
-		this.addColumn(totalTaxDepositedCol, "Total Tax Deposited");
-		this.addColumn(dateDeductionCol, "Date of Deduction");
-		this.addColumn(deducteeCodeCol,
-				"Deductee Code(01-Company/02-other than Company)");
-		this.addColumn(remarkCol,
-				"Remark(Reason for non-Deduction/lower deduction/higher deduction/threshold)");
-		this.addColumn(rateCol, "Rate at which Tax Deducted");
-		this.addColumn(bookEntryCol, "Paid by book entry or otherwise");
-
+		this.addColumn(serialNoColumn);
+		this.addColumn(bankBsrCodeColumn);
+		this.addColumn(dateTaxDepositedColumn);
+		this.addColumn(chalanSerialCol);
+		this.addColumn(sectionCol);
+		this.addColumn(tdsTotalCol);
+		this.addColumn(deducteePanCol);
+		this.addColumn(deducteeNameCOl);
+		this.addColumn(paymentDateCOl);
+		this.addColumn(amountPaidCol);
+		this.addColumn(TDSCol);
+		this.addColumn(surchargeCol);
+		this.addColumn(educationCessCol);
+		this.addColumn(totalTaxDeductedCol);
+		this.addColumn(totalTaxDepositedCol);
+		this.addColumn(dateDeductionCol);
+		this.addColumn(deducteeCodeCol);
+		this.addColumn(remarkCol);
+		this.addColumn(rateCol);
+		this.addColumn(bookEntryCol);
 	}
 
-	private List<String> getListValues() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("01");
-		list.add("02");
-		return list;
-	}
-
-	private List<String> getRemarkValues() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.add(" ");
-		list.add("A");
-		list.add("B");
-
-		return list;
-	}
-
-	public void sortRowData(int columnIndex, boolean isAscending) {
-		redraw();
-	}
-
-	public List<ClientETDSFilling> getDataList() {
-		List<ClientETDSFilling> list = listDataProvider.getList();
-		return list;
-	}
-
-	public void setDataProvidedValue(ArrayList<ClientETDSFilling> eTDSList) {
-
-		List<ClientETDSFilling> list = listDataProvider.getList();
-		list.clear();
-		//
-		int i = 0;
-		for (ClientETDSFilling clientETDSFilling : eTDSList) {
-			list.add(clientETDSFilling);
-			i++;
-		}
+	@Override
+	protected boolean isInViewMode() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
