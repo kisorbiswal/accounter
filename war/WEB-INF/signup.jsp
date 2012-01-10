@@ -30,14 +30,6 @@
    
    <% } %>
 <script  type="text/javascript" >
-<!--
- $.validator.setDefaults({
-	submitHandler: function() {
-		$.blockUI({ message: $("#hiddenLoaderDiv"), css: {height: '80px', width: '300px', display: 'block'} });
-		$('#accounterForm').submit();
-	}
-});
--->
 var isNative=<%= isNative%>;
 $.validator.addMethod("no_special_characters", function(value, element) {
     return this.optional(element) ||
