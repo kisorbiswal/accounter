@@ -33,6 +33,7 @@ public class GenerateETDSServlet extends BaseServlet {
 	private String panList;
 	private String codeList;
 	private String remarkList;
+	private String grossingUpList;
 
 	/**
 	 * call the rpc based on the parameter being passed from UI. and get the
@@ -51,6 +52,7 @@ public class GenerateETDSServlet extends BaseServlet {
 		panList = request.getParameter("panList");
 		codeList = request.getParameter("codeList");
 		remarkList = request.getParameter("remarkList");
+		grossingUpList = request.getParameter("grossingUpList");
 
 		FinanceTool financetool = new FinanceTool();
 
@@ -115,7 +117,8 @@ public class GenerateETDSServlet extends BaseServlet {
 		} else if (FormNo == 2) {
 			Form27QAnnexureGenerator form26Q = new Form27QAnnexureGenerator(
 					tdsDeductorMasterDetails2, responsiblePersonDetails2,
-					getCompany(request), panList, codeList, remarkList);
+					getCompany(request), panList, codeList, remarkList,
+					grossingUpList);
 			form26Q.setFormDetails(formNo, quater, startYear, endYear);
 			form26Q.setChalanDetailsList(chalanList2);
 			generateFile = form26Q.generateFile();
