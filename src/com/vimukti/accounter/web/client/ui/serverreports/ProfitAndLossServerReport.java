@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 import com.vimukti.accounter.web.client.ui.reports.ISectionHandler;
 import com.vimukti.accounter.web.client.ui.reports.Section;
@@ -346,8 +347,8 @@ public class ProfitAndLossServerReport extends
 	public void addOtherIncomeOrExpenseTypes(TrialBalance record) {
 		if (!sectiontypes.contains(getMessages().otherIncomeOrExpense())) {
 			closeAllSection();
-			addTypeSection(getMessages().otherIncomeOrExpense(),
-					getMessages().netOtherIncome());
+			addTypeSection(getMessages().otherIncomeOrExpense(), getMessages()
+					.netOtherIncome());
 		}
 		// if (record.getAccountType() == ClientAccount.TYPE_OTHER_INCOME) {
 		// if (!sectiontypes.contains(FinanceApplication.constants()
@@ -385,9 +386,10 @@ public class ProfitAndLossServerReport extends
 			types.add(record.getAccountName());
 			curentParent = record.getAccountName();
 			// System.out.println("Add:" + curentParent);
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), record.getAccountName() + "  "
-					+ getMessages().total(), new int[] { 3, 5 });
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					record.getAccountName() + "  " + getMessages().total(),
+					new int[] { 3, 5 });
 			return true;
 		}
 		return false;
@@ -518,34 +520,12 @@ public class ProfitAndLossServerReport extends
 	}
 
 	public ClientFinanceDate getLastMonth(ClientFinanceDate date) {
-		int month = date.getMonth() - 1;
-		int year = date.getYear();
-
-		int lastDay;
-		switch (month) {
-		case 1:
-		case 3:
-		case 5:
-		case 7:
-		case 8:
-		case 10:
-		case 12:
-			lastDay = 31;
-			break;
-		case 2:
-			if (year % 4 == 0 && year % 100 == 0)
-				lastDay = 29;
-			else
-				lastDay = 28;
-			break;
-
-		default:
-			lastDay = 30;
-			break;
-		}
-		return new ClientFinanceDate(date.getYear(), date.getMonth() - 1,
-				lastDay);
-		// return lastDay;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date.getDateAsObject());
+		cal.add(Calendar.MONTH, -1);
+		cal.set(Calendar.DAY_OF_MONTH,
+				cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		return new ClientFinanceDate(cal.getTime());
 	}
 
 }
