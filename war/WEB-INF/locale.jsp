@@ -50,7 +50,7 @@
 		   var i
 		   for(i=0;i<ckie.length;++i) {
 		      splitValues=ckie[i].split("=")
-		      var cookieName = splitValues[0].trim();
+		      var cookieName = splitValues[0].replace(/^\s+|\s+$/g, '');
 		      if(cookieName==nme) return splitValues[1]
 		   }
 		   return null
