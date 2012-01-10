@@ -384,7 +384,6 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			}
 			toolbar.setDefaultDateRange(dateRange);
 			toolbar.setSelectedDateRange(dateRange);
-
 		} else {
 			if (!isDatesArranged) {
 				toolbar.getStartDate();
@@ -530,10 +529,16 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	protected ClientFinanceDate getPreviousReportStartDate(Object object) {
+		if (object instanceof BaseReport) {
+			return ((BaseReport) object).getStartDate();
+		}
 		return null;
 	}
 
 	protected ClientFinanceDate getPreviousReportEndDate(Object object) {
+		if (object instanceof BaseReport) {
+			return ((BaseReport) object).getEndDate();
+		}
 		return null;
 	}
 
