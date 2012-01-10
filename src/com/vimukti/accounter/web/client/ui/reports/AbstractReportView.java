@@ -623,7 +623,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	}
 
 	protected void addEmptyMessage(String msg) {
-		grid.addEmptyMessage(msg);
+		if (grid != null) {
+			grid.addEmptyMessage(msg);
+		}
 	}
 
 	@Override

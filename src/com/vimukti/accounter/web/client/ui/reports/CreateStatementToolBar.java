@@ -87,7 +87,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 		}
 		dateRangeItemCombo.initCombo(dateRangeItemList);
 		dateRangeItemCombo.setComboItem(messages.thisMonth());
-		dateRangeChanged(dateRangeItemCombo.getSelectedValue());
+		// dateRangeChanged(dateRangeItemCombo.getSelectedValue());
 		dateRangeItemCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -100,7 +100,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 		fromItem = new DateItem();
 		fromItem.setHelpInformation(true);
-		fromItem.setDatethanFireEvent(Accounter.getStartDate());
+		// fromItem.setDatethanFireEvent(Accounter.getStartDate());
 		fromItem.setTitle(messages.from());
 
 		toItem = new DateItem();
@@ -109,10 +109,10 @@ public class CreateStatementToolBar extends ReportToolbar {
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
 
-		if (date != null)
-			toItem.setDatethanFireEvent(date);
-		else
-			toItem.setDatethanFireEvent(new ClientFinanceDate());
+		// if (date != null)
+		// toItem.setDatethanFireEvent(date);
+		// else
+		// toItem.setDatethanFireEvent(new ClientFinanceDate());
 
 		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
@@ -121,6 +121,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 			public void onValueChange(ValueChangeEvent<String> event) {
 				startDate = fromItem.getValue();
 				endDate = toItem.getValue();
+				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
+						fromItem.getDate(), toItem.getDate());
 			}
 		});
 		updateButton = new Button(messages.update());
@@ -131,7 +133,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 				setStartDate(fromItem.getDate());
 				setEndDate(toItem.getDate());
-				changeDates(fromItem.getDate(), toItem.getDate());
+				itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
+						fromItem.getDate(), toItem.getDate());
 				dateRangeItemCombo.setDefaultValue(messages.custom());
 				dateRangeItemCombo.setComboItem(messages.custom());
 				setSelectedDateRange(messages.custom());
@@ -197,18 +200,21 @@ public class CreateStatementToolBar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
+		itemSelectionHandler.onItemSelectionChanged(0, startDate, endDate);
 		if (isVendor) {
 			if (selectedVendor != null) {
 				reportview.makeReportRequest(selectedVendor.getID(), startDate,
 						endDate);
-			} else
+			} else {
 				reportview.addEmptyMessage("No records to show");
+			}
 		} else {
 			if (selectedCusotmer != null) {
 				reportview.makeReportRequest(selectedCusotmer.getID(),
 						startDate, endDate);
-			} else
+			} else {
 				reportview.addEmptyMessage("No records to show");
+			}
 		}
 	}
 

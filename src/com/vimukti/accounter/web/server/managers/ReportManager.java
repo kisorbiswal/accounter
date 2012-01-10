@@ -2843,6 +2843,24 @@ public class ReportManager extends Manager {
 			FinanceDate fromDate, FinanceDate toDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
+			if (id == 0) {
+				return null;
+			}
+			List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
+			Query balanceQuery = session
+					.getNamedQuery("getOpeningBalanceForCustomerByDate")
+					.setParameter("uptoDate", fromDate.getDate())
+					.setParameter("payeeId", id)
+					.setParameter("companyId", companyId);
+			Object balance = balanceQuery.uniqueResult();
+			PayeeStatementsList balanceStatementsList = new PayeeStatementsList();
+			balanceStatementsList.setTransactionDate(new ClientFinanceDate(
+					fromDate.getAsDateObject()));
+			balanceStatementsList.setBalance(balance != null ? (Double) balance
+					: 0);
+			balanceStatementsList.setpayeeId(id);
+			queryResult.add(balanceStatementsList);
+
 			Query query = session
 					.getNamedQuery("getCreatableStatementForCustomer")
 					.setParameter("startDate", fromDate.getDate())
@@ -2853,7 +2871,6 @@ public class ReportManager extends Manager {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
 				while ((iterator).hasNext()) {
 
 					PayeeStatementsList statementsList = new PayeeStatementsList();
@@ -2908,6 +2925,7 @@ public class ReportManager extends Manager {
 
 					statementsList.setCurrency((Long) object[17]);
 					statementsList.setCurrencyFactor((Double) object[18]);
+					statementsList.setpayeeId(id);
 
 					queryResult.add(statementsList);
 				}
@@ -2928,6 +2946,24 @@ public class ReportManager extends Manager {
 			FinanceDate toDate, long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
+			if (id == 0) {
+				return null;
+			}
+			List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
+			Query balanceQuery = session
+					.getNamedQuery("getOpeningBalanceForVendorByDate")
+					.setParameter("uptoDate", fromDate.getDate())
+					.setParameter("payeeId", id)
+					.setParameter("companyId", companyId);
+			Object balance = balanceQuery.uniqueResult();
+			PayeeStatementsList balanceStatementsList = new PayeeStatementsList();
+			balanceStatementsList.setTransactionDate(new ClientFinanceDate(
+					fromDate.getAsDateObject()));
+			balanceStatementsList.setBalance(balance != null ? (Double) balance
+					: 0);
+			balanceStatementsList.setpayeeId(id);
+			queryResult.add(balanceStatementsList);
+
 			Query query = session
 					.getNamedQuery("getCreatableStatementForVendor")
 					.setParameter("startDate", fromDate.getDate())
@@ -2939,7 +2975,6 @@ public class ReportManager extends Manager {
 			if (list != null) {
 				Object[] object = null;
 				Iterator iterator = list.iterator();
-				List<PayeeStatementsList> queryResult = new ArrayList<PayeeStatementsList>();
 				while ((iterator).hasNext()) {
 					PayeeStatementsList statementsList = new PayeeStatementsList();
 					object = (Object[]) iterator.next();
@@ -2955,6 +2990,7 @@ public class ReportManager extends Manager {
 					statementsList.setBalance((Double) object[5]);
 					statementsList.setCurrency((Long) object[6]);
 					statementsList.setCurrencyFactor((Double) object[7]);
+					statementsList.setpayeeId(id);
 					queryResult.add(statementsList);
 				}
 				return new ArrayList<PayeeStatementsList>(queryResult);

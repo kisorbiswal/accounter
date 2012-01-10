@@ -28,10 +28,12 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public void init() {
+
 		super.init();
-		this.makeReportRequest(payeeId, toolbar.getStartDate(),
-				toolbar.getEndDate());
 		this.toolbar.setPayeeId(this.payeeId);
+		// this.makeReportRequest(payeeId, toolbar.getStartDate(),
+		// toolbar.getEndDate());
+
 	}
 
 	@Override
@@ -44,6 +46,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
+		this.makeReportRequest(payeeId, start, end);
 	}
 
 	@Override
@@ -51,7 +54,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 			ClientFinanceDate endDate) {
 		// resetReport(endDate, endDate);
 		grid.clear();
-		grid.addLoadingImagePanel();
+		// grid.addLoadingImagePanel();
 		if (payee != 0) {
 			payeeId = payee;
 		}
@@ -185,11 +188,11 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
+		long status1 = ((Long) map.get("statement"));
+		toolbar.setPayeeId(status1);
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		long status1 = ((Long) map.get("statement"));
-		StatementReport.payeeId = status1;
 		isDatesArranged = true;
 	}
 

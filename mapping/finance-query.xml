@@ -6575,6 +6575,87 @@
 		ORDER BY T.T_DATE DESC
 
 	</sql-query>
+	
+	<sql-query name="getOpeningBalanceForCustomerByDate">
+		<query-param name="companyId" type="long" />
+		<query-param name="uptoDate" type="Long" />
+		<query-param name="payeeId" type="String" />
+
+		<return-scalar column="BALANCE" type="double" />
+
+		SELECT 
+		SUM(T.TOTAL) AS BALANCE
+
+		FROM TRANSACTION T
+		LEFT
+		OUTER JOIN INVOICE I ON I.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT OUTER JOIN RECEIVE_PAYMENT RP
+		ON RP.ID = T.ID
+		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT
+		OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+
+		<!-- LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID -->
+
+		LEFT OUTER JOIN PAYEE P
+		ON P.ID =
+		I.CUSTOMER_ID
+		OR P.ID = CCM.CUSTOMER_ID
+		OR P.ID =
+		CR.CUSTOMER_ID
+		OR P.ID
+		= RP.CUSTOMER_ID
+		OR P.ID = JE.PAYEE_ID
+		OR
+		P.ID =
+		CPP.CUSTOMER_ID
+
+		LEFT
+		OUTER JOIN PAYEE_ADDRESS PA ON PA.PAYEE_ID =
+		P.ID
+		LEFT OUTER JOIN
+		CUSTOMER C ON C.ID = P.ID
+		LEFT OUTER JOIN
+		SALES_PERSON
+		SP ON SP.ID =
+		C.SALES_PERSON_ID
+		LEFT OUTER JOIN
+		SHIPPINGMETHOD SM ON
+		SM.ID =
+		C.SHIPPING_METHOD_ID
+		LEFT OUTER JOIN
+		PAYMENTTERMS PT ON PT.ID =
+		C.PAYMENT_TERM_ID
+
+		WHERE
+		T.COMPANY_ID=:companyId AND (T.T_DATE &lt;
+		:uptoDate)
+		AND P.ID =:payeeId AND
+		T.T_TYPE IN (4, 5,
+		8,
+		12, 16, 29) AND
+		T.SAVE_STATUS =
+		203 AND
+		CASE WHEN (SELECT
+		COUNT(PA2.TYPE)
+		FROM
+		PAYEE_ADDRESS PA2 WHERE
+		PA2.PAYEE_ID = P.ID) != 0
+		THEN PA.TYPE = 2
+		ELSE
+		TRUE
+		END
+
+		<!-- GROUP BY (T.T_DATE &lt; :startDate) -->
+		GROUP BY T.T_DATE
+		ORDER BY T.T_DATE DESC
+
+	</sql-query>
+	
 
 	<sql-query name="getCreatableStatementForVendor">
 		<query-param name="companyId" type="long" />
@@ -6688,6 +6769,49 @@
 
 
 	</sql-query>
+	
+	<sql-query name="getOpeningBalanceForVendorByDate">
+		<query-param name="companyId" type="long" />
+		<query-param name="uptoDate" type="Long" />
+		<query-param name="payeeId" type="String" />
+
+		<return-scalar column="BALANCE" type="double" />
+
+		SELECT 
+		SUM(T.TOTAL) AS BALANCE
+		
+		FROM TRANSACTION T
+
+		LEFT OUTER JOIN
+		ENTER_BILL E ON	E.ID = T.ID
+		LEFT OUTER JOIN
+		VENDOR_CREDIT_MEMO VCM ON VCM.ID = T.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS WC ON T.ID = WC.ID
+		LEFT OUTER JOIN
+		CREDIT_CARD_CHARGES	CC ON CC.ID=T.ID
+		LEFT OUTER JOIN 
+		PAY_BILL PB ON PB.ID=T.ID
+		LEFT OUTER JOIN
+		JOURNAL_ENTRY JE ON JE.ID =	T.ID
+		LEFT OUTER JOIN
+		EXPENSE EX ON EX.ID = T.ID
+		LEFT OUTER JOIN 
+		PAYEE P	ON P.ID = E.VENDOR_ID OR P.ID = VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
+		OR P.ID = CC.VENDOR_ID OR P.ID = PB.VENDOR_ID OR P.ID =	JE.PAYEE_ID	OR P.ID = EX.ID
+
+		WHERE T.T_TYPE IN
+		(3,6,11,14,15,16,26,27)
+		AND
+		P.ID =:payeeId
+		AND
+		T.T_DATE &lt; :uptoDate
+		AND
+		T.STATUS
+		!=204 AND
+		T.COMPANY_ID=:companyId
+	</sql-query>
+	
 
 	<sql-query name="getInvoicesDue">
 		<query-param name="companyId" type="long" />

@@ -19,18 +19,20 @@ public class StatementServerReport extends
 	public int precategory = 1001;
 	public String customerId;
 	private final boolean isVendor;
+	private double payeeBalance = 0.0D;
 
 	public StatementServerReport(boolean isVendor,
 			IFinanceReport<PayeeStatementsList> reportView) {
 		this.isVendor = isVendor;
 		this.reportView = reportView;
-
+		payeeBalance = 0.0D;
 	}
 
 	public StatementServerReport(boolean isVendor, long startDate,
 			long endDate, int generationType) {
 		super(startDate, endDate, generationType);
 		this.isVendor = isVendor;
+		payeeBalance = 0.0D;
 	}
 
 	@Override
@@ -43,9 +45,19 @@ public class StatementServerReport extends
 		case 2:
 			return record.getTransactionNumber();
 		case 3:
-			return record.getAgeing();
+			return record.getTotal() * record.getCurrencyFactor();
 		case 4:
-			return record.getBalance() * record.getCurrencyFactor();
+			if (sectionName == null
+					|| !sectionName.equals("" + record.getPayeeId())) {
+				sectionName = "" + record.getPayeeId();
+				payeeBalance = 0.0D;
+			}
+			if (record.getTotal() == 0) {
+				payeeBalance = record.getBalance();
+			} else {
+				payeeBalance += record.getTotal();
+			}
+			return payeeBalance;
 		}
 		return null;
 	}
@@ -53,14 +65,14 @@ public class StatementServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_DATE, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public String[] getColunms() {
 		return new String[] { getMessages().date(), getMessages().type(),
-				getMessages().noDot(), getMessages().ageing(),
-				getMessages().amount() };
+				getMessages().noDot(), getMessages().amount(),
+				getMessages().balance() };
 	}
 
 	@Override
@@ -251,6 +263,7 @@ public class StatementServerReport extends
 		types.clear();
 		sectiontypes.clear();
 		curentParent = "";
+		payeeBalance = 0.0D;
 		super.resetVariables();
 	}
 
@@ -262,8 +275,8 @@ public class StatementServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().date(), getMessages().type(),
-				getMessages().noDot(), getMessages().ageing(),
-				getMessages().amount() };
+				getMessages().noDot(), getMessages().amount(),
+				getMessages().balance() };
 	}
 
 }
