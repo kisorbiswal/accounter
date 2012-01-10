@@ -69,14 +69,15 @@ public class JournalEntryListView extends
 
 	@Override
 	public void onSuccess(PaginationList<ClientJournalEntry> result) {
-		super.onSuccess(result);
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
-
+		grid.removeAllRecords();
+		grid.setRecords(result);
 		grid.sort(10, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+		if (result.isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
 	}
 
 	@Override
