@@ -98,6 +98,7 @@ import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.TDSChalanDetail;
 import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.TDSResponsiblePerson;
+import com.vimukti.accounter.core.TDSTransactionItem;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
@@ -3689,12 +3690,7 @@ public class FinanceTool {
 	}
 
 	public List<ClientTDSTransactionItem> getTDSTransactionItemsList(
-			int chalanPer, Long companyId) {
-
-		int[] janToMar = { 1, 2, 3 };
-		int[] aprToJun = { 4, 5, 6 };
-		int[] julToSep = { 7, 8, 9 };
-		int[] octToDec = { 10, 11, 12 };
+			long companyId) {
 
 		ArrayList<ClientTDSTransactionItem> arrayList = new ArrayList<ClientTDSTransactionItem>();
 
@@ -3704,21 +3700,23 @@ public class FinanceTool {
 		List list = query.list();
 		Iterator iterator = list.iterator();
 
-		ArrayList<ClientTDSChalanDetail> chalanList = new ArrayList<ClientTDSChalanDetail>();
-		ArrayList<TDSChalanDetail> chalansGot = new ArrayList<TDSChalanDetail>(
-				session.getNamedQuery("list.TdsChalanDetails")
-						.setEntity("company", getCompany(companyId)).list());
-
-		for (TDSChalanDetail chalan : chalansGot) {
-			ClientTDSChalanDetail clientObject = null;
-			try {
-				clientObject = new ClientConvertUtil().toClientObject(chalan,
-						ClientTDSChalanDetail.class);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
-			chalanList.add(clientObject);
-		}
+		// ArrayList<ClientTDSChalanDetail> chalanList = new
+		// ArrayList<ClientTDSChalanDetail>();
+		// ArrayList<TDSChalanDetail> chalansGot = new
+		// ArrayList<TDSChalanDetail>(
+		// session.getNamedQuery("list.TdsChalanDetails")
+		// .setEntity("company", getCompany(companyId)).list());
+		//
+		// for (TDSChalanDetail chalan : chalansGot) {
+		// ClientTDSChalanDetail clientObject = null;
+		// try {
+		// clientObject = new ClientConvertUtil().toClientObject(chalan,
+		// ClientTDSChalanDetail.class);
+		// } catch (AccounterException e) {
+		// e.printStackTrace();
+		// }
+		// chalanList.add(clientObject);
+		// }
 
 		while (iterator.hasNext()) {
 
@@ -3731,99 +3729,42 @@ public class FinanceTool {
 			Long trID = (Long) next[4];
 
 			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
-			/*
-			 * if (arrayList.size() > 0) { if (arrayList.get(arrayList.size() -
-			 * 1).getVendorID() == vendorId) { double taxAmount =
-			 * arrayList.get(arrayList.size() - 1) .getTaxAmount(); taxAmount =
-			 * taxAmount + tdsTotal; double tdsTotal2 =
-			 * arrayList.get(arrayList.size() - 1) .getTdsTotal(); tdsTotal2 =
-			 * tdsTotal2 + total;
-			 * clientTDSTransactionItem.setVendorID(vendorId);
-			 * clientTDSTransactionItem.setTaxAmount(taxAmount);
-			 * clientTDSTransactionItem.setTotalAmount(tdsTotal2);
-			 * clientTDSTransactionItem.setTransactionDate(date);
-			 * clientTDSTransactionItem.setTransactionID(trID);
-			 * clientTDSTransactionItem.setSurchargeAmount(0);
-			 * clientTDSTransactionItem.setEduCess(0);
-			 * arrayList.remove(arrayList.size() - 1);
-			 * 
-			 * } else { clientTDSTransactionItem.setVendorID(vendorId);
-			 * clientTDSTransactionItem.setTaxAmount(tdsTotal);
-			 * clientTDSTransactionItem.setTotalAmount(total);
-			 * clientTDSTransactionItem.setTransactionDate(date);
-			 * clientTDSTransactionItem.setTransactionID(trID);
-			 * clientTDSTransactionItem.setSurchargeAmount(0);
-			 * clientTDSTransactionItem.setEduCess(0); } } else {
-			 */
-			clientTDSTransactionItem.setVendorID(vendorId);
-			clientTDSTransactionItem.setTaxAmount(tdsTotal);
+			clientTDSTransactionItem.setVendor(vendorId);
+			clientTDSTransactionItem.setTdsAmount(tdsTotal);
 			clientTDSTransactionItem.setTotalAmount(total);
 			clientTDSTransactionItem.setTransactionDate(date);
-			clientTDSTransactionItem.setTransactionID(trID);
+			clientTDSTransactionItem.setTransaction(trID);
 			clientTDSTransactionItem.setSurchargeAmount(0);
 			clientTDSTransactionItem.setEduCess(0);
+			clientTDSTransactionItem.setTotalTax(tdsTotal);
+
+			// boolean present = false;
+			// if (chalanList.size() > 0) {
+			//
+			// for (ClientTDSChalanDetail chalan : chalanList) {
+			// if (present == true) {
+			// break;
 			// }
-
-			// ClientFinanceDate financeDate = new ClientFinanceDate(date);
-
-			/*
-			 * boolean isContains = false;
-			 * 
-			 * switch (chalanPer) { case 0: if (isContains(janToMar,
-			 * financeDate.getMonth())) { isContains = true; } break;
-			 * 
-			 * case 1: if (isContains(aprToJun, financeDate.getMonth())) {
-			 * isContains = true; } break;
-			 * 
-			 * case 2: if (isContains(julToSep, financeDate.getMonth())) {
-			 * isContains = true; } break;
-			 * 
-			 * case 3: if (isContains(octToDec, financeDate.getMonth())) {
-			 * isContains = true; } break;
-			 * 
-			 * default: break; }
-			 */
-
-			boolean present = false;
-			if (chalanList.size() > 0) {
-
-				for (ClientTDSChalanDetail chalan : chalanList) {
-					if (present == true) {
-						break;
-					}
-					for (ClientTDSTransactionItem item : chalan
-							.getTransactionItems()) {
-						if (clientTDSTransactionItem.getTransactionID() != item
-								.getTransactionID()) {
-							present = false;
-						} else {
-							present = true;
-							break;
-						}
-
-					}
-				}
-			}
-
-			if (present == false) {
-				arrayList.add(clientTDSTransactionItem);
-			}
-
-			// if (isContains) {
-
+			// for (ClientTDSTransactionItem item : chalan
+			// .getTransactionItems()) {
+			// if (clientTDSTransactionItem.getTransaction() != item
+			// .getTransaction()) {
+			// present = false;
+			// } else {
+			// present = true;
+			// break;
+			// }
+			//
+			// }
+			// }
+			// }
+			//
+			// if (present == false) {
+			arrayList.add(clientTDSTransactionItem);
 			// }
 
 		}
 		return arrayList;
-	}
-
-	private boolean isContains(int[] janToMar, int month) {
-		for (int i : janToMar) {
-			if (i == month) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList(
@@ -3851,27 +3792,24 @@ public class FinanceTool {
 		}
 	}
 
-	public List<ClientTDSDeductorMasters> getTDSDeductorMasterDetails(
-			Long companyId) throws DAOException {
+	public ClientTDSDeductorMasters getTDSDeductorMasterDetails(long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		try {
 
-			ArrayList<TDSDeductorMasters> listMasters = new ArrayList<TDSDeductorMasters>(
-					session.getNamedQuery("list.TDSDeductorMasters")
-							.setEntity("company", getCompany(companyId)).list());
+			TDSDeductorMasters deductor = (TDSDeductorMasters) session
+					.getNamedQuery("getTdsDeductor")
+					.setLong("companyId", companyId).uniqueResult();
 
-			List<ClientTDSDeductorMasters> masterDetails = new ArrayList<ClientTDSDeductorMasters>();
+			ClientTDSDeductorMasters clientObject = null;
+			if (deductor != null) {
+				clientObject = new ClientConvertUtil().toClientObject(deductor,
+						ClientTDSDeductorMasters.class);
 
-			for (TDSDeductorMasters master : listMasters) {
-				ClientTDSDeductorMasters clientObject = new ClientConvertUtil()
-						.toClientObject(master, ClientTDSDeductorMasters.class);
-
-				masterDetails.add(clientObject);
 			}
-
-			return new ArrayList<ClientTDSDeductorMasters>(masterDetails);
+			return clientObject;
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
@@ -3895,55 +3833,54 @@ public class FinanceTool {
 
 			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
 					.list();
-			int i = 1;
 			for (TDSChalanDetail chalan : chalansGot) {
+				int i = 1;
 
-				ClientTDSChalanDetail clientObject = new ClientConvertUtil()
-						.toClientObject(chalan, ClientTDSChalanDetail.class);
-
-				for (ClientTDSTransactionItem item : clientObject
-						.getTransactionItems()) {
+				for (TDSTransactionItem item : chalan.getTdsTransactionItems()) {
 					ClientETDSFilling eTDSObj = new ClientETDSFilling();
 					eTDSObj.setSerialNo(i);
 
 					double total = 0;
-					total = clientObject.getIncomeTaxAmount()
-							+ clientObject.getSurchangePaidAmount()
-							+ clientObject.getEducationCessAmount()
-							+ clientObject.getOtherAmount()
-							+ clientObject.getPenaltyPaidAmount();
+					total = chalan.getIncomeTaxAmount()
+							+ chalan.getSurchangePaidAmount()
+							+ chalan.getEducationCessAmount()
+							+ chalan.getInterestPaidAmount()
+							+ chalan.getOtherAmount()
+							+ chalan.getPenaltyPaidAmount();
 
-					eTDSObj.setBankBSRCode(clientObject.getBankBsrCode());
-					eTDSObj.setChalanSerialNumber(clientObject
+					eTDSObj.setBankBSRCode(chalan.getBankBsrCode());
+					eTDSObj.setChalanSerialNumber(chalan
 							.getChalanSerialNumber());
-					eTDSObj.setSectionForPayment(clientObject
-							.getPaymentSection());
+					eTDSObj.setSectionForPayment(chalan.getPaymentSection());
 					eTDSObj.setTotalTDSfordeductees(total);
-					eTDSObj.setDateTaxDeposited(item.getTransactionDate());
-					eTDSObj.setDeducteeID(item.getVendorID());
-					eTDSObj.setTotalTaxDeposited(0.00);
-					eTDSObj.setDateOFpayment(clientObject.getDateTaxPaid());
-					eTDSObj.setAmountPaid(total);
-					eTDSObj.setTds(item.getTaxAmount());
+					eTDSObj.setDateTaxDeposited(item.getTransactionDate()
+							.getDate());
+					eTDSObj.setDeducteeID(item.getVendor().getID());
+					eTDSObj.setPanOfDeductee(item.getVendor().getTaxId());
+					eTDSObj.setDateOFpayment(chalan.getDateTaxPaid());
+					eTDSObj.setAmountPaid(item.getTotalAmount());
+					eTDSObj.setTds(item.getTdsAmount());
 					eTDSObj.setSurcharge(item.getSurchargeAmount());
 					eTDSObj.setEducationCess(item.getEduCess());
-					eTDSObj.setTotalTaxDEducted(total);
-					eTDSObj.setTotalTaxDeposited(total);
-					eTDSObj.setDateofDeduction(item.getTransactionDate());
-					if (clientObject.isBookEntry())
+					eTDSObj.setTotalTaxDEducted(item.getTotalTax());
+					eTDSObj.setTotalTaxDeposited(item.getTotalTax());
+					eTDSObj.setDateofDeduction(item.getTransactionDate()
+							.getDate());
+					Transaction transaction = item.getTransaction();
+					if (transaction instanceof PayBill) {
+						eTDSObj.setTaxRate(((PayBill) transaction)
+								.getTdsTaxItem().getTaxRate());
+					}
+					if (chalan.isBookEntry())
 						eTDSObj.setBookEntry("YES");
 					else
 						eTDSObj.setBookEntry("NO");
 
 					etdsList.add(eTDSObj);
 					i++;
-
 				}
-
 			}
-
 			return etdsList;
-
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
@@ -3978,29 +3915,23 @@ public class FinanceTool {
 		}
 	}
 
-	public List<ClientTDSResponsiblePerson> getResponsiblePersonDetails(
-			Long companyId) throws DAOException {
+	public ClientTDSResponsiblePerson getResponsiblePersonDetails(long companyId)
+			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-
-		PaginationList<ClientTDSChalanDetail> chalanList = new PaginationList<ClientTDSChalanDetail>();
 
 		try {
 
-			ArrayList<TDSResponsiblePerson> listMasters = new ArrayList<TDSResponsiblePerson>(
-					session.getNamedQuery("list.TDSResponsiblePerson")
-							.setEntity("company", getCompany(companyId)).list());
+			TDSResponsiblePerson person = (TDSResponsiblePerson) session
+					.getNamedQuery("getTdsResposiblePersonDetails")
+					.setLong("companyId", companyId).uniqueResult();
 
-			List<ClientTDSResponsiblePerson> masterDetails = new ArrayList<ClientTDSResponsiblePerson>();
+			ClientTDSResponsiblePerson clientObject = null;
 
-			for (TDSResponsiblePerson master : listMasters) {
-				ClientTDSResponsiblePerson clientObject = new ClientConvertUtil()
-						.toClientObject(master,
-								ClientTDSResponsiblePerson.class);
-
-				masterDetails.add(clientObject);
+			if (person != null) {
+				clientObject = new ClientConvertUtil().toClientObject(person,
+						ClientTDSResponsiblePerson.class);
 			}
-
-			return new ArrayList<ClientTDSResponsiblePerson>(masterDetails);
+			return clientObject;
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
