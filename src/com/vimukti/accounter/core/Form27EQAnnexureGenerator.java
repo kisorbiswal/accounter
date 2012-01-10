@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 
@@ -710,6 +711,31 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 		} else {
 			return addDelimiter();
 		}
+	}
+
+	/**
+	 * Returns the section code depending on the section name.
+	 * 
+	 * @param sectionName
+	 * @return
+	 */
+	String getSectionCode(String sectionName) {
+
+		String[] split = sectionName.split("-");
+
+		List<String> sectionNamesList = Utility.get26QSectionNames();
+
+		String codeReturned = null;
+
+		List<String> sectionCodesList = Utility.get26QSectionCodes();
+
+		for (int i = 0; i < sectionNamesList.size(); i++) {
+			if (split[0].equals(sectionNamesList.get(i))) {
+				codeReturned = sectionCodesList.get(i);
+				break;
+			}
+		}
+		return codeReturned;
 	}
 
 	/**

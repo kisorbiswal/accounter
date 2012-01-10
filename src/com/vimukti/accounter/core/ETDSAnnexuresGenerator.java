@@ -975,31 +975,6 @@ public class ETDSAnnexuresGenerator {
 	}
 
 	/**
-	 * Returns the section code depending on the section name.
-	 * 
-	 * @param sectionName
-	 * @return
-	 */
-	String getSectionCode(String sectionName) {
-
-		String[] split = sectionName.split("-");
-
-		List<String> sectionNamesList = Utility.getSectionNames();
-
-		String codeReturned = null;
-
-		List<String> sectionCodesList = Utility.getSectionCodes();
-
-		for (int i = 0; i < sectionNamesList.size(); i++) {
-			if (split[0].equals(sectionNamesList.get(i))) {
-				codeReturned = sectionCodesList.get(i);
-				break;
-			}
-		}
-		return codeReturned;
-	}
-
-	/**
 	 * this returns the ministry code depending on the ministry name
 	 * 
 	 * @param sectionName

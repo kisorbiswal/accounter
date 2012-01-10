@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
@@ -22,17 +23,20 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	String[] panListArray;
 	String[] codeListArray;
 	String[] remarkListArray;
+	String[] grossingUpListArray;
+	private int codesArrayIndex = 0;
 
 	public Form27QAnnexureGenerator(
 			ClientTDSDeductorMasters tdsDeductorMasterDetails2,
 			ClientTDSResponsiblePerson responsiblePersonDetails2,
-			Company company, String panList, String codeList, String remarkList) {
+			Company company, String panList, String codeList,
+			String remarkList, String grossingUpList) {
 		super(tdsDeductorMasterDetails2, responsiblePersonDetails2, company);
 
 		panListArray = panList.split("-");
-		codeListArray = codeList.split("");
-		remarkListArray = remarkList.split("");
-
+		codeListArray = codeList.split("-");
+		remarkListArray = remarkList.split("-");
+		grossingUpListArray = grossingUpList.split("-");
 	}
 
 	public String generateFile() {
@@ -50,6 +54,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		fileText = fileText + generateBatchHeaderRecord(total);
 		int lineNumber = 3;
 		int chalNum = 1;
+		codesArrayIndex = 0;
 		for (ClientTDSChalanDetail chalan : chalanDetailsList) {
 			chalanDetails = chalan;
 			setLineNumber(lineNumber);
@@ -71,6 +76,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 				transactionItems = items;
 				setLineNumber(lineNumber);
 				fileText = fileText + generateDeducteeDetailsRecord();
+				codesArrayIndex++;
 			}
 			lineNumber++;
 		}
@@ -104,7 +110,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 				+ addDelimiter();
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ getDeducteeCode(getRunningSerialNumber()) + addDelimiter();
+				+ getDeducteeCode() + addDelimiter();
 
 		// Last Employee / Party PAN ( Used for Verification) (Not applicable)
 		deucteeDetailsRecordString = deucteeDetailsRecordString
@@ -167,7 +173,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 		// Grossing up Indicator (Not applicable)
 		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ addDelimiter();
+				+ getGrossingUpIndicator() + addDelimiter();
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ getBookEntry() + addDelimiter();
@@ -176,15 +182,14 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ addDelimiter();
 
-		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ getRemarks(getRunningSerialNumber()) + addDelimiter();
+		deucteeDetailsRecordString = deucteeDetailsRecordString + getRemarks()
+				+ addDelimiter();
 
 		// Remarks 2 (For future use)
 		// Remarks 3 (For future use)
-		// Record Hash (Not applicable)
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
-				+ addDelimiter() + addDelimiter() + addDelimiter();
+				+ addDelimiter() + addDelimiter();
 
 		return deucteeDetailsRecordString + endLine();
 
@@ -198,14 +203,20 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * 
 	 * @return
 	 */
-	private String getRemarks(int i) {
-		String string = remarkListArray[i + 1];
-		if (string.equals("-")) {
-			return addDelimiter();
+	private String getRemarks() {
+		if (remarkListArray.length > codesArrayIndex) {
+			return remarkListArray[codesArrayIndex];
 		} else {
-			return string;
+			return "";
 		}
+	}
 
+	private String getGrossingUpIndicator() {
+		if (grossingUpListArray.length > codesArrayIndex) {
+			return grossingUpListArray[codesArrayIndex];
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -233,7 +244,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getRateAtWhichTaxDeducted() {
-		return Double.toString(vendorFinal.getTAXItem().getTaxRate());
+		return getRate(vendorFinal.getTAXItem().getTaxRate());
 	}
 
 	/**
@@ -244,7 +255,8 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateOnWhichTaxCollected() {
-		return Long.toString(transactionItems.getTransactionDate());
+		return getDateAsString(new FinanceDate(
+				transactionItems.getTransactionDate()));
 	}
 
 	/**
@@ -253,7 +265,8 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDateonWhichAmountPaid() {
-		return Long.toString(transactionItems.getTransactionDate());
+		return getDateAsString(new FinanceDate(
+				transactionItems.getTransactionDate()));
 	}
 
 	/**
@@ -263,9 +276,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getAmountOFpaymentorCredit() {
-		return Double.toString(transactionItems.getTdsAmount()
-				+ transactionItems.getSurchargeAmount()
-				+ transactionItems.getEduCess());
+		return getAmountAsString(transactionItems.getTotalAmount());
 	}
 
 	/**
@@ -279,7 +290,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalTaxDeposited() {
-		return Double.toString(transactionItems.getTdsAmount()
+		return getAmountAsString(transactionItems.getTdsAmount()
 				+ transactionItems.getSurchargeAmount()
 				+ transactionItems.getEduCess());
 	}
@@ -291,7 +302,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTotalIncomeTaxDeductedatSource() {
-		return Double.toString(transactionItems.getTdsAmount()
+		return getAmountAsString(transactionItems.getTdsAmount()
 				+ transactionItems.getSurchargeAmount()
 				+ transactionItems.getEduCess());
 	}
@@ -319,7 +330,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSECess() {
-		return Double.toString(transactionItems.getEduCess());
+		return getAmountAsString(transactionItems.getEduCess());
 	}
 
 	/**
@@ -330,7 +341,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * is "A" or "null" then value should be greater than or equal to 0.00
 	 */
 	private String getTDSSurchargeforPeriod() {
-		return Double.toString(transactionItems.getSurchargeAmount());
+		return getAmountAsString(transactionItems.getSurchargeAmount());
 	}
 
 	/**
@@ -343,7 +354,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSIncomeTaxforPeriod() {
-		return Double.toString(transactionItems.getTdsAmount());
+		return getAmountAsString(transactionItems.getTdsAmount());
 	}
 
 	/**
@@ -352,8 +363,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteeName() {
-		String name = vendorFinal.getName();
-		return name;
+		return vendorFinal.getName();
 	}
 
 	/**
@@ -364,7 +374,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getPANRefNo() {
-		return addDelimiter();
+		return "";
 
 	}
 
@@ -382,8 +392,13 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteePan() {
-		if (vendorFinal.getTaxId() != null) {
-			return vendorFinal.getTaxId();
+		String panOfDeductee = getPanOfDeductee();
+		if (panOfDeductee != null && !panOfDeductee.isEmpty()) {
+			if (panOfDeductee.length() == 10) {
+				return panOfDeductee;
+			} else {
+				return "PANINVALID";
+			}
 		} else {
 			return "PANNOTAVBL";
 		}
@@ -396,12 +411,19 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * 
 	 * @return
 	 */
-	private String getDeducteeCode(int i) {
-		String string = codeListArray[i + 1];
-		if (string.equals("-")) {
-			return "02";
+	private String getDeducteeCode() {
+		if (codeListArray.length > codesArrayIndex) {
+			return codeListArray[codesArrayIndex];
 		} else {
-			return string;
+			return "";
+		}
+	}
+
+	private String getPanOfDeductee() {
+		if (panListArray.length > codesArrayIndex) {
+			return panListArray[codesArrayIndex];
+		} else {
+			return "";
 		}
 	}
 
@@ -615,7 +637,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getTDSInterestAMount() {
-		return getAmountAsString(chalanDetails.getIncomeTaxAmount());
+		return getAmountAsString(chalanDetails.getInterestPaidAmount());
 	}
 
 	private String getTotalECessinChalan() {
@@ -742,10 +764,35 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getSection() {
 		if (chalanDetails.getPaymentSection() != null) {
-			return getSectionCode(chalanDetails.getPaymentSection());
+			return chalanDetails.getPaymentSection();
 		} else {
 			return "";
 		}
+	}
+
+	/**
+	 * Returns the section code depending on the section name.
+	 * 
+	 * @param sectionName
+	 * @return
+	 */
+	String getSectionCode(String sectionName) {
+
+		String[] split = sectionName.split("-");
+
+		List<String> sectionNamesList = Utility.get26QSectionNames();
+
+		String codeReturned = null;
+
+		List<String> sectionCodesList = Utility.get26QSectionCodes();
+
+		for (int i = 0; i < sectionNamesList.size(); i++) {
+			if (split[0].equals(sectionNamesList.get(i))) {
+				codeReturned = sectionCodesList.get(i);
+				break;
+			}
+		}
+		return codeReturned;
 	}
 
 	/**
@@ -760,8 +807,8 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 			FinanceDate date = new FinanceDate(chalanDetails.getDateTaxPaid());
 			return getDateAsString(date);
 		} else {
-			FinanceDate[] dates = Utility.getFinancialQuarter(company,
-					Integer.parseInt(quater));
+			FinanceDate[] dates = com.vimukti.accounter.core.Utility
+					.getFinancialQuarter(company, Integer.parseInt(quater));
 			return getDateAsString(dates[1]);
 		}
 	}
@@ -824,7 +871,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getNILChalanIndicator() {
 		// TODO Auto-generated method stub
-		return "";
+		return "N";
 	}
 
 	/**
@@ -833,7 +880,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getDeducteeRecordsCount() {
-		return Integer.toString(chalanDetails.getTransactionItems().size());
+		return Integer.toString(chalanDetails.getTdsTransactionItems().size());
 	}
 
 	public void setFormDetails(String formNo, String quater, String startYear,

@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.core.Utility;
 
 public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
@@ -246,28 +247,6 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 		return getDateAsString(new FinanceDate(
 				transactionItems.getTransactionDate()));
-
-		// ClientFinanceDate date = new ClientFinanceDate(
-		// transactionItems.getTransactionDate());
-		//
-		// String day1, month1, year1;
-		// if (Integer.toString(date.getDay()).length() < 2) {
-		// day1 = "0" + Integer.toString(date.getDay());
-		// } else {
-		// day1 = Integer.toString(date.getDay());
-		// }
-		// if (Integer.toString(date.getMonth()).length() < 2) {
-		// month1 = "0" + Integer.toString(date.getMonth());
-		// } else {
-		// month1 = Integer.toString(date.getMonth());
-		// }
-		// if (Integer.toString(date.getYear()).length() < 2) {
-		// year1 = "0" + Integer.toString(date.getYear());
-		// } else {
-		// year1 = Integer.toString(date.getYear());
-		// }
-		//
-		// return day1 + month1 + year1;
 	}
 
 	/**
@@ -279,28 +258,6 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 		return getDateAsString(new FinanceDate(
 				transactionItems.getTransactionDate()));
-
-		// ClientFinanceDate date = new ClientFinanceDate(
-		// transactionItems.getTransactionDate());
-		//
-		// String day1, month1, year1;
-		// if (Integer.toString(date.getDay()).length() < 2) {
-		// day1 = "0" + Integer.toString(date.getDay());
-		// } else {
-		// day1 = Integer.toString(date.getDay());
-		// }
-		// if (Integer.toString(date.getMonth()).length() < 2) {
-		// month1 = "0" + Integer.toString(date.getMonth());
-		// } else {
-		// month1 = Integer.toString(date.getMonth());
-		// }
-		// if (Integer.toString(date.getYear()).length() < 2) {
-		// year1 = "0" + Integer.toString(date.getYear());
-		// } else {
-		// year1 = Integer.toString(date.getYear());
-		// }
-		//
-		// return day1 + month1 + year1;
 	}
 
 	/**
@@ -803,6 +760,31 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	}
 
 	/**
+	 * Returns the section code depending on the section name.
+	 * 
+	 * @param sectionName
+	 * @return
+	 */
+	String getSectionCode(String sectionName) {
+
+		String[] split = sectionName.split("-");
+
+		List<String> sectionNamesList = Utility.get26QSectionNames();
+
+		String codeReturned = null;
+
+		List<String> sectionCodesList = Utility.get26QSectionCodes();
+
+		for (int i = 0; i < sectionNamesList.size(); i++) {
+			if (split[0].equals(sectionNamesList.get(i))) {
+				codeReturned = sectionCodesList.get(i);
+				break;
+			}
+		}
+		return codeReturned;
+	}
+
+	/**
 	 * Date of payment of tax to Govt. It cannot be Future Date. Value should be
 	 * equal to last date of respective quarter if the value in field
 	 * "NIL Challan Indicator" is "Y".
@@ -814,8 +796,8 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 			FinanceDate date = new FinanceDate(chalanDetails.getDateTaxPaid());
 			return getDateAsString(date);
 		} else {
-			FinanceDate[] dates = Utility.getFinancialQuarter(company,
-					Integer.parseInt(quater));
+			FinanceDate[] dates = com.vimukti.accounter.core.Utility
+					.getFinancialQuarter(company, Integer.parseInt(quater));
 			return getDateAsString(dates[1]);
 		}
 	}
