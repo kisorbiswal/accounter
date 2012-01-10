@@ -120,6 +120,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 				if (selectItem.equals(getFormTypes().get(0))) {
 					formNoSelected = 1;
 				} else if (selectItem.equals(getFormTypes().get(1))) {
+					if (formNoSelected != 2) {
+						tdsCellTable.reDraw();
+					}
 					formNoSelected = 2;
 				} else if (selectItem.equals(getFormTypes().get(2))) {
 					formNoSelected = 3;
@@ -202,8 +205,17 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		topHLay.add(dynamicFormLeft);
 		topHLay.add(dynamicFormRight);
 
-		tdsCellTable = new ETdsCellTable();
-		// tdsCellTable.setStyleName("user_activity_log");
+		tdsCellTable = new ETdsCellTable() {
+
+			@Override
+			protected boolean is27Q() {
+				if (formType.getSelectedValue() != null
+						&& formType.getSelectedValue().equals("27Q")) {
+					return true;
+				}
+				return false;
+			}
+		};
 
 		mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "300px");
@@ -246,6 +258,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		String panList = "";
 		String remarkList = "";
 		String codeList = "";
+		String grossingUpList = "";
 		for (ClientETDSFilling record : dataList) {
 			if (record.getRemark() != null) {
 				remarkList = remarkList + record.getRemark().trim();
@@ -256,10 +269,16 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 				panList = panList + record.getPanOfDeductee().trim();
 			}
 			panList = panList + "-";
+			if (record.getGrossingUpIndicator() != null) {
+				grossingUpList = grossingUpList
+						+ record.getGrossingUpIndicator().substring(0, 1);
+			}
+			grossingUpList = grossingUpList + "-";
 		}
 
 		UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-				startYear, endYear, panList, codeList, remarkList);
+				startYear, endYear, panList, codeList, remarkList,
+				grossingUpList);
 		changeButtonBarMode(false);
 	}
 
