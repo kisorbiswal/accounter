@@ -93,14 +93,15 @@ public class StockTransfer extends CreatableObject implements
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		for (StockTransferItem item : stockTransferItems) {
-			ItemStatus fromitemStatus = fromWarehouse.getItemStatus(item
+			ItemStatus fromitemStatus = toWarehouse.getItemStatus(item
 					.getItem());
-			double value = (item.getQuantity().getValue() * item.getQuantity()
-					.getUnit().getFactor())
-					/ fromitemStatus.getQuantity().getUnit().getFactor();
-			fromWarehouse.updateItemStatus(item.getItem(), value, false);
-
-			toWarehouse.updateItemStatus(item.getItem(), value, true);
+			if (fromitemStatus != null) {
+				double value = (item.getQuantity().getValue() * item
+						.getQuantity().getUnit().getFactor())
+						/ fromitemStatus.getQuantity().getUnit().getFactor();
+				fromWarehouse.updateItemStatus(item.getItem(), value, false);
+				toWarehouse.updateItemStatus(item.getItem(), value, true);
+			}
 		}
 		session.saveOrUpdate(fromWarehouse);
 		session.saveOrUpdate(toWarehouse);
