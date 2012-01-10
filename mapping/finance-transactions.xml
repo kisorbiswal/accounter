@@ -118,6 +118,34 @@
 				<one-to-many class="TransactionPayTAX" />
 			</list>
 		</joined-subclass>
+		<joined-subclass name="TDSChalanDetail" table="TDS_CHALAN_DETAIL">
+			<key column="ID" />
+			<many-to-one name="payFrom" class="Account" cascade="save-update"
+				column="PAYFROM_ID">
+			</many-to-one>
+			<property name="incomeTaxAmount"></property>
+			<property name="surchangePaidAmount"></property>
+			<property name="educationCessAmount"></property>
+			<property name="interestPaidAmount"></property>
+			<property name="penaltyPaidAmount"></property>
+			<property name="otherAmount"></property>
+			<property name="paymentSection"></property>
+			<property name="bankChalanNumber"></property>
+			<property name="checkNumber"></property>
+			<property name="bankBsrCode"></property>
+			<property name="bookEntry"></property>
+			<property name="dateTaxPaid"></property>
+			<property name="chalanPeriod"></property>
+			<property name="chalanSerialNumber"></property>
+			<property name="formType"></property>
+			<property name="assesmentYearStart"></property>
+			<property name="assessmentYearEnd"></property>
+			<list name="tdsTransactionItems" cascade="save-update,delete-orphan">
+				<key column="TDS_CHALLANDETAIL_ID"></key>
+				<list-index column="IDX" />
+				<one-to-many class="TDSTransactionItem" />
+			</list>
+		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
@@ -977,6 +1005,24 @@
 			not-null="true" />
 	</class>
 
+	<!-- TDSTransactionItem class -->
+	<class name="TDSTransactionItem" table="TDSTRANSACTIONITEM">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="vendor" column="VENDOR_ID" class="Vendor">
+		</many-to-one>
+		<property name="totalAmount" column="TOTAL_AMOUNT"></property>
+		<property name="tdsAmount" column="TDS_AMOUNT"></property>
+		<property name="surchargeAmount" column="SURCHARGE_AMOUNT"></property>
+		<property name="eduCess" column="EDU_CESS"></property>
+		<property name="totalTax" column="TOTAL_TAX"></property>
+		<property name="transactionDate" column="TRANSACTION_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<many-to-one name="transaction" column="TRANSACTION_ID" class="Transaction"
+			lazy="false">
+		</many-to-one>
+	</class>
 
 	<class name="TransactionItem" table="TRANSACTION_ITEM">
 		<id name="id" column="ID">
