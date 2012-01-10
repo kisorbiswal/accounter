@@ -319,7 +319,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		ClientFinanceDate date = new ClientFinanceDate();
 		int year = date.getYear();
-		for (int i = year - 10; i < year + 10; i++) {
+		for (int i = year - 10; i < year + 1; i++) {
 			list.add(Integer.toString(i) + "-" + Integer.toString(i + 1));
 		}
 		return list;
