@@ -21,7 +21,7 @@
 	</div>
 	
 	<div>
-		<form id="deleteform" name="deleteform" method="post" action="/main/deleteAccount">
+		<form class="accounterform" id="deleteform" name="deleteform" method="post" action="/main/deleteAccount">
 		<div class="company-heading" style="text-align:center"><h3><i18n:i18n msg='deleteAccount'/></h3></div>
 		<div>
 			<h4><i18n:i18n msg='deleteaccountmsg'/></h4><br \>

@@ -39,7 +39,7 @@
 				<span>${errorMsg} </span>
 		   </div>
 		   </c:if>	
-		   <form id="accounterForm" method="post" action="/adminlogin">
+		   <form class="accounterform" id="accounterForm" method="post" action="/adminlogin">
 		      <div class="email_password">
 			    <label>Email</label>
 				<br>

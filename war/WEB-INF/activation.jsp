@@ -51,7 +51,7 @@
 			</div>
   		  </c:if>
   		  
-		 <form id = "activationForm" action="/main/activation" method="post">
+		 <form class="accounterform" id = "activationForm" action="/main/activation" method="post">
 		    <div class="reset-header">
 			   <h2> <i18n:i18n msg='activationCode'/></h2>
 			</div>

@@ -46,7 +46,7 @@
 			</div>
   		  </c:if>
   		  
-		 <form id = "emailActivationForm" action="/main/emailforactivation" method="post">
+		 <form class="accounterform" id = "emailActivationForm" action="/main/emailforactivation" method="post">
 		    <div class="reset-header">
 			   <h2><i18n:i18n msg='resendActivationcode'/></h2>
 			</div>

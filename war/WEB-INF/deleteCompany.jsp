@@ -22,7 +22,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
         
-	   <form action="/main/deletecompany" method="post">
+	   <form class="accounterform" action="/main/deletecompany" method="post">
 	  	 	<c:if test="${canDeleteFromSingle}">
             	<input type="radio" name="delete" value="deleteUser">
             		<i18n:i18n msg='deletecompanyfromaccount'/>

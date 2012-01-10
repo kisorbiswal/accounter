@@ -17,7 +17,7 @@
   <div id="commanContainer" style="width:420px">
    <div class="maintanance_subcont">
     <img src="/images/Accounter_logo_title.png" class="accounterLogo" />
-    <form id="cancelform" name="cancelform" method="post" action="/main/cancelform" style="height:200px">
+    <form class="accounterform" id="cancelform" name="cancelform" method="post" action="/main/cancelform" style="height:200px">
       <h3 style="color:#28757D;text-align:center"><i18n:i18n msg='cancelAccount'/></h3>
       <h4><i18n:i18n msg='deletepermanentlyMsg'/></h4>
 		<div>

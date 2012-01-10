@@ -138,8 +138,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   
   
   <c:if test="${successmessage==null}">
-    <form id="accounterForm" method="post" action="/main/signup">
+    <div class="accounterform">
       <div class="signup-left">   
+      <form  id="accounterForm" method="post" action="/main/signup">
 	   <div>
 	      <span class="mandatory"><i18n:i18n msg='mandatoryMsg'/></span>
 	   </div>
@@ -422,8 +423,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   <div class="signup-submit">
 	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="13" />
 	   </div>
-	   
+	   </form>
 	 </div>
+	  
 	 <div class="signup-right">
 	 <form id="openIdForm" method="post" action="/main/openid">
 	 <div>
@@ -432,7 +434,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
 	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
 	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
-	   </form>
+	  
 	 <div>
 	     <div class="simple-get-started">
 	        <h3><i18n:i18n msg='SimpletogetStarted'/>:</h3>
@@ -450,9 +452,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	          <li><i18n:i18n msg='PrintReportsInvocies'/></li>
 	        </ul>
 	     </div>
-	 </div></div>
-	   
-	</form>
+	 </div>
+	 </form></div>
+	    
+	</div>
   </c:if>
   <div class="form-bottom-options">
   <a href="/main/login" id="forget-link1"><i18n:i18n msg='alreadyAccount'/></a>

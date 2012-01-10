@@ -41,7 +41,7 @@ $(document).ready(function() {
 		   <div id="forgot-password_error" class="common-box">
 		      <p><i18n:i18n msg='forgotpasswordMsg'/></p>	
 		   </div>
-		   <form id="accounterForm" method="post" action="/main/forgotpassword">
+		   <form class="accounterform" id="accounterForm" method="post" action="/main/forgotpassword">
 		      <div>
 			    <label><i18n:i18n msg='email'/></label>
 				<br></br>

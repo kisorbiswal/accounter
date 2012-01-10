@@ -328,7 +328,7 @@ p {
 
 <c:if test="${message==null}">
  <div id="formDiv">
-	<form id = "activationForm" method="post" action="/main/createcompany"
+	<form class="accounterform" id = "activationForm" method="post" action="/main/createcompany"
 		onsubmit="return validation(this)">
 		 <h2 class="company-heading"> Create Company</h2>
 	     <div>

@@ -88,7 +88,7 @@ $(document).ready(function() {
 				<span>${errormessage}</span>
 			</div>
   		  </c:if>
-		 <form id="accounterForm" method="post" action="/main/resetpassword">
+		 <form class="accounterform" id="accounterForm" method="post" action="/main/resetpassword">
 								<c:if test="${successMessage != null}">
 								<span style="color: #3299A4; line-height: 1.5;">
 								${successMessage} </span>

@@ -127,7 +127,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
   <div id="gmailregister" class="common-box">
    <span>There is no account registered with <strong>"<%= userEmailId %>"</strong>. please complete this form to create your account.</span>
    </div>
-    <form id="accounterForm" method="post" action="/main/openidsignup">
+    <form class="accounterform" id="accounterForm" method="post" action="/main/openidsignup">
     <div>
 	      <span class="mandatory">All fields are mandatory</span>
 	   </div>
