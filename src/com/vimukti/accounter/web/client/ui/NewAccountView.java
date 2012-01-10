@@ -1110,6 +1110,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		}
 		if (isSubAccountBox.getValue()) {
 			ClientAccount selectedValue = parentAccountCombo.getSelectedValue();
+			if (selectedValue == null) {
+				result.addError(accTypeSelect,
+						messages.pleaseSelect(messages.parentAccount()));
+				return result;
+			}
 			if (selectedValue.getType() != getAccountType(accTypeSelect
 					.getSelectedValue())) {
 				result.addError(accTypeSelect,
@@ -1118,6 +1123,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			if (selectedValue.getCurrency() != selectCurrency.getID()) {
 				result.addError(accTypeSelect,
 						messages.parenAccountCurrencyShouldBeSame());
+			}
+			if (selectedValue.getID() == data.getID()) {
+				result.addError(accTypeSelect,
+						messages.theAccCannotbeSubaccOfIt());
 			}
 		}
 		if (AccounterValidator.isPriorToCompanyPreventPostingDate(asofDate
