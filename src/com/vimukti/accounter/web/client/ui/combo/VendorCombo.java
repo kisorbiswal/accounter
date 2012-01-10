@@ -72,9 +72,9 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 			@Override
 			public IAccounterCore getData(String text) {
 				if (isVenodrExists(text)) {
-					return super.getData(text);
+					return null;
 				}
-				return null;
+				return super.getData(text);
 			}
 		});
 		dialog.show();
