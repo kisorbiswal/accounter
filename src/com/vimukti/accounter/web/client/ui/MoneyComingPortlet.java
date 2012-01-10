@@ -24,6 +24,8 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.ViewManager;
+import com.vimukti.accounter.web.client.ui.customers.InvoicesAction;
 
 public class MoneyComingPortlet extends GraphPointsPortlet {
 
@@ -186,13 +188,15 @@ public class MoneyComingPortlet extends GraphPointsPortlet {
 
 				label.getElement().getStyle()
 						.setTextDecoration(TextDecoration.NONE);
-				if (title.equals(messages.invoicesDue())) {
-					ActionFactory.getInvoicesAction(null).run(null, true);
-				} else {
-					ActionFactory.getInvoicesAction(messages.overDue()).run(
-							null, true);
+				String invoicesType = null;
+				if (!title.equals(messages.invoicesDue())) {
+					invoicesType = messages.overDue();
 				}
-
+				InvoicesAction invoicesAction = ActionFactory
+						.getInvoicesAction(invoicesType);
+				ViewManager.getInstance().viewDataHistory.put(
+						invoicesAction.getHistoryToken(), null);
+				invoicesAction.run(null, true);
 			}
 		});
 		return label;
