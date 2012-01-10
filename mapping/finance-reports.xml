@@ -25,7 +25,6 @@
 		ON P.ID = SO.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
 		T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.STATUS != 3 AND
 		T.COMPANY_ID=:companyId ORDER BY
 		P.NAME, T.T_DATE
 
@@ -55,7 +54,7 @@
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
 		:startDate AND :endDate AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -181,8 +180,7 @@
 		ON P.ID = SO.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS=2 and T.T_DATE BETWEEN :startDate AND
-		:endDate AND T.STATUS !=
-		3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		:endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -209,8 +207,7 @@
 		ON P.ID = SO.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (102) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -237,8 +234,7 @@
 		ON P.ID = SO.CUSTOMER_ID
 		WHERE T.T_TYPE = 21 AND
 		T.STATUS IN (103) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -266,7 +262,6 @@
 		ON P.ID = PO.VENDOR_ID
 		WHERE T.T_TYPE = 22
 		AND T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.STATUS != 3 AND
 		T.COMPANY_ID=:companyId ORDER BY
 		P.NAME, T.T_DATE
 
@@ -298,7 +293,7 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3 AND T.COMPANY_ID =:companyId ORDER BY P.NAME,
+		AND T.COMPANY_ID =:companyId ORDER BY P.NAME,
 		T.T_DATE
 
 
@@ -326,8 +321,7 @@
 		ON P.ID = PO.VENDOR_ID
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		:endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -356,8 +350,7 @@
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate
 		AND :endDate AND
-		T.COMPANY_ID=:companyId AND
-		T.STATUS != 3 ORDER BY P.NAME, T.T_DATE
+		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -383,8 +376,7 @@
 		ON P.ID = PO.VENDOR_ID
 		WHERE T.T_TYPE = 22
 		AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
 
 	</sql-query>
 
@@ -818,7 +810,6 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE' AND
 		T.T_DATE BETWEEN :startDate AND
 		:endDate AND
-		T.STATUS != 3 AND
 		AT.COMPANY_ID=:companyId) =0
 		THEN
 		0
@@ -842,8 +833,7 @@
 		WHERE AT.ACCOUNT_ID = A.ID AND
 		AT.IS_CASH_BASIS_ENTRY='FALSE' AND
 		T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.STATUS != 3 AND AT.COMPANY_ID=:companyId
+		:endDate AND AT.COMPANY_ID=:companyId
 		GROUP BY
 		AT.ACCOUNT_ID)
 		END) AS AMOUNT,
@@ -873,7 +863,7 @@
 		WHERE AT1.ACCOUNT_ID=A.ID
 		AND AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND
-		T1.T_DATE &lt;=:endDate AND T1.STATUS != 3 AND
+		T1.T_DATE &lt;=:endDate AND
 		AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE (SELECT SUM(AT.AMOUNT) FROM
@@ -887,7 +877,7 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE
 		&lt;=
-		:endDate AND T.STATUS != 3 AND
+		:endDate AND
 		AT.COMPANY_ID=:companyId
 		GROUP BY
 		AT.ACCOUNT_ID)
@@ -943,7 +933,7 @@
 		AND AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T1.T_DATE BETWEEN :startDate
 		AND :endDate
-		AND T1.STATUS != 3 AND AT1.COMPANY_ID=:companyId)=0
+		AND AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE
 		(SELECT SUM(AT.AMOUNT)
@@ -958,7 +948,7 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN :startDate AND
 		:endDate
-		AND T.STATUS != 3 AND AT.COMPANY_ID=:companyId
+		AND AT.COMPANY_ID=:companyId
 		GROUP BY
 		AT.ACCOUNT_ID)
 		END) AS AMOUNT,
@@ -976,7 +966,7 @@
 		AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T1.T_DATE BETWEEN :startDate1 AND
 		:endDate1
-		AND T1.STATUS != 3 AND AT1.COMPANY_ID=:companyId)=0
+		AND AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE
 		(SELECT SUM(AT.AMOUNT)
@@ -993,7 +983,7 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN :startDate1 AND
 		:endDate1
-		AND T.STATUS != 3 AND AT.COMPANY_ID=:companyId
+		AND AT.COMPANY_ID=:companyId
 		GROUP BY
 		AT.ACCOUNT_ID)
 		END) AS TOTAL_AMOUNT,
@@ -1039,7 +1029,7 @@
 		AND AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND
 		T1.T_DATE BETWEEN :startDate AND :endDate
-		AND T1.STATUS != 3 AND
+		AND
 		AT1.COMPANY_ID=:companyId)=0
 		THEN
 		0
@@ -1055,7 +1045,6 @@
 		AND T.T_DATE BETWEEN
 		:startDate AND
 		:endDate
-		AND T.STATUS != 3
 		GROUP BY AT.ACCOUNT_ID) END) AS AMOUNT,
 		A.FLOW AS FLOW,
 		A.BASE_TYPE AS BASE_TYPE,
@@ -1096,7 +1085,7 @@
 		AND AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND
 		T1.T_DATE BETWEEN :startDate AND :endDate
-		AND T1.STATUS != 3 AND
+		AND
 		AT1.COMPANY_ID=:companyId)=0
 		THEN
 		0
@@ -1113,7 +1102,7 @@
 		BETWEEN
 		:startDate AND
 		:endDate
-		AND T.STATUS != 3 AND
+		AND
 		AT.COMPANY_ID=:companyId
 		GROUP BY AT.ACCOUNT_ID) END) AS AMOUNT,
 
@@ -1125,7 +1114,7 @@
 		AND
 		AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T1.T_DATE BETWEEN :start AND :end
-		AND T1.STATUS != 3 AND AT1.COMPANY_ID=:companyId)
+		AND AT1.COMPANY_ID=:companyId)
 		AS
 		CASH_AT_BEGINNING_OF_PERIOD,
 
@@ -1160,7 +1149,7 @@
 		at1.IS_CASH_BASIS_ENTRY='FALSE' left join TRANSACTION t on
 		at1.transaction_id = t.id where a.a_type in(14,17) and
 		t.t_date between
-		:startDate and :endDate AND t.STATUS != 3 AND
+		:startDate and :endDate AND
 		at1.COMPANY_ID=:companyId) is null then 0
 		else
 		(select
@@ -1172,7 +1161,7 @@
 		at1.IS_CASH_BASIS_ENTRY='FALSE' left join TRANSACTION t on
 		at1.transaction_id = t.id where a.a_type in(14,17) and
 		t.t_date between
-		:startDate and :endDate AND t.STATUS != 3 AND
+		:startDate and :endDate AND
 		at1.COMPANY_ID=:companyId) end
 		- case when (select
 		sum(at1.amount) from
@@ -1183,7 +1172,7 @@
 		at1.IS_CASH_BASIS_ENTRY='FALSE' left join TRANSACTION t on
 		at1.transaction_id = t.id where a.a_type in(15,16,18) and
 		t.t_date
-		between :startDate and :endDate AND t.STATUS != 3 AND
+		between :startDate and :endDate AND
 		at1.COMPANY_ID=:companyId) is null then 0
 		else
 		(select sum(at1.amount)
@@ -1195,7 +1184,7 @@
 		at1.IS_CASH_BASIS_ENTRY='FALSE' left join TRANSACTION t on
 		at1.transaction_id = t.id where a.a_type in(15,16,18) and
 		t.t_date
-		between :startDate and :endDate AND t.STATUS != 3 AND
+		between :startDate and :endDate AND
 		at1.COMPANY_ID=:companyId) end)
 		as amount
 	</sql-query>
@@ -1217,8 +1206,7 @@
 		AT1.transaction_id = t.id WHERE a.a_type
 		IN(14,17) AND
 		t.t_date BETWEEN
-		:startDate AND :endDate AND t.STATUS !=
-		3 AND
+		:startDate AND :endDate AND
 		AT1.COMPANY_ID=:companyId) is null then 0
 		else
 		(SELECT
@@ -1230,7 +1218,7 @@
 		TRANSACTION t ON
 		AT1.transaction_id = t.id WHERE a.a_type IN(14,17) AND
 		t.t_date BETWEEN
-		:startDate AND :endDate AND t.STATUS != 3 AND
+		:startDate AND :endDate AND
 		AT1.COMPANY_ID=:companyId) end
 		- case
 		when (SELECT SUM(AT1.amount) FROM
@@ -1241,8 +1229,7 @@
 		AT1.transaction_id = t.id WHERE a.a_type
 		IN(15,16,18) AND
 		t.t_date
-		BETWEEN :startDate AND :endDate AND t.STATUS
-		!= 3 AND
+		BETWEEN :startDate AND :endDate AND
 		AT1.COMPANY_ID=:companyId) is null then 0
 		else
 		(SELECT SUM(AT1.amount)
@@ -1258,7 +1245,7 @@
 		a.company_id=:companyId AND
 		t.t_date
 		BETWEEN :startDate AND :endDate AND
-		t.STATUS != 3 AND AT1.COMPANY_ID=:companyId) end)
+		AT1.COMPANY_ID=:companyId) end)
 		AS amount
 	</sql-query>
 
@@ -1369,7 +1356,7 @@
 		BETWEEN :startDate AND :endDate AND
 		T.T_TYPE IN
 		(4,5,8,12,16,29)
-		AND T.STATUS != 3 AND
+		AND
 		T.COMPANY_ID=:companyId
 
 		ORDER BY P.NAME, T.T_TYPE, T.T_DATE
@@ -1482,7 +1469,7 @@
 		BETWEEN :startDate AND :endDate AND
 		T.T_TYPE IN (6, 14, 11)
 		AND
-		T.COMPANY_ID=:companyId AND T.STATUS != 3
+		T.COMPANY_ID=:companyId
 
 		ORDER BY P.NAME,T.T_TYPE,
 		T_DATE
@@ -1544,8 +1531,7 @@
 		P.TYPE IN (2,4) AND P.PAYEE_SINCE
 		BETWEEN :startDate AND :endDate
 		AND
-		P.COMPANY_ID=:companyId AND
-		T.STATUS != 3
+		P.COMPANY_ID=:companyId 
 	</sql-query>
 
 	<!--Query for Most Profitable Customers Report -->
@@ -1652,8 +1638,7 @@
 		WHERE T.T_DATE BETWEEN :startDate AND
 		:endDate
 		AND
-		T.COMPANY_ID=:companyId AND
-		T.STATUS != 3
+		T.COMPANY_ID=:companyId 		
 		GROUP BY P.NAME, P.FILE_AS,
 		CG.NAME
 		ORDER BY P.NAME
@@ -1771,7 +1756,7 @@
 		WHERE P.ID=:customerId AND T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
+		AND T.COMPANY_ID=:companyId
 		ORDER BY P.NAME, ITEM_NAME
 
 	</sql-query>
@@ -1863,7 +1848,7 @@
 
 		WHERE
 		T.T_DATE BETWEEN :startDate AND :endDate
-		AND T.STATUS != 3 AND
+		AND
 		T.COMPANY_ID=:companyId
 		ORDER BY
 		TIG.NAME,P1.NAME
@@ -1995,8 +1980,7 @@
 		where
 		tig.name=:taxItemName AND t.COMPANY_ID=:companyId AND t.t_date BETWEEN
 		:startDate AND :endDate
-		AND
-		t.STATUS != 3 order by tig.name,p1.name
+		order by tig.name,p1.name
 
 
 		<!-- SELECT DISTINCT T.ID AS TRANSACTION_ID, (CASE WHEN T.T_TYPE=15 AND 
@@ -2088,7 +2072,7 @@
 		!=
 		AT.ACCOUNT_ID AND T1.T_TYPE
 		= 16
-		AND T1.STATUS != 3 GROUP BY A1.ID)
+		GROUP BY A1.ID)
 		IN
 		('Opening Balances')
 		THEN
@@ -2172,7 +2156,7 @@
 		AT1.COMPANY_ID=:companyId AND A.ID=:accountId
 		AND T1.T_DATE
 		&lt;=T.T_DATE
-		AND T1.STATUS != 3 )
+		)
 		AS BALANCE,
 		T.ID AS
 		TRANSACTION_ID,
@@ -2247,8 +2231,6 @@
 		T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
-		AND
-		T.STATUS != 3
 		GROUP BY
 		T.ID,AT.TRANSACTION_ID, PB.PAYBILL_TYPE,
 		A.ID,
@@ -2375,7 +2357,6 @@
 		AND TI.ITEM_ID is not null AND T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3
 		GROUP BY IT.NAME order
 		by IT.TYPE
 	</sql-query>
@@ -2423,7 +2404,7 @@
 		IN (1,4,8) AND TI.ITEM_ID is not null AND T.T_DATE BETWEEN
 		:startDate
 		AND :endDate
-		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
+		AND T.COMPANY_ID=:companyId
 		GROUP BY
 		IT.NAME order by IT.TYPE
 	</sql-query>
@@ -2494,7 +2475,6 @@
 		BETWEEN
 		:startDate
 		AND :endDate
-		AND T.STATUS != 3
 		order by P.NAME
 	</sql-query>
 	<sql-query name="getTransactionHistoryVendors">
@@ -2557,7 +2537,6 @@
 		NOT NULL AND T.T_DATE
 		BETWEEN
 		:startDate AND :endDate
-		AND T.STATUS != 3
 		order by P.NAME
 	</sql-query>
 
@@ -2644,8 +2623,7 @@
 		WHERE
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND
-		T.STATUS != 3 AND T.IS_AUTOMATIC_TRANSACTION = TRUE
+		AND T.IS_AUTOMATIC_TRANSACTION = TRUE
 		GROUP BY
 		T.ID,P.NAME,WC.IN_FAVOUR_OF
 		ORDER BY
@@ -2778,7 +2756,7 @@
 		WHERE
 		T.COMPANY_ID=:companyId AND T.T_TYPE NOT IN (9) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND AT.AMOUNT != 0 AND T.STATUS != 3
+		AND AT.AMOUNT != 0
 		GROUP BY
 		T.ID,PB.ID,A.FLOW,A.NAME,P.NAME,WC.IN_FAVOUR_OF
 		ORDER BY
@@ -2903,8 +2881,7 @@
 		T.COMPANY_ID=:companyId AND A.NAME=:accountName AND T.T_TYPE NOT IN
 		(9) AND T.T_DATE BETWEEN
 		:startDate AND :endDate
-		AND AT.AMOUNT != 0 AND
-		T.STATUS != 3
+		AND AT.AMOUNT != 0
 		GROUP BY T.ID,PB.ID,A.NAME,P.NAME,C.FULL_NAME,WC.IN_FAVOUR_OF
 		ORDER BY
 		A.NAME
@@ -2946,7 +2923,7 @@
 		AND T1.T_DATE BETWEEN :startDate
 		AND
 		:endDate
-		AND T1.STATUS != 3 AND AT1.COMPANY_ID=:companyId)=0
+		AND AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE
 		(SELECT SUM(AT.AMOUNT)
@@ -2964,7 +2941,7 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN :startDate AND
 		:endDate
-		AND T.STATUS != 3 AND AT.COMPANY_ID=:companyId
+		AND AT.COMPANY_ID=:companyId
 		GROUP BY
 		AT.ACCOUNT_ID)
 		END) AS AMOUNT,
@@ -3437,8 +3414,7 @@
 
 		where T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN
-		:startDate AND :endDate AND
-		T.STATUS != 3
+		:startDate AND :endDate 
 		GROUP BY
 		T_ITEM.ID, TRC.RATE,
 		TIG.NAME, P.NAME
@@ -3459,8 +3435,7 @@
 		T.TOTAL_VAT END) AS VAT_TOTAL
 		FROM TRANSACTION T WHERE
 		T.COMPANY_ID=:companyId AND T.T_TYPE IN
-		('1','4','8','12) AND T.STATUS
-		!= 3
+		('1','4','8','12)
 
 	</sql-query>
 
@@ -3472,8 +3447,7 @@
 		SELECT SUM(T.TOTAL_VAT) AS VAT_TOTAL
 		FROM TRANSACTION T WHERE T.T_TYPE
 		IN ('2','3','6','14') AND
-		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.STATUS !=
-		3 AND T.COMPANY_ID=:companyId
+		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
@@ -3484,7 +3458,7 @@
 		<query-param name="endDate" type="long" />
 		SELECT SUM(T.TOTAL_VAT) AS VAT_TOTAL
 		FROM TRANSACTION T WHERE T.T_TYPE
-		IN ('2','3','6','14') AND T.STATUS != 3
+		IN ('2','3','6','14') 
 
 	</sql-query>
 
@@ -3498,7 +3472,7 @@
 		T.NET_AMOUNT END)
 		AS NET_AMOUNT FROM TRANSACTION T WHERE T.T_TYPE IN
 		('1','4','8','12')
-		AND T.STATUS != 3 AND T.COMPANY_ID=:companyId
+		AND T.COMPANY_ID=:companyId
 
 	</sql-query>
 
@@ -3509,7 +3483,7 @@
 
 		SELECT SUM(T.NET_AMOUNT) AS NET_AMOUNT
 		FROM TRANSACTION T WHERE
-		T.T_TYPE IN ('2','3','6','14') AND T.STATUS != 3 AND
+		T.T_TYPE IN ('2','3','6','14') AND
 		T.COMPANY_ID=:companyId
 
 	</sql-query>
@@ -3523,8 +3497,7 @@
 		SELECT SUM(T.NET_AMOUNT)
 		AS NET_AMOUNT FROM TRANSACTION T WHERE
 		T.T_TYPE IN ('1','4','8') AND
-		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.STATUS
-		!= 3 AND T.COMPANY_ID=:companyId
+		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query
@@ -3537,7 +3510,7 @@
 		FROM TRANSACTION T WHERE
 		T.T_TYPE IN ('2','3','6','14') AND
 		T.EU_VAT_EXEMPT_PAYEE='TRUE' AND
-		T.STATUS != 3 AND T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId
 
 	</sql-query>
 
@@ -4043,8 +4016,7 @@
 		AT1.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T1.T_DATE BETWEEN :startDate
 		AND
-		:endDate
-		AND T1.STATUS != 3 )=0
+		:endDate)=0
 		THEN 0
 		ELSE
 		(SELECT SUM(AT.AMOUNT)
@@ -4060,7 +4032,6 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN :startDate AND
 		:endDate
-		AND T.STATUS != 3
 		GROUP BY AT.ACCOUNT_ID)
 		END) AS AMOUNT,
 		A.PARENT_ID
