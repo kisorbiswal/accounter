@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -8,19 +10,11 @@ import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
-import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsView;
 
-public class TdsChalanTransactionItemsTable extends
+public abstract class TdsChalanTransactionItemsTable extends
 		EditTable<ClientTDSTransactionItem> {
 
 	private ICurrencyProvider currencyProvider;
-	private final TDSChalanDetailsView tdsChalanDetails;
-	protected boolean isSelected;
-
-	public TdsChalanTransactionItemsTable(
-			TDSChalanDetailsView tdsChalanDetailsView) {
-		tdsChalanDetails = tdsChalanDetailsView;
-	}
 
 	@Override
 	protected void initColumns() {
@@ -30,25 +24,7 @@ public class TdsChalanTransactionItemsTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTDSTransactionItem row) {
-				isSelected = value;
-				if (value) {
-					row.setBoxSelected(true);
-					tdsChalanDetails.setSurchargeValuesToField(
-							row.getSurchargeAmount(), true);
-					tdsChalanDetails.setEduCessValuesToField(row.getEduCess(),
-							true);
-					tdsChalanDetails.setTaxAmountValuesToField(
-							row.getTaxAmount(), true);
-				} else {
-					row.setBoxSelected(false);
-					tdsChalanDetails.setSurchargeValuesToField(
-							row.getSurchargeAmount(), false);
-					tdsChalanDetails.setEduCessValuesToField(row.getEduCess(),
-							false);
-					tdsChalanDetails.setTaxAmountValuesToField(
-							row.getTaxAmount(), false);
-				}
-
+				updateNonEditableFields();
 			}
 		});
 
@@ -56,7 +32,7 @@ public class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getValue(ClientTDSTransactionItem row) {
-				return Accounter.getCompany().getVendor(row.getVendorID())
+				return Accounter.getCompany().getVendor(row.getVendor())
 						.getName();
 			}
 
@@ -134,7 +110,7 @@ public class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected Double getAmount(ClientTDSTransactionItem row) {
-				return row.getTaxAmount();
+				return row.getTdsAmount();
 
 			}
 
@@ -173,14 +149,10 @@ public class TdsChalanTransactionItemsTable extends
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				row.setSurchargeAmount(value);
 
-				row.setTdsTotal(row.getTaxAmount() + value + row.getEduCess());
+				row.setTotalTax(row.getTdsAmount() + value + row.getEduCess());
 				getTable().update(row);
-				if (isSelected) {
-					tdsChalanDetails.setSurchargeValuesToField(value, true);
-				}
-
+				updateNonEditableFields();
 			}
-
 		});
 
 		this.addColumn(new AmountColumn<ClientTDSTransactionItem>(
@@ -209,14 +181,11 @@ public class TdsChalanTransactionItemsTable extends
 			@Override
 			protected void setAmount(ClientTDSTransactionItem row, Double value) {
 				row.setEduCess(value);
-				row.setTdsTotal(row.getTaxAmount() + value
+				row.setTotalTax(row.getTdsAmount() + value
 						+ row.getSurchargeAmount());
 				getTable().update(row);
-				if (isSelected) {
-					tdsChalanDetails.setEduCessValuesToField(value, true);
-				}
+				updateNonEditableFields();
 			}
-
 		});
 
 		this.addColumn(new AmountColumn<ClientTDSTransactionItem>(
@@ -239,7 +208,7 @@ public class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected Double getAmount(ClientTDSTransactionItem row) {
-				return row.getTdsTotal();
+				return row.getTotalTax();
 			}
 
 			@Override
@@ -282,10 +251,9 @@ public class TdsChalanTransactionItemsTable extends
 
 	}
 
-	@Override
-	protected boolean isInViewMode() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public abstract void updateNonEditableFields();
 
+	public List<ClientTDSTransactionItem> getSelectedRecords() {
+		return getSelectedRecords(0);
+	}
 }
