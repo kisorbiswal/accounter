@@ -15,6 +15,7 @@ public class ClientETDSFilling implements IAccounterCore {
 	private long chalanSerialNumber;
 	private String sectionForPayment;
 	private double totalTDSfordeductees;
+	private String panOfDeductee;
 	private long dateOFpayment;
 	private double amountPaid;
 	private double tds;
@@ -23,7 +24,7 @@ public class ClientETDSFilling implements IAccounterCore {
 	private double totalTaxDEducted;
 	private double totalTaxDeposited;
 	private long dateofDeduction;
-	private int taxRate;
+	private double taxRate;
 	private String bookEntry;
 
 	private String remark;
@@ -178,11 +179,11 @@ public class ClientETDSFilling implements IAccounterCore {
 		this.dateofDeduction = dateofDeduction;
 	}
 
-	public int getTaxRate() {
+	public double getTaxRate() {
 		return taxRate;
 	}
 
-	public void setTaxRate(int taxRate) {
+	public void setTaxRate(double taxRate) {
 		this.taxRate = taxRate;
 	}
 
@@ -230,6 +231,14 @@ public class ClientETDSFilling implements IAccounterCore {
 	 */
 	public void setCompanyCode(String companyCode) {
 		this.companyCode = companyCode;
+	}
+
+	public String getPanOfDeductee() {
+		return panOfDeductee;
+	}
+
+	public void setPanOfDeductee(String panOfDeductee) {
+		this.panOfDeductee = panOfDeductee;
 	}
 
 }
