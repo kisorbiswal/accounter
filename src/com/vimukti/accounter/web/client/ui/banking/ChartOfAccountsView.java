@@ -125,6 +125,9 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
+		if (result.isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
 	}
 
 	@Override
