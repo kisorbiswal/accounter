@@ -1,12 +1,18 @@
 package com.vimukti.accounter.servlets;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,10 +47,41 @@ public class OpenCompanyServlet extends BaseServlet {
 	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
 	private static final String USER_NAME = "userName";
 	private static final String COMPANY_NAME = "companyName";
+	private static final String USER_AGENT = "User-Agent";
+	private static final String SUPPORTED_BROWSERS_URL = "/WEB-INF/supportedbrowsers.jsp";
+	private static final String FILE_NAME = "config/patterns.txt";
+
+	static Set<Pattern> patterns = new HashSet<Pattern>();
+
+	static {
+		File fileToRead = new File(FILE_NAME);
+		if (fileToRead.exists()) {
+			try {
+				FileReader fr = new FileReader(fileToRead);
+				BufferedReader br = new BufferedReader(fr);
+				while (true) {
+					String line = br.readLine();
+					if (line == null)
+						break;
+					patterns.add(Pattern.compile(line.trim()));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		String header = request.getHeader(USER_AGENT);
+		if (header != null)
+			if (!isSupportedBrowser(header)) {
+				dispatch(request, response, SUPPORTED_BROWSERS_URL);
+				return;
+			}
 
 		String url = request.getRequestURI().toString();
 		request.setAttribute("isRTL",
@@ -154,6 +191,18 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private boolean isSupportedBrowser(String header) {
+
+		for (Pattern p : patterns) {
+			Matcher matcher = p.matcher(header);
+			if (matcher.matches()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private HashMap<String, String> getLocaleConstants() {
