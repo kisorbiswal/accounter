@@ -190,14 +190,14 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			if (substract) {
 				itemStatus.getQuantity().setValue(tempQ.getValue() - value);
 				if (itemStatus.getQuantity().getValue() <= 0) {
-					itemStatuses.remove(itemStatus);
+					this.itemStatuses.remove(itemStatus);
 				}
 			} else {
 				itemStatus.getQuantity().setValue(tempQ.getValue() + value);
 			}
 		} else {
-			if (itemStatuses == null) {
-				itemStatuses = new HashSet<ItemStatus>();
+			if (this.itemStatuses == null) {
+				this.itemStatuses = new HashSet<ItemStatus>();
 			}
 			ItemStatus newItemStatus = new ItemStatus();
 			newItemStatus.setItem(item);
@@ -210,7 +210,7 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 			}
 			newItemStatus.setQuantity(quantity);
 			newItemStatus.setWarehouse(this);
-			itemStatuses.add(newItemStatus);
+			this.itemStatuses.add(newItemStatus);
 		}
 	}
 
