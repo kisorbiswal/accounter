@@ -75,7 +75,7 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			for (Entry<String, String> entrySet : keyAndValues.entrySet()) {
 				String value = entrySet.getValue();
-				if (value != null && value.contains("'")) {
+				if (value.contains("'")) {
 					value = value.replace("'", "\\'");
 					entrySet.setValue(value);
 				}
