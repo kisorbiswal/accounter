@@ -1851,7 +1851,7 @@ public class Utility implements IsSerializable, Serializable {
 
 	}
 
-	public static List<String> getSectionNames() {
+	public static List<String> get26QSectionNames() {
 
 		List<String> names = new ArrayList<String>();
 
@@ -1874,7 +1874,7 @@ public class Utility implements IsSerializable, Serializable {
 
 	}
 
-	public static List<String> getSectionCodes() {
+	public static List<String> get26QSectionCodes() {
 
 		List<String> names = new ArrayList<String>();
 

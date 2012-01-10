@@ -26,6 +26,7 @@ public class ClientETDSFilling implements IAccounterCore {
 	private long dateofDeduction;
 	private double taxRate;
 	private String bookEntry;
+	private String grossingUpIndicator;
 
 	private String remark;
 	private String companyCode;
@@ -239,6 +240,14 @@ public class ClientETDSFilling implements IAccounterCore {
 
 	public void setPanOfDeductee(String panOfDeductee) {
 		this.panOfDeductee = panOfDeductee;
+	}
+
+	public String getGrossingUpIndicator() {
+		return grossingUpIndicator;
+	}
+
+	public void setGrossingUpIndicator(String grossingUpIndicator) {
+		this.grossingUpIndicator = grossingUpIndicator;
 	}
 
 }
