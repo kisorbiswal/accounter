@@ -219,6 +219,10 @@ public class ReportsRPC {
 			initCallBack(new ClientTAXAdjustment(),
 					ActionFactory.getAdjustTaxAction(), transactionId);
 			break;
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+			initCallBack(new ClientTDSChalanDetail(),
+					ActionFactory.getTDSChalanDetailsView(), transactionId);
+			break;
 
 		// These cases were included to open the views other than transactions.
 		case IAccounterCore.ACCOUNT:
