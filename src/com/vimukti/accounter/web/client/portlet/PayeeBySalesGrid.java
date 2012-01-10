@@ -99,7 +99,21 @@ public class PayeeBySalesGrid extends ListGrid<PayeesBySalesPortletData> {
 
 	@Override
 	protected int getCellWidth(int index) {
-		return -1;
+		if (portletType == TopPayeesBySalesPortlet.ITEM_PORTLET) {
+			if (index == 1) {
+				return 150;
+			} else {
+				return -1;
+			}
+		} else {
+			if (index == 1) {
+				return 100;
+			} else if (index == 2) {
+				return 150;
+			} else {
+				return -1;
+			}
+		}
 	}
 
 	@Override
