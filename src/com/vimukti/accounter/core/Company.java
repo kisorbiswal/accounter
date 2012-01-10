@@ -172,6 +172,10 @@ public class Company implements IAccounterServerCore {
 	@ReffereredObject
 	private Account cashDiscountAccount;
 
+	private TDSDeductorMasters tdsDeductor;
+
+	private TDSResponsiblePerson tdsResposiblePerson;
+
 	/**
 	 * Each company have a set of {@link Account} This will hold all the
 	 * Accounts created in this company.
@@ -1513,5 +1517,21 @@ public class Company implements IAccounterServerCore {
 
 	public void setEncryptionKey(String encryptionKey) {
 		this.encryptionKey = encryptionKey;
+	}
+
+	public TDSDeductorMasters getTdsDeductor() {
+		return tdsDeductor;
+	}
+
+	public void setTdsDeductor(TDSDeductorMasters tdsDeductor) {
+		this.tdsDeductor = tdsDeductor;
+	}
+
+	public TDSResponsiblePerson getTdsResposiblePerson() {
+		return tdsResposiblePerson;
+	}
+
+	public void setTdsResposiblePerson(TDSResponsiblePerson tdsResposiblePerson) {
+		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
 }
