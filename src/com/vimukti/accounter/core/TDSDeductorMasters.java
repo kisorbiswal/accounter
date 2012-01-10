@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,16 +31,18 @@ public class TDSDeductorMasters extends CreatableObject implements
 	private String status;
 	private String deductorType;
 	private String govtState;
-	private long paoCode;
+	private String paoCode;
 	private long paoRegistration;
-	private long ddoCode;
-	private long ddoRegistration;
+	private String ddoCode;
+	private String ddoRegistration;
 	private String ministryDeptName;
 	private String ministryDeptOtherName;
 
 	private String tanNumber;
 	private String panNumber;
-	private long stdCode;
+	private String stdCode;
+	
+	private boolean isAddressSameForResopsiblePerson;
 
 	@Override
 	public String getName() {
@@ -178,11 +182,11 @@ public class TDSDeductorMasters extends CreatableObject implements
 		this.govtState = govtState;
 	}
 
-	public long getPaoCode() {
+	public String getPaoCode() {
 		return paoCode;
 	}
 
-	public void setPaoCode(long paoCode) {
+	public void setPaoCode(String paoCode) {
 		this.paoCode = paoCode;
 	}
 
@@ -194,19 +198,19 @@ public class TDSDeductorMasters extends CreatableObject implements
 		this.paoRegistration = paoRegistration;
 	}
 
-	public long getDdoCode() {
+	public String getDdoCode() {
 		return ddoCode;
 	}
 
-	public void setDdoCode(long ddoCode) {
+	public void setDdoCode(String ddoCode) {
 		this.ddoCode = ddoCode;
 	}
 
-	public long getDdoRegistration() {
+	public String getDdoRegistration() {
 		return ddoRegistration;
 	}
 
-	public void setDdoRegistration(long ddoRegistration) {
+	public void setDdoRegistration(String ddoRegistration) {
 		this.ddoRegistration = ddoRegistration;
 	}
 
@@ -242,17 +246,24 @@ public class TDSDeductorMasters extends CreatableObject implements
 		this.panNumber = panNumber;
 	}
 
-	public long getStdCode() {
+	public String getStdCode() {
 		return stdCode;
 	}
 
-	public void setStdCode(long stdCode) {
+	public void setStdCode(String stdCode) {
 		this.stdCode = stdCode;
 	}
 
 	@Override
 	public int getObjType() {
 		return IAccounterCore.TDSDEDUCTORMASTER;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		getCompany().setTdsDeductor(this);
+		session.saveOrUpdate(getCompany());
+		return super.onSave(session);
 	}
 
 	@Override
@@ -266,6 +277,15 @@ public class TDSDeductorMasters extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public boolean isAddressSameForResopsiblePerson() {
+		return isAddressSameForResopsiblePerson;
+	}
+
+	public void setAddressSameForResopsiblePerson(
+			boolean isAddressSameForResopsiblePerson) {
+		this.isAddressSameForResopsiblePerson = isAddressSameForResopsiblePerson;
 	}
 
 }

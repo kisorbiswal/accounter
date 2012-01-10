@@ -2,71 +2,49 @@ package com.vimukti.accounter.core;
 
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class TDSTransactionItem extends CreatableObject implements
-		IAccounterServerCore, INamedObject {
+public class TDSTransactionItem implements IAccounterServerCore {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Company company;
+	private long id;
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
-	private long vendor;
-
-	private double taxAmount;
+	private Vendor vendor;
 
 	private double totalAmount;
+
+	private double tdsAmount;
 
 	private double surchargeAmount;
 
 	private double eduCess;
 
-	private long transactionDate;
+	private double totalTax;
 
-	private long transactionID;
+	private FinanceDate transactionDate;
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "TDSTransactionItem";
+	private Transaction transaction;
+
+	private boolean isOnSaveProccessed;
+
+	public long getId() {
+		return id;
 	}
 
-	@Override
-	public void setName(String name) {
-
+	public void setId(long id) {
+		this.id = id;
 	}
 
-	@Override
-	public int getObjType() {
-		return IAccounterCore.TDSTRANSACTIONITEM;
-	}
-
-	public long getVendor() {
+	public Vendor getVendor() {
 		return vendor;
 	}
 
-	public void setVendor(long vendor) {
+	public void setVendor(Vendor vendor) {
 		this.vendor = vendor;
-	}
-
-	public Double getTaxAmount() {
-		return taxAmount;
-	}
-
-	public void setTaxAmount(Double taxAmount) {
-		this.taxAmount = taxAmount;
 	}
 
 	public Double getTotalAmount() {
@@ -75,27 +53,6 @@ public class TDSTransactionItem extends CreatableObject implements
 
 	public void setTotalAmount(Double totalAmount) {
 		this.totalAmount = totalAmount;
-	}
-
-	public long getTransactionDate() {
-		return transactionDate;
-	}
-
-	public void setTransactionDate(long transactionDate) {
-		this.transactionDate = transactionDate;
-	}
-
-	@Override
-	public boolean canEdit(IAccounterServerCore clientObject)
-			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
-
 	}
 
 	public double getSurchargeAmount() {
@@ -117,16 +74,89 @@ public class TDSTransactionItem extends CreatableObject implements
 	/**
 	 * @return the transactionID
 	 */
-	public long getTransactionID() {
-		return transactionID;
+	public Transaction getTransaction() {
+		return transaction;
 	}
 
 	/**
 	 * @param transactionID
 	 *            the transactionID to set
 	 */
-	public void setTransactionID(long transactionID) {
-		this.transactionID = transactionID;
+	public void setTransaction(Transaction transactionID) {
+		this.transaction = transactionID;
 	}
 
+	public double getTdsAmount() {
+		return tdsAmount;
+	}
+
+	public void setTdsAmount(double tdsAmount) {
+		this.tdsAmount = tdsAmount;
+	}
+
+	public double getTotalTax() {
+		return totalTax;
+	}
+
+	public void setTotalTax(double totalTax) {
+		this.totalTax = totalTax;
+	}
+
+	public FinanceDate getTransactiondate() {
+		return getTransactionDate();
+	}
+
+	public void setTransactiondate(FinanceDate transactiondate) {
+		this.setTransactionDate(transactiondate);
+	}
+
+	@Override
+	public int getVersion() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public long getID() {
+		return id;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void writeAudit(AuditWriter w) throws JSONException {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isPositiveTransaction() {
+		return this.transaction.isPositiveTransaction();
+	}
+
+	public boolean isOnSaveProccessed() {
+		return isOnSaveProccessed;
+	}
+
+	public void setOnSaveProccessed(boolean isOnSaveProccessed) {
+		this.isOnSaveProccessed = isOnSaveProccessed;
+	}
+
+	public FinanceDate getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(FinanceDate transactionDate) {
+		this.transactionDate = transactionDate;
+	}
 }

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -227,6 +229,13 @@ public class TDSResponsiblePerson extends CreatableObject implements
 	@Override
 	public int getObjType() {
 		return IAccounterCore.TDSRESPONSIBLEPERSON;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		getCompany().setTdsResposiblePerson(this);
+		session.saveOrUpdate(getCompany());
+		return super.onSave(session);
 	}
 
 	@Override

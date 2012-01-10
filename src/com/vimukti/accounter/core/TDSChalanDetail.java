@@ -7,11 +7,10 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class TDSChalanDetail extends CreatableObject implements
-		IAccounterServerCore, INamedObject {
+public class TDSChalanDetail extends Transaction implements
+		IAccounterServerCore {
 
 	/**
 	 * 
@@ -26,7 +25,6 @@ public class TDSChalanDetail extends CreatableObject implements
 	private double otherAmount;
 
 	private String paymentSection;
-	private int paymentMethod;
 	private long bankChalanNumber;
 	private long checkNumber;
 	private String bankBsrCode;
@@ -39,22 +37,9 @@ public class TDSChalanDetail extends CreatableObject implements
 	private int assesmentYearStart;
 	private int assessmentYearEnd;
 
+	private Account payFrom;
+
 	private List<TDSTransactionItem> tdsTransactionItems = new ArrayList<TDSTransactionItem>();
-
-	@Override
-	public String getName() {
-		return "TDSChalanDetail";
-	}
-
-	@Override
-	public void setName(String name) {
-
-	}
-
-	@Override
-	public int getObjType() {
-		return IAccounterCore.TDSCHALANDETAIL;
-	}
 
 	public Double getIncomeTaxAmount() {
 		return incomeTaxAmount;
@@ -110,14 +95,6 @@ public class TDSChalanDetail extends CreatableObject implements
 
 	public void setPaymentSection(String paymentSection) {
 		this.paymentSection = paymentSection;
-	}
-
-	public int getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(int paymentMethod) {
-		this.paymentMethod = paymentMethod;
 	}
 
 	public Long getBankChalanNumber() {
@@ -210,19 +187,51 @@ public class TDSChalanDetail extends CreatableObject implements
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-
-		for (TDSTransactionItem item : tdsTransactionItems) {
-			item.setCompany(getCompany());
+		if (this.isOnSaveProccessed)
+			return true;
+		super.onSave(session);
+		this.isOnSaveProccessed = true;
+		if (!isDraftOrTemplate()) {
+			Account account = getTDSTaxAgencyAccount();
+			if (account != null) {
+				account.updateCurrentBalance(this, -total, currencyFactor);
+				session.saveOrUpdate(account);
+				account.onUpdate(session);
+			}
 		}
-		return super.onSave(session);
+		return false;
+	}
+
+	private Account getTDSTaxAgencyAccount() {
+		for (TDSTransactionItem item : tdsTransactionItems) {
+			if (item.getTransaction() instanceof PayBill) {
+				PayBill paybill = (PayBill) item.getTransaction();
+				if (paybill.getTdsTaxItem() != null) {
+					TAXAgency taxAgency = paybill.getTdsTaxItem()
+							.getTaxAgency();
+					return taxAgency.getPurchaseLiabilityAccount();
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		super.onDelete(session);
+		if (!isVoid() && !isTemplate()) {
+			Account account = getTDSTaxAgencyAccount();
+			if (account != null) {
+				account.updateCurrentBalance(this, total, currencyFactor);
+				session.saveOrUpdate(account);
+				account.onUpdate(session);
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-
-		for (TDSTransactionItem item : tdsTransactionItems) {
-			item.setCompany(getCompany());
-		}
 		return super.onUpdate(session);
 	}
 
@@ -236,6 +245,52 @@ public class TDSChalanDetail extends CreatableObject implements
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 		return true;
+	}
+
+	public Account getPayFrom() {
+		return payFrom;
+	}
+
+	public void setPayFrom(Account payFrom) {
+		this.payFrom = payFrom;
+	}
+
+	@Override
+	public boolean isPositiveTransaction() {
+		return false;
+	}
+
+	@Override
+	public boolean isDebitTransaction() {
+		return true;
+	}
+
+	@Override
+	public Account getEffectingAccount() {
+		return this.payFrom;
+	}
+
+	@Override
+	public Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTransactionCategory() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String toString() {
+		return AccounterServerConstants.TYPE_TDS_CHALLAN;
+	}
+
+	@Override
+	public Payee getInvolvedPayee() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
