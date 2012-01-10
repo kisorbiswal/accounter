@@ -123,6 +123,8 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	public void onSuccess(PaginationList<PayeeList> result) {
 		if (result.isEmpty()) {
 			grid.removeAllRecords();
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
