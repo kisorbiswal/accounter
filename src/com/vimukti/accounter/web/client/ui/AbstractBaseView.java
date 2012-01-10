@@ -266,8 +266,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	// }
 	@Override
 	public String toString() {
-		return messages.actionClassNameis(
-				this.getAction().getText());
+		return messages.actionClassNameis(this.getAction().getText());
 	}
 
 	// @Override
@@ -422,6 +421,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 			saveAndUpdateView();
 			saveActivity();
 			setSaveCliecked(true);
+			MainFinanceWindow.getViewManager().closeCurrentView(false);
 		}
 	}
 
