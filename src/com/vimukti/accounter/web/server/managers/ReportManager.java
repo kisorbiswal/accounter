@@ -780,14 +780,15 @@ public class ReportManager extends Manager {
 		/*
 		 * Here endDate1 is used to store the previous month of endDate value
 		 */
-		int year = endDate.getYear();
-		int month = endDate.getMonth() - 1;
-		year = (month == 0) ? year - 1 : year;
-		month = (month == 0) ? 12 : month;
-		FinanceDate endDate1 = new FinanceDate(year, month, 31);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(endDate.getAsDateObject());
+		cal.add(Calendar.MONTH, -1);
+		cal.set(Calendar.DAY_OF_MONTH,
+				cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		FinanceDate endDate1 = new FinanceDate(cal.getTime());
 
-		if (year != startDate1.getYear())
-			startDate1 = new FinanceDate(year, 01, 01);
+		// if (year != startDate1.getYear())
+		// startDate1 = new FinanceDate(year, 01, 01);
 		// + ((month + "").length() == 1 ? "0" + month : month) + "01");
 
 		List l = ((Query) session.getNamedQuery("getProfitAndLoss")
