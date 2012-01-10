@@ -5283,5 +5283,6 @@ public interface AccounterMessages extends Messages {
 	public String generateIrasAuditFile();
 
 	public String theAccCannotbeSubaccOfIt();
+	public String selectFileOfTypeOdtOrDocx();
 
 }
