@@ -84,6 +84,10 @@ public class NewCurrencyListDialog extends BaseDialog<ClientCurrency> {
 			}
 
 		}
+		if (currencySymbolItem.getValue() == null
+				|| currencySymbolItem.getValue().isEmpty()) {
+			currencySymbolItem.setValue(clientCurrency.getSymbol());
+		}
 		return result;
 	}
 
