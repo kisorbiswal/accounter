@@ -63,12 +63,12 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FiscalYear;
+import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.IRASCompanyInfo;
 import com.vimukti.accounter.core.IRASGeneralLedgerLineInfo;
 import com.vimukti.accounter.core.IRASInformation;
 import com.vimukti.accounter.core.IRASPurchaseLineInfo;
 import com.vimukti.accounter.core.IRASSupplyLineInfo;
-import com.vimukti.accounter.core.IAccounterServerCore;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
@@ -92,6 +92,7 @@ import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturnEntry;
@@ -483,6 +484,8 @@ public class FinanceTool {
 					&& ((Transaction) serverObject).isTemplate()) {
 				session.delete(((Transaction) serverObject)
 						.getRecurringTransaction());
+			} else if (serverObject instanceof StockAdjustment) {
+				session.delete(serverObject);
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
