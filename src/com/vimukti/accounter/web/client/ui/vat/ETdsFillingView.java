@@ -118,6 +118,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 			@Override
 			public void selectedComboBoxItem(String selectItem) {
 				if (selectItem.equals(getFormTypes().get(0))) {
+					if (formNoSelected == 2) {
+						tdsCellTable.reDraw();
+					}
 					formNoSelected = 1;
 				} else if (selectItem.equals(getFormTypes().get(1))) {
 					if (formNoSelected != 2) {
@@ -125,6 +128,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 					}
 					formNoSelected = 2;
 				} else if (selectItem.equals(getFormTypes().get(2))) {
+					if (formNoSelected == 2) {
+						tdsCellTable.reDraw();
+					}
 					formNoSelected = 3;
 				}
 				initCallBack();
