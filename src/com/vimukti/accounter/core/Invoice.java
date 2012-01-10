@@ -957,12 +957,14 @@ public class Invoice extends Transaction implements Lifecycle {
 				session.delete(invoice.creditsAndPayments);
 			}
 			this.cleanTransactionitems(this);
-			if (this.customer.getID() != invoice.getCustomer().getID()) {
+			if (this.customer.getID() != invoice.getCustomer().getID()
+					|| isCurrencyFactorChanged()) {
 				doVoidEffect(session, invoice);
 
 				Customer customer = (Customer) session.get(Customer.class,
 						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total);
+				customer.updateBalance(session, this, invoice.total,
+						invoice.getCurrencyFactor());
 				this.onSave(session);
 				return;
 			}
@@ -970,7 +972,8 @@ public class Invoice extends Transaction implements Lifecycle {
 				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
 				Customer customer = (Customer) session.get(Customer.class,
 						invoice.customer.getID());
-				customer.updateBalance(session, this, invoice.total);
+				customer.updateBalance(session, this, invoice.total,
+						invoice.getCurrencyFactor());
 				this.customer.updateBalance(session, this, -this.total);
 				// }
 			}
@@ -1127,8 +1130,12 @@ public class Invoice extends Transaction implements Lifecycle {
 	}
 
 	public void updateBalance(double amount, Transaction transaction) {
+		updateBalance(amount, transaction, transaction.getCurrencyFactor());
+	}
+
+	public void updateBalance(double amount, Transaction transaction,
+			double currencyFactor) {
 		Session session = HibernateUtil.getCurrentSession();
-		double currencyFactor = transaction.getCurrencyFactor();
 
 		double amountToUpdate = amount * this.currencyFactor;
 
@@ -1143,7 +1150,7 @@ public class Invoice extends Transaction implements Lifecycle {
 		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
 		customer.updateBalance(session, transaction, diff / currencyFactor,
-				false);
+				currencyFactor, false);
 		updateStatus();
 	}
 

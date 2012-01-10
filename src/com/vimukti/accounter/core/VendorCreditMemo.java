@@ -249,7 +249,8 @@ public class VendorCreditMemo extends Transaction {
 			 * same vendors.
 			 */
 
-			if (vendorCreditMemo.vendor.getID() != this.vendor.getID()) {
+			if (vendorCreditMemo.vendor.getID() != this.vendor.getID()
+					|| isCurrencyFactorChanged()) {
 
 				voidCreditsAndPayments(vendorCreditMemo);
 
@@ -264,20 +265,22 @@ public class VendorCreditMemo extends Transaction {
 				session.save(creditsAndPayments);
 
 			}
-			if (this.vendor.getID() == vendorCreditMemo.vendor.getID()
-					&& (!DecimalUtil.isEquals(this.total,
-							vendorCreditMemo.total))) {
+			if ((this.vendor.getID() == vendorCreditMemo.vendor.getID() && (!DecimalUtil
+					.isEquals(this.total, vendorCreditMemo.total)))
+					|| isCurrencyFactorChanged()) {
 
-				if (DecimalUtil.isLessThan(this.total, vendorCreditMemo.total)) {
-					this.vendor.updateBalance(session, this,
-							vendorCreditMemo.total - this.total);
-					this.creditsAndPayments.updateCreditPayments(this.total);
-				} else {
-
-					this.vendor.updateBalance(session, this,
-							vendorCreditMemo.total - this.total);
-					this.creditsAndPayments.updateCreditPayments(this.total);
-				}
+				// if (DecimalUtil.isLessThan(this.total,
+				// vendorCreditMemo.total)) {
+				vendor.updateBalance(session, this, vendorCreditMemo.total,
+						vendorCreditMemo.getCurrencyFactor());
+				this.vendor.updateBalance(session, this, -this.total);
+				this.creditsAndPayments.updateCreditPayments(this.total);
+				// } else {
+				//
+				// this.vendor.updateBalance(session, this,
+				// vendorCreditMemo.total - this.total);
+				// this.creditsAndPayments.updateCreditPayments(this.total);
+				// }
 
 				// session.saveOrUpdate(this.creditsAndPayments);
 

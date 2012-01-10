@@ -420,27 +420,30 @@ public class CustomerCreditMemo extends Transaction implements
 			// HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
 			// }
 
-			if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total)) {
-				this.customer.updateBalance(session, this, this.total
-						- customerCreditMemo.total);
-				this.creditsAndPayments.updateCreditPayments(this.total);
-			} else {
-				// this.total = this.total - customerCreditMemo.total;
-				this.customer.updateBalance(session, this, this.total
-						- customerCreditMemo.total);
-				if (creditsAndPayments != null) {
-					this.creditsAndPayments.updateCreditPayments(this.total);
-				}
+			// if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total))
+			// {
+			customerCreditMemo.getCustomer().updateBalance(session, this,
+					-customerCreditMemo.total,
+					customerCreditMemo.getCurrencyFactor());
+			this.customer.updateBalance(session, this, this.total);
+			this.creditsAndPayments.updateCreditPayments(this.total);
+			// } else {
+			// // this.total = this.total - customerCreditMemo.total;
+			// this.customer.updateBalance(session, this, this.total
+			// - customerCreditMemo.total);
+			// if (creditsAndPayments != null) {
+			// this.creditsAndPayments.updateCreditPayments(this.total);
+			// }
 
-				// CreditsAndPayments creditsAndPayments = new
-				// CreditsAndPayments(
-				// this);
-				// session.saveOrUpdate(creditsAndPayments);
-				// this.creditsAndPayments
-				// .updateCreditPayments(customerCreditMemo.total
-				// - this.total);
+			// CreditsAndPayments creditsAndPayments = new
+			// CreditsAndPayments(
+			// this);
+			// session.saveOrUpdate(creditsAndPayments);
+			// this.creditsAndPayments
+			// .updateCreditPayments(customerCreditMemo.total
+			// - this.total);
 
-			}
+			// }
 			// session.saveOrUpdate(this.creditsAndPayments);
 
 		}

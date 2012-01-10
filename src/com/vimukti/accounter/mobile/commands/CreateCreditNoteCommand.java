@@ -320,7 +320,7 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 		}
 		get(ITEMS).setValue(items);
 		get(ACCOUNTS).setValue(accounts);
-		get(IS_VAT_INCLUSIVE).setValue(creditMemo.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditMemo));
 	}
 
 	@Override
@@ -397,7 +397,7 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 		items.addAll(accounts);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			creditMemo.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(creditMemo, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

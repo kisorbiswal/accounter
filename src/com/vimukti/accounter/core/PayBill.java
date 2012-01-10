@@ -559,7 +559,8 @@ public class PayBill extends Transaction {
 		double amountEffectedToAccount = total - tdsTotal;
 		double preAmountEffectedToAccount = payBill.getTotal()
 				- payBill.getTdsTotal();
-		if (this.payFrom.getID() != payBill.getPayFrom().getID()) {
+		if (this.payFrom.getID() != payBill.getPayFrom().getID()
+				|| isCurrencyFactorChanged()) {
 			Account old = payBill.getPayFrom();
 			old.updateCurrentBalance(this, -1 * preAmountEffectedToAccount,
 					payBill.getCurrencyFactor());
@@ -569,17 +570,22 @@ public class PayBill extends Transaction {
 			session.update(payFrom);
 		} else if (!DecimalUtil.isEquals(amountEffectedToAccount,
 				preAmountEffectedToAccount)) {
-			payFrom.updateCurrentBalance(this, amountEffectedToAccount
-					- preAmountEffectedToAccount, currencyFactor);
+			payBill.getPayFrom().updateCurrentBalance(this,
+					-preAmountEffectedToAccount, payBill.getCurrencyFactor());
+			payFrom.updateCurrentBalance(this, amountEffectedToAccount,
+					currencyFactor);
 			session.update(payFrom);
 		}
 
 		double amountToVendor = this.unusedAmount - this.total;
 		double oldAmountToVendor = payBill.getUnusedAmount()
 				- payBill.getTotal();
-		if (!DecimalUtil.isEquals(amountToVendor, oldAmountToVendor)) {
-			this.vendor.updateBalance(session, this, amountToVendor
-					- oldAmountToVendor);
+		if (!DecimalUtil.isEquals(amountToVendor, oldAmountToVendor)
+				|| this.getCurrencyFactor() != payBill.getCurrencyFactor()) {
+			this.vendor.updateBalance(session, this, -oldAmountToVendor,
+					payBill.getCurrencyFactor());
+			this.vendor.updateBalance(session, this, amountToVendor,
+					this.getCurrencyFactor());
 		}
 
 		if (payBill.getCreditsAndPayments() != null) {

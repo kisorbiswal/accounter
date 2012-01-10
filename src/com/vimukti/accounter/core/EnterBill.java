@@ -592,13 +592,15 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			 * cloned and client Object vendor balances and PurchaseOrder
 			 */
 
-			if (enterBill.vendor.getID() != this.vendor.getID()) {
+			if (enterBill.vendor.getID() != this.vendor.getID()
+					|| isCurrencyFactorChanged()) {
 
 				// doVoidEffect(session, enterBill);
 
 				Vendor vendor = (Vendor) session.get(Vendor.class,
 						enterBill.vendor.getID());
-				vendor.updateBalance(session, this, -enterBill.total);
+				vendor.updateBalance(session, this, -enterBill.total,
+						enterBill.getCurrencyFactor());
 
 				// this.onSave(session);
 
@@ -652,7 +654,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					// modifyItemReceipt(this, true);
 				}
 
-				this.vendor.updateBalance(session, this, -enterBill.total);
+				this.vendor.updateBalance(session, this, -enterBill.total,
+						enterBill.getCurrencyFactor());
 
 				this.vendor.updateBalance(session, this, this.total);
 
@@ -1052,7 +1055,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate.setDeliveryDate(new FinanceDate());
 					estimate.setNumber(NumberUtils.getNextTransactionNumber(
 							Transaction.TYPE_ESTIMATE, getCompany()));
-					estimate.setAmountsIncludeVAT(isAmountsIncludeVAT());
 				}
 				List<TransactionItem> transactionItems2 = estimate
 						.getTransactionItems();
@@ -1087,8 +1089,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	public void updateBalance(double amount, Transaction transaction) {
+		updateBalance(amount, transaction, transaction.getCurrencyFactor());
+	}
+
+	public void updateBalance(double amount, Transaction transaction,
+			double currencyFactor) {
 		Session session = HibernateUtil.getCurrentSession();
-		double currencyFactor = transaction.getCurrencyFactor();
 
 		double amountToUpdate = amount * this.currencyFactor;
 
@@ -1102,7 +1108,8 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				.getExchangeLossOrGainAccount();
 		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
-		vendor.updateBalance(session, transaction, diff / currencyFactor, false);
+		vendor.updateBalance(session, transaction, diff / currencyFactor,
+				currencyFactor, false);
 		updateStatus();
 	}
 

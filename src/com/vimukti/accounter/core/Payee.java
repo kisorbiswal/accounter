@@ -322,7 +322,13 @@ public abstract class Payee extends CreatableObject implements
 
 	public void updateBalance(Session session, Transaction transaction,
 			double amount) {
-		updateBalance(session, transaction, amount, true);
+		updateBalance(session, transaction, amount,
+				transaction.getCurrencyFactor());
+	}
+
+	public void updateBalance(Session session, Transaction transaction,
+			double amount, double currencyFactory) {
+		updateBalance(session, transaction, amount, currencyFactory, true);
 	}
 
 	/**
@@ -337,7 +343,8 @@ public abstract class Payee extends CreatableObject implements
 	 */
 
 	public void updateBalance(Session session, Transaction transaction,
-			double amount, boolean updateBalanceInPayeeCurrency) {
+			double amount, double currencyFactor,
+			boolean updateBalanceInPayeeCurrency) {
 
 		/**
 		 * To check whether this payee is Customer, Vendor or Tax Agency.
@@ -383,8 +390,7 @@ public abstract class Payee extends CreatableObject implements
 		 * null
 		 */
 		if (account != null) {
-			account.updateCurrentBalance(transaction, amount,
-					transaction.getCurrencyFactor());
+			account.updateCurrentBalance(transaction, amount, currencyFactor);
 			session.update(account);
 			account.onUpdate(session);
 		}

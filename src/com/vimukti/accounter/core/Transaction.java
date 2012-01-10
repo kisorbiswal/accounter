@@ -231,8 +231,6 @@ public abstract class Transaction extends CreatableObject implements
 
 	List<WareHouseAllocation> wareHouseAllocations;
 
-	// For UK version only
-	boolean amountsIncludeVAT;
 	transient protected boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
@@ -243,6 +241,7 @@ public abstract class Transaction extends CreatableObject implements
 	 * or anything else.
 	 */
 	private boolean isAutomaticTransaction;
+	public transient double previousCurrencyFactor;
 
 	public String getPaymentMethod() {
 		return paymentMethod;
@@ -329,21 +328,6 @@ public abstract class Transaction extends CreatableObject implements
 	public void setTransactionMakeDepositEntries(
 			TransactionMakeDepositEntries transactionMakeDepositEntries) {
 		this.transactionMakeDepositEntries = transactionMakeDepositEntries;
-	}
-
-	/**
-	 * @return the amountsIncludeVAT
-	 */
-	public boolean isAmountsIncludeVAT() {
-		return amountsIncludeVAT;
-	}
-
-	/**
-	 * @param amountsIncludeVAT
-	 *            the amountsIncludeVAT to set
-	 */
-	public void setAmountsIncludeVAT(boolean amountsIncludeVAT) {
-		this.amountsIncludeVAT = amountsIncludeVAT;
 	}
 
 	public String getReference() {
@@ -678,6 +662,7 @@ public abstract class Transaction extends CreatableObject implements
 	public void onLoad(Session session, Serializable arg1) {
 		this.previousTotal = total;
 		this.isVoidBefore = isVoid();
+		this.previousCurrencyFactor = currencyFactor;
 	}
 
 	/**
@@ -1080,7 +1065,7 @@ public abstract class Transaction extends CreatableObject implements
 			return false;
 		}
 
-		double lineTotal = this.isAmountsIncludeVAT() ? transactionItem
+		double lineTotal = transactionItem.isAmountIncludeTAX() ? transactionItem
 				.getLineTotal() - transactionItem.getVATfraction()
 				: transactionItem.getLineTotal();
 
@@ -1547,5 +1532,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean isTemplate() {
 		return this.saveStatus == STATUS_TEMPLATE;
+	}
+
+	protected boolean isCurrencyFactorChanged() {
+		return currencyFactor != previousCurrencyFactor;
 	}
 }

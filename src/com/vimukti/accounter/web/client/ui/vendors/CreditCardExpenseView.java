@@ -778,7 +778,7 @@ public class CreditCardExpenseView extends
 					}
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 
@@ -988,9 +988,7 @@ public class CreditCardExpenseView extends
 		if (cheqNoText.getValue() != null)
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
-		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-		}
+		setAmountIncludeTAX();
 
 		// setting delivery date
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));

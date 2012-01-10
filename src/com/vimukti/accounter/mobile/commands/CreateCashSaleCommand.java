@@ -519,7 +519,7 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			cashSale.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(cashSale, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

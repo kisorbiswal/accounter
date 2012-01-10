@@ -25,7 +25,6 @@
 		<property name="subTotal" column="SUB_TOTAL"></property>
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
 		<property name="totalNonTaxableAmount" column="TOTAL_NON_TAXABLE_AMOUNT"></property>
-		<property name="amountsIncludeVAT" column="AMOUNTS_INCLUDE_VAT"></property>
 		<!-- <property name="EUVATExemptPayee" column="EU_VAT_EXEMPT_PAYEE"></property> -->
 		<!-- <property name="isVATreturned" column="IS_VAT_RETURNED"></property> -->
 		<list name="transactionItems" cascade="save-update,delete-orphan">
@@ -1071,6 +1070,7 @@
 		<many-to-one name="accounterClass" class="AccounterClass"
 			column="TRANS_ITEM_ACCOUNTER_CLASS">
 		</many-to-one>
+		<property name="isAmountIncludeTAX" column="AMOUNTS_INCLUDE_TAX"></property>
 	</class>
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">

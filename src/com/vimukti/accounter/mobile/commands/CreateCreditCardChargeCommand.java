@@ -369,7 +369,7 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(creditCardCharge, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -462,7 +462,7 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 						AccounterCoreType.ACCOUNT));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
-		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditCardCharge));
 		/* get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor()); */
 		get(MEMO).setValue(creditCardCharge.getMemo());
 	}

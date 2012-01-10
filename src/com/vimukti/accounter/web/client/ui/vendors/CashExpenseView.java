@@ -68,9 +68,7 @@ public class CashExpenseView extends
 			updateTransaction();
 			if (getPreferences().isTrackPaidTax()) {
 				transaction.setNetAmount(netAmount.getAmount());
-				if (vatinclusiveCheck != null)
-					transaction.setAmountsIncludeVAT(vatinclusiveCheck
-							.getValue());
+				setAmountIncludeTAX();
 			}
 
 		}
@@ -748,7 +746,7 @@ public class CashExpenseView extends
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
@@ -850,8 +848,7 @@ public class CashExpenseView extends
 		updateTransaction();
 		if (getPreferences().isTrackPaidTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
-			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			setAmountIncludeTAX();
 		}
 		createAlterObject();
 	}

@@ -387,9 +387,9 @@ public class TransactionPayBill extends CreatableObject implements
 				&& DecimalUtil.isGreaterThan(this.getCashDiscount(), 0.0)) {
 
 			this.payBill.getVendor().updateBalance(session, this.payBill,
-					this.cashDiscount);
+					this.cashDiscount, payBill.previousCurrencyFactor);
 			this.discountAccount.updateCurrentBalance(this.payBill,
-					-this.cashDiscount, payBill.currencyFactor);
+					-this.cashDiscount, payBill.previousCurrencyFactor);
 			this.discountAccount.onUpdate(session);
 			session.saveOrUpdate(this.discountAccount);
 		}
@@ -414,7 +414,8 @@ public class TransactionPayBill extends CreatableObject implements
 		// this.payment = 0.0;
 		if (this.enterBill != null) {
 
-			this.enterBill.updateBalance(-amount, this.payBill);
+			this.enterBill.updateBalance(-amount, this.payBill,
+					payBill.previousCurrencyFactor);
 			session.saveOrUpdate(this.enterBill);
 			this.enterBill = null;
 

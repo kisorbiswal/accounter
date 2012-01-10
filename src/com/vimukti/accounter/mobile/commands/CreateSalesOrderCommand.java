@@ -352,7 +352,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 		}
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			newSalesOrder.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(newSalesOrder, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

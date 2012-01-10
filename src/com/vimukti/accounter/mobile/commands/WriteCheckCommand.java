@@ -356,7 +356,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			writeCheck.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(writeCheck, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
@@ -444,7 +444,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		get(NUMBER).setValue(writeCheck.getNumber());
 		get(AMOUNT).setValue(writeCheck.getNetAmount());
 		get(ACCOUNTS).setValue(writeCheck.getTransactionItems());
-		get(IS_VAT_INCLUSIVE).setValue(writeCheck.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(writeCheck));
 
 		get(MEMO).setValue(writeCheck.getMemo());
 	}

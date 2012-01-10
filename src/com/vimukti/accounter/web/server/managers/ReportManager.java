@@ -1049,10 +1049,7 @@ public class ReportManager extends Manager {
 
 			vd.setBoxName(setVATBoxName(v));
 
-			if (v.getTransaction().isAmountsIncludeVAT())
-				vd.setNetAmount(v.getLineTotal() - v.getVatAmount());
-			else
-				vd.setNetAmount(v.getLineTotal());
+			vd.setNetAmount(v.getLineTotal());
 
 			if (v.getTransaction().getInvolvedPayee() != null)
 				vd.setPayeeName(v.getTransaction().getInvolvedPayee().getName());
@@ -1151,25 +1148,7 @@ public class ReportManager extends Manager {
 					|| !vd1.getBoxName().equals(
 							AccounterServerConstants.UK_BOX10_UNCATEGORISED)) {
 
-				if (v.getTransaction().isAmountsIncludeVAT()) {
-					double totalAmount = v.getLineTotal() - v.getVatAmount();
-					// double totalAmount = (!v.getTransactionItem().isVoid()) ?
-					// (v
-					// .getLineTotal() - v.getVatAmount())
-					// : 0;
-
-					vd1.setTotal(totalAmount);
-				}
-				// vd1.setNetAmount();
-				// vd1.setTotal(v.getVatAmount());
-				else {
-					double totalAmount = v.getLineTotal();
-					// double totalAmount = (!v.getTransactionItem().isVoid()) ?
-					// v
-					// .getLineTotal() : 0;
-
-					vd1.setTotal(totalAmount);
-				}
+				vd1.setTotal(v.getLineTotal());
 				if (v.getTransaction().getInvolvedPayee() != null)
 					vd1.setPayeeName(v.getTransaction().getInvolvedPayee()
 							.getName());

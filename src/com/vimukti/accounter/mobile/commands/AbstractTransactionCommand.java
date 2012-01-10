@@ -66,8 +66,8 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
-		double[] result = getTransactionTotal(
-				transaction.isAmountsIncludeVAT(), allrecords, isSales);
+		double[] result = getTransactionTotal(isAmountIncludeTAX(transaction),
+				allrecords, isSales);
 		double grandTotal = result[0] + result[1];
 		transaction.setTotal(grandTotal);
 		transaction.setNetAmount(result[0]);
@@ -343,5 +343,24 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	// protected abstract Payee getPayee();
 
 	protected abstract Currency getCurrency();
+
+	protected boolean isAmountIncludeTAX(ClientTransaction transaction) {
+		if (transaction == null || transaction.getTransactionItems() == null) {
+			return false;
+		}
+		for (ClientTransactionItem item : transaction.getTransactionItems()) {
+			if (item.getReferringTransactionItem() == 0) {
+				return item.isAmountIncludeTAX();
+			}
+		}
+		return false;
+	}
+
+	protected void setAmountIncludeTAX(ClientTransaction transaction,
+			boolean isAmountIncludeTAX) {
+		for (ClientTransactionItem item : transaction.getTransactionItems()) {
+			item.setAmountIncludeTAX(isAmountIncludeTAX);
+		}
+	}
 
 }

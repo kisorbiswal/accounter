@@ -292,7 +292,7 @@ public class CreditCardChargeView extends
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
 			if (transaction.getPayFrom() != 0)
 				payFromAccountSelected(transaction.getPayFrom());
@@ -911,9 +911,7 @@ public class CreditCardChargeView extends
 		if (cheqNoText.getValue() != null)
 			transaction.setCheckNumber(cheqNoText.getValue().toString());
 
-		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-		}
+		setAmountIncludeTAX();
 
 		// setting delivery date
 		transaction.setDeliveryDate(UIUtils.toDate(delivDate.getValue()));

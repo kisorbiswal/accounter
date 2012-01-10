@@ -336,7 +336,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			estimate.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(estimate, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -552,7 +552,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				CommandUtils.getServerObjectById(estimate.getPaymentTerm(),
 						AccounterCoreType.PAYMENT_TERM));
 		get(MEMO).setValue(estimate.getMemo());
-		get(IS_VAT_INCLUSIVE).setValue(estimate.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(estimate));
 		get(PHONE).setValue(estimate.getPhone());
 	}
 

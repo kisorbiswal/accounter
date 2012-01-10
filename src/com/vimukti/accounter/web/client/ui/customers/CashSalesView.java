@@ -674,7 +674,7 @@ public class CashSalesView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			setAmountIncludeTAX();
 			transaction.setTaxTotal(salesTax);
 		}
 
@@ -837,7 +837,7 @@ public class CashSalesView extends
 					taxTotalNonEditableText.setTransaction(transaction);
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 			if (transaction.getTransactionItems() != null) {

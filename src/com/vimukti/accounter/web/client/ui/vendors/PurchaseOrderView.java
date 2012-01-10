@@ -857,7 +857,7 @@ public class PurchaseOrderView extends
 					taxCode = code;
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 
@@ -1138,9 +1138,7 @@ public class PurchaseOrderView extends
 		// transaction.setReference(getRefText());
 
 		if (isTrackTax()) {
-			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-
+			setAmountIncludeTAX();
 		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());

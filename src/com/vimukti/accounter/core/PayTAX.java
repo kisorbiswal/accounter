@@ -184,7 +184,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			doVoidEffect(session);
 		} else {
 			if ((payFrom.getID() != oldPayTAX.payFrom.getID())
-					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)) {
+					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)
+					|| isCurrencyFactorChanged()) {
 				Account account = (Account) session.get(Account.class,
 						payFrom.getID());
 				if (account != null) {

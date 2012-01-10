@@ -764,7 +764,7 @@ public class SalesOrderView extends
 			}
 
 			if (vatinclusiveCheck != null) {
-				vatinclusiveCheck.setValue(transaction.isAmountsIncludeVAT());
+				vatinclusiveCheck.setValue(isAmountIncludeTAX());
 			}
 			initAccounterClass();
 			// customerTransactionGrid.setRecords(transaction
@@ -921,9 +921,7 @@ public class SalesOrderView extends
 				// }
 				transaction.setTaxTotal(this.salesTax);
 			}
-			if (vatinclusiveCheck != null) {
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-			}
+			setAmountIncludeTAX();
 		}
 
 		if (isTrackDiscounts()) {

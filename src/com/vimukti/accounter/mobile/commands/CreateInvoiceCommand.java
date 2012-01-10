@@ -572,7 +572,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 		invoice.setSalesOrders(salesOrders);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			invoice.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(invoice, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -779,7 +779,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 		List<EstimatesAndSalesOrdersList> e = getEstimatesSalesOrderList();
 		get(ESTIMATEANDSALESORDER).setValue(e);
-		get(IS_VAT_INCLUSIVE).setValue(invoice.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(invoice));
 	}
 
 	/**

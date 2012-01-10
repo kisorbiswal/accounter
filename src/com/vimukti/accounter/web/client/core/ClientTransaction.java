@@ -137,10 +137,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	private long recurringTransaction;
 
-	// For UK version only
-
-	boolean amountsIncludeVAT;
-
 	long transactionMakeDepositEntries;
 
 	private long currency;
@@ -263,21 +259,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setTransactionMakeDepositEntries(
 			long transactionMakeDepositEntries) {
 		this.transactionMakeDepositEntries = transactionMakeDepositEntries;
-	}
-
-	/**
-	 * @return the amountsIncludeVAT
-	 */
-	public boolean isAmountsIncludeVAT() {
-		return amountsIncludeVAT;
-	}
-
-	/**
-	 * @param amountsIncludeVAT
-	 *            the amountsIncludeVAT to set
-	 */
-	public void setAmountsIncludeVAT(boolean amountsIncludeVAT) {
-		this.amountsIncludeVAT = amountsIncludeVAT;
 	}
 
 	public String getPaymentMethod() {

@@ -362,6 +362,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return vatinclusiveCheck;
 	}
 
+	protected boolean isAmountIncludeTAX() {
+		if (data == null || data.getTransactionItems() == null) {
+			return false;
+		}
+		for (ClientTransactionItem item : data.getTransactionItems()) {
+			if (item.getReferringTransactionItem() == 0) {
+				return item.isAmountIncludeTAX();
+			}
+		}
+		return false;
+	}
+
 	protected abstract void refreshTransactionGrid();
 
 	protected AmountField getDiscountField() {
@@ -1236,6 +1248,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				for (ClientAttachment attachment : getAttachments()) {
 					attachments.add(attachment);
 				}
+			}
+		}
+	}
+
+	protected void setAmountIncludeTAX() {
+		if (vatinclusiveCheck == null || transaction == null
+				|| transaction.getTransactionItems() == null) {
+			return;
+		}
+		for (ClientTransactionItem item : transaction.getTransactionItems()) {
+			if (item.getReferringTransactionItem() == 0) {
+				item.setAmountIncludeTAX(vatinclusiveCheck.getValue());
 			}
 		}
 	}

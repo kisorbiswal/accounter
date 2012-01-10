@@ -489,7 +489,7 @@ public class ItemReceiptView extends
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
 			if (transaction.getMemo() != null)
 				memoTextAreaItem.setValue(transaction.getMemo());
@@ -579,9 +579,7 @@ public class ItemReceiptView extends
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
 
-		if (vatinclusiveCheck != null)
-			transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-					.getValue());
+		setAmountIncludeTAX();
 
 		transaction.setPurchaseOrder(selectedPurchaseOrder);
 

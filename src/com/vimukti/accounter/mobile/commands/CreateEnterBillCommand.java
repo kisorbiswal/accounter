@@ -431,7 +431,7 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			enterBill.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(enterBill, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());

@@ -106,6 +106,8 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	private boolean isBillable;
 
+	private boolean isAmountIncludeTAX;
+
 	public Double getVATfraction() {
 		return VATfraction;
 	}
@@ -459,7 +461,6 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	}
 
-
 	// public void setTaxitem(String taxitem) {
 	// this.taxitem = taxitem;
 	// }
@@ -562,5 +563,20 @@ public class ClientTransactionItem implements IAccounterCore {
 
 	public void setWareHouse(long wareHouse) {
 		this.wareHouse = wareHouse;
+	}
+
+	/**
+	 * @return the isAmountIncludeTAX
+	 */
+	public boolean isAmountIncludeTAX() {
+		return isAmountIncludeTAX;
+	}
+
+	/**
+	 * @param isAmountIncludeTAX
+	 *            the isAmountIncludeTAX to set
+	 */
+	public void setAmountIncludeTAX(boolean isAmountIncludeTAX) {
+		this.isAmountIncludeTAX = isAmountIncludeTAX;
 	}
 }

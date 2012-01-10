@@ -494,9 +494,7 @@ public class CustomerCreditMemoView extends
 		// transaction.setReference(getRefText());
 		if (isTrackTax()) {
 			transaction.setNetAmount(netAmountLabel.getAmount());
-			if (vatinclusiveCheck != null) {
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-			}
+			setAmountIncludeTAX();
 			transaction.setTaxTotal(this.salesTax);
 		}
 		if (isTrackDiscounts()) {
@@ -571,7 +569,7 @@ public class CustomerCreditMemoView extends
 				}
 				taxTotalNonEditableText.setTransaction(transaction);
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 

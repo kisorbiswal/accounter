@@ -91,7 +91,7 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							cashPurchase.getTransactionItems(), context));
-			get(IS_VAT_INCLUSIVE).setValue(cashPurchase.isAmountsIncludeVAT());
+			get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(cashPurchase));
 		}
 		get(ITEMS).setValue(items);
 		get(ACCOUNTS).setValue(accounts);

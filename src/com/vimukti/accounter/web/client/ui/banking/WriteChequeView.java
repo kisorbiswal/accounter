@@ -654,9 +654,7 @@ public class WriteChequeView extends
 
 		// setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
-		if (vatinclusiveCheck != null) {
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-		}
+		setAmountIncludeTAX();
 
 		if (isTrackDiscounts()) {
 			if (discountField.getAmount() != 0.0 && transactionItems != null) {
@@ -1556,7 +1554,7 @@ public class WriteChequeView extends
 			}
 
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 
 			}
 			initMemoAndReference();

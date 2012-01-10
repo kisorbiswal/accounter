@@ -391,20 +391,20 @@ public class Estimate extends Transaction {
 		double totalTax = 0.0;
 		for (TransactionItem record : this.getTransactionItems()) {
 			Double lineTotalAmt = record.getLineTotal();
-			lineTotal += lineTotalAmt;
+			Double vaTfraction = record.getVATfraction();
+			if (record.isAmountIncludeTAX()) {
+				lineTotalAmt = lineTotalAmt - vaTfraction;
+			}
 			if (record != null && record.isTaxable()) {
 				chekingTaxCodeNull(record.taxCode);
 				totalTax += record.getVATfraction();
 			}
+			lineTotal += lineTotalAmt;
+
 		}
 		setTaxTotal(totalTax);
-		if (!amountsIncludeVAT) {
-			setNetAmount(lineTotal);
-			setTotal(totalTax + lineTotal);
-		} else {
-			setNetAmount(lineTotal - totalTax);
-			setTotal(lineTotal);
-		}
+		setNetAmount(lineTotal);
+		setTotal(totalTax + lineTotal);
 	}
 
 	public void setTaxTotal(double taxTotal) {

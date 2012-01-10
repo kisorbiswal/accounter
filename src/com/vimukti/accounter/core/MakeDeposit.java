@@ -245,7 +245,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 		} else {
 			if (this.depositIn.getID() != makeDeposit.depositIn.getID()
-					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
+					|| isCurrencyFactorChanged()) {
 				Account depositInAccount = (Account) session.get(Account.class,
 						makeDeposit.depositIn.getID());
 				depositInAccount.updateCurrentBalance(this, makeDeposit.total,
@@ -259,7 +260,8 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 				session.saveOrUpdate(this.depositIn);
 			}
 			if (this.depositFrom.getID() != makeDeposit.depositFrom.getID()
-					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)) {
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
+					|| isCurrencyFactorChanged()) {
 				Account depositFromAccount = (Account) session.get(
 						Account.class, makeDeposit.depositFrom.getID());
 				depositFromAccount.updateCurrentBalance(this,

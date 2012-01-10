@@ -322,7 +322,7 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			vendorCreditMemo.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(vendorCreditMemo, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());

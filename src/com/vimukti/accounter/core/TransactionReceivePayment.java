@@ -429,13 +429,14 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 			// update the corresponding payee with discount amount
 			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, -this.cashDiscount);
+					this.receivePayment, -this.cashDiscount,
+					receivePayment.previousCurrencyFactor);
 
 			// updating the corresponding discount account current balance
 			// with
 			// discount amount
 			this.discountAccount.updateCurrentBalance(this.receivePayment,
-					this.cashDiscount, receivePayment.currencyFactor);
+					this.cashDiscount, receivePayment.previousCurrencyFactor);
 			this.discountAccount.onUpdate(session);
 		}
 
@@ -444,13 +445,14 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 			// update the corresponding payee with write off amount
 			this.receivePayment.getCustomer().updateBalance(session,
-					this.receivePayment, -this.writeOff);
+					this.receivePayment, -this.writeOff,
+					receivePayment.previousCurrencyFactor);
 
 			// updating the corresponding write off account current balance
 			// with
 			// write off amount
 			this.writeOffAccount.updateCurrentBalance(this.receivePayment,
-					this.writeOff, receivePayment.currencyFactor);
+					this.writeOff, receivePayment.previousCurrencyFactor);
 			this.writeOffAccount.onUpdate(session);
 		}
 
@@ -475,7 +477,8 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		// this.payment = 0.0;
 
 		if (this.getInvoice() != null) {
-			this.getInvoice().updateBalance(-amount, this.receivePayment);
+			this.getInvoice().updateBalance(-amount, this.receivePayment,
+					receivePayment.previousCurrencyFactor);
 			session.saveOrUpdate(this.getInvoice());
 			this.invoice = null;
 		} else if (this.getCustomerRefund() != null) {

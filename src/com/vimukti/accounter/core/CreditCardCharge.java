@@ -261,7 +261,8 @@ public class CreditCardCharge extends Transaction {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
 
-			if (this.payFrom.getID() != creditCardCharge.getPayFrom().getID()) {
+			if (this.payFrom.getID() != creditCardCharge.getPayFrom().getID()
+					|| isCurrencyFactorChanged()) {
 				Account prePayFrom = (Account) session.get(Account.class,
 						creditCardCharge.payFrom.getID());
 				prePayFrom.updateCurrentBalance(this, -creditCardCharge.total,
@@ -270,13 +271,11 @@ public class CreditCardCharge extends Transaction {
 				this.payFrom.updateCurrentBalance(this, this.total,
 						this.currencyFactor);
 				payFrom.onUpdate(session);
-
 			} else if (!DecimalUtil.isEquals(this.getTotal(),
 					creditCardCharge.getTotal())) {
 				this.payFrom.updateCurrentBalance(this, this.total
 						- creditCardCharge.total,
 						creditCardCharge.currencyFactor);
-				// session.update(this.payFrom);
 				this.payFrom.onUpdate(session);
 			}
 

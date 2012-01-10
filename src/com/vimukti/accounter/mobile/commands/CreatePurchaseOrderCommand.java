@@ -108,7 +108,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		get(ORDER_NO).setValue(purchaseOrder.getPurchaseOrderNumber());
 		get(BILL_TO).setValue(purchaseOrder.getShippingAddress());
 		/* get(CURRENCY_FACTOR).setValue(purchaseOrder.getCurrencyFactor()); */
-		get(IS_VAT_INCLUSIVE).setValue(purchaseOrder.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(purchaseOrder));
 		get(MEMO).setValue(purchaseOrder.getMemo());
 	}
 
@@ -509,7 +509,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			purchaseOrder.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(purchaseOrder, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());

@@ -160,7 +160,7 @@ public class VendorBillView extends
 					}
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 
@@ -966,17 +966,13 @@ public class VendorBillView extends
 
 		if (selectedItemReceipt != 0)
 			transaction.setItemReceipt(selectedItemReceipt);
-		if (vatinclusiveCheck != null)
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
 
 		if (selectedPurchaseOrder != 0)
 			transaction.setPurchaseOrder(selectedPurchaseOrder);
 
 		if (isTrackTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
-			if (vatinclusiveCheck != null)
-				transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-
+			setAmountIncludeTAX();
 		}
 
 		if (isTrackDiscounts()) {

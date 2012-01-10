@@ -721,9 +721,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		quote.setNetAmount(netAmountLabel.getAmount());
 
 		if (isTrackTax()) {
-			if (vatinclusiveCheck != null) {
-				quote.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
-			}
+			setAmountIncludeTAX();
 			if (salesTax == null)
 				salesTax = 0.0D;
 			quote.setTaxTotal(this.salesTax);
@@ -888,7 +886,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				vatTotalNonEditableText.setTransaction(transaction);
 			}
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {

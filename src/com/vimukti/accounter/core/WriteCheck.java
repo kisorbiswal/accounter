@@ -321,12 +321,13 @@ public class WriteCheck extends Transaction {
 		if (!this.isVoid() && !writeCheck.isVoid() && !isDraftOrTemplate()) {
 
 			if (this.bankAccount.getID() != writeCheck.bankAccount.getID()
-					|| !DecimalUtil.isEquals(this.total, writeCheck.total)) {
+					|| !DecimalUtil.isEquals(this.total, writeCheck.total)
+					|| isCurrencyFactorChanged()) {
 
 				Account account = (Account) session.get(Account.class,
 						writeCheck.bankAccount.getID());
 				account.updateCurrentBalance(this, -writeCheck.total,
-						currencyFactor);
+						writeCheck.currencyFactor);
 				session.update(account);
 				account.onUpdate(session);
 

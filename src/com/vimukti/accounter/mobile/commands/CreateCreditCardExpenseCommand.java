@@ -398,7 +398,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			creditCardCharge.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(creditCardCharge, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
@@ -507,7 +507,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 		}
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
-		get(IS_VAT_INCLUSIVE).setValue(creditCardCharge.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditCardCharge));
 		get(MEMO).setValue(creditCardCharge.getMemo());
 	}
 

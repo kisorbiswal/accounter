@@ -307,7 +307,7 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			creditMemo.setAmountsIncludeVAT(isVatInclusive);
+			setAmountIncludeTAX(creditMemo, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
@@ -382,7 +382,7 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 		get(NUMBER).setValue(creditMemo.getNumber());
 		get(CONTACT).setValue(toServerContact(creditMemo.getContact()));
 		get(BILL_TO).setValue(creditMemo.getBillingAddress());
-		get(IS_VAT_INCLUSIVE).setValue(creditMemo.isAmountsIncludeVAT());
+		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditMemo));
 		get(CUSTOMER).setValue(
 				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
 						AccounterCoreType.CUSTOMER));

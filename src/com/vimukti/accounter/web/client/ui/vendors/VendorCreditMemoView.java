@@ -134,7 +134,7 @@ public class VendorCreditMemoView extends
 					}
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 
 			}
@@ -600,8 +600,7 @@ public class VendorCreditMemoView extends
 		// itemReceipt.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
 		// .getValue());
 
-		if (vatinclusiveCheck != null)
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+		setAmountIncludeTAX();
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());

@@ -1055,7 +1055,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 				}
 				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 			if (transaction.getTransactionItems() != null) {
@@ -1367,7 +1367,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transaction.setNetAmount(netAmountLabel.getAmount());
 		if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
-			transaction.setAmountsIncludeVAT(vatinclusiveCheck.getValue());
+			setAmountIncludeTAX();
 			// } else {
 			// if (taxCode != null) {
 			// for (ClientTransactionItem record : customerTransactionTable

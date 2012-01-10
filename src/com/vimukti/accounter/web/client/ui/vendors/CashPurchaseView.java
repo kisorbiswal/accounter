@@ -669,7 +669,7 @@ public class CashPurchaseView extends
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			if (vatinclusiveCheck != null) {
-				setAmountIncludeChkValue(transaction.isAmountsIncludeVAT());
+				setAmountIncludeChkValue(isAmountIncludeTAX());
 			}
 			initAccounterClass();
 		}
@@ -880,10 +880,7 @@ public class CashPurchaseView extends
 
 		if (isTrackPaidTax()) {
 			transaction.setNetAmount(netAmount.getAmount());
-			if (vatinclusiveCheck != null) {
-				transaction.setAmountsIncludeVAT((Boolean) vatinclusiveCheck
-						.getValue());
-			}
+			setAmountIncludeTAX();
 		}
 	}
 

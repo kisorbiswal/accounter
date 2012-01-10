@@ -172,6 +172,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private boolean isBillable;
 
+	private boolean isAmountIncludeTAX;
+
 	public TransactionItem() {
 
 	}
@@ -362,7 +364,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				Account effectingAccount = this.getEffectingAccount();
 				if (effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction, -1
-							* this.updateAmount, transaction.currencyFactor);
+							* this.updateAmount,
+							transaction.previousCurrencyFactor);
 
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
@@ -473,7 +476,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// }
 		if (shouldUpdateAccounts(false)) {
 			Double amount = (isPositiveTransaction() ? 1d : -1d)
-					* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+					* (this.isAmountIncludeTAX() ? this.lineTotal
 							- this.VATfraction : this.lineTotal);
 			this.setUpdateAmount(amount);
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
@@ -646,7 +649,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	public Double getEffectiveAmount() {
 		Double amount = (isPositiveTransaction() ? -1d : 1d)
-				* (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
+				* (this.isAmountIncludeTAX() ? this.lineTotal
 						- this.VATfraction : this.lineTotal);
 		return amount;
 	}
@@ -860,5 +863,20 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			valid = false;
 		}
 		return valid;
+	}
+
+	/**
+	 * @return the isAmountIncludeTAX
+	 */
+	public boolean isAmountIncludeTAX() {
+		return isAmountIncludeTAX;
+	}
+
+	/**
+	 * @param isAmountIncludeTAX
+	 *            the isAmountIncludeTAX to set
+	 */
+	public void setAmountIncludeTAX(boolean isAmountIncludeTAX) {
+		this.isAmountIncludeTAX = isAmountIncludeTAX;
 	}
 }

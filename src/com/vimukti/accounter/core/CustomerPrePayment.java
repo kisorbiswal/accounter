@@ -232,17 +232,19 @@ public class CustomerPrePayment extends Transaction {
 				session.save(creditsAndPayments);
 
 			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
-					this.total)) {
+					this.total) || isCurrencyFactorChanged()) {
 
 				customerPrePayment.customer.updateBalance(session, this,
-						-customerPrePayment.total);
+						-customerPrePayment.total,
+						customerPrePayment.getCurrencyFactor());
 				this.customer.updateBalance(session, this, +this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
 
 			}
 			if (this.depositIn.getID() != customerPrePayment.depositIn.getID()
 					|| !DecimalUtil.isEquals(this.total,
-							customerPrePayment.total)) {
+							customerPrePayment.total)
+					|| isCurrencyFactorChanged()) {
 
 				Account depositInAccount = (Account) session.get(Account.class,
 						customerPrePayment.depositIn.getID());

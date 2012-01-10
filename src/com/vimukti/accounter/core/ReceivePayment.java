@@ -539,7 +539,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			}
 		} else {
 
-			if (this.depositIn.getID() != receivePayment.getDepositIn().getID()) {
+			if (this.depositIn.getID() != receivePayment.getDepositIn().getID()
+					|| isCurrencyFactorChanged()) {
 				Account old = receivePayment.getDepositIn();
 				old.updateCurrentBalance(this, receivePayment.getAmount(),
 						receivePayment.getCurrencyFactor());
@@ -554,9 +555,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				session.update(depositIn);
 			}
 
-			if (!DecimalUtil.isEquals(this.total, receivePayment.getTotal())) {
-				customer.updateBalance(session, this, this.total
-						- receivePayment.getTotal());
+			if (!DecimalUtil.isEquals(this.total, receivePayment.getTotal())
+					|| isCurrencyFactorChanged()) {
+				customer.updateBalance(session, this,
+						-receivePayment.getTotal(),
+						receivePayment.getCurrencyFactor());
+
+				customer.updateBalance(session, this, this.total);
 			}
 
 			if (!DecimalUtil.isEquals(this.tdsTotal,
@@ -564,7 +569,8 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				Account tdsAccount = getTDSAccount();
 				if (tdsAccount != null) {
 					tdsAccount.updateCurrentBalance(this,
-							receivePayment.getTdsTotal(), currencyFactor);
+							receivePayment.getTdsTotal(),
+							receivePayment.getCurrencyFactor());
 					tdsAccount.updateCurrentBalance(this, -tdsTotal,
 							currencyFactor);
 					session.save(tdsAccount);

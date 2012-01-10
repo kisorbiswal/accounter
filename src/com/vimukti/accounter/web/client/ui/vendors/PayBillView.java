@@ -807,7 +807,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			List<ClientTransactionPayBill> allRows = grid.getSelectedRecords();
 			for (ClientTransactionPayBill c : allRows) {
 				if (c.creditsAppliedManually) {
-					totalCredits -= c.getAppliedCredits();
+					// totalCredits -= c.getAppliedCredits();
 					continue;
 				}
 				double creditsToApply = Math

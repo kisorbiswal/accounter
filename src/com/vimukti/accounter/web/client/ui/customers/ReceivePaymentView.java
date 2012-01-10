@@ -244,6 +244,10 @@ public class ReceivePaymentView extends
 			List<ClientTransactionReceivePayment> allRows = gridView
 					.getSelectedRecords();
 			for (ClientTransactionReceivePayment c : allRows) {
+				if (c.creditsAppliedManually) {
+					// totalCredits -= c.getAppliedCredits();
+					continue;
+				}
 				double creditsToApply = Math
 						.min(c.getAmountDue(), totalCredits);
 				c.setAppliedCredits(creditsToApply, false);
