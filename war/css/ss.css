@@ -1024,10 +1024,13 @@ a#fdbk_tab:hover {
 .companies-list a:FIRST-CHILD {
 	float: left;
 }
+.companies-list-page select {
+    margin-top: 17px !important;
+}
 #language_picker select{
 	float: right;
-	width: 90px;
-	margin-top: 17px;
+    margin-bottom: 5px;
+    width: 90px;	
 }
 .company_lists{
 	clear:both;
