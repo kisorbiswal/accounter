@@ -15,8 +15,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class PercentageField extends TextItem {
 	private Double percentage;
 	private WidgetWithErrors errorsWidget;
-	AccounterMessages messages = GWT
-			.create(AccounterMessages.class);
+	AccounterMessages messages = GWT.create(AccounterMessages.class);
 
 	public PercentageField(WidgetWithErrors errorsWidget, final String name) {
 		this.errorsWidget = errorsWidget;
@@ -44,8 +43,7 @@ public class PercentageField extends TextItem {
 						if (DecimalUtil.isLessThan(enteredPercentageValue, 0)
 								|| DecimalUtil.isLessThan(
 										enteredPercentageValue, 100)) {
-							Accounter.showError(messages
-									.invalidateEntry());
+							Accounter.showError(messages.invalidateEntry());
 						}
 						if (enteredPercentageValue != null) {
 							setPercentage(enteredPercentageValue);
@@ -81,17 +79,21 @@ public class PercentageField extends TextItem {
 						if (enteredPercentageValue != null) {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
-								
-								errorsWidget.addError(this, messages.cantenternegnumber());
+
+								errorsWidget.addError(this,
+										messages.cantenternegnumber());
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
-								
-								errorsWidget.addError(this, messages.cantentermorethat100());
-								
+
+								errorsWidget.addError(this,
+										messages.cantentermorethat100());
+
 								setPercentage(0.0);
-							} else
+							} else {
 								setPercentage(enteredPercentageValue);
+								errorsWidget.clearError(this);
+							}
 						}
 					} else {
 						setPercentage(0.0);
