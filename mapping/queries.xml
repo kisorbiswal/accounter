@@ -444,7 +444,7 @@
 		<query-param name="transactionType" type="int" />
 		<query-param name="company" type="Company" />
 		select t.number from com.vimukti.accounter.core.Transaction t where
-		t.type =:transactionType and t.company=:company
+		t.type =:transactionType and t.company=:company order by number
 	</query>
 
 	<query name="getFlow.by.Id.from.Account">
