@@ -456,14 +456,14 @@ public interface IAccounterHomeViewServiceAsync {
 			int length, int viewType,
 			AsyncCallback<PaginationList<BillsList>> callback);
 
-	void getTDSTransactionItemsList(int chalanPer,
+	void getTDSTransactionItemsList(
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
 
 	void getTDSChalanDetailsList(
 			AsyncCallback<PaginationList<ClientTDSChalanDetail>> callback);
 
 	void getDeductorMasterDetails(
-			AsyncCallback<ArrayList<ClientTDSDeductorMasters>> callback);
+			AsyncCallback<ClientTDSDeductorMasters> callback);
 
 	void getIncomeExpensePortletInfo(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
@@ -500,7 +500,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<ArrayList<YearOverYearPortletData>> callback);
 
 	void getResponsiblePersonDetails(
-			AsyncCallback<ArrayList<ClientTDSResponsiblePerson>> accounterAsyncCallback);
+			AsyncCallback<ClientTDSResponsiblePerson> accounterAsyncCallback);
 
 	public void savePortletConfiguration(
 			ClientPortletConfiguration configuration,

@@ -1930,14 +1930,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(
-			int chalanPer) {
+	public ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList() {
 
 		List<ClientTDSTransactionItem> transactionItemList = null;
 		try {
 
-			transactionItemList = getFinanceTool().getTDSTransactionItemsList(
-					chalanPer, getCompanyId());
+			transactionItemList = getFinanceTool().getTDSTransactionItemsList(getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1960,18 +1958,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientTDSDeductorMasters> getDeductorMasterDetails() {
+	public ClientTDSDeductorMasters getDeductorMasterDetails() {
 
-		List<ClientTDSDeductorMasters> transactionItemList = null;
 		try {
 
-			transactionItemList = getFinanceTool().getTDSDeductorMasterDetails(
-					getCompanyId());
+			return getFinanceTool().getTDSDeductorMasterDetails(getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientTDSDeductorMasters>(transactionItemList);
+		return null;
 	}
 
 	@Override
@@ -2035,7 +2031,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear) {
-		List<ClientETDSFilling> etdsList = null;
+		List<ClientETDSFilling> etdsList = new ArrayList<ClientETDSFilling>();
 		try {
 
 			etdsList = getFinanceTool().getEtdsList(formNo, quater, startYear,
@@ -2080,17 +2076,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientTDSResponsiblePerson> getResponsiblePersonDetails() {
-		List<ClientTDSResponsiblePerson> transactionItemList = null;
+	public ClientTDSResponsiblePerson getResponsiblePersonDetails() {
 		try {
 
-			transactionItemList = getFinanceTool().getResponsiblePersonDetails(
-					getCompanyId());
+			return getFinanceTool().getResponsiblePersonDetails(getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientTDSResponsiblePerson>(transactionItemList);
+		return null;
 	}
 
 	@Override

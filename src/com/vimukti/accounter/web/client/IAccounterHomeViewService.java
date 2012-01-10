@@ -353,12 +353,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList();
 
-	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int chalanPer);
+	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList();
 
 	ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear);
 
-	ArrayList<ClientTDSDeductorMasters> getDeductorMasterDetails();
+	ClientTDSDeductorMasters getDeductorMasterDetails();
 
 	// for TDS
 
@@ -449,7 +449,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long accountId, int chartType) throws AccounterException;
 
-	ArrayList<ClientTDSResponsiblePerson> getResponsiblePersonDetails();
+	ClientTDSResponsiblePerson getResponsiblePersonDetails();
 
 	boolean savePortletConfiguration(ClientPortletConfiguration configuration);
 
