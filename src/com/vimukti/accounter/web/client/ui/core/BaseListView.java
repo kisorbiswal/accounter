@@ -418,6 +418,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 					(Resources) GWT.create(Resources.class), false,
 					pageSize * 2, true);
 			pager.setDisplay(grid);
+			updateRecordsCount(0, 0, 0);
 			mainVLay.add(pager);
 		}
 		add(mainVLay);
@@ -535,7 +536,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		if (result.isEmpty()) {
 			grid.removeAllRecords();
 			grid.addEmptyMessage(messages.noRecordsToShow());
-			
+
 			if (this instanceof BudgetListView) {
 				budgetEdit.setEnabled(false);
 			}
