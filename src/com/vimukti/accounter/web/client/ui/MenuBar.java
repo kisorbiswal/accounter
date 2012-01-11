@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
+import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class MenuBar {
@@ -79,6 +80,8 @@ public class MenuBar {
 	private boolean canDoManageAccounts;
 
 	private boolean isPriceLevelEnabled;
+
+	private String countryOrRegion;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -908,6 +911,11 @@ public class MenuBar {
 		}
 		companyMenuBar.addMenuItem(getCompanyListMenu(messages.companyLists()));
 
+		if (countryOrRegion.equals(CountryPreferenceFactory.SINGAPORE)) {
+			companyMenuBar.addMenuItem(messages.generateIrasAuditFile(),
+					HistoryTokens.GST_FILE);
+		}
+
 		return companyMenuBar;
 	}
 
@@ -1100,6 +1108,9 @@ public class MenuBar {
 		this.canDoManageAccounts = CanDoManageAccounts(clientUser);
 
 		this.isPriceLevelEnabled = preferences.isPricingLevelsEnabled();
+
+		this.countryOrRegion = preferences.getTradingAddress()
+				.getCountryOrRegion();
 
 		getMenuBar();
 	}
