@@ -40,8 +40,6 @@ public class EmailActivateServlet extends BaseServlet {
 		String validIP = ServerConfiguration.getValidIP();
 
 		if (!req.getRemoteHost().equals(validIP)) {
-			// resp.setContentType("text/html;charset=UTF-8");
-			// out.write("<html><body><h3><center>Email Not Activated</center></h3></body></html>");
 			redirectExternal(req, resp, "/main/emailActivation");
 		}
 		String email = req.getParameter("email").trim();
@@ -64,8 +62,6 @@ public class EmailActivateServlet extends BaseServlet {
 			query.setParameter("emailId", emailID.trim());
 			int updatedRows = query.executeUpdate();
 			transaction.commit();
-			// resp.setContentType("text/html;charset=UTF-8");
-			// out.write("<html><body><h3><center>Email  Activated</center></h3></body></html>");
 
 		} catch (Exception e) {
 			e.printStackTrace();
