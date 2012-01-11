@@ -251,7 +251,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			public void onClick(ClickEvent event) {
 				dateRangeSelector.addComboItem(messages.custom());
 				dateRangeSelector.setComboItem(messages.custom());
-				updateButton.setVisible(true);
+				updateButton.setEnabled(true);
 			}
 		});
 		updateButton = new Button(messages.update());
