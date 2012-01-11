@@ -49,26 +49,27 @@ public class OpenCompanyServlet extends BaseServlet {
 	private static final String COMPANY_NAME = "companyName";
 	private static final String USER_AGENT = "User-Agent";
 	private static final String SUPPORTED_BROWSERS_URL = "/WEB-INF/supportedbrowsers.jsp";
-	private static final String FILE_NAME = "config/patterns.txt";
+	private static final String FILE_NAME = "config/SupportedBrowsers.txt";
 
 	static Set<Pattern> patterns = new HashSet<Pattern>();
 
 	static {
 		File fileToRead = new File(FILE_NAME);
-		if (fileToRead.exists()) {
-			try {
-				FileReader fr = new FileReader(fileToRead);
-				BufferedReader br = new BufferedReader(fr);
-				while (true) {
-					String line = br.readLine();
-					if (line == null)
-						break;
-					patterns.add(Pattern.compile(line.trim()));
+		if (fileToRead != null)
+			if (fileToRead.exists()) {
+				try {
+					FileReader fr = new FileReader(fileToRead);
+					BufferedReader br = new BufferedReader(fr);
+					while (true) {
+						String line = br.readLine();
+						if (line == null)
+							break;
+						patterns.add(Pattern.compile(line.trim()));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-		}
 
 	}
 
