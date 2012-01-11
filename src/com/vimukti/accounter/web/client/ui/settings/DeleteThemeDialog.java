@@ -65,4 +65,9 @@ public class DeleteThemeDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }
