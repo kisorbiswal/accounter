@@ -165,11 +165,11 @@ public class TransactionDetailByAccountServerReport extends
 		case 3:
 			return 130;
 		case 4:
-			return 50;
+			return 60;
 		case 5:
-			return 115;
+			return 110;
 		case 6:
-			return 115;
+			return 110;
 		default:
 			return -1;
 		}
