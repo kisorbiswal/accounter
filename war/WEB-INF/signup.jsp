@@ -117,7 +117,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
     		<!--document.getElementById("signup").style.display="none";-->
 		});
 		
-		if('#select-box').keydown(function(event) {
+		$('#select-box').keydown(function(event) {
 			if (event.keyCode == '9') {
 			     event.preventDefault();
 			  $('#checkbox').focus();
