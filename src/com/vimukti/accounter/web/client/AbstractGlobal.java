@@ -113,22 +113,48 @@ public abstract class AbstractGlobal implements IGlobal {
 
 	@Override
 	public String vendors() {
-		return messages().vendors();
+		return Vendors();
 	}
 
 	@Override
 	public String customers() {
-		return messages().customers();
+		return Customers();
 	}
 
 	@Override
 	public String Customers() {
-		return messages().Customers();
+		int referCustomers = preferences().getReferCustomers();
+		switch (referCustomers) {
+		case ClientCustomer.CUSTOMER:
+			return messages().customers().trim();
+		case ClientCustomer.CLIENT:
+			return messages().Clients().trim();
+		case ClientCustomer.TENANT:
+			return messages().Tenants().trim();
+		case ClientCustomer.DONAR:
+			return messages().Donars().trim();
+		case ClientCustomer.GUEST:
+			return messages().Guests().trim();
+		case ClientCustomer.MEMBER:
+			return messages().Members().trim();
+		case ClientCustomer.PATITEINT:
+			return messages().Patients().trim();
+		default:
+			return messages().customers().trim();
+		}
 	}
 
 	@Override
 	public String Vendors() {
-		return messages().Vendors();
+		int referCustomers = preferences().getReferVendors();
+		switch (referCustomers) {
+		case ClientVendor.SUPPLIER:
+			return messages().suppliers().trim();
+		case ClientVendor.VENDOR:
+			return messages().Vendors().trim();
+		default:
+			return messages().Vendors().trim();
+		}
 	}
 
 	@Override
