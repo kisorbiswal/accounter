@@ -866,19 +866,25 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				setMode(EditMode.VIEW);
 			}
 
-			if (!isTaxPerDetailLine() && taxCodeSelect != null) {
-				this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
-				this.taxCodeSelect
-						.setComboItem(getTaxCodeForTransactionItems(this.transactionItems) == null ? taxCodeSelect
-								.getComboItems().get(0)
-								: getTaxCodeForTransactionItems(this.transactionItems));
-			}
-
 			statusCombo.setComboItem(getStatusString(transaction.getStatus()));
 
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
+				if (!isTaxPerDetailLine() && taxCodeSelect != null) {
+					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
+					if (taxCode != null) {
+						this.taxCodeSelect.setComboItem(taxCode);
+					} else {
+						if (getCustomer() != null) {
+							this.taxCode = getCompany().getTAXCode(
+									getCustomer().getTAXCode());
+							if (taxCode != null) {
+								this.taxCodeSelect.setComboItem(taxCode);
+							}
+						}
+					}
+				}
 				netAmountLabel.setAmount(transaction.getNetAmount());
 				// vatTotalNonEditableText.setValue(DataUtils
 				// .getAmountAsString(transaction.getTotal()
@@ -1033,7 +1039,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, messages.enterTaxCode());
+					result.addError(taxCodeSelect,
+							messages.pleaseSelect(messages.taxCode()));
 				}
 
 			}
