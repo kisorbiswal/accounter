@@ -98,7 +98,7 @@ public class IRASInformation implements IsSerializable {
 		}
 
 		if (generalLedgerLines != null) {
-			XMLElement glElement = new XMLElement("Purchase");
+			XMLElement glElement = new XMLElement("GLData");
 			double totalDebit = 0;
 			double totalCredit = 0;
 			long count = 0;
@@ -132,7 +132,7 @@ public class IRASInformation implements IsSerializable {
 		}
 
 		if (purchaseLines != null) {
-			stream.write("SuppDataStart|\n".getBytes("UTF-8"));
+			stream.write("PurcDataStart|\n".getBytes("UTF-8"));
 			stream.write("SupplierName|SupplierUEN|InvoiceDate|InvoiceNo|PermitNo|LineNo|ProductDescription|PurchaseValueSGD|GSTValueSGD|TaxCode|FCYCode|PurchaseFCY|GSTFCY|\n"
 					.getBytes("UTF-8"));
 
@@ -147,7 +147,7 @@ public class IRASInformation implements IsSerializable {
 			}
 
 			StringBuffer stringBuffer = new StringBuffer();
-			stringBuffer.append("SuppDataEnd|");
+			stringBuffer.append("PurcDataEnd|");
 			stringBuffer.append(supplyTotal + "|");
 			stringBuffer.append(gstTotal + "|");
 			stringBuffer.append(count + "|");
@@ -157,7 +157,7 @@ public class IRASInformation implements IsSerializable {
 		}
 
 		if (supplyLines != null) {
-			stream.write("PurcDataStart|\n".getBytes("UTF-8"));
+			stream.write("SuppDataStart|\n".getBytes("UTF-8"));
 			stream.write("CustomerName|CustomerUEN|InvoiceDate|InvoiceNo|LineNo|ProductDescription|SupplyValueSGD|GSTValueSGD|TaxCode|Country|FCYCode|SupplyFCY|GSTFCY|\n"
 					.getBytes("UTF-8"));
 
@@ -172,7 +172,7 @@ public class IRASInformation implements IsSerializable {
 			}
 
 			StringBuffer stringBuffer = new StringBuffer();
-			stringBuffer.append("PurcDataEnd|");
+			stringBuffer.append("SuppDataEnd|");
 			stringBuffer.append(supplyTotal + "|");
 			stringBuffer.append(gstTotal + "|");
 			stringBuffer.append(count + "|");
