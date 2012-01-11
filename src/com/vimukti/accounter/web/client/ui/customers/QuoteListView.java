@@ -188,7 +188,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected int getPageSize() {
-		return DEFAULT_PAGE_SIZE;
+		return -1;
 	}
 
 	@Override
