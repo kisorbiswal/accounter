@@ -1207,6 +1207,7 @@ public class ReceivePaymentView extends
 		tdsAmount.setDisabled(isInViewMode());
 		tdsAmount.setVisible(isTDSEnable());
 		amtText.setAmount(0.00D);
+		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
 	}
