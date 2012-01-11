@@ -117,17 +117,19 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
-		super.onSuccess(result);
-		start = result.getStart();
-		grid.removeAllRecords();
+		if (result.isEmpty()) {
+			grid.removeAllRecords();
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
+		grid.sort(10, false);
 		grid.setRecords(result);
-		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
-		if (result.isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
+		start = result.getStart();
 	}
 
 	@Override
