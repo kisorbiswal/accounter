@@ -46,11 +46,21 @@ public abstract class ItemNameColumn extends
 		if (newValue != null) {
 			Double unitPrice = 0.0;
 			if (isSales()) {
-				unitPrice = newValue.getSalesPrice()
-						/ currencyProvider.getCurrencyFactor();
+				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
+					unitPrice = newValue.getSalesPrice()
+							/ currencyProvider.getCurrencyFactor();
+				} else {
+					unitPrice = row.getUnitPrice()
+							/ currencyProvider.getCurrencyFactor();
+				}
 			} else {
-				unitPrice = newValue.getPurchasePrice()
-						/ currencyProvider.getCurrencyFactor();
+				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
+					unitPrice = newValue.getPurchasePrice()
+							/ currencyProvider.getCurrencyFactor();
+				} else {
+					unitPrice = row.getUnitPrice()
+							/ currencyProvider.getCurrencyFactor();
+				}
 			}
 			if (getPreferences().isPricingLevelsEnabled()) {
 				if (priceLevel != null && !priceLevel.isDefault()) {
@@ -61,40 +71,47 @@ public abstract class ItemNameColumn extends
 			} else {
 				row.setUnitPrice(unitPrice);
 			}
-			row.setAccountable(newValue);
-			onValueChange(row);
-			row.setDescription(getDiscription(newValue));
-			// row.setUnitPrice(newValue.getSalesPrice());
-			row.setTaxable(newValue.isTaxable());
+		}
+		row.setAccountable(newValue);
+		onValueChange(row);
+		row.setDescription(getDiscription(newValue));
+		// row.setUnitPrice(newValue.getSalesPrice());
+		row.setTaxable(newValue.isTaxable());
 
-			if (row.getQuantity() == null) {
-				ClientQuantity quantity = new ClientQuantity();
-				quantity.setValue(1.0);
-				row.setQuantity(quantity);
-			}
-			if (row.getDiscount() == null) {
-				row.setDiscount(new Double(0));
-			}
+		if (row.getQuantity() == null) {
+			ClientQuantity quantity = new ClientQuantity();
+			quantity.setValue(1.0);
+			row.setQuantity(quantity);
+		}
+		if (row.getDiscount() == null) {
+			row.setDiscount(new Double(0));
+		}
 
-			double lt = row.getQuantity().getValue() * row.getUnitPrice();
-			double disc = row.getDiscount();
-			row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
-					* disc / 100)) : lt);
+		double lt = row.getQuantity().getValue() * row.getUnitPrice();
+		double disc = row.getDiscount();
+		row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
+				: lt);
 
-			if (getPreferences().isTrackTax()
-					&& getPreferences().isTaxPerDetailLine()) {
-				ClientTAXCode taxCode = Accounter.getCompany().getTAXCode(
-						newValue.getTaxCode());
-				if (taxCode != null) {
-					if (isSales() && taxCode.getTAXItemGrpForSales() != 0) {
-						row.setTaxCode(taxCode.getID());
-					} else if (!isSales()
-							&& taxCode.getTAXItemGrpForPurchases() != 0) {
-						row.setTaxCode(taxCode.getID());
-					}
+		if (getPreferences().isTrackTax()
+				&& getPreferences().isTaxPerDetailLine()) {
+			ClientTAXCode taxCode = Accounter.getCompany().getTAXCode(
+					newValue.getTaxCode());
+			if (taxCode != null) {
+				if (isSales() && taxCode.getTAXItemGrpForSales() != 0) {
+					row.setTaxCode(taxCode.getID());
+				} else if (!isSales()
+						&& taxCode.getTAXItemGrpForPurchases() != 0) {
+					row.setTaxCode(taxCode.getID());
 				}
 			}
 		}
+	}
+
+	private boolean isSameItems(ClientTransactionItem row, ClientItem newValue) {
+		if (row.getItem() == newValue.getID()) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isSales() {
