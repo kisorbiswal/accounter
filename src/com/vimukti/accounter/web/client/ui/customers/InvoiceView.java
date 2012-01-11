@@ -1093,6 +1093,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
+		if (customerCombo != null && customerCombo.getSelectedValue() != null
+				&& !isInViewMode()) {
+			if (contactCombo != null) {
+				contactCombo.setDisabled(false);
+			}
+		}
 	}
 
 	private void initCustomers() {
