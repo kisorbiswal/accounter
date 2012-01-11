@@ -4006,13 +4006,12 @@ public class FinanceTool {
 					.setParameter("name", vendorName)
 					.setEntity("company", company);
 			Vendor vendor = (Vendor) namedQuery.uniqueResult();
-			// String vendorUEN = vendor.getPayeeFields().get("SupplierUEN");
+			String vendorUEN = vendor.getPayeeFields().get("SupplierUEN");
 			gstPurchaseLineInfo.setSupplierName(vendorName);
-			// gstPurchaseLineInfo.setSupplierUEN(vendorUEN);
+			gstPurchaseLineInfo.setSupplierUEN(vendorUEN);
 			gstPurchaseLineInfo.setInvoiceDate(new FinanceDate((Long) next[1]));
 			gstPurchaseLineInfo.setInvoiceNo((String) next[2]);
 			gstPurchaseLineInfo.setPermitNo("");
-			gstPurchaseLineInfo.setLineNo(0);
 			gstPurchaseLineInfo.setProductDescription((String) next[3]);
 
 			double price = (Double) next[4];
@@ -4026,7 +4025,7 @@ public class FinanceTool {
 
 			gstPurchaseLineInfo.setPurchaseValueSGD(price * currencyFactor);
 			gstPurchaseLineInfo.setGSTValueSGD(taxAmount * currencyFactor);
-			gstPurchaseLineInfo.setLineNo((Long) next[9]);
+			gstPurchaseLineInfo.setLineNo((Long) next[9] + 1);
 
 			if (currencyName.equals("SGD")) {
 				gstPurchaseLineInfo.setFCYCode("XXX");
@@ -4058,11 +4057,10 @@ public class FinanceTool {
 					.setParameter("name", customerName)
 					.setEntity("company", company);
 			Customer customer = (Customer) namedQuery.uniqueResult();
-			// String customerUEN =
-			// customer.getPayeeFields().get("CustomerUEN");
+			String customerUEN = customer.getPayeeFields().get("CustomerUEN");
 
 			gstSupplyLineInfo.setCustomerName(customerName);
-			// gstSupplyLineInfo.setCustomerUEN(customerUEN);
+			gstSupplyLineInfo.setCustomerUEN(customerUEN);
 			gstSupplyLineInfo.setInvoiceDate(new FinanceDate((Long) next[1]));
 			gstSupplyLineInfo.setInvoiceNo((String) next[2]);
 			gstSupplyLineInfo.setProductDescription((String) next[3]);
@@ -4080,7 +4078,7 @@ public class FinanceTool {
 			gstSupplyLineInfo.setGSTValueSGD(taxAmount * currencyFactor);
 
 			gstSupplyLineInfo.setCountry((String) next[9]);
-			gstSupplyLineInfo.setLineNo((Long) next[10]);
+			gstSupplyLineInfo.setLineNo((Long) next[10] + 1);
 
 			if (currencyName.equals("SGD")) {
 				gstSupplyLineInfo.setFCYCode("XXX");
