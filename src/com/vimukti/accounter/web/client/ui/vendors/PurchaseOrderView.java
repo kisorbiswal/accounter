@@ -852,9 +852,7 @@ public class PurchaseOrderView extends
 			if (isTrackTax() && isTrackPaidTax()) {
 
 				if (!isTaxPerDetailLine()) {
-					ClientTAXCode code = getTaxCodeForTransactionItems(this.transactionItems);
-					this.taxCodeSelect.setComboItem(code);
-					taxCode = code;
+					selectTAXCode();
 				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(isAmountIncludeTAX());

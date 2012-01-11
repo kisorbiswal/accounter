@@ -875,12 +875,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
 						this.taxCodeSelect.setComboItem(taxCode);
+						taxCodeSelected(taxCode);
 					} else {
 						if (getCustomer() != null) {
 							this.taxCode = getCompany().getTAXCode(
 									getCustomer().getTAXCode());
 							if (taxCode != null) {
 								this.taxCodeSelect.setComboItem(taxCode);
+								taxCodeSelected(taxCode);
 							}
 						}
 					}

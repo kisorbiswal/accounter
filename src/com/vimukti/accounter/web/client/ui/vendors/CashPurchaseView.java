@@ -631,11 +631,7 @@ public class CashPurchaseView extends
 					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
-					this.taxCode = getTaxCodeForTransactionItems(transaction
-							.getTransactionItems());
-					if (taxCode != null) {
-						this.taxCodeSelect.setComboItem(taxCode);
-					}
+					selectTAXCode();
 				}
 			}
 			if (transaction.getTransactionItems() != null) {

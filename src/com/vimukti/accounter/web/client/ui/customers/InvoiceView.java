@@ -1042,12 +1042,14 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					if (taxCode != null) {
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+						taxCodeSelected(taxCode);
 					} else {
 						if (getCustomer() != null) {
 							this.taxCode = getCompany().getTAXCode(
 									getCustomer().getTAXCode());
 							if (taxCode != null) {
 								this.taxCodeSelect.setComboItem(taxCode);
+								taxCodeSelected(taxCode);
 							}
 						}
 					}

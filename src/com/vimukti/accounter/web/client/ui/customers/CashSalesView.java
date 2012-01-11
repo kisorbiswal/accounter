@@ -833,6 +833,7 @@ public class CashSalesView extends
 					if (taxCode != null) {
 						this.taxCodeSelect
 								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+						taxCodeSelected(taxCode);
 					}
 					taxTotalNonEditableText.setTransaction(transaction);
 				}

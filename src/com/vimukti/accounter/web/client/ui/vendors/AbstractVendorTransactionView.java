@@ -797,4 +797,16 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
+
+	protected void selectTAXCode() {
+		if (transaction == null) {
+			return;
+		}
+		this.taxCode = getTaxCodeForTransactionItems(transaction
+				.getTransactionItems());
+		if (taxCodeSelect != null && taxCode != null) {
+			this.taxCodeSelect.setComboItem(taxCode);
+			taxCodeSelected(taxCode);
+		}
+	}
 }

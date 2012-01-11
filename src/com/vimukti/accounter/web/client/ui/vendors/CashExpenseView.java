@@ -734,11 +734,7 @@ public class CashExpenseView extends
 					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
-					this.taxCode = getTaxCodeForTransactionItems(transaction
-							.getTransactionItems());
-					if (taxCode != null) {
-						this.taxCodeSelect.setComboItem(taxCode);
-					}
+					selectTAXCode();
 				}
 			}
 			transactionTotalNonEditableText
