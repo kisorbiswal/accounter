@@ -421,7 +421,7 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 			saveAndUpdateView();
 			saveActivity();
 			setSaveCliecked(true);
-			MainFinanceWindow.getViewManager().closeCurrentView(false);
+			// MainFinanceWindow.getViewManager().closeCurrentView(false);
 		}
 	}
 
