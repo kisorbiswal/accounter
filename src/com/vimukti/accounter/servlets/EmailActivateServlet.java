@@ -39,7 +39,7 @@ public class EmailActivateServlet extends BaseServlet {
 
 		String validIP = ServerConfiguration.getValidIP();
 
-		if (!req.getRemoteHost().equals(validIP)) {
+		if (!req.getRemoteAddr().equals(validIP)) {
 			redirectExternal(req, resp, "/main/emailActivation");
 		}
 		String email = req.getParameter("email").trim();
