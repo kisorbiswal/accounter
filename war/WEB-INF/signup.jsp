@@ -116,6 +116,13 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 			<!--document.getElementById("hiddenLoaderDiv").style.display="block";-->
     		<!--document.getElementById("signup").style.display="none";-->
 		});
+		
+		if('#select-box').keydown(function(event) {
+			if (event.keyCode == '9') {
+			     event.preventDefault();
+			  $('#checkbox').focus();
+			}	
+			});
 	});
 </script>
 
@@ -146,31 +153,31 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	   </div>
 	   <div style="clear:both" class="check_label">
 	     <label><i18n:i18n msg='firstName'/></label><br />
-		 <input id="mid-box"  type="text" tabindex="4" name="firstName" />	
+		 <input id="mid-box"  type="text" tabindex="1" name="firstName" />	
 	   </div>
 	    <div class="check_label">
 	     <label><i18n:i18n msg='lastName'/></label><br />
-		 <input id="mid-box1"  type="text" tabindex="5" name="lastName" />	
+		 <input id="mid-box1"  type="text" tabindex="2" name="lastName" />	
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='emailAddress'/></label><br />
-		 <input id="mid-box2"  type="text" tabindex="6" name="emailId" />	
+		 <input id="mid-box2"  type="text" tabindex="3" name="emailId" />	
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='password'/></label><br />
-		 <input id="mid-box4"  type="password" tabindex="7" name="password" />
+		 <input id="mid-box4"  type="password" tabindex="4" name="password" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='confirmPassword'/></label><br />
-		 <input id="mid-box5" type="password" tabindex="8" name="confirmPassword" />
+		 <input id="mid-box5" type="password" tabindex="5" name="confirmPassword" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='phoneNumber'/></label><br />
-		 <input id="mid-box6"  type="text" tabindex="9" name="phoneNumber" />
+		 <input id="mid-box6"  type="text" tabindex="6" name="phoneNumber" />
 	   </div>
 	   <div class="check_label">
 	     <label><i18n:i18n msg='country'/></label><br />
-		 <select id="select-box" tabindex="10" name="country">
+		 <select id="select-box" tabindex="7" name="country">
 <option value="United Kingdom">United Kingdom</option>
 											<option value="United States">United States</option>
 											<option value="India">India</option>
@@ -412,8 +419,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 </select>
 	   </div>
 	   <div>
-	     <label style="padding-left:5px;"><i18n:i18n msg='readAccept'/><a href="/site/termsandconditions" target="_blank" tabindex="12"><i18n:i18n msg='termsofUse'/></a></label>
-	     <input id="checkbox" type="checkbox" name="agree" tabindex="11" style="float:left" />
+	     <label style="padding-left:5px;"><i18n:i18n msg='readAccept'/><a href="/site/termsandconditions" target="_blank" ><i18n:i18n msg='termsofUse'/></a></label>
+	     <input id="checkbox" type="checkbox" name="agree" tabindex="8" style="float:left" />
 		 
 	   </div>
 	   <div>
@@ -421,7 +428,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		  <label><i18n:i18n msg='newsletter'/><b>(<i18n:i18n msg='optional'/>)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="13" />
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="9" />
 	   </div>
 	   </form>
 	 </div>
@@ -430,10 +437,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	 <form id="openIdForm" method="post" action="/main/openid">
 	 <div>
 	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
-	   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
-	   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
-	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
-	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
+	  
+	   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="10"> Google  </a>
+	   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="11">  Yahoo</a>
+	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="12">  AOL</a>
+	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="13"> Facebook</a>
 	  
 	 <div>
 	     <div class="simple-get-started">
