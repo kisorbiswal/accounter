@@ -3976,7 +3976,7 @@ public class FinanceTool {
 		Map<String, String> companyFields = company.getPreferences()
 				.getCompanyFields();
 		String companyUEN = companyFields.get("CompanyUEN");
-		String gstNo = companyFields.get("GSTNo");
+		String gstNo = companyFields.get("GST No");
 		companyInfo.setCompanyUEN(companyUEN);
 		companyInfo.setGSTNo(gstNo);
 		companyInfo.setPeriodStart(new FinanceDate(startDate));
@@ -4006,7 +4006,7 @@ public class FinanceTool {
 					.setParameter("name", vendorName)
 					.setEntity("company", company);
 			Vendor vendor = (Vendor) namedQuery.uniqueResult();
-			String vendorUEN = vendor.getPayeeFields().get("SupplierUEN");
+			String vendorUEN = vendor.getPayeeFields().get("CompanyUEN");
 			gstPurchaseLineInfo.setSupplierName(vendorName);
 			gstPurchaseLineInfo.setSupplierUEN(vendorUEN);
 			gstPurchaseLineInfo.setInvoiceDate(new FinanceDate((Long) next[1]));
