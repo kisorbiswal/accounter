@@ -153,7 +153,11 @@ public class AccounterExceptions {
 			return accounterMessages.youDontHavePermission();
 		case AccounterException.ERROR_ALREADY_DELETED:
 			return accounterMessages.objectAlreadyDeleted();
-
+		case AccounterException.ERROR_INVALID_DATE_OF_BIRTH:
+			return accounterMessages.invalidDateOfBirth();
+			
+		case AccounterException.ERROR_DATE_OF_BIRTH_SHOULD_HAVE_18_YRS:
+			return accounterMessages.dateofBirthshouldshowmorethan18years();
 		default:
 			return null;
 		}
