@@ -45,6 +45,8 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 
 	String paymentMethod;
 
+	private long currency;
+
 	/**
 	 * @return the payBill
 	 */
@@ -297,7 +299,6 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		// TODO Auto-generated method stub
@@ -319,4 +320,13 @@ public class ClientTransactionIssuePayment implements IAccounterCore {
 				.clone();
 		return clientTransactionIssuePaymentClone;
 	}
+
+	public long getCurrency() {
+		return this.currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
 }
