@@ -892,7 +892,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			tdsPayableAmount.setVisible(true);
 			ClientTAXItem taxItem = getCompany().getTAXItem(
 					vendor.getTaxItemCode());
-			if (taxItem != null) {
+			if (transaction.getTdsTaxItem() == 0 && taxItem != null) {
 				tdsCombo.setComboItem(taxItem);
 			}
 		} else {
@@ -1003,16 +1003,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			transactionNumber.setValue(transaction.getNumber());
 			transactionNumber.setDisabled(isInViewMode());
 
-			ClientTAXItem taxItem = getCompany().getTAXItem(
-					transaction.getTdsTaxItem());
-
-			if (tdsCombo != null && taxItem != null) {
-				tdsCombo.setComboItem(taxItem);
-			}
-
-			if (isTDSEnable()) {
-				tdsCombo.setVisible(true);
-			}
 			amountLabelForeign.setAmount(transaction.getNetAmount());
 
 			amountLableBase.setAmount(getAmountInBaseCurrency(transaction
@@ -1025,6 +1015,16 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			initAccounterClass();
 			initTransactionNumber();
 			adjustAmountAndEndingBalance();
+			ClientTAXItem taxItem = getCompany().getTAXItem(
+					transaction.getTdsTaxItem());
+
+			if (tdsCombo != null && taxItem != null) {
+				tdsCombo.setComboItem(taxItem);
+			}
+
+			if (isTDSEnable()) {
+				tdsCombo.setVisible(true);
+			}
 		}
 
 		initVendors();
