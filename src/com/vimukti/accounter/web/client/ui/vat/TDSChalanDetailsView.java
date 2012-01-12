@@ -558,23 +558,38 @@ public class TDSChalanDetailsView extends
 
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("193" + "-10%");
-		list.add("194" + "-10%");
-		list.add("194A" + "-10%");
-		list.add("194B" + "-30%");
-		list.add("194BB" + "-30%");
-		list.add("194C" + "-0%");
-		list.add("194C" + "-1%");
-		list.add("194C" + "-2%");
-		list.add("194D" + "-10%");
-		list.add("194EE" + "-20%");
-		list.add("194F" + "-20%");
-		list.add("194G" + "-10%");
-		list.add("194H" + "-10%");
-		list.add("194I" + "-2%");
-		list.add("194I" + "-10%");
-		list.add("194J" + "-10%");
-		list.add("194LA" + "-10%");
+		list.add("193");
+		list.add("194");
+		list.add("94A");
+		list.add("94B");
+		list.add("4BB");
+		list.add("94C");
+		list.add("94D");
+		list.add("4EE");
+		list.add("94F");
+		list.add("94G");
+		list.add("94H");
+		list.add("94I");
+		list.add("94J");
+		list.add("94L");
+
+		// list.add("193" + "-10%");
+		// list.add("194" + "-10%");
+		// list.add("194A" + "-10%");
+		// list.add("194B" + "-30%");
+		// list.add("194BB" + "-30%");
+		// list.add("194C" + "-0%");
+		// list.add("194C" + "-1%");
+		// list.add("194C" + "-2%");
+		// list.add("194D" + "-10%");
+		// list.add("194EE" + "-20%");
+		// list.add("194F" + "-20%");
+		// list.add("194G" + "-10%");
+		// list.add("194H" + "-10%");
+		// list.add("194I" + "-2%");
+		// list.add("194I" + "-10%");
+		// list.add("194J" + "-10%");
+		// list.add("194LA" + "-10%");
 
 		return list;
 	}
@@ -618,15 +633,25 @@ public class TDSChalanDetailsView extends
 	private List<String> get27EQSectionsList() {
 
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("6CA" + "-" + "1%");
-		list.add("6CB" + "-" + "2.5%");
-		list.add("6CC" + "-" + "2.5%");
-		list.add("6CD" + "-" + "2.5%");
-		list.add("6CE" + "-" + "1%");
-		list.add("6CF" + "-" + "2%");
-		list.add("6CG" + "-" + "2%");
-		list.add("6CH" + "-" + "2%");
-		list.add("6CI" + "-" + "5%");
+		list.add("A");
+		list.add("B");
+		list.add("C");
+		list.add("D");
+		list.add("E");
+		list.add("F");
+		list.add("G");
+		list.add("H");
+		list.add("I");
+
+		// list.add("6CA" + "-" + "1%");
+		// list.add("6CB" + "-" + "2.5%");
+		// list.add("6CC" + "-" + "2.5%");
+		// list.add("6CD" + "-" + "2.5%");
+		// list.add("6CE" + "-" + "1%");
+		// list.add("6CF" + "-" + "2%");
+		// list.add("6CG" + "-" + "2%");
+		// list.add("6CH" + "-" + "2%");
+		// list.add("6CI" + "-" + "5%");
 
 		return list;
 	}

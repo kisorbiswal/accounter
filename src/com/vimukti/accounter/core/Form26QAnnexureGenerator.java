@@ -753,7 +753,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getSection() {
 		if (chalanDetails.getPaymentSection() != null) {
-			return getSectionCode(chalanDetails.getPaymentSection());
+			return chalanDetails.getPaymentSection();
 		} else {
 			return "";
 		}
@@ -853,7 +853,7 @@ public class Form26QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 */
 	private String getBankChalanNumber() {
 		if (!getNILChalanIndicator().equals("Y")
-				&& getTransferVoucherNo().isEmpty()) {
+				|| !chalanDetails.isBookEntry()) {
 			return Long.toString(chalanDetails.getBankChalanNumber());
 		} else {
 			return "";

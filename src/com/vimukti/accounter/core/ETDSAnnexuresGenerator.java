@@ -83,8 +83,8 @@ public class ETDSAnnexuresGenerator {
 		// "FH" signifying 'File Header'
 		headerString = headerString + "FH" + addDelimiter();
 
-		// Value should be "NS1" .
-		headerString = headerString + "NS1" + addDelimiter();
+		// Value should be "NS1", For 27EQ "TC1".
+		headerString = headerString + getFileType() + addDelimiter();
 
 		// Value should be R
 		headerString = headerString + "R" + addDelimiter();
@@ -131,6 +131,10 @@ public class ETDSAnnexuresGenerator {
 		headerString = headerString + endLine();
 
 		return headerString;
+	}
+
+	public String getFileType() {
+		return "NS1";
 	}
 
 	private String softwareUsedName() {

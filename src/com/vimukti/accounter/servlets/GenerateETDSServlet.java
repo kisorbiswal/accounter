@@ -126,7 +126,7 @@ public class GenerateETDSServlet extends BaseServlet {
 		} else if (FormNo == 3) {
 			Form27EQAnnexureGenerator form26Q = new Form27EQAnnexureGenerator(
 					tdsDeductorMasterDetails2, responsiblePersonDetails2,
-					getCompany(request), codeList, remarkList);
+					getCompany(request), panList, codeList, remarkList);
 			form26Q.setFormDetails(formNo, quater, startYear, endYear);
 			form26Q.setChalanDetailsList(chalanList2);
 			generateFile = form26Q.generateFile();
