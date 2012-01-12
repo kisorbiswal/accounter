@@ -55,7 +55,11 @@ public class StatementServerReport extends
 			if (record.getTotal() == 0) {
 				payeeBalance = record.getBalance();
 			} else {
-				payeeBalance += record.getTotal();
+				Boolean positive = record.isPositive();
+				if (positive != null) {
+					double total = (positive ? 1 : -1) * record.getTotal();
+					payeeBalance += total;
+				}
 			}
 			return payeeBalance;
 		}

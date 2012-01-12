@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 
 public class PayeeStatementsList extends BaseReport implements IsSerializable,
@@ -170,6 +171,28 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 
 	public long getPayeeId() {
 		return this.payeeId;
+	}
+
+	public Boolean isPositive() {
+		switch (transactiontype) {
+		case ClientTransaction.TYPE_CASH_SALES:
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+		case ClientTransaction.TYPE_ENTER_BILL:
+		case ClientTransaction.TYPE_INVOICE:
+			return true;
+
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case ClientTransaction.TYPE_PAY_BILL:
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			return false;
+
+		default:
+			break;
+		}
+		return null;
 	}
 
 }
