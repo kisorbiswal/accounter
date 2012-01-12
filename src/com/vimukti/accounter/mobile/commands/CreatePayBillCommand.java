@@ -378,9 +378,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 			payBillTransaction.setCredits(clientTransactionPayBill
 					.getAppliedCredits());
 			payBillTransaction.setTransactionId(clientTransactionPayBill
-					.getPayBill().getID());
-			payBillTransaction.setType(clientTransactionPayBill.getPayBill()
-					.getType());
+					.getTransactionID());
+			payBillTransaction.setType(clientTransactionPayBill.getTransactionType());
 			paybills.add(payBillTransaction);
 		}
 		get(BILLS_DUE).setValue(paybills);
@@ -480,7 +479,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			record.setOriginalAmount(curntRec.getOriginalAmount());
 			record.setPayment(curntRec.getPayment());
-			record.setPayBill(paybill);
+//			record.setPayBill(paybill);
 			Payee vendor = get(VENDOR).getValue();
 			if (vendor != null)
 				record.setVendor(vendor.getID());
