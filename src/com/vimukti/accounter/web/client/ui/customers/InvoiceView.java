@@ -1049,8 +1049,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(this.transactionItems);
 					if (taxCode != null) {
-						this.taxCodeSelect
-								.setComboItem(getTaxCodeForTransactionItems(this.transactionItems));
+						this.taxCodeSelect.setComboItem(taxCode);
 						taxCodeSelected(taxCode);
 					} else {
 						if (getCustomer() != null) {
@@ -1464,13 +1463,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (!isSelected && isTrackTax() && !isTaxPerDetailLine()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
-				result.addError(taxCodeSelect, messages.enterTaxCode());
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
 			}
 		} else if (isSelected && isTrackTax() && !isTaxPerDetailLine()
 				&& !transaction.getTransactionItems().isEmpty()) {
 			if (taxCodeSelect != null
 					&& taxCodeSelect.getSelectedValue() == null) {
-				result.addError(taxCodeSelect, messages.enterTaxCode());
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
 			}
 		}
 		return result;

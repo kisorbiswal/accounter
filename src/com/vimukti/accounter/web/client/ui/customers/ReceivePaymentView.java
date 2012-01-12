@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -116,7 +115,7 @@ public class ReceivePaymentView extends
 		amtText.setCurrency(currency);
 		tdsAmount.setCurrency(currency);
 		customerNonEditablebalText.setCurrency(currency);
-		gridView.updatedCustomerCreditsAndPayments.clear();
+		gridView.creditsAndPayments.clear();
 		if (selectedCustomer == null) {
 			receivePaymentTransactionList = null;
 			return;
@@ -139,8 +138,6 @@ public class ReceivePaymentView extends
 		 * resetting the crdits dialog's refernce,so that a new object will
 		 * created for opening credits dialog
 		 */
-		gridView.newAppliedCreditsDialiog = null;
-		gridView.creditsStack = null;
 
 		if (!isInViewMode()) {
 			gridView.removeAllRecords();
@@ -231,7 +228,7 @@ public class ReceivePaymentView extends
 	public void calculateUnusedCredits() {
 
 		double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : gridView.updatedCustomerCreditsAndPayments) {
+		for (ClientCreditsAndPayments credit : gridView.creditsAndPayments) {
 			totalCredits += credit.getBalance();
 		}
 
@@ -459,35 +456,7 @@ public class ReceivePaymentView extends
 				.getSelectedRecords()) {
 			payment.setID(0);
 			payment.setTransaction(receivePayment.getID());
-			if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
-				if (gridView.newAppliedCreditsDialiog == null) {
 
-					List<ClientTransactionCreditsAndPayments> tranCreditsandPaymentsList = getTransactionCredits(payment);
-					if (tranCreditsandPaymentsList != null)
-						for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPaymentsList) {
-							transactionCreditsAndPayments
-									.setTransactionReceivePayment(payment);
-							transactionCreditsAndPayments
-									.setAmountToUse(payment.getAppliedCredits());
-						}
-
-					payment.setTransactionCreditsAndPayments(tranCreditsandPaymentsList);
-
-				}
-			}
-
-			if (gridView.newAppliedCreditsDialiog != null) {
-				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = gridView.newAppliedCreditsDialiog != null ? gridView.newAppliedCreditsDialiog
-						.getTransactionCredits(payment)
-						: new ArrayList<ClientTransactionCreditsAndPayments>();
-				if (tranCreditsandPayments != null)
-					for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPayments) {
-						transactionCreditsAndPayments
-								.setTransactionReceivePayment(payment);
-					}
-
-				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
-			}
 			paymentsList.add(payment);
 			payment.getTempCredits().clear();
 		}
@@ -495,26 +464,6 @@ public class ReceivePaymentView extends
 		return paymentsList;
 	}
 
-	private List<ClientTransactionCreditsAndPayments> getTransactionCredits(
-			ClientTransactionReceivePayment payment) {
-
-		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
-		ClientTransactionReceivePayment rcvPaymnt = (ClientTransactionReceivePayment) payment;
-		for (ClientCreditsAndPayments crdPayment : gridView.updatedCustomerCreditsAndPayments) {
-			crdPayment.setRemaoningBalance(crdPayment.getBalance());
-			crdPayment.setAmtTouse(payment.getAppliedCredits());
-
-			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
-
-			creditsAndPayments.setDate(crdPayment.getTransactionDate()
-					.getDate());
-			creditsAndPayments.setMemo(crdPayment.getMemo());
-			creditsAndPayments.setCreditsAndPayments(crdPayment);
-			clientTransactionCreditsAndPayments.add(creditsAndPayments);
-
-		}
-		return clientTransactionCreditsAndPayments;
-	}
 
 	@Override
 	protected void createControls() {

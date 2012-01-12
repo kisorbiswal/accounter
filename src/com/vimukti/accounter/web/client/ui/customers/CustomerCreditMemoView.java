@@ -451,7 +451,8 @@ public class CustomerCreditMemoView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, messages.enterTaxCode());
+					result.addError(taxCodeSelect,
+							messages.pleaseSelect(messages.taxCode()));
 				}
 
 			}
