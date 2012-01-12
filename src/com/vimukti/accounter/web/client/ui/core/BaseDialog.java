@@ -264,7 +264,7 @@ public abstract class BaseDialog<T extends IAccounterCore> extends CustomDialog
 					});
 		} else {
 			boolean ok = onOK();
-			if (dialogHandler != null) {
+			if (ok && dialogHandler != null) {
 				ok |= dialogHandler.onOK();
 			}
 			if (ok)
