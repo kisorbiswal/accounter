@@ -65,8 +65,10 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	protected void showWarnDialog(final StockAdjustmentList object) {
 
 		Accounter.showWarning(
-				messages.doyouwanttoDeleteObj(object.getWareHouse()),
-				AccounterType.WARNING, new ErrorDialogHandler() {
+				messages.doyouwanttoDeleteObj(messages.This()
+						+ object.getWareHouse() + " "
+						+ messages.stockAdjustment()), AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
 					@Override
 					public boolean onYesClick() {
