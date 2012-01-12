@@ -29,6 +29,8 @@ public class IssuePaymentTransactionsList implements IsSerializable,
 
 	String paymentMethod;
 
+	private long currency;
+
 	/**
 	 * @return the transactionId
 	 */
@@ -147,6 +149,14 @@ public class IssuePaymentTransactionsList implements IsSerializable,
 	 */
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
 	}
 
 }
