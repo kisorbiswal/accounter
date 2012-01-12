@@ -201,7 +201,13 @@ public class AuthenticationCommand extends Command {
 				String password = HexUtil.bytesToHex(Security.makeHash(userName
 						.toLowerCase() + string));
 				client = getClient(userName);
-				if (client == null || !client.getPassword().equals(password)) {
+				// Written for open id sign up process.If user sign up in open
+				// id
+				// and trying to login in mobile.Then user don't have
+				// password.For this situation we are checking null
+				// password.client.getPassword() == null
+				if (client == null || client.getPassword() == null
+						|| !client.getPassword().equals(password)) {
 					context.setAttribute("password", null);
 					context.setAttribute("input", "password");
 					makeResult.add("Entered password was wrong.");
