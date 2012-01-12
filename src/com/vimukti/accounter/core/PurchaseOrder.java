@@ -448,6 +448,8 @@ public class PurchaseOrder extends Transaction {
 		// "This PurchaseOrder can't be edited, becuase it is Completed or Canceled.  PurchaseOrderNo:"
 		// + this.number);
 		// }
+		checkingVendorNull(vendor);
+		checkingTotal0();
 		return true;
 	}
 

@@ -1444,6 +1444,14 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
+	protected void checkingTaxAgencyNull(TAXAgency taxAgency)
+			throws AccounterException {
+		if (taxAgency == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_TAX_AGENCY_NULL);
+		}
+	}
+
 	protected void chekingTaxCodeNull(TAXCode taxCode)
 			throws AccounterException {
 		if (taxCode == null) {

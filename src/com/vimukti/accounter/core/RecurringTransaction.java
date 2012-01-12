@@ -192,6 +192,7 @@ public class RecurringTransaction extends CreatableObject implements
 		if (list != null && !list.isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
 		}
+		
 		return true;
 	}
 

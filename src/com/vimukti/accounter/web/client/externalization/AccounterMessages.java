@@ -5300,4 +5300,8 @@ public interface AccounterMessages extends Messages {
 
 	public String suppliers();
 
+	public String valueOfQuantityShouldNotBeZero();
+
+	public String pleaseSelectUnitForInventoryItem();
+
 }

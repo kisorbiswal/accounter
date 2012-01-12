@@ -40,8 +40,7 @@ public class PortletConfiguration extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	public int getColumn() {

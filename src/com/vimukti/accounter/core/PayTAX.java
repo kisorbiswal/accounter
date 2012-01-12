@@ -275,7 +275,18 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
+		checkAccountNull(payFrom);
+		checkingTaxAgencyNull(taxAgency);
+		checkPaymentMethodNull();
+		checkVATEntriesEmpty();
 		return true;
+	}
+
+	private void checkVATEntriesEmpty() throws AccounterException {
+		if (transactionPayTAX.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_TAX_ENTRIES_EMPTY);
+		}
 	}
 
 	@Override

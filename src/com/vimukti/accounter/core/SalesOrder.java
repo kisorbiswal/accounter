@@ -405,9 +405,8 @@ public class SalesOrder extends Transaction {
 
 					if (transactionItem.getReferringTransactionItem() != null) {
 						TransactionItem referringTransactionItem = (TransactionItem) session
-								.get(TransactionItem.class,
-										transactionItem.getReferringTransactionItem()
-												.getID());
+								.get(TransactionItem.class, transactionItem
+										.getReferringTransactionItem().getID());
 						double amount = 0d;
 						if (!isAddition)
 							if (transactionItem.type == TransactionItem.TYPE_ITEM) {
@@ -665,10 +664,9 @@ public class SalesOrder extends Transaction {
 				} else {
 					for (TransactionItem transactionItem : salesOrder.transactionItems) {
 						if (transactionItem.getReferringTransactionItem() != null
-								&& DecimalUtil
-										.isGreaterThan(
-												transactionItem.getReferringTransactionItem().usedamt,
-												0)) {
+								&& DecimalUtil.isGreaterThan(transactionItem
+										.getReferringTransactionItem().usedamt,
+										0)) {
 							transactionItem.getReferringTransactionItem().usedamt -= transactionItem.lineTotal;
 						}
 					}
@@ -698,6 +696,7 @@ public class SalesOrder extends Transaction {
 		// "This SalesOrder can't be edited, becuase it is Completed or Canceled "
 		// + this.getNumber());
 		// }
+		checkingCustomerNull(customer);
 		return true;
 	}
 

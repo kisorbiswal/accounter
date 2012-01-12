@@ -151,13 +151,16 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_DONT_HAVE_PERMISSION:
 			return accounterMessages.youDontHavePermission();
+
 		case AccounterException.ERROR_ALREADY_DELETED:
 			return accounterMessages.objectAlreadyDeleted();
-		case AccounterException.ERROR_INVALID_DATE_OF_BIRTH:
-			return accounterMessages.invalidDateOfBirth();
-			
-		case AccounterException.ERROR_DATE_OF_BIRTH_SHOULD_HAVE_18_YRS:
-			return accounterMessages.dateofBirthshouldshowmorethan18years();
+
+		case AccounterException.ERROR_TAX_AGENCY_NULL:
+			return accounterMessages.pleaseSelectTAXAgencyToPayTAX();
+		
+		case AccounterException.ERROR_TAX_ENTRIES_EMPTY:
+			return accounterMessages.pleaseSelectAtLeastOneRecord();
+
 		default:
 			return null;
 		}

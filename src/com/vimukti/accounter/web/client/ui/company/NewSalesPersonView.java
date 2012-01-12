@@ -400,27 +400,21 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 		}
 
 		if (dateOfBirth.getValue().getDate() != 0) {
-			long mustdate = new ClientFinanceDate().getDate() - 180000;
 			if (dateOfBirth.getValue().getDateAsObject()
 					.after(new ClientFinanceDate().getDateAsObject())) {
 				result.addError(dateOfBirth, messages.invalidDateOfBirth());
-			} else if ((new ClientFinanceDate(mustdate).before(dateOfBirth
-					.getEnteredDate()))) {
-				result.addError(dateOfBirth,
-						messages.dateofBirthshouldshowmorethan18years()
-								+ ". Because Sales Person should have 18 years");
 			}
 		}
 		result.add(salesPersonForm.validate());
 		return result;
 	}
-	
+
 	@Override
 	public ClientSalesPerson saveView() {
 		ClientSalesPerson saveView = super.saveView();
-		if (saveView != null){
+		if (saveView != null) {
 			updateSalesPersonObject();
-			}
+		}
 		return saveView;
 	}
 

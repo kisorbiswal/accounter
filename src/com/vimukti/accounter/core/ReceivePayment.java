@@ -408,6 +408,15 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 		checkingCustomerNull(customer);
 		checkPaymentMethodNull();
 		checkAccountNull(depositIn);
+		checkPaymentItems();
+		checkingTotal0();
+	}
+
+	private void checkPaymentItems() throws AccounterException {
+		if (transactionReceivePayment.isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_THERE_IS_NO_TRANSACTION_ITEMS);
+		}
 	}
 
 	public void updateUnUsedAmount(Session session, double payment) {

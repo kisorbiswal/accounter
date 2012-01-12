@@ -145,9 +145,9 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_ALREADY_DELETED = 49;
 
-	public static final int ERROR_INVALID_DATE_OF_BIRTH = 50;
+	public static final int ERROR_TAX_AGENCY_NULL = 50;
 
-	public static final int ERROR_DATE_OF_BIRTH_SHOULD_HAVE_18_YRS = 51;
+	public static final int ERROR_TAX_ENTRIES_EMPTY = 51;
 
 	protected int errorCode;
 
