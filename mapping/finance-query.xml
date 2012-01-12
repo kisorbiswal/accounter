@@ -6652,9 +6652,6 @@
 		TRUE
 		END
 
-		<!-- GROUP BY (T.T_DATE &lt; :startDate) -->
-		GROUP BY T.T_DATE
-		ORDER BY T.T_DATE DESC
 
 	</sql-query>
 	
