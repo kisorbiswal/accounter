@@ -49,14 +49,7 @@ public abstract class TransactionReceivePaymentTable extends
 	private WriteOffDialog writeOffDialog;
 
 	// public CustomerCreditsAndPaymentsDialiog creditsAndPaymentsDialiog;
-	public NewApplyCreditsDialog newAppliedCreditsDialiog;
-	public List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
-	public Map<ClientTransactionReceivePayment, List<ClientCreditsAndPayments>> value;
-
-	/* This stack tracks the recently applied credits */
-	public Stack<Map<Integer, Object>> creditsStack;
-	public Map<Integer, Object> revrtedCreditsMap;
-	private Stack<Map<Integer, Object>> revertedCreditsStack;
+	public List<ClientCreditsAndPayments> creditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
 	private ICurrencyProvider currencyProvider;
@@ -453,7 +446,6 @@ public abstract class TransactionReceivePaymentTable extends
 									onFailure(null);
 
 								addCreditsAndPayments(result);
-								creditsStack = new Stack<Map<Integer, Object>>();
 								gotCreditsAndPayments = true;
 								calculateUnusedCredits();
 							}
@@ -523,205 +515,50 @@ public abstract class TransactionReceivePaymentTable extends
 		return writeOffAccount;
 	}
 
-	public void openCreditsDialog(
-			final ClientTransactionReceivePayment selectedObject) {
+	public void openCreditsDialog(final ClientTransactionReceivePayment ctrp) {
 		if (gotCreditsAndPayments) {
-			if (/*
-				 * creditsAndPaymentsDialiog == null ||
-				 */newAppliedCreditsDialiog == null) {
-				for (ClientCreditsAndPayments rec : updatedCustomerCreditsAndPayments) {
-					rec.setActualAmt(rec.getBalance());
-					rec.setRemaoningBalance(rec.getBalance());
+			final NewApplyCreditsDialog dialog = new NewApplyCreditsDialog(
+					creditsAndPayments,
+					ctrp.getTransactionCreditsAndPayments(),
+					ctrp.getAmountDue(), this.currencyProvider);
+
+			dialog.addInputDialogHandler(new InputDialogHandler() {
+
+				@Override
+				public void onCancel() {
 				}
-				// creditsAndPaymentsDialiog = new
-				// CustomerCreditsAndPaymentsDialiog(
-				// this.customer, updatedCustomerCreditsAndPayments,
-				// canEdit, selectedObject);
-				newAppliedCreditsDialiog = new NewApplyCreditsDialog(
-						this.customer, updatedCustomerCreditsAndPayments,
-						canEdit, selectedObject, currencyProvider);
 
-			} else {
-				if (selectedObject.isCreditsApplied()) {
-					Map<Integer, Object> appliedCredits = selectedObject
-							.getTempCredits();
-					int size = updatedCustomerCreditsAndPayments.size();
-					for (int i = 0; i < size; i++) {
-						if (appliedCredits.containsKey(i)) {
-							ClientCreditsAndPayments selectdCredit = updatedCustomerCreditsAndPayments
-									.get(i);
-							TempCredit tmpCr = (TempCredit) appliedCredits
-									.get(i);
-							selectdCredit.setAmtTouse(tmpCr.getAmountToUse());
-							selectdCredit.setBalance(selectdCredit
-									.getRemaoningBalance());
-						} else {
-							ClientCreditsAndPayments unSelectdCredit = updatedCustomerCreditsAndPayments
-									.get(i);
-							unSelectdCredit.setAmtTouse(0);
-						}
-					}
-				} else {
-					if (revertedCreditsStack != null
-							&& revertedCreditsStack.size() != 0) {
-						Map<Integer, Object> stkCredit = revertedCreditsStack
-								.peek();
+				@Override
+				public boolean onOK() {
+					ctrp.updatePayment();
 
-						for (Integer indx : stkCredit.keySet()) {
+					// adjustPaymentValue(ctrp);
+					updateValue(ctrp);
 
-							TempCredit tempCrt = (TempCredit) stkCredit
-									.get(indx);
-							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
-									.get(indx.intValue());
-							rec.setBalance(tempCrt.getRemainingBalance()
-									+ tempCrt.getAmountToUse());
-							rec.setRemaoningBalance(rec.getBalance());
-							rec.setAmtTouse(0);
-						}
-						revertedCreditsStack.clear();
-					} else if (creditsStack != null && creditsStack.size() != 0) {
-						Map<Integer, Object> stkCredit = creditsStack.peek();
+					// updateFootervalues(ctrp, canEdit);
 
-						for (Integer indx : stkCredit.keySet()) {
-
-							TempCredit tempCrt = (TempCredit) stkCredit
-									.get(indx);
-							ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
-									.get(indx.intValue());
-							rec.setBalance(tempCrt.getRemainingBalance());
-							rec.setRemaoningBalance(rec.getBalance());
-							rec.setAmtTouse(0);
-						}
-					}
+					setUnUsedCreditsTextAmount(getUnusedCredits());
+					return true;
 				}
-				// creditsAndPaymentsDialiog
-				// .setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
-				// creditsAndPaymentsDialiog.setCanEdit(canEdit);
-				// creditsAndPaymentsDialiog.setRecord(selectedObject);
-				// creditsAndPaymentsDialiog.setCustomer(customer);
-				// creditsAndPaymentsDialiog.updateFields();
+			});
+			dialog.show();
 
-				newAppliedCreditsDialiog
-						.setUpdatedCreditsAndPayments(updatedCustomerCreditsAndPayments);
-				newAppliedCreditsDialiog.setCanEdit(canEdit);
-				newAppliedCreditsDialiog.setRecord(selectedObject);
-				newAppliedCreditsDialiog.setCustomer(customer);
-				newAppliedCreditsDialiog.updateFields();
-			}
-		} else if (!gotCreditsAndPayments && canEdit) {
-			Accounter.showInformation(messages.noCreditsforthiscustomer(Global
-					.get().customer()));
-		}
-		if (!canEdit) {
-			// creditsAndPaymentsDialiog = new
-			// CustomerCreditsAndPaymentsDialiog(
-			// this.customer,
-			// getSelectedCreditsAndPayments(selectedObject), canEdit,
-			// selectedObject);
-
-			newAppliedCreditsDialiog = new NewApplyCreditsDialog(this.customer,
-					getSelectedCreditsAndPayments(selectedObject), canEdit,
-					selectedObject, currencyProvider);
+		} else {
+			Accounter.showInformation(messages.noCreditsForThisVendor(Global
+					.get().vendor()));
 		}
 
-		if (newAppliedCreditsDialiog == null)
-			return;
+	}
 
-		newAppliedCreditsDialiog
-				.addInputDialogHandler(new InputDialogHandler() {
-
-					@Override
-					public boolean onOK() {
-
-						List<ClientCreditsAndPayments> appliedCreditsForThisRec = newAppliedCreditsDialiog
-								.getAppliedCredits();
-						Map<Integer, Object> appliedCredits = new HashMap<Integer, Object>();
-						TempCredit creditRec = null;
-
-						for (ClientCreditsAndPayments rec : appliedCreditsForThisRec) {
-							try {
-								checkBalance(rec.getAmtTouse());
-							} catch (Exception e) {
-								Accounter.showError(e.getMessage());
-								return false;
-							}
-							Integer recordIndx = newAppliedCreditsDialiog.grid
-									.indexOf(rec);
-							creditRec = new TempCredit();
-							for (ClientTransactionReceivePayment rcvp : getSelectedRecords()) {
-								if (rcvp.isCreditsApplied()) {
-									for (Integer idx : rcvp.getTempCredits()
-											.keySet()) {
-										if (recordIndx == idx)
-											((TempCredit) rcvp.getTempCredits()
-													.get(idx))
-													.setRemainingBalance(rec
-															.getBalance());
-									}
-								}
-							}
-							creditRec.setRemainingBalance(rec.getBalance());
-							creditRec.setAmountToUse(rec.getAmtTouse());
-							appliedCredits.put(recordIndx, creditRec);
-						}
-						selectedObject.setTempCredits(appliedCredits);
-						selectedObject.setCreditsApplied(true);
-
-						creditsStack.push(appliedCredits);
-
-						try {
-
-							newAppliedCreditsDialiog.okClicked = true;
-
-							// creditsAndPaymentsDialiog.validateTransaction();
-
-						} catch (Exception e) {
-							Accounter.showError(e.getMessage());
-							return false;
-						}
-
-						selectedObject.setAppliedCredits(
-								newAppliedCreditsDialiog.getTotalCreditAmount(),
-								true);
-						updatePayment(selectedObject);
-						recalculateGridAmounts();
-						update(selectedObject);
-						setUnUsedCreditsTextAmount(newAppliedCreditsDialiog.totalBalances);
-						return false;
-					}
-
-					@Override
-					public void onCancel() {
-						newAppliedCreditsDialiog.cancelClicked = true;
-
-					}
-				});
-
-		newAppliedCreditsDialiog.show();
-
+	protected double getUnusedCredits() {
+		double unusedCredits = 0.0;
+		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+			unusedCredits += ccap.getBalance();
+		}
+		return unusedCredits;
 	}
 
 	protected abstract void setUnUsedCreditsTextAmount(Double totalBalances);
-
-	public void revertCredits() {
-		if (revertedCreditsStack != null && revertedCreditsStack.size() != 0) {
-			Map<Integer, Object> stkCredit = revertedCreditsStack.peek();
-
-			for (Integer indx : stkCredit.keySet()) {
-
-				TempCredit tempCrt = (TempCredit) stkCredit.get(indx);
-				ClientCreditsAndPayments rec = updatedCustomerCreditsAndPayments
-						.get(indx.intValue());
-				rec.setBalance(rec.getBalance() + tempCrt.getAmountToUse());
-				rec.setRemaoningBalance(rec.getBalance());
-				rec.setAmtTouse(0);
-			}
-			if (creditsStack.contains(stkCredit)) {
-				creditsStack.remove(stkCredit);
-			}
-			revertedCreditsStack.clear();
-		}
-	}
 
 	public void checkBalance(double amount) throws Exception {
 		if (DecimalUtil.isEquals(amount, 0))
@@ -750,21 +587,13 @@ public abstract class TransactionReceivePaymentTable extends
 
 	}
 
-	private List<ClientCreditsAndPayments> getSelectedCreditsAndPayments(
-			ClientTransactionReceivePayment selectedObject) {
-		List<ClientCreditsAndPayments> createdCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
-		ClientTransactionReceivePayment tranReceivePayment;
-		tranReceivePayment = this.tranReceivePayments
-				.get(indexOf(selectedObject));
-		for (ClientTransactionCreditsAndPayments trancreditsAndPaymnets : tranReceivePayment
-				.getTransactionCreditsAndPayments()) {
-			ClientCreditsAndPayments creditsAmdPayment = trancreditsAndPaymnets
-					.getCreditsAndPayments();
-			creditsAmdPayment.setAmtTouse(trancreditsAndPaymnets
-					.getAmountToUse());
-			createdCreditsAndPayments.add(creditsAmdPayment);
+	private ClientCreditsAndPayments getCreditsAndPayment(long id) {
+		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+			if (ccap.getID() == id) {
+				return ccap;
+			}
 		}
-		return createdCreditsAndPayments;
+		return null;
 	}
 
 	public void setTranReceivePayments(
@@ -852,7 +681,7 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	private void resetValues() {
-		for (ClientCreditsAndPayments crdt : updatedCustomerCreditsAndPayments) {
+		for (ClientCreditsAndPayments crdt : creditsAndPayments) {
 			crdt.setBalance(crdt.getActualAmt());
 			crdt.setRemaoningBalance(crdt.getBalance());
 			crdt.setAmtTouse(0);
@@ -860,14 +689,8 @@ public abstract class TransactionReceivePaymentTable extends
 		for (ClientTransactionReceivePayment obj : this.getRecords()) {
 			resetValue(obj);
 			recalculateGridAmounts();
-			// if (creditsAndPaymentsDialiog != null
-			// && creditsAndPaymentsDialiog.grid.getRecords().size() == 0)
-			if (newAppliedCreditsDialiog != null
-					&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)
-				creditsStack.clear();
 			selectedValues.remove((Integer) indexOf(obj));
 		}
-		newAppliedCreditsDialiog = null;
 		cashDiscountDialog = null;
 		writeOffDialog = null;
 	}
@@ -879,43 +702,18 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	public void resetValue(ClientTransactionReceivePayment obj) {
-		if (obj.isCreditsApplied()) {
-			int size = updatedCustomerCreditsAndPayments.size();
-			Map<Integer, Object> toBeRvrtMap = obj.getTempCredits();
-			/* 'i' is creditRecord(in creditGrid) index */
-			for (int i = 0; i < size; i++) {
-				if (toBeRvrtMap.containsKey(i)) {
-					TempCredit toBeAddCr = (TempCredit) toBeRvrtMap.get(i);
-					/*
-					 * search for this revertedCreditRecord in all selected
-					 * payBill record's credits
-					 */
-					if (getSelectedRecords().size() != 0) {
-						for (int j = 0; j < getSelectedRecords().size(); j++) {
-							Map<Integer, Object> rcvCrsMap = getSelectedRecords()
-									.get(j).getTempCredits();
-							if (rcvCrsMap.containsKey(i)) {
-								TempCredit chngCrd = (TempCredit) rcvCrsMap
-										.get(i);
-								chngCrd.setRemainingBalance(chngCrd
-										.getRemainingBalance()
-										+ toBeAddCr.getAmountToUse());
-							}
-						}
-					}
-					revertedCreditsStack = new Stack<Map<Integer, Object>>();
-					revertedCreditsStack.push(toBeRvrtMap);
+		// setAccountDefaultValues(obj);
+		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+			double balance = ccap.getBalance();
+			double usedAmount = 0.0;
+			for (ClientTransactionCreditsAndPayments ctcap : obj.getTransactionCreditsAndPayments()) {
+				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+					usedAmount+=ctcap.getAmountToUse();
 				}
 			}
-
-			obj.setCreditsApplied(false);
-			revertCredits();
+			obj.getTransactionCreditsAndPayments().clear();
+			ccap.setBalance(balance + usedAmount);
 		}
-		if (newAppliedCreditsDialiog != null
-				&& newAppliedCreditsDialiog.grid.getRecords().size() == 0)
-			creditsStack.clear();
-
-		// setAccountDefaultValues(obj);
 		deleteTotalPayment(obj.getPayment());
 		obj.setPayment(0.0d);
 		// obj.setCashDiscount(0.0d);
@@ -1008,63 +806,31 @@ public abstract class TransactionReceivePaymentTable extends
 	}
 
 	public void addCreditsAndPayments(List<ClientCreditsAndPayments> credits) {
-
-		if (credits == null || credits.isEmpty()) {
+		if (credits == null) {
 			return;
 		}
-
-		for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
-			ClientCreditsAndPayments credit = getCreditWithTransaction(credits,
-					cap.getID());
-			if (credit != null) {
-				cap.setBalance(cap.getBalance() + credit.getBalance());
-				credits.remove(credit);
-			}
-		}
-		updatedCustomerCreditsAndPayments.addAll(credits);
-
+		creditsAndPayments=credits;
 	}
 
-	private ClientCreditsAndPayments getCreditWithTransaction(
-			List<ClientCreditsAndPayments> credits, long transactionId) {
-		for (ClientCreditsAndPayments credit : credits) {
-			if (credit.getID() == transactionId) {
-				return credit;
-			}
-		}
-		return null;
-	}
+	
 
 	public void addTransactionCreditsAndPayments(
 			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
-		if (transactionCreditsAndPayments == null
-				|| transactionCreditsAndPayments.isEmpty()) {
+		if (transactionCreditsAndPayments == null) {
 			return;
 		}
-		for (ClientTransactionCreditsAndPayments ctcp : transactionCreditsAndPayments) {
-			ClientCreditsAndPayments credit = toCreditsAndPayments(ctcp);
-			boolean isMerged = false;
-			for (ClientCreditsAndPayments cap : updatedCustomerCreditsAndPayments) {
-				if (cap.getID() == credit.getID()) {
-					cap.setBalance(cap.getBalance() + credit.getBalance());
-					credit.setBalance(cap.getBalance());
-					ctcp.setCreditsAndPayments(cap);
-					isMerged = true;
-					break;
+		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+			double balance = ccap.getBalance();
+			double usedAmount = 0.0;
+			for (ClientTransactionCreditsAndPayments ctcap : transactionCreditsAndPayments) {
+				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+					usedAmount+=ctcap.getAmountToUse();
 				}
 			}
-			if (!isMerged) {
-				updatedCustomerCreditsAndPayments.add(credit);
-			}
-		}
+			transactionCreditsAndPayments.clear();
+			ccap.setBalance(balance + usedAmount);
+		}		
 	}
 
-	private ClientCreditsAndPayments toCreditsAndPayments(
-			ClientTransactionCreditsAndPayments ctcp) {
-		ClientCreditsAndPayments creditsAndPayments = ctcp
-				.getCreditsAndPayments();
-		creditsAndPayments.setBalance(ctcp.getAmountToUse());
-		return creditsAndPayments;
-	}
-
+	
 }
