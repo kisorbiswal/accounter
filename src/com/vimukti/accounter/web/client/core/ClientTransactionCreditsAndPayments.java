@@ -16,11 +16,11 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 
 	double amountToUse;
 
-	ClientTransactionReceivePayment transactionReceivePayment;
+//	ClientTransactionReceivePayment transactionReceivePayment;
 
-	ClientTransactionPayBill transactionPayBill;
+//	ClientTransactionPayBill transactionPayBill;
 
-	ClientCreditsAndPayments creditsAndPayments;
+	long creditsAndPayments;
 
 	boolean isVoid = false;
 
@@ -58,28 +58,28 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 		this.amountToUse = amountToUse;
 	}
 
-	public ClientTransactionReceivePayment getTransactionReceivePayment() {
-		return transactionReceivePayment;
-	}
-
-	public void setTransactionReceivePayment(
-			ClientTransactionReceivePayment transactionReceivePayment) {
-		this.transactionReceivePayment = transactionReceivePayment;
-	}
-
-	public ClientTransactionPayBill getTransactionPayBill() {
-		return transactionPayBill;
-	}
-
-	public void setTransactionPayBill(
-			ClientTransactionPayBill transactionPayBill) {
-		this.transactionPayBill = transactionPayBill;
-	}
+//	public ClientTransactionReceivePayment getTransactionReceivePayment() {
+//		return transactionReceivePayment;
+//	}
+//
+//	public void setTransactionReceivePayment(
+//			ClientTransactionReceivePayment transactionReceivePayment) {
+//		this.transactionReceivePayment = transactionReceivePayment;
+//	}
+//
+//	public ClientTransactionPayBill getTransactionPayBill() {
+//		return transactionPayBill;
+//	}
+//
+//	public void setTransactionPayBill(
+//			ClientTransactionPayBill transactionPayBill) {
+//		this.transactionPayBill = transactionPayBill;
+//	}
 
 	/**
 	 * @return the creditsAndPayments
 	 */
-	public ClientCreditsAndPayments getCreditsAndPayments() {
+	public long getCreditsAndPayments() {
 		return creditsAndPayments;
 	}
 
@@ -104,7 +104,7 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 	}
 
 	public void setCreditsAndPayments(
-			ClientCreditsAndPayments creditsAnsPayments) {
+			long creditsAnsPayments) {
 		this.creditsAndPayments = creditsAnsPayments;
 
 	}
@@ -158,12 +158,13 @@ public class ClientTransactionCreditsAndPayments implements IAccounterCore {
 	public ClientTransactionCreditsAndPayments clone() {
 		ClientTransactionCreditsAndPayments clientTransactionCreditsAndPaymentsClone = (ClientTransactionCreditsAndPayments) this
 				.clone();
-		clientTransactionCreditsAndPaymentsClone.transactionReceivePayment = this.transactionReceivePayment
-				.clone();
-		clientTransactionCreditsAndPaymentsClone.transactionPayBill = this.transactionPayBill
-				.clone();
-		clientTransactionCreditsAndPaymentsClone.creditsAndPayments = this.creditsAndPayments
-				.clone();
+		// clientTransactionCreditsAndPaymentsClone.transactionReceivePayment =
+		// this.transactionReceivePayment
+		// .clone();
+		// clientTransactionCreditsAndPaymentsClone.transactionPayBill =
+		// this.transactionPayBill
+		// .clone();
+		clientTransactionCreditsAndPaymentsClone.creditsAndPayments = this.creditsAndPayments;
 		return clientTransactionCreditsAndPaymentsClone;
 	}
 }

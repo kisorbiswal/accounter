@@ -21,7 +21,7 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	private int version;
 	long payee;
 
-	Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<ClientTransactionCreditsAndPayments>();
+//	Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new HashSet<ClientTransactionCreditsAndPayments>();
 
 	private double amtTouse;
 
@@ -67,14 +67,14 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 		this.payee = payee;
 	}
 
-	public Set<ClientTransactionCreditsAndPayments> getTransactionCreditsAndPayments() {
-		return transactionCreditsAndPayments;
-	}
-
-	public void setTransactionCreditsAndPayments(
-			Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
-		this.transactionCreditsAndPayments = transactionCreditsAndPayments;
-	}
+//	public Set<ClientTransactionCreditsAndPayments> getTransactionCreditsAndPayments() {
+//		return transactionCreditsAndPayments;
+//	}
+//
+//	public void setTransactionCreditsAndPayments(
+//			Set<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
+//		this.transactionCreditsAndPayments = transactionCreditsAndPayments;
+//	}
 
 	public ClientCreditsAndPayments() {
 	}
@@ -140,12 +140,12 @@ public class ClientCreditsAndPayments implements IAccounterCore {
 	public ClientCreditsAndPayments clone() {
 		ClientCreditsAndPayments creditsAndPayments = (ClientCreditsAndPayments) this
 				.clone();
-		Set<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new HashSet<ClientTransactionCreditsAndPayments>();
-		for (ClientTransactionCreditsAndPayments clientTransactionCreditsAndPayments : this.transactionCreditsAndPayments) {
-			creditsAndPaymentsSet.add(clientTransactionCreditsAndPayments
-					.clone());
-		}
-		creditsAndPayments.transactionCreditsAndPayments = creditsAndPaymentsSet;
+//		Set<ClientTransactionCreditsAndPayments> creditsAndPaymentsSet = new HashSet<ClientTransactionCreditsAndPayments>();
+//		for (ClientTransactionCreditsAndPayments clientTransactionCreditsAndPayments : this.transactionCreditsAndPayments) {
+//			creditsAndPaymentsSet.add(clientTransactionCreditsAndPayments
+//					.clone());
+//		}
+//		creditsAndPayments.transactionCreditsAndPayments = creditsAndPaymentsSet;
 		return creditsAndPayments;
 
 	}

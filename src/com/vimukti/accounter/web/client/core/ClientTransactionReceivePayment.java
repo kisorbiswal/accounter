@@ -37,7 +37,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	long receivePayment;
 
-	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments;
+	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments=new ArrayList<ClientTransactionCreditsAndPayments>();
 
 	boolean isVoid = false;
 
@@ -45,7 +45,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	public transient boolean isInvoice;
 
-	//Check credits applly manually or automatically
+	// Check credits applly manually or automatically
 	public boolean creditsAppliedManually = false;
 
 	long journalEntry;
@@ -377,5 +377,19 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		}// TODO
 
 		return clientTransactionReceivePaymentClone;
+	}
+
+	public void updatePayment() {
+		this.creditsAppliedManually = true;
+		double creditsTotal = 0.0;
+		for (ClientTransactionCreditsAndPayments ctcap : this.transactionCreditsAndPayments) {
+			creditsTotal += ctcap.amountToUse;
+		}
+		if (creditsTotal > 0) {
+			appliedCredits = creditsTotal;
+			isCreditsApplied = true;
+		}
+		this.payment = this.amountDue
+				- (this.appliedCredits + this.cashDiscount + this.writeOff);
 	}
 }

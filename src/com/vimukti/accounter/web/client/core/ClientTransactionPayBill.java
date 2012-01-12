@@ -24,7 +24,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	double appliedCredits = 0D;
 	double payment = 0D;
 	double tdsAmount = 0D;
-	ClientPayBill payBill;
 	private double dummyDue;
 
 	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
@@ -38,12 +37,10 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	long journalEntry;
 
-	/* The following fields are just for saving credits temporarly */
-	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
 	double remainingCreditBalance;
 	boolean isCreditsApplied;
 
-	//Check credits applly manually or automatically
+	// Check credits applly manually or automatically
 	public boolean creditsAppliedManually = false;
 
 	public boolean isCreditsApplied() {
@@ -52,14 +49,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	public void setCreditsApplied(boolean isCreditsApplied) {
 		this.isCreditsApplied = isCreditsApplied;
-	}
-
-	public Map<Integer, Object> getTempCredits() {
-		return tempCredits;
-	}
-
-	public void setTempCredits(Map<Integer, Object> tempCredits) {
-		this.tempCredits = tempCredits;
 	}
 
 	public double getRemainingCreditBalance() {
@@ -247,21 +236,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		this.payment = payment;
 	}
 
-	/**
-	 * @return the paybill
-	 */
-	public ClientPayBill getPayBill() {
-		return payBill;
-	}
-
-	/**
-	 * @param transaction
-	 *            the transaction to set
-	 */
-	public void setPayBill(ClientPayBill payBill) {
-		this.payBill = payBill;
-	}
-
 	public List<ClientTransactionCreditsAndPayments> getTransactionCreditsAndPayments() {
 		return transactionCreditsAndPayments;
 	}
@@ -358,7 +332,6 @@ public class ClientTransactionPayBill implements IAccounterCore {
 	public ClientTransactionPayBill clone() {
 		ClientTransactionPayBill clientTransactionCreditsAndPaymentsClone = (ClientTransactionPayBill) this
 				.clone();
-		clientTransactionCreditsAndPaymentsClone.payBill = this.payBill.clone();
 		List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayment = new ArrayList<ClientTransactionCreditsAndPayments>();
 		for (ClientTransactionCreditsAndPayments clientPayments : this.transactionCreditsAndPayments) {
 			transactionCreditsAndPayments.add(clientPayments.clone());
@@ -374,5 +347,33 @@ public class ClientTransactionPayBill implements IAccounterCore {
 
 	public void setTdsAmount(double tdsAmount) {
 		this.tdsAmount = tdsAmount;
+	}
+
+	public long getTransactionID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getTransactionType() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/**
+	 * Called after we apply credits using dialog
+	 */
+	public void updatePayment() {
+		this.creditsAppliedManually = true;
+		double creditsTotal = 0.0;
+		for (ClientTransactionCreditsAndPayments ctcap : this.transactionCreditsAndPayments) {
+			creditsTotal += ctcap.amountToUse;
+		}
+		if (creditsTotal > 0) {
+			appliedCredits = creditsTotal;
+			isCreditsApplied = true;
+		}
+		this.payment = this.amountDue
+				- (this.appliedCredits + this.cashDiscount);
+
 	}
 }
