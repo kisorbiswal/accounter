@@ -142,8 +142,10 @@ public class MenuBar {
 		Menu inventoryMenuBar = new Menu(string);
 
 		if (notReadOnlyUser == true) {
-			inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
-					HistoryTokens.STOCKADJUSTMENT, "H");
+			if (iswareHouseEnabled) {
+				inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
+						HistoryTokens.STOCKADJUSTMENT, "H");
+			}
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
 		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
@@ -164,8 +166,10 @@ public class MenuBar {
 			inventoryMenu.addMenuItem(messages.warehouseTransferList(),
 					HistoryTokens.WAREHOUSETRANSFERLIST);
 		}
-		inventoryMenu.addMenuItem(messages.stockAdjustments(),
-				HistoryTokens.STOCKADJUSTMENTS);
+		if (iswareHouseEnabled) {
+			inventoryMenu.addMenuItem(messages.stockAdjustments(),
+					HistoryTokens.STOCKADJUSTMENTS);
+		}
 		inventoryMenu.addMenuItem(messages.measurementList(),
 				HistoryTokens.MEASUREMENTLIST);
 
