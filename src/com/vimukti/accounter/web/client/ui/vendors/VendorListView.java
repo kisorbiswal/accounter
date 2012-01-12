@@ -174,8 +174,8 @@ public class VendorListView extends BaseListView<PayeeList> {
 
 	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
+		grid.removeAllRecords();
 		if (result.isEmpty()) {
-			grid.removeAllRecords();
 			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
