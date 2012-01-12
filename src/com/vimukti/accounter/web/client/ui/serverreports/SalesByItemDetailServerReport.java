@@ -48,7 +48,7 @@ public class SalesByItemDetailServerReport extends
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
