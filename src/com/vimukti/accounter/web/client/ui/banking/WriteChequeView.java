@@ -1215,6 +1215,13 @@ public class WriteChequeView extends
 		if (transactionVendorAccountTable == null) {
 			return;
 		}
+		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+		if (tax != null) {
+			for (ClientTransactionItem item : transactionVendorAccountTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+		}
 		double total = transactionVendorAccountTable.getGrandTotal();
 
 		if (!isAmountChange) {

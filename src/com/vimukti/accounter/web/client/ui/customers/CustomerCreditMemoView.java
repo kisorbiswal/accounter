@@ -692,6 +692,17 @@ public class CustomerCreditMemoView extends
 		if (customerAccountTransactionTable == null
 				|| customerItemTransactionTable == null)
 			return;
+		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+		if (tax != null) {
+			for (ClientTransactionItem item : customerAccountTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+			for (ClientTransactionItem item : customerItemTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+		}
 		double total = customerAccountTransactionTable.getGrandTotal()
 				+ customerItemTransactionTable.getGrandTotal();
 		setTransactionTotal(total);

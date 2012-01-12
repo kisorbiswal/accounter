@@ -805,6 +805,15 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
+
+		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+		if (tax != null) {
+			for (ClientTransactionItem item : customerTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+		}
+
 		if (isTrackTax()) {
 			setSalesTax(customerTransactionTable.getTotalTax()
 					+ transactionsTree.getTotalTax());

@@ -987,6 +987,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	public void updateNonEditableItems() {
 		if (customerTransactionTable == null)
 			return;
+		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+		if (tax != null) {
+			for (ClientTransactionItem item : customerTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+		}
 		if (isTrackTax()) {
 			netAmountLabel.setAmount(customerTransactionTable.getLineTotal());
 			// vatTotalNonEditableText.setAmount(customerTransactionTable

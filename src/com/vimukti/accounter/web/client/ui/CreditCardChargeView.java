@@ -947,6 +947,17 @@ public class CreditCardChargeView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
+		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+		if (tax != null) {
+			for (ClientTransactionItem item : vendorAccountTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+			for (ClientTransactionItem item : vendorItemTransactionTable
+					.getRecords()) {
+				item.setTaxCode(tax.getID());
+			}
+		}
 		double lineTotal = vendorAccountTransactionTable.getLineTotal()
 				+ vendorItemTransactionTable.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
