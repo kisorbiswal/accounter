@@ -77,6 +77,7 @@ public abstract class CustomerAccountTransactionTable extends
 					public boolean filter(ClientAccount account) {
 						if (account.getType() != ClientAccount.TYPE_CASH
 								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_CREDIT_CARD
 								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE

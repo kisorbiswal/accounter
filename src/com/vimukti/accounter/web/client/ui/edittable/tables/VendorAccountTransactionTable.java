@@ -91,6 +91,7 @@ public abstract class VendorAccountTransactionTable extends
 
 						if (account.getType() != ClientAccount.TYPE_CASH
 								&& account.getType() != ClientAccount.TYPE_BANK
+								&& account.getType() != ClientAccount.TYPE_CREDIT_CARD
 								&& account.getType() != ClientAccount.TYPE_INVENTORY_ASSET
 								&& account.getType() != ClientAccount.TYPE_ACCOUNT_RECEIVABLE
 								&& account.getType() != ClientAccount.TYPE_ACCOUNT_PAYABLE
