@@ -19,7 +19,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		int referCustomers = preferences().getReferCustomers();
 		switch (referCustomers) {
 		case ClientCustomer.CUSTOMER:
-			return messages().customer().trim();
+			return messages().Customer().trim();
 		case ClientCustomer.CLIENT:
 			return messages().Client().trim();
 		case ClientCustomer.TENANT:
@@ -33,7 +33,7 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientCustomer.PATITEINT:
 			return messages().Patient().trim();
 		default:
-			return messages().customer().trim();
+			return messages().Customer().trim();
 		}
 	}
 
@@ -80,9 +80,9 @@ public abstract class AbstractGlobal implements IGlobal {
 		case ClientVendor.SUPPLIER:
 			return messages().supplier().trim();
 		case ClientVendor.VENDOR:
-			return messages().Vendor().trim();
+			return messages().vendor().trim();
 		default:
-			return messages().Vendor().trim();
+			return messages().vendor().trim();
 		}
 	}
 
