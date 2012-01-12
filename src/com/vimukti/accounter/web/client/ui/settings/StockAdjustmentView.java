@@ -184,7 +184,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 			wareHouseCombo.setComboItem(warehouse);
 			List<ClientStockAdjustmentItem> stockAdjustmentItems = data
 					.getStockAdjustmentItems();
-			if (!stockAdjustmentItems.isEmpty()) {
+			if (stockAdjustmentItems != null && !stockAdjustmentItems.isEmpty()) {
 				table.setAllRows(stockAdjustmentItems);
 			} else {
 				table.addEmptyMessage(messages.noRecordsToShow());
