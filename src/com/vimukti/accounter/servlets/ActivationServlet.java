@@ -37,16 +37,19 @@ public class ActivationServlet extends BaseServlet {
 		String destUrl = req.getParameter(PARAM_DESTINATION);
 		String emailId = (String) session.getAttribute(EMAIL_ID);
 
-		Session hbSession = HibernateUtil.getCurrentSession();
-		Client client = (Client) hbSession.getNamedQuery("getClient.by.mailId")
-				.setParameter(EMAIL_ID, emailId).uniqueResult();
-		if (client.isActive()) {
-			if (destUrl == null || destUrl.isEmpty()) {
-				redirectExternal(req, resp, COMPANIES_URL);
-			} else {
-				redirectExternal(req, resp, destUrl);
+		if (emailId != null) {
+			Session hbSession = HibernateUtil.getCurrentSession();
+			Client client = (Client) hbSession
+					.getNamedQuery("getClient.by.mailId")
+					.setParameter(EMAIL_ID, emailId).uniqueResult();
+			if (client != null && client.isActive()) {
+				if (destUrl == null || destUrl.isEmpty()) {
+					redirectExternal(req, resp, COMPANIES_URL);
+				} else {
+					redirectExternal(req, resp, destUrl);
+				}
+				return;
 			}
-			return;
 		}
 
 		String parameter = req.getParameter("message");
