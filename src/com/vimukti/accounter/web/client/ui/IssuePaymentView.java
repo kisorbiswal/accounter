@@ -230,7 +230,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		if (entry.getPaymentMethod() != null)
 			record.setPaymentMethod(entry.getPaymentMethod());
 		record.setRecordType(entry.getType());
-
+		record.setCurrency(entry.getCurrency());
 		switch (entry.getType()) {
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			record.setWriteCheck(entry.getTransactionId());
@@ -566,7 +566,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 			if (record.getPaymentMethod() != null) {
 				entry.setPaymentMethod(record.getPaymentMethod());
 			}
-
+			entry.setCurrency(record.getCurrency());
 			switch (record.getRecordType()) {
 			case ClientTransaction.TYPE_WRITE_CHECK:
 				entry.setWriteCheck(record.getWriteCheck());
@@ -605,9 +605,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 				break;
 
 			}
-
 			entry.setTransaction(issuePayment);
-
 			transactionIssuePaymentsList.add(entry);
 
 		}
