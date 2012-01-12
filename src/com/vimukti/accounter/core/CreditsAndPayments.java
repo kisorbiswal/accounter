@@ -181,13 +181,14 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 		this.balance -= amount;
 
-		updateTransactionBalanceDue(transaction, amount);
+		updateTransactionBalanceDue(this.transaction, amount);
 
 		updateStatus();
 	}
 
 	private void updateTransactionBalanceDue(Transaction transaction,
 			double amount) {
+		transaction=HibernateUtil.initializeAndUnproxy(transaction);
 		switch (transaction.getType()) {
 
 		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
@@ -210,10 +211,21 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			HibernateUtil.getCurrentSession().saveOrUpdate(cpp);
 			break;
 
-		case Transaction.TYPE_PAY_BILL:
-			HibernateUtil.getCurrentSession().saveOrUpdate(transaction);
-			break;
+//		case Transaction.TYPE_PAY_BILL:
+//			HibernateUtil.getCurrentSession().saveOrUpdate(transaction);
+//			break;
 		}
+//		if (DecimalUtil.isGreaterThan(
+//				this.getBalance(), 0)
+//				&& DecimalUtil.isLessThan(
+//						this.getBalance(),
+//						this.getCreditAmount())) {
+//
+//			this.getTransaction()
+//					.setStatus(
+//							Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
+//
+//		}
 
 	}
 

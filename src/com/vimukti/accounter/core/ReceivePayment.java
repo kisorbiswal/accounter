@@ -603,34 +603,34 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 			}
-			for (TransactionReceivePayment tReceivePaymentOld : receivePayment
-					.getTransactionReceivePayment()) {
-				for (TransactionCreditsAndPayments tcp : tReceivePaymentOld
-						.getTransactionCreditsAndPayments()) {
-					boolean isExists = false;
-					for (TransactionReceivePayment tReceivePayment : this
-							.getTransactionReceivePayment()) {
-						List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tReceivePayment
-								.getTransactionCreditsAndPayments();
-						if (transactionCreditsAndPayments != null)
-							for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
-								if (tcp.getCreditsAndPayments().getID() == tcp2
-										.getCreditsAndPayments().getID()) {
-									isExists = true;
-									break;
-								}
-							}
-
-					}
-					if (!isExists) {
-						tcp.onEditTransaction(-tcp.amountToUse);
-						tcp.amountToUse = 0.0;
-						session.saveOrUpdate(tcp.getCreditsAndPayments());
-					}
-				}
-
-				tReceivePaymentOld.doReverseEffect(true);
-			}
+//			for (TransactionReceivePayment tReceivePaymentOld : receivePayment
+//					.getTransactionReceivePayment()) {
+//				for (TransactionCreditsAndPayments tcp : tReceivePaymentOld
+//						.getTransactionCreditsAndPayments()) {
+//					boolean isExists = false;
+//					for (TransactionReceivePayment tReceivePayment : this
+//							.getTransactionReceivePayment()) {
+//						List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tReceivePayment
+//								.getTransactionCreditsAndPayments();
+//						if (transactionCreditsAndPayments != null)
+//							for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
+//								if (tcp.getCreditsAndPayments().getID() == tcp2
+//										.getCreditsAndPayments().getID()) {
+//									isExists = true;
+//									break;
+//								}
+//							}
+//
+//					}
+//					if (!isExists) {
+//						tcp.onEditTransaction(-tcp.amountToUse);
+//						tcp.amountToUse = 0.0;
+//						session.saveOrUpdate(tcp.getCreditsAndPayments());
+//					}
+//				}
+//
+//				tReceivePaymentOld.doReverseEffect(true);
+//			}
 
 			cleanTransactionitems(receivePayment);
 		}

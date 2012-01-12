@@ -326,6 +326,7 @@ public class PayBill extends Transaction {
 			// }
 			if (this.transactionPayBill != null) {
 				for (TransactionPayBill tpb : this.transactionPayBill) {
+					tpb.setPayBill(this);
 					if (DecimalUtil.isGreaterThan(
 							(tpb.payment - tpb.amountDue), 0)) {
 						unusedAmount += (tpb.payment + tpb.cashDiscount
@@ -362,7 +363,7 @@ public class PayBill extends Transaction {
 			}
 
 			double amountEffectedToAccount = total - tdsTotal;
-			if (amountEffectedToAccount != 0.00D) {
+			if (!DecimalUtil.isEquals(amountEffectedToAccount, 0.00D)) {
 				payFrom.updateCurrentBalance(this, amountEffectedToAccount,
 						currencyFactor);
 				session.update(payFrom);
@@ -529,6 +530,11 @@ public class PayBill extends Transaction {
 		Session session = HibernateUtil.getCurrentSession();
 		PayBill payBill = (PayBill) clonedObject;
 
+		if (this.transactionPayBill != null) {
+			for (TransactionPayBill tpb : this.transactionPayBill) {
+				tpb.setPayBill(this);
+			}
+		}
 		if (isDraftOrTemplate()) {
 			super.onEdit(payBill);
 			return;
@@ -588,24 +594,24 @@ public class PayBill extends Transaction {
 					this.getCurrencyFactor());
 		}
 
-		if (payBill.getCreditsAndPayments() != null) {
-			voidCreditsAndPayments(payBill);
-			payBill.creditsAndPayments = null;
-		}
-
-		if (DecimalUtil.isGreaterThan(this.getUnusedAmount(), 0.0)) {
-			// insert this vendorPayment into CreditsAndPayments
-			if (creditsAndPayments != null
-					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
-							0.0d)) {
-
-				creditsAndPayments.update(this);
-			} else {
-				creditsAndPayments = new CreditsAndPayments(this);
-			}
-			this.setCreditsAndPayments(creditsAndPayments);
-			session.save(creditsAndPayments);
-		}
+		// if (payBill.getCreditsAndPayments() != null) {
+		// voidCreditsAndPayments(payBill);
+		// payBill.creditsAndPayments = null;
+		// }
+		//
+		// if (DecimalUtil.isGreaterThan(this.getUnusedAmount(), 0.0)) {
+		// // insert this vendorPayment into CreditsAndPayments
+		// if (creditsAndPayments != null
+		// && DecimalUtil.isEquals(creditsAndPayments.creditAmount,
+		// 0.0d)) {
+		//
+		// creditsAndPayments.update(this);
+		// } else {
+		// creditsAndPayments = new CreditsAndPayments(this);
+		// }
+		// this.setCreditsAndPayments(creditsAndPayments);
+		// session.save(creditsAndPayments);
+		// }
 
 		// Update TDS Account if TDSEnabled
 		if (getCompany().getPreferences().isTDSEnabled()
@@ -618,32 +624,34 @@ public class PayBill extends Transaction {
 			}
 		}
 
-		for (TransactionPayBill tbillOld : payBill.getTransactionPayBill()) {
-			for (TransactionCreditsAndPayments tcp : tbillOld
-					.getTransactionCreditsAndPayments()) {
-				boolean isExists = false;
-				for (TransactionPayBill tBill : this.getTransactionPayBill()) {
-					List<TransactionCreditsAndPayments> transactionCreditsAndPayments = tBill
-							.getTransactionCreditsAndPayments();
-					for (TransactionCreditsAndPayments tcp2 : transactionCreditsAndPayments) {
-						if (tcp.getCreditsAndPayments().getID() == tcp2
-								.getCreditsAndPayments().getID()) {
-							isExists = true;
-							break;
-						}
-					}
-
-				}
-				if (!isExists) {
-					tcp.onEditTransaction(-tcp.amountToUse);
-					tcp.amountToUse = 0.0;
-					session.saveOrUpdate(tcp.getCreditsAndPayments());
-				}
-			}
-
-			// tbillOld.doReverseEffect(true);
-
-		}
+		// for (TransactionPayBill tbillOld : payBill.getTransactionPayBill()) {
+		// for (TransactionCreditsAndPayments tcp : tbillOld
+		// .getTransactionCreditsAndPayments()) {
+		// boolean isExists = false;
+		// for (TransactionPayBill tBill : this.getTransactionPayBill()) {
+		// List<TransactionCreditsAndPayments> transactionCreditsAndPayments =
+		// tBill
+		// .getTransactionCreditsAndPayments();
+		// for (TransactionCreditsAndPayments tcp2 :
+		// transactionCreditsAndPayments) {
+		// if (tcp.getCreditsAndPayments().getID() == tcp2
+		// .getCreditsAndPayments().getID()) {
+		// isExists = true;
+		// break;
+		// }
+		// }
+		//
+		// }
+		// if (!isExists) {
+		// tcp.onEditTransaction(-tcp.amountToUse);
+		// tcp.amountToUse = 0.0;
+		// session.saveOrUpdate(tcp.getCreditsAndPayments());
+		// }
+		// }
+		//
+		// // tbillOld.doReverseEffect(true);
+		//
+		// }
 
 	}
 

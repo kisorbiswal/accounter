@@ -306,8 +306,12 @@ public class TransactionPayBill extends CreatableObject implements
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		if (payBill != null)
-			setCompany(payBill.getCompany());
+		setCompany(payBill.getCompany());
+		if (transactionCreditsAndPayments != null) {
+			for (TransactionCreditsAndPayments tcap : this.transactionCreditsAndPayments) {
+				tcap.setTransactionPayBill(this);
+			}
+		}
 		if (this.getID() == 0l && !payBill.isDraftOrTemplate()
 				&& !payBill.isVoid()) {
 
@@ -397,18 +401,10 @@ public class TransactionPayBill extends CreatableObject implements
 		double amount = (this.cashDiscount) + (this.appliedCredits)
 				+ (this.payment);
 
-		if (!isDeleting) {
-			if (DecimalUtil.isGreaterThan(this.appliedCredits, 0.0)) {
-
-				for (TransactionCreditsAndPayments transactionCreditsAndPayments : this.transactionCreditsAndPayments) {
-
-					transactionCreditsAndPayments
-							.onEditTransaction(-transactionCreditsAndPayments.amountToUse);
-
-				}
-				// this.appliedCredits = 0.0;
-			}
+		for (TransactionCreditsAndPayments tcp : this.transactionCreditsAndPayments) {
+			session.delete(tcp);
 		}
+		transactionCreditsAndPayments.clear();
 
 		// this.cashDiscount = 0.0;
 		// this.payment = 0.0;
@@ -430,6 +426,7 @@ public class TransactionPayBill extends CreatableObject implements
 			session.saveOrUpdate(this.getJournalEntry());
 			this.journalEntry = null;
 		}
+
 		session.saveOrUpdate(this);
 
 	}

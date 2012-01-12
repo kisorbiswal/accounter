@@ -330,6 +330,12 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
+		
+		if(this.transactionCreditsAndPayments!=null){
+			for(TransactionCreditsAndPayments tcap:this.transactionCreditsAndPayments){
+				tcap.setTransactionReceivePayment(this);
+			}
+		}
 
 		if (receivePayment.isDraftOrTemplate() || receivePayment.isVoid()) {
 			return false;

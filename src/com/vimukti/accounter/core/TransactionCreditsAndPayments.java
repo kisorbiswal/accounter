@@ -135,33 +135,15 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
-		// doReverseEffect();
+		doReverseEffect();
 		return false;
 	}
 
 	public void doReverseEffect() {
 		Session session = HibernateUtil.getCurrentSession();
-		TransactionReceivePayment transactionReceivePayment = getTransactionReceivePayment();
-		if (transactionReceivePayment != null) {
-			boolean isExists = false;
-			for (TransactionReceivePayment tReceivePayment : transactionReceivePayment
-					.getReceivePayment().getTransactionReceivePayment()) {
-				for (TransactionCreditsAndPayments tcp : tReceivePayment
-						.getTransactionCreditsAndPayments()) {
-					if (tcp.getCreditsAndPayments().getID() == this
-							.getCreditsAndPayments().getID()) {
-						isExists = true;
-					}
-				}
-			}
-			if (!isExists) {
-				if (creditsAndPayments != null) {
-					this.creditsAndPayments.updateBalance(getTransaction(),
-							-amountToUse);
-				}
-				session.saveOrUpdate(creditsAndPayments);
-			}
-		}
+
+		this.creditsAndPayments.updateBalance(getTransaction(), -amountToUse);
+		session.saveOrUpdate(creditsAndPayments);
 	}
 
 	@Override
@@ -183,37 +165,37 @@ public class TransactionCreditsAndPayments implements IAccounterServerCore,
 			// .getBalance()
 			// - this.amountToUse);
 			//
-
-			int transactionType = this.creditsAndPayments.getTransaction()
-					.getType();
-			if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO
-					|| transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
-
-				if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO)
-					((VendorCreditMemo) (this.creditsAndPayments
-							.getTransaction())).balanceDue -= this.amountToUse;
-
-				if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO)
-					((CustomerCreditMemo) (this.creditsAndPayments
-							.getTransaction())).balanceDue -= this.amountToUse;
-
-				if (DecimalUtil.isGreaterThan(
-						this.creditsAndPayments.getBalance(), 0)
-						&& DecimalUtil.isLessThan(
-								this.creditsAndPayments.getBalance(),
-								this.creditsAndPayments.getCreditAmount())) {
-
-					this.creditsAndPayments
-							.getTransaction()
-							.setStatus(
-									Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
-
-				}
-			} else if (DecimalUtil.isEquals(
-					this.creditsAndPayments.getBalance(), 0.0)) {
-				this.creditsAndPayments.getTransaction().setStatus(
-						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
-			}
+			//This all we are doing in Credits And Payments
+//			int transactionType = this.creditsAndPayments.getTransaction()
+//					.getType();
+//			if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO
+//					|| transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+//
+//				if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO)
+//					((VendorCreditMemo) (this.creditsAndPayments
+//							.getTransaction())).balanceDue -= this.amountToUse;
+//
+//				if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO)
+//					((CustomerCreditMemo) (this.creditsAndPayments
+//							.getTransaction())).balanceDue -= this.amountToUse;
+//
+//				if (DecimalUtil.isGreaterThan(
+//						this.creditsAndPayments.getBalance(), 0)
+//						&& DecimalUtil.isLessThan(
+//								this.creditsAndPayments.getBalance(),
+//								this.creditsAndPayments.getCreditAmount())) {
+//
+//					this.creditsAndPayments
+//							.getTransaction()
+//							.setStatus(
+//									Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
+//
+//				}
+//			} else if (DecimalUtil.isEquals(
+//					this.creditsAndPayments.getBalance(), 0.0)) {
+//				this.creditsAndPayments.getTransaction().setStatus(
+//						Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED);
+//			}
 
 			session.update(this.creditsAndPayments);
 			session.update(this.creditsAndPayments.getTransaction());

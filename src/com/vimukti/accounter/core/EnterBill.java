@@ -699,13 +699,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	}
 
 	private void doVoidEffect(Session session, EnterBill enterBill) {
-
-		if (enterBill.transactionPayBills != null) {
-			for (TransactionPayBill tpb : enterBill.transactionPayBills) {
-				tpb.onVoidEffect(session);
-				session.saveOrUpdate(tpb);
-			}
-		}
+		// Why will we have transaction PayBills when we are editing or deleting
+		// or voiding enterbill
+//		if (enterBill.transactionPayBills != null) {
+//			for (TransactionPayBill tpb : enterBill.transactionPayBills) {
+//				tpb.onVoidEffect(session);
+//				session.saveOrUpdate(tpb);
+//			}
+//		}
 
 		enterBill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
@@ -999,8 +1000,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 		if (this.status == Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED
 				|| this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(
-					AccounterException.ERROR_CANT_EDIT);
+			throw new AccounterException(AccounterException.ERROR_CANT_EDIT);
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
 		}
 
@@ -1108,7 +1108,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				.getExchangeLossOrGainAccount();
 		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
-		vendor.updateBalance(session, transaction, diff / currencyFactor,
+		vendor.updateBalance(session, transaction, -diff / currencyFactor,
 				currencyFactor, false);
 		updateStatus();
 	}
