@@ -357,6 +357,7 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setReference((String) object[11]);
 			salesByCustomerDetail.setTransactionId(((BigInteger) object[12])
 					.longValue());
+			salesByCustomerDetail.setDiscount((Double) object[13]);
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
