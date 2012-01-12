@@ -44,6 +44,10 @@ public class SignupCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
+		// Written for open id sign up process.If user sign up in open
+		// id
+		// and trying to login in mobile.Then user don't have
+		// password.For this situation we are checking null
 		list.add(new NameRequirement(FIRST_NAME, getMessages().pleaseEnter(
 				getMessages().firstName()), getMessages().firstName(), false,
 				true) {
