@@ -117,8 +117,8 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
+		grid.removeAllRecords();
 		if (result.isEmpty()) {
-			grid.removeAllRecords();
 			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
