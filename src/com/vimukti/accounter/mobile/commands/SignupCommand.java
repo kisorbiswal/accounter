@@ -50,6 +50,11 @@ public class SignupCommand extends AbstractCommand {
 			@Override
 			public void setValue(Object value) {
 				String v = (String) value;
+				if (v == null || v.trim().length() <= 0 || v.isEmpty()) {
+					setEnterString(getMessages().pleaseEnter(
+							getMessages().firstName()));
+					return;
+				}
 				v.replaceFirst(String.valueOf(v.charAt(0)),
 						String.valueOf(v.charAt(0)).toUpperCase());
 				if (v.trim().length() > 0) {
@@ -64,6 +69,11 @@ public class SignupCommand extends AbstractCommand {
 			@Override
 			public void setValue(Object value) {
 				String v = (String) value;
+				if (v == null || v.trim().length() <= 0 || v.isEmpty()) {
+					setEnterString(getMessages().pleaseEnter(
+							getMessages().lastName()));
+					return;
+				}
 				v.replaceFirst(String.valueOf(v.charAt(0)),
 						String.valueOf(v.charAt(0)).toUpperCase());
 				if (v.trim().length() > 0) {
@@ -193,7 +203,6 @@ public class SignupCommand extends AbstractCommand {
 			context.setLast(RequirementType.STRING, emailId);
 		} else {
 			password = SecureUtils.createNumberID(10);
-			sendPasswordMail(password, emailId);
 		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
@@ -211,6 +220,9 @@ public class SignupCommand extends AbstractCommand {
 
 		saveEntry(client, context);
 
+		if (context.getNetworkType() != AccounterChatServer.NETWORK_TYPE_MOBILE) {
+			sendPasswordMail(password, emailId);
+		}
 		UsersMailSendar.sendActivationMail(createActivation(emailId, context),
 				client);
 
