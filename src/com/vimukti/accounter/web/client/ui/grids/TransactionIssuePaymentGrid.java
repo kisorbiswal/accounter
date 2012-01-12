@@ -25,9 +25,8 @@ public class TransactionIssuePaymentGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.date(),
-				messages.number(), messages.name(),
-				messages.memo(), messages.amount() };
+		return new String[] { messages.date(), messages.number(),
+				messages.name(), messages.memo(), messages.amount() };
 	}
 
 	public boolean isSelected(ClientTransactionIssuePayment transactionList) {
@@ -67,9 +66,8 @@ public class TransactionIssuePaymentGrid extends
 		case 3:
 			return issuepayment.getMemo();
 		case 4:
-			return DataUtils
-					.amountAsStringWithCurrency(issuepayment.getAmount(),
-							getCompany().getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(
+					issuepayment.getAmount(), issuepayment.getCurrency());
 		default:
 			return null;
 		}
