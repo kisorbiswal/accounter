@@ -123,6 +123,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 			  $('#checkbox').focus();
 			}	
 			});
+		 $("#forget-link1,#google,#aol,#yahoo,#facebook").focus(function () {
+	         $(this).mouseover();
+			 
+	    });
 	});
 </script>
 
@@ -424,11 +428,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		 
 	   </div>
 	   <div>
-	      <input id="newsletter" type="checkbox" name="newsletter" />
+	      <input id="newsletter" type="checkbox" name="newsletter" tabindex="9"/>
 		  <label><i18n:i18n msg='newsletter'/><b>(<i18n:i18n msg='optional'/>)</b></label>
 	   </div>
 	   <div class="signup-submit">
-	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="9" />
+	      <input id="submitButton" type="submit" disabled="disabled" class="allviews-common-button" name="getstarted" value="<i18n:i18n msg='signUp'/>" tabindex="10" />
 	   </div>
 	   </form>
 	 </div>
@@ -438,10 +442,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	 <div>
 	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
 	  
-	   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="10"> Google  </a>
-	   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="11">  Yahoo</a>
-	   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="12">  AOL</a>
-	   <a href ="/main/fbauth"  class="facebook_icon" tabindex="13"> Facebook</a>
+	   <a id="google" href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="12"> Google  </a>
+	   <a id="yahoo" href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="13">  Yahoo</a>
+	   <a id="aol" href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="14">  AOL</a>
+	   <a id="facebook" href ="/main/fbauth"  class="facebook_icon" tabindex="15"> Facebook</a>
 	  
 	 <div>
 	     <div class="simple-get-started">
@@ -466,7 +470,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	</div>
   </c:if>
   <div class="form-bottom-options">
-  <a href="/main/login" id="forget-link1"><i18n:i18n msg='alreadyAccount'/></a>
+  <a href="/main/login" id="forget-link1" tabindex="11"><i18n:i18n msg='alreadyAccount' /></a>
   <br />
   </div> 
 </div>
