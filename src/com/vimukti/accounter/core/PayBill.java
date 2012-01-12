@@ -362,7 +362,7 @@ public class PayBill extends Transaction {
 			}
 
 			double amountEffectedToAccount = total - tdsTotal;
-			if (DecimalUtil.isGreaterThan(amountEffectedToAccount, 0.00D)) {
+			if (amountEffectedToAccount != 0.00D) {
 				payFrom.updateCurrentBalance(this, amountEffectedToAccount,
 						currencyFactor);
 				session.update(payFrom);
