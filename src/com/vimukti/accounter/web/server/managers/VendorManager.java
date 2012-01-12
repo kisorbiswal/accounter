@@ -313,7 +313,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setMemo(wc.getMemo());
 				issuePaymentTransaction.setAmount(wc.getAmount());
 				issuePaymentTransaction.setPaymentMethod(wc.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(wc.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 			}
 		}
@@ -338,7 +338,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setMemo(cr.getMemo());
 				issuePaymentTransaction.setAmount(cr.getTotal());
 				issuePaymentTransaction.setPaymentMethod(cr.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(cr.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 			}
@@ -366,7 +366,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setAmount(pst.getTotal());
 				issuePaymentTransaction
 						.setPaymentMethod(pst.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(pst.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 			}
@@ -393,7 +393,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setMemo(pb.getMemo());
 				issuePaymentTransaction.setAmount(pb.getTotal());
 				issuePaymentTransaction.setPaymentMethod(pb.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(pb.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 			}
@@ -421,7 +421,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setMemo(cc.getMemo());
 				issuePaymentTransaction.setAmount(cc.getTotal());
 				issuePaymentTransaction.setPaymentMethod(cc.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(cc.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 			}
@@ -449,7 +449,7 @@ public class VendorManager extends Manager {
 				issuePaymentTransaction.setMemo(cc.getMemo());
 				issuePaymentTransaction.setAmount(cc.getTotal());
 				issuePaymentTransaction.setPaymentMethod(cc.getPaymentMethod());
-
+				issuePaymentTransaction.setCurrency(cc.getCurrency().getID());
 				issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 			}
@@ -504,7 +504,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(wc.getAmount());
 					issuePaymentTransaction.setPaymentMethod(wc
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(wc.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 				}
 			}
@@ -535,7 +536,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(cr.getTotal());
 					issuePaymentTransaction.setPaymentMethod(cr
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(cr.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -564,7 +566,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(pst.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -595,7 +598,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(pst.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -623,7 +627,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(rv.getTotal());
 					issuePaymentTransaction.setPaymentMethod(rv
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(rv.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -655,7 +660,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(pst.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -688,7 +694,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(pst.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
@@ -721,7 +728,8 @@ public class VendorManager extends Manager {
 					issuePaymentTransaction.setAmount(cpp.getTotal());
 					issuePaymentTransaction.setPaymentMethod(cpp
 							.getPaymentMethod());
-
+					issuePaymentTransaction.setCurrency(cpp.getCurrency()
+							.getID());
 					issuePaymentTransactionsList.add(issuePaymentTransaction);
 
 				}
