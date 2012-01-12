@@ -95,6 +95,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		payFromAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedPayFromAccount = selectItem;
 						selectedAccount(selectItem);
@@ -132,13 +133,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				if (isChecked) {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
-						checkNoText
-								.setValue(messages.toBePrinted());
+						checkNoText.setValue(messages.toBePrinted());
 						checkNoText.setDisabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
-							checkNoText.setValue(messages
-									.toBePrinted());
+							checkNoText.setValue(messages.toBePrinted());
 						else if (transaction != null) {
 							checkNoText.setValue(transaction.getCheckNumber());
 						}
@@ -156,7 +155,8 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
-						UIUtils.getpaymentMethodCheckBy_CompanyType(messages.check())))
+						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
+								.check())))
 			checkNoText.setDisabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
@@ -456,8 +456,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 
 		if (transaction.getCheckNumber() != null) {
-			if (transaction.getCheckNumber().equals(
-					messages.toBePrinted())) {
+			if (transaction.getCheckNumber().equals(messages.toBePrinted())) {
 				checkNoText.setValue(messages.toBePrinted());
 				printCheck.setValue(true);
 			} else {
@@ -477,6 +476,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		int count = 0;
 		for (ClientTransactionPayTAX record : list) {
 			if (record != null) {
+				grid.removeAllRecords();
 				grid.addData(record);
 				grid.selectRow(count);
 				records.add(record);
@@ -489,6 +489,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
+	@Override
 	protected void initPayFromAccounts() {
 		// getPayFromAccounts();
 		// payFromCombo.initCombo(payFromAccounts);
@@ -539,16 +540,19 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 	}
 
+	@Override
 	protected void initTransactionNumber() {
 
 		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_TAX,
 				new AccounterAsyncCallback<String>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						Accounter.showError(messages
 								.failedToGetTransactionNumber());
 					}
 
+					@Override
 					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
@@ -624,6 +628,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		saveOrUpdate(transaction);
 	}
 
+	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
 		transaction.setNumber(transactionNumber);
@@ -662,8 +667,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private String getCheckValue() {
 		String value;
 		if (!isInViewMode()) {
-			if (checkNoText.getValue().equals(
-					messages.toBePrinted())) {
+			if (checkNoText.getValue().equals(messages.toBePrinted())) {
 				value = String.valueOf(messages.toBePrinted());
 
 			} else
@@ -735,6 +739,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	}
 
+	@Override
 	public void onEdit() {
 		super.onEdit();
 		paymentMethodCombo.setDisabled(false);
@@ -799,6 +804,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		return false;
 	}
 
+	@Override
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
