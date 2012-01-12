@@ -98,8 +98,9 @@ public class ReportGrid<R> extends CustomTable {
 					addCell(rowCount, i, bold, getValue(values[i]), depth,
 							underline);
 				} else if (columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
-					addCell(rowCount, i, bold, getValue(values[i]) + " %",
-							depth, false);
+					addCell(rowCount, i, bold,
+							values[i] instanceof Double ? values[i].toString()
+									+ " %" : values[i].toString(), depth, false);
 				} else {
 					addCell(rowCount, i, bold, values[i].toString(), depth,
 							false);
@@ -146,7 +147,9 @@ public class ReportGrid<R> extends CustomTable {
 				if (columnTypes[i] == COLUMN_TYPE_AMOUNT) {
 					this.footer.setText(0, i, getValue(values[i]));
 				} else if (columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
-					this.footer.setText(0, i, getValue(values[i]) + " %");
+					this.footer.setText(0, i,
+							values[i] instanceof Double ? values[i].toString()
+									+ " %" : values[i].toString());
 				} else {
 					this.footer.setText(0, i, values[i].toString());
 				}
