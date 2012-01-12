@@ -24,7 +24,6 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -231,30 +230,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			tpbRecord.setAccountsPayable(getCompany()
 					.getAccountsPayableAccount());
-			tpbRecord.setPayBill(transaction);
-
-			// ClientAccount cashAcc = getCompany().getAccountByName(
-			// gridView.getAttribute(messages.cashAccount(),
-			// gridView.indexOf(tpbRecord)));
-			// if (cashAcc != null)
-			// tpbRecord.setDiscountAccount(cashAcc.getID());
-			List<ClientTransactionCreditsAndPayments> trpList = null;
-			if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
-				trpList = getTransactionCredits(tpbRecord);
-			} else {
-				trpList = grid.getCreditsAndPaymentsDialiog() != null ? grid
-						.getCreditsAndPaymentsDialiog().getTransactionCredits(
-								tpbRecord)
-						: new ArrayList<ClientTransactionCreditsAndPayments>();
-			}
-			if (trpList != null)
-				for (ClientTransactionCreditsAndPayments temp : trpList) {
-					temp.setTransactionPayBill(tpbRecord);
-				}
-			tpbRecord.setTransactionCreditsAndPayments(trpList);
-			if (tpbRecord.getTempCredits() != null) {
-				tpbRecord.getTempCredits().clear();
-			}
 
 			transactionPayBill.add(tpbRecord);
 		}
@@ -268,25 +243,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
-	private List<ClientTransactionCreditsAndPayments> getTransactionCredits(
-			ClientTransactionPayBill trPayBill) {
-		List<ClientTransactionCreditsAndPayments> clientTransactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
-
-		for (ClientCreditsAndPayments crdPayment : grid
-				.getUpdatedCustomerCreditsAndPayments()) {
-			crdPayment.setRemaoningBalance(crdPayment.getBalance());
-			crdPayment.setAmtTouse(trPayBill.getAppliedCredits());
-			ClientTransactionCreditsAndPayments creditsAndPayments = new ClientTransactionCreditsAndPayments();
-			creditsAndPayments.setAmountToUse(trPayBill.getAppliedCredits());
-			creditsAndPayments.setDate(crdPayment.getTransactionDate()
-					.getDate());
-			creditsAndPayments.setMemo(crdPayment.getMemo());
-			creditsAndPayments.setCreditsAndPayments(crdPayment);
-			clientTransactionCreditsAndPayments.add(creditsAndPayments);
-
-		}
-		return clientTransactionCreditsAndPayments;
-	}
 
 	private String getCheckValue() {
 		String value;
@@ -843,7 +799,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return;
 		}
 
-		grid.updatedCustomerCreditsAndPayments.clear();
+		grid.creditsAndPayments.clear();
 		this.setVendor(vendor);
 
 		if (!isInViewMode()) {
@@ -851,12 +807,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
 		}
 
-		/*
-		 * resetting the crdits dialog's refernce,so that a new object will
-		 * created for opening credits dialog
-		 */
-		grid.setCreditsAndPaymentsDialiog(null);
-		grid.setCreditsStack(null);
 
 		if (!isInViewMode()) {
 			grid.initCreditsAndPayments(vendor);

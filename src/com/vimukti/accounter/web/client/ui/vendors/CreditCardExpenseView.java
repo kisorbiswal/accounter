@@ -711,7 +711,8 @@ public class CreditCardExpenseView extends
 			if (!isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
-					result.addError(taxCodeSelect, messages.enterTaxCode());
+					result.addError(taxCodeSelect,
+							messages.pleaseSelect(messages.taxCode()));
 					taxCodeSelect.highlight();
 				} else {
 					taxCodeSelect.removeStyleName("highlightedFormItem");
