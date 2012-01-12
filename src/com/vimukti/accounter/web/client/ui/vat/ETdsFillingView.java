@@ -3,6 +3,9 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -48,6 +51,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	protected ArrayList<ClientETDSFilling> eTDSList;
 	private ClientTDSDeductorMasters deductor;
 	private ClientTDSResponsiblePerson responsiblePerson;
+	private Button acknowledgementFormButton;
 
 	public ETdsFillingView() {
 
@@ -388,39 +392,26 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 		// super.createButtons(buttonBar);
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
 		this.saveAndCloseButton.setText("Download .txt file");
+
+		acknowledgementFormButton = new Button("Enter Ack. No.");
+		acknowledgementFormButton.setFocus(true);
+
+		acknowledgementFormButton.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+
+				openAcknowledgementForm();
+			}
+		});
+
+		buttonBar.add(acknowledgementFormButton);
 		buttonBar.add(saveAndCloseButton);
-		// ImageButton verifyButton = new ImageButton("Download .txt file",
-		// Accounter.getFinanceImages().saveAndClose());
-		// verifyButton.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		//
-		// onSave(false);
-		//
-		// List<ClientETDSFilling> dataList = tdsCellTable.getAllRows();
-		//
-		// String panList = "";
-		// String remarkList = "";
-		// String codeList = "";
-		// for (ClientETDSFilling record : dataList) {
-		// if (record.getRemark() != null) {
-		// remarkList = remarkList + record.getRemark().trim();
-		// }
-		// remarkList = remarkList + "-";
-		// codeList = codeList + record.getCompanyCode() + "-";
-		// if (record.getPanOfDeductee() != null) {
-		// panList = panList + record.getPanOfDeductee().trim();
-		// }
-		// panList = panList + "-";
-		// }
-		//
-		// UIUtils.generateETDSFillingtext(formNoSelected, quaterSelected,
-		// startYear, endYear, panList, codeList, remarkList);
-		//
-		// }
-		// });
-		// buttonBar.add(verifyButton);
+	}
+
+	protected void openAcknowledgementForm() {
+
+		TDSAcknowlegmentForm ackFormDialogue = new TDSAcknowlegmentForm();
+		ackFormDialogue.show();
 
 	}
 }

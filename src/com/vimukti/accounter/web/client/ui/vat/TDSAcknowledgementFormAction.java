@@ -24,7 +24,7 @@ public class TDSAcknowledgementFormAction extends Action {
 
 	@Override
 	public void run() {
-		TDSAcknowledgementFormView dialog = new TDSAcknowledgementFormView();
+		TdsForm16ACreationDialogue dialog = new TdsForm16ACreationDialogue();
 		dialog.show();
 	}
 

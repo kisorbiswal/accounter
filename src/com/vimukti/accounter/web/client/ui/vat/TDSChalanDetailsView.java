@@ -55,7 +55,7 @@ public class TDSChalanDetailsView extends
 	private DynamicForm taxDynamicForm;
 	private DynamicForm otherDynamicForm;
 	TdsChalanTransactionItemsTable table;
-	private SelectCombo chalanPeriod;
+	private SelectCombo chalanQuarterPeriod;
 	private IntegerField chalanSerialNumber;
 	private SelectCombo tdsDepositedBY;
 	private SelectCombo selectFormTypeCombo;
@@ -292,14 +292,14 @@ public class TDSChalanDetailsView extends
 		chalanSerialNumber.setWidth(100);
 		chalanSerialNumber.setDisabled(isInViewMode());
 
-		chalanPeriod = new SelectCombo("Chalan Period");
-		chalanPeriod.setHelpInformation(true);
-		chalanPeriod.initCombo(getFinancialQuatersList());
-		chalanPeriod.setRequired(true);
-		chalanPeriod.setSelectedItem(0);
-		chalanPeriod.setDisabled(isInViewMode());
-		chalanPeriod.setPopupWidth("500px");
-		chalanPeriod
+		chalanQuarterPeriod = new SelectCombo("Chalan Period");
+		chalanQuarterPeriod.setHelpInformation(true);
+		chalanQuarterPeriod.initCombo(getFinancialQuatersList());
+		chalanQuarterPeriod.setRequired(true);
+		chalanQuarterPeriod.setSelectedItem(0);
+		chalanQuarterPeriod.setDisabled(isInViewMode());
+		chalanQuarterPeriod.setPopupWidth("500px");
+		chalanQuarterPeriod
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
@@ -376,7 +376,7 @@ public class TDSChalanDetailsView extends
 
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(selectFormTypeCombo, financialYearCombo,
-				chalanSerialNumber, chalanPeriod, modeOFPaymentCombo,
+				chalanSerialNumber, chalanQuarterPeriod, modeOFPaymentCombo,
 				tdsDepositedBY);
 
 		otherDynamicForm = new DynamicForm();
@@ -485,13 +485,13 @@ public class TDSChalanDetailsView extends
 		bankBsrCode.setValue(transaction.getBankBsrCode());
 
 		if (transaction.getChalanPeriod() == 1) {
-			chalanPeriod.setSelected(getFinancialQuatersList().get(0));
+			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(0));
 		} else if (transaction.getChalanPeriod() == 2) {
-			chalanPeriod.setSelected(getFinancialQuatersList().get(1));
+			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(1));
 		} else if (transaction.getChalanPeriod() == 3) {
-			chalanPeriod.setSelected(getFinancialQuatersList().get(2));
+			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(2));
 		} else if (transaction.getChalanPeriod() == 4) {
-			chalanPeriod.setSelected(getFinancialQuatersList().get(3));
+			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(3));
 		}
 
 		chalanSerialNumber.setNumber(transaction.getChalanSerialNumber());
@@ -751,7 +751,7 @@ public class TDSChalanDetailsView extends
 		transaction.setPaymentMethod(modeOFPaymentCombo.getSelectedValue());
 
 		transaction.setBankChalanNumber(chalanSerialNumber.getNumber());
-		transaction.setChalanPeriod(chalanPeriod.getSelectedIndex() + 1);
+		transaction.setChalanPeriod(chalanQuarterPeriod.getSelectedIndex() + 1);
 
 		if (checkNumber.getNumber() != null) {
 			transaction.setCheckNumber(checkNumber.getNumber());
@@ -864,7 +864,7 @@ public class TDSChalanDetailsView extends
 		dateItem2.setDisabled(false);
 		bankBsrCode.setDisabled(false);
 		// table.setDisabled(false);
-		chalanPeriod.setDisabled(false);
+		chalanQuarterPeriod.setDisabled(false);
 		chalanSerialNumber.setDisabled(false);
 		tdsDepositedBY.setDisabled(false);
 		selectFormTypeCombo.setDisabled(false);
