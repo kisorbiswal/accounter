@@ -5308,8 +5308,6 @@ public interface AccounterMessages extends Messages {
 
 	public String vendor();
 
-	public String Customer();
-	
 	public String amountMoreThanCredits();
 
 }
