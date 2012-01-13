@@ -2036,8 +2036,12 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
+		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="CURRENCY_FACTOR" type="double" />
 
 		SELECT
+		T.CURRENCY AS CURRENCY,
+		T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
 		T.T_DATE AS TRANSACTION_DATE,
 		CASE WHEN T.T_TYPE != 11
 		THEN
