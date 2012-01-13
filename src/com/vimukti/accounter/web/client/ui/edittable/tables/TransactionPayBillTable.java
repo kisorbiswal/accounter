@@ -45,12 +45,17 @@ public abstract class TransactionPayBillTable extends
 	private ClientTAXItem tdsCode;
 	private boolean isForceShowTDS;
 	private boolean enableDiscount;
+	private long transactionId;
 
 	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
 			ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
 		this.canEdit = canEdit;
 		this.enableDiscount = enableDiscount;
+	}
+
+	public void setTranactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	protected void initColumns() {
@@ -663,6 +668,7 @@ public abstract class TransactionPayBillTable extends
 				.createHomeService()
 				.getVendorCreditsAndPayments(
 						vendor.getID(),
+						transactionId,
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
@@ -849,23 +855,20 @@ public abstract class TransactionPayBillTable extends
 			return;
 		}
 		creditsAndPayments = credits;
+		for (ClientTransactionPayBill ctpb : this.getRecords()) {
+			for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+				double balance = ccap.getBalance();
+				double usedAmount = 0.0;
+				for (ClientTransactionCreditsAndPayments ctcap : ctpb.getTransactionCreditsAndPayments()) {
+					if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+						usedAmount += ctcap.getAmountToUse();
+					}
+				}
+				ccap.setBalance(balance + usedAmount);
+			}
+			ctpb.getTransactionCreditsAndPayments().clear();
+		}
+		
 	}
 
-	public void addTransactionCreditsAndPayments(
-			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
-		if (transactionCreditsAndPayments == null) {
-			return;
-		}
-		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
-			double balance = ccap.getBalance();
-			double usedAmount = 0.0;
-			for (ClientTransactionCreditsAndPayments ctcap : transactionCreditsAndPayments) {
-				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount += ctcap.getAmountToUse();
-				}
-			}
-			transactionCreditsAndPayments.clear();
-			ccap.setBalance(balance + usedAmount);
-		}
-	}
 }

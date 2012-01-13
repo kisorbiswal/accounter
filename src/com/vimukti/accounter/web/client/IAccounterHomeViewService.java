@@ -109,7 +109,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			int start, int length, int viewType);
 
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
-			long vendorId);
+			long vendorId, long transactionId);
 
 	public ArrayList<IssuePaymentTransactionsList> getChecks();
 
@@ -176,9 +176,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// Bill,Cash Purchase, Vendor Credit Memo Transactions
 	public ArrayList<ClientItem> getPurchaseItems();
 
-	// To get the Credits and Payments of a particular Customer in a company
-	public ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
-			long customerId);
+	ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
+			long customerId, long transactionId);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
 	// which are not paid and display as the Transaction ReceivePayments in

@@ -113,7 +113,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getRecurringsList(long fromDate, long toDate,
 			AsyncCallback<PaginationList<ClientRecurringTransaction>> callBack);
 
-	public void getVendorCreditsAndPayments(long vendorId,
+	public void getVendorCreditsAndPayments(long vendorId, long transactionId,
 			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callBack);
 
 	public void getChecks(
@@ -197,7 +197,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchaseItems(AsyncCallback<ArrayList<ClientItem>> callback);
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public void getCustomerCreditsAndPayments(long customerId,
+	public void getCustomerCreditsAndPayments(long customerId, long transactionId,
 			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callback);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer

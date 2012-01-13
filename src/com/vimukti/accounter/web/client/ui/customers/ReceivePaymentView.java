@@ -323,9 +323,6 @@ public class ReceivePaymentView extends
 
 			record.setPayment(0);
 
-			gridView.addTransactionCreditsAndPayments(record
-					.getTransactionCreditsAndPayments());
-
 			totalInoiceAmt += rpt.getInvoiceAmount();
 			totalDueAmt += rpt.getAmountDue();
 
@@ -339,8 +336,6 @@ public class ReceivePaymentView extends
 					+ payment.getAppliedCredits());
 			payment.setPayment(0.00D);
 			payment.setAppliedCredits(0.00D, false);
-			gridView.addTransactionCreditsAndPayments(payment
-					.getTransactionCreditsAndPayments());
 			records.add(payment);
 		}
 
@@ -870,6 +865,7 @@ public class ReceivePaymentView extends
 			setData(new ClientReceivePayment());
 			initDepositInAccounts();
 		} else {
+			gridView.setTranactionId(transaction.id);
 			if (transaction.getCustomer() != 0) {
 				customerCombo.setComboItem(Accounter.getCompany().getCustomer(
 						transaction.getCustomer()));
@@ -1142,6 +1138,7 @@ public class ReceivePaymentView extends
 
 		gridView.removeFromParent();
 		initListGrid();
+		gridView.setTranactionId(transaction.id);
 		gridLayout.insert(gridView, 2);
 
 		getTransactionReceivePayments(this.getCustomer());

@@ -288,7 +288,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 			Vendor vendor = get(VENDOR).getValue();
 			serverCreditsAndPayments = new FinanceTool()
 					.getVendorManager()
-					.getVendorCreditsAndPayments(vendor.getID(), getCompanyId());
+					.getCreditsAndPayments(vendor.getID(),0, getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPaymentsList.add(new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,

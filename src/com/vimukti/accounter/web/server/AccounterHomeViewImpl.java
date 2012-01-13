@@ -304,13 +304,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<ClientCreditsAndPayments> getVendorCreditsAndPayments(
-			long vendorId) {
+			long vendorId, long transactionId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPaymentsList = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
 
 			serverCreditsAndPayments = getFinanceTool().getVendorManager()
-					.getVendorCreditsAndPayments(vendorId, getCompanyId());
+					.getCreditsAndPayments(vendorId, transactionId,
+							getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -654,13 +655,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<ClientCreditsAndPayments> getCustomerCreditsAndPayments(
-			long customerId) {
+			long customerId, long transactionId) {
 		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
 
 			serverCreditsAndPayments = getFinanceTool().getCustomerManager()
-					.getCustomerCreditsAndPayments(customerId, getCompanyId());
+					.getCustomerCreditsAndPayments(customerId, transactionId,
+							getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -1935,7 +1937,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		List<ClientTDSTransactionItem> transactionItemList = null;
 		try {
 
-			transactionItemList = getFinanceTool().getTDSTransactionItemsList(getCompanyId());
+			transactionItemList = getFinanceTool().getTDSTransactionItemsList(
+					getCompanyId());
 
 		} catch (Exception e) {
 			e.printStackTrace();

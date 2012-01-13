@@ -108,7 +108,7 @@ public abstract class ReceivePaymentTableRequirement extends
 		try {
 
 			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
-					.getCustomerCreditsAndPayments(getPayee().getID(),
+					.getCreditsAndPayments(getPayee().getID(), 0,
 							getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPayments.add(new ClientConvertUtil()

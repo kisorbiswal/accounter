@@ -912,6 +912,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			clientPayBill.setAmountIncludeTDS(true);
 			setData(clientPayBill);
 		} else {
+			grid.setTranactionId(transaction.id);
 			grid.showTDS(transaction.getTdsTaxItem() != 0);
 			if (currencyWidget != null) {
 				this.currency = getCompany().getCurrency(
@@ -1188,8 +1189,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			record.setTdsAmount(0.00D);
 			record.setPayment(0.00D);
 
-			grid.addTransactionCreditsAndPayments(record
-					.getTransactionCreditsAndPayments());
 
 			records.add(record);
 		}
@@ -1198,8 +1197,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
-			grid.addTransactionCreditsAndPayments(bill
-					.getTransactionCreditsAndPayments());
 
 			records.add(bill);
 		}
@@ -1330,6 +1327,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		super.onEdit();
 		grid.removeFromParent();
 		initListGrid();
+		grid.setTranactionId(transaction.id);
 		gridLayout.insert(grid, 2);
 		getTransactionPayBills(this.getVendor());
 		memoTextAreaItem.setDisabled(isInViewMode());

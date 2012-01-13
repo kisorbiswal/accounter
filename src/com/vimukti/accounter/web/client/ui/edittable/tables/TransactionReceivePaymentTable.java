@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
+import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -51,6 +52,7 @@ public abstract class TransactionReceivePaymentTable extends
 	List<ClientTransactionReceivePayment> tranReceivePayments = new ArrayList<ClientTransactionReceivePayment>();
 	private ICurrencyProvider currencyProvider;
 	private boolean enableDiscount;
+	private long transactionId;
 
 	public TransactionReceivePaymentTable(boolean enableDisCount,
 			boolean canEdit, ICurrencyProvider currencyProvider) {
@@ -58,6 +60,10 @@ public abstract class TransactionReceivePaymentTable extends
 		this.canEdit = canEdit;
 		this.enableDiscount = enableDisCount;
 		this.company = Accounter.getCompany();
+	}
+	
+	public void setTranactionId(long transactionId){
+		this.transactionId=transactionId;
 	}
 
 	protected void initColumns() {
@@ -424,7 +430,7 @@ public abstract class TransactionReceivePaymentTable extends
 		Accounter
 				.createHomeService()
 				.getCustomerCreditsAndPayments(
-						customer.getID(),
+						customer.getID(), transactionId,
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
@@ -808,24 +814,22 @@ public abstract class TransactionReceivePaymentTable extends
 			return;
 		}
 		creditsAndPayments = credits;
+		for (ClientTransactionReceivePayment ctrp : this.getRecords()) {
+			for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+				double balance = ccap.getBalance();
+				double usedAmount = 0.0;
+				for (ClientTransactionCreditsAndPayments ctcap : ctrp.getTransactionCreditsAndPayments()) {
+					if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+						usedAmount += ctcap.getAmountToUse();
+					}
+				}
+				ccap.setBalance(balance + usedAmount);
+			}
+			ctrp.getTransactionCreditsAndPayments().clear();
+		}
+		
 	}
 
-	public void addTransactionCreditsAndPayments(
-			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
-		if (transactionCreditsAndPayments == null) {
-			return;
-		}
-		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
-			double balance = ccap.getBalance();
-			double usedAmount = 0.0;
-			for (ClientTransactionCreditsAndPayments ctcap : transactionCreditsAndPayments) {
-				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount += ctcap.getAmountToUse();
-				}
-			}
-			transactionCreditsAndPayments.clear();
-			ccap.setBalance(balance + usedAmount);
-		}
-	}
+	
 
 }

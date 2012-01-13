@@ -64,7 +64,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class VendorManager extends Manager {
+public class VendorManager extends PayeeManager {
 	HashMap<Integer, Integer> boxThresholds = new HashMap<Integer, Integer>();
 
 	public VendorManager() {
@@ -956,23 +956,6 @@ public class VendorManager extends Manager {
 		// return NumberUtils.getNextVendorNumber();
 	}
 
-	public ArrayList<CreditsAndPayments> getVendorCreditsAndPayments(
-			long vendor, long companyId) throws DAOException {
-
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session
-				.getNamedQuery("getcreditandPayments.by.Payieeid.and.balance")
-				.setParameter("id", vendor).setEntity("company", company);
-		List<CreditsAndPayments> list = query.list();
-
-		// if (list != null) {
-		return new ArrayList<CreditsAndPayments>(list);
-		// } else
-		// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-		// null));
-
-	}
 
 	public PaginationList<PaymentsList> getVendorPaymentsList(long companyId,
 			long fromDate, long toDate, int start, int length, int viewType)

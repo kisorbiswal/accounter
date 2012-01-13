@@ -14,6 +14,8 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Activity;
+import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
@@ -44,10 +46,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.core.Activity;
-import com.vimukti.accounter.core.ActivityType;
 
-public class CustomerManager extends Manager {
+public class CustomerManager extends PayeeManager {
 
 	public String getNextCustomerNumber(long companyId) {
 		return NumberUtils.getNextAutoCustomerNumber(getCompany(companyId));
@@ -516,7 +516,7 @@ public class CustomerManager extends Manager {
 	}
 
 	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
-			long customer, long companyId) throws DAOException {
+			long customer, long transactionId, long companyId) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			Company company = getCompany(companyId);
