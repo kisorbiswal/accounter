@@ -59,14 +59,14 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	public AddBudgetAmountDialogue(String budgetTitle, String desc,
 			ArrayList<Object> mapList, ClientBudgetItem object) {
-		
+
 		super(budgetTitle, desc);
 		newMap = new HashMap<String, String>();
 		defaultValues = object;
 		newMap = (HashMap<String, String>) mapList.get(0);
 		type = (Integer) mapList.get(1);
 		createControls();
-		
+
 	}
 
 	private void createControls() {
@@ -85,15 +85,15 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 						if (selectItem == MONTHS) {
 							type = 0;
 							resetView(type);
-						
+
 						} else if (selectItem == QUARTERS) {
 							type = 1;
 							resetView(type);
-							
+
 						} else if (selectItem == YEARS) {
 							type = 2;
 							resetView(type);
-							
+
 						}
 					}
 
@@ -241,10 +241,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		setBodyLayout(verticalPanel);
 		center();
-		
-		
-		setDefaultValues();
 		resetView(type);
+		setDefaultValues();
 
 	}
 
@@ -525,11 +523,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			}
 		}
 
-		
 		ArrayList<Object> mapList = new ArrayList<Object>();
 		mapList.add(newMap);
 		mapList.add(type);
-		
+
 		getCallback().actionResult(mapList);
 		return true;
 	}
@@ -544,11 +541,14 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		junAmount.setAmount(defaultValues.getJuneAmount());
 		julAmount.setAmount(defaultValues.getJulyAmount());
 		augAmount.setAmount(defaultValues.getAugustAmount());
-		septAmount
-				.setAmount(defaultValues.getSpetemberAmount());
+		septAmount.setAmount(defaultValues.getSpetemberAmount());
 		octAmount.setAmount(defaultValues.getOctoberAmount());
 		novAmount.setAmount(defaultValues.getNovemberAmount());
 		decAmount.setAmount(defaultValues.getDecemberAmount());
+		if (annualAmount != null) {
+			annualAmount.setAmount(defaultValues.getTotalAmount());
+		}
+
 	}
 
 	@Override
