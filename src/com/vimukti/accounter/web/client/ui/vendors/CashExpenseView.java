@@ -539,6 +539,7 @@ public class CashExpenseView extends
 		discountField = getDiscountField();
 
 		DynamicForm form = new DynamicForm();
+		taxCodeSelect = createTaxCodeSelectItem();
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
@@ -560,7 +561,6 @@ public class CashExpenseView extends
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
-			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect);
 			}
