@@ -207,7 +207,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			transactionTypeList.add(messages.cashPurchases());
-			transactionTypeList.add(messages.bills());
+			if (getPreferences().isKeepTrackofBills()) {
+				transactionTypeList.add(messages.bills());
+			}
 			transactionTypeList.add(messages.payBills());
 			transactionTypeList.add(messages.cheques());
 			transactionTypeList.add(messages.payeeCreditNotes(Global.get()
