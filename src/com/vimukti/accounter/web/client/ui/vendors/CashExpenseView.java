@@ -560,8 +560,8 @@ public class CashExpenseView extends
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
+			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
 				form.setFields(taxCodeSelect);
 			}
 			form.setFields(vatinclusiveCheck);

@@ -82,7 +82,7 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 										entry.getCurrency()).getSymbol()));
 				record.add(getMessages().memo(), entry.getMemo());
 				record.add(getMessages().voided(),
-						entry.isVoid() == true ? getMessages().Voided()
+						entry.isVoid() == true ? getMessages().voided()
 								: getMessages().nonVoided());
 				return record;
 			}

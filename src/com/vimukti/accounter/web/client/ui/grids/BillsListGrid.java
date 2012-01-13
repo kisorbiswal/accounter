@@ -86,19 +86,18 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.date(), messages.no(),
 					Global.get().messages().payeeName(Global.get().Vendor()),
 					messages.originalAmount(), messages.balance(),
-					messages.Voided()
+					messages.voided()
 			// , ""
 			};
 		}
 		return new String[] { messages.type(), messages.date(), messages.no(),
 				Global.get().messages().payeeName(Global.get().Vendor()),
 				messages.originalAmount(), messages.balance(),
-				messages.Voided()
+				messages.voided()
 		// , ""
 		};
 	}
@@ -165,8 +164,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			showWarningDialog(obj, this.getAccounterCoreType(obj),
 					this.getTransactionID(obj), col);
 		} else {
-			Accounter.showError(messages
-					.expensecantbevoiditisApproved());
+			Accounter.showError(messages.expensecantbevoiditisApproved());
 		}
 	}
 

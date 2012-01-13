@@ -325,7 +325,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		case 5:
 			return messages.updatedPreferences();
 		case 7:
-			buffer.append(messages.Voided());
+			buffer.append(messages.voided());
 			buffer.append(" : ");
 			return buffer.toString();
 		case 8:

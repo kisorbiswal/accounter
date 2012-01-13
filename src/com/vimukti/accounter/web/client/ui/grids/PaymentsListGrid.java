@@ -143,19 +143,18 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type == 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
 					messages.type(), messages.payMethod(), messages.checkNo(),
-					messages.amountPaid(), messages.Voided()
+					messages.amountPaid(), messages.voided()
 			// , ""
 			};
 		} else {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
 					messages.checkNo(), messages.amountPaid(),
-					messages.Voided()
+					messages.voided()
 			// , ""
 			};
 		}
@@ -373,10 +372,6 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	public AccounterCoreType getType() {
 		return null;
-	}
-
-	private long getTransactionID(PaymentsList obj) {
-		return obj.getTransactionId();
 	}
 
 	public boolean isVoided(PaymentsList obj) {

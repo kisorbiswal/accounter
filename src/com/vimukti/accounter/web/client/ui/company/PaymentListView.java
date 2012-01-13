@@ -108,7 +108,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		List<String> listOfTypes = new ArrayList<String>();
 		listOfTypes.add(messages.notIssued());
 		listOfTypes.add(messages.issued());
-		listOfTypes.add(messages.Voided());
+		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}

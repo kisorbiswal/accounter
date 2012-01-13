@@ -5047,8 +5047,6 @@ public interface AccounterMessages extends Messages {
 
 	public String voided();
 
-	public String Voided();
-
 	public String wanttoCreateEstimates();
 
 	public String wanttoCreateEstimatesInAccounter();

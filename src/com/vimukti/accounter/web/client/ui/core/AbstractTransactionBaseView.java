@@ -845,7 +845,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		initTransactionViewData();
 		if (transaction.isVoid()) {
-			voidedLabel.setText(messages.Voided());
+			voidedLabel.setText(messages.voided());
 			voidedPanel.addStyleName("title_voided_panel");
 			voidedLabel.addStyleName("title_voided_label");
 		}

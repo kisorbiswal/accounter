@@ -88,7 +88,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		if (col == 9 && !obj.isVoided()) {
 			msg = messages.doyouwanttoVoidtheTransaction();
 		}
-		
+
 		Accounter.showWarning(msg, AccounterType.WARNING,
 				new ErrorDialogHandler() {
 
@@ -131,7 +131,8 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (viewType != null && !viewType.equalsIgnoreCase(messages.all()))
+					if (viewType != null
+							&& !viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;
@@ -148,19 +149,18 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		if (type != 0) {
 			return new String[] { messages.payDate(), messages.payNo(),
 					messages.status(), messages.issueDate(), messages.name(),
 					messages.type(), messages.payMethod(),
-					messages.amountPaid(), messages.Voided()
+					messages.amountPaid(), messages.voided()
 			// , ""
 			};
 		}
 		return new String[] { messages.payDate(), messages.payNo(),
 				messages.status(), messages.issueDate(), messages.name(),
 				messages.type(), messages.payMethod(), messages.checkNo(),
-				messages.amountPaid(), messages.Voided()
+				messages.amountPaid(), messages.voided()
 		// , ""
 		};
 	}

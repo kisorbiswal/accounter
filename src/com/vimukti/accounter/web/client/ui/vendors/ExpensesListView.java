@@ -167,7 +167,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 					records.add(record);
 			}
 			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages.Voided())) {
+		} else if (text.equalsIgnoreCase(messages.voided())) {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {

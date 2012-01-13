@@ -87,9 +87,8 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	protected String[] getColumns() {
-		messages = messages;
 		return new String[] { messages.no(), messages.date(), messages.memo(),
-				messages.amount(), messages.Voided()
+				messages.amount(), messages.voided()
 
 		};
 	}
