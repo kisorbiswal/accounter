@@ -1983,19 +1983,21 @@ public class UIUtils {
 		}
 	}-*/;
 
-	public static void generateForm16A(long vendorID, String dateRange,
-			int place, String printDate) {
-		generateForm16A(Long.toString(vendorID), dateRange, place, printDate);
+	public static void generateForm16A(long vendorID, String datesRange,
+			String place, String printDate, int type) {
+		generateForm16A(String.valueOf(vendorID), datesRange, place, printDate,
+				String.valueOf(type));
 	}
 
-	private static native void generateForm16A(String string, String dateRange,
-			int place, String printDate)/*-{
+	private static native void generateForm16A(String vendorID,
+			String datesRange, String place, String printDate, String type)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
 					"/do/finance/Form16ApdfGenerationServlet?vendorID="
-							+ vendorID + "&dateRange=" + dateRange + "&place="
-							+ place + "&printDate=" + printDate);
+							+ vendorID + "&datesRange=" + datesRange
+							+ "&place=" + place + "&printDate=" + printDate
+							+ "&type=" + type);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {

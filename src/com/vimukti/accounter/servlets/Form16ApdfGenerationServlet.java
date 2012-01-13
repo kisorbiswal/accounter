@@ -17,11 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.lowagie.text.FontFactory;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Form16ApdfTemplate;
+import com.vimukti.accounter.core.TDSCoveringLetterTemplate;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.servlets.GeneratePDFservlet.FontFactoryImpEx;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
+import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -45,6 +47,7 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 	private FinanceTool financetool;
 	private Company company;
 	private long vendorID;
+	private int type;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -70,9 +73,11 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 			String dateRangeString = req.getParameter("datesRange");
 			String placeString = req.getParameter("place");
 			String printDateString = req.getParameter("printDate");
+			String typeString = req.getParameter("type");
+
+			type = Integer.parseInt(typeString);
 
 			vendorID = Long.parseLong(vendorIDString);
-
 			companyID = (Long) req.getSession().getAttribute(COMPANY_ID);
 			financetool = new FinanceTool();
 			TemplateBuilder.setCmpName(companyName);
@@ -80,40 +85,80 @@ public class Form16ApdfGenerationServlet extends BaseServlet {
 			CompanyPreferenceThreadLocal.set(financetool.getCompanyManager()
 					.getClientCompanyPreferences(company));
 
-			fileName = "Form16A";
-			Form16ApdfTemplate form16APdfGeneration = null;
-			String templeteName = null;
-			templeteName = "templetes" + File.separator + "Form16a.docx";
-			fileName = "Form16A";
-
-			ClientTDSDeductorMasters tdsDeductorMasterDetails = financetool
-					.getTDSDeductorMasterDetails(company.getID());
-			form16APdfGeneration = new Form16ApdfTemplate();
 			Set<Vendor> vendors = company.getVendors();
-			for (Vendor vendor : vendors) {
-				if (vendor.getID() == vendorID) {
-					form16APdfGeneration.setVendorandCompanyData(vendor,
-							tdsDeductorMasterDetails);
-					break;
-				}
-			}
-			form16APdfGeneration.setDateYear(dateRangeString);
-
-			InputStream in = new BufferedInputStream(new FileInputStream(
-					templeteName));
-
 			IXDocReport report = null;
-			try {
-				report = XDocReportRegistry.getRegistry().loadReport(in,
-						TemplateEngineKind.Velocity);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (XDocReportException e) {
-				e.printStackTrace();
-			}
-			IContext context = report.createContext();
-			context = form16APdfGeneration.assignValues(context, report);
+			IContext context = null;
+			if (type == 0) {
 
+				fileName = "Form16A";
+				String templeteName = null;
+				templeteName = "templetes" + File.separator + "Form16a.docx";
+
+				ClientTDSDeductorMasters tdsDeductorMasterDetails = financetool
+						.getTDSDeductorMasterDetails(company.getID());
+				Form16ApdfTemplate form16APdfGeneration = null;
+				form16APdfGeneration = new Form16ApdfTemplate();
+
+				for (Vendor vendor : vendors) {
+					if (vendor.getID() == vendorID) {
+						form16APdfGeneration.setVendorandCompanyData(vendor,
+								tdsDeductorMasterDetails);
+						break;
+					}
+				}
+				form16APdfGeneration.setDateYear(dateRangeString);
+
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
+
+				try {
+					report = XDocReportRegistry.getRegistry().loadReport(in,
+							TemplateEngineKind.Velocity);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (XDocReportException e) {
+					e.printStackTrace();
+				}
+				context = report.createContext();
+				context = form16APdfGeneration.assignValues(context, report);
+
+			} else {
+
+				Vendor ven = null;
+				for (Vendor vendor : vendors) {
+					if (vendor.getID() == vendorID) {
+						ven = vendor;
+						fileName = "CoveringLetter" + vendor.getName();
+						break;
+					}
+				}
+
+				String templeteName = null;
+				templeteName = "templetes" + File.separator
+						+ "CoveringLetter.docx";
+
+				ClientTDSResponsiblePerson responsiblePersonDetails = financetool
+						.getResponsiblePersonDetails(company.getID());
+
+				TDSCoveringLetterTemplate coveringLetterTemp = new TDSCoveringLetterTemplate();
+				coveringLetterTemp.setValues(ven, company,
+						responsiblePersonDetails);
+
+				InputStream in = new BufferedInputStream(new FileInputStream(
+						templeteName));
+
+				try {
+					report = XDocReportRegistry.getRegistry().loadReport(in,
+							TemplateEngineKind.Velocity);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (XDocReportException e) {
+					e.printStackTrace();
+				}
+				context = report.createContext();
+				context = coveringLetterTemp.assignValues(context, report);
+
+			}
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			Options options = Options.getTo(ConverterTypeTo.PDF).via(
 					ConverterTypeVia.ITEXT);

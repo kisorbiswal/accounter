@@ -34,7 +34,6 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 
 	private long payFrom;
 
-	private boolean etdsFillingDone;
 	private String etdsfillingAcknowledgementNo;
 
 	private List<ClientTDSTransactionItem> tdsTransactionItems = new ArrayList<ClientTDSTransactionItem>();
@@ -222,14 +221,6 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 
 	public void setPayFrom(long payFrom) {
 		this.payFrom = payFrom;
-	}
-
-	public boolean isEtdsFillingDone() {
-		return etdsFillingDone;
-	}
-
-	public void setEtdsFillingDone(boolean etdsFillingDone) {
-		this.etdsFillingDone = etdsFillingDone;
 	}
 
 	public String getEtdsfillingAcknowledgementNo() {

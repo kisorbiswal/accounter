@@ -20,21 +20,23 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class TdsForm16ACreationDialogue extends BaseDialog {
 
 	private DynamicForm form;
 	private TextItem location;
 	private TextItem tdsCertificateNumber;
-	private SelectCombo financialYearCombo;
 	private DynamicForm form0;
 	private DateField form16AprintDate;
 	private VendorCombo vendorCombo;
 
 	private long vendorID;
 	private String datesRange;
-	private int place;
+	private String place;
 	private String printDate;
+
+	int dateRAngeType = 1;
 
 	private SelectCombo chalanQuarterPeriod;
 	private Button emailBUtton;
@@ -50,6 +52,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		okbtn.setText("Generate 16A form");
 		okbtn.setWidth("150px");
+
 		emailBUtton = new Button(messages.email());
 		emailBUtton.setWidth("80px");
 		emailBUtton.setFocus(true);
@@ -80,7 +83,9 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	}
 
 	protected void generateCoveringLetter() {
-		// TODO Auto-generated method stub
+
+		printDate = form16AprintDate.getDate().toString();
+		UIUtils.generateForm16A(vendorID, "", "", printDate, 1);
 
 	}
 
@@ -117,7 +122,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					public void selectedComboBoxItem(String selectItem) {
 						if (selectItem.equals(getFinancialQuatersList().get(
 								chalanQuarterPeriod.getSelectedIndex()))) {
-							place = chalanQuarterPeriod.getSelectedIndex();
 						}
 					}
 				});
@@ -161,25 +165,12 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		tdsCertificateNumber = new TextItem("TDS Certificate No.");
 		tdsCertificateNumber.setHelpInformation(true);
 
-		financialYearCombo = new SelectCombo("Financial Year");
-		financialYearCombo.setHelpInformation(true);
-		financialYearCombo.initCombo(getFinancialYearList());
-		financialYearCombo.setRequired(true);
-		financialYearCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						datesRange = selectItem;
-					}
-				});
-
 		form0 = new DynamicForm();
 		form0.setWidth("100%");
 
 		form.setItems(tdsCertificateNumber, location, form16AprintDate);
-		form0.setItems(vendorCombo, chalanQuarterPeriod, financialYearCombo,
-				monthlyCombo, fromDate, toDate);
+		form0.setItems(vendorCombo, chalanQuarterPeriod, monthlyCombo,
+				fromDate, toDate);
 
 		HorizontalPanel radioButtonPanel = new HorizontalPanel();
 
@@ -195,19 +186,19 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		ClickHandler handler = new ClickHandler() {
 			public void onClick(ClickEvent e) {
 				if (e.getSource() == button1) {
-					financialYearCombo.show();
+					dateRAngeType = 1;
 					chalanQuarterPeriod.show();
 					monthlyCombo.hide();
 					fromDate.hide();
 					toDate.hide();
 				} else if (e.getSource() == button2) {
-					financialYearCombo.show();
+					dateRAngeType = 2;
 					chalanQuarterPeriod.hide();
 					monthlyCombo.show();
 					fromDate.hide();
 					toDate.hide();
 				} else if (e.getSource() == button3) {
-					financialYearCombo.hide();
+					dateRAngeType = 3;
 					chalanQuarterPeriod.hide();
 					monthlyCombo.hide();
 					fromDate.show();
@@ -216,7 +207,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 			}
 		};
 
-		financialYearCombo.show();
 		chalanQuarterPeriod.show();
 		monthlyCombo.hide();
 		fromDate.hide();
@@ -241,8 +231,23 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	}
 
 	private List<String> getMonthsList() {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<String> list = new ArrayList<String>();
+
+		list.add(DayAndMonthUtil.january());
+		list.add(DayAndMonthUtil.february());
+		list.add(DayAndMonthUtil.march());
+		list.add(DayAndMonthUtil.april());
+		list.add(DayAndMonthUtil.may_full());
+		list.add(DayAndMonthUtil.june());
+		list.add(DayAndMonthUtil.july());
+		list.add(DayAndMonthUtil.august());
+		list.add(DayAndMonthUtil.september());
+		list.add(DayAndMonthUtil.october());
+		list.add(DayAndMonthUtil.november());
+		list.add(DayAndMonthUtil.december());
+
+		return list;
 	}
 
 	protected void sendEmail() {
@@ -251,14 +256,61 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 	@Override
 	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 
-		return null;
+		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
 
-		UIUtils.generateForm16A(vendorID, datesRange, place, printDate);
+		if (location.getValue() != null) {
+			place = location.getValue();
+		} else {
+			place = "";
+		}
+
+		printDate = form16AprintDate.getDate().toString();
+		String frmDt = null, toDt = null;
+		int finYear = new ClientFinanceDate().getYear();
+		if (dateRAngeType == 1) {
+			int qtrSelected = chalanQuarterPeriod.getSelectedIndex();
+			switch (qtrSelected) {
+			case 0:
+				frmDt = "1/4/" + Integer.toString(finYear);
+				toDt = "30/6/" + Integer.toString(finYear);
+				break;
+			case 1:
+				frmDt = "1/7/" + Integer.toString(finYear);
+				toDt = "30/9/" + Integer.toString(finYear);
+				break;
+			case 2:
+				frmDt = "1/10/" + Integer.toString(finYear);
+				toDt = "30/12/" + Integer.toString(finYear);
+				break;
+			case 3:
+				frmDt = "1/1/" + Integer.toString(finYear);
+				toDt = "30/3/" + Integer.toString(finYear);
+				break;
+
+			default:
+				break;
+			}
+
+		} else if (dateRAngeType == 2) {
+			int mnSelected = monthlyCombo.getSelectedIndex();
+			frmDt = "1/" + Integer.toString(mnSelected + 1) + "/"
+					+ Integer.toString(finYear);
+			toDt = "30/" + Integer.toString(mnSelected + 1) + "/"
+					+ Integer.toString(finYear);
+
+		} else if (dateRAngeType == 3) {
+			frmDt = fromDate.getDate().toString();
+			toDt = toDate.getDate().toString();
+		}
+
+		datesRange = frmDt + "-" + toDt;
+		UIUtils.generateForm16A(vendorID, datesRange, place, printDate, 0);
 		return false;
 
 	}

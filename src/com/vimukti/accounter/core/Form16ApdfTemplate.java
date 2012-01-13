@@ -20,8 +20,6 @@ public class Form16ApdfTemplate {
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
-		FormDetails formDetails = new FormDetails();
-
 		try {
 
 			FieldsMetadata headersMetaData = new FieldsMetadata();
@@ -35,7 +33,7 @@ public class Form16ApdfTemplate {
 				paymentSummaryList.add(new PaymentSummary("", "", ""));
 			}
 			context.put("payment", paymentSummaryList);
-			context.put("form", formDetails);
+			context.put("form", formdetails);
 
 			return context;
 		} catch (Exception e) {
@@ -253,27 +251,53 @@ public class Form16ApdfTemplate {
 	public void setVendorandCompanyData(Vendor vendor,
 			ClientTDSDeductorMasters tdsDeductorMasterDetails) {
 
-		formdetails.setDeductorAddress(tdsDeductorMasterDetails
-				.getBuildingName()
-				+ " "
-				+ tdsDeductorMasterDetails.getCity()
-				+ " "
-				+ tdsDeductorMasterDetails.getRoadName()
-				+ " "
-				+ tdsDeductorMasterDetails.getState()
-				+ " "
-				+ tdsDeductorMasterDetails.getPinCode());
+		String buildingName;
+		if (tdsDeductorMasterDetails.getBuildingName() != null)
+			buildingName = tdsDeductorMasterDetails.getBuildingName();
+		else
+			buildingName = "";
 
-		formdetails.setDeducteePan(tdsDeductorMasterDetails.getPanNumber());
+		String cityName;
+		if (tdsDeductorMasterDetails.getCity() != null)
+			cityName = tdsDeductorMasterDetails.getCity();
+		else
+			cityName = "";
+
+		String roadName;
+		if (tdsDeductorMasterDetails.getRoadName() != null)
+			roadName = tdsDeductorMasterDetails.getRoadName();
+		else
+			roadName = "";
+
+		String stateName;
+		if (tdsDeductorMasterDetails.getState() != null)
+			stateName = tdsDeductorMasterDetails.getState();
+		else
+			stateName = "";
+
+		String pinCOde;
+		if (tdsDeductorMasterDetails.getPinCode() != 0)
+			pinCOde = Long.toString(tdsDeductorMasterDetails.getPinCode());
+		else
+			pinCOde = "0";
+
+		formdetails.setDeductorAddress(buildingName + "\n" + cityName + "\n "
+				+ roadName + "\n" + stateName + "\n " + pinCOde);
+
+		formdetails.setDeductorPan(tdsDeductorMasterDetails.getPanNumber());
 		formdetails.setDeductorTan(tdsDeductorMasterDetails.getTanNumber());
 
 		Set<Address> address = vendor.getAddress();
-		for (Address address2 : address) {
-			formdetails.setDeducteeAddress(address2.getCity() + " "
-					+ address2.getStreet() + " "
-					+ address2.getStateOrProvinence() + " "
-					+ address2.getCountryOrRegion() + " "
-					+ address2.getZipOrPostalCode());
+		if (address.size() > 0) {
+			for (Address address2 : address) {
+				formdetails.setDeducteeAddress(address2.getCity() + " "
+						+ address2.getStreet() + " "
+						+ address2.getStateOrProvinence() + " "
+						+ address2.getCountryOrRegion() + " "
+						+ address2.getZipOrPostalCode());
+			}
+		} else {
+			formdetails.setDeducteeAddress(" ");
 		}
 
 		formdetails.setDeducteePan(vendor.getTaxId());
@@ -281,8 +305,8 @@ public class Form16ApdfTemplate {
 	}
 
 	public void setDateYear(String dateRangeString) {
-
-		formdetails.setFromDate(dateRangeString);
-		formdetails.setToDate(dateRangeString);
+		String[] split = dateRangeString.split("-");
+		formdetails.setFromDate(split[0]);
+		formdetails.setToDate(split[1]);
 	}
 }
