@@ -17,7 +17,6 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Estimate;
@@ -515,27 +514,6 @@ public class CustomerManager extends PayeeManager {
 		}
 	}
 
-	public ArrayList<CreditsAndPayments> getCustomerCreditsAndPayments(
-			long customer, long transactionId, long companyId) throws DAOException {
-		try {
-			Session session = HibernateUtil.getCurrentSession();
-			Company company = getCompany(companyId);
-			Query query = session
-					.getNamedQuery(
-							"getCreditsAndPayments.by.check.payeeidandbalanceid")
-					.setParameter("id", customer).setEntity("company", company);
-			List list = query.list();
-
-			if (list != null) {
-				return new ArrayList<CreditsAndPayments>(list);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
 	public void mergeCustomer(ClientCustomer fromClientCustomer,
 			ClientCustomer toClientCustomer, long companyId)
 			throws DAOException {
@@ -616,8 +594,8 @@ public class CustomerManager extends PayeeManager {
 			Customer customer = (Customer) session.get(Customer.class,
 					fromClientCustomer.getID());
 
-			Activity activity = new Activity(company, user,
-					ActivityType.MERGE, customer);
+			Activity activity = new Activity(company, user, ActivityType.MERGE,
+					customer);
 			session.save(activity);
 
 			company.getCustomers().remove(customer);

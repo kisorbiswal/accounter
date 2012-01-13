@@ -661,7 +661,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			serverCreditsAndPayments = getFinanceTool().getCustomerManager()
-					.getCustomerCreditsAndPayments(customerId, transactionId,
+					.getCreditsAndPayments(customerId, transactionId,
 							getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				ClientCreditsAndPayments clientObject = new ClientConvertUtil()
