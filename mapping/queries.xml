@@ -444,7 +444,8 @@
 		<query-param name="transactionType" type="int" />
 		<query-param name="company" type="Company" />
 		select t.number from com.vimukti.accounter.core.Transaction t where
-		t.type =:transactionType and t.company=:company order by length(t.number), t.number 
+		t.type =:transactionType and t.company=:company order by
+		length(t.number), t.number
 	</query>
 
 	<query name="getFlow.by.Id.from.Account">
@@ -986,10 +987,18 @@
 
 	<query name="getCreditsAndPayments.by.check.payeeidandbalanceid">
 		<query-param name="id" type="long" />
+		<query-param name="transactionId" type="long" />
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.CreditsAndPayments cp
+		select cp from com.vimukti.accounter.core.CreditsAndPayments cp
+		left join cp.transactionCreditsAndPayments as tcap
+		left join tcap.transactionPayBill as tpb
+		left join tcap.transactionReceivePayment as trp
 		where cp.payee.id
-		=:id and cp.balance > 0.0 and cp.payee.company=:company
+		=:id and ((cp.balance > 0.0) or
+		(trp.receivePayment.id=:transactionId)
+		or
+		(tpb.payBill.id=:transactionId))
+		and cp.payee.company=:company
 	</query>
 
 	<query name="getCustomerRefund">
@@ -1852,7 +1861,8 @@
 		where
 		(select count(r.id) from
 		com.vimukti.accounter.core.RecurringTransaction r
-		where r.company.id = c.id and r.type !=2) > 0
+		where r.company.id =
+		c.id and r.type !=2) > 0
 	</query>
 
 	<query name="getRecurrringsBeforeDate">
@@ -1897,13 +1907,15 @@
 	<query name="getRecurringReminderTask">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.MessageOrTask m
-		where m.contentType=1 and m.company.id =:companyId
+		where m.contentType=1
+		and m.company.id =:companyId
 	</query>
 
 	<query name="getAutomaticTransactionsMessage">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.MessageOrTask m
-		where m.contentType=2 and m.company.id =:companyId
+		where m.contentType=2
+		and m.company.id =:companyId
 	</query>
 
 	<query name="getMessagesAndTasks">
@@ -1952,13 +1964,13 @@
 		wc.company=:company and wc.transactionDate between :fromDate and
 		:toDate and wc.vendor != null
 	</query>
-	
+
 	<query name="getTdsResposiblePersonDetails">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.TDSResponsiblePerson tc where
 		tc.company.id=:companyId
 	</query>
-	
+
 	<query name="getTdsDeductor">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.TDSDeductorMasters tc where
@@ -1976,7 +1988,7 @@
 		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
 		tc.assessmentYearEnd=:endYear
 	</query>
-	
+
 	<query name="getCustomer.by.name">
 		<query-param name="company" type="Company" />
 		<query-param name="name" type="String" />
