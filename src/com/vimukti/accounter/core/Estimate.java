@@ -492,4 +492,9 @@ public class Estimate extends Transaction {
 		}
 		return valid;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+
+	}
 }

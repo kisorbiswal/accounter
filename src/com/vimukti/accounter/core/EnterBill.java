@@ -701,12 +701,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	private void doVoidEffect(Session session, EnterBill enterBill) {
 		// Why will we have transaction PayBills when we are editing or deleting
 		// or voiding enterbill
-//		if (enterBill.transactionPayBills != null) {
-//			for (TransactionPayBill tpb : enterBill.transactionPayBills) {
-//				tpb.onVoidEffect(session);
-//				session.saveOrUpdate(tpb);
-//			}
-//		}
+		// if (enterBill.transactionPayBills != null) {
+		// for (TransactionPayBill tpb : enterBill.transactionPayBills) {
+		// tpb.onVoidEffect(session);
+		// session.saveOrUpdate(tpb);
+		// }
+		// }
 
 		enterBill.status = Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
 
@@ -1108,7 +1108,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 				.getExchangeLossOrGainAccount();
 		exchangeLossOrGainAccount.updateCurrentBalance(transaction, -diff, 1);
 
-		vendor.updateBalance(session, transaction, -diff / currencyFactor,
+		vendor.updateBalance(session, transaction, diff / currencyFactor,
 				currencyFactor, false);
 		updateStatus();
 	}
@@ -1181,6 +1181,12 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			valid = false;
 		}
 		return valid;
+	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		double amount = onCreate ? total : -total;
+		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
 }

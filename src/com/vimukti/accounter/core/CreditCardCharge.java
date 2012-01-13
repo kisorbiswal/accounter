@@ -355,4 +355,9 @@ public class CreditCardCharge extends Transaction {
 		this.checkNumber = checkNumber;
 	}
 
+	@Override
+	protected void updatePayee(boolean onCreate) {
+
+	}
+
 }

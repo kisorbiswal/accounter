@@ -753,4 +753,10 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		w.put(messages.memo(), this.memo).gap();
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

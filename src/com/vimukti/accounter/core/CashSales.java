@@ -653,4 +653,9 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		}
 		return valid;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+
+	}
 }

@@ -339,4 +339,10 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	}
 
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

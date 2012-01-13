@@ -347,4 +347,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 		}
 		return valid;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

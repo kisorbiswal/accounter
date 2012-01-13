@@ -289,4 +289,10 @@ public class JournalEntry extends Transaction {
 	public void updateBalanceDue(double balanceDue) {
 		setBalanceDue(getBalanceDue() + balanceDue);
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

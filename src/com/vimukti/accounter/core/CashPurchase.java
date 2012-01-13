@@ -516,4 +516,9 @@ public class CashPurchase extends Transaction {
 	public void setDeliveryDate(FinanceDate deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+
+	}
 }

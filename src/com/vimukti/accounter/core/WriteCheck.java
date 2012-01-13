@@ -430,4 +430,10 @@ public class WriteCheck extends Transaction {
 	public void setInFavourOf(String inFavourOf) {
 		this.inFavourOf = inFavourOf;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

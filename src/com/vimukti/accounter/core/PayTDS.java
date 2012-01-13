@@ -80,4 +80,10 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 		w.put(messages.paymentMethod(), this.paymentMethod);
 		w.put(messages.memo(), this.memo).gap();
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

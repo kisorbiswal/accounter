@@ -301,8 +301,7 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public Payee getPayee() {
-		return this.customer;
-		// return null;
+		return customer;
 	}
 
 	public void setSalesPerson(SalesPerson salesPerson) {
@@ -531,5 +530,11 @@ public class CustomerCreditMemo extends Transaction implements
 			valid = false;
 		}
 		return valid;
+	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		double amount = onCreate ? total : -total;
+		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 }

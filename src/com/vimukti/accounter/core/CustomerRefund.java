@@ -421,4 +421,10 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			w.put(messages.paymentMethod(), this.paymentMethod);
 
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		double amount = onCreate ? -total : total;
+		payTo.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
 }

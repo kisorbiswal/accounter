@@ -269,4 +269,10 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

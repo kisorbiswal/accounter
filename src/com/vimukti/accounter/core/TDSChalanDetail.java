@@ -302,4 +302,10 @@ public class TDSChalanDetail extends Transaction implements
 		this.etdsfillingAcknowledgementNo = etdsfillingAcknowledgementNo;
 	}
 
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

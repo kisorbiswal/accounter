@@ -1214,4 +1214,10 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 		return valid;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		double amount = onCreate ? -total : total;
+		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
 }

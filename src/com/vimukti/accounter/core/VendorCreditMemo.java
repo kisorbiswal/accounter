@@ -356,4 +356,10 @@ public class VendorCreditMemo extends Transaction {
 		}
 		return valid;
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		double amount = onCreate ? -total : total;
+		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
 }

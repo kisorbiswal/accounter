@@ -529,4 +529,10 @@ public class PurchaseOrder extends Transaction {
 
 	}
 
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

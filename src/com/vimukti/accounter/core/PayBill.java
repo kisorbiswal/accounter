@@ -952,4 +952,13 @@ public class PayBill extends Transaction {
 			w.put(messages.details(), this.transactionPayBill);
 		}
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		if (payBillType == PayBill.TYPE_VENDOR_PAYMENT) {
+			double amount = onCreate ? -total : total;
+			vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+					amount);
+		}
+	}
 }

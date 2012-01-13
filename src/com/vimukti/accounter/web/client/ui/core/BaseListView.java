@@ -87,7 +87,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected boolean isDeleteDisable;
 	protected SelectCombo viewSelect, dateRangeSelector;
 
-	protected List<T> initialRecords;
+	protected List<T> initialRecords = new ArrayList<T>();
 
 	protected HorizontalPanel gridLayout;
 

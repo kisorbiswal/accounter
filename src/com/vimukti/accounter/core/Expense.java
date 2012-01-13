@@ -340,4 +340,9 @@ public class Expense extends Transaction {
 
 		w.put(messages.details(), this.transactionExpenses);
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+
+	}
 }

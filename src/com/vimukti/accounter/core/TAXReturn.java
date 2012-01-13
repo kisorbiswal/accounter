@@ -352,4 +352,10 @@ public class TAXReturn extends Transaction {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
+
+	}
 }

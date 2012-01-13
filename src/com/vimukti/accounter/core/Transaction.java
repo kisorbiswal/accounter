@@ -737,11 +737,11 @@ public abstract class Transaction extends CreatableObject implements
 		 * transactions we need to update the linked Payee Balance depending on
 		 * the type of Transaction.
 		 */
-		amount = (isDebitTransaction() ? 1d : -1d)
-				* (type == Transaction.TYPE_PAY_BILL ? this.subTotal
-						: this.total);
-		if (!DecimalUtil.isEquals(amount, 0))
-			this.updatePayee(amount);
+		// amount = (isDebitTransaction() ? 1d : -1d)
+		// * (type == Transaction.TYPE_PAY_BILL ? this.subTotal
+		// : this.total);
+		// if (!DecimalUtil.isEquals(amount, 0))
+		this.updatePayee(true);
 
 		/**
 		 * The following code is particularly for Sales Tax Liability Report
@@ -1009,7 +1009,7 @@ public abstract class Transaction extends CreatableObject implements
 
 		this.updateEffectedAccount(amount);
 
-		this.updatePayee(amount);
+		this.updatePayee(false);
 
 		this.voidCreditsAndPayments(this);
 
@@ -1169,13 +1169,7 @@ public abstract class Transaction extends CreatableObject implements
 		}
 	}
 
-	private void updatePayee(double amount) {
-		Payee payee = getPayee();
-		if (payee != null) {
-			payee.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-		}
-
-	}
+	protected abstract void updatePayee(boolean onCreate);
 
 	private void updateEffectedAccount(double amount) {
 		Account effectingAccount = getEffectingAccount();
