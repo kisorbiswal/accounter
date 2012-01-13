@@ -3,14 +3,15 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class DepreciationSheduleServerReport extends
 		AbstractFinaneReport<DepreciationShedule> {
 	private String sectionName = "";
-	private String currentsectionName = "";
-	private double totalCostOfAnAsset = 0.0D;
-	private double purchaseTotal = 0.0D;
+	private final String currentsectionName = "";
+	private final double totalCostOfAnAsset = 0.0D;
+	private final double purchaseTotal = 0.0D;
 
 	public DepreciationSheduleServerReport(
 			IFinanceReport<DepreciationShedule> reportView) {
@@ -85,9 +86,8 @@ public class DepreciationSheduleServerReport extends
 	public void processRecord(DepreciationShedule record) {
 		if (sectionDepth == 0) {
 			this.sectionName = record.getAssetAccountName();
-			addSection(new String[] { sectionName },
-					new String[] { messages.total() + " " + sectionName },
-					new int[] { 3, 7, 8, 9, 10, 11 });
+			addSection("", messages.total() + " " + sectionName, new int[] { 3,
+					7, 8, 9, 10, 11 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
 			if (!sectionName.equals(record.getAssetAccountName())) {
@@ -98,15 +98,6 @@ public class DepreciationSheduleServerReport extends
 		}
 		// Go on recursive calling if we reached this place
 		processRecord(record);
-	}
-
-	@Override
-	public void resetVariables() {
-		totalCostOfAnAsset = 0.0D;
-		purchaseTotal = 0.0D;
-		this.sectionDepth = 0;
-		this.sectionName = "";
-		this.currentsectionName = "";
 	}
 
 	@Override
@@ -125,7 +116,13 @@ public class DepreciationSheduleServerReport extends
 		case 5:
 			return getDateByCompanyType(record.getPurchaseDate());
 		case 6:
-			return getDateByCompanyType(record.getDisposeDate());
+			if (record.getDisposeDate().getDate() != 0) {
+				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
+						record.getDisposeDate().getDate()));
+			} else
+				return record.getDisposeDate().getDate() != 0 ? UIUtils
+						.getDateByCompanyType(new ClientFinanceDate(record
+								.getDisposeDate().getDate())) : "";
 		case 7:
 			return record.getPurchaseCost();
 		case 8:
