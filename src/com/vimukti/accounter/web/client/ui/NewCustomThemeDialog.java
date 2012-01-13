@@ -109,7 +109,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 
 		ValidationResult result = new ValidationResult();
 		String name = themeName.getValue().toString();
-		if (name.isEmpty())
+		if (name.trim().length() == 0)
 			result.addError(this, "Please Enter Valid Theme Name");
 		return result;
 	}
