@@ -470,7 +470,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			if (this instanceof ARAgingDetailReport
 					|| this instanceof APAgingDetailReport
 					|| this instanceof ARAgingSummaryReport
-					|| this instanceof APAgingSummaryReport) {
+					|| this instanceof APAgingSummaryReport
+					|| this instanceof DepreciationSheduleReport) {
 				toolbar.setVisible(false);
 			}
 			add(toolbar);
