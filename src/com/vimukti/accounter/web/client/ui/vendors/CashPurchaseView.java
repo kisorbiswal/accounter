@@ -267,6 +267,7 @@ public class CashPurchaseView extends
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
 
 		vatinclusiveCheck = getVATInclusiveCheckBox();
+		taxCodeSelect = createTaxCodeSelectItem();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
 				isDiscountPerDetailLine(), this) {
@@ -456,7 +457,6 @@ public class CashPurchaseView extends
 
 			bottomLayout.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
 				// taxCodeSelect.setVisible(isInViewMode());
 				form.setFields(taxCodeSelect);
 			}
