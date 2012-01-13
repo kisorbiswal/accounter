@@ -1473,9 +1473,9 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	protected void checkingTotal0() throws AccounterException {
-		if (total == 0) {
-			throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO);
-		}
+		// if (total == 0) {
+		// throw new AccounterException(AccounterException.ERROR_AMOUNT_ZERO);
+		// }
 	}
 
 	protected void checkingVendorNull(Vendor vendor) throws AccounterException {
