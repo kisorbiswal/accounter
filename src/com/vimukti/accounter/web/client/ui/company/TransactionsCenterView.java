@@ -29,7 +29,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView {
 
 	public BaseListView<T> baseListView;
-	private HorizontalPanel mainPanel;
+	private final HorizontalPanel mainPanel;
 
 	// private String selectedType;
 	//
@@ -185,7 +185,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		List<String> vendorItems = new ArrayList<String>();
 		vendorItems.add(getMessages().billCredits());
 		vendorItems.add(getMessages().billPayments());
-		vendorItems.add(getMessages().bills());
+		if (getPreferences().isKeepTrackofBills()) {
+			vendorItems.add(getMessages().bills());
+		}
 		vendorItems.add(getMessages().vendorchecks());
 		vendorItems.add(getMessages().creditCardExpenses());
 		vendorItems.add(getMessages().cashExpenses());
