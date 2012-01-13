@@ -317,6 +317,26 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session arg0) throws CallbackException {
+		double amount = (this.cashDiscount) + (this.writeOff)
+				+ (this.appliedCredits) + (this.payment);
+		if (this.invoice != null) {
+			// Update the Payments and the balance due of the corresponding
+			// Invoice
+			this.invoice.updateBalance(-amount, this.receivePayment);
+
+		} else if (this.customerRefund != null) {
+			// Update the Payments and the balance due of the corresponding
+			// customer refund
+			this.customerRefund.setPayments(this.customerRefund.getPayments()
+					- amount);
+			this.customerRefund.setBalanceDue(this.customerRefund
+					.getBalanceDue() + amount);
+
+		} else if (this.journalEntry != null) {
+			// Update the Payments and the balance due of the corresponding
+			// customer's Journal Entry
+			this.journalEntry.updateBalanceDue(amount);
+		}
 		return false;
 	}
 
