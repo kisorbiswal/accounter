@@ -80,14 +80,17 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
 		grid.removeAllRecords();
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
 		grid.setRecords(result);
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
-		if (result.isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
 	}
 
 	@Override
