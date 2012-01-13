@@ -268,4 +268,7 @@ public class AccountRegisterOthersView extends AbstractView<AccountRegister> {
 
 	}
 
+	public long getCurrency() {
+		return takenaccount.getCurrency();
+	}
 }
