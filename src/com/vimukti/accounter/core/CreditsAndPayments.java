@@ -188,7 +188,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	private void updateTransactionBalanceDue(Transaction transaction,
 			double amount) {
-		transaction=HibernateUtil.initializeAndUnproxy(transaction);
+		transaction = HibernateUtil.initializeAndUnproxy(transaction);
 		switch (transaction.getType()) {
 
 		case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
@@ -211,21 +211,21 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 			HibernateUtil.getCurrentSession().saveOrUpdate(cpp);
 			break;
 
-//		case Transaction.TYPE_PAY_BILL:
-//			HibernateUtil.getCurrentSession().saveOrUpdate(transaction);
-//			break;
+		// case Transaction.TYPE_PAY_BILL:
+		// HibernateUtil.getCurrentSession().saveOrUpdate(transaction);
+		// break;
 		}
-//		if (DecimalUtil.isGreaterThan(
-//				this.getBalance(), 0)
-//				&& DecimalUtil.isLessThan(
-//						this.getBalance(),
-//						this.getCreditAmount())) {
-//
-//			this.getTransaction()
-//					.setStatus(
-//							Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
-//
-//		}
+		// if (DecimalUtil.isGreaterThan(
+		// this.getBalance(), 0)
+		// && DecimalUtil.isLessThan(
+		// this.getBalance(),
+		// this.getCreditAmount())) {
+		//
+		// this.getTransaction()
+		// .setStatus(
+		// Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED);
+		//
+		// }
 
 	}
 
@@ -295,7 +295,7 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 				amount = this.transaction.total;
 			}
 
-			this.payee.updateBalance(arg0, this.transaction, amount);
+			// this.payee.updateBalance(arg0, this.transaction, amount);
 		}
 		return false;
 	}
@@ -411,34 +411,34 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 	 *            accountTransactionEntriesList in presentTransaction}
 	 * @param amount
 	 */
-	public void voidCreditsAndPayments(Transaction transaction,
-			Transaction presentTransaction, double amount) {
-
-		Session session = HibernateUtil.getCurrentSession();
-		if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
-				&& this.transaction.type != Transaction.TYPE_INVOICE) {
-
-			if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
-				amount = this.transaction.subTotal - this.transaction.total;
-			} else if (this.transaction.type == Transaction.TYPE_RECEIVE_PAYMENT) {
-				amount = this.transaction.subTotal - this.transaction.total;
-			} else if (this.payee.type == Payee.TYPE_VENDOR) {
-				amount = -(this.transaction.total);
-			} else if (this.payee.type == Payee.TYPE_CUSTOMER) {
-				amount = this.balance;
-			} else {
-				amount = this.transaction.total;
-			}
-
-			this.payee.updateBalance(session, this.transaction, -amount);
-
-		}
-		this.setBalance(0d);
-		this.setCreditAmount(0d);
-		this.setTransaction(null);
-		this.setPayee(null);
-
-	}
+	// public void voidCreditsAndPayments(Transaction transaction,
+	// Transaction presentTransaction, double amount) {
+	//
+	// Session session = HibernateUtil.getCurrentSession();
+	// if (this.transaction.type != Transaction.TYPE_JOURNAL_ENTRY
+	// && this.transaction.type != Transaction.TYPE_INVOICE) {
+	//
+	// if (this.transaction.type == Transaction.TYPE_PAY_BILL) {
+	// amount = this.transaction.subTotal - this.transaction.total;
+	// } else if (this.transaction.type == Transaction.TYPE_RECEIVE_PAYMENT) {
+	// amount = this.transaction.subTotal - this.transaction.total;
+	// } else if (this.payee.type == Payee.TYPE_VENDOR) {
+	// amount = -(this.transaction.total);
+	// } else if (this.payee.type == Payee.TYPE_CUSTOMER) {
+	// amount = this.balance;
+	// } else {
+	// amount = this.transaction.total;
+	// }
+	//
+	// this.payee.updateBalance(session, this.transaction, -amount);
+	//
+	// }
+	// this.setBalance(0d);
+	// this.setCreditAmount(0d);
+	// this.setTransaction(null);
+	// this.setPayee(null);
+	//
+	// }
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)

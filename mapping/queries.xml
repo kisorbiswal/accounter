@@ -998,6 +998,7 @@
 		(trp.receivePayment.id=:transactionId)
 		or
 		(tpb.payBill.id=:transactionId))
+		and cp.transaction.id!=:transactionId
 		and cp.payee.company=:company
 	</query>
 

@@ -350,9 +350,9 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
-		
-		if(this.transactionCreditsAndPayments!=null){
-			for(TransactionCreditsAndPayments tcap:this.transactionCreditsAndPayments){
+
+		if (this.transactionCreditsAndPayments != null) {
+			for (TransactionCreditsAndPayments tcap : this.transactionCreditsAndPayments) {
 				tcap.setTransactionReceivePayment(this);
 			}
 		}
@@ -484,20 +484,13 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 
 		session.saveOrUpdate(this.getReceivePayment().getCustomer());
 
+		for (TransactionCreditsAndPayments tcp : transactionCreditsAndPayments) {
+			session.delete(tcp);
+		}
+		this.transactionCreditsAndPayments.clear();
 		double amount = (getCashDiscount()) + (getWriteOff())
 				+ (getAppliedCredits()) + (getPayment());
-		if (!isDeleting) {
-			if (DecimalUtil.isGreaterThan(this.getAppliedCredits(), 0.0)) {
 
-				for (TransactionCreditsAndPayments tcp : this
-						.getTransactionCreditsAndPayments()) {
-					tcp.onEditTransaction(-tcp.amountToUse);
-					tcp.amountToUse = 0.0;
-					session.saveOrUpdate(tcp);
-				}
-				// this.appliedCredits = 0.0;
-			}
-		}
 		// this.cashDiscount = 0.0;
 		// this.writeOff = 0.0;
 		// this.payment = 0.0;

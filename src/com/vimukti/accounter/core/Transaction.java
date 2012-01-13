@@ -1163,17 +1163,6 @@ public abstract class Transaction extends CreatableObject implements
 				tcp.setCreditsAndPayments(null);
 				HibernateUtil.getCurrentSession().saveOrUpdate(tcp);
 			}
-			// this.creditsAndPayments.setCreditAmount(0.0);
-			// this.creditsAndPayments.setBalance(0.0);
-			// this.creditsAndPayments.setTransaction(null);
-			// this.getPayee().updateBalance(HibernateUtil.getCurrentSession(),
-			// this, this.total);
-			// transaction.creditsAndPayments.voidCreditsAndPayments(transaction,
-			// this, transaction.total);
-			// HibernateUtil.getCurrentSession().saveOrUpdate(
-			// transaction.creditsAndPayments);
-			creditsAndPayments.voidCreditsAndPayments(transaction, this,
-					-creditsAndPayments.getEffectingAmount());
 			HibernateUtil.getCurrentSession().delete(this.creditsAndPayments);
 			this.setCreditsAndPayments(null);
 

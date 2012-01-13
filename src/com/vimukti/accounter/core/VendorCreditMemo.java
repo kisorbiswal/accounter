@@ -170,8 +170,8 @@ public class VendorCreditMemo extends Transaction {
 
 	@Override
 	public Payee getPayee() {
-		// return this.vendor;
-		return null;
+		return this.vendor;
+		// return null;
 
 	}
 

@@ -301,8 +301,8 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public Payee getPayee() {
-		// return this.customer;
-		return null;
+		return this.customer;
+		// return null;
 	}
 
 	public void setSalesPerson(SalesPerson salesPerson) {
@@ -422,10 +422,11 @@ public class CustomerCreditMemo extends Transaction implements
 
 			// if (DecimalUtil.isLessThan(this.total, customerCreditMemo.total))
 			// {
-			customerCreditMemo.getCustomer().updateBalance(session, this,
-					-customerCreditMemo.total,
-					customerCreditMemo.getCurrencyFactor());
-			this.customer.updateBalance(session, this, this.total);
+
+			// customerCreditMemo.getCustomer().updateBalance(session, this,
+			// -customerCreditMemo.total,
+			// customerCreditMemo.getCurrencyFactor());
+			// this.customer.updateBalance(session, this, this.total);
 			this.creditsAndPayments.updateCreditPayments(this.total);
 			// } else {
 			// // this.total = this.total - customerCreditMemo.total;
