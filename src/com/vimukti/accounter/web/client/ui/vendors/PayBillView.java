@@ -243,7 +243,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
-
 	private String getCheckValue() {
 		String value;
 		if (!isInViewMode()) {
@@ -799,6 +798,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			return;
 		}
 
+		grid.resetValues();
 		grid.creditsAndPayments.clear();
 		this.setVendor(vendor);
 
@@ -806,7 +806,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			updateTDSFields();
 			paymentMethodCombo.setComboItem(vendor.getPaymentMethod());
 		}
-
 
 		if (!isInViewMode()) {
 			grid.initCreditsAndPayments(vendor);
@@ -1188,7 +1187,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			record.setTdsAmount(0.00D);
 			record.setPayment(0.00D);
-
 
 			records.add(record);
 		}
