@@ -444,7 +444,7 @@ public class CreateAccountCommand extends AbstractCommand {
 	protected void accountTypeChanged(String value) {
 		int accountType = getAccountType(value);
 		long nextAccountNumber = CommandUtils.getNextAccountNumber(
-				getCompany(), UIUtils.getAccountSubBaseType(accountType));
+				getCompany(), accountType, getPreferences());
 		if (account.getID() == 0) {
 			if (accountType == ClientAccount.TYPE_BANK) {
 				account = new ClientBankAccount();
@@ -460,7 +460,9 @@ public class CreateAccountCommand extends AbstractCommand {
 						account.getName());
 			}
 		}
-		get(ACCOUNT_NUMBER).setValue(String.valueOf(nextAccountNumber));
+		if (nextAccountNumber != -1) {
+			get(ACCOUNT_NUMBER).setValue(String.valueOf(nextAccountNumber));
+		}
 		resetRequirementValues();
 	}
 
@@ -469,22 +471,22 @@ public class CreateAccountCommand extends AbstractCommand {
 		list.add(getMessages().income());
 		list.add(getMessages().otherIncome());
 		list.add(getMessages().expense());
-		list.add(getMessages().accountPayble());
 		list.add(getMessages().otherExpense());
-		list.add(getMessages().costOfGoodSold());
+		list.add(getMessages().costofGoodsSold());
 		list.add(getMessages().cash());
 		list.add(getMessages().bank());
 		list.add(getMessages().otherCurrentAsset());
-		list.add(getMessages().accountReceivable());
 		list.add(getMessages().inventoryAsset());
 		list.add(getMessages().otherAssets());
-		list.add(getMessages().fixedAssest());
+		list.add(getMessages().fixedAsset());
 		list.add(getMessages().creditCard());
-		list.add(getMessages().payrollLiability());
-		list.add(getMessages().otherCurrentLiability());
-		list.add(getMessages().longTermLiabilities());
-		list.add(getMessages().equity());
 		list.add(getMessages().paypal());
+		list.add(getMessages().payrollLiability());
+		list.add(getMessages().currentLiability());
+		list.add(getMessages().longTermLiability());
+		list.add(getMessages().equity());
+		list.add(getMessages().accountsReceivable());
+		list.add(getMessages().accountsPayable());
 		return list;
 	}
 
@@ -633,47 +635,90 @@ public class CreateAccountCommand extends AbstractCommand {
 			return ClientAccount.BANK_ACCCOUNT_TYPE_NONE;
 	}
 
-	private int getAccountType(String accType) {
-		if (accType.equalsIgnoreCase("cash")) {
-			return 1;
-		} else if (accType.equalsIgnoreCase("bank")) {
-			return 2;
-		} else if (accType.equalsIgnoreCase("Account Payble")) {
-			return 3;
-		} else if (accType.equalsIgnoreCase("Other current Asset")) {
-			return 4;
-		} else if (accType.equalsIgnoreCase("Inventory Asset")) {
-			return 5;
-		} else if (accType.equalsIgnoreCase("Fixed Asset")) {
-			return 6;
-		} else if (accType.equalsIgnoreCase("Other Asset")) {
-			return 7;
-		} else if (accType.equalsIgnoreCase("Account Receivable")) {
-			return 8;
-		} else if (accType.equalsIgnoreCase("Other Current Liability")) {
-			return 9;
-		} else if (accType.equalsIgnoreCase("Credit card")) {
-			return 10;
-		} else if (accType.equalsIgnoreCase("Payroll Liability")) {
-			return 11;
-		} else if (accType.equalsIgnoreCase("Long Term Liability")) {
-			return 12;
-		} else if (accType.equalsIgnoreCase("Equity")) {
-			return 13;
-		} else if (accType.equalsIgnoreCase("Income")) {
-			return 14;
-		} else if (accType.equalsIgnoreCase("Cost of Goods Sold")) {
-			return 15;
-		} else if (accType.equalsIgnoreCase("Expense")) {
-			return 16;
-		} else if (accType.equalsIgnoreCase("Other Income")) {
-			return 17;
-		} else if (accType.equalsIgnoreCase("Other Expense")) {
-			return 18;
-		} else if (accType.equalsIgnoreCase("Paypal")) {
-			return 19;
+	public int[] accountTypes = { ClientAccount.TYPE_INCOME,
+			ClientAccount.TYPE_OTHER_INCOME, ClientAccount.TYPE_EXPENSE,
+			ClientAccount.TYPE_OTHER_EXPENSE,
+			ClientAccount.TYPE_COST_OF_GOODS_SOLD, ClientAccount.TYPE_CASH,
+			ClientAccount.TYPE_BANK, ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+			ClientAccount.TYPE_INVENTORY_ASSET, ClientAccount.TYPE_OTHER_ASSET,
+			ClientAccount.TYPE_FIXED_ASSET, ClientAccount.TYPE_CREDIT_CARD,
+			ClientAccount.TYPE_PAYROLL_LIABILITY,
+			ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
+			ClientAccount.TYPE_LONG_TERM_LIABILITY, ClientAccount.TYPE_EQUITY,
+			ClientAccount.TYPE_PAYPAL };
+
+	private int getAccountType(String name) {
+		for (int type : accountTypes) {
+			if (name.equals(getAccountTypeString(type)))
+				return type;
 		}
 		return 0;
+	}
+
+	public String getAccountTypeString(int accountType) {
+
+		String accountTypeName = null;
+		switch (accountType) {
+		case ClientAccount.TYPE_INCOME:
+			accountTypeName = getMessages().income();
+			break;
+		case ClientAccount.TYPE_OTHER_INCOME:
+			accountTypeName = getMessages().otherIncome();
+			break;
+		case ClientAccount.TYPE_EXPENSE:
+			accountTypeName = getMessages().expense();
+			break;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			accountTypeName = getMessages().otherExpense();
+			break;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			accountTypeName = getMessages().costofGoodsSold();
+			break;
+		case ClientAccount.TYPE_CASH:
+			accountTypeName = getMessages().cash();
+			break;
+		case ClientAccount.TYPE_BANK:
+			accountTypeName = getMessages().bank();
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+			accountTypeName = getMessages().otherCurrentAsset();
+			break;
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			accountTypeName = getMessages().inventoryAsset();
+			break;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			accountTypeName = getMessages().otherAssets();
+			break;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			accountTypeName = getMessages().fixedAsset();
+			break;
+		case ClientAccount.TYPE_CREDIT_CARD:
+			accountTypeName = getMessages().creditCard();
+			break;
+		case ClientAccount.TYPE_PAYPAL:
+			accountTypeName = getMessages().paypal();
+			break;
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			accountTypeName = getMessages().payrollLiability();
+			break;
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+			accountTypeName = getMessages().currentLiability();
+			break;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			accountTypeName = getMessages().longTermLiability();
+			break;
+		case ClientAccount.TYPE_EQUITY:
+			accountTypeName = getMessages().equity();
+			break;
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+			accountTypeName = getMessages().accountsReceivable();
+			break;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+			accountTypeName = getMessages().accountsPayable();
+			break;
+
+		}
+		return accountTypeName;
 	}
 
 	@Override
@@ -720,7 +765,7 @@ public class CreateAccountCommand extends AbstractCommand {
 			return "Accounts " + string.trim();
 		}
 
-		get(ACCOUNT_TYPE).setValue(getAccountType(account.getType()));
+		get(ACCOUNT_TYPE).setValue(getAccountTypeString(account.getType()));
 		get(ACCOUNT_NAME).setValue(account.getName());
 
 		get(ACCOUNT_NUMBER).setValue(account.getNumber());
@@ -774,53 +819,6 @@ public class CreateAccountCommand extends AbstractCommand {
 
 		return "";
 
-	}
-
-	private String getAccountType(int i) {
-		i--;// Starting from 0
-		switch (i) {
-		case 0:
-			return "cash";
-		case 1:
-			return "bank";
-		case 2:
-			return "Account Payble";
-		case 3:
-			return "Other current Asset";
-		case 4:
-			return "Inventory Asset";
-		case 5:
-			return "Fixed Asset";
-		case 6:
-			return "Other Asset";
-		case 7:
-			return "Account Receivable";
-		case 8:
-			return "Other Current Liability";
-		case 9:
-			return "Credit card";
-		case 10:
-			return "Payroll Liability";
-		case 11:
-			return "Long Term Liability";
-		case 12:
-			return "Equity";
-		case 13:
-			return "Income";
-		case 14:
-			return "Cost of Goods Sold";
-		case 15:
-			return "Expense";
-		case 16:
-			return "Other Income";
-		case 17:
-			return "Other Expense";
-		case 18:
-			return "Paypal";
-		default:
-			break;
-		}
-		return "";
 	}
 
 	private void resetRequirementValues() {
