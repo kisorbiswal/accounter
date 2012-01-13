@@ -752,7 +752,7 @@ public class WriteChequeView extends
 		}
 		// bankAccForm.getCellFormatter().setWidth(0, 0, "232px");
 		// forms.add(bankAccForm);
-
+		taxCodeSelect = createTaxCodeSelectItem();
 		paytoSelect = new PayeeCombo(messages.payTo());
 		// paytoSelect.setWidth(100);
 		// paytoSelect.setRequired(true);
@@ -899,7 +899,6 @@ public class WriteChequeView extends
 		if (isTrackTax()) {
 			totalForm.add(vatTotalNonEditableText);
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
 				// taxCodeSelect.setVisible(isInViewMode());
 				form.setFields(taxCodeSelect);
 				vatPanel.setCellHorizontalAlignment(form, ALIGN_CENTER);
