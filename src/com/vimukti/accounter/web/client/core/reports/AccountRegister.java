@@ -6,8 +6,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
-public class AccountRegister implements IsSerializable,
-		Serializable {
+public class AccountRegister implements IsSerializable, Serializable {
 
 	/**
 	 * 
@@ -35,6 +34,10 @@ public class AccountRegister implements IsSerializable,
 	private boolean isVoided;
 
 	long transactionId;
+
+	private long currency;
+
+	private double currencyfactor;
 
 	/**
 	 * @return the date
@@ -205,6 +208,22 @@ public class AccountRegister implements IsSerializable,
 
 	public boolean isVoided() {
 		return isVoided;
+	}
+
+	public long getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(long currency) {
+		this.currency = currency;
+	}
+
+	public double getCurrencyfactor() {
+		return currencyfactor;
+	}
+
+	public void setCurrencyfactor(double currencyfactor) {
+		this.currencyfactor = currencyfactor;
 	}
 
 }
