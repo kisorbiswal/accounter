@@ -16,10 +16,10 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ItemsAction extends Action {
 
-	public ItemsAction() {
-		super();
-		this.catagory = Global.get().customer();
-	}
+	// public ItemsAction() {
+	// super();
+	// this.catagory = Global.get().customer();
+	// }
 
 	public ItemsAction(String catageory) {
 		super();
@@ -33,20 +33,20 @@ public class ItemsAction extends Action {
 			public void onCreated() {
 				ItemListView view = new ItemListView();
 				view.setCatageoryType(getCatagory());
-				if (getCatagory().equals(Global.get().vendor())) {
-					ItemListView.isPurchaseType = true;
-					ItemListView.isSalesType = false;
-				} else if (getCatagory().equals(Global.get().Customer())) {
-					ItemListView.isPurchaseType = false;
-					ItemListView.isSalesType = true;
-				} else if (getCatagory()
-						.equals(
-								messages.bothCustomerAndVendor(
-										Global.get().Customer(),
-										Global.get().Vendor()))) {
-					ItemListView.isPurchaseType = true;
-					ItemListView.isSalesType = true;
-				}
+				// if (getCatagory().equals(Global.get().vendor())) {
+				// ItemListView.isPurchaseType = true;
+				// ItemListView.isSalesType = false;
+				// } else if (getCatagory().equals(Global.get().Customer())) {
+				// ItemListView.isPurchaseType = false;
+				// ItemListView.isSalesType = true;
+				// } else if (getCatagory()
+				// .equals(
+				// messages.bothCustomerAndVendor(
+				// Global.get().Customer(),
+				// Global.get().Vendor()))) {
+				// ItemListView.isPurchaseType = true;
+				// ItemListView.isSalesType = true;
+				// }
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ItemsAction.this);
 
@@ -60,10 +60,12 @@ public class ItemsAction extends Action {
 		runAsync(data, isDependent);
 	}
 
+	@Override
 	public ImageResource getBigImage() {
 		return null;
 	}
 
+	@Override
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().items();
 	}
@@ -71,14 +73,13 @@ public class ItemsAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		ItemListView view = new ItemListView();
-		view.setCatageoryType(getCatagory());
-		if (getCatagory().equals(Global.get().vendor()))
+		// view.setCatageoryType(getCatagory());
+		if (catagory.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
-		if (getCatagory().equals(Global.get().Customer()))
+		if (catagory.equals(Global.get().customer()))
 			return "customerItems";
-		if (getCatagory().equals(
-				messages.bothCustomerAndVendor(
-						Global.get().Customer(), Global.get().Vendor())))
+		if (catagory.equals(messages.bothCustomerAndVendor(Global.get()
+				.Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
@@ -88,14 +89,12 @@ public class ItemsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		ItemListView view = new ItemListView();
-		view.setCatageoryType(getCatagory());
-		if (getCatagory().equals(Global.get().vendor()))
+		if (catagory.equals(Global.get().vendor()))
 			return "vendorItems";
-		if (getCatagory().equals(Global.get().Customer()))
+		if (catagory.equals(Global.get().customer()))
 			return "customerItems";
-		if (getCatagory().equals(
-				messages.bothCustomerAndVendor(
-						Global.get().Customer(), Global.get().Vendor())))
+		if (catagory.equals(messages.bothCustomerAndVendor(Global.get()
+				.Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
