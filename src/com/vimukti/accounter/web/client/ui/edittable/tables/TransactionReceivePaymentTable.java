@@ -14,7 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
-import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -61,9 +60,9 @@ public abstract class TransactionReceivePaymentTable extends
 		this.enableDiscount = enableDisCount;
 		this.company = Accounter.getCompany();
 	}
-	
-	public void setTranactionId(long transactionId){
-		this.transactionId=transactionId;
+
+	public void setTranactionId(long transactionId) {
+		this.transactionId = transactionId;
 	}
 
 	protected void initColumns() {
@@ -430,7 +429,8 @@ public abstract class TransactionReceivePaymentTable extends
 		Accounter
 				.createHomeService()
 				.getCustomerCreditsAndPayments(
-						customer.getID(), transactionId,
+						customer.getID(),
+						transactionId,
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
 							public void onException(AccounterException caught) {
@@ -553,7 +553,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	}
 
-	protected double getUnusedCredits() {
+	public double getUnusedCredits() {
 		double unusedCredits = 0.0;
 		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 			unusedCredits += ccap.getBalance();
@@ -818,7 +818,8 @@ public abstract class TransactionReceivePaymentTable extends
 			for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 				double balance = ccap.getBalance();
 				double usedAmount = 0.0;
-				for (ClientTransactionCreditsAndPayments ctcap : ctrp.getTransactionCreditsAndPayments()) {
+				for (ClientTransactionCreditsAndPayments ctcap : ctrp
+						.getTransactionCreditsAndPayments()) {
 					if (ctcap.getCreditsAndPayments() == ccap.getID()) {
 						usedAmount += ctcap.getAmountToUse();
 					}
@@ -827,9 +828,7 @@ public abstract class TransactionReceivePaymentTable extends
 			}
 			ctrp.getTransactionCreditsAndPayments().clear();
 		}
-		
-	}
 
-	
+	}
 
 }

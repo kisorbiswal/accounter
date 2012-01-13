@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayBill;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -742,39 +743,62 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 	public void calculateUnusedCredits() {
 
-		Double totalCredits = 0D;
-		List<ClientCreditsAndPayments> updatedCustomerCreditsAndPayments = grid
-				.getUpdatedCustomerCreditsAndPayments();
-		if (updatedCustomerCreditsAndPayments != null) {
-			for (ClientCreditsAndPayments credit : updatedCustomerCreditsAndPayments) {
-				totalCredits += credit.getBalance();
-			}
-		}
-
-		if (totalCredits == 0) {
-			this.unUsedCreditsText.setAmount(totalCredits);
-			return;
-		}
-
-		// To apply credits automatically to transactionItems by enable Apply
-		// credits preferencess.
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 			List<ClientTransactionPayBill> allRows = grid.getSelectedRecords();
+			// First add all credits back
 			for (ClientTransactionPayBill c : allRows) {
 				if (c.creditsAppliedManually) {
-					// totalCredits -= c.getAppliedCredits();
 					continue;
 				}
-				double creditsToApply = Math
-						.min(c.getAmountDue(), totalCredits);
-				c.setAppliedCredits(creditsToApply, false);
-				totalCredits -= creditsToApply;
+				// First add all credits back
+				for (ClientTransactionCreditsAndPayments ctcap : c
+						.getTransactionCreditsAndPayments()) {
+					for (ClientCreditsAndPayments ccap : grid.creditsAndPayments) {
+						if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+							ccap.setBalance(ccap.getBalance()
+									+ ctcap.getAmountToUse());
+						}
+					}
+				}
+				// If we have got credits by this time then clear all
+				// transaction cap
+				if (grid.creditsAndPayments.size() > 0) {
+					c.getTransactionCreditsAndPayments().clear();
+				}
+			}
+			// now distribute again
+			for (ClientTransactionPayBill c : allRows) {
+				if (c.creditsAppliedManually) {
+					continue;
+				}
+
+				double due = c.getAmountDue();
+				if (due <= 0) {
+					continue;
+				}
+				double creditsApplied = 0.0;
+				List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = c
+						.getTransactionCreditsAndPayments();
+				for (ClientCreditsAndPayments ccap : grid.creditsAndPayments) {
+					if (ccap.getBalance() > 0 && due > 0) {
+						ClientTransactionCreditsAndPayments ctcap = new ClientTransactionCreditsAndPayments();
+						double amountToUse = Math.min(due, ccap.getBalance());
+						ctcap.setAmountToUse(amountToUse);
+						ctcap.setCreditsAndPayments(ccap.getID());
+						transactionCreditsAndPayments.add(ctcap);
+						ccap.setBalance(ccap.getBalance() - amountToUse);
+						due -= amountToUse;
+						creditsApplied += amountToUse;
+					}
+				}
+				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
-				c.setPayment(c.getAmountDue() - c.getAppliedCredits());
+				c.setPayment(due);
 				grid.update(c);
 			}
 		}
-		this.unUsedCreditsText.setAmount(totalCredits);
+
+		this.unUsedCreditsText.setAmount(grid.getUnusedCredits());
 
 	}
 

@@ -1,10 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class ClientTransactionReceivePayment implements IAccounterCore {
 
@@ -37,7 +34,7 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	long receivePayment;
 
-	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments=new ArrayList<ClientTransactionCreditsAndPayments>();
+	List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = new ArrayList<ClientTransactionCreditsAndPayments>();
 
 	boolean isVoid = false;
 
@@ -55,8 +52,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	private long id;
 
-	/* The following fields are just for saving credits temporarly */
-	Map<Integer, Object> tempCredits = new HashMap<Integer, Object>();
 	double remainingCreditBalance;
 	boolean isCreditsApplied;
 
@@ -68,14 +63,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 
 	public void setCreditsApplied(boolean isCreditsApplied) {
 		this.isCreditsApplied = isCreditsApplied;
-	}
-
-	public Map<Integer, Object> getTempCredits() {
-		return tempCredits;
-	}
-
-	public void setTempCredits(Map<Integer, Object> tempCredits) {
-		this.tempCredits = tempCredits;
 	}
 
 	public double getRemainingCreditBalance() {
@@ -370,11 +357,6 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 			transactionCreditsAndPayments.add(creditsAndPayments.clone());
 		}
 		clientTransactionReceivePaymentClone.transactionCreditsAndPayments = transactionCreditsAndPayments;
-		Map<Integer, Object> tempCredit = new HashMap<Integer, Object>();
-		for (Entry<Integer, Object> entrySet : tempCredits.entrySet()) {
-			tempCredit.put(entrySet.getKey(), (entrySet.getValue()));
-
-		}// TODO
 
 		return clientTransactionReceivePaymentClone;
 	}

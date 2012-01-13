@@ -347,16 +347,16 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 			if (isApplyCredis()) {
 				List<ClientTransactionCreditsAndPayments> tranCreditsandPayments = requirement
 						.getTransactionCredits(payment);
-//				if (tranCreditsandPayments != null)
-//					for (ClientTransactionCreditsAndPayments transactionCreditsAndPayments : tranCreditsandPayments) {
-//						transactionCreditsAndPayments
-//								.setTransactionReceivePayment(payment);
-//					}
+				// if (tranCreditsandPayments != null)
+				// for (ClientTransactionCreditsAndPayments
+				// transactionCreditsAndPayments : tranCreditsandPayments) {
+				// transactionCreditsAndPayments
+				// .setTransactionReceivePayment(payment);
+				// }
 
 				payment.setTransactionCreditsAndPayments(tranCreditsandPayments);
 			}
 			paymentsList.add(payment);
-			payment.getTempCredits().clear();
 		}
 		return paymentsList;
 	}

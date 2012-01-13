@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -227,34 +228,62 @@ public class ReceivePaymentView extends
 
 	public void calculateUnusedCredits() {
 
-		double totalCredits = 0D;
-		for (ClientCreditsAndPayments credit : gridView.creditsAndPayments) {
-			totalCredits += credit.getBalance();
-		}
-
-		if (totalCredits == 0) {
-			this.unUsedCreditsText.setAmount(totalCredits);
-			return;
-		}
-
 		if (getCompany().getPreferences().isCreditsApplyAutomaticEnable()) {
 			List<ClientTransactionReceivePayment> allRows = gridView
 					.getSelectedRecords();
+			// First add all credits back
 			for (ClientTransactionReceivePayment c : allRows) {
 				if (c.creditsAppliedManually) {
-					// totalCredits -= c.getAppliedCredits();
 					continue;
 				}
-				double creditsToApply = Math
-						.min(c.getAmountDue(), totalCredits);
-				c.setAppliedCredits(creditsToApply, false);
-				totalCredits -= creditsToApply;
+				// First add all credits back
+				for (ClientTransactionCreditsAndPayments ctcap : c
+						.getTransactionCreditsAndPayments()) {
+					for (ClientCreditsAndPayments ccap : gridView.creditsAndPayments) {
+						if (ctcap.getCreditsAndPayments() == ccap.getID()) {
+							ccap.setBalance(ccap.getBalance()
+									+ ctcap.getAmountToUse());
+						}
+					}
+				}
+				// If we have got credits by this time then clear all
+				// transaction cap
+				if (gridView.creditsAndPayments.size() > 0) {
+					c.getTransactionCreditsAndPayments().clear();
+				}
+			}
+			// now distribute again
+			for (ClientTransactionReceivePayment c : allRows) {
+				if (c.creditsAppliedManually) {
+					continue;
+				}
+
+				double due = c.getAmountDue();
+				if (due <= 0) {
+					continue;
+				}
+				double creditsApplied = 0.0;
+				List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments = c
+						.getTransactionCreditsAndPayments();
+				for (ClientCreditsAndPayments ccap : gridView.creditsAndPayments) {
+					if (ccap.getBalance() > 0 && due > 0) {
+						ClientTransactionCreditsAndPayments ctcap = new ClientTransactionCreditsAndPayments();
+						double amountToUse = Math.min(due, ccap.getBalance());
+						ctcap.setAmountToUse(amountToUse);
+						ctcap.setCreditsAndPayments(ccap.getID());
+						transactionCreditsAndPayments.add(ctcap);
+						ccap.setBalance(ccap.getBalance() - amountToUse);
+						due -= amountToUse;
+						creditsApplied += amountToUse;
+					}
+				}
+				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
 				gridView.update(c);
 			}
 		}
 
-		this.unUsedCreditsText.setAmount(totalCredits);
+		this.unUsedCreditsText.setAmount(gridView.getUnusedCredits());
 
 	}
 
@@ -453,12 +482,10 @@ public class ReceivePaymentView extends
 			payment.setTransaction(receivePayment.getID());
 
 			paymentsList.add(payment);
-			payment.getTempCredits().clear();
 		}
 
 		return paymentsList;
 	}
-
 
 	@Override
 	protected void createControls() {

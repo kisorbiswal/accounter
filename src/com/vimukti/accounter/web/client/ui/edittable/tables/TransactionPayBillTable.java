@@ -502,7 +502,7 @@ public abstract class TransactionPayBillTable extends
 
 	}
 
-	protected double getUnusedCredits() {
+	public double getUnusedCredits() {
 		double unusedCredits = 0.0;
 		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 			unusedCredits += ccap.getBalance();
@@ -859,7 +859,8 @@ public abstract class TransactionPayBillTable extends
 			for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 				double balance = ccap.getBalance();
 				double usedAmount = 0.0;
-				for (ClientTransactionCreditsAndPayments ctcap : ctpb.getTransactionCreditsAndPayments()) {
+				for (ClientTransactionCreditsAndPayments ctcap : ctpb
+						.getTransactionCreditsAndPayments()) {
 					if (ctcap.getCreditsAndPayments() == ccap.getID()) {
 						usedAmount += ctcap.getAmountToUse();
 					}
@@ -868,7 +869,7 @@ public abstract class TransactionPayBillTable extends
 			}
 			ctpb.getTransactionCreditsAndPayments().clear();
 		}
-		
+
 	}
 
 }
