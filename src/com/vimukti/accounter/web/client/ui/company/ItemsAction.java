@@ -76,10 +76,10 @@ public class ItemsAction extends Action {
 		// view.setCatageoryType(getCatagory());
 		if (catagory.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
-		if (catagory.equals(Global.get().customer()))
+		if (catagory.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (catagory.equals(messages.bothCustomerAndVendor(Global.get()
-				.Customer(), Global.get().Vendor())))
+		if (catagory.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
+				.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
@@ -89,12 +89,12 @@ public class ItemsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		ItemListView view = new ItemListView();
-		if (catagory.equals(Global.get().vendor()))
+		if (catagory.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
-		if (catagory.equals(Global.get().customer()))
+		if (catagory.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (catagory.equals(messages.bothCustomerAndVendor(Global.get()
-				.Customer(), Global.get().Vendor())))
+		if (catagory.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
+				.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
