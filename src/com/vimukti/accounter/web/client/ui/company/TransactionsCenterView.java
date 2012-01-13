@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.options.TreeListPanel;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
@@ -26,10 +27,12 @@ import com.vimukti.accounter.web.client.ui.vendors.ExpensesListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
-		IPrintableView {
+		IPrintableView, ISavableView<String> {
 
 	public BaseListView<T> baseListView;
 	private final HorizontalPanel mainPanel;
+	private String selectedItem = null;
+	private TreeListPanel listPanel;
 
 	// private String selectedType;
 	//
@@ -46,7 +49,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@SuppressWarnings("unchecked")
 	private void createTreeItems() {
-		TreeListPanel listPanel = new TreeListPanel() {
+		listPanel = new TreeListPanel() {
 
 			@Override
 			protected void onMenuClick(String menuTitle) {
@@ -72,6 +75,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@SuppressWarnings("unchecked")
 	protected void initGridData(String itemName) {
+		selectedItem = itemName;
 		baseListView.clear();
 		mainPanel.remove(baseListView);
 		// Customer Menu
@@ -265,6 +269,19 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			return ((IPrintableView) baseListView).canExportToCsv();
 		}
 		return false;
+	}
+
+	@Override
+	public String saveView() {
+		return selectedItem;
+	}
+
+	@Override
+	public void restoreView(String viewDate) {
+		if (viewDate != null) {
+			initGridData(viewDate);
+			listPanel.setMenuSelected(viewDate);
+		}
 	}
 
 	// @Override
