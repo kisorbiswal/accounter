@@ -41,22 +41,28 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
 				return DataUtils.amountAsStringWithCurrency(
-						accRegister.getAmount(), currency);
+						accRegister.getAmount()
+								* accRegister.getCurrencyfactor(),
+						view.getCurrency());
 			else
-				return DataUtils.amountAsStringWithCurrency(0.00, currency);
+				return DataUtils.amountAsStringWithCurrency(0.00,
+						view.getCurrency());
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
 				return DataUtils.amountAsStringWithCurrency(
-						-1 * accRegister.getAmount(), currency);
+						-1 * accRegister.getAmount()
+								* accRegister.getCurrencyfactor(),
+						view.getCurrency());
 			else
-				return DataUtils.amountAsStringWithCurrency(0.00, currency);
+				return DataUtils.amountAsStringWithCurrency(0.00,
+						view.getCurrency());
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
 			return DataUtils.amountAsStringWithCurrency(
-					getBalanceValue(accRegister), currency);
+					getBalanceValue(accRegister), view.getCurrency());
 
 		case 8:
 			if (!accRegister.isVoided())
@@ -74,7 +80,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	 */
 	private double getBalanceValue(AccountRegister accountRegister) {
 		/* Here 'd' value might be "positive" or "negative" */
-		double d = accountRegister.getAmount();
+		double d = accountRegister.getAmount()
+				* accountRegister.getCurrencyfactor();
 
 		if (DecimalUtil.isLessThan(d, 0.0)) {
 			d = -1 * d;
@@ -145,9 +152,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	@Override
 	protected int sort(AccountRegister obj1, AccountRegister obj2, int index) {
 		if (!(Utility.getTransactionName(obj1.getType()).equalsIgnoreCase(
-				messages.openingBalance()) || Utility
-				.getTransactionName(obj2.getType()).equalsIgnoreCase(
-						messages.openingBalance()))) {
+				messages.openingBalance()) || Utility.getTransactionName(
+				obj2.getType()).equalsIgnoreCase(messages.openingBalance()))) {
 			switch (index) {
 			case 0:
 				ClientFinanceDate date1 = obj1.getDate();
@@ -198,9 +204,8 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(messages
-				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
-				new ErrorDialogHandler() {
+		Accounter.showWarning(messages.doyouwanttoVoidtheTransaction(),
+				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() {
