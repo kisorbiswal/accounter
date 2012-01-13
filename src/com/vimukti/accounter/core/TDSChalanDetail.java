@@ -37,7 +37,6 @@ public class TDSChalanDetail extends Transaction implements
 	private int assesmentYearStart;
 	private int assessmentYearEnd;
 	private Account payFrom;
-	private boolean etdsFillingDone;
 	private String etdsfillingAcknowledgementNo;
 
 	private List<TDSTransactionItem> tdsTransactionItems = new ArrayList<TDSTransactionItem>();
@@ -292,14 +291,6 @@ public class TDSChalanDetail extends Transaction implements
 	public Payee getInvolvedPayee() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public boolean isEtdsFillingDone() {
-		return etdsFillingDone;
-	}
-
-	public void setEtdsFillingDone(boolean etdsFillingDone) {
-		this.etdsFillingDone = etdsFillingDone;
 	}
 
 	public String getEtdsfillingAcknowledgementNo() {
