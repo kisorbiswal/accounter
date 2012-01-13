@@ -64,6 +64,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CommandUtils {
@@ -1387,9 +1388,11 @@ public class CommandUtils {
 				AccounterCoreType.STOCK_TRANSFER, company.getId());
 	}
 
-	public static long getNextAccountNumber(Company company,
-			int accountSubBaseType) {
-
+	public static long getNextAccountNumber(Company company, int accountType,
+			ClientCompanyPreferences preferences) {
+		int accountSubBaseType = getAccountSubBaseType(accountType);
+		ArrayList<Account> accounts = new ArrayList<Account>(
+				company.getAccounts());
 		Collections.sort(new ArrayList<Account>(company.getAccounts()),
 				new Comparator<Account>() {
 
@@ -1402,17 +1405,23 @@ public class CommandUtils {
 				});
 		Integer[] codeRanges = getNominalCodeRange(company, accountSubBaseType);
 		long lastUsedNo = codeRanges[0];
-		for (Account account : company.getAccounts()) {
+		for (Account account : accounts) {
 			if (account.getSubBaseType() == accountSubBaseType) {
 				long number = Long.parseLong(account.getNumber());
 				if (number == lastUsedNo) {
 					lastUsedNo++;
+				} else if (DecimalUtil.isGreaterThan(number, lastUsedNo)) {
+					lastUsedNo = number + 1;
 				} else {
 					break;
 				}
 			}
 		}
-		if (lastUsedNo < codeRanges[1]) {
+		if (preferences.isAccountnumberRangeCheckEnable()) {
+			if (lastUsedNo < codeRanges[1]) {
+				return lastUsedNo;
+			}
+		} else {
 			return lastUsedNo;
 		}
 		return -1;
@@ -1420,7 +1429,6 @@ public class CommandUtils {
 
 	public static Integer[] getNominalCodeRange(Company company,
 			int accountSubBaseType) {
-
 		for (NominalCodeRange nomincalCode : company.getNominalCodeRange()) {
 			if (nomincalCode.getAccountSubBaseType() == accountSubBaseType) {
 				return new Integer[] { nomincalCode.getMinimum(),
@@ -1429,6 +1437,53 @@ public class CommandUtils {
 		}
 
 		return null;
+	}
+
+	public static int getAccountSubBaseType(int accountType) {
+
+		switch (accountType) {
+
+		case ClientAccount.TYPE_CASH:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_BANK:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_ACCOUNT_RECEIVABLE:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_OTHER_CURRENT_ASSET:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_INVENTORY_ASSET:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		case ClientAccount.TYPE_FIXED_ASSET:
+			return ClientAccount.SUBBASETYPE_FIXED_ASSET;
+		case ClientAccount.TYPE_OTHER_ASSET:
+			return ClientAccount.SUBBASETYPE_OTHER_ASSET;
+		case ClientAccount.TYPE_ACCOUNT_PAYABLE:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_CREDIT_CARD:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_OTHER_CURRENT_LIABILITY:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_PAYROLL_LIABILITY:
+			return ClientAccount.SUBBASETYPE_CURRENT_LIABILITY;
+		case ClientAccount.TYPE_LONG_TERM_LIABILITY:
+			return ClientAccount.SUBBASETYPE_LONG_TERM_LIABILITY;
+		case ClientAccount.TYPE_EQUITY:
+			return ClientAccount.SUBBASETYPE_EQUITY;
+		case ClientAccount.TYPE_INCOME:
+			return ClientAccount.SUBBASETYPE_INCOME;
+		case ClientAccount.TYPE_COST_OF_GOODS_SOLD:
+			return ClientAccount.SUBBASETYPE_COST_OF_GOODS_SOLD;
+		case ClientAccount.TYPE_EXPENSE:
+			return ClientAccount.SUBBASETYPE_EXPENSE;
+		case ClientAccount.TYPE_OTHER_INCOME:
+			return ClientAccount.SUBBASETYPE_INCOME;
+		case ClientAccount.TYPE_OTHER_EXPENSE:
+			return ClientAccount.SUBBASETYPE_OTHER_EXPENSE;
+		case ClientAccount.TYPE_PAYPAL:
+			return ClientAccount.SUBBASETYPE_CURRENT_ASSET;
+		default:
+			return 0;
+		}
 	}
 
 }
