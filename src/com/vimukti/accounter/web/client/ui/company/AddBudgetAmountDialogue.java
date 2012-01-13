@@ -159,6 +159,11 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
+		annualAmount = new AmountField("Annual", this);
+		annualAmount.setHelpInformation(true);
+		annualAmount.setRequired(false);
+		annualAmount.setWidth(100);
+
 		budgetAddForm = UIUtils.form(messages.chartOfAccountsInformation());
 		budgetAddForm.setWidth("100%");
 		budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
@@ -241,8 +246,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		setBodyLayout(verticalPanel);
 		center();
-		resetView(type);
 		setDefaultValues();
+		resetView(type);
 
 	}
 
@@ -314,19 +319,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					quater3Amount, quater4Amount);
 
 		} else if (type2 == 2) {
-
-			annualAmount = new AmountField("Annual", this);
-			annualAmount.setHelpInformation(true);
-			annualAmount.setRequired(false);
-			annualAmount.setWidth(100);
-			annualAmount.setValue(Double.toString(janAmount.getAmount()
-					+ febAmount.getAmount() + marAmount.getAmount()
-					+ aprAmount.getAmount() + mayAmount.getAmount()
-					+ junAmount.getAmount() + julAmount.getAmount()
-					+ augAmount.getAmount() + septAmount.getAmount()
-					+ octAmount.getAmount() + novAmount.getAmount()
-					+ decAmount.getAmount()));
-
+			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(annualAmount);
 		}
@@ -545,10 +538,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		octAmount.setAmount(defaultValues.getOctoberAmount());
 		novAmount.setAmount(defaultValues.getNovemberAmount());
 		decAmount.setAmount(defaultValues.getDecemberAmount());
-		if (annualAmount != null) {
-			annualAmount.setAmount(defaultValues.getTotalAmount());
-		}
-
+		annualAmount.setAmount(defaultValues.getTotalAmount());
 	}
 
 	@Override
