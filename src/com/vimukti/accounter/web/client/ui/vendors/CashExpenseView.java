@@ -352,7 +352,7 @@ public class CashExpenseView extends
 		paymentMethodCombo.initCombo(selectedComboList);
 
 		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
-
+		taxCodeSelect = createTaxCodeSelectItem();
 		// Ending and Vendor Balance
 		accountBalText = new AmountField(messages.bankBalance(), this,
 				getBaseCurrency());
@@ -539,7 +539,6 @@ public class CashExpenseView extends
 		discountField = getDiscountField();
 
 		DynamicForm form = new DynamicForm();
-		taxCodeSelect = createTaxCodeSelectItem();
 		if (isTrackTax() && isTrackPaidTax()) {
 			DynamicForm netAmountForm = new DynamicForm();
 			netAmountForm.setNumCols(2);
