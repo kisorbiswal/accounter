@@ -1421,7 +1421,10 @@ public class FinanceTool {
 				accountRegister.setTransactionId((Long) object[9]);
 				accountRegister.setVoided(object[10] == null ? false
 						: (Boolean) object[10]);
-
+				accountRegister.setCurrency(object[11] == null ? 0
+						: (Long) object[11]);
+				accountRegister.setCurrencyfactor(object[12] == null ? 0
+						: (Double) object[12]);
 				queryResult.add(accountRegister);
 			}
 		}
