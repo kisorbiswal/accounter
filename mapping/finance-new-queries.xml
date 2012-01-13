@@ -110,7 +110,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT
-		SUM(T.TOTAL) AS
+		SUM(T.TOTAL*T.CURRENCY_FACTOR) AS
 		TOTAL
 
 		FROM TRANSACTION T
