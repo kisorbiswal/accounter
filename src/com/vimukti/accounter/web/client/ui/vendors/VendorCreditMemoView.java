@@ -248,7 +248,7 @@ public class VendorCreditMemoView extends
 				.getPrimaryCurrency());
 
 		vatTotalNonEditableText = new TaxItemsForm();// createVATTotalNonEditableItem();
-
+		taxCodeSelect = createTaxCodeSelectItem();
 		// Label lab2 = new Label(messages.itemsAndExpenses());
 		// menuButton = createAddNewButton();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
@@ -406,8 +406,6 @@ public class VendorCreditMemoView extends
 		totalForm.setStyleName("boldtext");
 		// netAmount.setWidth((netAmount.getMainWidget().getOffsetWidth() + 100)
 		// + "px");
-
-		taxCodeSelect = createTaxCodeSelectItem();
 
 		HorizontalPanel bottomLayout = new HorizontalPanel();
 		bottomLayout.setWidth("100%");
