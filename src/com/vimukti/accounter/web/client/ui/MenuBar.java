@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -266,12 +265,12 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		if (company instanceof India) {
-			if (tdsEnabled) {
-				vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
-				vatmenu.addMenuItem(getForm16AMenu("TDS"));
-			}
-		}
+		// if (company instanceof India) {
+		// if (tdsEnabled) {
+		// vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+		// vatmenu.addMenuItem(getForm16AMenu("TDS"));
+		// }
+		// }
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
@@ -306,12 +305,12 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-		if (company instanceof India) {
-			if (tdsEnabled) {
-				vatmenus.addMenuItem("Chalan Details List",
-						HistoryTokens.CHALANDETAILSLIST);
-			}
-		}
+		// if (company instanceof India) {
+		// if (tdsEnabled) {
+		// vatmenus.addMenuItem("Chalan Details List",
+		// HistoryTokens.CHALANDETAILSLIST);
+		// }
+		// }
 
 		return vatmenus;
 	}
