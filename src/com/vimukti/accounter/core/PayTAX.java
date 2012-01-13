@@ -321,5 +321,13 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
+	
+	protected void checkingTaxAgencyNull(TAXAgency taxAgency)
+			throws AccounterException {
+		if (taxAgency == null) {
+			throw new AccounterException(
+					AccounterException.ERROR_TAX_AGENCY_NULL);
+		}
+	}
 
 }

@@ -5304,6 +5304,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseSelectUnitForInventoryItem();
 
+	public String errorNoFiledVatEntriesToSave();
+
 	public String vendor();
 
 	public String Customer();
