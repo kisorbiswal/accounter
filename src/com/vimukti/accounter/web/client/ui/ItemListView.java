@@ -152,15 +152,15 @@ public class ItemListView extends BaseListView<ClientItem> {
 
 	public void setCatageoryType(String catagory) {
 		this.catageory = catagory;
-		if (this.catageory.equals(Global.get().customer())) {
+		if (this.catageory.equalsIgnoreCase(Global.get().customer())) {
 			isSalesType = true;
 			isPurchaseType = false;
-		} else if (this.catageory.equals(messages.Vendor())
-				|| this.catageory.equalsIgnoreCase(messages.Vendor())) {
+		} else if (this.catageory.equalsIgnoreCase(Global.get().vendor())) {
 			isPurchaseType = true;
 			isSalesType = false;
-		} else if (this.catageory.equals(messages.bothCustomerAndVendor(Global
-				.get().Customer(), Global.get().Vendor()))) {
+		} else if (this.catageory.equalsIgnoreCase(messages
+				.bothCustomerAndVendor(Global.get().Customer(), Global.get()
+						.Vendor()))) {
 			isSalesType = isPurchaseType = true;
 		}
 	}
