@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,6 +21,8 @@ public abstract class TreeListPanel extends SimplePanel {
 	protected Anchor prevElement;
 
 	protected Anchor prevMouseOverElement;
+
+	private final List<Anchor> menuItem = new ArrayList<Anchor>();
 
 	public TreeListPanel() {
 		mainListPanel = new VerticalPanel();
@@ -42,6 +45,7 @@ public abstract class TreeListPanel extends SimplePanel {
 		mainListPanel.add(menuLabele);
 		for (final String menuItemName : menuItems) {
 			final Anchor menuItemLink = new Anchor(menuItemName);
+			menuItem.add(menuItemLink);
 			menuItemLink.addStyleName("tree_menu_item");
 			menuItemLink.addClickHandler(new ClickHandler() {
 
@@ -137,6 +141,21 @@ public abstract class TreeListPanel extends SimplePanel {
 
 		menuLabele.addStyleName("tree_menu");
 		mainListPanel.add(menuLabele);
+	}
+
+	public void setMenuSelected(String menuTitle) {
+		for (Anchor anchor : menuItem) {
+			if (anchor.getText().equalsIgnoreCase(menuTitle)) {
+				if (this.prevElement != null) {
+					int widgetIndex = mainListPanel.getWidgetIndex(prevElement);
+					mainListPanel.getWidget(widgetIndex).getElement()
+							.getParentElement().removeAttribute("class");
+				}
+				TreeListPanel.this.prevElement = anchor;
+				anchor.getElement().getParentElement()
+						.addClassName("menu_item_clicked");
+			}
+		}
 	}
 
 	protected abstract void onMenuClick(String menuTitle);
