@@ -175,18 +175,50 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 
 	public Boolean isPositive() {
 		switch (transactiontype) {
-		case ClientTransaction.TYPE_CASH_SALES:
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 		case ClientTransaction.TYPE_ENTER_BILL:
 		case ClientTransaction.TYPE_INVOICE:
 			return true;
 
-		case ClientTransaction.TYPE_CASH_PURCHASE:
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
 		case ClientTransaction.TYPE_PAY_BILL:
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 		case ClientTransaction.TYPE_WRITE_CHECK:
+			return false;
+
+		default:
+			break;
+		}
+		return null;
+	}
+
+	public Boolean isPositiveForVendor() {
+		switch (transactiontype) {
+		case ClientTransaction.TYPE_ENTER_BILL:
+			return true;
+
+		case ClientTransaction.TYPE_PAY_BILL:
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			return false;
+
+		default:
+			break;
+		}
+		return null;
+	}
+
+	public Boolean isPositiveForCustomer() {
+		switch (transactiontype) {
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+		case ClientTransaction.TYPE_INVOICE:
+		case ClientTransaction.TYPE_WRITE_CHECK:
+			return true;
+
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+
 			return false;
 
 		default:
