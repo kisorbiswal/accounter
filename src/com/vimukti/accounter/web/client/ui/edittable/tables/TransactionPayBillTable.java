@@ -483,7 +483,7 @@ public abstract class TransactionPayBillTable extends
 					updateValue(ctpb);
 
 					updateFootervalues(ctpb, canEdit);
-					
+
 					setUnUsedCreditsTextAmount(getUnusedCredits());
 					return true;
 				}
@@ -498,9 +498,9 @@ public abstract class TransactionPayBillTable extends
 	}
 
 	protected double getUnusedCredits() {
-		double unusedCredits=0.0;
-		for(ClientCreditsAndPayments ccap:this.creditsAndPayments){
-			unusedCredits+=ccap.getBalance();
+		double unusedCredits = 0.0;
+		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
+			unusedCredits += ccap.getBalance();
 		}
 		return unusedCredits;
 	}
@@ -510,7 +510,6 @@ public abstract class TransactionPayBillTable extends
 	public List<ClientTransactionPayBill> getSelectedRecords() {
 		return super.getSelectedRecords(0);
 	}
-
 
 	private void openCashDiscountDialog(
 			final ClientTransactionPayBill selectedObject) {
@@ -525,9 +524,10 @@ public abstract class TransactionPayBillTable extends
 		// discountAccount = getCompany().getAccountByName(
 		// companyConstants.discounts());
 		// }
-		final CashDiscountDialog cashDiscountDialog = new CashDiscountDialog(canEdit,
-				selectedObject.getCashDiscount(), getCompany().getAccount(
-						selectedObject.getDiscountAccount()), currencyProvider);
+		final CashDiscountDialog cashDiscountDialog = new CashDiscountDialog(
+				canEdit, selectedObject.getCashDiscount(), getCompany()
+						.getAccount(selectedObject.getDiscountAccount()),
+				currencyProvider);
 		// } else {
 		// cashDiscountDialog.setCanEdit(canEdit);
 		// cashDiscountDialog.setCashDiscountValue(selectedObject
@@ -744,22 +744,23 @@ public abstract class TransactionPayBillTable extends
 	protected abstract void resetTotlas();
 
 	private void resetValue(ClientTransactionPayBill obj) {
-		
+
 		deleteTotalPayment(obj);
 		obj.setPayment(0.0d);
 		// obj.setCashDiscount(0.0d);
-		//What ever credits we applied to it, reset them
+		// What ever credits we applied to it, reset them
 		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 			double balance = ccap.getBalance();
 			double usedAmount = 0.0;
-			for (ClientTransactionCreditsAndPayments ctcap : obj.getTransactionCreditsAndPayments()) {
+			for (ClientTransactionCreditsAndPayments ctcap : obj
+					.getTransactionCreditsAndPayments()) {
 				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount+=ctcap.getAmountToUse();
+					usedAmount += ctcap.getAmountToUse();
 				}
 			}
-			obj.getTransactionCreditsAndPayments().clear();
 			ccap.setBalance(balance + usedAmount);
 		}
+		obj.getTransactionCreditsAndPayments().clear();
 		obj.setAppliedCredits(0.0d, false);
 		obj.setTdsAmount(0.00D);
 		update(obj);
@@ -768,7 +769,6 @@ public abstract class TransactionPayBillTable extends
 		calculateUnusedCredits();
 	}
 
-
 	protected abstract void deleteTotalPayment(ClientTransactionPayBill obj);
 
 	private double getTotalValue(ClientTransactionPayBill payment) {
@@ -776,7 +776,6 @@ public abstract class TransactionPayBillTable extends
 				+ payment.getAppliedCredits() + payment.getPayment();
 		return totalValue;
 	}
-
 
 	public void setRecords(List<ClientTransactionPayBill> records) {
 		setAllRows(records);
@@ -788,7 +787,6 @@ public abstract class TransactionPayBillTable extends
 	public List<ClientCreditsAndPayments> getUpdatedCustomerCreditsAndPayments() {
 		return creditsAndPayments;
 	}
-
 
 	public void removeAllRecords() {
 		clear();
@@ -850,9 +848,8 @@ public abstract class TransactionPayBillTable extends
 		if (credits == null) {
 			return;
 		}
-		creditsAndPayments=credits;
+		creditsAndPayments = credits;
 	}
-
 
 	public void addTransactionCreditsAndPayments(
 			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
@@ -864,11 +861,11 @@ public abstract class TransactionPayBillTable extends
 			double usedAmount = 0.0;
 			for (ClientTransactionCreditsAndPayments ctcap : transactionCreditsAndPayments) {
 				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount+=ctcap.getAmountToUse();
+					usedAmount += ctcap.getAmountToUse();
 				}
 			}
 			transactionCreditsAndPayments.clear();
 			ccap.setBalance(balance + usedAmount);
-		}		
+		}
 	}
 }

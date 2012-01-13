@@ -1,10 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Stack;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -706,14 +703,15 @@ public abstract class TransactionReceivePaymentTable extends
 		for (ClientCreditsAndPayments ccap : this.creditsAndPayments) {
 			double balance = ccap.getBalance();
 			double usedAmount = 0.0;
-			for (ClientTransactionCreditsAndPayments ctcap : obj.getTransactionCreditsAndPayments()) {
+			for (ClientTransactionCreditsAndPayments ctcap : obj
+					.getTransactionCreditsAndPayments()) {
 				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount+=ctcap.getAmountToUse();
+					usedAmount += ctcap.getAmountToUse();
 				}
 			}
-			obj.getTransactionCreditsAndPayments().clear();
 			ccap.setBalance(balance + usedAmount);
 		}
+		obj.getTransactionCreditsAndPayments().clear();
 		deleteTotalPayment(obj.getPayment());
 		obj.setPayment(0.0d);
 		// obj.setCashDiscount(0.0d);
@@ -809,10 +807,8 @@ public abstract class TransactionReceivePaymentTable extends
 		if (credits == null) {
 			return;
 		}
-		creditsAndPayments=credits;
+		creditsAndPayments = credits;
 	}
-
-	
 
 	public void addTransactionCreditsAndPayments(
 			List<ClientTransactionCreditsAndPayments> transactionCreditsAndPayments) {
@@ -824,13 +820,12 @@ public abstract class TransactionReceivePaymentTable extends
 			double usedAmount = 0.0;
 			for (ClientTransactionCreditsAndPayments ctcap : transactionCreditsAndPayments) {
 				if (ctcap.getCreditsAndPayments() == ccap.getID()) {
-					usedAmount+=ctcap.getAmountToUse();
+					usedAmount += ctcap.getAmountToUse();
 				}
 			}
 			transactionCreditsAndPayments.clear();
 			ccap.setBalance(balance + usedAmount);
-		}		
+		}
 	}
 
-	
 }
