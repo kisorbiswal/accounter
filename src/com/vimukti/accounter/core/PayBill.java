@@ -751,8 +751,8 @@ public class PayBill extends Transaction {
 				} else if (!DecimalUtil.isEquals(tdsTotal, payBill.tdsTotal)) {
 					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
 					Account account = taxAgency.getPurchaseLiabilityAccount();
-					account.updateCurrentBalance(this, payBill.tdsTotal
-							- this.tdsTotal, currencyFactor);
+					account.updateCurrentBalance(this, this.tdsTotal
+							- payBill.tdsTotal, currencyFactor);
 				}
 			} else {
 				TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
