@@ -33,7 +33,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	TextItem lastNametext;
 	EmailField emailField;
 	DynamicForm custForm;
-	UserRoleGrid grid;
 	CheckBox userManagementBox;
 	String[] permissions = { messages.createInvoicesAndBills(),
 			messages.billsAndPayments(), messages.bankingAndReconcialiation(),
@@ -73,8 +72,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					final String em = emailField.getValue().toString().trim();
 					if (em.length() != 0) {
 						if (!UIUtils.isValidEmail(em)) {
-							Accounter.showError(messages
-									.invalidEmail());
+							Accounter.showError(messages.invalidEmail());
 							emailField.setText("");
 						} else {
 							// ClientEmail email = new ClientEmail();
@@ -109,9 +107,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 												@Override
 												public void onException(
 														AccounterException caught) {
-													Accounter
-															.showError(messages
-																	.failedtoloadusersList());
+													Accounter.showError(messages
+															.failedtoloadusersList());
 												}
 											});
 
@@ -120,11 +117,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				}
 			}
 		});
-		userManagementBox = new CheckBox(messages
-				.allowThisUsertoAddorRemoveusers());
+		userManagementBox = new CheckBox(
+				messages.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
-		String choose = messages
-				.chooselevelaccessyouwantthisusertohave();
+		String choose = messages.chooselevelaccessyouwantthisusertohave();
 		Label chooseLabel = new Label(choose);
 		// chooseLabel.getElement().getStyle().setPadding(5, Unit.PX);
 		Label setPerLabel = new Label(messages.setUserpermissions());
@@ -136,7 +132,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		custForm.setFields(firstNametext, lastNametext, emailField);
 		Element element2 = custForm.getCellFormatter().getElement(0, 0);
 		// element2.setAttribute("width", "150px");
-		initGrid();
 		vPanel.add(custForm);
 		vPanel.add(setPerLabel);
 		vPanel.add(chooseLabel);
@@ -261,15 +256,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		}
 	}
 
-	private void initGrid() {
-		grid = new UserRoleGrid(false);
-		grid.isEnable = false;
-		grid.init();
-		grid.setView(this);
-		grid.setSize("100%", "100%");
-		grid.setDisabled(isInViewMode());
-	}
-
 	@Override
 	public List<DynamicForm> getForms() {
 		// NOTHING TO DO.
@@ -311,7 +297,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		lastNametext.setDisabled(isInViewMode());
 		if (!Accounter.getUser().getEmail().equals(data.getEmail()))
 			emailField.setDisabled(isInViewMode());
-		grid.setDisabled(isInViewMode());
+		// grid.setDisabled(isInViewMode());
 
 		readOnly.setEnabled(!isInViewMode());
 		custom.setEnabled(!isInViewMode());
@@ -407,10 +393,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	}
 
 	private RolePermissions getSelectedRolePermission() {
-		for (int i = 0; i < grid.getTableRowCount(); i++) {
-			if (((CheckBox) grid.getWidget(i, 0)).getValue() == true)
-				return grid.getRecordByIndex(i);
-		}
+		// for (int i = 0; i < grid.getTableRowCount(); i++) {
+		// if (((CheckBox) grid.getWidget(i, 0)).getValue() == true)
+		// return grid.getRecordByIndex(i);
+		// }
 
 		RolePermissions rolePermissions = null;
 		if (readOnly.getValue()) {
@@ -588,8 +574,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
 		if (isEmailIDExist(getData())) {
-			result.addError(emailField, messages
-					.userExistsWithThisMailId());
+			result.addError(emailField, messages.userExistsWithThisMailId());
 		}
 
 		if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
