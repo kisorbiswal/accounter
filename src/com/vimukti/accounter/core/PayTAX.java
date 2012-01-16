@@ -56,6 +56,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	List<TransactionPayTAX> transactionPayTAX;
 
+	transient double oldCurrencyFactor;
+
 	//
 
 	/**
@@ -136,6 +138,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public void onLoad(Session s, Serializable id) {
 		// NOTHING TO DO.
+		oldCurrencyFactor=currencyFactor;
 	}
 
 	@Override

@@ -220,7 +220,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 				.getFiledLiabilityAccount();
 		if (filedLiabilityAccount != null) {
 			filedLiabilityAccount.updateCurrentBalance(this.payTAX,
-					this.amountToPay, payTAX.currencyFactor);
+					this.amountToPay, payTAX.oldCurrencyFactor);
 		}
 	}
 
