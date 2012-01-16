@@ -245,7 +245,6 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				}
 				Accounter.updateCompany(PreferenceSettingsView.this,
 						Accounter.getCompany());
-				Accounter.reset();
 			}
 		});
 	}
@@ -287,6 +286,7 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 
 	@Override
 	public void saveSuccess(IAccounterCore object) {
+		Accounter.reset();
 		super.saveSuccess(object);
 	}
 
