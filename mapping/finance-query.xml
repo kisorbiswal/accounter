@@ -8204,6 +8204,7 @@
 
 		SET CONSTRAINTS ALL DEFERRED;
 
+		delete from company_fields where company_id=cid;
 		delete from payee_fields using payee where payee_id=payee.id and payee.company_id=cid;
 
 		delete from
