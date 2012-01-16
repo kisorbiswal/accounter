@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -34,9 +35,12 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -3073,13 +3077,236 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<VATDetail> getVATExceptionDetailReport(Long companyId,
-			ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
+			ClientFinanceDate start, ClientFinanceDate end, long taxReturnId) {
+
+		ArrayList<VATDetail> vatDetails = new ArrayList<VATDetail>();
+		try {
+
+			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
+			List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
+					.setEntity("company", company).list();
+
+			ClientConvertUtil convertUttils = new ClientConvertUtil();
+			for (TAXReturn taxReturn : list) {
+				ClientTAXReturn clientObject = convertUttils.toClientObject(
+						taxReturn, ClientTAXReturn.class);
+				if (company.getCountry().equals("United Kingdom")
+						&& clientObject.getID() == taxReturnId) {
+					// clientObject.setBoxes(toBoxes(
+					// clientObject.getTaxReturnEntries(),
+					// taxReturn.getTaxAgency()));
+
+					List<ClientBox> boxes = clientObject.getBoxes();
+
+					for (ClientBox c : boxes) {
+
+						VATDetail vatDetail = new VATDetail();
+						vatDetail.setBoxName(c.getName());
+						vatDetail.setBoxNumber(c.getBoxNumber());
+						vatDetail.setNetAmount(c.getAmount());
+						vatDetails.add(vatDetail);
+					}
+
+				}
+
+			}
+		} catch (Exception e) {
+		}
+		return vatDetails;
+
+	}
+
+	public ArrayList<VATDetail> getVATExpections(long companyId,
+			long taxReturnId) {
+
+		ArrayList<VATDetail> vatDetails = new ArrayList<VATDetail>();
+		try {
+
+			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyId);
+			List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
+					.setEntity("company", company).list();
+
+			ClientConvertUtil convertUttils = new ClientConvertUtil();
+			for (TAXReturn taxReturn : list) {
+				ClientTAXReturn clientObject = convertUttils.toClientObject(
+						taxReturn, ClientTAXReturn.class);
+				if (company.getCountry().equals("United Kingdom")
+						&& clientObject.getID() == taxReturnId) {
+					clientObject.setBoxes(toBoxes(
+							clientObject.getTaxReturnEntries(),
+							taxReturn.getTaxAgency()));
+
+					List<ClientBox> boxes = clientObject.getBoxes();
+
+					for (ClientBox c : boxes) {
+
+						VATDetail vatDetail = new VATDetail();
+						vatDetail.setBoxName(c.getName());
+						vatDetail.setBoxNumber(c.getBoxNumber());
+						vatDetail.setNetAmount(c.getAmount());
+						vatDetails.add(vatDetail);
+					}
+
+				}
+
+			}
+		} catch (Exception e) {
+		}
+		return vatDetails;
+
+	}
+
+	private ArrayList<TAXItemDetail> getExceptionDetailData(
+			List<ClientTAXReturnEntry> taxEntries, long taxReturnStartDate,
+			long companyId) {
+
+		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+
+		for (ClientTAXReturnEntry c : taxEntries) {
+
+			ClientFinanceDate transactionDate = new ClientFinanceDate(
+					c.getTransactionDate());
+			ClientFinanceDate startDate = new ClientFinanceDate(
+					taxReturnStartDate);
+
+			// if (c.getTransactionDate() >= taxReturnStartDate) {
+			// continue;
+			// }
+
+			if (transactionDate.before(startDate)) {
+
+				TAXItemDetail detail = new TAXItemDetail();
+				detail.setTaxAmount(c.getTaxAmount());
+				detail.setTransactionId(c.getTransaction());
+				TAXItem taxItem = getTaxItem(c.getTaxItem(), companyId);
+				detail.setTaxItemName(taxItem.getName());
+				detail.setTransactionType(c.getTransactionType());
+				detail.setTransactionDate(new ClientFinanceDate(c
+						.getTransactionDate()));
+				detail.setNetAmount(c.getNetAmount());
+				detail.setTAXRate(taxItem.getTaxRate());
+				detail.setTotal(c.getGrassAmount());
+				detail.setFiledTAXAmount(c.getFiledTAXAmount());
+				details.add(detail);
+			}
+			// else{
+			// continue;
+			// }
+
+		}
+		return details;
+	}
+
+	public ArrayList<TAXItemDetail> getTAXExceptionsByTaxReturnId(
+			long companyId, long taxreturnID) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("getTAXReturnObj");
+		query.setParameter("taxreturnID", taxreturnID);
+		List<ClientTAXReturn> clientTaxReturnList = new ArrayList<ClientTAXReturn>();
+		List<TAXReturn> entries = query.list();
+		Iterator i = entries.iterator();
+		ClientTAXReturn returnEntry;
+		while ((i).hasNext()) {
+			Object object = i.next();
+			if (object == null) {
+				continue;
+			}
+			long taxId = (Long) object;
+			TAXReturn activity = (TAXReturn) session
+					.get(TAXReturn.class, taxId);
+
+			try {
+				returnEntry = new ClientConvertUtil().toClientObject(activity,
+						ClientTAXReturn.class);
+				clientTaxReturnList.add(returnEntry);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		List<ClientTAXReturnEntry> taxEntries = null;
+		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+		for (ClientTAXReturn taxReturn : clientTaxReturnList) {
+
+			ClientTAXReturn clientTAXReturn = (ClientTAXReturn) taxReturn;
+			taxEntries = clientTAXReturn.getTaxReturnEntries();
+			details = getExceptionDetailData(taxEntries,
+					clientTAXReturn.getPeriodStartDate(), companyId);
+
+			// for (TAXItemDetail detail : details) {
+			// detail.setStartDate(new ClientFinanceDate(obj
+			// .getPeriodStartDate()));
+			// detail.setEndDate(new ClientFinanceDate(obj
+			// .getPeriodEndDate()));
+			// }
+		}
+		return details;
+
+	}
+
+	public ArrayList<TAXItemDetail> getTAXExceptionsByAgencyId(long companyId,
+			long taxAgencyID) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("getTAXReturnObjByTaxAgency");
+		query.setParameter("taxAgencyID", taxAgencyID);
+		List<ClientTAXReturn> clientTaxReturnList = new ArrayList<ClientTAXReturn>();
+		List<TAXReturn> entries = query.list();
+		Iterator i = entries.iterator();
+		ClientTAXReturn returnEntry;
+		while ((i).hasNext()) {
+			Object object = i.next();
+			if (object == null) {
+				continue;
+			}
+			long taxId = (Long) object;
+			TAXReturn activity = (TAXReturn) session
+					.get(TAXReturn.class, taxId);
+
+			try {
+				returnEntry = new ClientConvertUtil().toClientObject(activity,
+						ClientTAXReturn.class);
+				clientTaxReturnList.add(returnEntry);
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+		List<ClientTAXReturnEntry> taxEntries = null;
+		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+		for (ClientTAXReturn taxReturn : clientTaxReturnList) {
+
+			ClientTAXReturn clientTAXReturn = (ClientTAXReturn) taxReturn;
+			taxEntries = clientTAXReturn.getTaxReturnEntries();
+			details = getExceptionDetailData(taxEntries,
+					clientTAXReturn.getPeriodStartDate(), companyId);
+
+			// for (TAXItemDetail detail : details) {
+			// detail.setStartDate(new ClientFinanceDate(obj
+			// .getPeriodStartDate()));
+			// detail.setEndDate(new ClientFinanceDate(obj
+			// .getPeriodEndDate()));
+			// }
+		}
+		return details;
+
+	}
+
+	public TAXItem getTaxItem(long taxItem, long companyId) {
+		Company company = getCompany(companyId);
+		Set<TAXItem> taxItems = company.getTaxItems();
+		for (TAXItem item : taxItems) {
+			if (item.getID() == taxItem) {
+				return item;
+			}
+		}
 		return null;
+
 	}
 
 	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
-			Long companyId, long taxAgency, long startDate, long endDate) {
+			long companyId, long taxAgency, long startDate, long endDate) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
