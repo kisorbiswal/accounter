@@ -1054,11 +1054,11 @@ public class Invoice extends Transaction implements Lifecycle {
 					if (est.getEstimateType() == Estimate.CREDITS) {
 						clone.updateAsCredit();
 					}
-					super.chekingTaxCodeNull(clone.taxCode);
+					// super.chekingTaxCodeNull(clone.taxCode);
 					this.transactionItems.add(clone);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new RuntimeException("Unable to clone TransactionItems");
 			}
 			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
 				est.setUsedInvoice(newInvoice, session);
