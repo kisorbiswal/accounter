@@ -856,9 +856,12 @@ public class ReportManager extends Manager {
 				iter.remove();
 			}
 		}
-
-		if (otherExpenseList.size() != 0)
-			sortedResult.addAll((index + 1), otherExpenseList);
+		if (sortedResult.isEmpty()) {
+			sortedResult = otherExpenseList;
+		} else {
+			if (otherExpenseList.size() != 0)
+				sortedResult.addAll((index + 1), otherExpenseList);
+		}
 		return new ArrayList<TrialBalance>(sortedResult);
 	}
 
