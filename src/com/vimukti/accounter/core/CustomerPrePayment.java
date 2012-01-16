@@ -315,10 +315,6 @@ public class CustomerPrePayment extends Transaction {
 
 	}
 
-	protected void updatePayee(double amount) {
-		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
 	@Override
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
