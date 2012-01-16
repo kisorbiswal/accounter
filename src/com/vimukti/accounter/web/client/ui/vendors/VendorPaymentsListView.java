@@ -40,12 +40,12 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected Action getAddNewAction() {
-		return ActionFactory.getNewVendorPaymentAction();
+		return ActionFactory.getPayBillsAction();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addANewVendorPayment(Global.get().Vendor());
+		return messages.addaNew(messages.payBill());
 	}
 
 	@Override
@@ -135,13 +135,17 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	}
 
 	public void checkViewType() {
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+		if (viewSelect.getSelectedValue()
+				.equalsIgnoreCase(messages.notIssued())) {
 			this.viewType = ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.issued())) {
 			this.viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.voided())) {
 			this.viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.all())) {
 			this.viewType = ClientTransaction.TYPE_ALL;
 		}
 	}
