@@ -112,10 +112,12 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 			ClientWarehouse warehouse = wareHouseCombo.getSelectedValue();
 			if (warehouse != null) {
 				ClientItemStatus itemStatus = null;
-				for (ClientItemStatus is : warehouse.getItemStatuses()) {
-					if (is.getItem() == itemId) {
-						itemStatus = is;
-						break;
+				if (warehouse.getItemStatuses() != null) {
+					for (ClientItemStatus is : warehouse.getItemStatuses()) {
+						if (is.getItem() == itemId) {
+							itemStatus = is;
+							break;
+						}
 					}
 				}
 				if (itemStatus != null) {
@@ -230,8 +232,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		}
 		for (ClientStockAdjustmentItem item : allRows) {
 			if (item.getAdjustmentQty().getValue() <= 0) {
-				result.addError(this,
-						messages.valueOfQuantityShouldNotBeZero());
+				result.addError(this, messages.valueOfQuantityShouldNotBeZero());
 			} else if (item.getAdjustmentQty().getUnit() <= 0) {
 				result.addError(this,
 						messages.pleaseSelectUnitForInventoryItem());
