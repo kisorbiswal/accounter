@@ -134,7 +134,8 @@ public class ExportReportServlet extends BaseServlet {
 					company);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPECSV, company);
+					navigatedName, ReportsGenerator.GENERATIONTYPECSV, company,
+					dateRangeHtml);
 		}
 
 		String gridTemplate = generator.generate(financeTool,
