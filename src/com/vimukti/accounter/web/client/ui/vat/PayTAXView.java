@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	private ArrayList<DynamicForm> listforms;
+	private DateField date;
 	private PayFromAccountsCombo payFromAccCombo;
 	private DateField billsDue;
 	private TAXAgencyCombo taxAgencyCombo;
@@ -741,26 +742,29 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	public void onEdit() {
 		super.onEdit();
-		enableFormItems();
+		paymentMethodCombo.setDisabled(false);
+		billsDue.setDisabled(false);
+		payFromAccCombo.setDisabled(false);
+		grid.setCanEdit(true);
+		grid.setDisabled(false);
+
 	}
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
+		date.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		billsDue.setDisabled(isInViewMode());
 		taxAgencyCombo.setDisabled(isInViewMode());
 		payFromAccCombo.setDisabled(isInViewMode());
-		grid.setCanEdit(true);
-		grid.setDisabled(false);
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
-		}
-		if (isMultiCurrencyEnabled()) {
-			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();
 
 		// fillGrid();
+		transaction = null;
+
 	}
 
 	@Override
