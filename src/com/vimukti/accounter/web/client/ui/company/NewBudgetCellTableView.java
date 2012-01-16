@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -38,7 +37,6 @@ import com.vimukti.accounter.web.client.ui.grids.BudgetCellTable;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class NewBudgetCellTableView extends BaseView<ClientBudget> {
-
 
 	public static final String NO_AMOUNT = messages.StartfromScratch();
 	public static final String COPY_FROM_EXISTING = messages
@@ -132,9 +130,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 									.setCallback(new ActionCallback<ClientBudget>() {
 
 										@Override
-										public void actionResult(ClientBudget result) {
+										public void actionResult(
+												ClientBudget result) {
 											refreshView(result);
-
 										}
 									});
 							copybudgetDialogue.show();
@@ -322,8 +320,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		for (long i = year - 10; i < year + 10; i++) {
 			finalString = "FY" + Long.toString(i) + "(" + startingMonth
-					+ Long.toString(i) + " - " + endingMonth + Long.toString(i+1)
-					+ ")";
+					+ Long.toString(i) + " - " + endingMonth
+					+ Long.toString(i + 1) + ")";
 			list.add(finalString);
 		}
 		return list;
@@ -482,8 +480,8 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	}
 
 	private void refreshView(ClientBudget result) {
-		
-		budgetNameText.setValue(result.getBudgetName());
+
+		// budgetNameText.setValue(result.getBudgetName());
 		budgetCellTable.setDataProvided(result);
 	}
 
