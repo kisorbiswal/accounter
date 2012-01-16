@@ -364,6 +364,9 @@ public class AuthenticationCommand extends Command {
 			Query query = session.getNamedQuery("get.activation.by.emailid");
 			query.setParameter("emailId", client.getEmailId());
 			Activation val = (Activation) query.uniqueResult();
+			if (val == null) {
+				return null;
+			}
 			return val.getToken();
 		} catch (Exception e) {
 			e.printStackTrace();
