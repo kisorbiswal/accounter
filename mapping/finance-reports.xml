@@ -1357,7 +1357,7 @@
 		T.T_TYPE IN
 		(4,5,8,12,16,29)
 		AND
-		T.COMPANY_ID=:companyId
+		T.COMPANY_ID=:companyId AND T.SAVE_STATUS !=204 
 
 		ORDER BY P.NAME, T.T_TYPE, T.T_DATE
 
