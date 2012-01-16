@@ -46,7 +46,9 @@
 		where
 		(f.status=:status) and
 		f.company=:company
+		order by f.lastModifiedDate desc
 	</query>
+	
 	<query name="getFixedAsset.from.status2or3">
 		<query-param name="company" type="Company" />
 		<query-param name="status" type="int" />
@@ -55,6 +57,7 @@
 		where
 		(f.status=:status or f.status=3) and
 		f.company=:company
+		order by f.lastModifiedDate desc
 	</query>
 	<query name="getEntry.from.journalEntryType">
 		<query-param name="company" type="Company" />
@@ -1008,7 +1011,7 @@
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
 		cr.company=:company and cr.transactionDate between :fromDate and
-		:toDate
+		:toDate order by cr.lastModifiedDate desc
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
@@ -1023,6 +1026,7 @@
 		<query-param name="date" type="long" />
 		from com.vimukti.accounter.core.FixedAsset f where f.company=:company
 		and f.status = 2 and f.purchaseDate &lt;=:date
+		order by f.lastModifiedDate desc
 	</query>
 
 	<query name="getDepreciation.by.check.idandStatus.depreciationFor">
@@ -1094,6 +1098,7 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate
+		order by e.lastModifiedDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1137,6 +1142,7 @@
 		j.company=:company and j.saveStatus != 202
 		and j.transactionDate
 		between :fromDate and :toDate
+		order by j.lastModifiedDate desc
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1699,13 +1705,14 @@
 	<query name="getStockTransfersList">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.StockTransfer st where
-		st.company.id=:companyId
+		st.company.id=:companyId order by st.lastModifiedDate desc
 	</query>
 
 	<query name="getStockAdjustmentsList">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.StockAdjustment st where
 		st.company.id=:companyId
+		order by st.lastModifiedDate desc
 	</query>
 
 	<query name="getAccountsOfType">
@@ -1713,6 +1720,7 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Account a where a.type=:type and
 		a.company.id =:companyId
+		order by a.lastModifiedDate desc
 	</query>
 
 	<sql-query name="getBankAccountsOfType">
@@ -1956,6 +1964,7 @@
 		from com.vimukti.accounter.core.WriteCheck wc where
 		wc.company=:company and wc.transactionDate between :fromDate and
 		:toDate and wc.customer != null
+		order by wc.lastModifiedDate desc
 	</query>
 	<query name="getVendorWriteChecks">
 		<query-param name="company" type="Company" />
@@ -1964,6 +1973,7 @@
 		from com.vimukti.accounter.core.WriteCheck wc where
 		wc.company=:company and wc.transactionDate between :fromDate and
 		:toDate and wc.vendor != null
+		order by wc.lastModifiedDate desc
 	</query>
 
 	<query name="getTdsResposiblePersonDetails">
