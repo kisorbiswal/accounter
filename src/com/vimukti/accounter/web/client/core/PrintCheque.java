@@ -6,6 +6,7 @@ public class PrintCheque implements IsSerializable {
 	private String payeeName;
 	private double amount;
 	private long date;
+	private String currencySymbol;
 
 	public String getPayeeName() {
 		return payeeName;
@@ -29,5 +30,13 @@ public class PrintCheque implements IsSerializable {
 
 	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public String getCurrency() {
+		return currencySymbol;
+	}
+
+	public void setCurrency(String currency) {
+		this.currencySymbol = currency;
 	}
 }
