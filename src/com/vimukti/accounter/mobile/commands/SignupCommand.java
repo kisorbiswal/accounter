@@ -93,11 +93,14 @@ public class SignupCommand extends AbstractCommand {
 				String value = (String) val;
 				if (value == null) {
 					return;
+				} else if (!isValidEmailId(value)) {
+					setEnterString("Enter a valid email address.");
+					return;
 				} else if (getClient(value) != null) {
 					setEnterString(getMessages().enteredEmailAlreadyRegistred());
 					return;
 				}
-				setEnterString("Enter Email");
+				setEnterString(getMessages().pleaseEnter(getMessages().email()));
 				super.setValue(value.toLowerCase().trim());
 			}
 		});
