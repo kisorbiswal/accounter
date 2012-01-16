@@ -29,6 +29,7 @@ public class StatementRecord extends CreatableObject implements
 	private double receivedAmount;
 
 	private double closingBalance;
+	private Statement statement;
 
 	public FinanceDate getStatementDate() {
 		return statementDate;
@@ -103,6 +104,14 @@ public class StatementRecord extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Statement getStatement() {
+		return statement;
+	}
+
+	public void setStatement(Statement statement) {
+		this.statement = statement;
 	}
 
 }

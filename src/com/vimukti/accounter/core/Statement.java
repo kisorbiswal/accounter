@@ -1,7 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -31,9 +34,11 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 
 	private double closingBalance;
 
-	private long accountId;
+	private Account account;
 
-	private List<StatementRecord> StatementRecord;
+	private Reconciliation reconciliation;
+
+	private List<StatementRecord> statementRecords = new ArrayList<StatementRecord>();
 
 	@Override
 	public String getName() {
@@ -77,14 +82,6 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 		this.closingBalance = closingBalance;
 	}
 
-	public long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(long accountId) {
-		this.accountId = accountId;
-	}
-
 	public FinanceDate getImporttedDate() {
 		return importtedDate;
 	}
@@ -110,11 +107,34 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public List<StatementRecord> getStatementRecord() {
-		return StatementRecord;
+		return statementRecords;
 	}
 
 	public void setStatementRecord(List<StatementRecord> statementRecord) {
-		StatementRecord = statementRecord;
+		statementRecords = statementRecord;
 	}
 
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		for (StatementRecord statementRecord : getStatementRecord()) {
+			statementRecord.setStatement(this);
+		}
+		return super.onSave(session);
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public Reconciliation getReconciliation() {
+		return reconciliation;
+	}
+
+	public void setReconciliation(Reconciliation reconciliation) {
+		this.reconciliation = reconciliation;
+	}
 }

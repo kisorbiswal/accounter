@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerRep
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
+import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
@@ -118,6 +119,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_DEPRECIATIONSHEDULE = 168;
 	public final static int REPORT_TYPE_RECONCILATIONS = 169;
 	public final static int REPORT_TYPE_RECONCILATION_ACCOUNTSLIST = 170;
+	public final static int REPORT_TYPE_TAX_EXCEPTION_DETAIL = 171;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -131,18 +133,23 @@ public class ReportsGenerator {
 	private int boxNo;
 	private long vendorId;
 	private static Company company;
+	private String dateRangeHtml;
+	private int generationType;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
-			String navigateObjectName, int generationType, Company company) {
+			String navigateObjectName, int generationType, Company company,
+			String dateRangeHtml) {
 		// ReportsGenerator.companyType = companyType;
 		this.reportType = reportType;
 		this.startDate = new FinanceDate(starDate);
 		this.endDate = new FinanceDate(endDate);
 		this.navigateObjectName = navigateObjectName;
+		this.dateRangeHtml = dateRangeHtml;
 		this.company = company;
+		this.generationType = generationType;
 	}
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
@@ -155,6 +162,7 @@ public class ReportsGenerator {
 		this.navigateObjectName = navigateObjectName;
 		this.status = status;
 		this.company = company;
+		this.generationType = generationType;
 	}
 
 	public ReportsGenerator(int reportType, long startDate, long endDate,
@@ -168,6 +176,7 @@ public class ReportsGenerator {
 		this.vendorId = vendorId;
 		this.boxNo = boxNo;
 		this.company = company;
+		this.generationType = generationType;
 	}
 
 	public String generate(FinanceTool financeTool, int generationType)
@@ -1344,14 +1353,81 @@ public class ReportsGenerator {
 			updateReport(report, finaTool);
 			report.resetVariables();
 			try {
+				long taxReturnId = 0;
+				if (generationType == GENERATIONTYPEPDF) {
+					taxReturnId = Long.parseLong(status);
+				} else if (generationType == GENERATIONTYPECSV) {
+					taxReturnId = Long.parseLong(dateRangeHtml);
+				}
+
 				report.onResultSuccess(finaTool.getReportManager()
-						.getVATExceptionDetailReport(company.getID(),
-								startDate.toClientFinanceDate(),
-								endDate.toClientFinanceDate()));
+						.getVATExpections(company.getID(), taxReturnId));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return report.getGridTemplate();
+		case REPORT_TYPE_TAX_EXCEPTION_DETAIL:
+			TAXItemExceptionDetailServerReport taxReport = new TAXItemExceptionDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(taxReport, finaTool);
+			taxReport.resetVariables();
+			try {
+				long taxReturnId = 0, taxAgencyId = 0;
+				// navigateObjectName means true or false i.e from menu(false)
+				// or from report_menu(true)
+				if (navigateObjectName.equals("true")) {// from report pass
+														// agency_Id
+					if (generationType == GENERATIONTYPEPDF) {
+						taxAgencyId = Long.parseLong(status);
+					} else if (generationType == GENERATIONTYPECSV) {
+						taxAgencyId = Long.parseLong(dateRangeHtml);
+					}
+					taxReport.onResultSuccess(finaTool.getReportManager()
+							.getTAXExceptionsByAgencyId(company.getID(),
+									taxAgencyId));
+				} else {
+					// from regular tax menu, pass tax_return_id
+					if (generationType == GENERATIONTYPEPDF) {
+						taxReturnId = Long.parseLong(status);
+					} else if (generationType == GENERATIONTYPECSV) {
+						taxReturnId = Long.parseLong(dateRangeHtml);
+					}
+					taxReport.onResultSuccess(finaTool.getReportManager()
+							.getTAXExceptionsByTaxReturnId(company.getID(),
+									taxReturnId));
+
+				}
+
+				// if (taxReturn != 0) {
+				// // taxReport.onResultSuccess(finaTool.getReportManager()
+				// // .getTAXExceptions(company.getID(), taxReturn));
+				// } else {
+				//
+				// long agencyId = 0;
+				//
+				// if (generationType == GENERATIONTYPEPDF) {
+				// agencyId = Long.parseLong(status);
+				// } else if (generationType == GENERATIONTYPECSV) {
+				// agencyId = Long.parseLong(dateRangeHtml);
+				// }
+				// taxReport.onResultSuccess(finaTool.getReportManager()
+				// .getTAXItemExceptionDetailReport(company.getID(),
+				// agencyId,
+				// startDate.toClientFinanceDate().getDate(),
+				// endDate.toClientFinanceDate().getDate()));
+				// }
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return taxReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1607,6 +1683,8 @@ public class ReportsGenerator {
 			return "VAT Exception Detail Report";
 		case REPORT_TYPE_VENDORSTATEMENT:
 			return getVendorName();
+		case REPORT_TYPE_TAX_EXCEPTION_DETAIL:
+			return "TAX Item Exception Report";
 		default:
 			break;
 		}

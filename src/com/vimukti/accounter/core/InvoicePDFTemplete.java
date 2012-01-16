@@ -454,11 +454,11 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 		if (reg != null)
 			regestrationAddress = (reg.getAddress1()
-					+ forUnusedAddress(reg.getStreet(), true)
-					+ forUnusedAddress(reg.getCity(), true)
-					+ forUnusedAddress(reg.getStateOrProvinence(), true)
-					+ forUnusedAddress(reg.getZipOrPostalCode(), true)
-					+ forUnusedAddress(reg.getCountryOrRegion(), true) + ".");
+					+ forFooterAddress(reg.getStreet(), false)
+					+ forFooterAddress(reg.getCity(), false)
+					+ forFooterAddress(reg.getStateOrProvinence(), false)
+					+ forFooterAddress(reg.getCountryOrRegion(), false) + forFooterAddress(
+					reg.getZipOrPostalCode(), true));
 
 		String contactDetails = forNullValue(brandingTheme.getContactDetails());
 		if (contactDetails.contains("(None Added)")) {
@@ -489,5 +489,17 @@ public class InvoicePDFTemplete implements PrintTemplete {
 					+ Global.get().messages().webSite() + " : " + website;
 		}
 		return regestrationAddress;
+	}
+
+	private String forFooterAddress(String value, boolean isFooter) {
+		if (isFooter) {
+			if (value != null && !value.equals("")) {
+				return " , " + value + ".";
+			}
+		} else if (value != null && !value.equals("")) {
+			return " , " + value;
+		}
+
+		return "";
 	}
 }

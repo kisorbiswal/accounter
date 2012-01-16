@@ -1,20 +1,28 @@
 package com.vimukti.accounter.core;
 
+import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Properties;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.FontFactoryImp;
 import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.ColumnText;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.Utility;
 
@@ -30,6 +38,7 @@ public class ChequePdfGenerator {
 		if (layout == null) {
 			return null;
 		}
+		FontFactory.setFontImp(new FontFactoryImpEx());
 		Document document = new Document(new Rectangle(0.0f, 0.0f, 595.0f,
 				842.0f));
 		File file = new File(ServerConfiguration.getTmpDir(),
@@ -84,8 +93,12 @@ public class ChequePdfGenerator {
 						layout.getAmountWordsLin2Width());
 
 				// Amount in figure
-				addString(directContent, topPading,
-						String.valueOf(printCheque.getAmount()),
+				addString(
+						directContent,
+						topPading,
+						// String.valueOf(printCheque.getAmount()),
+						decimalConversation(printCheque.getAmount(),
+								printCheque.getCurrency()),
 						layout.getAmountFigLeft(), layout.getAmountFigTop(),
 						layout.getAmountFigWidth());
 
@@ -152,4 +165,45 @@ public class ChequePdfGenerator {
 		return DPI * i * 100 / 254;
 	}
 
+	public static class FontFactoryImpEx extends FontFactoryImp {
+
+		private static Properties properties;
+		private static String fontsPath = "./config/fonts/";
+
+		FontFactoryImpEx() {
+			properties = new Properties();
+			try {
+				properties.load(new FileInputStream(fontsPath
+						+ "pd4fonts.properties"));
+			} catch (Exception e) {
+
+			}
+		}
+
+		@Override
+		public Font getFont(String fontname, String encoding, boolean embedded,
+				float size, int style, Color color) {
+			try {
+				String fileName = properties.getProperty(fontname);
+				BaseFont bf = BaseFont.createFont(fontsPath + fileName,
+						BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				bf.setSubset(true);
+				return new Font(bf, size, style, color);
+			} catch (Exception e) {
+				Font font = super.getFont(fontname, encoding, true, size,
+						style, color);
+				return font;
+			}
+
+		}
+	}
+
+	public static String decimalConversation(double amount, String curencySymbol) {
+		try {
+			return Global.get().toCurrencyFormat(amount, curencySymbol);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
 }
