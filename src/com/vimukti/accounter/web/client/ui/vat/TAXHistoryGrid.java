@@ -169,7 +169,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				}
 
 				ActionFactory.getVATExceptionDetailsReportAction().run(
-						vatDetails, true);
+						vatDetails, obj.getID(), true);
 			} else {
 
 				List<ClientTAXReturnEntry> taxEntries = null;
@@ -183,7 +183,14 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 						.getTaxItemExceptionDetailReportAction();
 				taxItemExceptionDetailReportAction
 						.setTaxReturn(clientTAXReturn);
-				taxItemExceptionDetailReportAction.run(details, true);
+				for (TAXItemDetail detail : details) {
+					detail.setStartDate(new ClientFinanceDate(obj
+							.getPeriodStartDate()));
+					detail.setEndDate(new ClientFinanceDate(obj
+							.getPeriodEndDate()));
+				}
+				taxItemExceptionDetailReportAction.run(details, obj.getID(),
+						true);
 			}
 		} else {
 			ICountryPreferences countryPreferences = Accounter.getCompany()
@@ -209,23 +216,37 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 
 		for (ClientTAXReturnEntry c : taxEntries) {
-			if (c.getTransactionDate() >= taxReturnStartDate) {
-				continue;
+
+			ClientFinanceDate transactionDate = new ClientFinanceDate(
+					c.getTransactionDate());
+			ClientFinanceDate startDate = new ClientFinanceDate(
+					taxReturnStartDate);
+
+			// if (c.getTransactionDate() >= taxReturnStartDate) {
+			// continue;
+			// }
+
+			if (transactionDate.before(startDate)) {
+
+				TAXItemDetail detail = new TAXItemDetail();
+				detail.setTaxAmount(c.getTaxAmount());
+				detail.setTransactionId(c.getTransaction());
+				detail.setTaxItemName(getCompany().getTAXItem(c.getTaxItem())
+						.getName());
+				detail.setTransactionType(c.getTransactionType());
+				detail.setTransactionDate(new ClientFinanceDate(c
+						.getTransactionDate()));
+				detail.setNetAmount(c.getNetAmount());
+				detail.setTAXRate(getCompany().getTaxItem(c.getTaxItem())
+						.getTaxRate());
+				detail.setTotal(c.getGrassAmount());
+				detail.setFiledTAXAmount(c.getFiledTAXAmount());
+				details.add(detail);
 			}
-			TAXItemDetail detail = new TAXItemDetail();
-			detail.setTaxAmount(c.getTaxAmount());
-			detail.setTransactionId(c.getTransaction());
-			detail.setTaxItemName(getCompany().getTAXItem(c.getTaxItem())
-					.getName());
-			detail.setTransactionType(c.getTransactionType());
-			detail.setTransactionDate(new ClientFinanceDate(c
-					.getTransactionDate()));
-			detail.setNetAmount(c.getNetAmount());
-			detail.setTAXRate(getCompany().getTaxItem(c.getTaxItem())
-					.getTaxRate());
-			detail.setTotal(c.getGrassAmount());
-			detail.setFiledTAXAmount(c.getFiledTAXAmount());
-			details.add(detail);
+			// else{
+			// continue;
+			// }
+
 		}
 		return details;
 	}
