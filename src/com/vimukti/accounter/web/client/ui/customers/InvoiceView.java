@@ -1506,62 +1506,64 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	private void getEstimatesAndSalesOrder() {
 		ClientCompanyPreferences preferences = getCompany().getPreferences();
+
 		if (preferences.isDoyouwantEstimates()
 				|| preferences.isBillableExpsesEnbldForProductandServices()
 				|| preferences.isProductandSerivesTrackingByCustomerEnabled()
 				|| preferences.isDelayedchargesEnabled()) {
-			if (this.rpcUtilService == null)
+			if (preferences.isDontIncludeEstimates()) {
 				return;
-			if (getCustomer() == null) {
-				Accounter.showError(messages.pleaseSelect(Global.get()
-						.customer()));
-			} else {
+			}
+		}
+		if (this.rpcUtilService == null)
+			return;
+		if (getCustomer() == null) {
+			Accounter.showError(messages.pleaseSelect(Global.get().customer()));
+		} else {
 
-				AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
+			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						return;
-					}
+				@Override
+				public void onFailure(Throwable caught) {
+					return;
+				}
 
-					@Override
-					public void onSuccess(
-							ArrayList<EstimatesAndSalesOrdersList> result) {
-						if (result == null)
-							onFailure(new Exception());
-						List<ClientTransaction> salesAndEstimates = transaction
-								.getSalesAndEstimates();
-						if (transaction.getID() != 0 && !result.isEmpty()) {
-							ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
-							for (ClientTransaction clientTransaction : salesAndEstimates) {
-								for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
-									if (estimatesalesorderlist
-											.getTransactionId() == clientTransaction
-											.getID()) {
-										estimatesList
-												.add(estimatesalesorderlist);
-									}
+				@Override
+				public void onSuccess(
+						ArrayList<EstimatesAndSalesOrdersList> result) {
+					if (result == null)
+						onFailure(new Exception());
+					List<ClientTransaction> salesAndEstimates = transaction
+							.getSalesAndEstimates();
+					if (transaction.getID() != 0 && !result.isEmpty()) {
+						ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
+						for (ClientTransaction clientTransaction : salesAndEstimates) {
+							for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
+								if (estimatesalesorderlist.getTransactionId() == clientTransaction
+										.getID()) {
+									estimatesList.add(estimatesalesorderlist);
 								}
 							}
-
-							for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
-								result.remove(estimatesAndSalesOrdersList);
-							}
 						}
-						transactionsTree.setAllrows(result,
-								transaction.getID() == 0 ? true
-										: salesAndEstimates.isEmpty());
-						transactionsTree.quotesSelected(transaction
-								.getEstimates() != null ? transaction
-								.getEstimates()
-								: new ArrayList<ClientEstimate>());
-						transactionsTree.setEnabled(!isInViewMode());
-						refreshTransactionGrid();
+
+						for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
+							result.remove(estimatesAndSalesOrdersList);
+						}
 					}
-				};
-				this.rpcUtilService.getEstimatesAndSalesOrdersList(
-						getCustomer().getID(), callback);
-			}
+					transactionsTree.setAllrows(
+							result,
+							transaction.getID() == 0 ? true : salesAndEstimates
+									.isEmpty());
+					transactionsTree
+							.quotesSelected(transaction.getEstimates() != null ? transaction
+									.getEstimates()
+									: new ArrayList<ClientEstimate>());
+					transactionsTree.setEnabled(!isInViewMode());
+					refreshTransactionGrid();
+				}
+			};
+			this.rpcUtilService.getEstimatesAndSalesOrdersList(getCustomer()
+					.getID(), callback);
 		}
 	}
 
