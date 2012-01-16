@@ -115,7 +115,8 @@ public class CurrencyFactorWidget extends DynamicForm {
 	}
 
 	public ClientCurrency getSelectedCurrency() {
-		return selectedCurrencyItem;
+		return selectedCurrencyItem == null ? baseCurrency
+				: selectedCurrencyItem;
 	}
 
 	public void setCurrencyFactor(double factor) {
