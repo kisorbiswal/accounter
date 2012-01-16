@@ -338,10 +338,12 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<TAXItemDetail>> callback);
 
 	public void getVATExceptionDetailReport(ClientFinanceDate start,
-			ClientFinanceDate end, AsyncCallback<ArrayList<VATDetail>> callback);
+			ClientFinanceDate end, long taxRetunId,
+			AsyncCallback<ArrayList<VATDetail>> callback);
 
 	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
-			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
+			long endDate, boolean formReport,
+			AsyncCallback<ArrayList<TAXItemDetail>> callback);
 
 	public void getAllReconciliations(ClientFinanceDate start,
 			ClientFinanceDate end, long companyId,
