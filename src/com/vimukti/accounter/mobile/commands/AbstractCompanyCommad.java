@@ -392,10 +392,12 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 				break;
 			}
 		}
-
-		get(TIME_ZONE).setValue(
-				countryPreferences.getDefaultTimeZone(countryPreferences
-						.getStates()[0]));
+		String[] states = countryPreferences.getStates();
+		get(TIME_ZONE)
+				.setValue(
+						countryPreferences
+								.getDefaultTimeZone((states == null || states.length < 0) ? ""
+										: states[0]));
 	}
 
 	@Override
