@@ -5308,4 +5308,6 @@ public interface AccounterMessages extends Messages {
 
 	public String amountMoreThanCredits();
 
+	public String currencyNetAmount(String currencyCode);
+
 }
