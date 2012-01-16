@@ -259,7 +259,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		ClientTAXCode taxCode = null;
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
-			if (clientTransactionItem.getTaxCode() != 0) {
+			if (clientTransactionItem.getTaxCode() != 0
+					&& clientTransactionItem.getReferringTransactionItem() == 0) {
 
 				taxCode = getCompany().getTAXCode(
 						clientTransactionItem.getTaxCode());
