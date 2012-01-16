@@ -8105,6 +8105,7 @@
 
 		SET CONSTRAINTS ALL DEFERRED;
 
+		delete from payee_fields using payee where payee_id=payee.id and payee.company_id=cid;
 
 		delete from
 		cheque_layout where company_id=cid;
