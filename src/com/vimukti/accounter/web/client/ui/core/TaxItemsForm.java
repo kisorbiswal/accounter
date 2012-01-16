@@ -135,8 +135,18 @@ public class TaxItemsForm extends DynamicForm {
 									.taxAtOnValue(
 											DataUtils
 													.getAmountAsStrings(taxRate),
-											DataUtils
-													.getAmountAsStringInPrimaryCurrency(value)));
+											Accounter.getCompany().getCurrency(
+													transaction.getCurrency()) == null ? DataUtils
+													.getAmountAsStringInPrimaryCurrency(value)
+													: DataUtils
+															.getAmountAsStringInCurrency(
+																	value,
+																	Accounter
+																			.getCompany()
+																			.getCurrency(
+																					transaction
+																							.getCurrency())
+																			.getSymbol())));
 					amountLabel.setAmount(taxAmount);
 
 					items[i] = amountLabel;

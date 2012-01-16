@@ -117,10 +117,6 @@ public class ReceivePaymentView extends
 		tdsAmount.setCurrency(currency);
 		customerNonEditablebalText.setCurrency(currency);
 		gridView.creditsAndPayments.clear();
-		if (selectedCustomer == null) {
-			receivePaymentTransactionList = null;
-			return;
-		}
 		if (getCustomer() != null && customerCombo != null) {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					selectedCustomer.getID()));

@@ -340,7 +340,8 @@ public class CreditCardExpenseView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel(messages.netAmount());
+		netAmount = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
@@ -1197,6 +1198,9 @@ public class CreditCardExpenseView extends
 				transaction.getTransactionItems().addAll(
 						vendorItemTransactionTable.getTransactionItems());
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
 
@@ -1298,14 +1302,16 @@ public class CreditCardExpenseView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
 		}
+		netAmount.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	@Override

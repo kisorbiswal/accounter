@@ -535,8 +535,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected AmountLabel createNetAmountLabel() {
-		AmountLabel netAmountLabel = new AmountLabel(messages.netAmount());
-		netAmountLabel.setTitle(messages.netAmount());
+		AmountLabel netAmountLabel = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
+		netAmountLabel.setTitle(messages.currencyNetAmount(getBaseCurrency()
+				.getFormalName()));
 		netAmountLabel.setDefaultValue("£0.00");
 		return netAmountLabel;
 	}

@@ -275,9 +275,9 @@ public class CreditCardChargeView extends
 					.getDeliveryDate()));
 			delivDate.setDisabled(isInViewMode());
 			phoneSelect.setValue(transaction.getPhone());
+			netAmount.setAmount(transaction.getNetAmount());
 			if (getPreferences().isTrackPaidTax()) {
 				if (getPreferences().isTaxPerDetailLine()) {
-					netAmount.setAmount(transaction.getNetAmount());
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
 					this.taxCode = getTaxCodeForTransactionItems(transaction
@@ -535,7 +535,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel(messages.netAmount());
+		netAmount = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue(String.valueOf(0.00));
 		netAmount.setDisabled(true);
 
@@ -975,6 +976,9 @@ public class CreditCardChargeView extends
 				transaction.getTransactionItems().addAll(
 						vendorItemTransactionTable.getAllRows());
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
 	}
@@ -1223,14 +1227,16 @@ public class CreditCardChargeView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
 		}
+		netAmount.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	protected void updateDiscountValues() {

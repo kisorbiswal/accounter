@@ -132,6 +132,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				customerTransactionTable.setTaxCode(taxCodeSelect
 						.getSelectedValue().getID(), true);
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
 
@@ -1002,6 +1005,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				transaction.setTransactionItems(customerTransactionTable
 						.getAllRows());
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 
 			setSalesTax(customerTransactionTable.getTotalTax());
@@ -1271,14 +1277,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
 		}
+		netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	public List<String> getStatusList() {

@@ -834,7 +834,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				transaction.setTransactionItems(customerTransactionTable
 						.getTransactionItems());
 			}
-
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
@@ -1181,7 +1183,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				.getTransactionItems().isEmpty()) && !isInViewMode())
 			transaction.setTransactionItems(customerTransactionTable
 					.getAllRows());
-
+		if (currency != null) {
+			transaction.setCurrency(currency.getID());
+		}
 		if (salesTaxTextNonEditable != null) {
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
@@ -1787,13 +1791,17 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
+		}
+		if (netAmountLabel != null) {
+			netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
 		}
 	}
 

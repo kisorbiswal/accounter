@@ -777,6 +777,9 @@ public class WriteChequeView extends
 										taxCodeSelect.getSelectedValue()
 												.getID(), true);
 							}
+							if (currency != null) {
+								transaction.setCurrency(currency.getID());
+							}
 							vatTotalNonEditableText.setTransaction(transaction);
 
 							// } else if (payee instanceof ClientTAXAgency)
@@ -882,7 +885,8 @@ public class WriteChequeView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();
 
-		netAmount = new AmountLabel(messages.netAmount());
+		netAmount = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 
 		HorizontalPanel bottomPanel = new HorizontalPanel();
 		bottomPanel.setWidth("100%");
@@ -1233,6 +1237,9 @@ public class WriteChequeView extends
 			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(transactionVendorAccountTable
 						.getAllRows());
+			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
 			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
@@ -1655,6 +1662,8 @@ public class WriteChequeView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			transactionTotalBaseCurrencyText.hide();
 		} else {
@@ -1662,6 +1671,7 @@ public class WriteChequeView extends
 			transactionTotalBaseCurrencyText.setTitle(messages
 					.currencyTotal(getBaseCurrency().getFormalName()));
 		}
+		netAmount.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	@Override

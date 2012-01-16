@@ -237,7 +237,8 @@ public class VendorCreditMemoView extends
 			// phoneForm.setDisabled(true);
 		}
 
-		netAmount = new AmountLabel(messages.netAmount());
+		netAmount = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 
@@ -669,6 +670,9 @@ public class VendorCreditMemoView extends
 				transaction.getTransactionItems().addAll(
 						vendorItemTransactionTable.getAllRows());
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}
 	}
@@ -870,14 +874,16 @@ public class VendorCreditMemoView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
 		}
+		netAmount.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	@Override

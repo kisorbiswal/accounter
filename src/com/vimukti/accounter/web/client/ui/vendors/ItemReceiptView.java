@@ -160,7 +160,8 @@ public class ItemReceiptView extends
 			termsForm.setFields(classListCombo);
 		}
 
-		netAmount = new AmountLabel("Net Amount");
+		netAmount = new AmountLabel(
+				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
 		netAmount.setDisabled(true);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
@@ -539,6 +540,9 @@ public class ItemReceiptView extends
 						.getAllRows());
 				transaction.getTransactionItems().addAll(
 						vendorItemTransactionTable.getAllRows());
+			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
 			}
 			vatTotalNonEditableText.setTransaction(transaction);
 		}

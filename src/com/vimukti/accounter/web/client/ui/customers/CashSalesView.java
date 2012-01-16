@@ -973,6 +973,9 @@ public class CashSalesView extends
 				transaction.getTransactionItems().addAll(
 						customerItemTransactionTable.getAllRows());
 			}
+			if (currency != null) {
+				transaction.setCurrency(currency.getID());
+			}
 			taxTotalNonEditableText.setTransaction(transaction);
 		}
 
@@ -1236,14 +1239,16 @@ public class CashSalesView extends
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
+		String formalName = currencyWidget.getSelectedCurrency()
+				.getFormalName();
 		if (currencyWidget.isShowFactorField()) {
 			foreignCurrencyamountLabel.hide();
 		} else {
 			foreignCurrencyamountLabel.show();
 			foreignCurrencyamountLabel.setTitle(messages
-					.currencyTotal(currencyWidget.getSelectedCurrency()
-							.getFormalName()));
+					.currencyTotal(formalName));
 		}
+		netAmountLabel.setTitle(messages.currencyNetAmount(formalName));
 	}
 
 	@Override
