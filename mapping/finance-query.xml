@@ -530,6 +530,101 @@
 		VENDOR_NAME
 
 	</sql-query>
+	
+	
+	<sql-query name="getAllInvoicesList">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.T_TYPE = 8
+		THEN
+		I.DUE_DATE
+		ELSE
+		null
+		END
+		AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		CASE
+		WHEN
+		T.T_TYPE = 8
+		THEN
+		I.BALANCE_DUE
+		ELSE
+		0.0
+		END AS BALANCE,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN
+		TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT
+		OUTER
+		JOIN
+		INVOICE I
+		ON
+		T.ID=I.ID
+		LEFT OUTER JOIN
+		CASH_SALES CS
+		ON T.ID=CS.ID
+		LEFT
+		OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON
+		T.ID = CCM.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID
+		=
+		I.CUSTOMER_ID
+		OR
+		C.ID =
+		CS.CUSTOMER_ID
+		OR C.ID =
+		CCM.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE
+		IN(1,4,8) 
+		ORDER BY
+		DUE_DATE
+	</sql-query>
 	<!-- To generate the Invoices List which includes Cash Sales, Customer Credit 
 		Memos, Invoices and Write Checks -->
 	<sql-query name="getInvoicesList">
@@ -11522,7 +11617,23 @@
 
 	</sql-query>
 
+<sql-query name="getTAXReturnObj">
+		<query-param name="taxreturnID" type="long" />
+		<return-scalar column="id" type="long" />
+		
+select *  from tax_return where id=:taxreturnID
 
+
+	</sql-query>
+	
+	<sql-query name="getTAXReturnObjByTaxAgency">
+		<query-param name="taxAgencyID" type="long" />
+		<return-scalar column="id" type="long" />
+		
+select *  from tax_return where tax_agency=:taxAgencyID
+
+
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
