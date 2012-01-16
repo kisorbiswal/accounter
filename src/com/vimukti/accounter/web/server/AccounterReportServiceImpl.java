@@ -2842,27 +2842,37 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<VATDetail> getVATExceptionDetailReport(
-			ClientFinanceDate start, ClientFinanceDate end)
+			ClientFinanceDate start, ClientFinanceDate end, long taxReturnId)
 			throws AccounterException {
 
 		return getFinanceTool().getReportManager().getVATExceptionDetailReport(
-				getCompanyId(), start, end);
+				getCompanyId(), start, end, taxReturnId);
 	}
 
 	@Override
 	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
-			long taxAgency, long startDate, long endDate)
+			long taxAgency, long startDate, long endDate, boolean fromReport)
 			throws AccounterException {
-		ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
-				.getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
-						startDate, endDate);
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(
-				new ClientFinanceDate(startDate),
-				new ClientFinanceDate(endDate), getCompanyId());
-		TAXItemDetail obj = new TAXItemDetail();
-		if (list != null)
-			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
-		return list;
+		ArrayList<TAXItemDetail> taxItemDetailReport;
+		if (fromReport) {
+			taxItemDetailReport = getFinanceTool().getReportManager()
+					.getTAXExceptionsByAgencyId(getCompanyId(), taxAgency);
+		} else {
+			taxItemDetailReport = getFinanceTool().getReportManager()
+					.getTAXExceptionsByTaxReturnId(getCompanyId(), taxAgency);
+		}
+		return taxItemDetailReport;
+		// ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
+		// .getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
+		// startDate, endDate);
+		// FinanceDate[] financeDates = getMinimumAndMaximumDates(
+		// new ClientFinanceDate(startDate),
+		// new ClientFinanceDate(endDate), getCompanyId());
+		// TAXItemDetail obj = new TAXItemDetail();
+		// if (list != null)
+		// list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
+		// return list;
+
 	}
 
 	@Override
@@ -3022,15 +3032,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		ArrayList<BudgetActuals> budgetActualsList = new ArrayList<BudgetActuals>();
 
 		long companyId = getCompanyId();
-		
+
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, companyId);
 
 		try {
 
 			budgetActualsList = getFinanceTool().getReportManager()
-					.getBudgetvsAcualReportData(financeDates[0], financeDates[1],
-							companyId,id,type);
+					.getBudgetvsAcualReportData(financeDates[0],
+							financeDates[1], companyId, id, type);
 
 			BudgetActuals obj = new BudgetActuals();
 			if (budgetActualsList != null)
@@ -3042,7 +3052,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return budgetActualsList;
-	
+
 	}
 
 }
