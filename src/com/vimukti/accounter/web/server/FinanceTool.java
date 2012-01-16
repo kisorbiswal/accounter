@@ -3072,10 +3072,14 @@ public class FinanceTool {
 			session.saveOrUpdate(message);
 			mesgTransaction.commit();
 
-			ClientLocalMessage clientLocalMessage = new ClientConvertUtil()
-					.toClientObject(localMessage, ClientLocalMessage.class);
+			ClientLocalMessage clm = new ClientLocalMessage();
+			clm.setApproved(localMessage.isApproved());
+			clm.setCreateBy(localMessage.getCreatedBy().getEmailId());
+			clm.setId(localMessage.getId());
+			clm.setValue(localMessage.getValue());
+			clm.setVotes(localMessage.getUps());
 
-			return clientLocalMessage;
+			return clm;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
