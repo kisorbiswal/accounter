@@ -729,9 +729,12 @@ public abstract class TransactionPayBillTable extends
 			return;
 		}
 		for (ClientCreditsAndPayments crdt : creditsAndPayments) {
-			crdt.setBalance(crdt.getActualAmt());
-			crdt.setRemaoningBalance(crdt.getBalance());
-			crdt.setAmtTouse(0);
+			if (crdt.getAmtTouse() > 0) {
+				crdt.setBalance(crdt.getRemaoningBalance()
+						+ crdt.getActualAmt());
+				crdt.setRemaoningBalance(crdt.getBalance());
+				crdt.setAmtTouse(0);
+			}
 		}
 		for (ClientTransactionPayBill obj : this.getAllRows()) {
 

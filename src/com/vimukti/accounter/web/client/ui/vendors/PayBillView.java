@@ -513,7 +513,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			@Override
 			public void onDateValueChange(ClientFinanceDate date) {
 				if (paybillTransactionList != null
-						&& !dueDateOnOrBefore.equals(date)) {
+						&& (dueDateOnOrBefore != null && !dueDateOnOrBefore
+								.equals(date))) {
 					// if (event.getSource() != null) {
 					// dueDateOnOrBefore = ((DateField) event.getSource())
 					// .getValue();
