@@ -335,7 +335,7 @@ public class GeneratePDFservlet extends BaseServlet {
 							getPageSizeType(brandingTheme.getPageSizeType()));
 
 				}
-			
+
 				// this is used to print multiple pdf documents at a time
 				if (objectId != null) {
 					transactionType = Integer.parseInt(request
@@ -452,7 +452,8 @@ public class GeneratePDFservlet extends BaseServlet {
 
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
-					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, company);
+					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, company,
+					"");
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
