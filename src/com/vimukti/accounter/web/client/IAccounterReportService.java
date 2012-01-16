@@ -276,10 +276,11 @@ public interface IAccounterReportService extends RemoteService {
 			long startDate, long endDate) throws AccounterException;
 
 	ArrayList<VATDetail> getVATExceptionDetailReport(ClientFinanceDate start,
-			ClientFinanceDate end) throws AccounterException;
+			ClientFinanceDate end, long taxRetunId) throws AccounterException;
 
 	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
-			long startDate, long endDate) throws AccounterException;
+			long startDate, long endDate, boolean fromReport)
+			throws AccounterException;
 
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
@@ -294,14 +295,14 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<ReconcilationItemList> getReconciliationItemByBankAccountID(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long bankAccountId, long comapnyId);
-	
+
 	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
+
 	public ArrayList<TransactionHistory> getVendorTransactionsList(long id,
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
 
 	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(long id,
 			ClientFinanceDate start, ClientFinanceDate end, int type);
