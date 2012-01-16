@@ -474,9 +474,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		}
 		List<ClientTransactionPayTAX> list = transaction.getTransactionPayTax();
 		int count = 0;
+		grid.removeAllRecords();
 		for (ClientTransactionPayTAX record : list) {
 			if (record != null) {
-				grid.removeAllRecords();
 				grid.addData(record);
 				grid.selectRow(count);
 				records.add(record);
