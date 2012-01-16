@@ -742,29 +742,26 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	public void onEdit() {
 		super.onEdit();
-		paymentMethodCombo.setDisabled(false);
-		billsDue.setDisabled(false);
-		payFromAccCombo.setDisabled(false);
-		grid.setCanEdit(true);
-		grid.setDisabled(false);
-
+		enableFormItems();
 	}
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		date.setDisabled(isInViewMode());
 		paymentMethodCombo.setDisabled(isInViewMode());
 		billsDue.setDisabled(isInViewMode());
 		taxAgencyCombo.setDisabled(isInViewMode());
 		payFromAccCombo.setDisabled(isInViewMode());
+		grid.setCanEdit(true);
+		grid.setDisabled(false);
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
+		}
+		if (isMultiCurrencyEnabled()) {
+			currencyWidget.setDisabled(isInViewMode());
 		}
 		super.onEdit();
 
 		// fillGrid();
-		transaction = null;
-
 	}
 
 	@Override
