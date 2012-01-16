@@ -246,7 +246,7 @@ public abstract class AbstractBaseCommand extends Command {
 	protected Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
-		namedQuery.setParameter("emailId", emailId);
+		namedQuery.setParameter("emailId", emailId.toLowerCase());
 		Client client = (Client) namedQuery.uniqueResult();
 		return client;
 	}
