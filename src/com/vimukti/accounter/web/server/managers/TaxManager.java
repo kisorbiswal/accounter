@@ -1231,30 +1231,36 @@ public class TaxManager extends Manager {
 
 	public List<ClientTAXReturn> getAllTAXReturns(Long companyID)
 			throws AccounterException {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyID);
-		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
-				.setEntity("company", company).list();
-		// for (TAXReturn taxReturn : list) {
-		// for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
-		// Transaction transaction = entry.getTransaction();
-		// entry.setTransactionDate(transaction.getDate());
-		// entry.setTransactionType(transaction.getType());
-		// }
-		// }
-		List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
-		ClientConvertUtil convertUttils = new ClientConvertUtil();
-		for (TAXReturn taxReturn : list) {
-			ClientTAXReturn clientObject = convertUttils.toClientObject(
-					taxReturn, ClientTAXReturn.class);
-			if (company.getCountry().equals("United Kingdom")) {
-				clientObject.setBoxes(toBoxes(
-						clientObject.getTaxReturnEntries(),
-						taxReturn.getTaxAgency()));
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			Company company = getCompany(companyID);
+			List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
+					.setEntity("company", company).list();
+			// for (TAXReturn taxReturn : list) {
+			// for (TAXReturnEntry entry : taxReturn.getTaxReturnEntries()) {
+			// Transaction transaction = entry.getTransaction();
+			// entry.setTransactionDate(transaction.getDate());
+			// entry.setTransactionType(transaction.getType());
+			// }
+			// }
+			List<ClientTAXReturn> taxReturns = new ArrayList<ClientTAXReturn>();
+			ClientConvertUtil convertUttils = new ClientConvertUtil();
+			for (TAXReturn taxReturn : list) {
+				ClientTAXReturn clientObject = convertUttils.toClientObject(
+						taxReturn, ClientTAXReturn.class);
+				if (company.getCountry().equals("United Kingdom")) {
+					clientObject.setBoxes(toBoxes(
+							clientObject.getTaxReturnEntries(),
+							taxReturn.getTaxAgency()));
+				}
+				taxReturns.add(clientObject);
 			}
-			taxReturns.add(clientObject);
+			return taxReturns;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return taxReturns;
+		return new ArrayList<ClientTAXReturn>();
+
 	}
 
 	public List<TAXReturn> getAllTAXReturnsFromDB(Long companyID)
