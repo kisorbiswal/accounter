@@ -73,12 +73,14 @@ public class CancelAccountServlet extends BaseServlet {
 			if (users != null && !users.isEmpty()) {
 				final List<Company> list = new ArrayList<Company>();
 				Company com = null;
+				List<Long> userIds = new ArrayList<Long>();
 				for (User user : users) {
+					userIds.add(user.getID());
 					if (!user.isDeleted()) {
 						List<Object[]> objects = session
 								.getNamedQuery(
 										"get.CompanyId.Tradingname.and.Country.of.user")
-								.setParameter("userIds", user.getID()).list();
+								.setParameterList("userIds", userIds).list();
 						for (Object[] obj : objects) {
 							com = new Company();
 							com.setId((Long) obj[0]);
