@@ -116,7 +116,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	@Override
 	public void onSuccess(ArrayList<R> result) {
 		try {
-			if (result != null && result.size() > 1) {
+			if (result != null && result.size() > 0) {
 				grid.removeAllRows();
 
 				setFromAndToDate(result);

@@ -27,16 +27,18 @@ public class TAXItemExceptionDetailReport extends Action {
 	@Override
 	public void run() {
 
-		runAsync(data, isDependent);
+		runAsync(data, id, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean dependent) {
+	public void runAsync(final Object data, final long id,
+			final Boolean dependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
 				TAXitemExceptionReport report = new TAXitemExceptionReport();
+				report.setTaxReturnId(id);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, TAXItemExceptionDetailReport.this);
 				if (taxReturn != null) {

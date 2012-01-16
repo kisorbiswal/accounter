@@ -31,13 +31,15 @@ public class VatExceptionDetailReportAction extends Action {
 		return Accounter.getFinanceMenuImages().reports();
 	}
 
-	public void runAsync(final Object data, final Boolean dependent) {
+	public void runAsync(final Object data, final long id,
+			final Boolean dependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
 				report = new VATExceptionDetailReportView();
+				report.setTaxReturnId(id);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, VatExceptionDetailReportAction.this);
 
@@ -51,7 +53,7 @@ public class VatExceptionDetailReportAction extends Action {
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+		runAsync(data, id, isDependent);
 	}
 
 	// @Override

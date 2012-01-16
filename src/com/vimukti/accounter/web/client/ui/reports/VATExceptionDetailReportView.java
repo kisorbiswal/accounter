@@ -15,6 +15,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.VATExceptionServerRepor
  */
 public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> {
 
+	private long taxReturnId;
+
 	public VATExceptionDetailReportView() {
 		super(false, messages.noRecordsToShow());
 		this.serverReport = new VATExceptionServerReport(this);
@@ -28,6 +30,9 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 		if (data != null) {
 
 			List<VATDetail> vatDetail = (List<VATDetail>) data;
+			VATDetail obj = vatDetail.get(vatDetail.size() - 1);
+			startDate = this.serverReport.getStartDate(obj);
+			endDate = this.serverReport.getEndDate(obj);
 			DateRangeReportToolbar dateRangeReportToolbar = (DateRangeReportToolbar) this.toolbar;
 			dateRangeReportToolbar.fromItem.setEnteredDate(this.startDate);
 			dateRangeReportToolbar.toItem.setEnteredDate(this.endDate);
@@ -60,7 +65,7 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 
 		Accounter.createReportService().getVATExceptionDetailReport(start, end,
-				this);
+				taxReturnId, this);
 
 	}
 
@@ -75,7 +80,7 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 166, "",
-				"");
+				"", taxReturnId);
 	}
 
 	@Override
@@ -115,7 +120,15 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 138, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())), 166, "",
+				String.valueOf(taxReturnId));
+	}
+
+	public long getTaxReturnId() {
+		return taxReturnId;
+	}
+
+	public void setTaxReturnId(long taxReturnId) {
+		this.taxReturnId = taxReturnId;
 	}
 }
