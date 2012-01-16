@@ -272,9 +272,8 @@
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Warehouse w where
 		w.company=:company
-		order by w.id
+		order by w.lastModifiedDate desc
 	</query>
-
 	<query name="list.All.Units">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.Measurement m where
