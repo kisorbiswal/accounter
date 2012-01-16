@@ -78,7 +78,7 @@ public class CancelAccountServlet extends BaseServlet {
 						List<Object[]> objects = session
 								.getNamedQuery(
 										"get.CompanyId.Tradingname.and.Country.of.user")
-								.setParameter("userId;", user.getID()).list();
+								.setParameter("userIds", user.getID()).list();
 						for (Object[] obj : objects) {
 							com = new Company();
 							com.setId((Long) obj[0]);
