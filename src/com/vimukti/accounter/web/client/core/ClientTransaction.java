@@ -858,6 +858,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		long taxCode = -1;
 		for (ClientTransactionItem item : this.transactionItems) {
+			if (item.referringTransactionItem != 0) {
+				continue;
+			}
 			long code = item.getTaxCode();
 			if (taxCode == -1) {
 				taxCode = code;
