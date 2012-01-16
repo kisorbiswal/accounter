@@ -3,16 +3,16 @@
  */
 package com.vimukti.accounter.web.client.core;
 
-import java.io.Serializable;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class ClientItemStatus implements Serializable, IsSerializable,
-		Cloneable {
+public class ClientItemStatus implements IAccounterCore {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private long id;
 
@@ -22,20 +22,7 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 
 	public long warehouse;
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
+	private int version;
 
 	/**
 	 * @return the item
@@ -83,9 +70,47 @@ public class ClientItemStatus implements Serializable, IsSerializable,
 	}
 
 	public ClientItemStatus clone() {
-		ClientItemStatus clientItemStatusClone = (ClientItemStatus) this
-				.clone();
+		ClientItemStatus clientItemStatusClone = new ClientItemStatus();
+		clientItemStatusClone.setItem(this.item);
+		clientItemStatusClone.setWarehouse(this.warehouse);
+		clientItemStatusClone.setQuantity(this.quantity);
+		clientItemStatusClone.setVersion(this.version);
 		return clientItemStatusClone;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
+
+	@Override
+	public String getDisplayName() {
+		return null;
+	}
+
+	@Override
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.ITEM_STATUS;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
 	}
 
 }
