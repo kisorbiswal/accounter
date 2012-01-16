@@ -549,8 +549,11 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		String country = context.getIOSession().getClient().getCountry();
 		ClientAddress address = get(TRADING_ADDRESS).getValue();
 		address.setCountryOrRegion(country);
-		String state = getStatesList(country).get(0);
-		address.setStateOrProvinence(state);
+		List<String> statesList = getStatesList(country);
+		if (statesList != null && !statesList.isEmpty()) {
+			String state = getStatesList(country).get(0);
+			address.setStateOrProvinence(state);
+		}
 		get(TRADING_ADDRESS).setValue(address);
 		countrySelected(CountryPreferenceFactory.get(country));
 		return null;
