@@ -1038,4 +1038,7 @@ a#fdbk_tab:hover {
 .openid-signup-container{
 	width:600px !important;
 }
+#login_error{
+	clear:both;
+}
 /* End of the new Login and forgot password page*/
