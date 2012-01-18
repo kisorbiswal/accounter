@@ -1041,4 +1041,7 @@ a#fdbk_tab:hover {
 #login_error{
 	clear:both;
 }
+.form-bottom-options a:hover,.form-bottom-options a:FOCUS{
+	color:#072027 !important;
+}
 /* End of the new Login and forgot password page*/
