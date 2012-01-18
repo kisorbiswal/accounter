@@ -1044,4 +1044,11 @@ a#fdbk_tab:hover {
 .form-bottom-options a:hover,.form-bottom-options a:FOCUS{
 	color:#072027 !important;
 }
+.supported_browsers span{
+    color: #1A5158;
+    padding-left: 10px;
+    padding-top: 30px;
+    position: absolute;
+    vertical-align: top;
+}
 /* End of the new Login and forgot password page*/
