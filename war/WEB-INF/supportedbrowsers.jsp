@@ -10,15 +10,14 @@
       <div id="commanContainer" style="width:450px">
 		 <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt= "Accounter logo"/>
 		 <div class="accounterform" >
-		     <div>Supported Browsers
-		     <div>
-		          <img src="/images/Firefox.png" alt="Firefox" ><span>3.5.5, 4.0, 5.0, 6.0.2, 7.0.1, 8.0.1, 9.0.1</span><br/>
-		          <img src="/images/chrome.png" alt="Chrome" ><span>16.0.912</span><br/>
-		          <img src="/images/IE.png" alt="IE" ><span>8, 9</span><br/>
-		          <img src="/images/Opera.png" alt="Opera" ><span>11.10</span><br/>
-		          <img src="/images/Safari.png" alt="Safari" ><span>5.0.5</span><br/>
+		     <h3 style="text-align:center;color:#1A5158">Supported Browsers</h3>
+		     <div class="supported_browsers">
+		          <img src="/images/Firefox.png" alt="Firefox" ><span>Firefox 3.5+</span><br/>
+		          <img src="/images/chrome.png" alt="Chrome" ><span>Chrome 16.0.912+</span><br/>
+		          <img src="/images/IE.png" alt="IE" ><span>Internet Explorer 8.0+</span><br/>
+		          <img src="/images/Opera.png" alt="Opera" ><span>Opera 11.10+</span><br/>
+		          <img src="/images/Safari.png" alt="Safari" ><span>Safari 4.0+</span><br/>
 		     </div>
-		 </div>
 	  </div>
   </body>
 </html>
