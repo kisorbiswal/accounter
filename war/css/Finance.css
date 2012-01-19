@@ -58,8 +58,8 @@ noindex:-o-prefocus,.ibutton {
 		float: right;
 	}
 	.group-toolbar .Empty-text {
-		padding: 3px 12px ;
-		padding:11px 13px\0 !important;
+		padding: 3px 12px;
+		padding: 11px 13px\0  !important;
 	}
 	.grouped-buttons {
 		padding: 2px 0 !important;
@@ -988,6 +988,12 @@ input.dropdown-button {
 	-moz-border-radius: 5px 0 0 0;
 }
 
+.finance-portlet .decor00[lang="ar"] {
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+
 .calendar-picker,.selectedview {
 	margin-left: 3px;
 }
@@ -1082,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	            (2),.datenumber-panel table {
+	             (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1310,6 +1316,17 @@ iframe,.address div {
 .grouped-buttons td:last-child .Empty-text,.grouped-buttons td:last-child .image-button,.grouped-buttons .Empty-text
 	{
 	border-radius: 0 5px 5px 0;
+}
+
+.prebutton  button[lang="ar"] {
+	border-radius: 0 5px 5px 0 !important;
+	border-width: 1px 1px 1px 0 !important;
+	background-image: url("/images/bar-left-next.png") !important;
+}
+
+.nextbutton button[lang="ar"] {
+	border-radius: 5px 0 0 5px !important;
+	background-image: url("/images/bar-right-pre.png") !important;
 }
 
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.grouped-buttons .image-button
@@ -1712,6 +1729,12 @@ input[type="text"] {
 	-moz-border-radius: 0 5px 0 0;
 }
 
+.decor02[lang="ar"] {
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
 .viewholder {
 	-moz-box-shadow: 0 2px 10px #1A5158;
 	-webkit-box-shadow: 0 2px 10px #1A5158;
@@ -1848,7 +1871,7 @@ form#contactForm .submit {
 .user_activity_log thead th {
 	border-bottom: 1px solid #55B8C1;
 	text-shadow: none;
-	font-weight:normal;
+	font-weight: normal;
 }
 
 .gridBody .depth .depth2 {
@@ -2317,11 +2340,10 @@ input.date-field-textbox {
 	padding: 5px;
 }
 
-.grouped-buttons {
+/*.grouped-buttons {
 	float: right;
 	margin: 0 5px;
-}
-
+}*/
 .search_buttons .gwt-Button {
 	padding-top: 3px;
 	width: 70px;
@@ -2517,19 +2539,30 @@ input.date-field-textbox {
 }
 
 .arrow-right {
-	background: url("/images/companiesArrow.png") no-repeat scroll left center transparent;
-    float: left;
-    height: 30px;
-    margin-left: -10px;
-    padding-right: 4px;
-    padding-top: 3px;
-    width: 25px;
-    display:none;
+	background: url("/images/companiesArrow.png") no-repeat scroll left
+		center transparent;
+	float: left;
+	height: 30px;
+	margin-left: -10px;
+	padding-right: 4px;
+	padding-top: 3px;
+	width: 25px;
+	display: none;
 }
 
 .companies_title td:FIRST-CHILD {
 	width: 100px;
 	vertical-align: middle !important;
+}
+
+.companies_title td:first-child a[lang="ar"] {
+	background: url("/images/header-arrow.png") no-repeat scroll left center
+		#ccc !important;
+}
+
+.companies_title td:first-child a[lang="ar"]:hover {
+	background: url("/images/header-arrow.png") no-repeat scroll left center
+		transparent;
 }
 
 .companies_title td:FIRST-CHILD a {
@@ -2540,8 +2573,9 @@ input.date-field-textbox {
 	text-decoration: none;
 	width: 110px;
 	color: #454343;
-	height:30px;
-	background: url("/images/companiesArrow.png") no-repeat scroll right center transparent;
+	height: 30px;
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center transparent;
 }
 
 .companyName-parent {
@@ -2551,7 +2585,7 @@ input.date-field-textbox {
 
 .companies_title {
 	background: none repeat scroll 0 0 #DED9D9;
-	margin:5px;
+	margin: 5px;
 }
 
 .company_settings_panel {
@@ -2599,123 +2633,165 @@ input.date-field-textbox {
 	font-weight: bold;
 }
 
-.interval_Value table td:last-child div{
-	 padding-left: 25px !important;
+.interval_Value table td:last-child div {
+	padding-left: 25px !important;
 }
 
 .finance-portlet .listgrid {
 	border-width: 1px 0 0;
 }
-.companies_link_parent a:hover{
-	background: url("/images/companiesArrow.png") no-repeat scroll right center #ccc !important;
+
+.companies_link_parent a:hover {
+	background: url("/images/companiesArrow.png") no-repeat scroll right
+		center #ccc !important;
 }
-.attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor{
+
+.attachment_panel .attachment_hpanel td,.attachment_panel form table .gwt-Anchor
+	{
 	padding: 0 10px 0 0;
 }
-.attachment_panel form table .gwt-Anchor, .attachment_panel .attachment_hpanel td .gwt-Anchor {
-    color: #3299A4;
+
+.attachment_panel form table .gwt-Anchor,.attachment_panel .attachment_hpanel td .gwt-Anchor
+	{
+	color: #3299A4;
 }
+
 .currency_format_option td:last-child td {
-    padding: 5px 0 0 0;
+	padding: 5px 0 0 0;
 }
+
 .currency_format_option td:first-child div {
-    line-height: 2.1;
+	line-height: 2.1;
 }
+
 .currency_format_option {
-    padding-left: 8px;
+	padding-left: 8px;
 }
-.date_range_combo{
+
+.date_range_combo {
 	width: 120px;
 }
+
 .Transactions_center .gwt-Button {
-    margin-top: 8px;
-}	
-.chequeTopScal td{
-	 padding: 0 2px 0 1px;
+	margin-top: 8px;
 }
-.chequeLeftScal td div{
+
+.chequeTopScal td {
+	padding: 0 2px 0 1px;
+}
+
+.chequeLeftScal td div {
 	font-size: 13px;
-    line-height: 0.6;
+	line-height: 0.6;
 }
-.activity-text-color{
-	color:red;
+
+.activity-text-color {
+	color: red;
 }
-.details-Panel table{
+
+.details-Panel table {
 	table-layout: fixed;
 }
+
 .decimal_digitlimit td:first-child {
-    width: 50%;
+	width: 50%;
 }
-.customer-detail-notespanel{
+
+.customer-detail-notespanel {
 	word-wrap: break-word;
 }
-.customer-detail-notespanel div{
-	width:195px;
+
+.customer-detail-notespanel div {
+	width: 195px;
 }
-.pager-images{
-	width:auto !important;
+
+.pager-images {
+	width: auto !important;
 }
-.currency_format_label{
+
+.currency_format_label {
 	font-weight: bold;
 }
-.currency_format_border{
+
+.currency_format_border {
 	border: ipx solid;
 }
-.currency_format_align td:first-child{
-	padding-right:20px;
+
+.currency_format_align td:first-child {
+	padding-right: 20px;
 }
-.currency_format_align{
-	margin:10px;
+
+.currency_format_align {
+	margin: 10px;
 }
-.company-preferences-labels{
-	width:200px;
+
+.company-preferences-labels {
+	width: 200px;
 }
+
 .companyInfoPanel td {
-    padding:5px 0 0 0;
+	padding: 5px 0 0 0;
 }
-.pre_scroll_table{
-	padding-left:10px;
+
+.pre_scroll_table {
+	padding-left: 10px;
 }
-.page_header img{
-	padding:5px;
+
+.page_header img {
+	padding: 5px;
 }
-.button_bar .delete_button{
+
+.button_bar .delete_button {
 	background-color: #D13030;
-	border: 1px solid #A91D1D; 
+	border: 1px solid #A91D1D;
 }
-.button_bar .delete_button:hover{
-	background-color:#A91D1D; 
-	border: 1px solid #A91D1D; 
+
+.button_bar .delete_button:hover {
+	background-color: #A91D1D;
+	border: 1px solid #A91D1D;
 }
-.attachment_hpanel button{
-	padding:3px 12px 5px 12px;
+
+.attachment_hpanel button {
+	padding: 3px 12px 5px 12px;
 	margin-top: -2px;
 }
-.attachment_hpanel{
-	margin-bottom:5px;
+
+.attachment_hpanel {
+	margin-bottom: 5px;
 }
+
 .customers_detail_rightpanel td:FIRST-CHILD {
-	width:115px;
+	width: 115px;
 }
+
 .company_fields td:FIRST-CHILD {
-	width:200px; 
+	width: 200px;
 }
-.reports_home_align td:FIRST-CHILD{
-	width:380px;
+
+.reports_home_align td:FIRST-CHILD {
+	width: 380px;
 }
-.reports_top_align{
+
+.reports_top_align {
 	margin-top: 10px;
 }
-.disposalSummaryForm td:last-child{
+
+.disposalSummaryForm td:last-child {
 	text-align: right;
 }
-.statement_import_options table td .gwt-Label{
-	width:150px;
+
+.statement_import_options table td .gwt-Label {
+	width: 150px;
 }
-.statement_import_options{
+
+.statement_import_options {
 	border: 1px solid #AAAAAA;
-    padding: 10px;
+	padding: 10px;
 }
-.statement_import_options table td{
-	padding:3px;
+
+.statement_import_options table td {
+	padding: 3px;
+}
+.gwt-MenuBarPopup div[lang="ar"] table .subMenuIcon img{
+	background: url("/images/submenu-leftside-indicator.png") repeat-x scroll 0 0 transparent !important;
 }

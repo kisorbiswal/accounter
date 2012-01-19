@@ -43,9 +43,9 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		document.body.style.direction=(<%= isSignupRTL %>)?"rtl":"ltr";
 		
 	   if(isNative){
-			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home"></a>');
 		}else{
-			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home"></a>');
 		}
 		
 		$('#submitButton').removeAttr('disabled');
@@ -447,10 +447,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	 <div>
 	   <h3><i18n:i18n msg='signInusing'/> : </h3></div>
 	  
-	   <a id="google" href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="12"> Google  </a>
-	   <a id="yahoo" href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="13">  Yahoo</a>
-	   <a id="aol" href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="14">  AOL</a>
-	   <a id="facebook" href ="/main/fbauth"  class="facebook_icon" tabindex="15"> Facebook</a>
+	   <a id="google" href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="12"> </a>
+	   <a id="yahoo" href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="13"></a>
+	   <a id="aol" href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="14"></a>
+	   <a id="facebook" href ="/main/fbauth"  class="facebook_icon" tabindex="15"></a>
 	  
 	 <div>
 	     <div class="simple-get-started">

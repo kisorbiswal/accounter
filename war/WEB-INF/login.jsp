@@ -33,9 +33,9 @@
 		<%	boolean isLoginRtl=(Boolean) request.getAttribute("isRTL");	%>
 		document.body.style.direction=(<%= isLoginRtl %>)?"rtl":"ltr";
 		if(isNative){
-			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home"></a>');
 		}else{
-			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
+			$('#accounterlogofield').append('<a class="accounterLogoimage" href="/site/home"></a>');
 		}
 		
 		
@@ -142,12 +142,12 @@
 			      <div class="email_password">
 				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>
-					<input id="mid-box"  type="text" name="emailId" tabindex="1"  />
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" value="praveena.a@vimukti.com" />
 				  </div>
 				  <div class="email_password">
 				    <label><i18n:i18n msg='password'/></label>
 					<br \>
-					<input id="mid-box1"  type="password" name="password" tabindex="2" />
+					<input id="mid-box1"  type="password" name="password" tabindex="2" value="***REMOVED***" />
 				  </div>
 				  <div class="rememberMe">
 				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
@@ -166,10 +166,10 @@
 			   
 			   <form id="openIdForm" method="post" action="/main/openid">
 			   <span><i18n:i18n msg='signInusing'/> : </span>
-			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"> Google  </a>
-			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6">  Yahoo</a>
-			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6">  AOL</a>
-			   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"> Facebook</a>
+			   <a href ="/main/openid?openid_identifier=https://www.google.com/accounts/o8/id" class="google_icon" id="openIdLink" tabindex="5"></a>
+			   <a href ="/main/openid?openid_identifier=https://www.yahoo.com" class="yahoo_icon" tabindex="6"></a>
+			   <a href ="/main/openid?openid_identifier=https://openid.aol.com" class="aol_icon" tabindex="6"></a>
+			   <a href ="/main/fbauth"  class="facebook_icon" tabindex="6"></a>
 			   </form>
 			 </div>
 			</div>
