@@ -32,6 +32,7 @@ public class DesktopCustomMenuBar extends MenuBar implements IMenu, IMenuBar {
 
 	public DesktopCustomMenuBar(boolean isBar) {
 		super(!isBar);
+		super.getElement().setAttribute("lang", "ar");
 		this.isBar = isBar;
 		if (isBar) {
 			addStyleName("main_horzontal_menubar");

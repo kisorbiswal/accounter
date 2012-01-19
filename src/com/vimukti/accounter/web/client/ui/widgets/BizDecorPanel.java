@@ -105,6 +105,8 @@ public abstract class BizDecorPanel extends FlexTable {
 
 		}
 		Label TR = new Label();
+		TR.getElement().setAttribute("lang", "ar");
+		TL.getElement().setAttribute("lang", "ar");
 		this.setWidget(0, 0, TL);
 		this.setWidget(0, 1, titleTable);
 		this.setWidget(0, 2, TR);

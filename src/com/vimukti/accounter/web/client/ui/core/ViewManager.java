@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -732,8 +731,13 @@ public class ViewManager extends HorizontalPanel {
 
 		});
 
+
+		previousButton.getElement().setAttribute("lang", "ar");
+		nextButton.getElement().setAttribute("lang", "ar");
 		group1.add(previousButton);
 		group1.add(nextButton);
+		previousButton.getElement().getParentElement().addClassName("prebutton");
+		nextButton.getElement().getParentElement().addClassName("nextbutton");
 
 		group1.add(viewTitleLabel);
 
@@ -749,16 +753,32 @@ public class ViewManager extends HorizontalPanel {
 		group6.add(searchButton);
 		group7.add(addCustomerButton);
 		group8.add(addVendorButton);
-		toolBar.add(group1);
-		group1.getElement().getStyle().setFloat(Float.LEFT);
-		toolBar.add(group3);
-		toolBar.add(group6);
-		toolBar.add(group5);
-		toolBar.add(group2);
-		toolBar.add(group9);
-		toolBar.add(group4);
-		toolBar.add(group7);
-		toolBar.add(group8);
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.setWidth("100%");
+		horizontalPanel.add(group1);
+		horizontalPanel.add(group2);
+		horizontalPanel.add(group7);
+		horizontalPanel.add(group8);
+		horizontalPanel.add(group9);
+		horizontalPanel.add(group4);
+		horizontalPanel.add(group5);
+		horizontalPanel.add(group6);
+		horizontalPanel.add(group3);
+		
+		toolBar.add(horizontalPanel);
+		
+		
+//		toolBar.add(group1);
+//		group1.getElement().getStyle().setFloat(Float.LEFT);
+//		toolBar.add(group3);
+//		toolBar.add(group6);
+//		toolBar.add(group5);
+//		toolBar.add(group2);
+//		toolBar.add(group9);
+//		toolBar.add(group4);
+//		toolBar.add(group7);
+//		toolBar.add(group8);
 		toolBar.addStyleName("group-toolbar");
 	}
 

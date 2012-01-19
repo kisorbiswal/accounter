@@ -145,9 +145,11 @@ public class Header extends FlowPanel {
 		});
 		companiesLink = new Anchor(messages.companies(), "/main/companies");
 		companiesLink.addStyleName("companiesLink");
+		companiesLink.getElement().setAttribute("lang", "ar");
 
 		panel1 = new VerticalPanel();
-		panel1.setWidth("25%");
+//		panel1.setWidth("25%");
+		panel1.setWidth("100%");
 		panel1.add(logoImg);
 		SimplePanel companiesLinkPanel = new SimplePanel();
 
@@ -159,7 +161,8 @@ public class Header extends FlowPanel {
 				.addClassName("arrow-right");
 		companiesLink.getElement().getParentElement()
 				.addClassName("companies_link_parent");
-		panel2.setWidth("50%");
+//		panel2.setWidth("50%");
+		panel2.setWidth("100%");
 		companyNameLabel.getElement().getParentElement()
 				.addClassName("companyName-parent");
 
@@ -179,11 +182,20 @@ public class Header extends FlowPanel {
 			panel3.add(createStatisticsLink());
 		}
 		// panel3.setCellHorizontalAlignment(panel3, ALIGN_RIGHT);
-
-		this.add(panel1);
-		this.add(panel2);
+        HorizontalPanel hpanel = new HorizontalPanel();
+        hpanel.setWidth("100%");
+        hpanel.add(panel1);
+        hpanel.add(panel2);
+        
+//		this.add(panel1);
+//		this.add(panel2);
 		headerLinks.add(panel3);
-		this.add(headerLinks);
+//		this.add(headerLinks);
+		 hpanel.add(headerLinks);
+		 hpanel.setCellWidth(panel1, "30%");
+		 hpanel.setCellWidth(panel2, "40%");
+		 hpanel.setCellWidth(headerLinks, "30%");
+		 this.add(hpanel);
 
 		// Element spanEle = DOM.createSpan();
 		// spanEle.setInnerText("Vimukti Technologies Pvt Ltd");
