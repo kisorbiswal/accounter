@@ -200,6 +200,7 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 
 		case ClientTransaction.TYPE_PAY_BILL:
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			return false;
 
 		default:
@@ -216,7 +217,7 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 
 		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			return false;
 
 		default:
