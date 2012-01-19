@@ -484,7 +484,9 @@ public class DatePicker extends TextBox implements ClickHandler, ChangeHandler,
 	 */
 	private void parseDate() {
 		if (getText() == null || getText().length() == 0) {
-			selectedDate = popup.getDisplayedMonth();
+			// selectedDate = popup.getDisplayedMonth();
+			this.selectedDate = null;
+			return;
 		} else {
 			try {
 				// Date parsedDate = dateFormatter.parse(getText());
