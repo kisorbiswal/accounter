@@ -264,7 +264,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			throws AccounterException {
 		AccountsTemplateManager manager = new AccountsTemplateManager();
 		try {
-			return manager.loadAccounts(ServerLocal.get().getLanguage());
+			return manager.loadAccounts(ServerLocal.get());
 		} catch (Exception e) {
 			throw new AccounterException(e);
 		}

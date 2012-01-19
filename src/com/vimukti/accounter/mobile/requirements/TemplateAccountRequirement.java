@@ -32,7 +32,7 @@ public abstract class TemplateAccountRequirement extends
 		allAccounts = new ArrayList<AccountsTemplate>();
 		AccountsTemplateManager manager = new AccountsTemplateManager();
 		try {
-			allAccounts = manager.loadAccounts(ServerLocal.get().getLanguage());
+			allAccounts = manager.loadAccounts(ServerLocal.get());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

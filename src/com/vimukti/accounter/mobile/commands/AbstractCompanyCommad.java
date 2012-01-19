@@ -193,8 +193,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 		if (allAccounts.size() == 0) {
 			AccountsTemplateManager manager = new AccountsTemplateManager();
 			try {
-				allAccounts = manager.loadAccounts(ServerLocal.get()
-						.getLanguage());
+				allAccounts = manager.loadAccounts(ServerLocal.get());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
