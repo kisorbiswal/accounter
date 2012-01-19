@@ -460,6 +460,10 @@ public class Utility implements IsSerializable, Serializable {
 
 	public static ClientFinanceDate getCalculatedDueDate(
 			ClientFinanceDate transactionDate, ClientPaymentTerms paymentTerm) {
+		if (transactionDate.getDate() == 0) {
+			return new ClientFinanceDate();
+		}
+
 		try {
 
 			ClientFinanceDate dueDate = new ClientFinanceDate();
@@ -886,12 +890,12 @@ public class Utility implements IsSerializable, Serializable {
 		String snumber = Double.toString(number);
 
 		// pad with "0"
-		int dotIndex=snumber.indexOf('.');
-		if(dotIndex<0){
-			dotIndex=snumber.length();
+		int dotIndex = snumber.indexOf('.');
+		if (dotIndex < 0) {
+			dotIndex = snumber.length();
 		}
-		for(;dotIndex<12;dotIndex++){
-			snumber="0"+snumber;
+		for (; dotIndex < 12; dotIndex++) {
+			snumber = "0" + snumber;
 		}
 
 		// XXXnnnnnnnnn
