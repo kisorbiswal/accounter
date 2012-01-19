@@ -1079,6 +1079,11 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		// is prior to company prevent posting date?
 		// bankform valid?
 
+		if (asofDate.getDate().getDate() == 0) {
+			result.addError(asofDate, messages.pleaseSelect(messages.asOf()));
+			return result;
+		}
+
 		result.add(accInfoForm.validate());
 		String name = accNameText.getValue().toString() != null ? accNameText
 				.getValue().toString() : "";
