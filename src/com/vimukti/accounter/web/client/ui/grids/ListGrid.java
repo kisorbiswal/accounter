@@ -85,7 +85,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	public static final int EDIT_EVENT_DBCLICK = 2;
 
 	protected boolean isAddRequired;
-	
+
 	protected Map<Integer, Widget> widgetsMap = new HashMap<Integer, Widget>();
 	List<T> objects = new ArrayList<T>();
 	T selectedObject = null;
@@ -1084,6 +1084,9 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		rowCount = count;
 		isRowCountExact = isExact;
 		if (handler != null) {
+			if (count == 0) {
+				visibleRange = new Range(-1, visibleRange.getLength());
+			}
 			RangeChangeEvent rangeChangeEvent = new RangeChangeEvent(
 					visibleRange) {
 			};
