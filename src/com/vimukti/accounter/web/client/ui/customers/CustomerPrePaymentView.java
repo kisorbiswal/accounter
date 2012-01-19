@@ -77,7 +77,7 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
+		ValidationResult result = super.validate();
 
 		if (AccounterValidator
 				.isInPreventPostingBeforeDate(this.transactionDate)) {
