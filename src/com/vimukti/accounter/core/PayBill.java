@@ -736,38 +736,20 @@ public class PayBill extends Transaction {
 	}
 
 	private void doEffectTDS(Session session, PayBill payBill) {
-		if (this.tdsTaxItem != null) {
-			if (payBill.tdsTaxItem != null) {
-				if (tdsTaxItem.getID() != payBill.tdsTaxItem.getID()) {
-					TAXAgency presentAgency = (TAXAgency) session.get(
-							TAXAgency.class, payBill.getTdsTaxItem()
-									.getTaxAgency().getID());
-					if (presentAgency != null) {
-						presentAgency.updateBalance(session, payBill,
-								payBill.tdsTotal);
+		cleanTransactionitems(payBill);
+		double amountEffectedToAccount = total - tdsTotal;
+		if (getCompany().getPreferences().isTDSEnabled()
+				&& this.getVendor().isTdsApplicable()) {
+			if (DecimalUtil.isGreaterThan(tdsTotal, 0.00D)) {
+				TAXItem taxItem = this.getTdsTaxItem();
+				if (taxItem != null) {
+					if (this.payBillType == TYPE_VENDOR_PAYMENT) {
+						addTAXRateCalculation(taxItem, amountEffectedToAccount,
+								false);
+					} else {
+						addTAXRateCalculation(taxItem, this.total, false);
 					}
-					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
-					taxAgency.updateBalance(session, this, -tdsTotal);
-				} else if (!DecimalUtil.isEquals(tdsTotal, payBill.tdsTotal)) {
-					TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
-					Account account = taxAgency.getPurchaseLiabilityAccount();
-					account.updateCurrentBalance(this, this.tdsTotal
-							- payBill.tdsTotal, currencyFactor);
 				}
-			} else {
-				TAXAgency taxAgency = tdsTaxItem.getTaxAgency();
-				taxAgency.updateBalance(session, this, -tdsTotal);
-			}
-		} else {
-			if (payBill.tdsTaxItem != null) {
-				TAXAgency presentAgency = (TAXAgency) session.get(
-						TAXAgency.class, payBill.getTdsTaxItem().getTaxAgency()
-								.getID());
-				if (presentAgency != null) {
-					presentAgency.updateBalance(session, payBill,
-							payBill.tdsTotal);
-				}
-
 			}
 		}
 	}

@@ -168,7 +168,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 	@Override
 	protected boolean onOK() {
-		return false;
+		return true;
 	}
 
 	@Override

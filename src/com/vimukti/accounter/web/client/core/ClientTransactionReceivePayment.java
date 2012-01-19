@@ -367,10 +367,8 @@ public class ClientTransactionReceivePayment implements IAccounterCore {
 		for (ClientTransactionCreditsAndPayments ctcap : this.transactionCreditsAndPayments) {
 			creditsTotal += ctcap.amountToUse;
 		}
-		if (creditsTotal > 0) {
-			appliedCredits = creditsTotal;
-			isCreditsApplied = true;
-		}
+		appliedCredits = creditsTotal;
+		isCreditsApplied = creditsTotal > 0;
 		this.payment = this.amountDue
 				- (this.appliedCredits + this.cashDiscount + this.writeOff);
 	}

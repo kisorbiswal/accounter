@@ -22,8 +22,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	// private ClientCompany company;
 	public SelectPayeeDialog() {
-		super(messages.selectPayeeType(), messages
-				.selectOneOfFollowingPayee());
+		super(messages.selectPayeeType(), messages.selectOneOfFollowingPayee());
 
 		// company = FinanceApplication.getCompany();
 		createControls();
@@ -41,8 +40,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 		LinkedHashMap<String, String> valueMap = new LinkedHashMap<String, String>();
 
-		typeRadio.setValueMap(messages.customer(), Global.get()
-				.Vendor());
+		typeRadio.setValueMap(messages.customer(), Global.get().Vendor());
 		typeRadio.setDefaultValue(messages.customer());
 
 		DynamicForm typeForm = new DynamicForm();
@@ -63,8 +61,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (typeRadio.getValue() == null) {
-			result.addError(this, messages
-					.pleaseSelecPaymentType());
+			result.addError(this, messages.pleaseSelecPaymentType());
 		}
 		return result;
 	}
@@ -74,8 +71,7 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 		String radio = typeRadio.getValue().toString();
 		// FIXME--an action is required here
 		// okClick();
-		if (radio.equals(Global.get()
-				.Vendor())) {
+		if (radio.equals(Global.get().Vendor())) {
 			// new VendorPaymentsAction("Not Issued").run();
 			NewVendorAction action = ActionFactory.getNewVendorAction();
 			action.setCallback(new ActionCallback<ClientVendor>() {
@@ -111,4 +107,8 @@ public class SelectPayeeDialog extends BaseDialog<ClientPayee> {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }

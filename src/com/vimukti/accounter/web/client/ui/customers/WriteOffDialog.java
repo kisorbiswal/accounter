@@ -156,7 +156,7 @@ public class WriteOffDialog extends BaseDialog<ClientAccount> {
 	@Override
 	protected boolean onOK() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
