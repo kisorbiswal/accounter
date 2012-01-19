@@ -131,7 +131,9 @@ public class CompaniesServlet extends BaseServlet {
 			url = ACCOUNTER_URL;
 		}
 
-		req.getSession().setAttribute(CREATE, "true");
+		HttpSession httpSession = req.getSession();
+		httpSession.setAttribute(CREATE, "true");
+		httpSession.removeAttribute(COMPANY_ID);
 		req.getSession()
 				.setAttribute(IS_TOUCH, "" + req.getParameter(IS_TOUCH));
 		redirectExternal(req, resp, url);
