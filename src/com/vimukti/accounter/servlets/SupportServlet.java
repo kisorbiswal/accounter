@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.mail.UsersMailSendar;
+import com.vimukti.accounter.main.ServerLocal;
 
 public class SupportServlet extends HttpServlet {
 
@@ -24,7 +25,7 @@ public class SupportServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("isRTL",
-				request.getLocale().equals(new Locale("ar", "", "")));
+				ServerLocal.get().equals(new Locale("ar", "", "")));
 		String string = (String) request.getParameter("ajax");
 		if (string == null || !Boolean.valueOf(string)) {
 			if (sendMailToSupport(request)) {

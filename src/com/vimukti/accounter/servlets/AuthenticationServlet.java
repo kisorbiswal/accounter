@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.vimukti.accounter.main.ServerLocal;
+
 public class AuthenticationServlet extends HttpServlet {
 	/**
 	 * 
@@ -17,7 +19,7 @@ public class AuthenticationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("isRTL",
-				request.getLocale().equals(new Locale("ar", "", "")));
+				ServerLocal.get().equals(new Locale("ar", "", "")));
 		
 		String pwd = (String) request.getParameter("companypsw");
 		response.setContentType("text/xml");

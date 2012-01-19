@@ -99,7 +99,7 @@ public class BaseServlet extends HttpServlet {
 			Session session = HibernateUtil.openSession();
 			try {
 				request.setAttribute("isRTL",
-						request.getLocale().equals(new Locale("ar", "", "")));
+						ServerLocal.get().equals(new Locale("ar", "", "")));
 				super.service(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
