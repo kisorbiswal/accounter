@@ -174,6 +174,11 @@ public class ReceivePaymentView extends
 		}
 
 		long paymentDate = transactionDateItem.getDate().getDate();
+		if (paymentDate == 0) {
+			Accounter.showInformation(messages.pleaseSelect(messages
+					.transactionDate()));
+			return;
+		}
 
 		this.rpcUtilService
 				.getTransactionReceivePayments(
