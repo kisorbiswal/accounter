@@ -1096,6 +1096,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// messages.transactiontotalcannotbe0orlessthan0());
 		// }
 		// }
+
+		if (this.transactionDateItem.getDate().getDate() == 0) {
+			result.addError(transactionDateItem,
+					messages.pleaseEnter(messages.transactionDate()));
+			return result;
+		}
 		isValidCurrencyFactor(result);
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
