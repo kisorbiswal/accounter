@@ -3041,7 +3041,8 @@ public class FinanceTool {
 			Message message = (Message) messageQuery.uniqueResult();
 			Set<LocalMessage> localMessages2 = message.getLocalMessages();
 			for (LocalMessage localMessage : localMessages2) {
-				if (localMessage.getCreatedBy().equals(client)
+				if (localMessage.getCreatedBy() != null
+						&& localMessage.getCreatedBy().equals(client)
 						&& localMessage.getLang().equals(lang)) {
 					return null;
 				}
@@ -3074,7 +3075,9 @@ public class FinanceTool {
 
 			ClientLocalMessage clm = new ClientLocalMessage();
 			clm.setApproved(localMessage.isApproved());
-			clm.setCreateBy(localMessage.getCreatedBy().getEmailId());
+			if (localMessage.getCreatedBy() != null) {
+				clm.setCreateBy(localMessage.getCreatedBy().getEmailId());
+			}
 			clm.setId(localMessage.getId());
 			clm.setValue(localMessage.getValue());
 			clm.setVotes(localMessage.getUps());
