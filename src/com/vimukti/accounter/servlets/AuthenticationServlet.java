@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +16,9 @@ public class AuthenticationServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("isRTL",
+				request.getLocale().equals(new Locale("ar", "", "")));
+		
 		String pwd = (String) request.getParameter("companypsw");
 		response.setContentType("text/xml");
 		response.setHeader("Cache-Control", "no-cache");
