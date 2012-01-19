@@ -2557,12 +2557,12 @@ input.date-field-textbox {
 
 .companies_title td:first-child a[lang="ar"] {
 	background: url("/images/header-arrow.png") no-repeat scroll left center
-		#ccc !important;
+		transparent;
 }
 
 .companies_title td:first-child a[lang="ar"]:hover {
 	background: url("/images/header-arrow.png") no-repeat scroll left center
-		transparent;
+		#ccc !important;
 }
 
 .companies_title td:FIRST-CHILD a {
@@ -2794,4 +2794,10 @@ input.date-field-textbox {
 }
 .gwt-MenuBarPopup div[lang="ar"] table .subMenuIcon img{
 	background: url("/images/submenu-leftside-indicator.png") repeat-x scroll 0 0 transparent !important;
+}
+.companies-list a:first-child[lang="ar"] {
+    float: none;
+}
+.companies-list a:last-child[lang="ar"]{
+    float:none
 }
