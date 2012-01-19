@@ -878,6 +878,13 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	private void getTransactionPayBills(ClientVendor vendor) {
+
+		if (date.getDate().getDate() == 0) {
+
+			Accounter.showInformation(messages.pleaseSelect(messages.date()));
+			return;
+		}
+
 		ClientFinanceDate paymentDate = date.getDate();
 
 		this.rpcUtilService
