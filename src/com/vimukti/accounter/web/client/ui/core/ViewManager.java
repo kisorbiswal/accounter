@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gwt.activity.shared.ActivityManager;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -732,8 +734,8 @@ public class ViewManager extends HorizontalPanel {
 		});
 
 
-		previousButton.getElement().setAttribute("lang", "ar");
-		nextButton.getElement().setAttribute("lang", "ar");
+		previousButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		nextButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		group1.add(previousButton);
 		group1.add(nextButton);
 		previousButton.getElement().getParentElement().addClassName("prebutton");

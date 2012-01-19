@@ -3,6 +3,8 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -32,7 +34,7 @@ public class DesktopCustomMenuBar extends MenuBar implements IMenu, IMenuBar {
 
 	public DesktopCustomMenuBar(boolean isBar) {
 		super(!isBar);
-		super.getElement().setAttribute("lang", "ar");
+		super.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		this.isBar = isBar;
 		if (isBar) {
 			addStyleName("main_horzontal_menubar");

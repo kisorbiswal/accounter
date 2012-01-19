@@ -1,9 +1,11 @@
 package com.vimukti.accounter.web.client.ui.widgets;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -105,8 +107,8 @@ public abstract class BizDecorPanel extends FlexTable {
 
 		}
 		Label TR = new Label();
-		TR.getElement().setAttribute("lang", "ar");
-		TL.getElement().setAttribute("lang", "ar");
+		TR.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		TL.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		this.setWidget(0, 0, TL);
 		this.setWidget(0, 1, titleTable);
 		this.setWidget(0, 2, TR);
