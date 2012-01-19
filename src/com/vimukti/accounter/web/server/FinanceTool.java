@@ -3139,7 +3139,7 @@ public class FinanceTool {
 	public List<Message> getAllMessages() {
 		Session session = null;
 		try {
-			session = HibernateUtil.openSession();
+			session = HibernateUtil.getCurrentSession();
 
 			Query query = session.getNamedQuery("getMessages");
 			List<Message> list = query.list();
@@ -3148,10 +3148,6 @@ public class FinanceTool {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		} finally {
-			if (session != null) {
-				session.close();
-			}
 		}
 	}
 

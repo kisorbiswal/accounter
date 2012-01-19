@@ -78,7 +78,7 @@ public class MessageLoader {
 	}
 
 	private static void mergeMessages(List<Message> allMessages) {
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		List<Message> removed = new ArrayList<Message>();
 		List<Message> addedMessages = new ArrayList<Message>();
 		List<Key> removedKeys = new ArrayList<Key>();
@@ -156,6 +156,8 @@ public class MessageLoader {
 								System.out
 										.println("Dulpicate messages with same key :"
 												+ msg);
+							} else {
+								msg.getKeys().remove(key);
 							}
 						}
 					}
@@ -180,7 +182,6 @@ public class MessageLoader {
 			}
 		}
 		oldMessages.addAll(addedMessages);
-		try {
 
 			org.hibernate.Transaction transaction = session.beginTransaction();
 			for (Message message : removed) {
@@ -201,9 +202,6 @@ public class MessageLoader {
 			}
 			transaction.commit();
 
-		} finally {
-			session.close();
-		}
 	}
 
 	private static Key getKeyFromDB(String key) {

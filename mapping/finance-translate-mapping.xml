@@ -16,7 +16,7 @@
 		<property name="votes" column="VOTES" type="int"></property>
 		<property name="isApproved" column="IS_APPROVED"></property>
 		<many-to-one name="createdBy" class="com.vimukti.accounter.core.Client"
-			lazy="false" column="CLIENT">
+			column="CLIENT">
 		</many-to-one>
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 	</class>
@@ -40,7 +40,7 @@
 			<key column="MESSAGE_ID" />
 			<one-to-many class="LocalMessage" />
 		</set>
-		<set name="keys" table="KEY_MESSAGES" lazy="false" cascade="save-update">
+		<set name="keys" table="KEY_MESSAGES" cascade="save-update">
 			<key column="MESSAGE_ID"></key>
 			<many-to-many column="KEY_ID" class="Key" />
 		</set>

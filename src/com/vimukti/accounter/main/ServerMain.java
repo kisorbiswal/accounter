@@ -53,6 +53,11 @@ public class ServerMain extends Main {
 						.isUnderMaintanance());
 			}
 			FinanceTool.createViews();
+
+			if (ServerConfiguration.isLoadMessages()) {
+				loadAccounterMessages();
+			}
+
 		} finally {
 			session.close();
 		}
@@ -60,10 +65,6 @@ public class ServerMain extends Main {
 		EmailManager.getInstance().start();
 		// EMailMonitor.getInstance().start();
 		Global.set(new ServerGlobal());
-
-		if (ServerConfiguration.isLoadMessages()) {
-			loadAccounterMessages();
-		}
 
 		// Creating Email Log listener
 		createMailLogListener();
