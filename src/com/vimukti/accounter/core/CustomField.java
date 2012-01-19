@@ -4,7 +4,9 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -79,7 +81,15 @@ public class CustomField extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		AccounterMessages messages = Global.get().messages();
 
+		w.put(messages.type(), messages.CustomField()).gap();
+
+		if (name != null) {
+			w.put(messages.name(), this.name).gap();
+		}
+		w.put(messages.customer(), this.showCustomer).gap();
+		w.put(messages.vendor(), this.showVendor).gap();
 	}
+
 }
