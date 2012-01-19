@@ -102,25 +102,6 @@ public abstract class ReceivePaymentTableRequirement extends
 		return getPayee().getCurrency().getFormalName();
 	}
 
-	private List<ClientCreditsAndPayments> getCreditsPayments() {
-		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
-		List<CreditsAndPayments> serverCreditsAndPayments = null;
-		try {
-
-			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
-					.getCreditsAndPayments(getPayee().getID(), 0,
-							getCompanyId());
-			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
-				clientCreditsAndPayments.add(new ClientConvertUtil()
-						.toClientObject(creditsAndPayments,
-								ClientCreditsAndPayments.class));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
-	}
-
 	@Override
 	protected void getRequirementsValues(ReceivePaymentTransactionList obj) {
 		Double amount = get(PAYMENT).getValue();
