@@ -69,6 +69,7 @@ import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.MakeDepositView;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
+import com.vimukti.accounter.web.client.ui.banking.DepositView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -1097,7 +1098,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// }
 		// }
 
-		if (this.transactionDateItem.getDate().getDate() == 0) {
+		if (this.transactionDateItem != null
+				&& this.transactionDateItem.getDate().getDate() == 0) {
 			result.addError(transactionDateItem,
 					messages.pleaseEnter(messages.transactionDate()));
 			return result;
@@ -1112,7 +1114,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView
-				|| this instanceof InvoiceView || this instanceof MakeDepositView)) {
+				|| this instanceof InvoiceView
+				|| this instanceof MakeDepositView || this instanceof DepositView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
 

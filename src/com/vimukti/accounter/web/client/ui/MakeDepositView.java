@@ -1051,6 +1051,13 @@ public class MakeDepositView extends
 		// result.addError(transactionDateItem,
 		// messages.invalidateTransactionDate());
 		// }
+
+		if (this.date != null && this.date.getDate().getDate() == 0) {
+			result.addError(date,
+					messages.pleaseEnter(messages.transactionDate()));
+			return result;
+		}
+
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
 			result.addError(transactionDateItem, messages.invalidateDate());
 		}
