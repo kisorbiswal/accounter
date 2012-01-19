@@ -98,6 +98,8 @@ public class BaseServlet extends HttpServlet {
 
 			Session session = HibernateUtil.openSession();
 			try {
+				request.setAttribute("isRTL",
+						request.getLocale().equals(new Locale("ar", "", "")));
 				super.service(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -109,7 +111,6 @@ public class BaseServlet extends HttpServlet {
 					"Could Not Complete the Request!");
 		}
 	}
-
 
 	protected Company getCompany(HttpServletRequest req) {
 		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);

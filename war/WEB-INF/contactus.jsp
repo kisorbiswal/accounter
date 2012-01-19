@@ -13,7 +13,10 @@
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <script type="text/javascript">
-
+<%	boolean isContRTL=(Boolean) request.getAttribute("isRTL");	%>
+window.onload=function(){
+document.body.style.direction=(<%= isContRTL %>)?"rtl":"ltr";
+};
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-24502570-1']);
 _gaq.push(['_trackPageview']);

@@ -13,6 +13,8 @@
 <link type="text/css" href="/css/ss.css?version=<%= version%>" rel="stylesheet" />
 <script  type="text/javascript" >
 $(document).ready(function() {
+	<%	boolean isMaintanRTL=(Boolean) request.getAttribute("isRTL");	%>
+	document.body.style.direction=(<%= isMaintanRTL %>)?"rtl":"ltr";
 	$('#notifyMe').click(function(){
 		$('#successmsgDiv').addClass("display-none");
 		$('#enterEmailDiv').removeClass('display-none');

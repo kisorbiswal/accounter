@@ -1,6 +1,7 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -33,6 +34,8 @@ public class RestApiServlet extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		req.setAttribute("isRTL",
+				req.getLocale().equals(new Locale("ar", "", "")));
 		boolean isSuccess = false;
 		ServletInputStream inputStream = req.getInputStream();
 		ApiResult apiResult = new ApiResult();

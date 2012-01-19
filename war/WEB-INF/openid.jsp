@@ -8,6 +8,10 @@
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 	<link rel="stylesheet" type="text/css" href="consumer-servlet.css" />
 	<script type="text/javascript">
+	<%	boolean isOpenIdRTL=(Boolean) request.getAttribute("isRTL");	%>
+		window.onload=function(){
+		document.body.style.direction=(<%= isOpenIdRTL %>)?"rtl":"ltr";
+		}
 	<!--
 	function changeAll(v) {
 		var inputs = document.getElementsByTagName("input");

@@ -20,6 +20,8 @@
 <script type="text/javascript" >
 
 $(document).ready(function() {
+		<%	boolean isResetPasswordRTL=(Boolean) request.getAttribute("isRTL");	%>
+		document.body.style.direction=(<%= isResetPasswordRTL %>)?"rtl":"ltr";
 //	$('#mid-box').attr('autocomplete', 'off');
 //	$('#mid-box').password_strength();
  $('#submitButton').click(function() {

@@ -20,6 +20,10 @@ $.validator.addMethod("no_special_characters", function(value, element) {
         value.match(/^[a-zA-Z0-9@_ ]*$/);
 }, "shouldn't contain any special characters");
 	$(document).ready(function() {
+		<%	boolean isSupportRTL=(Boolean) request.getAttribute("isRTL");	%>
+		document.body.style.direction=(<%= isSupportRTL %>)?"rtl":"ltr";
+	
+	
 	$('#blog-bg').click(function(event){
 		event.preventDefault();
 		$('.menu-bar').find('a').removeClass("header-hover");

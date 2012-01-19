@@ -16,6 +16,9 @@
 		<link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet" />
 		<script  type="text/javascript" >
 			$(document).ready(function() {
+				<%	boolean iaActivationRTL=(Boolean) request.getAttribute("isRTL");	%>
+				document.body.style.direction=(<%= iaActivationRTL %>)?"rtl":"ltr";			
+			
 				$('#submitButton').click(function() {
 					$("#activationForm").validate({
 						rules: {

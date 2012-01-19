@@ -8,6 +8,12 @@
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
+<script  type="text/javascript" >
+window.onload=function(){
+<%	boolean isTermsRTL=(Boolean) request.getAttribute("isRTL");	%>
+document.body.style.direction=(<%= isTermsRTL %>)?"rtl":"ltr";
+}
+</script>
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />

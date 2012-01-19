@@ -18,6 +18,9 @@
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 <script type="text/javascript">
 $(document).ready(function() {
+	<%	boolean isCreatRTL=(Boolean) request.getAttribute("isRTL");	%>
+	document.body.style.direction=(<%= isCreatRTL %>)?"rtl":"ltr";
+
 	$('#submitButton').click(function() {
 		$("#activationForm").validate({
 			rules: {

@@ -30,6 +30,8 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 }, "Company ID shouldn't contain special characters");
 
 	$(document).ready(function() {
+		<%	boolean isOpenIdSignupRTL=(Boolean) request.getAttribute("isRTL");	%>
+		document.body.style.direction=(<%= isOpenIdSignupRTL %>)?"rtl":"ltr";
 		$('#submitButton').removeAttr('disabled');
 		$('#newsletter').attr('checked', true);
 		 $("#mid-box2").focus(function() {

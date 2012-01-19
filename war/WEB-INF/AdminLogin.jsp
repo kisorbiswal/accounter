@@ -12,6 +12,9 @@
 <link type="text/css" href="../css/cmxform.css?version=<%= version%>" rel="stylesheet">
 <script  type="text/javascript" >
 	$(document).ready(function() {
+	<%	boolean isAdminLoginRTL=(Boolean) request.getAttribute("isRTL");	%>
+	document.body.style.direction=(<%= isAdminLoginRTL %>)?"rtl":"ltr";
+	
 	$('#submitButton').click(function() {
 	 $("#submitButton").addClass("login-focus");
 	$("#accounterForm").validate({

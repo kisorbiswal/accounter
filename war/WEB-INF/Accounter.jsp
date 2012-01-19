@@ -57,6 +57,7 @@
 			boolean isRTL=(Boolean) request.getAttribute("isRTL");
   		%>
 		var isRTL=<%= isRTL %>;
+		document.body.style.direction=isRTL?"rtl":"ltr";
 	</script>
 		
     

@@ -37,6 +37,11 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 }, "Company ID shouldn't contain special characters");
 
 	$(document).ready(function() {
+		<%
+			boolean isSignupRTL=(Boolean) request.getAttribute("isRTL");
+  		%>
+		document.body.style.direction=(<%= isSignupRTL %>)?"rtl":"ltr";
+		
 	   if(isNative){
 			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
 		}else{

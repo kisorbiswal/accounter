@@ -18,6 +18,8 @@
 
 $(document).ready(function() {
 	$('#submitButton').click(function() {
+		<%	boolean isForgotPassRTL=(Boolean) request.getAttribute("isRTL");	%>
+		document.body.style.direction=(<%= isForgotPassRTL %>)?"rtl":"ltr";
 		$("#accounterForm").validate({
 			rules: {
 				emailId: {

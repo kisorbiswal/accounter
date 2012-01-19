@@ -11,6 +11,10 @@
 		<%@ include file="./feedback.jsp" %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 	<script type="text/javascript">
+		<%	boolean isConListRTL=(Boolean) request.getAttribute("isRTL");	%>
+		window.onload=function(){
+		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
+		};
 		function goto(comp){
 			$(document).ready(function() {
 				var params= {

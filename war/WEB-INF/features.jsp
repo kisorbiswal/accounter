@@ -17,6 +17,9 @@
 <script type="text/javascript">
     // Load this script when page loads
     $(document).ready(function() {
+    <%	boolean isFeaturRTL=(Boolean) request.getAttribute("isRTL");	%>
+	document.body.style.direction=(<%= isFeaturRTL %>)?"rtl":"ltr";
+    
 	$('#blog-bg').click(function(event){
 		event.preventDefault();
 		$('.menu-bar').find('a').removeClass("header-hover");

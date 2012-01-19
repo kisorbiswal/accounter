@@ -30,6 +30,8 @@
 	var isNative=<%= isNative%>;
 	
 	$(document).ready(function() {
+		<%	boolean isLoginRtl=(Boolean) request.getAttribute("isRTL");	%>
+		document.body.style.direction=(<%= isLoginRtl %>)?"rtl":"ltr";
 		if(isNative){
 			$('#accounterlogofield').append('<a target="_blank" class="accounterLogoimage" href="/site/home">	Accounter Logo</a>');
 		}else{

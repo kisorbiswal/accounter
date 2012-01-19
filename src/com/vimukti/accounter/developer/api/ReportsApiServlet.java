@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,6 +42,8 @@ public class ReportsApiServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		req.setAttribute("isRTL",
+				req.getLocale().equals(new Locale("ar", "", "")));
 		Long companyId = (Long) req.getAttribute("companyId");
 		Session session = HibernateUtil.openSession();
 		try {

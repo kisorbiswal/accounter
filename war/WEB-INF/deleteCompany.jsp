@@ -10,6 +10,12 @@
 		
 		<%@ include file="./feedback.jsp" %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+	<script type="text/javascript">
+	window.onload=function(){
+	<%	boolean isDelComRTL=(Boolean) request.getAttribute("isRTL");	%>
+	document.body.style.direction=(<%= isDelComRTL %>)?"rtl":"ltr";
+	}
+	</script>
   </head>
   <body>
   <div id="commanContainer">

@@ -18,6 +18,10 @@ if("true".equals(isTouch)){
 <script  type="text/javascript" >
 
 	$(document).ready(function() {
+	<%	boolean isFeedbackRTL=(Boolean) request.getAttribute("isRTL");	%>
+	window.onload=function(){
+	document.body.style.direction=(<%= isFeedbackRTL %>)?"rtl":"ltr";
+	}				
 	jQuery(function(){
 		
 		jQuery('#contact').contactable({

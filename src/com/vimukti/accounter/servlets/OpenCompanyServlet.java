@@ -85,8 +85,6 @@ public class OpenCompanyServlet extends BaseServlet {
 			}
 
 		String url = request.getRequestURI().toString();
-		request.setAttribute("isRTL",
-				getlocale().equals(new Locale("ar", "", "")));
 		String isTouch = (String) request.getSession().getAttribute(IS_TOUCH);
 		request.setAttribute(IS_TOUCH, isTouch == null ? "false" : isTouch);
 

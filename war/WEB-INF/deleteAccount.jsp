@@ -13,6 +13,12 @@
 
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
+<script type="text/javascript">
+<%	boolean isDeleAccRTL=(Boolean) request.getAttribute("isRTL");	%>
+window.onload=function(){
+document.body.style.direction=(<%= isDeleAccRTL %>)?"rtl":"ltr";
+};
+</script>
 </head>
 <body>
 <div id="commanContainer">	

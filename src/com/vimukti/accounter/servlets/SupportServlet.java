@@ -2,6 +2,7 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +23,8 @@ public class SupportServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("isRTL",
+				request.getLocale().equals(new Locale("ar", "", "")));
 		String string = (String) request.getParameter("ajax");
 		if (string == null || !Boolean.valueOf(string)) {
 			if (sendMailToSupport(request)) {
