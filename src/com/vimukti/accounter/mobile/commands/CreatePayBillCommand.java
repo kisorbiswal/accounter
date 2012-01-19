@@ -286,9 +286,9 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		List<CreditsAndPayments> serverCreditsAndPayments = null;
 		try {
 			Vendor vendor = get(VENDOR).getValue();
-			serverCreditsAndPayments = new FinanceTool()
-					.getVendorManager()
-					.getCreditsAndPayments(vendor.getID(),0, getCompanyId());
+			serverCreditsAndPayments = new FinanceTool().getVendorManager()
+					.getCreditsAndPayments(vendor.getID(), paybill.getID(),
+							getCompanyId());
 			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
 				clientCreditsAndPaymentsList.add(new ClientConvertUtil()
 						.toClientObject(creditsAndPayments,
@@ -379,7 +379,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 					.getAppliedCredits());
 			payBillTransaction.setTransactionId(clientTransactionPayBill
 					.getTransactionID());
-			payBillTransaction.setType(clientTransactionPayBill.getTransactionType());
+			payBillTransaction.setType(clientTransactionPayBill
+					.getTransactionType());
 			paybills.add(payBillTransaction);
 		}
 		get(BILLS_DUE).setValue(paybills);
@@ -479,7 +480,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 
 			record.setOriginalAmount(curntRec.getOriginalAmount());
 			record.setPayment(curntRec.getPayment());
-//			record.setPayBill(paybill);
+			// record.setPayBill(paybill);
 			Payee vendor = get(VENDOR).getValue();
 			if (vendor != null)
 				record.setVendor(vendor.getID());

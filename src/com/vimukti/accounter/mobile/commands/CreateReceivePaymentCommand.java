@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.NumberUtils;
@@ -27,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -35,6 +38,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	private static final String AMOUNT_RECEIVED = "amountreceived";
@@ -511,5 +515,25 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	protected Currency getCurrency() {
 		return ((Customer) CreateReceivePaymentCommand.this.get(CUSTOMER)
 				.getValue()).getCurrency();
+	}
+
+	protected List<ClientCreditsAndPayments> getCreditsPayments() {
+		List<ClientCreditsAndPayments> clientCreditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
+		List<CreditsAndPayments> serverCreditsAndPayments = null;
+		try {
+
+			serverCreditsAndPayments = new FinanceTool().getCustomerManager()
+					.getCreditsAndPayments(
+							((Customer) get(CUSTOMER).getValue()).getID(),
+							payment.getID(), getCompanyId());
+			for (CreditsAndPayments creditsAndPayments : serverCreditsAndPayments) {
+				clientCreditsAndPayments.add(new ClientConvertUtil()
+						.toClientObject(creditsAndPayments,
+								ClientCreditsAndPayments.class));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<ClientCreditsAndPayments>(clientCreditsAndPayments);
 	}
 }
