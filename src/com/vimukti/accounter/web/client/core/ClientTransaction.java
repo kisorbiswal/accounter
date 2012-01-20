@@ -755,7 +755,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return currencyFactor;
 	}
 
-	@Override
 	public ClientTransaction clone() {
 		ClientTransaction clientTransactionClone = this.clone();
 		// transactionItems list
