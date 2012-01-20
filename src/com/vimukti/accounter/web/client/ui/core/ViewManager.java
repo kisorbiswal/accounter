@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -748,6 +749,7 @@ public class ViewManager extends HorizontalPanel {
 		group9.add(addNewButton);
 		group2.add(exportButton);
 		group2.add(printButton);
+		group2.addStyleName("print_export_button");
 
 		group3.add(closeButton);
 		group5.add(configButton);
@@ -756,31 +758,35 @@ public class ViewManager extends HorizontalPanel {
 		group7.add(addCustomerButton);
 		group8.add(addVendorButton);
 		
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.add(group1);
-		horizontalPanel.add(group2);
-		horizontalPanel.add(group7);
-		horizontalPanel.add(group8);
-		horizontalPanel.add(group9);
-		horizontalPanel.add(group4);
-		horizontalPanel.add(group5);
-		horizontalPanel.add(group6);
-		horizontalPanel.add(group3);
-		
-		toolBar.add(horizontalPanel);
+		exportButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		printButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		
 		
-//		toolBar.add(group1);
-//		group1.getElement().getStyle().setFloat(Float.LEFT);
-//		toolBar.add(group3);
-//		toolBar.add(group6);
-//		toolBar.add(group5);
-//		toolBar.add(group2);
-//		toolBar.add(group9);
-//		toolBar.add(group4);
-//		toolBar.add(group7);
-//		toolBar.add(group8);
+//		HorizontalPanel horizontalPanel = new HorizontalPanel();
+//		horizontalPanel.setWidth("100%");
+//		horizontalPanel.add(group1);
+//		horizontalPanel.add(group2);
+//		horizontalPanel.add(group7);
+//		horizontalPanel.add(group8);
+//		horizontalPanel.add(group9);
+//		horizontalPanel.add(group4);
+//		horizontalPanel.add(group5);
+//		horizontalPanel.add(group6);
+//		horizontalPanel.add(group3);
+//		
+//		toolBar.add(horizontalPanel);
+		
+		
+		toolBar.add(group1);
+		group1.getElement().getStyle().setFloat(Float.LEFT);
+		toolBar.add(group3);
+		toolBar.add(group6);
+		toolBar.add(group5);
+		toolBar.add(group2);
+		toolBar.add(group9);
+		toolBar.add(group4);
+		toolBar.add(group7);
+		toolBar.add(group8);
 		toolBar.addStyleName("group-toolbar");
 	}
 
