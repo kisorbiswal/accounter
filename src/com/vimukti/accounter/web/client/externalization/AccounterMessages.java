@@ -5310,6 +5310,6 @@ public interface AccounterMessages extends Messages {
 
 	public String currencyNetAmount(String currencyCode);
 
-	public String draftsList();
+	public String drafts();
 
 }
