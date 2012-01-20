@@ -491,7 +491,14 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				String errorString = null;
+				if (errorCode != 0) {
+					errorString = AccounterExceptions.getErrorString(errorCode);
+				} else {
+					errorString = caught.getMessage();
+				}
+				Accounter.showError(errorString);
 			}
 
 			@Override
