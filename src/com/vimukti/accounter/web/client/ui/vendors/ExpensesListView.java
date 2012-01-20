@@ -133,6 +133,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		}
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -174,6 +175,14 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 				if (rec.isVoided() && !rec.isDeleted()) {
 					voidedRecs.add(rec);
 				}
+			}
+			grid.setRecords(voidedRecs);
+
+		} else if (text.equalsIgnoreCase(messages.drafts())) {
+			List<BillsList> voidedRecs = new ArrayList<BillsList>();
+			List<BillsList> allRecs = initialRecords;
+			for (BillsList rec : allRecs) {
+				voidedRecs.add(rec);
 			}
 			grid.setRecords(voidedRecs);
 

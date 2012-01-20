@@ -113,6 +113,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		listOfTypes.add(messages.issued());
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -156,14 +157,21 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		if (viewSelect.getSelectedValue().equalsIgnoreCase("Not Issued")) {
+		if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.notInvoiced())) {
 			viewType = STATUS_NOT_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Issued")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.issued())) {
 			viewType = STATUS_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("Voided")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.voided())) {
 			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase("All")) {
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.all())) {
 			viewType = ClientTransaction.TYPE_ALL;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.drafts())) {
+			viewType = ClientTransaction.VIEW_DRAFT;
 		}
 		if (checkType == 0) {
 			Accounter.createHomeService().getPaymentsList(

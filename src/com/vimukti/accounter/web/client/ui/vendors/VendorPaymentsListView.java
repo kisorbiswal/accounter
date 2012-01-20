@@ -86,6 +86,7 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 		listOfTypes.add(messages.issued());
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -147,6 +148,9 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.all())) {
 			this.viewType = ClientTransaction.TYPE_ALL;
+		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.drafts())) {
+			this.viewType = ClientTransaction.VIEW_DRAFT;
 		}
 	}
 }

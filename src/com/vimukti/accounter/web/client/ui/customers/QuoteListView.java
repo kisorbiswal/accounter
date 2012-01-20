@@ -107,6 +107,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 		listOfTypes.add(messages.all());
 		listOfTypes.add(messages.close());
 		listOfTypes.add(messages.applied());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -149,6 +150,11 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 			}
 			if (text.equals(messages.all())) {
 				grid.addData(estimate);
+			}
+			if (text.equalsIgnoreCase(messages.drafts())) {
+				if (estimate.getSaveStatus() == ClientEstimate.STATUS_DRAFT) {
+					grid.addData(estimate);
+				}
 			}
 		}
 		if (grid.getRecords().isEmpty())

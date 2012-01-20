@@ -128,9 +128,11 @@ public class PurchaseOrderListView extends
 		listOfTypes.add(messages.open());
 		listOfTypes.add(messages.completed());
 		listOfTypes.add(messages.cancelled());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
+	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (listOfPurchaseOrders != null) {
@@ -153,8 +155,7 @@ public class PurchaseOrderListView extends
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages
-											.noRecordsToShow());
+									.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 					continue;
@@ -166,8 +167,19 @@ public class PurchaseOrderListView extends
 						if (purchaseDetailView.itemsGrid != null) {
 							purchaseDetailView.itemsGrid.clear();
 							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages
-											.noRecordsToShow());
+									.addEmptyMessage(messages.noRecordsToShow());
+						}
+					}
+					continue;
+				}
+				if (text.equalsIgnoreCase(messages.drafts())) {
+					if (purchaseOrder.getStatus() == ClientTransaction.VIEW_DRAFT)
+						grid.addData(purchaseOrder);
+					if (grid.getRecords().isEmpty()) {
+						if (purchaseDetailView.itemsGrid != null) {
+							purchaseDetailView.itemsGrid.clear();
+							purchaseDetailView.itemsGrid
+									.addEmptyMessage(messages.noRecordsToShow());
 						}
 					}
 					continue;

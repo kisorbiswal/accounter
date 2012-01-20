@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -119,6 +120,7 @@ public class CustomerRefundListView extends
 		listOfTypes.add(messages.issued());
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -143,6 +145,12 @@ public class CustomerRefundListView extends
 			}
 			if (text.equals(messages.voided())) {
 				if (customerRefund.isVoided() && !customerRefund.isDeleted()) {
+					grid.addData(customerRefund);
+				}
+				continue;
+			}
+			if (text.equalsIgnoreCase(messages.drafts())) {
+				if (customerRefund.getStatus() == ClientTransaction.VIEW_DRAFT) {
 					grid.addData(customerRefund);
 				}
 				continue;

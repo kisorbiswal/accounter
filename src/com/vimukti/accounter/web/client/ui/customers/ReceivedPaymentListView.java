@@ -90,18 +90,21 @@ public class ReceivedPaymentListView extends
 		// listOfTypes.add(OPEN);
 		// listOfTypes.add(FULLY_APPLIED);
 		listOfTypes.add(messages.voided());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equals(messages.paid())) {
+		if (text.equalsIgnoreCase(messages.paid())) {
 			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (text.equals(messages.voided())) {
+		} else if (text.equalsIgnoreCase(messages.voided())) {
 			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equals(messages.all())) {
+		} else if (text.equalsIgnoreCase(messages.all())) {
 			viewType = ClientTransaction.VIEW_ALL;
+		} else if (text.equalsIgnoreCase(messages.drafts())) {
+			viewType = ClientTransaction.VIEW_DRAFT;
 		}
 		onPageChange(0, getPageSize());
 	}

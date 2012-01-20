@@ -82,6 +82,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int VIEW_VOIDED = 3;
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_DRAFT = 4;
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
 	 * VATRETURN(FILE VAT), then edit should be disabled.user cant edit them,
@@ -352,6 +353,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	/**
 	 * @return the version
 	 */
+	@Override
 	public int getVersion() {
 		return version;
 	}
@@ -360,6 +362,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * @param version
 	 *            the version to set
 	 */
+	@Override
 	public void setVersion(int version) {
 		this.version = version;
 	}
@@ -752,9 +755,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 		return currencyFactor;
 	}
 
+	@Override
 	public ClientTransaction clone() {
-		ClientTransaction clientTransactionClone = (ClientTransaction) this
-				.clone();
+		ClientTransaction clientTransactionClone = this.clone();
 		// transactionItems list
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {

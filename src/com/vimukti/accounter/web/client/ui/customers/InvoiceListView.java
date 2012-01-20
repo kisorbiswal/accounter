@@ -130,6 +130,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		}
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		if (viewType != null && !viewType.equals("")) {
 			viewSelect.setComboItem(viewType);
 		} else {
@@ -154,6 +155,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 			viewId = ClientTransaction.VIEW_OVERDUE;
 		} else if (text.equalsIgnoreCase(messages.all())) {
 			viewId = ClientTransaction.VIEW_ALL;
+		} else if (text.equalsIgnoreCase(messages.drafts())) {
+			viewId = ClientTransaction.VIEW_DRAFT;
 		}
 		onPageChange(0, getPageSize());
 
@@ -405,7 +408,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 			viewId = ClientTransaction.VIEW_OVERDUE;
 		} else if (viewType.equalsIgnoreCase(messages.all())) {
 			viewId = ClientTransaction.VIEW_ALL;
+		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+			viewId = ClientTransaction.VIEW_DRAFT;
 		}
+
 		return viewId;
 	}
 }

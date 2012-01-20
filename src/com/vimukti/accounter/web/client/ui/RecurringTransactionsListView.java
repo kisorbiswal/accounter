@@ -152,6 +152,7 @@ public class RecurringTransactionsListView extends
 		listOfTypes.add(SCHEDULED);
 		listOfTypes.add(REMAINDER);
 		listOfTypes.add(UNSCHEDULED);
+		listOfTypes.add(messages.drafts());
 		viewSelect.initCombo(listOfTypes);
 
 		if (viewType != null && !viewType.equals(""))
@@ -201,6 +202,11 @@ public class RecurringTransactionsListView extends
 			}
 
 			if (text.equals(UNSCHEDULED)
+					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
+				grid.addData(recTransaction);
+				continue;
+			}
+			if (text.equalsIgnoreCase(messages.drafts())
 					&& recTransaction.getType() == ClientRecurringTransaction.RECURRING_UNSCHEDULED) {
 				grid.addData(recTransaction);
 				continue;

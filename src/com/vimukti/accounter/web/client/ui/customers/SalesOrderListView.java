@@ -123,6 +123,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 		listOfTypes.add(messages.all());
 		listOfTypes.add(messages.completed());
 		listOfTypes.add(messages.cancelled());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -154,6 +155,16 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 				}
 				if (text.equals(messages.cancelled())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
+						grid.addData(salesOrder);
+					if (grid.getRecords().isEmpty()) {
+						salesDetailView.itemsGrid.clear();
+						salesDetailView.itemsGrid.addEmptyMessage(messages
+								.noRecordsToShow());
+					}
+					continue;
+				}
+				if (text.equalsIgnoreCase(messages.drafts())) {
+					if (salesOrder.getStatus() == ClientTransaction.VIEW_DRAFT)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();

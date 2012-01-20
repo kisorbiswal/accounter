@@ -105,6 +105,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int VIEW_VOIDED = 3;
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_DRAFT = 4;
 
 	int type;
 	FinanceDate transactionDate;
