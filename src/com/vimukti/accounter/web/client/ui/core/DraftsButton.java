@@ -19,7 +19,6 @@ public class DraftsButton extends ImageButton {
 				DraftsButton.this.view.saveAsDrafts();
 				DraftsButton.this.view.setSaveCliecked(true);
 				DraftsButton.this.view.setCloseOnSave(true);
-				DraftsButton.this.view.getManager().closeCurrentView();
 			}
 		});
 	}
