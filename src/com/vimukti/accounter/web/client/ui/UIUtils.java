@@ -660,6 +660,7 @@ public class UIUtils {
 			// else
 			// action.run(object, object == null );
 		} catch (Throwable e) {
+			e.printStackTrace();
 			// logError(e.getMessage(), e);
 		}
 	}
@@ -671,14 +672,6 @@ public class UIUtils {
 			action.run(object, dependent);
 			// else
 			// action.run(object, object == null );
-		} catch (Throwable e) {
-			// logError(e.getMessage(), e);
-		}
-	}
-
-	public static void runAction(String name, Action action) {
-		try {
-			// action.run();
 		} catch (Throwable e) {
 			// logError(e.getMessage(), e);
 		}
