@@ -1317,16 +1317,19 @@ iframe,.address div {
 	{
 	border-radius: 0 5px 5px 0;
 }
-
-.prebutton  button[lang="ar"] {
+.prebutton  button[lang="ar"],.print_export_button td:FIRST-CHILD button[lang="ar"]{
 	border-radius: 0 5px 5px 0 !important;
 	border-width: 1px 1px 1px 0 !important;
+}
+.prebutton  button[lang="ar"]{
 	background-image: url("/images/bar-left-next.png") !important;
 }
 
 .nextbutton button[lang="ar"] {
-	border-radius: 5px 0 0 5px !important;
 	background-image: url("/images/bar-right-pre.png") !important;
+}
+.nextbutton button[lang="ar"],.print_export_button td:last-child button[lang="ar"] {
+	border-radius: 5px 0 0 5px !important;
 }
 
 .editTable .gwt-TextBox,.editTable .gwt-DateBox,.grouped-buttons .image-button
@@ -2340,10 +2343,10 @@ input.date-field-textbox {
 	padding: 5px;
 }
 
-/*.grouped-buttons {
+.grouped-buttons {
 	float: right;
 	margin: 0 5px;
-}*/
+}
 .search_buttons .gwt-Button {
 	padding-top: 3px;
 	width: 70px;
@@ -2795,9 +2798,6 @@ input.date-field-textbox {
 .gwt-MenuBarPopup div[lang="ar"] table .subMenuIcon img{
 	background: url("/images/submenu-leftside-indicator.png") repeat-x scroll 0 0 transparent !important;
 }
-.companies-list a:first-child[lang="ar"] {
-    float: none;
-}
-.companies-list a:last-child[lang="ar"]{
-    float:none
+.tablelayout1{
+	overflow: hidden !important;
 }
