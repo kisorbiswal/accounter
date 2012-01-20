@@ -2739,6 +2739,7 @@ public class FinanceTool {
 				ClientMessage clientMessage = new ClientMessage();
 				clientMessage.setId(message.getId());
 				clientMessage.setValue(message.getValue());
+				clientMessage.setComment(message.getComment());
 				ArrayList<ClientLocalMessage> clientLocalMessages = new ArrayList<ClientLocalMessage>();
 				for (LocalMessage localMessage : localMessages) {
 					ClientLocalMessage clientLocalMessage = new ClientLocalMessage();
@@ -2792,6 +2793,7 @@ public class FinanceTool {
 				Object[] next = (Object[]) iter.next();
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
+				message.setComment((String) next[3]);
 
 				Query localMessagesQuery = session
 						.getNamedQuery("getLocalMessagesByMessageId")
@@ -2848,6 +2850,7 @@ public class FinanceTool {
 				Object[] next = (Object[]) i.next();
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
+				message.setComment((String) next[3]);
 
 				Query localMessagesQuery = session
 						.getNamedQuery("getLocalMessagesByMessageId")
@@ -2898,6 +2901,7 @@ public class FinanceTool {
 				Object[] next = (Object[]) iterator.next();
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
+				message.setComment((String) next[3]);
 				message.setLocalMessages(new HashSet<LocalMessage>());
 				messages.add(message);
 			}
@@ -2938,6 +2942,7 @@ public class FinanceTool {
 
 				message.setId(((BigInteger) next[0]).longValue());
 				message.setValue((String) next[1]);
+				message.setComment((String) next[3]);
 
 				Query localMessagesQuery = session
 						.getNamedQuery("getLocalMessagesByMessageId")

@@ -13,6 +13,8 @@ public class Message implements Serializable {
 
 	String value;
 
+	String comment;
+
 	Set<LocalMessage> localMessages;
 
 	Set<Key> keys;
@@ -57,6 +59,14 @@ public class Message implements Serializable {
 
 	public void setNotUsed(boolean isNotUsed) {
 		this.isNotUsed = isNotUsed;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getComment() {
+		return comment;
 	}
 
 	@Override

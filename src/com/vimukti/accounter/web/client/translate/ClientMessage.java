@@ -20,6 +20,8 @@ public class ClientMessage implements Serializable {
 
 	String value;
 
+	String comment;
+
 	ArrayList<ClientLocalMessage> localMessages;
 
 	public long getId() {
@@ -44,5 +46,13 @@ public class ClientMessage implements Serializable {
 
 	public void setLocalMessages(ArrayList<ClientLocalMessage> localMessages) {
 		this.localMessages = localMessages;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getComment() {
+		return comment;
 	}
 }

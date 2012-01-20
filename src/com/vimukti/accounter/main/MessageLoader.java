@@ -35,10 +35,19 @@ public class MessageLoader {
 
 		BufferedReader br = new BufferedReader(reader);
 		String line = null;
+		StringBuilder comment = null;
 		while ((line = br.readLine()) != null) {
 			if (line.startsWith("#")) {
+				if (comment == null) {
+					comment = new StringBuilder(line.substring(1));
+				} else {
+					comment.append('\n').append(line.substring(1));
+				}
 				continue;
 			}
+			String commentStr = comment == null ? "" : comment.toString()
+					.trim();
+			comment = null;
 			String[] split = line.split("=");
 			if (split.length < 2) {
 				continue;
@@ -51,6 +60,7 @@ public class MessageLoader {
 
 			Message message = new Message();
 			message.setValue(value);
+			message.setComment(commentStr);
 
 			Set<Key> keyset = new HashSet<Key>();
 			keyset.add(key);
@@ -92,6 +102,7 @@ public class MessageLoader {
 			boolean insert = false;
 			Message messageByValue = getMessageByValue(message.getValue());
 			if (messageByValue != null) {
+				messageByValue.setComment(message.getComment());
 				boolean hasKey = false;
 				for (Key k : messageByValue.getKeys()) {
 					if (k.equals(key)) {
@@ -183,24 +194,24 @@ public class MessageLoader {
 		}
 		oldMessages.addAll(addedMessages);
 
-			org.hibernate.Transaction transaction = session.beginTransaction();
-			for (Message message : removed) {
-				if (message != null) {
-					session.delete(message);
-					oldMessages.remove(message);
-				}
+		org.hibernate.Transaction transaction = session.beginTransaction();
+		for (Message message : removed) {
+			if (message != null) {
+				session.delete(message);
+				oldMessages.remove(message);
 			}
-			transaction.commit();
-			transaction = session.beginTransaction();
-			for (Key key : removedKeys) {
-				session.delete(key);
-			}
-			transaction.commit();
-			transaction = session.beginTransaction();
-			for (Message message : oldMessages) {
-				session.saveOrUpdate(message);
-			}
-			transaction.commit();
+		}
+		transaction.commit();
+		transaction = session.beginTransaction();
+		for (Key key : removedKeys) {
+			session.delete(key);
+		}
+		transaction.commit();
+		transaction = session.beginTransaction();
+		for (Message message : oldMessages) {
+			session.saveOrUpdate(message);
+		}
+		transaction.commit();
 
 	}
 
