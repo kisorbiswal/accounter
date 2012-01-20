@@ -1200,7 +1200,9 @@ public abstract class Transaction extends CreatableObject implements
 		}
 		Transaction transaction = (Transaction) clientObject;
 		checkForReconciliation(transaction);
-		checkNullValues();
+		if (saveStatus != STATUS_DRAFT) {
+			checkNullValues();
+		}
 		if (isVoid() && !getReconciliationItems().isEmpty()) {
 			throw new AccounterException(
 					AccounterException.ERROR_TRANSACTION_RECONCILIED);

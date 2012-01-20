@@ -662,7 +662,16 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				buttonBar.add(recurringButton);
 			}
 		}
+
+		if (canAddDraftButton()) {
+			buttonBar.add(new DraftsButton(this));
+		}
+
 		super.createButtons(buttonBar);
+	}
+
+	protected boolean canAddDraftButton() {
+		return true;
 	}
 
 	@Override
@@ -1979,6 +1988,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void saveAsDrafts() {
+		transaction.setSaveStatus(ClientTransaction.STATUS_DRAFT);
+		saveAndUpdateView();
 	}
 
 	protected ValidationResult validateBaseRequirement() {

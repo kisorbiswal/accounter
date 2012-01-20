@@ -473,6 +473,10 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
+		
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.purchaseOrder()).gap();

@@ -290,6 +290,9 @@ public class TransferFund extends Transaction {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
 		// TODO Auto-generated method stub
 
 	}

@@ -237,6 +237,9 @@ public class TDSChalanDetail extends Transaction implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
 		// TODO Auto-generated method stub
 
 	}

@@ -514,4 +514,8 @@ public abstract class AbstractBaseView<T> extends AbstractView<T> implements
 	public void setSaveCliecked(boolean isSaveCliecked) {
 		this.isSaveCliecked = isSaveCliecked;
 	}
+
+	public void saveAsDrafts() {
+
+	}
 }

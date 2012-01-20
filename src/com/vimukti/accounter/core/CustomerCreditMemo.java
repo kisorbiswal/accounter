@@ -493,6 +493,10 @@ public class CustomerCreditMemo extends Transaction implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
+		
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.customerCreditNote(messages.customer()))

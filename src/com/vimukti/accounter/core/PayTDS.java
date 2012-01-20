@@ -70,6 +70,9 @@ public class PayTDS extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.payTDS()).gap().gap();

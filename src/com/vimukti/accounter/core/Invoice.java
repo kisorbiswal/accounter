@@ -1156,6 +1156,9 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
+		if (getSaveStatus() == STATUS_DRAFT) {
+			return;
+		}
 		AccounterMessages messages = Global.get().messages();
 		w.put(messages.type(), messages.invoice()).gap();
 		w.put(messages.invoiceNo(), this.number);
