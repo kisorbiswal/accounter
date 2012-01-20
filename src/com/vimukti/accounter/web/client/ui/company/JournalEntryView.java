@@ -91,6 +91,11 @@ public class JournalEntryView extends
 	}
 
 	@Override
+	protected boolean canAddDraftButton() {
+		return false;
+	}
+
+	@Override
 	public ValidationResult validate() {
 
 		// No need of super class validations.. Because required validations are
