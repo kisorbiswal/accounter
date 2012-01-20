@@ -35,6 +35,7 @@
 			<generator class="identity" />
 		</id>
 		<property name="value" type="text" unique="true" column="VALUE"></property>
+		<property name="comment" type="text" column="COMMENT"></property>
 		<property name="isNotUsed" column="IS_NOT_USED"></property>
 		<set name="localMessages" lazy="false" inverse="true">
 			<key column="MESSAGE_ID" />
