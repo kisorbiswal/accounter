@@ -39,6 +39,7 @@ public class BillsList implements IsSerializable, Serializable {
 	Double balance;
 	boolean isVoided;
 	private long currency;
+	private int saveStatus;
 
 	int status;
 
@@ -216,6 +217,14 @@ public class BillsList implements IsSerializable, Serializable {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
 	}
 
 }

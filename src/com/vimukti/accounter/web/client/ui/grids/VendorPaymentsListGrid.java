@@ -85,8 +85,14 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	private void showWarningDialog(final PaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 9 && !obj.isVoided()) {
+		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT && col == 9
+				&& !obj.isVoided()) {
 			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 9) {
+			msg = messages.youCannotVoidDraftedTransaction();
+			Accounter.showError(msg);
+			return;
 		}
 
 		Accounter.showWarning(msg, AccounterType.WARNING,
@@ -105,8 +111,10 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 9)
+						if (col == 9) {
 							voidTransaction(obj);
+						}
+
 						// else if (col == 9)
 						// deleteTransaction(obj);
 						return true;
@@ -320,6 +328,7 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return 0;
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return null;
 	}
@@ -328,10 +337,12 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 		return obj.getTransactionId();
 	}
 
+	@Override
 	public boolean isVoided(PaymentsList obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(PaymentsList obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());

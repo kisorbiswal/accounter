@@ -132,6 +132,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 					obj.getTransactionId());
 	}
 
+	@Override
 	protected void onClick(InvoicesList obj, int row, int col) {
 		if (type != 0) {
 			col += 2;
@@ -168,9 +169,15 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	private void showWarningDialog(final InvoicesList obj, final int col) {
 		String msg = null;
-		if (!obj.isVoided() && col == 9) {
+		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT
+				&& !obj.isVoided() && col == 9) {
 			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 9) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
+			return;
 		}
+
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
 
@@ -191,10 +198,11 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 9)
+						if (col == 9) {
 							voidTransaction(obj);
-						else if (col == 10)
+						} else if (col == 10) {
 							deleteTransaction(obj);
+						}
 						return true;
 					}
 
@@ -334,10 +342,12 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		return obj.getTransactionId();
 	}
 
+	@Override
 	public boolean isVoided(InvoicesList obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(InvoicesList obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());

@@ -730,7 +730,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
-		if (isInViewMode() && (data != null && !data.isTemplate())) {
+		if (isInViewMode()
+				&& (data != null && !data.isTemplate() && data.getSaveStatus() != ClientTransaction.STATUS_DRAFT)) {
 			emailButton = new Button(messages.email());
 			buttonBar.add(emailButton);
 
@@ -1630,7 +1631,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		setMode(EditMode.EDIT);
 
-		if (!isInViewMode() && !data.isTemplate()) {
+		if (!isInViewMode() && !data.isTemplate()
+				&& data.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
 
 			getButtonBar().remove(emailButton);
 		}
@@ -1723,7 +1725,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
-		if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 			return false;
 		} else {
 			return true;

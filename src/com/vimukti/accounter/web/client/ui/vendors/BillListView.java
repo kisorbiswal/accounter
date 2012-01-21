@@ -136,6 +136,7 @@ public class BillListView extends TransactionsListView<BillsList> {
 			listOfTypes.add(messages.overDue());
 		}
 		listOfTypes.add(messages.all());
+		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -144,7 +145,6 @@ public class BillListView extends TransactionsListView<BillsList> {
 		this.viewType = text;
 		grid.removeAllRecords();
 		onPageChange(0, getPageSize());
-		this.viewType = text;
 	}
 
 	@Override
@@ -189,6 +189,8 @@ public class BillListView extends TransactionsListView<BillsList> {
 			viewType = ClientTransaction.VIEW_OVERDUE;
 		} else if (text.equalsIgnoreCase(messages.all())) {
 			viewType = ClientTransaction.VIEW_ALL;
+		} else if (text.equalsIgnoreCase(messages.drafts())) {
+			viewType = ClientTransaction.VIEW_DRAFT;
 		}
 		Accounter.createHomeService().getBillsAndItemReceiptList(false,
 				transactionType, getStartDate().getDate(),

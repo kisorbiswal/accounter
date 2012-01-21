@@ -48,6 +48,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super();
 	}
 
+	@Override
 	protected abstract String getViewTitle();
 
 	@Override
@@ -142,12 +143,14 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	/**
 	 * This method will be called my all sub classes to add items to this view.
 	 */
+	@Override
 	public void add(Widget child) {
 		int index = this.getWidgetIndex(buttonBar);
 		// Insert widgets above button bar
 		super.insert(child, index);
 	}
 
+	@Override
 	public void setData(T data) {
 		super.setData(data);
 		if (data == null || data.getID() == 0) {
@@ -203,7 +206,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		ClientTransaction data = null;
 		if (getData() instanceof ClientTransaction) {
 			data = ((ClientTransaction) getData());
-			if (data == null || data.isVoid() || data.isTemplate()) {
+			if (data == null || data.isVoid() || data.isTemplate()
+					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;
 			}
 			return true;
@@ -273,10 +277,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		}
 	}
 
+	@Override
 	protected ClientCurrency getBaseCurrency() {
 		return getCompany().getPrimaryCurrency();
 	}
 
+	@Override
 	protected ClientCurrency getCurrency(long currency) {
 		return getCompany().getCurrency(currency);
 	}

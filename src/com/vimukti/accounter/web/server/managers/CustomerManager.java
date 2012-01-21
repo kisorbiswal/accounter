@@ -88,7 +88,7 @@ public class CustomerManager extends PayeeManager {
 					customerRefund.setAmountPaid(cr.getTotal());
 					customerRefund.setVoided(cr.isVoid());
 					customerRefund.setCurrency(cr.getCurrency().getID());
-
+					customerRefund.setSaveStatus(cr.getSaveStatus());
 					customerRefundsList.add(customerRefund);
 				}
 			}
@@ -120,7 +120,7 @@ public class CustomerManager extends PayeeManager {
 					customerRefund.setAmountPaid(wc.getAmount());
 					customerRefund.setVoided(wc.isVoid());
 					customerRefund.setCurrency(wc.getCurrency().getID());
-
+					customerRefund.setSaveStatus(wc.getSaveStatus());
 					customerRefundsList.add(customerRefund);
 
 				}
@@ -366,6 +366,7 @@ public class CustomerManager extends PayeeManager {
 					receivePaymentsList.setStatus((Integer) object[8]);
 					receivePaymentsList.setCheckNumber((String) object[9]);
 					receivePaymentsList.setCurrency((Long) object[10]);
+					receivePaymentsList.setStatus((Integer) object[11]);
 
 					queryResult.add(receivePaymentsList);
 				}
@@ -478,6 +479,7 @@ public class CustomerManager extends PayeeManager {
 							.setCheckNumber((String) object[11] == null ? ""
 									: (String) object[11]);
 					paymentsList.setCurrency((Long) object[12]);
+					paymentsList.setSaveStatus((Integer) object[13]);
 					queryResult.add(paymentsList);
 					// }
 				}
@@ -661,7 +663,7 @@ public class CustomerManager extends PayeeManager {
 		query = session.getNamedQuery("getEntry.from.journalEntryType")
 				.setParameter("company", company);
 
-		List<JournalEntry> nonInvoicedLines = (List<JournalEntry>) query.list();
+		List<JournalEntry> nonInvoicedLines = query.list();
 
 		for (MostProfitableCustomers mpc : queryResult) {
 			for (JournalEntry je : nonInvoicedLines) {

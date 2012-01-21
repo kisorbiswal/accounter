@@ -11,8 +11,10 @@ import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
@@ -168,6 +170,52 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		}
 	}
 
+	@Override
+	protected void showWarningDialog(final BillsList obj,
+			final AccounterCoreType coreType, final long transactionsID,
+			final int col) {
+		String msg = null;
+		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT && col == 6) {
+			msg = messages.youCannotVoidDraftedTransaction();
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 6) {
+			msg = messages.youCannotVoidDraftedTransaction();
+			Accounter.showError(msg);
+			return;
+		}
+
+		// else if (col == 7) {
+		// if (!viewType.equalsIgnoreCase("Deleted"))
+		// msg = "Do you want to Delete the Transaction";
+		//
+		// }
+		Accounter.showWarning(msg, AccounterType.WARNING,
+				new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						return false;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						if (col == 6) {
+							voidTransaction(coreType, transactionsID);
+						}
+						// else if (col == 7)
+						// deleteTransaction(obj);
+						return true;
+
+					}
+
+				});
+	}
+
 	protected void deleteTransaction(final BillsList obj) {
 		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
@@ -250,10 +298,12 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		return obj.getTransactionId();
 	}
 
+	@Override
 	public boolean isVoided(BillsList obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(BillsList obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());

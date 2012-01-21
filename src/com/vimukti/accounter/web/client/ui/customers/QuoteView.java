@@ -1300,14 +1300,16 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	@Override
 	protected boolean canVoid() {
-		return false;
+		return data == null ? false
+				: data.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
 	@Override
 	public boolean canPrint() {
 		EditMode mode = getMode();
 		if (type == ClientEstimate.QUOTES) {
-			if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+			if (mode == EditMode.CREATE || mode == EditMode.EDIT
+					|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 				return false;
 			} else {
 				return true;

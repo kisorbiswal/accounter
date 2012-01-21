@@ -1562,7 +1562,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 * @return
 	 */
 	protected boolean canRecur() {
-		return true;
+		return transaction == null ? true
+				: transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
 	public ClassListCombo createAccounterClassListCombo() {
@@ -2029,5 +2030,13 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return discount;
 
+	}
+
+	@Override
+	protected boolean canDelete() {
+		if (transaction.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		}
+		return super.canDelete();
 	}
 }

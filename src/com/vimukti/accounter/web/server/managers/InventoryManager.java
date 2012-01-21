@@ -103,6 +103,7 @@ public class InventoryManager extends Manager {
 					invoicesList.setVoided((Boolean) object[9]);
 					invoicesList.setStatus((Integer) object[10]);
 					invoicesList.setCurrency((Long) object[11]);
+					invoicesList.setSaveStatus((Integer) object[12]);
 					queryResult.add(invoicesList);
 				}
 				queryResult.setTotalCount(total);

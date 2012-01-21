@@ -150,7 +150,7 @@ public class CustomerRefundListView extends
 				continue;
 			}
 			if (text.equalsIgnoreCase(messages.drafts())) {
-				if (customerRefund.getStatus() == ClientTransaction.VIEW_DRAFT) {
+				if (customerRefund.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
 					grid.addData(customerRefund);
 				}
 				continue;

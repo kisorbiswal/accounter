@@ -65,6 +65,8 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	private long currency;
 
+	private int saveStatus;
+
 	public int getPayBillType() {
 		return payBillType;
 	}
@@ -242,6 +244,14 @@ public class PaymentsList implements IsSerializable, Serializable {
 
 	public void setInFavourOf(String inFavourOf) {
 		this.inFavourOf = inFavourOf;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
 	}
 
 }

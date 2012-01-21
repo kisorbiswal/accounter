@@ -93,6 +93,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 				customerRefunds.getTransactionId());
 	}
 
+	@Override
 	protected void onClick(CustomerRefundsList obj, int row, int col) {
 		if (col == 7 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
@@ -108,8 +109,13 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
-		if (col == 7) {
+		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT && col == 7) {
 			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 7) {
+			msg = messages.youCannotVoidDraftedTransaction();
+			Accounter.showError(msg);
+			return;
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
@@ -130,8 +136,10 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 7)
+						if (col == 7
+								&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
 							voidTransaction(obj);
+						}
 						// else if (col == 9)
 						// deleteTransaction(obj);
 						return true;
@@ -256,6 +264,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		return 0;
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.CUSTOMERREFUND;
 	}
@@ -264,10 +273,12 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		return obj.getTransactionId();
 	}
 
+	@Override
 	public boolean isVoided(CustomerRefundsList obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(CustomerRefundsList obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());

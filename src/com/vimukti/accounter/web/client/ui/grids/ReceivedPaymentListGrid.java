@@ -83,8 +83,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			};
 		}
 		return new String[] { messages.type(), messages.paymentDate(),
-				messages.no(),
-				messages.payeeName(Global.get().Customer()),
+				messages.no(), messages.payeeName(Global.get().Customer()),
 				messages.payMethod(), messages.checkNo(),
 				messages.amountPaid(), messages.voided()
 		// , ""
@@ -117,6 +116,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 				receivePaymentList.getTransactionId());
 	}
 
+	@Override
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
 		if (type != 0) {
 			col += 1;
@@ -135,8 +135,13 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	private void showWarningDialog(final ReceivePaymentsList obj, final int col) {
 		String msg = null;
-		if (col == 7 && !obj.isVoided()) {
+		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT && col == 7
+				&& !obj.isVoided()) {
 			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 7) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
+			return;
 		}
 		// else if (col == 7) {
 		// msg = "Do you want to Delete the Transaction";
@@ -159,8 +164,9 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 					@Override
 					public boolean onYesClick() {
 
-						if (col == 7)
+						if (col == 7) {
 							voidTransaction(obj);
+						}
 						// else if (col == 7)
 						// deleteTransaction(obj);
 						return true;
@@ -277,6 +283,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return 0;
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return null;
 	}
@@ -285,10 +292,12 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 		return obj.getTransactionId();
 	}
 
+	@Override
 	public boolean isVoided(ReceivePaymentsList obj) {
 		return obj.isVoided();
 	}
 
+	@Override
 	public AccounterCoreType getAccounterCoreType(ReceivePaymentsList obj) {
 
 		return UIUtils.getAccounterCoreType(obj.getType());

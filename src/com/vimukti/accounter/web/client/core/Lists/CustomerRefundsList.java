@@ -44,6 +44,8 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 
 	private long currency;
 
+	private int saveStatus;
+
 	public boolean isVoided() {
 		return isVoided;
 	}
@@ -204,5 +206,13 @@ public class CustomerRefundsList implements IsSerializable, Serializable {
 	 */
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
 	}
 }

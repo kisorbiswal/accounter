@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
-import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.EnterBill;
@@ -135,7 +134,7 @@ public class VendorManager extends PayeeManager {
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 					billsList.setExpenseStatus((Integer) object[10]);
 					billsList.setCurrency((Long) object[11]);
-
+					billsList.setSaveStatus((Integer) object[12]);
 					// if (object[4] != null) {
 					if (isExpensesList) {
 						if (billsList.getType() == ClientTransaction.TYPE_CASH_EXPENSE
@@ -247,7 +246,7 @@ public class VendorManager extends PayeeManager {
 		Company company = getCompany(companyId);
 		Query query = session.getNamedQuery("get.PayBills.by.tds")
 				.setParameter("company", company);
-		paybills = (List<PayBill>) query.list();
+		paybills = query.list();
 		ClientTDSInfo clientTDSInfo = null;
 		ClientPayBill clientPayBill = null;
 		for (PayBill p : paybills) {
@@ -331,7 +330,7 @@ public class VendorManager extends PayeeManager {
 				CustomerRefund cr = (CustomerRefund) i.next();
 				issuePaymentTransaction.setTransactionId(cr.getID());
 				issuePaymentTransaction.setType(cr.getType());
-				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cr
+				issuePaymentTransaction.setDate(new ClientFinanceDate(cr
 						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cr.getNumber());
 				issuePaymentTransaction.setName(cr.getPayTo().getName());
@@ -358,8 +357,8 @@ public class VendorManager extends PayeeManager {
 				PayTAX pst = (PayTAX) i.next();
 				issuePaymentTransaction.setTransactionId(pst.getID());
 				issuePaymentTransaction.setType(pst.getType());
-				issuePaymentTransaction.setDate(new ClientFinanceDate(
-						(long) pst.getDate().getDate()));
+				issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(pst.getNumber());
 				issuePaymentTransaction.setName("TaxAgency Payment");
 				// issuePaymentTransaction.setMemo(pst.getMemo());
@@ -385,7 +384,7 @@ public class VendorManager extends PayeeManager {
 				PayBill pb = (PayBill) i.next();
 				issuePaymentTransaction.setTransactionId(pb.getID());
 				issuePaymentTransaction.setType(pb.getType());
-				issuePaymentTransaction.setDate(new ClientFinanceDate((long) pb
+				issuePaymentTransaction.setDate(new ClientFinanceDate(pb
 						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(pb.getNumber());
 				issuePaymentTransaction.setName(pb.getVendor() != null ? pb
@@ -413,7 +412,7 @@ public class VendorManager extends PayeeManager {
 				CreditCardCharge cc = (CreditCardCharge) i.next();
 				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
-				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
+				issuePaymentTransaction.setDate(new ClientFinanceDate(cc
 						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cc.getNumber());
 				issuePaymentTransaction.setName(cc.getVendor() != null ? cc
@@ -441,7 +440,7 @@ public class VendorManager extends PayeeManager {
 				CashPurchase cc = (CashPurchase) i.next();
 				issuePaymentTransaction.setTransactionId(cc.getID());
 				issuePaymentTransaction.setType(cc.getType());
-				issuePaymentTransaction.setDate(new ClientFinanceDate((long) cc
+				issuePaymentTransaction.setDate(new ClientFinanceDate(cc
 						.getDate().getDate()));
 				issuePaymentTransaction.setNumber(cc.getNumber());
 				issuePaymentTransaction.setName(cc.getVendor() != null ? cc
@@ -496,8 +495,8 @@ public class VendorManager extends PayeeManager {
 					WriteCheck wc = (WriteCheck) i.next();
 					issuePaymentTransaction.setTransactionId(wc.getID());
 					issuePaymentTransaction.setType(wc.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) wc.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(wc
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(wc.getNumber());
 					issuePaymentTransaction.setName(wc.getInFavourOf());
 					issuePaymentTransaction.setMemo(wc.getMemo());
@@ -528,8 +527,8 @@ public class VendorManager extends PayeeManager {
 					CustomerRefund cr = (CustomerRefund) i.next();
 					issuePaymentTransaction.setTransactionId(cr.getID());
 					issuePaymentTransaction.setType(cr.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) cr.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(cr
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(cr.getNumber());
 					issuePaymentTransaction.setName(cr.getPayTo().getName());
 					issuePaymentTransaction.setMemo(cr.getMemo());
@@ -558,8 +557,8 @@ public class VendorManager extends PayeeManager {
 					PayTAX pst = (PayTAX) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction.setName("TaxAgency Payment");
 					// issuePaymentTransaction.setMemo(pst.getMemo());
@@ -588,8 +587,8 @@ public class VendorManager extends PayeeManager {
 					PayBill pst = (PayBill) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -619,8 +618,8 @@ public class VendorManager extends PayeeManager {
 					ReceiveVAT rv = (ReceiveVAT) i.next();
 					issuePaymentTransaction.setTransactionId(rv.getID());
 					issuePaymentTransaction.setType(rv.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) rv.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(rv
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(rv.getNumber());
 					issuePaymentTransaction.setName("VAT Agency Payment");
 					issuePaymentTransaction.setMemo(null);
@@ -650,8 +649,8 @@ public class VendorManager extends PayeeManager {
 					CreditCardCharge pst = (CreditCardCharge) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -682,8 +681,8 @@ public class VendorManager extends PayeeManager {
 					CashPurchase pst = (CashPurchase) i.next();
 					issuePaymentTransaction.setTransactionId(pst.getID());
 					issuePaymentTransaction.setType(pst.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) pst.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
 					issuePaymentTransaction
 							.setName(pst.getVendor() != null ? pst.getVendor()
@@ -718,8 +717,8 @@ public class VendorManager extends PayeeManager {
 					CustomerPrePayment cpp = (CustomerPrePayment) i.next();
 					issuePaymentTransaction.setTransactionId(cpp.getID());
 					issuePaymentTransaction.setType(cpp.getType());
-					issuePaymentTransaction.setDate(new ClientFinanceDate(
-							(long) cpp.getDate().getDate()));
+					issuePaymentTransaction.setDate(new ClientFinanceDate(cpp
+							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(cpp.getNumber());
 					issuePaymentTransaction
 							.setName(cpp.getCustomer() != null ? cpp
@@ -956,7 +955,6 @@ public class VendorManager extends PayeeManager {
 		// return NumberUtils.getNextVendorNumber();
 	}
 
-
 	public PaginationList<PaymentsList> getVendorPaymentsList(long companyId,
 			long fromDate, long toDate, int start, int length, int viewType)
 			throws DAOException {
@@ -1018,6 +1016,7 @@ public class VendorManager extends PayeeManager {
 								.setCheckNumber((String) object[11] == null ? ""
 										: (String) object[11]);
 						vendorPaymentsList.setCurrency((Long) object[12]);
+						vendorPaymentsList.setSaveStatus((Integer) object[13]);
 						queryResult.add(vendorPaymentsList);
 					}
 				}
@@ -1681,12 +1680,12 @@ public class VendorManager extends PayeeManager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List l = ((Query) session
+		List l = session
 				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
 				.setParameter("companyId", companyId)
 				.setParameter("vendorName", vendorName)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
+				.setParameter("endDate", endDate.getDate()).list();
 
 		return createPurchasesByVendorDetail(new ArrayList<SalesByCustomerDetail>(
 				l));

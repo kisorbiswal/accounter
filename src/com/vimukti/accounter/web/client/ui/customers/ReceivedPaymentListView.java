@@ -22,7 +22,6 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
 public class ReceivedPaymentListView extends
 		TransactionsListView<ReceivePaymentsList> {
 	private int transactionType;
-	private int viewType;
 
 	public ReceivedPaymentListView() {
 		super(messages.paid());
@@ -59,16 +58,18 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	public void onSuccess(PaginationList<ReceivePaymentsList> result) {
-		super.onSuccess(result);
 		grid.removeAllRecords();
-		grid.setRecords(result);
-		grid.sort(12, false);
-		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), result.size(),
-				result.getTotalCount());
-		if (grid.getRecords().isEmpty()) {
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
 		}
+		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -97,15 +98,6 @@ public class ReceivedPaymentListView extends
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages.paid())) {
-			viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewType = ClientTransaction.VIEW_ALL;
-		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			viewType = ClientTransaction.VIEW_DRAFT;
-		}
 		onPageChange(0, getPageSize());
 	}
 
@@ -141,8 +133,18 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected void onPageChange(int start, int length) {
+		int type = 0;
+		if (viewType.equalsIgnoreCase(messages.paid())) {
+			type = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+			type = ClientTransaction.VIEW_VOIDED;
+		} else if (viewType.equalsIgnoreCase(messages.all())) {
+			type = ClientTransaction.VIEW_ALL;
+		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+			type = ClientTransaction.VIEW_DRAFT;
+		}
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, start, length, viewType, this);
+				transactionType, start, length, type, this);
 	};
 }
