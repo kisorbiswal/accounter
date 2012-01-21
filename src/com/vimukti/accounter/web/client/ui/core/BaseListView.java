@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
+import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
 
@@ -322,7 +323,8 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 			hlay.setCellHorizontalAlignment(form, ALIGN_RIGHT);
 		} else {
 
-			if (!(this instanceof JournalEntryListView))
+			if (!(this instanceof JournalEntryListView)
+					&& !(this instanceof ChalanDetailsListView))
 				if (viewSelect != null) {
 					form.setFields(viewSelect);
 				}
