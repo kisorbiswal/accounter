@@ -12,6 +12,10 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static final int Form26Q = 1;
+	public static final int Form27Q = 2;
+	public static final int Form27EQ = 3;
+	
 	private double incomeTaxAmount;
 	private double surchangePaidAmount;
 	private double educationCessAmount;
