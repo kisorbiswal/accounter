@@ -2031,12 +2031,4 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return discount;
 
 	}
-
-	@Override
-	protected boolean canDelete() {
-		if (transaction.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
-			return false;
-		}
-		return super.canDelete();
-	}
 }
