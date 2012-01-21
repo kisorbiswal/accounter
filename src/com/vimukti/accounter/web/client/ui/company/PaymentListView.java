@@ -23,7 +23,6 @@ import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
  */
 public class PaymentListView extends TransactionsListView<PaymentsList> {
 	private int checkType;
-	private int viewType;
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
@@ -157,26 +156,22 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		if (viewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.notInvoiced())) {
-			viewType = STATUS_NOT_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.issued())) {
-			viewType = STATUS_ISSUED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.voided())) {
-			viewType = ClientTransaction.VIEW_VOIDED;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.all())) {
-			viewType = ClientTransaction.TYPE_ALL;
-		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
-				messages.drafts())) {
-			viewType = ClientTransaction.VIEW_DRAFT;
+		int type = 0;
+		if (viewType.equalsIgnoreCase(messages.notInvoiced())) {
+			type = STATUS_NOT_ISSUED;
+		} else if (viewType.equalsIgnoreCase(messages.issued())) {
+			type = STATUS_ISSUED;
+		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+			type = ClientTransaction.VIEW_VOIDED;
+		} else if (viewType.equalsIgnoreCase(messages.all())) {
+			type = ClientTransaction.TYPE_ALL;
+		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+			type = ClientTransaction.VIEW_DRAFT;
 		}
 		if (checkType == 0) {
 			Accounter.createHomeService().getPaymentsList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, viewType, this);
+					length, type, this);
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			Accounter.createHomeService().getPayeeChecks(true,
 					getStartDate().getDate(), getEndDate().getDate(), start,
