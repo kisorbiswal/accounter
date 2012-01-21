@@ -747,6 +747,15 @@ public class CreditCardExpenseView extends
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
 			}
+			if (transaction.getTransactionItems() != null
+					&& !transaction.getTransactionItems().isEmpty()) {
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(transaction
+								.getTransactionItems()));
+				this.vendorItemTransactionTable
+						.setRecords(getItemTransactionItems(transaction
+								.getTransactionItems()));
+			}
 			// if (vendor != null) {
 			// vendorNameSelect.setComboItem(vendor);
 			// phoneSelect.setValue(vendor.getPhoneNo());

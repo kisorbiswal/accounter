@@ -723,6 +723,15 @@ public class CashExpenseView extends
 				currencyWidget.setDisabled(isInViewMode());
 			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
+			if (transaction.getTransactionItems() != null
+					&& !transaction.getTransactionItems().isEmpty()) {
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(transaction
+								.getTransactionItems()));
+				this.vendorItemTransactionTable
+						.setRecords(getItemTransactionItems(transaction
+								.getTransactionItems()));
+			}
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
