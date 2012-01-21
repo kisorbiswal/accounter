@@ -679,7 +679,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		} else {
 			if (canAddDraftButton()) {
-				buttonBar.add(new DraftsButton(this));
+				buttonBar.add(new DraftsButton(messages.Saveasdraft(), this));
 			}
 			super.showSaveButtons();
 		}

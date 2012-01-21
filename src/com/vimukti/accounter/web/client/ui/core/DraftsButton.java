@@ -9,8 +9,8 @@ import com.vimukti.accounter.web.client.ui.ImageButton;
 public class DraftsButton extends ImageButton {
 	private AbstractBaseView<?> view;
 
-	public DraftsButton(AbstractBaseView<?> view) {
-		super("Save as drafts", Accounter.getFinanceImages().saveAndClose());
+	public DraftsButton(String name, AbstractBaseView<?> view) {
+		super(name, Accounter.getFinanceImages().saveAsDrafts());
 		this.view = view;
 		addClickHandler(new ClickHandler() {
 
