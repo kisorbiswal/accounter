@@ -450,6 +450,7 @@ public class ReceiveVATView extends
 		List<ClientTransactionReceiveVAT> list = transaction
 				.getClientTransactionReceiveVAT();
 		int count = 0;
+		grid.removeAllRecords();
 		for (ClientTransactionReceiveVAT record : list) {
 			if (record != null) {
 				grid.addData(record);
