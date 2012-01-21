@@ -389,7 +389,10 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
-		SELECT T.CURRENCY AS CURRENCY,
+		<return-scalar column="SAVE_STATUS" type="int" />
+		SELECT 
+		T.SAVE_STATUS AS SAVE_STATUS,
+		T.CURRENCY AS CURRENCY,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
@@ -648,7 +651,9 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -768,6 +773,7 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -796,7 +802,10 @@
 		CHECK_NUMBER,
 		T.CURRENCY
 		AS
-		CURRENCY
+		CURRENCY,
+		T.SAVE_STATUS 
+		AS
+		SAVE_STATUS
 
 		FROM
 		TRANSACTION T
@@ -868,6 +877,7 @@
 		<return-scalar column="PAYBILL_TYPE" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -956,6 +966,7 @@
 		END AS CHECK_NUMBER,
 		T.CURRENCY AS
 		CURRENCY
+		T.SAVE_STATUS AS SAVE_STATUS
 
 		FROM TRANSACTION T
 		LEFT
@@ -1084,7 +1095,7 @@
 		<return-scalar column="VOIDED" type="boolean" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
-
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -1122,8 +1133,8 @@
 		WC.CHECK_NUMBER
 		END AS
 		CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
-
+		T.CURRENCY AS CURRENCY,
+		T.SAVE_STATUS AS SAVE_STATUS
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
