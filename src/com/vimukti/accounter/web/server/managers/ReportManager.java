@@ -2910,7 +2910,7 @@ public class ReportManager extends Manager {
 							statementsList.getTransactionDate(),
 							statementsList.getDueDate(), toDate, companyId);
 					statementsList.setAgeing(ageing);
-					statementsList.setCategory(getCategory(ageing));
+					// statementsList.setCategory(getCategory(ageing));
 
 					statementsList.setCurrency((Long) object[17]);
 					statementsList.setCurrencyFactor((Double) object[18]);
