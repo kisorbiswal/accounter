@@ -4201,7 +4201,7 @@
 		WHERE A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY 
 		AND T.T_DATE &lt;=:enteredDate AND AT.COMPANY_ID=:companyId
 		
-		GROUP BY A.ID,CURR.ID,T.ID		
+		GROUP BY A.ID,CURR.ID		
 	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
