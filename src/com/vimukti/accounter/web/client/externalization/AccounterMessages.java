@@ -1872,11 +1872,11 @@ public interface AccounterMessages extends Messages {
 	public String forgottenPassword();
 
 	public String form26Q();
-	
+
 	public String form27Q();
-	
+
 	public String form27EQ();
-	
+
 	public String formType();
 
 	public String formLayoutsList();
@@ -5316,6 +5316,23 @@ public interface AccounterMessages extends Messages {
 
 	public String currencyNetAmount(String currencyCode);
 
-	public String drafts();
+	public String exchangeRate();
 
+	public String realisedLossOrGain();
+
+	public String realisedExchangeLossesAndGains();
+
+	public String enterExchangeRates();
+
+	public String unRealisedExchangeLossesAndGains();
+
+	public String foreignBalance();
+
+	public String unrealisedLossOrGain();
+
+	public String adjustedBalance();
+
+	public String enterDate();
+
+	public String drafts();
 }

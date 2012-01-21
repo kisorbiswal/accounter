@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -58,6 +59,7 @@ import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
@@ -3558,4 +3560,62 @@ public class ReportManager extends Manager {
 		return actualList;
 	}
 
+	public ArrayList<RealisedExchangeLossOrGain> getRealisedExchangeLossesOrGains(
+			long companyId, long startDate, long endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		List list = session.getNamedQuery("getRealisedExchangeLossesOrGains")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).list();
+
+		Iterator iterator = list.iterator();
+		ArrayList<RealisedExchangeLossOrGain> result = new ArrayList<RealisedExchangeLossOrGain>();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			RealisedExchangeLossOrGain record = new RealisedExchangeLossOrGain();
+			record.setTransaction(objects[0] != null ? (Long) objects[0] : 0);
+			record.setTransactionType(objects[1] != null ? (Integer) objects[1]
+					: 0);
+			record.setTransactionDate(objects[2] != null ? new ClientFinanceDate(
+					(Long) objects[2]) : null);
+			record.setPayeeName(objects[3] != null ? (String) objects[3] : "");
+			record.setCurrency(objects[4] != null ? (String) objects[4] : "");
+			record.setExchangeRate(objects[5] != null ? (Double) objects[5]
+					: 0.00D);
+			record.setRealisedLossOrGain(objects[6] != null ? -(Double) objects[6]
+					: 0.00D);
+			result.add(record);
+		}
+
+		return result;
+	}
+
+	public ArrayList<UnRealisedLossOrGain> getunRealisedExchangeLossesAndGains(
+			Long enteredDate, long companyId, Map<Long, Double> exchangeRates) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<UnRealisedLossOrGain> list = new ArrayList<UnRealisedLossOrGain>();
+		List result = session.getNamedQuery("getUnrealisedExchangeLossOrGain")
+				.setParameter("companyId", companyId)
+				.setParameter("enteredDate", enteredDate).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			UnRealisedLossOrGain lossOrGain = new UnRealisedLossOrGain();
+			lossOrGain.setAccountName((String) objects[0]);
+			lossOrGain.setCurrency((String) objects[1]);
+			double foreignBalance = (Double) objects[2];
+			lossOrGain.setForeignBalance(foreignBalance);
+			lossOrGain.setExchangeRate(exchangeRates.get(objects[4]));
+			lossOrGain
+					.setCurrentBalance(objects[3] != null ? (Double) objects[3]
+							: 0);
+			double adjustedBalance = foreignBalance
+					* lossOrGain.getExchangeRate();
+			lossOrGain.setAdjustedBalance(adjustedBalance);
+			lossOrGain.setLossOrGain(adjustedBalance - foreignBalance);
+			list.add(lossOrGain);
+		}
+		return list;
+	}
 }

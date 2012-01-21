@@ -129,6 +129,7 @@ import com.vimukti.accounter.web.client.ui.reports.CustomerTransactionHistoryAct
 import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.EnterExchangeRatesAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
@@ -141,6 +142,7 @@ import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseOpenOrderAction;
+import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListAction;
@@ -160,6 +162,7 @@ import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAction;
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
 import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
+import com.vimukti.accounter.web.client.ui.reports.UnRealisedExchangeLossesAndGainsAction;
 import com.vimukti.accounter.web.client.ui.reports.VAT100ReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATDetailsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATItemSummaryReportAction;
@@ -1342,4 +1345,15 @@ public class ActionFactory {
 		return new CreateIRASInformationFileAction();
 	}
 
+	public static RealisedExchangeLossesAndGainsAction getRealisedExchangeLossesAndGainsAction() {
+		return new RealisedExchangeLossesAndGainsAction();
+	}
+
+	public static UnRealisedExchangeLossesAndGainsAction getUnRealisedExchangeLossesAndGainsAction() {
+		return new UnRealisedExchangeLossesAndGainsAction();
+	}
+
+	public static EnterExchangeRatesAction getEnterExchangeRatesAction() {
+		return new EnterExchangeRatesAction();
+	}
 }

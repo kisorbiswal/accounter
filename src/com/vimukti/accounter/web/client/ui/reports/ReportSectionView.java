@@ -55,7 +55,7 @@ public class ReportSectionView extends BaseHomeView {
 
 		DynamicForm companyAndFinancialForm = UIUtils.form(messages
 				.companyAndFinancial());
-		companyAndFinancialForm.setWidth("50%");
+		// companyAndFinancialForm.setWidth("50%");
 		companyAndFinancialForm.setHeight("40%");
 		companyAndFinancialForm.setNumCols(1);
 
@@ -122,14 +122,44 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
+		LinkItem realisedExchangeLossesAndGains = new LinkItem();
+		realisedExchangeLossesAndGains.setLinkTitle(messages
+				.realisedExchangeLossesAndGains());
+		realisedExchangeLossesAndGains.setShowTitle(false);
+		realisedExchangeLossesAndGains.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getRealisedExchangeLossesAndGainsAction());
+			}
+
+		});
+
+		LinkItem unRealisedExchangeLossesAndGains = new LinkItem();
+		unRealisedExchangeLossesAndGains.setLinkTitle(messages
+				.unRealisedExchangeLossesAndGains());
+		unRealisedExchangeLossesAndGains.setShowTitle(false);
+		unRealisedExchangeLossesAndGains.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getEnterExchangeRatesAction());
+			}
+
+		});
+
 		companyAndFinancialForm.setFields(profitAndLossLink, balanceSheetLink,
 				trailBalanceLink, cashFlowLink,
-				transactionDetailsByAccountsLink);
+				transactionDetailsByAccountsLink,
+				realisedExchangeLossesAndGains,
+				unRealisedExchangeLossesAndGains);
 
 		// Form for Sales type reports
 
 		DynamicForm salesForm = UIUtils.form(messages.sales());
-		salesForm.setWidth("50%");
+		// salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
 		salesForm.setNumCols(1);
 
@@ -194,7 +224,7 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for purchase type reports
 
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
-		purchaseForm.setWidth("50%");
+		// purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
 		purchaseForm.setNumCols(1);
 
@@ -259,7 +289,7 @@ public class ReportSectionView extends BaseHomeView {
 		// Form for Other type reports
 
 		DynamicForm otherForm = UIUtils.form(messages.other());
-		otherForm.setWidth("50%");
+		// otherForm.setWidth("50%");
 		otherForm.setHeight("40%");
 		otherForm.setNumCols(1);
 
@@ -335,9 +365,13 @@ public class ReportSectionView extends BaseHomeView {
 
 		HorizontalPanel1.add(companyAndFinancialForm);
 		HorizontalPanel1.add(otherForm);
+		HorizontalPanel1.setCellWidth(companyAndFinancialForm, "50%");
+		HorizontalPanel1.setCellWidth(otherForm, "50%");
 
 		HorizontalPanel2.add(salesForm);
 		HorizontalPanel2.add(purchaseForm);
+		HorizontalPanel2.setCellWidth(salesForm, "50%");
+		HorizontalPanel2.setCellWidth(purchaseForm, "50%");
 
 		mainLayout.add(HorizontalPanel1);
 		mainLayout.add(HorizontalPanel2);

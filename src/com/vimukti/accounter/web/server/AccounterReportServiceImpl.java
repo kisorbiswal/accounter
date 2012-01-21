@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Item;
@@ -42,6 +44,7 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -54,6 +57,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
@@ -62,6 +66,7 @@ import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
@@ -3055,4 +3060,45 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
+	public ArrayList<RealisedExchangeLossOrGain> getRealisedExchangeLossesAndGains(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		ArrayList<RealisedExchangeLossOrGain> list = getFinanceTool()
+				.getReportManager().getRealisedExchangeLossesOrGains(
+						getCompanyId(), start.getDate(), end.getDate());
+		return list;
+	}
+
+	@Override
+	public List<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
+			throws AccounterException {
+		FinanceTool tool = getFinanceTool();
+		List<CurrencyExchangeRate> rates = new ArrayList<CurrencyExchangeRate>();
+		Company company = tool.getCompany(getCompanyId());
+		for (Currency currency : company.getCurrencies()) {
+			if (currency.getID() == company.getPrimaryCurrency().getID()) {
+				continue;
+			}
+			CurrencyExchangeRate exchangeRate = new CurrencyExchangeRate();
+			exchangeRate.setCurrencyId(currency.getID());
+			exchangeRate.setCurrencyName(currency.getFormalName());
+			double rate = tool
+					.getMostRecentTransactionCurreencyFactorBasedOnCurrency(
+							getCompanyId(), currency.getID(), date);
+			exchangeRate.setExchangeRate(rate);
+			rates.add(exchangeRate);
+		}
+		return rates;
+	}
+
+	@Override
+	public ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
+			long enterdDate, Map<Long, Double> exchangeRates)
+			throws AccounterException {
+		ArrayList<UnRealisedLossOrGain> list = getFinanceTool()
+				.getReportManager().getunRealisedExchangeLossesAndGains(
+						enterdDate, getCompanyId(), exchangeRates);
+		return list;
+	}
 }

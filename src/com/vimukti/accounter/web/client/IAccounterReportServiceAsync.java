@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -24,6 +26,7 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
+import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
@@ -36,12 +39,14 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
+import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 
 public interface IAccounterReportServiceAsync {
@@ -366,4 +371,17 @@ public interface IAccounterReportServiceAsync {
 	public void getBudgetvsAcualReportData(long id, ClientFinanceDate start,
 			ClientFinanceDate end, int type,
 			AsyncCallback<ArrayList<BudgetActuals>> callback);
+
+	public void getRealisedExchangeLossesAndGains(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<RealisedExchangeLossOrGain>> callback);
+
+	public void getUnRealisedExchangeLossesAndGains(
+			long enteredDate,
+			Map<Long, Double> exchangeRates,
+			AsyncCallback<ArrayList<UnRealisedLossOrGain>> unRealisedExchangeLossedAndGains);
+
+	void getExchangeRatesOfDate(long date,
+			AsyncCallback<List<CurrencyExchangeRate>> callback);
+
 }

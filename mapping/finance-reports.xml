@@ -4071,6 +4071,138 @@
 		A.A_TYPE,A.ID
 
 	</sql-query>
+	
+	<sql-query name="getRealisedExchangeLossesOrGains">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="PAYEE_NAME" type="string" />
+		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="EXCHANGE_RATE" type="double"/>
+		<return-scalar column="REALISED_GAIN_OR_LOSS" type="double"/>
+		
+		SELECT T.ID AS TRANSACTION_ID,
+		CASE
+		WHEN T.T_TYPE = 11 AND
+		PB.PAYBILL_TYPE = 2 THEN 25
+		ELSE T.T_TYPE END
+		AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS TRANSACTION_DATE,
+		CASE 
+		WHEN T.T_TYPE = 15 THEN
+		WC.IN_FAVOUR_OF ELSE P.NAME
+		END AS PAYEE_NAME,
+		C.FORMAL_NAME AS CURRENCY,
+		T.CURRENCY_FACTOR AS EXCHANGE_RATE,
+		SUM(AT.AMOUNT) AS
+		REALISED_GAIN_OR_LOSS
+
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT OUTER JOIN TRANSACTION T
+		ON AT.TRANSACTION_ID = T.ID
+		LEFT JOIN CURRENCY C 
+		ON C.ID=T.CURRENCY
+		LEFT JOIN COMPANY COM
+		ON COM.ID=AT.COMPANY_ID		
+		LEFT OUTER JOIN	CASH_PURCHASE CP
+		ON T.ID = CP.ID
+		LEFT OUTER JOIN	CASH_SALES CS
+		ON T.ID = CS.ID
+		LEFT OUTER JOIN	CREDIT_CARD_CHARGES CCC
+		ON T.ID = CCC.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM
+		ON T.ID = CCM.ID
+		LEFT OUTER JOIN	ENTER_BILL EB
+		ON	T.ID = EB.ID
+		LEFT OUTER JOIN	INVOICE I
+		ON T.ID = I.ID
+		LEFT OUTER JOIN
+		VENDOR_CREDIT_MEMO VCM
+		ON T.ID = VCM.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS WC
+		ON	T.ID = WC.ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP
+		ON T.ID = RP.ID
+		LEFT OUTER JOIN
+		PAY_BILL PB
+		ON T.ID = PB.ID
+		LEFT OUTER JOIN
+		CUSTOMER_PREPAYMENT CPP
+		ON T.ID = CPP.ID
+		LEFT OUTER JOIN
+		CUSTOMER_REFUND CR
+		ON T.ID = CR.ID
+		LEFT JOIN JOURNAL_ENTRY JE
+		ON T.ID = JE.ID
+		LEFT OUTER JOIN
+		PAYEE P	ON 
+		P.ID = CP.VENDOR_ID OR P.ID = CCC.VENDOR_ID
+		OR P.ID = EB.VENDOR_ID OR
+		P.ID =	VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
+		OR P.ID = CS.CUSTOMER_ID OR P.ID =
+		CCM.CUSTOMER_ID OR P.ID =
+		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR
+		P.ID = I.CUSTOMER_ID
+		OR
+		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR
+		P.ID =
+		CPP.CUSTOMER_ID
+		OR P.ID = CR.CUSTOMER_ID
+		
+		WHERE
+		T.COMPANY_ID=:companyId AND T.T_TYPE NOT IN (9) AND T.T_DATE BETWEEN
+		:startDate AND :endDate
+		AND AT.AMOUNT != 0 AND AT.ACCOUNT_ID=COM.EXCHANGE_LOSS_OR_GAIN_ACCOUNT
+		GROUP BY
+		T.ID,PB.ID,P.NAME,WC.IN_FAVOUR_OF,C.ID
+		ORDER BY T.T_DATE
+		
+	</sql-query>
+	
+	<sql-query name="getUnrealisedExchangeLossOrGain">
+		<query-param name="companyId" type="long" />
+		<query-param name="enteredDate" type="long" />
+		
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="CURRENCY_NAME" type="string" />
+		<return-scalar column="FOREIGN_BALANCE" type="double" />
+		<return-scalar column="CURRENT_BALANCE" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+	
+		SELECT 
+		A.NAME AS ACCOUNT_NAME,
+		CURR.FORMAL_NAME AS CURRENCY_NAME,
+		SUM(AT.AMOUNT) AS FOREIGN_BALANCE,
+		A.TOTAL_BALANCE_IN_ACCOUNT_CURRENCY AS CURRENT_BALANCE,
+		CURR.ID AS CURRENCY_ID
+		
+		FROM ACCOUNT_TRANSACTION AT 
+		LEFT OUTER JOIN TRANSACTION T 
+		ON T.ID=AT.TRANSACTION_ID
+		
+		LEFT JOIN ACCOUNT A 
+		ON A.ID=AT.ACCOUNT_ID
+		
+		LEFT JOIN CURRENCY CURR 
+		ON CURR.ID=T.CURRENCY
+		
+		LEFT JOIN COMPANY C 
+		ON C.ID=AT.COMPANY_ID
+		
+		WHERE A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY 
+		AND T.T_DATE &lt;=:enteredDate AND AT.COMPANY_ID=:companyId
+		
+		GROUP BY A.ID,CURR.ID		
+	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 
