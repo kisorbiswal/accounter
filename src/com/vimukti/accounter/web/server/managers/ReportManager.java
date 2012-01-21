@@ -3591,7 +3591,7 @@ public class ReportManager extends Manager {
 		return result;
 	}
 
-	public ArrayList<UnRealisedLossOrGain> getunRealisedExchangeLossesAndGains(
+	public ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
 			Long enteredDate, long companyId, Map<Long, Double> exchangeRates) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<UnRealisedLossOrGain> list = new ArrayList<UnRealisedLossOrGain>();
