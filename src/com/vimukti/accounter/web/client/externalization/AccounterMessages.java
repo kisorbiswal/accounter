@@ -1871,6 +1871,12 @@ public interface AccounterMessages extends Messages {
 
 	public String forgottenPassword();
 
+	public String form26Q();
+	
+	public String form27Q();
+	
+	public String form27EQ();
+	
 	public String formType();
 
 	public String formLayoutsList();
