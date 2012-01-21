@@ -197,7 +197,8 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getPurchaseItems(AsyncCallback<ArrayList<ClientItem>> callback);
 
 	// To get the Credits and Payments of a particular Customer in a company
-	public void getCustomerCreditsAndPayments(long customerId, long transactionId,
+	public void getCustomerCreditsAndPayments(long customerId,
+			long transactionId,
 			AsyncCallback<ArrayList<ClientCreditsAndPayments>> callback);
 
 	// To get all the Invoices and CustomerRefunds of a particular customer
@@ -456,7 +457,7 @@ public interface IAccounterHomeViewServiceAsync {
 			int length, int viewType,
 			AsyncCallback<PaginationList<BillsList>> callback);
 
-	void getTDSTransactionItemsList(
+	void getTDSTransactionItemsList(int formType,
 			AsyncCallback<ArrayList<ClientTDSTransactionItem>> callback);
 
 	void getTDSChalanDetailsList(

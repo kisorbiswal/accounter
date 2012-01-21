@@ -352,7 +352,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList();
 
-	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList();
+	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int formType);
 
 	ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear);
