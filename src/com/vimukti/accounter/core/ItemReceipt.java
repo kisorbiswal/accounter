@@ -604,7 +604,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
@@ -743,7 +743,7 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.itemReceipt()).gap();

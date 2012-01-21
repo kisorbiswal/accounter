@@ -725,7 +725,7 @@ public class PayBill extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session, this);
 			if (this.payBillType != TYPE_VENDOR_PAYMENT) {
 				this.vendor.updateBalance(session, this,
@@ -923,7 +923,7 @@ public class PayBill extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.payBill()).gap();

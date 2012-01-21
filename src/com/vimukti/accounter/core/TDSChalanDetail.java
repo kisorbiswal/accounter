@@ -224,7 +224,7 @@ public class TDSChalanDetail extends Transaction implements
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		super.onDelete(session);
-		if (!isVoid() && !isTemplate()) {
+		if (!isVoid() && !isDraftOrTemplate()) {
 			Account account = getTDSTaxAgencyAccount();
 			if (account != null) {
 				account.updateCurrentBalance(this, total, currencyFactor);

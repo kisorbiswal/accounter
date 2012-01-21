@@ -201,7 +201,7 @@ public class JournalEntry extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid()) {
+		if (!isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doReverseEffect(session);
 		}
 		return super.onDelete(session);
@@ -259,7 +259,7 @@ public class JournalEntry extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.journalEntry()).gap();

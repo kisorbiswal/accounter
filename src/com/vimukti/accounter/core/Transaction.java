@@ -1199,6 +1199,9 @@ public abstract class Transaction extends CreatableObject implements
 			creditsAndPayments.canEdit(clientObject);
 		}
 		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == STATUS_DRAFT) {
+			return true;
+		}
 		checkForReconciliation(transaction);
 		if (saveStatus != STATUS_DRAFT) {
 			checkNullValues();
@@ -1518,6 +1521,10 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean isTemplate() {
 		return this.saveStatus == STATUS_TEMPLATE;
+	}
+
+	public boolean isDraft() {
+		return this.saveStatus == STATUS_DRAFT;
 	}
 
 	protected boolean isCurrencyFactorChanged() {

@@ -107,7 +107,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			this.balanceDue = 0;
 			doVoidEffect(session, this);
 		}

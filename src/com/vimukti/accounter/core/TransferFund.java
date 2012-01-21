@@ -241,7 +241,7 @@ public class TransferFund extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && !isDraft()) {
 			this.effectAccount(session, this.transferFrom, -this.total);
 		}
 		return super.onDelete(session);

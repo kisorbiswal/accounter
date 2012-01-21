@@ -187,12 +187,6 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	}
 
 	@Override
-	public boolean onDelete(Session session) throws CallbackException {
-
-		return super.onDelete(session);
-	}
-
-	@Override
 	public void onLoad(Session s, Serializable id) {
 
 	}

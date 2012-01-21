@@ -641,7 +641,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			this.depositIn.updateCurrentBalance(this, this.amount,
 					currencyFactor);
 			this.depositIn.onUpdate(session);

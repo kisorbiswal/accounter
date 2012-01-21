@@ -138,7 +138,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public void onLoad(Session s, Serializable id) {
 		// NOTHING TO DO.
-		oldCurrencyFactor=currencyFactor;
+		oldCurrencyFactor = currencyFactor;
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session);
 		}
 		return super.onDelete(session);

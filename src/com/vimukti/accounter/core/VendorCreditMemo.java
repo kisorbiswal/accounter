@@ -297,7 +297,7 @@ public class VendorCreditMemo extends Transaction {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && !isDraft()) {
 			this.balanceDue = 0d;
 		}
 		return super.onDelete(session);
@@ -326,7 +326,7 @@ public class VendorCreditMemo extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.vendorCreditMemo()).gap();
