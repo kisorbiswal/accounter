@@ -3704,13 +3704,20 @@ public class FinanceTool {
 	}
 
 	public List<ClientTDSTransactionItem> getTDSTransactionItemsList(
-			long companyId) {
+			int formType, long companyId) {
 
 		ArrayList<ClientTDSTransactionItem> arrayList = new ArrayList<ClientTDSTransactionItem>();
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getTDSPayBillTransactionsList")
-				.setParameter("companyId", companyId);
+		Query query;
+		if (formType != TDSChalanDetail.Form27EQ) {
+			query = session.getNamedQuery("getTDSPayBillTransactionsList")
+					.setParameter("companyId", companyId);
+		} else {
+			query = session.getNamedQuery(
+					"getTDSReceivePaymentTransactionsList").setParameter(
+					"companyId", companyId);
+		}
 		List list = query.list();
 		Iterator iterator = list.iterator();
 
