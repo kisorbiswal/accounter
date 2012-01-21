@@ -93,6 +93,19 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
+				if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
+					if (obj.isISellThisItem) {
+						return DataUtils.amountAsStringWithCurrency(
+								obj.getSalesPrice(), currency) != null ? DataUtils
+								.amountAsStringWithCurrency(
+										obj.getSalesPrice(), currency) : "";
+					} else {
+						return DataUtils.amountAsStringWithCurrency(
+								obj.getPurchasePrice(), currency) != null ? DataUtils
+								.amountAsStringWithCurrency(
+										obj.getPurchasePrice(), currency) : "";
+					}
+				}
 				if (ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(obj.getSalesPrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
 							obj.getSalesPrice(), currency) : "";
