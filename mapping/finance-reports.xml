@@ -4181,7 +4181,7 @@
 		SELECT 
 		A.NAME AS ACCOUNT_NAME,
 		CURR.FORMAL_NAME AS CURRENCY_NAME,
-		SUM(AT.AMOUNT) AS FOREIGN_BALANCE,
+		SUM(AT.AMOUNT/T.CURRENCY_FACTOR) AS FOREIGN_BALANCE,
 		A.TOTAL_BALANCE_IN_ACCOUNT_CURRENCY AS CURRENT_BALANCE,
 		CURR.ID AS CURRENCY_ID
 		
@@ -4201,7 +4201,7 @@
 		WHERE A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY 
 		AND T.T_DATE &lt;=:enteredDate AND AT.COMPANY_ID=:companyId
 		
-		GROUP BY A.ID,CURR.ID		
+		GROUP BY A.ID,CURR.ID,T.ID		
 	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
