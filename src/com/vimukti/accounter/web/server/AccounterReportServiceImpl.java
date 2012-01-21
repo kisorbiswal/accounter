@@ -3097,7 +3097,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long enterdDate, Map<Long, Double> exchangeRates)
 			throws AccounterException {
 		ArrayList<UnRealisedLossOrGain> list = getFinanceTool()
-				.getReportManager().getunRealisedExchangeLossesAndGains(
+				.getReportManager().getUnRealisedExchangeLossesAndGains(
 						enterdDate, getCompanyId(), exchangeRates);
 		return list;
 	}
