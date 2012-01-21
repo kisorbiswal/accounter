@@ -248,7 +248,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 			@Override
 			protected String getValue(ClientTransactionReceivePayment row) {
-				return String.valueOf(row.getCashDiscount());
+				return DataUtils.getAmountAsStringInCurrency(
+						row.getCashDiscount(), null);
 			}
 
 			@Override
