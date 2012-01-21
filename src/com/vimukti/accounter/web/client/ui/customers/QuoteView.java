@@ -823,6 +823,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 				currencyWidget.setDisabled(isInViewMode());
 			}
 			ClientCompany company = getCompany();
+			initTransactionsItems();
 			this.setCustomer(company.getCustomer(transaction.getCustomer()));
 			if (this.getCustomer() != null) {
 				this.contacts = getCustomer().getContacts();

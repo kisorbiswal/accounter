@@ -530,6 +530,7 @@ public class CustomerCreditMemoView extends
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
 			}
+			initTransactionsItems();
 			this.setCustomer(getCompany()
 					.getCustomer(transaction.getCustomer()));
 			customerSelected(this.customer);
