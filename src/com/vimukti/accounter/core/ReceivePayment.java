@@ -308,6 +308,13 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 
 		super.onSave(session);
 
+		if (this.getTransactionReceivePayment() != null) {
+			for (TransactionReceivePayment payment : this
+					.getTransactionReceivePayment()) {
+				payment.setReceivePayment(this);
+			}
+		}
+
 		if (isDraftOrTemplate()) {
 			return false;
 		}
@@ -344,11 +351,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			this.setCreditsAndPayments(creditsAndPayments);
 			session.save(creditsAndPayments);
 		}
-		if (this.getTransactionReceivePayment() != null)
-			for (TransactionReceivePayment payment : this
-					.getTransactionReceivePayment()) {
-				payment.setReceivePayment(this);
-			}
+
 		// To check whether Unused payment is equal to amount or not and any
 		// Cash discount or Write off or Applied Credit are applied or not
 		if (DecimalUtil.isEquals(this.unUsedPayments, this.amount)
