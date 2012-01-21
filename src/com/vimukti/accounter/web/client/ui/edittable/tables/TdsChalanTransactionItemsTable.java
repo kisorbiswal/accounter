@@ -2,19 +2,29 @@ package com.vimukti.accounter.web.client.ui.edittable.tables;
 
 import java.util.List;
 
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AmountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CheckboxEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
+import com.vimukti.accounter.web.client.ui.edittable.RenderContext;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public abstract class TdsChalanTransactionItemsTable extends
 		EditTable<ClientTDSTransactionItem> {
 
 	private ICurrencyProvider currencyProvider;
+	private int formType;
+
+	public TdsChalanTransactionItemsTable(int formType) {
+		super();
+		this.formType = formType;
+	}
 
 	@Override
 	protected void initColumns() {
@@ -26,14 +36,28 @@ public abstract class TdsChalanTransactionItemsTable extends
 					ClientTDSTransactionItem row) {
 				updateNonEditableFields();
 			}
+
+			@Override
+			public IsWidget getWidget(
+					RenderContext<ClientTDSTransactionItem> context) {
+				CheckBox box = (CheckBox) super.getWidget(context);
+				box.setValue(isInViewMode());
+				return box;
+			}
 		});
 
 		TextEditColumn<ClientTDSTransactionItem> vendorNameColumn = new TextEditColumn<ClientTDSTransactionItem>() {
 
 			@Override
 			protected String getValue(ClientTDSTransactionItem row) {
-				return Accounter.getCompany().getVendor(row.getVendor())
-						.getName();
+				if (formType != ClientTDSChalanDetail.Form27EQ) {
+					return Accounter.getCompany().getVendor(row.getVendor())
+							.getName();
+				} else {
+					return Accounter.getCompany().getCustomer(row.getVendor())
+							.getName();
+				}
+
 			}
 
 			@Override
