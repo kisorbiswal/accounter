@@ -7,6 +7,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TDSChalanDetail extends Transaction implements
@@ -16,6 +17,10 @@ public class TDSChalanDetail extends Transaction implements
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public static final int Form26Q = 1;
+	public static final int Form27Q = 2;
+	public static final int Form27EQ = 3;
 
 	private double incomeTaxAmount;
 	private double surchangePaidAmount;
@@ -231,11 +236,6 @@ public class TDSChalanDetail extends Transaction implements
 	}
 
 	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-		return super.onUpdate(session);
-	}
-
-	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
@@ -309,6 +309,40 @@ public class TDSChalanDetail extends Transaction implements
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onEdit(Transaction clonedObject) {
+		TDSChalanDetail challan = (TDSChalanDetail) clonedObject;
+		Session session = HibernateUtil.getCurrentSession();
+
+		if (isDraftOrTemplate()) {
+			super.onEdit(challan);
+			return;
+		}
+
+		Account oldPayFrom = challan.getPayFrom();
+		oldPayFrom.updateCurrentBalance(this, -challan.getTotal(),
+				challan.getCurrencyFactor());
+		session.saveOrUpdate(oldPayFrom);
+		oldPayFrom.onUpdate(session);
+
+		payFrom.updateCurrentBalance(this, total, currencyFactor);
+		session.saveOrUpdate(payFrom);
+		payFrom.onUpdate(session);
+
+		Account account = getTDSTaxAgencyAccount();
+		if (account != null) {
+			account.updateCurrentBalance(this, challan.getTotal(),
+					challan.getCurrencyFactor());
+			// session.saveOrUpdate(account);
+			account.onUpdate(session);
+
+			account.updateCurrentBalance(this, -total, currencyFactor);
+			session.saveOrUpdate(account);
+			account.onUpdate(session);
+		}
+		super.onEdit(clonedObject);
 	}
 
 }
