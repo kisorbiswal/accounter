@@ -10291,6 +10291,25 @@
 		WHERE PB.TDS_TOTAL!=0 AND
 		T.COMPANY_ID=:companyId AND TTI IS NULL
 	</sql-query>
+	
+	<sql-query name="getTDSReceivePaymentTransactionsList">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="TDS_TOTAL" type="double" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		SELECT RP.CUSTOMER_ID AS CUSTOMER_ID,
+				RP.TDS_TOTAL AS TDS_TOTAL,
+				T.TOTAL AS TOTAL,
+				T.T_DATE AS TRANSACTION_DATE,
+				T.ID AS TRANSACTION_ID
+			FROM RECEIVE_PAYMENT RP LEFT JOIN
+		TRANSACTION T ON T.ID=RP.ID
+		LEFT OUTER JOIN TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
+		WHERE RP.TDS_TOTAL!=0 AND
+		T.COMPANY_ID=:companyId AND TTI IS NULL
+	</sql-query>
 
 	<sql-query name="getCashPurchaseListByVendor">
 		<query-param name="companyId" type="long" />
