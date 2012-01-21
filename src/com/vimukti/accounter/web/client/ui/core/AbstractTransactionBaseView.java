@@ -663,10 +663,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		}
 
-		if (canAddDraftButton()) {
-			buttonBar.add(new DraftsButton(this));
-		}
-
 		super.createButtons(buttonBar);
 	}
 
@@ -682,6 +678,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				this.buttonBar.insert(saveAndCloseButton, 0);
 			}
 		} else {
+			if (canAddDraftButton()) {
+				buttonBar.add(new DraftsButton(this));
+			}
 			super.showSaveButtons();
 		}
 	}
