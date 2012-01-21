@@ -36,8 +36,9 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 public class TDSChalanDetailsView extends
 		AbstractTransactionBaseView<ClientTDSChalanDetail> {
 
-	public TDSChalanDetailsView() {
+	public TDSChalanDetailsView(int formType) {
 		super(ClientTransaction.TYPE_TDS_CHALLAN);
+		this.formTypeSeclected = formType;
 	}
 
 	private AmountField incomeTaxAmount;
@@ -47,7 +48,7 @@ public class TDSChalanDetailsView extends
 	private AmountField penaltyPaidAmount;
 	private AmountField otherAmountPaid;
 	private AmountField totalAmountPaid;
-	private SelectCombo natureOfPaymentCombo26Q;
+	private SelectCombo natureOfPaymentCombo;
 	private SelectCombo modeOFPaymentCombo;
 	private IntegerField checkNumber;
 	private DateField dateItem2;
@@ -69,8 +70,8 @@ public class TDSChalanDetailsView extends
 	int formTypeSeclected = 1;
 	String assessmentYear;
 	String paymentSectionSelected = null;
-	private SelectCombo natureOfPaymentCombo27Q;
-	private SelectCombo natureOfPaymentCombo27EQ;
+	// private SelectCombo natureOfPaymentCombo27Q;
+	// private SelectCombo natureOfPaymentCombo27EQ;
 	int modeOfPayment = 1;
 	boolean bookEntry = false;
 	private SelectCombo financialYearCombo;
@@ -87,27 +88,29 @@ public class TDSChalanDetailsView extends
 		selectFormTypeCombo = new SelectCombo(messages.formType());
 		selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
-		selectFormTypeCombo.setDisabled(isInViewMode());
+		selectFormTypeCombo.setDefaultToFirstOption(true);
+		selectFormTypeCombo.setDisabled(true);
 		selectFormTypeCombo.setRequired(true);
-		selectFormTypeCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-
-						if (selectItem.equals(getFormTypes().get(0))) {
-							formTypeSeclected = Form26Q;
-							changeFormTypeStatus(formTypeSeclected);
-						} else if (selectItem.equals(getFormTypes().get(1))) {
-							formTypeSeclected = Form27Q;
-							changeFormTypeStatus(formTypeSeclected);
-						} else if (selectItem.equals(getFormTypes().get(2))) {
-							formTypeSeclected = Form27EQ;
-							changeFormTypeStatus(formTypeSeclected);
-						}
-
-					}
-				});
+		// selectFormTypeCombo
+		// .addSelectionChangeHandler(new
+		// IAccounterComboSelectionChangeHandler<String>() {
+		//
+		// @Override
+		// public void selectedComboBoxItem(String selectItem) {
+		//
+		// if (selectItem.equals(getFormTypes().get(0))) {
+		// formTypeSeclected = Form26Q;
+		// changeFormTypeStatus(formTypeSeclected);
+		// } else if (selectItem.equals(getFormTypes().get(1))) {
+		// formTypeSeclected = Form27Q;
+		// changeFormTypeStatus(formTypeSeclected);
+		// } else if (selectItem.equals(getFormTypes().get(2))) {
+		// formTypeSeclected = Form27EQ;
+		// changeFormTypeStatus(formTypeSeclected);
+		// }
+		//
+		// }
+		// });
 
 		slectAssecementYear = new SelectCombo(messages.assessmentYear());
 		slectAssecementYear.setHelpInformation(true);
@@ -225,40 +228,19 @@ public class TDSChalanDetailsView extends
 		totalAmountPaid.setValue("0.00");
 		totalAmountPaid.setDisabled(true);
 
-		natureOfPaymentCombo26Q = new SelectCombo("Nature of Payment(26Q)");
-		natureOfPaymentCombo26Q.setHelpInformation(true);
-		natureOfPaymentCombo26Q.initCombo(get26QSectionsList());
-		natureOfPaymentCombo26Q.setRequired(true);
-		natureOfPaymentCombo26Q.setDisabled(isInViewMode());
-		natureOfPaymentCombo26Q
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		natureOfPaymentCombo = new SelectCombo("Nature of Payment");
+		natureOfPaymentCombo.setHelpInformation(true);
+		if (formTypeSeclected == Form26Q) {
+			natureOfPaymentCombo.initCombo(get26QSectionsList());
+		} else if (formTypeSeclected == Form27Q) {
+			natureOfPaymentCombo.initCombo(get27QSectionsList());
+		} else if (formTypeSeclected == Form27EQ) {
+			natureOfPaymentCombo.initCombo(get27EQSectionsList());
+		}
 
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						paymentSectionSelected = selectItem;
-					}
-				});
-
-		natureOfPaymentCombo27Q = new SelectCombo("Nature of Payment(27Q)");
-		natureOfPaymentCombo27Q.setHelpInformation(true);
-		natureOfPaymentCombo27Q.initCombo(get27QSectionsList());
-		natureOfPaymentCombo27Q.setRequired(true);
-		natureOfPaymentCombo27Q.setDisabled(isInViewMode());
-		natureOfPaymentCombo27Q
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						paymentSectionSelected = selectItem;
-					}
-				});
-
-		natureOfPaymentCombo27EQ = new SelectCombo("Nature of Payment(27EQ)");
-		natureOfPaymentCombo27EQ.setHelpInformation(true);
-		natureOfPaymentCombo27EQ.initCombo(get27EQSectionsList());
-		natureOfPaymentCombo27EQ.setRequired(true);
-		natureOfPaymentCombo27EQ.setDisabled(isInViewMode());
-		natureOfPaymentCombo27EQ
+		natureOfPaymentCombo.setRequired(true);
+		natureOfPaymentCombo.setDisabled(isInViewMode());
+		natureOfPaymentCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
@@ -380,10 +362,9 @@ public class TDSChalanDetailsView extends
 				tdsDepositedBY);
 
 		otherDynamicForm = new DynamicForm();
-		otherDynamicForm.setFields(natureOfPaymentCombo26Q,
-				natureOfPaymentCombo27Q, natureOfPaymentCombo27EQ,
-				slectAssecementYear, checkNumber, dateItem2, bankBsrCode,
-				payFromAccCombo, endingBalanceText);
+		otherDynamicForm.setFields(natureOfPaymentCombo, slectAssecementYear,
+				checkNumber, dateItem2, bankBsrCode, payFromAccCombo,
+				endingBalanceText);
 
 		belowForm1 = new DynamicForm();
 		belowForm1.setFields(incomeTaxAmount, surchargePaidAmount,
@@ -396,7 +377,7 @@ public class TDSChalanDetailsView extends
 		// grid.setCanEdit(true);
 		// grid.init();
 
-		table = new TdsChalanTransactionItemsTable() {
+		table = new TdsChalanTransactionItemsTable(formTypeSeclected) {
 
 			@Override
 			public void updateNonEditableFields() {
@@ -429,41 +410,41 @@ public class TDSChalanDetailsView extends
 
 		this.add(verticalPanel);
 		this.setCellHorizontalAlignment(verticalPanel, ALIGN_LEFT);
-
-		natureOfPaymentCombo27Q.hide();
-		natureOfPaymentCombo27EQ.hide();
+		//
+		// natureOfPaymentCombo27Q.hide();
+		// natureOfPaymentCombo27EQ.hide();
 	}
 
-	protected void changeFormTypeStatus(int formTypeSeclected) {
-
-		if (formTypeSeclected == 1) {
-			natureOfPaymentCombo26Q.show();
-			natureOfPaymentCombo27Q.hide();
-			natureOfPaymentCombo27EQ.hide();
-
-			natureOfPaymentCombo26Q.setRequired(true);
-			natureOfPaymentCombo27Q.setRequired(false);
-			natureOfPaymentCombo27EQ.setRequired(false);
-		} else if (formTypeSeclected == 2) {
-			natureOfPaymentCombo26Q.hide();
-			natureOfPaymentCombo27Q.show();
-			natureOfPaymentCombo27EQ.hide();
-
-			natureOfPaymentCombo26Q.setRequired(false);
-			natureOfPaymentCombo27Q.setRequired(true);
-			natureOfPaymentCombo27EQ.setRequired(false);
-		} else if (formTypeSeclected == 3) {
-
-			natureOfPaymentCombo26Q.hide();
-			natureOfPaymentCombo27Q.hide();
-			natureOfPaymentCombo27EQ.show();
-
-			natureOfPaymentCombo26Q.setRequired(false);
-			natureOfPaymentCombo27Q.setRequired(false);
-			natureOfPaymentCombo27EQ.setRequired(true);
-		}
-
-	}
+	// protected void changeFormTypeStatus(int formTypeSeclected) {
+	//
+	// if (formTypeSeclected == 1) {
+	// natureOfPaymentCombo26Q.show();
+	// natureOfPaymentCombo27Q.hide();
+	// natureOfPaymentCombo27EQ.hide();
+	//
+	// natureOfPaymentCombo26Q.setRequired(true);
+	// natureOfPaymentCombo27Q.setRequired(false);
+	// natureOfPaymentCombo27EQ.setRequired(false);
+	// } else if (formTypeSeclected == 2) {
+	// natureOfPaymentCombo26Q.hide();
+	// natureOfPaymentCombo27Q.show();
+	// natureOfPaymentCombo27EQ.hide();
+	//
+	// natureOfPaymentCombo26Q.setRequired(false);
+	// natureOfPaymentCombo27Q.setRequired(true);
+	// natureOfPaymentCombo27EQ.setRequired(false);
+	// } else if (formTypeSeclected == 3) {
+	//
+	// natureOfPaymentCombo26Q.hide();
+	// natureOfPaymentCombo27Q.hide();
+	// natureOfPaymentCombo27EQ.show();
+	//
+	// natureOfPaymentCombo26Q.setRequired(false);
+	// natureOfPaymentCombo27Q.setRequired(false);
+	// natureOfPaymentCombo27EQ.setRequired(true);
+	// }
+	//
+	// }
 
 	private void updateControls() {
 		incomeTaxAmount.setAmount(transaction.getIncomeTaxAmount());
@@ -494,6 +475,9 @@ public class TDSChalanDetailsView extends
 			chalanQuarterPeriod.setSelected(getFinancialQuatersList().get(3));
 		}
 
+		payFromAccCombo.setComboItem(getCompany().getAccount(
+				transaction.getPayFrom()));
+
 		chalanSerialNumber.setNumber(transaction.getChalanSerialNumber());
 
 		if (transaction.isBookEntry()) {
@@ -501,30 +485,12 @@ public class TDSChalanDetailsView extends
 		} else {
 			tdsDepositedBY.setSelected(getYESNOList().get(1));
 		}
+		bookEntry = transaction.isBookEntry();
 
 		slectAssecementYear.setSelected(transaction.getAssesmentYearStart()
 				+ "-" + transaction.getAssessmentYearEnd());
 
-		if (transaction.getFormType() == 1) {
-			selectFormTypeCombo.setSelected(getFormTypes().get(0));
-			natureOfPaymentCombo26Q
-					.setSelected(transaction.getPaymentSection());
-			formTypeSeclected = 1;
-			changeFormTypeStatus(formTypeSeclected);
-
-		} else if (transaction.getFormType() == 2) {
-			selectFormTypeCombo.setSelected(getFormTypes().get(1));
-			natureOfPaymentCombo27Q
-					.setSelected(transaction.getPaymentSection());
-			formTypeSeclected = 2;
-			changeFormTypeStatus(formTypeSeclected);
-		} else if (transaction.getFormType() == 3) {
-			selectFormTypeCombo.setSelected(getFormTypes().get(2));
-			natureOfPaymentCombo27EQ.setSelected(transaction
-					.getPaymentSection());
-			formTypeSeclected = 3;
-			changeFormTypeStatus(formTypeSeclected);
-		}
+		natureOfPaymentCombo.setSelected(transaction.getPaymentSection());
 
 		financialYearCombo.setSelected(Integer.toString(transaction
 				.getAssesmentYearStart() - 1)
@@ -547,10 +513,13 @@ public class TDSChalanDetailsView extends
 	private List<String> getFormTypes() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("26Q");
-		list.add("27Q");
-		list.add("27EQ");
-
+		if (formTypeSeclected == Form26Q) {
+			list.add("26Q");
+		} else if (formTypeSeclected == Form27Q) {
+			list.add("27Q");
+		} else if (formTypeSeclected == Form27EQ) {
+			list.add("27EQ");
+		}
 		return list;
 	}
 
@@ -733,7 +702,7 @@ public class TDSChalanDetailsView extends
 		transaction.setFormType(formTypeSeclected);
 
 		String delims = "-";
-		String[] tokens = assessmentYear.split(delims);
+		String[] tokens = slectAssecementYear.getSelectedValue().split(delims);
 
 		transaction.setAssesmentYearStart(Integer.parseInt(tokens[0]));
 		transaction.setAssessmentYearEnd(Integer.parseInt(tokens[1]));
@@ -793,6 +762,7 @@ public class TDSChalanDetailsView extends
 		Accounter
 				.createHomeService()
 				.getTDSTransactionItemsList(
+						formTypeSeclected,
 						new AccounterAsyncCallback<ArrayList<ClientTDSTransactionItem>>() {
 
 							@Override
@@ -851,26 +821,24 @@ public class TDSChalanDetailsView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		incomeTaxAmount.setDisabled(false);
-		surchargePaidAmount.setDisabled(false);
-		eduCessAmount.setDisabled(false);
+		// incomeTaxAmount.setDisabled(false);
+		// surchargePaidAmount.setDisabled(false);
+		// eduCessAmount.setDisabled(false);
 		interestPaidAmount.setDisabled(false);
 		penaltyPaidAmount.setDisabled(false);
 		otherAmountPaid.setDisabled(false);
-		totalAmountPaid.setDisabled(false);
-		natureOfPaymentCombo26Q.setDisabled(false);
+		// totalAmountPaid.setDisabled(false);
+		natureOfPaymentCombo.setDisabled(false);
 		modeOFPaymentCombo.setDisabled(false);
 		checkNumber.setDisabled(false);
 		dateItem2.setDisabled(false);
 		bankBsrCode.setDisabled(false);
-		// table.setDisabled(false);
+		table.setDisabled(false);
 		chalanQuarterPeriod.setDisabled(false);
 		chalanSerialNumber.setDisabled(false);
 		tdsDepositedBY.setDisabled(false);
-		selectFormTypeCombo.setDisabled(false);
-		slectAssecementYear.setDisabled(false);
-		natureOfPaymentCombo27Q.setDisabled(false);
-		natureOfPaymentCombo27EQ.setDisabled(false);
+		// selectFormTypeCombo.setDisabled(false);
+		// slectAssecementYear.setDisabled(false);
 		financialYearCombo.setDisabled(false);
 		endingBalanceText.setDisabled(false);
 		payFromAccCombo.setDisabled(false);

@@ -1,15 +1,17 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.SelectChallanTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class TDSChalanDetailsAction extends Action {
+public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
-	protected TDSChalanDetailsView view;
+	private int type;
 
 	public TDSChalanDetailsAction() {
 		super();
@@ -37,14 +39,26 @@ public class TDSChalanDetailsAction extends Action {
 		runAsync(data, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean isDependent) {
+	public void runAsync(final ClientTDSChalanDetail data,
+			final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
-				view = new TDSChalanDetailsView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, TDSChalanDetailsAction.this);
+				if (type == 0 && data == null) {
+					SelectChallanTypeDialog dialog = new SelectChallanTypeDialog();
+					dialog.setDependent(isDependent);
+					dialog.setCallback(getCallback());
+					dialog.show();
+				} else {
+					if (data != null) {
+						type = data.getFormType();
+					}
+					TDSChalanDetailsView view = new TDSChalanDetailsView(type);
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, TDSChalanDetailsAction.this);
+
+				}
 
 			}
 
@@ -64,6 +78,14 @@ public class TDSChalanDetailsAction extends Action {
 	@Override
 	public String getText() {
 		return "Chalan Details";
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 }
