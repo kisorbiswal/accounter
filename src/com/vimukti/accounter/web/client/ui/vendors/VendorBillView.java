@@ -868,8 +868,8 @@ public class VendorBillView extends
 					return true;
 				}
 			}
-		} else if (getPreferences()
-				.isBillableExpsesEnbldForProductandServices()
+		}
+		if (getPreferences().isBillableExpsesEnbldForProductandServices()
 				&& getPreferences()
 						.isProductandSerivesTrackingByCustomerEnabled()) {
 			return true;
