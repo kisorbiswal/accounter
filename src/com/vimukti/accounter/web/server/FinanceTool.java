@@ -342,8 +342,9 @@ public class FinanceTool {
 			if (serverObject instanceof Transaction) {
 				Transaction transaction = (Transaction) serverObject;
 				Transaction clonedTransaction = (Transaction) clonedObject;
-				if (!(transaction.getSaveStatus() == Transaction.STATUS_VOID && clonedTransaction
-						.getSaveStatus() == Transaction.STATUS_VOID)) {
+				if (!(transaction.getSaveStatus() == Transaction.STATUS_VOID
+						&& clonedTransaction.getSaveStatus() == Transaction.STATUS_VOID || clonedTransaction
+							.getSaveStatus() == Transaction.STATUS_DRAFT)) {
 					transaction.onEdit(clonedTransaction);
 				}
 			}
