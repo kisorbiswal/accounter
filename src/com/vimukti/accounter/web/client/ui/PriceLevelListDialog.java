@@ -57,19 +57,23 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 		groupDialogButtonHandler = new GroupDialogButtonsHandler() {
 
+			@Override
 			public void onCloseButtonClick() {
 
 			}
 
+			@Override
 			public void onFirstButtonClick() {
 				showAddEditPriceLevel(null);
 			}
 
+			@Override
 			public void onSecondButtonClick() {
 				showAddEditPriceLevel((ClientPriceLevel) listGridView
 						.getSelection());
 			}
 
+			@Override
 			public void onThirdButtonClick() {
 				deleteObject(getSelectedPriceLevelMethod());
 				if (prList == null)
@@ -87,8 +91,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 	}
 
 	public void showAddEditPriceLevel(ClientPriceLevel rec) {
-		dialog = new AddPriceLevelDialog(this, messages
-				.priceLevel(), "");
+		dialog = new AddPriceLevelDialog(this, messages.priceLevel(), "");
 		priceLevel = rec;
 		if (priceLevel != null) {
 
@@ -96,9 +99,9 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			dialog.percentText.setPercentage(priceLevel.getPercentage());
 
 			String increaseOrDecrease = priceLevel
-					.isPriceLevelDecreaseByThisPercentage() ? messages.decreasePriceLevelByThisPercentage()
-					: messages
-							.increasePriceLevelByThisPercentage();
+					.isPriceLevelDecreaseByThisPercentage() ? messages
+					.decreasePriceLevelByThisPercentage() : messages
+					.increasePriceLevelByThisPercentage();
 
 			dialog.levelRadio.setValue(increaseOrDecrease);
 			dialog.setIncrOrDecrPercentValue(increaseOrDecrease);
@@ -115,13 +118,11 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage()
-						: 0.0);
+						.getPercentage() : 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
-					.equals(messages
-							.decreasePriceLevelByThisPercentage()));
+					.equals(messages.decreasePriceLevelByThisPercentage()));
 		}
 		saveOrUpdate(priceLevel);
 	}
@@ -134,13 +135,11 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 						.getValue().toString() : "");
 		priceLevel
 				.setPercentage(dialog.percentText.getPercentage() != null ? dialog.percentText
-						.getPercentage()
-						: 0.0);
+						.getPercentage() : 0.0);
 		String val = dialog.getIncrOrDecrPercentValue();
 		if (val != null) {
 			priceLevel.setPriceLevelDecreaseByThisPercentage(val
-					.equals(messages
-							.decreasePriceLevelByThisPercentage()));
+					.equals(messages.decreasePriceLevelByThisPercentage()));
 		}
 		saveOrUpdate(priceLevel);
 	}
@@ -152,7 +151,8 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			case 0:
 				return obj.getName();
 			case 1:
-				return obj.getPercentage();
+				return DataUtils.getNumberAsPercentString(String.valueOf(obj
+						.getPercentage()));
 			}
 		}
 		return null;
@@ -160,8 +160,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 
 	@Override
 	public String[] setColumns() {
-		return new String[] { messages.name(),
-				messages.percentage() };
+		return new String[] { messages.name(), messages.percentage() };
 	}
 
 	@Override
@@ -184,8 +183,7 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 				}
 			} else {
 				if (priceLevelByName != null) {
-					result.addError(this, messages
-							.priceLevelAlreadyExists());
+					result.addError(this, messages.priceLevelAlreadyExists());
 				}
 			}
 		}
@@ -204,6 +202,11 @@ public class PriceLevelListDialog extends GroupDialog<ClientPriceLevel> {
 			}
 		}
 
+		return true;
+	}
+
+	@Override
+	protected boolean onCancel() {
 		return true;
 	}
 
