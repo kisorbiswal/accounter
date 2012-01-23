@@ -497,7 +497,9 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 				onDoubleClick(obj, currentRow, currentCol);
 			}
 		});
-		ar.setText(value.toString());
+		if (value != null) {
+			ar.setText(value.toString());
+		}
 		this.setWidget(currentRow, currentCol, ar);
 	}
 
