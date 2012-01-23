@@ -2243,7 +2243,7 @@ public class FinanceTool {
 					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
 			((Invoice) newTransaction).setBalanceDue(newTransaction.getTotal());
 			((Invoice) newTransaction).setPayments(0);
-			((Invoice) newTransaction).updateStatus();
+			newTransaction.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		} else if (newTransaction instanceof EnterBill) {
 			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
@@ -2251,7 +2251,7 @@ public class FinanceTool {
 			((EnterBill) newTransaction).setBalanceDue(newTransaction
 					.getTotal());
 			((EnterBill) newTransaction).setPayments(0);
-			((EnterBill) newTransaction).updateStatus();
+			newTransaction.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		} else if (newTransaction instanceof JournalEntry) {
 			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
