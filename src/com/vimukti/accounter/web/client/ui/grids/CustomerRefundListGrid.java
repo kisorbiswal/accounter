@@ -36,7 +36,8 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 3:
 			return UIUtils.getDateByCompanyType(customerRefund.getIssueDate());
 		case 4:
-			return customerRefund.getName();
+			return customerRefund.getName() == null ? "" : customerRefund
+					.getName();
 			// case 5:
 			// return Utility.getTransactionName((customerRefund.getType()));
 		case 5:
