@@ -359,7 +359,9 @@ public class WriteCheck extends Transaction {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
+		if (isDraft()) {
+			return true;
+		}
 		if ((this.bankAccount.equals("Un Deposited Funds"))
 				&& this.transactionMakeDepositEntries != null) {
 			throw new AccounterException(

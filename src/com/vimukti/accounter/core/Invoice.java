@@ -422,7 +422,7 @@ public class Invoice extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()&& this.getSaveStatus() != STATUS_DRAFT) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session, this);
 		}
 		return super.onDelete(session);
@@ -435,7 +435,9 @@ public class Invoice extends Transaction implements Lifecycle {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		if (isDraftOrTemplate()) {
-			addEstimateTransactionItems();
+			if (isTemplate()) {
+				addEstimateTransactionItems();
+			}
 			return false;
 		}
 		if (this.total < 0) {
@@ -510,6 +512,11 @@ public class Invoice extends Transaction implements Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		for (Estimate estimate : invoice.getEstimates()) {
 			estimate = (Estimate) session.get(Estimate.class, estimate.getID());
+
+			int executeUpdate = session.createSQLQuery(
+					"delete from invoice_estimates where estimate_id="
+							+ estimate.getID()).executeUpdate();
+
 			if (estimate != null) {
 
 				boolean isPartiallyInvoiced = false;
