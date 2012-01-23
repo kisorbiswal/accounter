@@ -1333,7 +1333,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
 		date.setDisabled(isInViewMode());
-		// vendorCombo.setDisabled(isInViewMode());
+		vendorCombo.setDisabled(isInViewMode() ? true : !getData().isDraft());
 		payFromCombo.setDisabled(isInViewMode());
 
 		if (paymentMethodCombo.getSelectedValue() != null
