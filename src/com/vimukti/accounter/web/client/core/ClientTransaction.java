@@ -952,4 +952,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public boolean isTemplate() {
 		return this.saveStatus == STATUS_TEMPLATE;
 	}
+
+	public boolean isDraft() {
+		return this.saveStatus == STATUS_DRAFT;
+	}
 }
