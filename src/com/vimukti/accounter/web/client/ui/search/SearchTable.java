@@ -11,6 +11,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.SearchInput;
@@ -124,8 +125,8 @@ public class SearchTable extends CellTable<SearchResultlist> {
 					@Override
 					public void update(int index, SearchResultlist object,
 							SafeHtml value) {
-						ReportsRPC.openTransactionView(
-								object.getTransactionType(), object.getId());
+						ReportsRPC.openTransactionView(getType(object),
+								object.getId());
 					}
 				});
 
@@ -147,6 +148,15 @@ public class SearchTable extends CellTable<SearchResultlist> {
 
 	}
 
+	int getType(SearchResultlist object) {
+		if (object.getTransactionType() == 11) {
+			return object.getTransactionSubType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
+					: ClientTransaction.TYPE_VENDOR_PAYMENT;
+		}
+
+		return object.getTransactionType();
+	}
+
 	private String getTransactionName(int transactionType,
 			int transactionSubType) {
 		if (transactionType == ClientTransaction.TYPE_ESTIMATE) {
@@ -157,6 +167,10 @@ public class SearchTable extends CellTable<SearchResultlist> {
 			} else if (transactionSubType == ClientEstimate.CREDITS) {
 				return messages.credit();
 			}
+		} else if (transactionType == ClientTransaction.TYPE_PAY_BILL) {
+			return transactionSubType == ClientPayBill.TYPE_PAYBILL ? messages
+					.payeePayment(Global.get().Vendor()) : messages
+					.payeePrePayment(Global.get().Vendor());
 		} else {
 			return Utility.getTransactionName(transactionType);
 		}

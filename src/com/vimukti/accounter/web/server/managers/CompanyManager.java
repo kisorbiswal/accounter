@@ -1418,7 +1418,7 @@ public class CompanyManager extends Manager {
 						.setParameter("number", input.getFindBy())
 						.setParameter("match", input.getMatchType());
 			}
-		} else if (input.getTransactionType() == Transaction.TYPE_MAKE_DEPOSIT) {
+		} else if (input.getTransactionType() == Transaction.TYPE_TRANSFER_FUND) {
 			if (input.getSearchbyType() == SearchInput.TYPE_ACCOUNT) {
 				query = session
 						.getNamedQuery("getAllDepositsOrTransfersByAccounName")
@@ -1545,6 +1545,9 @@ public class CompanyManager extends Manager {
 				searchList.setTransactionSubType(input.getTransactionSubType());
 				searchList.setAmount((Double) object[3]);
 				searchList.setCurrency((Long) object[4]);
+				if (object.length > 5) {
+					searchList.setTransactionSubType((Integer) object[5]);
+				}
 				queryResult.add(searchList);
 			}
 

@@ -433,11 +433,11 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages.cashSale())) {
 			return ClientTransaction.TYPE_CASH_SALES;
 		} else if (selectItem.equals(messages.deposit())) {
-			return ClientTransaction.TYPE_MAKE_DEPOSIT;
+			return ClientTransaction.TYPE_TRANSFER_FUND;
 		} else if (selectItem.equals(messages.journalEntry())) {
 			return ClientTransaction.TYPE_JOURNAL_ENTRY;
 		} else if (selectItem.equals(messages.transfer())) {
-			return ClientTransaction.TYPE_MAKE_DEPOSIT;
+			return ClientTransaction.TYPE_TRANSFER_FUND;
 		} else if (selectItem.equals(messages.vatPayment())) {
 			return ClientTransaction.TYPE_PAY_TAX;
 		} else if (selectItem.equals(messages.vatAdjustment())) {
