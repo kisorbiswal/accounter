@@ -223,6 +223,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	private Label voidedLabel;
 
+	private DraftsButton draftsButton;
+
 	public boolean isVatInclusive() {
 		return isVATInclusive;
 	}
@@ -662,7 +664,9 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				buttonBar.add(recurringButton);
 			}
 		}
-
+		draftsButton = new DraftsButton(messages.Saveasdraft(), this);
+		draftsButton.setVisible(canAddDraftButton());
+		buttonBar.add(draftsButton);
 		super.createButtons(buttonBar);
 	}
 
@@ -679,8 +683,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				this.buttonBar.insert(saveAndCloseButton, 0);
 			}
 		} else {
-			if (canAddDraftButton()) {
-				buttonBar.add(new DraftsButton(messages.Saveasdraft(), this));
+			if (draftsButton != null) {
+				draftsButton.setVisible(canAddDraftButton());
 			}
 			super.showSaveButtons();
 		}
