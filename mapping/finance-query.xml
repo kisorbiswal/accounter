@@ -190,7 +190,8 @@
 		LEFT OUTER
 		JOIN
 		SALES_ORDER S
-		on T.ID=S.ID AND
+		on T.ID=S.ID
+		AND
 		T.STATUS !=
 		2 AND T.STATUS!=102 AND
 		T.STATUS != 103
@@ -208,7 +209,8 @@
 		P.ID=:customerId
 		AND
 		T.COMPANY_ID=:companyId
-		AND T.SAVE_STATUS != 202 AND T.SAVE_STATUS != 204
+		AND T.SAVE_STATUS !=
+		202 AND T.SAVE_STATUS != 204
 		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getSalesOrdersList">
@@ -390,17 +392,20 @@
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
-		SELECT 
+		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		CASE
 		WHEN
 		T.T_TYPE = 6
-		THEN EB.DUE_DATE
-		WHEN T.T_TYPE =
+		THEN
+		EB.DUE_DATE
+		WHEN
+		T.T_TYPE =
 		23
 		THEN IR.DUE_DATE
 		ELSE
@@ -420,7 +425,8 @@
 		T.TOTAL AS
 		ORIGINAL_AMOUNT,
 		CASE
-		WHEN T.T_TYPE
+		WHEN
+		T.T_TYPE
 		= 6
 		THEN
 		EB.BALANCE_DUE
@@ -435,7 +441,8 @@
 		END
 		AS BALANCE,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE
 		FALSE
@@ -446,7 +453,8 @@
 		TRANSACTION_DATE,
 		CASE
 		WHEN
-		T.T_TYPE = 28 THEN
+		T.T_TYPE = 28
+		THEN
 		CP.EXPENSE_STATUS
 		ELSE 0 END
 		AS EXPENSE_STATUS
@@ -513,11 +521,15 @@
 		1=:viewType THEN
 		(IR.BALANCE_DUE &gt;0.0 OR EB.BALANCE_DUE &gt;0.0 OR
 		VCM.BALANCE_DUE &gt;0.0
-		AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201 )
+		AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
+		)
 		WHEN 2=:viewType THEN
-		((:todayDate &gt; EB.DUE_DATE OR :todayDate &gt; IR.DUE_DATE)
-		AND (CASE WHEN T.T_TYPE = 6 THEN EB.BALANCE_DUE &gt; 0 ELSE (IR.BALANCE_DUE  &gt; 0.0 OR VCM.BALANCE_DUE
-		 &gt; 0.0) END) AND (T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201))	
+		((:todayDate &gt; EB.DUE_DATE OR :todayDate &gt;
+		IR.DUE_DATE)
+		AND (CASE WHEN T.T_TYPE = 6 THEN EB.BALANCE_DUE &gt; 0
+		ELSE (IR.BALANCE_DUE &gt; 0.0 OR VCM.BALANCE_DUE
+		&gt; 0.0) END) AND
+		(T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201))
 		WHEN 3=:viewType THEN
 		T.SAVE_STATUS=204
 		WHEN 4=:viewType
@@ -527,7 +539,8 @@
 		END
 		AND
 		T.COMPANY_ID=:companyId
-		AND T.SAVE_STATUS != 202
+		AND
+		T.SAVE_STATUS != 202
 		AND T.T_DATE BETWEEN
 		:fromDate
 		AND :toDate
@@ -536,8 +549,8 @@
 		VENDOR_NAME
 
 	</sql-query>
-	
-	
+
+
 	<sql-query name="getAllInvoicesList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -627,7 +640,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE
-		IN(1,4,8) 
+		IN(1,4,8)
 		ORDER BY
 		DUE_DATE
 	</sql-query>
@@ -655,7 +668,8 @@
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -693,7 +707,8 @@
 		TRUE
 		ELSE
 		FALSE
-		END AS ISVOIDED,
+		END AS
+		ISVOIDED,
 		T.STATUS AS
 		TRANSACTION_STATUS
 		FROM
@@ -735,10 +750,13 @@
 		WHEN
 		1=:viewType THEN
 		(I.BALANCE_DUE
-		&gt;0.0 AND T.STATUS != 2 AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
-		WHEN 2=:viewType
+		&gt;0.0 AND
+		T.STATUS != 2 AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType
 		THEN
-		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate AND
+		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate
+		AND
 		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
@@ -803,7 +821,7 @@
 		T.CURRENCY
 		AS
 		CURRENCY,
-		T.SAVE_STATUS 
+		T.SAVE_STATUS
 		AS
 		SAVE_STATUS
 
@@ -836,17 +854,15 @@
 		C.ID
 
 		WHERE T.T_TYPE
-		IN(12,29) AND
+		IN(12,29)
+		AND
 		CASE
 		WHEN 2=:viewType
 		THEN
-		(T.SAVE_STATUS != 204  AND T.SAVE_STATUS!=201)
+		(T.SAVE_STATUS != 204)
 		WHEN 3=:viewType
 		THEN
 		T.SAVE_STATUS = 204
-		WHEN 4=:viewType
-		THEN
-		T.SAVE_STATUS = 201
 		ELSE
 		true
 		END
@@ -894,11 +910,13 @@
 		OR T.T_TYPE = 3
 		OR T.T_TYPE = 11
 		THEN P.NAME
-		WHEN T.T_TYPE = 15
-		THEN WC.IN_FAVOUR_OF 
+		WHEN T.T_TYPE =
+		15
+		THEN WC.IN_FAVOUR_OF
 		WHEN T.T_TYPE = 17
 		THEN 'TAXAgency Payment'
-		WHEN T.T_TYPE = 30 OR
+		WHEN
+		T.T_TYPE = 30 OR
 		T.T_TYPE=31
 		THEN 'TAXAgency Payment'
 		END AS NAME,
@@ -919,11 +937,13 @@
 		WHEN T.T_TYPE=17
 		THEN
 		(SELECT
-		(SUM(TPV1.AMOUNT_TO_PAY)) FROM PAY_TAX PV1
+		(SUM(TPV1.AMOUNT_TO_PAY)) FROM
+		PAY_TAX PV1
 		LEFT OUTER
 		JOIN
 		TRANSACTION_PAY_TAX TPV1
-		ON PV1.ID = TPV1.PAY_TAX_ID
+		ON PV1.ID =
+		TPV1.PAY_TAX_ID
 		WHERE PV1.ID =
 		T.ID)
 		WHEN T.T_TYPE=31
@@ -935,7 +955,8 @@
 		TRANSACTION_RECEIVE_VAT TRV1
 		ON RV1.ID =
 		TRV1.RECEIVE_VAT_ID
-		WHERE RV1.ID = T.ID)
+		WHERE RV1.ID
+		= T.ID)
 
 		END AS AMOUNT_PAID,
 		CASE
@@ -948,13 +969,15 @@
 		PB.PAYBILL_TYPE
 		AS PAYBILL_TYPE,
 
-		CASE WHEN T.T_TYPE = 2
+		CASE WHEN T.T_TYPE
+		= 2
 		THEN
 		CP.CHECK_NUMBER
 		WHEN T.T_TYPE
 		= 3
 		THEN CCC.CHECK_NUMBER
-		WHEN T.T_TYPE
+		WHEN
+		T.T_TYPE
 		= 5
 		THEN CR.CHECK_NUMBER
 		WHEN
@@ -975,15 +998,18 @@
 		CASH_PURCHASE CP
 		on T.ID=CP.ID
 		LEFT
-		OUTER JOIN
+		OUTER
+		JOIN
 		PAY_BILL PB
 		ON
 		T.ID=PB.ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PAY_TAX PV
 		ON
 		T.ID=PV.ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		TRANSACTION_PAY_TAX TPV
 		ON TPV.ID=PV.ID
 		LEFT
@@ -1055,24 +1081,31 @@
 		WHERE T.T_TYPE in
 		(2,3,5,11,15,17,30,31) AND
 		CASE
-		WHEN 0=:viewType THEN
+		WHEN
+		0=:viewType THEN
 		((T.STATUS=0 OR
-		T.STATUS=1 )AND T.SAVE_STATUS != 204  AND T.SAVE_STATUS!=201)
-		WHEN 2=:viewType THEN
+		T.STATUS=1 )AND T.SAVE_STATUS != 204
+		AND T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND T.SAVE_STATUS!=201)
+		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
-		WHEN 4=:viewType THEN
+		WHEN
+		4=:viewType THEN
 		(T.SAVE_STATUS = 201)
-		ELSE true
+		ELSE
+		true
 		END
 		AND
 		T.COMPANY_ID=:companyId AND T.SAVE_STATUS !=
 		202
 		AND
-		T.T_DATE BETWEEN
+		T.T_DATE
+		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
 	<!-- To generate the Vendor Payments List which Includes PayBills and Write 
@@ -1108,10 +1141,12 @@
 		THEN WC.IN_FAVOUR_OF
 		WHEN T.T_TYPE = 17
 		THEN 'Tax Agency Payment'
-		WHEN T.T_TYPE = 25
+		WHEN
+		T.T_TYPE = 25
 		THEN 'VAT Agency Payment'
 		WHEN T.T_TYPE=11
-		THEN P.NAME END AS NAME,
+		THEN P.NAME END
+		AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 		T.TOTAL AS
 		AMOUNT_PAID,
@@ -1127,13 +1162,15 @@
 		WHEN T.T_TYPE = 11
 		THEN
 		PB.CHECK_NUMBER
-		WHEN T.T_TYPE =
+		WHEN
+		T.T_TYPE =
 		15
 		THEN
 		WC.CHECK_NUMBER
 		END AS
 		CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY,
+		T.CURRENCY AS
+		CURRENCY,
 		T.SAVE_STATUS AS SAVE_STATUS
 		FROM
 		TRANSACTION T
@@ -1175,15 +1212,12 @@
 		CASE
 		WHEN 2=:viewType
 		THEN
-		(T.STATUS=2 AND T.SAVE_STATUS != 204 AND T.SAVE_STATUS!=201)
+		(T.STATUS=2 AND T.SAVE_STATUS != 204)
 		WHEN 0=:viewType
 		THEN(T.STATUS=0
-		AND T.SAVE_STATUS != 204 AND T.SAVE_STATUS!=201)
+		AND T.SAVE_STATUS != 204)
 		WHEN 3=:viewType
 		THEN (T.SAVE_STATUS = 204)
-		WHEN 4=:viewType
-		THEN
-		(T.SAVE_STATUS = 201)
 		ELSE true
 		END
 		AND
@@ -2237,10 +2271,11 @@
 		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE ,
 		CASE WHEN T.T_TYPE = 15
-		THEN WC.IN_FAVOUR_OF 
-		ELSE 
+		THEN WC.IN_FAVOUR_OF
+		ELSE
 		P.NAME END AS NAME,
-		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.PAYMENT_METHOD AS
+		PAYMENT_METHOD,
 
 		T.TOTAL AS
 		AMOUNT_PAID,
@@ -2274,10 +2309,13 @@
 		PAYEE P
 		on P.ID =
 		V.ID
-		OR P.ID = TA.ID
+		OR
+		P.ID = TA.ID
 		WHERE
-		T.T_TYPE in(11,15) AND T.COMPANY_ID=:companyId
-		ORDER BY T.ID DESC LIMIT
+		T.T_TYPE
+		in(11,15) AND T.COMPANY_ID=:companyId
+		ORDER BY
+		T.ID DESC LIMIT
 		10
 
 	</sql-query>
@@ -2381,12 +2419,14 @@
 		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE ,
 		CASE WHEN T.T_TYPE = 15
-		THEN WC.IN_FAVOUR_OF 
-		ELSE 
+		THEN WC.IN_FAVOUR_OF
+		ELSE
 		P.NAME END AS NAME,
-		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.PAYMENT_METHOD AS
+		PAYMENT_METHOD,
 		CASE
-		WHEN T.T_TYPE = 5 THEN
+		WHEN T.T_TYPE = 5
+		THEN
 		CR.PAYMENTS
 		ELSE T.TOTAL
 		END AS
@@ -4125,11 +4165,16 @@
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="PAYBILL_ID" type="long" />
 		<return-scalar column="FIXED_ASSET_HIS_ID" type="long" />
-		SELECT TR.ID AS RECEIVE_PAYMENT_ID,TP.ID AS PAYBILL_ID,FAH.ID AS FIXED_ASSET_HIS_ID FROM
-		JOURNAL_ENTRY J LEFT JOIN TRANSACTION T ON T.ID=J.ID LEFT JOIN
-		TRANSACTION_PAYBILL TP ON TP.JOURNAL_ENTRY_ID = J.ID LEFT JOIN
-		TRANSACTION_RECEIVE_PAYMENT TR ON TR.JOURNAL_ENTRY_ID = J.ID
-		LEFT JOIN FIXED_ASSET_HISTORY FAH ON FAH.JOURNAL_ENTRY_ID = J.ID WHERE
+		SELECT TR.ID AS RECEIVE_PAYMENT_ID,TP.ID AS PAYBILL_ID,FAH.ID AS
+		FIXED_ASSET_HIS_ID FROM
+		JOURNAL_ENTRY J LEFT JOIN TRANSACTION T ON
+		T.ID=J.ID LEFT JOIN
+		TRANSACTION_PAYBILL TP ON TP.JOURNAL_ENTRY_ID =
+		J.ID LEFT JOIN
+		TRANSACTION_RECEIVE_PAYMENT TR ON TR.JOURNAL_ENTRY_ID =
+		J.ID
+		LEFT JOIN FIXED_ASSET_HISTORY FAH ON FAH.JOURNAL_ENTRY_ID = J.ID
+		WHERE
 		J.ID=:inputId AND T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
@@ -5657,7 +5702,8 @@
 		P.TYPE
 		= 1 AND
 		P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
-		ORDER BY P.NAME
+		ORDER BY
+		P.NAME
 
 	</sql-query>
 
@@ -5947,7 +5993,8 @@
 		WHERE
 
 		P.TYPE = 2
-		AND P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
+		AND P.COMPANY_ID=:companyId AND
+		P.IS_ACTIVE=:isActive
 		ORDER BY
 		P.NAME
 	</sql-query>
@@ -6238,7 +6285,8 @@
 		WHERE
 
 		P.TYPE = 4
-		AND P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
+		AND P.COMPANY_ID=:companyId AND
+		P.IS_ACTIVE=:isActive
 		ORDER BY
 		P.NAME
 	</sql-query>
@@ -6701,7 +6749,7 @@
 		ORDER BY T.T_DATE DESC
 
 	</sql-query>
-	
+
 	<sql-query name="getOpeningBalanceForCustomerByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="uptoDate" type="Long" />
@@ -6709,19 +6757,25 @@
 
 		<return-scalar column="BALANCE" type="double" />
 
-		SELECT 
+		SELECT
 		SUM(T.TOTAL) AS BALANCE
 
 		FROM TRANSACTION T
 		LEFT
-		OUTER JOIN INVOICE I ON I.ID = T.ID
+		OUTER JOIN INVOICE
+		I ON I.ID = T.ID
 		LEFT OUTER JOIN
-		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
-		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID =
+		T.ID
+		LEFT OUTER
+		JOIN
 		CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT
+		RP
 		ON RP.ID = T.ID
-		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT OUTER JOIN JOURNAL_ENTRY JE ON
+		JE.ID = T.ID
 		LEFT
 		OUTER JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
 
@@ -6760,17 +6814,20 @@
 		WHERE
 		T.COMPANY_ID=:companyId AND (T.T_DATE &lt;
 		:uptoDate)
-		AND P.ID =:payeeId AND
+		AND P.ID =:payeeId
+		AND
 		T.T_TYPE IN (4, 5,
 		8,
 		12, 16, 29) AND
 		T.SAVE_STATUS =
 		203 AND
-		CASE WHEN (SELECT
+		CASE WHEN
+		(SELECT
 		COUNT(PA2.TYPE)
 		FROM
 		PAYEE_ADDRESS PA2 WHERE
-		PA2.PAYEE_ID = P.ID) != 0
+		PA2.PAYEE_ID = P.ID)
+		!= 0
 		THEN PA.TYPE = 2
 		ELSE
 		TRUE
@@ -6778,7 +6835,7 @@
 
 
 	</sql-query>
-	
+
 
 	<sql-query name="getCreatableStatementForVendor">
 		<query-param name="companyId" type="long" />
@@ -6895,7 +6952,7 @@
 
 
 	</sql-query>
-	
+
 	<sql-query name="getOpeningBalanceForVendorByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="uptoDate" type="Long" />
@@ -6903,28 +6960,40 @@
 
 		<return-scalar column="BALANCE" type="double" />
 
-		SELECT 
+		SELECT
 		SUM(T.TOTAL) AS BALANCE
-		
+
 		FROM TRANSACTION T
 
 		LEFT OUTER JOIN
-		ENTER_BILL E ON	E.ID = T.ID
-		LEFT OUTER JOIN
-		VENDOR_CREDIT_MEMO VCM ON VCM.ID = T.ID
+		ENTER_BILL E ON E.ID = T.ID
+		LEFT OUTER
+		JOIN
+		VENDOR_CREDIT_MEMO VCM ON
+		VCM.ID = T.ID
 		LEFT OUTER JOIN
 		WRITE_CHECKS WC ON T.ID = WC.ID
+		LEFT OUTER
+		JOIN
+		CREDIT_CARD_CHARGES CC
+		ON CC.ID=T.ID
 		LEFT OUTER JOIN
-		CREDIT_CARD_CHARGES	CC ON CC.ID=T.ID
-		LEFT OUTER JOIN 
-		PAY_BILL PB ON PB.ID=T.ID
+		PAY_BILL PB ON
+		PB.ID=T.ID
 		LEFT OUTER JOIN
-		JOURNAL_ENTRY JE ON JE.ID =	T.ID
-		LEFT OUTER JOIN
+		JOURNAL_ENTRY JE ON JE.ID = T.ID
+		LEFT
+		OUTER
+		JOIN
 		EXPENSE EX ON EX.ID = T.ID
-		LEFT OUTER JOIN 
-		PAYEE P	ON P.ID = E.VENDOR_ID OR P.ID = VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
-		OR P.ID = CC.VENDOR_ID OR P.ID = PB.VENDOR_ID OR P.ID =	JE.PAYEE_ID	OR P.ID = EX.ID
+		LEFT OUTER JOIN
+		PAYEE P ON P.ID =
+		E.VENDOR_ID OR P.ID = VCM.VENDOR_ID OR P.ID =
+		WC.VENDOR_ID
+		OR P.ID =
+		CC.VENDOR_ID OR P.ID = PB.VENDOR_ID OR P.ID =
+		JE.PAYEE_ID OR P.ID =
+		EX.ID
 
 		WHERE T.T_TYPE IN
 		(3,6,11,14,15,16,26,27)
@@ -6937,7 +7006,7 @@
 		!=204 AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
-	
+
 
 	<sql-query name="getInvoicesDue">
 		<query-param name="companyId" type="long" />
@@ -7891,11 +7960,14 @@
 		COMPANY C LEFT
 		JOIN TRANSACTION T
 		ON T.COMPANY_ID=C.ID LEFT JOIN USERS U ON
-		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds GROUP BY C.ID,T.ID,C.TRADING_NAME,C.REGISTRED_COUNTRY ORDER BY
+		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds GROUP BY
+		C.ID,T.ID,C.TRADING_NAME,C.REGISTRED_COUNTRY ORDER BY
 		T_DATE DESC
-		) AS B GROUP BY
+		) AS B
+		GROUP BY
 		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
-		ORDER BY MIN(T_COUNT)=0,MAX(T_DATE) desc
+		ORDER BY
+		MIN(T_COUNT)=0,MAX(T_DATE) desc
 
 	</sql-query>
 
@@ -8230,37 +8302,51 @@
 		SET CONSTRAINTS ALL DEFERRED;
 
 		delete from company_fields where company_id=cid;
-		delete from payee_fields using payee where payee_id=payee.id and payee.company_id=cid;
+		delete from
+		payee_fields using payee where payee_id=payee.id and
+		payee.company_id=cid;
 
 		delete from
 		cheque_layout where company_id=cid;
-		
+
 		delete from attachments where company_id=cid;
-		delete from message_or_task  where company_id=cid;
-		delete from account_amounts using account where account_id=account.id
+		delete from
+		message_or_task where company_id=cid;
+		delete from account_amounts using
+		account where account_id=account.id
 		and account.company_id=cid;
-		delete from account_transaction where
+		delete
+		from account_transaction where
 		company_id=cid;
-		delete from adjustment_reason where company_id=cid;
-		delete from adjustment_reason where company_id=cid;
 		delete from
-		reconciliation_item using reconciliation where
-		reconciliation_id=reconciliation.id and reconciliation.company_id=cid;
-		delete from reconciliation where company_id=cid;
+		adjustment_reason where company_id=cid;
+		delete from adjustment_reason
+		where company_id=cid;
 		delete from
-		bank_account using account where bank_account.id=account.id and
+		reconciliation_item using
+		reconciliation where
+		reconciliation_id=reconciliation.id and
+		reconciliation.company_id=cid;
+		delete from reconciliation where
+		company_id=cid;
+		delete from
+		bank_account using account where
+		bank_account.id=account.id and
 		account.company_id=cid;
-		delete from bank where company_id=cid;
+		delete from bank
+		where company_id=cid;
 		delete
 		from branding_theme where company_id=cid;
 		delete from budgetitem where
 		company_id=cid;
-		delete from budget where company_id=cid;
+		delete from budget where
+		company_id=cid;
 		delete from
 		cash_purchase using transaction where
 		cash_purchase.id=transaction.id
 		and transaction.company_id=cid;
-		delete from cash_sales using
+		delete
+		from cash_sales using
 		transaction where cash_sales.id=transaction.id
 		and
 		transaction.company_id=cid;
@@ -8296,7 +8382,8 @@
 		delete from fixed_asset where company_id=cid;
 		delete
 		from fixed_asset_history where company_id=cid;
-		delete from invoice_estimates
+		delete from
+		invoice_estimates
 		using estimate , transaction where
 		invoice_estimates.estimate_id=estimate.id and
 		transaction.id=estimate.id and transaction.company_id=cid;
@@ -8349,52 +8436,70 @@
 		delete from purchase_order using transaction where
 		purchase_order.id=transaction.id and transaction.company_id=cid;
 		delete from recurring_transaction where company_id=cid;
-		delete from reminder where company_id=cid;
 		delete from
-		sales_order using transaction where
+		reminder where company_id=cid;
+		delete from
+		sales_order using transaction
+		where
 		sales_order.id=transaction.id and
 		transaction.company_id=cid;
 		delete from sales_person where
 		company_id=cid;
-		delete from shippingmethod where company_id=cid;
+		delete from
+		shippingmethod where company_id=cid;
 		delete
-		from shippingterms where company_id=cid;
-		
+		from shippingterms where
+		company_id=cid;
+
 		delete from stock_adjustment_item using
 		stock_adjustment where
 		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
 		stock_adjustment.company_id=cid;
-		
+
 		delete from stock_adjustment
-		where company_id=cid;
-		
+		where
+		company_id=cid;
+
 		delete from item where company_id=cid;
-		delete from stock_transfer where company_id=cid;
 		delete from
-		stock_transfer_item where company_id=cid;
+		stock_transfer where
+		company_id=cid;
+		delete from
+		stock_transfer_item
+		where company_id=cid;
 		delete from tax_adjustment
 		using transaction where
 		tax_adjustment.id=transaction.id and
 		transaction.company_id=cid;
-		delete from tax_code where company_id=cid;
-		delete from tax_group_tax_item using tax_group where
-		tax_group_id=tax_group.id and tax_group.company_id=cid;
+		delete
+		from tax_code where company_id=cid;
+		delete from tax_group_tax_item
+		using tax_group where
+		tax_group_id=tax_group.id and
+		tax_group.company_id=cid;
 		delete from
 		tax_group where company_id=cid;
 		delete from tax_item where
 		company_id=cid;
-		delete from tax_item_groups where company_id=cid;
-		delete from tax_rate_calculation using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
-		
-		delete
-		from transaction_pay_tax using tax_return , transaction where
-		tax_return.id=transaction_pay_tax.vat_return_id and transaction.id=tax_return.id and
+		delete from tax_item_groups
+		where company_id=cid;
+		delete from tax_rate_calculation using
+		transaction where
+		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		
+
 		delete
-		from tax_return using transaction where tax_return.id=transaction.id
-		and transaction.company_id=cid;
+		from transaction_pay_tax using
+		tax_return , transaction where
+		tax_return.id=transaction_pay_tax.vat_return_id and
+		transaction.id=tax_return.id and
+		transaction.company_id=cid;
+
+		delete
+		from
+		tax_return using transaction where tax_return.id=transaction.id
+		and
+		transaction.company_id=cid;
 		delete from tax_return_entry using
 		transaction where
 		transaction_id=transaction.id and
@@ -8445,18 +8550,27 @@
 		delete from pay_bill using transaction
 		where pay_bill.id=transaction.id and
 		transaction.company_id=cid;
-		delete from
-		transaction_credits_and_payments using transaction_receive_payment, transaction where
+		delete
+		from
+		transaction_credits_and_payments using
+		transaction_receive_payment, transaction where
 		transaction_receive_payment.id=transaction_credits_and_payments.transaction_receive_payment_id
-		and transaction_receive_payment.transaction_id=transaction.id and transaction.company_id=cid;
+		and transaction_receive_payment.transaction_id=transaction.id and
+		transaction.company_id=cid;
 		delete
-		from transaction_receive_payment using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
+		from transaction_receive_payment
+		using transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
 		delete
-		from receive_payment using transaction where
-		receive_payment.id=transaction.id and transaction.company_id=cid;
-		delete from transaction_receive_vat using receive_vat, transaction
-		where transaction_receive_vat.receive_vat_id=receive_vat.id and
+		from receive_payment using
+		transaction where
+		receive_payment.id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_receive_vat using
+		receive_vat, transaction
+		where
+		transaction_receive_vat.receive_vat_id=receive_vat.id and
 		transaction.id=receive_vat.id and transaction.company_id=cid;
 		delete
 		from receive_vat using transaction where
@@ -8479,13 +8593,17 @@
 		write_checks.id=transaction.id and transaction.company_id=cid;
 		delete
 		from customer where company_id=cid;
-		delete from PORTLET_CONFIGURATION_PORTLETDATA using portlet_configuration,portlet_page_configuration, users
-		where portlet_configuration.id=PORTLET_CONFIGURATION_PORTLETDATA.id and
+		delete from
+		PORTLET_CONFIGURATION_PORTLETDATA using
+		portlet_configuration,portlet_page_configuration, users
+		where
+		portlet_configuration.id=PORTLET_CONFIGURATION_PORTLETDATA.id and
 		portlet_configuration.portlet_config_id=portlet_page_configuration.id
 		and portlet_page_configuration.user_id=users.id and
 		users.company_id=cid;
 		delete from portlet_configuration
-		using portlet_page_configuration, users
+		using
+		portlet_page_configuration, users
 		where
 		portlet_configuration.portlet_config_id=portlet_page_configuration.id
 		and portlet_page_configuration.user_id=users.id and
@@ -8651,69 +8769,85 @@
 		from shippingterms where company_id=cid;
 		delete from stock_adjustment
 		where company_id=cid;
-		
+
 		delete from stock_adjustment_item using
 		stock_adjustment where
 		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
 		stock_adjustment.company_id=cid;
-		
+
 		delete from item where company_id=cid;
-		delete from stock_transfer where company_id=cid;
+		delete from stock_transfer where
+		company_id=cid;
 		delete from
 		stock_transfer_item where company_id=cid;
 		delete from tax_adjustment
 		using transaction where
 		tax_adjustment.id=transaction.id and
 		transaction.company_id=cid;
-		delete from tax_code where company_id=cid;
-		delete from tax_group_tax_item using tax_group where
-		tax_group_id=tax_group.id and tax_group.company_id=cid;
+		delete
+		from tax_code where company_id=cid;
+		delete from tax_group_tax_item
+		using tax_group where
+		tax_group_id=tax_group.id and
+		tax_group.company_id=cid;
 		delete from
 		tax_group where company_id=cid;
 		delete from tax_item where
 		company_id=cid;
-		delete from tax_item_groups where company_id=cid;
-		delete from tax_rate_calculation using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
+		delete from tax_item_groups
+		where company_id=cid;
 		delete
-		from tax_return using transaction where tax_return.id=transaction.id
+		from tax_rate_calculation using
+		transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
+		delete
+		from tax_return using transaction
+		where tax_return.id=transaction.id
 		and transaction.company_id=cid;
 		delete from tax_return_entry using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete from taxagency where company_id=cid;
-		delete from taxrates where company_id=cid;
-		
+		delete
+		from taxagency where company_id=cid;
+		delete from taxrates where
+		company_id=cid;
+
 		delete from
 		transaction_credits_and_payments using credits_and_payments ,
 		transaction where
 		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
 		and credits_and_payments.transaction_id=transaction.id and
 		transaction.company_id=cid;
-		
+
 		delete from
 		transaction_credits_and_payments using transaction_paybill where
 		transaction_paybill.id=transaction_credits_and_payments.transaction_paybill_id
 		and transaction_paybill.company_id=cid;
-		
-		delete from credits_and_payments using
+
+		delete from
+		credits_and_payments using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete from transaction_history using
+		delete
+		from transaction_history using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete from transaction_issue_payment using
+		delete
+		from transaction_issue_payment using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete from transaction_item using
+		delete
+		from transaction_item using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete from transaction_make_deposit using
+		delete
+		from transaction_make_deposit using
 		make_deposit , transaction where
 		transaction_make_deposit.make_deposit_id=make_deposit.id and
 		transaction.id=make_deposit.id and transaction.company_id=cid;
@@ -8727,25 +8861,36 @@
 		from transaction_pay_tax using pay_tax , transaction where
 		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
 		transaction.company_id=cid;
-		
+
 		delete from pay_tax using transaction where
 		pay_tax.id=transaction.id and
 		transaction.company_id=cid;
 		delete from
-		transaction_paybill using pay_bill , transaction where
-		paybill_id=pay_bill.id and transaction.id=pay_bill.id and
+		transaction_paybill using
+		pay_bill , transaction where
+		paybill_id=pay_bill.id and
+		transaction.id=pay_bill.id and
 		transaction.company_id=cid;
-		delete from pay_bill using transaction
-		where pay_bill.id=transaction.id and
+		delete from
+		pay_bill using transaction
+		where
+		pay_bill.id=transaction.id and
 		transaction.company_id=cid;
 		delete
-		from transaction_receive_payment using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
+		from
+		transaction_receive_payment
+		using transaction where
+		transaction_id=transaction.id and
+		transaction.company_id=cid;
 		delete
-		from receive_payment using transaction where
-		receive_payment.id=transaction.id and transaction.company_id=cid;
-		delete from transaction_receive_vat using receive_vat, transaction
-		where transaction_receive_vat.receive_vat_id=receive_vat.id and
+		from receive_payment using
+		transaction where
+		receive_payment.id=transaction.id and
+		transaction.company_id=cid;
+		delete from transaction_receive_vat using
+		receive_vat, transaction
+		where
+		transaction_receive_vat.receive_vat_id=receive_vat.id and
 		transaction.id=receive_vat.id and transaction.company_id=cid;
 		delete
 		from receive_vat using transaction where
@@ -8777,7 +8922,7 @@
 		delete from portlet_page_configuration using
 		users where user_id=users.id
 		and users.company_id=cid;
-		
+
 		delete from
 		account where
 		company_id=cid;
@@ -8787,7 +8932,8 @@
 		delete from
 		accounter_class where
 		company_id=cid;
-		delete from payee where
+		delete
+		from payee where
 		company_id=cid;
 		delete from
 		users where
@@ -9460,23 +9606,25 @@
 		RECEIVE_PAYMENT RP
 		ON
 		T.ID=RP.ID
-		LEFT OUTER JOIN 
+		LEFT OUTER JOIN
 		CUSTOMER_PREPAYMENT CP
-		ON 
+		ON
 		T.ID = CP.ID
 		LEFT OUTER
 		JOIN
 		CUSTOMER C
 		ON
 		(C.ID =
-		RP.CUSTOMER_ID OR C.ID=CP.CUSTOMER_ID)
+		RP.CUSTOMER_ID OR
+		C.ID=CP.CUSTOMER_ID)
 		LEFT
 		OUTER JOIN
 		PAYEE P
 		ON
 		P.ID =
 		C.ID
-		WHERE (T.T_TYPE=12 OR T.T_TYPE=29)
+		WHERE
+		(T.T_TYPE=12 OR T.T_TYPE=29)
 		AND
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
@@ -9541,20 +9689,23 @@
 		T.ID=RP.ID
 		LEFT OUTER JOIN
 		CUSTOMER_PREPAYMENT CP
-		ON CP.ID=T.ID
+		ON
+		CP.ID=T.ID
 		LEFT OUTER
 		JOIN
 		CUSTOMER C
 		ON
-		(C.ID	=
-		RP.CUSTOMER_ID OR C.ID = CP.CUSTOMER_ID)
+		(C.ID =
+		RP.CUSTOMER_ID OR C.ID =
+		CP.CUSTOMER_ID)
 		LEFT
 		OUTER JOIN
 		PAYEE P
 		ON
 		P.ID =
 		C.ID
-		WHERE (T.T_TYPE=12 OR T.T_TYPE= 29)
+		WHERE (T.T_TYPE=12 OR
+		T.T_TYPE= 29)
 		AND
 		T.PAYMENT_METHOD
 		LIKE
@@ -9562,7 +9713,8 @@
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :fromDate
-		AND :toDate and C.ID=:customerId
+		AND :toDate and
+		C.ID=:customerId
 	</sql-query>
 	<sql-query name="getAllCustomerRefundsByCustomer">
 		<query-param name="companyId" type="long" />
@@ -9682,7 +9834,8 @@
 		FALSE
 		END AS
 		ISVOIDED,
-		NULL AS DUE_DATE,
+		NULL AS
+		DUE_DATE,
 		0.0 AS BALANCE,
 		T.STATUS AS
 		TRANSACTION_STATUS
@@ -9711,7 +9864,8 @@
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :fromDate
-		AND :toDate and C.ID=:customerId
+		AND :toDate and
+		C.ID=:customerId
 	</sql-query>
 
 	<sql-query name="getAllTransactionsByCustomer">
@@ -9952,7 +10106,8 @@
 		THEN
 		(I.BALANCE_DUE &gt;0.0 AND
 		I.DUE_DATE &lt; :todayDate AND
-		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		T.SAVE_STATUS
+		!=204 AND T.SAVE_STATUS!=201)
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
@@ -9965,7 +10120,8 @@
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :fromDate AND :toDate
-		ORDER BY DUE_DATE
+		ORDER
+		BY DUE_DATE
 	</sql-query>
 	<sql-query name="getCashSalesList">
 		<query-param name="companyId" type="long" />
@@ -10189,13 +10345,10 @@
 		CASE
 		WHEN 2=:viewType
 		THEN
-		(T.SAVE_STATUS != 204 AND T.SAVE_STATUS!=201)
+		(T.SAVE_STATUS != 204)
 		WHEN 3=:viewType
 		THEN
 		T.SAVE_STATUS = 204
-		WHEN 4=:viewType
-		THEN
-		T.SAVE_STATUS = 201
 		ELSE
 		true
 		END
@@ -10268,13 +10421,10 @@
 		CASE
 		WHEN 2=:viewType
 		THEN
-		(T.SAVE_STATUS != 204 AND T.SAVE_STATUS!=201)
+		(T.SAVE_STATUS != 204)
 		WHEN 3=:viewType
 		THEN
 		T.SAVE_STATUS = 204
-		WHEN 4=:viewType
-		THEN
-		T.SAVE_STATUS = 201
 		ELSE
 		true
 		END
@@ -10292,17 +10442,21 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		SELECT PB.VENDOR_ID AS VENDOR_ID,
-				PB.TDS_TOTAL AS TDS_TOTAL,
-				T.TOTAL AS TOTAL,
-				T.T_DATE AS TRANSACTION_DATE,
-				T.ID AS TRANSACTION_ID
-			FROM PAY_BILL PB LEFT JOIN
+		PB.TDS_TOTAL AS TDS_TOTAL,
+		T.TOTAL AS
+		TOTAL,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.ID AS TRANSACTION_ID
+		FROM PAY_BILL
+		PB LEFT JOIN
 		TRANSACTION T ON T.ID=PB.ID
-		LEFT OUTER JOIN TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
-		WHERE PB.TDS_TOTAL!=0 AND
+		LEFT OUTER JOIN
+		TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
+		WHERE
+		PB.TDS_TOTAL!=0 AND
 		T.COMPANY_ID=:companyId AND TTI IS NULL
 	</sql-query>
-	
+
 	<sql-query name="getTDSReceivePaymentTransactionsList">
 		<query-param name="companyId" type="long" />
 		<return-scalar column="CUSTOMER_ID" type="long" />
@@ -10311,14 +10465,16 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		SELECT RP.CUSTOMER_ID AS CUSTOMER_ID,
-				RP.TDS_TOTAL AS TDS_TOTAL,
-				T.TOTAL AS TOTAL,
-				T.T_DATE AS TRANSACTION_DATE,
-				T.ID AS TRANSACTION_ID
-			FROM RECEIVE_PAYMENT RP LEFT JOIN
+		RP.TDS_TOTAL AS TDS_TOTAL,
+		T.TOTAL AS TOTAL,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.ID AS TRANSACTION_ID
+		FROM RECEIVE_PAYMENT RP LEFT JOIN
 		TRANSACTION T ON T.ID=RP.ID
-		LEFT OUTER JOIN TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
-		WHERE RP.TDS_TOTAL!=0 AND
+		LEFT OUTER
+		JOIN TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
+		WHERE
+		RP.TDS_TOTAL!=0 AND
 		T.COMPANY_ID=:companyId AND TTI IS NULL
 	</sql-query>
 
@@ -10936,12 +11092,14 @@
 		T.T_TYPE =11
 		THEN
 		PB.PAYFROM_ID ELSE
-		null END AS TRANSACTION_ACCOUNT,
+		null END
+		AS TRANSACTION_ACCOUNT,
 		CASE
 		WHEN T.T_TYPE =2
 		THEN
 		CP.DELIVERY_DATE
-		WHEN T.T_TYPE =27
+		WHEN
+		T.T_TYPE =27
 		THEN
 		CCC.DELIVERY_DATE
 		WHEN T.T_TYPE =6
@@ -10951,7 +11109,8 @@
 		T.T_TYPE =11
 		THEN
 		PB.BILL_DUE_ONORBEFORE ELSE null END AS DUE_DATE,
-		0 AS EXPENSE_STATUS
+		0 AS
+		EXPENSE_STATUS
 		FROM
 		TRANSACTION T
 		LEFT
@@ -10976,19 +11135,23 @@
 		T.ID=PB.ID
 		LEFT JOIN
 		ENTER_BILL EB
-		on T.ID =EB.ID
+		on
+		T.ID =EB.ID
 		LEFT JOIN VENDOR_CREDIT_MEMO VCM
 		on T.ID
 		=VCM.ID
 		LEFT JOIN
 		VENDOR V
 		on V.ID =
-		WC.VENDOR_ID OR V.ID =CP.VENDOR_ID OR V.ID=CCC.VENDOR_ID OR 
+		WC.VENDOR_ID OR V.ID =CP.VENDOR_ID OR
+		V.ID=CCC.VENDOR_ID OR
 		V.ID =PB.VENDOR_ID OR
-		V.ID =EB.VENDOR_ID OR V.ID =VCM.VENDOR_ID
+		V.ID =EB.VENDOR_ID OR V.ID
+		=VCM.VENDOR_ID
 		WHERE
 		T.COMPANY_ID=:companyId
-		AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -11356,7 +11519,8 @@
 		T.T_DATE BETWEEN :startDate AND :endDate AND
 		T.COMPANY_ID =:companyId
 		GROUP BY
-		C.ID,C.NAME,C.CURRENCY ORDER BY TOTAL DESC LIMIT :limit
+		C.ID,C.NAME,C.CURRENCY ORDER BY TOTAL
+		DESC LIMIT :limit
 
 	</sql-query>
 
@@ -11422,7 +11586,8 @@
 		I.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :startDate AND :endDate
-		GROUP BY I.ID,I.NAME ORDER BY QUANTITY DESC
+		GROUP BY I.ID,I.NAME ORDER BY QUANTITY
+		DESC
 		LIMIT :limit
 
 	</sql-query>
@@ -11495,7 +11660,7 @@
 		TRANSACTION T
 		LEFT OUTER
 		JOIN
-		ESTIMATE  E
+		ESTIMATE E
 		ON
 		T.ID=E.ID
 		LEFT OUTER JOIN
@@ -11511,22 +11676,27 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=7
-		AND E.ESTIMATETYPE =:estimateType AND
+		AND E.ESTIMATETYPE =:estimateType
+		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate AND
+		BETWEEN :fromDate AND :toDate
+		AND
 		C.ID=:customerId
-		 
+
 	</sql-query>
-	
+
 	<sql-query name="getClientByCompany">
 		<query-param name="clientEmail" type="string" />
 		<query-param name="companyName" type="string" />
-		
-		select c.id 
-		from client c left join users u on u.client_id=c.id 
-		left join company com on com.id=u.company_id 
-		where c.email_id=:clientEmail and  LOWER(com.trading_name)=:companyName limit 1;
-		
+
+		select c.id
+		from client c left join users u on u.client_id=c.id
+		left
+		join company com on com.id=u.company_id
+		where c.email_id=:clientEmail
+		and LOWER(com.trading_name)=:companyName
+		limit 1;
+
 	</sql-query>
 
 	<sql-query name="getPurchaseLineItems">
@@ -11549,15 +11719,20 @@
 		TRANSACTION_DATE, T.NUMBER AS
 		TRANSACTION_NUMBER, I.SALES_DESCRIPTION
 		AS DESCRIPTION,
-		CASE WHEN (T.AMOUNTS_INCLUDE_VAT) THEN
-		TI.LINE_TOTAL-TI.VAT_FRACTION ELSE TI.LINE_TOTAL END AS TOTAL,
+		CASE WHEN
+		(T.AMOUNTS_INCLUDE_VAT) THEN
+		TI.LINE_TOTAL-TI.VAT_FRACTION ELSE
+		TI.LINE_TOTAL END AS TOTAL,
 		TC.NAME
-		AS TAX_CODE, TI.VAT_FRACTION AS TAX_AMOUNT,
+		AS TAX_CODE, TI.VAT_FRACTION AS
+		TAX_AMOUNT,
 		CUR.FORMAL_NAME AS
-		CURRENCY,T.CURRENCY_FACTOR AS CURRENCY_FACTOR,
+		CURRENCY,T.CURRENCY_FACTOR AS
+		CURRENCY_FACTOR,
 		TI.IDX AS LINE_NUMBER
 		FROM TRANSACTION_ITEM TI
-		LEFT JOIN ITEM I ON I.ID =TI.ITEM_ID
+		LEFT JOIN
+		ITEM I ON I.ID =TI.ITEM_ID
 		LEFT JOIN TRANSACTION T ON T.ID =
 		TI.TRANSACTION_ID
 		LEFT JOIN ENTER_BILL EB ON EB.ID=T.ID
@@ -11594,14 +11769,18 @@
 		<return-scalar column="LINE_NUMBER" type="long" />
 
 		SELECT C.NAME AS NAME, T.T_DATE AS
-		TRANSACTION_DATE, T.NUMBER AS TRANSACTION_NUMBER, I.SALES_DESCRIPTION
+		TRANSACTION_DATE, T.NUMBER AS
+		TRANSACTION_NUMBER, I.SALES_DESCRIPTION
 		AS DESCRIPTION,
-		CASE WHEN (T.AMOUNTS_INCLUDE_VAT) THEN
+		CASE WHEN
+		(T.AMOUNTS_INCLUDE_VAT) THEN
 		TI.LINE_TOTAL-TI.VAT_FRACTION ELSE
 		TI.LINE_TOTAL END AS TOTAL,
 		TC.NAME
-		AS TAX_CODE, TI.VAT_FRACTION AS TAX_AMOUNT, T.CURRENCY AS CURRENCY,
-		T.CURRENCY_FACTOR AS CURRENCY_FACTOR, PA.COUNTRY AS COUNTRY,
+		AS TAX_CODE, TI.VAT_FRACTION AS
+		TAX_AMOUNT, T.CURRENCY AS CURRENCY,
+		T.CURRENCY_FACTOR AS
+		CURRENCY_FACTOR, PA.COUNTRY AS COUNTRY,
 		TI.IDX AS LINE_NUMBER
 		FROM
 		TRANSACTION_ITEM TI
@@ -11643,61 +11822,82 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 
 		SELECT T.T_DATE AS TRANSACTION_DATE, A.A_NUMBER AS
-		ACCOUNT_ID, A.NAME AS ACCOUNT_NAME, T.MEMO AS TRANSACTION_DESC,P.NAME
-		AS NAME, T.ID AS TRANSACTION_ID,
-		CASE WHEN AT.AMOUNT &gt; 0 THEN AT.AMOUNT ELSE 0 END AS CREDIT, CASE WHEN
-		AT.AMOUNT &lt; 0 THEN AT.AMOUNT ELSE 0 END AS DEBIT, A.TOTAL_BALANCE AS
+		ACCOUNT_ID, A.NAME
+		AS ACCOUNT_NAME, T.MEMO AS TRANSACTION_DESC,P.NAME
+		AS NAME, T.ID AS
+		TRANSACTION_ID,
+		CASE WHEN AT.AMOUNT &gt; 0 THEN AT.AMOUNT ELSE 0 END AS
+		CREDIT, CASE WHEN
+		AT.AMOUNT &lt; 0 THEN AT.AMOUNT ELSE 0 END AS DEBIT,
+		A.TOTAL_BALANCE AS
 		BALANCE,
-		T.NUMBER AS TRANSACTION_NUMBER,T.T_TYPE AS TRANSACTION_TYPE
+		T.NUMBER AS TRANSACTION_NUMBER,T.T_TYPE AS
+		TRANSACTION_TYPE
 
 		FROM ACCOUNT_TRANSACTION AT
-		LEFT JOIN ACCOUNT A ON A.ID = AT.ACCOUNT_ID
+		LEFT JOIN ACCOUNT A ON A.ID
+		= AT.ACCOUNT_ID
 		LEFT JOIN TRANSACTION T ON T.ID = AT.TRANSACTION_ID
 
 		LEFT JOIN CASH_PURCHASE CP ON CP.ID = T.ID
-		LEFT JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT JOIN CASH_SALES CS ON
+		CS.ID = T.ID
 		LEFT JOIN CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
-		LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
-		LEFT JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT
+		JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+		LEFT JOIN CUSTOMER_REFUND
+		CR ON CR.ID = T.ID
 		LEFT JOIN INVOICE I ON I.ID = T.ID
-		LEFT JOIN ENTER_BILL EB ON EB.ID = T.ID
-		LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID = T.ID
+		LEFT JOIN
+		ENTER_BILL EB ON EB.ID = T.ID
+		LEFT JOIN CREDIT_CARD_CHARGES CCC ON
+		CCC.ID = T.ID
 		LEFT JOIN PAY_BILL PB ON PB.ID = T.ID
-		LEFT JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
-		LEFT JOIN TAX_ADJUSTMENT TA ON TA.ID = T.ID
+		LEFT JOIN
+		RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		LEFT JOIN TAX_ADJUSTMENT TA ON TA.ID
+		= T.ID
 		LEFT JOIN TAX_RETURN TR ON TR.ID = T.ID
-		LEFT JOIN VENDOR_CREDIT_MEMO VCM ON VCM.ID = T.ID
-		LEFT JOIN WRITE_CHECKS WC ON WC.ID = T.ID
+		LEFT JOIN
+		VENDOR_CREDIT_MEMO VCM ON VCM.ID = T.ID
+		LEFT JOIN WRITE_CHECKS WC ON
+		WC.ID = T.ID
 		LEFT JOIN PAY_TAX PT ON PT.ID = T.ID
-		LEFT JOIN RECEIVE_VAT RV ON RV.ID = T.ID
+		LEFT JOIN RECEIVE_VAT
+		RV ON RV.ID = T.ID
 
-		LEFT JOIN PAYEE P ON (P.ID = CP.VENDOR_ID OR P.ID = CS.CUSTOMER_ID OR P.ID
-		= CCM.CUSTOMER_ID OR P.ID = CPP.CUSTOMER_ID OR P.ID = CR.CUSTOMER_ID
+		LEFT JOIN PAYEE P ON (P.ID = CP.VENDOR_ID OR P.ID =
+		CS.CUSTOMER_ID OR P.ID
+		= CCM.CUSTOMER_ID OR P.ID = CPP.CUSTOMER_ID OR
+		P.ID = CR.CUSTOMER_ID
 		OR P.ID = I.CUSTOMER_ID
-		OR P.ID = EB.VENDOR_ID OR P.ID = CCC.VENDOR_ID OR P.ID = PB.VENDOR_ID OR
-		P.ID = RP.CUSTOMER_ID OR P.ID = TA.TAX_AGENCY_ID OR P.ID =
+		OR P.ID = EB.VENDOR_ID OR
+		P.ID = CCC.VENDOR_ID OR P.ID = PB.VENDOR_ID OR
+		P.ID = RP.CUSTOMER_ID OR
+		P.ID = TA.TAX_AGENCY_ID OR P.ID =
 		TR.TAX_AGENCY OR P.ID = VCM.VENDOR_ID
 		OR P.ID = WC.CUSTOMER_ID OR P.ID = WC.VENDOR_ID OR P.ID =
 		WC.TAX_AGENCY_ID)
 
-		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND AT.COMPANY_ID = :companyId ORDER BY A.ID,T.T_DATE;
+		WHERE T.T_DATE BETWEEN :startDate AND :endDate AND
+		AT.COMPANY_ID = :companyId ORDER BY A.ID,T.T_DATE;
 
 	</sql-query>
 
-<sql-query name="getTAXReturnObj">
+	<sql-query name="getTAXReturnObj">
 		<query-param name="taxreturnID" type="long" />
 		<return-scalar column="id" type="long" />
-		
-select *  from tax_return where id=:taxreturnID
+
+		select * from tax_return where id=:taxreturnID
 
 
 	</sql-query>
-	
+
 	<sql-query name="getTAXReturnObjByTaxAgency">
 		<query-param name="taxAgencyID" type="long" />
 		<return-scalar column="id" type="long" />
-		
-select *  from tax_return where tax_agency=:taxAgencyID
+
+		select * from tax_return where tax_agency=:taxAgencyID
 
 
 	</sql-query>
