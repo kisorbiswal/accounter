@@ -831,7 +831,7 @@ public abstract class Transaction extends CreatableObject implements
 	 */
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!isVoid() && !isTemplate()) {
+		if (!isVoid() && !isDraftOrTemplate()) {
 			doDeleteEffect(this);
 		}
 		return false;
