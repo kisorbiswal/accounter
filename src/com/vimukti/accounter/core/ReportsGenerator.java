@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorDetailS
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseClosedOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.RealisedExchangeLossesAndGainsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationDetailsByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
@@ -120,6 +121,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_RECONCILATIONS = 169;
 	public final static int REPORT_TYPE_RECONCILATION_ACCOUNTSLIST = 170;
 	public final static int REPORT_TYPE_TAX_EXCEPTION_DETAIL = 171;
+	public final static int REALISED_EXCHANGE_LOSSES_AND_GAINS = 172;
+	public final static int UNREALISED_EXCHANGE_LOSSES_AND_GAINS = 173;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -1428,6 +1431,27 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return taxReport.getGridTemplate();
+		case REALISED_EXCHANGE_LOSSES_AND_GAINS:
+			RealisedExchangeLossesAndGainsServerReport realisesExhanges = new RealisedExchangeLossesAndGainsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(realisesExhanges, finaTool);
+			realisesExhanges.resetVariables();
+			try {
+				realisesExhanges.onResultSuccess(finaTool.getReportManager()
+						.getRealisedExchangeLossesOrGains(company.getID(),
+								startDate.getDate(), endDate.getDate()));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return realisesExhanges.getGridTemplate();
 		default:
 			break;
 		}
@@ -1685,6 +1709,8 @@ public class ReportsGenerator {
 			return getVendorName();
 		case REPORT_TYPE_TAX_EXCEPTION_DETAIL:
 			return "TAX Item Exception Report";
+		case REALISED_EXCHANGE_LOSSES_AND_GAINS:
+			return "Realised Exchange Losses & Gains Report";
 		default:
 			break;
 		}
