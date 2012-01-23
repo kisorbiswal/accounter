@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.reports;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.RealisedExchangeLossesAndGainsServerReport;
 
 /**
@@ -31,6 +32,21 @@ public class RealisedExchangeLossesAndGainsReport extends
 	public void OnRecordClick(RealisedExchangeLossOrGain record) {
 		ReportsRPC.openTransactionView(record.getTransactionType(),
 				record.getTransaction());
+	}
+
+	@Override
+	public void print() {
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 172, "",
+				"");
+	}
+
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 172, "",
+				"");
 	}
 
 }

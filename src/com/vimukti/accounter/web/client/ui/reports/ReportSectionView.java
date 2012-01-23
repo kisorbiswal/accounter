@@ -152,9 +152,11 @@ public class ReportSectionView extends BaseHomeView {
 
 		companyAndFinancialForm.setFields(profitAndLossLink, balanceSheetLink,
 				trailBalanceLink, cashFlowLink,
-				transactionDetailsByAccountsLink,
-				realisedExchangeLossesAndGains,
-				unRealisedExchangeLossesAndGains);
+				transactionDetailsByAccountsLink);
+		if (Global.get().preferences().isEnableMultiCurrency()) {
+			companyAndFinancialForm.setFields(realisedExchangeLossesAndGains,
+					unRealisedExchangeLossesAndGains);
+		}
 
 		// Form for Sales type reports
 

@@ -11,9 +11,11 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SelectionChangedHandler;
@@ -80,7 +82,11 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 				if (DecimalUtil.isLessThan(object.getAmount(), 0.00D)) {
-					return DataUtils.getAmountAsStringInPrimaryCurrency(-object.getAmount());
+					ClientCurrency currency = Accounter.getCompany()
+							.getCurrency(
+									view.getData().getAccount().getCurrency());
+					return DataUtils.getAmountAsStringInCurrency(
+							-object.getAmount(), currency.getSymbol());
 				}
 				return "";
 			}
@@ -92,7 +98,11 @@ public class ReconciliationTransactionsGrid extends
 			public String getValue(ClientReconciliationItem object) {
 				setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 				if (DecimalUtil.isGreaterThan(object.getAmount(), 0.00D)) {
-					return DataUtils.getAmountAsStringInPrimaryCurrency(object.getAmount());
+					ClientCurrency currency = Accounter.getCompany()
+							.getCurrency(
+									view.getData().getAccount().getCurrency());
+					return DataUtils.getAmountAsStringInCurrency(
+							object.getAmount(), currency.getSymbol());
 				}
 				return "";
 			}

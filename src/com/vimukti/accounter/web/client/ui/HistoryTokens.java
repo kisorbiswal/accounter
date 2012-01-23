@@ -345,6 +345,10 @@ public class HistoryTokens {
 
 	public static final String GST_FILE = "createGSTIncormationFile";
 
+	public static final String REALISED_EXCHANGE_LOSSES_AND_GAINS = "realisedExchangeLossesOrGains";
+
+	public static final String UNREALISED_EXCHANGE_LOSSES_AND_GAINS = "enterExchangeRatesDialog";
+
 	public HistoryTokens() {
 
 	}

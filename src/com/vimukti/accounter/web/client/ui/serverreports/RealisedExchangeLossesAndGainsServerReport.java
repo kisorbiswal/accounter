@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsReport;
 
@@ -13,6 +14,11 @@ public class RealisedExchangeLossesAndGainsServerReport extends
 	public RealisedExchangeLossesAndGainsServerReport(
 			RealisedExchangeLossesAndGainsReport reportView) {
 		this.reportView = reportView;
+	}
+
+	public RealisedExchangeLossesAndGainsServerReport(long startDate,
+			long endDate, int generationType) {
+		super(startDate, endDate, generationType);
 	}
 
 	@Override
@@ -36,8 +42,8 @@ public class RealisedExchangeLossesAndGainsServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
 	}
 
 	@Override
@@ -60,12 +66,14 @@ public class RealisedExchangeLossesAndGainsServerReport extends
 		case 3:
 			return record.getCurrency();
 		case 4:
-			return record.getExchangeRate();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getExchangeRate(), null);
 		case 5:
-			return record.getRealisedLossOrGain();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getRealisedLossOrGain(), null);
 		case 6:
 			this.accountBalance += record.getRealisedLossOrGain();
-			return accountBalance;
+			return DataUtils.getAmountAsStringInCurrency(accountBalance, null);
 		}
 		return "";
 	}

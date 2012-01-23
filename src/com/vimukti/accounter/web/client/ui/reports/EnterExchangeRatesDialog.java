@@ -37,9 +37,8 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		});
 		DynamicForm dynamicForm = new DynamicForm();
 		dynamicForm.setFields(enteredDateItem);
-		this.table = new CurrencyExchangeRateTable();
 		updateExchangeRates(enteredDateItem.getDate());
-
+		this.table = new CurrencyExchangeRateTable();
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(dynamicForm);
 		panel.add(table);
@@ -60,7 +59,9 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 				if (result == null) {
 					return;
 				}
-				table.setAllRows(result);
+				if (table != null) {
+					table.setAllRows(result);
+				}
 			}
 		};
 		Accounter.createReportService().getExchangeRatesOfDate(date.getDate(),

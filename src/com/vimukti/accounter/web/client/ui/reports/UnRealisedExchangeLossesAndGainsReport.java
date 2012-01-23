@@ -54,4 +54,14 @@ public class UnRealisedExchangeLossesAndGainsReport extends
 		this.enteredDate = enteredDate;
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
+	}
+
 }

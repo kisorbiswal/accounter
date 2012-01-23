@@ -80,6 +80,8 @@ public class MenuBar {
 
 	private boolean isPriceLevelEnabled;
 
+	private boolean isMulticurrencyEnabled;
+
 	private String countryOrRegion;
 
 	public MenuBar() {
@@ -587,6 +589,16 @@ public class MenuBar {
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
+
+		if (isMulticurrencyEnabled) {
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.realisedExchangeLossesAndGains(),
+					HistoryTokens.REALISED_EXCHANGE_LOSSES_AND_GAINS);
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.unRealisedExchangeLossesAndGains(),
+					HistoryTokens.UNREALISED_EXCHANGE_LOSSES_AND_GAINS);
+		}
+
 		return companyAndFinancialMenuBar;
 	}
 
@@ -1113,6 +1125,8 @@ public class MenuBar {
 
 		this.countryOrRegion = preferences.getTradingAddress()
 				.getCountryOrRegion();
+
+		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
 
 		getMenuBar();
 	}

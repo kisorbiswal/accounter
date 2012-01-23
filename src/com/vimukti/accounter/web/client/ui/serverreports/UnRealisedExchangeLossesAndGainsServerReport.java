@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.UnRealisedExchangeLossesAndGainsReport;
 
 public class UnRealisedExchangeLossesAndGainsServerReport extends
@@ -33,8 +34,8 @@ public class UnRealisedExchangeLossesAndGainsServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT };
 	}
 
 	@Override
@@ -51,15 +52,20 @@ public class UnRealisedExchangeLossesAndGainsServerReport extends
 		case 1:
 			return record.getCurrency();
 		case 2:
-			return record.getForeignBalance();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getForeignBalance(), null);
 		case 3:
-			return record.getExchangeRate();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getExchangeRate(), null);
 		case 4:
-			return record.getAdjustedBalance();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getAdjustedBalance(), null);
 		case 5:
-			return record.getCurrentBalance();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getCurrentBalance(), null);
 		case 6:
-			return record.getLossOrGain();
+			return DataUtils.getAmountAsStringInCurrency(
+					record.getLossOrGain(), null);
 		}
 		return "";
 	}

@@ -41,9 +41,9 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			if (viewType == messages.cashExpenses()) {
+			if (viewType.equals(messages.cash())) {
 				return ActionFactory.CashExpenseAction();
-			} else if (viewType.equals(messages.creditCardExpenses())) {
+			} else if (viewType.equals(messages.creditCard())) {
 				return ActionFactory.CreditCardExpenseAction();
 			}
 			return ActionFactory.getRecordExpensesAction();

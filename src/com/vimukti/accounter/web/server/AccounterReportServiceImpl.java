@@ -3064,9 +3064,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<RealisedExchangeLossOrGain> getRealisedExchangeLossesAndGains(
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
 		ArrayList<RealisedExchangeLossOrGain> list = getFinanceTool()
 				.getReportManager().getRealisedExchangeLossesOrGains(
 						getCompanyId(), start.getDate(), end.getDate());
+		RealisedExchangeLossOrGain obj = new RealisedExchangeLossOrGain();
+		if (list != null)
+			list.add((RealisedExchangeLossOrGain) setStartEndDates(obj,
+					minimumAndMaximumDates));
 		return list;
 	}
 
