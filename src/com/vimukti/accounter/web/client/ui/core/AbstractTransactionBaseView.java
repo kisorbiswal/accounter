@@ -665,7 +665,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			}
 		}
 		draftsButton = new DraftsButton(messages.Saveasdraft(), this);
-		draftsButton.setVisible(canAddDraftButton());
+		draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
 		buttonBar.add(draftsButton);
 		super.createButtons(buttonBar);
 	}
