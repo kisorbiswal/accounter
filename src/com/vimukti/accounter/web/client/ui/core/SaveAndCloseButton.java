@@ -6,8 +6,11 @@ package com.vimukti.accounter.web.client.ui.core;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 
 /**
@@ -51,8 +54,25 @@ public class SaveAndCloseButton extends ImageButton {
 				// Need to clarify after implemented approval process.
 				if (view instanceof AbstractTransactionBaseView) {
 					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
-					ClientTransaction transaction = transactionView
+					final ClientTransaction transaction = transactionView
 							.getTransactionObject();
+					if (transaction.isDraft()) {
+						Accounter.deleteObject(new IDeleteCallback() {
+
+							@Override
+							public void deleteSuccess(IAccounterCore result) {
+
+							}
+
+							@Override
+							public void deleteFailed(AccounterException caught) {
+								// TODO Auto-generated method stub
+
+							}
+						}, transaction);
+						transaction.setID(0);
+					}
+
 					if (!transactionView.isTemplate
 							&& transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
 						transaction
