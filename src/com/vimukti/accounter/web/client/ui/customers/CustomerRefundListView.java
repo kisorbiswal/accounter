@@ -25,7 +25,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
 public class CustomerRefundListView extends
 		TransactionsListView<CustomerRefundsList> {
 	protected List<CustomerRefundsList> transactions;
-	private List<CustomerRefundsList> listOfCustomerRefund;
+	private List<CustomerRefundsList> listOfCustomerRefund = new ArrayList<CustomerRefundsList>();
 
 	// private static String DELETED="Deleted";
 
