@@ -91,7 +91,6 @@ public class ReceivedPaymentListView extends
 		// listOfTypes.add(OPEN);
 		// listOfTypes.add(FULLY_APPLIED);
 		listOfTypes.add(messages.voided());
-		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
 
@@ -140,8 +139,6 @@ public class ReceivedPaymentListView extends
 			type = ClientTransaction.VIEW_VOIDED;
 		} else if (viewType.equalsIgnoreCase(messages.all())) {
 			type = ClientTransaction.VIEW_ALL;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
-			type = ClientTransaction.VIEW_DRAFT;
 		}
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),

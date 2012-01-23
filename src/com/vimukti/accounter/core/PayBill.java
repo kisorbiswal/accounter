@@ -300,6 +300,10 @@ public class PayBill extends Transaction {
 		if (this.isOnSaveProccessed)
 			return true;
 		this.isOnSaveProccessed = true;
+		if (isDraft()) {
+			super.onSave(session);
+			return false;
+		}
 		if (this.getID() == 0l) {
 			if ((!this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK) && !this.paymentMethod

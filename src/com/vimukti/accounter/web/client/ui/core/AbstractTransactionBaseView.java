@@ -667,7 +667,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected boolean canAddDraftButton() {
-		return true;
+		return canRecur() ? true
+				: (!canRecur() && transaction != null && transaction.isDraft());
 	}
 
 	@Override
