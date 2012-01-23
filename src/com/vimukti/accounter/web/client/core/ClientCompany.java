@@ -2137,6 +2137,17 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case MEASUREMENT:
 			deleteMeasurement(id);
+
+		case USER:
+			deleteUser(id);
+		}
+	}
+
+	private void deleteUser(long id) {
+		ClientUserInfo user = this.getUserById(id);
+		if (user != null) {
+			this.usersList.remove(user);
+			fireEvent(new CoreEvent<ClientUserInfo>(ChangeType.DELETE, user));
 		}
 	}
 
