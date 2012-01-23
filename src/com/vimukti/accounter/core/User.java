@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
@@ -15,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class User extends CreatableObject implements IAccounterServerCore,
 		INamedObject {
@@ -301,7 +303,19 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.firstName(), client.getFirstName()).gap();
+		w.put(messages.lastName(), client.getLastName());
+
+		w.put(messages.email(), client.getEmailId()).gap();
+
+		if (this.userRole != null)
+			w.put(messages.userRole(), this.userRole);
+
+		w.put(messages.isActive(), this.isActive).gap();
+		w.put(messages.admin(), this.isAdmin);
 
 	}
 
