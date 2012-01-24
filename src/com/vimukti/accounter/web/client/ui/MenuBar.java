@@ -612,7 +612,8 @@ public class MenuBar {
 				HistoryTokens.WRITECHECK);
 		bankingMenuBar.addMenuItem(messages.transferFund(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
-		bankingMenuBar.addMenuItem(messages.deposit(), HistoryTokens.DEPOSIT);
+		bankingMenuBar.addMenuItem(messages.makeDeposit(),
+				HistoryTokens.DEPOSIT);
 
 		if (isKeepTrackofBills) {
 			bankingMenuBar.addMenuItem(messages.payBill(),
