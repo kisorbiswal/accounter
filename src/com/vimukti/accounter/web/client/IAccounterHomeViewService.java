@@ -15,7 +15,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -24,7 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -74,6 +73,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -86,6 +86,8 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
  * 
  */
 public interface IAccounterHomeViewService extends RemoteService {
+	public PaginationList<TransactionsList> getSpentAndReceivedTransactionsList(
+			long endOfFiscalYear, long date, int start, int length);
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices();
 
@@ -156,8 +158,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	// To check whether an Account is a Sales Tax Payable Account or not
 	public boolean isSalesTaxPayableAccountByName(String accountName);
 
-	PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
-			long toDate, int start, int length);
+	PaginationList<ClientEstimate> getEstimates(int type, int status,
+			long fromDate, long toDate, int start, int length);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public ArrayList<ClientEstimate> getEstimates(long customerId);
