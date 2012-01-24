@@ -250,11 +250,11 @@ T.STATUS as PAYMENT_STATUS
 	TRANSACTION_PAYBILL TPB
 	    on TPB.TRANSACTION_ID=PB.ID
     left outer join 
-	MAKE_DEPOSIT MD
-	    on T.ID=MD.ID
+	TRANSFER_FUND TF
+	    on T.ID=TF.ID
     left outer join 
 	TRANSACTION_MAKE_DEPOSIT TMD
-	    on TMD.TRANSACTION_ID=MD.ID and TMD.IS_NEW_ENTRY = 'TRUE'
+	    on TMD.TRANSACTION_ID=TF.ID and TMD.IS_NEW_ENTRY = 'TRUE'
     left outer join
         WRITE_CHECKS WC 
             on T.ID=WC.ID

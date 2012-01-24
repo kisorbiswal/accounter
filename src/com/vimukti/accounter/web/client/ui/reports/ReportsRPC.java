@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -27,7 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientLocation;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
@@ -49,7 +50,6 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
@@ -109,8 +109,8 @@ public class ReportsRPC {
 			initCallBack(new ClientPayBill(),
 					ActionFactory.getNewVendorPaymentAction(), transactionId);
 			break;
-		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			initCallBack(new ClientMakeDeposit(),
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			initCallBack(new ClientTransferFund(),
 					ActionFactory.getMakeDepositAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
@@ -157,11 +157,6 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_ISSUE_PAYMENT:
 			initCallBack(new ClientIssuePayment(),
 					ActionFactory.getIssuePaymentsAction(), transactionId);
-			break;
-		case ClientTransaction.TYPE_TRANSFER_FUND:
-			initCallBack(new ClientTransferFund(),
-					ActionFactory.getTransferFundsAction(), transactionId);
-
 			break;
 		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
 			initCallBack(new ClientVendorCreditMemo(),
@@ -222,6 +217,10 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			initCallBack(new ClientTDSChalanDetail(),
 					ActionFactory.getTDSChalanDetailsView(), transactionId);
+			break;
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			initCallBack(new ClientMakeDeposit(), ActionFactory.getDepositAction(),
+					transactionId);
 			break;
 
 		// These cases were included to open the views other than transactions.
@@ -347,6 +346,7 @@ public class ReportsRPC {
 			initCallBack(new ClientTDSChalanDetail(),
 					ActionFactory.getTDSChalanDetailsView(), transactionId);
 			break;
+
 		}
 
 	}
@@ -354,7 +354,7 @@ public class ReportsRPC {
 	public static void openTransactionView(ClientTransaction transaction) {
 		switch (transaction.getType()) {
 
-		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+		case ClientTransaction.TYPE_TRANSFER_FUND:
 			ActionFactory.getMakeDepositAction().run(transaction, false);
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:
@@ -397,6 +397,9 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
 			ActionFactory.getCustomerRefundAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			ActionFactory.getDepositAction().run(transaction, false);
 			break;
 		}
 	}

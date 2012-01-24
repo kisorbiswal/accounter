@@ -46,7 +46,7 @@ public class ReportUtility {
 			transactionName = messages.issuePayment();
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			transactionName = messages.depositTransferFunds();
+			transactionName = messages.deposit();
 			break;
 		case ClientTransaction.TYPE_PAY_BILL:
 			transactionName = Global.get().messages()

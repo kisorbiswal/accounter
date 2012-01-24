@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -194,7 +195,23 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 		}
 
 		if (isCustomerAllowedToAdd) {
-			this.addColumn(new CustomerColumn());
+			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
+
+				@Override
+				protected ClientCustomer getValue(ClientTransactionItem row) {
+					return Accounter.getCompany()
+							.getCustomer(row.getCustomer());
+				}
+
+				@Override
+				protected void setValue(ClientTransactionItem row,
+						ClientCustomer newValue) {
+					if (newValue == null) {
+						return;
+					}
+					row.setCustomer(newValue.getID());
+				}
+			});
 			this.addColumn(new TransactionBillableColumn());
 		}
 

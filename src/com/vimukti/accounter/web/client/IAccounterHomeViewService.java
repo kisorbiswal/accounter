@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -23,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -44,7 +45,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -132,9 +132,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientWriteCheck> getLatestChecks();
 
-	public ArrayList<ClientMakeDeposit> getLatestDeposits();
-
-	public ArrayList<ClientTransferFund> getLatestFundsTransfer();
+	public ArrayList<ClientTransferFund> getLatestDeposits();
 
 	/**
 	 * Other Utility GET Methods
@@ -454,4 +452,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	String getIRASFileInformation(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException;
+
+	ClientMakeDeposit getDepositByEstimateId(long id) throws AccounterException;
 }

@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -69,6 +70,7 @@ import com.vimukti.accounter.web.client.ui.CustomMenuBar;
 import com.vimukti.accounter.web.client.ui.CustomMenuItem;
 import com.vimukti.accounter.web.client.ui.MakeDepositView;
 import com.vimukti.accounter.web.client.ui.TransactionHistoryTable;
+import com.vimukti.accounter.web.client.ui.banking.DepositView;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
@@ -158,6 +160,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private boolean isMenuRequired = true;
 
 	protected List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
+
+	protected List<ClientTransactionDepositItem> transactionDepositItems = new ArrayList<ClientTransactionDepositItem>();
 
 	private List<String> payVatMethodList;
 
@@ -1126,7 +1130,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView
-				|| this instanceof InvoiceView || this instanceof MakeDepositView)) {
+				|| this instanceof InvoiceView
+				|| this instanceof MakeDepositView || this instanceof DepositView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
 
@@ -1252,6 +1257,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				}
 				transaction.setTransactionItems(transactionItems);
 			}
+			transactionDepositItems.clear();
 			if (location != null)
 				transaction.setLocation(location.getID());
 
@@ -1288,6 +1294,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	public List<ClientTransactionItem> getAllTransactionItems() {
+		return null;
+	}
+
+	public List<ClientTransactionDepositItem> getAllTransactionDepositItems() {
 		return null;
 	}
 

@@ -21,10 +21,10 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	public List<ClientAccount> getAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
-					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType())) {
+			if (Arrays.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
+					ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
+					ClientAccount.SUBBASETYPE_EQUITY).contains(
+					account.getSubBaseType())) {
 
 				deposiInAccounts.add(account);
 			}
@@ -37,10 +37,10 @@ public class MakeDepositAccountCombo extends AccountCombo {
 	public void setAccounts() {
 		deposiInAccounts = new ArrayList<ClientAccount>();
 		for (ClientAccount account : getCompany().getActiveAccounts()) {
-			if (Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-					ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
-					ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
-					ClientAccount.TYPE_CREDIT_CARD).contains(account.getType())) {
+			if (Arrays.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
+					ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
+					ClientAccount.SUBBASETYPE_EQUITY).contains(
+					account.getSubBaseType())) {
 
 				deposiInAccounts.add(account);
 

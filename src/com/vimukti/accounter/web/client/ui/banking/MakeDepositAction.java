@@ -2,7 +2,7 @@ package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.MakeDepositView;
@@ -21,7 +21,7 @@ public class MakeDepositAction extends Action {
 		this.catagory = messages.banking();
 	}
 
-	public MakeDepositAction(ClientMakeDeposit makeDeposit,
+	public MakeDepositAction(ClientTransferFund makeDeposit,
 			AccounterAsyncCallback<Object> callback) {
 		super();
 		this.catagory = messages.banking();
@@ -67,11 +67,11 @@ public class MakeDepositAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "deposite_transfer-funds";
+		return "transfer-funds";
 	}
 
 	@Override
 	public String getText() {
-		return messages.makeDeposit();
+		return messages.transferFund();
 	}
 }

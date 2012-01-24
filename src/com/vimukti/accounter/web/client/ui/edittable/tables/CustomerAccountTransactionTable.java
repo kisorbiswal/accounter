@@ -67,7 +67,7 @@ public abstract class CustomerAccountTransactionTable extends
 
 	@Override
 	protected void initColumns() {
-		this.addColumn(new AccountNameColumn() {
+		this.addColumn(new AccountNameColumn<ClientTransactionItem>() {
 
 			@Override
 			public ListFilter<ClientAccount> getAccountsFilter() {
@@ -101,7 +101,10 @@ public abstract class CustomerAccountTransactionTable extends
 					ClientAccount newValue) {
 				updateDiscountValues(row);
 				if (newValue != null) {
-					super.setValue(row, newValue);
+					row.setAccountable(newValue);
+					row.setDescription(newValue.getComment());
+					row.setTaxable(true);
+					onValueChange(row);
 					if (row.getQuantity() == null) {
 						ClientQuantity quantity = new ClientQuantity();
 						quantity.setValue(1.0);
@@ -128,6 +131,11 @@ public abstract class CustomerAccountTransactionTable extends
 			public List<Integer> getCanAddedAccountTypes() {
 				return Arrays.asList(ClientAccount.TYPE_INCOME,
 						ClientAccount.TYPE_FIXED_ASSET);
+			}
+
+			@Override
+			protected ClientAccount getValue(ClientTransactionItem row) {
+				return (ClientAccount) row.getAccountable();
 			}
 		});
 

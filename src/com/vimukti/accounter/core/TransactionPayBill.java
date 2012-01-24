@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
  * 
  * For every {@link PayBill} entry there will be one or more TransactionPayBill
  * entries. These are populated whenever any {@link Enterbill} or a journal
- * entry for a Vendor, or a {@link MakeDeposit} for Vendor type is created. We
+ * entry for a Vendor, or a {@link TransferFund} for Vendor type is created. We
  * can apply write off and credits (if any) for this.
  * 
  * @author Chandan

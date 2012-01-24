@@ -26,7 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -40,7 +40,6 @@ import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnitOfMeasure;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -182,8 +181,8 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public ClientMakeDeposit alterMakeDeposit(long company,
-			ClientMakeDeposit makeDeposit) throws DAOException {
+	public ClientTransferFund alterMakeDeposit(long company,
+			ClientTransferFund makeDeposit) throws DAOException {
 
 		return null;
 	}
@@ -275,14 +274,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	@Override
 	public ClientTAXGroup alterTaxGroup(long company, ClientTAXGroup taxGroup)
 			throws DAOException {
-
-		return null;
-	}
-
-
-	@Override
-	public ClientTransferFund alterTransferFund(long company,
-			ClientTransferFund transferFund) throws DAOException {
 
 		return null;
 	}
@@ -470,8 +461,8 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public ClientMakeDeposit createMakeDeposit(long company,
-			ClientMakeDeposit makeDeposit) throws DAOException {
+	public ClientTransferFund createMakeDeposit(long company,
+			ClientTransferFund makeDeposit) throws DAOException {
 
 		return null;
 	}
@@ -567,13 +558,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 		return null;
 	}
 
-
-	@Override
-	public ClientTransferFund createTransferFund(long company,
-			ClientTransferFund transferFund) throws DAOException {
-
-		return null;
-	}
 
 	@Override
 	public ClientUnitOfMeasure createUnitOfMeasure(long company,

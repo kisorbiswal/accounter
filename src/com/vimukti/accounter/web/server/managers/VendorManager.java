@@ -25,6 +25,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
@@ -43,6 +44,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -1892,5 +1894,17 @@ public class VendorManager extends PayeeManager {
 				.setParameter("toDate", endDate)
 				.setParameter("vendorId", vendorId);
 		return query.list();
+	}
+
+	public ClientMakeDeposit getDepositByEstimateId(long estimateId)
+			throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Estimate estimate = (Estimate) session.get(Estimate.class, estimateId);
+		Object[] uniqueResult = (Object[]) session
+				.getNamedQuery("getDepositByEstimate")
+				.setParameter("estimate", estimate).uniqueResult();
+		ClientMakeDeposit deposit = new ClientConvertUtil().toClientObject(
+				((MakeDeposit) uniqueResult[0]), ClientMakeDeposit.class);
+		return deposit;
 	}
 }

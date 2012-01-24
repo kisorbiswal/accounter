@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -55,7 +55,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class MakeDepositView extends
-		AbstractBankTransactionView<ClientMakeDeposit> {
+		AbstractBankTransactionView<ClientTransferFund> {
 	DateItem date;
 
 	DynamicForm depoForm;
@@ -117,7 +117,7 @@ public class MakeDepositView extends
 	private String transactionNo;
 
 	public MakeDepositView() {
-		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		super(ClientTransaction.TYPE_TRANSFER_FUND);
 		calculatedTotal = 0D;
 	}
 
@@ -142,7 +142,7 @@ public class MakeDepositView extends
 		};
 
 		Accounter.createHomeService().getNextTransactionNumber(
-				ClientTransaction.TYPE_MAKE_DEPOSIT,
+				ClientTransaction.TYPE_TRANSFER_FUND,
 				getTransactionNumberCallback);
 	}
 
@@ -420,8 +420,8 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public ClientMakeDeposit saveView() {
-		ClientMakeDeposit saveView = super.saveView();
+	public ClientTransferFund saveView() {
+		ClientTransferFund saveView = super.saveView();
 		if (saveView != null) {
 			updateTransaction();
 		}
@@ -540,7 +540,7 @@ public class MakeDepositView extends
 	}
 
 	private List<ClientTransactionMakeDeposit> getAllSelectedRecords(
-			ClientMakeDeposit makeDeposit) {
+			ClientTransferFund makeDeposit) {
 		List<ClientTransactionMakeDeposit> selectedRecords = gridView
 				.getRecords();
 
@@ -631,7 +631,7 @@ public class MakeDepositView extends
 	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
-			setData(new ClientMakeDeposit());
+			setData(new ClientTransferFund());
 		} else {
 			selectedDepositFromAccount = getCompany().getAccount(
 					transaction.getDepositFrom());
@@ -697,7 +697,7 @@ public class MakeDepositView extends
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
-		Label lab = new Label(messages.makeDeposit());
+		Label lab = new Label(messages.transferFund());
 		// lab.removeStyleName("gwt-Label");
 		lab.setStyleName("label-title");
 		// lab.setHeight("50px");
@@ -998,10 +998,10 @@ public class MakeDepositView extends
 	}
 
 	@Override
-	public void setData(ClientMakeDeposit data) {
+	public void setData(ClientTransferFund data) {
 
 		super.setData(data);
-		if (isInViewMode() && (!transaction.isMakeDeposit()))
+		if (isInViewMode() && (!transaction.isTransferFund()))
 			try {
 				throw new Exception(messages.unabletoLoadTheRequiredDeposit());
 			} catch (Exception e) {
@@ -1252,7 +1252,7 @@ public class MakeDepositView extends
 
 	@Override
 	protected String getViewTitle() {
-		return messages.makeDeposit();
+		return messages.transferFund();
 	}
 
 	@Override
@@ -1301,7 +1301,7 @@ public class MakeDepositView extends
 		transaction.setTotal(amtText.getAmount());
 
 		// Setting Transaction type
-		transaction.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		transaction.setType(ClientTransaction.TYPE_TRANSFER_FUND);
 
 		if (currency != null)
 			transaction.setCurrency(currency.getID());

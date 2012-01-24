@@ -23,7 +23,7 @@ import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
 import com.vimukti.accounter.core.PayTAX;
@@ -40,7 +40,6 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TaxRates;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.UnitOfMeasure;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
@@ -324,7 +323,7 @@ public interface IAccounterDAOService {
 	// public IssuePayment getIssuePayment(long companyId, long issuePaymentId)
 	// throws DAOException;
 
-	public MakeDeposit getMakeDeposit(long companyId, long makeDepositId)
+	public TransferFund getMakeDeposit(long companyId, long makeDepositId)
 			throws DAOException;
 
 	public PayBill getPayBill(long companyId, long payBillId)
@@ -337,9 +336,6 @@ public interface IAccounterDAOService {
 			long receivePaymentId) throws DAOException;
 
 	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
-			throws DAOException;
-
-	public TransferFund getTransferFund(long companyId, long transferFundId)
 			throws DAOException;
 
 	public VendorCreditMemo getVendorCreditMemo(long companyId,
@@ -375,7 +371,7 @@ public interface IAccounterDAOService {
 
 	public ArrayList<PayBill> getPayBills(long companyId) throws DAOException;
 
-	public ArrayList<MakeDeposit> getMakeDeposits(long companyId)
+	public ArrayList<TransferFund> getMakeDeposits(long companyId)
 			throws DAOException;
 
 	public ArrayList<VendorCreditMemo> getVendorCreditMemos(long companyId)
@@ -385,9 +381,6 @@ public interface IAccounterDAOService {
 			throws DAOException;
 
 	public ArrayList<CreditCardCharge> getCreditCardCharges(long companyId)
-			throws DAOException;
-
-	public ArrayList<TransferFund> getTransferFunds(long companyId)
 			throws DAOException;
 
 	public Company getCompany(long userId) throws DAOException;

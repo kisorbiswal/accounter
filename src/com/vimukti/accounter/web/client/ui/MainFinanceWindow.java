@@ -889,6 +889,9 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getUnRealisedExchangeLossesAndGainsAction());
 		actions.put(ActionFactory.getEnterExchangeRatesAction()
 				.getHistoryToken(), ActionFactory.getEnterExchangeRatesAction());
+
+		actions.put(ActionFactory.getDepositAction().getHistoryToken(),
+				ActionFactory.getDepositAction());
 	}
 
 	public ClientCompany getCompany() {

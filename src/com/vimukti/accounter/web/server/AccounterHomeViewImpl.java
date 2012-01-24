@@ -21,13 +21,12 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
-import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -42,6 +41,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -50,7 +50,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -71,7 +71,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -542,16 +541,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientMakeDeposit> getLatestDeposits() {
-		List<ClientMakeDeposit> clientMakeDeposits = new ArrayList<ClientMakeDeposit>();
-		List<MakeDeposit> serverMakeDeposits = null;
+	public ArrayList<ClientTransferFund> getLatestDeposits() {
+		List<ClientTransferFund> clientMakeDeposits = new ArrayList<ClientTransferFund>();
+		List<TransferFund> serverMakeDeposits = null;
 		try {
 
 			serverMakeDeposits = getFinanceTool().getLatestDeposits(
 					getCompanyId());
-			for (MakeDeposit makeDeposit : serverMakeDeposits) {
+			for (TransferFund makeDeposit : serverMakeDeposits) {
 				clientMakeDeposits.add(new ClientConvertUtil().toClientObject(
-						makeDeposit, ClientMakeDeposit.class));
+						makeDeposit, ClientTransferFund.class));
 			}
 			// deposites = (List<ClientMakeDeposit>) manager.merge(deposites);
 
@@ -559,29 +558,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 
-		return new ArrayList<ClientMakeDeposit>(clientMakeDeposits);
-	}
-
-	@Override
-	public ArrayList<ClientTransferFund> getLatestFundsTransfer() {
-		List<ClientTransferFund> clientTransferFunds = new ArrayList<ClientTransferFund>();
-		List<TransferFund> serverTransferFunds = null;
-		try {
-
-			serverTransferFunds = getFinanceTool().getLatestFundsTransfer(
-					getCompanyId());
-			for (TransferFund transferFund : serverTransferFunds) {
-				clientTransferFunds.add(new ClientConvertUtil().toClientObject(
-						transferFund, ClientTransferFund.class));
-			}
-			// transferFunds = (List<ClientTransferFund>)
-			// manager.merge(transferFunds);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return new ArrayList<ClientTransferFund>(clientTransferFunds);
+		return new ArrayList<ClientTransferFund>(clientMakeDeposits);
 	}
 
 	@Override
@@ -2103,6 +2080,13 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException {
 		return getFinanceTool().getIRASFileInformationByDate(getCompanyId(),
 				startDate.getDate(), endDate.getDate(), isXml);
+	}
+
+	@Override
+	public ClientMakeDeposit getDepositByEstimateId(long estimate)
+			throws AccounterException {
+		return new FinanceTool().getVendorManager().getDepositByEstimateId(
+				estimate);
 	}
 
 }

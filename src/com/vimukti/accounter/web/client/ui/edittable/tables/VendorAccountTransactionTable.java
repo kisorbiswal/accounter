@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
@@ -81,7 +83,7 @@ public abstract class VendorAccountTransactionTable extends
 	@Override
 	protected void initColumns() {
 
-		AccountNameColumn transactionItemNameColumn = new AccountNameColumn() {
+		AccountNameColumn transactionItemNameColumn = new AccountNameColumn<ClientTransactionItem>() {
 
 			@Override
 			public ListFilter<ClientAccount> getAccountsFilter() {
@@ -116,7 +118,10 @@ public abstract class VendorAccountTransactionTable extends
 					ClientAccount newValue) {
 				updateDiscountValues(row);
 				if (newValue != null) {
-					super.setValue(row, newValue);
+					row.setAccountable(newValue);
+					row.setDescription(newValue.getComment());
+					row.setTaxable(true);
+					onValueChange(row);
 					if (row.getQuantity() == null) {
 						ClientQuantity quantity = new ClientQuantity();
 						quantity.setValue(1.0);
@@ -145,6 +150,11 @@ public abstract class VendorAccountTransactionTable extends
 						ClientAccount.TYPE_OTHER_EXPENSE,
 						ClientAccount.TYPE_FIXED_ASSET,
 						ClientAccount.TYPE_EXPENSE);
+			}
+
+			@Override
+			protected ClientAccount getValue(ClientTransactionItem row) {
+				return (ClientAccount) row.getAccountable();
 			}
 		};
 		this.addColumn(transactionItemNameColumn);
@@ -206,7 +216,24 @@ public abstract class VendorAccountTransactionTable extends
 			}
 		}
 		if (isCustomerAllowedToAdd) {
-			this.addColumn(new CustomerColumn());
+			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
+
+				@Override
+				protected ClientCustomer getValue(ClientTransactionItem row) {
+					return Accounter.getCompany()
+							.getCustomer(row.getCustomer());
+				}
+
+				@Override
+				protected void setValue(ClientTransactionItem row,
+						ClientCustomer newValue) {
+					if (newValue == null) {
+						return;
+					}
+					row.setCustomer(newValue.getID());
+				}
+
+			});
 			this.addColumn(new TransactionBillableColumn());
 		}
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());

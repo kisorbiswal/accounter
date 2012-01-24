@@ -1,10 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.vimukti.accounter.web.client.Global;
-
 public class ClientTransferFund extends ClientTransaction {
 
 	/**
@@ -12,71 +7,94 @@ public class ClientTransferFund extends ClientTransaction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	long transferFrom;
-	long transferTo;
+	long depositIn;
+
+	long depositFrom;
+
+	long cashBackAccount;
+
+	String cashBackMemo;
+
+	double cashBackAmount;
 
 	/**
-	 * @return the version
+	 * @return the cashBackAccount
 	 */
-	@Override
-	public int getVersion() {
-		return version;
+	public long getCashBackAccount() {
+		return cashBackAccount;
 	}
 
 	/**
-	 * @param version
-	 *            the version to set
+	 * @param cashBackAccount
+	 *            the cashBackAccount to set
 	 */
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
+	public void setCashBackAccount(long cashBackAccount) {
+		this.cashBackAccount = cashBackAccount;
 	}
 
 	/**
-	 * @return the transferFrom
+	 * @return the depositIn
 	 */
-	public long getTransferFrom() {
-		return transferFrom;
+	public long getDepositIn() {
+		return depositIn;
 	}
 
 	/**
-	 * @param transferFrom
-	 *            the transferFrom to set
+	 * @param depositIn
+	 *            the depositIn to set
 	 */
-	public void setTransferFrom(long transferFrom) {
-		this.transferFrom = transferFrom;
+	public void setDepositIn(long depositIn) {
+		this.depositIn = depositIn;
 	}
 
 	/**
-	 * @return the transferTo
+	 * @return the cashBackMemo
 	 */
-	public long getTransferTo() {
-		return transferTo;
+	public String getCashBackMemo() {
+		return cashBackMemo;
 	}
 
 	/**
-	 * @param transferTo
-	 *            the transferTo to set
+	 * @param cashBackMemo
+	 *            the cashBackMemo to set
 	 */
-	public void setTransferTo(long transferTo) {
-		this.transferTo = transferTo;
+	public void setCashBackMemo(String cashBackMemo) {
+		this.cashBackMemo = cashBackMemo;
 	}
 
-	@Override
-	public String toString() {
-		return Global.get().messages().transferFund();
+	/**
+	 * @return the cashBackAmount
+	 */
+	public double getCashBackAmount() {
+		return cashBackAmount;
+	}
+
+	/**
+	 * @param cashBackAmount
+	 *            the cashBackAmount to set
+	 */
+	public void setCashBackAmount(double cashBackAmount) {
+		this.cashBackAmount = cashBackAmount;
+	}
+
+	public long getDepositFrom() {
+		return depositFrom;
+	}
+
+	public void setDepositFrom(long depositFrom) {
+		this.depositFrom = depositFrom;
 	}
 
 	@Override
 	public String getDisplayName() {
-
-		return getName();
+		// its not using any where
+		return null;
 	}
 
 	@Override
 	public String getName() {
-
-		return Utility.getTransactionName(getType());
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -90,60 +108,15 @@ public class ClientTransferFund extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.TRANSFERFUND;
 	}
 
-	public ClientTAXAdjustment clone() {
-		ClientTAXAdjustment taxAdjustment = (ClientTAXAdjustment) this.clone();
+	public ClientTransferFund clone() {
+		ClientTransferFund clientMakeDepositClone = (ClientTransferFund) this
+				.clone();
 
-		// transactionItems list
-		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
-		for (ClientTransactionItem clientTransactionItem : this.transactionItems) {
-			transactionItems.add(clientTransactionItem.clone());
-		}
-		taxAdjustment.transactionItems = transactionItems;
-
-		// transactionMakeDeposit list
-		List<ClientTransactionMakeDeposit> transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposit.add(clientTransactionMakeDeposit.clone());
-		}
-		taxAdjustment.transactionMakeDeposit = transactionMakeDeposit;
-
-		// transactionPayBill list
-		List<ClientTransactionPayBill> transactionPayBillList = new ArrayList<ClientTransactionPayBill>();
-		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
-			transactionPayBillList.add(clientTransactionPayBill.clone());
-		}
-		taxAdjustment.transactionPayBill = transactionPayBillList;
-
-		// transactionReceivePayment list
-		List<ClientTransactionReceivePayment> transactionReceivePaymentList = new ArrayList<ClientTransactionReceivePayment>();
-		for (ClientTransactionReceivePayment clientTransactionReceivePayment : this.transactionReceivePayment) {
-			transactionReceivePaymentList.add(clientTransactionReceivePayment
-					.clone());
-		}
-		taxAdjustment.transactionReceivePayment = transactionReceivePaymentList;
-
-		// transactionIssuePayment list
-		List<ClientTransactionIssuePayment> transactionIssuePayment = new ArrayList<ClientTransactionIssuePayment>();
-		for (ClientTransactionIssuePayment clientTransactionIssuePayment : this.transactionIssuePayment) {
-			transactionIssuePayment.add(clientTransactionIssuePayment.clone());
-		}
-		taxAdjustment.transactionIssuePayment = transactionIssuePayment;
-
-		// transactionPaySalestax list
-		List<ClientTransactionPayTAX> transactionPaySalesTax = new ArrayList<ClientTransactionPayTAX>();
-		for (ClientTransactionPayTAX clientTransactionPaySalesTax : this.transactionPaySalesTax) {
-			transactionPaySalesTax.add(clientTransactionPaySalesTax.clone());
-		}
-		taxAdjustment.transactionPaySalesTax = transactionPaySalesTax;
-
-		// taxAdjustment.creditsAndPayments = this.creditsAndPayments.clone();
-
-		return taxAdjustment;
+		return clientMakeDepositClone;
 	}
 }

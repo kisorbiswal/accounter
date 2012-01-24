@@ -1,89 +1,94 @@
 package com.vimukti.accounter.core;
 
+import java.util.List;
 import java.util.Map;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 /**
  * 
- * @author Suresh Garikapati
- * 
- *         Transfer Fund
- * 
- *         Effect on Transfer From Account:
- * 
- *         If the finance Account isIncrease true then Increase it's current and
- *         total balance by transfer amount otherwise Decrease
- * 
- *         If the finance Account isIncrease true, then the amount in the Entry
- *         of JournalEntry must be in Credit side with the entry type Financial
- *         Account else the amount must be on Debit side.
- * 
- *         Effect on Transfer To Account:
- * 
- *         If the finance Account isIncrease true then Decrease it's current and
- *         total balance by transfer amount otherwise Increase
- * 
- *         If the finance Account isIncrease true, then the amount in the Entry
- *         of JournalEntry must be in Debit side with the entry type Financial
- *         Account else the amount must be on Credit side.
- * 
+ * @author Suresh Garikapati <br>
+ * <br>
+ *         This Transaction is Particularly to Deposit the amounts which are Un
+ *         Deposited in our Accounting System.
  * 
  */
 
-public class TransferFund extends Transaction {
+public class TransferFund extends Transaction implements Lifecycle {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3319972479304421994L;
-	/**
-	 * The account from which we want to transfer the amount
-	 */
-	@ReffereredObject
-	Account transferFrom;
+	private static final long serialVersionUID = 4987826863985791988L;
 
 	/**
-	 * The account to which the amount is transfered.
+	 * DepositIn {@link Account}
 	 */
 	@ReffereredObject
-	Account transferTo;
+	Account depositIn;
 
+	/**
+	 * Cash Back {@link Account}, for this MakeDeposit
+	 */
 	@ReffereredObject
-	JournalEntry journalEntry;
+	Account cashBackAccount;
+
+	Account depositFrom;
+
+	/**
+	 * Description for Cash Back Memo
+	 */
+	String cashBackMemo;
+
+	/**
+	 * 
+	 */
+	double cashBackAmount;
 
 	//
+
+	List<TransactionMakeDeposit> transactionMakeDeposit;
 
 	public TransferFund() {
 		setType(Transaction.TYPE_TRANSFER_FUND);
 	}
 
 	/**
-	 * @return the transferFrom
+	 * @return the depositIn
 	 */
-	public Account getTransferFrom() {
-		return transferFrom;
+	public Account getDepositIn() {
+		return depositIn;
 	}
 
 	/**
-	 * @param transferFrom
-	 *            the transferFrom to set
+	 * @return the cashBackAccount
 	 */
-	public void setTransferFrom(Account transferFrom) {
-		this.transferFrom = transferFrom;
+	public Account getCashBackAccount() {
+		return cashBackAccount;
 	}
 
 	/**
-	 * @return the transferTo
+	 * @return the cashBackMemo
 	 */
-	public Account getTransferTo() {
-		return transferTo;
+	public String getCashBackMemo() {
+		return cashBackMemo;
+	}
+
+	/**
+	 * @return the cashBackAmount
+	 */
+	public double getCashBackAmount() {
+		return cashBackAmount;
 	}
 
 	@Override
@@ -93,25 +98,50 @@ public class TransferFund extends Transaction {
 			return true;
 		this.isOnSaveProccessed = true;
 		super.onSave(session);
-		if (this.getID() == 0l && !isDraftOrTemplate()) {
-			Account account = this.transferFrom;
-			account.updateCurrentBalance(this, this.total, currencyFactor);
-			session.update(account);
-			account.onUpdate(session);
+		if (isDraftOrTemplate()) {
+			return false;
+		}
+		if (this.cashBackAccount != null) {
 
-			// JournalEntry journalEntry = new JournalEntry(this);
+			this.cashBackAccount.updateCurrentBalance(this,
+					this.cashBackAmount, currencyFactor);
+			this.cashBackAccount.onUpdate(session);
 
 		}
+
+		depositIn.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		session.save(depositIn);
+		depositFrom.updateCurrentBalance(this, this.total, this.currencyFactor);
+		session.save(depositFrom);
+
 		return false;
 	}
 
 	@Override
+	protected void checkNullValues() throws AccounterException {
+		checkAccountNull(depositFrom);
+		checkAccountNull(depositIn);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
+
 		super.onUpdate(session);
 		// if (isBecameVoid()) {
-		// this.transferFrom.updateCurrentBalance(this, -this.total);
-		// session.update(this.transferFrom);
-		// this.transferFrom.onUpdate(session);
+		// if (cashBackAccount != null) {
+		// this.cashBackAccount.updateCurrentBalance(this, -1
+		// * this.cashBackAmount);
+		// this.cashBackAccount.onUpdate(session);
+		// }
+		// }
+		// for (TransactionMakeDeposit transactionMakeDeposit :
+		// this.transactionMakeDeposit) {
+		// transactionMakeDeposit.setIsVoid(Boolean.TRUE);
+		// session.update(transactionMakeDeposit);
+		// if (transactionMakeDeposit instanceof Lifecycle) {
+		// Lifecycle lifeCycle = (Lifecycle) transactionMakeDeposit;
+		// lifeCycle.onUpdate(session);
+		// }
 		// }
 		return false;
 	}
@@ -128,7 +158,7 @@ public class TransferFund extends Transaction {
 
 	@Override
 	public Account getEffectingAccount() {
-		return this.transferTo;
+		return null;
 	}
 
 	@Override
@@ -136,37 +166,45 @@ public class TransferFund extends Transaction {
 		return null;
 	}
 
-	@Override
-	public String toString() {
-		return AccounterServerConstants.TYPE_TRANSFER_FUND;
-	}
-
 	public void setNumber(String number) {
 		this.number = number;
 	}
 
-	public void setTransferTo(Account trandferTo) {
-		this.transferTo = trandferTo;
+	/**
+	 * @return the transactionMakeDeposit
+	 */
+	public List<TransactionMakeDeposit> getTransactionMakeDeposit() {
+		return transactionMakeDeposit;
 	}
 
 	/**
-	 * @return the journalEntry
+	 * @param transactionMakeDeposit
+	 *            the transactionMakeDeposit to set
 	 */
-	public JournalEntry getJournalEntry() {
-		return journalEntry;
-	}
-
-	/**
-	 * @param journalEntry
-	 *            the journalEntry to set
-	 */
-	public void setJournalEntry(JournalEntry journalEntry) {
-		this.journalEntry = journalEntry;
+	public void setTransactionMakeDeposit(
+			List<TransactionMakeDeposit> transactionMakeDeposit) {
+		this.transactionMakeDeposit = transactionMakeDeposit;
 	}
 
 	@Override
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public void setCashBackAmount(double cashBackAmount) {
+		this.cashBackAmount = cashBackAmount;
+	}
+
+	public void setCashBackAccount(Account cashBankAccount) {
+		this.cashBackAccount = cashBankAccount;
+	}
+
+	public void setCashBackMemo(String cashBackMemo) {
+		this.cashBackMemo = cashBackMemo;
+	}
+
+	public void setDepositIn(Account depositIn) {
+		this.depositIn = depositIn;
 	}
 
 	@Override
@@ -175,116 +213,114 @@ public class TransferFund extends Transaction {
 	}
 
 	@Override
-	public Payee getInvolvedPayee() {
+	public String toString() {
+		return AccounterServerConstants.TYPE_MAKE_DEPOSIT;
+	}
 
-		return this.getPayee();
+	@Override
+	public Payee getInvolvedPayee() {
+		return null;
+	}
+
+	public Account getDepositFrom() {
+		return depositFrom;
+	}
+
+	public void setDepositFrom(Account depositFrom) {
+		this.depositFrom = depositFrom;
 	}
 
 	@Override
 	public void onEdit(Transaction clonedObject) {
 
-		TransferFund transferFund = (TransferFund) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
+		TransferFund makeDeposit = (TransferFund) clonedObject;
 
 		if (isDraftOrTemplate()) {
-			super.onEdit(transferFund);
+			super.onEdit(makeDeposit);
 			return;
 		}
-
-		/**
-		 * if present transaction is deleted or voided & previous transaction is
-		 * not voided then only it will enter the loop
-		 */
-
-		if (this.isVoid() && !transferFund.isVoid()) {
-
-			transferFund.effectAccount(session, transferFund.transferFrom,
-					-transferFund.total);
+		if (this.isVoid() && !makeDeposit.isVoid()) {
+			this.doVoidEffect(session);
 
 		} else {
+			if (this.depositIn.getID() != makeDeposit.depositIn.getID()
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
+					|| isCurrencyFactorChanged()) {
+				Account depositInAccount = (Account) session.get(Account.class,
+						makeDeposit.depositIn.getID());
+				depositInAccount.updateCurrentBalance(this, makeDeposit.total,
+						makeDeposit.currencyFactor);
+				depositInAccount.onUpdate(session);
+				session.saveOrUpdate(depositInAccount);
 
-			if ((this.transferFrom.getID() == transferFund.transferFrom.getID())
-					&& (this.transferTo.getID() == transferFund.transferTo
-							.getID())
-					&& !DecimalUtil.isEquals(this.total, transferFund.total)) {
+				this.depositIn.updateCurrentBalance(this, -this.total,
+						this.currencyFactor);
+				this.depositIn.onUpdate(session);
+				session.saveOrUpdate(this.depositIn);
+			}
+			if (this.depositFrom.getID() != makeDeposit.depositFrom.getID()
+					|| !DecimalUtil.isEquals(this.total, makeDeposit.total)
+					|| isCurrencyFactorChanged()) {
+				Account depositFromAccount = (Account) session.get(
+						Account.class, makeDeposit.depositFrom.getID());
+				depositFromAccount.updateCurrentBalance(this,
+						-makeDeposit.total, makeDeposit.currencyFactor);
+				depositFromAccount.onUpdate(session);
+				session.saveOrUpdate(depositFromAccount);
 
-				transferFund.total -= this.total;
-
-				this.effectAccount(session, this.transferTo, transferFund.total);
-
-				this.effectAccount(session, this.transferFrom,
-						-transferFund.total);
-
-			} else {
-
-				if (this.transferFrom.getID() != transferFund.transferFrom
-						.getID()) {
-
-					transferFund.effectAccount(session,
-							transferFund.transferFrom, -transferFund.total);
-
-					this.effectAccount(session, this.transferFrom, this.total);
-				}
-
-				if (this.transferTo.getID() != transferFund.transferTo.getID()) {
-
-					transferFund.effectAccount(session,
-							transferFund.transferTo, transferFund.total);
-
-					this.effectAccount(session, this.transferTo, -this.total);
-				}
+				this.depositFrom.updateCurrentBalance(this, this.total,
+						this.currencyFactor);
+				this.depositFrom.onUpdate(session);
+				session.saveOrUpdate(this.depositFrom);
 			}
 		}
-
-		super.onEdit(transferFund);
+		super.onEdit(makeDeposit);
 	}
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid() && !isDraft()) {
-			this.effectAccount(session, this.transferFrom, -this.total);
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session);
 		}
 		return super.onDelete(session);
 	}
 
-	private void effectAccount(Session session, Account transferFrom,
-			double amount) {
-
-		Account account = (Account) session.get(Account.class,
-				transferFrom.getID());
-
-		account.updateCurrentBalance(this, amount, currencyFactor);
-		session.update(account);
-		account.onUpdate(session);
+	private void doVoidEffect(Session session) {
+		depositIn.updateCurrentBalance(this, this.total, this.currencyFactor);
+		session.save(depositIn);
+		depositFrom
+				.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		session.save(depositFrom);
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
-		TransferFund transferFund = (TransferFund) clientObject;
-
 		if (!UserUtils.canDoThis(TransferFund.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		/**
-		 * If Transfer Fund is already void or deleted we can't edit it
-		 */
-		if (this.isVoid() && !transferFund.isVoid()) {
-			throw new AccounterException(
-					AccounterException.ERROR_NO_SUCH_OBJECT);
-			// "Transfer Fund is already voided or deleted we can't Edit");
-		}
-
-		return super.canEdit(clientObject);
+		boolean flag;
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		session.setFlushMode(FlushMode.COMMIT);
+		flag = super.canEdit(clientObject);
+		session.setFlushMode(flushMode);
+		return flag;
 	}
 
 	@Override
 	public Map<Account, Double> getEffectingAccountsWithAmounts() {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
-		map.put(transferFrom, total);
+		if (cashBackAccount != null) {
+			map.put(cashBackAccount, cashBackAmount);
+		}
+		for (TransactionMakeDeposit deposit : transactionMakeDeposit) {
+			map.put(deposit.getEffectingAccount(), deposit.getAmount());
+		}
 		return map;
 	}
 
@@ -293,8 +329,27 @@ public class TransferFund extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		// TODO Auto-generated method stub
 
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.transferFund()).gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.currencyFactor);
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod);
+		w.put(messages.memo(), this.memo).gap();
+	}
+
+	@Override
+	public boolean isValidTransaction() {
+		boolean valid = super.isValidTransaction();
+		if (depositFrom == null) {
+			valid = false;
+		} else if (depositIn == null) {
+			valid = false;
+		}
+		return valid;
 	}
 
 	@Override
@@ -302,5 +357,4 @@ public class TransferFund extends Transaction {
 		// TODO Auto-generated method stub
 
 	}
-
 }

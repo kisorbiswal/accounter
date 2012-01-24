@@ -14,13 +14,12 @@ import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
-import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXReturn;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
@@ -85,9 +84,7 @@ public interface IAccounterGUIDAOService {
 
 	public ArrayList<WriteCheck> getLatestChecks() throws DAOException;
 
-	public ArrayList<MakeDeposit> getLatestDeposits() throws DAOException;
-
-	public ArrayList<TransferFund> getLatestFundsTransfer() throws DAOException;
+	public ArrayList<TransferFund> getLatestDeposits() throws DAOException;
 
 	public ArrayList<InvoicesList> getLatestInvoices() throws DAOException;
 

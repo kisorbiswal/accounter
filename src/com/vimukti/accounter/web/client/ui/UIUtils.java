@@ -38,7 +38,6 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
@@ -46,6 +45,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -1105,8 +1105,8 @@ public class UIUtils {
 	public static ClientTransaction getTransactionObject(int type) {
 		switch (type) {
 
-		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			return new ClientMakeDeposit();
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+			return new ClientTransferFund();
 		case ClientTransaction.TYPE_ENTER_BILL:
 			return new ClientEnterBill();
 		case ClientTransaction.TYPE_CASH_PURCHASE:
@@ -2020,7 +2020,7 @@ public class UIUtils {
 				|| transaction.isWriteCheck()
 				|| transaction.isCashPurchase()
 				|| (transaction instanceof ClientCustomerRefund)
-				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+				|| (transaction.isTransferFund() && ((ClientTransferFund) transaction)
 						.getDepositIn() != accountId);
 	}
 
@@ -2030,7 +2030,7 @@ public class UIUtils {
 				|| transaction.isReceiveVAT()
 				|| transaction.isCashSale()
 				|| transaction instanceof ClientCustomerPrePayment
-				|| (transaction.isMakeDeposit() && ((ClientMakeDeposit) transaction)
+				|| (transaction.isTransferFund() && ((ClientTransferFund) transaction)
 						.getDepositIn() == accountId);
 	}
 

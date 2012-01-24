@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.banking.TransferFundsDialog;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentView;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -808,20 +807,20 @@ public class AccounterValidator {
 
 	}
 
-	public static boolean validate_TransferFromAccount(
-			ClientAccount fromAccount, Double transferAmount,
-			final TransferFundsDialog dialog) {
-		if (!fromAccount.isIncrease()
-				&& DecimalUtil.isLessThan(
-						(fromAccount.getTotalBalance() - transferAmount), 0.00)) {
-
-			return false;
-		} else {
-			dialog.isValidatedTransferAmount = true;
-			return true;
-		}
-
-	}
+	// public static boolean validate_TransferFromAccount(
+	// ClientAccount fromAccount, Double transferAmount,
+	// final TransferFundsDialog dialog) {
+	// if (!fromAccount.isIncrease()
+	// && DecimalUtil.isLessThan(
+	// (fromAccount.getTotalBalance() - transferAmount), 0.00)) {
+	//
+	// return false;
+	// } else {
+	// dialog.isValidatedTransferAmount = true;
+	// return true;
+	// }
+	//
+	// }
 
 	// /**
 	// * validates the transaction grid in all transactions.

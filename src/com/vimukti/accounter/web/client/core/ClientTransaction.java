@@ -26,10 +26,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public static final int TYPE_INVOICE = 8;
 	public static final int TYPE_ISSUE_PAYMENT = 9;
-	public static final int TYPE_MAKE_DEPOSIT = 10;
+	public static final int TYPE_TRANSFER_FUND = 10;
 	public static final int TYPE_PAY_BILL = 11;
 	public static final int TYPE_RECEIVE_PAYMENT = 12;
-	public static final int TYPE_TRANSFER_FUND = 13;
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
 	public static final int TYPE_JOURNAL_ENTRY = 16;
@@ -49,6 +48,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_EMPLOYEE_EXPENSE = 28;
 	public static final int TYPE_CUSTOMER_PREPAYMENT = 29;
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
+
+	public static final int TYPE_MAKE_DEPOSIT = 35;
 	/*
 	 * There is no seperate transaction for VendorPayment.VendorPayment saved as
 	 * a Paybill.So,to open the VendorPaymentView in edit mode we use this
@@ -694,9 +695,9 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	}
 
-	public boolean isMakeDeposit() {
+	public boolean isTransferFund() {
 
-		return this != null && this instanceof ClientMakeDeposit;
+		return this != null && this instanceof ClientTransferFund;
 	}
 
 	protected boolean isBecameVoid() {

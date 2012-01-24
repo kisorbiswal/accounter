@@ -521,7 +521,7 @@ public class ClientTransactionItem implements IAccounterCore {
 		if (this.item == 0
 				&& this.account == 0
 				&& this.unitPrice == null
-				&& this.lineTotal == null
+				&& (this.lineTotal == null || this.lineTotal == 0)
 				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity
 						.getValue() == 1) && this.discount == null) {
 			return true;

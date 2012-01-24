@@ -359,7 +359,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				.getTransactionPayBill()) {
 			if ((transactionType == ClientTransaction.TYPE_ENTER_BILL && bill
 					.getEnterBill() == transactionId)
-					|| (transactionType == ClientTransaction.TYPE_MAKE_DEPOSIT && bill
+					|| (transactionType == ClientTransaction.TYPE_TRANSFER_FUND && bill
 							.getTransactionMakeDeposit() == transactionId)
 					|| (transactionType == ClientTransaction.TYPE_JOURNAL_ENTRY && bill
 							.getJournalEntry() == transactionId)) {
@@ -1180,7 +1180,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				record = new ClientTransactionPayBill();
 				if (cont.getType() == ClientTransaction.TYPE_ENTER_BILL) {
 					record.setEnterBill(cont.getTransactionId());
-				} else if (cont.getType() == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+				} else if (cont.getType() == ClientTransaction.TYPE_TRANSFER_FUND) {
 					record.setTransactionMakeDeposit(cont.getTransactionId());
 				} else if (cont.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
 					record.setJournalEntry(cont.getTransactionId());

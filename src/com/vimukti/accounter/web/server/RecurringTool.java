@@ -261,7 +261,7 @@ public class RecurringTool extends Thread {
 		String token = "";
 		switch (type) {
 
-		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+		case ClientTransaction.TYPE_TRANSFER_FUND:
 			token = HistoryTokens.DEPOSITETRANSFERFUNDS;
 			break;
 		case ClientTransaction.TYPE_ENTER_BILL:

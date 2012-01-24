@@ -548,7 +548,7 @@
 				<one-to-many class="TransactionReceivePayment" />
 			</set>
 		</joined-subclass>
-		<joined-subclass name="MakeDeposit" table="MAKE_DEPOSIT">
+		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
 			<key column="ID" />
 			<many-to-one name="depositIn" class="Account" cascade="save-update"
 				column="DEPOSIT_IN_ID">
@@ -750,7 +750,7 @@
 			<property name="totalCashDiscount" column="TOTAL_CASH_DISCOUNT"></property>
 			<property name="totalWriteOff" column="TOTAL_WRITE_OFF"></property>
 			<property name="totalAppliedCredits" column="TOTAL_APPLIED_CREDITS"></property>
-			<property name="tdsTotal" column="TDS_TOTAL"/>
+			<property name="tdsTotal" column="TDS_TOTAL" />
 			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
 			<!-- > -->
 			<!-- </many-to-one> -->
@@ -907,15 +907,10 @@
 			<property name="inWords" column="IN_WORDS"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 		</joined-subclass>
-		<joined-subclass name="TransferFund" table="TRANSFER_FUND">
-			<key column="ID" />
-			<many-to-one name="transferFrom" class="Account" cascade="save-update"
-				column="TRANSFER_FROM">
-			</many-to-one>
-			<many-to-one name="transferTo" class="Account" cascade="save-update"
-				column="TRANSFER_TO">
-			</many-to-one>
-		</joined-subclass>
+		<!-- <joined-subclass name="TransferFund" table="TRANSFER_FUND"> <key column="ID" 
+			/> <many-to-one name="transferFrom" class="Account" cascade="save-update" 
+			column="TRANSFER_FROM"> </many-to-one> <many-to-one name="transferTo" class="Account" 
+			cascade="save-update" column="TRANSFER_TO"> </many-to-one> </joined-subclass> -->
 		<!--<joined-subclass name="IssuePayment" table="ISSUEPAYMENT"> <key column="ID" 
 			/> <many-to-one name="account" class="Account" cascade="save-update" column="ACCOUNT_ID"> 
 			</many-to-one> <property name="checkNumber" column="CHECK_NUMBER"></property> 
@@ -984,6 +979,20 @@
 			class="TAXAgency" cascade="save-update" column="TAX_AGENCY_ID"> </many-to-one> 
 			<many-to-one name="journalEntry" class="JournalEntry" cascade="save-update,delete" 
 			column="JOURNAL_ENTRY_ID"> </many-to-one> </joined-subclass> -->
+
+		<joined-subclass name="MakeDeposit" table="MAKE_DEPOSIT">
+			<key column="ID" />
+			<property name="depositTo" column="DEPOSIT_TO"></property>
+			<list name="transactionDepositItems" cascade="save-update,delete-orphan">
+				<key column="MAKE_DEPOSIT_ID" />
+				<list-index column="IDX" />
+				<one-to-many class="TransactionDepositItem" />
+			</list>
+			<set name="estimates" table="DEPOSIT_ESTIMATES">
+				<key column="DEPOSIT_ID"></key>
+				<many-to-many class="Estimate" />
+			</set>
+		</joined-subclass>
 	</class>
 
 	<class name="Attachment" table="ATTACHMENTS">
@@ -994,12 +1003,12 @@
 			not-null="true"></property>
 		<property name="name" column="NAME" not-null="true"></property>
 		<property name="size" column="SIZE" not-null="true"></property>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"/>
+		<many-to-one name="company" column="COMPANY_ID" class="Company" />
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"/>
+			not-null="true" />
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"/>
+			class="User" not-null="true" />
 		<property name="createdDate" column="CREATED_DATE" not-null="true" />
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
@@ -1019,8 +1028,8 @@
 		<property name="totalTax" column="TOTAL_TAX"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<many-to-one name="transaction" column="TRANSACTION_ID" class="Transaction"
-			lazy="false">
+		<many-to-one name="transaction" column="TRANSACTION_ID"
+			class="Transaction" lazy="false">
 		</many-to-one>
 	</class>
 
@@ -1073,6 +1082,32 @@
 		</many-to-one>
 		<property name="isAmountIncludeTAX" column="AMOUNTS_INCLUDE_TAX"></property>
 	</class>
+
+	<class name="TransactionDepositItem" table="TRANSACTION_DEPOSIT_ITEM">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="version" column="VERSION"></property>
+		<many-to-one name="receivedFrom" class="Payee" column="RECEIVED_FROM_ID">
+		</many-to-one>
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
+		</many-to-one>
+		<property name="total" column="TOTAL"></property>
+		<property name="refNo" column="REFERNCE_NO"></property>
+		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
+		</many-to-one>
+		<property name="isBillable" column="IS_BILLABLE"></property>
+		<many-to-one name="transaction" class="Transaction"
+			column="TRANSACTION_ID">
+		</many-to-one>
+		<property name="description" type="text" column="DESCRIPTION"></property>
+		<many-to-one name="accounterClass" class="AccounterClass"
+			column="TRANS_ITEM_ACCOUNTER_CLASS">
+		</many-to-one>
+		<property name="paymentMethod" column="PAYMENT_METHOD">
+		</property>
+	</class>
+
 	<class name="CreditsAndPayments" table="CREDITS_AND_PAYMENTS">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1101,9 +1136,11 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
-		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment" column="TRANSACTION_RECEIVE_PAYMENT_ID">
+		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
+			column="TRANSACTION_RECEIVE_PAYMENT_ID">
 		</many-to-one>
-		<many-to-one name="transactionPayBill" class="TransactionPayBill" column="TRANSACTION_PAYBILL_ID">
+		<many-to-one name="transactionPayBill" class="TransactionPayBill"
+			column="TRANSACTION_PAYBILL_ID">
 		</many-to-one>
 		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
 			cascade="save-update" column="CREDITS_AND_PAYMENTS_ID">
@@ -1136,7 +1173,7 @@
 		<many-to-one name="cashAccount" class="Account" cascade="save-update"
 			column="CASH_ACCOUNT_ID">
 		</many-to-one>
-		<many-to-one name="makeDeposit" class="MakeDeposit"
+		<many-to-one name="makeDeposit" class="TransferFund"
 			column="MAKE_DEPOSIT_ID">
 		</many-to-one>
 		<property name="payments" column="PAYMENTS"></property>
@@ -1377,8 +1414,8 @@
 		<property name="prevScheduleOn" column="PREV_SCHEDULE_ON"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
-		<many-to-one name="transaction" column="TRANSACTION_ID" lazy="false"
-			unique="true" not-null="true" cascade="save-update,delete-orphan"/>
+		<many-to-one name="transaction" column="TRANSACTION_ID"
+			lazy="false" unique="true" not-null="true" cascade="save-update,delete-orphan" />
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"
@@ -1396,8 +1433,8 @@
 		<property name="daysInAdvanceToCreate" column="DAYS_IN_ADVANCE"></property>
 		<property name="daysBeforeToRemind" column="DAYS_BEFORE_REMIND"></property>
 		<property name="type" column="RECURRING_TYPE"></property>
-		<set name="reminders" inverse="true"
-			cascade="all-delete-orphan" lazy="false">
+		<set name="reminders" inverse="true" cascade="all-delete-orphan"
+			lazy="false">
 			<key column="RECURRING_TRANSACTION"></key>
 			<one-to-many class="Reminder" />
 		</set>

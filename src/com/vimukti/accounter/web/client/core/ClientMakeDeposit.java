@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.List;
+
 public class ClientMakeDeposit extends ClientTransaction {
 
 	/**
@@ -7,89 +9,46 @@ public class ClientMakeDeposit extends ClientTransaction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	long depositIn;
-	
-	long depositFrom;
+	long depositTo;
 
-	
-	
-	long cashBackAccount;
+	private List<ClientTransactionDepositItem> transactionDepositItems;
 
-	String cashBackMemo;
-
-	double cashBackAmount;
-
-	/**
-	 * @return the cashBackAccount
-	 */
-	public long getCashBackAccount() {
-		return cashBackAccount;
+	public long getDepositTo() {
+		return depositTo;
 	}
 
-	/**
-	 * @param cashBackAccount
-	 *            the cashBackAccount to set
-	 */
-	public void setCashBackAccount(long cashBackAccount) {
-		this.cashBackAccount = cashBackAccount;
+	public void setDepositTo(long depositTo) {
+		this.depositTo = depositTo;
 	}
 
-	/**
-	 * @return the depositIn
-	 */
-	public long getDepositIn() {
-		return depositIn;
+	public List<ClientTransactionDepositItem> getTransactionDepositItems() {
+		return transactionDepositItems;
 	}
 
-	/**
-	 * @param depositIn
-	 *            the depositIn to set
-	 */
-	public void setDepositIn(long depositIn) {
-		this.depositIn = depositIn;
-	}
+	public void setTransactionDepositItems(
+			List<ClientTransactionDepositItem> transactionDepositItems) {
+		this.transactionDepositItems = transactionDepositItems;
+		if (transactionDepositItems == null)
+			return;
 
-	/**
-	 * @return the cashBackMemo
-	 */
-	public String getCashBackMemo() {
-		return cashBackMemo;
-	}
-
-	/**
-	 * @param cashBackMemo
-	 *            the cashBackMemo to set
-	 */
-	public void setCashBackMemo(String cashBackMemo) {
-		this.cashBackMemo = cashBackMemo;
-	}
-
-	/**
-	 * @return the cashBackAmount
-	 */
-	public double getCashBackAmount() {
-		return cashBackAmount;
-	}
-
-	/**
-	 * @param cashBackAmount
-	 *            the cashBackAmount to set
-	 */
-	public void setCashBackAmount(double cashBackAmount) {
-		this.cashBackAmount = cashBackAmount;
-	}
-	public long getDepositFrom() {
-		return depositFrom;
-	}
-
-	public void setDepositFrom(long depositFrom) {
-		this.depositFrom = depositFrom;
+		for (ClientTransactionDepositItem transactionItem : transactionDepositItems) {
+			transactionItem.setTransaction(this);
+		}
 	}
 
 	@Override
-	public String getDisplayName() {
-		// its not using any where
-		return null;
+	public AccounterCoreType getObjectType() {
+		return AccounterCoreType.MAKEDEPOSIT;
+	}
+
+	@Override
+	public void setID(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public long getID() {
+		return this.id;
 	}
 
 	@Override
@@ -99,26 +58,9 @@ public class ClientMakeDeposit extends ClientTransaction {
 	}
 
 	@Override
-	public long getID() {
-		return this.id;
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@Override
-	public void setID(long id) {
-		this.id = id;
-
-	}
-
-
-	@Override
-	public AccounterCoreType getObjectType() {
-		return AccounterCoreType.MAKEDEPOSIT;
-	}
-
-	public ClientMakeDeposit clone() {
-		ClientMakeDeposit clientMakeDepositClone = (ClientMakeDeposit) this
-				.clone();
-
-		return clientMakeDepositClone;
-	}
 }

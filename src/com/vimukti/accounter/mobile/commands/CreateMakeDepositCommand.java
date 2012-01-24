@@ -25,14 +25,14 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 	private static final String DEPOSIT_OR_TRANSFER_FROM = "depositOrTransferFrom";
 	private static final String DEPOSIT_OR_TRANSFER_TO = "DepositOrTransferTo";
-	ClientMakeDeposit makeDeposit;
+	ClientTransferFund makeDeposit;
 
 	@Override
 	public String getId() {
@@ -244,7 +244,7 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 		String number = get(NUMBER).getValue();
 		makeDeposit.setNumber(number);
 
-		makeDeposit.setType(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		makeDeposit.setType(ClientTransaction.TYPE_TRANSFER_FUND);
 
 		Account depositOrTransferToAccount = get(DEPOSIT_OR_TRANSFER_TO)
 				.getValue();
@@ -321,7 +321,7 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 			if (!string.isEmpty()) {
 				get(NUMBER).setValue(string);
 			}
-			makeDeposit = new ClientMakeDeposit();
+			makeDeposit = new ClientTransferFund();
 		}
 		setTransaction(makeDeposit);
 		return null;
@@ -359,7 +359,7 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_MAKE_DEPOSIT, getCompany()));
+						ClientTransaction.TYPE_TRANSFER_FUND, getCompany()));
 		get(MEMO).setDefaultValue("");
 	}
 

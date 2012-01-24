@@ -101,6 +101,7 @@ import com.vimukti.accounter.core.TDSDeductorMasters;
 import com.vimukti.accounter.core.TDSResponsiblePerson;
 import com.vimukti.accounter.core.TDSTransactionItem;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionDepositItem;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
@@ -132,7 +133,6 @@ import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.core.ClientPortletPageConfiguration;
@@ -998,7 +998,7 @@ public class FinanceTool {
 		}
 	}
 
-	public ArrayList<MakeDeposit> getLatestDeposits(long companyId)
+	public ArrayList<TransferFund> getLatestDeposits(long companyId)
 			throws DAOException {
 		try {
 
@@ -1009,10 +1009,10 @@ public class FinanceTool {
 
 			Object[] object = null;
 			Iterator iterator = list2.iterator();
-			List<MakeDeposit> list = new ArrayList<MakeDeposit>();
+			List<TransferFund> list = new ArrayList<TransferFund>();
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
-				MakeDeposit makeDeposit = new MakeDeposit();
+				TransferFund makeDeposit = new TransferFund();
 				// makeDeposit.setID((object[0] == null ? null
 				// : ((Long) object[0])));
 				makeDeposit.setDepositIn(object[1] == null ? null
@@ -1030,46 +1030,6 @@ public class FinanceTool {
 				// makeDeposit.setID((String) object[7]);
 				list.add(makeDeposit);
 
-			}
-			if (list != null) {
-				return new ArrayList<MakeDeposit>(list);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
-	public ArrayList<TransferFund> getLatestFundsTransfer(long companyId)
-			throws DAOException {
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getLatestTransferFunds")
-					.setParameter("companyId", companyId);
-			List list2 = query.list();
-
-			Object object[] = null;
-			Iterator iterator = list2.iterator();
-			List<TransferFund> list = new ArrayList<TransferFund>();
-			while (iterator.hasNext()) {
-
-				object = (Object[]) iterator.next();
-				TransferFund transferFund = new TransferFund();
-				// transferFund.setID((object[0] == null ? null
-				// : ((Long) object[0])));
-				transferFund.setDate(new FinanceDate((Long) object[1]));
-				transferFund
-						.setTransferFrom(object[2] != null ? (Account) session
-								.get(Account.class, ((Long) object[2])) : null);
-				transferFund
-						.setTransferTo(object[3] != null ? (Account) session
-								.get(Account.class, ((Long) object[3])) : null);
-				transferFund.setTotal((Double) object[4]);
-				// transferFund.setID((object[5] == null ? null
-				// : ((String) object[5])));
-				list.add(transferFund);
 			}
 			if (list != null) {
 				return new ArrayList<TransferFund>(list);
@@ -1508,7 +1468,7 @@ public class FinanceTool {
 
 			if (object instanceof ClientTransaction
 					&& !(object instanceof ClientTransferFund)
-					&& !(object instanceof ClientMakeDeposit)) {
+					&& !(object instanceof ClientTransferFund)) {
 
 				ClientTransaction clientObject = (ClientTransaction) object;
 
@@ -2223,6 +2183,11 @@ public class FinanceTool {
 			} else if (newTransaction instanceof Estimate) {
 				((Estimate) newTransaction).setExpirationDate(transactionDate);
 				((Estimate) newTransaction).setDeliveryDate(transactionDate);
+			} else if (newTransaction instanceof MakeDeposit) {
+				for (TransactionDepositItem transactionItem : ((MakeDeposit) newTransaction)
+						.getTransactionDepositItems()) {
+					transactionItem.setTransaction(newTransaction);
+				}
 			}
 		}
 		newTransaction
@@ -4232,7 +4197,6 @@ public class FinanceTool {
 
 		case Transaction.TYPE_JOURNAL_ENTRY:
 		case Transaction.TYPE_TRANSFER_FUND:
-		case Transaction.TYPE_MAKE_DEPOSIT:
 		case Transaction.TYPE_ADJUST_SALES_TAX:
 		case Transaction.TYPE_TAX_RETURN:
 		case Transaction.TYPE_WRITE_CHECK:

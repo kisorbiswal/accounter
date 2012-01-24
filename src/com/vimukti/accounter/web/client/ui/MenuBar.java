@@ -610,10 +610,9 @@ public class MenuBar {
 		bankingMenuBar.addSeparatorItem();
 		bankingMenuBar.addMenuItem(messages.writeCheck(),
 				HistoryTokens.WRITECHECK);
-		bankingMenuBar.addMenuItem(messages.makeDeposit(),
+		bankingMenuBar.addMenuItem(messages.transferFund(),
 				HistoryTokens.DEPOSITETRANSFERFUNDS);
-		// bankingMenuBar.addMenuItem(messages.deposit(),
-		// HistoryTokens.DEPOSIT);
+		bankingMenuBar.addMenuItem(messages.deposit(), HistoryTokens.DEPOSIT);
 
 		if (isKeepTrackofBills) {
 			bankingMenuBar.addMenuItem(messages.payBill(),

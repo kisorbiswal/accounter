@@ -25,7 +25,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 
 	long cashAccount;
 
-	ClientMakeDeposit makeDeposit;
+	ClientTransferFund makeDeposit;
 
 	double payments = 0D;
 
@@ -177,11 +177,11 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 		this.cashAccount = cashAccountId;
 	}
 
-	public ClientMakeDeposit getMakeDeposit() {
+	public ClientTransferFund getMakeDeposit() {
 		return makeDeposit;
 	}
 
-	public void setMakeDeposit(ClientMakeDeposit makeDepositId) {
+	public void setMakeDeposit(ClientTransferFund makeDepositId) {
 		this.makeDeposit = makeDepositId;
 	}
 
@@ -244,7 +244,7 @@ public class ClientTransactionMakeDeposit implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return Utility.getTransactionName(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		return Utility.getTransactionName(ClientTransaction.TYPE_TRANSFER_FUND);
 	}
 
 	public ClientTransactionMakeDeposit clone() {

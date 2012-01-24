@@ -35,6 +35,8 @@ public class Estimate extends Transaction {
 	public static final int CHARGES = 3;
 
 	public static final int BILLABLEEXAPENSES = 4;
+
+	public static final int DEPOSIT_EXPENSES = 5;
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
@@ -372,7 +374,8 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		try {
-			if (this.getEstimateType() == BILLABLEEXAPENSES) {
+			if (this.getEstimateType() == BILLABLEEXAPENSES
+					|| this.getEstimateType() == DEPOSIT_EXPENSES) {
 				updateTotals();
 			}
 		} catch (AccounterException e) {

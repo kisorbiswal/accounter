@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -112,8 +113,9 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 					@Override
 					public void onSuccess(ClientEstimate result) {
-
-						addAllQuoteTransactionTreeItem(result, false);
+						if (result != null) {
+							addAllQuoteTransactionTreeItem(result, false);
+						}
 					}
 				});
 	}
@@ -130,7 +132,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			if (preferences.isDelayedchargesEnabled()) {
 				addChargesTransactionTreeItem(result, isSelected);
 			}
-		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES) {
+		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
+				|| result.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
 			if (preferences.isBillableExpsesEnbldForProductandServices()
 					&& preferences
 							.isProductandSerivesTrackingByCustomerEnabled()) {
@@ -193,6 +196,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				event.preventDefault();
 				if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES) {
 					openEnterBillView(estimate);
+				} else if (estimate.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
+					openDepositView(estimate);
 				} else {
 					ReportsRPC.openTransactionView(estimate.getType(),
 							estimate.getID());
@@ -206,6 +211,23 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				.getTransactionItems();
 		itemsTable.setAllRows(transactionItems);
 		return transactionTree;
+	}
+
+	protected void openDepositView(ClientEstimate estimate) {
+
+		Accounter.createHomeService().getDepositByEstimateId(estimate.getID(),
+				new AsyncCallback<ClientMakeDeposit>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(ClientMakeDeposit result) {
+						UIUtils.runAction(result,
+								ActionFactory.getDepositAction());
+					}
+				});
 	}
 
 	protected void openEnterBillView(ClientEstimate estimate) {

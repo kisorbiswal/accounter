@@ -72,7 +72,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 	 * The reference to MakeDeposit which holds all the entries of
 	 * TransactionMakeDeposit
 	 */
-	MakeDeposit makeDeposit;
+	TransferFund makeDeposit;
 
 	/**
 	 * The amount which is being paid through this TransactionMakeDeposit
@@ -205,7 +205,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		return cashAccount;
 	}
 
-	public MakeDeposit getMakeDeposit() {
+	public TransferFund getMakeDeposit() {
 		return makeDeposit;
 	}
 
@@ -422,7 +422,7 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 		this.depositedTransaction = depositedTransaction;
 	}
 
-	public void setMakeDeposit(MakeDeposit makeDeposit) {
+	public void setMakeDeposit(TransferFund makeDeposit) {
 		this.makeDeposit = makeDeposit;
 	}
 
@@ -456,10 +456,6 @@ public class TransactionMakeDeposit implements IAccounterServerCore, Lifecycle {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
-	}
-
-	public void setDepositedTransaction(TransferFund depositedTransferFund) {
-		this.depositedTransaction = depositedTransferFund;
 	}
 
 	public void setDepositedTransaction(Estimate estimate) {

@@ -186,10 +186,10 @@ public class UserUtils {
 			if (canDoPayBillsPayments) {
 				return true;
 			}
-			// } else if (clas.equals(Deposit.class)) {
-			// if (canDoBankReconcialiation || canDoManageAccounts) {
-			// return true;
-			// }
+		} else if (clas.equals(MakeDeposit.class)) {
+			if (canDoBankReconcialiation || canDoManageAccounts) {
+				return true;
+			}
 		} else if (clas.equals(EnterBill.class)) {
 			if (canDoInvoiceBills) {
 				return true;
@@ -214,7 +214,7 @@ public class UserUtils {
 			if (canDoManageAccounts) {
 				return true;
 			}
-		} else if (clas.equals(MakeDeposit.class)) {
+		} else if (clas.equals(TransferFund.class)) {
 			if (canDoBankReconcialiation || canDoManageAccounts) {
 				return true;
 			}
@@ -244,10 +244,6 @@ public class UserUtils {
 			}
 		} else if (clas.equals(TAXReturn.class)) {
 			if (canDoTaxTransactions) {
-				return true;
-			}
-		} else if (clas.equals(TransferFund.class)) {
-			if (canDoBankReconcialiation || canDoManageAccounts) {
 				return true;
 			}
 		} else if (clas.equals(VendorCreditMemo.class)) {

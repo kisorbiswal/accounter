@@ -5335,5 +5335,7 @@ public interface AccounterMessages extends Messages {
 	public String enterDate();
 
 	public String drafts();
+	public String mustBeSameCurrency();
+
 	public String youCannotVoidDraftedTransaction();
 }

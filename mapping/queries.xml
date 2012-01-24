@@ -1904,8 +1904,15 @@
 		<query-param name="estimate" type="Estimate" />
 		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es
 		where es=:estimate
+	</query>
+	
+	<query name="getDepositByEstimate">
+		<query-param name="estimate" type="Estimate" />
+		from com.vimukti.accounter.core.MakeDeposit d left join d.estimates es
+		where es=:estimate
 
 	</query>
+	
 	<query name="getRecurring.for.template">
 		<query-param name="templateId" type="long" />
 		from com.vimukti.accounter.core.RecurringTransaction r

@@ -25,6 +25,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int BILLABLEEXAPENSES = 4;
 
+	public static final int DEPOSIT_EXAPENSES = 5;
+
 	long customer;
 
 	private int estimateType;
@@ -286,7 +288,6 @@ public class ClientEstimate extends ClientTransaction {
 		this.id = id;
 
 	}
-
 
 	@Override
 	public AccounterCoreType getObjectType() {

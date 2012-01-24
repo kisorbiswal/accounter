@@ -51,10 +51,9 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_ESTIMATE = 7;
 	public static final int TYPE_INVOICE = 8;
 	public static final int TYPE_ISSUE_PAYMENT = 9;
-	public static final int TYPE_MAKE_DEPOSIT = 10;
+	public static final int TYPE_TRANSFER_FUND = 10;
 	public static final int TYPE_PAY_BILL = 11;
 	public static final int TYPE_RECEIVE_PAYMENT = 12;
-	public static final int TYPE_TRANSFER_FUND = 13;
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
 	public static final int TYPE_JOURNAL_ENTRY = 16;
@@ -76,6 +75,8 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_CUSTOMER_PRE_PAYMENT = 29;
 	public static final int TYPE_RECEIVE_TAX = 31;
 	public static final int TYPE_TDS_CHALLAN = 34;
+
+	public static final int TYPE_MAKE_DEPOSIT = 35;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
@@ -642,9 +643,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	}
 
-	public boolean isMakeDeposit() {
+	public boolean isTransferFund() {
 
-		return this != null && this instanceof MakeDeposit;
+		return this != null && this instanceof TransferFund;
 
 	}
 
@@ -790,8 +791,8 @@ public abstract class Transaction extends CreatableObject implements
 			this.type = Transaction.TYPE_ENTER_BILL;
 		else if (this.isInvoice())
 			this.type = Transaction.TYPE_INVOICE;
-		else if (this.isMakeDeposit())
-			this.type = Transaction.TYPE_MAKE_DEPOSIT;
+		else if (this.isTransferFund())
+			this.type = Transaction.TYPE_TRANSFER_FUND;
 		else if (this.isPayBill())
 			this.type = Transaction.TYPE_PAY_BILL;
 		else if (this.isPayTax())
@@ -1381,6 +1382,9 @@ public abstract class Transaction extends CreatableObject implements
 		for (TransactionItem item : transactionItems) {
 			map.put(item.getEffectingAccount(), item.getEffectiveAmount());
 		}
+		// for (TransactionDepositItem item : getTransactionDepositItems()) {
+		// map.put(item.getAccount(), item.getTotal());
+		// }
 		return map;
 	}
 
@@ -1530,4 +1534,5 @@ public abstract class Transaction extends CreatableObject implements
 	protected boolean isCurrencyFactorChanged() {
 		return currencyFactor != previousCurrencyFactor;
 	}
+
 }

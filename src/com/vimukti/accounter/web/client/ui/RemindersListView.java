@@ -262,7 +262,7 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 		typesMap.put(CUSTOMER_CREDIT_MEMO,
 				ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 		typesMap.put(DEPOSIT_TRANSFER_FUNDS,
-				ClientTransaction.TYPE_MAKE_DEPOSIT);
+				ClientTransaction.TYPE_TRANSFER_FUND);
 		typesMap.put(INVOICE, ClientTransaction.TYPE_INVOICE);
 		typesMap.put(QUOTE, ClientTransaction.TYPE_ESTIMATE);
 		typesMap.put(VENDOR_CREDIT_MEMO,

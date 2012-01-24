@@ -7,7 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
-import com.vimukti.accounter.web.client.ui.banking.TransferFundsAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
 import com.vimukti.accounter.web.client.ui.company.AccounterClassListAction;
@@ -212,6 +211,7 @@ import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
 import com.vimukti.accounter.web.client.ui.vendors.BillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.CashExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.CreditCardExpenseAction;
+import com.vimukti.accounter.web.client.ui.vendors.DepositAction;
 import com.vimukti.accounter.web.client.ui.vendors.EmployeeExpenseAction;
 import com.vimukti.accounter.web.client.ui.vendors.EnterBillsAction;
 import com.vimukti.accounter.web.client.ui.vendors.ExpenseClaimsAction;
@@ -348,13 +348,9 @@ public class ActionFactory {
 	}
 
 	public static MakeDepositAction getMakeDepositAction(
-			ClientMakeDeposit makeDeposit,
+			ClientTransferFund makeDeposit,
 			AccounterAsyncCallback<Object> callBackObject) {
 		return new MakeDepositAction(makeDeposit, callBackObject);
-	}
-
-	public static TransferFundsAction getTransferFundsAction() {
-		return new TransferFundsAction();
 	}
 
 	public static EnterPaymentsAction getEnterPaymentsAction() {
@@ -1356,4 +1352,9 @@ public class ActionFactory {
 	public static EnterExchangeRatesAction getEnterExchangeRatesAction() {
 		return new EnterExchangeRatesAction();
 	}
+
+	public static DepositAction getDepositAction() {
+		return new DepositAction();
+	}
+
 }

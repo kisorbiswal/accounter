@@ -33,7 +33,7 @@ import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
 import com.vimukti.accounter.core.PayTAX;
@@ -50,7 +50,6 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TaxRates;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.UnitOfMeasure;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
@@ -429,20 +428,20 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 		}
 	}
 
-	public ArrayList<MakeDeposit> getMakeDeposits(long companyId)
+	public ArrayList<TransferFund> getMakeDeposits(long companyId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
 
 			// ArrayList cashSalesList=new ArrayList<CashSales>();
-			List<MakeDeposit> list = template.find(
+			List<TransferFund> list = template.find(
 					"from MakeDeposit m where m.company.id = ? ",
 					new Object[] { companyId });
 
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			ArrayList<MakeDeposit> arrayList = new ArrayList<MakeDeposit>(list);
+			ArrayList<TransferFund> arrayList = new ArrayList<TransferFund>(list);
 			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -504,28 +503,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 
 			// if (list != null) {
 			ArrayList<CreditCardCharge> arrayList = new ArrayList<CreditCardCharge>(
-					list);
-			return arrayList;
-			// } else
-			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-			// null));
-		} catch (DataAccessException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
-	@Override
-	public ArrayList<TransferFund> getTransferFunds(long companyId)
-			throws DAOException {
-		try {
-			HibernateTemplate template = getHibernateTemplate();
-
-			List<TransferFund> list = template.find(
-					" from TransferFund t where t.company.id = ? ",
-					new Object[] { companyId });
-
-			// if (list != null) {
-			ArrayList<TransferFund> arrayList = new ArrayList<TransferFund>(
 					list);
 			return arrayList;
 			// } else
@@ -1287,7 +1264,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public MakeDeposit getMakeDeposit(long companyId, long makeDepositId)
+	public TransferFund getMakeDeposit(long companyId, long makeDepositId)
 			throws DAOException {
 		try {
 			HibernateTemplate template = getHibernateTemplate();
@@ -1297,8 +1274,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 							new Object[] { makeDepositId, companyId });
 
 			if (list.size() > 0) {
-				MakeDeposit makeDeposit = new MakeDeposit();
-				makeDeposit = (MakeDeposit) list.get(0);
+				TransferFund makeDeposit = new TransferFund();
+				makeDeposit = (TransferFund) list.get(0);
 				return makeDeposit;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1964,28 +1941,6 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 				TaxRates taxRate = new TaxRates();
 				taxRate = (TaxRates) list.get(0);
 				return taxRate;
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DataAccessException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
-	@Override
-	public TransferFund getTransferFund(long companyId, long transferFundId)
-			throws DAOException {
-		try {
-			HibernateTemplate template = getHibernateTemplate();
-
-			List list = template
-					.find("from TransferFund tf where tf.id = ? and tf.company.id = ? ",
-							new Object[] { transferFundId, companyId });
-
-			if (list.size() > 0) {
-				TransferFund transferFund = new TransferFund();
-				transferFund = (TransferFund) list.get(0);
-				return transferFund;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
 						null));

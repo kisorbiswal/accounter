@@ -244,7 +244,10 @@ public enum AccounterCoreType implements IsSerializable {
 	TDSDEDUCTORMASTER("ClientTDSDeductorMasters", "TDSDeductorMasters"), STATEMENT(
 			"ClientStatement", "Statement"), STATEMENTRECORD(
 			"ClientStatementRecord", "StatementRecord"), ITEM_STATUS(
-			"ClientItemStatus", "ItemStatus");
+			"ClientItemStatus", "ItemStatus"),
+
+	TRANSACTION_DEPOSIT_ITEM("ClientTransactionDepositItem",
+			"TransactionDepositItem");
 
 	private String clientName;
 	private String serverName;

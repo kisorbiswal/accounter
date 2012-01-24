@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
 import com.vimukti.accounter.core.AccounterThreadLocal;
-import com.vimukti.accounter.core.MakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -22,9 +22,9 @@ public class MakeDepositMigration {
 		Session session = HibernateUtil.openSession();
 		Transaction hibernateTransaction = session.beginTransaction();
 		try {
-			Criteria criteria = session.createCriteria(MakeDeposit.class);
-			List<MakeDeposit> list = criteria.list();
-			for (MakeDeposit md : list) {
+			Criteria criteria = session.createCriteria(TransferFund.class);
+			List<TransferFund> list = criteria.list();
+			for (TransferFund md : list) {
 				List<TransactionMakeDeposit> tmdList = md
 						.getTransactionMakeDeposit();
 				if (tmdList == null || tmdList.isEmpty()) {
@@ -42,7 +42,7 @@ public class MakeDepositMigration {
 					depositIn.updateTotalBalance(-amount, 1);
 					depositIn.setCurrenctBalance(-amount);
 					TransactionMakeDeposit tmd2 = tmdList.get(1);
-					MakeDeposit newMD = createNewMakeDeposit(md, tmd2);
+					TransferFund newMD = createNewMakeDeposit(md, tmd2);
 					session.save(newMD);
 					Set<AccountTransaction> listAT = md
 							.getAccountTransactionEntriesList();
@@ -76,10 +76,10 @@ public class MakeDepositMigration {
 		System.out.println("MakeDeposit Migration Completed");
 	}
 
-	private MakeDeposit createNewMakeDeposit(MakeDeposit md,
+	private TransferFund createNewMakeDeposit(TransferFund md,
 			TransactionMakeDeposit tmd2) {
 		AccounterThreadLocal.set(md.getCreatedBy());
-		MakeDeposit newMD = new MakeDeposit();
+		TransferFund newMD = new TransferFund();
 		newMD.setCreatedBy(md.getCreatedBy());
 		newMD.setLastModifier(md.getLastModifier());
 		newMD.setCreatedDate(md.getCreatedDate());
