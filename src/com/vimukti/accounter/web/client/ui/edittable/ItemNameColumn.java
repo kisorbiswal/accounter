@@ -50,16 +50,14 @@ public abstract class ItemNameColumn extends
 					unitPrice = newValue.getSalesPrice()
 							/ currencyProvider.getCurrencyFactor();
 				} else {
-					unitPrice = row.getUnitPrice()
-							/ currencyProvider.getCurrencyFactor();
+					unitPrice = row.getUnitPrice();
 				}
 			} else {
 				if (row.getUnitPrice() == null || !isSameItems(row, newValue)) {
 					unitPrice = newValue.getPurchasePrice()
 							/ currencyProvider.getCurrencyFactor();
 				} else {
-					unitPrice = row.getUnitPrice()
-							/ currencyProvider.getCurrencyFactor();
+					unitPrice = row.getUnitPrice();
 				}
 			}
 			if (getPreferences().isPricingLevelsEnabled()) {
