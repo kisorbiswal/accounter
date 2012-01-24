@@ -2856,27 +2856,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
-			long taxAgency, long startDate, long endDate, boolean fromReport)
+			long taxAgency, long startDate, long endDate)
 			throws AccounterException {
-		ArrayList<TAXItemDetail> taxItemDetailReport;
-		if (fromReport) {
-			taxItemDetailReport = getFinanceTool().getReportManager()
-					.getTAXExceptionsByAgencyId(getCompanyId(), taxAgency);
-		} else {
-			taxItemDetailReport = getFinanceTool().getReportManager()
-					.getTAXExceptionsByTaxReturnId(getCompanyId(), taxAgency);
-		}
-		return taxItemDetailReport;
-		// ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
-		// .getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
-		// startDate, endDate);
-		// FinanceDate[] financeDates = getMinimumAndMaximumDates(
-		// new ClientFinanceDate(startDate),
-		// new ClientFinanceDate(endDate), getCompanyId());
-		// TAXItemDetail obj = new TAXItemDetail();
-		// if (list != null)
-		// list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
-		// return list;
+		
+		ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
+				.getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
+						startDate, endDate);
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(
+				new ClientFinanceDate(startDate),
+				new ClientFinanceDate(endDate), getCompanyId());
+		TAXItemDetail obj = new TAXItemDetail();
+		if (list != null)
+			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
+		return list;
 
 	}
 
