@@ -86,7 +86,6 @@ public class ReportTemplate extends TemplateBuilder implements ITemplate {
 
 		headerHtml = ("<table style=\"width: 100%; height: 100%;\" cellspacing=\"10\" ><tr><td style=\"vertical-align: top;\" align=\"left\"><div class=\"gwt-HTML\" style=\" margin-left: 43px;\">"
 				+ cmpAdd
-				+ dateRangeHtml
 				+ "</div></td><td style=\"vertical-align: top;\" align=\"right\"><div class=\"gwt-HTML\" style=\" margin-right: 43px;\"><p><font color=\"black\" style=\"font-family:sans-serif;\" size=\"5px\"><strong>"
 				+ reportTitle
 				+ "</strong></font></p><div style=\"font-family:sans-serif;\"><strong>Date: "

@@ -1356,15 +1356,16 @@ public class ReportsGenerator {
 			updateReport(report, finaTool);
 			report.resetVariables();
 			try {
-				long taxReturnId = 0;
-				if (generationType == GENERATIONTYPEPDF) {
-					taxReturnId = Long.parseLong(status);
-				} else if (generationType == GENERATIONTYPECSV) {
-					taxReturnId = Long.parseLong(dateRangeHtml);
-				}
+				
+
+				long taxReturnId = 0, taxAgency = 0;
+				
+				taxReturnId = Long.parseLong(navigateObjectName);
+				taxAgency = Long.parseLong(dateRangeHtml);
 
 				report.onResultSuccess(finaTool.getReportManager()
-						.getVATExpections(company.getID(), taxReturnId));
+						.getVATExpectionsForPrint(company.getID(), taxAgency,
+								taxReturnId));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1382,55 +1383,18 @@ public class ReportsGenerator {
 			updateReport(taxReport, finaTool);
 			taxReport.resetVariables();
 			try {
-				long taxReturnId = 0, taxAgencyId = 0;
-				// navigateObjectName means true or false i.e from menu(false)
-				// or from report_menu(true)
-				if (navigateObjectName.equals("true")) {// from report pass
-														// agency_Id
-					if (generationType == GENERATIONTYPEPDF) {
-						taxAgencyId = Long.parseLong(status);
-					} else if (generationType == GENERATIONTYPECSV) {
-						taxAgencyId = Long.parseLong(dateRangeHtml);
-					}
-					taxReport.onResultSuccess(finaTool.getReportManager()
-							.getTAXExceptionsByAgencyId(company.getID(),
-									taxAgencyId));
-				} else {
-					// from regular tax menu, pass tax_return_id
-					if (generationType == GENERATIONTYPEPDF) {
-						taxReturnId = Long.parseLong(status);
-					} else if (generationType == GENERATIONTYPECSV) {
-						taxReturnId = Long.parseLong(dateRangeHtml);
-					}
-					taxReport.onResultSuccess(finaTool.getReportManager()
-							.getTAXExceptionsByTaxReturnId(company.getID(),
-									taxReturnId));
-
-				}
-
-				// if (taxReturn != 0) {
-				// // taxReport.onResultSuccess(finaTool.getReportManager()
-				// // .getTAXExceptions(company.getID(), taxReturn));
-				// } else {
-				//
-				// long agencyId = 0;
-				//
-				// if (generationType == GENERATIONTYPEPDF) {
-				// agencyId = Long.parseLong(status);
-				// } else if (generationType == GENERATIONTYPECSV) {
-				// agencyId = Long.parseLong(dateRangeHtml);
-				// }
-				// taxReport.onResultSuccess(finaTool.getReportManager()
-				// .getTAXItemExceptionDetailReport(company.getID(),
-				// agencyId,
-				// startDate.toClientFinanceDate().getDate(),
-				// endDate.toClientFinanceDate().getDate()));
-				// }
+				long taxReturnId = Long.parseLong(navigateObjectName);
+				long taxAgencyId = Long.parseLong(dateRangeHtml);
+				
+				taxReport.onResultSuccess(finaTool.getReportManager()
+						.getTAXExceptionsForPrint(company.getId(), taxReturnId,
+								taxAgencyId));
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return taxReport.getGridTemplate();
+
 		case REALISED_EXCHANGE_LOSSES_AND_GAINS:
 			RealisedExchangeLossesAndGainsServerReport realisesExhanges = new RealisedExchangeLossesAndGainsServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
