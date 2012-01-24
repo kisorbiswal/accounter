@@ -43,10 +43,10 @@ public class TAXItemExceptionDetailReport extends Action {
 						dependent, TAXItemExceptionDetailReport.this);
 				if (taxReturn != null) {
 					TaxAgencyStartDateEndDateToolbar toolbar = (TaxAgencyStartDateEndDateToolbar) report.toolbar;
-					toolbar.fromItem.setDateWithNoEvent(new ClientFinanceDate(
-							taxReturn.getPeriodStartDate()));
-					toolbar.toItem.setDateWithNoEvent(new ClientFinanceDate(
-							taxReturn.getPeriodEndDate()));
+					toolbar.setFromDate(new ClientFinanceDate(taxReturn
+							.getPeriodStartDate()));
+					toolbar.setToDate(new ClientFinanceDate(taxReturn
+							.getPeriodEndDate()));
 					ClientTAXAgency taxAgency = Accounter.getCompany()
 							.getTaxAgency(taxReturn.getTAXAgency());
 					toolbar.taxAgencyCombo.select(taxAgency);
@@ -91,4 +91,5 @@ public class TAXItemExceptionDetailReport extends Action {
 	public String getText() {
 		return messages.taxItemExceptionDetailReport();
 	}
+
 }

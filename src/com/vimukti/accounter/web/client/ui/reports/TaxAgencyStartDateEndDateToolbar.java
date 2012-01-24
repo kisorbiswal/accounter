@@ -31,11 +31,9 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { messages.cash(),
-				messages.accrual() };
+		String[] reportBasisArray = { messages.cash(), messages.accrual() };
 
-		taxAgencyCombo = new TAXAgencyCombo(messages
-				.selectTAXAgency(), false);
+		taxAgencyCombo = new TAXAgencyCombo(messages.selectTAXAgency(), false);
 		taxAgencyCombo.setHelpInformation(true);
 		taxAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -122,8 +120,7 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		List<ClientTAXAgency> vatAgencies = Accounter.getCompany()
 				.getActiveTAXAgencies();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
-			if (vatAgency.getName().equals(
-					messages.hmRevenueCustomsVAT()))
+			if (vatAgency.getName().equals(messages.hmRevenueCustomsVAT()))
 				taxAgencyCombo.addItemThenfireEvent(vatAgency);
 		}
 		this.setCellVerticalAlignment(updateButton,
@@ -163,6 +160,16 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 			this.reportview.makeReportRequest(this.selectedAgency.getID(),
 					startDate, endDate);
 
+	}
+
+	public void setFromDate(ClientFinanceDate date) {
+		fromItem.setDateWithNoEvent(date);
+		startDate = date;
+	}
+
+	public void setToDate(ClientFinanceDate date) {
+		toItem.setDateWithNoEvent(date);
+		endDate = date;
 	}
 
 }

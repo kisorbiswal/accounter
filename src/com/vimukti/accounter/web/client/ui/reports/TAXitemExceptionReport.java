@@ -19,8 +19,8 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 	private long taxAgency;
 	private long taxReturnId;
 	private int row;
+	boolean fromReport = true;
 	private TaxAgencyStartDateEndDateToolbar toolBar;
-	boolean fromReport = false;
 
 	public TAXitemExceptionReport() {
 		super(false, messages.noRecordsToShow());
@@ -42,14 +42,10 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 	public void makeReportRequest(long vatAgency, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		this.row = -1;
-		// this.taxAgency = vatAgency;
-		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
-		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
-		fromReport = true;
-		Accounter.createReportService().getTAXItemExceptionDetailReport(
-				this.taxAgency, startDate.getDate(), endDate.getDate(),
-				fromReport, this);
+		this.taxAgency = vatAgency;
 
+		Accounter.createReportService().getTAXItemExceptionDetailReport(
+				this.taxAgency, startDate.getDate(), endDate.getDate(), this);
 	}
 
 	@Override
@@ -62,41 +58,28 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 	@Override
 	public void print() {
+		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
 		this.startDate = toolbar.getStartDate();
 		this.endDate = toolbar.getEndDate();
-
-		if (fromReport) {
-			// pass agency
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(this.startDate.getDate())),
-					Integer.parseInt(String.valueOf(this.endDate.getDate())),
-					171, "true", "", this.taxAgency);
-		} else {
-			// pass tax_return_id
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(this.startDate.getDate())),
-					Integer.parseInt(String.valueOf(this.endDate.getDate())),
-					171, "false", "", String.valueOf(taxReturnId));
-		}
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 171,
+				String.valueOf(this.taxReturnId), this.taxAgency);
 	}
 
-	@Override
 	public void exportToCsv() {
+		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
 		this.startDate = toolbar.getStartDate();
 		this.endDate = toolbar.getEndDate();
-		if (fromReport) {
-			// pass agency
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 171,
-					"true", String.valueOf(this.taxAgency));
-		} else {
-			// pass tax_return_id
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 171,
-					"false", String.valueOf(taxReturnId));
-		}
+
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 171,
+				String.valueOf(this.taxReturnId),
+				String.valueOf(this.taxAgency));
+
 	}
 
 	@Override
@@ -116,9 +99,6 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 		Object data = getData();
 		if (data != null) {
 			List<TAXItemDetail> detail = (List<TAXItemDetail>) data;
-			// TAXItemDetail obj = detail.get(detail.size() - 1);
-			// startDate = this.serverReport.getStartDate(obj);
-			// endDate = this.serverReport.getEndDate(obj);
 			ClientTAXAgency taxAgency2 = null;
 			for (TAXItemDetail td : detail) {
 				ClientTAXItem taxItemByName = Accounter.getCompany()
@@ -127,9 +107,8 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 						taxItemByName.getTaxAgency());
 				this.startDate = td.getStartDate();
 				this.endDate = td.getEndDate();
-				this.taxAgency = taxAgency2.getID();
 			}
-			toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+			TaxAgencyStartDateEndDateToolbar toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			toolBar.taxAgencyCombo.setComboItem(taxAgency2);
 			toolBar.taxAgencyCombo.setDisabled(true);
 			toolBar.fromItem.setEnteredDate(this.startDate);
@@ -141,6 +120,7 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 		} else {
 			super.initData();
+
 		}
 	}
 
@@ -150,6 +130,14 @@ public class TAXitemExceptionReport extends AbstractReportView<TAXItemDetail> {
 
 	public void setTaxReturnId(long taxReturnId) {
 		this.taxReturnId = taxReturnId;
+	}
+
+	public long getTaxAgency() {
+		return taxAgency;
+	}
+
+	public void setTaxAgency(long taxAgency) {
+		this.taxAgency = taxAgency;
 	}
 
 }

@@ -77,10 +77,12 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 	@Override
 	public void print() {
 
+		
+
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 166, "",
-				"", taxReturnId);
+				Integer.parseInt(String.valueOf(endDate.getDate())), 166,
+				String.valueOf(this.taxReturnId), 0);
 	}
 
 	@Override
@@ -118,10 +120,12 @@ public class VATExceptionDetailReportView extends AbstractReportView<VATDetail> 
 	}
 
 	public void exportToCsv() {
+		
+
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 166, "",
-				String.valueOf(taxReturnId));
+				Integer.parseInt(String.valueOf(endDate.getDate())), 166,
+				String.valueOf(this.taxReturnId), String.valueOf(0));
 	}
 
 	public long getTaxReturnId() {
