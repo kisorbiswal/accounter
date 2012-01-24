@@ -3,8 +3,8 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -78,9 +78,17 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	@Override
 	public void onSuccess(PaginationList<ClientEstimate> result) {
 		listOfEstimates = result;
-		filterList(viewSelect.getSelectedValue());
 		grid.setViewType(viewSelect.getSelectedValue());
+		grid.removeAllRecords();
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
 		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 	}
@@ -113,52 +121,53 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected void filterList(String text) {
-		grid.removeAllRecords();
-
-		for (ClientEstimate estimate : listOfEstimates) {
-			if (text.equals(messages.open())) {
-				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.rejected())) {
-				if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED)
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.accepted())) {
-				if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.expired())) {
-				ClientFinanceDate expiryDate = new ClientFinanceDate(
-						estimate.getExpirationDate());
-				if (expiryDate.before(new ClientFinanceDate()))
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.applied())) {
-				if (estimate.getStatus() == ClientEstimate.STATUS_APPLIED)
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.close())) {
-				if (estimate.getStatus() == ClientEstimate.STATUS_CLOSE)
-					grid.addData(estimate);
-				continue;
-			}
-			if (text.equals(messages.all())) {
-				grid.addData(estimate);
-			}
-			if (text.equalsIgnoreCase(messages.drafts())) {
-				if (estimate.getSaveStatus() == ClientEstimate.STATUS_DRAFT) {
-					grid.addData(estimate);
-				}
-			}
-		}
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
+		this.viewType = text;
+		onPageChange(0, getPageSize());
+		// grid.removeAllRecords();
+		// for (ClientEstimate estimate : listOfEstimates) {
+		// if (text.equals(messages.open())) {
+		// if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.rejected())) {
+		// if (estimate.getStatus() == ClientEstimate.STATUS_REJECTED)
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.accepted())) {
+		// if (estimate.getStatus() == ClientEstimate.STATUS_ACCECPTED)
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.expired())) {
+		// ClientFinanceDate expiryDate = new ClientFinanceDate(
+		// estimate.getExpirationDate());
+		// if (expiryDate.before(new ClientFinanceDate()))
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.applied())) {
+		// if (estimate.getStatus() == ClientEstimate.STATUS_APPLIED)
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.close())) {
+		// if (estimate.getStatus() == ClientEstimate.STATUS_CLOSE)
+		// grid.addData(estimate);
+		// continue;
+		// }
+		// if (text.equals(messages.all())) {
+		// grid.addData(estimate);
+		// }
+		// if (text.equalsIgnoreCase(messages.drafts())) {
+		// if (estimate.getSaveStatus() == ClientEstimate.STATUS_DRAFT) {
+		// grid.addData(estimate);
+		// }
+		// }
+		// }
+		// if (grid.getRecords().isEmpty())
+		// grid.addEmptyMessage(messages.noRecordsToShow());
 
 	}
 
@@ -194,12 +203,28 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected int getPageSize() {
-		return -1;
+		return DEFAULT_PAGE_SIZE;
 	}
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		Accounter.createHomeService().getEstimates(type,
+		int viwType = 0;
+		if (viewType.equalsIgnoreCase(messages.open())) {
+			viwType = ClientEstimate.STATUS_OPEN;
+		} else if (viewType.equalsIgnoreCase(messages.rejected())) {
+			viwType = ClientEstimate.STATUS_REJECTED;
+		} else if (viewType.equalsIgnoreCase(messages.accepted())) {
+			viwType = ClientEstimate.STATUS_ACCECPTED;
+		} else if (viewType.equalsIgnoreCase(messages.applied())) {
+			viwType = ClientEstimate.STATUS_APPLIED;
+		} else if (viewType.equalsIgnoreCase(messages.close())) {
+			viwType = ClientEstimate.STATUS_CLOSE;
+		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+			viwType = ClientEstimate.VIEW_DRAFT;
+		} else if (viewType.equalsIgnoreCase(messages.expired())) {
+			viwType = ClientEstimate.STATUS_EXPIRED;
+		}
+		Accounter.createHomeService().getEstimates(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(), start,
 				length, this);
 	}
