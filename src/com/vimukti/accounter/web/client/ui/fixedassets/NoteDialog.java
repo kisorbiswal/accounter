@@ -45,4 +45,9 @@ public class NoteDialog extends BaseDialog {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 }
