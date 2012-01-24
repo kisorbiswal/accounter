@@ -60,6 +60,7 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -100,6 +101,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -675,8 +677,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientEstimate> getEstimates(int type, long fromDate,
-			long toDate, int start, int length) {
+	public PaginationList<ClientEstimate> getEstimates(int type, int status,
+			long fromDate, long toDate, int start, int length) {
 		PaginationList<ClientEstimate> clientEstimate = new PaginationList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -684,8 +686,10 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type, dates[0], dates[1],
-							start, length);
+					.getEstimates(getCompanyId(), type, status, dates[0],
+							dates[1], start, length);
+			clientEstimate.setStart(start);
+			clientEstimate.setTotalCount(serverEstimates.size());
 			for (Estimate estimate : serverEstimates) {
 				clientEstimate.add(new ClientConvertUtil().toClientObject(
 						estimate, ClientEstimate.class));
@@ -2073,6 +2077,19 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			ClientPortletConfiguration configuration) {
 		FinanceTool tool = new FinanceTool();
 		return tool.savePortletConfiguration(configuration);
+	}
+
+	@Override
+	public PaginationList<ClientStatement> getBankStatements() {
+
+		PaginationList<ClientStatement> bankStatements = null;
+		try {
+			bankStatements = getFinanceTool().getBankStatements(getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bankStatements;
+
 	}
 
 	@Override
