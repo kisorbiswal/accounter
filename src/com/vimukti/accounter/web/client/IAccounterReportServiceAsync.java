@@ -347,8 +347,7 @@ public interface IAccounterReportServiceAsync {
 			AsyncCallback<ArrayList<VATDetail>> callback);
 
 	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
-			long endDate, boolean formReport,
-			AsyncCallback<ArrayList<TAXItemDetail>> callback);
+			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
 
 	public void getAllReconciliations(ClientFinanceDate start,
 			ClientFinanceDate end, long companyId,

@@ -284,8 +284,7 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate end, long taxRetunId) throws AccounterException;
 
 	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
-			long startDate, long endDate, boolean fromReport)
-			throws AccounterException;
+			long startDate, long endDate) throws AccounterException;
 
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);
