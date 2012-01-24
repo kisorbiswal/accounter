@@ -27,7 +27,7 @@ import com.vimukti.accounter.web.client.ui.forms.FormItem;
 
 public class TaxItemsForm extends DynamicForm {
 
-	Map<ClientTAXItem, Double> codeValues;
+	Map<ClientTAXItem, List<Double>> codeValues;
 	ClientTransaction transaction;
 	double totalTax;
 
@@ -45,7 +45,7 @@ public class TaxItemsForm extends DynamicForm {
 		ClientCompany company = Accounter.getCompany();
 
 		this.removeAllRows();
-		codeValues = new HashMap<ClientTAXItem, Double>();
+		codeValues = new HashMap<ClientTAXItem, List<Double>>();
 		int category = getTransactionCategory(transaction.getObjectType());
 
 		List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
@@ -104,12 +104,20 @@ public class TaxItemsForm extends DynamicForm {
 
 			for (ClientTAXItem clientTAXItem : taxItems) {
 				double taxRate = clientTAXItem.getTaxRate();
+				double taxAmount = value * taxRate / 100;
+				if (transactionItem.isAmountIncludeTAX()) {
+					taxAmount = value - (100 * (value / (100 + taxRate)));
+				}
 				double amount = value;
 				if (codeValues.containsKey(clientTAXItem)) {
-					amount += codeValues.get(clientTAXItem);
+					amount += codeValues.get(clientTAXItem).get(0);
+					taxAmount += codeValues.get(clientTAXItem).get(1);
 				}
 				if (clientTAXItem != null && taxRate != 0 && value != 0) {
-					codeValues.put(clientTAXItem, amount);
+					ArrayList<Double> arrayList = new ArrayList<Double>();
+					arrayList.add(amount);
+					arrayList.add(taxAmount);
+					codeValues.put(clientTAXItem, arrayList);
 				}
 			}
 
@@ -119,14 +127,14 @@ public class TaxItemsForm extends DynamicForm {
 		totalTax = 0;
 		int i = 0;
 
-		for (Entry<ClientTAXItem, Double> entry : codeValues.entrySet()) {
+		for (Entry<ClientTAXItem, List<Double>> entry : codeValues.entrySet()) {
 			ClientTAXItem taxCode = entry.getKey();
-			Double value = entry.getValue();
+			Double value = entry.getValue().get(0);
 
 			if (taxCode != null) {
 				double taxRate = taxCode.getTaxRate();
 
-				double taxAmount = (value / 100) * taxRate;
+				double taxAmount = entry.getValue().get(1);
 				totalTax += taxAmount;
 
 				if (taxRate != 0) {

@@ -89,6 +89,7 @@ public abstract class CustomerItemTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
+				row.setAmountIncludeTAX(isShowPriceWithVat());
 				super.setPriceLevel(priceLevel);
 				updateDiscountValues(row);
 				super.setValue(row, newValue);

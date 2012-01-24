@@ -28,11 +28,12 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 	@Override
 	protected void initColumns() {
 
-		this.addColumn(new ItemNameColumn(isSales(),currencyProvider) {
+		this.addColumn(new ItemNameColumn(isSales(), currencyProvider) {
 
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
+				row.setAmountIncludeTAX(isShowPriceWithVat());
 				super.setValue(row, newValue);
 				update(row);
 				// applyPriceLevel(row);

@@ -361,6 +361,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			@Override
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
 				isVATInclusive = event.getValue();
+				List<ClientTransactionItem> allTransactionItems = getAllTransactionItems();
+				if (allTransactionItems != null) {
+					for (ClientTransactionItem item : allTransactionItems) {
+						if (!item.isEmpty()) {
+							item.setAmountIncludeTAX(isVATInclusive);
+						}
+					}
+				}
 				updateAmountsFromGUI();
 				refreshTransactionGrid();
 			}

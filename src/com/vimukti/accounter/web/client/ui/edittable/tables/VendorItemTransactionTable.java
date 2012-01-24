@@ -86,6 +86,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientItem newValue) {
+				row.setAmountIncludeTAX(isShowPriceWithVat());
 				updateDiscountValues(row);
 				super.setValue(row, newValue);
 				// Unit Price is different. So that overriden the code here
