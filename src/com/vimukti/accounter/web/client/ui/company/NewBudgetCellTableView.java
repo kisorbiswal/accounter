@@ -435,27 +435,20 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		ValidationResult result = new ValidationResult();
 
 		result.add(budgetInfoForm.validate());
-		if (data == null) {
+		if (data != null) {
 			String name = budgetNameText.getValue().toString() != null ? budgetNameText
 					.getValue().toString() : "";
 
-			String financialYear = selectFinancialYear.getSelectedValue();
-
-			String[] temp;
-			String delimiter = " ";
-			temp = financialYear.split(delimiter);
-
-			String budgetName = name + " - " + temp[0];
-
 			if (name != null && !name.isEmpty()) {
-
 				for (ClientBudget budget : budgetList) {
-					if (budgetName.equals(budget.getBudgetName())) {
+					if (name.equals(budget.getBudgetName())) {
 						result.addError(name, messages.alreadyExist());
 						break;
 					}
 				}
 			}
+		} else {
+			result.addError(budgetNameText, messages.AddAllInfo());
 		}
 
 		List<ClientBudgetItem> allGivenRecords = budgetCellTable.getDataList();
