@@ -268,7 +268,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 		case 8:
 			return 100;
 		case 9:
-			return 40;
+			return 43;
 		default:
 			return -1;
 		}

@@ -222,7 +222,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 			return 50;
 
 		else if (index == 7)
-			return 40;
+			return 43;
 
 		return -1;
 	}

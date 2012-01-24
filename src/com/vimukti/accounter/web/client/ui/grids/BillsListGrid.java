@@ -82,7 +82,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 		if (index == 5)
 			return 110;
 		if (index == 6)
-			return 40;
+			return 43;
 		return -1;
 	};
 
