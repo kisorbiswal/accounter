@@ -396,8 +396,6 @@ public class CashPurchaseView extends
 
 		discountField = getDiscountField();
 
-		DynamicForm vatCheckform = new DynamicForm();
-		vatCheckform.setFields(vatinclusiveCheck);
 		VerticalPanel totalForm = new VerticalPanel();
 		totalForm.setWidth("100%");
 		totalForm.setStyleName("boldtext");
@@ -509,7 +507,6 @@ public class CashPurchaseView extends
 			bottomLayout.add(totalForm);
 			bottompanel.add(bottomLayout);
 		}
-		bottomLayout.add(vatCheckform);
 		totalForm.add(transactionTotalForm);
 		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
@@ -538,7 +535,6 @@ public class CashPurchaseView extends
 		listforms.add(vendorForm);
 		listforms.add(termsForm);
 		listforms.add(memoForm);
-		listforms.add(vatCheckform);
 		listforms.add(transactionTotalForm);
 
 		// if (UIUtils.isMSIEBrowser())
