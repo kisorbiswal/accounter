@@ -993,7 +993,7 @@ public class MenuBar {
 				messages.payeeGroupList(Global.get().Customer()),
 				HistoryTokens.CUSTOMERGROUPLIST);
 		manageSupportListMenuBar.addMenuItem(
-				messages.payeeGroupList(Global.get().vendor()),
+				messages.payeeGroupList(Global.get().Vendor()),
 				HistoryTokens.VENDORGROUPLIST);
 		manageSupportListMenuBar.addMenuItem(messages.paymentTermList(),
 				HistoryTokens.PAYMENTTERMS);
