@@ -30,6 +30,7 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturn;
+import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -40,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
-import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -3122,179 +3122,80 @@ public class ReportManager extends Manager {
 
 	}
 
-	public ArrayList<VATDetail> getVATExpections(long companyId,
-			long taxReturnId) {
+	public ArrayList<VATDetail> getVATExpectionsForPrint(long companyId,
+			long taxAgency, long taxReturnId) throws AccounterException {
 
 		ArrayList<VATDetail> vatDetails = new ArrayList<VATDetail>();
-		try {
-
+		if (taxReturnId != 0) {
 			Session session = HibernateUtil.getCurrentSession();
-			Company company = getCompany(companyId);
-			List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
-					.setEntity("company", company).list();
+
+			TAXReturn taxReturn = (TAXReturn) session.get(TAXReturn.class,
+					taxReturnId);
 
 			ClientConvertUtil convertUttils = new ClientConvertUtil();
-			for (TAXReturn taxReturn : list) {
-				ClientTAXReturn clientObject = convertUttils.toClientObject(
-						taxReturn, ClientTAXReturn.class);
-				if (company.getCountry().equals("United Kingdom")
-						&& clientObject.getID() == taxReturnId) {
-					clientObject.setBoxes(toBoxes(
-							clientObject.getTaxReturnEntries(),
-							taxReturn.getTaxAgency()));
+			ClientTAXReturn clientObject = convertUttils.toClientObject(
+					taxReturn, ClientTAXReturn.class);
+			clientObject.setBoxes(toBoxes(clientObject.getTaxReturnEntries(),
+					taxReturn.getTaxAgency()));
 
-					List<ClientBox> boxes = clientObject.getBoxes();
-
-					for (ClientBox c : boxes) {
-
-						VATDetail vatDetail = new VATDetail();
-						vatDetail.setBoxName(c.getName());
-						vatDetail.setBoxNumber(c.getBoxNumber());
-						vatDetail.setNetAmount(c.getAmount());
-						vatDetails.add(vatDetail);
-					}
-
-				}
-
+			List<ClientBox> boxes = clientObject.getBoxes();
+			for (ClientBox c : boxes) {
+				VATDetail vatDetail = new VATDetail();
+				vatDetail.setBoxName(c.getName());
+				vatDetail.setBoxNumber(c.getBoxNumber());
+				vatDetail.setNetAmount(c.getAmount());
+				vatDetails.add(vatDetail);
 			}
-		} catch (Exception e) {
+		} else {
+			getTAXItemExceptionDetailReport(companyId, taxAgency, 0, 0);
 		}
 		return vatDetails;
 
 	}
 
 	private ArrayList<TAXItemDetail> getExceptionDetailData(
-			List<ClientTAXReturnEntry> taxEntries, long taxReturnStartDate,
+			List<TAXReturnEntry> taxEntries, FinanceDate financeDate,
 			long companyId) {
 
 		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 
-		for (ClientTAXReturnEntry c : taxEntries) {
+		for (TAXReturnEntry c : taxEntries) {
 
-			ClientFinanceDate transactionDate = new ClientFinanceDate(
-					c.getTransactionDate());
-			ClientFinanceDate startDate = new ClientFinanceDate(
-					taxReturnStartDate);
-
-			// if (c.getTransactionDate() >= taxReturnStartDate) {
-			// continue;
-			// }
-
-			if (transactionDate.before(startDate)) {
+			if (c.getTransactionDate().before(financeDate)) {
 
 				TAXItemDetail detail = new TAXItemDetail();
 				detail.setTaxAmount(c.getTaxAmount());
-				detail.setTransactionId(c.getTransaction());
-				TAXItem taxItem = getTaxItem(c.getTaxItem(), companyId);
+				detail.setTransactionId(c.getTransaction().getID());
+				TAXItem taxItem = c.getTaxItem();
 				detail.setTaxItemName(taxItem.getName());
 				detail.setTransactionType(c.getTransactionType());
-				detail.setTransactionDate(new ClientFinanceDate(c
-						.getTransactionDate()));
+				detail.setTransactionDate(c.getTransactionDate()
+						.toClientFinanceDate());
 				detail.setNetAmount(c.getNetAmount());
 				detail.setTAXRate(taxItem.getTaxRate());
 				detail.setTotal(c.getGrassAmount());
 				detail.setFiledTAXAmount(c.getFiledTAXAmount());
 				details.add(detail);
 			}
-			// else{
-			// continue;
-			// }
 
 		}
 		return details;
 	}
 
-	public ArrayList<TAXItemDetail> getTAXExceptionsByTaxReturnId(
-			long companyId, long taxreturnID) {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery("getTAXReturnObj");
-		query.setParameter("taxreturnID", taxreturnID);
-		List<ClientTAXReturn> clientTaxReturnList = new ArrayList<ClientTAXReturn>();
-		List<TAXReturn> entries = query.list();
-		Iterator i = entries.iterator();
-		ClientTAXReturn returnEntry;
-		while ((i).hasNext()) {
-			Object object = i.next();
-			if (object == null) {
-				continue;
-			}
-			long taxId = (Long) object;
-			TAXReturn activity = (TAXReturn) session
-					.get(TAXReturn.class, taxId);
+	public ArrayList<TAXItemDetail> getTAXExceptionsForPrint(long companyId,
+			long taxreturnID, long taxAgency) {
 
-			try {
-				returnEntry = new ClientConvertUtil().toClientObject(activity,
-						ClientTAXReturn.class);
-				clientTaxReturnList.add(returnEntry);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
+		if (taxreturnID == 0) {
+			return getTAXItemExceptionDetailReport(companyId, taxAgency, 0, 0);
+		} else {
+			Session session = HibernateUtil.getCurrentSession();
+			ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+			TAXReturn tasxReturn = (TAXReturn) session.get(TAXReturn.class,
+					taxreturnID);
+			List<TAXReturnEntry> taxEntries = tasxReturn.getTaxReturnEntries();
+			return getExceptionDetailData(taxEntries,
+					tasxReturn.getPeriodStartDate(), companyId);
 		}
-		List<ClientTAXReturnEntry> taxEntries = null;
-		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-		for (ClientTAXReturn taxReturn : clientTaxReturnList) {
-
-			ClientTAXReturn clientTAXReturn = (ClientTAXReturn) taxReturn;
-			taxEntries = clientTAXReturn.getTaxReturnEntries();
-			details = getExceptionDetailData(taxEntries,
-					clientTAXReturn.getPeriodStartDate(), companyId);
-
-			// for (TAXItemDetail detail : details) {
-			// detail.setStartDate(new ClientFinanceDate(obj
-			// .getPeriodStartDate()));
-			// detail.setEndDate(new ClientFinanceDate(obj
-			// .getPeriodEndDate()));
-			// }
-		}
-		return details;
-
-	}
-
-	public ArrayList<TAXItemDetail> getTAXExceptionsByAgencyId(long companyId,
-			long taxAgencyID) {
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery("getTAXReturnObjByTaxAgency");
-		query.setParameter("taxAgencyID", taxAgencyID);
-		List<ClientTAXReturn> clientTaxReturnList = new ArrayList<ClientTAXReturn>();
-		List<TAXReturn> entries = query.list();
-		Iterator i = entries.iterator();
-		ClientTAXReturn returnEntry;
-		while ((i).hasNext()) {
-			Object object = i.next();
-			if (object == null) {
-				continue;
-			}
-			long taxId = (Long) object;
-			TAXReturn activity = (TAXReturn) session
-					.get(TAXReturn.class, taxId);
-
-			try {
-				returnEntry = new ClientConvertUtil().toClientObject(activity,
-						ClientTAXReturn.class);
-				clientTaxReturnList.add(returnEntry);
-			} catch (AccounterException e) {
-				e.printStackTrace();
-			}
-		}
-		List<ClientTAXReturnEntry> taxEntries = null;
-		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
-		for (ClientTAXReturn taxReturn : clientTaxReturnList) {
-
-			ClientTAXReturn clientTAXReturn = (ClientTAXReturn) taxReturn;
-			taxEntries = clientTAXReturn.getTaxReturnEntries();
-			details = getExceptionDetailData(taxEntries,
-					clientTAXReturn.getPeriodStartDate(), companyId);
-
-			// for (TAXItemDetail detail : details) {
-			// detail.setStartDate(new ClientFinanceDate(obj
-			// .getPeriodStartDate()));
-			// detail.setEndDate(new ClientFinanceDate(obj
-			// .getPeriodEndDate()));
-			// }
-		}
-		return details;
 
 	}
 
