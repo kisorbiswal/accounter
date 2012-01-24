@@ -48,7 +48,6 @@
 		f.company=:company
 		order by f.lastModifiedDate desc
 	</query>
-	
 	<query name="getFixedAsset.from.status2or3">
 		<query-param name="company" type="Company" />
 		<query-param name="status" type="int" />
@@ -1094,8 +1093,9 @@
 		<query-param name="estimateType" type="int" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
-		and e.estimateType=:estimateType and e.saveStatus != 202
+		and e.estimateType=:estimateType and e.saveStatus != 202 and e.status=:status
 		and
 		e.transactionDate between :fromDate and :toDate
 		order by e.lastModifiedDate desc
@@ -2014,4 +2014,19 @@
 		V.company=:company and
 		V.name=:name
 	</query>
+	
+		<!--  <query name="getbankStatements">
+		<query-param name="company" type="Company" />
+		<query-param name="accountId" type="long" />
+		from Statement where company=:company and account_id=:accountId
+	</query>-->
+	<query name="list.bankStatement">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Statement s where
+		s.company.id=:companyId
+		order by s.id
+	</query>
+	
+	
+	
 </hibernate-mapping>
