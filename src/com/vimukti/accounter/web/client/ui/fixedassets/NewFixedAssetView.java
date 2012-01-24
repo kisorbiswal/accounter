@@ -914,9 +914,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(itmNameForm.validate());
-		result.add(itemInfoForm.validate());
 		if (data != null
 				&& data.getStatus() == ClientFixedAsset.STATUS_REGISTERED) {
+			result.add(itemInfoForm.validate());
 			result.add(itmNameForm.validate());
 			result.add(purchaseInfoForm.validate());
 			result.add(validatePurchaseAmount());
