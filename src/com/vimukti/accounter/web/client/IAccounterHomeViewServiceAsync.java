@@ -173,8 +173,9 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(int type, long fromDate, long toDate, int start,
-			int length, AsyncCallback<PaginationList<ClientEstimate>> callback);
+	public void getEstimates(int type, int status, long fromDate, long toDate,
+			int start, int length,
+			AsyncCallback<PaginationList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,

@@ -21,12 +21,12 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.JournalEntry;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -41,7 +41,6 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientETDSFilling;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
@@ -50,7 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -60,7 +59,6 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
-import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -72,6 +70,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -101,7 +100,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -686,8 +684,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type, status, dates[0],
-							dates[1], start, length);
+					.getEstimates(getCompanyId(), type, dates[0], dates[1],
+							start, length);
 			clientEstimate.setStart(start);
 			clientEstimate.setTotalCount(serverEstimates.size());
 			for (Estimate estimate : serverEstimates) {

@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -73,7 +74,6 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
-import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -86,8 +86,9 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
  * 
  */
 public interface IAccounterHomeViewService extends RemoteService {
-	public PaginationList<TransactionsList> getSpentAndReceivedTransactionsList(
-			long endOfFiscalYear, long date, int start, int length);
+	// public PaginationList<TransactionsList>
+	// getSpentAndReceivedTransactionsList(
+	// long endOfFiscalYear, long date, int start, int length);
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices();
 
