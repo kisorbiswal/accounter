@@ -116,6 +116,7 @@ public abstract class VendorAccountTransactionTable extends
 			@Override
 			protected void setValue(ClientTransactionItem row,
 					ClientAccount newValue) {
+				row.setAmountIncludeTAX(isShowPriceWithVat());
 				updateDiscountValues(row);
 				if (newValue != null) {
 					row.setAccountable(newValue);
