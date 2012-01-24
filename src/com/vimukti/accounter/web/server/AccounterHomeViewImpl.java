@@ -2080,19 +2080,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientStatement> getBankStatements() {
-
-		PaginationList<ClientStatement> bankStatements = null;
-		try {
-			bankStatements = getFinanceTool().getBankStatements(getCompanyId());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return bankStatements;
-
-	}
-
-	@Override
 	public String getIRASFileInformation(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException {
 		return getFinanceTool().getIRASFileInformationByDate(getCompanyId(),
