@@ -818,12 +818,6 @@ public class CreditCardExpenseView extends
 			// payMethSelect.setComboItem(transaction.getPaymentMethod());
 			// payMethSelect.setDisabled(isInViewMode());
 			cheqNoText.setDisabled(isInViewMode());
-			vendorAccountTransactionTable
-					.setRecords(getAccountTransactionItems(transaction
-							.getTransactionItems()));
-			vendorItemTransactionTable
-					.setRecords(getItemTransactionItems(transaction
-							.getTransactionItems()));
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
