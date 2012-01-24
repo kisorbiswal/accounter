@@ -82,6 +82,7 @@ public abstract class TransactionDepositTable extends
 					ClientAccount newValue) {
 				if (newValue != null) {
 					row.setAccount(newValue.getID());
+					update(row);
 				}
 			}
 
@@ -275,6 +276,12 @@ public abstract class TransactionDepositTable extends
 
 	public void setRecords(List<ClientTransactionDepositItem> transactionItems) {
 		setAllRows(transactionItems);
+		updateTotals();
+	}
+
+	public void resetRecords() {
+		clear();
+		addEmptyRecords();
 		updateTotals();
 	}
 

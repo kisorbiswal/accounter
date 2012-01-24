@@ -165,22 +165,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
-						long currency = selectItem.getCurrency();
-						if (currency != 0) {
-							ClientCurrency clientCurrency = getCompany()
-									.getCurrency(currency);
-							currencyWidget.setSelectedCurrencyFactorInWidget(
-									clientCurrency, transactionDateItem
-											.getDate().getDate());
-						} else {
-							ClientCurrency clientCurrency = getCompany()
-									.getPrimaryCurrency();
-							if (clientCurrency != null) {
-								currencyWidget
-										.setSelectedCurrency(clientCurrency);
-							}
-						}
-
+						accountSelected(selectItem);
 					}
 				});
 
@@ -322,6 +307,32 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	}
 
 	@Override
+	protected void accountSelected(ClientAccount account) {
+		long currency = account.getCurrency();
+		ClientCurrency clientCurrency = getCompany().getPrimaryCurrency();
+		if (currency != clientCurrency.getID()) {
+			clientCurrency = getCompany().getCurrency(currency);
+
+			currencyWidget.setSelectedCurrencyFactorInWidget(clientCurrency,
+					transactionDateItem.getDate().getDate());
+		} else {
+
+			if (clientCurrency != null) {
+				currencyWidget
+						.setSelectedCurrencyFactorInWidget(clientCurrency,
+								transactionDateItem.getDate().getDate());
+			}
+		}
+		if (isMultiCurrencyEnabled()) {
+			DepositView.this.setCurrency(clientCurrency);
+			setCurrencyFactor(currencyWidget.getCurrencyFactor());
+			updateAmountsFromGUI();
+		}
+		transactionDepositTable.resetRecords();
+		updateNonEditableItems();
+	}
+
+	@Override
 	public void saveAndUpdateView() {
 		updateTransaction();
 		super.saveAndUpdateView();
@@ -374,6 +385,11 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		ValidationResult result = super.validate();
 		ClientAccount selectedDepositInAccount = depositToCombo
 				.getSelectedValue();
+		if (selectedDepositInAccount == null) {
+			result.addError(depositToCombo,
+					messages.pleaseSelect(messages.depositTo()));
+			return result;
+		}
 		if (transactionDepositItems != null
 				&& transactionDepositItems.size() != 0) {
 			for (ClientTransactionDepositItem transactionItem : transactionDepositItems) {
