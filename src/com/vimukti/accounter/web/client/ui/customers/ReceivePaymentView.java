@@ -280,7 +280,11 @@ public class ReceivePaymentView extends
 				}
 				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
+				gridView.updatePayment(c);
 				gridView.update(c);
+				this.transactionTotal = getGridTotal();
+				this.unUsedPayments = (totalWithTDS.getAmount() - transactionTotal);
+				setUnusedPayments(unUsedPayments);
 			}
 		}
 

@@ -538,7 +538,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 					// adjustPaymentValue(ctrp);
 					updateValue(ctrp);
-
+					recalculateGridAmounts();
 					// updateFootervalues(ctrp, canEdit);
 
 					setUnUsedCreditsTextAmount(getUnusedCredits());
@@ -620,7 +620,7 @@ public abstract class TransactionReceivePaymentTable extends
 
 	}
 
-	private void updatePayment(ClientTransactionReceivePayment payment) {
+	public void updatePayment(ClientTransactionReceivePayment payment) {
 		payment.setPayment(0);
 		double paymentValue = payment.getAmountDue() - getTotalValue(payment);
 		payment.setPayment(paymentValue);
