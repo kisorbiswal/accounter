@@ -35,6 +35,7 @@ public class NewBankAccountAction extends Action<ClientBankAccount> {
 				// view.setNewBankAccountAction(NewBankAccountAction.this);
 				// view.setNewBankAccount(true);
 				view.setAccountType(ClientAccount.TYPE_BANK);
+				view.setAccountTypes(getAccountTypes());
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, NewBankAccountAction.this);
