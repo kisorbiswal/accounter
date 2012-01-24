@@ -57,8 +57,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 				});
 		initComboItems();
-
-		;
 		// this.grid.setWidth("100%");
 		DynamicForm form2 = new DynamicForm();
 
@@ -76,6 +74,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(true);
 		saveAndNewButton.setText(messages.payTax());
+		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
 	}
 
 	@Override
@@ -87,20 +86,22 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		ClientTransactionPayTAX payTAXEntry = null;
 
 		payTAXEntry = new ClientTransactionPayTAX();
-		if (taxReturn.getBalance() >= 0) {
-			payTAXEntry.setTaxDue(taxReturn.getBalance());
-		} else {
-			payTAXEntry.setAmountToPay(taxReturn.getBalance());
+		if (taxReturn != null) {
+			if (taxReturn.getBalance() >= 0) {
+				payTAXEntry.setTaxDue(taxReturn.getBalance());
+			} else {
+				payTAXEntry.setAmountToPay(taxReturn.getBalance());
+			}
+			payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
+			payTAXEntry.setTAXReturn(taxReturn.getID());
+			payTAXEntry.setFiledDate(taxReturn.getDate());
+			payTaxEntriesList.add(payTAXEntry);
+
+			ClientPayTAX clientPayTAX = new ClientPayTAX();
+			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
+
+			ActionFactory.getpayTAXAction().run(clientPayTAX, true);
 		}
-		payTAXEntry.setTaxAgency(taxReturn.getTAXAgency());
-		payTAXEntry.setTAXReturn(taxReturn.getID());
-		payTAXEntry.setFiledDate(taxReturn.getDate());
-		payTaxEntriesList.add(payTAXEntry);
-
-		ClientPayTAX clientPayTAX = new ClientPayTAX();
-		clientPayTAX.setTransactionPayTax(payTaxEntriesList);
-
-		ActionFactory.getpayTAXAction().run(clientPayTAX, true);
 	}
 
 	private void initComboItems() {
@@ -144,6 +145,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 					public void onResultSuccess(List<ClientTAXReturn> result) {
 						grid.removeLoadingImage();
 						if (result == null) {
+
 							return;
 						}
 						clientAbstractTAXReturns = result;
@@ -179,6 +181,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
+		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
 	}
 
 	@Override
