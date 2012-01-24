@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
@@ -62,8 +63,11 @@ public abstract class TransactionDepositTable extends
 
 			@Override
 			public List<Integer> getCanAddedAccountTypes() {
-				return Arrays.asList(ClientAccount.TYPE_INCOME,
-						ClientAccount.TYPE_FIXED_ASSET);
+				ArrayList<Integer> arrayList = new ArrayList<Integer>();
+				for (Integer integer : UIUtils.accountTypes) {
+					arrayList.add(integer);
+				}
+				return arrayList;
 			}
 
 			@Override
@@ -205,6 +209,7 @@ public abstract class TransactionDepositTable extends
 	}
 
 	public void updateAmountsFromGUI() {
+		updateTotals();
 		for (ClientTransactionDepositItem item : this.getAllRows()) {
 			updateFromGUI(item);
 		}

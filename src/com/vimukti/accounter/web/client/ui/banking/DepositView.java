@@ -128,6 +128,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			totalLabel
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 		}
+		if (isMultiCurrencyEnabled()) {
+			updateAmountsFromGUI();
+		}
 	}
 
 	@Override
@@ -363,7 +366,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			transaction.setDepositTo(depositTo.getID());
 
 		// Setting Total
-		transaction.setTotal(totalLabel.getAmount());
+		transaction.setTotal(transactionDepositTable.getLineTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -402,6 +405,11 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 				ClientAccount fromAccount = getCompany().getAccount(
 						selectedDepositFromAccount);
+				if (fromAccount == null) {
+					result.addError(depositToCombo,
+							messages.pleaseEnter(messages.depositFrom()));
+					return result;
+				}
 				ClientPayee payee = getCompany().getPayee(
 						transactionItem.getReceivedFrom());
 				if (selectedDepositInAccount.getCurrency() != fromAccount
@@ -503,8 +511,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	@Override
 	public void updateAmountsFromGUI() {
-		transactionDepositTable.updateAmountsFromGUI();
 		modifyForeignCurrencyTotalWidget();
+		transactionDepositTable.updateAmountsFromGUI();
 	}
 
 	public void modifyForeignCurrencyTotalWidget() {
