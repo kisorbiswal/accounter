@@ -453,7 +453,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		if (status == null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, company,
-					"");
+					dateRangeHtml);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
