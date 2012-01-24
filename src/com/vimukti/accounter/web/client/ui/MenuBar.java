@@ -876,10 +876,11 @@ public class MenuBar {
 
 		companyMenuBar.addSeparatorItem();
 
-		companyMenuBar
-				.addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
-
-		companyMenuBar.addSeparatorItem();
+		// removing as its present in all views so no need to show it here.
+		// companyMenuBar
+		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
+		//
+		// companyMenuBar.addSeparatorItem();
 
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
