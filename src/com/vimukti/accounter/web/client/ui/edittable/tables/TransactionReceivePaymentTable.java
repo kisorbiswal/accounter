@@ -630,7 +630,8 @@ public abstract class TransactionReceivePaymentTable extends
 
 	public void openWriteOffDialog(
 			final ClientTransactionReceivePayment selectedObject) {
-		writeOffDialog = new WriteOffDialog(this.company.getActiveAccounts(),
+		writeOffDialog = new WriteOffDialog(
+				getBaseCurrencyAccounts(this.company.getActiveAccounts()),
 				selectedObject, canEdit, getWriteOffAccount(selectedObject),
 				currencyProvider);
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
@@ -664,6 +665,18 @@ public abstract class TransactionReceivePaymentTable extends
 			}
 		});
 		writeOffDialog.show();
+	}
+
+	private List<ClientAccount> getBaseCurrencyAccounts(
+			ArrayList<ClientAccount> activeAccounts) {
+		ArrayList<ClientAccount> arrayList = new ArrayList<ClientAccount>();
+		for (ClientAccount clientAccount : activeAccounts) {
+			if (clientAccount.getCurrency() == this.company
+					.getPrimaryCurrency().getID()) {
+				arrayList.add(clientAccount);
+			}
+		}
+		return arrayList;
 	}
 
 	public void updateValue(ClientTransactionReceivePayment obj) {
