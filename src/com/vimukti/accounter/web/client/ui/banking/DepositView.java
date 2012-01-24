@@ -428,11 +428,11 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 									"TransactionItem"
 											+ transactionItem.getAccount()
 											+ transactionItem.getAccount(),
-									messages.transactionitemtotalcannotbe0orlessthan0());
+									messages.pleaseEnterAccAndAmount());
 						}
 					} else {
-						result.addError("TransactionItem", messages
-								.pleaseEnter(messages.transactionItem()));
+						result.addError("TransactionItem",
+								messages.pleaseEnterAccAndAmount());
 					}
 				} else {
 					result.addError("TransactionItem",
@@ -447,7 +447,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			}
 		} else {
 			result.addError("TransactionItem",
-					messages.thereAreNoTransactionItemsToSave());
+					messages.pleaseEnterAccAndAmount());
 		}
 
 		if (AccounterValidator.isInPreventPostingBeforeDate(transactionDate)) {
