@@ -27,6 +27,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int DEPOSIT_EXAPENSES = 5;
 
+	public static final int STATUS_EXPIRED = 6;
+
 	long customer;
 
 	private int estimateType;
@@ -294,8 +296,9 @@ public class ClientEstimate extends ClientTransaction {
 		return AccounterCoreType.ESTIMATE;
 	}
 
+	@Override
 	public ClientEstimate clone() {
-		ClientEstimate clientEstimateClone = (ClientEstimate) this.clone();
+		ClientEstimate clientEstimateClone = this.clone();
 		clientEstimateClone.address = this.address.clone();
 		clientEstimateClone.contact = this.contact.clone();
 		clientEstimateClone.shippingAdress = this.shippingAdress.clone();
