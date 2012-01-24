@@ -74,17 +74,17 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 			taxableGroupRadio.setValue(vat.isTaxable() ? messages.taxable()
 					: messages.taxExempt());
 
-			if (getCompany().getTaxItem(vat.getTAXItemGrpForPurchases()) != null) {
+			if (getCompany().getTAXItemGroup(vat.getTAXItemGrpForPurchases()) != null) {
 				selectedVATPurchaseAcc = vat.getTAXItemGrpForPurchases();
 				vatItemComboForPurchases.setComboItem(Accounter.getCompany()
-						.getTaxItem(vat.getTAXItemGrpForPurchases()));
+						.getTAXItemGroup(vat.getTAXItemGrpForPurchases()));
 			} else
 				vatItemComboForPurchases.setSelected("");
 
-			if (getCompany().getTaxItem(vat.getTAXItemGrpForSales()) != null) {
+			if (getCompany().getTAXItemGroup(vat.getTAXItemGrpForSales()) != null) {
 				selectedVATSAlesAcc = vat.getTAXItemGrpForSales();
 				vatItemComboForSales.setComboItem(Accounter.getCompany()
-						.getTaxItem(vat.getTAXItemGrpForSales()));
+						.getTAXItemGroup(vat.getTAXItemGrpForSales()));
 			} else
 				vatItemComboForSales.setSelected("");
 
