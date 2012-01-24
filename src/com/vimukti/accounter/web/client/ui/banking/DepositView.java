@@ -275,8 +275,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		memoForm.setFields(memoTextAreaItem);
 		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
-		totalLabel = new AmountLabel(messages.currencyTotal(currency
-				.getFormalName()));
+		totalLabel = new AmountLabel(
+				messages.currencyTotal(currency != null ? currency
+						.getFormalName() : getCompany().getPrimaryCurrency()
+						.getFormalName()));
 		foreignCurrencyamountLabel = createForeignCurrencyAmountLable(getCompany()
 				.getPrimaryCurrency());
 
