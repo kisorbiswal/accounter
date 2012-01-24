@@ -82,7 +82,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 	public void setAllrows(ArrayList<EstimatesAndSalesOrdersList> result,
 			boolean isNew) {
-		tree.clear();
+		clear();
+		tree = new Tree() {
+		};
+		this.add(tree);
 		quotesTree = null;
 		chargesTree = null;
 		creditsTree = null;
@@ -400,6 +403,12 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private void updateSalesOrderTotal(ClientSalesOrder salesOrder) {
 		grandTotal += salesOrder.getTotal();
 		lineTotal += salesOrder.getNetAmount();
+	}
+
+	@Override
+	public void clear() {
+		tree.clear();
+		super.clear();
 	}
 
 	public List<ClientTransaction> getSelectedRecords() {
