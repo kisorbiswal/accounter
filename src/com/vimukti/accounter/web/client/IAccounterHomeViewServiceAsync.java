@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -76,6 +77,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -86,6 +88,9 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
  * 
  */
 public interface IAccounterHomeViewServiceAsync {
+	public void getSpentAndReceivedTransactionsList(long endOfFiscalYear,
+			long date, int i, int j,
+			AsyncCallback<PaginationList<TransactionsList>> asyncCallback);
 
 	public void getOverDueInvoices(
 			AsyncCallback<ArrayList<OverDueInvoicesList>> callBack);
@@ -173,8 +178,9 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	// To get all the Estimates/Quotes in a company
-	public void getEstimates(int type, long fromDate, long toDate, int start,
-			int length, AsyncCallback<PaginationList<ClientEstimate>> callback);
+	public void getEstimates(int type, int status, long fromDate, long toDate,
+			int start, int length,
+			AsyncCallback<PaginationList<ClientEstimate>> callback);
 
 	// To get the Estimates/Quotes of a particular customer in the company
 	public void getEstimates(long customerId,
