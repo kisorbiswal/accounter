@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
+import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
@@ -463,4 +464,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	boolean isChalanDetailsFiled(int formNo, int quater, int startYear,
 			int endYear) throws AccounterException;
+
+	PaginationList<DepositsTransfersList> getDepositsList(long date,
+			long date2, int start, int length, int type)
+			throws AccounterException;
+
+	PaginationList<DepositsTransfersList> getTransfersList(long date,
+			long date2, int start, int length, int type)
+			throws AccounterException;
 }

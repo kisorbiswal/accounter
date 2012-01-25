@@ -60,6 +60,7 @@ import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
+import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
@@ -518,4 +519,12 @@ public interface IAccounterHomeViewServiceAsync {
 
 	void isChalanDetailsFiled(int formNo, int quater, int startYear,
 			int endYear, AsyncCallback<Boolean> callback);
+
+	public void getDepositsList(long date, long date2, int start, int length,
+			int type,
+			AsyncCallback<PaginationList<DepositsTransfersList>> asyncCallback);
+
+	public void getTransfersList(long date, long date2, int start, int length,
+			int type,
+			AsyncCallback<PaginationList<DepositsTransfersList>> asyncCallback);
 }

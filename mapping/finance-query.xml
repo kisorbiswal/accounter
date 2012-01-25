@@ -13133,6 +13133,128 @@
 		CASE
 		WHEN
 		0=:viewType THEN
+		((T.STATUS=0
+		OR
+		T.STATUS=1 )AND T.SAVE_STATUS != 204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
+		(T.STATUS=2
+		AND
+		T.SAVE_STATUS
+		!= 204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		(T.SAVE_STATUS =
+		204)
+		WHEN
+		4=:viewType THEN
+		(T.SAVE_STATUS = 201)
+		ELSE
+		true
+		END
+		AND
+		T.SAVE_STATUS !=
+		202
+		AND P.ID IS NOT NULL AND
+		T.T_DATE
+		BETWEEN
+		:fromDate
+		AND :toDate
+	</sql-query>
+
+	<sql-query name="getDepositsList">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="IN_ACCOUNT" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		A.NAME AS IN_ACCOUNT,
+		T.TOTAL AS AMOUNT,
+		T.CURRENCY AS CURRENCY
+
+		FROM MAKE_DEPOSIT MD LEFT JOIN TRANSACTION T ON T.ID = MD.ID LEFT JOIN
+		ACCOUNT A ON A.ID = MD.DEPOSIT_TO
+
+		WHERE
+		T.COMPANY_ID= :companyId AND
+		CASE
+		WHEN
+		0=:viewType THEN
+		((T.STATUS=0 OR
+		T.STATUS=1 )AND T.SAVE_STATUS !=
+		204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
+		(T.STATUS=2
+		AND
+		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		(T.SAVE_STATUS = 204)
+		WHEN
+		4=:viewType THEN
+		(T.SAVE_STATUS = 201)
+		ELSE
+		true
+		END
+		AND T.SAVE_STATUS != 202
+		AND
+		T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate
+	</sql-query>
+	
+	<sql-query name="getTransfersList">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="IN_ACCOUNT" type="string" />
+		<return-scalar column="FROM_ACCOUNT" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY" type="long" />
+
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		A1.NAME AS IN_ACCOUNT,
+		A2.NAME AS FROM_ACCOUNT,
+		T.TOTAL AS AMOUNT,
+		T.CURRENCY AS CURRENCY
+
+		FROM TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON T.ID = TF.ID LEFT JOIN
+		ACCOUNT A1 ON A1.ID = TF.DEPOSIT_IN_ID
+		LEFT JOIN ACCOUNT A2 ON A2.ID = TF.DEPOSIT_FROM_ID
+
+		WHERE
+		T.COMPANY_ID= :companyId AND
+		CASE
+		WHEN
+		0=:viewType THEN
 		((T.STATUS=0 OR
 		T.STATUS=1 )AND T.SAVE_STATUS != 204
 		AND
@@ -13152,7 +13274,7 @@
 		true
 		END
 		AND T.SAVE_STATUS != 202
-		AND P.ID IS NOT NULL AND
+		AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate

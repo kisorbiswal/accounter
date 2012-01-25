@@ -68,9 +68,19 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 		listPanel.addMenuPanel(Global.get().Vendors(), getVendorCenterItems());
 
+		listPanel.addMenuPanel(messages.banking(), getBankCenterItems());
+
 		listPanel.addMenuPanel(messages.others(), getOtherCenterItems());
 		baseListView = (BaseListView<T>) new InvoiceListView();
 		initGridData(getMessages().invoices());
+	}
+
+	private List<String> getBankCenterItems() {
+		List<String> bankItems = new ArrayList<String>();
+		bankItems.add(getMessages().payments());
+		bankItems.add(getMessages().deposits());
+		bankItems.add(getMessages().transferFunds());
+		return bankItems;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,7 +173,8 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 					.cash());
 
 		} else if (itemName.equalsIgnoreCase(getMessages().deposits())) {
-			// TODO
+			baseListView = (BaseListView<T>) new DepositsTransfersListView(0);
+
 		} else if (itemName.equalsIgnoreCase(getMessages()
 				.inventoryAdjustments())) {
 
@@ -174,7 +185,10 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			baseListView = (BaseListView<T>) new JournalEntryListView();
 
 		} else if (itemName.equalsIgnoreCase(getMessages().transferFunds())) {
-			// TODO
+			baseListView = (BaseListView<T>) new DepositsTransfersListView(1);
+
+		} else if (itemName.equalsIgnoreCase(getMessages().payments())) {
+			baseListView = (BaseListView<T>) new PaymentListView();
 		}
 
 		mainPanel.add(baseListView);

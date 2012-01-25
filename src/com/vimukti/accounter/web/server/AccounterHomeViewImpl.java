@@ -84,6 +84,7 @@ import com.vimukti.accounter.web.client.core.SearchResultlist;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.ClientTDSInfo;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
+import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.core.Lists.DepreciableFixedAssetsList;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.FixedAssetLinkedAccountMap;
@@ -2116,5 +2117,31 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return false;
+	}
+
+	@Override
+	public PaginationList<DepositsTransfersList> getDepositsList(long fromDate,
+			long toDate, int start, int length, int type)
+			throws AccounterException {
+		try {
+			return getFinanceTool().getCompanyManager().getDepositsList(
+					getCompanyId(), fromDate, toDate, start, length, type);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public PaginationList<DepositsTransfersList> getTransfersList(
+			long fromDate, long toDate, int start, int length, int type)
+			throws AccounterException {
+		try {
+			return getFinanceTool().getCompanyManager().getTransfersList(
+					getCompanyId(), fromDate, toDate, start, length, type);
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

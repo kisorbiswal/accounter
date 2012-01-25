@@ -42,6 +42,7 @@ import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IS2SService;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -61,6 +62,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.SearchInput;
 import com.vimukti.accounter.web.client.core.SearchResultlist;
+import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.OperationContext;
@@ -1631,5 +1633,126 @@ public class CompanyManager extends Manager {
 				.forName(clientName.toString());
 
 		return new ClientConvertUtil().toClientObject(transaction, clazz);
+	}
+
+	public PaginationList<DepositsTransfersList> getDepositsList(
+			long companyId, long fromDate, long toDate, int start, int length,
+			int viewType) throws DAOException {
+		PaginationList<DepositsTransfersList> queryResult = new PaginationList<DepositsTransfersList>();
+		int total = 0;
+		List list;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			Query query = session.getNamedQuery("getDepositsList")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate)
+					.setParameter("viewType", viewType);
+
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
+
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+
+				while ((iterator).hasNext()) {
+
+					DepositsTransfersList depositsTransfersList = new DepositsTransfersList();
+					object = (Object[]) iterator.next();
+
+					depositsTransfersList
+							.setTransactionId((object[0] == null ? 0
+									: ((Long) object[0])));
+					depositsTransfersList
+							.setTransactionDate((object[1] == null ? null
+									: (new ClientFinanceDate(((Long) object[1])))));
+					depositsTransfersList.setType((Integer) object[2]);
+					depositsTransfersList
+							.setTransactionNumber((object[3] == null ? null
+									: ((String) object[3])));
+
+					depositsTransfersList.setInAccount((String) object[4]);
+
+					depositsTransfersList.setAmount((Double) object[5]);
+					depositsTransfersList.setCurrency((Long) object[6]);
+
+					queryResult.add(depositsTransfersList);
+				}
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
+				return queryResult;
+			} else
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+		} catch (DAOException e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+
+	}
+
+	public PaginationList<DepositsTransfersList> getTransfersList(
+			Long companyId, long fromDate, long toDate, int start, int length,
+			int viewType) throws DAOException {
+		PaginationList<DepositsTransfersList> queryResult = new PaginationList<DepositsTransfersList>();
+		int total = 0;
+		List list;
+		try {
+			Session session = HibernateUtil.getCurrentSession();
+			Query query = session.getNamedQuery("getTransfersList")
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate)
+					.setParameter("toDate", toDate)
+					.setParameter("viewType", viewType);
+
+			if (length == -1) {
+				list = query.list();
+			} else {
+				total = query.list().size();
+				list = query.setFirstResult(start).setMaxResults(length).list();
+			}
+
+			if (list != null) {
+				Object[] object = null;
+				Iterator iterator = list.iterator();
+
+				while ((iterator).hasNext()) {
+
+					DepositsTransfersList depositsTransfersList = new DepositsTransfersList();
+					object = (Object[]) iterator.next();
+
+					depositsTransfersList
+							.setTransactionId((object[0] == null ? 0
+									: ((Long) object[0])));
+					depositsTransfersList
+							.setTransactionDate((object[1] == null ? null
+									: (new ClientFinanceDate(((Long) object[1])))));
+					depositsTransfersList.setType((Integer) object[2]);
+					depositsTransfersList
+							.setTransactionNumber((object[3] == null ? null
+									: ((String) object[3])));
+
+					depositsTransfersList.setInAccount((String) object[4]);
+					depositsTransfersList.setFromAccount((String) object[5]);
+
+					depositsTransfersList.setAmount((Double) object[6]);
+					depositsTransfersList.setCurrency((Long) object[7]);
+
+					queryResult.add(depositsTransfersList);
+				}
+				queryResult.setTotalCount(total);
+				queryResult.setStart(start);
+				return queryResult;
+			} else
+				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
+						null));
+		} catch (DAOException e) {
+			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+		}
+
 	}
 }
