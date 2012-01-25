@@ -3920,8 +3920,8 @@ public class FinanceTool {
 					.setEntity("company", getCompany(companyId))
 					.setParameter("formNum", formNo)
 					.setParameter("quarter", quater)
-					.setParameter("startYear", startYear)
-					.setParameter("endYear", endYear);
+					.setParameter("startYear", startYear + 1)
+					.setParameter("endYear", endYear + 1);
 
 			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
 					.list();
