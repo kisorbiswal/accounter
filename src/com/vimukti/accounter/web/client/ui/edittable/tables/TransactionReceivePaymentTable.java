@@ -15,6 +15,8 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
+import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -631,9 +633,8 @@ public abstract class TransactionReceivePaymentTable extends
 	public void openWriteOffDialog(
 			final ClientTransactionReceivePayment selectedObject) {
 		writeOffDialog = new WriteOffDialog(
-				getBaseCurrencyAccounts(this.company.getActiveAccounts()),
-				selectedObject, canEdit, getWriteOffAccount(selectedObject),
-				currencyProvider);
+				getAccounts(this.company.getActiveAccounts()), selectedObject,
+				canEdit, getWriteOffAccount(selectedObject), currencyProvider);
 		writeOffDialog.addInputDialogHandler(new InputDialogHandler() {
 
 			@Override
@@ -667,16 +668,21 @@ public abstract class TransactionReceivePaymentTable extends
 		writeOffDialog.show();
 	}
 
-	private List<ClientAccount> getBaseCurrencyAccounts(
+	private List<ClientAccount> getAccounts(
 			ArrayList<ClientAccount> activeAccounts) {
-		ArrayList<ClientAccount> arrayList = new ArrayList<ClientAccount>();
-		for (ClientAccount clientAccount : activeAccounts) {
-			if (clientAccount.getCurrency() == this.company
-					.getPrimaryCurrency().getID()) {
-				arrayList.add(clientAccount);
+		return Utility.filteredList(new ListFilter<ClientAccount>() {
+
+			@Override
+			public boolean filter(ClientAccount e) {
+				if (e != null && e.getType() != ClientAccount.TYPE_CASH
+						&& e.getType() != ClientAccount.TYPE_BANK
+						&& e.getType() != ClientAccount.TYPE_CREDIT_CARD
+						&& e.getType() != ClientAccount.TYPE_PAYPAL) {
+					return true;
+				}
+				return false;
 			}
-		}
-		return arrayList;
+		}, activeAccounts);
 	}
 
 	public void updateValue(ClientTransactionReceivePayment obj) {
