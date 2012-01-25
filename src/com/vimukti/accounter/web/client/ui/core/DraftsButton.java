@@ -7,11 +7,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 
 public class DraftsButton extends ImageButton {
-	private AbstractBaseView<?> view;
+	private final AbstractBaseView<?> view;
 
 	public DraftsButton(String name, AbstractBaseView<?> view) {
 		super(name, Accounter.getFinanceImages().saveAsDrafts());
 		this.view = view;
+		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
+				.getViewName()));
 		addClickHandler(new ClickHandler() {
 
 			@Override
