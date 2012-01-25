@@ -39,10 +39,6 @@ public class BudgetVsActualsServerReport extends
 			return record.getAtualAmount() - record.getBudgetAmount();
 		case 4:
 			return record.getBudgetAmount() - record.getAtualAmount();
-		case 5:
-			return ((record.getAtualAmount() - record.getBudgetAmount())/100)*100;
-		case 6:
-			return ((record.getBudgetAmount() - record.getAtualAmount()) / 100)*100;
 		}
 
 		return null;
@@ -59,7 +55,7 @@ public class BudgetVsActualsServerReport extends
 
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_AMOUNT };
 
 	}
 
@@ -77,8 +73,7 @@ public class BudgetVsActualsServerReport extends
 	public String[] getColunms() {
 
 		return new String[] { messages.accountName(), messages.actual(),
-				messages.budget(), messages.overBudget(), messages.remaining(),
-				"% " + messages.ofBudget(), "% " + messages.remaining() };
+				messages.budget(), messages.overBudget(), messages.remaining() };
 	}
 
 	@Override
@@ -133,8 +128,7 @@ public class BudgetVsActualsServerReport extends
 	public String[] getDynamicHeaders() {
 
 		return new String[] { messages.accountName(), messages.actual(),
-				messages.budget(), messages.overBudget(), messages.remaining(),
-				"% " + messages.ofBudget(), "% " + messages.remaining() };
+				messages.budget(), messages.overBudget(), messages.remaining() };
 
 	}
 

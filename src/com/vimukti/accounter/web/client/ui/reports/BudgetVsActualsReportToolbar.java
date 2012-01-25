@@ -184,8 +184,9 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 					}
 				});
 
-		addItems(budgetName, accountCombo, dateRangeSelect, monthSelectCombo,
-				quaterlySelectCombo);
+		addItems(budgetName, accountCombo);
+//		addItems(budgetName, accountCombo, dateRangeSelect, monthSelectCombo,
+//				quaterlySelectCombo);
 
 		monthSelectCombo.hide();
 		quaterlySelectCombo.hide();
