@@ -8,8 +8,10 @@ import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
@@ -68,7 +70,47 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 
 	@Override
 	public ValidationResult validate() {
-		return super.validate();
+		ValidationResult result = new ValidationResult();
+		if (QuestionItem.getValue().equals(allDepOption)) {
+			if (!AccounterValidator.isNullValue(dateItemCombo.getValue())) {
+				result.addError(dateItemCombo, messages.pleaseSelectDate());
+			}
+		}
+		ClientFixedAsset asset = data;
+		if (asset != null)
+			if (AccounterValidator.isValidSellorDisposeDate(
+					new ClientFinanceDate(asset.getPurchaseDate()),
+					getSoldorDisposedDateField().getEnteredDate())) {
+				result.addError(
+						dateItemCombo,
+						messages.datesold()
+								+ " "
+								+ messages.conditionalMsg(messages
+										.purchaseDate())
+								+ "  ("
+								+ DateUtills
+										.getDateAsString(new ClientFinanceDate(
+												asset.getPurchaseDate()))
+								+ "  )");
+			}
+		if (asset != null)
+			if (AccounterValidator.isValidSellorDisposeDate(
+					new ClientFinanceDate(getPreferences()
+							.getStartOfFiscalYear()),
+					getSoldorDisposedDateField().getEnteredDate())) {
+				result.addError(
+						dateItemCombo,
+						messages.datesold()
+								+ " "
+								+ messages.conditionalMsg(messages.fiscalYear())
+								+ "  ("
+								+ DateUtills
+										.getDateAsString(new ClientFinanceDate(
+												getPreferences()
+														.getStartOfFiscalYear()))
+								+ "  )");
+			}
+		return result;
 	}
 
 	@Override
@@ -76,6 +118,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 		return dateDisposed;
 	}
 
+	@Override
 	public List<DynamicForm> getForms() {
 
 		return listforms;
