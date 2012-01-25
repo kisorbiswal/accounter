@@ -516,4 +516,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getDepositByEstimateId(long id,
 			AsyncCallback<ClientMakeDeposit> asyncCallback);
 
+	void isChalanDetailsFiled(int formNo, int quater, int startYear,
+			int endYear, AsyncCallback<Boolean> callback);
 }

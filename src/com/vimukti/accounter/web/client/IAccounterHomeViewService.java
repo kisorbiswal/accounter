@@ -460,4 +460,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException;
 
 	ClientMakeDeposit getDepositByEstimateId(long id) throws AccounterException;
+
+	boolean isChalanDetailsFiled(int formNo, int quater, int startYear,
+			int endYear) throws AccounterException;
 }

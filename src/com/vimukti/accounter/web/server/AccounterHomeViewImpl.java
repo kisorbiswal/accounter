@@ -2099,4 +2099,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				estimate);
 	}
 
+	@Override
+	public boolean isChalanDetailsFiled(int formNo, int quater, int startYear,
+			int endYear) throws AccounterException {
+		List<ClientTDSChalanDetail> chalanList;
+		try {
+			chalanList = new FinanceTool().getChalanList(formNo, quater,
+					startYear, endYear, getCompanyId());
+			for (ClientTDSChalanDetail clientTDSChalanDetail : chalanList) {
+				if (clientTDSChalanDetail.isFiled()) {
+					return true;
+				}
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
 }

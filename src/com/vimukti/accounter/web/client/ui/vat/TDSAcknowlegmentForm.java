@@ -11,9 +11,12 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.core.AccounterDialog;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -102,14 +105,48 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 
 	@Override
 	protected ValidationResult validate() {
-		ValidationResult result = form.validate();
+		final ValidationResult result = form.validate();
 		result.add(form1.validate());
+		if (!result.haveErrors()) {
+			int formType = 0;
+			int quater = 0;
+			int startYear = 0;
+			int endYear = 0;
+			if (formTypeCombo.getSelectedValue() != null) {
+				formType = formTypeCombo.getSelectedIndex() + 1;
+			}
+			if (quaterCombo.getSelectedValue() != null) {
+				quater = quaterCombo.getSelectedIndex() + 1;
+			}
+			if (financialYearCombo.getSelectedValue() != null) {
+				String[] tokens = financialYearCombo.getSelectedValue().split(
+						"-");
+				startYear = Integer.parseInt(tokens[0]);
+				endYear = Integer.parseInt(tokens[1]);
+			}
+			Accounter.createHomeService().isChalanDetailsFiled(formType,
+					quater, startYear, endYear,
+					new AccounterAsyncCallback<Boolean>() {
+
+						@Override
+						public void onException(AccounterException exception) {
+							Accounter.showError(exception.getMessage());
+						}
+
+						@Override
+						public void onResultSuccess(Boolean isFiled) {
+							if (isFiled) {
+								result.addWarning(ackNoField,
+										"The acknowledgement number already filed.");
+							}
+						}
+					});
+		}
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
-
 		int formType = 0;
 		int quater = 0;
 		int startYear = 0;
@@ -125,7 +162,63 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 			startYear = Integer.parseInt(tokens[0]);
 			endYear = Integer.parseInt(tokens[1]);
 		}
+		Accounter.createHomeService().isChalanDetailsFiled(formType, quater,
+				startYear, endYear, new AccounterAsyncCallback<Boolean>() {
 
+					@Override
+					public void onException(AccounterException exception) {
+						Accounter.showError(exception.getMessage());
+					}
+
+					@Override
+					public void onResultSuccess(Boolean isFiled) {
+						if (isFiled) {
+							showWarning();
+						} else {
+							updateChalanDetails();
+						}
+					}
+				});
+
+		return false;
+	}
+
+	protected void showWarning() {
+		AccounterDialog accounterDialog = new AccounterDialog(
+				"This acknowledgement number already filed.Do you want to override?",
+				AccounterType.WARNING) {
+			@Override
+			protected void yesClicked() throws Exception {
+				super.yesClicked();
+				this.removeFromParent();
+				updateChalanDetails();
+			}
+
+			@Override
+			protected void noClicked() throws InvalidEntryException {
+				super.noClicked();
+				this.removeFromParent();
+			}
+		};
+		accounterDialog.show();
+	}
+
+	protected void updateChalanDetails() {
+		int formType = 0;
+		int quater = 0;
+		int startYear = 0;
+		int endYear = 0;
+		if (formTypeCombo.getSelectedValue() != null) {
+			formType = formTypeCombo.getSelectedIndex() + 1;
+		}
+		if (quaterCombo.getSelectedValue() != null) {
+			quater = quaterCombo.getSelectedIndex() + 1;
+		}
+		if (financialYearCombo.getSelectedValue() != null) {
+			String[] tokens = financialYearCombo.getSelectedValue().split("-");
+			startYear = Integer.parseInt(tokens[0]);
+			endYear = Integer.parseInt(tokens[1]);
+		}
 		Accounter.createHomeService().updateAckNoForChallans(formType, quater,
 				startYear, endYear, ackNoField.getValue(),
 				dateField.getValue().getDate(),
@@ -145,7 +238,6 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 						}
 					}
 				});
-		return false;
 	}
 
 	@Override
