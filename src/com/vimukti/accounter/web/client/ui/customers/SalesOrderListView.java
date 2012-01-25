@@ -164,7 +164,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 					continue;
 				}
 				if (text.equalsIgnoreCase(messages.drafts())) {
-					if (salesOrder.getStatus() == ClientTransaction.VIEW_DRAFT)
+					if (salesOrder.getStatus() == ClientTransaction.STATUS_DRAFT)
 						grid.addData(salesOrder);
 					if (grid.getRecords().isEmpty()) {
 						salesDetailView.itemsGrid.clear();

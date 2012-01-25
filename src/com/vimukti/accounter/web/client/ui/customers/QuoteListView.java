@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -19,10 +20,6 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 	private List<ClientEstimate> listOfEstimates;
 
 	private final int type;
-
-	public static final int STATUS_OPEN = 0;
-	public static final int STATUS_REJECTED = 1;
-	public static final int STATUS_ACCECPTED = 2;
 
 	public QuoteListView(int type) {
 		super(messages.open());
@@ -208,7 +205,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		int viwType = 0;
+		int viwType = -1;
 		if (viewType.equalsIgnoreCase(messages.open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
 		} else if (viewType.equalsIgnoreCase(messages.rejected())) {
@@ -220,7 +217,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 		} else if (viewType.equalsIgnoreCase(messages.close())) {
 			viwType = ClientEstimate.STATUS_CLOSE;
 		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
-			viwType = ClientEstimate.VIEW_DRAFT;
+			viwType = ClientTransaction.STATUS_DRAFT;
 		} else if (viewType.equalsIgnoreCase(messages.expired())) {
 			viwType = ClientEstimate.STATUS_EXPIRED;
 		}

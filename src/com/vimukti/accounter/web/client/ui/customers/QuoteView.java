@@ -1109,7 +1109,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 			@Override
 			public void onFailure(Throwable caught) {
-				if (transaction.getStatus() == QuoteListView.STATUS_ACCECPTED) {
+				if (transaction.getStatus() == ClientEstimate.STATUS_ACCECPTED) {
 					Accounter.showError(messages.thisQuoteAlreadyAccepted());
 				} else if (caught instanceof InvocationException) {
 					Accounter.showMessage(messages.sessionExpired());

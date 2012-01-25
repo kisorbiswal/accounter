@@ -675,8 +675,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<ClientEstimate> getEstimates(int type, int status,
-			long fromDate, long toDate, int start, int length) {
+	public PaginationList<ClientEstimate> getEstimates(int estimateType,
+			int viewType, long fromDate, long toDate, int start, int length) {
 		PaginationList<ClientEstimate> clientEstimate = new PaginationList<ClientEstimate>();
 		List<Estimate> serverEstimates = null;
 		try {
@@ -684,8 +684,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			serverEstimates = getFinanceTool().getCustomerManager()
-					.getEstimates(getCompanyId(), type, dates[0], dates[1],
-							start, length);
+					.getEstimates(getCompanyId(), estimateType, viewType,
+							dates[0], dates[1], start, length);
 			clientEstimate.setStart(start);
 			clientEstimate.setTotalCount(serverEstimates.size());
 			for (Estimate estimate : serverEstimates) {

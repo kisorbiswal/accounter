@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -401,7 +402,7 @@ public class SearchInputDialog extends BaseDialog {
 
 	protected int getTransactionType(String selectItem) {
 		if (selectItem.equals(messages.all())) {
-			return ClientTransaction.TYPE_ALL;
+			return TransactionsListView.TYPE_ALL;
 		} else if (selectItem.equals(messages.bill())) {
 			return ClientTransaction.TYPE_ENTER_BILL;
 		} else if (selectItem.equals(messages.billPayment())) {

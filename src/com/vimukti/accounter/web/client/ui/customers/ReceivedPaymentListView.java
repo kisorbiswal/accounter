@@ -136,9 +136,9 @@ public class ReceivedPaymentListView extends
 		if (viewType.equalsIgnoreCase(messages.paid())) {
 			type = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		} else if (viewType.equalsIgnoreCase(messages.voided())) {
-			type = ClientTransaction.VIEW_VOIDED;
+			type = VIEW_VOIDED;
 		} else if (viewType.equalsIgnoreCase(messages.all())) {
-			type = ClientTransaction.VIEW_ALL;
+			type = VIEW_ALL;
 		}
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),

@@ -143,10 +143,10 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 			this.viewType = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.voided())) {
-			this.viewType = ClientTransaction.VIEW_VOIDED;
+			this.viewType = VIEW_VOIDED;
 		} else if (viewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.all())) {
-			this.viewType = ClientTransaction.TYPE_ALL;
+			this.viewType = TYPE_ALL;
 		}
 	}
 }

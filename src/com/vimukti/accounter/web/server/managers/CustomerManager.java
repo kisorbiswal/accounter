@@ -247,9 +247,9 @@ public class CustomerManager extends PayeeManager {
 		return new ArrayList<EstimatesAndSalesOrdersList>(esl);
 	}
 
-	public ArrayList<Estimate> getEstimates(long companyId, int type,
-			FinanceDate fromDate, FinanceDate toDate, int start, int length)
-			throws DAOException {
+	public ArrayList<Estimate> getEstimates(long companyId, int estimateType,
+			int viewType, FinanceDate fromDate, FinanceDate toDate, int start,
+			int length) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
 			int total;
@@ -257,9 +257,10 @@ public class CustomerManager extends PayeeManager {
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getEstimate")
 					.setEntity("company", company)
-					.setParameter("estimateType", type)
+					.setParameter("estimateType", estimateType)
 					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("toDate", toDate)
+					.setParameter("status", viewType);
 			if (length == -1) {
 				list = query.list();
 			} else {
@@ -366,7 +367,7 @@ public class CustomerManager extends PayeeManager {
 					receivePaymentsList.setStatus((Integer) object[8]);
 					receivePaymentsList.setCheckNumber((String) object[9]);
 					receivePaymentsList.setCurrency((Long) object[10]);
-					receivePaymentsList.setStatus((Integer) object[11]);
+					// receivePaymentsList.setStatus((Integer) object[11]);
 
 					queryResult.add(receivePaymentsList);
 				}

@@ -162,11 +162,11 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		} else if (viewType.equalsIgnoreCase(messages.issued())) {
 			type = STATUS_ISSUED;
 		} else if (viewType.equalsIgnoreCase(messages.voided())) {
-			type = ClientTransaction.VIEW_VOIDED;
+			type = VIEW_VOIDED;
 		} else if (viewType.equalsIgnoreCase(messages.all())) {
-			type = ClientTransaction.TYPE_ALL;
+			type = TYPE_ALL;
 		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
-			type = ClientTransaction.VIEW_DRAFT;
+			type = VIEW_DRAFT;
 		}
 		if (checkType == 0) {
 			Accounter.createHomeService().getPaymentsList(

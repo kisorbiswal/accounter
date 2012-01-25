@@ -182,15 +182,15 @@ public class BillListView extends TransactionsListView<BillsList> {
 		int viewType = 0;
 		String text = this.viewType;
 		if (text.equalsIgnoreCase(messages.open())) {
-			viewType = ClientTransaction.VIEW_OPEN;
+			viewType = VIEW_OPEN;
 		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewType = ClientTransaction.VIEW_VOIDED;
+			viewType = VIEW_VOIDED;
 		} else if (text.equalsIgnoreCase(messages.overDue())) {
-			viewType = ClientTransaction.VIEW_OVERDUE;
+			viewType = VIEW_OVERDUE;
 		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewType = ClientTransaction.VIEW_ALL;
+			viewType = VIEW_ALL;
 		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			viewType = ClientTransaction.VIEW_DRAFT;
+			viewType = VIEW_DRAFT;
 		}
 		Accounter.createHomeService().getBillsAndItemReceiptList(false,
 				transactionType, getStartDate().getDate(),

@@ -173,7 +173,7 @@ public class PurchaseOrderListView extends
 					continue;
 				}
 				if (text.equalsIgnoreCase(messages.drafts())) {
-					if (purchaseOrder.getStatus() == ClientTransaction.VIEW_DRAFT)
+					if (purchaseOrder.getStatus() == VIEW_DRAFT)
 						grid.addData(purchaseOrder);
 					if (grid.getRecords().isEmpty()) {
 						if (purchaseDetailView.itemsGrid != null) {

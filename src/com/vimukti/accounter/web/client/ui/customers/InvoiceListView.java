@@ -148,15 +148,15 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(messages.open())) {
-			viewId = ClientTransaction.VIEW_OPEN;
+			viewId = VIEW_OPEN;
 		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewId = ClientTransaction.VIEW_VOIDED;
+			viewId = VIEW_VOIDED;
 		} else if (text.equalsIgnoreCase(messages.overDue())) {
-			viewId = ClientTransaction.VIEW_OVERDUE;
+			viewId = VIEW_OVERDUE;
 		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewId = ClientTransaction.VIEW_ALL;
+			viewId = VIEW_ALL;
 		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			viewId = ClientTransaction.VIEW_DRAFT;
+			viewId = VIEW_DRAFT;
 		}
 		onPageChange(0, getPageSize());
 
@@ -401,15 +401,15 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	private int checkViewType(String view) {
 		if (viewType.equalsIgnoreCase(messages.open())) {
-			viewId = ClientTransaction.VIEW_OPEN;
+			viewId = VIEW_OPEN;
 		} else if (viewType.equalsIgnoreCase(messages.voided())) {
-			viewId = ClientTransaction.VIEW_VOIDED;
+			viewId = VIEW_VOIDED;
 		} else if (viewType.equalsIgnoreCase(messages.overDue())) {
-			viewId = ClientTransaction.VIEW_OVERDUE;
+			viewId = VIEW_OVERDUE;
 		} else if (viewType.equalsIgnoreCase(messages.all())) {
-			viewId = ClientTransaction.VIEW_ALL;
+			viewId = VIEW_ALL;
 		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
-			viewId = ClientTransaction.VIEW_DRAFT;
+			viewId = VIEW_DRAFT;
 		}
 
 		return viewId;
