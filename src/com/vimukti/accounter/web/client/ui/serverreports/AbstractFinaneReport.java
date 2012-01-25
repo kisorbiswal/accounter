@@ -307,7 +307,7 @@ public abstract class AbstractFinaneReport<R> extends
 			}
 
 		} catch (Exception e) {
-			// do nothing
+			e.printStackTrace();
 		}
 	}
 

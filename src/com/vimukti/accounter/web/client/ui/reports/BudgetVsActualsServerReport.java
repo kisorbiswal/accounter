@@ -3,9 +3,11 @@ package com.vimukti.accounter.web.client.ui.reports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 
 public class BudgetVsActualsServerReport extends
@@ -13,6 +15,10 @@ public class BudgetVsActualsServerReport extends
 
 	protected List<String> sectiontypes;
 	private String sectionName;
+	protected Double totalActual;
+	protected Double totalBudget;
+	protected Double totalOver;
+	protected Double totalRemaining;
 
 	public BudgetVsActualsServerReport(IFinanceReport<BudgetActuals> reportView) {
 		sectiontypes = new ArrayList<String>();
@@ -83,8 +89,98 @@ public class BudgetVsActualsServerReport extends
 
 	@Override
 	public void processRecord(BudgetActuals record) {
-		// addSection("Hello", "bye", null);
 
+		if (this.handler == null)
+			iniHandler();
+
+		String sectionName1 = null;
+		int type = Accounter.getCompany()
+				.getAccountByName(record.getAccountName()).getType();
+		if (type == ClientAccount.TYPE_EXPENSE) {
+			sectionName1 = messages.expense();
+		} else if (type == ClientAccount.TYPE_OTHER_EXPENSE) {
+			sectionName1 = messages.otherExpense();
+		} else if (type == ClientAccount.TYPE_OTHER_INCOME) {
+			sectionName1 = messages.otherIncome();
+		} else if (type == ClientAccount.TYPE_INCOME) {
+			sectionName1 = getMessages().income();
+		} else if (type == ClientAccount.TYPE_COST_OF_GOODS_SOLD) {
+			sectionName1 = messages.costOfGoodSold();
+		} else {
+			return;
+		}
+
+		if (sectionDepth == 0) {
+			addSection("", messages.total(), new int[] { 1, 2 });
+		} else if (sectionDepth == 1) {
+			this.sectionName = sectionName1;
+			addSection(sectionName, sectionName + messages.total(), new int[] {
+					1, 2, 3, 4 });
+		} else if (sectionDepth == 2) {
+			if (!sectionName.equals(sectionName1)) {
+				endSection();
+			} else {
+				return;
+			}
+
+		}
+		processRecord(record);
+
+	}
+
+	private void iniHandler() {
+
+		initVariables();
+
+		this.handler = new ISectionHandler<BudgetActuals>() {
+
+			@Override
+			public void OnSectionAdd(Section<BudgetActuals> section) {
+				if (section.title != null) {
+					if (section.title.equals(getMessages().total())) {
+						section.data[0] = "";
+					}
+				}
+			}
+
+			@Override
+			public void OnSectionEnd(Section<BudgetActuals> section) {
+
+				if (section.title.equals(getMessages().income())) {
+
+					totalActual = Double.valueOf(section.data[1].toString());
+					totalBudget = Double.valueOf(section.data[2].toString());
+					totalOver = Double.valueOf(section.data[3].toString());
+					totalRemaining = Double.valueOf(section.data[4].toString());
+					section.data[1] = Double.toString(totalActual);
+					section.data[2] = Double.toString(totalBudget);
+					section.data[3] = Double.toString(totalOver);
+					section.data[4] = Double.toString(totalRemaining);
+					initVariables();
+				}
+				if (section.title.equals(getMessages().otherIncome())) {
+
+				}
+				if (section.title.equals(getMessages().costOfGoodSold())) {
+
+				}
+				if (section.title.equals(getMessages().otherExpense())) {
+
+				}
+				if (section.title.equals(messages.expense())) {
+
+				}
+
+			}
+
+		};
+	}
+
+	private void initVariables() {
+		totalActual = 0.0D;
+		totalBudget = 0.0D;
+		totalOver = 0.0D;
+		totalRemaining = 0.0D;
 	}
 
 	@Override
