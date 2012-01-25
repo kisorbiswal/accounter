@@ -12,6 +12,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -163,38 +164,32 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 	}
 
 	private List<Estimate> getEstimates(Context context) {
-		String viewType = get(VIEW_BY).getValue();
+		String type = get(VIEW_BY).getValue();
+
+		int viwType = 0;
+		if (type.equalsIgnoreCase(getMessages().open())) {
+			viwType = ClientEstimate.STATUS_OPEN;
+		} else if (type.equalsIgnoreCase(getMessages().rejected())) {
+			viwType = ClientEstimate.STATUS_REJECTED;
+		} else if (type.equalsIgnoreCase(getMessages().accepted())) {
+			viwType = ClientEstimate.STATUS_ACCECPTED;
+		} else if (type.equalsIgnoreCase(getMessages().applied())) {
+			viwType = ClientEstimate.STATUS_APPLIED;
+		} else if (type.equalsIgnoreCase(getMessages().close())) {
+			viwType = ClientEstimate.STATUS_CLOSE;
+		} else if (type.equalsIgnoreCase(getMessages().drafts())) {
+			viwType = ClientTransaction.STATUS_DRAFT;
+		} else if (type.equalsIgnoreCase(getMessages().expired())) {
+			viwType = ClientEstimate.STATUS_EXPIRED;
+		}
 		List<Estimate> result = new ArrayList<Estimate>();
-		List<Estimate> data = null;
 		try {
-			data = new FinanceTool().getCustomerManager().getEstimates(
-					context.getCompany().getID(), estimateType,
+			result = new FinanceTool().getCustomerManager().getEstimates(
+					context.getCompany().getID(), estimateType, viwType,
 					new FinanceDate(getStartDate()),
 					new FinanceDate(getEndDate()), 0, -1);
 		} catch (DAOException e) {
 			e.printStackTrace();
-		}
-		if (estimateType == ClientEstimate.QUOTES) {
-			for (Estimate e : data) {
-				if (viewType.equals(getMessages().open())) {
-					if (e.getStatus() == Estimate.STATUS_OPEN)
-						result.add(e);
-
-				} else if (viewType.equals(getMessages().accepted())) {
-					if (e.getStatus() == Estimate.STATUS_ACCECPTED) {
-						result.add(e);
-					}
-				} else if (viewType.equals(getMessages().rejected())) {
-					if (e.getStatus() == Estimate.STATUS_REJECTED) {
-						result.add(e);
-					}
-				} else if (viewType.equals(getMessages().all())) {
-					result.add(e);
-
-				}
-			}
-		} else {
-			result = data;
 		}
 		return result;
 
