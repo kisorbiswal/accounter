@@ -362,7 +362,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 		list.add("26Q");
 		list.add("27Q");
-		// list.add("27EQ");
+		list.add("27EQ");
 
 		return list;
 	}
@@ -404,7 +404,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 			}
 		});
 
-		buttonBar.add(acknowledgementFormButton);
+		// buttonBar.add(acknowledgementFormButton);
 		buttonBar.add(saveAndCloseButton);
 	}
 

@@ -4,9 +4,9 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class TDSAcknowledgementFormAction extends Action {
+public class TDSForm16AAction extends Action {
 
-	public TDSAcknowledgementFormAction() {
+	public TDSForm16AAction() {
 		super();
 		this.catagory = "TDS";
 
@@ -30,7 +30,7 @@ public class TDSAcknowledgementFormAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "acknowledgementFormTDS";
+		return "TDSform16A";
 	}
 
 	@Override
