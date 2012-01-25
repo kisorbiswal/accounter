@@ -5349,4 +5349,6 @@ public interface AccounterMessages extends Messages {
 	public String youCannotVoidDraftedTransaction();
 
 	public String pleaseEnterAccAndAmount();
+
+	public String draftTransaction(String transactionName);
 }

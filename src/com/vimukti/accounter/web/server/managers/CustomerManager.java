@@ -974,6 +974,10 @@ public class CustomerManager extends PayeeManager {
 				queryName = "getOpenInvoicesListByCustomer";
 
 			}
+			if (transactionStatusType == TransactionHistory.DRAFT_INVOICES) {
+				queryName = "getDraftInvoicesListByCustomer";
+
+			}
 			if (transactionStatusType == TransactionHistory.OVER_DUE_INVOICES) {
 				queryName = "getOverdueInvoicesListByCustomer";
 				query = session
@@ -988,14 +992,19 @@ public class CustomerManager extends PayeeManager {
 			}
 
 		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
-			queryName = "getCashSalesByCustomer";
+			if (transactionStatusType == TransactionHistory.ALL_CASHSALES) {
+				queryName = "getCashSalesByCustomer";
+			} else {
+				queryName = "getDraftCashSalesByCustomer";
+			}
 
 		} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 			if (transactionStatusType == TransactionHistory.ALL_CREDITMEMOS) {
 				queryName = "getAllCustomerCreditMemosByCustomer";
-			} else {
+			} else if (transactionStatusType == TransactionHistory.OPEND_CREDITMEMOS) {
 				queryName = "getOpendCustomerCreditMemosByCustomer";
-
+			} else {
+				queryName = "getDraftCustomerCreditMemosByCustomer";
 			}
 
 		} else if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
@@ -1039,6 +1048,8 @@ public class CustomerManager extends PayeeManager {
 			if (transactionStatusType == TransactionHistory.ALL_CUSTOMER_REFUNDS) {
 				queryName = "getAllCustomerRefundsByCustomer";
 
+			} else if (transactionStatusType == TransactionHistory.DRAFT_CUSTOMER_REFUNDS) {
+				queryName = "getDraftCustomerRefundsByCustomer";
 			} else {
 				String typeOfRPString = null;
 				if (transactionStatusType == TransactionHistory.REFUNDS_BYCASH) {
@@ -1061,11 +1072,19 @@ public class CustomerManager extends PayeeManager {
 			}
 		} else if (transactionType == Transaction.TYPE_ESTIMATE) {
 			int typeOfEstiate = 1;
-			queryName = "getAllQuotesByCustomer";
-			if (transactionStatusType == TransactionHistory.ALL_QUOTES) {
+			if (transactionStatusType == TransactionHistory.ALL_QUOTES
+					|| transactionStatusType == TransactionHistory.ALL_CREDITS
+					|| transactionStatusType == TransactionHistory.ALL_CHARGES) {
+				queryName = "getAllQuotesByCustomer";
+			} else {
+				queryName = "getDraftQuotesByCustomer";
+			}
+			if (transactionStatusType == TransactionHistory.ALL_QUOTES
+					|| transactionStatusType == TransactionHistory.DRAFT_QUOTES) {
 				typeOfEstiate = 1;
 
-			} else if (transactionStatusType == TransactionHistory.ALL_CREDITS) {
+			} else if (transactionStatusType == TransactionHistory.ALL_CREDITS
+					|| transactionStatusType == TransactionHistory.DRAFT_CREDITS) {
 				typeOfEstiate = 2;
 
 			} else { // charges
@@ -1079,6 +1098,12 @@ public class CustomerManager extends PayeeManager {
 					.setParameter("estimateType", typeOfEstiate);
 			return query.list();
 
+		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
+			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
+				queryName = "getAllChequesListByCustomer";
+			} else {
+				queryName = "getDraftChequesListByCustomer";
+			}
 		} else {
 			queryName = "getAllTransactionsByCustomer";
 

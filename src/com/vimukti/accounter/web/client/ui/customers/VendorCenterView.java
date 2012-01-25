@@ -267,6 +267,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.ALL_CASH_PURCHASES,
 					messages.allCashPurchases());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_CASH_PURCHASES,
+					messages.draftTransaction(messages.cashPurchases()));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.bills())) {
@@ -276,6 +279,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 					messages.all() + " " + messages.openedBills());
 			transactiontypebyStatusMap.put(TransactionHistory.OVERDUE_BILLS,
 					messages.all() + " " + messages.overDueBills());
+			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_BILLS,
+					messages.draftTransaction(messages.bills()));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.payBills())) {
@@ -285,6 +290,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 				messages.cheques())) {
 			transactiontypebyStatusMap.put(TransactionHistory.ALL_CHEQUES,
 					messages.allcheques());
+			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CHEQUES,
+					messages.draftTransaction(messages.cheques()));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.payeeCreditNotes(Global.get().Vendor()))) {
@@ -292,6 +299,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 					TransactionHistory.ALL_VENDOR_CREDITNOTES,
 					messages.all() + " "
 							+ messages.payeeCreditNotes(Global.get().Vendor()));
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_VENDOR_CREDITNOTES, messages
+							.draftTransaction(messages.payeeCreditNotes(Global
+									.get().Vendor())));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.expenses())) {
@@ -302,6 +313,12 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 					messages.creditCardExpenses());
 			transactiontypebyStatusMap.put(TransactionHistory.CASH_EXPENSES,
 					messages.cashExpenses());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_CREDIT_CARD_EXPENSES,
+					messages.draftTransaction(messages.creditCardExpenses()));
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_CASH_EXPENSES,
+					messages.draftTransaction(messages.cashExpenses()));
 
 		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
 				messages.purchaseOrders())) {
@@ -311,6 +328,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 			transactiontypebyStatusMap.put(
 					TransactionHistory.OPEN_PURCHASE_ORDERS,
 					messages.openPurchaseOrders());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.DRAFT_PURCHASE_ORDERS,
+					messages.draftTransaction(messages.purchaseOrders()));
 
 		}
 		List<String> typeList = new ArrayList<String>(

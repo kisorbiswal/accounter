@@ -48,6 +48,20 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	public static final int ALL_QUOTES = 34;
 	public static final int ALL_CREDITS = 35;
 	public static final int ALL_CHARGES = 36;
+	public static final int DRAFT_INVOICES = 37;
+	public static final int DRAFT_CASHSALES = 38;
+	public static final int DRAFT_QUOTES = 39;
+	public static final int DRAFT_CREDITS = 40;
+	public static final int DRAFT_CHARGES = 41;
+	public static final int DRAFT_CREDITMEMOS = 42;
+	public static final int DRAFT_CUSTOMER_REFUNDS = 43;
+	public static final int DRAFT_CASH_PURCHASES = 44;
+	public static final int DRAFT_BILLS = 45;
+	public static final int DRAFT_CHEQUES = 46;
+	public static final int DRAFT_VENDOR_CREDITNOTES = 47;
+	public static final int DRAFT_CREDIT_CARD_EXPENSES = 48;
+	public static final int DRAFT_CASH_EXPENSES = 49;
+	public static final int DRAFT_PURCHASE_ORDERS = 50;
 
 	String name;
 

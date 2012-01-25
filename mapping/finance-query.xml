@@ -9277,6 +9277,95 @@
 		ORDER BY DUE_DATE
 	</sql-query>
 
+	<sql-query name="getDraftInvoicesListByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.T_TYPE = 8
+		THEN
+		I.DUE_DATE
+		ELSE
+		null
+		END
+		AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		CASE
+		WHEN
+		T.T_TYPE = 8
+		THEN
+		I.BALANCE_DUE
+		ELSE
+		0.0
+		END AS BALANCE,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		INVOICE I
+		ON
+		T.ID=I.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID
+		=
+		I.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=8
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN :fromDate AND :toDate AND
+		C.ID=:customerId AND
+		T.SAVE_STATUS=201
+		ORDER BY DUE_DATE
+	</sql-query>
+
 	<sql-query name="getOverdueInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -9442,7 +9531,79 @@
 		:toDate AND C.ID=:customerId
 	</sql-query>
 
+	<sql-query name="getDraftCashSalesByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
 
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.CURRENCY AS CURRENCY_ID,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		null AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		0.0 AS
+		BALANCE,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER JOIN
+		CASH_SALES CS
+		ON
+		T.ID=CS.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID =
+		CS.CUSTOMER_ID
+		LEFT
+		OUTER
+		JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE
+		T.T_TYPE=1 AND
+		T.COMPANY_ID=:companyId AND
+		T.SAVE_STATUS=201 AND
+		T.T_DATE BETWEEN
+		:fromDate AND
+		:toDate AND C.ID=:customerId
+	</sql-query>
 
 	<sql-query name="getAllCustomerCreditMemosByCustomer">
 		<query-param name="companyId" type="long" />
@@ -9595,6 +9756,82 @@
 		C.ID=:customerId
 	</sql-query>
 
+	<sql-query name="getDraftCustomerCreditMemosByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.CURRENCY AS CURRENCY_ID,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		T.TOTAL AS
+		TOTAL_PRICE,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS
+		ISVOIDED,
+		NULL AS DUE_DATE,
+		0.0 AS BALANCE,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT
+		OUTER JOIN
+		CUSTOMER_CREDIT_MEMO
+		CCM
+		ON
+		T.ID = CCM.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID =
+		CCM.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=4
+		AND T.SAVE_STATUS=201
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate
+		and
+		C.ID=:customerId
+	</sql-query>
 
 	<sql-query name="getAllReceivePaymentsByCustomer">
 		<query-param name="companyId" type="long" />
@@ -9674,7 +9911,6 @@
 		BETWEEN :fromDate AND :toDate and
 		C.ID=:customerId
 	</sql-query>
-
 
 	<sql-query name="getReceivePaymentsbyTypeByCustomer">
 		<query-param name="companyId" type="long" />
@@ -9759,6 +9995,7 @@
 		AND :toDate and
 		C.ID=:customerId
 	</sql-query>
+
 	<sql-query name="getAllCustomerRefundsByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -9827,6 +10064,81 @@
 		C.ID
 		WHERE T.T_TYPE=5 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate and
+		C.ID=:customerId
+	</sql-query>
+
+	<sql-query name="getDraftCustomerRefundsByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="BALANCE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.CURRENCY AS CURRENCY_ID,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		T.TOTAL AS
+		TOTAL_PRICE,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS
+		ISVOIDED,
+		NULL AS
+		DUE_DATE,
+		0.0 AS BALANCE,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT
+		OUTER JOIN
+		CUSTOMER_REFUND CCM
+		ON
+		T.ID = CCM.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID =
+		CCM.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=5 AND
+		T.SAVE_STATUS=201 AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate and
 		C.ID=:customerId
@@ -10020,7 +10332,8 @@
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -10031,14 +10344,16 @@
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
-		T.TOTAL AS TOTAL_PRICE,
+		T.TOTAL AS
+		TOTAL_PRICE,
 		CASE
 		WHEN T.SAVE_STATUS =
 		204
 		THEN TRUE
 		ELSE
 		FALSE
-		END AS ISVOIDED,
+		END AS
+		ISVOIDED,
 		NULL AS DUE_DATE,
 		0.0 AS BALANCE,
 		T.STATUS AS
@@ -10047,7 +10362,8 @@
 		TRANSACTION T
 		LEFT
 		OUTER JOIN
-		CUSTOMER_CREDIT_MEMO CCM
+		CUSTOMER_CREDIT_MEMO
+		CCM
 		ON
 		T.ID = CCM.ID
 		LEFT OUTER JOIN
@@ -10064,18 +10380,21 @@
 		WHERE T.T_TYPE=4
 		AND
 		CASE
-		WHEN 3=:viewType
+		WHEN
+		3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
 		WHEN 4=:viewType
 		THEN
-		(T.SAVE_STATUS =201)
+		(T.SAVE_STATUS
+		=201)
 		ELSE true
 		END
 		AND
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
-		BETWEEN :fromDate AND
+		BETWEEN
+		:fromDate AND
 		:toDate
 	</sql-query>
 	<sql-query name="getInvoicesOnly">
@@ -10100,7 +10419,8 @@
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -10112,12 +10432,14 @@
 		T.NET_AMOUNT AS
 		TRANSACTION_NET_AMOUNT,
 		I.DUE_DATE
-		AS DUE_DATE,
+		AS
+		DUE_DATE,
 		T.TOTAL AS TOTAL_PRICE,
 		I.BALANCE_DUE
 		AS BALANCE,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE
 		FALSE
@@ -10147,18 +10469,22 @@
 		CASE
 		WHEN
 		1=:viewType THEN
-		(I.BALANCE_DUE &gt;0.0 AND T.STATUS != 2 AND
-		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		(I.BALANCE_DUE
+		&gt;0.0 AND T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 AND
+		T.SAVE_STATUS!=201)
 		WHEN 2=:viewType
 		THEN
 		(I.BALANCE_DUE &gt;0.0 AND
 		I.DUE_DATE &lt; :todayDate AND
 		T.SAVE_STATUS
-		!=204 AND T.SAVE_STATUS!=201)
+		!=204 AND
+		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
-		WHEN 4=:viewType
+		WHEN
+		4=:viewType
 		THEN
 		(T.SAVE_STATUS =201)
 		ELSE true
@@ -10191,7 +10517,8 @@
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
-		T.ID AS TRANSACTION_ID,
+		T.ID AS
+		TRANSACTION_ID,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
@@ -10208,7 +10535,8 @@
 		BALANCE,
 		CASE
 		WHEN T.SAVE_STATUS = 204
-		THEN TRUE
+		THEN
+		TRUE
 		ELSE
 		FALSE
 		END AS ISVOIDED,
@@ -10235,7 +10563,8 @@
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
-		WHEN 4=:viewType
+		WHEN
+		4=:viewType
 		THEN
 		(T.SAVE_STATUS =201)
 		ELSE true
@@ -10597,6 +10926,79 @@
 
 	</sql-query>
 
+	<sql-query name="getDraftCashPurchaseListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		CP.PAYFROM_ACCOUNT_ID AS
+		TRANSACTION_ACCOUNT,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER
+		JOIN
+		VENDOR V
+		on V.ID =
+		CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =2
+		AND T.SAVE_STATUS=201
+		AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
+		V.ID =:vendorId
+
+	</sql-query>
+
 	<sql-query name="getBillsListByVendor">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -10739,6 +11141,78 @@
 
 	</sql-query>
 
+	<sql-query name="getDraftBillsListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		EB.DUE_DATE AS DUE_DATE ,
+		T.NUMBER
+		AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		EB.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =6 AND
+		T.SAVE_STATUS=201
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND
+		:toDate AND
+		V.ID =:vendorId
+
+	</sql-query>
 
 	<sql-query name="getOverDueBillsListByVendor">
 		<query-param name="companyId" type="long" />
@@ -10950,6 +11424,75 @@
 		V.ID =:vendorId
 	</sql-query>
 
+	<sql-query name="getDraftChequesListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		WRITE_CHECKS WC
+		on
+		T.ID=WC.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		WC.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =15
+		AND
+		T.SAVE_STATUS=201
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
+		V.ID =:vendorId
+	</sql-query>
 
 	<sql-query name="getPurchaseOrderListByVendor">
 		<query-param name="companyId" type="long" />
@@ -11088,6 +11631,73 @@
 		V.ID =:vendorId
 	</sql-query>
 
+<sql-query name="getDraftPurchaseOrderListByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		PO.DUE_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		PURCHASE_ORDER PO
+		on
+		T.ID=PO.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		PO.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =22
+		AND T.SAVE_STATUS=201 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		V.ID =:vendorId
+	</sql-query>
 
 	<sql-query name="getAllTransactionsListByVendor">
 		<query-param name="companyId" type="long" />
@@ -11274,6 +11884,76 @@
 		V.ID =:vendorId
 	</sql-query>
 
+	<sql-query name="getDraftCreditMemosByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		null as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER
+		AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		VENDOR_CREDIT_MEMO VCM
+		on
+		T.ID=VCM.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		VCM.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =14
+		AND
+		T.SAVE_STATUS= 201 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
+		V.ID =:vendorId
+	</sql-query>
 
 	<sql-query name="getAllExpensesByVendor">
 		<query-param name="companyId" type="long" />
@@ -11423,6 +12103,74 @@
 		V.ID =:vendorId
 	</sql-query>
 
+	<sql-query name="getDraftCreditExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		CCC.DELIVERY_DATE AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS,
+		CCC.PAYFROM_ACCOUNT_ID
+		AS TRANSACTION_ACCOUNT,
+		null AS DUE_DATE
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CREDIT_CARD_CHARGES CCC
+		on
+		T.ID=CCC.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CCC.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID =
+		V.ID
+		WHERE
+		T.T_TYPE =27
+		AND T.SAVE_STATUS=201 AND
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
+		V.ID =:vendorId
+	</sql-query>
+
 	<sql-query name="getAllCashExpensesByVendor">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -11486,6 +12234,73 @@
 		WHERE
 		T.T_TYPE=26
 		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		V.ID =:vendorId
+	</sql-query>
+	
+	<sql-query name="getDraftCashExpensesByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS,
+		CP.PAYFROM_ACCOUNT_ID
+		AS
+		TRANSACTION_ACCOUNT,
+		NULL AS DUE_DATE
+		FROM
+		TRANSACTION T
+
+		LEFT OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT
+		OUTER JOIN
+		VENDOR V
+		on V.ID =
+		CP.VENDOR_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE=26
+		AND T.SAVE_STATUS = 201 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
@@ -11732,6 +12547,218 @@
 		AND
 		C.ID=:customerId
 
+	</sql-query>
+
+	<sql-query name="getDraftQuotesByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="estimateType" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		NULL
+		AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ESTIMATE E
+		ON
+		T.ID=E.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID
+		=
+		E.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=7
+		AND E.ESTIMATETYPE =:estimateType
+		AND T.SAVE_STATUS=201 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate
+		AND
+		C.ID=:customerId
+
+	</sql-query>
+	
+	<sql-query name="getAllChequesListByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		WRITE_CHECKS WC
+		on
+		T.ID=WC.ID
+		LEFT
+		OUTER JOIN
+		CUSTOMER V
+		on V.ID =
+		WC.CUSTOMER_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =15
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		V.ID =:customerId
+	</sql-query>
+	
+	<sql-query name="getDraftChequesListByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="EXPENSE_STATUS" type="int" />
+
+		SELECT
+		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		null AS DUE_DATE ,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		P.NAME
+		AS
+		VENDOR_NAME ,
+		T.TOTAL AS
+		TRANSACTION_NET_AMOUNT,
+		CASE
+		WHEN T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE
+		AS
+		TRANSACTION_DATE,
+		0 AS EXPENSE_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		WRITE_CHECKS WC
+		on
+		T.ID=WC.ID
+		LEFT
+		OUTER JOIN
+		CUSTOMER V
+		on V.ID =
+		WC.CUSTOMER_ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = V.ID
+		WHERE
+		T.T_TYPE =15
+		AND
+		T.SAVE_STATUS=201
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
+		V.ID =:customerId
 	</sql-query>
 
 	<sql-query name="getClientByCompany">

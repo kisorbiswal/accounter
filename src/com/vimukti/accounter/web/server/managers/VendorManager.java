@@ -25,11 +25,11 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CustomerPrePayment;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.JournalEntry;
+import com.vimukti.accounter.core.MakeDeposit;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayTAX;
@@ -44,9 +44,9 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Client1099Form;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -1835,6 +1835,8 @@ public class VendorManager extends PayeeManager {
 			if (transactionStatusType == TransactionHistory.ALL_CASH_PURCHASES) {
 				queryName = "getCashPurchaseListByVendor";
 
+			} else {
+				queryName = "getDraftCashPurchaseListByVendor";
 			}
 
 		} else if (transactionType == Transaction.TYPE_ENTER_BILL) {
@@ -1842,6 +1844,9 @@ public class VendorManager extends PayeeManager {
 				queryName = "getBillsListByVendor";
 			} else if (transactionStatusType == TransactionHistory.OPEND_BILLS) {
 				queryName = "getOpenBillsListByVendor";
+
+			} else if (transactionStatusType == TransactionHistory.DRAFT_BILLS) {
+				queryName = "getDraftBillsListByVendor";
 
 			} else if (transactionStatusType == TransactionHistory.OVERDUE_BILLS) {
 				queryName = "getOverDueBillsListByVendor";
@@ -1863,10 +1868,14 @@ public class VendorManager extends PayeeManager {
 		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
 			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
 				queryName = "getAllChequesListByVendor";
+			} else {
+				queryName = "getDraftChequesListByVendor";
 			}
 		} else if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
 			if (transactionStatusType == TransactionHistory.ALL_VENDOR_CREDITNOTES) {
 				queryName = "getAllCreditMemosByVendor";
+			} else {
+				queryName = "getDraftCreditMemosByVendor";
 			}
 		} else if (transactionType == Transaction.TYPE_EXPENSE) {
 			if (transactionStatusType == TransactionHistory.ALL_EXPENSES) {
@@ -1875,6 +1884,10 @@ public class VendorManager extends PayeeManager {
 				queryName = "getAllCreditExpensesByVendor";
 			} else if (transactionStatusType == TransactionHistory.CASH_EXPENSES) {
 				queryName = "getAllCashExpensesByVendor";
+			} else if (transactionStatusType == TransactionHistory.DRAFT_CREDIT_CARD_EXPENSES) {
+				queryName = "getDraftCreditExpensesByVendor";
+			} else if (transactionStatusType == TransactionHistory.DRAFT_CASH_EXPENSES) {
+				queryName = "getDraftCashExpensesByVendor";
 			}
 
 		} else if (transactionType == Transaction.TYPE_PURCHASE_ORDER) {
@@ -1882,6 +1895,8 @@ public class VendorManager extends PayeeManager {
 				queryName = "getPurchaseOrderListByVendor";
 			} else if (transactionStatusType == TransactionHistory.OPEN_PURCHASE_ORDERS) {
 				queryName = "getOpenPurchaseOrderListByVendor";
+			} else {
+				queryName = "getDraftPurchaseOrderListByVendor";
 			}
 
 		} else {
