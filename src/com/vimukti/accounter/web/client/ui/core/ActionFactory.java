@@ -203,7 +203,9 @@ import com.vimukti.accounter.web.client.ui.vat.NewVatItemAction;
 import com.vimukti.accounter.web.client.ui.vat.PayTAXAction;
 import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 import com.vimukti.accounter.web.client.ui.vat.TAXAgencyListAction;
-import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgementFormAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentsReportAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSForm16AAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
@@ -1329,12 +1331,20 @@ public class ActionFactory {
 		return new ETdsFillingAction();
 	}
 
+	public static TDSAcknowledgmentAction getTDSAcknowledgmentAction() {
+		return new TDSAcknowledgmentAction();
+	}
+
+	public static TDSAcknowledgmentsReportAction getTDSAcknowledgmentsReportAction() {
+		return new TDSAcknowledgmentsReportAction();
+	}
+
 	public static VendorCenterAction getVendorCentreAction() {
 		return new VendorCenterAction();
 	}
 
-	public static TDSAcknowledgementFormAction getTdsAcklowledgementForm() {
-		return new TDSAcknowledgementFormAction();
+	public static TDSForm16AAction getTDSForm16AAction() {
+		return new TDSForm16AAction();
 	}
 
 	public static CreateIRASInformationFileAction getIARSInformationAction() {
