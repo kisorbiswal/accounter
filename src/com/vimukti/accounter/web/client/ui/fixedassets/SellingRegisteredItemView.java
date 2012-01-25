@@ -327,6 +327,7 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 		// valid amount?
 		// valid radio value
 		// is valid sell or dispose date?
+
 		result.add(detailsForm.validate());
 		if (AccounterValidator.validate_ZeroAmount(salepriceText.getAmount())) {
 			result.addError(salepriceText, messages.zeroAmount());
@@ -349,7 +350,8 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 						dateItemCombo,
 						messages.datesold()
 								+ " "
-								+ messages.conditionalMsg()
+								+ messages.conditionalMsg(messages
+										.purchaseDate())
 								+ "  ("
 								+ DateUtills
 										.getDateAsString(new ClientFinanceDate(
