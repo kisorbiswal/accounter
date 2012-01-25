@@ -36,8 +36,7 @@ public class NoteDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
