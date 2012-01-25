@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
+import com.vimukti.accounter.web.client.core.reports.TDSAcknowledgmentsReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
@@ -3334,6 +3335,19 @@ public class ReportManager extends Manager {
 		// }
 
 		return resultTAXReturnEntries;
+	}
+
+	public ArrayList<TDSAcknowledgmentsReport> getTDSAcknowledgments(
+			FinanceDate startDate, FinanceDate endDate, long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		List list = session.getNamedQuery("")
+				.setLong("companyId", companyId)
+				.setLong("startDate", startDate.getDate())
+				.setLong("endDate", endDate.getDate()).list();
+
+		return null;
 	}
 
 	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(
