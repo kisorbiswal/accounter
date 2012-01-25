@@ -38,7 +38,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	public static final int COLUMN_TYPE_TEXT = 1;
 	public static final int COLUMN_TYPE_DECIMAL_TEXT = 2;
 
-	public boolean isCollapse = false;
+	public Boolean isCollapse = false;
 
 	private ImageResource nodeIcon;
 	private ImageResource parentIcon;
@@ -74,7 +74,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * @param row
 	 * @param isCollapse
 	 */
-	private void HideOrShowNodes(String parentName, int row, boolean isCollapse) {
+	private void HideOrShowNodes(String parentName, int row, Boolean isCollapse) {
 		String display = isCollapse ? "none" : "";
 		parentName = parentName.replace(" ", "");
 
@@ -160,7 +160,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 			addStyleToRow("gridEvenRow");
 		} else
 			addStyleToRow("gridOddRow");
-		addStyleToRow("gridRow");
+		// addStyleToRow("gridRow");
 		addStyleToRow(currentParent.replaceAll(" ", ""));
 
 		addObjectToList(node);
@@ -520,8 +520,8 @@ public abstract class TreeGrid<T> extends CustomTable {
 		removeAllNodes();
 
 		for (Object obj : getParents(objs)) {
-			addParentWithChilds(obj.toString(), getChildNodesByParent(obj
-					.toString(), objs));
+			addParentWithChilds(obj.toString(),
+					getChildNodesByParent(obj.toString(), objs));
 		}
 		this.isDecending = !isDecending;
 	}
@@ -557,7 +557,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 	 * 
 	 * @param show
 	 */
-	public void showChildNodesDefault(boolean show) {
+	public void showChildNodesDefault(Boolean show) {
 		this.isCollapse = !show;
 	}
 
@@ -571,7 +571,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 		Image image;
 		Label label;
 
-		public TreeCell(ImageResource url, final String text, boolean isParent,
+		public TreeCell(ImageResource url, final String text, Boolean isParent,
 				final int row) {
 			if (isParent) {
 				final Image parentImg = new Image();
@@ -615,7 +615,7 @@ public abstract class TreeGrid<T> extends CustomTable {
 			this.add(label);
 		}
 
-		private void changeImg(boolean isCollapse, Image img) {
+		private void changeImg(Boolean isCollapse, Image img) {
 			if (isCollapse) {
 				img.setStyleName("treeCollapse");
 				img.setResource(Accounter.getFinanceImages().treeCollapse());
