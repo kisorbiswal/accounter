@@ -110,9 +110,9 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	private void showWarningDialog(final CustomerRefundsList obj, final int col) {
 		String msg = null;
-		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT && col == 7) {
+		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT && col == 7) {
 			msg = messages.doyouwanttoVoidtheTransaction();
-		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
 				&& col == 7) {
 			msg = messages.youCannotVoidDraftedTransaction();
 			Accounter.showError(msg);
