@@ -1191,7 +1191,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		data.setAsOf(asofDate.getEnteredDate().getDate());
 		data.setCurrencyFactor(currencyFactor);
 		if (isSubAccountBox.getValue()) {
-			data.setParent(parentAccountCombo.getSelectedValue().getID());
+			ClientAccount parentAccount = parentAccountCombo.getSelectedValue();
+			if (parentAccount != null) {
+				data.setParent(parentAccount.getID());
+			}
 		}
 		switch (accountType) {
 		case ClientAccount.TYPE_BANK:
