@@ -42,7 +42,10 @@ public class TDSChalanDetail extends Transaction implements
 	private int assesmentYearStart;
 	private int assessmentYearEnd;
 	private Account payFrom;
+
 	private String etdsfillingAcknowledgementNo;
+	private FinanceDate acknowledgementDate;
+	private boolean isFiled;
 
 	private List<TDSTransactionItem> tdsTransactionItems = new ArrayList<TDSTransactionItem>();
 
@@ -343,6 +346,22 @@ public class TDSChalanDetail extends Transaction implements
 			account.onUpdate(session);
 		}
 		super.onEdit(clonedObject);
+	}
+
+	public FinanceDate getAcknowledgementDate() {
+		return acknowledgementDate;
+	}
+
+	public void setAcknowledgementDate(FinanceDate acknowledgementDate) {
+		this.acknowledgementDate = acknowledgementDate;
+	}
+
+	public boolean isFiled() {
+		return isFiled;
+	}
+
+	public void setFiled(boolean isFiled) {
+		this.isFiled = isFiled;
 	}
 
 }
