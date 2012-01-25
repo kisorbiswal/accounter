@@ -17,7 +17,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	public ChartOfAccountsListGrid(boolean isMultiSelectionEnable) {
 		super(isMultiSelectionEnable);
-		super.disable = true;
+		// super.disable = true;
 
 	}
 
@@ -233,6 +233,7 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.ACCOUNT;
 	}
