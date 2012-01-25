@@ -28,12 +28,12 @@ public class RecurringButton extends ImageButton {
 	 */
 	public RecurringButton(AbstractTransactionBaseView<?> view) {
 
-		super(messages.makeItRecurring(), Accounter
-				.getFinanceImages().saveAndClose());
+		super(messages.makeItRecurring(), Accounter.getFinanceImages()
+				.saveAndClose());
 		this.view = view;
 		this.addStyleName("saveAndClose-Btn");
-		this.setTitle(messages.clickThisTo(this.getText(),
-				view.getAction().getViewName()));
+		this.setTitle(messages.clickThisTo(this.getText(), view.getAction()
+				.getViewName()));
 		addHandler();
 	}
 
@@ -42,7 +42,7 @@ public class RecurringButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-
+				view.updateTransaction();
 				ClientTransaction transaction = view.getTransactionObject();
 				if (transaction.getRecurringTransaction() == 0) {
 					// create new recurring for this transaction
@@ -56,9 +56,9 @@ public class RecurringButton extends ImageButton {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									Accounter
-											.showError(messages.Unabletoopenrecurringtransactio()
-													+ caught);
+									Accounter.showError(messages
+											.Unabletoopenrecurringtransactio()
+											+ caught);
 								}
 
 								@Override
