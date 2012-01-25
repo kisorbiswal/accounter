@@ -88,6 +88,8 @@ public interface AccounterMessages extends Messages {
 	public String accumulatedDepreciationAccount();
 
 	public String accumulatedDepreciationTo();
+	
+	public String acknowledgmentNo();
 
 	public String action();
 
@@ -3302,6 +3304,8 @@ public interface AccounterMessages extends Messages {
 
 	public String percMargin();
 
+	public String period();
+	
 	public String periodEndDate();
 
 	public String periodStartDate();
@@ -4473,6 +4477,10 @@ public interface AccounterMessages extends Messages {
 
 	public String tds();
 
+	public String tdsAcknowledgment();
+	
+	public String tdsAcknowledgmentsReport();
+	
 	public String tdsAmount();
 
 	public String tdsApplicable();
