@@ -245,9 +245,10 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 	}
 
 	private void doVoidEffect(Session session, TAXAdjustment taxAdjustment) {
-		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment.taxItem.taxAgency
-				.getSalesLiabilityAccount() : taxAdjustment.taxItem.taxAgency
-				.getPurchaseLiabilityAccount();
+		Account liabilityAccount = taxAdjustment.isSales == true ? taxAdjustment
+				.getTaxItem().getTaxAgency().getSalesLiabilityAccount()
+				: taxAdjustment.getTaxItem().getTaxAgency()
+						.getPurchaseLiabilityAccount();
 
 		double amount1 = 0;
 		double amount2 = 0;

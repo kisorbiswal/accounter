@@ -41,18 +41,14 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
 				return DataUtils.amountAsStringWithCurrency(
-						accRegister.getAmount()
-								* accRegister.getCurrencyfactor(),
-						view.getCurrency());
+						accRegister.getAmount(), view.getCurrency());
 			else
 				return DataUtils.amountAsStringWithCurrency(0.00,
 						view.getCurrency());
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
 				return DataUtils.amountAsStringWithCurrency(
-						-1 * accRegister.getAmount()
-								* accRegister.getCurrencyfactor(),
-						view.getCurrency());
+						-1 * accRegister.getAmount(), view.getCurrency());
 			else
 				return DataUtils.amountAsStringWithCurrency(0.00,
 						view.getCurrency());
@@ -80,8 +76,7 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 	 */
 	private double getBalanceValue(AccountRegister accountRegister) {
 		/* Here 'd' value might be "positive" or "negative" */
-		double d = accountRegister.getAmount()
-				* accountRegister.getCurrencyfactor();
+		double d = accountRegister.getAmount();
 
 		if (DecimalUtil.isLessThan(d, 0.0)) {
 			d = -1 * d;

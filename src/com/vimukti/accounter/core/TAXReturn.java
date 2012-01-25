@@ -228,6 +228,7 @@ public class TAXReturn extends Transaction {
 
 		taxAgency.updateBalance(session, this, this.total);
 		taxAgency.setLastTAXReturnDate(this.periodEndDate);
+		taxAgency.onUpdate(session);
 		session.saveOrUpdate(taxAgency);
 
 		// this.taxAgency.salesLiabilityAccount.updateCurrentBalance(this,
@@ -352,7 +353,7 @@ public class TAXReturn extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		// TODO Auto-generated method stub
 
 	}
@@ -360,6 +361,82 @@ public class TAXReturn extends Transaction {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		doReverseEffect();
+		return super.onDelete(session);
+	}
+
+	private void doReverseEffect() {
+		Session session = HibernateUtil.getCurrentSession();
+
+		Query query = session.getNamedQuery("list.TAXReturn.orderByEndDate")
+				.setEntity("company", getCompany());
+		List<TAXReturn> list = query.list();
+		if (list == null || list.size() < 2) {
+			taxAgency.setLastTAXReturnDate(null);
+		} else {
+			taxAgency.setLastTAXReturnDate(list.get(list.size() - 2)
+					.getPeriodEndDate());
+		}
+
+		taxAgency.updateBalance(session, this, -this.total);
+
+		taxAgency.onUpdate(session);
+		session.update(taxAgency);
+
+		query = session.getNamedQuery("getTaxAdjustment.by.dates")
+				.setParameter("fromDate", this.periodStartDate)
+				.setParameter("toDate", this.periodEndDate)
+				.setEntity("company", getCompany());
+
+		List<TAXAdjustment> vadj = query.list();
+		if (vadj != null) {
+			for (TAXAdjustment adjustment : vadj) {
+				adjustment.setIsFiled(false);
+				session.update(adjustment);
+			}
+		}
+
+		doReverseEffectTaxLiabilityAccounts();
+
+		query = session.getNamedQuery("getTaxrateCalc.of.TAXReturn")
+				.setParameter("taxReturnId", this.getID());
+
+		List<TAXRateCalculation> taxRateCalculations = query.list();
+		for (TAXRateCalculation taxRateCalculation : taxRateCalculations) {
+			taxRateCalculation.taxReturn = null;
+			session.update(taxRateCalculation);
+		}
+	}
+
+	private void doReverseEffectTaxLiabilityAccounts() {
+		Session session = HibernateUtil.getCurrentSession();
+		Account salesLiabilityAccount = taxAgency.getSalesLiabilityAccount();
+		if (salesLiabilityAccount != null) {
+			salesLiabilityAccount.updateCurrentBalance(this, salesTaxTotal,
+					currencyFactor);
+			salesLiabilityAccount.onUpdate(session);
+			session.update(salesLiabilityAccount);
+		}
+
+		Account purchaseLiabilityAccount = taxAgency
+				.getPurchaseLiabilityAccount();
+		if (purchaseLiabilityAccount != null) {
+			purchaseLiabilityAccount.updateCurrentBalance(this,
+					purchaseTaxTotal, currencyFactor);
+			purchaseLiabilityAccount.onUpdate(session);
+			session.update(purchaseLiabilityAccount);
+		}
+
+		Account vatFiledLiabilityAccount = taxAgency.getFiledLiabilityAccount();
+		vatFiledLiabilityAccount.updateCurrentBalance(this,
+				-this.totalTAXAmount, currencyFactor);
+		vatFiledLiabilityAccount.onUpdate(session);
+		session.update(vatFiledLiabilityAccount);
 
 	}
 }

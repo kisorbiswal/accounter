@@ -322,7 +322,8 @@ public class TransactionReceivePayment implements IAccounterServerCore,
 		if (this.invoice != null) {
 			// Update the Payments and the balance due of the corresponding
 			// Invoice
-			this.invoice.updateBalance(-amount, this.receivePayment);
+			this.invoice.updateBalance(-amount, this.receivePayment,
+					this.receivePayment.previousCurrencyFactor);
 
 		} else if (this.customerRefund != null) {
 			// Update the Payments and the balance due of the corresponding

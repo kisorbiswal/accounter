@@ -139,6 +139,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	public void onLoad(Session s, Serializable id) {
 		// NOTHING TO DO.
 		oldCurrencyFactor = currencyFactor;
+		super.onLoad(s, id);
 	}
 
 	@Override
@@ -158,19 +159,16 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 							.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK_FOR_UK))) {
 				this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 			}
-
 		}
 
-		return false;
-	}
-
-	@Override
-	public boolean onUpdate(Session session) throws CallbackException {
-
-		super.onUpdate(session);
-		if (isBecameVoid()) {
-			doVoidEffect(session);
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
 		}
+		payFrom.updateCurrentBalance(this, paidAmount, currencyFactor);
+		payFrom.onUpdate(session);
+		session.update(payFrom);
+
 		return false;
 	}
 
@@ -190,14 +188,23 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)
 					|| isCurrencyFactorChanged()) {
 				Account account = (Account) session.get(Account.class,
-						payFrom.getID());
+						oldPayTAX.payFrom.getID());
+				double oldPaidAmount = oldPayTAX.total;
+				if (getCurrency().getID() != getCompany().getPrimaryCurrency()
+						.getID()) {
+					oldPaidAmount = (oldPaidAmount / oldPayTAX.previousCurrencyFactor);
+				}
 				if (account != null) {
-					account.updateCurrentBalance(this, -oldPayTAX.getTotal(),
-							oldPayTAX.getCurrencyFactor());
+					account.updateCurrentBalance(this, -oldPaidAmount,
+							oldPayTAX.previousCurrencyFactor);
 					session.update(account);
 				}
-
-				payFrom.updateCurrentBalance(this, total, this.currencyFactor);
+				double paidAmount = total;
+				if (getCurrency().getID() != getCompany().getPrimaryCurrency()
+						.getID()) {
+					paidAmount = (paidAmount / currencyFactor);
+				}
+				payFrom.updateCurrentBalance(this, paidAmount, currencyFactor);
 				session.saveOrUpdate(payFrom);
 			}
 			oldPayTAX.transactionPayTAX.clear();
@@ -217,7 +224,11 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	private void doVoidEffect(Session session) {
 		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		payFrom.updateCurrentBalance(this, -total, this.currencyFactor);
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
+		}
+		payFrom.updateCurrentBalance(this, -paidAmount, getCurrencyFactor());
 		session.saveOrUpdate(payFrom);
 		if (this.transactionPayTAX != null) {
 			transactionPayTAX.clear();
@@ -226,7 +237,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 
 	@Override
 	public Account getEffectingAccount() {
-		return this.payFrom;
+		return null;
 	}
 
 	@Override

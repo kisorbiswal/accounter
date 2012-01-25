@@ -3,19 +3,28 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
  * 
@@ -32,10 +41,10 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void init() {
+		setMode(EditMode.EDIT);
 		super.init();
 		initListGrid();
 		createControls();
-
 	}
 
 	private void createControls() {
@@ -72,9 +81,44 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		setData();
 		this.add(mainPanel);
 		saveAndCloseButton.setVisible(false);
-		saveAndNewButton.setVisible(true);
-		saveAndNewButton.setText(messages.payTax());
 		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
+		saveAndNewButton.setText(messages.payTax());
+		deleteButton.setVisible(false);
+
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent arg0) {
+				final ClientTAXReturn selection = grid.getSelection();
+				if (selection == null || !canDelete(selection)) {
+					return;
+				}
+				String warning = messages.taxReturnDeleteWarning(
+						DateUtills.getDateAsString(selection
+								.getPeriodStartDate()),
+						DateUtills.getDateAsString(selection.getPeriodEndDate()));
+				Accounter.showWarning(warning, AccounterType.WARNING,
+						new ErrorDialogHandler() {
+
+							@Override
+							public boolean onYesClick() {
+								Accounter.deleteObject(TaxHistoryView.this,
+										selection);
+								return true;
+							}
+
+							@Override
+							public boolean onNoClick() {
+								return true;
+							}
+
+							@Override
+							public boolean onCancelClick() {
+								return false;
+							}
+						});
+			}
+		});
 	}
 
 	@Override
@@ -118,11 +162,10 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 		gridLayout = new VerticalPanel();
 		gridLayout.setWidth("100%");
-		grid = new TAXHistoryGrid(false);
+		grid = new TAXHistoryGrid(this, false);
 		grid.setCanEdit(!isInViewMode());
 		grid.isEnable = false;
 		grid.init();
-		grid.setTaxHistoryView(this);
 		grid.setDisabled(isInViewMode());
 
 		gridLayout.add(grid);
@@ -181,6 +224,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
+		taxReturnSelected(grid.getSelection());
 		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
 	}
 
@@ -191,14 +235,17 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void deleteFailed(AccounterException caught) {
-		// TODO Auto-generated method stub
-
+		int errorCode = caught.getErrorCode();
+		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
+			Accounter.showError(messages.filedTAXReturnHasBeenPaid());
+		} else {
+			Accounter.showError(AccounterExceptions.getErrorString(errorCode));
+		}
 	}
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
-		// TODO Auto-generated method stub
-
+		grid.removeRow(grid.getSelectedRecordIndex());
 	}
 
 	@Override
@@ -220,6 +267,22 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	protected boolean canDelete() {
-		return false;
+		return true;
+	}
+
+	public void taxReturnSelected(ClientTAXReturn obj) {
+		if (obj == null) {
+			deleteButton.setVisible(false);
+			return;
+		}
+		deleteButton.setVisible(canDelete(obj));
+	}
+
+	private boolean canDelete(ClientTAXReturn taxReturn) {
+		ClientTAXAgency taxAgency = getCompany().getTaxAgency(
+				taxReturn.getTAXAgency());
+		return taxAgency.getLastTAXReturnDate() == null
+				|| taxReturn.getPeriodEndDate() == taxAgency
+						.getLastTAXReturnDate().getDate();
 	}
 }

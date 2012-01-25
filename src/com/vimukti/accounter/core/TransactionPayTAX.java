@@ -177,7 +177,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			// We need to update the corresponding VATAgency's balance with this
 			// amount to pay.
 			this.taxAgency.updateBalance(session, this.taxReturn,
-					-this.amountToPay);
+					-this.amountToPay, 1);
 
 			// At the same time we need to update the vatReturn reference in it.
 			this.taxReturn.updateBalance(-this.amountToPay);
@@ -187,8 +187,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 			Account account = taxReturn.getTaxAgency()
 					.getFiledLiabilityAccount();
 			if (account != null) {
-				account.updateCurrentBalance(this.payTAX, -this.amountToPay,
-						payTAX.currencyFactor);
+				account.updateCurrentBalance(this.payTAX, -this.amountToPay, 1);
 				session.update(account);
 				account.onUpdate(session);
 			}
@@ -209,7 +208,8 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	private void doVoidEffect(Session session) {
 		// We need to update the corresponding VATAgency's balance with this
 		// amount to pay.
-		this.taxAgency.updateBalance(session, this.taxReturn, this.amountToPay);
+		this.taxAgency.updateBalance(session, this.taxReturn, this.amountToPay,
+				1);
 
 		// At the same time we need to update the vatReturn reference in it.
 		this.taxReturn.updateBalance(this.amountToPay);
@@ -220,7 +220,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 				.getFiledLiabilityAccount();
 		if (filedLiabilityAccount != null) {
 			filedLiabilityAccount.updateCurrentBalance(this.payTAX,
-					this.amountToPay, payTAX.oldCurrencyFactor);
+					this.amountToPay, 1);
 		}
 	}
 

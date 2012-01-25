@@ -24,11 +24,11 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -743,7 +743,6 @@ public class MakeDepositView extends
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
 						checkForCurrencyType();
-
 					}
 
 				});
@@ -1351,12 +1350,9 @@ public class MakeDepositView extends
 						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (toCurrency != getBaseCurrency()
-					&& fromCurrency != getBaseCurrency()) {
-				Accounter.showError(messages
-						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
-				depositInSelect.setComboItem(null);
-			} else {
+			if (toCurrency == getBaseCurrency()
+					|| fromCurrency == getBaseCurrency()
+					|| toCurrency == fromCurrency) {
 				if (toCurrencyID != fromCurrencyID) {
 					if (toCurrencyID != getBaseCurrency().getID()) {
 						currencyWidget.setSelectedCurrency(toCurrency);
@@ -1370,6 +1366,10 @@ public class MakeDepositView extends
 					setCurrency(toCurrency);
 				}
 				amtText.setCurrency(fromCurrency);
+			} else {
+				Accounter.showError(messages
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
+				depositInSelect.setComboItem(null);
 			}
 			updateTotals();
 		}

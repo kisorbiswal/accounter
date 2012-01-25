@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -34,6 +37,17 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		// this.makeReportRequest(payeeId, toolbar.getStartDate(),
 		// toolbar.getEndDate());
 
+	}
+
+	@Override
+	protected ClientCurrency getCurrency() {
+		ClientCompany company = Accounter.getCompany();
+		ClientPayee payee = company.getPayee(payeeId);
+		if (payee != null) {
+			return company.getCurrency(payee.getCurrency());
+		} else {
+			return super.getCurrency();
+		}
 	}
 
 	@Override

@@ -4157,7 +4157,7 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="ID" type="long" />
 
-		SELECT D.ID AS ID FROM TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON
+		SELECT TF.ID AS ID FROM TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON
 		T.ID=TF.ID WHERE TF.ID IS NULL AND TF.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
 
@@ -7425,6 +7425,18 @@
 		D.ID=:inputId AND
 		T.COMPANY_ID=:companyId
 		LIMIT 1
+	</sql-query>
+	
+	<sql-query name="canDeleteTAXReturn">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="TRANSACTION_PAY_ID" type="long" />
+		
+		SELECT TPT.ID AS TRANSACTION_PAY_ID FROM TRANSACTION_PAY_TAX TPT
+		LEFT JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
+		LEFT JOIN TRANSACTION T ON T.ID=PT.ID 
+		WHERE TPT.VAT_RETURN_ID=:inputId AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getAllUserActivities">

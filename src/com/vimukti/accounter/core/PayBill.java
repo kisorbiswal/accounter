@@ -680,10 +680,11 @@ public class PayBill extends Transaction {
 
 		double effectToAccount = payBill.total - payBill.tdsTotal;
 		double preEffectedToAccount = this.total - this.tdsTotal;
-		if (this.payFrom.getID() != payBill.payFrom.getID()) {
+		if (this.payFrom.getID() != payBill.payFrom.getID()
+				|| isCurrencyFactorChanged()) {
 			Account payFromAccount = (Account) session.get(Account.class,
 					payBill.payFrom.getID());
-			payFromAccount.updateCurrentBalance(this, effectToAccount,
+			payFromAccount.updateCurrentBalance(this, -effectToAccount,
 					payBill.currencyFactor);
 			payFromAccount.onUpdate(session);
 			this.payFrom.updateCurrentBalance(this, preEffectedToAccount,
@@ -698,13 +699,10 @@ public class PayBill extends Transaction {
 		doEffectTDS(session, payBill);
 
 		if (this.vendor.getID() == payBill.vendor.getID()
-				&& !(DecimalUtil.isEquals(this.total, payBill.total))) {
-			this.vendor
-					.updateBalance(session, this, payBill.total - this.total);
-			// this.payFrom.updateCurrentBalance(clonedObject,
-			// payBill.total - this.total);
-			// this.payFrom.onUpdate(session);
-
+				&& (!(DecimalUtil.isEquals(this.total, payBill.total)) || isCurrencyFactorChanged())) {
+			this.vendor.updateBalance(session, this, payBill.total,
+					payBill.previousCurrencyFactor);
+			this.vendor.updateBalance(session, this, -total, currencyFactor);
 		}
 
 		if (!this.paymentMethod

@@ -45,7 +45,7 @@ public class StatementServerReport extends
 		case 2:
 			return record.getTransactionNumber();
 		case 3:
-			return record.getTotal() * record.getCurrencyFactor();
+			return record.getTotal();
 		case 4:
 			if (sectionName == null
 					|| !sectionName.equals("" + record.getPayeeId())) {

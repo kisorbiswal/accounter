@@ -37,8 +37,10 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	private TaxHistoryView taxHistoryView;
 	private ClientCurrency currency = getCompany().getPrimaryCurrency();
 
-	public TAXHistoryGrid(boolean isMultiselectionEnable) {
+	public TAXHistoryGrid(TaxHistoryView taxHistoryView,
+			boolean isMultiselectionEnable) {
 		super(isMultiselectionEnable);
+		this.taxHistoryView = taxHistoryView;
 	}
 
 	@Override
@@ -87,7 +89,7 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void onClick(ClientTAXReturn obj, int row, int index) {
-
+		taxHistoryView.taxReturnSelected(obj);
 	}
 
 	private List<VATDetail> getVATDetailsByBoxes(ClientTAXReturn clientVATReturn) {
@@ -144,10 +146,6 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 	protected boolean isEditable(ClientTAXReturn obj, int row, int index) {
 
 		return false;
-	}
-
-	public void setTaxHistoryView(TaxHistoryView taxHistoryView) {
-		this.taxHistoryView = taxHistoryView;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -287,6 +285,10 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 		}
 
 		return result;
+	}
 
+	protected void onSelectionChanged(ClientTAXReturn obj, int row,
+			boolean isChecked) {
+		taxHistoryView.taxReturnSelected(obj);
 	}
 }

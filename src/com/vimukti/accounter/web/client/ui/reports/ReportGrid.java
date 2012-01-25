@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Sorting;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -129,8 +130,12 @@ public class ReportGrid<R> extends CustomTable {
 
 	private String getValue(Object object) {
 		return (object instanceof Double ? DataUtils
-				.amountAsStringWithCurrency((Double) object, Accounter
-						.getCompany().getPrimaryCurrency()) : object.toString());
+				.amountAsStringWithCurrency((Double) object, getCurrency())
+				: object.toString());
+	}
+
+	protected ClientCurrency getCurrency() {
+		return Accounter.getCompany().getPrimaryCurrency();
 	}
 
 	private void addDefaultStyleNames(int rowCount, boolean bold,

@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ISorting;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -412,6 +413,16 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 						// + "px");
 						super.onLoad();
 				}
+
+				@Override
+				protected ClientCurrency getCurrency() {
+					ClientCurrency currency = AbstractReportView.this
+							.getCurrency();
+					if (currency == null) {
+						currency = super.getCurrency();
+					}
+					return currency;
+				}
 			};
 			this.grid.setReportView(this);
 			this.grid.setColumnTypes(getColumnTypes());
@@ -423,6 +434,10 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			tableLayout.add(this.grid);
 		} catch (Exception e) {
 		}
+	}
+
+	protected ClientCurrency getCurrency() {
+		return Accounter.getCompany().getPrimaryCurrency();
 	}
 
 	public void createToolBar() {

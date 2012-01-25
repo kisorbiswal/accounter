@@ -1999,7 +1999,18 @@
 		V.name=:name
 	</query>
 	
-		<!--  <query name="getbankStatements">
+	<query name="list.TAXReturn.orderByEndDate">
+		<query-param name="company" type="Company" />
+		from com.vimukti.accounter.core.TAXReturn tr 
+		where tr.company=:company order by tr.periodEndDate
+	</query>
+	
+	<query name="getTaxrateCalc.of.TAXReturn">
+		<query-param name="taxReturnId" type="long" />
+		from com.vimukti.accounter.core.TAXRateCalculation trc where trc.taxReturn.id=:taxReturnId
+	</query>
+	
+	<!--  <query name="getbankStatements">
 		<query-param name="company" type="Company" />
 		<query-param name="accountId" type="long" />
 		from Statement where company=:company and account_id=:accountId
