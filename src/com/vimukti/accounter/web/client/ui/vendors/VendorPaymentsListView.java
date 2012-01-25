@@ -68,14 +68,17 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 	@Override
 	public void onSuccess(PaginationList<PaymentsList> result) {
 		grid.removeAllRecords();
-		grid.setRecords(result);
-		grid.sort(12, false);
-		Window.scrollTo(0, 0);
-		updateRecordsCount(result.getStart(), result.size(),
-				result.getTotalCount());
-		if (grid.getRecords().isEmpty()) {
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+					result.getTotalCount());
 			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
 		}
+		grid.sort(10, false);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
+				result.getTotalCount());
 
 	}
 
