@@ -358,6 +358,23 @@ public class SellingRegisteredItemView extends BaseView<ClientFixedAsset> {
 												asset.getPurchaseDate()))
 								+ "  )");
 			}
+		if (asset != null)
+			if (AccounterValidator.isValidSellorDisposeDate(
+					new ClientFinanceDate(getPreferences()
+							.getStartOfFiscalYear()),
+					getSoldorDisposedDateField().getEnteredDate())) {
+				result.addError(
+						dateItemCombo,
+						messages.datesold()
+								+ " "
+								+ messages.conditionalMsg(messages.fiscalYear())
+								+ "  ("
+								+ DateUtills
+										.getDateAsString(new ClientFinanceDate(
+												getPreferences()
+														.getStartOfFiscalYear()))
+								+ "  )");
+			}
 		return result;
 	}
 
