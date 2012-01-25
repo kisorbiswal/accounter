@@ -182,7 +182,9 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 			List<BillsList> voidedRecs = new ArrayList<BillsList>();
 			List<BillsList> allRecs = initialRecords;
 			for (BillsList rec : allRecs) {
-				voidedRecs.add(rec);
+				if (rec.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+					voidedRecs.add(rec);
+				}
 			}
 			grid.setRecords(voidedRecs);
 
