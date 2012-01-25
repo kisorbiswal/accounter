@@ -15,7 +15,7 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	public static final int Form26Q = 1;
 	public static final int Form27Q = 2;
 	public static final int Form27EQ = 3;
-	
+
 	private double incomeTaxAmount;
 	private double surchangePaidAmount;
 	private double educationCessAmount;
@@ -39,6 +39,8 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	private long payFrom;
 
 	private String etdsfillingAcknowledgementNo;
+	private long acknowledgementDate;
+	private boolean isFiled;
 
 	private List<ClientTDSTransactionItem> tdsTransactionItems = new ArrayList<ClientTDSTransactionItem>();
 
@@ -234,5 +236,21 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	public void setEtdsfillingAcknowledgementNo(
 			String etdsfillingAcknowledgementNo) {
 		this.etdsfillingAcknowledgementNo = etdsfillingAcknowledgementNo;
+	}
+
+	public long getAcknowledgementDate() {
+		return acknowledgementDate;
+	}
+
+	public void setAcknowledgementDate(long acknowledgementDate) {
+		this.acknowledgementDate = acknowledgementDate;
+	}
+
+	public boolean isFiled() {
+		return isFiled;
+	}
+
+	public void setFiled(boolean isFiled) {
+		this.isFiled = isFiled;
 	}
 }
