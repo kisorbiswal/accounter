@@ -172,4 +172,21 @@ public class TaxAgencyStartDateEndDateToolbar extends ReportToolbar {
 		endDate = date;
 	}
 
+	@Override
+	protected void payeeData() {
+
+		if (getPayeeId() != 0) {
+			ClientTAXAgency selectItem = Accounter.getCompany().getTaxAgency(
+					getPayeeId());
+			if (selectItem != null) {
+				selectedAgency = selectItem;
+				ClientFinanceDate startDate = fromItem.getDate();
+				ClientFinanceDate endDate = toItem.getDate();
+				reportview.makeReportRequest(selectedAgency.getID(), startDate,
+						endDate);
+				reportview.removeEmptyStyle();
+				taxAgencyCombo.setSelected(selectedAgency.getName());
+			}
+		}
+	}
 }
