@@ -875,9 +875,15 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getETdsFillingView().getHistoryToken(),
 				ActionFactory.getETdsFillingView());
 
-		actions.put(
-				ActionFactory.getTdsAcklowledgementForm().getHistoryToken(),
-				ActionFactory.getTdsAcklowledgementForm());
+		actions.put(ActionFactory.getTDSAcknowledgmentAction()
+				.getHistoryToken(), ActionFactory.getTDSAcknowledgmentAction());
+
+		actions.put(ActionFactory.getTDSForm16AAction().getHistoryToken(),
+				ActionFactory.getTDSForm16AAction());
+
+		actions.put(ActionFactory.getTDSAcknowledgmentsReportAction()
+				.getHistoryToken(), ActionFactory
+				.getTDSAcknowledgmentsReportAction());
 
 		actions.put(ActionFactory.getIARSInformationAction().getHistoryToken(),
 				ActionFactory.getIARSInformationAction());
