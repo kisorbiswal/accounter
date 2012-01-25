@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
+import com.vimukti.accounter.web.client.core.reports.TDSAcknowledgmentsReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -2870,6 +2871,36 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			list.add((TAXItemDetail) setStartEndDates(obj, financeDates));
 		return list;
 
+	}
+
+	@Override
+	public ArrayList<TDSAcknowledgmentsReport> getTDSAcknowledgments(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		ArrayList<TDSAcknowledgmentsReport> tdsAcks = new ArrayList<TDSAcknowledgmentsReport>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+
+		try {
+
+			tdsAcks = getFinanceTool().getReportManager()
+					.getTDSAcknowledgments(financeDates[0], financeDates[1],
+							getCompanyId());
+
+			TDSAcknowledgmentsReport obj = new TDSAcknowledgmentsReport();
+			if (tdsAcks != null)
+				tdsAcks.add((TDSAcknowledgmentsReport) setStartEndDates(obj,
+						financeDates));
+
+			// transDetailByAccountList = (List<TransactionDetailByAccount>)
+			// manager
+			// .merge(transDetailByAccountList);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return tdsAcks;
 	}
 
 	@Override

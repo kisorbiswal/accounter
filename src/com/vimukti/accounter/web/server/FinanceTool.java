@@ -2208,7 +2208,8 @@ public class FinanceTool {
 					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
 			((Invoice) newTransaction).setBalanceDue(newTransaction.getTotal());
 			((Invoice) newTransaction).setPayments(0);
-			newTransaction.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+			newTransaction
+					.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		} else if (newTransaction instanceof EnterBill) {
 			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
@@ -2216,7 +2217,8 @@ public class FinanceTool {
 			((EnterBill) newTransaction).setBalanceDue(newTransaction
 					.getTotal());
 			((EnterBill) newTransaction).setPayments(0);
-			newTransaction.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
+			newTransaction
+					.setStatus(Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED);
 		} else if (newTransaction instanceof JournalEntry) {
 			((JournalEntry) newTransaction).transactionReceivePayments = new HashSet<TransactionReceivePayment>();
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
@@ -3871,6 +3873,40 @@ public class FinanceTool {
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
+	}
+
+	public boolean updateAckNoForChallans(int formNo, int quater,
+			int startYear, int endYear, String ackNo, long date, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Query query = session.getNamedQuery("getTdsChalanDetails")
+					.setEntity("company", getCompany(companyId))
+					.setParameter("formNum", formNo)
+					.setParameter("quarter", quater)
+					.setParameter("startYear", startYear + 1)
+					.setParameter("endYear", endYear + 1);
+
+			ArrayList<TDSChalanDetail> chalansGot = (ArrayList<TDSChalanDetail>) query
+					.list();
+
+			for (TDSChalanDetail challan : chalansGot) {
+				challan.setEtdsfillingAcknowledgementNo(ackNo);
+				challan.setAcknowledgementDate(new FinanceDate(date));
+				challan.setFiled(true);
+
+				session.saveOrUpdate(challan);
+			}
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			}
+			return false;
+		}
+		return true;
 	}
 
 	public List<ClientTDSChalanDetail> getChalanList(int formNo, int quater,

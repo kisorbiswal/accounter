@@ -2027,6 +2027,14 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public boolean updateAckNoForChallans(int formNo, int quater,
+			int startYear, int endYear, String ackNo, long date)
+			throws AccounterException {
+		return getFinanceTool().updateAckNoForChallans(formNo, quater,
+				startYear, endYear, ackNo, date, getCompanyId());
+	}
+
+	@Override
 	public ArrayList<PayeesBySalesPortletData> getItemsBySalesQuantity(
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int limit)
 			throws AccounterException {
