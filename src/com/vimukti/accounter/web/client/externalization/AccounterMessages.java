@@ -925,7 +925,7 @@ public interface AccounterMessages extends Messages {
 
 	public String completedSalesOrdercantbeedited();
 
-	public String conditionalMsg();
+	public String conditionalMsg(String date);
 
 	public String configurePortlets();
 
