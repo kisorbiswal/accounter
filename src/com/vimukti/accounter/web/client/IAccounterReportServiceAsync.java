@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
+import com.vimukti.accounter.web.client.core.reports.TDSAcknowledgmentsReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -348,6 +349,10 @@ public interface IAccounterReportServiceAsync {
 
 	public void getTAXItemExceptionDetailReport(long taxAgency, long startDate,
 			long endDate, AsyncCallback<ArrayList<TAXItemDetail>> callback);
+
+	public void getTDSAcknowledgments(ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<TDSAcknowledgmentsReport>> callback);
 
 	public void getAllReconciliations(ClientFinanceDate start,
 			ClientFinanceDate end, long companyId,

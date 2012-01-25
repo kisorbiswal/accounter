@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -35,6 +36,7 @@ import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationDetails;
 import com.vimukti.accounter.web.client.core.reports.SalesByLocationSummary;
 import com.vimukti.accounter.web.client.core.reports.SalesTaxLiability;
+import com.vimukti.accounter.web.client.core.reports.TDSAcknowledgmentsReport;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
@@ -285,6 +287,9 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(long taxAgency,
 			long startDate, long endDate) throws AccounterException;
+
+	ArrayList<TDSAcknowledgmentsReport> getTDSAcknowledgments(
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
 			ClientFinanceDate fromDate, ClientFinanceDate toDate);

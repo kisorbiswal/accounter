@@ -358,6 +358,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear);
 
+	boolean updateAckNoForChallans(int formNo, int quater, int startYear,
+			int endYear, String ackNo, long date) throws AccounterException;
+
 	ClientTDSDeductorMasters getDeductorMasterDetails();
 
 	// for TDS

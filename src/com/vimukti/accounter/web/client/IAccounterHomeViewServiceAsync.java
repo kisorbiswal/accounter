@@ -486,6 +486,10 @@ public interface IAccounterHomeViewServiceAsync {
 	void getEtdsDetails(int formNo, int quater, int startYear, int endYear,
 			AsyncCallback<ArrayList<ClientETDSFilling>> callback);
 
+	void updateAckNoForChallans(int formNo, int quater, int startYear,
+			int endYear, String ackNo, long date,
+			AsyncCallback<Boolean> callback);
+
 	void getItemsBySalesQuantity(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int limit,
 			AsyncCallback<ArrayList<PayeesBySalesPortletData>> callback);
