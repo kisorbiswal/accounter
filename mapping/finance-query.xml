@@ -2020,11 +2020,14 @@
 		TMD.TRANSACTION_ID = TF.ID and
 		TMD.IS_NEW_ENTRY= TRUE and
 		TMD.TYPE = 2
-		LEFT JOIN PAYMENTTERMS PT ON PT.ID=EB.PAYMENT_TERM_ID
-		WHERE T.T_TYPE in (6,10) AND T.T_DATE &lt;= :paymentDate and
+		LEFT JOIN PAYMENTTERMS PT ON
+		PT.ID=EB.PAYMENT_TERM_ID
+		WHERE T.T_TYPE in (6,10) AND T.T_DATE &lt;=
+		:paymentDate and
 		(EB.BALANCE_DUE>0.0 OR
 		TMD.BALANCE_DUE
-		>0.0) and (EB.VENDOR_ID
+		>0.0) and
+		(EB.VENDOR_ID
 		=:vendorId OR TMD.VENDOR_ID
 		=:vendorId) AND
 		T.COMPANY_ID=:companyId
@@ -2631,9 +2634,11 @@
 		TF.CASH_BACK_MEMO AS CASH_BACK_MEMO,
 		TF.CASH_BACK_AMOUNT AS CASH_BACK_AMOUNT,
 		T.ID AS TF_ID
-		FROM TRANSFER_FUND
+		FROM
+		TRANSFER_FUND
 		TF JOIN TRANSACTION T ON TF.ID =
-		T.ID AND T.COMPANY_ID=:companyId ORDER
+		T.ID AND
+		T.COMPANY_ID=:companyId ORDER
 		BY T.ID
 		DESC LIMIT 10
 	</sql-query>
@@ -3057,7 +3062,8 @@
 			type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
-		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID" type="long" />
+		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID"
+			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
 		AT.ID AS ACCOUNT_TRANSACTION_ID,
@@ -3090,7 +3096,8 @@
 		PB.ID AS
 		PAY_BILL_ID,
 		PO.ID
-		AS PURCHASE_ORDER_ID,
+		AS
+		PURCHASE_ORDER_ID,
 		RP.ID
 		AS RECEIVE_PAYMENT_ID,
 		PE.ID AS
@@ -3202,10 +3209,12 @@
 		TF.DEPOSIT_IN_ID
 		OR A.ID =
 		TF.CASH_BACK_ACCOUNT_ID
-		LEFT JOIN MAKE_DEPOSIT MD
+		LEFT JOIN MAKE_DEPOSIT
+		MD
 		ON A.ID=MD.DEPOSIT_TO
 		LEFT JOIN TRANSACTION_DEPOSIT_ITEM TDI
-		ON A.ID =TDI.ACCOUNT_ID 
+		ON A.ID
+		=TDI.ACCOUNT_ID
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
@@ -3214,18 +3223,21 @@
 		ON
 		A.ID = PO.SHIP_TO_ID
 		LEFT OUTER JOIN
-		RECEIVE_PAYMENT RP
+		RECEIVE_PAYMENT
+		RP
 		ON A.ID =
 		RP.ACCOUNT_ID
 		LEFT OUTER JOIN
 		PAY_EXPENSE PE
-		ON A.ID = PE.ACCOUNT_ID
+		ON A.ID =
+		PE.ACCOUNT_ID
 		LEFT
 		OUTER JOIN
 		WRITE_CHECKS WC
 		ON A.ID =
 		WC.ACCOUNT_ID
-		LEFT OUTER
+		LEFT
+		OUTER
 		JOIN
 		TRANSACTION_ITEM TI
 		ON A.ID
@@ -3809,7 +3821,8 @@
 		<return-scalar column="TRANSACTION_MAKEDEPOSIT_ENTRIES_ID"
 			type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
-		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID" type="long" />
+		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID"
+			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
 		AT.ID AS ACCOUNT_TRANSACTION_ID,
@@ -3840,7 +3853,8 @@
 		PB.ID AS
 		PAY_BILL_ID,
 		PO.ID
-		AS PURCHASE_ORDER_ID,
+		AS
+		PURCHASE_ORDER_ID,
 		RP.ID
 		AS RECEIVE_PAYMENT_ID,
 		PE.ID AS
@@ -3952,11 +3966,12 @@
 		MD.DEPOSIT_TO
 		LEFT OUTER JOIN
 		TRANSACTION_DEPOSIT_ITEM TDI ON
-		 A.ID =TDI.ACCOUNT_ID
+		A.ID =TDI.ACCOUNT_ID
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PURCHASE_ORDER PO
 		ON
 		A.ID = PO.SHIP_TO_ID
@@ -3981,11 +3996,13 @@
 		LEFT OUTER
 		JOIN
 		TRANSACTION_ITEM TI
-		ON A.ID
+		ON
+		A.ID
 		= TI.ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_MAKE_DEPOSIT TMD
-		ON A.ID =
+		ON A.ID
+		=
 		TMD.ACCOUNT_ID
 		OR A.ID =
 		TMD.CASH_ACCOUNT_ID
@@ -7389,18 +7406,20 @@
 		T.COMPANY_ID=:companyId
 
 	</sql-query>
-	
+
 	<sql-query name="canDeleteMakeDeposit">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="ESTIMATE_ID" type="long" />
-		
+
 		SELECT ES.ID AS ESTIMATE_ID FROM
 		MAKE_DEPOSIT D LEFT JOIN
-		TRANSACTION T ON T.ID=D.ID
+		TRANSACTION T
+		ON T.ID=D.ID
 		LEFT JOIN
 		DEPOSIT_ESTIMATES DE ON DE.DEPOSIT_ID=D.ID
-		LEFT JOIN ESTIMATE ES
+		LEFT
+		JOIN ESTIMATE ES
 		ON ES.ID=DE.ELT AND ES.USED_INVOICE IS NOT NULL
 		WHERE
 		D.ID=:inputId AND
@@ -7695,8 +7714,8 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
 
-		SELECT AT.TRANSACTION_ID, 
-		CASE WHEN A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN 
+		SELECT AT.TRANSACTION_ID,
+		CASE WHEN A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN
 		SUM(AT.AMOUNT/T.CURRENCY_FACTOR) ELSE
 		SUM(AT.AMOUNT) END AS AMOUNT
 		FROM
@@ -7706,7 +7725,8 @@
 		T.ID=AT.TRANSACTION_ID
 		LEFT JOIN COMPANY C
 		ON C.ID=AT.COMPANY_ID
-		LEFT JOIN ACCOUNT A
+		LEFT
+		JOIN ACCOUNT A
 		ON A.ID=AT.ACCOUNT_ID
 
 		WHERE
@@ -8562,7 +8582,7 @@
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
 		delete from transaction_deposit_item using
-		make_deposit, transaction where 
+		make_deposit, transaction where
 		transaction_deposit_item.make_deposit_id = make_deposit.id and
 		transaction.id=make_deposit.id and transaction.company_id=cid;
 		delete
@@ -9572,7 +9592,8 @@
 		BALANCE,
 		CASE
 		WHEN T.SAVE_STATUS = 204
-		THEN TRUE
+		THEN
+		TRUE
 		ELSE
 		FALSE
 		END AS ISVOIDED,
@@ -11631,7 +11652,7 @@
 		V.ID =:vendorId
 	</sql-query>
 
-<sql-query name="getDraftPurchaseOrderListByVendor">
+	<sql-query name="getDraftPurchaseOrderListByVendor">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
@@ -11694,8 +11715,10 @@
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =22
-		AND T.SAVE_STATUS=201 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		AND
+		T.SAVE_STATUS=201 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -12237,7 +12260,7 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
-	
+
 	<sql-query name="getDraftCashExpensesByVendor">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -12300,8 +12323,10 @@
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE=26
-		AND T.SAVE_STATUS = 201 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		AND
+		T.SAVE_STATUS = 201 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -12623,7 +12648,7 @@
 		C.ID=:customerId
 
 	</sql-query>
-	
+
 	<sql-query name="getAllChequesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -12690,7 +12715,7 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
 		V.ID =:customerId
 	</sql-query>
-	
+
 	<sql-query name="getDraftChequesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -12977,12 +13002,150 @@
 
 
 	</sql-query>
-	
+
 	<sql-query name="delete.Estimate.from.drafts">
 		<query-param name="estimateId" type="long" />
 		delete from invoice_estimates where estimate_id=:estimateId
 	</sql-query>
+
+	<sql-query name="getVendorWriteChecks">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="PAYMENT_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="ISSUE_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="PAYMENT_METHOD" type="string" />
+		<return-scalar column="AMOUNT_PAID" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CURRENCY" type="long" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_DATE AS PAYMENT_DATE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.STATUS AS TRANSACTION_STATUS,
+		T.T_DATE AS ISSUE_DATE,
+		P.NAME AS NAME,
+		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.TOTAL AS AMOUNT_PAID,
+		CASE WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		WC.CHECK_NUMBER AS CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
+		
+		FROM WRITE_CHECKS WC
+		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
+		LEFT JOIN PAYEE P ON (P.ID=WC.VENDOR_ID)
+
+		WHERE T.COMPANY_ID=:companyId AND
+		CASE
+		WHEN
+		0=:viewType THEN
+		((T.STATUS=0 OR
+		T.STATUS=1 )AND T.SAVE_STATUS != 204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
+		(T.STATUS=2
+		AND
+		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		(T.SAVE_STATUS = 204)
+		WHEN
+		4=:viewType THEN
+		(T.SAVE_STATUS = 201)
+		ELSE
+		true
+		END
+		AND T.SAVE_STATUS != 202
+		AND P.ID IS NOT NULL AND
+		T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate
+	</sql-query>
 	
+	<sql-query name="getCustomerWriteChecks">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="PAYMENT_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="ISSUE_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="PAYMENT_METHOD" type="string" />
+		<return-scalar column="AMOUNT_PAID" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CURRENCY" type="long" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_DATE AS PAYMENT_DATE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.STATUS AS TRANSACTION_STATUS,
+		T.T_DATE AS ISSUE_DATE,
+		P.NAME AS NAME,
+		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.TOTAL AS AMOUNT_PAID,
+		CASE WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		WC.CHECK_NUMBER AS CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
+		
+		FROM WRITE_CHECKS WC
+		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
+		LEFT JOIN PAYEE P ON (P.ID=WC.CUSTOMER_ID)
+
+		WHERE T.COMPANY_ID=:companyId AND
+		CASE
+		WHEN
+		0=:viewType THEN
+		((T.STATUS=0 OR
+		T.STATUS=1 )AND T.SAVE_STATUS != 204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
+		(T.STATUS=2
+		AND
+		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		(T.SAVE_STATUS = 204)
+		WHEN
+		4=:viewType THEN
+		(T.SAVE_STATUS = 201)
+		ELSE
+		true
+		END
+		AND T.SAVE_STATUS != 202
+		AND P.ID IS NOT NULL AND
+		T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate
+	</sql-query>
+
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

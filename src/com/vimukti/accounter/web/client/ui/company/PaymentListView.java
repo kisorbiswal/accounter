@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -175,11 +174,11 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			Accounter.createHomeService().getPayeeChecks(true,
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, this);
+					length, type, this);
 		} else {
 			Accounter.createHomeService().getPayeeChecks(false,
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, this);
+					length, type, this);
 		}
 	}
 }

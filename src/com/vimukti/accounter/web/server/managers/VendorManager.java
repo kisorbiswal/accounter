@@ -1708,46 +1708,56 @@ public class VendorManager extends PayeeManager {
 
 	public PaginationList<PaymentsList> getPayeeChecks(Long companyId,
 			boolean isCustomerChecks, FinanceDate fromDate, FinanceDate toDate,
-			int start, int length) {
+			int viewType, int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
 		int total;
 		PaginationList<PaymentsList> issuePaymentTransactionsList = new PaginationList<PaymentsList>();
 		Query query = session.getNamedQuery("getVendorWriteChecks")
-				.setParameter("company", getCompany(companyId))
-				.setParameter("fromDate", fromDate)
-				.setParameter("toDate", toDate);
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", fromDate.getDate())
+				.setParameter("toDate", toDate.getDate())
+				.setParameter("viewType", viewType);
 		if (isCustomerChecks) {
 			query = session.getNamedQuery("getCustomerWriteChecks")
-					.setParameter("company", getCompany(companyId))
-					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate);
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", fromDate.getDate())
+					.setParameter("toDate", toDate.getDate())
+					.setParameter("viewType", viewType);
 		}
 		List list;
 		total = query.list().size();
 		list = query.setFirstResult(start).setMaxResults(length).list();
 
 		if (list != null) {
-			Iterator i = list.iterator();
-			while (i.hasNext()) {
-				PaymentsList issuePaymentTransaction = new PaymentsList();
-				WriteCheck wc = (WriteCheck) i.next();
-				issuePaymentTransaction.setTransactionId(wc.getID());
-				issuePaymentTransaction.setType(wc.getType());
-				issuePaymentTransaction.setPaymentDate((new ClientFinanceDate(
-						wc.getDate().getDate())));
-				issuePaymentTransaction
-						.setCheckNumber(wc.getCheckNumber() == null ? " " : wc
-								.getCheckNumber());
-				issuePaymentTransaction.setName(wc.getInFavourOf());
-				issuePaymentTransaction.setPaymentNumber(wc.getNumber());
-				issuePaymentTransaction.setAmountPaid(wc.getTotal());
-				issuePaymentTransaction.setCurrency(wc.getCurrency().getID());
-				issuePaymentTransaction.setIssuedDate(wc.getDate()
-						.toClientFinanceDate());
-				issuePaymentTransaction.setPaymentMethodName(wc
-						.getPaymentMethod());
-				issuePaymentTransaction.setStatus(wc.getStatus());
-				issuePaymentTransactionsList.add(issuePaymentTransaction);
+			Object[] object = null;
+			Iterator iterator = list.iterator();
+
+			while ((iterator).hasNext()) {
+
+				PaymentsList paymentsList = new PaymentsList();
+				object = (Object[]) iterator.next();
+
+				String name = (String) object[6];
+				// if (name != null) {
+				paymentsList.setTransactionId((object[0] == null ? 0
+						: ((Long) object[0])));
+				paymentsList.setType((Integer) object[1]);
+				paymentsList.setPaymentDate((object[2] == null ? null
+						: (new ClientFinanceDate(((Long) object[2])))));
+				paymentsList.setPaymentNumber((object[3] == null ? null
+						: ((String) object[3])));
+				paymentsList.setStatus((Integer) object[4]);
+				paymentsList.setIssuedDate(new ClientFinanceDate(
+						(Long) object[5]));
+				paymentsList.setName(name);
+				paymentsList.setPaymentMethodName((String) object[7]);
+				paymentsList.setAmountPaid((Double) object[8]);
+				paymentsList.setVoided((Boolean) object[9]);
+				paymentsList.setPayBillType(0);
+				paymentsList.setCheckNumber((String) object[10] == null ? ""
+						: (String) object[10]);
+				paymentsList.setCurrency((Long) object[11]);
+				issuePaymentTransactionsList.add(paymentsList);
 			}
 		}
 		issuePaymentTransactionsList.setTotalCount(total);

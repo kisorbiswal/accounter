@@ -419,7 +419,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long transactionDate) throws AccounterException;
 
 	PaginationList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
-			long fromDate, long toDate, int start, int length);
+			long fromDate, long toDate, int start, int length, int viewType);
 
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)
