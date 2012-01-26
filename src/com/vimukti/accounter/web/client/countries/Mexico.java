@@ -35,23 +35,15 @@ public class Mexico extends AbstractCountryPreferences {
 
 	@Override
 	public String getDefaultTimeZone(String state) {
-		// America/Mexico_City Central Time - most locations
-		// America/Cancun Central Time - Quintana Roo
-		// America/Merida Central Time - Campeche, Yucatan
-		// America/Monterrey Mexican Central Time - Coahuila, Durango, Nuevo
-		// Leon, Tamaulipas away from US border
-		// America/Matamoros US Central Time - Coahuila, Durango, Nuevo Leon,
-		// Tamaulipas near US border
-		// America/Mazatlan Mountain Time - S Baja, Nayarit, Sinaloa
-		// America/Chihuahua Mexican Mountain Time - Chihuahua away from US
-		// border
-		// America/Ojinaga US Mountain Time - Chihuahua near US border
-		// America/Hermosillo Mountain Standard Time - Sonora
-		// America/Tijuana US Pacific Time - Baja California near US border
-		// America/Santa_Isabel Mexican Pacific Time - Baja California away from
-		// US border
-		// America/Bahia_Banderas Mexican Central Time - Bahia de Banderas
-		return null;
+		if (state.equals("Baja California")) {
+			return "UTC-8:00 Mexico/BajaNorte";
+		} else if (state.equals("Baja California Sur")
+				|| state.equals("Chihuahua") || state.equals("Nayarit")
+				|| state.equals("Sinaloa") || state.equals("Sonora")) {
+			return "UTC-7:00 Mexico/BajaSur";
+		} else {
+			return "UTC-6:00 America/Mexico_City";
+		}
 	}
 
 }

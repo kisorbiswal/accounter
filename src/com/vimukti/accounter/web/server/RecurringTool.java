@@ -49,7 +49,9 @@ public class RecurringTool extends Thread {
 
 			for (Company company : companies) {
 				String timezone = company.getTimezone();
-
+				if (timezone == null) {
+					timezone = "UTC+0:00 Etc/Universal";
+				}
 				String timeZoneID = timezone.substring(0,
 						timezone.indexOf(":") + 3);
 				timeZoneID = timeZoneID.replaceFirst("UTC", "GMT");

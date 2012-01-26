@@ -231,7 +231,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private Address tradingAddress;
 
-	private String timezone;
+	private String timezone = "UTC+0:00 Etc/Universal";
 
 	private TAXCode defaultTaxCode;
 
@@ -259,7 +259,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 		 * Basis(when customer pays Invoice)
 		 */
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
-				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW | REPORT_VAT_ON_ACURAL_BASIS|ACCOUNTNUMBER_RANGE_CHECK);
+				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
+				| REPORT_VAT_ON_ACURAL_BASIS | ACCOUNTNUMBER_RANGE_CHECK);
 	}
 
 	public boolean isPurchaseOrderEnabled() {
