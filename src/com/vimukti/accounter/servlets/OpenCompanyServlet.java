@@ -156,6 +156,7 @@ public class OpenCompanyServlet extends BaseServlet {
 							user = u;
 							httpSession.setAttribute(EMAIL_ID, user.getClient()
 									.getEmailId());
+							httpSession.setAttribute(USER_ID, user.getID());
 							break;
 						}
 					}
@@ -168,6 +169,9 @@ public class OpenCompanyServlet extends BaseServlet {
 					response.sendRedirect(COMPANIES_URL);
 					return;
 				}
+
+				//EU.initEncryption(company, client.getPassword());
+
 				if (!isSupportedUser) {
 					Activity activity = new Activity(getCompany(request), user,
 							ActivityType.LOGIN);
@@ -176,6 +180,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				transaction.commit();
 				user = HibernateUtil.initializeAndUnproxy(user);
 				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+				request.setAttribute(USER_ID, user.getID());
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
