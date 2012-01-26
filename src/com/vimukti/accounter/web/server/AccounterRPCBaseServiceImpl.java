@@ -50,13 +50,12 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 	protected Logger log = Logger.getLogger(AccounterRPCBaseServiceImpl.class);
 
 	protected static final String EMAIL_ID = "emailId";
-
+	protected static final String USER_ID = "userId";
 	protected static final String COMPANY_ID = "companyId";
 
 	public AccounterRPCBaseServiceImpl() {
 		super();
 	}
-
 
 	protected final void service(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
@@ -225,6 +224,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			session.saveOrUpdate(user);
 			this.getThreadLocalRequest().getSession()
 					.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+			this.getThreadLocalRequest().getSession()
+					.setAttribute(USER_ID, user.getID());
 			this.getThreadLocalRequest()
 					.getSession()
 					.setAttribute(COMPANY_ID,
