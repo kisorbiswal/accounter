@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -34,8 +33,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = messages.active();
 				break;
 			case 1:
-				colArray[index] = messages.payeeName(
-						messages.taxAgency());
+				colArray[index] = messages.payeeName(messages.taxAgency());
 				break;
 			case 2:
 				colArray[index] = messages.currentMonth();
@@ -216,13 +214,15 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			AccounterAsyncCallback<ClientTAXAgency> callback = new AccounterAsyncCallback<ClientTAXAgency>() {
 
+				@Override
 				public void onException(AccounterException caught) {
 				}
 
+				@Override
 				public void onResultSuccess(ClientTAXAgency result) {
 					if (result != null) {
-						ActionFactory.getNewTAXAgencyAction().run(
-								(ClientTAXAgency) result, false);
+						ActionFactory.getNewTAXAgencyAction()
+								.run(result, false);
 					}
 				}
 
@@ -245,13 +245,16 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_IMAGE };
 	}
 
+	@Override
 	protected void executeDelete(final PayeeList recordToBeDeleted) {
 
 		AccounterAsyncCallback<ClientTAXAgency> callback = new AccounterAsyncCallback<ClientTAXAgency>() {
 
+			@Override
 			public void onException(AccounterException caught) {
 			}
 
+			@Override
 			public void onResultSuccess(ClientTAXAgency result) {
 				if (result != null) {
 					deleteObject(result);
@@ -283,10 +286,12 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 
 	}
 
+	@Override
 	public Double getTotal() {
 		return total;
 	}
 
+	@Override
 	public void setTotal() {
 		this.total = 0.0D;
 
@@ -339,6 +344,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 		return 0;
 	}
 
+	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.TAXAGENCY;
 	}
@@ -362,7 +368,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
 			Accounter.showError(AccounterExceptions.accounterMessages
-					.payeeInUse(Global.get().Vendor()));
+					.payeeInUse(messages.taxAgencie()));
 		} else {
 			super.deleteFailed(caught);
 		}
