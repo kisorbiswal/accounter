@@ -31,8 +31,11 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 		case 1:
 			return customerRefund.getPaymentNumber();
 		case 2:
-			return Utility.getStatus(ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-					customerRefund.getStatus());
+			return (customerRefund.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED && customerRefund
+					.getSaveStatus() == ClientTransaction.STATUS_DRAFT) ? "Draft"
+					: Utility.getStatus(
+							ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+							customerRefund.getStatus());
 		case 3:
 			return UIUtils.getDateByCompanyType(customerRefund.getIssueDate());
 		case 4:
@@ -137,8 +140,7 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 7
-								&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
+						if (col == 7) {
 							voidTransaction(obj);
 						}
 						// else if (col == 9)
