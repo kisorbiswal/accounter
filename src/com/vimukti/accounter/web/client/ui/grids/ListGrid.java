@@ -52,6 +52,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.ReconcilCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -80,6 +82,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	public static final int COLUMN_TYPE_DECIMAL_TEXTBOX = 11;
 	public static final int COLUMN_TYPE_DECIMAL_TEXT = 12;
 	public static final int COLUMN_TYPE_QUANTITY_POPUP = 13;
+	public static final int COLUMN_TYPE_COMBO = 14;
 
 	public static final int EDIT_EVENT_CLICK = 1;
 	public static final int EDIT_EVENT_DBCLICK = 2;
@@ -484,6 +487,9 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			data = data;
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
+		case COLUMN_TYPE_COMBO:
+			addCombo(currentRow, currentCol, obj, data);
+			break;
 		}
 	}
 
@@ -501,6 +507,25 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			ar.setText(value.toString());
 		}
 		this.setWidget(currentRow, currentCol, ar);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addCombo(final int row, final int column, final T obj,
+			final Object value) {
+
+		final ReconcilCombo combo = new ReconcilCombo("");
+		combo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+			@Override
+			public void selectedComboBoxItem(String selectItem) {
+				combo.setComboItem(selectItem);
+			}
+		});
+		DynamicForm comboForm = UIUtils.form(messages.type());
+		comboForm.setFields(combo);
+		// this.body.setText(row, column, value.toString());
+		combo.setValue(value);
+		this.setWidget(currentRow, currentCol, comboForm);
+
 	}
 
 	private void addLabel(final T obj, final Object value) {
@@ -927,6 +952,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	}
 
 	public abstract void onDoubleClick(T obj);
+
+	// public abstract void comboSelected();
 
 	/**
 	 * Sort the two objects based on the column index
