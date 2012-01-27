@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditRating;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -437,6 +438,18 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), true);
+		Set<ClientCustomFieldValue> customFieldValues = data
+				.getCustomFieldValues();
+		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+		for (ClientCustomFieldValue value : customFieldValues) {
+			if (company.getClientCustomField(value.getID()) == null) {
+				deleteCustomFieldValues.add(value);
+			}
+		}
+
+		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
+			customFieldValues.remove(clientCustomFieldValue);
+		}
 		customFieldForm.setDisabled(isInViewMode());
 	}
 
