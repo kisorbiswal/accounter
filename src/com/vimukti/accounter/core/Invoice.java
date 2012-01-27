@@ -513,9 +513,9 @@ public class Invoice extends Transaction implements Lifecycle {
 		for (Estimate estimate : invoice.getEstimates()) {
 			estimate = (Estimate) session.get(Estimate.class, estimate.getID());
 
-			int executeUpdate = session
-					.getNamedQuery("delete.Estimate.from.drafts")
-					.setLong("estimateId", estimate.getID()).executeUpdate();
+			// int executeUpdate = session
+			// .getNamedQuery("delete.Estimate.from.drafts")
+			// .setLong("estimateId", estimate.getID()).executeUpdate();
 
 			if (estimate != null) {
 
