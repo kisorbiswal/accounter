@@ -239,4 +239,25 @@ public class DateUtills {
 				.preferences().getDateFormat());
 		return dateFormatter.parse(value);
 	}
+
+	public static ClientFinanceDate getSelectedFormatDate(String value,
+			String selectedformat) {
+		if (value == null) {
+			return null;
+		}
+		value = value.trim();
+		if (value.isEmpty()) {
+			return null;
+		}
+		DateTimeFormat dateFormatter = DateTimeFormat.getFormat(selectedformat);
+		try {
+			Date parse = dateFormatter.parse(value);
+			return new ClientFinanceDate(parse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 }
