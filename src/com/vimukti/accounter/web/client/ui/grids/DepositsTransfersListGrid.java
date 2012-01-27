@@ -133,43 +133,39 @@ public class DepositsTransfersListGrid extends
 			}
 		} else {
 			if (col == 6) {
-				msg = messages.doyouwanttoVoidtheTransaction();
+				msg = messages.doyouwanttoDeletetheTransaction();
 			}
-
-			Accounter.showWarning(msg, AccounterType.WARNING,
-					new ErrorDialogHandler() {
-
-						@Override
-						public boolean onCancelClick() {
-							// NOTHING TO DO.
-							return false;
-						}
-
-						@Override
-						public boolean onNoClick() {
-							return true;
-						}
-
-						@Override
-						public boolean onYesClick() {
-							if (type == 0) {
-								if (col == 9
-										&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
-									deleteTransaction(obj);
-								}
-							} else {
-								if (col == 7
-										&& obj.getStatus() != ClientTransaction.STATUS_DRAFT) {
-									deleteTransaction(obj);
-								}
-							}
-							// else if (col == 9)
-							// deleteTransaction(obj);
-							return true;
-						}
-
-					});
 		}
+
+		Accounter.showWarning(msg, AccounterType.WARNING,
+				new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						// NOTHING TO DO.
+						return false;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						if (type == 0) {
+							if (col == 5) {
+								deleteTransaction(obj);
+							}
+						} else {
+							if (col == 6) {
+								deleteTransaction(obj);
+							}
+						}
+						return true;
+					}
+
+				});
 	}
 
 	protected void deleteTransaction(final DepositsTransfersList obj) {
@@ -183,8 +179,7 @@ public class DepositsTransfersListGrid extends
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase(messages.all()))
-						deleteRecord(obj);
+					deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					obj.setVoided(true);
 					updateData(obj);
@@ -194,7 +189,7 @@ public class DepositsTransfersListGrid extends
 			}
 		};
 		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
-		rpcDoSerivce.deleteTransaction(type, obj.getTransactionId(), callback);
+		rpcDoSerivce.delete(type, obj.getTransactionId(), callback);
 	}
 
 	@Override
