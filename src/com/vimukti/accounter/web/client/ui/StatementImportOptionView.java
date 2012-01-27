@@ -28,6 +28,8 @@ import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 /**
+ * The first time you import your statement you need to coordinate the fields in
+ * your file to the fields that displays.
  * 
  * @author vimukti10
  * 
@@ -52,7 +54,11 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	private String selectedDateFormat;
 	private ListBox dateFormatList;
 	Map<Integer, String> comboIndexesMap = new HashMap<Integer, String>();
-	Map<Integer, List<String>> map2 = new HashMap<Integer, List<String>>();
+	Map<Integer, List<String>> valuesMap = new HashMap<Integer, List<String>>();
+	/**
+	 * Remove from comboIndexesMap
+	 */
+	private int key = 0;
 
 	public StatementImportOptionView(long accountId) {
 		super();
@@ -181,23 +187,28 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 					final int selectedComboIndex = selectionBox
 							.getSelectedIndex();
 					setvalues(head, value, selectedComboIndex);
+					//
 					if (comboIndexesMap.isEmpty()) {
 						comboIndexesMap.put(selectedComboIndex, value);
 						List<String> list = new ArrayList<String>();
 						list.add(head);
 						list.add(value);
-						map2.put(selectedComboIndex, list);
+						valuesMap.put(selectedComboIndex, list);
 					} else {
+						// selected combo index is date
 						if (selectedComboIndex == 1 && (!head.contains("Date"))) {
 							selectionBox.setSelectedIndex(0);
 							Accounter
 									.showInformation("This column does not contain valid values for  Date");
 						} else {
+							// if combo selection is multiple or not.
 							if (comboIndexesMap.containsKey(selectedComboIndex)) {
-								List<String> list = map2
+								List<String> list = valuesMap
 										.get(selectedComboIndex);
 								FormatingConfilctDialog confilctDialog = new FormatingConfilctDialog(
 										list.get(0), list.get(1), head, value) {
+									// When click the OK button on format
+									// dialog
 									protected boolean onOK() {
 										Set<Entry<Integer, String>> entrySet = comboIndexesMap
 												.entrySet();
@@ -205,6 +216,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 											if (entry.getValue().equals(value)) {
 												comboIndexesMap.put(
 														entry.getKey(), "0");
+												key = entry.getKey().intValue();
 												break;
 											}
 										}
@@ -213,18 +225,18 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 										List<String> list = new ArrayList<String>();
 										list.add(head);
 										list.add(value);
-										map2.put(selectedComboIndex, list);
-
+										valuesMap.put(selectedComboIndex, list);
 										setSelectedValue(selectionBox, true);
+										comboIndexesMap.remove(key);
 										return true;
 									};
 
+									// Cancel clicked
 									protected boolean onCancel() {
 										comboIndexesMap.put(selectedComboIndex,
 												"0");
 										setSelectedValue(selectionBox, false);
 										return true;
-
 									};
 								};
 								confilctDialog.show();
@@ -233,7 +245,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 								List<String> list = new ArrayList<String>();
 								list.add(head);
 								list.add(value);
-								map2.put(selectedComboIndex, list);
+								valuesMap.put(selectedComboIndex, list);
 								comboIndexesMap.put(selectedComboIndex, value);
 							}
 						}
@@ -277,6 +289,7 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	}
 
 	/**
+	 * change the value for particular list box item
 	 * 
 	 * @param selectionBox
 	 * @param isOkcliecked
@@ -286,15 +299,17 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 			HorizontalPanel panel = (HorizontalPanel) controlsPanel
 					.getWidget(x);
 			ListBox listBox = (ListBox) panel.getWidget(2);
+			// isOkcliecked is true then reasign the value
 			if (isOkcliecked) {
 				if (listBox != selectionBox
-						&& comboIndexesMap.containsKey(listBox
-								.getSelectedIndex())) {
+						&& listBox.getSelectedIndex() == selectionBox
+								.getSelectedIndex()) {
 					listBox.setSelectedIndex(0);
 					break;
-
 				}
+				// isOkcliecked is false then set combo value to zero index
 			} else {
+
 				if (listBox == selectionBox
 						&& comboIndexesMap.containsKey(listBox
 								.getSelectedIndex())) {
