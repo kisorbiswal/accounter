@@ -44,7 +44,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		prevoiusPanel = new HorizontalPanel();
-		previousHeadingLabel = new CustomLabel(presentheading
+		previousHeadingLabel = new CustomLabel(previpousHeading
 				+ "  is already assigned to...");
 
 		previousLabel = new CustomLabel(previpousHeading);
