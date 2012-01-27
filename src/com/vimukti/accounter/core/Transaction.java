@@ -102,6 +102,12 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 	public static final int ALL = 1000;
 
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_DRAFT = 4;
+
 	int type;
 	FinanceDate transactionDate;
 	String number = "0";
@@ -112,6 +118,8 @@ public abstract class Transaction extends CreatableObject implements
 	private RecurringTransaction recurringTransaction;
 
 	protected double currencyFactor = 1D;
+
+	private StatementRecord statementRecord;
 
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s
@@ -669,6 +677,10 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
+		if (getStatementRecord() != null) {
+			getStatementRecord().getTransactionsLists().add(this);
+			session.saveOrUpdate(getStatementRecord());
+		}
 		if (!isDraftOrTemplate()) {
 			doCreateEffect(session);
 		}
@@ -841,6 +853,11 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
+		if (getStatementRecord() != null) {
+			getStatementRecord().getTransactionsLists().add(this);
+			session.saveOrUpdate(getStatementRecord());
+		}
+
 		// // this.accountTransactionEntriesList.clear();
 		//
 		// /**
@@ -1527,6 +1544,14 @@ public abstract class Transaction extends CreatableObject implements
 
 	protected boolean isCurrencyFactorChanged() {
 		return currencyFactor != previousCurrencyFactor;
+	}
+
+	public StatementRecord getStatementRecord() {
+		return statementRecord;
+	}
+
+	public void setStatementRecord(StatementRecord statementRecord) {
+		this.statementRecord = statementRecord;
 	}
 
 }

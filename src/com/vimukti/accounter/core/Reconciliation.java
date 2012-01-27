@@ -5,6 +5,8 @@ package com.vimukti.accounter.core;
 
 import java.util.Set;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.Global;
@@ -44,6 +46,10 @@ public class Reconciliation extends CreatableObject implements
 
 	/** Transactions that are involved in this Reconciliation */
 	private Set<ReconciliationItem> items;
+	/**
+	 * For reconcilation through statement
+	 */
+	private Statement statement;
 
 	/**
 	 * @return the startDate
@@ -192,5 +198,23 @@ public class Reconciliation extends CreatableObject implements
 	@Override
 	public int getObjType() {
 		return IAccounterCore.RECONCILIATION;
+	}
+
+	public Statement getStatement() {
+		return statement;
+	}
+
+	public void setStatement(Statement statement) {
+		this.statement = statement;
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		if (statement != null) {
+			statement.setReconciled(true);
+			statement.setReconciliation(this);
+			session.saveOrUpdate(statement);
+		}
+		return super.onSave(session);
 	}
 }

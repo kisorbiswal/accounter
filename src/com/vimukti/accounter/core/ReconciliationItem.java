@@ -132,6 +132,6 @@ public class ReconciliationItem extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

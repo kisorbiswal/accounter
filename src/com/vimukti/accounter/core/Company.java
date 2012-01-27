@@ -114,6 +114,7 @@ public class Company implements IAccounterServerCore {
 		this.setId(id);
 	}
 
+	private Account roundingAccount;
 	/**
 	 * This is the direct references to the Accounts Receivable Account for the
 	 * purpose of the Transactions.
@@ -1533,5 +1534,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setTdsResposiblePerson(TDSResponsiblePerson tdsResposiblePerson) {
 		this.tdsResposiblePerson = tdsResposiblePerson;
+	}
+
+	public Account getRoundingAccount() {
+		return roundingAccount;
+	}
+
+	public void setRoundingAccount(Account roundingAccount) {
+		this.roundingAccount = roundingAccount;
 	}
 }

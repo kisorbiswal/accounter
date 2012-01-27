@@ -38,6 +38,8 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 
 	private Reconciliation reconciliation;
 
+	private boolean isReconciled;
+
 	private List<StatementRecord> statementRecords = new ArrayList<StatementRecord>();
 
 	@Override
@@ -136,5 +138,13 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 
 	public void setReconciliation(Reconciliation reconciliation) {
 		this.reconciliation = reconciliation;
+	}
+
+	public boolean isReconciled() {
+		return isReconciled;
+	}
+
+	public void setReconciled(boolean isReconciled) {
+		this.isReconciled = isReconciled;
 	}
 }
