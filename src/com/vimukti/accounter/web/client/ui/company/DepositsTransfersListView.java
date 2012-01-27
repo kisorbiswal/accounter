@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -78,7 +77,7 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected String getListViewHeading() {
-		if (transactionType == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+		if (transactionType == 0) {
 			return messages.deposits();
 		} else {
 			return messages.transferFunds();
@@ -87,7 +86,7 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected Action getAddNewAction() {
-		if (transactionType == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+		if (transactionType == 0) {
 			return ActionFactory.getDepositAction();
 		} else {
 			return ActionFactory.getMakeDepositAction();
@@ -96,7 +95,7 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (transactionType == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+		if (transactionType == 0) {
 			return messages.makeDeposit();
 		} else {
 			return messages.transferFund();
@@ -105,7 +104,7 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected String getViewTitle() {
-		if (transactionType == ClientTransaction.TYPE_MAKE_DEPOSIT) {
+		if (transactionType == 0) {
 			return messages.deposits();
 		} else {
 			return messages.transferFunds();
