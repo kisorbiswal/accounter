@@ -138,7 +138,8 @@ public class CustomerRefundListView extends
 			}
 			if (text.equals(messages.issued())) {
 				if (customerRefund.getStatus() == STATUS_ISSUED
-						&& (!customerRefund.isVoided())) {
+						&& (!customerRefund.isVoided())
+						&& customerRefund.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
 					grid.addData(customerRefund);
 				}
 				continue;
