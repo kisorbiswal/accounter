@@ -202,6 +202,16 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 				result.add(form.validate());
 			}
 		}
+		String taxType = taxTypeCombo.getSelectedValue();
+		if (taxType != null && taxType.equals(messages.other())) {
+			if (liabilitySalesAccountCombo.getSelectedValue() == null
+					&& liabilityPurchaseAccountCombo.getSelectedValue() == null) {
+				ValidationResult validationResult = new ValidationResult();
+				validationResult.addError(liabilitySalesAccountCombo, messages
+						.pleaseSelect(messages.salesOrPurchaseLiabilityAcc()));
+				result.add(validationResult);
+			}
+		}
 		if (!gridView.isEmpty()) {
 			gridView.validate(result);
 		}

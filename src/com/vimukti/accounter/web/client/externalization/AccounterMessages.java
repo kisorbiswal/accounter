@@ -5355,4 +5355,6 @@ public interface AccounterMessages extends Messages {
 	public String pleaseEnterAccAndAmount();
 
 	public String draftTransaction(String transactionName);
+
+	public String salesOrPurchaseLiabilityAcc();
 }
