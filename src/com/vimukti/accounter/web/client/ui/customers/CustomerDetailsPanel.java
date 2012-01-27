@@ -113,9 +113,14 @@ public class CustomerDetailsPanel extends VerticalPanel {
 					.getFormalName());
 
 			fax.setValue(selectedCustomer.getFaxNo());
+
+			long payeeSince = selectedCustomer.getPayeeSince();
+			ClientFinanceDate clientFinanceDate = new ClientFinanceDate();
+			if (payeeSince > 0) {
+				clientFinanceDate = new ClientFinanceDate(payeeSince);
+			}
 			customersince.setValue(UIUtils
-					.getDateByCompanyType(new ClientFinanceDate(
-							selectedCustomer.getPayeeSince())));
+					.getDateByCompanyType(clientFinanceDate));
 
 			webpageadress.setValue(selectedCustomer.getWebPageAddress());
 
