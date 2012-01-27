@@ -956,11 +956,13 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		ValidationResult result = new ValidationResult();
 		if (accountCombo != null) {
 			ClientAccount assetAcc = accountCombo.getSelectedValue();
-			if (assetAcc.getLinkedAccumulatedDepreciationAccount() != 0
-					&& assetAcc.getID() == assetAcc
-							.getLinkedAccumulatedDepreciationAccount()) {
-				result.addError(accumulatedDepreciationAccount, messages
-						.accandaccumulatedDepreciationAccShouldnotbesame());
+			if (assetAcc != null) {
+				if (assetAcc.getLinkedAccumulatedDepreciationAccount() != 0
+						&& assetAcc.getID() == assetAcc
+								.getLinkedAccumulatedDepreciationAccount()) {
+					result.addError(accumulatedDepreciationAccount, messages
+							.accandaccumulatedDepreciationAccShouldnotbesame());
+				}
 			}
 
 		}
@@ -983,6 +985,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (depreciationRate != null) {
 			double rateOfDepreciation = depreciationRate.getPercentage();
 			if (rateOfDepreciation <= 0) {
+				depreciationRate.highlight();
 				result.addError(depreciationRate,
 						messages.pleaseEnter(messages.depreciationRate()));
 			}
@@ -995,6 +998,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		if (purchasePriceTxt != null) {
 			Double amount = purchasePriceTxt.getAmount();
 			if (amount <= 0) {
+				purchasePriceTxt.highlight();
 				result.addError(
 						purchasePriceTxt,
 						messages.pleaseEnter(messages.purchase()
