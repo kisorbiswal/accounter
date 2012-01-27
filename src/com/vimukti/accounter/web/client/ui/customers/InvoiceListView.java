@@ -108,7 +108,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		listOfInvoices = result;
 		viewSelect.setComboItem(viewType);
 		grid.setRecords(result);
-		grid.sort(10, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
