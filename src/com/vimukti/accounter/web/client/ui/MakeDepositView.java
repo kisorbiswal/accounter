@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -116,9 +117,26 @@ public class MakeDepositView extends
 
 	private String transactionNo;
 
+	// For Reconciliation
+	private ClientAccount reconcilationAccount;
+
+	private double reconcilAmount;
+
+	private ClientStatementRecord statementRecord;
+
 	public MakeDepositView() {
 		super(ClientTransaction.TYPE_TRANSFER_FUND);
 		calculatedTotal = 0D;
+	}
+
+	// For Reconciliation
+	public MakeDepositView(ClientAccount reconcilationAccount,
+			double reconcilAmount, ClientStatementRecord statementRecord) {
+		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
+		calculatedTotal = reconcilAmount;
+		this.reconcilationAccount = reconcilationAccount;
+		this.reconcilAmount = reconcilAmount;
+		this.statementRecord = statementRecord;
 	}
 
 	private void setTransactionNumberToMakeDepositObject() {
@@ -594,10 +612,21 @@ public class MakeDepositView extends
 				transaction.getDepositIn()));
 		this.selectedDepositInAccount = getCompany().getAccount(
 				transaction.getDepositIn());
-		depositFromSelect.setComboItem(getCompany().getAccount(
-				transaction.getDepositFrom()));
-		this.selectedDepositFromAccount = getCompany().getAccount(
-				transaction.getDepositFrom());
+		// for reconcilation
+		if (reconcilationAccount != null) {
+			depositFromSelect.setComboItem(reconcilationAccount);
+			this.selectedDepositFromAccount = reconcilationAccount;
+			depositFromSelect.setDisabled(true);
+			this.amtText.setAmount(reconcilAmount);
+			amtText.setDisabled(true);
+			date.setValue(statementRecord.getStatementDate());
+		} else {
+			depositFromSelect.setComboItem(getCompany().getAccount(
+					transaction.getDepositFrom()));
+			this.selectedDepositFromAccount = getCompany().getAccount(
+					transaction.getDepositFrom());
+		}
+
 		initFianancialAccounts();
 		initCashBackAccounts();
 
@@ -743,6 +772,7 @@ public class MakeDepositView extends
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
 						checkForCurrencyType();
+
 					}
 
 				});
@@ -1305,7 +1335,11 @@ public class MakeDepositView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
-
+		// For Reconcilation
+		if (statementRecord != null) {
+			statementRecord.setMatched(true);
+			transaction.setStatementRecord(statementRecord);
+		}
 		super.saveAndUpdateView();
 
 	}
@@ -1350,9 +1384,12 @@ public class MakeDepositView extends
 						.dipositAccountAndTransferAccountShouldBeDiff());
 				depositInSelect.setComboItem(null);
 			}
-			if (toCurrency == getBaseCurrency()
-					|| fromCurrency == getBaseCurrency()
-					|| toCurrency == fromCurrency) {
+			if (toCurrency != getBaseCurrency()
+					&& fromCurrency != getBaseCurrency()) {
+				Accounter.showError(messages
+						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
+				depositInSelect.setComboItem(null);
+			} else {
 				if (toCurrencyID != fromCurrencyID) {
 					if (toCurrencyID != getBaseCurrency().getID()) {
 						currencyWidget.setSelectedCurrency(toCurrency);
@@ -1366,10 +1403,6 @@ public class MakeDepositView extends
 					setCurrency(toCurrency);
 				}
 				amtText.setCurrency(fromCurrency);
-			} else {
-				Accounter.showError(messages
-						.oneOfTheAccountCurrencyShouldBePrimaryCurrency());
-				depositInSelect.setComboItem(null);
 			}
 			updateTotals();
 		}

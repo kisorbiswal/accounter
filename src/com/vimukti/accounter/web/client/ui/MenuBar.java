@@ -589,6 +589,8 @@ public class MenuBar {
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
+		companyAndFinancialMenuBar.addMenuItem(messages.bankStatements(),
+				HistoryTokens.BANKSTATEMENTS);
 
 		if (isMulticurrencyEnabled) {
 			companyAndFinancialMenuBar.addMenuItem(
@@ -625,7 +627,9 @@ public class MenuBar {
 				HistoryTokens.RECOUNCILATIONSLIST);
 
 		bankingMenuBar.addSeparatorItem();
-
+		bankingMenuBar.addMenuItem(messages.bankStatements(),
+				HistoryTokens.BANKSTATEMENTS);
+		bankingMenuBar.addSeparatorItem();
 		bankingMenuBar.addMenuItem(getBankingListMenu(messages.bankingList()));
 
 		return bankingMenuBar;

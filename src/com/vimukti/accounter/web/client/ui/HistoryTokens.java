@@ -341,14 +341,12 @@ public class HistoryTokens {
 	
 	public static final String ENTER_TDS_ACK_NO = "enterTDSAckNo";
 
-	public static final String TDS_FORM16A = "TDSform16A";
-	
-	public static final String TDS_ACK_REPORT = "TDSAckReport";
+	public static final String ACKNOWLEDGEMENTFORMTDS = "acknowledgementFormTDS";
 
 	public static final String PRICELEVELLIST = "priceLevels";
 
+	public static final String BANKSTATEMENTS = "bankStatements";
 	public static final String GST_FILE = "createGSTIncormationFile";
-
 	public static final String REALISED_EXCHANGE_LOSSES_AND_GAINS = "realisedExchangeLossesOrGains";
 
 	public static final String UNREALISED_EXCHANGE_LOSSES_AND_GAINS = "enterExchangeRatesDialog";

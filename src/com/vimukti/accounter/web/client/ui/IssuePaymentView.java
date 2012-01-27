@@ -160,6 +160,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 					cheque.setPayeeName(payment.getDisplayName());
 					cheque.setAmount(payment.getAmount());
 					cheque.setDate(payment.getDate());
+					cheque.setCurrency(getCompany().getCurrency(
+							payment.getCurrency()).getSymbol());
 					printCheques.add(cheque);
 				}
 				ClientChequeLayout checkLayout = getCompany().getCheckLayout(

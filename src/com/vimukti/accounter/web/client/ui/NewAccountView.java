@@ -54,6 +54,7 @@ import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
+import com.vimukti.accounter.web.client.ui.customers.UploadStatementDialog;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -1774,6 +1775,19 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			});
 			buttonBar.add(reconcileBtn);
 
+			Button uploadStatementBtn = new Button(messages.uploadAttachment());
+			uploadStatementBtn.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					UploadStatementDialog dialog = new UploadStatementDialog(
+							messages.uploadAttachment(), data);
+					dialog.show();
+
+				}
+			});
+			if (accountType == ClientAccount.TYPE_BANK) {
+				buttonBar.add(uploadStatementBtn);
+			}
 			buttonBar.setCellHorizontalAlignment(reconcileBtn,
 					HasHorizontalAlignment.ALIGN_LEFT);
 		}
