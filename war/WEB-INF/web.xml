@@ -450,6 +450,16 @@
 		<servlet-name>uploadtemplatefile</servlet-name>
 		<url-pattern>/do/uploadtemplatefile</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>uploadstatementfile</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.UploadStatementFileServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uploadstatementfile</servlet-name>
+		<url-pattern>/do/uploadstatementfile</url-pattern>
+	</servlet-mapping>
 
 
 
