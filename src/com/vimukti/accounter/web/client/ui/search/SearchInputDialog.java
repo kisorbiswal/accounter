@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.search;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -57,13 +58,12 @@ public class SearchInputDialog extends BaseDialog {
 	private SimplePager pager;
 
 	private final String[] transactionNames = { messages.all(),
-			messages.bill(), messages.billPayment(), messages.cashExpense(),
+			messages.billPayment(), messages.cashExpense(),
 			messages.creditCardExpense(),
 			messages.customerCreditNote(Global.get().Customer()),
 			messages.customerRefund(Global.get().Customer()),
-			messages.cashSale(), messages.deposit(), messages.estimate(),
-			messages.invoice(), messages.journalEntry(),
-			messages.paymentFromCustomer(),
+			messages.cashSale(), messages.deposit(), messages.invoice(),
+			messages.journalEntry(), messages.paymentFromCustomer(),
 			messages.payeeCredit(Global.get().Vendor()), messages.transfer(),
 			messages.vatPayment(), messages.vatAdjustment(),
 			messages.writeCheck() };
@@ -873,10 +873,17 @@ public class SearchInputDialog extends BaseDialog {
 		for (String string : transactionNames) {
 			transactionTypes.add(string);
 		}
+		if (getCompany().getPreferences().isKeepTrackofBills()) {
+			transactionTypes.add(messages.bills());
+		}
+		if (getCompany().getPreferences().isDoyouwantEstimates()) {
+			transactionTypes.add(messages.estimate());
+		}
 		if (getCompany().getPreferences().isDelayedchargesEnabled()) {
 			transactionTypes.add(messages.charge());
 			transactionTypes.add(messages.credit());
 		}
+		Collections.sort(transactionTypes);
 		return transactionTypes;
 	}
 
