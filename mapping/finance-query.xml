@@ -392,6 +392,7 @@
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
+		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY,
@@ -412,7 +413,7 @@
 		null
 		END AS DUE_DATE ,
 		T.NUMBER AS
-		TRANSACTION_NUMBER,
+		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE
 		= 28
@@ -665,6 +666,7 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
+		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY_ID,
@@ -679,7 +681,7 @@
 		P.NAME AS
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
-		TRANSACTION_NET_AMOUNT,
+		TRANSACTION_NET_AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE = 8
 		THEN
@@ -791,6 +793,7 @@
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -801,7 +804,7 @@
 		CUSTOMER_NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD_NAME,
 		T.TOTAL AS
-		AMOUNT,
+		AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.SAVE_STATUS = 204
 		THEN TRUE
@@ -1128,11 +1131,12 @@
 		<return-scalar column="CHECK_NUMBER" type="string" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
+		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
 		SELECT T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		PAYMENT_DATE ,
-		T.NUMBER AS TRANSACTION_NUMBER,
+		T.NUMBER AS TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE ,

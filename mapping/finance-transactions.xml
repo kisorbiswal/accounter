@@ -10,6 +10,8 @@
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
+	  <many-to-one name="statementRecord" column="STATEMENT_RECORD_ID" class="StatementRecord">
+		</many-to-one> 
 		<property name="version" column="VERSION"></property>
 		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
 		<!-- <property name="totalVAT" column="TOTAL_VAT"></property> -->

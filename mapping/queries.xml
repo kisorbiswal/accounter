@@ -2010,11 +2010,6 @@
 		from com.vimukti.accounter.core.TAXRateCalculation trc where trc.taxReturn.id=:taxReturnId
 	</query>
 	
-	<!--  <query name="getbankStatements">
-		<query-param name="company" type="Company" />
-		<query-param name="accountId" type="long" />
-		from Statement where company=:company and account_id=:accountId
-	</query>-->
 	<query name="list.bankStatement">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Statement s where

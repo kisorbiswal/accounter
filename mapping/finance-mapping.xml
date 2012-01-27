@@ -317,6 +317,9 @@
 		<many-to-one name="accountsReceivableAccount" class="Account"
 			column="ACCOUNTS_RECEIVABLE_ID" cascade="delete">
 		</many-to-one>
+		<many-to-one name="roundingAccount" class="Account"
+			column="ACCOUNTS_ROUND_ID" cascade="delete">
+		</many-to-one>
 		<many-to-one name="accountsPayableAccount" class="Account"
 			column="ACCOUNTS_PAYABLE_ID" cascade="delete">
 		</many-to-one>
@@ -1944,7 +1947,7 @@
 		<property name="reconcilationDate" column="RECONCILIATION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
-
+<property name="statement" column="STATEMENT"></property>
 		<set name="items" cascade="save-update,delete" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
@@ -2137,6 +2140,58 @@
 		<property name="panRegistrationNumber"></property>
 		<property name="mobileNumber"></property>
 		<property name="stdCode"></property>
+	</class>
+	<!-- Bank Statement Record -->
+	<class name="StatementRecord" table="STATEMENT_RECORD">
+		<id name="id" column="id">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			>
+		</many-to-one>
+		<property name="statementDate" column="STATEMENT_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="description" column="DESCRIPTION"></property>
+		<property name="referenceNumber" column="REFERENCE_NUMBER"></property>
+		<property name="spentAmount" column="SPENT_AMOUNT"></property>
+		<property name="receivedAmount" column="RECEIVE_AMOUNT"></property>
+		<property name="closingBalance" column="CLOSING_BALANCE"></property>
+	  <property name="isMatched" column="IS_MATCHED"></property>
+		  	<list name="transactionLists" cascade="save-update,delete">
+			<key column="STATEMENT_RECORD_ID" />
+			<list-index column="TRANSACTION_IDX" />
+			<one-to-many class="com.vimukti.accounter.core.Transaction" />
+		</list> 
+		
+		<many-to-one name="statement" column="STATEMENT_ID" class="Statement">
+		</many-to-one>
+
+	</class>
+
+	<!-- Bank Statement -->
+	<class name="Statement" table="STATEMENT">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<property name="importtedDate" column="IMPORTTED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="startDate" column="START_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="endDate" column="END_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="startBalance" column="STARTING_BALANCE"></property>
+		<property name="closingBalance" column="CLOSING_BALANCE"></property>
+
+		<many-to-one name="account" class="Account" column="ACCOUNT_ID"></many-to-one>
+		<many-to-one name="reconciliation" class="Reconciliation" column="RECONCILIATION_ID"></many-to-one>
+		<list name="statementRecords" cascade="save-update,delete">
+			<key column="STATEMENT_ID" />
+			<list-index column="IDX" />
+			<one-to-many class="com.vimukti.accounter.core.StatementRecord" />
+		</list>
 	</class>
 </hibernate-mapping>
 
