@@ -89,8 +89,8 @@ public class TransactionPayTAXGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxFiledDate(),
-				messages.taxDue(), messages.payment() };
+		return new String[] { messages.taxFiledDate(), messages.taxDue(),
+				messages.payment() };
 	}
 
 	@Override
@@ -100,10 +100,12 @@ public class TransactionPayTAXGrid extends
 			return payVAT.getFiledDate() != null ? payVAT.getFiledDate()
 					.toString() : "";
 		case 1:
-			return DataUtils.getAmountAsStringInPrimaryCurrency(payVAT.getTaxDue());
+			return DataUtils.getAmountAsStringInPrimaryCurrency(payVAT
+					.getTaxDue());
 
 		case 2:
-			return DataUtils.getAmountAsStringInPrimaryCurrency(payVAT.getAmountToPay());
+			return DataUtils.getAmountAsStringInCurrency(
+					payVAT.getAmountToPay(), "");
 		default:
 			break;
 		}
@@ -185,13 +187,11 @@ public class TransactionPayTAXGrid extends
 	public ValidationResult validateGrid() {
 		ValidationResult result = new ValidationResult();
 		if (getSelectedRecords().size() == 0) {
-			result.addError(this, messages
-					.pleaseSelectAtLeastOneRecord());
+			result.addError(this, messages.pleaseSelectAtLeastOneRecord());
 		} else {
 			for (ClientTransactionPayTAX tax : getSelectedRecords()) {
 				if (!DecimalUtil.isGreaterThan(tax.getAmountToPay(), 0.00)) {
-					result.addError(this, messages
-							.pleaseEnterAmountToPay());
+					result.addError(this, messages.pleaseEnterAmountToPay());
 				}
 
 			}
