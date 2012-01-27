@@ -5348,11 +5348,23 @@ public interface AccounterMessages extends Messages {
 
 	public String youCannotVoidDraftedTransaction();
 
+	public String statementAlreadyImported();
+
 	public String filedTAXReturnHasBeenPaid();
 
 	public String taxReturnDeleteWarning(String startDate, String endDate);
 
 	public String pleaseEnterAccAndAmount();
+
+	public String spent();
+
+	public String statementBalance();
+
+	public String statementsImportedDate();
+
+	public String itemsToBeReconciled();
+
+	public String startingBalance();
 
 	public String draftTransaction(String transactionName);
 
