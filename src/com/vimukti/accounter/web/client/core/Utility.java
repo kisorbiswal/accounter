@@ -1926,4 +1926,9 @@ public class Utility implements IsSerializable, Serializable {
 
 	}
 
+	public static double roundTo2Digits(double amount) {
+
+		long number2 = Math.round(amount * 100);
+		return (double) (number2 / 100);
+	}
 }

@@ -105,6 +105,10 @@ public class ClientReconciliationItem implements IAccounterCore {
 		return amount;
 	}
 
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
 	public long getTransaction() {
 		return transaction;
 	}

@@ -39,6 +39,10 @@ public class ClientReconciliation implements IAccounterCore {
 	private Set<ClientReconciliationItem> items;
 
 	private int version;
+	/**
+	 * For Reconcile through statement.
+	 */
+	private long statement;
 
 	private long id;
 
@@ -76,7 +80,6 @@ public class ClientReconciliation implements IAccounterCore {
 	public long getID() {
 		return this.id;
 	}
-
 
 	/**
 	 * @return the startDate
@@ -181,6 +184,14 @@ public class ClientReconciliation implements IAccounterCore {
 	 */
 	public void setAccount(ClientAccount account) {
 		this.account = account;
+	}
+
+	public long getStatement() {
+		return statement;
+	}
+
+	public void setStatement(long statement) {
+		this.statement = statement;
 	}
 
 }

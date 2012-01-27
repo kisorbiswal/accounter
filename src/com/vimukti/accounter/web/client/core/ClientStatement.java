@@ -7,6 +7,7 @@ import java.util.List;
  * @author vimukti10
  * 
  */
+
 public class ClientStatement implements IAccounterCore {
 
 	/**
@@ -26,11 +27,15 @@ public class ClientStatement implements IAccounterCore {
 
 	private double closingBalance;
 
-	private long bankAccountId;
+	private long account;
+
+	private boolean isReconciled;
 
 	private int version;
 
-	private List<ClientStatementRecord> statementList;
+	private long companyId;
+
+	private List<ClientStatementRecord> statementRecords;
 
 	@Override
 	public int getVersion() {
@@ -60,7 +65,6 @@ public class ClientStatement implements IAccounterCore {
 	@Override
 	public void setID(long id) {
 		this.id = id;
-
 	}
 
 	@Override
@@ -108,20 +112,36 @@ public class ClientStatement implements IAccounterCore {
 		this.closingBalance = closingBalance;
 	}
 
-	public long getAccountId() {
-		return bankAccountId;
-	}
-
-	public void setAccountId(long accountId) {
-		this.bankAccountId = accountId;
-	}
-
 	public List<ClientStatementRecord> getStatementList() {
-		return statementList;
+		return statementRecords;
 	}
 
 	public void setStatementList(List<ClientStatementRecord> statementList) {
-		this.statementList = statementList;
+		this.statementRecords = statementList;
+	}
+
+	public long getAccount() {
+		return account;
+	}
+
+	public void setAccount(long account) {
+		this.account = account;
+	}
+
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
+
+	public boolean isReconciled() {
+		return isReconciled;
+	}
+
+	public void setReconciled(boolean isReconciled) {
+		this.isReconciled = isReconciled;
 	}
 
 }

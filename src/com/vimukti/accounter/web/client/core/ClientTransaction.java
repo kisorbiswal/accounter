@@ -14,6 +14,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static final int TYPE_ALL = 1000;
 	public static final int MEMO_OPENING_BALANCE = 0;
 	public static final int TYPE_CASH_SALES = 1;
 	public static final int TYPE_CASH_PURCHASE = 2;
@@ -78,6 +79,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_DRAFT = 4;
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
 	 * VATRETURN(FILE VAT), then edit should be disabled.user cant edit them,
@@ -92,6 +98,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	long transactionDate;
 	String number = "";
 	// String checkNumber = "";
+	private ClientStatementRecord statementRecord;
 
 	List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
 	List<ClientTransactionMakeDeposit> transactionMakeDeposit;
@@ -946,6 +953,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public boolean isTemplate() {
 		return this.saveStatus == STATUS_TEMPLATE;
+	}
+
+	public ClientStatementRecord getStatementRecord() {
+		return statementRecord;
+	}
+
+	public void setStatementRecord(ClientStatementRecord statementRecord) {
+		this.statementRecord = statementRecord;
 	}
 
 	public boolean isDraft() {
