@@ -85,8 +85,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 								.comboDefaultAddNew(getDefaultAddNewCaption())
 								: "  ";
 					else
-						return messages.comboDefaultAddNew(
-								getDefaultAddNewCaption());
+						return messages
+								.comboDefaultAddNew(getDefaultAddNewCaption());
 				}
 				return getColumnData(object, col);
 			}
@@ -431,8 +431,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 		if (value == null) {
 			super.setValue("");
 		} else {
-			if (!value.equals(messages.comboDefaultAddNew(
-					getDefaultAddNewCaption())))
+			if (!value.equals(messages
+					.comboDefaultAddNew(getDefaultAddNewCaption())))
 				super.setValue(value);
 		}
 	}
@@ -652,8 +652,8 @@ public abstract class DropDownCombo<T> extends CustomComboItem {
 	private void filterValues(char key) {
 
 		String val = getValue() != null ? getValue().toString()
-				+ String.valueOf(key).replace("/", "").trim() : String.valueOf(
-				key).replace("/", "").trim();
+				+ String.valueOf(key).replace("/", "").trim() : String
+				.valueOf(key).replace("/", "").trim();
 
 		resetComboList();
 		if (key == '/') {
