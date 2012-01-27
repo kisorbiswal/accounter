@@ -1538,12 +1538,23 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							.getSalesAndEstimates();
 					if (transaction.getID() != 0 && !result.isEmpty()) {
 						ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
+						ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
+
 						for (ClientTransaction clientTransaction : salesAndEstimates) {
 							for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
 								if (estimatesalesorderlist.getTransactionId() == clientTransaction
 										.getID()) {
 									estimatesList.add(estimatesalesorderlist);
+								} else {
+									notAvailableEstimates
+											.add(clientTransaction);
 								}
+							}
+						}
+
+						if (transaction.isDraft()) {
+							for (ClientTransaction clientTransaction : notAvailableEstimates) {
+								salesAndEstimates.remove(clientTransaction);
 							}
 						}
 
@@ -1556,9 +1567,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getID() == 0 ? true : salesAndEstimates
 									.isEmpty());
 					transactionsTree
-							.quotesSelected(transaction.getEstimates() != null ? transaction
-									.getEstimates()
-									: new ArrayList<ClientEstimate>());
+							.quotesSelected((List<ClientEstimate>) (salesAndEstimates != null ? salesAndEstimates
+									: new ArrayList<ClientEstimate>()));
 					transactionsTree.setEnabled(!isInViewMode());
 					refreshTransactionGrid();
 				}
