@@ -697,7 +697,6 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		updateAccounts(transactionItem);
 
-		
 		InventoryItemHistory similarHistory = getSimilarHistory(transactionItem
 				.getUpdateAmount());
 		if (similarHistory != null) {
@@ -799,7 +798,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 */
 	public double getupdateAmount(Item item) {
 
-		int type = getCompany().getPreferences().getInventoryScheme();
+		int type = 0;
 		List<InventoryItemHistory> list = new ArrayList<InventoryItemHistory>(
 				item.getInventoryHistory());
 		if (list.isEmpty()) {
