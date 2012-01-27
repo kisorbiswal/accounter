@@ -93,7 +93,7 @@ public abstract class ItemNameColumn extends
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			ClientTAXCode taxCode = Accounter.getCompany().getTAXCode(
-					newValue.getTaxCode());
+					row.getTaxCode());
 			if (taxCode != null) {
 				if (isSales() && taxCode.getTAXItemGrpForSales() != 0) {
 					row.setTaxCode(taxCode.getID());
@@ -103,6 +103,7 @@ public abstract class ItemNameColumn extends
 				}
 			}
 		}
+		getTable().update(row);
 	}
 
 	private boolean isSameItems(ClientTransactionItem row, ClientItem newValue) {
