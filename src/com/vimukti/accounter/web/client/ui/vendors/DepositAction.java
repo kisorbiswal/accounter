@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.banking.DepositView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
@@ -54,7 +55,7 @@ public class DepositAction extends Action {
 
 	@Override
 	public ImageResource getSmallImage() {
-		return null;
+		return Accounter.getFinanceMenuImages().makeDeposit();
 	}
 
 	@Override

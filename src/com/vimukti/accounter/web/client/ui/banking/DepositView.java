@@ -10,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -135,6 +136,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	@Override
 	protected void createControls() {
+		Label lab = new Label(messages.makeDeposit());
+		lab.setStyleName("label-title");
+
 		locationTrackingEnabled = getCompany().getPreferences()
 				.isLocationTrackingEnabled();
 
@@ -291,6 +295,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 		bottompanel.add(bottomLayout);
 
+		mainPanel.setSize("100%", "100%");
+		mainPanel.add(lab);
+		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);
 		mainPanel.add(leftPanel);
 		mainPanel.add(accountFlowPanel);
@@ -605,9 +612,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		transactionDepositTable.add(transactionItem);
 
 	}
+
+	@Override
+	public String getTitle() {
+		return messages.makeDeposit();
+	}
 }
-// Deposited amount to account..Showing -ve amount as opening balance..it should
-// not be
-// Payment method not showing in view to Deposit
-// Not opening billable expense(Deposit) in invoice
-// Unable to make the deposit as billable expense in edit mode
