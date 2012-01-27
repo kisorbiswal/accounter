@@ -923,6 +923,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 			result.add(assetTypeForm.validate());
 			result.add(validateDepreciationRate());
 			result.add(depreciationForm.validate());
+			result.add(validateAccountsForSame());
 			if (isInViewMode()) {
 				result.add(accumulatedDepreciationAccountForm.validate());
 			} else {
@@ -947,6 +948,21 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				 * Global.get().account())
 				 */messages.accandaccumulatedDepreciationAccShouldnotbesame());
 			}
+		}
+		return result;
+	}
+
+	private ValidationResult validateAccountsForSame() {
+		ValidationResult result = new ValidationResult();
+		if (accountCombo != null) {
+			ClientAccount assetAcc = accountCombo.getSelectedValue();
+			if (assetAcc.getLinkedAccumulatedDepreciationAccount() != 0
+					&& assetAcc.getID() == assetAcc
+							.getLinkedAccumulatedDepreciationAccount()) {
+				result.addError(accumulatedDepreciationAccount, messages
+						.accandaccumulatedDepreciationAccShouldnotbesame());
+			}
+
 		}
 		return result;
 	}
