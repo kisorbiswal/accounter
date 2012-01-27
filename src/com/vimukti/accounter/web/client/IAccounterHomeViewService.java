@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -75,6 +76,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -87,9 +89,8 @@ import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
  * 
  */
 public interface IAccounterHomeViewService extends RemoteService {
-	// public PaginationList<TransactionsList>
-	// getSpentAndReceivedTransactionsList(
-	// long endOfFiscalYear, long date, int start, int length);
+	public PaginationList<TransactionsList> getSpentAndReceivedTransactionsList(
+			long endOfFiscalYear, long date, int start, int length);
 
 	public ArrayList<OverDueInvoicesList> getOverDueInvoices();
 
@@ -459,6 +460,14 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	String getIRASFileInformation(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException;
+
+	public PaginationList<ClientStatement> getBankStatements(long accountId);
+
+	public PaginationList<TransactionsList> getSpentTransactionsList(
+			long endOfFiscalYear, long date, int start, int length);
+
+	public PaginationList<TransactionsList> getReceivedTransactionsList(
+			long endOfFiscalYear, long date, int start, int length);
 
 	ClientMakeDeposit getDepositByEstimateId(long id) throws AccounterException;
 

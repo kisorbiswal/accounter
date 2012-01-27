@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -77,6 +78,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -527,4 +529,18 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransfersList(long date, long date2, int start, int length,
 			int type,
 			AsyncCallback<PaginationList<DepositsTransfersList>> asyncCallback);
+
+	public void getBankStatements(long accountId,
+			AsyncCallback<PaginationList<ClientStatement>> asyncCallback);
+
+	void getSpentTransactionsList(long endOfFiscalYear, long date, int start,
+			int length, AsyncCallback<PaginationList<TransactionsList>> callback);
+
+	void getReceivedTransactionsList(long endOfFiscalYear, long date,
+			int start, int length,
+			AsyncCallback<PaginationList<TransactionsList>> callback);
+
+	public void getSpentAndReceivedTransactionsList(long endOfFiscalYear,
+			long date, int i, int j,
+			AsyncCallback<PaginationList<TransactionsList>> asyncCallback);
 }
