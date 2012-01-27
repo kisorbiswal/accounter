@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +51,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	public static final int TYPE_PAYMENT = 9;
 	public static final int TYPE_SALES_TAX_ITEM = 10;
 	public static final int TYPE_SALES_TAX_GROUP = 11;
+
+	public static final int INVENTORY_SCHME_FIFO = 1;
+	public static final int INVENTORY_SCHME_LIFO = 2;
+	public static final int INVENTORY_SCHME_AVERAGE = 3;
 
 	/**
 	 * Item Type
@@ -135,6 +140,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private int reorderPoint;
 	private long onhandQuantity;
 	private double itemTotalValue;
+
+	private long balance;
+
+	private Set<InventoryItemHistory> inventoryHistory = new HashSet<InventoryItemHistory>();
 
 	// TaxCode VATCode;
 
@@ -446,6 +455,11 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		if (!DecimalUtil.isEquals(itemTotalValue, 0)) {
 			JournalEntry journalEntry = createJournalEntry();
 			session.save(journalEntry);
+			for (int x = 0; x < balance; x++) {
+				InventoryItemHistory history = new InventoryItemHistory(this,
+						purchasePrice, journalEntry);
+				session.save(history);
+			}
 		}
 
 		Unit selectedUnit = this.getMeasurement().getDefaultUnit();
@@ -495,6 +509,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		journalEntry.setTransactionItems(items);
 
 		journalEntry.setCurrency(getCompany().getPrimaryCurrency());
+		journalEntry.setDate(new FinanceDate());
 
 		return journalEntry;
 	}
@@ -645,5 +660,190 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		w.put(messages.type(), messages.item()).gap();
 		w.put(messages.name(), this.name);
+	}
+
+	public Set<InventoryItemHistory> getInventoryHistory() {
+		return inventoryHistory;
+	}
+
+	public void setInventoryHistory(Set<InventoryItemHistory> inventoryHistory) {
+		this.inventoryHistory = inventoryHistory;
+	}
+
+	public void updateBalance(TransactionItem transactionItem) {
+		if (this.getType() != Item.TYPE_INVENTORY_PART) {
+			return;
+		}
+		Warehouse wareHouse = transactionItem.getWareHouse();
+		if (wareHouse == null) {
+			return;
+		}
+		Quantity quantity = transactionItem.getQuantity();
+		Session session = HibernateUtil.getCurrentSession();
+		Unit selectedUnit = quantity.getUnit();
+		Measurement defaultMeasurement = this.getMeasurement();
+		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+		Double value = (quantity.getValue() * selectedUnit.getFactor())
+				/ defaultUnit.getFactor();
+		Transaction transaction = transactionItem.getTransaction();
+		if (transaction.isDebitTransaction()) {
+			wareHouse.updateItemStatus(this, value, false);
+		} else {
+			wareHouse.updateItemStatus(this, value, true);
+		}
+		wareHouse.onUpdate(session);
+		session.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
+
+		updateAccounts(transactionItem);
+
+		
+		InventoryItemHistory similarHistory = getSimilarHistory(transactionItem
+				.getUpdateAmount());
+		if (similarHistory != null) {
+			session.delete(similarHistory);
+		} else {
+			InventoryItemHistory history = new InventoryItemHistory(this,
+					transactionItem.getUpdateAmount(), transaction);
+			session.save(history);
+		}
+	}
+
+	private InventoryItemHistory getSimilarHistory(double cost) {
+		for (InventoryItemHistory history : getInventoryHistory()) {
+			if (history.getCost() == -cost) {
+				return history;
+			}
+		}
+		return null;
+	}
+
+	private void updateAccounts(TransactionItem transactionItem) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = transactionItem.getTransaction();
+		double currencyFactor = transaction.getCurrencyFactor();
+		if (this.getType() == Item.TYPE_INVENTORY_PART) {
+			if (transaction.getTransactionCategory() != Transaction.CATEGORY_VENDOR) {
+				double costByInventoryScheme = getupdateAmount(transactionItem
+						.getItem());
+				if (expenseAccount != null) {
+					expenseAccount.updateCurrentBalance(transaction,
+							costByInventoryScheme, currencyFactor);
+					session.update(expenseAccount);
+				}
+				if (assestsAccount != null) {
+					assestsAccount.updateCurrentBalance(transaction,
+							-costByInventoryScheme, currencyFactor);
+					session.update(assestsAccount);
+				}
+			}
+		}
+	}
+
+	private void doReverseEffectAccounts(TransactionItem transactionItem) {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction transaction = transactionItem.getTransaction();
+		double currencyFactor = transaction.getCurrencyFactor();
+		if (this.getType() == Item.TYPE_INVENTORY_PART) {
+			if (transaction.getTransactionCategory() != Transaction.CATEGORY_VENDOR) {
+				double costByInventoryScheme = getupdateAmount(transactionItem
+						.getItem());
+				if (expenseAccount != null) {
+					expenseAccount.updateCurrentBalance(transaction,
+							costByInventoryScheme, currencyFactor);
+					session.update(expenseAccount);
+				}
+				if (assestsAccount != null) {
+					assestsAccount.updateCurrentBalance(transaction,
+							-costByInventoryScheme, currencyFactor);
+					session.update(assestsAccount);
+				}
+			}
+		}
+
+	}
+
+	public void doReverseEffect(TransactionItem transactionItem) {
+		if (this.getType() != Item.TYPE_INVENTORY_PART) {
+			return;
+		}
+		Warehouse wareHouse = transactionItem.getWareHouse();
+		if (wareHouse == null) {
+			return;
+		}
+		Quantity quantity = transactionItem.getQuantity();
+		Session session = HibernateUtil.getCurrentSession();
+		Unit selectedUnit = quantity.getUnit();
+		Measurement defaultMeasurement = this.getMeasurement();
+		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+		Double value = (quantity.getValue() * selectedUnit.getFactor())
+				/ defaultUnit.getFactor();
+		if (transactionItem.getTransaction().isDebitTransaction()) {
+			wareHouse.updateItemStatus(this, value, true);
+		} else {
+			wareHouse.updateItemStatus(this, value, false);
+		}
+		wareHouse.onUpdate(session);
+		session.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
+
+		doReverseEffectAccounts(transactionItem);
+	}
+
+	/**
+	 * This will be used for Inventory Items Only.
+	 * 
+	 * @param item
+	 * 
+	 * @return
+	 */
+	public double getupdateAmount(Item item) {
+
+		int type = getCompany().getPreferences().getInventoryScheme();
+		List<InventoryItemHistory> list = new ArrayList<InventoryItemHistory>(
+				item.getInventoryHistory());
+		if (list.isEmpty()) {
+			// TODO
+		}
+		switch (type) {
+		case Item.INVENTORY_SCHME_FIFO: {
+
+			return getCostByFIFO(list);
+		}
+		case Item.INVENTORY_SCHME_LIFO: {
+			return getCostByLIFO(list);
+		}
+		case Item.INVENTORY_SCHME_AVERAGE: {
+
+			return getCostByAverage(list);
+		}
+		default:
+			return 0.0;
+		}
+
+	}
+
+	private double getCostByAverage(List<InventoryItemHistory> list) {
+		int total = 0;
+
+		for (InventoryItemHistory history : list) {
+			total += history.getCost();
+
+		}
+		double cost = total / list.size();
+		return cost;
+	}
+
+	private double getCostByLIFO(List<InventoryItemHistory> list) {
+		InventoryItemHistory inventoryItemHistory = list.get(list.size() - 1);
+		double cost = inventoryItemHistory.getCost();
+		return cost;
+	}
+
+	private double getCostByFIFO(List<InventoryItemHistory> list) {
+		double cost = 0.0;
+		InventoryItemHistory inventoryItemHistory = list.get(1);
+		cost = inventoryItemHistory.getCost();
+		return cost;
 	}
 }
