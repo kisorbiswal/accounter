@@ -1,19 +1,25 @@
 package com.vimukti.accounter.web.client.ui.core;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
+import com.vimukti.accounter.web.client.core.ClientStatement;
+import com.vimukti.accounter.web.client.core.ClientStatementRecord;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
+import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
 import com.vimukti.accounter.web.client.ui.banking.BankingHomeAction;
 import com.vimukti.accounter.web.client.ui.banking.BuyChecksAndFormsAction;
 import com.vimukti.accounter.web.client.ui.banking.ChartsOfAccountsAction;
@@ -28,6 +34,8 @@ import com.vimukti.accounter.web.client.ui.banking.NewReconcileAccountAction;
 import com.vimukti.accounter.web.client.ui.banking.PrintChecksAction;
 import com.vimukti.accounter.web.client.ui.banking.ReconciliationsListAction;
 import com.vimukti.accounter.web.client.ui.banking.ServicesOverviewAction;
+import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
+import com.vimukti.accounter.web.client.ui.banking.StatementReconcilationAction;
 import com.vimukti.accounter.web.client.ui.banking.SyncOnlinePayeesAction;
 import com.vimukti.accounter.web.client.ui.banking.WriteChecksAction;
 import com.vimukti.accounter.web.client.ui.combo.NewCurrencyAction;
@@ -339,6 +347,10 @@ public class ActionFactory {
 		return new WriteChecksAction();
 	}
 
+	public static BankStatementAction getBankStatementAction() {
+		return new BankStatementAction();
+	}
+
 	public static WriteChecksAction getWriteChecksAction(
 			ClientWriteCheck writeCheck,
 			AccounterAsyncCallback<Object> callBackObject) {
@@ -353,6 +365,14 @@ public class ActionFactory {
 			ClientTransferFund makeDeposit,
 			AccounterAsyncCallback<Object> callBackObject) {
 		return new MakeDepositAction(makeDeposit, callBackObject);
+	}
+
+	// for reconcilation.
+	public static MakeDepositAction getMakeDepositAction(
+			ClientAccount reconcilationAccount, double amount,
+			ClientStatementRecord statementRecord) {
+		return new MakeDepositAction(reconcilationAccount, amount,
+				statementRecord);
 	}
 
 	public static EnterPaymentsAction getEnterPaymentsAction() {
@@ -1349,6 +1369,36 @@ public class ActionFactory {
 
 	public static CreateIRASInformationFileAction getIARSInformationAction() {
 		return new CreateIRASInformationFileAction();
+	}
+
+	/**
+	 * For Reconcilation
+	 * 
+	 * @param accountid
+	 * 
+	 * @return
+	 */
+
+	public static BankStatementAction getImportBankStatementAction() {
+		return new BankStatementAction();
+	}
+
+	public static StatementReconcilationAction getStatementReconcilationAction(
+			long accountid, ClientStatement statementId) {
+		return new StatementReconcilationAction(accountid, statementId);
+	}
+
+	public static StatementImportViewAction getStatementImportViewAction(
+			List<String[]> data, long accountId) {
+		return new StatementImportViewAction(data, accountId);
+	}
+
+	public static Action<?> getBankFeesAction() {
+		return null;
+	}
+
+	public static Action<?> getMinorAdjustmentsAction() {
+		return null;
 	}
 
 	public static RealisedExchangeLossesAndGainsAction getRealisedExchangeLossesAndGainsAction() {
