@@ -59,6 +59,7 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVATEntries;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -101,6 +102,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
+import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -2086,6 +2088,19 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return tool.savePortletConfiguration(configuration);
 	}
 
+	public PaginationList<ClientStatement> getBankStatements(long accountId) {
+
+		PaginationList<ClientStatement> bankStatements = null;
+		try {
+			bankStatements = getFinanceTool().getBankStatements(accountId,
+					getCompanyId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bankStatements;
+
+	}
+
 	@Override
 	public String getIRASFileInformation(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, boolean isXml) throws AccounterException {
@@ -2143,5 +2158,74 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public PaginationList<TransactionsList> getSpentTransactionsList(
+			long fromDate, long toDate, int start, int length) {
+		PaginationList<TransactionsList> transactionsList = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+					getCompanyId());
+			transactionsList = getFinanceTool().getInventoryManager()
+					.getSpentTransactionsList(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), start,
+							length);
+			return transactionsList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public PaginationList<TransactionsList> getReceivedTransactionsList(
+			long fromDate, long toDate, int start, int length) {
+		PaginationList<TransactionsList> transactionsList = null;
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+					getCompanyId());
+			transactionsList = getFinanceTool().getInventoryManager()
+					.getReceivedTransactionsList(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), start,
+							length);
+			return transactionsList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public PaginationList<TransactionsList> getSpentAndReceivedTransactionsList(
+			long endOfFiscalYear, long date, int start, int length) {
+		PaginationList<TransactionsList> transactionsList = null;
+		FinanceDate[] dates = getMinimumAndMaximumDates(new ClientFinanceDate(
+				20110930), new ClientFinanceDate(), getCompanyId());
+
+		try {
+			transactionsList = getFinanceTool().getInventoryManager()
+					.getReceivedTransactionsList(getCompanyId(),
+							dates[0].getDate(), dates[1].getDate(), start,
+							length);
+
+			PaginationList<TransactionsList> list2 = getFinanceTool()
+					.getInventoryManager().getSpentTransactionsList(
+							getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), start, length);
+			if (list2 != null && !list2.isEmpty()) {
+				for (TransactionsList tr : list2) {
+					transactionsList.add(tr);
+				}
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+
+		return transactionsList;
 	}
 }

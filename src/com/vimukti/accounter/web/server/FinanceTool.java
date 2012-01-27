@@ -92,6 +92,7 @@ import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXRateCalculation;
@@ -140,6 +141,7 @@ import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientReconciliationItem;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientReminder;
+import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -4309,5 +4311,47 @@ public class FinanceTool {
 
 		}
 		return "";
+	}
+
+	/**
+	 * If accountId = 0, returns all bank statements if accountId != 0 , returns
+	 * bank statements of that particular accountId
+	 * 
+	 * @param companyId
+	 * @return
+	 */
+	public PaginationList<ClientStatement> getBankStatements(long accountId,
+			long companyId) {
+
+		Session session = HibernateUtil.getCurrentSession();
+
+		PaginationList<ClientStatement> statements = new PaginationList<ClientStatement>();
+		try {
+			@SuppressWarnings("unchecked")
+			ArrayList<Statement> listStatements = new ArrayList<Statement>(
+					session.getNamedQuery("list.bankStatement")
+							.setParameter("companyId", companyId).list());
+			for (Statement statement : listStatements) {
+				ClientStatement clientObject = new ClientConvertUtil()
+						.toClientObject(statement, ClientStatement.class);
+
+				if (accountId == 0) {// for displaying in BankStatementsView,
+										// add all statement objects
+					statements.add(clientObject);
+				} else if (accountId != 0) {
+					if (accountId == clientObject.getAccount()) {// for a
+																	// particular
+						// accountId in
+						// statementObject
+						statements.add(clientObject);
+					}
+				}
+
+			}
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return statements;
+
 	}
 }
