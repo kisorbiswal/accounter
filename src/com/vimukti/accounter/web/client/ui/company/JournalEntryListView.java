@@ -78,6 +78,7 @@ public class JournalEntryListView extends
 		}
 		grid.removeLoadingImage();
 		grid.setRecords(result);
+		grid.sort(0, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
 				result.getTotalCount());
