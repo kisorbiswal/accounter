@@ -26,10 +26,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -169,8 +171,8 @@ public class OpenCompanyServlet extends BaseServlet {
 					response.sendRedirect(COMPANIES_URL);
 					return;
 				}
-
-				//EU.initEncryption(company, client.getPassword());
+				AccounterThreadLocal.set(user);
+				EU.initEncryption(company, client.getPassword());
 
 				if (!isSupportedUser) {
 					Activity activity = new Activity(getCompany(request), user,
