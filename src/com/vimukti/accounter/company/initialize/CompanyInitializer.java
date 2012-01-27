@@ -1001,6 +1001,10 @@ public abstract class CompanyInitializer {
 		createAccount(Account.TYPE_LONG_TERM_LIABILITY,
 				AccounterServerConstants.DEFERRED_TAX,
 				Account.CASH_FLOW_CATEGORY_FINANCING);
+		// For Reconciliation Rounding Adjustment
+		createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
+				AccounterServerConstants.ROUNDING,
+				Account.CASH_FLOW_CATEGORY_FINANCING);
 
 		// createAccount(Account.TYPE_OTHER_CURRENT_LIABILITY,
 		// AccounterServerConstants.CREDIT_CARDS,
