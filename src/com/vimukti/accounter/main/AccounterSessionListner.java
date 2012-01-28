@@ -27,11 +27,15 @@ public class AccounterSessionListner implements HttpSessionListener {
 		HttpSession httpSession = sessionEvent.getSession();
 		Long companyId = (Long) httpSession
 				.getAttribute(BaseServlet.COMPANY_ID);
-		String userID = (String) httpSession.getAttribute("userID");
-		if (userID != null) {
+		String emailId = (String) httpSession
+				.getAttribute(BaseServlet.EMAIL_ID);
+		Long userId = (Long) httpSession.getAttribute(BaseServlet.USER_ID);
+		if (emailId != null) {
 			log.info("Session expired, Comet destroyed");
 			// session time out
-			CometManager.destroyStream(httpSession.getId(), companyId, userID);
+			CometManager.destroyStream(httpSession.getId(), companyId, emailId);
+
+			// EU.removeEncryption(userId);
 		}
 	}
 
