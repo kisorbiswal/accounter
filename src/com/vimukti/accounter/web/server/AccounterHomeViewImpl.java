@@ -41,7 +41,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1944,6 +1944,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public ArrayList<ClientTDSChalanDetail> getTDSChallansForAckNo(String ackNo)
+			throws AccounterException {
+		return getFinanceTool().getTDSChallansForAckNo(ackNo, getCompanyId());
+	}
+
+	@Override
 	public ClientTDSDeductorMasters getDeductorMasterDetails() {
 
 		try {
@@ -2015,9 +2021,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
+	public ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear) {
-		List<ClientETDSFilling> etdsList = new ArrayList<ClientETDSFilling>();
+		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 		try {
 
 			etdsList = getFinanceTool().getEtdsList(formNo, quater, startYear,
@@ -2026,7 +2032,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ClientETDSFilling>(etdsList);
+		return new ArrayList<ClientETDSFillingItem>(etdsList);
 	}
 
 	@Override
