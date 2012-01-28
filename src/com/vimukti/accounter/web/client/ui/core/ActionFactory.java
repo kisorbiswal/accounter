@@ -213,6 +213,7 @@ import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 import com.vimukti.accounter.web.client.ui.vat.TAXAgencyListAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentsReportAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSFiledDetailsAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSForm16AAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
@@ -1357,6 +1358,10 @@ public class ActionFactory {
 
 	public static TDSAcknowledgmentsReportAction getTDSAcknowledgmentsReportAction() {
 		return new TDSAcknowledgmentsReportAction();
+	}
+
+	public static TDSFiledDetailsAction getTDSFiledDetailsAction() {
+		return new TDSFiledDetailsAction();
 	}
 
 	public static VendorCenterAction getVendorCentreAction() {
