@@ -28,8 +28,8 @@ public class SelectChallanTypeDialog extends BaseDialog<ClientTDSChalanDetail> {
 		typeRadio.setShowTitle(false);
 		typeRadio.setRequired(true);
 
-		typeRadio.setValueMap(messages.form26Q(), messages.form27Q());
-		// messages.form27EQ());
+		typeRadio.setValueMap(messages.form26Q(), messages.form27Q(),
+				messages.form27EQ());
 		typeRadio.setDefaultValue(messages.form26Q());
 
 		typeForm = new DynamicForm();
