@@ -3,13 +3,8 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.json.client.JSONParser;
-import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.client.ui.HasAlignment;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -17,6 +12,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
+import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LabelItem;
 
@@ -115,6 +112,7 @@ public class TDSFiledDetailsView extends BaseView {
 		DynamicForm filedForm = new DynamicForm();
 		filedForm.setFields(ackNoLabel, dateOfFiledLabel, financialYearLabel,
 				assesmentYearLabel, quaterLabel);
+		filedForm.setSize("30%", "100%");
 		mainPanel.add(formNoLabel.getMainWidget());
 		mainPanel.add(filedForm);
 
@@ -159,6 +157,12 @@ public class TDSFiledDetailsView extends BaseView {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void createButtons(ButtonBar buttonBar) {
+		this.cancelButton = new CancelButton(this);
+		buttonBar.add(cancelButton);
 	}
 
 }
