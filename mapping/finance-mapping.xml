@@ -2115,6 +2115,17 @@
 		<property name="panNumber"></property>
 		<property name="stdCode"></property>
 		<property name="isAddressSameForResopsiblePerson"></property>
+		<component name="taxOfficeAddress" class="Address">
+			<property name="type" column="TAXOFFICE_ADDRESS_TYPE"></property>
+			<property name="address1" column="TAXOFFICE_ADDRESS_ADDRESS1"
+				length="100"></property>
+			<property name="street" column="TAXOFFICE_ADDRESS_STREET"></property>
+			<property name="city" column="TAXOFFICE_ADDRESS_CITY"></property>
+			<property name="stateOrProvinence" column="TAXOFFICE_ADDRESS_STATE"></property>
+			<property name="zipOrPostalCode" column="TAXOFFICE_ADDRESS_ZIP"></property>
+			<property name="countryOrRegion" column="TAXOFFICE_ADDRESS_COUNTRY"></property>
+			<property name="isSelected" column="TAXOFFICE_ADDRESS_IS_SELECTED"></property>
+		</component>
 	</class>
 
 	<!-- TDSResponsiblePerson class -->
