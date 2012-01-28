@@ -226,16 +226,14 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 										list.add(head);
 										list.add(value);
 										valuesMap.put(selectedComboIndex, list);
-										setSelectedValue(selectionBox, true);
+										setSelectedValue(selectionBox);
 										comboIndexesMap.remove(key);
 										return true;
 									};
 
 									// Cancel clicked
 									protected boolean onCancel() {
-										comboIndexesMap.put(selectedComboIndex,
-												"0");
-										setSelectedValue(selectionBox, false);
+										selectionBox.setSelectedIndex(0);
 										return true;
 									};
 								};
@@ -294,29 +292,18 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 	 * @param selectionBox
 	 * @param isOkcliecked
 	 */
-	private void setSelectedValue(ListBox selectionBox, boolean isOkcliecked) {
+	private void setSelectedValue(ListBox selectionBox) {
 		for (int x = 0; x < controlsPanel.getWidgetCount(); x++) {
 			HorizontalPanel panel = (HorizontalPanel) controlsPanel
 					.getWidget(x);
 			ListBox listBox = (ListBox) panel.getWidget(2);
-			// isOkcliecked is true then reasign the value
-			if (isOkcliecked) {
-				if (listBox != selectionBox
-						&& listBox.getSelectedIndex() == selectionBox
-								.getSelectedIndex()) {
-					listBox.setSelectedIndex(0);
-					break;
-				}
-				// isOkcliecked is false then set combo value to zero index
-			} else {
-
-				if (listBox == selectionBox
-						&& comboIndexesMap.containsKey(listBox
-								.getSelectedIndex())) {
-					listBox.setSelectedIndex(0);
-					break;
-				}
+			if (listBox != selectionBox
+					&& listBox.getSelectedIndex() == selectionBox
+							.getSelectedIndex()) {
+				listBox.setSelectedIndex(0);
+				break;
 			}
+
 		}
 	}
 
@@ -391,7 +378,6 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 		data.setAccount(accountId);
 		data.setStatementList(records);
 		data.setCompanyId(getCompany().getID());
-
 	}
 
 	/**
