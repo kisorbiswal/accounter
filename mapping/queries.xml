@@ -1988,7 +1988,14 @@
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
 		tc.company=:company and tc.formType=:formNum and
 		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
-		tc.assessmentYearEnd=:endYear
+		tc.assesmentYearEnd=:endYear
+	</query>
+	
+	<query name="getTDSChallansForAckNo">
+		<query-param name="ackNo" type="String" />
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company.id=:companyId and tc.etdsfillingAcknowledgementNo=:ackNo
 	</query>
 
 	<query name="getCustomer.by.name">
