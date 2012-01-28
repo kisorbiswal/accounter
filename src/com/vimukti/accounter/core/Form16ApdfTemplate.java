@@ -2,9 +2,8 @@ package com.vimukti.accounter.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
-import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
@@ -14,26 +13,48 @@ public class Form16ApdfTemplate {
 
 	FormDetails formdetails;
 
+	List<BookEntry> bookentries = new ArrayList<BookEntry>();
+
+	List<BookEntry> chalaLists = new ArrayList<BookEntry>();
+
+	List<PaymentSummary> paymentSummaryList = new ArrayList<PaymentSummary>();
+
+	List<SummaryOfTax> summaryOfTaxList = new ArrayList<SummaryOfTax>();
+
+	Verification verification;
+
 	public Form16ApdfTemplate() {
 		formdetails = new FormDetails();
+		verification = new Verification();
 	}
 
 	public IContext assignValues(IContext context, IXDocReport report) {
 
 		try {
+			FieldsMetadata summaryOfTaxData = new FieldsMetadata();
+			summaryOfTaxData.addFieldAsList("tax.quarter");
+			summaryOfTaxData.addFieldAsList("tax.receiptNumber");
+			summaryOfTaxData.addFieldAsList("tax.amount");
+			summaryOfTaxData.addFieldAsList("tax.deposited");
+			summaryOfTaxData.addFieldAsList("payment.amountPaid");
+			summaryOfTaxData.addFieldAsList("payment.natureOfPayment");
+			summaryOfTaxData.addFieldAsList("payment.dateOfPayment");
+			summaryOfTaxData.addFieldAsList("bookEntrychalan.taxDeposited");
+			summaryOfTaxData.addFieldAsList("bookEntrychalan.bsrCode");
+			summaryOfTaxData.addFieldAsList("bookEntrychalan.dateTaxDeposited");
+			summaryOfTaxData.addFieldAsList("bookEntrychalan.serialNumber");
+			summaryOfTaxData.addFieldAsList("chalan.taxDeposited");
+			summaryOfTaxData.addFieldAsList("chalan.bsrCode");
+			summaryOfTaxData.addFieldAsList("chalan.dateTaxDeposited");
+			summaryOfTaxData.addFieldAsList("chalan.serialNumber");
+			report.setFieldsMetadata(summaryOfTaxData);
 
-			FieldsMetadata headersMetaData = new FieldsMetadata();
-			headersMetaData.addFieldAsList("payment.amountPaid");
-			headersMetaData.addFieldAsList("payment.natureOfPayment");
-			headersMetaData.addFieldAsList("payment.dateOfPayment");
-			report.setFieldsMetadata(headersMetaData);
-			List<PaymentSummary> paymentSummaryList = new ArrayList<PaymentSummary>();
-
-			for (int i = 0; i < 4; i++) {
-				paymentSummaryList.add(new PaymentSummary("", "", ""));
-			}
-			context.put("payment", paymentSummaryList);
 			context.put("form", formdetails);
+			context.put("payment", paymentSummaryList);
+			context.put("tax", summaryOfTaxList);
+			context.put("bookEntrychalan", bookentries);
+			context.put("chalan", chalaLists);
+			context.put("verification", verification);
 
 			return context;
 		} catch (Exception e) {
@@ -50,7 +71,7 @@ public class Form16ApdfTemplate {
 		private String deductorTan;
 		private String deducteePan;
 		private String cit;
-		private String assesmentYear;
+		private String assessmentYear;
 		private String fromDate;
 		private String toDate;
 
@@ -102,14 +123,6 @@ public class Form16ApdfTemplate {
 			this.cit = cit;
 		}
 
-		public String getAssesmentYear() {
-			return assesmentYear;
-		}
-
-		public void setAssesmentYear(String assesmentYear) {
-			this.assesmentYear = assesmentYear;
-		}
-
 		public String getFromDate() {
 			return fromDate;
 		}
@@ -126,6 +139,14 @@ public class Form16ApdfTemplate {
 			this.toDate = toDate;
 		}
 
+		public String getAssessmentYear() {
+			return assessmentYear;
+		}
+
+		public void setAssessmentYear(String assessmentYear) {
+			this.assessmentYear = assessmentYear;
+		}
+
 	}
 
 	public class PaymentSummary {
@@ -134,10 +155,11 @@ public class Form16ApdfTemplate {
 		private String natureOfPayment;
 		private String dateOfPayment;
 
-		public PaymentSummary(String string, String string2, String string3) {
-			amountPaid = string;
-			natureOfPayment = string2;
-			dateOfPayment = string3;
+		public PaymentSummary(String amountPaid, String natureOfPayment,
+				String dateOfPayment) {
+			setAmountPaid(amountPaid);
+			setNatureOfPayment(natureOfPayment);
+			setDateOfPayment(dateOfPayment);
 		}
 
 		public String getAmountPaid() {
@@ -213,6 +235,7 @@ public class Form16ApdfTemplate {
 		private String bsrCode;
 		private String dateTaxDeposited;
 		private String serialNumber;
+		private String totalTaxDeposited;
 
 		public String getTaxDeposited() {
 			return taxDeposited;
@@ -246,10 +269,94 @@ public class Form16ApdfTemplate {
 			this.serialNumber = serialNumber;
 		}
 
+		public String getTotalTaxDeposited() {
+			return totalTaxDeposited;
+		}
+
+		public void setTotalTaxDeposited(String totalTaxDeposited) {
+			this.totalTaxDeposited = totalTaxDeposited;
+		}
+
+	}
+
+	public class Verification {
+
+		private String place;
+		private String signature;
+		private String date;
+		private String fullName;
+		private String designation;
+		private String name;
+		private String rupees;
+		private String amountinwords;
+
+		public String getPlace() {
+			return place;
+		}
+
+		public void setPlace(String place) {
+			this.place = place;
+		}
+
+		public String getSignature() {
+			return signature;
+		}
+
+		public void setSignature(String signature) {
+			this.signature = signature;
+		}
+
+		public String getDate() {
+			return date;
+		}
+
+		public void setDate(String date) {
+			this.date = date;
+		}
+
+		public String getFullName() {
+			return fullName;
+		}
+
+		public void setFullName(String fullName) {
+			this.fullName = fullName;
+		}
+
+		public String getDesignation() {
+			return designation;
+		}
+
+		public void setDesignation(String designation) {
+			this.designation = designation;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setRupees(String rupees) {
+			this.rupees = rupees;
+		}
+
+		public String getRupees() {
+			return rupees;
+		}
+
+		public String getAmountinwords() {
+			return amountinwords;
+		}
+
+		public void setAmountinwords(String amountinwords) {
+			this.amountinwords = amountinwords;
+		}
 	}
 
 	public void setVendorandCompanyData(Vendor vendor,
-			ClientTDSDeductorMasters tdsDeductorMasterDetails) {
+			TDSDeductorMasters tdsDeductorMasterDetails) {
 
 		String buildingName;
 		if (tdsDeductorMasterDetails.getBuildingName() != null)
@@ -290,23 +397,137 @@ public class Form16ApdfTemplate {
 		Set<Address> address = vendor.getAddress();
 		if (address.size() > 0) {
 			for (Address address2 : address) {
-				formdetails.setDeducteeAddress(address2.getCity() + " "
-						+ address2.getStreet() + " "
-						+ address2.getStateOrProvinence() + " "
-						+ address2.getCountryOrRegion() + " "
-						+ address2.getZipOrPostalCode());
+				formdetails.setDeducteeAddress(getValidAddress(address2));
 			}
 		} else {
 			formdetails.setDeducteeAddress(" ");
 		}
-
+		if (tdsDeductorMasterDetails.getTaxOfficeAddress() == null) {
+			formdetails.setCit("");
+		} else {
+			formdetails.setCit(getValidAddress(tdsDeductorMasterDetails
+					.getTaxOfficeAddress()));
+		}
+		formdetails.setAssessmentYear("");
 		formdetails.setDeducteePan(vendor.getTaxId());
+	}
 
+	protected String getValidAddress(Address address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		return toToSet;
 	}
 
 	public void setDateYear(String dateRangeString) {
 		String[] split = dateRangeString.split("-");
 		formdetails.setFromDate(split[0]);
 		formdetails.setToDate(split[1]);
+	}
+
+	public void setSummaryPaymentDetails(ArrayList<TDSChalanDetail> chalanList) {
+		double total = 0.0;
+		for (TDSChalanDetail chalan : chalanList) {
+			Long dateTaxPaid = chalan.getDateTaxPaid();
+			BookEntry bookEntry = new BookEntry();
+			bookEntry.setBsrCode(chalan.getBankBsrCode());
+			bookEntry.setDateTaxDeposited(new FinanceDate(chalan
+					.getDateTaxPaid()).toString());
+			bookEntry.setSerialNumber(String.valueOf(chalan
+					.getChalanSerialNumber()));
+			bookEntry.setTaxDeposited(String.valueOf(chalan.getTotal()));
+			total += chalan.getTotal();
+			bookEntry.setTotalTaxDeposited(String.valueOf(total));
+			verification.setRupees(String.valueOf(total));
+			verification
+					.setAmountinwords(com.vimukti.accounter.web.client.core.Utility
+							.convert(total));
+			if (chalan.isBookEntry()) {
+				bookentries.add(bookEntry);
+			}
+			chalaLists.add(bookEntry);
+			FinanceDate financeDate = new FinanceDate(dateTaxPaid);
+			for (TDSTransactionItem item : chalan.getTdsTransactionItems()) {
+				paymentSummaryList.add(new PaymentSummary(String.valueOf(item
+						.getTotalAmount()), chalan.getPaymentSection(),
+						financeDate.toString()));
+			}
+			formdetails.setAssessmentYear(String.valueOf(chalan
+					.getAssesmentYearStart())
+					+ "-"
+					+ String.valueOf(chalan.getAssessmentYearEnd()));
+		}
+		if (bookentries.isEmpty()) {
+			BookEntry bookEntry = new BookEntry();
+			bookEntry.setBsrCode("No information available");
+			bookEntry.setDateTaxDeposited("");
+			bookEntry.setSerialNumber("");
+			bookEntry.setTaxDeposited("");
+			bookEntry.setTotalTaxDeposited("");
+			bookentries.add(bookEntry);
+		}
+
+	}
+
+	public void setSummaryOfTaxDetails(
+			Map<Integer, ArrayList<TDSChalanDetail>> quarterList) {
+		for (int i = 0; i < quarterList.size(); i++) {
+			SummaryOfTax summaryOfTax = new SummaryOfTax();
+			summaryOfTax.setQuarter("Quarter " + String.valueOf(i + 1));
+			if (!quarterList.get(i).isEmpty()) {
+				long deposited = 0;
+				for (TDSChalanDetail chalan : quarterList.get(i)) {
+					deposited += chalan.getTotal();
+					summaryOfTax.setReceiptNumber(chalan
+							.getEtdsfillingAcknowledgementNo());
+				}
+				summaryOfTax.setDeposited(String.valueOf(deposited));
+				summaryOfTax.setAmount(String.valueOf(deposited));
+			} else {
+				summaryOfTax.setAmount("");
+				summaryOfTax.setDeposited("");
+				summaryOfTax.setReceiptNumber("");
+			}
+			summaryOfTaxList.add(summaryOfTax);
+		}
+	}
+
+	public void setVerificationDetails(TDSResponsiblePerson responsiblePerson,
+			String place, String date) {
+		verification.setDate(date);
+		if (place == null || place.isEmpty()) {
+			place = responsiblePerson.getCity();
+		}
+		verification.setPlace(place);
+		verification.setDesignation(responsiblePerson.getDesignation());
+		verification.setFullName(responsiblePerson.getName());
+		verification.setSignature("");
+		verification.setName(responsiblePerson.getName());
+		if (verification.getRupees() == null) {
+			verification.setRupees("");
+			verification.setAmountinwords("");
+		}
 	}
 }
