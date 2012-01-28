@@ -58,8 +58,8 @@ public class GenerateETDSServlet extends BaseServlet {
 
 		try {
 			chalanList = financetool.getChalanList(Integer.parseInt(formNo),
-					Integer.parseInt(quater), Integer.parseInt(startYear) + 1,
-					Integer.parseInt(endYear) + 1, getCompany(request).getId());
+					Integer.parseInt(quater), Integer.parseInt(startYear),
+					Integer.parseInt(endYear), getCompany(request).getId());
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (DAOException e) {
