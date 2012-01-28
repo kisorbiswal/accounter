@@ -41,6 +41,7 @@ public class LogoutServlet extends BaseServlet {
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), cid,
 							userid);
+					// EU.removeEncryption();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,6 +53,7 @@ public class LogoutServlet extends BaseServlet {
 			} else {
 				req.getSession().removeAttribute(EMAIL_ID);
 			}
+			req.getSession().removeAttribute(USER_ID);
 		}
 		// Support user and OpendCompany
 		if (isSupportedUser != null && isSupportedUser && cid != null) {
