@@ -34,7 +34,7 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	private long chalanSerialNumber;
 	private int formType;
 	private int assesmentYearStart;
-	private int assessmentYearEnd;
+	private int assesmentYearEnd;
 
 	private long payFrom;
 
@@ -205,11 +205,11 @@ public class ClientTDSChalanDetail extends ClientTransaction {
 	}
 
 	public int getAssessmentYearEnd() {
-		return assessmentYearEnd;
+		return assesmentYearEnd;
 	}
 
 	public void setAssessmentYearEnd(int assessmentYearEnd) {
-		this.assessmentYearEnd = assessmentYearEnd;
+		this.assesmentYearEnd = assessmentYearEnd;
 	}
 
 	public List<ClientTDSTransactionItem> getTdsTransactionItems() {

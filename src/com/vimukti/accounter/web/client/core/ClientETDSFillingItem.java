@@ -1,6 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
-public class ClientETDSFilling implements IAccounterCore {
+public class ClientETDSFillingItem implements IAccounterCore {
 
 	/**
 	 * 
