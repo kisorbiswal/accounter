@@ -15,7 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -355,9 +355,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public PaginationList<ClientTDSChalanDetail> getTDSChalanDetailsList();
 
+	public ArrayList<ClientTDSChalanDetail> getTDSChallansForAckNo(String ackNo)
+			throws AccounterException;
+
 	ArrayList<ClientTDSTransactionItem> getTDSTransactionItemsList(int formType);
 
-	ArrayList<ClientETDSFilling> getEtdsDetails(int formNo, int quater,
+	ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo, int quater,
 			int startYear, int endYear);
 
 	boolean updateAckNoForChallans(int formNo, int quater, int startYear,

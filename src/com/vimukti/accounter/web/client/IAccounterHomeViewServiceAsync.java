@@ -17,7 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -464,6 +464,9 @@ public interface IAccounterHomeViewServiceAsync {
 	void getTDSChalanDetailsList(
 			AsyncCallback<PaginationList<ClientTDSChalanDetail>> callback);
 
+	void getTDSChallansForAckNo(String ackNo,
+			AsyncCallback<ArrayList<ClientTDSChalanDetail>> callback);
+
 	void getDeductorMasterDetails(
 			AsyncCallback<ClientTDSDeductorMasters> callback);
 
@@ -487,7 +490,7 @@ public interface IAccounterHomeViewServiceAsync {
 			List<PrintCheque> printCheques, AsyncCallback<String> callback);
 
 	void getEtdsDetails(int formNo, int quater, int startYear, int endYear,
-			AsyncCallback<ArrayList<ClientETDSFilling>> callback);
+			AsyncCallback<ArrayList<ClientETDSFillingItem>> callback);
 
 	void updateAckNoForChallans(int formNo, int quater, int startYear,
 			int endYear, String ackNo, long date,
