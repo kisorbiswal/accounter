@@ -535,7 +535,7 @@ public class MenuBar {
 				messages.payeeStatement(Global.get().Customers()),
 				HistoryTokens.CUSTOMERSTATEMENT);
 		customersAndReceivableMenuBar.addMenuItem(
-				messages.payeeTransactionHistory(messages.customer()),
+				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 
 		return customersAndReceivableMenuBar;

@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -48,7 +49,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 				messages.financialYearToDate(), messages.custom() };
 
 		if (isVendor) {
-			vendorCombo = new VendorCombo("Choose Vendor", false);
+			vendorCombo = new VendorCombo(
+					messages.choose(Global.get().Vendor()), false);
 			new StatementReport(true);
 			vendorCombo
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -63,7 +65,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
 			}
 		} else {
-			customerCombo = new CustomerCombo("Choose Customer", false);
+			customerCombo = new CustomerCombo(messages.choose(Global.get()
+					.Customer()), false);
 			new StatementReport(false);
 			customerCombo
 					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
