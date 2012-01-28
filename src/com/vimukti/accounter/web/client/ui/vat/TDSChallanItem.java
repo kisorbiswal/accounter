@@ -29,6 +29,7 @@ public class TDSChallanItem extends SimplePanel {
 	 */
 	private void initItem() {
 		SafeHtmlBuilder sb = new SafeHtmlBuilder();
+		sb.appendHtmlConstant("<br>");
 		sb.appendHtmlConstant("<table width='100%' class='historyItem'>");
 
 		sb.appendHtmlConstant("<tr>");
