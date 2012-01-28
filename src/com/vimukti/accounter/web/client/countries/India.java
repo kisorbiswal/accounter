@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.countries;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.util.AbstractCountryPreferences;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
@@ -93,5 +96,14 @@ public class India extends AbstractCountryPreferences {
 	@Override
 	public String getDefaultTimeZone(String state) {
 		return "UTC+5:30 Asia/Kolkata";
+	}
+
+	@Override
+	public ArrayList<String> getCompanyFields() {
+		List<String> companyFields = new ArrayList<String>();
+		companyFields.add("TIN");
+		companyFields.add("TAN");
+		companyFields.add("PAN");
+		return new ArrayList<String>(companyFields);
 	}
 }
