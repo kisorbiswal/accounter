@@ -200,6 +200,8 @@
 
 		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
+		<property name="aesEncryptionKey" column="AES_ENCRYPTION_KEY"
+			type="blob"></property>
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
 		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
@@ -1115,6 +1117,11 @@
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="otherField1" column="OTHER_FIELD_1"></property>
+			<property name="otherField2" column="OTHER_FIELD_2"></property>
+			<property name="otherField3" column="OTHER_FIELD_3"></property>
+			<property name="otherField4" column="OTHER_FIELD_4"></property>
+			<property name="otherField5" column="OTHER_FIELD_5"></property>
 
 		</joined-subclass>
 	</class>
@@ -2146,8 +2153,7 @@
 		<id name="id" column="id">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
 		<property name="statementDate" column="STATEMENT_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -2156,13 +2162,13 @@
 		<property name="spentAmount" column="SPENT_AMOUNT"></property>
 		<property name="receivedAmount" column="RECEIVE_AMOUNT"></property>
 		<property name="closingBalance" column="CLOSING_BALANCE"></property>
-	  <property name="isMatched" column="IS_MATCHED"></property>
-		  	<list name="transactionLists" cascade="save-update,delete">
+		<property name="isMatched" column="IS_MATCHED"></property>
+		<list name="transactionLists" cascade="save-update,delete">
 			<key column="STATEMENT_RECORD_ID" />
 			<list-index column="TRANSACTION_IDX" />
 			<one-to-many class="com.vimukti.accounter.core.Transaction" />
-		</list> 
-		
+		</list>
+
 		<many-to-one name="statement" column="STATEMENT_ID" class="Statement">
 		</many-to-one>
 
@@ -2186,7 +2192,8 @@
 		<property name="closingBalance" column="CLOSING_BALANCE"></property>
 
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID"></many-to-one>
-		<many-to-one name="reconciliation" class="Reconciliation" column="RECONCILIATION_ID"></many-to-one>
+		<many-to-one name="reconciliation" class="Reconciliation"
+			column="RECONCILIATION_ID"></many-to-one>
 		<list name="statementRecords" cascade="save-update,delete">
 			<key column="STATEMENT_ID" />
 			<list-index column="IDX" />
