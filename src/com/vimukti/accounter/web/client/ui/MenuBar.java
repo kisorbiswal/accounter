@@ -1016,7 +1016,8 @@ public class MenuBar {
 					HistoryTokens.ACCOUNTERCLASSLIST);
 		}
 		if (isLocationTracking) {
-			manageSupportListMenuBar.addMenuItem(messages.locationsList(),
+			manageSupportListMenuBar.addMenuItem(
+					messages.locationsList(Global.get().Location()),
 					HistoryTokens.LOCATIONGROUPLIST);
 		}
 		if (isPriceLevelEnabled) {

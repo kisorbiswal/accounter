@@ -2435,7 +2435,7 @@ public interface AccounterMessages extends Messages {
 
 	public String locationName(String location);
 
-	public String locationsList();
+	public String locationsList(String location);
 
 	public String locationTracking(String location);
 

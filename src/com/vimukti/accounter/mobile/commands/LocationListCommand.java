@@ -55,7 +55,7 @@ public class LocationListCommand extends AbstractCommand {
 
 			@Override
 			protected String getShowMessage() {
-				return getMessages().locationsList();
+				return getMessages().locationsList(Global.get().Location());
 			}
 
 			@Override
