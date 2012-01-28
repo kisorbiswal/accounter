@@ -1541,14 +1541,16 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 						ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
 
 						for (ClientTransaction clientTransaction : salesAndEstimates) {
+							boolean isThere = false;
 							for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
 								if (estimatesalesorderlist.getTransactionId() == clientTransaction
 										.getID()) {
 									estimatesList.add(estimatesalesorderlist);
-								} else {
-									notAvailableEstimates
-											.add(clientTransaction);
+									isThere = true;
 								}
+							}
+							if (!isThere) {
+								notAvailableEstimates.add(clientTransaction);
 							}
 						}
 
