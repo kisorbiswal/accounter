@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientBudget;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -29,7 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.ETdsCellTable;
 
-public class ETdsFillingView extends BaseView<ClientETDSFilling> {
+public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 	private SelectCombo formType;
 	private Label lab1;
@@ -48,7 +48,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	private int quaterSelected;
 	private int startYear;
 	private int endYear;
-	protected ArrayList<ClientETDSFilling> eTDSList;
+	protected ArrayList<ClientETDSFillingItem> eTDSList;
 	private ClientTDSDeductorMasters deductor;
 	private ClientTDSResponsiblePerson responsiblePerson;
 	private Button acknowledgementFormButton;
@@ -66,7 +66,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 	public void initData() {
 		if (data == null) {
-			setData(new ClientETDSFilling());
+			setData(new ClientETDSFillingItem());
 			initCallBack();
 		}
 		getDeductorAndResponsiblePerson();
@@ -263,13 +263,13 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 	@Override
 	public void saveAndUpdateView() {
-		List<ClientETDSFilling> dataList = tdsCellTable.getAllRows();
+		List<ClientETDSFillingItem> dataList = tdsCellTable.getAllRows();
 
 		String panList = "";
 		String remarkList = "";
 		String codeList = "";
 		String grossingUpList = "";
-		for (ClientETDSFilling record : dataList) {
+		for (ClientETDSFillingItem record : dataList) {
 			if (record.getRemark() != null) {
 				remarkList = remarkList + record.getRemark().trim();
 			}
@@ -328,9 +328,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 					"TDS responsible person details not entered yet. Please fill the details first.");
 		}
 
-		List<ClientETDSFilling> records = tdsCellTable.getAllRows();
+		List<ClientETDSFillingItem> records = tdsCellTable.getAllRows();
 
-		for (ClientETDSFilling row : records) {
+		for (ClientETDSFillingItem row : records) {
 			if (row.getCompanyCode() == null || row.getCompanyCode().isEmpty()) {
 				result.addError(tdsCellTable,
 						"Please select deductee code for all records.");
@@ -370,7 +370,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 	private void initCallBack() {
 		Accounter.createHomeService().getEtdsDetails(formNoSelected,
 				quaterSelected, startYear, endYear,
-				new AccounterAsyncCallback<ArrayList<ClientETDSFilling>>() {
+				new AccounterAsyncCallback<ArrayList<ClientETDSFillingItem>>() {
 
 					@Override
 					public void onException(AccounterException exception) {
@@ -380,7 +380,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFilling> {
 
 					@Override
 					public void onResultSuccess(
-							ArrayList<ClientETDSFilling> result) {
+							ArrayList<ClientETDSFillingItem> result) {
 						eTDSList = result;
 						tdsCellTable.setAllRows(eTDSList);
 					}
