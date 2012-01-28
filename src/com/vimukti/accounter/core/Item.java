@@ -9,6 +9,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -554,7 +555,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 		Item item = (Item) clientObject;
 		Query query = session.getNamedQuery("getItem.by.Name")
-				.setString("name", item.name)
+				.setParameter("name", item.name, EncryptedStringType.INSTANCE)
 				.setEntity("company", item.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

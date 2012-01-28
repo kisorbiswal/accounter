@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.CashSales;
@@ -116,7 +117,7 @@ public class SalesManager extends Manager {
 			Company company = getCompany(companyId);
 			Query query = session.getNamedQuery("getAccount.by.name.and.type")
 
-			.setParameter("name", accountName)
+			.setParameter("name", accountName, EncryptedStringType.INSTANCE)
 					.setParameter("type", Account.TYPE_OTHER_CURRENT_LIABILITY)
 					.setEntity("company", company);
 			List list = query.list();
@@ -265,7 +266,7 @@ public class SalesManager extends Manager {
 				.getNamedQuery("getSalesByItemDetailForParticularItem")
 				.setParameter("companyId", companyId).setParameter(
 
-				"itemName", itemName)
+				"itemName", itemName, EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
@@ -356,13 +357,16 @@ public class SalesManager extends Manager {
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
-					.setParameter("locationName", locationName)).list();
+					.setParameter("locationName", locationName,
+							EncryptedStringType.INSTANCE)).list();
 		} else {
-			l = ((Query) session.getNamedQuery("getSalesByClassDetailForClass")
+			l = ((Query) session
+					.getNamedQuery("getSalesByClassDetailForClass")
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
-					.setParameter("className", locationName)).list();
+					.setParameter("className", locationName,
+							EncryptedStringType.INSTANCE)).list();
 		}
 
 		Iterator iterator = l.iterator();

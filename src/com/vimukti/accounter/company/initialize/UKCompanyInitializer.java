@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -310,22 +311,21 @@ public class UKCompanyInitializer extends CompanyInitializer {
 			defaultVATAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)
-					.setString("name", "Net Monthly").list().get(0));
-			defaultVATAgency
-					.setSalesLiabilityAccount((Account) session
-							.getNamedQuery("unique.name.Account")
-							.setEntity("company", company)
-							.setString("name",
-									AccounterServerConstants.TAX_VAT_UNFILED)
-							.list().get(0));
+					.setParameter("name", "Net Monthly",
+							EncryptedStringType.INSTANCE).list().get(0));
+			defaultVATAgency.setSalesLiabilityAccount((Account) session
+					.getNamedQuery("unique.name.Account")
+					.setEntity("company", company)
+					.setParameter("name",
+							AccounterServerConstants.TAX_VAT_UNFILED,
+							EncryptedStringType.INSTANCE).list().get(0));
 
-			defaultVATAgency
-					.setPurchaseLiabilityAccount((Account) session
-							.getNamedQuery("unique.name.Account")
-							.setEntity("company", company)
-							.setString("name",
-									AccounterServerConstants.TAX_VAT_UNFILED)
-							.list().get(0));
+			defaultVATAgency.setPurchaseLiabilityAccount((Account) session
+					.getNamedQuery("unique.name.Account")
+					.setEntity("company", company)
+					.setParameter("name",
+							AccounterServerConstants.TAX_VAT_UNFILED,
+							EncryptedStringType.INSTANCE).list().get(0));
 
 			defaultVATAgency.setDefault(true);
 			defaultVATAgency.setCompany(company);

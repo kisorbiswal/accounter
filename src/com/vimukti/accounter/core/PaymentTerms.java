@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -165,8 +166,10 @@ public class PaymentTerms extends CreatableObject implements
 		}
 
 		PaymentTerms paymentTerms = (PaymentTerms) clientObject;
-		Query query = session.getNamedQuery("getPaymentTerms.by.Name")
-				.setString("name", paymentTerms.name)
+		Query query = session
+				.getNamedQuery("getPaymentTerms.by.Name")
+				.setParameter("name", paymentTerms.name,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", paymentTerms.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
@@ -1040,7 +1041,8 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
-						.setParameter("paymentmethod", typeOfRPString);
+						.setParameter("paymentmethod", typeOfRPString,
+								EncryptedStringType.INSTANCE);
 				return query.list();
 
 			}

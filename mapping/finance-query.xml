@@ -256,7 +256,7 @@
 		T.T_DATE
 	</sql-query>
 	<sql-query name="getPurchasesAndItemReceipts">
-		<query-param name="vendorId" type="String" />
+		<query-param name="vendorId" type="long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -340,7 +340,7 @@
 		ORDER BY T.T_DATE
 	</sql-query>
 	<sql-query name="getNotReceivedPurchaseOrdersList">
-		<query-param name="vendorId" type="String" />
+		<query-param name="vendorId" type="Long" />
 		<query-param name="companyId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="string" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -6647,7 +6647,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
-		<query-param name="payeeId" type="String" />
+		<query-param name="payeeId" type="Long" />
 
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -6785,7 +6785,7 @@
 	<sql-query name="getOpeningBalanceForCustomerByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="uptoDate" type="Long" />
-		<query-param name="payeeId" type="String" />
+		<query-param name="payeeId" type="Long" />
 
 		<return-scalar column="BALANCE" type="double" />
 
@@ -6873,7 +6873,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
-		<query-param name="payeeId" type="String" />
+		<query-param name="payeeId" type="Long" />
 
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
@@ -6988,7 +6988,7 @@
 	<sql-query name="getOpeningBalanceForVendorByDate">
 		<query-param name="companyId" type="long" />
 		<query-param name="uptoDate" type="Long" />
-		<query-param name="payeeId" type="String" />
+		<query-param name="payeeId" type="Long" />
 
 		<return-scalar column="BALANCE" type="double" />
 
@@ -13288,3 +13288,4 @@
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 </hibernate-mapping>
+

@@ -7,6 +7,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -265,7 +266,7 @@ public class TAXCode extends CreatableObject implements IAccounterServerCore,
 		// Query query = session.createQuery("from VATCode V where V.name=?")
 		// .setParameter(0, vatCode.name);
 		Query query = session.getNamedQuery("getTAXCodeWithSameName")
-				.setParameter("name", this.name)
+				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
 				.setParameter("id", this.getID())
 				.setParameter("companyId", taxCode.getCompany().getID());
 		List list = query.list();

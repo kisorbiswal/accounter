@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -197,11 +198,13 @@ public class USCompanyInitializer extends CompanyInitializer {
 			defaultTaxAgency.setPaymentTerm((PaymentTerms) session
 					.getNamedQuery("unique.name.PaymentTerms")
 					.setEntity("company", company)
-					.setString("name", "Net Monthly").list().get(0));
+					.setParameter("name", "Net Monthly",
+							EncryptedStringType.INSTANCE).list().get(0));
 			Account salesTaxPayable = (Account) session
 					.getNamedQuery("unique.name.Account")
 					.setEntity("company", company)
-					.setString("name", "Sales Tax Payable").list().get(0);
+					.setParameter("name", "Sales Tax Payable",
+							EncryptedStringType.INSTANCE).list().get(0);
 			defaultTaxAgency.setSalesLiabilityAccount(salesTaxPayable);
 			defaultTaxAgency.setPurchaseLiabilityAccount(salesTaxPayable);
 

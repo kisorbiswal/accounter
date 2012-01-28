@@ -9,6 +9,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.sun.istack.internal.Nullable;
@@ -187,12 +188,13 @@ public class RecurringTransaction extends CreatableObject implements
 		RecurringTransaction data = (RecurringTransaction) clientObject;
 		Query query = session.getNamedQuery("getRecurringTransaction.by.Name")
 				.setEntity("company", data.getCompany())
-				.setLong("id", data.getID()).setString("name", data.name);
+				.setLong("id", data.getID())
+				.setParameter("name", data.name, EncryptedStringType.INSTANCE);
 		List list = query.list();
 		if (list != null && !list.isEmpty()) {
 			throw new AccounterException(AccounterException.ERROR_NAME_CONFLICT);
 		}
-		
+
 		return true;
 	}
 

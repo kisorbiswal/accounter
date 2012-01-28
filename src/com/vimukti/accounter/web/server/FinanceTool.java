@@ -37,6 +37,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
@@ -4024,8 +4025,10 @@ public class FinanceTool {
 
 			String vendorName = (String) next[0];
 
-			Query namedQuery = session.getNamedQuery("getVendor.by.name")
-					.setParameter("name", vendorName)
+			Query namedQuery = session
+					.getNamedQuery("getVendor.by.name")
+					.setParameter("name", vendorName,
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			Vendor vendor = (Vendor) namedQuery.uniqueResult();
 			String vendorUEN = vendor.getPayeeFields().get("CompanyUEN");
@@ -4075,8 +4078,10 @@ public class FinanceTool {
 
 			String customerName = (String) next[0];
 
-			Query namedQuery = session.getNamedQuery("getCustomer.by.name")
-					.setParameter("name", customerName)
+			Query namedQuery = session
+					.getNamedQuery("getCustomer.by.name")
+					.setParameter("name", customerName,
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", company);
 			Customer customer = (Customer) namedQuery.uniqueResult();
 			String customerUEN = customer.getPayeeFields().get("CustomerUEN");

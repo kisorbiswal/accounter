@@ -12,6 +12,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -100,7 +101,8 @@ public class Warehouse extends CreatableObject implements IAccounterServerCore,
 				.getNamedQuery("getWarehouse")
 				.setParameter("companyId",
 						((Warehouse) clientObject).getCompany().getID())
-				.setString("name", this.name).setLong("id", this.getID());
+				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+				.setLong("id", this.getID());
 		List list = query.list();
 
 		if (list != null || list.size() > 0 || list.get(0) != null) {

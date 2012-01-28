@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -129,8 +130,10 @@ public class VendorGroup extends CreatableObject implements
 		}
 
 		VendorGroup vendorGroup = (VendorGroup) clientObject;
-		Query query = session.getNamedQuery("getVendorGroup.by.name")
-				.setString("name", vendorGroup.name)
+		Query query = session
+				.getNamedQuery("getVendorGroup.by.name")
+				.setParameter("name", vendorGroup.name,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", vendorGroup.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

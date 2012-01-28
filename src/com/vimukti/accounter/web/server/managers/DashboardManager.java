@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -461,7 +462,8 @@ public class DashboardManager extends Manager {
 			query = session
 					.getNamedQuery(
 							"getCashPurchase.by.employeeNmae.expenseStatusandtype")
-					.setParameter("employeeName", employeeName)
+					.setParameter("employeeName", employeeName,
+							EncryptedStringType.INSTANCE)
 					.setParameter("expenseStatus", status)
 					.setParameter("type", Transaction.TYPE_EMPLOYEE_EXPENSE)
 					.setEntity("company", company);

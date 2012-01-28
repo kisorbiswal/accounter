@@ -8,6 +8,7 @@ import java.util.Set;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -482,8 +483,11 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// }
 		// }
 
-		Query query = session.getNamedQuery("getCustomers")
-				.setString("name", this.name).setString("number", this.number)
+		Query query = session
+				.getNamedQuery("getCustomers")
+				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+				.setParameter("number", this.number,
+						EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID())
 				.setParameter("companyId", customer.getCompany().getID());
 

@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -198,7 +199,8 @@ public class ReportManager extends Manager {
 				.getNamedQuery(
 						"getTransactionDetailByTaxItemForParticularTaxItem")
 				.setParameter("companyId", companyId)
-				.setParameter("taxItemName", taxItemName)
+				.setParameter("taxItemName", taxItemName,
+						EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 
@@ -517,7 +519,8 @@ public class ReportManager extends Manager {
 					.getNamedQuery(
 							"getTransactionDetailByAccount_ForParticularAccount")
 					.setParameter("companyId", companyId)
-					.setParameter("accountName", accountName).setParameter(
+					.setParameter("accountName", accountName,
+							EncryptedStringType.INSTANCE).setParameter(
 
 					"startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
@@ -877,8 +880,8 @@ public class ReportManager extends Manager {
 		List l = ((Query) session
 				.getNamedQuery("getSalesByCustomerDetailForParticularCustomer")
 				.setParameter("companyId", companyId)
-				.setParameter("customerName", customerName)
-				.setParameter("startDate",
+				.setParameter("customerName", customerName,
+						EncryptedStringType.INSTANCE).setParameter("startDate",
 
 				startDate.getDate()).setParameter("endDate", endDate.getDate()))
 				.list();
@@ -1662,11 +1665,13 @@ public class ReportManager extends Manager {
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-		Query query = session.getNamedQuery("getCheckDetailReport")
+		Query query = session
+				.getNamedQuery("getCheckDetailReport")
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())
-				.setParameter("paymentmethod", paymentmethod);
+				.setParameter("paymentmethod", paymentmethod,
+						EncryptedStringType.INSTANCE);
 		List list = query.list();
 		Object[] object = null;
 		Iterator iterator = list.iterator();
@@ -2315,7 +2320,8 @@ public class ReportManager extends Manager {
 				.getNamedQuery("getTAXAdjustment.by.dates.and.taxItemName")
 				.setParameter("startDate", fromDate)
 				.setParameter("endDate", toDate)
-				.setParameter("taxItemName", taxItemName)
+				.setParameter("taxItemName", taxItemName,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", company);
 
 		List<TAXAdjustment> vatAdjustments = query.list();
@@ -3342,8 +3348,7 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List list = session.getNamedQuery("")
-				.setLong("companyId", companyId)
+		List list = session.getNamedQuery("").setLong("companyId", companyId)
 				.setLong("startDate", startDate.getDate())
 				.setLong("endDate", endDate.getDate()).list();
 

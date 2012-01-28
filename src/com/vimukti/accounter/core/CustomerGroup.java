@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -113,7 +114,8 @@ public class CustomerGroup extends CreatableObject implements
 		Query query = session
 				.getNamedQuery("getListofNames.from.customerGroup")
 				.setEntity("company", customerGroup.getCompany())
-				.setString("name", customerGroup.name);
+				.setParameter("name", customerGroup.name,
+						EncryptedStringType.INSTANCE);
 		List list = query.list();
 		if (list.size() > 0 && list != null) {
 			CustomerGroup newCustomerGroup = (CustomerGroup) list.get(0);

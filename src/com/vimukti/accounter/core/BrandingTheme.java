@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -515,7 +516,8 @@ public class BrandingTheme extends CreatableObject implements
 				.getNamedQuery("getBrandingTheme")
 				.setParameter("companyId",
 						((BrandingTheme) clientObject).getCompany().getID())
-				.setString("themeName", this.themeName)
+				.setParameter("themeName", this.themeName,
+						EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID());
 		List list = query.list();
 

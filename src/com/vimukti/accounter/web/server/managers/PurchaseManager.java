@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Company;
@@ -403,7 +404,8 @@ public class PurchaseManager extends Manager {
 		Query query = session
 				.getNamedQuery("getPurchasesByItemDetailForParticularItem")
 				.setParameter("companyId", companyId)
-				.setParameter("itemName", itemName)
+				.setParameter("itemName", itemName,
+						EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 

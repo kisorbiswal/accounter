@@ -9,6 +9,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -139,8 +140,10 @@ public class TAXItemGroup extends CreatableObject implements
 		// Query query =
 		// session.createQuery("from VATItemGroup V where V.name =: name")
 		// .setParameter("name", vatItemGroup.name);
-		Query query = session.getNamedQuery("getTaxItemGroupWithSameName")
-				.setParameter("name", this.getName())
+		Query query = session
+				.getNamedQuery("getTaxItemGroupWithSameName")
+				.setParameter("name", this.getName(),
+						EncryptedStringType.INSTANCE)
 				.setParameter("id", this.getID())
 				.setParameter("companyId", taxItemGroup.getCompany().getID());
 		List list = query.list();

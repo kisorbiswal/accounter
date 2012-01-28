@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -1685,7 +1686,8 @@ public class VendorManager extends PayeeManager {
 		List l = session
 				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
 				.setParameter("companyId", companyId)
-				.setParameter("vendorName", vendorName)
+				.setParameter("vendorName", vendorName,
+						EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 

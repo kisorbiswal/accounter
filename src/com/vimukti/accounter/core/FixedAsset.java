@@ -14,6 +14,7 @@ import java.util.Map;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -1963,9 +1964,11 @@ public class FixedAsset extends CreatableObject implements
 		}
 
 		FixedAsset fixedAsset = (FixedAsset) clientObject;
-		Query query = session.getNamedQuery("getFixedAssets")
-				.setString("name", this.name)
-				.setString("number", this.assetNumber)
+		Query query = session
+				.getNamedQuery("getFixedAssets")
+				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+				.setParameter("number", this.assetNumber,
+						EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID())
 				.setParameter("companyId", fixedAsset.getCompany().getID());
 

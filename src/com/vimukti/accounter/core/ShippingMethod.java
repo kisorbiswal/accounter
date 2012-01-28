@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -120,8 +121,10 @@ public class ShippingMethod extends CreatableObject implements
 		}
 
 		ShippingMethod shippingMethod = (ShippingMethod) clientObject;
-		Query query = session.getNamedQuery("getShippingmethod.by.Name")
-				.setString("name", shippingMethod.name)
+		Query query = session
+				.getNamedQuery("getShippingmethod.by.Name")
+				.setParameter("name", shippingMethod.name,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", shippingMethod.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

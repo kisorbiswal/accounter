@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -144,8 +145,10 @@ public class ItemGroup extends CreatableObject implements IAccounterServerCore,
 		ItemGroup itemGroup = (ItemGroup) clientObject;
 		// Query query = session.createQuery("from ItemGroup I where I.name=?")
 		// .setParameter(0, itemGroup.name);
-		Query query = session.getNamedQuery("getItemGroupWithSameName")
-				.setParameter("name", itemGroup.name)
+		Query query = session
+				.getNamedQuery("getItemGroupWithSameName")
+				.setParameter("name", itemGroup.name,
+						EncryptedStringType.INSTANCE)
 				.setParameter("id", itemGroup.getID())
 				.setParameter("companyId", itemGroup.getCompany().getID());
 		List list = query.list();

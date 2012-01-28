@@ -1495,7 +1495,7 @@
 	<query name="getTAXAdjustment.by.dates.and.taxAgency">
 		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="taxAgency" type="String" />
+		<query-param name="taxAgency" type="Long" />
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXAdjustment v where
 		v.taxItem.taxAgency.id=:taxAgency and v.transactionDate between

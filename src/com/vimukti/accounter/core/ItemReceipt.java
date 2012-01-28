@@ -6,6 +6,7 @@ import java.util.Map;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -334,8 +335,9 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 
 		Account pendingItemReceipt = (Account) session
 				.getNamedQuery("getNameofAccount.by.Name")
-				.setString("name",
-						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
+				.setParameter("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", getCompany()).uniqueResult();
 		if (pendingItemReceipt != null) {
 			pendingItemReceipt.updateCurrentBalance(this, this.total,
@@ -731,8 +733,9 @@ public class ItemReceipt extends Transaction implements Lifecycle {
 		Account account = (Account) HibernateUtil
 				.getCurrentSession()
 				.getNamedQuery("getNameofAccount.by.Name")
-				.setString("name",
-						AccounterServerConstants.PENDING_ITEM_RECEIPTS)
+				.setParameter("name",
+						AccounterServerConstants.PENDING_ITEM_RECEIPTS,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", getCompany()).uniqueResult();
 		map.put(account, total);
 		return map;

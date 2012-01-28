@@ -15,6 +15,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -1126,7 +1127,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 				Query query1 = session
 						.getNamedQuery("getFlowList.form.Account.byId")
 						.setParameter("parentId", this.oldParent.getID())
-						.setParameter("flow", oldFlow)
+						.setParameter("flow", oldFlow,
+								EncryptedStringType.INSTANCE)
 						.setEntity("company", getCompany());
 				List<Account> l2 = query1.list();
 
@@ -1307,8 +1309,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 
-		Query query = session.getNamedQuery("getAccounts")
-				.setString("name", this.name).setString("number", this.number)
+		Query query = session
+				.getNamedQuery("getAccounts")
+				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+				.setParameter("number", this.number,
+						EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID())
 				.setParameter("companyId", account.getCompany().getID());
 

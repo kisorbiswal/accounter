@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -73,7 +74,7 @@ public class Bank extends CreatableObject implements IAccounterServerCore,
 
 		Bank bank = (Bank) clientObject;
 		Query query = session.getNamedQuery("getNameofBank.from.Bank")
-				.setString("name", bank.name)
+				.setParameter("name", bank.name, EncryptedStringType.INSTANCE)
 				.setEntity("company", bank.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

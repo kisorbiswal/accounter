@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.CallbackException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -218,8 +219,10 @@ public class TAXAgency extends Payee {
 		}
 
 		TAXAgency taxAgency = (TAXAgency) clientObject;
-		Query query = session.getNamedQuery("getTaxAgency.by.Name")
-				.setString("name", taxAgency.name)
+		Query query = session
+				.getNamedQuery("getTaxAgency.by.Name")
+				.setParameter("name", taxAgency.name,
+						EncryptedStringType.INSTANCE)
 				.setEntity("company", taxAgency.getCompany());
 		List list = query.list();
 		if (list != null && list.size() > 0) {

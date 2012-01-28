@@ -18,12 +18,12 @@
 		<property name="transactionDate" column="T_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="type" column="T_TYPE"></property>
-		<property name="number" column="NUMBER"></property>
+		<property name="number" type="encryptedstring" column="NUMBER"></property>
 		<property name="saveStatus" column="SAVE_STATUS"></property>
 		<property name="isAutomaticTransaction" column="IS_AUTOMATIC_TRANSACTION"></property>
-		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
-		<property name="memo" type="text" column="MEMO"></property>
-		<property name="reference" column="REFERENCE"></property>
+		<property name="paymentMethod" type="encryptedstring" column="PAYMENT_METHOD"></property>
+		<property name="memo" type="encryptedstring"  column="MEMO"></property>
+		<property name="reference" type="encryptedstring" column="REFERENCE"></property>
 		<property name="subTotal" column="SUB_TOTAL"></property>
 		<property name="totalTaxableAmount" column="TOTAL_TAXABLE_AMOUNT"></property>
 		<property name="totalNonTaxableAmount" column="TOTAL_NON_TAXABLE_AMOUNT"></property>
@@ -1005,7 +1005,7 @@
 		</id>
 		<property name="attachmentId" column="ATTACHMENT_ID"
 			not-null="true"></property>
-		<property name="name" column="NAME" not-null="true"></property>
+		<property name="name" type="encryptedstring"  column="NAME" not-null="true"></property>
 		<property name="size" column="SIZE" not-null="true"></property>
 		<many-to-one name="company" column="COMPANY_ID" class="Company" />
 		<property name="version" column="VERSION"></property>
@@ -1052,7 +1052,7 @@
 		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">
 		</many-to-one>
 		<!-- <many-to-one name="vatItem" class="VATItem" column="VAT_ITEM"> </many-to-one> -->
-		<property name="description" type="text" column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
 		<!--<property name="quantity" column="QUANTITY"></property> -->
 		<many-to-one name="wareHouse" class="Warehouse" column="WARE_HOUSE">
 		</many-to-one>
@@ -1104,7 +1104,7 @@
 		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
-		<property name="description" type="text" column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<many-to-one name="accounterClass" class="AccounterClass"
 			column="TRANS_ITEM_ACCOUNTER_CLASS">
 		</many-to-one>
@@ -1116,7 +1116,7 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="memo" type="text" column="MEMO"></property>
+		<property name="memo" type="encryptedstring" column="MEMO"></property>
 		<property name="creditAmount" column="CREDIT_AMOUNT"></property>
 		<property name="balance" column="BALANCE"></property>
 		<many-to-one name="transaction" class="Transaction"
@@ -1138,7 +1138,7 @@
 		</id>
 		<property name="date" column="DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="memo" type="text" column="MEMO"></property>
+		<property name="memo" type="encryptedstring" column="MEMO"></property>
 		<property name="amountToUse" column="AMOUNT_TO_USE"></property>
 		<many-to-one name="transactionReceivePayment" class="TransactionReceivePayment"
 			column="TRANSACTION_RECEIVE_PAYMENT_ID">
@@ -1171,7 +1171,7 @@
 		<many-to-one name="customer" class="Customer" cascade="save-update"
 			column="CUSTOMER_ID">
 		</many-to-one>
-		<property name="reference" column="REFERENCE"></property>
+		<property name="reference" type="encryptedstring" column="REFERENCE"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="isNewEntry" column="IS_NEW_ENTRY"></property>
 		<many-to-one name="cashAccount" class="Account" cascade="save-update"
@@ -1185,7 +1185,7 @@
 		<many-to-one name="depositedTransaction" class="Transaction"
 			column="DEPOSITED_TRANSACTION_ID">
 		</many-to-one>
-		<property name="number" column="NUMBER"></property>
+		<property name="number" type="encryptedstring" column="NUMBER"></property>
 		<property name="isVoid" column="IS_VOID"></property>
 		<set name="transactionPayBills" inverse="true" cascade="save-update,delete">
 			<key column="TRANSACTION_MAKE_DEPOSIT_ID"></key>
@@ -1228,7 +1228,7 @@
 		<many-to-one name="transactionMakeDeposit" class="TransactionMakeDeposit"
 			cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ID">
 		</many-to-one>
-		<property name="billNumber" column="BILL_NUMBER"></property>
+		<property name="billNumber" type="encryptedstring" column="BILL_NUMBER"></property>
 		<many-to-one name="journalEntry" class="JournalEntry"
 			cascade="save-update" column="JOURNAL_ENTRY_ID">
 		</many-to-one>
@@ -1271,7 +1271,7 @@
 		<many-to-one name="journalEntry" class="JournalEntry"
 			cascade="save-update" column="JOURNAL_ENTRY_ID">
 		</many-to-one>
-		<property name="number" column="NUMBER"></property>
+		<property name="number" type="encryptedstring"  column="NUMBER"></property>
 	</class>
 	<!--<class name="TransactionIssuePayment" table="TRANSACTION_ISSUE_PAYMENT"> 
 		<id name="id" column="ID"> <generator class="identity" /> </id> <property 
@@ -1371,7 +1371,7 @@
 		</many-to-one>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
-		<property name="description" type="text" column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring"   column="DESCRIPTION"></property>
 		<property name="quantity" column="QUANTITY"></property>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="amount" column="AMOUNT"></property>
@@ -1404,7 +1404,7 @@
 		<property name="dueDateType" column="DUE_DATE_TYPE"></property>
 		<property name="dueDateValue" column="DUE_DATE_VALUE"></property>
 		<property name="actionType" column="ACTION_TYPE"></property>
-		<property name="name" column="NAME"></property>
+		<property name="name" type="encryptedstring"  column="NAME"></property>
 		<property name="endDateType" column="END_DATE_TYPE"></property>
 		<property name="stopped" column="STOPPED"></property>
 
@@ -1450,9 +1450,9 @@
 			<generator class="identity" />
 		</id>
 		<property name="type" column="TYPE"></property>
-		<property name="userName" column="USER_NAME"></property>
+		<property name="userName" type="encryptedstring"  column="USER_NAME"></property>
 		<property name="time" column="TIME"></property>
-		<property name="description" type="text" column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
 		<many-to-one name="transaction" class="Transaction"
 			column="TRANSACTION_ID">
 		</many-to-one>
