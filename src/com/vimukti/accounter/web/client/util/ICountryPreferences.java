@@ -55,6 +55,5 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 	 * @param fieldIndex
 	 * @return
 	 */
-	public String getTaxAgencyFieldName(String state, int taxAgencyType,
-			int fieldIndex);
+	public String[] getTaxAgencyFieldName(String state, int taxAgencyType);
 }
