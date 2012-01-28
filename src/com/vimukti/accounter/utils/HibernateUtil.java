@@ -3,6 +3,7 @@ package com.vimukti.accounter.utils;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.dialect.EncryptedStringType;
 import org.hibernate.proxy.HibernateProxy;
 
 public class HibernateUtil {
@@ -27,6 +28,8 @@ public class HibernateUtil {
 
 	private static SessionFactory buildSessionFactory() {
 		Configuration config = new Configuration();
+		config.getTypeResolver().registerTypeOverride(
+				EncryptedStringType.INSTANCE);
 		config.configure();
 		return config.buildSessionFactory();
 	}
