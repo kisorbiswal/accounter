@@ -129,6 +129,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			session.saveOrUpdate(client);
 
 			AccounterThreadLocal.set(user);
+			// EU.initEncryption(company, client.getPassword());
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getClient().getEmailId());
 
