@@ -2024,7 +2024,7 @@
 		<query-param name="acknowledgementNo" type="String" />
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
 		tc.company=:company and tc.assesmentYearStart = :startYear and
-		tc.assessmentYearEnd=:endYear
+		tc.assesmentYearEnd=:endYear
 		and
 		tc.etdsfillingAcknowledgementNo=:acknowledgementNo
 	</query>
