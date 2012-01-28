@@ -1,7 +1,5 @@
 package com.vimukti.accounter.core;
 
-import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
-
 import fr.opensagres.xdocreport.document.IXDocReport;
 import fr.opensagres.xdocreport.template.IContext;
 
@@ -179,7 +177,7 @@ public class TDSCoveringLetterTemplate {
 	}
 
 	public void setValues(Vendor ven, Company company,
-			ClientTDSResponsiblePerson responsiblePersonDetails) {
+			TDSResponsiblePerson responsiblePersonDetails) {
 
 		coverClass.setCompanyName(company.getDisplayName());
 		coverClass.setDeducteeName(ven.getName());
