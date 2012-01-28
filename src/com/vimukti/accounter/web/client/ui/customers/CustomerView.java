@@ -438,17 +438,19 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), true);
-		Set<ClientCustomFieldValue> customFieldValues = data
-				.getCustomFieldValues();
-		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
-		for (ClientCustomFieldValue value : customFieldValues) {
-			if (company.getClientCustomField(value.getID()) == null) {
-				deleteCustomFieldValues.add(value);
+		if (data != null) {
+			Set<ClientCustomFieldValue> customFieldValues = data
+					.getCustomFieldValues();
+			Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+			for (ClientCustomFieldValue value : customFieldValues) {
+				if (company.getClientCustomField(value.getID()) == null) {
+					deleteCustomFieldValues.add(value);
+				}
 			}
-		}
 
-		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
-			customFieldValues.remove(clientCustomFieldValue);
+			for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
+				customFieldValues.remove(clientCustomFieldValue);
+			}
 		}
 		customFieldForm.setDisabled(isInViewMode());
 	}
@@ -1497,13 +1499,12 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		super.onEdit();
 
 	}
-	
+
 	private void enablePayeeFields(HashMap<String, String> payeeFields) {
 		for (String key : payeeFields.keySet()) {
 			itemsField.get(key).setDisabled(isInViewMode());
 		}
 	}
-
 
 	@Override
 	public void print() {

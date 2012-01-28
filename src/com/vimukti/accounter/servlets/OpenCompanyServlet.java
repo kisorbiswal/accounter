@@ -172,7 +172,7 @@ public class OpenCompanyServlet extends BaseServlet {
 					return;
 				}
 				AccounterThreadLocal.set(user);
-				//EU.initEncryption(company, client.getPassword());
+				EU.initEncryption(company, client.getPassword());
 
 				if (!isSupportedUser) {
 					Activity activity = new Activity(getCompany(request), user,

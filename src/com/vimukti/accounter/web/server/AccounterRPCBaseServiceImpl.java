@@ -21,6 +21,7 @@ import org.hibernate.Session;
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
@@ -110,12 +111,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		if (serverCompanyID == null) {
 			return false;
 		}
+		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
+		User user = getClient(userEmail).toUser();
+		AccounterThreadLocal.set(user);
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}
-		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
-		User user = company.getUserByUserEmail(userEmail);
+
+		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
 			return false;
 		}
@@ -125,6 +129,15 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		CompanyPreferenceThreadLocal.set(preferences);
 
 		return true;
+	}
+
+	protected Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter(EMAIL_ID, emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		// session.close();
+		return client;
 	}
 
 	/**

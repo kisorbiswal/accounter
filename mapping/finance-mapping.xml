@@ -15,7 +15,8 @@
 		<property name="subBaseType" column="SUB_BASE_TYPE"></property>
 		<property name="groupType" column="GROUP_TYPE"></property>
 		<property name="number" column="A_NUMBER"></property>
-		<property name="name" not-null="true" type="encryptedstring" column="NAME"></property>
+		<property name="name" not-null="true" type="encryptedstring"
+			column="NAME"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="parent" column="PARENT_ID" class="Account"
 			cascade="save-update">
@@ -27,7 +28,8 @@
 		<property name="isConsiderAsCashAccount" column="IS_CASH_ACCOUNT"></property>
 		<property name="comment" type="encryptedstring" column="COMMENT"></property>
 		<property name="creditLimit" column="CREDIT_LIMIT"></property>
-		<property name="cardOrLoanNumber" type="encryptedstring" column="CARD_NUMBER"></property>
+		<property name="cardOrLoanNumber" type="encryptedstring"
+			column="CARD_NUMBER"></property>
 		<property name="isIncrease" column="IS_INCREASE"></property>
 		<property name="currentBalance" column="CURRENT_BALANCE"></property>
 		<property name="totalBalanceInAccountCurrency" column="TOTAL_BALANCE_IN_ACCOUNT_CURRENCY"></property>
@@ -82,17 +84,21 @@
 		<property name="version" column="VERSION"></property>
 		<property name="companyName" type="encryptedstring" column="LOCATION_COMPANY_NAME"></property>
 		<property name="title" type="encryptedstring" column="LOCATION_COMPANY_LEGAL_NAME"></property>
-		<property name="email"  type="encryptedstring" column="LOCATION_ADDRESS_EMAIL_ID"></property>
+		<property name="email" type="encryptedstring" column="LOCATION_ADDRESS_EMAIL_ID"></property>
 		<property name="phone" type="encryptedstring" column="LOCATION_ADDRESS_PHONE"></property>
 		<component name="address" class="Address">
 			<property name="type" type="encryptedstring" column="LOCATION_ADDRESS_TYPE"></property>
 			<property name="address1" type="encryptedstring" column="LOCATION_ADDRESS_ADDRESS1"></property>
-			<property name="street"  type="encryptedstring" column="LOCATION_ADDRESS_STREET"></property>
+			<property name="street" type="encryptedstring" column="LOCATION_ADDRESS_STREET"></property>
 			<property name="city" type="encryptedstring" column="LOCATION_ADDRESS_CITY"></property>
-			<property name="stateOrProvinence" type="encryptedstring" column="LOCATION_ADDRESS_STATE"></property>
-			<property name="zipOrPostalCode" type="encryptedstring" column="LOCATION_ADDRESS_ZIP"></property>
-			<property name="countryOrRegion" type="encryptedstring" column="LOCATION_ADDRESS_COUNTRY"></property>
-			<property name="isSelected" type="encryptedstring" column="LOCATION_ADDRESS_IS_SELECTED"></property>
+			<property name="stateOrProvinence" type="encryptedstring"
+				column="LOCATION_ADDRESS_STATE"></property>
+			<property name="zipOrPostalCode" type="encryptedstring"
+				column="LOCATION_ADDRESS_ZIP"></property>
+			<property name="countryOrRegion" type="encryptedstring"
+				column="LOCATION_ADDRESS_COUNTRY"></property>
+			<property name="isSelected" type="encryptedstring"
+				column="LOCATION_ADDRESS_IS_SELECTED"></property>
 		</component>
 	</class>
 	<!-- Accounter Class Tracking -->
@@ -102,7 +108,8 @@
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<property name="className" type="encryptedstring" not-null="true" column="CLASS_NAME"></property>
+		<property name="className" type="encryptedstring" not-null="true"
+			column="CLASS_NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -172,7 +179,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
 
@@ -198,7 +206,8 @@
 			<one-to-many class="NominalCodeRange" />
 		</set>
 
-		<property name="companyEmailForCustomers" type="encryptedstring" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
+		<property name="companyEmailForCustomers" type="encryptedstring"
+			column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
@@ -215,14 +224,15 @@
 		<property name="industry" column="INDUSTRY"></property>
 
 		<component name="preferences" class="CompanyPreferences">
-			<property name="tradingName"  not-null="true" column="TRADING_NAME"></property>
+			<property name="tradingName" not-null="true" column="TRADING_NAME"></property>
 			<property name="timezone" type="encryptedstring" column="TIMEZONE"></property>
 			<property name="companyEmail" type="encryptedstring" column="COMPANY_EMAIL"></property>
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
-			<property name="currencyFormat" type="encryptedstring" column="CURRENCY_FORMAT"></property>
+			<property name="currencyFormat" type="encryptedstring"
+				column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
-			<property name="legalName"  column="LEGALNAME"></property>
+			<property name="legalName" column="LEGALNAME"></property>
 			<property name="phone" type="encryptedstring" column="PHONE"></property>
 			<property name="fax" type="encryptedstring" column="FAX"></property>
 			<property name="webSite" type="encryptedstring" column="WEBSITE"></property>
@@ -235,15 +245,15 @@
 				<property name="type" column="TRADING_ADDRESS_TYPE"></property>
 				<property name="address1" type="encryptedstring" column="TRADING_ADDRESS1"
 					not-null="true" length="100"></property>
-				<property name="street" type="encryptedstring" column="TRADING_STREET" not-null="true"
-					length="100"></property>
-				<property name="city" type="encryptedstring" column="TRADING_CITY" not-null="true"
-					length="100"></property>
-				<property name="stateOrProvinence" type="encryptedstring" column="TRADING_STATE"
+				<property name="street" type="encryptedstring" column="TRADING_STREET"
 					not-null="true" length="100"></property>
-				<property name="zipOrPostalCode" type="encryptedstring" column="TRADING_ZIP"
+				<property name="city" type="encryptedstring" column="TRADING_CITY"
 					not-null="true" length="100"></property>
-				<property name="countryOrRegion" type="encryptedstring" column="TRADING_COUNTRY"
+				<property name="stateOrProvinence" type="encryptedstring"
+					column="TRADING_STATE" not-null="true" length="100"></property>
+				<property name="zipOrPostalCode" type="encryptedstring"
+					column="TRADING_ZIP" not-null="true" length="100"></property>
+				<property name="countryOrRegion" column="TRADING_COUNTRY"
 					not-null="true" length="100"></property>
 				<property name="isSelected" column="TRADING_IS_SELECTED"
 					not-null="true"></property>
@@ -251,8 +261,8 @@
 
 			<map name="companyFields" table="COMPANY_FIELDS" cascade="save-update,delete">
 				<key column="COMPANY_ID"></key>
-				<index column="field_name" type="encryptedstring" ></index>
-				<element column="field_value" type="encryptedstring" ></element>
+				<index column="field_name" type="string"></index>
+				<element column="field_value" type="string"></element>
 			</map>
 
 			<!-- Company Preferences -->
@@ -282,14 +292,14 @@
 			<property name="graceDays" column="CP_GRACE_DAYS" not-null="true"></property>
 
 			<!-- VAT Preferences -->
-			<property name="VATregistrationNumber" type="encryptedstring"  column="VAT_REGISTRATION_NUMBER"
-				not-null="true"></property>
+			<property name="VATregistrationNumber" type="encryptedstring"
+				column="VAT_REGISTRATION_NUMBER" not-null="true"></property>
 			<property name="VATreportingPeriod" column="VAT_REPORTING_PERIOD"
 				not-null="true"></property>
 			<property name="endingPeriodForVATreporting" column="ENDING_PERIOD_FOR_VAT_REPORTING"
 				not-null="true"></property>
-			<property name="VATtaxAgencyName" type="encryptedstring" column="VAT_TAX_AGENCY_NAME"
-				not-null="true"></property>
+			<property name="VATtaxAgencyName" type="encryptedstring"
+				column="VAT_TAX_AGENCY_NAME" not-null="true"></property>
 
 			<property name="preferencesFlag" column="CP_FLAGS" not-null="true"></property>
 			<property name="fiscalYearFirstMonth" column="CP_FISCAL_YEAR_FIRST_MONTH"></property>
@@ -366,19 +376,25 @@
 		<!-- column="EC_ACQUISITION_VAT_ID"> -->
 		<!-- </many-to-one> -->
 		<property name="version" column="VERSION"></property>
-		<property name="serviceItemDefaultIncomeAccount" type="encryptedstring"  column="SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
-		<property name="serviceItemDefaultExpenseAccount" type="encryptedstring"  column="SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
-		<property name="nonInventoryItemDefaultIncomeAccount" type="encryptedstring" column="NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
-		<property name="nonInventoryItemDefaultExpenseAccount" type="encryptedstring" 
+		<property name="serviceItemDefaultIncomeAccount" type="encryptedstring"
+			column="SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="serviceItemDefaultExpenseAccount" type="encryptedstring"
+			column="SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="nonInventoryItemDefaultIncomeAccount" type="encryptedstring"
+			column="NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="nonInventoryItemDefaultExpenseAccount" type="encryptedstring"
 			column="NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
-		<property name="ukServiceItemDefaultIncomeAccount" type="encryptedstring" column="UK_SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
-		<property name="ukServiceItemDefaultExpenseAccount" type="encryptedstring" column="UK_SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
-		<property name="ukNonInventoryItemDefaultIncomeAccount" type="encryptedstring" 
+		<property name="ukServiceItemDefaultIncomeAccount" type="encryptedstring"
+			column="UK_SERVICE_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
+		<property name="ukServiceItemDefaultExpenseAccount" type="encryptedstring"
+			column="UK_SERVICE_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="ukNonInventoryItemDefaultIncomeAccount" type="encryptedstring"
 			column="UK_NON_INVENTORY_ITEM_DEFAULT_INCOME_ACCOUNT"></property>
-		<property name="ukNonInventoryItemDefaultExpenseAccount" type="encryptedstring" 
-			column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
+		<property name="ukNonInventoryItemDefaultExpenseAccount"
+			type="encryptedstring" column="UK_NON_INVENTORY_ITEM_DEFAULT_EXPENSE_ACCOUNT"></property>
 
-		<property name="registrationNumber" type="encryptedstring" column="REGISTRATION_NUMBER"></property>
+		<property name="registrationNumber" type="encryptedstring"
+			column="REGISTRATION_NUMBER"></property>
 
 		<!-- <component name="tradingAddress" class="Address" > <property name="type" 
 			column="TRADING_ADDRESS_TYPE"></property> <property name="address1" column="TRADING_ADDRESS1" 
@@ -401,17 +417,17 @@
 			<property name="type" column="REGISTRED_ADDRESS_TYPE"></property>
 			<property name="address1" type="encryptedstring" column="REGISTRED_ADDRESS1"
 				not-null="true" length="100"></property>
-			<property name="street" type="encryptedstring" column="REGISTRED_STREET" not-null="true"
-				length="100"></property>
-			<property name="city" type="encryptedstring" column="REGISTRED_CITY" not-null="true"
-				length="100"></property>
-			<property name="stateOrProvinence" type="encryptedstring" column="REGISTRED_STATE"
+			<property name="street" type="encryptedstring" column="REGISTRED_STREET"
 				not-null="true" length="100"></property>
-			<property name="zipOrPostalCode" type="encryptedstring" column="REGISTRED_ZIP"
+			<property name="city" type="encryptedstring" column="REGISTRED_CITY"
 				not-null="true" length="100"></property>
-			<property name="countryOrRegion" type="encryptedstring" column="REGISTRED_COUNTRY"
-				not-null="true" length="100"></property>
-			<property name="isSelected" type="encryptedstring" column="REGISTRED_IS_SELECTED"
+			<property name="stateOrProvinence" type="encryptedstring"
+				column="REGISTRED_STATE" not-null="true" length="100"></property>
+			<property name="zipOrPostalCode" type="encryptedstring"
+				column="REGISTRED_ZIP" not-null="true" length="100"></property>
+			<property name="countryOrRegion"
+				column="REGISTRED_COUNTRY" not-null="true" length="100"></property>
+			<property name="isSelected" column="REGISTRED_IS_SELECTED"
 				not-null="true"></property>
 		</component>
 
@@ -636,7 +652,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -653,8 +670,9 @@
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  not-null="true" column="NAME"></property>
-		<property name="symbol" type="encryptedstring"  column="SYMBOL"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
+		<property name="symbol" type="encryptedstring" column="SYMBOL"></property>
 		<property name="formalName" type="encryptedstring" column="FORMAL_NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -665,7 +683,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -695,14 +714,16 @@
 		<!-- <many-to-one name="VATCode" class="TaxCode" column="VAT_CODE_ID"> -->
 		<!-- </many-to-one> -->
 		<property name="type" column="TYPE"></property>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
-		<property name="UPCorSKU" type="encryptedstring"  column="UPC_OR_SKU"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
+		<property name="UPCorSKU" type="encryptedstring" column="UPC_OR_SKU"></property>
 		<property name="weight" column="WEIGHT"></property>
 		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID">
 		</many-to-one>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
-		<property name="salesDescription" type="encryptedstring" column="SALES_DESCRIPTION"></property>
+		<property name="salesDescription" type="encryptedstring"
+			column="SALES_DESCRIPTION"></property>
 		<property name="salesPrice" column="SALES_PRICE"></property>
 		<many-to-one name="incomeAccount" class="Account"
 			column="INCOME_ACCOUNT_ID">
@@ -725,7 +746,7 @@
 		<property name="isTaxable" column="IS_TAXABLE"></property>
 		<property name="isCommissionItem" column="IS_COMMISSION_ITME"></property>
 		<property name="isIBuyThisItem" column="IS_BUY_ITEM"></property>
-		<property name="purchaseDescription" type="encryptedstring"  
+		<property name="purchaseDescription" type="encryptedstring"
 			column="PURCHASE_DESCRIPTION"></property>
 		<property name="purchasePrice" column="PURCHASE_PRISE"></property>
 		<many-to-one name="expenseAccount" class="Account"
@@ -736,7 +757,8 @@
 		</many-to-one>
 		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">
 		</many-to-one>
-		<property name="vendorItemNumber" type="encryptedstring"  column="VENDOR_ITEM_NUMBER"></property>
+		<property name="vendorItemNumber" type="encryptedstring"
+			column="VENDOR_ITEM_NUMBER"></property>
 		<property name="standardCost" column="SATNDARD_COST"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -768,9 +790,10 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -826,7 +849,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -849,10 +873,10 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="title" type="encryptedstring"  column="TITLE"></property>
+		<property name="title" type="encryptedstring" column="TITLE"></property>
 		<property name="firstName" type="encryptedstring" column="FIRST_NAME"></property>
 		<property name="middleName1" type="encryptedstring" column="MIDDLE_NAME1"></property>
-		<property name="middleName2" type="encryptedstring"  column="MIDDLE_NAME2"></property>
+		<property name="middleName2" type="encryptedstring" column="MIDDLE_NAME2"></property>
 		<property name="middleName3" type="encryptedstring" column="MIDDLE_NAME3"></property>
 		<property name="lastName" type="encryptedstring" column="LAST_NAME"></property>
 		<property name="version" column="VERSION"></property>
@@ -871,20 +895,27 @@
 		<property name="dateOfRelease" column="DATE_OF_RELEASE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
-		<property name="memo" type="encryptedstring"   column="MEMO"></property>
-		<property name="fileAs" type="encryptedstring"  column="FILE_AS"></property>
+		<property name="memo" type="encryptedstring" column="MEMO"></property>
+		<property name="fileAs" type="encryptedstring" column="FILE_AS"></property>
 		<property name="phoneNo" type="encryptedstring" column="PHONE_NO"></property>
 		<property name="faxNo" type="encryptedstring" column="FAX_NO"></property>
 		<property name="email" type="encryptedstring" column="EMAIL"></property>
-		<property name="webPageAddress" type="encryptedstring" column="WEB_PAGE_ADDRESS"></property>
+		<property name="webPageAddress" type="encryptedstring"
+			column="WEB_PAGE_ADDRESS"></property>
 		<component name="address" class="Address">
 			<property name="type" column="TYPE"></property>
-			<property name="address1" type="encryptedstring" column="ADDRESS1" length="100"></property>
-			<property name="street" type="encryptedstring" column="STREET" length="100"></property>
-			<property name="city" type="encryptedstring" column="CITY" length="100"></property>
-			<property name="stateOrProvinence" type="encryptedstring" column="STATE" length="100"></property>
-			<property name="zipOrPostalCode" type="encryptedstring" column="ZIP" length="100"></property>
-			<property name="countryOrRegion" type="encryptedstring" column="COUNTRY" length="100"></property>
+			<property name="address1" type="encryptedstring" column="ADDRESS1"
+				length="100"></property>
+			<property name="street" type="encryptedstring" column="STREET"
+				length="100"></property>
+			<property name="city" type="encryptedstring" column="CITY"
+				length="100"></property>
+			<property name="stateOrProvinence" type="encryptedstring"
+				column="STATE" length="100"></property>
+			<property name="zipOrPostalCode" type="encryptedstring"
+				column="ZIP" length="100"></property>
+			<property name="countryOrRegion" type="encryptedstring"
+				column="COUNTRY" length="100"></property>
 			<property name="isSelected" column="IS_SELECTED"></property>
 		</component>
 
@@ -917,10 +948,11 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="payeeSince" column="PAYEE_SINCE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="fileAs" type="encryptedstring"  column="FILE_AS"></property>
+		<property name="fileAs" type="encryptedstring" column="FILE_AS"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="currency" column="CURRENCY" class="Currency"
 			not-null="true">
@@ -949,17 +981,18 @@
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Address">
 				<property name="type" column="TYPE" not-null="true"></property>
-				<property name="address1" type="encryptedstring" column="ADDRESS1" not-null="true"
-					length="100"></property>
-				<property name="street" type="encryptedstring" column="STREET" not-null="true"
-					length="100"></property>
-				<property name="city" type="encryptedstring" column="CITY" not-null="true" length="100"></property>
-				<property name="stateOrProvinence" type="encryptedstring" column="STATE" not-null="true"
-					length="100"></property>
-				<property name="zipOrPostalCode" type="encryptedstring"  column="ZIP" not-null="true"
-					length="100"></property>
-				<property name="countryOrRegion" type="encryptedstring"  column="COUNTRY" not-null="true"
-					length="100"></property>
+				<property name="address1" type="encryptedstring" column="ADDRESS1"
+					not-null="true" length="100"></property>
+				<property name="street" type="encryptedstring" column="STREET"
+					not-null="true" length="100"></property>
+				<property name="city" type="encryptedstring" column="CITY"
+					not-null="true" length="100"></property>
+				<property name="stateOrProvinence" type="encryptedstring"
+					column="STATE" not-null="true" length="100"></property>
+				<property name="zipOrPostalCode" type="encryptedstring"
+					column="ZIP" not-null="true" length="100"></property>
+				<property name="countryOrRegion" type="encryptedstring"
+					column="COUNTRY" not-null="true" length="100"></property>
 				<property name="isSelected" column="IS_SELECTED" not-null="true"></property>
 			</composite-element>
 		</set>
@@ -968,18 +1001,21 @@
 			<key column="PAYEE_ID" not-null="true" />
 			<composite-element class="Contact">
 				<property name="isPrimary" column="IS_PRIMARY" not-null="true"></property>
-				<property name="name" type="encryptedstring" column="NAME" not-null="true" length="100"></property>
-				<property name="title" type="encryptedstring" column="TITLE" not-null="true"
-					length="100"></property>
-				<property name="businessPhone" type="encryptedstring" column="BUSINESS_PHONE"
+				<property name="name" type="encryptedstring" column="NAME"
 					not-null="true" length="100"></property>
-				<property name="email" type="encryptedstring" column="EMAIL" not-null="true"></property>
+				<property name="title" type="encryptedstring" column="TITLE"
+					not-null="true" length="100"></property>
+				<property name="businessPhone" type="encryptedstring"
+					column="BUSINESS_PHONE" not-null="true" length="100"></property>
+				<property name="email" type="encryptedstring" column="EMAIL"
+					not-null="true"></property>
 			</composite-element>
 		</set>
 		<property name="phoneNo" type="encryptedstring" column="PHONE_NUMBER"></property>
 		<property name="faxNo" type="encryptedstring" column="FAX_NUMBER"></property>
 		<property name="email" type="encryptedstring" column="EMAIL_ID"></property>
-		<property name="webPageAddress" type="encryptedstring"  column="WEB_PAGE_ADDRESS"></property>
+		<property name="webPageAddress" type="encryptedstring"
+			column="WEB_PAGE_ADDRESS"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="memo" type="encryptedstring" column="MEMO"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -990,8 +1026,8 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<!-- <property name="isEUVATExemptPayee" column="IS_EU_VAT_EXEMPT_PAYEE"></property> -->
-		<property name="VATRegistrationNumber" type="encryptedstring" column="VAT_REGISTRATION_NUMBER"
-			 ></property>
+		<property name="VATRegistrationNumber" type="encryptedstring"
+			column="VAT_REGISTRATION_NUMBER"></property>
 		<many-to-one name="TAXCode" column="TAX_CODE_ID" class="TAXCode">
 		</many-to-one>
 		<many-to-one name="TAXItem" column="TDS_TAX_ITEM_ID"
@@ -1001,7 +1037,8 @@
 		<property name="isDefault" column="IS_DEFAULT"></property>
 		<property name="panNumber" type="encryptedstring" column="PAN_NUMBER"></property>
 		<property name="cstNumber" type="encryptedstring" column="CST_NUMBER"></property>
-		<property name="serviceTaxRegistrationNumber" type="encryptedstring" column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
+		<property name="serviceTaxRegistrationNumber" type="encryptedstring"
+			column="SERVICE_TAX_REGISTRATION_NUMBER"></property>
 		<property name="tinNumber" type="encryptedstring" column="TIN_NUMBER"></property>
 		<joined-subclass name="Customer" table="CUSTOMER">
 			<key column="ID" />
@@ -1125,8 +1162,9 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
-		<property name="description" type="encryptedstring"   column="DESCRIPTION"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="due" column="DUE"></property>
 		<property name="dueDays" column="DUE_DAYS"></property>
 		<property name="discountPercent" column="DISCOUNT_PERCENT"></property>
@@ -1154,7 +1192,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="percentage" column="PERCENTAGE"></property>
 		<property name="isPriceLevelDecreaseByThisPercentage" column="IS_P_DECREASE_BY_THIS_PERCENT"></property>
 		<property name="version" column="VERSION"></property>
@@ -1174,8 +1213,9 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  not-null="true" column="NAME"></property>
-		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -1193,8 +1233,9 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
-		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -1280,7 +1321,8 @@
 			not-null="true">
 		</many-to-one>
 		<property name="type" column="TYPE"></property>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="abbreviation" type="encryptedstring" column="ABBREVIATION"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
@@ -1313,7 +1355,7 @@
 		<!-- <property name="firstName" column="FIRST_NAME"></property> <property 
 			name="lastName" column="LAST_NAME"></property> <property name="fullName" 
 			column="FULL_NAME"></property> <property name="email" column="EMAIL_ID"></property> -->
-		<property name="userRole"  column="USER_ROLE"></property>
+		<property name="userRole" column="USER_ROLE"></property>
 		<property name="canDoUserManagement" column="CAN_DO_USER_MANAGEMENT"></property>
 		<property name="isDeleted" column="IS_DELETED"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
@@ -1335,7 +1377,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="version" column="VERSION"></property>
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
@@ -1353,14 +1396,15 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="assetNumber" type="encryptedstring" column="ASSET_NUMBER"></property>
 		<many-to-one name="assetAccount" class="Account" column="ASSET_ACCOUNT_ID">
 		</many-to-one>
 		<property name="purchaseDate" column="PURCHASE_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="purchasePrice" column="PURCHASE_PRICE"></property>
-		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="assetType" type="encryptedstring" column="ASSET_TYPE"></property>
 		<property name="depreciationRate" column="DEPRECIATION_RATE"></property>
 		<property name="depreciationMethod" column="DEPRECIATION_METHOD"></property>
@@ -1478,9 +1522,10 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="vatBox" type="encryptedstring" column="VAT_BOX"></property>
-		<property name="totalBox" type="encryptedstring"  column="TOTAL_BOX"></property>
+		<property name="totalBox" type="encryptedstring" column="TOTAL_BOX"></property>
 		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
 	</class>
 
@@ -1492,10 +1537,11 @@
 			not-null="true">
 		</many-to-one>
 		<property name="version" column="VERSION" />
-		<property name="name" type="encryptedstring" not-null="true" column="NAME"></property>
+		<property name="name" type="encryptedstring" not-null="true"
+			column="NAME"></property>
 		<property name="salesTaxRate" column="SALES_TAX_RATE"></property>
 		<property name="purchaseTaxRate" column="PURCHASE_TAX_RATE"></property>
-		<property name="description" type="encryptedstring"  column="DESCRIPTION"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
 		<property name="isTaxable" column="ISTAXABLE"></property>
 		<property name="isActive" column="ISACTIVE"></property>
 		<property name="isDefault" column="IS_DEFAULT"></property>
@@ -1514,7 +1560,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="themeName" type="encryptedstring" column="THEME_NAME" not-null="true">
+		<property name="themeName" type="encryptedstring" column="THEME_NAME"
+			not-null="true">
 		</property>
 		<property name="pageSizeType" column="PAGE_SIZE_TYPE">
 		</property>
@@ -1531,11 +1578,14 @@
 		<property name="fontSize" type="encryptedstring" column="FONT_SIZE">
 		</property>
 		<!-- <property name="openInvoiceTitle" column="OPEN_INVOICE_TITLE"> </property> -->
-		<property name="overDueInvoiceTitle" type="encryptedstring" column="OVERDUE_INVOICE_TITLE">
+		<property name="overDueInvoiceTitle" type="encryptedstring"
+			column="OVERDUE_INVOICE_TITLE">
 		</property>
-		<property name="creditMemoTitle" type="encryptedstring" column="CREDIT_MEMO_TITLE">
+		<property name="creditMemoTitle" type="encryptedstring"
+			column="CREDIT_MEMO_TITLE">
 		</property>
-		<property name="statementTitle" type="encryptedstring" column="STATEMENT_TITLE">
+		<property name="statementTitle" type="encryptedstring"
+			column="STATEMENT_TITLE">
 		</property>
 		<property name="quoteTitle" type="encryptedstring" column="QUOTE_TITLE">
 		</property>
@@ -1563,10 +1613,11 @@
 		<property name="logoAlignmentType" column="LOGO_ALIGNMENT_TYPE">
 		</property>
 		<!-- <property name="showTaxesAsType" column="SHOW_TAXES_AS_TYPE"> </property> -->
-		<property name="contactDetails" type="encryptedstring" column="CONTACT_DETAILS">
+		<property name="contactDetails" type="encryptedstring"
+			column="CONTACT_DETAILS">
 		</property>
-		<property name="Terms_And_Payment_Advice" type="encryptedstring" column="TERMS_AND_PAYMENT_ADVICE"
-			 >
+		<property name="Terms_And_Payment_Advice" type="encryptedstring"
+			column="TERMS_AND_PAYMENT_ADVICE">
 		</property>
 
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
@@ -1578,19 +1629,19 @@
 			not-null="true" />
 		<property name="isDefault" column="IS_DEFAULT" />
 		<property name="version" column="VERSION" />
-		<property name="invoiceTempleteName" type="encryptedstring" column="INVOICE_TEMPLETE_NAME"
-			not-null="true" />
-		<property name="creditNoteTempleteName" type="encryptedstring"  column="CREDITNOTE_TEMPLETE_NAME"
-			not-null="true" />
-		<property name="quoteTemplateName" type="encryptedstring" column="QUOTE_TEMPLETE_NAME"
-			not-null="true" />
+		<property name="invoiceTempleteName" type="encryptedstring"
+			column="INVOICE_TEMPLETE_NAME" not-null="true" />
+		<property name="creditNoteTempleteName" type="encryptedstring"
+			column="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
+		<property name="quoteTemplateName" type="encryptedstring"
+			column="QUOTE_TEMPLETE_NAME" not-null="true" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="token" type="encryptedstring" column="TOKEN" />
+		<property name="token" column="TOKEN" />
 		<property name="userId" column="USER_ID" />
 	</class>
 
@@ -1602,8 +1653,9 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring"  column="NAME" not-null="true" />
-		<property name="warehouseCode" type="encryptedstring"  column="WAREHOUSE_CODE"
+		<property name="name" type="encryptedstring" column="NAME"
+			not-null="true" />
+		<property name="warehouseCode" type="encryptedstring" column="WAREHOUSE_CODE"
 			not-null="true" />
 		<property name="isDefaultWarehouse" column="IS_DEFAULT_WAREHOUSE"
 			not-null="true" />
@@ -1622,12 +1674,18 @@
 
 		<component name="address" class="Address">
 			<property name="type" column="TYPE"></property>
-			<property name="address1" type="encryptedstring" column="ADDRESS1" length="100"></property>
-			<property name="street" type="encryptedstring" column="STREET" length="100"></property>
-			<property name="city" type="encryptedstring" column="CITY" length="100"></property>
-			<property name="stateOrProvinence" type="encryptedstring" column="STATE" length="100"></property>
-			<property name="zipOrPostalCode" type="encryptedstring" column="ZIP" length="100"></property>
-			<property name="countryOrRegion" type="encryptedstring" column="COUNTRY" length="100"></property>
+			<property name="address1" type="encryptedstring" column="ADDRESS1"
+				length="100"></property>
+			<property name="street" type="encryptedstring" column="STREET"
+				length="100"></property>
+			<property name="city" type="encryptedstring" column="CITY"
+				length="100"></property>
+			<property name="stateOrProvinence" type="encryptedstring"
+				column="STATE" length="100"></property>
+			<property name="zipOrPostalCode" type="encryptedstring"
+				column="ZIP" length="100"></property>
+			<property name="countryOrRegion" type="encryptedstring"
+				column="COUNTRY" length="100"></property>
 			<property name="isSelected" column="IS_SELECTED"></property>
 		</component>
 
@@ -1635,7 +1693,8 @@
 			<property name="isPrimary" column="IS_PRIMARY"></property>
 			<property name="name" type="encryptedstring" column="CONTACT__NAME"></property>
 			<property name="title" type="encryptedstring" column="CONTACT__TITLE"></property>
-			<property name="businessPhone" type="encryptedstring" column="_BUSINESS_PHONE"></property>
+			<property name="businessPhone" type="encryptedstring"
+				column="_BUSINESS_PHONE"></property>
 			<property name="email" type="encryptedstring" column="CONTACT_EMAIL"></property>
 		</component>
 
@@ -1751,7 +1810,7 @@
 			<many-to-one name="unit" column="ADJUSTMENT_QTY_UNIT"
 				class="Unit" cascade="save-update" />
 		</component>
-		<property name="comment" type="encryptedstring" >
+		<property name="comment" type="encryptedstring">
 			<column name="COMMENT" />
 		</property>
 		<many-to-one name="item" class="com.vimukti.accounter.core.Item"
@@ -1947,7 +2006,7 @@
 		<property name="reconcilationDate" column="RECONCILIATION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
-<property name="statement" column="STATEMENT"></property>
+		<property name="statement" column="STATEMENT"></property>
 		<set name="items" cascade="save-update,delete" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
@@ -1959,7 +2018,7 @@
 			<generator class="identity" />
 		</id>
 		<property name="amount" column="AMOUNT"></property>
-		<property name="transactionNo" type="encryptedstring"  column="TRANSACTION_NUMBER"></property>
+		<property name="transactionNo" type="encryptedstring" column="TRANSACTION_NUMBER"></property>
 		<property name="transationType" column="TRANSACTION_TYPE"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1996,7 +2055,7 @@
 		</class> -->
 
 	<class name="MaintananceInfoUser" table="MAINTANANCE_USER">
-		<id name="userEmail"  column="USER_EMAIL"></id>
+		<id name="userEmail" column="USER_EMAIL"></id>
 	</class>
 
 	<class name="DeleteReason" table="DELETE_REASON">
@@ -2036,7 +2095,8 @@
 		<property name="version" column="VERSION" />
 		<many-to-one name="account" column="ACCOUNT_ID" class="BankAccount">
 		</many-to-one>
-		<property name="authorisedSignature" type="encryptedstring" column="AUTHORISED_SIGNATURE"></property>
+		<property name="authorisedSignature" type="encryptedstring"
+			column="AUTHORISED_SIGNATURE"></property>
 		<property name="chequeHeight" column="CHEQUE_HEIGHT" />
 		<property name="chequeWidth" column="CHEQUE_WIDTH" />
 
@@ -2082,31 +2142,31 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="deductorName" type="encryptedstring" ></property>
-		<property name="branch" type="encryptedstring" ></property>
-		<property name="flatNo" type="encryptedstring" ></property>
-		<property name="buildingName" type="encryptedstring" ></property>
-		<property name="roadName" type="encryptedstring" ></property>
-		<property name="area" type="encryptedstring" ></property>
-		<property name="city" type="encryptedstring" ></property>
-		<property name="state" type="encryptedstring" ></property>
+		<property name="deductorName" type="encryptedstring"></property>
+		<property name="branch" type="encryptedstring"></property>
+		<property name="flatNo" type="encryptedstring"></property>
+		<property name="buildingName" type="encryptedstring"></property>
+		<property name="roadName" type="encryptedstring"></property>
+		<property name="area" type="encryptedstring"></property>
+		<property name="city" type="encryptedstring"></property>
+		<property name="state" type="encryptedstring"></property>
 		<property name="pinCode"></property>
 		<property name="addressdChanged"></property>
 		<property name="telephoneNumber"></property>
 		<property name="faxNo"></property>
-		<property name="emailID" type="encryptedstring" ></property>
-		<property name="status" type="encryptedstring" ></property>
-		<property name="deductorType" type="encryptedstring" ></property>
-		<property name="govtState" type="encryptedstring" ></property>
-		<property name="paoCode" type="encryptedstring" ></property>
-		<property name="paoRegistration" ></property>
-		<property name="ddoCode" type="encryptedstring" ></property>
-		<property name="ddoRegistration" type="encryptedstring" ></property>
-		<property name="ministryDeptName" type="encryptedstring" ></property>
-		<property name="ministryDeptOtherName" type="encryptedstring" ></property>
-		<property name="tanNumber" type="encryptedstring" ></property>
-		<property name="panNumber" type="encryptedstring" ></property>
-		<property name="stdCode" type="encryptedstring" ></property>
+		<property name="emailID" type="encryptedstring"></property>
+		<property name="status" type="encryptedstring"></property>
+		<property name="deductorType" type="encryptedstring"></property>
+		<property name="govtState" type="encryptedstring"></property>
+		<property name="paoCode" type="encryptedstring"></property>
+		<property name="paoRegistration"></property>
+		<property name="ddoCode" type="encryptedstring"></property>
+		<property name="ddoRegistration" type="encryptedstring"></property>
+		<property name="ministryDeptName" type="encryptedstring"></property>
+		<property name="ministryDeptOtherName" type="encryptedstring"></property>
+		<property name="tanNumber" type="encryptedstring"></property>
+		<property name="panNumber" type="encryptedstring"></property>
+		<property name="stdCode" type="encryptedstring"></property>
 		<property name="isAddressSameForResopsiblePerson"></property>
 	</class>
 
@@ -2118,28 +2178,54 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="responsibleName" type="encryptedstring" ></property>
-		<property name="designation"  type="encryptedstring" not-null="true"></property>
-		<property name="branch" type="encryptedstring" ></property>
-		<property name="flatNo" type="encryptedstring" ></property>
-		<property name="buildingName" type="encryptedstring" ></property>
-		<property name="street" type="encryptedstring" ></property>
-		<property name="area" type="encryptedstring" ></property>
-		<property name="city" type="encryptedstring" ></property>
-		<property name="stateName" type="encryptedstring" ></property>
+		<property name="responsibleName" type="encryptedstring"></property>
+		<property name="designation" type="encryptedstring" not-null="true"></property>
+		<property name="branch" type="encryptedstring"></property>
+		<property name="flatNo" type="encryptedstring"></property>
+		<property name="buildingName" type="encryptedstring"></property>
+		<property name="street" type="encryptedstring"></property>
+		<property name="area" type="encryptedstring"></property>
+		<property name="city" type="encryptedstring"></property>
+		<property name="stateName" type="encryptedstring"></property>
 		<property name="pinCode"></property>
 		<property name="addressChanged"></property>
 		<property name="telephoneNumber"></property>
 		<property name="faxNo"></property>
-		<property name="emailAddress"  type="encryptedstring" ></property>
-		<property name="financialYear" type="encryptedstring" ></property>
-		<property name="assesmentYear" type="encryptedstring" ></property>
+		<property name="emailAddress" type="encryptedstring"></property>
+		<property name="financialYear" type="encryptedstring"></property>
+		<property name="assesmentYear" type="encryptedstring"></property>
 		<property name="returnType"></property>
 		<property name="existingTDSassesse"></property>
-		<property name="panNumber"  type="encryptedstring" ></property>
+		<property name="panNumber" type="encryptedstring"></property>
 		<property name="panRegistrationNumber"></property>
 		<property name="mobileNumber"></property>
 		<property name="stdCode"></property>
+	</class>
+	<!-- Bank Statement Record -->
+	<class name="StatementRecord" table="STATEMENT_RECORD">
+		<id name="id" column="id">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company">
+		</many-to-one>
+		<property name="statementDate" column="STATEMENT_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
+		<property name="referenceNumber" type="encryptedstring"
+			column="REFERENCE_NUMBER"></property>
+		<property name="spentAmount" column="SPENT_AMOUNT"></property>
+		<property name="receivedAmount" column="RECEIVE_AMOUNT"></property>
+		<property name="closingBalance" column="CLOSING_BALANCE"></property>
+		<property name="isMatched" column="IS_MATCHED"></property>
+		<list name="transactionLists" cascade="save-update,delete">
+			<key column="STATEMENT_RECORD_ID" />
+			<list-index column="TRANSACTION_IDX" />
+			<one-to-many class="com.vimukti.accounter.core.Transaction" />
+		</list>
+
+		<many-to-one name="statement" column="STATEMENT_ID" class="Statement">
+		</many-to-one>
+
 	</class>
 
 	<!-- Bank Statement -->
@@ -2160,7 +2246,8 @@
 		<property name="closingBalance" column="CLOSING_BALANCE"></property>
 
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID"></many-to-one>
-		<many-to-one name="reconciliation" class="Reconciliation" column="RECONCILIATION_ID"></many-to-one>
+		<many-to-one name="reconciliation" class="Reconciliation"
+			column="RECONCILIATION_ID"></many-to-one>
 		<list name="statementRecords" cascade="save-update,delete">
 			<key column="STATEMENT_ID" />
 			<list-index column="IDX" />

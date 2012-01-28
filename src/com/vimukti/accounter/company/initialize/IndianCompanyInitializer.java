@@ -1,6 +1,7 @@
 package com.vimukti.accounter.company.initialize;
 
 import org.hibernate.Session;
+import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterServerConstants;
@@ -65,8 +66,9 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		Session session = HibernateUtil.getCurrentSession();
 		PaymentTerms paymentTerms = (PaymentTerms) session
 				.getNamedQuery("unique.name.PaymentTerms")
-				.setEntity("company", company).setString("name", "Net Monthly")
-				.uniqueResult();
+				.setEntity("company", company)
+				.setParameter("name", "Net Monthly",
+						EncryptedStringType.INSTANCE).uniqueResult();
 
 		TAXAgency defaultTDSAgency = new TAXAgency();
 		defaultTDSAgency.setActive(Boolean.TRUE);

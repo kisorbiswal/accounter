@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -41,7 +42,7 @@ public class LogoutServlet extends BaseServlet {
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), cid,
 							userid);
-					// EU.removeEncryption();
+					EU.removeEncryption();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

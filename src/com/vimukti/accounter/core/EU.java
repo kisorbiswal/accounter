@@ -79,6 +79,7 @@ public class EU {
 				generator.init(128);
 				byte[] encoded = generator.generateKey().getEncoded();
 				byte[] encryptCompanyKey = encryptCompanyKey(password, encoded);
+				company.setAesEncryptionKey(encryptCompanyKey);
 				key = encryptCompanyKey;
 			}
 			setEncryptionCipher(password, key);

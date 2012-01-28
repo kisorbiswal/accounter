@@ -15,6 +15,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
@@ -97,6 +98,12 @@ public class BaseServlet extends HttpServlet {
 		try {
 
 			Session session = HibernateUtil.openSession();
+			if ((String) request.getSession().getAttribute(EMAIL_ID) != null
+					&& AccounterThreadLocal.get() == null) {
+				AccounterThreadLocal.set(getClient(
+						(String) request.getSession().getAttribute(EMAIL_ID))
+						.toUser());
+			}
 			try {
 				request.setAttribute("isRTL",
 						ServerLocal.get().equals(new Locale("ar", "", "")));

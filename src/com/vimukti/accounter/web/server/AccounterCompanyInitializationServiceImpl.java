@@ -24,6 +24,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
@@ -129,7 +130,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			session.saveOrUpdate(client);
 
 			AccounterThreadLocal.set(user);
-			// EU.initEncryption(company, client.getPassword());
+			EU.initEncryption(company, client.getPassword());
 			company.getUsers().add(user);
 			company.setCompanyEmail(user.getClient().getEmailId());
 
@@ -246,13 +247,16 @@ public class AccounterCompanyInitializationServiceImpl extends
 			}
 			return false;
 		}
+		String userEmail = (String) request.getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+		User user = getClient(userEmail).toUser();
+		AccounterThreadLocal.set(user);
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}
-		String userEmail = (String) request.getSession().getAttribute(
-				BaseServlet.EMAIL_ID);
-		User user = company.getUserByUserEmail(userEmail);
+
+		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
 			return false;
 		}
