@@ -41,13 +41,12 @@ public class TDSResponsiblePerson extends CreatableObject implements
 
 	@Override
 	public String getName() {
-		return "TDSResponsiblePerson";
+		return getResponsibleName();
 	}
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
-
+		setResponsibleName(name);
 	}
 
 	public String getDesignation() {
