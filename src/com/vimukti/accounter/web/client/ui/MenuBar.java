@@ -295,7 +295,6 @@ public class MenuBar {
 
 		formMenu.addMenuItem("Chalan Details", HistoryTokens.CHALANDETAILS);
 		formMenu.addMenuItem("e-TDS Filling", HistoryTokens.eTDSFILLING);
-		formMenu.addMenuItem("Form 16A", HistoryTokens.ACKNOWLEDGEMENTFORMTDS);
 
 		return formMenu;
 	}
