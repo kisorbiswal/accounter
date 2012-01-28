@@ -3,6 +3,9 @@ package com.vimukti.accounter.core;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -55,30 +58,46 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 		int lineNumber = 3;
 		int chalNum = 1;
 		codesArrayIndex = 0;
-		for (ClientTDSChalanDetail chalan : chalanDetailsList) {
-			chalanDetails = chalan;
-			setLineNumber(lineNumber);
-			setRunningChalanNumber(chalNum);
-			chalNum++;
-			fileText = fileText + generateChalanVoucherDetailsRecord();
-			int serNum = 1;
-			for (ClientTDSTransactionItem items : chalanDetails
-					.getTdsTransactionItems()) {
-				setRunningSerialNumber(serNum);
-				serNum++;
-				Set<Vendor> vendors = company.getVendors();
-				for (Vendor vendor : vendors) {
-					if (vendor.getID() == items.getVendor()) {
-						vendorFinal = vendor;
+		Session session = HibernateUtil.getCurrentSession();
+		org.hibernate.Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for (ClientTDSChalanDetail chalan : chalanDetailsList) {
+				chalanDetails = chalan;
+				setLineNumber(lineNumber);
+				setRunningChalanNumber(chalNum);
+				chalNum++;
+				fileText = fileText + generateChalanVoucherDetailsRecord();
+				int serNum = 1;
+				for (ClientTDSTransactionItem items : chalanDetails
+						.getTdsTransactionItems()) {
+					setRunningSerialNumber(serNum);
+					serNum++;
+					Set<Vendor> vendors = company.getVendors();
+					for (Vendor vendor : vendors) {
+						if (vendor.getID() == items.getVendor()) {
+							vendorFinal = vendor;
+						}
 					}
+					lineNumber++;
+					transactionItems = items;
+					setLineNumber(lineNumber);
+					fileText = fileText + generateDeducteeDetailsRecord();
+					codesArrayIndex++;
+
+					TDSTransactionItem serverObject = new ServerConvertUtil()
+							.toServerObject(null, transactionItems, session);
+					session.saveOrUpdate(serverObject);
 				}
 				lineNumber++;
-				transactionItems = items;
-				setLineNumber(lineNumber);
-				fileText = fileText + generateDeducteeDetailsRecord();
-				codesArrayIndex++;
+
 			}
-			lineNumber++;
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			}
 		}
 
 		return fileText;
@@ -111,6 +130,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString
 				+ getDeducteeCode() + addDelimiter();
+		transactionItems.setDeducteeCode(Integer.valueOf(getDeducteeCode()));
 
 		// Last Employee / Party PAN ( Used for Verification) (Not applicable)
 		deucteeDetailsRecordString = deucteeDetailsRecordString
@@ -184,6 +204,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 
 		deucteeDetailsRecordString = deucteeDetailsRecordString + getRemarks()
 				+ addDelimiter();
+		transactionItems.setRemark(getRemarks());
 
 		// Remarks 2 (For future use)
 		// Remarks 3 (For future use)
