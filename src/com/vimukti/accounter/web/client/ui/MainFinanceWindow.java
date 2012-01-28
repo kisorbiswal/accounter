@@ -888,6 +888,9 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), ActionFactory
 				.getTDSAcknowledgmentsReportAction());
 
+		actions.put(ActionFactory.getTDSFiledDetailsAction().getHistoryToken(),
+				ActionFactory.getTDSFiledDetailsAction());
+
 		actions.put(ActionFactory.getIARSInformationAction().getHistoryToken(),
 				ActionFactory.getIARSInformationAction());
 		actions.put(ActionFactory.getRealisedExchangeLossesAndGainsAction()
