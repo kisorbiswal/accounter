@@ -60,6 +60,12 @@ public class ClientTAXAgency extends ClientPayee {
 
 	private long lastTAXReturnDate;
 
+	private String otherField1;
+	private String otherField2;
+	private String otherField3;
+	private String otherField4;
+	private String otherField5;
+
 	public int getTaxType() {
 		return taxType;
 	}
@@ -73,7 +79,6 @@ public class ClientTAXAgency extends ClientPayee {
 	 */
 	public ClientTAXAgency() {
 	}
-
 
 	public String getDisplayName() {
 		return this.getName();
@@ -222,4 +227,45 @@ public class ClientTAXAgency extends ClientPayee {
 	public void setLastTAXReturnDate(long lastTAXReturnDate) {
 		this.lastTAXReturnDate = lastTAXReturnDate;
 	}
+
+	public String getOtherField1() {
+		return otherField1;
+	}
+
+	public void setOtherField1(String otherField1) {
+		this.otherField1 = otherField1;
+	}
+
+	public String getOtherField2() {
+		return otherField2;
+	}
+
+	public void setOtherField2(String otherField2) {
+		this.otherField2 = otherField2;
+	}
+
+	public String getOtherField3() {
+		return otherField3;
+	}
+
+	public void setOtherField3(String otherField3) {
+		this.otherField3 = otherField3;
+	}
+
+	public String getOtherField4() {
+		return otherField4;
+	}
+
+	public void setOtherField4(String otherField4) {
+		this.otherField4 = otherField4;
+	}
+
+	public String getOtherField5() {
+		return otherField5;
+	}
+
+	public void setOtherField5(String otherField5) {
+		this.otherField5 = otherField5;
+	}
+
 }
