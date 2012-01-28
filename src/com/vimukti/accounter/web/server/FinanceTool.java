@@ -4335,6 +4335,30 @@ public class FinanceTool {
 		return "";
 	}
 
+	public ArrayList<TDSChalanDetail> getChalanList(FinanceDate startDate,
+			FinanceDate endDate, String acknowledgementNo, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+
+			Query query = session
+					.getNamedQuery("getTdsChalanDetailsByAcknowledgementNo")
+					.setEntity("company", getCompany(companyId))
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("acknowledgementNo", acknowledgementNo);
+
+			return (ArrayList<TDSChalanDetail>) query.list();
+		} catch (Exception e) {
+			try {
+				throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+			} catch (DAOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return new ArrayList<TDSChalanDetail>();
+	}
+
 	/**
 	 * If accountId = 0, returns all bank statements if accountId != 0 , returns
 	 * bank statements of that particular accountId
