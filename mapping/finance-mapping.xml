@@ -1591,6 +1591,10 @@
 			not-null="true" />
 		<property name="quoteTemplateName" column="QUOTE_TEMPLETE_NAME"
 			not-null="true" />
+		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
+			not-null="true" />
+		<property name="cashSaleTitle" column="CASHSALE_TITLE">
+		</property>
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">

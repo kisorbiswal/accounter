@@ -5382,5 +5382,11 @@ public interface AccounterMessages extends Messages {
 
 	public String salesOrPurchaseLiabilityAcc();
 
+	public String saleNumber();
+
+	public String cashSaleTitle();
+
+	public String cashSaleValue();
+
 	public String choose(String customer);
 }

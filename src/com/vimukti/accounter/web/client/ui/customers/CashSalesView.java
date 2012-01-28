@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -42,8 +43,10 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.CustomerItemTransactionTable;
@@ -61,7 +64,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * 
  */
 public class CashSalesView extends
-		AbstractCustomerTransactionView<ClientCashSales> {
+		AbstractCustomerTransactionView<ClientCashSales> implements
+		IPrintableView {
 	private ShippingTermsCombo shippingTermsCombo;
 	private TAXCodeCombo taxCodeSelect;
 	private SalesPersonCombo salesPersonCombo;
@@ -1124,6 +1128,19 @@ public class CashSalesView extends
 
 	@Override
 	public void print() {
+		updateTransaction();
+		ArrayList<ClientBrandingTheme> themesList = Accounter.getCompany()
+				.getBrandingTheme();
+		if (themesList.size() > 1) {
+			// if there are more than one branding themes, then show branding
+			// theme combo box
+			ActionFactory.getBrandingThemeComboAction().run(transaction, false);
+		} else {
+			// if there is only one branding theme
+			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
+			UIUtils.downloadAttachment(transaction.getID(),
+					ClientTransaction.TYPE_CASH_SALES, clientBrandingTheme.getID());
+		}
 	}
 
 	@Override
@@ -1261,6 +1278,22 @@ public class CashSalesView extends
 		} else {
 			discountField.setAmount(0d);
 		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT
+				|| data.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
 	}
 
 }

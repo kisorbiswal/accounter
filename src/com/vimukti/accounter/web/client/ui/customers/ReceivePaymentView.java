@@ -43,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
 import com.vimukti.accounter.web.client.ui.edittable.tables.TransactionReceivePaymentTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -57,7 +58,8 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
  * @implemented By Fernandez
  */
 public class ReceivePaymentView extends
-		AbstractTransactionBaseView<ClientReceivePayment> {
+		AbstractTransactionBaseView<ClientReceivePayment> implements
+		IPrintableView {
 
 	public AmountField customerNonEditablebalText;
 
@@ -1192,7 +1194,6 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void print() {
-		// Nothing TO DO
 
 	}
 
@@ -1322,6 +1323,16 @@ public class ReceivePaymentView extends
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return false;
 	}
 
 }

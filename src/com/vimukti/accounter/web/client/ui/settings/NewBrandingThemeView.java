@@ -54,7 +54,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 	private CheckBox taxNumItem, headingItem, unitPriceItem,// paymentItem,
 			columnItem, addressItem, logoItem;
 	private TextItem overdueBox, creditNoteBox, statementBox, paypalTextBox,
-			logoNameBox, quoteBox;
+			logoNameBox, quoteBox, cashSaleBox;
 	private AmountField topMarginBox, bottomMarginBox, addressPadBox;
 	private TextItem nameItem;
 	private String[] fontNameArray, fontSizeArray;
@@ -121,6 +121,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		overdueBox.setValue(brandingTheme.getOverDueInvoiceTitle());
 		statementBox.setValue(brandingTheme.getStatementTitle());
 		quoteBox.setValue(brandingTheme.getQuoteTitle());
+		cashSaleBox.setValue(brandingTheme.getCashSaleTitle());
 		taxNumItem.setValue(brandingTheme.isShowTaxNumber());
 		headingItem.setValue(brandingTheme.isShowColumnHeadings());
 		unitPriceItem.setValue(brandingTheme.isShowUnitPrice_And_Quantity());
@@ -296,6 +297,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		data.setOverDueInvoiceTitle(String.valueOf(overdueBox.getValue()));
 		data.setStatementTitle(String.valueOf(statementBox.getValue()));
 		data.setQuoteTitle(String.valueOf(quoteBox.getValue()));
+		data.setCashSaleTitle(String.valueOf(cashSaleBox.getValue()));
 		data.setShowTaxNumber(taxNumItem.isChecked());
 		data.setShowColumnHeadings(headingItem.isChecked());
 		data.setShowUnitPrice_And_Quantity(unitPriceItem.isChecked());
@@ -549,6 +551,8 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		statementBox.setValue(messages.statement());
 		quoteBox = new TextItem(messages.quoteTitle());
 		quoteBox.setValue(messages.QuoteOverDueTitle());
+		cashSaleBox = new TextItem(messages.cashSaleTitle());
+		cashSaleBox.setValue(messages.cashSaleValue());
 
 		a4Button = new RadioButton(messages.pageType(), "A4");
 		usLetterButton = new RadioButton(messages.pageType(),
@@ -661,7 +665,7 @@ public class NewBrandingThemeView extends BaseView<ClientBrandingTheme> {
 		dynamicForm.setNumCols(2);
 		dynamicForm.setFields(topMarginBox, bottomMarginBox, addressPadBox,
 				fontNameBox, fontSizeBox, overdueBox, creditNoteBox,
-				statementBox, quoteBox, logoNameBox);
+				statementBox, quoteBox, cashSaleBox, logoNameBox);
 
 		// textBoxTable.setWidget(2, 1, );
 		// textBoxTable.setWidget(3, 0, bottomMarginLabel);

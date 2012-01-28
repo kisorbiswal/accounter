@@ -299,7 +299,8 @@ public abstract class CompanyInitializer {
 				SecureUtils.createID(), 1.35, 1.00, 1.00, "Code2000", "10pt",
 				"INVOICE", "CREDIT", "STATEMENT", "QUOTE", "(None Added)",
 				true, "(None Added)", "(None Added)", "Classic Template",
-				"Classic Template", "Classic Template");
+				"Classic Template", "Classic Template", "Classic Template",
+				"CASHSALE");
 		brandingTheme.setCompany(company);
 		session.save(brandingTheme);
 

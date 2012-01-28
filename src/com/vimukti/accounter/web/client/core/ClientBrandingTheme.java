@@ -34,6 +34,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String invoiceTempleteName;
 	private String creditNoteTempleteName;
 	private String quoteTemplateName;
+	private String cashSaleTemplateName;
 
 	private long id;
 	private String themeName;
@@ -49,6 +50,7 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private String creditMemoTitle;
 	private String statementTitle;
 	private String quoteTitle;
+	private String cashSaleTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -72,7 +74,6 @@ public class ClientBrandingTheme implements IAccounterCore {
 	private transient boolean isOnSaveProccessed;
 
 	private int version;
-
 
 	@Override
 	public String getDisplayName() {
@@ -390,6 +391,22 @@ public class ClientBrandingTheme implements IAccounterCore {
 
 	public void setQuoteTemplateName(String quoteTemplateName) {
 		this.quoteTemplateName = quoteTemplateName;
+	}
+
+	public String getCashSaleTemplateName() {
+		return cashSaleTemplateName;
+	}
+
+	public void setCashSaleTemplateName(String cashSaleTemplateName) {
+		this.cashSaleTemplateName = cashSaleTemplateName;
+	}
+
+	public String getCashSaleTitle() {
+		return cashSaleTitle;
+	}
+
+	public void setCashSaleTitle(String cashSaleTitle) {
+		this.cashSaleTitle = cashSaleTitle;
 	}
 
 }

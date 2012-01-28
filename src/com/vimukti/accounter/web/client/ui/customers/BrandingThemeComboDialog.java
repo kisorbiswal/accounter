@@ -40,8 +40,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	}
 
 	private void createControls() {
-		brandingThemeTypeCombo = new BrandingThemeCombo(messages
-				.selectTheme());
+		brandingThemeTypeCombo = new BrandingThemeCombo(messages.selectTheme());
 		brandingTheme = new ClientBrandingTheme();
 		brandingThemeTypeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientBrandingTheme>() {
@@ -85,6 +84,11 @@ public class BrandingThemeComboDialog extends BaseDialog {
 					.getType()) {
 				UIUtils.downloadAttachment(clientTransaction.getID(),
 						ClientTransaction.TYPE_ESTIMATE, brandingTheme.getID());
+			} else if (ClientTransaction.TYPE_CASH_SALES == clientTransaction
+					.getType()) {
+				UIUtils.downloadAttachment(clientTransaction.getID(),
+						ClientTransaction.TYPE_CASH_SALES,
+						brandingTheme.getID());
 			}
 		} else {
 			// for printing multiple documents
@@ -129,6 +133,10 @@ public class BrandingThemeComboDialog extends BaseDialog {
 				UIUtils.downloadMultipleAttachment(ids.toString(),
 						ClientTransaction.TYPE_ESTIMATE, brandingTheme.getID());
 
+			} else if (type == ClientTransaction.TYPE_CASH_SALES) {
+				UIUtils.downloadMultipleAttachment(ids.toString(),
+						ClientTransaction.TYPE_CASH_SALES,
+						brandingTheme.getID());
 			}
 
 		}
@@ -138,8 +146,7 @@ public class BrandingThemeComboDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		if (brandingThemeTypeCombo.getSelectedValue().equals(null)) {
-			brandingThemeTypeCombo.setSelected(messages
-					.standardTheme());
+			brandingThemeTypeCombo.setSelected(messages.standardTheme());
 		}
 		print();
 		return true;
