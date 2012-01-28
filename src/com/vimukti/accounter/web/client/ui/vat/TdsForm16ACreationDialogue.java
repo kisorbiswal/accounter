@@ -44,6 +44,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	private SelectCombo monthlyCombo;
 	private DateField fromDate;
 	private DateField toDate;
+	protected boolean isCoveringLetter;
 
 	public TdsForm16ACreationDialogue() {
 		super("TDS Acknowledgement Form",
@@ -56,7 +57,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		emailBUtton = new Button(messages.email());
 		emailBUtton.setWidth("80px");
 		emailBUtton.setFocus(true);
-
+		emailBUtton.setVisible(false);
 		emailBUtton.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -67,12 +68,12 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		coveringLetter = new Button("Generate covering letter");
 		coveringLetter.setFocus(true);
-
+		coveringLetter.setVisible(false);
 		coveringLetter.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-
-				generateCoveringLetter();
+				isCoveringLetter = true;
+				onOK();
 			}
 		});
 
@@ -82,13 +83,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		center();
 	}
 
-	protected void generateCoveringLetter() {
-
-		printDate = form16AprintDate.getDate().toString();
-		UIUtils.generateForm16A(vendorID, "", "", printDate, 1);
-
-	}
-
+	@SuppressWarnings({ "unchecked" })
 	private void createControls() {
 		form = new DynamicForm();
 		form.setWidth("100%");
@@ -99,7 +94,8 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		VerticalPanel vPanel = new VerticalPanel();
 
 		List<ClientVendor> vendors = getCompany().getActiveVendors();
-		vendorCombo = new VendorCombo("Select Deductee");
+		vendorCombo = new VendorCombo("Deductee", false);
+		vendorCombo.setRequired(true);
 		vendorCombo.initCombo(vendors);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
@@ -128,6 +124,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		monthlyCombo = new SelectCombo("Select Months");
 		monthlyCombo.setHelpInformation(true);
+		monthlyCombo.setComboItem(DayAndMonthUtil.january());
 		monthlyCombo.initCombo(getMonthsList());
 		monthlyCombo.setPopupWidth("500px");
 		monthlyCombo
@@ -164,7 +161,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		tdsCertificateNumber = new TextItem("TDS Certificate No.");
 		tdsCertificateNumber.setHelpInformation(true);
-
+		tdsCertificateNumber.setRequired(true);
 		form0 = new DynamicForm();
 		form0.setWidth("100%");
 
@@ -174,7 +171,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		HorizontalPanel radioButtonPanel = new HorizontalPanel();
 
-		String[] sports = { "Quarterly", "Monthly", "Between Dates" };
+		String[] sports = { "Quarterly", "Monthly", "Between Dates", "Yearly" };
 
 		final RadioButton button1 = new RadioButton("group", sports[0]);
 		button1.setValue(true);
@@ -182,6 +179,9 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		button2.setValue(false);
 		final RadioButton button3 = new RadioButton("group", sports[2]);
 		button3.setValue(false);
+
+		final RadioButton button4 = new RadioButton("group", sports[3]);
+		button4.setValue(false);
 
 		ClickHandler handler = new ClickHandler() {
 			public void onClick(ClickEvent e) {
@@ -203,6 +203,12 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					monthlyCombo.hide();
 					fromDate.show();
 					toDate.show();
+				} else if (e.getSource() == button4) {
+					dateRAngeType = 4;
+					chalanQuarterPeriod.hide();
+					monthlyCombo.hide();
+					fromDate.hide();
+					toDate.hide();
 				}
 			}
 		};
@@ -215,10 +221,12 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		button1.addClickHandler(handler);
 		button2.addClickHandler(handler);
 		button3.addClickHandler(handler);
+		button4.addClickHandler(handler);
 
 		radioButtonPanel.add(button1);
 		radioButtonPanel.add(button2);
 		radioButtonPanel.add(button3);
+		radioButtonPanel.add(button4);
 
 		layout.add(form0);
 		layout1.add(form);
@@ -257,13 +265,21 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
+		if (vendorCombo.getSelectedValue() == null) {
+			result.addError(vendorCombo,
+					messages.pleaseSelect(vendorCombo.getName()));
+		}
 
+		if (tdsCertificateNumber.getValue() == null
+				|| tdsCertificateNumber.getValue().isEmpty()) {
+			result.addError(tdsCertificateNumber,
+					messages.pleaseEnter(tdsCertificateNumber.getTitle()));
+		}
 		return result;
 	}
 
 	@Override
 	protected boolean onOK() {
-
 		if (location.getValue() != null) {
 			place = location.getValue();
 		} else {
@@ -277,57 +293,57 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 			int qtrSelected = chalanQuarterPeriod.getSelectedIndex();
 			switch (qtrSelected) {
 			case 0:
-				frmDt = "1/4/" + Integer.toString(finYear);
-				toDt = "30/6/" + Integer.toString(finYear);
+				frmDt = "04/01/" + Integer.toString(finYear);
+				toDt = "06/30/" + Integer.toString(finYear);
 				break;
 			case 1:
-				frmDt = "1/7/" + Integer.toString(finYear);
-				toDt = "30/9/" + Integer.toString(finYear);
+				frmDt = "07/01/" + Integer.toString(finYear);
+				toDt = "09/30/" + Integer.toString(finYear);
 				break;
 			case 2:
-				frmDt = "1/10/" + Integer.toString(finYear);
-				toDt = "30/12/" + Integer.toString(finYear);
+				frmDt = "10/01/" + Integer.toString(finYear);
+				toDt = "12/31/" + Integer.toString(finYear);
 				break;
 			case 3:
-				frmDt = "1/1/" + Integer.toString(finYear);
-				toDt = "30/3/" + Integer.toString(finYear);
+				frmDt = "01/01/" + Integer.toString(finYear);
+				toDt = "31/03/" + Integer.toString(finYear);
 				break;
-
 			default:
 				break;
+
 			}
 
 		} else if (dateRAngeType == 2) {
-			int mnSelected = monthlyCombo.getSelectedIndex();
-			frmDt = "1/" + Integer.toString(mnSelected + 1) + "/"
-					+ Integer.toString(finYear);
-			toDt = "30/" + Integer.toString(mnSelected + 1) + "/"
-					+ Integer.toString(finYear);
+			int mnSelected = monthlyCombo.getSelectedIndex() + 1;
+			String month = Integer.toString(mnSelected);
+			if (mnSelected < 10) {
+				month = "0" + month;
+			}
+			frmDt = "01/" + month + "/" + Integer.toString(finYear);
+			toDt = "30/" + month + "/" + Integer.toString(finYear);
 
 		} else if (dateRAngeType == 3) {
 			frmDt = fromDate.getDate().toString();
 			toDt = toDate.getDate().toString();
+		} else if (dateRAngeType == 4) {
+			frmDt = "01/01/" + Integer.toString(finYear);
+			toDt = "12/31/" + Integer.toString(finYear);
 		}
-
 		datesRange = frmDt + "-" + toDt;
-		UIUtils.generateForm16A(vendorID, datesRange, place, printDate, 0);
-		return false;
+		if (isCoveringLetter) {
+			UIUtils.generateForm16A(vendorID, datesRange, place, printDate,
+					tdsCertificateNumber.getValue(), 1);
+		} else {
+			UIUtils.generateForm16A(vendorID, datesRange, place, printDate,
+					tdsCertificateNumber.getValue(), 0);
+		}
+		isCoveringLetter = false;
+		return true;
 
 	}
 
 	@Override
 	public void setFocus() {
-
-	}
-
-	private List<String> getFormTypes() {
-		ArrayList<String> list = new ArrayList<String>();
-
-		list.add("26Q");
-		list.add("27Q");
-		list.add("27EQ");
-
-		return list;
 	}
 
 }
