@@ -1194,7 +1194,9 @@ public class ReceivePaymentView extends
 
 	@Override
 	public void print() {
-
+		updateTransaction();
+		UIUtils.downloadAttachment(transaction.getID(),
+				ClientTransaction.TYPE_RECEIVE_PAYMENT);
 	}
 
 	@Override
@@ -1327,7 +1329,12 @@ public class ReceivePaymentView extends
 
 	@Override
 	public boolean canPrint() {
-		return false;
+		EditMode mode = getMode();
+		if (mode == EditMode.CREATE || mode == EditMode.EDIT) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override

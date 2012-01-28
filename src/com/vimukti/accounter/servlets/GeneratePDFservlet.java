@@ -49,6 +49,8 @@ import com.vimukti.accounter.core.InvoicePdfGeneration;
 import com.vimukti.accounter.core.PrintTemplete;
 import com.vimukti.accounter.core.QuotePdfGeneration;
 import com.vimukti.accounter.core.QuotePdfTemplate;
+import com.vimukti.accounter.core.ReceivePayment;
+import com.vimukti.accounter.core.ReceivePaymentPdfGeneration;
 import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
@@ -388,6 +390,17 @@ public class GeneratePDFservlet extends BaseServlet {
 									brandingTheme, isMultipleId, fileNames);
 						}
 
+						if (transactionType == Transaction.TYPE_RECEIVE_PAYMENT) {
+							ReceivePayment receivepayment = (ReceivePayment) financetool
+									.getManager().getServerObjectForid(
+											AccounterCoreType.RECEIVEPAYMENT,
+											Long.parseLong(ids[i]));
+							fileName = "Receive Payment"
+									+ receivepayment.getNumber();
+							map = Odt2PdfGeneration(receivepayment, company,
+									brandingTheme, isMultipleId, fileNames);
+						}
+
 					}
 
 				}
@@ -413,6 +426,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				case Transaction.TYPE_CUSTOMER_CREDIT_MEMO:
 				case Transaction.TYPE_ESTIMATE:
 				case Transaction.TYPE_CASH_SALES:
+				case Transaction.TYPE_RECEIVE_PAYMENT:
 
 					if (isMultipleId) {// for merging multiple custom pdf
 										// documents
@@ -517,11 +531,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					// for genearting reports using XdocReport
 					generateCustom2PDF(request, response, companyName);
 				} else {
-					if (type == Transaction.TYPE_CASH_SALES) {
-						generateCustom2PDF(request, response, companyName);
-					} else {
-						generateHtmlPDF(request, response, companyName);
-					}
+					generateHtmlPDF(request, response, companyName);
 				}
 
 			} else {
@@ -618,6 +628,7 @@ public class GeneratePDFservlet extends BaseServlet {
 			InvoicePdfGeneration invoicePdfGeneration = null;
 			QuotePdfGeneration quotePdfGeneration = null;
 			CashSalePdfGeneration cashSalePdfGeneration = null;
+			ReceivePaymentPdfGeneration receivePaymentPdfGeneration = null;
 			String templeteName = null;
 			String fileName = null;
 
@@ -655,6 +666,14 @@ public class GeneratePDFservlet extends BaseServlet {
 				creditPdfGeneration = new CreditNotePdfGeneration(
 						(CustomerCreditMemo) transaction, company,
 						brandingTheme);
+			}
+
+			if (transaction instanceof ReceivePayment) {
+				templeteName = "templetes" + File.separator
+						+ "ReceivePaymentOdt.odt";
+				fileName = "Receive Payment_" + transaction.getNumber();
+				receivePaymentPdfGeneration = new ReceivePaymentPdfGeneration(
+						(ReceivePayment) transaction, company);
 			}
 
 			if (transaction instanceof CashSales) {
@@ -705,6 +724,9 @@ public class GeneratePDFservlet extends BaseServlet {
 				context = quotePdfGeneration.assignValues(context, report);
 			} else if (transaction instanceof CashSales) {
 				context = cashSalePdfGeneration.assignValues(context, report);
+			} else if (transaction instanceof ReceivePayment) {
+				context = receivePaymentPdfGeneration.assignValues(context,
+						report);
 			}
 			FontFactory.setFontImp(new FontFactoryImpEx());
 			if (multipleIds) {
