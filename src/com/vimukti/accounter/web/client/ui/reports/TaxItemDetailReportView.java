@@ -20,6 +20,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
 	private int row;
+	private TaxAgencyStartDateEndDateToolbar toolBar;
 
 	public TaxItemDetailReportView() {
 		super(false, messages.noRecordsToShow());
@@ -61,6 +62,10 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	@Override
 	public void print() {
+		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
+		this.startDate = toolbar.getStartDate();
+		this.endDate = toolbar.getEndDate();
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 165, "",
@@ -69,6 +74,10 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	@Override
 	public void exportToCsv() {
+		toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+		this.taxAgency = toolBar.taxAgencyCombo.getSelectedValue().getID();
+		this.startDate = toolbar.getStartDate();
+		this.endDate = toolbar.getEndDate();
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 165, "",
@@ -96,7 +105,7 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 				this.startDate = td.getStartDate();
 				this.endDate = td.getEndDate();
 			}
-			TaxAgencyStartDateEndDateToolbar toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+			toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			toolBar.taxAgencyCombo.select(taxAgency2);
 			toolBar.taxAgencyCombo.setDisabled(true);
 			toolBar.fromItem.setEnteredDate(this.startDate);
