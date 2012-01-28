@@ -41,8 +41,10 @@ public class TDSDeductorMasters extends CreatableObject implements
 	private String tanNumber;
 	private String panNumber;
 	private String stdCode;
-	
+
 	private boolean isAddressSameForResopsiblePerson;
+
+	private Address taxOfficeAddress;
 
 	@Override
 	public String getName() {
@@ -286,6 +288,14 @@ public class TDSDeductorMasters extends CreatableObject implements
 	public void setAddressSameForResopsiblePerson(
 			boolean isAddressSameForResopsiblePerson) {
 		this.isAddressSameForResopsiblePerson = isAddressSameForResopsiblePerson;
+	}
+
+	public Address getTaxOfficeAddress() {
+		return taxOfficeAddress;
+	}
+
+	public void setTaxOfficeAddress(Address taxOfficeAddress) {
+		this.taxOfficeAddress = taxOfficeAddress;
 	}
 
 }
