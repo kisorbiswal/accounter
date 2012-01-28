@@ -1009,7 +1009,7 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company and cr.transactionDate between :fromDate and
+		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate between :fromDate and
 		:toDate order by cr.lastModifiedDate desc
 	</query>
 
