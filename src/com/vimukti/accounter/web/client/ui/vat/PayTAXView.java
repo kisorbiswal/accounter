@@ -434,8 +434,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		if (isInViewMode()) {
 			taxAgencyCombo.setDisabled(true);
-			grid.setDisabled(true);
-
 		}
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
@@ -483,7 +481,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				count++;
 			}
 		}
-
+		grid.setDisabled(isInViewMode());
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(transaction.getTotal()), 2);
 
@@ -538,6 +536,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		} else {
 			grid.setRecords(result);
 		}
+		grid.setDisabled(isInViewMode());
 	}
 
 	@Override

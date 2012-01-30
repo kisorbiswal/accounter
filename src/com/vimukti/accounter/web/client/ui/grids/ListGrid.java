@@ -832,6 +832,9 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	@Override
 	public void enableOrDisableCheckBox(boolean isEnable) {
+		if (disable) {
+			return;
+		}
 		super.enableOrDisableCheckBox(isEnable);
 		onHeaderCheckBoxClick(isEnable);
 
@@ -1057,7 +1060,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	@Override
 	public void setDisabled(boolean disable) {
 		super.setDisabled(disable);
-		refreshAllRecords();
+		// refreshAllRecords();
 	}
 
 	// HasRows
