@@ -346,7 +346,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		Double credit = rec.getAppliedCredits();
 		Double payments = amountDue - (cashDiscount + credit);
 
-		// (rec).setPayment(payments);
+		(rec).setPayment(payments);
 		(rec).setCashDiscount(cashDiscount);
 
 		grid.update(rec);
