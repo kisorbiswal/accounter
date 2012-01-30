@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -30,8 +29,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.MakeDepositAccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -44,7 +43,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> {
 
 	private VerticalPanel mainPanel, leftPanel;
-	private AccountCombo depositToCombo;
+	private MakeDepositAccountCombo depositToCombo;
 	private DynamicForm depositToForm;
 	private TransactionDepositTable transactionDepositTable;
 	private boolean locationTrackingEnabled;
@@ -53,11 +52,9 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	private AmountLabel totalLabel;
 	private ArrayList<DynamicForm> listforms;
 	private List<ClientTransactionDepositItem> transactionDepositItems;
-	private List<ClientAccount> deposiInAccounts;
 
 	private DepositView() {
 		super(ClientTransaction.TYPE_MAKE_DEPOSIT);
-
 	}
 
 	public static DepositView getInstance() {
@@ -154,24 +151,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		depositToForm = new DynamicForm();
 		leftPanel = new VerticalPanel();
 
-		depositToCombo = new AccountCombo(messages.depositTo()) {
-
-			@Override
-			protected List<ClientAccount> getAccounts() {
-				deposiInAccounts = new ArrayList<ClientAccount>();
-				for (ClientAccount account : getCompany().getActiveAccounts()) {
-					if (Arrays.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
-							ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
-							ClientAccount.SUBBASETYPE_EQUITY).contains(
-							account.getSubBaseType())) {
-
-						deposiInAccounts.add(account);
-					}
-				}
-				return deposiInAccounts;
-
-			}
-		};
+		depositToCombo = new MakeDepositAccountCombo(messages.depositTo());
 		depositToCombo.setDisabled(this.isInViewMode());
 		depositToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -434,22 +414,17 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 					return result;
 				}
 
-				if (transactionItem != null) {
-					if (transactionItem.getTotal() != null) {
-						if (transactionItem.getTotal() <= 0) {
-							result.addError(
-									"TransactionItem"
-											+ transactionItem.getAccount()
-											+ transactionItem.getAccount(),
-									messages.pleaseEnterAccAndAmount());
-						}
-					} else {
-						result.addError("TransactionItem",
+				if (transactionItem.getTotal() != null) {
+					if (transactionItem.getTotal() <= 0) {
+						result.addError(
+								"TransactionItem"
+										+ transactionItem.getAccount()
+										+ transactionItem.getAccount(),
 								messages.pleaseEnterAccAndAmount());
 					}
 				} else {
 					result.addError("TransactionItem",
-							messages.pleaseEnter(messages.transactionItem()));
+							messages.pleaseEnterAccAndAmount());
 				}
 				if (getPreferences().isClassTrackingEnabled()
 						&& !getPreferences().isClassOnePerTransaction()
