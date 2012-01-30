@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -17,8 +18,10 @@ import com.vimukti.accounter.web.client.ui.grids.BankStatementsGrid;
 public class BankStatementsView extends BaseListView<ClientStatement> {
 
 	private List<ClientStatement> listBankStatementLists;
+	private ClientAccount account;
 
-	public BankStatementsView() {
+	public BankStatementsView(ClientAccount account) {
+		this.account = account;
 
 	}
 
@@ -60,7 +63,7 @@ public class BankStatementsView extends BaseListView<ClientStatement> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		Accounter.createHomeService().getBankStatements(0, this);
+		Accounter.createHomeService().getBankStatements(account.getID(), this);
 	}
 
 	@Override

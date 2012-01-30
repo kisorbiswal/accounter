@@ -404,10 +404,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getPaymentsAction(PaymentsAction.COMPANY)
 				.getHistoryToken(), ActionFactory
 				.getPaymentsAction(PaymentsAction.COMPANY));
-
-		actions.put(ActionFactory.getImportBankStatementAction()
-				.getHistoryToken(), ActionFactory
-				.getImportBankStatementAction());
+		//
+		// actions.put(ActionFactory.getImportBankStatementAction()
+		// .getHistoryToken(), ActionFactory
+		// .getImportBankStatementAction());
 
 		actions.put(ActionFactory.getSalesPersonAction().getHistoryToken(),
 				ActionFactory.getSalesPersonAction());
@@ -526,8 +526,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getNewBankAccountAction());
 		actions.put(ActionFactory.getWriteChecksAction().getHistoryToken(),
 				ActionFactory.getWriteChecksAction());
-		actions.put(ActionFactory.getBankStatementAction().getHistoryToken(),
-				ActionFactory.getBankStatementAction());
+		// actions.put(ActionFactory.getBankStatementAction().getHistoryToken(),
+		// ActionFactory.getBankStatementAction());
 		actions.put(ActionFactory.getMakeDepositAction().getHistoryToken(),
 				ActionFactory.getMakeDepositAction());
 		actions.put(ActionFactory.getPayBillsAction().getHistoryToken(),

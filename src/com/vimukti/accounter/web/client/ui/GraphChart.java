@@ -23,8 +23,8 @@ import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class GraphChart {
 
-	AccounterMessages messages=Global.get().messages();
-	
+	AccounterMessages messages = Global.get().messages();
+
 	ArrayList<Double> graph_Values = new ArrayList<Double>();
 	ArrayList<Object> x_Axis_Labels = new ArrayList<Object>();
 	public List<String> accountNames;
@@ -97,6 +97,18 @@ public class GraphChart {
 		createLabels(BANK_ACCOUNT_CHART_TYPE);
 		LineChart chart = new LineChart(createTable(BANK_ACCOUNT_CHART_TYPE),
 				createOptionsToBankingChart());
+		return chart;
+	}
+
+	public LineChart createBankingAccountsListChart(List<Double> graph_Values) {
+
+		this.graph_Values = (ArrayList<Double>) graph_Values;
+		if (this.graph_Values == null || this.graph_Values.size() == 0)
+			initializeGraphValues();
+
+		createLabels(BANK_ACCOUNT_CHART_TYPE);
+		LineChart chart = new LineChart(createTable(BANK_ACCOUNT_CHART_TYPE),
+				createOptionsToBankingAccountsListChart());
 		return chart;
 	}
 
@@ -252,6 +264,21 @@ public class GraphChart {
 	private Options createOptionsToBankingChart() {
 		Options options = Options.create();
 		options.setWidth(430);
+		options.setHeight(225);
+		options.setLegend(LegendPosition.NONE);
+		// options.setMin(100);
+		options.setColors("#6CA92F");
+		// options.setSmoothLine(true);
+		AxisOptions axisOptions = AxisOptions.create();
+		// axisOptions.setBaseline(0);
+		axisOptions.setMinValue(100);
+		options.setVAxisOptions(axisOptions);
+		return options;
+	}
+
+	private Options createOptionsToBankingAccountsListChart() {
+		Options options = Options.create();
+		options.setWidth(630);
 		options.setHeight(225);
 		options.setLegend(LegendPosition.NONE);
 		// options.setMin(100);

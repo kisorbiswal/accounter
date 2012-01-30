@@ -149,7 +149,9 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 	private double totalBalanceInAccountCurrency;
 
 	private int version;
+	private double statementBalance;
 
+	private ClientFinanceDate statementLastDate;
 	private String lastCheckNum;
 
 	// ClientTaxCode VATcode;
@@ -722,5 +724,21 @@ public class ClientAccount implements IAccounterCore, IAccountable {
 
 	public void setLastCheckNum(String lastCheckNum) {
 		this.lastCheckNum = lastCheckNum;
+	}
+
+	public double getStatementBalance() {
+		return statementBalance;
+	}
+
+	public void setStatementBalance(double statementBalance) {
+		this.statementBalance = statementBalance;
+	}
+
+	public ClientFinanceDate getStatementLastDate() {
+		return statementLastDate;
+	}
+
+	public void setStatementLastDate(ClientFinanceDate statementLastDate) {
+		this.statementLastDate = statementLastDate;
 	}
 }
