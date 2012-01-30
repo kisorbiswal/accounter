@@ -380,6 +380,7 @@
 		<query-param name="toDate" type="long" />
 		<query-param name="todayDate" type="long" />
 		<query-param name="viewType" type="int" />
+		<query-param name="transactionType" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -515,23 +516,28 @@
 		C.ID = U.CLIENT_ID
 
 		WHERE
+		CASE WHEN :transactionType =0 THEN
 		T.T_TYPE in
-		(2,3,6,14,23,26,27,28)
+		(2,3,6,14,23,26,27,28) 
+		ELSE T.T_TYPE=:transactionType
+		END
 		AND
 		CASE
 		WHEN
 		1=:viewType THEN
+		(CASE WHEN :transactionType =0 THEN
 		(IR.BALANCE_DUE &gt;0.0 OR EB.BALANCE_DUE &gt;0.0 OR
-		VCM.BALANCE_DUE &gt;0.0
-		AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
-		)
+		VCM.BALANCE_DUE &gt;0.0		
+		) ELSE TRUE END) AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
 		WHEN 2=:viewType THEN
+		(CASE WHEN :transactionType =0 THEN
 		((:todayDate &gt; EB.DUE_DATE OR :todayDate &gt;
 		IR.DUE_DATE)
 		AND (CASE WHEN T.T_TYPE = 6 THEN EB.BALANCE_DUE &gt; 0
 		ELSE (IR.BALANCE_DUE &gt; 0.0 OR VCM.BALANCE_DUE
-		&gt; 0.0) END) AND
-		(T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201))
+		&gt; 0.0) END))
+		ELSE TRUE END) AND
+		(T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		T.SAVE_STATUS=204
 		WHEN 4=:viewType
@@ -551,7 +557,6 @@
 		VENDOR_NAME
 
 	</sql-query>
-
 
 	<sql-query name="getAllInvoicesList">
 		<query-param name="companyId" type="long" />
@@ -10654,88 +10659,6 @@
 		:fromDate AND
 		:toDate
 	</sql-query>
-	<sql-query name="getVendorCreditMemos">
-		<query-param name="companyId" type="long" />
-		<query-param name="fromDate" type="long" />
-		<query-param name="toDate" type="long" />
-		<query-param name="viewType" type="int" />
-		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="VENDOR_NAME" type="string" />
-		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
-		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="EXPENSE_STATUS" type="int" />
-		<return-scalar column="CURRENCY" type="long" />
-		SELECT
-		T.CURRENCY AS CURRENCY,
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS
-		TRANSACTION_TYPE,
-		null AS DUE_DATE ,
-		T.NUMBER AS
-		TRANSACTION_NUMBER,
-		P.NAME
-		AS
-		VENDOR_NAME ,
-		T.TOTAL AS
-		ORIGINAL_AMOUNT,
-		VCM.BALANCE_DUE
-		AS
-		BALANCE,
-		CASE
-		WHEN T.SAVE_STATUS = 204
-		THEN TRUE
-		ELSE
-		FALSE
-		END AS ISVOIDED,
-		T.STATUS AS
-		TRANSACTION_STATUS,
-		T.T_DATE
-		AS TRANSACTION_DATE,
-		0 AS
-		EXPENSE_STATUS
-		FROM
-		TRANSACTION T
-		LEFT OUTER
-		JOIN
-		VENDOR_CREDIT_MEMO VCM
-		on
-		T.ID=VCM.ID
-		LEFT
-		OUTER JOIN
-		VENDOR V
-		on V.ID =
-		VCM.VENDOR_ID
-		LEFT OUTER
-		JOIN
-		PAYEE P
-		ON P.ID = V.ID
-		WHERE
-		T.T_TYPE =14
-		AND
-		CASE
-		WHEN
-		3=:viewType
-		THEN
-		T.SAVE_STATUS=204
-		WHEN 4=:viewType
-		THEN
-		(T.SAVE_STATUS =201)
-		ELSE true
-		END
-		AND
-		T.COMPANY_ID=:companyId AND
-		T.T_DATE
-		BETWEEN :fromDate AND :toDate
-		ORDER
-		BY
-		VENDOR_NAME
-	</sql-query>
 	<sql-query name="getCustomerReceivePaymentsList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -13066,11 +12989,12 @@
 		delete from invoice_estimates where estimate_id=:estimateId
 	</sql-query>
 
-	<sql-query name="getVendorWriteChecks">
+	<sql-query name="getPayeeWriteChecks">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="viewType" type="int" />
+		<query-param name="isCustomerChecks" type="boolean" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -13104,7 +13028,8 @@
 		
 		FROM WRITE_CHECKS WC
 		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
-		LEFT JOIN PAYEE P ON (P.ID=WC.VENDOR_ID)
+		LEFT JOIN PAYEE P ON 
+		(P.ID=(CASE WHEN :isCustomerChecks = TRUE THEN WC.CUSTOMER_ID ELSE WC.VENDOR_ID END))
 
 		WHERE T.COMPANY_ID=:companyId AND
 		CASE
@@ -13133,82 +13058,7 @@
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
-	</sql-query>
-	
-	<sql-query name="getCustomerWriteChecks">
-		<query-param name="companyId" type="long" />
-		<query-param name="fromDate" type="long" />
-		<query-param name="toDate" type="long" />
-		<query-param name="viewType" type="int" />
-		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="PAYMENT_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		<return-scalar column="ISSUE_DATE" type="long" />
-		<return-scalar column="NAME" type="string" />
-		<return-scalar column="PAYMENT_METHOD" type="string" />
-		<return-scalar column="AMOUNT_PAID" type="double" />
-		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="CHECK_NUMBER" type="string" />
-		<return-scalar column="CURRENCY" type="long" />
-		SELECT
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.T_DATE AS PAYMENT_DATE,
-		T.NUMBER AS TRANSACTION_NUMBER,
-		T.STATUS AS TRANSACTION_STATUS,
-		T.T_DATE AS ISSUE_DATE,
-		P.NAME AS NAME,
-		T.PAYMENT_METHOD AS PAYMENT_METHOD,
-		T.TOTAL AS AMOUNT_PAID,
-		CASE WHEN
-		T.SAVE_STATUS = 204
-		THEN TRUE
-		ELSE
-		FALSE
-		END AS ISVOIDED,
-		WC.CHECK_NUMBER AS CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
-		
-		FROM WRITE_CHECKS WC
-		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
-		LEFT JOIN PAYEE P ON (P.ID=WC.CUSTOMER_ID)
-
-		WHERE T.COMPANY_ID=:companyId AND
-		CASE
-		WHEN
-		0=:viewType THEN
-		((T.STATUS=0
-		OR
-		T.STATUS=1 )AND T.SAVE_STATUS != 204
-		AND
-		T.SAVE_STATUS!=201)
-		WHEN
-		2=:viewType THEN
-		(T.STATUS=2
-		AND
-		T.SAVE_STATUS
-		!= 204 AND
-		T.SAVE_STATUS!=201)
-		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS =
-		204)
-		WHEN
-		4=:viewType THEN
-		(T.SAVE_STATUS = 201)
-		ELSE
-		true
-		END
-		AND
-		T.SAVE_STATUS !=
-		202
-		AND P.ID IS NOT NULL AND
-		T.T_DATE
-		BETWEEN
-		:fromDate
-		AND :toDate
-	</sql-query>
+	</sql-query>	
 
 	<sql-query name="getDepositsList">
 		<query-param name="companyId" type="long" />

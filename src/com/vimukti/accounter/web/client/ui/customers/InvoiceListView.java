@@ -212,19 +212,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		// }
 	}
 
-	private void refreshDatesAndRecords() {
-		if (dateRangeSelector.getValue() != null
-				&& dateRangeSelector.getValue().equals(messages.all())) {
-			startDate = null;
-			endDate = null;
-			callRPCMethod();
-			fromItem.setValue(startDate);
-			toItem.setValue(endDate);
-		} else {
-			callRPCMethod();
-		}
-	}
-
 	@Override
 	public void fitToSize(int height, int width) {
 		super.fitToSize(height, width);
@@ -373,11 +360,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 					brandingTheme.getID());
 		}
 
-	}
-
-	private void callRPCMethod() {
-		// Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
-		// getEndDate().getDate(), transactionType, this);
 	}
 
 	@Override

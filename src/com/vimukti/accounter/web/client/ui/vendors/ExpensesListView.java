@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -22,20 +23,13 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		super(messages.all());
 	}
 
-	public ExpensesListView(String viewType) {
+	public ExpensesListView(String viewType, int transactionType) {
 		super(viewType);
+		this.transactionType = transactionType;
 	}
 
 	public static ExpensesListView getInstance() {
 		return new ExpensesListView();
-	}
-
-	@Override
-	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getBillsAndItemReceiptList(true, 0,
-				getStartDate().getDate(), getEndDate().getDate(), 0, -1, 0,
-				this);
 	}
 
 	@Override
@@ -115,16 +109,20 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	protected void initGrid() {
 		grid = new BillsListGrid(false);
 		grid.init();
-		grid.setViewType(messages.all());
 	}
 
 	@Override
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
-		// listOfTypes.add(FinanceApplication.constants().open());
-		// listOfTypes.add(FinanceApplication.constants().overDue());
-		listOfTypes.add(messages.cash());
-		listOfTypes.add(messages.creditCard());
+
+		if (this.transactionType == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE) {
+			listOfTypes.add(messages.creditCard());
+		} else if (this.transactionType == ClientTransaction.TYPE_CASH_EXPENSE) {
+			listOfTypes.add(messages.cash());
+		} else {
+			listOfTypes.add(messages.cash());
+			listOfTypes.add(messages.creditCard());
+		}
 
 		// This should be added when user select to track employee expenses.
 		if (Global.get().preferences().isHaveEpmloyees()
@@ -137,74 +135,46 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		return listOfTypes;
 	}
 
+	int transactionType = 0;
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		Accounter.createHomeService().getBillsAndItemReceiptList(true,
+				transactionType, getStartDate().getDate(),
+				getEndDate().getDate(), start, length, checkViewType(), this);
+	}
+
+	private int checkViewType() {
+		int viewId = 0;
+		if (viewType.equalsIgnoreCase(messages.cash())) {
+			viewId = VIEW_OPEN;
+		} else if (viewType.equalsIgnoreCase(messages.creditCard())) {
+			viewId = VIEW_OVERDUE;
+		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+			viewId = VIEW_VOIDED;
+		} else if (viewType.equalsIgnoreCase(messages.all())) {
+			viewId = VIEW_ALL;
+		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+			viewId = VIEW_DRAFT;
+		}
+
+		return viewId;
+	}
+
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (text.equalsIgnoreCase(messages.employee())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-					records.add(record);
-			}
-			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages.cash())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_CASH_EXPENSE)
-					records.add(record);
-			}
-			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages.creditCard())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_CREDIT_CARD_EXPENSE)
-					records.add(record);
-			}
-			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages.employee())) {
-			List<BillsList> records = new ArrayList<BillsList>();
-			for (BillsList record : initialRecords) {
-				if (record.getType() == ClientTransaction.TYPE_EMPLOYEE_EXPENSE)
-					records.add(record);
-			}
-			grid.setRecords(records);
-		} else if (text.equalsIgnoreCase(messages.voided())) {
-			List<BillsList> voidedRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if (rec.isVoided() && !rec.isDeleted()) {
-					voidedRecs.add(rec);
-				}
-			}
-			grid.setRecords(voidedRecs);
-
-		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			List<BillsList> voidedRecs = new ArrayList<BillsList>();
-			List<BillsList> allRecs = initialRecords;
-			for (BillsList rec : allRecs) {
-				if (rec.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
-					voidedRecs.add(rec);
-				}
-			}
-			grid.setRecords(voidedRecs);
-
-		} else if (text.equalsIgnoreCase(messages.all())) {
-			grid.setRecords(initialRecords);
-		}
-
-		if (grid.getRecords().isEmpty())
-			grid.addEmptyMessage(messages.noRecordsToShow());
-
+		onPageChange(0, getPageSize());
 	}
 
 	@Override
 	public void onSuccess(PaginationList<BillsList> result) {
-
-		super.onSuccess(result);
-		filterList(viewSelect.getSelectedValue().toString());
-		grid.setViewType(viewSelect.getSelectedValue().toString());
-		grid.sort(10, false);
-
+		grid.removeLoadingImage();
+		viewSelect.setComboItem(viewType);
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), result.size(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -234,4 +204,8 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		return messages.expensesList();
 	}
 
+	@Override
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
+	}
 }

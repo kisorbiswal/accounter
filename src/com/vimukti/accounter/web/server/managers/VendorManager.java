@@ -90,20 +90,15 @@ public class VendorManager extends PayeeManager {
 		List list;
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-
-			Query query = session.getNamedQuery("getBillsList")
+			String queryName = "getBillsList";
+			Query query = session.getNamedQuery(queryName)
 					.setParameter("companyId", companyId)
 					.setParameter("fromDate", fromDate)
 					.setParameter("toDate", toDate)
 					.setParameter("todayDate", new FinanceDate().getDate())
-					.setParameter("viewType", viewType);
-			if (transactionType == ClientTransaction.TYPE_VENDOR_CREDIT_MEMO) {
-				query = session.getNamedQuery("getVendorCreditMemos")
-						.setParameter("companyId", companyId)
-						.setParameter("fromDate", fromDate)
-						.setParameter("toDate", toDate)
-						.setParameter("viewType", viewType);
-			}
+					.setParameter("viewType", viewType)
+					.setParameter("transactionType", transactionType);
+
 			// /If length will be -1 then get list for mobile With out limits
 
 			if (length == -1) {
@@ -1712,18 +1707,12 @@ public class VendorManager extends PayeeManager {
 		Session session = HibernateUtil.getCurrentSession();
 		int total;
 		PaginationList<PaymentsList> issuePaymentTransactionsList = new PaginationList<PaymentsList>();
-		Query query = session.getNamedQuery("getVendorWriteChecks")
+		Query query = session.getNamedQuery("getPayeeWriteChecks")
 				.setParameter("companyId", companyId)
 				.setParameter("fromDate", fromDate.getDate())
 				.setParameter("toDate", toDate.getDate())
-				.setParameter("viewType", viewType);
-		if (isCustomerChecks) {
-			query = session.getNamedQuery("getCustomerWriteChecks")
-					.setParameter("companyId", companyId)
-					.setParameter("fromDate", fromDate.getDate())
-					.setParameter("toDate", toDate.getDate())
-					.setParameter("viewType", viewType);
-		}
+				.setParameter("viewType", viewType)
+				.setParameter("isCustomerChecks", isCustomerChecks);
 		List list;
 		total = query.list().size();
 		list = query.setFirstResult(start).setMaxResults(length).list();

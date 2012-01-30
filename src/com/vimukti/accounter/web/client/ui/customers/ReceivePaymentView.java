@@ -371,6 +371,8 @@ public class ReceivePaymentView extends
 			payment.setAmountDue(payment.getPayment()
 					+ payment.getAppliedCredits());
 			payment.setPayment(0.00D);
+			payment.setCashDiscount(0.0D);
+			payment.setWriteOff(0.0D);
 			payment.setAppliedCredits(0.00D, false);
 			records.add(payment);
 		}

@@ -25,9 +25,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	// private static String DELETED = "Deleted";
 
 	private static final int STATUS_NOT_ISSUED = 0;
-	private static final int STATUS_PARTIALLY_PAID = 1;
 	private static final int STATUS_ISSUED = 2;
-	private static final int STATUS_VOID = 4;
 
 	public static final int TYPE_CUSTOMER_CHECKS = 1;
 	public static final int TYPE_VENDOR_CHECKS = 2;
@@ -156,7 +154,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 	@Override
 	protected void onPageChange(int start, int length) {
 		int type = 0;
-		if (viewType.equalsIgnoreCase(messages.notInvoiced())) {
+		if (viewType.equalsIgnoreCase(messages.notIssued())) {
 			type = STATUS_NOT_ISSUED;
 		} else if (viewType.equalsIgnoreCase(messages.issued())) {
 			type = STATUS_ISSUED;
