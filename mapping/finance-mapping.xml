@@ -32,6 +32,9 @@
 		<property name="currentBalance" column="CURRENT_BALANCE"></property>
 		<property name="totalBalanceInAccountCurrency" column="TOTAL_BALANCE_IN_ACCOUNT_CURRENCY"></property>
 		<property name="totalBalance" column="TOTAL_BALANCE"></property>
+		<property name="statementBalance" column="STATEMENT_BALANCE"></property>
+		<property name="statementLastDate" column="STATEMENT_IMPORTED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
