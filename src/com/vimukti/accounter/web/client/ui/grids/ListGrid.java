@@ -267,7 +267,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	 */
 	public void setRecords(List<T> list) {
 		removeAllRecords();
-		if (list != null && list.size() == 0) {
+		if (list.size() == 0) {
 			addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}

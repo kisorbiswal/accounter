@@ -30,8 +30,6 @@ public class ReportsApiServletTest extends TestCase {
 	public void setUp() throws Exception {
 		tester = new ServletTester();
 		tester.setContextPath("/");
-		tester.addServlet(ReportsApiServlet.class, "/api/xmlreports/*");
-		tester.addServlet(ReportsApiServlet.class, "/api/jsonreports/*");
 		tester.addFilter(ApiFilter.class, "/api/*", 5);
 		tester.start();
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
