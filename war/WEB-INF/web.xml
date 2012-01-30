@@ -138,7 +138,16 @@
 		<url-pattern>/main/companies</url-pattern>
 	</servlet-mapping>
 
-
+	<servlet>
+		<servlet-name>Company Password</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.CompanyPasswordServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Company Password</servlet-name>
+		<url-pattern>company/companypassword</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>Activation</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.ActivationServlet
