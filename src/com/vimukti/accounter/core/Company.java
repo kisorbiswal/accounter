@@ -58,8 +58,7 @@ public class Company implements IAccounterServerCore {
 
 	private String encryptionKey;
 
-	private byte[] aesEncryptionKey;
-
+	private byte[] secretKey;
 	// don't know the purpose
 
 	String companyEmailForCustomers;
@@ -1539,19 +1538,19 @@ public class Company implements IAccounterServerCore {
 		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
 
-	public byte[] getAesEncryptionKey() {
-		return aesEncryptionKey;
-	}
-
-	public void setAesEncryptionKey(byte[] aesEncryptionKey) {
-		this.aesEncryptionKey = aesEncryptionKey;
-	}
-
 	public Account getRoundingAccount() {
 		return roundingAccount;
 	}
 
 	public void setRoundingAccount(Account roundingAccount) {
 		this.roundingAccount = roundingAccount;
+	}
+
+	public byte[] getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(byte[] secretKey) {
+		this.secretKey = secretKey;
 	}
 }

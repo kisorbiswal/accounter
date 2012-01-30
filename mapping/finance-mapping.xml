@@ -203,8 +203,8 @@
 
 		<property name="companyEmailForCustomers" column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
-		<property name="aesEncryptionKey" column="AES_ENCRYPTION_KEY"
-			type="blob"></property>
+		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
+
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
 		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
@@ -1328,6 +1328,7 @@
 		<property name="isDeleted" column="IS_DELETED"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isAdmin" column="IS_ADMIN"></property>
+		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
 		<many-to-one name="permissions" class="UserPermissions"
 			cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
 	</class>

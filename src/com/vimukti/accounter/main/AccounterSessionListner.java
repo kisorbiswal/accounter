@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.apache.log4j.Logger;
 
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.web.server.CometManager;
 
@@ -35,7 +36,7 @@ public class AccounterSessionListner implements HttpSessionListener {
 			// session time out
 			CometManager.destroyStream(httpSession.getId(), companyId, emailId);
 
-			// EU.removeEncryption(userId);
+			EU.removeCipher();
 		}
 	}
 

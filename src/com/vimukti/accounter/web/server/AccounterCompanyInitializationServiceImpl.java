@@ -18,12 +18,15 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64;
+import com.google.gdata.util.common.util.Base64DecoderException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
@@ -72,7 +75,11 @@ public class AccounterCompanyInitializationServiceImpl extends
 						response.sendError(HttpServletResponse.SC_FORBIDDEN,
 								"Could Not Complete the Request!");
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw e;
 				} finally {
+					EU.removeCipher();
 					session.close();
 				}
 			} else {
@@ -93,10 +100,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	@Override
 	public boolean initalizeCompany(ClientCompanyPreferences preferences,
-			List<TemplateAccount> accounts) throws AccounterException {
+			String password, List<TemplateAccount> accounts)
+			throws AccounterException {
 		try {
 			Client client = getClient(getUserEmail());
-			Company company = intializeCompany(preferences, accounts, client);
+			byte[] d2 = getD2();
+			Company company = intializeCompany(preferences, accounts, client,
+					password, d2);
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
 			getThreadLocalRequest().getSession().removeAttribute(
@@ -110,19 +120,39 @@ public class AccounterCompanyInitializationServiceImpl extends
 
 	public static Company intializeCompany(
 			ClientCompanyPreferences preferences,
-			List<TemplateAccount> accounts, Client client) {
+			List<TemplateAccount> accounts, Client client, String password,
+			byte[] d2) {
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
+			byte[] companySecret = null;
+			byte[] userSecret = null;
+			if (password != null) {
+				try {
+					byte[] s3 = EU.generateSymetric();
+					byte[] csk = EU.generatePBS(password);
+					companySecret = EU.encrypt(s3, csk);
+					userSecret = EU.encrypt(s3,
+							EU.decrypt(d2, EU.getKey(client.getEmailId())));
+
+					EU.createCipher(userSecret, d2, client.getEmailId());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			Company company = new Company();
 			company.setTradingName(preferences.getTradingName());
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
+			company.setSecretKey(companySecret);
 
 			User user = new User(getUser(client));
 			user.setActive(true);
 			user.setClient(client);
 			user.setCompany(company);
+
+			// user.setSecretKey(userSecret);
+
 			session.save(user);
 
 			client.getUsers().add(user);
@@ -197,6 +227,20 @@ public class AccounterCompanyInitializationServiceImpl extends
 				BaseServlet.EMAIL_ID);
 	}
 
+	protected byte[] getD2() {
+		String d2 = (String) getThreadLocalRequest().getSession().getAttribute(
+				BaseServlet.SECRET_KEY_COOKIE);
+		if (d2 == null) {
+			return null;
+		}
+		try {
+			return Base64.decode(d2);
+		} catch (Base64DecoderException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	protected Client getClient(String emailId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
@@ -246,18 +290,38 @@ public class AccounterCompanyInitializationServiceImpl extends
 			}
 			return false;
 		}
+
+		String userEmail = (String) request.getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+		User user = BaseServlet.getUser(userEmail, serverCompanyID);
+		if (user != null && user.getSecretKey() != null) {
+			try {
+				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}
-		String userEmail = (String) request.getSession().getAttribute(
-				BaseServlet.EMAIL_ID);
-		User user = company.getUserByUserEmail(userEmail);
+		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
 			return false;
 		}
 		AccounterThreadLocal.set(user);
 		return true;
+	}
+
+	public byte[] getD2(HttpServletRequest request)
+			throws Base64DecoderException {
+		String d2 = (String) request.getSession().getAttribute(
+				BaseServlet.SECRET_KEY_COOKIE);
+		if (d2 == null) {
+			return null;
+		}
+		return Base64.decode(d2);
 	}
 
 	@Override

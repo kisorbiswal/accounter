@@ -19,13 +19,17 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
+import com.google.gdata.util.common.util.Base64;
+import com.google.gdata.util.common.util.Base64DecoderException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.IS2SService;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
@@ -80,6 +84,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 								"Could Not Complete the Request!");
 					}
 				} finally {
+					EU.removeCipher();
 					session.close();
 				}
 			} else {
@@ -110,12 +115,20 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		if (serverCompanyID == null) {
 			return false;
 		}
+		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
+		User user = BaseServlet.getUser(userEmail, serverCompanyID);
+		if (user != null && user.getSecretKey() != null) {
+			try {
+				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;
 		}
-		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
-		User user = company.getUserByUserEmail(userEmail);
+		user = company.getUserByUserEmail(userEmail);
 		if (user == null) {
 			return false;
 		}
@@ -125,6 +138,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		CompanyPreferenceThreadLocal.set(preferences);
 
 		return true;
+	}
+
+	public byte[] getD2(HttpServletRequest request)
+			throws Base64DecoderException {
+		String d2 = (String) request.getSession().getAttribute(
+				BaseServlet.SECRET_KEY_COOKIE);
+		if (d2 == null) {
+			return null;
+		}
+		return Base64.decode(d2);
 	}
 
 	/**

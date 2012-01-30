@@ -609,7 +609,7 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 
 		Company company = AccounterCompanyInitializationServiceImpl
 				.intializeCompany(preferences, accounts, context.getIOSession()
-						.getClient());
+						.getClient(), null, null);
 		if (company == null) {
 			return new Result(getMessages().ProblemWhileCreating(
 					getMessages().company()));

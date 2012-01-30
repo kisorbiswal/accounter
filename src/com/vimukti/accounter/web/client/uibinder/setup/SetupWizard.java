@@ -165,8 +165,8 @@ public class SetupWizard extends VerticalPanel {
 					showLoadingImage();
 					setStartDateOfFiscalYear();
 					Accounter.createCompanyInitializationService()
-							.initalizeCompany(preferences, selectedAccounts,
-									callback);
+							.initalizeCompany(preferences, null,
+									selectedAccounts, callback);
 
 				}
 

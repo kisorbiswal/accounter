@@ -6,7 +6,14 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.xerces.impl.dv.util.Base64;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ChequePdfGenerator;
@@ -15,6 +22,7 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.CustomerRefund;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
@@ -27,8 +35,10 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -1551,6 +1561,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		try {
 			changePassword = getFinanceTool().getUserManager()
 					.changeMyPassword(emailID, oldPassword, newPassword);
+
+			HttpServletRequest req = getThreadLocalRequest();
+			byte[] s2 = EU.getKey(emailID);
+			byte[] d2 = getD2(req);
+			User user = AccounterThreadLocal.get();
+			byte[] s3 = EU.decrypt(user.getSecretKey(), EU.decrypt(d2, s2));
+
+			byte[] s1 = EU.generatePBS(newPassword);
+			d2 = EU.encrypt(s1, s2);
+			req.getSession().setAttribute(BaseServlet.SECRET_KEY_COOKIE,
+					Base64.encode(d2));
+			Session session = HibernateUtil.getCurrentSession();
+			Transaction transaction = session.beginTransaction();
+			user.setSecretKey(EU.encrypt(s3, s1));
+			session.saveOrUpdate(user);
+			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2021,8 +2047,8 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo, int quater,
-			int startYear, int endYear) {
+	public ArrayList<ClientETDSFillingItem> getEtdsDetails(int formNo,
+			int quater, int startYear, int endYear) {
 		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 		try {
 

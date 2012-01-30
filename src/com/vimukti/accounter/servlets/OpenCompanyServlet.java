@@ -146,12 +146,12 @@ public class OpenCompanyServlet extends BaseServlet {
 			try {
 				Transaction transaction = session.beginTransaction();
 
-				Company company = getCompany(request);
 				HttpSession httpSession = request.getSession();
 				Boolean isSupportedUser = (Boolean) httpSession
 						.getAttribute(IS_SUPPORTED_USER);
 				User user = null;
 				if (isSupportedUser) {
+					Company company = getCompany(request);
 					Set<User> users = company.getUsers();
 					for (User u : users) {
 						if (u.isAdmin()) {
@@ -163,34 +163,47 @@ public class OpenCompanyServlet extends BaseServlet {
 						}
 					}
 				} else {
-					user = (User) session.getNamedQuery("user.by.emailid")
-							.setParameter("company", company)
-							.setParameter("emailID", emailID).uniqueResult();
+					user = getUser(emailID, serverCompanyID);
 				}
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
 				}
-				AccounterThreadLocal.set(user);
-				//EU.initEncryption(company, client.getPassword());
 
+				user = HibernateUtil.initializeAndUnproxy(user);
+				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
+				request.setAttribute(USER_ID, user.getID());
+				request.setAttribute(USER_NAME, user.getClient().getFullName());
+
+				AccounterThreadLocal.set(user);
+				if (getCompanySecretFromDB(serverCompanyID) != null) {
+					try {
+						if (user.getSecretKey() == null) {
+							dispatch(request, response,
+									"/WEB-INF/companypassword.jsp");
+							return;
+						}
+						EU.createCipher(user.getSecretKey(), getD2(request),
+								emailID);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				Company company = getCompany(request);
+				request.setAttribute(COMPANY_NAME, company.getDisplayName()
+						+ " - " + company.getID());
 				if (!isSupportedUser) {
 					Activity activity = new Activity(getCompany(request), user,
 							ActivityType.LOGIN);
 					session.save(activity);
 				}
 				transaction.commit();
-				user = HibernateUtil.initializeAndUnproxy(user);
-				request.setAttribute(EMAIL_ID, user.getClient().getEmailId());
-				request.setAttribute(USER_ID, user.getID());
-				request.setAttribute(USER_NAME, user.getClient().getFullName());
-				request.setAttribute(COMPANY_NAME, company.getDisplayName()
-						+ " - " + company.getID());
 
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
 			} finally {
+				EU.removeCipher();
 			}
 		} else {
 			response.sendRedirect(LOGIN_URL);

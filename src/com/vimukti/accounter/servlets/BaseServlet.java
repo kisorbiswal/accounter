@@ -15,9 +15,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
+import com.google.gdata.util.common.util.Base64;
+import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
@@ -33,6 +37,7 @@ public class BaseServlet extends HttpServlet {
 	public static final String OUR_COOKIE = "_accounter_01_infinity_22";
 
 	public static final String COMPANY_COOKIE = "cid";
+	public static final String SECRET_KEY_COOKIE = "skc";
 
 	public static final String COMPANY_ID = "companyId";
 
@@ -97,6 +102,18 @@ public class BaseServlet extends HttpServlet {
 		try {
 
 			Session session = HibernateUtil.openSession();
+			Company company = getCompany(request);
+			if (company != null) {
+				String emailId = (String) request.getSession().getAttribute(
+						EMAIL_ID);
+				byte[] d2 = getD2(request);
+				if (emailId != null && d2 != null) {
+					User user = company.getUserByUserEmail(emailId);
+					if (user != null && user.getSecretKey() != null) {
+						EU.createCipher(user.getSecretKey(), d2, emailId);
+					}
+				}
+			}
 			try {
 				request.setAttribute("isRTL",
 						ServerLocal.get().equals(new Locale("ar", "", "")));
@@ -104,6 +121,7 @@ public class BaseServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
+				EU.removeCipher();
 				session.close();
 			}
 		} catch (Exception e) {
@@ -112,8 +130,21 @@ public class BaseServlet extends HttpServlet {
 		}
 	}
 
+	public byte[] getD2(HttpServletRequest request)
+			throws Base64DecoderException {
+		String d2 = (String) request.getSession().getAttribute(
+				SECRET_KEY_COOKIE);
+		if (d2 == null) {
+			return null;
+		}
+		return Base64.decode(d2);
+	}
+
 	protected Company getCompany(HttpServletRequest req) {
 		Long companyID = (Long) req.getSession().getAttribute(COMPANY_ID);
+		if (companyID == null) {
+			return null;
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			Company comapny = (Company) session.get(Company.class, companyID);
@@ -389,4 +420,21 @@ public class BaseServlet extends HttpServlet {
 				activationCode, client.getEmailId());
 	}
 
+	public static User getUser(String emailId, Long serverCompanyID) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session
+				.getNamedQuery("getUser.by.mailId.and.companyId");
+		namedQuery.setParameter("emailId", emailId).setParameter("companyId",
+				serverCompanyID);
+		User user = (User) namedQuery.uniqueResult();
+		return user;
+	}
+
+	public byte[] getCompanySecretFromDB(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getCompanySecret");
+		namedQuery.setParameter("companyId", companyId);
+		byte[] secret = (byte[]) namedQuery.uniqueResult();
+		return secret;
+	}
 }

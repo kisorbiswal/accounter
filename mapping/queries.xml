@@ -1014,7 +1014,8 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate between :fromDate and
+		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
+		between :fromDate and
 		:toDate order by cr.lastModifiedDate desc
 	</query>
 
@@ -1102,9 +1103,11 @@
 		<query-param name="status" type="int" />
 		from com.vimukti.accounter.core.Estimate e
 		where e.company=:company
-		and e.estimateType=:estimateType and e.saveStatus
+		and
+		e.estimateType=:estimateType and e.saveStatus
 		!= 202 and
-		(:status=-1 or :status=e.saveStatus or (:status=e.status and e.saveStatus!=201))
+		(:status=-1 or
+		:status=e.saveStatus or (:status=e.status and e.saveStatus!=201))
 		and
 		e.transactionDate between :fromDate and :toDate
 		order by
@@ -1640,10 +1643,15 @@
 		C.PASSWORD=:password
 	</sql-query>
 
+	<sql-query name="updateUserSecret">
+		<query-param name="emailId" type="string" />
+		update users set secret_key=null where client_id=(select id from
+		client where email_id=:emailId)
+	</sql-query>
+
 	<sql-query name="updatePasswordForClient">
 		<query-param name="newPassword" type="string" />
 		<query-param name="emailId" type="string" />
-
 		UPDATE CLIENT SET PASSWORD=:newPassword WHERE EMAIL_ID=:emailId
 	</sql-query>
 
@@ -1998,7 +2006,7 @@
 		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
 		tc.assesmentYearEnd=:endYear
 	</query>
-	
+
 	<query name="getTDSChallansForAckNo">
 		<query-param name="ackNo" type="String" />
 		<query-param name="companyId" type="long" />
@@ -2012,9 +2020,11 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="acknowledgementNo" type="String" />
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
-		tc.company=:company and tc.dateTaxPaid >=:startDate 
-		and tc.dateTaxPaid &lt;=:endDate
-		and tc.etdsfillingAcknowledgementNo=:acknowledgementNo
+		tc.company=:company and tc.dateTaxPaid >=:startDate
+		and tc.dateTaxPaid
+		&lt;=:endDate
+		and
+		tc.etdsfillingAcknowledgementNo=:acknowledgementNo
 	</query>
 
 	<query name="getTdsChalanDetailsByAssesmentYear">
@@ -2041,7 +2051,8 @@
 	<query name="list.TAXReturn.orderByEndDate">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TAXReturn tr
-		where tr.company=:company order by tr.periodEndDate
+		where tr.company=:company
+		order by tr.periodEndDate
 	</query>
 
 	<query name="getTaxrateCalc.of.TAXReturn">
@@ -2053,7 +2064,7 @@
 	<!-- <query name="getbankStatements"> <query-param name="company" type="Company" 
 		/> <query-param name="accountId" type="long" /> from Statement where company=:company 
 		and account_id=:accountId </query> -->
-	
+
 	<query name="list.bankStatement">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Statement s where
