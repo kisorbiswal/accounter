@@ -81,6 +81,12 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		initTransactionNumber();
+	}
+
+	@Override
 	protected void initTransactionViewData() {
 		if (transaction == null) {
 			setData(new ClientMakeDeposit());
