@@ -213,8 +213,9 @@ import com.vimukti.accounter.web.client.ui.vat.ReceiveVATAction;
 import com.vimukti.accounter.web.client.ui.vat.TAXAgencyListAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSAcknowledgmentsReportAction;
-import com.vimukti.accounter.web.client.ui.vat.TDSForm16AAction;
 import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSFiledDetailsAction;
+import com.vimukti.accounter.web.client.ui.vat.TDSForm16AAction;
 import com.vimukti.accounter.web.client.ui.vat.TaxHistoryAction;
 import com.vimukti.accounter.web.client.ui.vat.VatItemListAction;
 import com.vimukti.accounter.web.client.ui.vendors.AwaitingAuthorisationAction;
@@ -347,8 +348,9 @@ public class ActionFactory {
 		return new WriteChecksAction();
 	}
 
-	public static BankStatementAction getBankStatementAction() {
-		return new BankStatementAction();
+	public static BankStatementAction getBankStatementAction(
+			ClientAccount account) {
+		return new BankStatementAction(account);
 	}
 
 	public static WriteChecksAction getWriteChecksAction(
@@ -1359,6 +1361,10 @@ public class ActionFactory {
 		return new TDSAcknowledgmentsReportAction();
 	}
 
+	public static TDSFiledDetailsAction getTDSFiledDetailsAction() {
+		return new TDSFiledDetailsAction();
+	}
+
 	public static VendorCenterAction getVendorCentreAction() {
 		return new VendorCenterAction();
 	}
@@ -1371,17 +1377,17 @@ public class ActionFactory {
 		return new CreateIRASInformationFileAction();
 	}
 
-	/**
-	 * For Reconcilation
-	 * 
-	 * @param accountid
-	 * 
-	 * @return
-	 */
-
-	public static BankStatementAction getImportBankStatementAction() {
-		return new BankStatementAction();
-	}
+	// /**
+	// * For Reconcilation
+	// *
+	// * @param accountid
+	// *
+	// * @return
+	// */
+	//
+	// public static BankStatementAction getImportBankStatementAction() {
+	// return new BankStatementAction(new ClientAccount());
+	// }
 
 	public static StatementReconcilationAction getStatementReconcilationAction(
 			long accountid, ClientStatement statementId) {

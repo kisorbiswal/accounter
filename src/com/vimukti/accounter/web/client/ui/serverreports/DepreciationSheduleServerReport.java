@@ -62,8 +62,10 @@ public class DepreciationSheduleServerReport extends
 		switch (index) {
 		case 0:
 			return 85;
+		case 10:
+			return 60;
 		default:
-			return 50;
+			return -1;
 		}
 	}
 

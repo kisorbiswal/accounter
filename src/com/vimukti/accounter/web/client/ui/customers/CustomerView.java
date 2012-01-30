@@ -438,19 +438,17 @@ public class CustomerView extends BaseView<ClientCustomer> {
 	public void createCustomFieldControls() {
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), true);
-		if (data != null) {
-			Set<ClientCustomFieldValue> customFieldValues = data
-					.getCustomFieldValues();
-			Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
-			for (ClientCustomFieldValue value : customFieldValues) {
-				if (company.getClientCustomField(value.getID()) == null) {
-					deleteCustomFieldValues.add(value);
-				}
+		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
+				: data.getCustomFieldValues();
+		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+		for (ClientCustomFieldValue value : customFieldValues) {
+			if (company.getClientCustomField(value.getID()) == null) {
+				deleteCustomFieldValues.add(value);
 			}
+		}
 
-			for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
-				customFieldValues.remove(clientCustomFieldValue);
-			}
+		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
+			customFieldValues.remove(clientCustomFieldValue);
 		}
 		customFieldForm.setDisabled(isInViewMode());
 	}

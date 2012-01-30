@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -3348,11 +3349,35 @@ public class ReportManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 
-		List list = session.getNamedQuery("").setLong("companyId", companyId)
+		List list = session.getNamedQuery("get.TDS.Filed.Records")
+				.setLong("companyId", companyId)
 				.setLong("startDate", startDate.getDate())
 				.setLong("endDate", endDate.getDate()).list();
 
-		return null;
+		Object[] object = null;
+		Iterator iterator = list.iterator();
+		Map<String, TDSAcknowledgmentsReport> map = new HashMap<String, TDSAcknowledgmentsReport>();
+		while ((iterator).hasNext()) {
+
+			TDSAcknowledgmentsReport t = new TDSAcknowledgmentsReport();
+			object = (Object[]) iterator.next();
+
+			t.setAckNo(object[0] == null ? "" : (String) object[0]);
+			t.setFormType(object[1] == null ? 0 : ((Integer) object[1])
+					.intValue());
+			t.setQuater(object[2] == null ? 0 : ((Integer) object[2])
+					.intValue());
+			t.setFinancialYearStart(object[3] == null ? 0
+					: ((Integer) object[3]).intValue());
+			t.setFinancialYearEnd(object[4] == null ? 0 : ((Integer) object[4])
+					.intValue());
+			t.setDate(object[5] == null ? 0 : ((Long) object[5]).longValue());
+
+			if (!map.containsKey(t.getAckNo())) {
+				map.put(t.getAckNo(), t);
+			}
+		}
+		return new ArrayList<TDSAcknowledgmentsReport>(map.values());
 	}
 
 	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(

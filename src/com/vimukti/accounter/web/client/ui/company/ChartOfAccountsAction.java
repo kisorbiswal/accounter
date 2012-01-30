@@ -4,6 +4,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.banking.BankAccountsView;
 import com.vimukti.accounter.web.client.ui.banking.ChartOfAccountsView;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -17,6 +18,8 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class ChartOfAccountsAction extends Action {
 
 	protected ChartOfAccountsView view;
+
+	private BankAccountsView bankAccountsView;
 	public int accountType;
 
 	public ChartOfAccountsAction() {
@@ -35,14 +38,17 @@ public class ChartOfAccountsAction extends Action {
 
 			public void onCreated() {
 
-				if (accountType == 0)
+				if (accountType == 0) {
 					view = ChartOfAccountsView.getInstance();
-				else
-					view = new ChartOfAccountsView(accountType);
+					MainFinanceWindow.getViewManager().showView(view, data,
+							isDependent, ChartOfAccountsAction.this);
+				} else {
+					bankAccountsView = new BankAccountsView();
 
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, ChartOfAccountsAction.this);
-
+					MainFinanceWindow.getViewManager().showView(
+							bankAccountsView, data, isDependent,
+							ChartOfAccountsAction.this);
+				}
 			}
 		});
 	}

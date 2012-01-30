@@ -48,7 +48,8 @@ public class InvoiceBrandingView<T> extends
 			headingsHtml, paypalEmailHtml, termsHtml, radioButtonHtml,
 			contactDetailsHtml, titleHtml, invoiceHtml, creditNoteHtml,
 			quoteHtml, invoiceFileName, creditNoteFileName, quoteFileName,
-			downloadOdtHtml, downloadDocxHtml, uploadHtml;
+			downloadOdtHtml, downloadDocxHtml, uploadHtml, cashSaleHtml,
+			cashSaleFileName;
 	private Label titleLabel;
 	// helpHtml;
 	private VerticalPanel mainPanel, titlePanel, subLayPanel, uploadPanel,
@@ -335,6 +336,16 @@ public class InvoiceBrandingView<T> extends
 		quotePanel.setSpacing(10);
 		quotePanel.setStyleName("rightBorder");
 
+		VerticalPanel cashSalePanel = new VerticalPanel();
+		cashSaleHtml = new HTML("<p>" + messages.cashSale()
+				+ "<br/><br/><br/></p>");
+		cashSaleFileName = new HTML("<p>" + theme.getCashSaleTemplateName()
+				+ "</p>");
+		cashSalePanel.add(cashSaleHtml);
+		cashSalePanel.add(cashSaleFileName);
+		cashSalePanel.setSpacing(10);
+		cashSalePanel.setStyleName("rightBorder");
+
 		downloadOdtHtml = new HTML("<p>" + messages.odtDownloadMessage()
 				+ "</p>");
 		downloadDocxHtml = new HTML("<p>" + messages.docxDownloadMessage()
@@ -364,6 +375,7 @@ public class InvoiceBrandingView<T> extends
 		detailsPanel.add(invoicePanel);
 		detailsPanel.add(creditPanel);
 		detailsPanel.add(quotePanel);
+		detailsPanel.add(cashSalePanel);
 		detailsPanel.add(downloadPanel);
 		detailsPanel.add(uploadPanel);
 

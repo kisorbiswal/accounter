@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientBank;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
-public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
+public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 	private List<ClientBank> getDeducteeCodes() {
 
@@ -55,16 +55,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 	@Override
 	protected void initColumns() {
 
-		TextEditColumn<ClientETDSFilling> serialNoColumn = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> serialNoColumn = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return Integer.toString(object.getSerialNo());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -80,16 +80,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> bankBsrCodeColumn = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> bankBsrCodeColumn = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return object.getBankBSRCode();
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -105,15 +105,15 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> dateTaxDepositedColumn = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> dateTaxDepositedColumn = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DateUtills.getDateAsString(object.getDateTaxDeposited());
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -129,16 +129,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> chalanSerialCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> chalanSerialCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return Long.toString(object.getChalanSerialNumber());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -154,16 +154,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> sectionCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> sectionCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return object.getSectionForPayment();
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -179,16 +179,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> tdsTotalCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> tdsTotalCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return Double.toString(object.getTotalTDSfordeductees());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -204,16 +204,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> deducteePanCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> deducteePanCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return object.getPanOfDeductee();
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				row.setPanOfDeductee(value);
 			}
 
@@ -222,19 +222,24 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 				return "PAN of Deductee";
 			}
 
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+
 		};
 
-		TextEditColumn<ClientETDSFilling> deducteeNameCOl = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> deducteeNameCOl = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return Accounter.getCompany().getVendor(object.getDeducteeID())
 						.getName();
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -250,16 +255,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> paymentDateCOl = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> paymentDateCOl = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DateUtills.getDateAsString(object.getDateOFpayment());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -275,16 +280,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> amountPaidCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> amountPaidCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object.getAmountPaid());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -300,16 +305,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> TDSCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> TDSCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object.getTds());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -325,16 +330,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> surchargeCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> surchargeCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object.getSurcharge());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -350,16 +355,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> educationCessCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> educationCessCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object.getEducationCess());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -375,17 +380,17 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> totalTaxDeductedCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> totalTaxDeductedCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object
 						.getTotalTaxDEducted());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -401,17 +406,17 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> totalTaxDepositedCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> totalTaxDepositedCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object
 						.getTotalTaxDeposited());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -427,16 +432,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> dateDeductionCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> dateDeductionCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DateUtills.getDateAsString(object.getDateofDeduction());
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -455,10 +460,10 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 		final BankDropDownTable deducteeCodeTable = new BankDropDownTable(
 				getDeducteeCodes());
 
-		ComboColumn<ClientETDSFilling, ClientBank> deducteeCodeCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+		ComboColumn<ClientETDSFillingItem, ClientBank> deducteeCodeCol = new ComboColumn<ClientETDSFillingItem, ClientBank>() {
 
 			@Override
-			public ClientBank getValue(ClientETDSFilling object) {
+			public ClientBank getValue(ClientETDSFillingItem object) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -469,13 +474,13 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
 				row.setCompanyCode(newValue.getName());
 			}
 
 			@Override
 			public AbstractDropDownTable<ClientBank> getDisplayTable(
-					ClientETDSFilling row) {
+					ClientETDSFillingItem row) {
 				return deducteeCodeTable;
 			}
 
@@ -489,10 +494,10 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 		final BankDropDownTable remarkCodeTable = new BankDropDownTable(
 				getRemarkValues());
 
-		ComboColumn<ClientETDSFilling, ClientBank> remarkCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+		ComboColumn<ClientETDSFillingItem, ClientBank> remarkCol = new ComboColumn<ClientETDSFillingItem, ClientBank>() {
 
 			@Override
-			public ClientBank getValue(ClientETDSFilling object) {
+			public ClientBank getValue(ClientETDSFillingItem object) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -503,13 +508,13 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
 				row.setRemark(newValue.getName());
 			}
 
 			@Override
 			public AbstractDropDownTable<ClientBank> getDisplayTable(
-					ClientETDSFilling row) {
+					ClientETDSFillingItem row) {
 				return remarkCodeTable;
 			}
 
@@ -522,15 +527,15 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 
 		// SelectionCell deducteeCodeCol = new SelectionCell(null);
 
-		TextEditColumn<ClientETDSFilling> rateCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> rateCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return DataUtils.getAmountAsStrings(object.getTaxRate());
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -546,16 +551,16 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 		};
 
-		TextEditColumn<ClientETDSFilling> bookEntryCol = new TextEditColumn<ClientETDSFilling>() {
+		TextEditColumn<ClientETDSFillingItem> bookEntryCol = new TextEditColumn<ClientETDSFillingItem>() {
 
 			@Override
-			public String getValue(ClientETDSFilling object) {
+			public String getValue(ClientETDSFillingItem object) {
 				return object.getBookEntry();
 
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, String value) {
+			protected void setValue(ClientETDSFillingItem row, String value) {
 				// TODO Auto-generated method stub
 
 			}
@@ -574,10 +579,10 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 		final BankDropDownTable grossingUpTable = new BankDropDownTable(
 				getGrossingUpIndicators());
 
-		ComboColumn<ClientETDSFilling, ClientBank> grossingUpCol = new ComboColumn<ClientETDSFilling, ClientBank>() {
+		ComboColumn<ClientETDSFillingItem, ClientBank> grossingUpCol = new ComboColumn<ClientETDSFillingItem, ClientBank>() {
 
 			@Override
-			public ClientBank getValue(ClientETDSFilling object) {
+			public ClientBank getValue(ClientETDSFillingItem object) {
 				// TODO Auto-generated method stub
 				return null;
 			}
@@ -588,13 +593,13 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFilling> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFilling row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
 				row.setGrossingUpIndicator(newValue.getName());
 			}
 
 			@Override
 			public AbstractDropDownTable<ClientBank> getDisplayTable(
-					ClientETDSFilling row) {
+					ClientETDSFillingItem row) {
 				return grossingUpTable;
 			}
 

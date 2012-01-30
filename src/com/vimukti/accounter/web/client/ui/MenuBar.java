@@ -62,8 +62,6 @@ public class MenuBar {
 
 	private ICountryPreferences company;
 
-	private boolean canManageFiscalYears;
-
 	private boolean isInventoryEnabled;
 
 	private boolean notReadOnlyUser;
@@ -535,7 +533,7 @@ public class MenuBar {
 				messages.payeeStatement(Global.get().Customers()),
 				HistoryTokens.CUSTOMERSTATEMENT);
 		customersAndReceivableMenuBar.addMenuItem(
-				messages.payeeTransactionHistory(messages.customer()),
+				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 
 		return customersAndReceivableMenuBar;
@@ -625,9 +623,9 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.ReconciliationsList(),
 				HistoryTokens.RECOUNCILATIONSLIST);
 
-		bankingMenuBar.addSeparatorItem();
-		bankingMenuBar.addMenuItem(messages.bankStatements(),
-				HistoryTokens.BANKSTATEMENTS);
+		// bankingMenuBar.addSeparatorItem();
+		// bankingMenuBar.addMenuItem(messages.bankStatements(),
+		// HistoryTokens.BANKSTATEMENTS);
 		bankingMenuBar.addSeparatorItem();
 		bankingMenuBar.addMenuItem(getBankingListMenu(messages.bankingList()));
 
@@ -677,12 +675,15 @@ public class MenuBar {
 						HistoryTokens.PAYBILL);
 				// vendorMenuBar.addMenuItem(messages.issuePayments(),
 				// HistoryTokens.ISSUEPAYMENTS);
-				vendorMenuBar.addMenuItem(messages.printCheque(),
-						HistoryTokens.PRINTCHEQUE);
 			}
-			vendorMenuBar.addMenuItem(
-					messages.payeePrePayment(Global.get().Vendor()),
-					HistoryTokens.VENDORPREPAYMENT);
+			vendorMenuBar.addMenuItem(messages.printCheque(),
+					HistoryTokens.PRINTCHEQUE);
+
+			if (isKeepTrackofBills) {
+				vendorMenuBar.addMenuItem(
+						messages.payeePrePayment(Global.get().Vendor()),
+						HistoryTokens.VENDORPREPAYMENT);
+			}
 		}
 		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
@@ -715,7 +716,7 @@ public class MenuBar {
 					messages.payees(Global.get().Vendors()) + " "
 							+ messages.items(), HistoryTokens.VENDORITEMS);
 		}
-		if (canSeeBanking) {
+		if (canSeeBanking && isKeepTrackofBills) {
 			vendorListMenuBar.addMenuItem(
 					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);
@@ -1075,8 +1076,6 @@ public class MenuBar {
 		this.isLocationTracking = preferences.isLocationTrackingEnabled();
 
 		this.canDoBanking = canDoBanking(clientUser);
-
-		this.canManageFiscalYears = canManageFiscalYears;
 
 		this.isClassTracking = preferences.isClassTrackingEnabled();
 

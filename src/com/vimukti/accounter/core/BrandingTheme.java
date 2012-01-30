@@ -53,10 +53,11 @@ public class BrandingTheme extends CreatableObject implements
 	// public static final int SHOW_TAXES_AS_EXCLUSIVE = 1;
 	// public static final int SHOW_TAXES_AS_INCLUSIVE = 2;
 
-	// selected invoice , credit note & Estimate template names
+	// selected invoice , credit note , Estimate & Cash sale template names
 	private String invoiceTempleteName;
 	private String creditNoteTempleteName;
 	private String quoteTemplateName;
+	private String cashSaleTemplateName;
 
 	private String themeName;
 	private int pageSizeType;
@@ -70,6 +71,7 @@ public class BrandingTheme extends CreatableObject implements
 	private String creditMemoTitle;
 	private String statementTitle;
 	private String quoteTitle;
+	private String cashSaleTitle;
 
 	private boolean isShowTaxNumber;
 	private boolean isShowColumnHeadings;
@@ -459,7 +461,8 @@ public class BrandingTheme extends CreatableObject implements
 
 	}
 
-	public BrandingTheme(String themeName, String id,
+	public BrandingTheme(String themeName,
+			String id,
 			double topMargin,
 			double bottomMargin,
 			double addressPadding,
@@ -470,7 +473,8 @@ public class BrandingTheme extends CreatableObject implements
 			String statementTitle, String quoteTitle, String payPalEmailID,
 			boolean isDefault, String contactDetails,
 			String Terms_And_Payment_Advice, String invoiceTemplete,
-			String creditNoteTemplete, String quoteTemplateName) {
+			String creditNoteTemplete, String quoteTemplateName,
+			String cashSaleTempleteName, String cashSaleTitle) {
 
 		this.themeName = themeName;
 		this.pageSizeType = PAGE_SIZE_US_LETTER;
@@ -501,6 +505,8 @@ public class BrandingTheme extends CreatableObject implements
 		this.invoiceTempleteName = invoiceTemplete;
 		this.creditNoteTempleteName = creditNoteTemplete;
 		this.quoteTemplateName = quoteTemplateName;
+		this.cashSaleTemplateName = cashSaleTempleteName;
+		this.cashSaleTitle = cashSaleTitle;
 	}
 
 	@Override
@@ -680,6 +686,22 @@ public class BrandingTheme extends CreatableObject implements
 
 	public void setQuoteTemplateName(String quoteTemplateName) {
 		this.quoteTemplateName = quoteTemplateName;
+	}
+
+	public String getCashSaleTemplateName() {
+		return cashSaleTemplateName;
+	}
+
+	public void setCashSaleTemplateName(String cashSaleTemplateName) {
+		this.cashSaleTemplateName = cashSaleTemplateName;
+	}
+
+	public String getCashSaleTitle() {
+		return cashSaleTitle;
+	}
+
+	public void setCashSaleTitle(String cashSaleTitle) {
+		this.cashSaleTitle = cashSaleTitle;
 	}
 
 }

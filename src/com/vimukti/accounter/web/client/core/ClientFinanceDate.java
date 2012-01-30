@@ -227,7 +227,9 @@ public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
 	}
 
 	public String toString() {
-		return this.day + "/" + this.month + "/" + this.year;
+		return (day < 10 ? "0" + this.day : this.day) + "/"
+				+ (this.month < 10 ? "0" + this.month : this.month) + "/"
+				+ this.year;
 	}
 
 	public void setMonth(int month) {

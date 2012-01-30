@@ -110,4 +110,9 @@ public abstract class AbstractCountryPreferences implements ICountryPreferences 
 		return new ArrayList<String>();
 
 	}
+
+	@Override
+	public String[] getTaxAgencyFieldName(String state, int taxAgencyType) {
+		return null;
+	}
 }

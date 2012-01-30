@@ -104,16 +104,6 @@ public class FileVATView extends AbstractFileTAXView {
 		Accounter.showError(errorString);
 	}
 
-	public void printVATReturn() {
-		VAT100Report report = new VAT100Report();
-		report.setAction(ActionFactory.getVAT100ReportAction());
-		report.setStartAndEndDates(fromDate.getEnteredDate(),
-				toDate.getEnteredDate());
-		report.setVatAgency(selectedTaxAgency.getID());
-		report.print();
-
-	}
-
 	@Override
 	protected String getViewTitle() {
 		return messages.fileTAX();

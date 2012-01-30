@@ -59,6 +59,8 @@ public class User extends CreatableObject implements IAccounterServerCore,
 	 */
 	private UserPreferences userPreferences = new UserPreferences();
 
+	private byte[] secretKey;
+
 	public User() {
 		UserPreferences userPreferences = new UserPreferences();
 
@@ -218,7 +220,6 @@ public class User extends CreatableObject implements IAccounterServerCore,
 					.getTypeOfInventoryWarehouse());
 			user.setPermissions(userPermissions);
 		}
-		Set<PortletPageConfiguration> portletPages2 = this.getPortletPages();
 		Set<ClientPortletPageConfiguration> set = new HashSet<ClientPortletPageConfiguration>();
 		ClientConvertUtil utils = new ClientConvertUtil();
 		try {
@@ -317,6 +318,14 @@ public class User extends CreatableObject implements IAccounterServerCore,
 		w.put(messages.isActive(), this.isActive).gap();
 		w.put(messages.admin(), this.isAdmin);
 
+	}
+
+	public byte[] getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(byte[] secretKey) {
+		this.secretKey = secretKey;
 	}
 
 }

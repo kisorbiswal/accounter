@@ -38,6 +38,8 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 
 	private boolean isAddressSameForResopsiblePerson;
 
+	private ClientAddress taxOfficeAddress;
+
 	@Override
 	public int getVersion() {
 		// TODO Auto-generated method stub
@@ -282,6 +284,14 @@ public class ClientTDSDeductorMasters implements IAccounterCore {
 	public void setAddressSameForResopsiblePerson(
 			boolean isAddressSameForResopsiblePerson) {
 		this.isAddressSameForResopsiblePerson = isAddressSameForResopsiblePerson;
+	}
+
+	public ClientAddress getTaxOfficeAddress() {
+		return taxOfficeAddress;
+	}
+
+	public void setTaxOfficeAddress(ClientAddress taxOfficeAddress) {
+		this.taxOfficeAddress = taxOfficeAddress;
 	}
 
 }

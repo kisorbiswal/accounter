@@ -95,6 +95,7 @@ public class SetupWizard extends VerticalPanel {
 		allViewsList.add(new SetupSelectAccountsPage(this));
 		// IF SETUP SKIP THEN ONLY THIS VIEW SHOULD SHOW..
 		allViewsList.add(new SetupIndustrySelectionWithAccountsPage(this));
+		allViewsList.add(new SetupPremiumPage(this));
 		allViewsList.add(new SetupComplitionPage());
 	}
 
@@ -165,8 +166,8 @@ public class SetupWizard extends VerticalPanel {
 					showLoadingImage();
 					setStartDateOfFiscalYear();
 					Accounter.createCompanyInitializationService()
-							.initalizeCompany(preferences, selectedAccounts,
-									callback);
+							.initalizeCompany(preferences, null,
+									selectedAccounts, callback);
 
 				}
 

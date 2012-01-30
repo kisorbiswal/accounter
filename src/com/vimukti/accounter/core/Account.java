@@ -278,6 +278,10 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	transient private double previousOpeningBalance;
 
+	private double statementBalance;
+
+	private FinanceDate statementLastDate;
+
 	/**
 	 * Constructor of Account class
 	 */
@@ -1443,6 +1447,22 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public void setLastCheckNum(String lastCheckNum) {
 		this.lastCheckNum = lastCheckNum;
+	}
+
+	public double getStatementBalance() {
+		return statementBalance;
+	}
+
+	public void setStatementBalance(double statementBalance) {
+		this.statementBalance = statementBalance;
+	}
+
+	public FinanceDate getStatementLastDate() {
+		return statementLastDate;
+	}
+
+	public void setStatementLastDate(FinanceDate statementLastDate) {
+		this.statementLastDate = statementLastDate;
 	}
 
 }

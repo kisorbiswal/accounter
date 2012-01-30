@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class WhoIOwePortlet extends Portlet {
 	private DashboardOweGrid grid;
@@ -35,7 +36,11 @@ public class WhoIOwePortlet extends Portlet {
 					grid.addEmptyMessage(messages.noRecordsToShow());
 				}
 				body.add(grid);
-				createLink();
+				if (Accounter.getUser().getPermissions()
+						.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES
+						&& getPreferences().isKeepTrackofBills()) {
+					createLink();
+				}
 				completeInitialization();
 			}
 

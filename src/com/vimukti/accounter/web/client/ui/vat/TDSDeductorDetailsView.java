@@ -1,12 +1,16 @@
 package com.vimukti.accounter.web.client.ui.vat;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -15,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.AddressDialog;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -24,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
@@ -62,10 +68,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	private TextItem tanNumber;
 	private CheckboxItem addressSameBox;
 	private boolean isViewInitialised;
+	private TextAreaItem taxOfficeAddrItem;
+	protected LinkedHashMap<Integer, ClientAddress> taxOfficeAddresses;
 
 	@Override
 	public void init() {
 		super.init();
+		taxOfficeAddresses = new LinkedHashMap<Integer, ClientAddress>();
 		createControls();
 		setSize("100%", "100%");
 
@@ -172,6 +181,22 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				"Address same for resposible person also");
 		addressSameBox.setDisabled(isInViewMode());
 
+		taxOfficeAddrItem = new TextAreaItem();
+		taxOfficeAddrItem.setHelpInformation(true);
+		taxOfficeAddrItem.setWidth(100);
+		taxOfficeAddrItem.setRequired(true);
+		taxOfficeAddrItem.setTitle("Tax Office Address");
+		taxOfficeAddrItem.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (taxOfficeAddresses.isEmpty()) {
+					taxOfficeAddresses.put(0, null);
+				}
+				new AddressDialog("", "", taxOfficeAddrItem,
+						"Tax Office Address", taxOfficeAddresses);
+			}
+		});
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
 		email.setDisabled(isInViewMode());
@@ -291,7 +316,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		otherDynamicForm.setFields(statusCombo, deductorTypeOther,
 				deductorTypeGovernment, govtState, paoCode, paoRegistration,
 				ddoCode, ddoRegistration, ministryCombo, ministryNameOtehr,
-				panNumber, tanNumber, addressSameBox);
+				panNumber, tanNumber, addressSameBox, taxOfficeAddrItem);
 
 		paoCode.setDisabled(true);
 		paoRegistration.setDisabled(true);
@@ -415,7 +440,40 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		tanNumber.setValue(data.getTanNumber());
 		addressSameBox.setValue(data.isAddressSameForResopsiblePerson());
 		stdNumber.setValue(data.getStdCode());
+		if (data.getTaxOfficeAddress() != null) {
+			taxOfficeAddresses.put(7, data.getTaxOfficeAddress());
+			taxOfficeAddrItem.setValue(getValidAddress(data
+					.getTaxOfficeAddress()));
+		}
+	}
 
+	protected String getValidAddress(ClientAddress address) {
+		String toToSet = new String();
+		if (address.getAddress1() != null && !address.getAddress1().isEmpty()) {
+			toToSet = address.getAddress1().toString() + "\n";
+		}
+
+		if (address.getStreet() != null && !address.getStreet().isEmpty()) {
+			toToSet += address.getStreet().toString() + "\n";
+		}
+
+		if (address.getCity() != null && !address.getCity().isEmpty()) {
+			toToSet += address.getCity().toString() + "\n";
+		}
+
+		if (address.getStateOrProvinence() != null
+				&& !address.getStateOrProvinence().isEmpty()) {
+			toToSet += address.getStateOrProvinence() + "\n";
+		}
+		if (address.getZipOrPostalCode() != null
+				&& !address.getZipOrPostalCode().isEmpty()) {
+			toToSet += address.getZipOrPostalCode() + "\n";
+		}
+		if (address.getCountryOrRegion() != null
+				&& !address.getCountryOrRegion().isEmpty()) {
+			toToSet += address.getCountryOrRegion();
+		}
+		return toToSet;
 	}
 
 	private List<String> getMinistryType() {
@@ -593,7 +651,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		// } else {
 		// data.setStdCode(0);
 		// }
-
+		data.setTaxOfficeAddress(taxOfficeAddresses.get(7));
 	}
 
 	@Override

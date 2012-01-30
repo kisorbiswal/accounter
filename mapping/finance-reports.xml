@@ -4201,6 +4201,31 @@
 		
 		GROUP BY A.ID,CURR.ID		
 	</sql-query>
+	
+	<sql-query name="get.TDS.Filed.Records">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="enteredDate" type="long" />
+		
+		<return-scalar column="ACK_NO" type="string" />
+		<return-scalar column="FORM_TYPE" type="int" />
+		<return-scalar column="QUATER" type="int" />
+		<return-scalar column="YEAR_START" type="int" />
+		<return-scalar column="YEAR_END" type="int" />
+		<return-scalar column="DATE" type="long" />
+		
+		SELECT TC.ETDSFILLINGACKNOWLEDGEMENTNO AS ACK_NO,
+				TC.FORMTYPE AS FORM_TYPE,
+				TC.CHALANPERIOD AS QUATER,
+				(TC.ASSESMENTYEARSTART - 1) AS YEAR_START,
+				(TC.ASSESMENTYEAREND - 1) AS YEAR_END,
+				TC.ACKNOWLEDGEMENTDATE AS DATE
+				
+				FROM TDS_CHALAN_DETAIL TC
+				LEFT OUTER JOIN TRANSACTION T ON T.ID = TC.ID
+				WHERE T.COMPANY_ID =:companyId AND TC.ACKNOWLEDGEMENTDATE IS NOT NULL 
+				AND TC.ACKNOWLEDGEMENTDATE BETWEEN :startDate AND :endDate
+	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 

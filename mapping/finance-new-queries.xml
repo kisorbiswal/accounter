@@ -92,7 +92,13 @@
 		where c.emailId=:email
 	</query>
 
-
+	<query name="getUser.by.mailId.and.companyId">
+		<query-param name="emailId" type="String" />
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.User u
+		where u.client.emailId=:emailId
+		and u.company.id=:companyId
+	</query>
 
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
@@ -114,7 +120,8 @@
 		TOTAL
 
 		FROM TRANSACTION T
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		CASH_PURCHASE CP
 		ON CP.ID=T.ID
 		LEFT OUTER JOIN
@@ -156,5 +163,10 @@
 	<sql-query name="getCompaniesByClientId">
 		<query-param name="clientId" type="long" />
 		SELECT C.COMPANY_ID FROM USERS C WHERE C.CLIENT_ID=:clientId
+	</sql-query>
+	<sql-query name="getCompanySecret">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="SECRET" type="binary" />
+		SELECT C.SECRET_KEY AS SECRET from COMPANY C WHERE C.ID=:companyId
 	</sql-query>
 </hibernate-mapping>

@@ -121,6 +121,9 @@ public class Statement extends CreatableObject implements IAccounterServerCore,
 		for (StatementRecord statementRecord : getStatementRecord()) {
 			statementRecord.setStatement(this);
 		}
+		account.setStatementBalance(getClosingBalance());
+		account.setStatementLastDate(getImporttedDate());
+		session.saveOrUpdate(account);
 		return super.onSave(session);
 	}
 

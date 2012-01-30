@@ -29,7 +29,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 	protected AccounterMessages messages = Global.get().messages();
 
 	int rowSelected;
-	
+
 	int dialogueType = 0;
 
 	public BudgetCellTable() {
@@ -101,13 +101,13 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 						rowSelected = index;
 
 						HashMap<String, String> map = new HashMap<String, String>();
-						
+
 						ArrayList<Object> mapList = new ArrayList<Object>();
 						mapList.add(map);
 						mapList.add(dialogueType);
-						
-						String budgetTitle = messages.AddBudgetfor(
-								object.getAccountsName());
+
+						String budgetTitle = messages.AddBudgetfor(object
+								.getAccountsName());
 						AddBudgetAmountDialogue assignAccountsTo1099Dialog = new AddBudgetAmountDialogue(
 								budgetTitle, "", mapList, object);
 						assignAccountsTo1099Dialog
@@ -117,17 +117,16 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 									public void actionResult(
 											ArrayList<Object> result) {
 										// TODO Auto-generated method stub
-										HashMap<String, String> newMap	= (HashMap<String, String>) result.get(0);
+										HashMap<String, String> newMap = (HashMap<String, String>) result
+												.get(0);
 										dialogueType = (Integer) result.get(1);
-										
+
 										refreshView(newMap, object);
 									}
 
-
-								
 								});
 						assignAccountsTo1099Dialog.show();
-						
+
 					}
 				});
 
@@ -447,31 +446,30 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 		obj.setAugustAmount(Double.parseDouble(result.get(DayAndMonthUtil.aug())));
 		obj.setOctoberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.oct())));
-		
-		
-		
+
 		obj.setNovemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.nov())));
 		obj.setSeptemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.sep())));
 		obj.setDecemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.dec())));
+		obj.setTotalAmount(Double.parseDouble(result.get(messages.totalAmount())));
 
-		Double total;
-		total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.feb()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.mar()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.apr()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.jun()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.jul()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.aug()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.oct()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.nov()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.sep()))
-				+ Double.parseDouble(result.get(DayAndMonthUtil.dec()));
-
-		obj.setTotalAmount(total);
+		// Double total;
+		// total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.feb()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.mar()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.apr()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.jun()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.jul()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.aug()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.oct()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.nov()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.sep()))
+		// + Double.parseDouble(result.get(DayAndMonthUtil.dec()));
+		//
+		// obj.setTotalAmount(total);
 
 		refreshAllRecords(obj);
 
@@ -503,7 +501,7 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 				}
 				i++;
 			}
-			//list.add(budgetItem);
+			// list.add(budgetItem);
 		}
 
 	}

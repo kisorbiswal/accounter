@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.BankStatementsView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
@@ -10,9 +11,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class BankStatementAction extends Action<ClientTransaction> {
 	private BankStatementsView bankStatementsView;
+	private ClientAccount account;
 
-	public BankStatementAction() {
+	public BankStatementAction(ClientAccount account) {
 		super();
+		this.account = account;
 	}
 
 	@Override
@@ -31,7 +34,7 @@ public class BankStatementAction extends Action<ClientTransaction> {
 
 			public void onCreated() {
 
-				bankStatementsView = new BankStatementsView();
+				bankStatementsView = new BankStatementsView(account);
 				MainFinanceWindow.getViewManager().showView(bankStatementsView,
 						data, isDependent, BankStatementAction.this);
 			}

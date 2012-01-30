@@ -131,7 +131,7 @@ import com.vimukti.accounter.web.client.core.ClientAdvertisement;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
-import com.vimukti.accounter.web.client.core.ClientETDSFilling;
+import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -3781,7 +3781,29 @@ public class FinanceTool {
 
 		} catch (Exception e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+
 		}
+	}
+
+	public ArrayList<ClientTDSChalanDetail> getTDSChallansForAckNo(
+			String ackNo, long companyId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+
+		ArrayList<ClientTDSChalanDetail> result = new ArrayList<ClientTDSChalanDetail>();
+
+		List<TDSChalanDetail> challansGot = session
+				.getNamedQuery("getTDSChallansForAckNo")
+				.setString("ackNo", ackNo).setLong("companyId", companyId)
+				.list();
+
+		for (TDSChalanDetail chalan : challansGot) {
+			ClientTDSChalanDetail clientObject = new ClientConvertUtil()
+					.toClientObject(chalan, ClientTDSChalanDetail.class);
+
+			result.add(clientObject);
+		}
+
+		return result;
 	}
 
 	public ClientTDSDeductorMasters getTDSDeductorMasterDetails(long companyId)
@@ -3808,11 +3830,11 @@ public class FinanceTool {
 		}
 	}
 
-	public List<ClientETDSFilling> getEtdsList(int formNo, int quater,
+	public List<ClientETDSFillingItem> getEtdsList(int formNo, int quater,
 			int startYear, int endYear, Long companyId) throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
 
-		List<ClientETDSFilling> etdsList = new ArrayList<ClientETDSFilling>();
+		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 
 		try {
 
@@ -3829,7 +3851,7 @@ public class FinanceTool {
 				int i = 1;
 
 				for (TDSTransactionItem item : chalan.getTdsTransactionItems()) {
-					ClientETDSFilling eTDSObj = new ClientETDSFilling();
+					ClientETDSFillingItem eTDSObj = new ClientETDSFillingItem();
 					eTDSObj.setSerialNo(i);
 
 					double total = 0;
@@ -4316,6 +4338,30 @@ public class FinanceTool {
 
 		}
 		return "";
+	}
+
+	public ArrayList<TDSChalanDetail> getChalanList(FinanceDate startDate,
+			FinanceDate endDate, String acknowledgementNo, long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+
+		try {
+
+			Query query = session
+					.getNamedQuery("getTdsChalanDetailsByAcknowledgementNo")
+					.setEntity("company", getCompany(companyId))
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("acknowledgementNo", acknowledgementNo);
+
+			return (ArrayList<TDSChalanDetail>) query.list();
+		} catch (Exception e) {
+			try {
+				throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
+			} catch (DAOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		return new ArrayList<TDSChalanDetail>();
 	}
 
 	/**

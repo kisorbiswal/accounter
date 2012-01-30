@@ -2,7 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,9 +16,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.google.gdata.util.common.util.Base64;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.News;
 import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.utils.HexUtil;
@@ -96,15 +97,21 @@ public class NewLoginServlet extends BaseServlet {
 	}
 
 	private Client doLogin(HttpServletRequest request,
-			HttpServletResponse response) throws NoSuchAlgorithmException {
+			HttpServletResponse response) throws Exception {
 		String emailId = request.getParameter(EMAIL_ID);
 		String password = request.getParameter(PASSWORD);
-
 		Client client = getClient(emailId, password);
-		if (client != null && request.getParameter("staySignIn") != null
+
+		if (client == null) {
+			return null;
+		}
+		String encode = createD2(request, emailId, password);
+		if (request.getParameter("staySignIn") != null
 				&& request.getParameter("staySignIn").equals("on")) {
 			// Inserting RememberMeKey
 			Session session = HibernateUtil.getCurrentSession();
+
+			addUserCookies(response, encode, SECRET_KEY_COOKIE);
 
 			byte[] makeHash = Security.makeHash(client.getEmailId()
 					+ Security.makeHash(client.getPassword()));
@@ -119,12 +126,25 @@ public class NewLoginServlet extends BaseServlet {
 		return client;
 	}
 
-	protected void addUserCookies(HttpServletResponse resp, String key) {
-		Cookie userCookie = new Cookie(OUR_COOKIE, key);
+	public static String createD2(HttpServletRequest request, String emailId,
+			String password) throws Exception {
+		byte[] d2 = EU.generateD2(password, emailId);
+		String encode = Base64.encode(d2);
+		request.getSession().setAttribute(SECRET_KEY_COOKIE, encode);
+		return encode;
+	}
+
+	protected void addUserCookies(HttpServletResponse resp, String key,
+			String name) {
+		Cookie userCookie = new Cookie(name, key);
 		userCookie.setMaxAge(2 * 7 * 24 * 60 * 60);// Two week
 		// userCookie.setPath("/");
 		// userCookie.setDomain(ServerConfiguration.getServerCookieDomain());
 		resp.addCookie(userCookie);
+	}
+
+	protected void addUserCookies(HttpServletResponse resp, String key) {
+		addUserCookies(resp, key, OUR_COOKIE);
 	}
 
 	private Client getClient(String emailId, String password) {
@@ -179,7 +199,8 @@ public class NewLoginServlet extends BaseServlet {
 			// if session is not there then we show the form and user fills it
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
-			if (userCookie == null) {
+			String secretKey = getCookie(request, SECRET_KEY_COOKIE);
+			if (userCookie == null || secretKey == null) {
 				showLogin(request, response);
 				return;
 			}
@@ -203,7 +224,7 @@ public class NewLoginServlet extends BaseServlet {
 					return;
 				}
 				httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
-
+				httpSession.setAttribute(SECRET_KEY_COOKIE, secretKey);
 				client.setLoginCount(client.getLoginCount() + 1);
 				client.setLastLoginTime(System.currentTimeMillis());
 				session.saveOrUpdate(client);

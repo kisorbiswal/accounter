@@ -251,14 +251,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 				} else if (invoice.getType() == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO) {
 					if (!v.contains(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO))
 						v.add(ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
-
 				} else if (invoice.getType() == ClientTransaction.TYPE_CASH_SALES) {
-
 					if (!v.contains(ClientTransaction.TYPE_CASH_SALES))
 						v.add(ClientTransaction.TYPE_CASH_SALES);
-					isWriteCheck_cashsale = true;
 				} else if (invoice.getType() == ClientTransaction.TYPE_WRITE_CHECK) {
-
 					if (!v.contains(ClientTransaction.TYPE_WRITE_CHECK))
 						v.add(ClientTransaction.TYPE_WRITE_CHECK);
 					isWriteCheck_cashsale = true;

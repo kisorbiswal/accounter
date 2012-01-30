@@ -148,7 +148,7 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	@Override
 	public Account getEffectingAccount() {
 
-		return this.depositIn;
+		return null;
 	}
 
 	@Override
@@ -195,13 +195,13 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		super.onSave(session);
+		// super.onSave(session);
 		this.isOnSaveProccessed = true;
 		for (TransactionReceiveVAT t : transactionReceiveVAT) {
 			t.setReceiveVAT(this);
 		}
 		if (this.getID() == 0) {
-			// super.onSave(session);
+			super.onSave(session);
 
 			if (!(this.paymentMethod
 					.equals(AccounterServerConstants.PAYMENT_METHOD_CHECK))
@@ -212,6 +212,13 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 		}
 
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
+		}
+		this.depositIn.updateCurrentBalance(this, -paidAmount, currencyFactor);
+		this.depositIn.onUpdate(session);
+		session.update(this.depositIn);
 		return false;
 	}
 
@@ -230,6 +237,15 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 					}
 				}
 			}
+			double paidAmount = total;
+			if (getCurrency().getID() != getCompany().getPrimaryCurrency()
+					.getID()) {
+				paidAmount = (paidAmount / currencyFactor);
+			}
+			this.depositIn.updateCurrentBalance(this, paidAmount,
+					currencyFactor);
+			this.depositIn.onUpdate(session);
+			session.update(this.depositIn);
 		}
 		return false;
 	}

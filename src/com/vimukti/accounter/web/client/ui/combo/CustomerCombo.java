@@ -85,6 +85,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 		for (ClientPayee customer : getCompany().getPayees()) {
 			if (customer.getName().equals(text)) {
 				if (customer instanceof ClientCustomer) {
+					this.setComboItem(null);
 					this.setComboItem((ClientCustomer) customer);
 				}
 				return true;

@@ -2016,6 +2016,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	@Override
 	public void saveAsDrafts() {
 		transaction.setSaveStatus(ClientTransaction.STATUS_DRAFT);
+		boolean isValidate = validate().getErrors().isEmpty();
+		transaction.setValidated(isValidate);
 		saveAndUpdateView();
 	}
 

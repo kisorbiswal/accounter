@@ -1,10 +1,15 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
+
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
+import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
-public class TDSTransactionItem implements IAccounterServerCore {
+public class TDSTransactionItem implements IAccounterServerCore, Lifecycle {
 
 	/**
 	 * 
@@ -29,7 +34,13 @@ public class TDSTransactionItem implements IAccounterServerCore {
 
 	private Transaction transaction;
 
+	private double taxRate;
+
 	private boolean isOnSaveProccessed;
+
+	// These fields for filling
+	private int deducteeCode;
+	private String remark;
 
 	public long getId() {
 		return id;
@@ -158,5 +169,55 @@ public class TDSTransactionItem implements IAccounterServerCore {
 
 	public void setTransactionDate(FinanceDate transactionDate) {
 		this.transactionDate = transactionDate;
+	}
+
+	@Override
+	public boolean onDelete(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLoad(Session arg0, Serializable arg1) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSave(Session arg0) throws CallbackException {
+		if (transaction instanceof PayBill) {
+			this.taxRate = ((PayBill) transaction).getTdsTaxItem().getTaxRate();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onUpdate(Session arg0) throws CallbackException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public double getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
+	}
+
+	public int getDeducteeCode() {
+		return deducteeCode;
+	}
+
+	public void setDeducteeCode(int deducteeCode) {
+		this.deducteeCode = deducteeCode;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

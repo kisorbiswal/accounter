@@ -46,7 +46,8 @@
 		where
 		(f.status=:status) and
 		f.company=:company
-		order by f.lastModifiedDate desc
+		order by f.lastModifiedDate
+		desc
 	</query>
 	<query name="getFixedAsset.from.status2or3">
 		<query-param name="company" type="Company" />
@@ -56,7 +57,8 @@
 		where
 		(f.status=:status or f.status=3) and
 		f.company=:company
-		order by f.lastModifiedDate desc
+		order by
+		f.lastModifiedDate desc
 	</query>
 	<query name="getEntry.from.journalEntryType">
 		<query-param name="company" type="Company" />
@@ -992,9 +994,12 @@
 		<query-param name="transactionId" type="long" />
 		<query-param name="company" type="Company" />
 		select cp from com.vimukti.accounter.core.CreditsAndPayments cp
-		left join cp.transactionCreditsAndPayments as tcap
-		left join tcap.transactionPayBill as tpb
-		left join tcap.transactionReceivePayment as trp
+		left
+		join cp.transactionCreditsAndPayments as tcap
+		left join
+		tcap.transactionPayBill as tpb
+		left join tcap.transactionReceivePayment
+		as trp
 		where cp.payee.id
 		=:id and ((cp.balance > 0.0) or
 		(trp.receivePayment.id=:transactionId)
@@ -1009,7 +1014,8 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		from com.vimukti.accounter.core.CustomerRefund cr where
-		cr.company=:company and cr.transactionDate between :fromDate and
+		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
+		between :fromDate and
 		:toDate order by cr.lastModifiedDate desc
 	</query>
 
@@ -1025,7 +1031,8 @@
 		<query-param name="date" type="long" />
 		from com.vimukti.accounter.core.FixedAsset f where f.company=:company
 		and f.status = 2 and f.purchaseDate &lt;=:date
-		order by f.lastModifiedDate desc
+		order by
+		f.lastModifiedDate desc
 	</query>
 
 	<query name="getDepreciation.by.check.idandStatus.depreciationFor">
@@ -1094,13 +1101,17 @@
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.Estimate e 
+		from com.vimukti.accounter.core.Estimate e
 		where e.company=:company
-		and e.estimateType=:estimateType and e.saveStatus != 202 and 
-		(:status=-1 or :status=e.saveStatus or (:status=e.status and e.saveStatus!=201))
+		and
+		e.estimateType=:estimateType and e.saveStatus
+		!= 202 and
+		(:status=-1 or
+		:status=e.saveStatus or (:status=e.status and e.saveStatus!=201))
 		and
 		e.transactionDate between :fromDate and :toDate
-		order by e.lastModifiedDate desc
+		order by
+		e.lastModifiedDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1632,10 +1643,15 @@
 		C.PASSWORD=:password
 	</sql-query>
 
+	<sql-query name="updateUserSecret">
+		<query-param name="emailId" type="string" />
+		update users set secret_key=null where client_id=(select id from
+		client where email_id=:emailId)
+	</sql-query>
+
 	<sql-query name="updatePasswordForClient">
 		<query-param name="newPassword" type="string" />
 		<query-param name="emailId" type="string" />
-
 		UPDATE CLIENT SET PASSWORD=:newPassword WHERE EMAIL_ID=:emailId
 	</sql-query>
 
@@ -1907,14 +1923,14 @@
 		from com.vimukti.accounter.core.EnterBill eb left join eb.estimates es
 		where es=:estimate
 	</query>
-	
+
 	<query name="getDepositByEstimate">
 		<query-param name="estimate" type="Estimate" />
 		from com.vimukti.accounter.core.MakeDeposit d left join d.estimates es
 		where es=:estimate
 
 	</query>
-	
+
 	<query name="getRecurring.for.template">
 		<query-param name="templateId" type="long" />
 		from com.vimukti.accounter.core.RecurringTransaction r
@@ -1988,8 +2004,41 @@
 		from com.vimukti.accounter.core.TDSChalanDetail tc where
 		tc.company=:company and tc.formType=:formNum and
 		tc.chalanPeriod=:quarter and tc.assesmentYearStart = :startYear and
-		tc.assessmentYearEnd=:endYear
+		tc.assesmentYearEnd=:endYear
 	</query>
+
+	<query name="getTDSChallansForAckNo">
+		<query-param name="ackNo" type="String" />
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company.id=:companyId and tc.etdsfillingAcknowledgementNo=:ackNo
+	</query>
+
+	<query name="getTdsChalanDetailsByAcknowledgementNo">
+		<query-param name="company" type="Company" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="acknowledgementNo" type="String" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company=:company and tc.dateTaxPaid >=:startDate
+		and tc.dateTaxPaid
+		&lt;=:endDate
+		and
+		tc.etdsfillingAcknowledgementNo=:acknowledgementNo
+	</query>
+
+	<query name="getTdsChalanDetailsByAssesmentYear">
+		<query-param name="company" type="Company" />
+		<query-param name="startYear" type="int" />
+		<query-param name="endYear" type="int" />
+		<query-param name="acknowledgementNo" type="String" />
+		from com.vimukti.accounter.core.TDSChalanDetail tc where
+		tc.company=:company and tc.assesmentYearStart = :startYear and
+		tc.assesmentYearEnd=:endYear
+		and
+		tc.etdsfillingAcknowledgementNo=:acknowledgementNo
+	</query>
+
 
 	<query name="getCustomer.by.name">
 		<query-param name="company" type="Company" />
@@ -1998,25 +2047,28 @@
 		V.company=:company and
 		V.name=:name
 	</query>
-	
+
 	<query name="list.TAXReturn.orderByEndDate">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXReturn tr 
-		where tr.company=:company order by tr.periodEndDate
+		from com.vimukti.accounter.core.TAXReturn tr
+		where tr.company=:company
+		order by tr.periodEndDate
 	</query>
-	
+
 	<query name="getTaxrateCalc.of.TAXReturn">
 		<query-param name="taxReturnId" type="long" />
-		from com.vimukti.accounter.core.TAXRateCalculation trc where trc.taxReturn.id=:taxReturnId
+		from com.vimukti.accounter.core.TAXRateCalculation trc where
+		trc.taxReturn.id=:taxReturnId
 	</query>
-	
+
+	<!-- <query name="getbankStatements"> <query-param name="company" type="Company" 
+		/> <query-param name="accountId" type="long" /> from Statement where company=:company 
+		and account_id=:accountId </query> -->
+
 	<query name="list.bankStatement">
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.Statement s where
 		s.company.id=:companyId
 		order by s.id
 	</query>
-	
-	
-	
 </hibernate-mapping>

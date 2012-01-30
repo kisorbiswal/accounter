@@ -10,8 +10,9 @@
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-	  <many-to-one name="statementRecord" column="STATEMENT_RECORD_ID" class="StatementRecord">
-		</many-to-one> 
+		<many-to-one name="statementRecord" column="STATEMENT_RECORD_ID"
+			class="StatementRecord">
+		</many-to-one>
 		<property name="version" column="VERSION"></property>
 		<!-- <property name="netAmount" column="NET_AMOUNT"></property> -->
 		<!-- <property name="totalVAT" column="TOTAL_VAT"></property> -->
@@ -21,6 +22,7 @@
 		<property name="number" type="encryptedstring" column="NUMBER"></property>
 		<property name="saveStatus" column="SAVE_STATUS"></property>
 		<property name="isAutomaticTransaction" column="IS_AUTOMATIC_TRANSACTION"></property>
+		<property name="isValidated" column="IS_VALIDATED"></property>
 		<property name="paymentMethod" type="encryptedstring" column="PAYMENT_METHOD"></property>
 		<property name="memo" type="encryptedstring"  column="MEMO"></property>
 		<property name="reference" type="encryptedstring" column="REFERENCE"></property>
@@ -140,7 +142,7 @@
 			<property name="chalanSerialNumber"></property>
 			<property name="formType"></property>
 			<property name="assesmentYearStart"></property>
-			<property name="assessmentYearEnd"></property>
+			<property name="assesmentYearEnd"></property>
 			<property name="isFiled"></property>
 			<property name="etdsfillingAcknowledgementNo"></property>
 			<property name="acknowledgementDate" type="com.vimukti.accounter.core.LongUseType"></property>
@@ -1030,11 +1032,14 @@
 		<property name="surchargeAmount" column="SURCHARGE_AMOUNT"></property>
 		<property name="eduCess" column="EDU_CESS"></property>
 		<property name="totalTax" column="TOTAL_TAX"></property>
+		<property name="taxRate" column="TAX_RATE"></property>
 		<property name="transactionDate" column="TRANSACTION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="transaction" column="TRANSACTION_ID"
 			class="Transaction" lazy="false">
 		</many-to-one>
+		<property name="deducteeCode" column="DEDUCTEE_CODE"></property>
+		<property name="remark" column="REMARK"></property>
 	</class>
 
 	<class name="TransactionItem" table="TRANSACTION_ITEM">

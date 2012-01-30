@@ -224,7 +224,7 @@ public class UserManager extends Manager {
 			PaginationList<ClientActivity> clientActivities = new PaginationList<ClientActivity>();
 			while ((i).hasNext()) {
 				Object object = i.next();
-				if(object == null){
+				if (object == null) {
 					continue;
 				}
 				long activityId = (Long) object;
@@ -275,7 +275,7 @@ public class UserManager extends Manager {
 	public boolean changeMyPassword(String emailId, String oldPassword,
 			String newPassword) throws DAOException {
 
-		Session session = HibernateUtil.openSession();
+		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = null;
 
 		try {
@@ -297,6 +297,10 @@ public class UserManager extends Manager {
 			query.setParameter("newPassword", newPassword);
 			query.setParameter("emailId", emailId);
 			query.executeUpdate();
+
+			query = session.getNamedQuery("updateUserSecret");
+			query.setParameter("emailId", emailId);
+			query.executeUpdate();
 			tx.commit();
 
 		} catch (Exception e) {
@@ -304,8 +308,6 @@ public class UserManager extends Manager {
 				tx.rollback();
 			}
 			e.printStackTrace();
-		} finally {
-			session.close();
 		}
 		return true;
 	}

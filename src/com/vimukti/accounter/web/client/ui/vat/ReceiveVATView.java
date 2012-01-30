@@ -91,6 +91,7 @@ public class ReceiveVATView extends
 	@Override
 	protected void createControls() {
 		listforms = new ArrayList<DynamicForm>();
+		currencyWidget = createCurrencyFactorWidget();
 
 		// setTitle(UIUtils.title(FinanceApplication.constants()
 		// .payVAT()));
@@ -121,6 +122,7 @@ public class ReceiveVATView extends
 					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedDepositInAccount = selectItem;
+						selectedAccount(selectItem);
 						ClientCurrency currency = getCompany().getCurrency(
 								selectItem.getCurrency());
 						amountText.setCurrency(currency);
@@ -273,6 +275,13 @@ public class ReceiveVATView extends
 
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.add(balForm);
+		rightVLay.setCellHorizontalAlignment(balForm, ALIGN_RIGHT);
+		if (isMultiCurrencyEnabled()) {
+			rightVLay.add(currencyWidget);
+			rightVLay.setCellHorizontalAlignment(currencyWidget,
+					HasHorizontalAlignment.ALIGN_RIGHT);
+			currencyWidget.setDisabled(isInViewMode());
+		}
 
 		HorizontalPanel topHLay = new HorizontalPanel();
 		topHLay.addStyleName("fields-panel");
@@ -328,6 +337,24 @@ public class ReceiveVATView extends
 			}
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param selectItem
+	 */
+	private void selectedAccount(ClientAccount selectItem) {
+		ClientCurrency accountAccount = getCurrency(selectItem.getCurrency());
+		if (accountAccount != null && accountAccount.getID() != 0) {
+			currencyWidget.setSelectedCurrency(accountAccount);
+		} else {
+			currencyWidget.setSelectedCurrency(getBaseCurrency());
+		}
+
+		if (isMultiCurrencyEnabled()) {
+			super.setCurrency(currency);
+			setCurrencyFactor(1.0);
+		}
 	}
 
 	protected void filterGrid() {
@@ -410,6 +437,22 @@ public class ReceiveVATView extends
 			return;
 		}
 
+		if (isMultiCurrencyEnabled()) {
+			if (transaction.getCurrency() > 0) {
+				this.currency = getCompany().getCurrency(
+						transaction.getCurrency());
+			} else {
+				this.currency = getCompany().getPreferences()
+						.getPrimaryCurrency();
+			}
+			this.currencyFactor = transaction.getCurrencyFactor();
+			if (this.currency != null) {
+				currencyWidget.setSelectedCurrency(this.currency);
+			}
+			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
+			currencyWidget.setDisabled(isInViewMode());
+		}
+
 		selectedDepositInAccount = getCompany().getAccount(
 				transaction.getDepositIn());
 		depositInAccCombo.setComboItem(selectedDepositInAccount);
@@ -459,6 +502,7 @@ public class ReceiveVATView extends
 			}
 		}
 		initAccounterClass();
+		grid.setDisabled(isInViewMode());
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 
@@ -660,6 +704,11 @@ public class ReceiveVATView extends
 		transaction.setTotal(totalAmount);
 		transaction.setEndingBalance(endingBalance);
 
+		if (currency != null) {
+			transaction.setCurrency(currency.getID());
+		}
+		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+
 		transaction
 				.setClientTransactionReceiveVAT(getTransactionReceiveVATList());
 
@@ -829,6 +878,9 @@ public class ReceiveVATView extends
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
 		}
+		if (isMultiCurrencyEnabled()) {
+			currencyWidget.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 		fillGrid();
@@ -870,9 +922,10 @@ public class ReceiveVATView extends
 		transNumber.setTabIndex(5);
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
-		saveAndCloseButton.setTabIndex(8);
-		saveAndNewButton.setTabIndex(9);
-		cancelButton.setTabIndex(10);
+		currencyWidget.setTabIndex(8);
+		saveAndCloseButton.setTabIndex(9);
+		saveAndNewButton.setTabIndex(10);
+		cancelButton.setTabIndex(11);
 
 	}
 

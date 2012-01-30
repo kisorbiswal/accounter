@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -109,6 +110,10 @@ public class ResetPasswordServlet extends BaseServlet {
 			try {
 				// and save Client,
 				saveEntry(client);
+				Query query = hibernateSession
+						.getNamedQuery("updateUserSecret");
+				query.setParameter("emailId", emailId);
+				query.executeUpdate();
 				transaction.commit();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -128,6 +133,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			// httpsession.removeAttribute(ACTIVATION_TYPE);
 			// }
 			httpsession.setAttribute(EMAIL_ID, emailId);
+			NewLoginServlet.createD2(req, emailId, password);
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
 			e.printStackTrace();

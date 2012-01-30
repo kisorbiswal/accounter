@@ -38,13 +38,22 @@ public interface ICountryPreferences extends IsSerializable, Serializable,
 	boolean isTDSAvailable();
 
 	boolean isServiceTaxDeductable();
-	
+
 	String getAmountInwords(double amount);
-	
+
 	ArrayList<String> getCompanyFields();
 
 	ArrayList<String> getCustomerFields();
 
 	ArrayList<String> getVendorFields();
 
+	/**
+	 * Returns name of that field. Returns null if that field is not required.
+	 * 
+	 * @param state
+	 * @param taxAgencyType
+	 * @param fieldIndex
+	 * @return
+	 */
+	public String[] getTaxAgencyFieldName(String state, int taxAgencyType);
 }

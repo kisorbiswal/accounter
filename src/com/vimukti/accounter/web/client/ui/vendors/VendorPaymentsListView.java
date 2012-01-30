@@ -45,7 +45,10 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addaNew(messages.payBill());
+		if (getPreferences().isKeepTrackofBills()) {
+			return messages.addaNew(messages.payBill());
+		}
+		return null;
 	}
 
 	@Override

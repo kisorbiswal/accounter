@@ -1977,20 +1977,23 @@ public class UIUtils {
 	}-*/;
 
 	public static void generateForm16A(long vendorID, String datesRange,
-			String place, String printDate, int type) {
+			String place, String printDate, String tdsCertificateNumber,
+			int type) {
 		generateForm16A(String.valueOf(vendorID), datesRange, place, printDate,
-				String.valueOf(type));
+				String.valueOf(type), tdsCertificateNumber);
 	}
 
 	private static native void generateForm16A(String vendorID,
-			String datesRange, String place, String printDate, String type)/*-{
+			String datesRange, String place, String printDate, String type,
+			String tdsCertificateNumber)/*-{
 		try {
 			var frame = document.createElement("IFRAME");
 			frame.setAttribute("src",
 					"/do/finance/Form16ApdfGenerationServlet?vendorID="
 							+ vendorID + "&datesRange=" + datesRange
 							+ "&place=" + place + "&printDate=" + printDate
-							+ "&type=" + type);
+							+ "&type=" + type + "&tdsCertificateNumber="
+							+ tdsCertificateNumber);
 			frame.style.visibility = "hidden";
 			document.body.appendChild(frame);
 		} catch (e) {

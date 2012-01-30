@@ -19,7 +19,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 public interface IAccounterCompanyInitializationService extends RemoteService {
 
 	boolean initalizeCompany(ClientCompanyPreferences preferences,
-			List<TemplateAccount> accountsTemplates) throws AccounterException;
+			String password, List<TemplateAccount> accountsTemplates)
+			throws AccounterException;
 
 	public List<AccountsTemplate> getAccountsTemplate()
 			throws AccounterException;

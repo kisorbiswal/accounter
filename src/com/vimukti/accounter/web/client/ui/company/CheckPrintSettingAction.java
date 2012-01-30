@@ -10,7 +10,7 @@ public class CheckPrintSettingAction extends Action {
 
 	public CheckPrintSettingAction() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.catagory = messages.settings();
 	}
 
 	@Override

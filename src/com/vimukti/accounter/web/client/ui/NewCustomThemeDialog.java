@@ -9,11 +9,11 @@ import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
-public class NewCustomThemeDialog extends BaseDialog {
+public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 
 	private DynamicForm form;
 	private TextItem themeName, overdueBox, creditNoteBox, statementBox,
-			quoteBox, payPalEmail;
+			quoteBox, cashSaleBox, payPalEmail;
 	private ClientBrandingTheme brandingTheme;
 	private boolean isEdit;
 
@@ -50,14 +50,18 @@ public class NewCustomThemeDialog extends BaseDialog {
 			quoteBox = new TextItem(messages.quoteTitle());
 			quoteBox.setValue(messages.QuoteOverDueTitle());
 
+			cashSaleBox = new TextItem(messages.cashSaleTitle());
+			cashSaleBox.setValue(messages.cashSaleValue());
+
 			payPalEmail = new TextItem("PayPal Email");
 			payPalEmail.setHelpInformation(true);
+
 			String emailId = brandingTheme.getPayPalEmailID() != null ? brandingTheme
 					.getThemeName().trim() : "";
 			payPalEmail.setValue(emailId);
 
 			form.setItems(themeName, overdueBox, creditNoteBox, statementBox,
-					quoteBox, payPalEmail);
+					quoteBox, cashSaleBox, payPalEmail);
 		} else {
 			form.setItems(themeName);
 		}
@@ -74,6 +78,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 			brandingTheme.setInvoiceTempleteName("Classic Template");
 			brandingTheme.setCreditNoteTempleteName("Classic Template");
 			brandingTheme.setQuoteTemplateName("Classic Template");
+			brandingTheme.setCashSaleTemplateName("Classic Template");
 
 		}
 
@@ -85,6 +90,7 @@ public class NewCustomThemeDialog extends BaseDialog {
 			brandingTheme.setStatementTitle(this.statementBox.getValue()
 					.toString());
 			brandingTheme.setQuoteTitle(this.quoteBox.getValue().toString());
+			brandingTheme.setCashSaleTitle(this.quoteBox.getValue().toString());
 			brandingTheme.setPayPalEmailID(this.payPalEmail.getValue()
 					.toString());
 		}

@@ -42,7 +42,7 @@ public class LogoutServlet extends BaseServlet {
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), cid,
 							userid);
-					EU.removeEncryption();
+					EU.removeCipher();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -95,15 +95,8 @@ public class LogoutServlet extends BaseServlet {
 	private void deleteCookie(HttpServletRequest request,
 			HttpServletResponse response) {
 		String userKey = getCookie(request, OUR_COOKIE);
-		for (Cookie cookie : request.getCookies()) {
-			if (cookie.getName().endsWith(OUR_COOKIE)) {
-				cookie.setMaxAge(0);
-				cookie.setValue("");
-				cookie.setPath("/");
-				cookie.setDomain(ServerConfiguration.getServerCookieDomain());
-				response.addCookie(cookie);
-			}
-		}
+		removeCookie(request, response, OUR_COOKIE);
+		removeCookie(request, response, SECRET_KEY_COOKIE);
 
 		if (userKey == null || userKey.isEmpty()) {
 			return;
@@ -125,6 +118,19 @@ public class LogoutServlet extends BaseServlet {
 			session.close();
 		}
 
+	}
+
+	private void removeCookie(HttpServletRequest request,
+			HttpServletResponse response, String ourCookie) {
+		for (Cookie cookie : request.getCookies()) {
+			if (cookie.getName().endsWith(OUR_COOKIE)) {
+				cookie.setMaxAge(0);
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setDomain(ServerConfiguration.getServerCookieDomain());
+				response.addCookie(cookie);
+			}
+		}
 	}
 
 	@Override

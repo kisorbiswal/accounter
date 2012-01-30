@@ -241,7 +241,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
-		if (!this.isVoid()) {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
 			doVoidEffect(session);
 		}
 		for (Estimate estimate : this.getEstimates()) {

@@ -78,7 +78,7 @@ public abstract class CustomTable extends VerticalPanel {
 	private boolean hasLoadingImage;
 	protected int width;
 
-	protected static AccounterMessages messages=Global.get().messages();
+	protected static AccounterMessages messages = Global.get().messages();
 	private ClientCompanyPreferences preferences = Global.get().preferences();
 
 	public CustomTable() {
@@ -113,8 +113,7 @@ public abstract class CustomTable extends VerticalPanel {
 		if (getColumns() != null)
 			this.nofCols = getColumns().length;
 		else
-			Window.alert(messages
-					.columnShouldntbeEmptyInitColumns());
+			Window.alert(messages.columnShouldntbeEmptyInitColumns());
 
 		this.nofCols = isMultiSelectionEnable ? nofCols + 1 : nofCols;
 
@@ -514,10 +513,8 @@ public abstract class CustomTable extends VerticalPanel {
 			int cellWidth = -1;
 			int colCounts = 0;
 
-
 			for (int i = isMultiSelectionEnable ? 1 : 0; i < nofCols; i++) {
-				Element cell = table.getCellFormatter().getElement(row,
-						i);
+				Element cell = table.getCellFormatter().getElement(row, i);
 				cellWidth = getCellWidth(isMultiSelectionEnable ? i - 1 : i);
 				// if (i == nofCols - 2)
 				// continue;
@@ -532,7 +529,7 @@ public abstract class CustomTable extends VerticalPanel {
 						if (cellSize <= i) {
 							continue;
 						}
-						
+
 						parentWidth = parentWidth - cellWidth;
 						if (table.equals(body) && BODY_WIDTH == 1)
 							cell.setAttribute("width", ""
@@ -732,6 +729,12 @@ public abstract class CustomTable extends VerticalPanel {
 	public void setDisabled(boolean disable) {
 		this.disable = disable;
 		this.addStyleName("disableGrid");
+		if (isMultiSelectionEnable) {
+			Widget widget = this.header.getWidget(0, 0);
+			if (widget instanceof CheckBox) {
+				((CheckBox) widget).setEnabled(!disable);
+			}
+		}
 		for (int i = 0; i < this.getTableRowCount(); i++) {
 			Widget widget = this.getWidget(i, 0);
 			if (widget instanceof CheckBox) {
@@ -755,6 +758,5 @@ public abstract class CustomTable extends VerticalPanel {
 	public String getDecimalChar() {
 		return getPreferences().getDecimalCharacter();
 	}
-
 
 }

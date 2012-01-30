@@ -34,6 +34,9 @@
 		<property name="currentBalance" column="CURRENT_BALANCE"></property>
 		<property name="totalBalanceInAccountCurrency" column="TOTAL_BALANCE_IN_ACCOUNT_CURRENCY"></property>
 		<property name="totalBalance" column="TOTAL_BALANCE"></property>
+		<property name="statementBalance" column="STATEMENT_BALANCE"></property>
+		<property name="statementLastDate" column="STATEMENT_IMPORTED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
@@ -209,6 +212,8 @@
 		<property name="companyEmailForCustomers" type="encryptedstring"
 			column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
+		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
+
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
 		<property name="firstMonthOfIncomeTaxYear" column="FIRSTMONTH_OF_INCOMETAXYEAR"></property>
@@ -1152,6 +1157,11 @@
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="otherField1" column="OTHER_FIELD_1"></property>
+			<property name="otherField2" column="OTHER_FIELD_2"></property>
+			<property name="otherField3" column="OTHER_FIELD_3"></property>
+			<property name="otherField4" column="OTHER_FIELD_4"></property>
+			<property name="otherField5" column="OTHER_FIELD_5"></property>
 
 		</joined-subclass>
 	</class>
@@ -1360,6 +1370,7 @@
 		<property name="isDeleted" column="IS_DELETED"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
 		<property name="isAdmin" column="IS_ADMIN"></property>
+		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
 		<many-to-one name="permissions" class="UserPermissions"
 			cascade="save-update,delete" column="USER_PERMISSIONS_ID"></many-to-one>
 	</class>
@@ -1635,6 +1646,10 @@
 			column="CREDITNOTE_TEMPLETE_NAME" not-null="true" />
 		<property name="quoteTemplateName" type="encryptedstring"
 			column="QUOTE_TEMPLETE_NAME" not-null="true" />
+		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
+			not-null="true" />
+		<property name="cashSaleTitle" column="CASHSALE_TITLE">
+		</property>
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
@@ -2168,6 +2183,17 @@
 		<property name="panNumber" type="encryptedstring"></property>
 		<property name="stdCode" type="encryptedstring"></property>
 		<property name="isAddressSameForResopsiblePerson"></property>
+		<component name="taxOfficeAddress" class="Address">
+			<property name="type" column="TAXOFFICE_ADDRESS_TYPE"></property>
+			<property name="address1" column="TAXOFFICE_ADDRESS_ADDRESS1"
+				length="100"></property>
+			<property name="street" column="TAXOFFICE_ADDRESS_STREET"></property>
+			<property name="city" column="TAXOFFICE_ADDRESS_CITY"></property>
+			<property name="stateOrProvinence" column="TAXOFFICE_ADDRESS_STATE"></property>
+			<property name="zipOrPostalCode" column="TAXOFFICE_ADDRESS_ZIP"></property>
+			<property name="countryOrRegion" column="TAXOFFICE_ADDRESS_COUNTRY"></property>
+			<property name="isSelected" column="TAXOFFICE_ADDRESS_IS_SELECTED"></property>
+		</component>
 	</class>
 
 	<!-- TDSResponsiblePerson class -->

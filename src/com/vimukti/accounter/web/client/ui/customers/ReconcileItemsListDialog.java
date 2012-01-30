@@ -350,6 +350,11 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		error_balance = matchBalance - sel_rec_balance;
 		error_label.setText(" Total is out by : "
 				+ String.valueOf(error_balance));
+
+		if (error_balance == 0) {
+			// if the matched balance is zero, then enable the reconcile button
+			okbtn.setEnabled(true);
+		}
 	}
 
 	/**

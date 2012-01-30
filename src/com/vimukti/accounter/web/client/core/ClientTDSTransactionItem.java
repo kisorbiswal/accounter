@@ -23,7 +23,13 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	private long transactionDate;
 
+	private double taxRate;
+
 	private long transaction;
+
+	// These fields for filling
+	private int deducteeCode;
+	private String remark;
 
 	@Override
 	public int getVersion() {
@@ -129,6 +135,30 @@ public class ClientTDSTransactionItem implements IAccounterCore {
 
 	public void setTotalTax(double totalTax) {
 		this.totalTax = totalTax;
+	}
+
+	public double getTaxRate() {
+		return taxRate;
+	}
+
+	public void setTaxRate(double taxRate) {
+		this.taxRate = taxRate;
+	}
+
+	public int getDeducteeCode() {
+		return deducteeCode;
+	}
+
+	public void setDeducteeCode(int deducteeCode) {
+		this.deducteeCode = deducteeCode;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }
