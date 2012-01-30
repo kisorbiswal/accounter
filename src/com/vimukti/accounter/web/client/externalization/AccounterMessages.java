@@ -5394,15 +5394,9 @@ public interface AccounterMessages extends Messages {
 
 	public String encryptionEnablesyourCompanydata();
 
-	public String financialNumbersWillNotbeEncrypted();
-
-	public String encryptionExample();
-
 	public String companyPassword();
 
 	public String encryptionPasswordisImportant();
-
-	public String youCanChangeEncryptionPassword();
 
 	public String forMoreInfoOnEncryption();
 
