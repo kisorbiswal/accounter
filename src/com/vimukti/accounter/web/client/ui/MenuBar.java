@@ -625,7 +625,7 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.ReconciliationsList(),
 				HistoryTokens.RECOUNCILATIONSLIST);
 
-		bankingMenuBar.addSeparatorItem();
+		// bankingMenuBar.addSeparatorItem();
 		// bankingMenuBar.addMenuItem(messages.bankStatements(),
 		// HistoryTokens.BANKSTATEMENTS);
 		bankingMenuBar.addSeparatorItem();
