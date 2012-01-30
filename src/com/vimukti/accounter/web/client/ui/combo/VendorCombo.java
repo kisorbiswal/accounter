@@ -84,6 +84,7 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 		for (ClientPayee customer : getCompany().getPayees()) {
 			if (customer.getName().equals(text)) {
 				if (customer instanceof ClientVendor) {
+					this.setComboItem(null);
 					this.setComboItem((ClientVendor) customer);
 					return true;
 				}
