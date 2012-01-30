@@ -233,6 +233,8 @@ public abstract class Transaction extends CreatableObject implements
 
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
 
+	private boolean isValidated;
+
 	List<WareHouseAllocation> wareHouseAllocations;
 
 	transient protected boolean isOnSaveProccessed;
@@ -1552,6 +1554,14 @@ public abstract class Transaction extends CreatableObject implements
 
 	public void setStatementRecord(StatementRecord statementRecord) {
 		this.statementRecord = statementRecord;
+	}
+
+	public boolean isValidated() {
+		return isValidated;
+	}
+
+	public void setValidated(boolean isValidated) {
+		this.isValidated = isValidated;
 	}
 
 }

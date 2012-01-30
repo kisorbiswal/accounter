@@ -22,6 +22,7 @@
 		<property name="number" column="NUMBER"></property>
 		<property name="saveStatus" column="SAVE_STATUS"></property>
 		<property name="isAutomaticTransaction" column="IS_AUTOMATIC_TRANSACTION"></property>
+		<property name="isValidated" column="IS_VALIDATED"></property>
 		<property name="paymentMethod" column="PAYMENT_METHOD"></property>
 		<property name="memo" type="text" column="MEMO"></property>
 		<property name="reference" column="REFERENCE"></property>

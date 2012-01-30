@@ -125,6 +125,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	// boolean isVoid;
 	boolean isDeleted;
 	boolean isEdited;
+	private boolean isValidated;
 	double total;
 	double netAmount;
 
@@ -965,5 +966,13 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public boolean isDraft() {
 		return this.saveStatus == STATUS_DRAFT;
+	}
+
+	public boolean isValidated() {
+		return isValidated;
+	}
+
+	public void setValidated(boolean isValidated) {
+		this.isValidated = isValidated;
 	}
 }
