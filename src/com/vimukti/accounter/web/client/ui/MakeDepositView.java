@@ -1362,8 +1362,10 @@ public class MakeDepositView extends
 		transactionNumber.setTabIndex(3);
 		memoText.setTabIndex(4);
 		addButton.setTabIndex(5);
-		saveAndCloseButton.setTabIndex(6);
-		saveAndNewButton.setTabIndex(7);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(6);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(7);
 		cancelButton.setTabIndex(8);
 
 	}

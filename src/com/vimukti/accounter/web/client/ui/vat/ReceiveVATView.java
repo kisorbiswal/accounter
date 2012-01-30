@@ -923,8 +923,10 @@ public class ReceiveVATView extends
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
 		currencyWidget.setTabIndex(8);
-		saveAndCloseButton.setTabIndex(9);
-		saveAndNewButton.setTabIndex(10);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(9);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
 
 	}

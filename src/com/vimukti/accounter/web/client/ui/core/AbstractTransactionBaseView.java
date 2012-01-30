@@ -88,6 +88,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
@@ -669,21 +670,27 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
+
 		// FIXME > Need to complete Recurring transaction feature.
 		if (canRecur()) {
 			recurringButton = new RecurringButton(this);
 			if (!isTemplate) {
-				buttonBar.add(recurringButton);
+				if (getCompany().getLoggedInUser().getPermissions()
+						.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)
+					buttonBar.add(recurringButton);
 			}
 		}
 		draftsButton = new DraftsButton(messages.Saveasdraft(), this);
 		draftsButton.setVisible(!isInViewMode() && canAddDraftButton());
 		buttonBar.add(draftsButton);
+
 		super.createButtons(buttonBar);
 	}
 
 	protected boolean canAddDraftButton() {
-		return canRecur() ? true
+		return getCompany().getLoggedInUser().getPermissions()
+				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES
+				&& canRecur() ? true
 				: (!canRecur() && transaction != null && transaction.isDraft());
 	}
 

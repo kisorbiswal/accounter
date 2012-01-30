@@ -37,7 +37,7 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord>
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_SELECT };
+				ListGrid.COLUMN_TYPE_DECIMAL_TEXT, ListGrid.COLUMN_TYPE_COMBO };
 	}
 
 	@Override
@@ -48,8 +48,7 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord>
 	@Override
 	protected String[] getSelectValues(ClientStatementRecord obj, int col) {
 		this.statementRecord = obj;
-		return new String[] { "Match", "Create", FIND_MATCH,
-				messages.transfer() };
+		return new String[] { "Create", FIND_MATCH, messages.transfer() };
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsView;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
@@ -161,8 +163,16 @@ public abstract class BaseView<T extends IAccounterCore> extends
 	}
 
 	protected void createButtons(ButtonBar buttonBar) {
-		this.saveAndCloseButton = new SaveAndCloseButton(this);
-		this.saveAndNewButton = new SaveAndNewButtom(this);
+		ClientUserPermissions permissions = getCompany().getLoggedInUser()
+				.getPermissions();
+		if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+				&& permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			this.saveAndCloseButton = new SaveAndCloseButton(this);
+			this.saveAndNewButton = new SaveAndNewButtom(this);
+		} else if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
+			this.saveAndCloseButton = new SaveAndCloseButton(this);
+			this.saveAndNewButton = new SaveAndNewButtom(this);
+		}
 		this.cancelButton = new CancelButton(this);
 		this.deleteButton = new DeleteButton(this, getData());
 		this.voidButton = new VoidButton(this, getData());
@@ -187,8 +197,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				buttonBar.add(verifyButton);
 			}
 			if (isSaveButtonAllowed()) {
-				buttonBar.add(saveAndCloseButton);
-				buttonBar.add(saveAndNewButton);
+				if (saveAndCloseButton != null) {
+					buttonBar.add(saveAndCloseButton);
+				}
+				if (saveAndNewButton != null)
+					buttonBar.add(saveAndNewButton);
+
 			}
 		}
 

@@ -96,6 +96,8 @@ public class User extends CreatableObject implements IAccounterServerCore,
 					.getTypeOfManageAccounts());
 			userPermissions.setTypeOfInventoryWarehouse(permissions
 					.getTypeOfInventoryWarehouse());
+			userPermissions.setTypeOfSaveasDrafts(permissions
+					.getTypeOfSaveasDrafts());
 			this.setPermissions(userPermissions);
 		}
 	}
@@ -218,6 +220,8 @@ public class User extends CreatableObject implements IAccounterServerCore,
 					.getTypeOfManageAccounts());
 			userPermissions.setTypeOfInventoryWarehouse(this.getPermissions()
 					.getTypeOfInventoryWarehouse());
+			userPermissions.setTypeOfSaveasDrafts(this.getPermissions()
+					.getTypeOfSaveasDrafts());
 			user.setPermissions(userPermissions);
 		}
 		Set<ClientPortletPageConfiguration> set = new HashSet<ClientPortletPageConfiguration>();

@@ -236,9 +236,10 @@ public class CashExpenseView extends
 		vendorBalText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		// menuButton.setTabIndex(7);
-
-		saveAndCloseButton.setTabIndex(9);
-		saveAndNewButton.setTabIndex(10);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(9);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
 
 	}

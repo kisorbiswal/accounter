@@ -1305,6 +1305,7 @@
 		<property name="typeOfViewReports" column="TYPE_OF_VIEW_REPORTS"></property>
 		<property name="typeOfMangeAccounts" column="TYPE_OF_MANAGE_ACCOUNTS"></property>
 		<property name="typeOfInventoryWarehouse" column="TYPE_OF_INVENTORY_WAREHOUSE"></property>
+		<property name="typeOfSaveasDrafts" column="TYPE_OF_SAVE_AS_DRAFTS"></property>
 	</class>
 	<class name="User" table="USERS">
 		<id name="id" column="ID">
@@ -1962,7 +1963,7 @@
 		<property name="reconcilationDate" column="RECONCILIATION_DATE"
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
-<property name="statement" column="STATEMENT"></property>
+		<property name="statement" column="STATEMENT"></property>
 		<set name="items" cascade="save-update,delete" table="RECONCILIATION">
 			<key column="RECONCILIATION_ID"></key>
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />

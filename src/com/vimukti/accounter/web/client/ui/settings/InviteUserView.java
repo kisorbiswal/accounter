@@ -38,7 +38,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			messages.billsAndPayments(), messages.bankingAndReconcialiation(),
 			messages.changeCompanySettings(), messages.manageAccounts(),
 			messages.manageUsers(), messages.viewReports(),
-			messages.inventoryWarehouse() };
+			messages.inventoryWarehouse(), messages.Saveasdraft() };
 	List<CheckBox> permissionsBoxes;
 	private RadioButton readOnly;
 	private RadioButton custom;
@@ -230,6 +230,9 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				if (data.isCanDoUserManagement()) {
 					setCheckBoxChecked(messages.manageUsers());
 				}
+				if (permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+					setCheckBoxChecked(messages.Saveasdraft());
+				}
 			}
 		}
 
@@ -378,7 +381,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					.getTypeOfManageAccounts());
 			permissions.setTypeOfInventoryWarehouse(selectedRole
 					.getTypeOfInventoryWarehouse());
-
+			permissions.setTypeOfSaveasDrafts(selectedRole
+					.getTypeOfSaveasDrafts());
 			data.setPermissions(permissions);
 
 			data.setCanDoUserManagement(selectedRole.isCanDoUserManagement());
@@ -434,6 +438,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 					custom.setTypeOfViewReports(RolePermissions.TYPE_YES);
 				} else if (box.getName().equals(messages.inventoryWarehouse())) {
 					custom.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+				} else if (box.getName().equals(messages.Saveasdraft())) {
+					custom.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 				}
 			}
 		}
@@ -451,6 +457,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		readOnly.setTypeOfViewReports(RolePermissions.TYPE_READ_ONLY);
 		readOnly.setTypeOfManageAccounts(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfInventoryWarehouse(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfSaveasDrafts(RolePermissions.TYPE_READ_ONLY);
 		readOnly.setCanDoUserManagement(false);
 
 		return readOnly;
@@ -467,6 +474,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		financialAdviser.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 		financialAdviser.setCanDoUserManagement(false);
 		return financialAdviser;
 	}
@@ -481,6 +489,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		admin.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		admin.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
 		admin.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+		admin.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 		admin.setCanDoUserManagement(true);
 
 		return admin;
@@ -498,6 +507,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		readOnly.setTypeOfViewReports(RolePermissions.TYPE_READ_ONLY);
 		readOnly.setTypeOfManageAccounts(RolePermissions.TYPE_NO);
 		readOnly.setTypeOfInventoryWarehouse(RolePermissions.TYPE_NO);
+		readOnly.setTypeOfSaveasDrafts(RolePermissions.TYPE_READ_ONLY);
 		readOnly.setCanDoUserManagement(false);
 		list.add(readOnly);
 
@@ -511,6 +521,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		financialAdviser.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
 		financialAdviser.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+		financialAdviser.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 		financialAdviser.setCanDoUserManagement(false);
 		list.add(financialAdviser);
 
@@ -523,6 +534,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		admin.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		admin.setTypeOfManageAccounts(RolePermissions.TYPE_YES);
 		admin.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+		admin.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 		admin.setCanDoUserManagement(true);
 		list.add(admin);
 
@@ -560,6 +572,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 						.getTypeOfManageAccounts());
 				toBeAdded.setTypeOfInventoryWarehouse(user.getPermissions()
 						.getTypeOfInventoryWarehouse());
+				toBeAdded.setTypeOfSaveasDrafts(user.getPermissions()
+						.getTypeOfSaveasDrafts());
 				toBeAdded.setCanDoUserManagement(user.isCanDoUserManagement());
 				roles.add(index, toBeAdded);
 				break;

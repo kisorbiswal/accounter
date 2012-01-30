@@ -104,7 +104,8 @@ public class StatementTransactionsReconcileView extends
 			}
 		}
 		if (stList.size() == count) {
-			saveAndCloseButton.setVisible(true);
+			if (saveAndCloseButton != null)
+				saveAndCloseButton.setVisible(true);
 		}
 		reconcilListGrid.setRecords(list);
 	}

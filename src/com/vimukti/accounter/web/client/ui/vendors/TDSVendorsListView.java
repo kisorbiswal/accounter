@@ -55,9 +55,10 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 	}
 
 	private void createControls1() {
-
-		this.saveAndCloseButton.setVisible(false);
-		this.saveAndNewButton.setText("TDS Filing");
+		if (saveAndCloseButton != null)
+			this.saveAndCloseButton.setVisible(false);
+		if (saveAndNewButton != null)
+			this.saveAndNewButton.setText("TDS Filing");
 		label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");

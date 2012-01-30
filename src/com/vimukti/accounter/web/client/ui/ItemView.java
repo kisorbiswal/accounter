@@ -150,7 +150,9 @@ public class ItemView extends BaseView<ClientItem> {
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
 
-		nameText = new TextItem(this.type == TYPE_SERVICE ? messages.serviceName() : messages.productName());
+		nameText = new TextItem(
+				this.type == TYPE_SERVICE ? messages.serviceName()
+						: messages.productName());
 		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
@@ -197,9 +199,9 @@ public class ItemView extends BaseView<ClientItem> {
 
 		salesDescArea.setDisabled(isInViewMode());
 
-		salesDescArea.setToolTip(messages
-				.writeCommentsForThis(this.getAction().getViewName())
-				.replace(messages.comments(), messages.salesDescription()));
+		salesDescArea.setToolTip(messages.writeCommentsForThis(
+				this.getAction().getViewName()).replace(messages.comments(),
+				messages.salesDescription()));
 		salesPriceText = new AmountField(messages.salesPrice(), this,
 				getBaseCurrency());
 		salesPriceText.setHelpInformation(true);
@@ -574,8 +576,9 @@ public class ItemView extends BaseView<ClientItem> {
 						if (result != null && !result.isEmpty()) {
 							for (ClientItemStatus clientItemStatus : result) {
 								if (clientItemStatus.getItem() == data.getID())
-									onHandQuantity.setValue(Double.toString(clientItemStatus
-											.getQuantity().getValue()));
+									onHandQuantity.setValue(Double
+											.toString(clientItemStatus
+													.getQuantity().getValue()));
 							}
 						}
 					}
@@ -674,10 +677,8 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setItemTotalValue(itemTotalValue.getAmount());
 
 			if (onHandQuantity.getValue().length() > 0)
-				data.setOnhandQuantity(onHandQuantity
-						.getNumber());
-			
-			
+				data.setOnhandQuantity(onHandQuantity.getNumber());
+
 			else
 				data.setOnhandQuantity(0);
 			data.setAsOfDate(asOfDate.getValue());
@@ -1168,8 +1169,10 @@ public class ItemView extends BaseView<ClientItem> {
 		expAccCombo.setTabIndex(15);
 		prefVendorCombo.setTabIndex(16);
 		vendItemNumText.setTabIndex(17);
-		saveAndCloseButton.setTabIndex(18);
-		saveAndNewButton.setTabIndex(19);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(18);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(19);
 		cancelButton.setTabIndex(20);
 	}
 

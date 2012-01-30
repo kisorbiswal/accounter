@@ -53,7 +53,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.ReconcilCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -86,6 +85,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	public static final int EDIT_EVENT_CLICK = 1;
 	public static final int EDIT_EVENT_DBCLICK = 2;
+	private static final String ReconcilCombo = null;
 
 	protected boolean isAddRequired;
 
@@ -314,10 +314,61 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		case COLUMN_TYPE_QUANTITY_POPUP:
 			addQuantityPopup(selectedObject, val);
 			break;
+		case COLUMN_TYPE_COMBO:
+			addOrEditCombo(selectedObject, val);
+			break;
 		default:
 			break;
 		}
 
+	}
+
+	private void addOrEditCombo(T obj, final String value) {
+		if (widgetsMap.get(currentCol) == null) {
+			final SelectCombo selectbox = new SelectCombo("");
+			final String[] values = getSelectValues(obj, currentCol);
+			final DynamicForm form = new DynamicForm();
+			form.setFields(selectbox);
+			if (values != null)
+				for (int i = 0; i < values.length; i++) {
+					selectbox.addItem(values[i]);
+				}
+
+			selectbox
+					.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+						@Override
+						public void selectedComboBoxItem(String selectItem) {
+
+							selectbox.setComboItem(selectItem);
+
+							onValueChange(selectedObject, currentCol,
+									selectbox.getSelectedValue());
+
+							onWidgetValueChanged(form,
+									selectbox.getSelectedValue());
+
+						}
+
+					});
+
+			if (value != null)
+				setSelectedValue(obj, selectbox, value);
+			widgetsMap.put(currentCol, form);
+			setWidget(currentRow, currentCol, form);
+			// selectbox.setFocus(true);
+		} else {
+			DynamicForm form = (DynamicForm) widgetsMap.get(currentCol);
+			if (value != null) {
+				SelectCombo field = (SelectCombo) form.getField("");
+				setSelectedValue(obj, field, value);
+				DynamicForm form1 = new DynamicForm();
+				form1.setFields(field);
+				setWidget(currentRow, currentCol, form1);
+				// field.setFocus(true);
+			}
+
+		}
 	}
 
 	private void addQuantityPopup(T selectedObject2, String val) {
@@ -488,7 +539,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			setText(currentRow, currentCol, data != null ? data.toString() : "");
 			break;
 		case COLUMN_TYPE_COMBO:
-			addCombo(currentRow, currentCol, obj, data);
+			setText(currentRow, currentCol, (String) data);
 			break;
 		}
 	}
@@ -507,25 +558,6 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			ar.setText(value.toString());
 		}
 		this.setWidget(currentRow, currentCol, ar);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void addCombo(final int row, final int column, final T obj,
-			final Object value) {
-
-		final ReconcilCombo combo = new ReconcilCombo("");
-		combo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-			@Override
-			public void selectedComboBoxItem(String selectItem) {
-				combo.setComboItem(selectItem);
-			}
-		});
-		DynamicForm comboForm = UIUtils.form(messages.type());
-		comboForm.setFields(combo);
-		// this.body.setText(row, column, value.toString());
-		combo.setValue(value);
-		this.setWidget(currentRow, currentCol, comboForm);
-
 	}
 
 	private void addLabel(final T obj, final Object value) {
@@ -693,6 +725,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 							values[selectbox.getSelectedIndex()]);
 				}
 			});
+
 			if (value != null)
 				setshowValue(obj, selectbox, value);
 			widgetsMap.put(currentCol, selectbox);
@@ -712,6 +745,14 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		int index = Arrays.asList(values).indexOf(value);
 		if (index != -1) {
 			box.setSelectedIndex(index);
+		}
+	}
+
+	private void setSelectedValue(T obj, SelectCombo box, Object value) {
+		final String[] values = getSelectValues(obj, currentCol);
+		int index = Arrays.asList(values).indexOf(value);
+		if (index != -1) {
+			box.setSelectedItem(index);
 		}
 	}
 
@@ -832,9 +873,6 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	@Override
 	public void enableOrDisableCheckBox(boolean isEnable) {
-		if (disable) {
-			return;
-		}
 		super.enableOrDisableCheckBox(isEnable);
 		onHeaderCheckBoxClick(isEnable);
 
@@ -1060,7 +1098,7 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	@Override
 	public void setDisabled(boolean disable) {
 		super.setDisabled(disable);
-		// refreshAllRecords();
+		refreshAllRecords();
 	}
 
 	// HasRows

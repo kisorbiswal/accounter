@@ -1813,8 +1813,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankAccNumText != null) {
 			bankAccNumText.setTabIndex(12);
 		}
-		saveAndCloseButton.setTabIndex(13);
-		saveAndNewButton.setTabIndex(14);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(13);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
 
 	}

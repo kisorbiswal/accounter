@@ -28,7 +28,8 @@ public class BankAccountsView extends BaseView<ClientAccount> {
 	public void init() {
 		super.init();
 		createControls();
-		saveAndCloseButton.setVisible(false);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setVisible(false);
 		saveAndNewButton.setVisible(false);
 		setSize("100%", "100%");
 	}
