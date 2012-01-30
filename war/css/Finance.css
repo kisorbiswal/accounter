@@ -1088,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	             (2),.datenumber-panel table {
+	               (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1317,18 +1317,23 @@ iframe,.address div {
 	{
 	border-radius: 0 5px 5px 0;
 }
-.prebutton  button[lang="ar"],.print_export_button td:FIRST-CHILD button[lang="ar"]{
+
+.prebutton  button[lang="ar"],.print_export_button td:FIRST-CHILD button[lang="ar"]
+	{
 	border-radius: 0 5px 5px 0 !important;
 	border-width: 1px 1px 1px 0 !important;
 }
-.prebutton  button[lang="ar"]{
+
+.prebutton  button[lang="ar"] {
 	background-image: url("/images/bar-left-next.png") !important;
 }
 
 .nextbutton button[lang="ar"] {
 	background-image: url("/images/bar-right-pre.png") !important;
 }
-.nextbutton button[lang="ar"],.print_export_button td:last-child button[lang="ar"] {
+
+.nextbutton button[lang="ar"],.print_export_button td:last-child button[lang="ar"]
+	{
 	border-radius: 5px 0 0 5px !important;
 }
 
@@ -2347,6 +2352,7 @@ input.date-field-textbox {
 	float: right;
 	margin: 0 5px;
 }
+
 .search_buttons .gwt-Button {
 	padding-top: 3px;
 	width: 70px;
@@ -2795,9 +2801,38 @@ input.date-field-textbox {
 .statement_import_options table td {
 	padding: 3px;
 }
-.gwt-MenuBarPopup div[lang="ar"] table .subMenuIcon img{
-	background: url("/images/submenu-leftside-indicator.png") repeat-x scroll 0 0 transparent !important;
+
+.gwt-MenuBarPopup div[lang="ar"] table .subMenuIcon img {
+	background: url("/images/submenu-leftside-indicator.png") repeat-x
+		scroll 0 0 transparent !important;
 }
-.tablelayout1{
+
+.tablelayout1 {
 	overflow: hidden !important;
+}
+
+.bank_account_reconcil {
+	float: right;
+}
+
+.bank_account-header {
+	padding: 7px;
+	width: 100%;
+}
+
+.bank_accounts_labels {
+	float: left;
+	padding: 25px 0 0 20px;
+}
+
+.bank_accounts_graph {
+	float: right;
+}
+
+.bank_recouncil-popup {
+	padding: 10px;
+}
+
+.bank_recouncil-popup a,.bank_recouncil-popup a:ACTIVE {
+	color: #2D8B93;
 }
