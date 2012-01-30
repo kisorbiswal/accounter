@@ -11,6 +11,7 @@ public class TranslationAction extends Action {
 
 	public TranslationAction() {
 		super();
+		this.catagory = messages.settings();
 	}
 
 	@Override
