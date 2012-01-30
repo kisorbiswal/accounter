@@ -925,6 +925,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			deliveryDate.setDisabled(isInViewMode());
 			taxCodeSelect.setDisabled(isInViewMode());
 			statusCombo.setDisabled(isInViewMode());
+			statusCombo.initCombo(getStatusList());
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1295,7 +1296,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		statuses.add(messages.open());
 		statuses.add(messages.accepted());
 		statuses.add(messages.closed());
-		statuses.add(messages.rejected());
+		if (transaction == null
+				|| transaction.getStatus() == ClientEstimate.STATUS_REJECTED
+				|| transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
+			statuses.add(messages.rejected());
+		}
 		return statuses;
 	}
 
