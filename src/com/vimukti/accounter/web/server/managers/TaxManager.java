@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TaxManager extends Manager {
 	public void createVATItemsOfIreland(Company company, Session session,
@@ -1270,5 +1271,115 @@ public class TaxManager extends Manager {
 		List<TAXReturn> list = session.getNamedQuery("list.TAXReturns")
 				.setEntity("company", company).list();
 		return list;
+	}
+
+	public Map<String, Double> getTAXReturnEntriesForVat200(Long companyId,
+			Long taxAgency, long fromDate, long toDate) {
+
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session
+				.getNamedQuery("getTAXRateCalculation.for.TaxReturn.vat200")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", fromDate)
+				.setParameter("endDate", toDate)
+				.setParameter("taxAgency", taxAgency);
+
+		List<Object[]> list = query.list();
+		List<ClientTAXReturnEntry> resultTAXReturnEntries = new ArrayList<ClientTAXReturnEntry>();
+
+		if (list == null) {
+			return null;
+		}
+		double exemptRatePA = 0d;
+		double fourRatePA = 0d;
+		double twelvRatePA = 0d;
+		double oneRatePA = 0d;
+		double specialRatePA = 0d;
+
+		double fourRatePB = 0d;
+		double twelvRatePB = 0d;
+		double oneRatePB = 0d;
+		double specialRatePB = 0d;
+
+		double exemptRateSA = 0d;
+		double zeroRateIESA = 0d;
+		double zeroRateOSA = 0d;
+		double fourRateSA = 0d;
+		double twelvRateSA = 0d;
+		double oneRateSA = 0d;
+		double specialRateSA = 0d;
+
+		double fourRateSB = 0d;
+		double twelvRateSB = 0d;
+		double oneRateSB = 0d;
+		double specialRateSB = 0d;
+
+		for (Object[] objects : list) {
+			double taxAmount = (Double) objects[0];
+			double netAmount = (Double) objects[1];
+			double taxRate = (Double) objects[2];
+			int transactionType = (Integer) objects[3];
+			if (isSales(transactionType)) {
+				// TODO Exempt
+				if (DecimalUtil.isEquals(taxRate, 1)) {
+					oneRatePA += netAmount;
+					oneRatePB += taxAmount;
+				} else if (DecimalUtil.isEquals(taxRate, 4)) {
+					fourRatePA += netAmount;
+					fourRatePB += taxRate;
+				} else if (DecimalUtil.isEquals(taxRate, 12.5)) {
+					twelvRatePA += netAmount;
+					twelvRatePB += taxAmount;
+				} else {
+					specialRatePA += netAmount;
+					specialRatePB += taxAmount;
+				}
+			} else {
+				// TODO Exempt
+				if (DecimalUtil.isEquals(taxRate, 1)) {
+					oneRateSA += netAmount;
+					oneRateSB += taxAmount;
+				} else if (DecimalUtil.isEquals(taxRate, 4)) {
+					fourRateSA += netAmount;
+					fourRateSB += taxRate;
+				} else if (DecimalUtil.isEquals(taxRate, 12.5)) {
+					twelvRateSA += netAmount;
+					twelvRateSB += taxAmount;
+				} else if (DecimalUtil.isEquals(taxRate, 0)) {
+					// TODO
+				} else {
+					specialRateSA += netAmount;
+					specialRateSB += taxAmount;
+				}
+			}
+		}
+		Map<String, Double> map = new HashMap<String, Double>();
+		map.put("exemptRatePA", exemptRatePA);
+		map.put("fourRatePA", fourRatePA);
+		map.put("twelvRatePA", twelvRatePA);
+		map.put("oneRatePA", oneRatePA);
+		map.put("specialRatePA", specialRatePA);
+		map.put("fourRatePB", fourRatePB);
+		map.put("twelvRatePB", twelvRatePB);
+		map.put("oneRatePB", oneRatePB);
+		map.put("specialRatePB", specialRatePB);
+		map.put("zeroRateIESA", zeroRateIESA);
+		map.put("zeroRateOSA", zeroRateOSA);
+		map.put("fourRateSA", fourRateSA);
+		map.put("exemptRateSA", exemptRateSA);
+		map.put("twelvRateSA", twelvRateSA);
+		map.put("oneRateSA", oneRateSA);
+		map.put("specialRateSA", specialRateSA);
+		map.put("fourRateSB", fourRateSB);
+		map.put("twelvRateSB", twelvRateSB);
+		map.put("oneRateSB", oneRateSB);
+		map.put("specialRateSB", specialRateSB);
+		return map;
+	}
+
+	private boolean isSales(int transactionType) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
