@@ -474,7 +474,7 @@ public interface AccounterMessages extends Messages {
 	public String bankBalance();
 
 	public String bankBranch();
-	
+
 	public String bankBSRCode();
 
 	public String banking();
@@ -736,7 +736,7 @@ public interface AccounterMessages extends Messages {
 	public String categoryNumber();
 
 	public String cc();
-	
+
 	public String challanSerialNo();
 
 	public String change();
@@ -1214,7 +1214,7 @@ public interface AccounterMessages extends Messages {
 	public String dateofBirth();
 
 	public String dateofBirthshouldshowmorethan18years();
-	
+
 	public String dateOfFiled();
 
 	public String dateofHire();
@@ -1222,7 +1222,7 @@ public interface AccounterMessages extends Messages {
 	public String dateofLastReview();
 
 	public String dateofRelease();
-	
+
 	public String dateOnTaxPaid();
 
 	public String dateRange();
@@ -2673,7 +2673,7 @@ public interface AccounterMessages extends Messages {
 	public String nameShouldnotbeempty();
 
 	public String nameWithCurrency(String name, String formalName);
-	
+
 	public String natureOfPayment();
 
 	public String NearestAmount();
@@ -4496,7 +4496,7 @@ public interface AccounterMessages extends Messages {
 	public String tdsApplicable();
 
 	public String tdsChallan();
-	
+
 	public String tdsFiledDetails();
 
 	public String tdsVendorsList();
@@ -5389,4 +5389,23 @@ public interface AccounterMessages extends Messages {
 	public String cashSaleValue();
 
 	public String choose(String customer);
+
+	public String encryption();
+
+	public String encryptionEnablesyourCompanydata();
+
+	public String financialNumbersWillNotbeEncrypted();
+
+	public String encryptionExample();
+
+	public String companyPassword();
+
+	public String encryptionPasswordisImportant();
+
+	public String youCanChangeEncryptionPassword();
+
+	public String forMoreInfoOnEncryption();
+
+	public String enableEncryption();
+
 }
