@@ -1559,6 +1559,10 @@ public class WriteChequeView extends
 			}
 
 			if (transaction.getTransactionItems() != null) {
+				this.transactionItems = transaction.getTransactionItems();
+				transactionVendorAccountTable
+						.setRecords(getAccountTransactionItems(transaction
+								.getTransactionItems()));
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
 						this.discountField
