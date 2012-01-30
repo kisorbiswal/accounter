@@ -12,6 +12,9 @@ public class AccounterEncryptor implements Encryptor {
 
 	@Override
 	public byte[] encrypt(String value) {
+		if (value == null) {
+			return null;
+		}
 		if (isActive()) {
 			return doEncrypt(value);
 		}
@@ -31,6 +34,9 @@ public class AccounterEncryptor implements Encryptor {
 
 	@Override
 	public String decrypt(byte[] value) {
+		if (value == null) {
+			return null;
+		}
 		if (isActive()) {
 			return doDecrypt(value);
 		}
