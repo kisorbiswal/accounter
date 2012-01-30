@@ -27,11 +27,15 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	@UiField
 	Label passwordLabel;
 	@UiField
+	Label conformPasswordLabel;
+	@UiField
 	HTML encryptionInfo;
 	@UiField
 	CheckBox enableBox;
 	@UiField
 	PasswordTextBox passwordField;
+	@UiField
+	PasswordTextBox conformPasswordField;
 	@UiField
 	HTML passwordInfo;
 	@UiField
@@ -63,8 +67,10 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	protected void createControls() {
 		headerLabel.setText(messages.encryption());
 		passwordLabel.setText(messages.companyPassword());
+		conformPasswordLabel.setText(messages.confirmPassword());
 		enableEncryption.setText(messages.enableEncryption());
 		passwordField.setEnabled(false);
+		conformPasswordField.setEnabled(false);
 		encryptionInfo.setHTML(messages.encryptionEnablesyourCompanydata());
 		encryptionInfo.setStyleName("organisation_comment");
 		passwordInfo.setHTML(messages.encryptionPasswordisImportant());
@@ -76,8 +82,10 @@ public class SetupPremiumPage extends AbstractSetupPage {
 			public void onClick(ClickEvent event) {
 				if (enableBox.getValue()) {
 					passwordField.setEnabled(true);
+					conformPasswordField.setEnabled(true);
 				} else {
 					passwordField.setEnabled(false);
+					conformPasswordField.setEnabled(false);
 				}
 			}
 		});
@@ -102,6 +110,10 @@ public class SetupPremiumPage extends AbstractSetupPage {
 			if (passwordField.getValue().length() < 6) {
 				Accounter.showError(messages
 						.passwordshouldcontainminimum6characters());
+				return false;
+			} else if (!passwordField.getValue().equals(
+					conformPasswordField.getValue())) {
+				Accounter.showError(messages.passwordsnotmatched());
 				return false;
 			} else {
 				return true;
