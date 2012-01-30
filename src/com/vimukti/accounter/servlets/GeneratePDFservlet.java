@@ -531,7 +531,11 @@ public class GeneratePDFservlet extends BaseServlet {
 					// for genearting reports using XdocReport
 					generateCustom2PDF(request, response, companyName);
 				} else {
-					generateHtmlPDF(request, response, companyName);
+					if (type == Transaction.TYPE_CASH_SALES) {
+						generateCustom2PDF(request, response, companyName);
+					} else {
+						generateHtmlPDF(request, response, companyName);
+					}
 				}
 
 			} else {
