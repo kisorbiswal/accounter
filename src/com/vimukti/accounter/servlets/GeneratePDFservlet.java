@@ -55,12 +55,14 @@ import com.vimukti.accounter.core.ReportTemplate;
 import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.core.TemplateBuilder;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.vat.IndianVATTemplate;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 import fr.opensagres.xdocreport.converter.ConverterTypeTo;
@@ -409,8 +411,33 @@ public class GeneratePDFservlet extends BaseServlet {
 				else {
 					transactionType = 0;
 					converter = new Converter();
-					template = getReportTemplate(company, request, financetool,
-							footerImg, style);
+					int reportType = Integer.parseInt(request
+							.getParameter("reportType"));
+					if (reportType == 165
+							&& company.getCountryPreferences() instanceof India) {
+						String status = request.getParameter("status");
+						long startDate = Long.parseLong(request
+								.getParameter("startDate"));
+						long endDate = Long.parseLong(request
+								.getParameter("endDate"));
+
+						IndianVATTemplate indianVATTemplate = new IndianVATTemplate(
+								company, Long.parseLong(status), startDate,
+								endDate);
+
+						response.setContentType("application/pdf");
+						response.setHeader("Content-disposition",
+								"attachment; filename="
+										+ indianVATTemplate.getFileName()
+												.replace(" ", "") + ".pdf");
+						sos = response.getOutputStream();
+
+						indianVATTemplate.writeResponse(sos);
+						return;
+					} else {
+						template = getReportTemplate(company, request,
+								financetool, footerImg, style);
+					}
 					fileName = template.getFileName();
 				}
 
