@@ -360,9 +360,9 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 		}
 		buttonBar.add(cancelButton);
 		if (this instanceof FileVATView){
-			this.saveAndCloseButton.setText(messages.fileTAXReturn());
-		}else{
 			this.saveAndCloseButton.setText(messages.fileVATReturn());
+		}else{
+			this.saveAndCloseButton.setText(messages.fileTAXReturn());
 		}
 	}
 
