@@ -31,6 +31,7 @@ import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
+import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.VendorGroupRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
@@ -80,6 +81,8 @@ public class CreateVendorCommand extends AbstractCommand {
 
 	private static final String SHIPPING_METHODS = "shippingMethod";
 	private static final String SHIP_TO = "shipTo";
+	private static final String NOTES = "notes";
+
 	private ClientVendor vendor;
 
 	@Override
@@ -274,6 +277,9 @@ public class CreateVendorCommand extends AbstractCommand {
 						|| e.getNumber().equals(name);
 			}
 		});
+
+		list.add(new StringRequirement(NOTES, getMessages().pleaseEnter(
+				getMessages().notes()), getMessages().notes(), true, true));
 
 		list.add(new AmountRequirement(CREDIT_LIMIT, getMessages().pleaseEnter(
 				getMessages().creditLimit()), getMessages().creditLimit(),
@@ -516,6 +522,7 @@ public class CreateVendorCommand extends AbstractCommand {
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
+		String notes = get(NOTES).getValue();
 
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
 		if (billTo != null && billTo.getAddress1() != "") {
@@ -546,6 +553,7 @@ public class CreateVendorCommand extends AbstractCommand {
 		vendor.setBankBranch(bankBranch);
 		vendor.setBankName(bankName);
 		vendor.setEmail(emailId);
+		vendor.setMemo(notes);
 
 		if (context.getCompany().getCountry()
 				.equals(CountryPreferenceFactory.UNITED_STATES)) {
@@ -693,6 +701,7 @@ public class CreateVendorCommand extends AbstractCommand {
 				HibernateUtil.getCurrentSession().get(Currency.class,
 						vendor.getCurrency()));
 		get(CURRENCY_FACTOR).setValue(vendor.getCurrencyFactor());
+		get(NOTES).setValue(vendor.getMemo());
 	}
 
 	@Override

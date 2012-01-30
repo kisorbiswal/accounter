@@ -82,6 +82,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 	private static final String BILLTO = "billTo";
 	private static final String ACTIVE = "active";
 	private static final String PRICE_LEVEL = "priceLevel";
+	private static final String NOTES = "notes";
 
 	private ClientCustomer customer;
 
@@ -145,6 +146,9 @@ public class CreateCustomerCommand extends AbstractCommand {
 				super.setValue(value);
 			}
 		});
+
+		list.add(new StringRequirement(NOTES, getMessages().pleaseEnter(
+				getMessages().notes()), getMessages().notes(), true, true));
 
 		list.add(new CurrencyListRequirement(CURRENCY,
 				getMessages().currency(), getMessages().currency(), true, true,
@@ -529,6 +533,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 		String cstNum = get(CST_NUM).getValue();
 		String serviceTaxNum = get(SERVICE_TAX_NUM).getValue();
 		String tinNum = get(TIN_NUM).getValue();
+		String notes = get(NOTES).getValue();
 		HashSet<ClientAddress> addresses = new HashSet<ClientAddress>();
 		if (shipptoAddress != null && shipptoAddress.getAddress1() != "") {
 			shipptoAddress.setType(ClientAddress.TYPE_SHIP_TO);
@@ -556,6 +561,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 		customer.setBankBranch(bankBranch);
 		customer.setBankName(bankName);
 		customer.setEmail(emailId);
+		customer.setMemo(notes);
 		if (salesPerson != null) {
 			customer.setSalesPerson(salesPerson.getID());
 		}
@@ -759,6 +765,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 		get(PRICE_LEVEL).setValue(
 				CommandUtils.getServerObjectById(customer.getPriceLevel(),
 						AccounterCoreType.PRICE_LEVEL));
+		get(NOTES).setValue(customer.getMemo());
 	}
 
 	public String objectExist(String customerNumber) {
