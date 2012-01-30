@@ -67,9 +67,9 @@
 		<return-scalar column="ID" type="long" />
 		<return-scalar column="T_TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NUMBER" type="string" />
-		<return-scalar column="MEMO" type="string" />
-		<return-scalar column="NAME" type="string" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL" type="double" />
 
 		SELECT
@@ -394,7 +394,7 @@
 	<!-- QUERIES FOR REPORTS -->
 	<sql-query name="accountbalances">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_TOTAL_BALANCE" type="double" />
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		SELECT A.NAME AS ACCOUNT_NAME, A.TOTAL_BALANCE AS
@@ -785,13 +785,13 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="ID" type="long" />
-		<return-scalar column="NAME" type="string" />
-		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="CASHFLOW_CATEGORY" type="int" />
 		<return-scalar column="PARENT_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
-		<return-scalar column="FLOW" type="string" />
+		<return-scalar column="FLOW" type="encryptedstring" />
 		SELECT
 		A.ID as ID ,
 		A.NAME AS NAME ,
@@ -1255,20 +1255,20 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="CUSTOMER" type="string" />
-		<return-scalar column="CONTACT" type="string" />
-		<return-scalar column="PHONE" type="string" />
+		<return-scalar column="CUSTOMER" type="encryptedstring" />
+		<return-scalar column="CONTACT" type="encryptedstring" />
+		<return-scalar column="PHONE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="REFERENCE" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="string" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="VOID" type="boolean" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="MEMO" type="encryptedstring" />
 		SELECT
 		P.NAME AS CUSTOMER,
 		(SELECT PC.NAME FROM PAYEE_CONTACT PC WHERE
@@ -1368,20 +1368,20 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="VENDOR" type="string" />
-		<return-scalar column="CONTACT" type="string" />
-		<return-scalar column="PHONE" type="string" />
+		<return-scalar column="VENDOR" type="encryptedstring" />
+		<return-scalar column="CONTACT" type="encryptedstring" />
+		<return-scalar column="PHONE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="REFERENCE" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="string" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="VOID" type="boolean" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="MEMO" type="encryptedstring" />
 		SELECT
 		P.NAME AS VENDOR,
 		(SELECT PC.NAME FROM PAYEE_CONTACT PC WHERE
@@ -1480,19 +1480,19 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="NAME" type="string" />
-		<return-scalar column="FILE_AS" type="string" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="FILE_AS" type="encryptedstring" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
-		<return-scalar column="WEB_PAGE_ADDRESS" type="string" />
+		<return-scalar column="WEB_PAGE_ADDRESS" type="encryptedstring" />
 		<return-scalar column="SINCE" type="long" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="STREET" type="string" />
-		<return-scalar column="CITY" type="string" />
-		<return-scalar column="STATE" type="string" />
-		<return-scalar column="ZIP" type="string" />
-		<return-scalar column="PHONE" type="string" />
-		<return-scalar column="FAX" type="string" />
-		<return-scalar column="EMAIL" type="string" />
+		<return-scalar column="STREET" type="encryptedstring" />
+		<return-scalar column="CITY" type="encryptedstring" />
+		<return-scalar column="STATE" type="encryptedstring" />
+		<return-scalar column="ZIP" type="encryptedstring" />
+		<return-scalar column="PHONE" type="encryptedstring" />
+		<return-scalar column="FAX" type="encryptedstring" />
+		<return-scalar column="EMAIL" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
 		SELECT
 		P.NAME AS NAME,
@@ -1539,12 +1539,12 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="INVOICED_AMOUNT" type="double" />
 		<return-scalar column="STANDARD_COST" type="double" />
 		<return-scalar column="CUSTOMER_MARGIN" type="double" />
-		<return-scalar column="CUSTOMER_GROUP" type="string" />
-		<return-scalar column="CUSTOMER_FILE_AS" type="string" />
+		<return-scalar column="CUSTOMER_GROUP" type="encryptedstring" />
+		<return-scalar column="CUSTOMER_FILE_AS" type="encryptedstring" />
 
 		<!-- SELECT P.NAME AS CUSTOMER_NAME, SUM(CASE WHEN T.T_TYPE=4 OR T.T_TYPE=15 
 			THEN -1* TI.LINE_TOTAL ELSE TI.LINE_TOTAL END) AS INVOICED_AMOUNT, -1*SUM(IT.SATNDARD_COST) 
@@ -1651,19 +1651,19 @@
 		<query-param name="customerId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<return-scalar column="CUSTOMER_NAME" type="string" />
-		<return-scalar column="TRANSACTION_TYPE" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_TYPE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
-		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="INVOICED_AMOUNT" type="double" />
 		<return-scalar column="STANDARD_COST" type="double" />
 		<return-scalar column="CUSTOMER_MARGIN" type="double" />
 		<return-scalar column="CUSTOMER_MARGIN_PERCENTAGE" type="double" />
-		<return-scalar column="CUSTOMER_GROUP" type="string" />
+		<return-scalar column="CUSTOMER_GROUP" type="encryptedstring" />
 		<return-scalar column="STATUS" type="int" />
-		<return-scalar column="REFERENCE" type="string" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
 
 		SELECT
 		P.NAME AS CUSTOMER_NAME,
@@ -1769,14 +1769,14 @@
 		<query-param name="endDate" type="long" />
 
 		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="payee_name" type="string" />
-		<return-scalar column="taxagency_name" type="string" />
-		<return-scalar column="taxItem_name" type="string" />
+		<return-scalar column="payee_name" type="encryptedstring" />
+		<return-scalar column="taxagency_name" type="encryptedstring" />
+		<return-scalar column="taxItem_name" type="encryptedstring" />
 		<return-scalar column="rate" type="double" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="string" />
-		<return-scalar column="memo" type="string" />
+		<return-scalar column="transaction_number" type="encryptedstring" />
+		<return-scalar column="memo" type="encryptedstring" />
 		<return-scalar column="taxable_amount" type="double" />
 		<return-scalar column="sales_tax" type="double" />
 		<return-scalar column="void" type="boolean" />
@@ -3956,7 +3956,7 @@
 	<sql-query name="getSalesByClassDetailForClass">
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="className" type="String" />
+		<query-param name="className" type="string" />
 		<query-param name="companyId" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
@@ -4078,7 +4078,7 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="PAYEE_NAME" type="string" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="string" />
 		<return-scalar column="EXCHANGE_RATE" type="double"/>
 		<return-scalar column="REALISED_GAIN_OR_LOSS" type="double"/>
@@ -4170,7 +4170,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="enteredDate" type="long" />
 		
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="CURRENCY_NAME" type="string" />
 		<return-scalar column="FOREIGN_BALANCE" type="double" />
 		<return-scalar column="CURRENT_BALANCE" type="double" />
@@ -4207,7 +4207,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="enteredDate" type="long" />
 		
-		<return-scalar column="ACK_NO" type="string" />
+		<return-scalar column="ACK_NO" type="encryptedstring" />
 		<return-scalar column="FORM_TYPE" type="int" />
 		<return-scalar column="QUATER" type="int" />
 		<return-scalar column="YEAR_START" type="int" />
