@@ -194,7 +194,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Income Account has been selected";
+				return getMessages().incomeAccountSelected();
 			}
 		});
 
@@ -536,7 +536,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	protected String getDetailsMessage() {
 		return getItem().getID() == 0 ? getMessages().readyToCreate(
 				getMessages().item())
-				: "Item is ready to update with following details";
+				: getMessages().itemIsReadyToUpdateWithFollowingDetails();
 
 	}
 
