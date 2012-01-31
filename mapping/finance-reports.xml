@@ -12,13 +12,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -44,13 +45,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -176,13 +178,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -207,13 +210,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -238,13 +242,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -269,13 +274,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -303,13 +309,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -337,13 +344,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -370,13 +378,14 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="T_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
 		SELECT T.ID AS ID,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS T_DATE,
 		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -397,13 +406,19 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
+		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
+		SELECT T.ID AS ID,
+		T.T_TYPE AS TYPE,
+		T.T_DATE AS T_DATE,
+		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+		T.TOTAL AS TOTAL
 
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
@@ -448,6 +463,23 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		 
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		
 		SELECT NAME , TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
 		ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE,
@@ -463,6 +495,22 @@
 		<query-param name="customerName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		
 		SELECT NAME, TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
 		ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
 		SHIPMENT_OR_DELIVERY_DATE,
@@ -481,6 +529,10 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="AMOUNT" type="double" />
+		
 		SELECT NAME , SUM(AMOUNT) FROM
 		SALES_PURCHASES_VIEW WHERE
 		CUSTOMER_ID IS
@@ -495,6 +547,28 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEM_TYPE" type="int" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="DISCOUNT" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SO_OR_QUOTE_NO" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="ITEM_GROUP" type="long" />
+		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		  <return-scalar column="UNIT" type="long" />
+		 
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, DATE, NUMBER, NAME ,
 		QUANTITY,
 		UNIT_PRICE, DISCOUNT, AMOUNT, SO_OR_QUOTE_NO, DUE_DATE,
@@ -513,6 +587,28 @@
 		<query-param name="itemName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEM_TYPE" type="int" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="DISCOUNT" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SO_OR_QUOTE_NO" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="ITEM_GROUP" type="long" />
+		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		  
+		  
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, DATE, NUMBER, NAME ,
 		QUANTITY,
 		UNIT_PRICE, DISCOUNT, AMOUNT, SO_OR_QUOTE_NO, DUE_DATE,
@@ -532,6 +628,13 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		
+		
+		
 		SELECT ITEM_NAME, SUM(QUANTITY) AS QUANTITY ,
 		SUM(AMOUNT) AS AMOUNT
 		FROM SALES_PURCHASES_VIEW
@@ -553,6 +656,23 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="PURCHASE_DESCRIPTION" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />  
+		 
 		SELECT NAME, TYPE, DATE, NUMBER, PAYMENT_TERMS, DUE_DATE,
 		ITEM_NAME,
 		PURCHASE_DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT,
