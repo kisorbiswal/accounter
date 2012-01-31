@@ -5410,4 +5410,6 @@ public interface AccounterMessages extends Messages {
 
 	public String inventoryScheme();
 
+	public String typesMustbeSame(String items);
+
 }
