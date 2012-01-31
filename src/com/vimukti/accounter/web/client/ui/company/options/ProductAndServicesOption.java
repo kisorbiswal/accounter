@@ -45,9 +45,13 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	@UiField
 	CheckBox inventoryCheckBox;
 	@UiField
+	CheckBox unitsCheckBox;
+	@UiField
 	VerticalPanel hiddenPanel;
 	@UiField
 	VerticalPanel totalPanel;
+	@UiField
+	VerticalPanel subpanel;
 
 	interface ProductAndServicesOptionUiBinder extends
 			UiBinder<Widget, ProductAndServicesOption> {
@@ -87,6 +91,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 		inventoryCheckBox.setText(messages.inventoryTracking());
 		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
+		unitsCheckBox.setText(messages.units());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 
@@ -95,6 +100,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 				inventoryCheckBox.setValue(false);
 				warehousesCheckBox.setValue(false);
+				unitsCheckBox.setVisible(false);
 				totalPanel.setVisible(false);
 
 			}
@@ -150,6 +156,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		if (inventoryCheckBox.getValue()) {
 			getCompanyPreferences().setwareHouseEnabled(
 					warehousesCheckBox.getValue());
+			getCompanyPreferences().setUnitsEnabled(unitsCheckBox.getValue());
 		}
 	}
 
@@ -181,6 +188,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			hiddenPanel.setVisible(true);
 			warehousesCheckBox.setValue(getCompanyPreferences()
 					.iswareHouseEnabled());
+			unitsCheckBox.setValue(getCompanyPreferences().isUnitsEnabled());
 		} else {
 			hiddenPanel.setVisible(false);
 		}
