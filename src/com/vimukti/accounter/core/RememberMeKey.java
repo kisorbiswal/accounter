@@ -13,6 +13,9 @@ public class RememberMeKey extends CreatableObject {
 
 	private String emailID;
 
+	private String clientKey;// d2
+	private byte[] serverKey;// s2
+
 	/**
 	 * Creates new Instance
 	 */
@@ -55,6 +58,22 @@ public class RememberMeKey extends CreatableObject {
 	 */
 	public void setEmailID(String emailID) {
 		this.emailID = emailID;
+	}
+
+	public byte[] getServerKey() {
+		return serverKey;
+	}
+
+	public void setServerKey(byte[] serverKey) {
+		this.serverKey = serverKey;
+	}
+
+	public String getClientKey() {
+		return clientKey;
+	}
+
+	public void setClientKey(String clientKey) {
+		this.clientKey = clientKey;
 	}
 
 }

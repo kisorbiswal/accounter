@@ -94,8 +94,8 @@ public class SetupPremiumPage extends AbstractSetupPage {
 
 	@Override
 	protected void onSave() {
-		// TODO Auto-generated method stub
-
+		setupWizard.setPassword(enableBox.getValue() ? passwordField.getValue()
+				: null);
 	}
 
 	@Override

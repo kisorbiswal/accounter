@@ -96,7 +96,6 @@ public class LogoutServlet extends BaseServlet {
 			HttpServletResponse response) {
 		String userKey = getCookie(request, OUR_COOKIE);
 		removeCookie(request, response, OUR_COOKIE);
-		removeCookie(request, response, SECRET_KEY_COOKIE);
 
 		if (userKey == null || userKey.isEmpty()) {
 			return;

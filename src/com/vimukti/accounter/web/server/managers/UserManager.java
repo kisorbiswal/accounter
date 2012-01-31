@@ -12,11 +12,13 @@ import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
@@ -277,30 +279,48 @@ public class UserManager extends Manager {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = null;
-
 		try {
 			tx = session.beginTransaction();
-			oldPassword = HexUtil.bytesToHex(Security.makeHash(emailId
-					+ oldPassword));
-			newPassword = HexUtil.bytesToHex(Security.makeHash(emailId
-					+ newPassword));
+			String hasedOldPassword = HexUtil.bytesToHex(Security
+					.makeHash(emailId + oldPassword));
+			String newHashPassword = HexUtil.bytesToHex(Security
+					.makeHash(emailId + newPassword));
 
 			Query query = session.getNamedQuery("getEmailIdFromClient")
 					.setParameter("emailId", emailId)
-					.setParameter("password", oldPassword);
+					.setParameter("password", hasedOldPassword);
 			String emailID = (String) query.uniqueResult();
 
 			if (emailID == null)
 				return false;
 
 			query = session.getNamedQuery("updatePasswordForClient");
-			query.setParameter("newPassword", newPassword);
+			query.setParameter("newPassword", newHashPassword);
 			query.setParameter("emailId", emailId);
 			query.executeUpdate();
 
-			query = session.getNamedQuery("updateUserSecret");
-			query.setParameter("emailId", emailId);
-			query.executeUpdate();
+			List list = session.getNamedQuery("getUserSecrets")
+					.setParameter("emailId", emailId).list();
+			Iterator iterator = list.iterator();
+			byte[] s1 = EU.generatePBS(oldPassword);
+			byte[] s4 = EU.generatePBS(newPassword);
+			User user = AccounterThreadLocal.get();
+			while (iterator.hasNext()) {
+				Object[] next = (Object[]) iterator.next();
+				long userId = (Long) next[0];// UserId
+				byte[] secret = (byte[]) next[1];// Old Secret
+				if (secret == null) {
+					continue;
+				}
+				byte[] s3 = EU.decrypt(secret, s1);
+				byte[] us = EU.encrypt(s3, s4);
+				session.getNamedQuery("updateUserSecret")
+						.setParameter("userId", userId)
+						.setParameter("secret", us).executeUpdate();
+				if (userId == user.getID()) {
+					user.setSecretKey(us);
+				}
+			}
 			tx.commit();
 
 		} catch (Exception e) {

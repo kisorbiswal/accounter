@@ -111,8 +111,6 @@ public class NewLoginServlet extends BaseServlet {
 			// Inserting RememberMeKey
 			Session session = HibernateUtil.getCurrentSession();
 
-			addUserCookies(response, encode, SECRET_KEY_COOKIE);
-
 			byte[] makeHash = Security.makeHash(client.getEmailId()
 					+ Security.makeHash(client.getPassword()));
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -120,6 +118,8 @@ public class NewLoginServlet extends BaseServlet {
 			String rememberMeKey = HexUtil.bytesToHex(digest);
 			RememberMeKey rememberMe = new RememberMeKey(client.getEmailId(),
 					rememberMeKey);
+			rememberMe.setClientKey(encode);
+			rememberMe.setServerKey(EU.getKey(emailId));
 			session.save(rememberMe);
 			addUserCookies(response, rememberMeKey);
 		}
@@ -199,8 +199,7 @@ public class NewLoginServlet extends BaseServlet {
 			// if session is not there then we show the form and user fills it
 			// which gets submitted to same url
 			String userCookie = getCookie(request, OUR_COOKIE);
-			String secretKey = getCookie(request, SECRET_KEY_COOKIE);
-			if (userCookie == null || secretKey == null) {
+			if (userCookie == null) {
 				showLogin(request, response);
 				return;
 			}
@@ -224,7 +223,12 @@ public class NewLoginServlet extends BaseServlet {
 					return;
 				}
 				httpSession.setAttribute(EMAIL_ID, rememberMeKey.getEmailID());
-				httpSession.setAttribute(SECRET_KEY_COOKIE, secretKey);
+				httpSession.setAttribute(SECRET_KEY_COOKIE,
+						rememberMeKey.getClientKey());
+				if (rememberMeKey.getServerKey() != null) {
+					EU.storeKey(rememberMeKey.getServerKey(),
+							rememberMeKey.getEmailID());
+				}
 				client.setLoginCount(client.getLoginCount() + 1);
 				client.setLastLoginTime(System.currentTimeMillis());
 				session.saveOrUpdate(client);

@@ -110,7 +110,11 @@ public class BaseServlet extends HttpServlet {
 				if (emailId != null && d2 != null) {
 					User user = company.getUserByUserEmail(emailId);
 					if (user != null && user.getSecretKey() != null) {
-						EU.createCipher(user.getSecretKey(), d2, emailId);
+						try {
+							EU.createCipher(user.getSecretKey(), d2, emailId);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}

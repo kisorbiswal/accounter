@@ -28,7 +28,6 @@ public class AccounterEncryptor implements Encryptor {
 	}
 
 	private boolean isActive() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
@@ -40,12 +39,13 @@ public class AccounterEncryptor implements Encryptor {
 		if (isActive()) {
 			return doDecrypt(value);
 		}
-		return toUTF8String(value);
+		return toUTF16String(value);
 	}
 
-	private String toUTF8String(byte[] value) {
+	private String toUTF16String(byte[] value) {
 		try {
-			return new String(value, "UTF-16");
+			String string = new String(value, "UTF-16");
+			return string;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -54,7 +54,8 @@ public class AccounterEncryptor implements Encryptor {
 
 	private byte[] fromUTF16String(String value) {
 		try {
-			return value.getBytes("UTF-16");
+			byte[] bytes = value.getBytes("UTF-16");
+			return bytes;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +65,7 @@ public class AccounterEncryptor implements Encryptor {
 	private String doDecrypt(byte[] value) {
 		byte[] in = value;
 		in = EU.d(value);
-		return toUTF8String(in);
+		return toUTF16String(in);
 	}
 
 	public static AccounterEncryptor getInstance() {

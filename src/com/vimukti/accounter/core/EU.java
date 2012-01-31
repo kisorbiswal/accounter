@@ -50,7 +50,7 @@ public class EU {
 		try {
 			factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 			KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 1024,
-					256);
+					128);
 			SecretKey tmp = factory.generateSecret(spec);
 			return tmp.getEncoded();
 		} catch (Exception e) {
@@ -133,7 +133,8 @@ public class EU {
 		if (s2 == null) {
 			return;
 		}
-		byte[] key = decrypt(userSecret, decrypt(d2, s2));
+		byte[] s1 = decrypt(d2, s2);
+		byte[] key = decrypt(userSecret, s1);
 
 		SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
 		Cipher eCipher = Cipher.getInstance("AES");

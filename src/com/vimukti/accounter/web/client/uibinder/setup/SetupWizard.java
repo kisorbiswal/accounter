@@ -55,6 +55,7 @@ public class SetupWizard extends VerticalPanel {
 	private AbstractSetupPage previousView;
 	private AbstractSetupPage viewToShow;
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
+	private String password;
 
 	public SetupWizard(AsyncCallback<Boolean> callback) {
 		preferences = new ClientCompanyPreferences();
@@ -166,7 +167,7 @@ public class SetupWizard extends VerticalPanel {
 					showLoadingImage();
 					setStartDateOfFiscalYear();
 					Accounter.createCompanyInitializationService()
-							.initalizeCompany(preferences, null,
+							.initalizeCompany(preferences, password,
 									selectedAccounts, callback);
 
 				}
@@ -456,6 +457,10 @@ public class SetupWizard extends VerticalPanel {
 		}
 		initProgessPanel();
 		showView(true);
+	}
+
+	public void setPassword(String string) {
+		password = string;
 	}
 
 }

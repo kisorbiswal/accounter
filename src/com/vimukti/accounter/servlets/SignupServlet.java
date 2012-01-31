@@ -65,7 +65,6 @@ public class SignupServlet extends BaseServlet {
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
 				+ password));
 		HttpSession session = req.getSession(true);
-
 		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = null;
 		try {
@@ -137,6 +136,11 @@ public class SignupServlet extends BaseServlet {
 
 				redirectExternal(req, resp, ACTIVATION_URL + message);
 				transaction.commit();
+				try {
+					NewLoginServlet.createD2(req, emailId, password);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

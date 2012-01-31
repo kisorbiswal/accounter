@@ -1644,11 +1644,18 @@
 	</sql-query>
 
 	<sql-query name="updateUserSecret">
-		<query-param name="emailId" type="string" />
-		update users set secret_key=null where client_id=(select id from
-		client where email_id=:emailId)
+		<query-param name="userId" type="long" />
+		<query-param name="secret" type="binary" />
+		update users set secret_key=:secret where id=:userId
 	</sql-query>
 
+	<sql-query name="getUserSecrets">
+		<query-param name="emailId" type="String" />
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="SECRET" type="binary" />
+		SELECT U.ID AS ID,U.SECRET_KEY AS SECRET FROM USERS U WHERE CLIENT_ID=(SELECT ID FROM CLIENT WHERE EMAIL_ID=:emailId)
+	</sql-query>
+	
 	<sql-query name="updatePasswordForClient">
 		<query-param name="newPassword" type="string" />
 		<query-param name="emailId" type="string" />

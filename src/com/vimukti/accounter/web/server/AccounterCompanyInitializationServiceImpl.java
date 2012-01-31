@@ -140,6 +140,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 					e.printStackTrace();
 				}
 			}
+			System.out.println();
 			Company company = new Company();
 			company.setTradingName(preferences.getTradingName());
 			company.setConfigured(false);
@@ -151,7 +152,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			user.setClient(client);
 			user.setCompany(company);
 
-			// user.setSecretKey(userSecret);
+			user.setSecretKey(userSecret);
 
 			session.save(user);
 
