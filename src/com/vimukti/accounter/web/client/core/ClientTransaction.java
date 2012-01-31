@@ -79,6 +79,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public static final int TYPE_MISC_SAMPLE_FORM = 33;
 
+	public static final int BUILD_ASSEMBLY = 36;
+
 	public static final int VIEW_ALL = 0;
 	public static final int VIEW_VOIDED = 3;
 	public static final int VIEW_OVERDUE = 2;
