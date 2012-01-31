@@ -5402,4 +5402,12 @@ public interface AccounterMessages extends Messages {
 
 	public String enableEncryption();
 
+	public String firstInfirstOut();
+
+	public String lastInfirstOut();
+
+	public String average();
+
+	public String inventoryScheme();
+
 }

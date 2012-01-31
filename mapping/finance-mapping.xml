@@ -229,6 +229,7 @@
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="legalName" column="LEGALNAME"></property>
 			<property name="phone" column="PHONE"></property>
+			<property name="activeInventoryScheme" column="ACTIVE_INVENTORY_SCHEME"></property>
 			<property name="fax" column="FAX"></property>
 			<property name="webSite" column="WEBSITE"></property>
 			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>

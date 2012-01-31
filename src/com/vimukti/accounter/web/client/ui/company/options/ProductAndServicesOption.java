@@ -23,6 +23,14 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	private static ProductAndServicesOptionUiBinder uiBinder = GWT
 			.create(ProductAndServicesOptionUiBinder.class);
 	@UiField
+	Label inventoryScheme;
+	@UiField
+	RadioButton fifoOnly;
+	@UiField
+	RadioButton lifoOnly;
+	@UiField
+	RadioButton averageOnly;
+	@UiField
 	VerticalPanel viewPanel;
 	@UiField
 	RadioButton servicesOnly;
@@ -52,6 +60,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	VerticalPanel totalPanel;
 	@UiField
 	VerticalPanel subpanel;
+
+	public static final int INVENTORY_SCHME_FIFO = 1;
+	public static final int INVENTORY_SCHME_LIFO = 2;
+	public static final int INVENTORY_SCHME_AVERAGE = 3;
 
 	interface ProductAndServicesOptionUiBinder extends
 			UiBinder<Widget, ProductAndServicesOption> {
@@ -84,6 +96,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		servicesOnly.setText(messages.services_labelonly());
 		servicesOnlyText.setText(messages.servicesOnly());
 		productsOnly.setText(messages.products_labelonly());
+		fifoOnly.setText(messages.firstInfirstOut());
+		lifoOnly.setText(messages.lastInfirstOut());
+		averageOnly.setText(messages.average());
+		inventoryScheme.setText(messages.inventoryScheme());
 
 		productsOnlyText.setText(messages.productsOnly());
 		both.setText(messages.bothservicesandProduct_labelonly());
@@ -100,7 +116,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 				inventoryCheckBox.setValue(false);
 				warehousesCheckBox.setValue(false);
-				unitsCheckBox.setVisible(false);
+				unitsCheckBox.setValue(false);
+				lifoOnly.setValue(false);
+				fifoOnly.setValue(false);
+				averageOnly.setValue(false);
 				totalPanel.setVisible(false);
 
 			}
@@ -127,6 +146,10 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			@Override
 			public void onClick(ClickEvent event) {
 				hiddenPanel.setVisible(inventoryCheckBox.getValue());
+				if (inventoryCheckBox.getValue()) {
+					// for set the inventory schema value to option
+					setInventorySchemeValue();
+				}
 			}
 		});
 	}
@@ -157,6 +180,17 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			getCompanyPreferences().setwareHouseEnabled(
 					warehousesCheckBox.getValue());
 			getCompanyPreferences().setUnitsEnabled(unitsCheckBox.getValue());
+			// for inventory scheme options
+			if (fifoOnly.getValue()) {
+				getCompanyPreferences().setActiveInventoryScheme(
+						INVENTORY_SCHME_FIFO);
+			} else if (lifoOnly.getValue()) {
+				getCompanyPreferences().setActiveInventoryScheme(
+						INVENTORY_SCHME_LIFO);
+			} else if (averageOnly.getValue()) {
+				getCompanyPreferences().setActiveInventoryScheme(
+						INVENTORY_SCHME_AVERAGE);
+			}
 		}
 	}
 
@@ -189,8 +223,28 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			warehousesCheckBox.setValue(getCompanyPreferences()
 					.iswareHouseEnabled());
 			unitsCheckBox.setValue(getCompanyPreferences().isUnitsEnabled());
+			// for set the inventory schema value to option
+			setInventorySchemeValue();
+
 		} else {
 			hiddenPanel.setVisible(false);
 		}
+	}
+
+	private void setInventorySchemeValue() {
+		int activeInventoryScheme = getCompanyPreferences()
+				.getActiveInventoryScheme();
+		switch (activeInventoryScheme) {
+		case INVENTORY_SCHME_FIFO:
+			fifoOnly.setValue(true);
+			break;
+		case INVENTORY_SCHME_LIFO:
+			lifoOnly.setValue(true);
+			break;
+		case INVENTORY_SCHME_AVERAGE:
+			averageOnly.setValue(true);
+			break;
+		}
+
 	}
 }
