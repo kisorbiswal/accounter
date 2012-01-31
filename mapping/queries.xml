@@ -1107,7 +1107,8 @@
 		e.estimateType=:estimateType and e.saveStatus
 		!= 202 and
 		(:status=-1 or
-		:status=e.saveStatus or (:status=e.status and e.saveStatus!=201))
+		:status=e.saveStatus or 
+		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204 and e.saveStatus!=202))
 		and
 		e.transactionDate between :fromDate and :toDate
 		order by
