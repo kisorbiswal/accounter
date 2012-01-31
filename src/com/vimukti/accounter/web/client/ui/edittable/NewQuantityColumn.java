@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -9,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
@@ -66,19 +69,15 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public IsWidget getWidget(RenderContext<ClientTransactionItem> context) {
 		final IsWidget widget = super.getWidget(context);
 		final ClientTransactionItem row = context.getRow();
-		if (widget instanceof TextBox) {
+		// Checking the units and wareHouses is enabled or not.
+		if (widget instanceof TextBox && getPreferences().iswareHouseEnabled()
+				|| getPreferences().isUnitsEnabled()) {
 			((TextBox) widget).addFocusListener(new FocusListener() {
-
-				@Override
-				public void onLostFocus(Widget sender) {
-					// TODO Auto-generated method stub
-
-				}
-
 				@Override
 				public void onFocus(Widget sender) {
 					ClientItem item = Accounter.getCompany().getItem(
@@ -87,6 +86,39 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						showPopUp(row);
 						((TextBox) widget).setFocus(false);
+					}
+				}
+
+				@Override
+				public void onLostFocus(Widget arg0) {
+					// TODO Auto-generated method stub
+				}
+			});
+		} else if (widget instanceof TextBox) {
+			((TextBox) widget).addBlurHandler(new BlurHandler() {
+
+				@Override
+				public void onBlur(BlurEvent arg0) {
+					ClientItem item = Accounter.getCompany().getItem(
+							row.getItem());
+					if (item != null
+							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+						ClientCompany company = Accounter.getCompany();
+						ClientWarehouse warehouse = company
+								.getWarehouse(company.getDefaultWarehouse());
+						ClientUnit defaultUnit = company.getMeasurement(
+								item.getMeasurement()).getDefaultUnit();
+						String value = ((TextBox) widget).getValue();
+						ClientQuantity quantity = row.getQuantity();
+						quantity.setUnit(defaultUnit.getId());
+						try {
+							quantity.setValue(DataUtils
+									.getAmountStringAsDouble(value));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						setQuantity(row, quantity);
+						row.setWareHouse(warehouse.getID());
 					}
 				}
 			});
@@ -120,7 +152,16 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		}
 		unitBox.setSelected(unit.getName());
 		unitBox.setShowTitle(false);
-		final WarehouseCombo whCombo = new WarehouseCombo("");
+		final WarehouseCombo whCombo = new WarehouseCombo("") {
+			@Override
+			public void onAddNew() {
+				// For hide pop up quantity dialog.
+				if (popup.isShowing()) {
+					popup.hide();
+				}
+				super.onAddNew();
+			}
+		};
 		whCombo.setComboItem(wareHouse);
 		whCombo.setShowTitle(false);
 		whCombo.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientWarehouse>() {
@@ -138,9 +179,11 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 		table.setWidget(0, 0, valueLabel);
 		table.setWidget(1, 0, valueBox);
-		table.setWidget(0, 1, unitLabel);
-		table.setWidget(1, 1, unitBox.getMainWidget());
-		table.getCellFormatter().addStyleName(1, 1, "quantity_unit_width");
+		if (getPreferences().isUnitsEnabled()) {
+			table.setWidget(0, 1, unitLabel);
+			table.setWidget(1, 1, unitBox.getMainWidget());
+			table.getCellFormatter().addStyleName(1, 1, "quantity_unit_width");
+		}
 		if (getPreferences().iswareHouseEnabled()) {
 			table.setWidget(0, 2, wareHouseLabel);
 			table.setWidget(1, 2, whCombo.getMainWidget());
