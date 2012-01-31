@@ -5390,6 +5390,28 @@ public interface AccounterMessages extends Messages {
 
 	public String choose(String customer);
 
+	public String assemblyItem();
+
+	public String inventoryAssemblyItem();
+
+	public String buildAndClose();
+
+	public String buildAndNew();
+
+	public String quantityOnHand();
+
+	public String quantityOnSalesOrder();
+
+	public String buildPoint();
+
+	public String quantityToBuild();
+
+	public String buildRefNo();
+
+	public String buildAssembly();
+
+	public String totalValueOfMaterialsCost();
+
 	public String encryption();
 
 	public String encryptionEnablesyourCompanydata();
@@ -5401,6 +5423,20 @@ public interface AccounterMessages extends Messages {
 	public String forMoreInfoOnEncryption();
 
 	public String enableEncryption();
+
+	public String invalidCompanyName();
+
+	public String existedCompanyName();
+
+	public String multiCurrencyEnabled();
+
+	public String multiCurrencyNotEnabled();
+
+	public String incomeAccountSelected();
+
+	public String itemIsReadyToUpdateWithFollowingDetails();
+
+	public String doesNotHaveNegativeOrPositiveNumber(String text);
 
 	public String firstInfirstOut();
 
