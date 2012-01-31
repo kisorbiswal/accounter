@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -392,11 +393,19 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
-		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
-			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
+		if (this.getID() != 0) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			List<?> receivepaymentId = currentSession
+					.getNamedQuery("canDeleteCustomerRefund")
+					.setParameter("inputId", this.getID())
+					.setParameter("companyId", this.getCompany().getID())
+					.list();
+			Long id = (Long) receivepaymentId.get(0);
+			if (id != null) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
+			}
 		}
-
 		return super.canEdit(clientObject);
 	}
 
