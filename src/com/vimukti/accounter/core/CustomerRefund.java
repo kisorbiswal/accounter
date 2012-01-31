@@ -392,6 +392,11 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+
+		if (this.status == Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED) {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
+		}
+
 		return super.canEdit(clientObject);
 	}
 
