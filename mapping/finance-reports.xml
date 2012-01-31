@@ -8,10 +8,14 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 
-		SELECT T.ID,
-		T.T_TYPE,
-		T.T_DATE,
-		P.NAME,
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		SELECT T.ID AS ID,
+		T.T_TYPE AS TYPE,
+		T.T_DATE AS T_DATE,
+		P.NAME AS NAME,
 		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
 			= T.ID AND TI.TYPE IN (1,4) ) , -->
 		T.TOTAL
