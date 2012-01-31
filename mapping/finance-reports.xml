@@ -836,31 +836,50 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
+
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="TR_AMOUNT" type="double" />		
+		<return-scalar column="PAID_AMOUNT" type="double" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="DEBIT" type="double" />
+		<return-scalar column="CREDIT" type="double" />
+		<return-scalar column="DISCOUNT" type="double" />
+		<return-scalar column="WRITE_OFF" type="double" />
+		<return-scalar column="T_ID" type="long" />
+		<return-scalar column="DIFF_AMOUNT" type="double" />
+		<return-scalar column="IS_VOID" type="boolean" />
+		<return-scalar column="PAYMENT_STATUS" type="int" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="ACCOUNT" type="encryptedstring" />
 		SELECT
-		TV.NAME,
-		TV.TYPE,
-		TV.NUMBER,
-		TV.DATE,
-		TV.INVOICED_OR_TRANSASCTION_AMOUNT,
-		TV.PAID_AMOUNT,
-		TV.PAYMENT_TERMS,
-		TV.DUE_DATE,
-		TV.DEBIT,
-		TV.CREDIT,
-		TV.DISCOUNT,
-		TV.WRITE_OFF,
-		TV.TRANSACTION_ID,
+		TV.NAME AS NAME,
+		TV.TYPE AS TYPE,
+		TV.NUMBER AS NUMBER,
+		TV.DATE AS DATE,
+		TV.INVOICED_OR_TRANSASCTION_AMOUNT AS TR_AMOUNT,
+		TV.PAID_AMOUNT AS PAID_AMOUNT,
+		TV.PAYMENT_TERMS AS PAYMENT_TERMS,
+		TV.DUE_DATE AS DUE_DATE,
+		TV.DEBIT AS DEBIT,
+		TV.CREDIT AS CREDIT,
+		TV.DISCOUNT AS DISCOUNT,
+		TV.WRITE_OFF AS WRITE_OFF,
+		TV.TRANSACTION_ID AS T_ID,
 		(SELECT SUM(TV1.INVOICED_OR_TRANSASCTION_AMOUNT)-
 		SUM(TV1.PAID_AMOUNT) FROM TRANSACTION_HISTORY_VIEW TV1 WHERE
 		TV1.COMPANY_ID=:companyId AND TV1.CUSTOMER_ID = TV.CUSTOMER_ID AND
 		TV1.DATE BETWEEN :start AND :end
-		GROUP BY TV1.CUSTOMER_ID),
+		GROUP BY TV1.CUSTOMER_ID) AS DIFF_AMOUNT,
 		CASE WHEN TV.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE FALSE
-		END,
-		TV.PAYMENT_STATUS,
-		TV.MEMO,
+		END AS IS_VOID,
+		TV.PAYMENT_STATUS AS PAYMENT_STATUS,
+		TV.MEMO AS MEMO,
 		A.NAME AS ACCOUNT
 
 		FROM
@@ -915,26 +934,45 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
+		
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="TR_AMOUNT" type="double" />		
+		<return-scalar column="PAID_AMOUNT" type="double" />
+		<return-scalar column="DISCOUNT" type="double" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
+		<return-scalar column="DEBIT" type="double" />
+		<return-scalar column="CREDIT" type="double" />
+		<return-scalar column="IS_VOID" type="boolean" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		<return-scalar column="T_ID" type="long" />
+		<return-scalar column="DIFF_AMOUNT" type="double" />
+		<return-scalar column="PAYMENT_STATUS" type="int" />
+		<return-scalar column="ACCOUNT" type="encryptedstring" />
 		SELECT
-		TV.NAME,
-		TV.TYPE,
-		TV.DATE,
-		TV.NUMBER,
-		TV.INVOICED_OR_TRANSASCTION_AMOUNT,
-		TV.PAID_AMOUNT,
-		TV.DISCOUNT,
-		TV.MEMO,
-		TV.DUE_DATE,
-		TV.PAYMENT_TERMS,
-		TV.DEBIT,
-		TV.CREDIT,
+		TV.NAME AS NAME,
+		TV.TYPE AS TYPE,
+		TV.DATE AS DATE,
+		TV.NUMBER AS NUMBER,
+		TV.INVOICED_OR_TRANSASCTION_AMOUNT AS TR_AMOUNT,
+		TV.PAID_AMOUNT AS PAID_AMOUNT,
+		TV.DISCOUNT AS DISCOUNT,
+		TV.MEMO AS MEMO,
+		TV.DUE_DATE AS DUE_DATE,
+		TV.PAYMENT_TERMS AS PAYMENT_TERMS,
+		TV.DEBIT AS DEBIT,
+		TV.CREDIT AS CREDIT,
 		CASE WHEN
 		TV.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE FALSE
-		END ,
-		TV.REFERENCE,
-		TV.TRANSACTION_ID,
+		END AS IS_VOID,
+		TV.REFERENCE AS REFERENCE,
+		TV.TRANSACTION_ID AS T_ID,
 		(SELECT
 		SUM(TV1.INVOICED_OR_TRANSASCTION_AMOUNT)-
 		SUM(TV1.PAID_AMOUNT) FROM
@@ -943,8 +981,8 @@
 		TV1.VENDOR_ID = TV.VENDOR_ID AND
 		TV1.DATE
 		BETWEEN :start AND :end GROUP
-		BY TV1.VENDOR_ID),
-		TV.PAYMENT_STATUS,
+		BY TV1.VENDOR_ID) AS DIFF_AMOUNT,
+		TV.PAYMENT_STATUS AS PAYMENT_STATUS,
 		A.NAME AS ACCOUNT
 
 		FROM
@@ -1069,13 +1107,25 @@
 	<sql-query name="getBalanceSheet">
 		<query-param name="companyId" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="P_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />		
+		<return-scalar column="FLOW" type="encryptedstring" />
+		<return-scalar column="BASE_TYPE" type="int" />
+		<return-scalar column="SUB_BASE_TYPE" type="int" />
+		<return-scalar column="GROUP_TYPE" type="int" />
 		SELECT
-		A.ID,
-		A.NAME,
-		A.A_NUMBER,
-		A.A_TYPE,
-		A.CASHFLOW_CATEGORY,
-		A.PARENT_ID,
+		A.ID AS ID,
+		A.NAME AS NAME,
+		A.A_NUMBER AS NUMBER,
+		A.A_TYPE AS TYPE,
+		A.CASHFLOW_CATEGORY AS CATEGORY,
+		A.PARENT_ID AS P_ID,
 		(CASE
 		WHEN (SELECT COUNT(AT1.ACCOUNT_ID) FROM
 		ACCOUNT_TRANSACTION AT1
