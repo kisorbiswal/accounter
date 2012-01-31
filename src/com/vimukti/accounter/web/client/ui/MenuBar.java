@@ -695,6 +695,8 @@ public class MenuBar {
 			}
 			vendorMenuBar.addSeparatorItem();
 		}
+		vendorMenuBar.addMenuItem(messages.buildAssembly(),
+				HistoryTokens.BUILD_ASSEMBLY);
 		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
 				.get().Vendor())));
 

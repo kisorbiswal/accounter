@@ -45,8 +45,9 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 		boolean sellProducts = company.getPreferences().isSellProducts();
 		if (getPreferences().isInventoryEnabled()) {
 			if (sellProducts && sellServices) {
-				typeRadio.setValueMap(messages.serviceItem(),
-						messages.inventoryItem(), messages.nonInventoryItem());
+				typeRadio.setValue(messages.serviceItem(),
+						messages.inventoryItem(), messages.nonInventoryItem(),
+						messages.inventoryAssembly());
 				typeRadio.setDefaultValue(messages.serviceItem());
 			} else if (sellProducts) {
 				typeRadio.setValueMap(messages.inventoryItem(),
@@ -108,6 +109,11 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setDependent(isDependent);
 				action.setType(ClientItem.TYPE_NON_INVENTORY_PART);
 				action.setCallback(getCallback());
+				action.setItemText(itemname);
+				action.run();
+			} else if (radio.equals(messages.inventoryAssembly())) {
+				InventoryAssemblyAction action = new InventoryAssemblyAction();
+				action.setDependent(isDependent);
 				action.setItemText(itemname);
 				action.run();
 			}

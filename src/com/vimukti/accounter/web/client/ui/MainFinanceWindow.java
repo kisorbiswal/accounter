@@ -904,6 +904,9 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getDepositAction().getHistoryToken(),
 				ActionFactory.getDepositAction());
+
+		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
+				ActionFactory.getBuildAssemblyAction());
 	}
 
 	public ClientCompany getCompany() {
