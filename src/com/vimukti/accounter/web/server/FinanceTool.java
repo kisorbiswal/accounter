@@ -41,6 +41,7 @@ import org.hibernate.dialect.EncryptedStringType;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccountTransaction;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
@@ -1334,11 +1335,15 @@ public class FinanceTool {
 		for (Long account : parents) {
 
 			Session session = HibernateUtil.getCurrentSession();
-			Query query = session.getNamedQuery("getAccountRegister")
+			Query query = session
+					.getNamedQuery("getAccountRegister")
 					.setParameter("companyId", companyId)
 					.setParameter("accountId", account)
 					.setParameter("startDate", startDate.getDate())
-					.setParameter("endDate", endDate.getDate());
+					.setParameter("endDate", endDate.getDate())
+					.setParameter("openingBalance",
+							AccounterServerConstants.OPENING_BALANCE,
+							EncryptedStringType.INSTANCE);
 
 			List l = query.list();
 

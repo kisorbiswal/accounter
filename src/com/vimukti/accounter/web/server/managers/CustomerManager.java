@@ -463,6 +463,10 @@ public class CustomerManager extends PayeeManager {
 					paymentsList.setTransactionId((object[0] == null ? 0
 							: ((Long) object[0])));
 					paymentsList.setType((Integer) object[1]);
+					int tr_t = paymentsList.getType();
+					if (tr_t == 17 || tr_t == 30 || tr_t == 31) {
+						name = Global.get().messages().taxAgencyPayment();
+					}
 					paymentsList.setPaymentDate((object[2] == null ? null
 							: (new ClientFinanceDate(((Long) object[2])))));
 					paymentsList.setPaymentNumber((object[3] == null ? null

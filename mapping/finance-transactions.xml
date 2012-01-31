@@ -114,7 +114,7 @@
 				column="TAX_AGENCY_ID">
 			</many-to-one>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<list name="transactionPayTAX" cascade="save-update,delete-orphan">
 				<key column="PAY_TAX_ID" />
 				<list-index column="IDX" />
@@ -164,7 +164,7 @@
 			</many-to-one>
 			<property name="endingBalance" column="ENDING_BALANCE"></property>
 			<property name="isEdited" column="IS_EDITED"></property>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<list name="transactionReceiveVAT" cascade="save-update,delete">
 				<key column="RECEIVE_VAT_ID" />
 				<list-index column="IDX" />
@@ -205,7 +205,7 @@
 				column="EMPLOYEE">
 			</many-to-one>
 			<!-- <property name="employeeName" column="EMPLOYEE_NAME" type="string"></property> -->
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="expenseStatus" column="EXPENSE_STATUS"></property>
@@ -288,7 +288,7 @@
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
 				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
@@ -335,7 +335,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID"></many-to-one>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<component name="address" class="Address">
 				<property name="type" column="CPP_ADDRESS_TYPE"></property>
 				<property name="address1" column="CPP_ADDRESS_ADDRESS1"
@@ -372,7 +372,7 @@
 			<property name="isPaid" column="IS_PAID"></property>
 			<property name="payments" column="PAYMENTS"></property>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 		</joined-subclass>
 		<joined-subclass name="EnterBill" table="ENTER_BILL">
 			<key column="ID" />
@@ -612,7 +612,7 @@
 				<list-index column="IDX" />
 				<one-to-many class="TransactionPayBill" />
 			</list>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="isAmountIncludeTDS" column="IS_AMOUNT_INCLUDE_TDS"></property>
 		</joined-subclass>
 		<joined-subclass name="PurchaseOrder" table="PURCHASE_ORDER">
@@ -749,7 +749,7 @@
 			<many-to-one name="depositIn" class="Account" cascade="save-update"
 				column="ACCOUNT_ID">
 			</many-to-one>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<property name="unUsedCredits" column="UNUSED_CREDITS"></property>
 			<property name="unUsedPayments" column="UNUSED_PAYMENTS"
 				lazy="true"></property>
@@ -881,7 +881,7 @@
 		<joined-subclass name="WriteCheck" table="WRITE_CHECKS">
 			<key column="ID" />
 			<property name="payToType" column="PAY_TO_TYPE"></property>
-			<property name="inFavourOf" column="IN_FAVOUR_OF"></property>
+			<property name="inFavourOf" column="IN_FAVOUR_OF" type="encryptedstring"></property>
 			<many-to-one name="bankAccount" class="Account" cascade="save-update"
 				column="ACCOUNT_ID">
 			</many-to-one>
@@ -911,7 +911,7 @@
 				column="SALES_PERSON_ID">
 			</many-to-one>
 			<property name="inWords" column="IN_WORDS"></property>
-			<property name="checkNumber" column="CHECK_NUMBER"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 		</joined-subclass>
 		<!-- <joined-subclass name="TransferFund" table="TRANSFER_FUND"> <key column="ID" 
 			/> <many-to-one name="transferFrom" class="Account" cascade="save-update" 

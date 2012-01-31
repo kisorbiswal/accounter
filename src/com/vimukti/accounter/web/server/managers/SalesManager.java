@@ -357,7 +357,10 @@ public class SalesManager extends Manager {
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
-					.setParameter("locationName", locationName,
+					.setParameter(
+							"locationName",
+							locationName == null || locationName.isEmpty() ? null
+									: locationName,
 							EncryptedStringType.INSTANCE)).list();
 		} else {
 			l = ((Query) session
@@ -365,7 +368,10 @@ public class SalesManager extends Manager {
 					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
-					.setParameter("className", locationName,
+					.setParameter(
+							"className",
+							locationName == null || locationName.isEmpty() ? null
+									: locationName,
 							EncryptedStringType.INSTANCE)).list();
 		}
 

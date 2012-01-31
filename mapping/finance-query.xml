@@ -210,7 +210,7 @@
 		AND
 		T.COMPANY_ID=:companyId
 		AND T.SAVE_STATUS !=
-		202 AND T.SAVE_STATUS != 204 
+		202 AND T.SAVE_STATUS != 204
 		AND T.SAVE_STATUS != 201
 		ORDER BY T.T_DATE
 	</sql-query>
@@ -414,7 +414,8 @@
 		null
 		END AS DUE_DATE ,
 		T.NUMBER AS
-		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE
 		= 28
@@ -682,7 +683,8 @@
 		P.NAME AS
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
-		TRANSACTION_NET_AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		TRANSACTION_NET_AMOUNT,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE = 8
 		THEN
@@ -690,7 +692,8 @@
 		ELSE
 		null
 		END
-		AS DUE_DATE,
+		AS
+		DUE_DATE,
 		T.TOTAL AS TOTAL_PRICE,
 		CASE
 		WHEN
@@ -705,7 +708,8 @@
 		0.0
 		END AS BALANCE,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN
 		TRUE
 		ELSE
@@ -754,15 +758,18 @@
 		1=:viewType THEN
 		(I.BALANCE_DUE
 		&gt;0.0 AND
-		T.STATUS != 2 AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
 		WHEN
 		2=:viewType
 		THEN
 		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate
 		AND
-		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		T.SAVE_STATUS
+		!=204 AND T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS = 204)
+		(T.SAVE_STATUS =
+		204)
 		WHEN 4=:viewType
 		THEN
 		(T.SAVE_STATUS =201)
@@ -774,7 +781,8 @@
 		T.SAVE_STATUS !=202
 		AND
 		T.T_DATE
-		BETWEEN :fromDate AND :toDate
+		BETWEEN
+		:fromDate AND :toDate
 		ORDER BY
 		DUE_DATE
 	</sql-query>
@@ -807,12 +815,14 @@
 		T.TOTAL AS
 		AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE
 		FALSE
 		END AS IS_VOIDED,
-		T.STATUS AS TRANSACTION_STATUS,
+		T.STATUS AS
+		TRANSACTION_STATUS,
 		CASE WHEN
 		T.T_TYPE = 12
 		THEN
@@ -917,11 +927,11 @@
 		15
 		THEN WC.IN_FAVOUR_OF
 		WHEN T.T_TYPE = 17
-		THEN 'TAXAgency Payment'
+		THEN NULL
 		WHEN
 		T.T_TYPE = 30 OR
 		T.T_TYPE=31
-		THEN 'TAXAgency Payment'
+		THEN NULL
 		END AS NAME,
 		T.PAYMENT_METHOD AS
 		PAYMENT_METHOD,
@@ -1137,17 +1147,20 @@
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		PAYMENT_DATE ,
-		T.NUMBER AS TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		T.NUMBER AS TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		T.STATUS AS
 		TRANSACTION_STATUS,
-		T.T_DATE AS ISSUE_DATE ,
+		T.T_DATE AS
+		ISSUE_DATE ,
 		CASE WHEN T.T_TYPE = 15
 		THEN WC.IN_FAVOUR_OF
-		WHEN T.T_TYPE = 17
-		THEN 'Tax Agency Payment'
+		WHEN T.T_TYPE =
+		17
+		THEN NULL
 		WHEN
 		T.T_TYPE = 25
-		THEN 'VAT Agency Payment'
+		THEN NULL
 		WHEN T.T_TYPE=11
 		THEN P.NAME END
 		AS NAME,
@@ -1236,621 +1249,6 @@
 	</sql-query>
 
 	<!-- Queries for retrieving the Make deposit Transctions list -->
-
-	<!-- Start from Here -->
-	<sql-query name="getTransactionMakeDeposit_CashSales">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT
-		CS.ID AS transaction_id,
-		T.T_TYPE AS transaction_type,
-		T.T_DATE AS
-		transaction_date,
-		T.NUMBER AS transaction_number,
-		T.PAYMENT_METHOD AS
-		payment_method_name,
-		P.NAME AS name,
-		T.REFERENCE AS reference,
-		CS.DEPOSIT_IN_ACCOUNT_ID AS cash_account_id,
-		CASE
-		WHEN
-		CS.DEPOSIT_IN_ACCOUNT_ID =
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME =
-		'Un Deposited Funds' AND A.COMPANY_ID=:companyId)
-		THEN T.TOTAL -
-		CASE
-		WHEN (SELECT COUNT(TI.ID) FROM
-		TRANSACTION_ITEM TI
-		LEFT JOIN ITEM I
-		ON
-		TI.ITEM_ID = I.ID
-		WHERE
-		I.INCOME_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT
-		A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID = CS.ID AND I.COMPANY_ID=:companyId) > 0
-		THEN (SELECT
-		SUM(TI.LINE_TOTAL) FROM TRANSACTION_ITEM TI
-		LEFT JOIN
-		ITEM I
-		ON
-		TI.ITEM_ID = I.ID
-		WHERE
-		I.INCOME_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT
-		A WHERE A.NAME = 'Un Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID = CS.ID AND I.COMPANY_ID =:companyId)
-		ELSE 0.0
-		END
-		ELSE
-		CASE
-		WHEN CS.DEPOSIT_IN_ACCOUNT_ID IN (SELECT A.ID FROM
-		ACCOUNT A
-		WHERE
-		A.A_TYPE = 6 AND A.COMPANY_ID=:companyId)
-		THEN CASE
-		WHEN (SELECT
-		COUNT(TI.ID) FROM
-		TRANSACTION_ITEM TI
-		LEFT JOIN ITEM I
-		ON TI.ITEM_ID =
-		I.ID
-		WHERE
-		I.INCOME_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE
-		A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID = CS.ID AND I.COMPANY_ID=:companyId) > 0
-		THEN SELECT
-		(-1 *
-		SUM(TI.LINE_TOTAL)) FROM TRANSACTION_ITEM TI
-		LEFT JOIN
-		ITEM I
-		ON
-		TI.ITEM_ID = I.ID
-		WHERE I.INCOME_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT
-		A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID = CS.ID AND I.COMPANY_ID=:companyId
-		ELSE 0.0
-		END
-		WHEN
-		CS.DEPOSIT_IN_ACCOUNT_ID NOT IN (SELECT A.ID FROM
-		ACCOUNT A WHERE
-		A.A_TYPE = 6 AND A.COMPANY_ID=:companyId)
-		THEN CASE
-		WHEN (SELECT
-		COUNT(TI.ID) FROM
-		TRANSACTION_ITEM TI
-		LEFT JOIN
-		TAXCODE TC
-		ON
-		TI.TAXCODE_ID = TC.ID
-		LEFT
-		JOIN
-		TAXAGENCY TA
-		ON TC.TAXAGENCY_ID = TA.ID
-		WHERE TA.ACCOUNT_ID =
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID =
-		CS.ID AND TC.COMPANY_ID=:companyId) > 0
-		THEN SELECT (-2 *
-		SUM(TI.LINE_TOTAL))
-		FROM TRANSACTION_ITEM TI
-		LEFT JOIN
-		TAXCODE TC
-		ON
-		TI.TAXCODE_ID = TC.ID
-		LEFT JOIN
-		TAXAGENCY TA
-		ON TC.TAXAGENCY_ID = TA.ID
-		WHERE TA.ACCOUNT_ID =
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID =
-		CS.ID AND TC.COMPANY_ID=:companyId
-		ELSE 0.0
-		END
-		ELSE
-		0.0
-		END
-		END AS amount,
-		3 AS type
-		FROM CASH_SALES CS
-		LEFT JOIN
-		TRANSACTION T
-		ON T.ID = CS.ID
-		LEFT
-		JOIN
-		CUSTOMER C
-		ON CS.CUSTOMER_ID = C.ID
-		LEFT JOIN
-		PAYEE P
-		ON P.ID = C.ID
-		WHERE
-		T.IS_DEPOSITED = 'FALSE' AND T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_Invoices">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT T.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, '' AS
-		payment_method_name, P.NAME AS name, T.REFERENCE AS reference, A.ID AS
-		cash_account_id, -1 * SUM(TI.LINE_TOTAL) AS amount, 3 AS type FROM
-		INVOICE I LEFT JOIN TRANSACTION T ON T.ID = I.ID LEFT JOIN
-		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID LEFT JOIN CUSTOMER C
-		ON I.CUSTOMER_ID = C.ID LEFT JOIN ITEM IT ON TI.ITEM_ID = IT.ID LEFT
-		JOIN TAXCODE TC ON TI.TAXCODE_ID = TC.ID LEFT JOIN TAXAGENCY TA ON
-		TA.ID = TC.TAXAGENCY_ID LEFT JOIN PAYEE P ON P.ID = C.ID OR P.ID =
-		TA.ID LEFT JOIN ACCOUNT A ON A.ID = IT.INCOME_ACCOUNT_ID OR A.ID =
-		TA.ACCOUNT_ID WHERE A.NAME = 'Un Deposited Funds' AND T.IS_DEPOSITED =
-		'FALSE' AND T.COMPANY_ID=:companyId GROUP BY I.ID
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_CustomerRefunds">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT T.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, T.PAYMENT_METHOD
-		AS payment_method_name, P.NAME AS name, T.REFERENCE AS reference,
-		CR.PAYFROM_ACCOUNT_ID AS cash_account_id, -1*SUM(T.TOTAL) AS amount, 3
-		AS type FROM CUSTOMER_REFUND CR LEFT JOIN TRANSACTION T ON T.ID =
-		CR.ID LEFT JOIN CUSTOMER C ON C.ID = CR.CUSTOMER_ID LEFT JOIN PAYEE P
-		on P.ID = C.ID WHERE CR.PAYFROM_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT
-		A WHERE A.NAME = 'Un Deposited Funds' ANS A.COMPANY_ID=:companyId) AND
-		T.IS_DEPOSITED = 'FALSE'
-		AND T.COMPANY_ID=:companyId
-		GROUP BY CR.ID
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_CustomerCreditMemos">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT T.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, '' AS
-		payment_method_name, P.NAME AS name, T.REFERENCE AS reference, A.ID AS
-		cash_account_id, SUM(TI.LINE_TOTAL) AS amount, 3 AS type FROM
-		CUSTOMER_CREDIT_MEMO CCM LEFT JOIN TRANSACTION T ON T.ID = CCM.ID LEFT
-		JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID LEFT JOIN
-		CUSTOMER C ON CCM.CUSTOMER_ID = C.ID LEFT JOIN ITEM IT ON TI.ITEM_ID =
-		IT.ID LEFT JOIN TAXCODE TC ON TI.TAXCODE_ID = TC.ID LEFT JOIN
-		TAXAGENCY TA ON TA.ID = TC.TAXAGENCY_ID LEFT JOIN PAYEE P ON P.ID =
-		C.ID OR P.ID = TA.ID LEFT JOIN ACCOUNT A ON A.ID =
-		IT.INCOME_ACCOUNT_ID OR A.ID = TA.ACCOUNT_ID WHERE A.NAME = 'Un
-		Deposited Funds' AND T.IS_DEPOSITED = 'FALSE' AND
-		T.COMPANY_ID=:companyId GROUP BY CCM.ID
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_ReceivePayments">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT RP.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, T.PAYMENT_METHOD
-		AS payment_method_name, P.NAME AS name, T.REFERENCE AS reference,
-		RP.ACCOUNT_ID AS cash_account_id, RP.AMOUNT AS amount, 3 AS type FROM
-		RECEIVE_PAYMENT RP LEFT JOIN TRANSACTION T ON T.ID = RP.ID LEFT JOIN
-		CUSTOMER C ON RP.CUSTOMER_ID = C.ID LEFT JOIN PAYEE P ON P.ID = C.ID
-		WHERE RP.ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId) AND T.IS_DEPOSITED =
-		'FALSE' AND
-		T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_EnterBills">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT T.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, '' AS
-		payment_method_name, P.NAME AS name, T.REFERENCE AS reference,
-		IT.EXPENSE_ACCOUNT_ID AS cash_account_id, SUM(TI.LINE_TOTAL) AS
-		amount, 2 AS type FROM ENTER_BILL EB LEFT JOIN TRANSACTION T ON T.ID =
-		EB.ID LEFT JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID LEFT
-		JOIN VENDOR V ON EB.VENDOR_ID = V.ID LEFT JOIN ITEM IT ON TI.ITEM_ID =
-		IT.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE IT.EXPENSE_ACCOUNT_ID =
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un Deposited Funds' AND
-		A.COMPANY_ID=:companyId) AND
-		T.IS_DEPOSITED = 'FALSE' AND
-		T.COMPANY_ID=:companyId GROUP BY EB.ID
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_VendorCreditMemos">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT T.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, '' AS
-		payment_method_name, P.NAME AS name, T.REFERENCE AS reference,
-		IT.EXPENSE_ACCOUNT_ID AS cash_account_id, -1 * SUM(TI.LINE_TOTAL) AS
-		amount, 2 AS type FROM VENDOR_CREDIT_MEMO VCM LEFT JOIN TRANSACTION T
-		ON T.ID = VCM.ID LEFT JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID =
-		T.ID LEFT JOIN VENDOR V ON VCM.VENDOR_ID = V.ID LEFT JOIN PAYEE P ON
-		P.ID = V.ID LEFT JOIN ITEM IT ON TI.ITEM_ID = IT.ID WHERE
-		IT.EXPENSE_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId) AND T.IS_DEPOSITED =
-		'FALSE' AND
-		T.COMPANY_ID=:companyId GROUP BY VCM.ID
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_VendorPayments">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT PB.ID AS transaction_id, T.T_TYPE AS transaction_type, T.T_DATE
-		AS transaction_date, T.NUMBER AS transaction_number, T.PAYMENT_METHOD
-		AS payment_method_name, P.NAME AS name, T.REFERENCE AS reference,
-		PB.PAYFROM_ID AS cash_account_id, T.TOTAL AS amount, 2 AS type FROM
-		PAY_BILL PB LEFT JOIN TRANSACTION T ON T.ID = PB.ID LEFT JOIN VENDOR V
-		ON PB.VENDOR_ID = V.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE
-		PB.PAYFROM_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId) AND T.IS_DEPOSITED =
-		'FALSE' AND
-		T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_CashPurchases">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT CP.ID AS transaction_id,T.T_TYPE AS transaction_type,T.T_DATE
-		AS transaction_date,T.NUMBER AS transaction_number,T.PAYMENT_METHOD AS
-		payment_method_name,P.NAME AS name,T.REFERENCE as
-		reference,CP.PAYFROM_ACCOUNT_ID AS cash_account_id, CASE WHEN
-		CP.PAYFROM_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId) THEN SELECT -1 *
-		SUM(TI.LINE_TOTAL) FROM
-		TRANSACTION_ITEM TI LEFT JOIN ITEM I ON
-		TI.ITEM_ID = I.ID WHERE
-		I.EXPENSE_ACCOUNT_ID NOT IN (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME =
-		'Un Deposited Funds' AND
-		A.COMPANY_ID=:companyId) AND TI.TRANSACTION_ID = CP.ID AND
-		I.COMPANY_ID=:companyId ELSE SELECT
-		SUM(TI.LINE_TOTAL) FROM
-		TRANSACTION_ITEM TI LEFT JOIN ITEM I ON
-		TI.ITEM_ID = I.ID WHERE
-		I.EXPENSE_ACCOUNT_ID = (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId) AND TI.TRANSACTION_ID =
-		CP.ID AND I.COMPANY_ID=:companyId END AS amount, 2 AS type FROM
-		CASH_PURCHASE CP LEFT JOIN
-		TRANSACTION T ON T.ID = CP.ID LEFT JOIN
-		VENDOR V ON CP.VENDOR_ID =
-		V.ID LEFT JOIN PAYEE P ON P.ID = V.ID WHERE
-		CP.PAYFROM_ACCOUNT_ID IN
-		(SELECT A.ID FROM ACCOUNT A WHERE A.A_TYPE = 6
-		AND A.COMPANY_ID=:companyId) AND T.IS_DEPOSITED =
-		'FALSE' AND
-		T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_CreditCardCharges">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT CCC.ID AS transaction_id,T.T_TYPE AS transaction_type,T.T_DATE
-		AS transaction_date,T.NUMBER AS transaction_number,T.PAYMENT_METHOD AS
-		payment_method_name,P.NAME AS name,T.REFERENCE
-		reference,CCC.PAYFROM_ACCOUNT_ID AS cash_account_id, CASE WHEN
-		CCC.PAYFROM_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE A.NAME =
-		'Un Deposited Funds' AND A.COMPANY_ID =:companyId) THEN SELECT -1 *
-		SUM(TI.LINE_TOTAL) FROM
-		TRANSACTION_ITEM TI LEFT JOIN ITEM I ON
-		TI.ITEM_ID = I.ID WHERE
-		I.EXPENSE_ACCOUNT_ID NOT IN (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME =
-		'Un Deposited Funds' AND A.COMPANY_ID
-		=:companyId) AND TI.TRANSACTION_ID = CCC.ID AND I.COMPANY_ID
-		=:companyId ELSE SELECT
-		SUM(TI.LINE_TOTAL) FROM TRANSACTION_ITEM TI
-		LEFT JOIN ITEM I ON
-		TI.ITEM_ID = I.ID WHERE I.EXPENSE_ACCOUNT_ID =
-		(SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME = 'Un Deposited Funds' AND
-		A.COMPANY_ID =:companyId) AND TI.TRANSACTION_ID =
-		CCC.ID AND
-		I.COMPANY_ID =:companyId END AS amount, 2 AS type FROM
-		CREDIT_CARD_CHARGES CCC LEFT JOIN
-		TRANSACTION T ON T.ID = CCC.ID LEFT
-		JOIN VENDOR V ON CCC.VENDOR_ID =
-		V.ID LEFT JOIN PAYEE P ON P.ID = V.ID
-		WHERE CCC.PAYFROM_ACCOUNT_ID IN
-		(SELECT A.ID FROM ACCOUNT A WHERE
-		A.A_TYPE = 6 AND A.COMPANY_ID =:companyId) AND T.IS_DEPOSITED =
-		'FALSE' AND T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_TransferFunds">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT
-		TF.ID AS transaction_id,
-		T.T_TYPE AS transaction_type,
-		T.T_DATE AS
-		transaction_date,
-		T.NUMBER AS transaction_number,
-		'' AS
-		payment_method_name,
-		'Financial Account' AS name,
-		'' AS reference,
-		A.ID
-		AS cash_account_id,
-		CASE
-		WHEN TF.TRANSFER_FROM = A.ID
-		THEN -1 * T.TOTAL
-		WHEN TF.TRANSFER_TO = A.ID
-		THEN 1 * T.TOTAL
-		else
-		0.0
-		END AS amount,
-		1 AS
-		type
-		FROM TRANSFER_FUND TF
-		LEFT JOIN
-		TRANSACTION T
-		ON T.ID = TF.ID
-		LEFT
-		JOIN
-		ACCOUNT A
-		ON A.ID = TF.TRANSFER_FROM
-		OR A.ID = TF.TRANSFER_TO
-		WHERE
-		A.NAME = 'Un Deposited Funds'
-		AND T.IS_DEPOSITED = 'FALSE' AND
-		T.COMPANY_ID=:companyId
-	</sql-query>
-	<sql-query name="getTransactionMakeDeposit_WriteChecks">
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="transaction_type" type="int" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="encryptedstring" />
-		<return-scalar column="payment_method_name" type="encryptedstring" />
-		<return-scalar column="name" type="encryptedstring" />
-		<return-scalar column="reference" type="encryptedstring" />
-		<return-scalar column="cash_account_id" type="long" />
-		<return-scalar column="amount" type="double" />
-		<return-scalar column="type" type="int" />
-		SELECT
-		WC.ID AS transaction_id,
-		T.T_TYPE AS transaction_type,
-		T.T_DATE AS
-		transaction_date,
-		T.NUMBER AS transaction_number,
-		'' AS
-		payment_method_name,
-		P.NAME AS name,
-		'' AS reference,
-		WC.ACCOUNT_ID as
-		cash_account_id,
-		CASE
-		WHEN WC.PAY_TO_TYPE = 1
-		AND WC.ACCOUNT_ID = (SELECT
-		A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND
-		A.COMPANY_ID=:companyId)
-		THEN SELECT
-		-1*SUM(TI.LINE_TOTAL)
-		FROM
-		TRANSACTION_ITEM TI
-		LEFT JOIN
-		ITEM I
-		ON
-		TI.ITEM_ID = I.ID
-		WHERE
-		I.INCOME_ACCOUNT_ID != (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND TI.TRANSACTION_ID =
-		WC.ID AND I.COMPANY_ID=:companyId
-		WHEN WC.PAY_TO_TYPE = 1
-		AND
-		WC.ACCOUNT_ID != (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		THEN SELECT
-		SUM(TI.LINE_TOTAL)
-		FROM TRANSACTION_ITEM TI
-		LEFT JOIN
-		ITEM I
-		ON TI.ITEM_ID
-		= I.ID
-		WHERE I.INCOME_ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A WHERE
-		A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID = WC.ID AND I.COMPANY_ID=:companyId
-		WHEN
-		WC.PAY_TO_TYPE = 2
-		AND WC.ACCOUNT_ID = (SELECT A.ID FROM ACCOUNT A
-		WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		THEN
-		SELECT -1*SUM(TI.LINE_TOTAL)
-		FROM TRANSACTION_ITEM TI
-		LEFT JOIN
-		ITEM I
-		ON
-		TI.ITEM_ID = I.ID
-		WHERE
-		I.EXPENSE_ACCOUNT_ID != (SELECT A.ID FROM
-		ACCOUNT A WHERE A.NAME =
-		'Un
-		Deposited Funds' AND
-		A.COMPANY_ID=:companyId)
-		AND TI.TRANSACTION_ID = WC.ID AND
-		I.COMPANY_ID=:companyId
-		WHEN WC.PAY_TO_TYPE = 2
-		AND WC.ACCOUNT_ID !=
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND
-		A.COMPANY_ID=:companyId)
-		THEN SELECT SUM(TI.LINE_TOTAL)
-		FROM
-		TRANSACTION_ITEM
-		TI
-		LEFT JOIN
-		ITEM I
-		ON TI.ITEM_ID = I.ID
-		WHERE
-		I.EXPENSE_ACCOUNT_ID =
-		(SELECT A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND A.COMPANY_ID=:companyId)
-		AND
-		TI.TRANSACTION_ID =
-		WC.ID AND I.COMPANY_ID=:companyId
-		WHEN WC.PAY_TO_TYPE = 3
-		AND (SELECT
-		A.A_TYPE
-		FROM ACCOUNT A WHERE A.ID = WC.ACCOUNT_ID AND
-		A.COMPANY_ID=:companyId) != 6
-		THEN SELECT
-		SUM(TI.LINE_TOTAL)
-		FROM
-		TRANSACTION_ITEM TI
-		LEFT JOIN
-		TAXCODE TC
-		ON
-		TI.TAXCODE_ID = TC.ID
-		LEFT JOIN
-		TAXAGENCY TA
-		ON TA.ID = TC.TAXAGENCY_ID
-		WHERE TA.ACCOUNT_ID = (SELECT
-		A.ID FROM ACCOUNT A WHERE A.NAME = 'Un
-		Deposited Funds' AND
-		A.COMPANY_ID=:companyId)
-		AND TI.TRANSACTION_ID = WC.ID AND
-		TC.COMPANY_ID=:companyId
-		ELSE
-		0.0
-		END AS amount,
-		CASE
-		WHEN WC.PAY_TO_TYPE =
-		1
-		THEN 3
-		WHEN WC.PAY_TO_TYPE = 2
-		THEN 2
-		WHEN
-		WC.PAY_TO_TYPE = 3
-		THEN 1
-		END AS
-		type
-		FROM WRITE_CHECKS WC
-		LEFT JOIN
-		TRANSACTION T
-		ON T.ID = WC.ID
-		LEFT JOIN
-		CUSTOMER C
-		ON WC.CUSTOMER_ID =
-		C.ID
-		LEFT JOIN
-		VENDOR V
-		ON WC.VENDOR_ID =
-		V.ID
-		LEFT JOIN
-		TAXAGENCY TA
-		ON
-		WC.TAX_AGENCY_ID = TA.ID
-		LEFT JOIN
-		PAYEE P
-		ON
-		P.ID = C.ID
-		OR P.ID = V.ID
-		OR P.ID = TA.ID
-		WHERE T.IS_DEPOSITED = 'FALSE'
-		AND
-		T.COMPANY_ID=:companyId
-	</sql-query>
 
 	<!-- Ends Here -->
 	<!-- To retrieve the Enter Bills and MakeDeposits Vendor Entry Transasctions 
@@ -2777,54 +2175,6 @@
 		WC.ACCOUNT_ID =:accountId AND T.STATUS = 0 AND T.COMPANY_ID=:companyId
 	</sql-query>
 
-	<sql-query name="getPaySalesTaxEntriesList">
-
-		<query-param name="month" type="int" />
-		<query-param name="year" type="int" />
-		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="string" />
-		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="taxcode_name" type="encryptedstring" />
-		<return-scalar column="taxagency_name" type="encryptedstring" />
-		<return-scalar column="balance" type="double" />
-
-		SELECT T.ID AS transaction_id,T.T_DATE AS transaction_date,
-		TC.NAME AS
-		taxcode_name,P.NAME AS taxagency_name, SUM(PT.BALANCE) AS
-		balance
-		FROM
-		PAY_TAX_ENTRIES PT
-		LEFT OUTER JOIN TAXCODE TC
-		ON
-		PT.TAXCODE_ID =
-		TC.ID
-		LEFT OUTER JOIN TAXAGENCY TA
-		ON PT.TAXAGENCY_ID =
-		TA.ID
-		LEFT OUTER
-		JOIN
-		PAYEE P
-		ON P.ID = TA.ID
-		LEFT OUTER JOIN TRANSACTION
-		T
-		ON
-		PT.TRANSACTION_ID
-		= T.ID
-		WHERE MONTH(T.T_DATE) &lt;=:month AND
-		T.COMPANY_ID=:companyId AND
-		YEAR(T.T_DATE) =:year AND PT.BALANCE
-		!= 0.0
-		AND TA.ACCOUNT_ID !=
-		(SELECT
-		ID FROM ACCOUNT WHERE NAME = 'Un
-		Deposited
-		Funds' AND
-		COMPANY_ID=:companyId) GROUP BY
-		TA.ID,PT.TRANSACTION_ID
-		ORDER BY TA.ID
-
-	</sql-query>
-
 	<sql-query name="getNextTransactionNumber">
 
 		<query-param name="type" type="int" />
@@ -3223,7 +2573,8 @@
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PURCHASE_ORDER PO
 		ON
 		A.ID = PO.SHIP_TO_ID
@@ -3251,15 +2602,18 @@
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON A.ID =
 		TMD.ACCOUNT_ID
-		OR A.ID =
+		OR
+		A.ID =
 		TMD.CASH_ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_PAYBILL TPB
-		ON A.ID =
+		ON A.ID
+		=
 		TPB.DISCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_RECEIVE_PAYMENT TRP
-		ON A.ID =
+		ON A.ID
+		=
 		TRP.DISCOUNT_ID
 		OR A.ID =
 		TRP.WRITE_OFF_ID
@@ -3971,7 +3325,8 @@
 		MD.DEPOSIT_TO
 		LEFT OUTER JOIN
 		TRANSACTION_DEPOSIT_ITEM TDI ON
-		A.ID =TDI.ACCOUNT_ID
+		A.ID
+		=TDI.ACCOUNT_ID
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
@@ -4723,8 +4078,7 @@
 
 		CASE
 		WHEN T.T_TYPE =11 AND PB.PAYBILL_TYPE=2 THEN
-		'Supplier
-		PrePayment'
+		NULL
 		ELSE
 		T.MEMO
 		END as MEMO,
@@ -4795,7 +4149,7 @@
 		left outer join
 		TRANSACTION_MAKE_DEPOSIT TMD
 		on TMD.TRANSACTION_ID=TF.ID
-		and TMD.IS_NEW_ENTRY = 'TRUE'
+		and TMD.IS_NEW_ENTRY = TRUE
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -4804,7 +4158,8 @@
 		JOURNAL_ENTRY JE
 		ON JE.ID=T.ID AND
 		(SELECT
-		PY.TYPE FROM PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
+		PY.TYPE FROM
+		PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
 
@@ -5360,7 +4715,7 @@
 		left outer join
 		TRANSACTION_MAKE_DEPOSIT TMD
 		on TMD.TRANSACTION_ID=TF.ID
-		and TMD.IS_NEW_ENTRY = 'TRUE'
+		and TMD.IS_NEW_ENTRY = TRUE
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -5369,7 +4724,8 @@
 		JOURNAL_ENTRY JE
 		ON JE.ID=T.ID AND
 		(SELECT
-		PY.TYPE FROM PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
+		PY.TYPE FROM
+		PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
 
@@ -5382,40 +4738,48 @@
 		left outer
 		join
 		CUSTOMER C
-		on C.ID = CS.CUSTOMER_ID or C.ID =
+		on C.ID
+		= CS.CUSTOMER_ID or C.ID =
 		CCM.CUSTOMER_ID or
 		C.ID =
-		I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or
+		I.CUSTOMER_ID or
+		C.ID = CR.CUSTOMER_ID or
 		C.ID = RP.CUSTOMER_ID
 		or
 		C.ID
 		=
-		TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
+		TMD.CUSTOMER_ID or
+		C.ID = WC.CUSTOMER_ID
 		or C.ID = JE.PAYEE_ID
 		or C.ID =
 		CPP.CUSTOMER_ID
 		left outer join
 		PAYMENTTERMS PT
 		on PT.ID =
-		EB.PAYMENT_TERM_ID or PT.ID = I.PAYMENT_TERMS_ID
+		EB.PAYMENT_TERM_ID or PT.ID =
+		I.PAYMENT_TERMS_ID
 
 		left outer
 		join
 		VENDOR
 		V
-		on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID =
+		on V.ID = CP.VENDOR_ID or V.ID
+		= VCM.VENDOR_ID or V.ID =
 		EB.VENDOR_ID
 		or
-		V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID or V.ID =
+		V.ID = PB.VENDOR_ID or V.ID =
+		TMD.VENDOR_ID or V.ID =
 		CCC.VENDOR_ID
 		or
-		V.ID = WC.VENDOR_ID or V.ID = JE_PAYEE_ID
+		V.ID = WC.VENDOR_ID or V.ID =
+		JE_PAYEE_ID
 
 		left outer
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by T.ID
+		P.ID = C.ID OR P.ID = V.ID OR
+		P.ID=JE.PAYEE_ID order by T.ID
 
 	</sql-query>
 
@@ -6508,11 +5872,12 @@
 		PAYEE P ON P.ID = C.ID
 
 		WHERE P.COMPANY_ID=:companyId AND (CASE WHEN
-		:number = '' OR :number IS NULL
+		:number IS NULL
 		THEN FALSE
 		ELSE C.NUMBER =:number
 		END OR
-		P.NAME =:name) AND P.ID !=:id
+		P.NAME =:name)
+		AND P.ID !=:id
 
 	</sql-query>
 
@@ -6530,8 +5895,7 @@
 
 		FROM FIXED_ASSET FA
 
-		WHERE FA.COMPANY_ID=:companyId AND (CASE WHEN
-		:number = '' OR :number
+		WHERE FA.COMPANY_ID=:companyId AND (CASE WHEN :number
 		IS NULL
 		THEN FALSE
 		ELSE FA.ASSET_NUMBER =:number
@@ -7091,8 +6455,6 @@
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
-		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
 		<return-scalar column="PREVOIUS_TWO_DAYS_BACK_AMOUNT"
@@ -7102,17 +6464,12 @@
 		<return-scalar column="CURRENT_DAY_AMOUNT" type="double" />
 
 		SELECT
-		CASE
-		WHEN A.A_TYPE = 2 THEN
-		'Bank Account'
-		END AS ACCOUNT_TYPE,
-
-		A.NAME AS ACCOUNT_NAME,
-
 		A.TOTAL_BALANCE - CASE WHEN (SELECT
-		SUM(AT.AMOUNT) FROM ACCOUNT_TRANSACTION AT
+		SUM(AT.AMOUNT) FROM
+		ACCOUNT_TRANSACTION AT
 		LEFT OUTER JOIN TRANSACTION
-		T ON T.ID = AT.TRANSACTION_ID
+		T ON T.ID =
+		AT.TRANSACTION_ID
 		WHERE AT.ACCOUNT_ID = A.ID AND T.T_DATE
 		&gt;:previousThreeDaysBackDateCal
 		GROUP BY A.ID) IS NOT NULL
@@ -7431,16 +6788,18 @@
 		T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
-	
+
 	<sql-query name="canDeleteTAXReturn">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_PAY_ID" type="long" />
-		
+
 		SELECT TPT.ID AS TRANSACTION_PAY_ID FROM TRANSACTION_PAY_TAX TPT
-		LEFT JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
-		LEFT JOIN TRANSACTION T ON T.ID=PT.ID 
+		LEFT
+		JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
+		LEFT JOIN TRANSACTION T ON
+		T.ID=PT.ID
 		WHERE TPT.VAT_RETURN_ID=:inputId AND T.COMPANY_ID=:companyId
 	</sql-query>
 
@@ -7466,33 +6825,34 @@
 		(CASE
 		WHEN :logoutOrLogin
 		THEN
-		(AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+		(AT.ACTIVITY_TYPE=0 OR AT.ACTIVITY_TYPE=1)
 		END
 		OR
 		CASE
 		WHEN
 		:preferences
-		THEN AT.ACTIVITY_TYPE='5'
+		THEN AT.ACTIVITY_TYPE=5
 		END
 		OR
 		CASE
 		WHEN :transactions
 		THEN
-		(AT.OBJECT_TYPE BETWEEN '1' AND '30')
+		(AT.OBJECT_TYPE
+		BETWEEN 1 AND 30)
 		END
 		OR
 		CASE
 		WHEN :budgets
 		THEN
-		AT.OBJECT_TYPE='81'
+		AT.OBJECT_TYPE=81
 		END
 		OR
 		CASE
 		WHEN :reconciliations
 		THEN
-		AT.OBJECT_TYPE='82'
+		AT.OBJECT_TYPE=82
 		END)
-		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
+		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE=83 END -->
 		AND
 		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
 		AND
@@ -7522,33 +6882,33 @@
 		WHERE
 		(CASE
 		WHEN :logoutOrLogin
-		THEN (AT.ACTIVITY_TYPE='0' OR AT.ACTIVITY_TYPE='1')
+		THEN (AT.ACTIVITY_TYPE=0 OR AT.ACTIVITY_TYPE=1)
 		END
 		OR
 		CASE
 		WHEN
 		:preferences
-		THEN AT.ACTIVITY_TYPE='5'
+		THEN AT.ACTIVITY_TYPE=5
 		END
 		OR
 		CASE
 		WHEN :transactions
 		THEN
-		(AT.OBJECT_TYPE BETWEEN '1' AND '30')
+		(AT.OBJECT_TYPE BETWEEN 1 AND 30)
 		END
 		OR
 		CASE
 		WHEN :budgets
 		THEN
-		AT.OBJECT_TYPE='81'
+		AT.OBJECT_TYPE=81
 		END
 		OR
 		CASE
 		WHEN :reconciliations
 		THEN
-		AT.OBJECT_TYPE='82'
+		AT.OBJECT_TYPE=82
 		END)
-		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE='83' END -->
+		<!-- OR CASE WHEN :recurringTransactions THEN AT.OBJECT_TYPE=83 END -->
 		AND
 		(AT.TIME_STAMP BETWEEN :fromDate AND :endDate)
 		AND
@@ -7732,7 +7092,8 @@
 		<return-scalar column="AMOUNT" type="double" />
 
 		SELECT AT.TRANSACTION_ID,
-		CASE WHEN A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN
+		CASE WHEN
+		A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN
 		SUM(AT.AMOUNT/T.CURRENCY_FACTOR) ELSE
 		SUM(AT.AMOUNT) END AS AMOUNT
 		FROM
@@ -7845,7 +7206,8 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		SELECT
 		SUM(TRC.VAT_AMOUNT) AS TAX_AMOUNT,
-		SUM(TRC.LINE_TOTAL) AS NET_AMOUNT,
+		SUM(TRC.LINE_TOTAL) AS
+		NET_AMOUNT,
 		TAXI.TAX_RATE AS TAX_RATE,
 		T.T_TYPE AS TRANSACTION_TYPE
 
@@ -8038,8 +7400,8 @@
 
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.supportUser">
 		<return-scalar column="COMPANY_ID" type="long" />
-		<return-scalar column="TRADING_NAME" type="encryptedstring" />
-		<return-scalar column="REGISTRED_COUNTRY" type="encryptedstring" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="REGISTRED_COUNTRY" type="string" />
 		SELECT
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
@@ -8060,8 +7422,8 @@
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
 		<query-param name="userIds" type="long" />
 		<return-scalar column="COMPANY_ID" type="long" />
-		<return-scalar column="TRADING_NAME" type="encryptedstring" />
-		<return-scalar column="REGISTRED_COUNTRY" type="encryptedstring" />
+		<return-scalar column="TRADING_NAME" type="string" />
+		<return-scalar column="REGISTRED_COUNTRY" type="string" />
 		SELECT
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
@@ -13086,9 +12448,11 @@
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
-		T.T_DATE AS PAYMENT_DATE,
+		T.T_DATE AS
+		PAYMENT_DATE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.STATUS AS TRANSACTION_STATUS,
+		T.STATUS AS
+		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE,
 		P.NAME AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
@@ -13099,81 +12463,15 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		WC.CHECK_NUMBER AS CHECK_NUMBER,
+		WC.CHECK_NUMBER
+		AS CHECK_NUMBER,
 		T.CURRENCY AS CURRENCY
-		
-		FROM WRITE_CHECKS WC
-		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
-		LEFT JOIN PAYEE P ON (P.ID=WC.VENDOR_ID)
 
-		WHERE T.COMPANY_ID=:companyId AND
-		CASE
-		WHEN
-		0=:viewType THEN
-		((T.STATUS=0 OR
-		T.STATUS=1 )AND T.SAVE_STATUS != 204
-		AND
-		T.SAVE_STATUS!=201)
-		WHEN
-		2=:viewType THEN
-		(T.STATUS=2
-		AND
-		T.SAVE_STATUS != 204 AND
-		T.SAVE_STATUS!=201)
-		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS = 204)
-		WHEN
-		4=:viewType THEN
-		(T.SAVE_STATUS = 201)
-		ELSE
-		true
-		END
-		AND T.SAVE_STATUS != 202
-		AND P.ID IS NOT NULL AND
-		T.T_DATE
-		BETWEEN
-		:fromDate AND :toDate
-	</sql-query>
-	
-	<sql-query name="getCustomerWriteChecks">
-		<query-param name="companyId" type="long" />
-		<query-param name="fromDate" type="long" />
-		<query-param name="toDate" type="long" />
-		<query-param name="viewType" type="int" />
-		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="PAYMENT_DATE" type="long" />
-		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		<return-scalar column="ISSUE_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="PAYMENT_METHOD" type="encryptedstring" />
-		<return-scalar column="AMOUNT_PAID" type="double" />
-		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
-		<return-scalar column="CURRENCY" type="long" />
-		SELECT
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.T_DATE AS PAYMENT_DATE,
-		T.NUMBER AS TRANSACTION_NUMBER,
-		T.STATUS AS TRANSACTION_STATUS,
-		T.T_DATE AS ISSUE_DATE,
-		P.NAME AS NAME,
-		T.PAYMENT_METHOD AS PAYMENT_METHOD,
-		T.TOTAL AS AMOUNT_PAID,
-		CASE WHEN
-		T.SAVE_STATUS = 204
-		THEN TRUE
-		ELSE
-		FALSE
-		END AS ISVOIDED,
-		WC.CHECK_NUMBER AS CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
-		
 		FROM WRITE_CHECKS WC
-		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
-		LEFT JOIN PAYEE P ON (P.ID=WC.CUSTOMER_ID)
+		LEFT JOIN
+		TRANSACTION T ON T.ID = WC.ID
+		LEFT JOIN PAYEE
+		P ON (P.ID=WC.VENDOR_ID)
 
 		WHERE T.COMPANY_ID=:companyId AND
 		CASE
@@ -13210,6 +12508,88 @@
 		AND :toDate
 	</sql-query>
 
+	<sql-query name="getCustomerWriteChecks">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="viewType" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="PAYMENT_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="ISSUE_DATE" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="PAYMENT_METHOD" type="encryptedstring" />
+		<return-scalar column="AMOUNT_PAID" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
+		<return-scalar column="CURRENCY" type="long" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_DATE AS
+		PAYMENT_DATE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.STATUS AS
+		TRANSACTION_STATUS,
+		T.T_DATE AS ISSUE_DATE,
+		P.NAME AS NAME,
+		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.TOTAL AS AMOUNT_PAID,
+		CASE WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		WC.CHECK_NUMBER
+		AS CHECK_NUMBER,
+		T.CURRENCY AS CURRENCY
+
+		FROM WRITE_CHECKS WC
+		LEFT JOIN
+		TRANSACTION T ON T.ID = WC.ID
+		LEFT JOIN PAYEE
+		P ON (P.ID=WC.CUSTOMER_ID)
+
+		WHERE T.COMPANY_ID=:companyId AND
+		CASE
+		WHEN
+		0=:viewType THEN
+		((T.STATUS=0
+		OR
+		T.STATUS=1 )AND T.SAVE_STATUS != 204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN
+		2=:viewType THEN
+		(T.STATUS=2
+		AND
+		T.SAVE_STATUS
+		!=
+		204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		(T.SAVE_STATUS =
+		204)
+		WHEN
+		4=:viewType THEN
+		(T.SAVE_STATUS = 201)
+		ELSE
+		true
+		END
+		AND
+		T.SAVE_STATUS
+		!=
+		202
+		AND P.ID IS NOT NULL AND
+		T.T_DATE
+		BETWEEN
+		:fromDate
+		AND :toDate
+	</sql-query>
+
 	<sql-query name="getDepositsList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -13233,8 +12613,10 @@
 		T.TOTAL AS AMOUNT,
 		T.CURRENCY AS CURRENCY
 
-		FROM MAKE_DEPOSIT MD LEFT JOIN TRANSACTION T ON T.ID = MD.ID LEFT JOIN
-		ACCOUNT A ON A.ID = MD.DEPOSIT_TO
+		FROM MAKE_DEPOSIT MD LEFT JOIN
+		TRANSACTION T ON T.ID = MD.ID LEFT JOIN
+		ACCOUNT A ON A.ID =
+		MD.DEPOSIT_TO
 
 		WHERE
 		T.COMPANY_ID= :companyId AND
@@ -13250,7 +12632,8 @@
 		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS !=
+		204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
@@ -13260,13 +12643,14 @@
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS != 202
+		AND T.SAVE_STATUS
+		!= 202
 		AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
-	
+
 	<sql-query name="getTransfersList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -13292,9 +12676,11 @@
 		T.TOTAL AS AMOUNT,
 		T.CURRENCY AS CURRENCY
 
-		FROM TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON T.ID = TF.ID LEFT JOIN
+		FROM
+		TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON T.ID = TF.ID LEFT JOIN
 		ACCOUNT A1 ON A1.ID = TF.DEPOSIT_IN_ID
-		LEFT JOIN ACCOUNT A2 ON A2.ID = TF.DEPOSIT_FROM_ID
+		LEFT JOIN ACCOUNT A2 ON A2.ID =
+		TF.DEPOSIT_FROM_ID
 
 		WHERE
 		T.COMPANY_ID= :companyId AND
@@ -13309,17 +12695,20 @@
 		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS
+		!= 204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS = 204)
+		(T.SAVE_STATUS =
+		204)
 		WHEN
 		4=:viewType THEN
 		(T.SAVE_STATUS = 201)
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS != 202
+		AND
+		T.SAVE_STATUS != 202
 		AND
 		T.T_DATE
 		BETWEEN

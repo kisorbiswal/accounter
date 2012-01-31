@@ -1967,7 +1967,10 @@ public class FixedAsset extends CreatableObject implements
 		Query query = session
 				.getNamedQuery("getFixedAssets")
 				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
-				.setParameter("number", this.assetNumber,
+				.setParameter(
+						"number",
+						this.assetNumber == null || this.assetNumber.isEmpty() ? null
+								: this.assetNumber,
 						EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID())
 				.setParameter("companyId", fixedAsset.getCompany().getID());

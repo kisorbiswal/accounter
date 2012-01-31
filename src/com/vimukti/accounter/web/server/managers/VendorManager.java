@@ -563,7 +563,8 @@ public class VendorManager extends PayeeManager {
 					issuePaymentTransaction.setDate(new ClientFinanceDate(pst
 							.getDate().getDate()));
 					issuePaymentTransaction.setNumber(pst.getNumber());
-					issuePaymentTransaction.setName("TaxAgency Payment");
+					issuePaymentTransaction.setName(Global.get().messages()
+							.taxAgencyPayment());
 					// issuePaymentTransaction.setMemo(pst.getMemo());
 					issuePaymentTransaction.setAmount(pst.getTotal());
 					issuePaymentTransaction.setPaymentMethod(pst
@@ -988,8 +989,15 @@ public class VendorManager extends PayeeManager {
 
 					PaymentsList vendorPaymentsList = new PaymentsList();
 					object = (Object[]) iterator.next();
-
+					vendorPaymentsList.setType((Integer) object[1]);
 					String name = (String) object[6];
+					if (vendorPaymentsList.getType() == 17) {
+						name = Global.get().messages().taxAgencyPayment();
+					}
+					if (vendorPaymentsList.getType() == 25) {
+						name = Global.get().messages().vatAgencyPayment();
+					}
+
 					if (name != null) {
 
 						vendorPaymentsList

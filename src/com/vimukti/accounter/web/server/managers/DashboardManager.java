@@ -91,11 +91,10 @@ public class DashboardManager extends Manager {
 
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
-
+				gPoints.add(object[0] == null ? 0 : (Double) object[0]);
+				gPoints.add(object[1] == null ? 0 : (Double) object[1]);
 				gPoints.add(object[2] == null ? 0 : (Double) object[2]);
 				gPoints.add(object[3] == null ? 0 : (Double) object[3]);
-				gPoints.add(object[4] == null ? 0 : (Double) object[4]);
-				gPoints.add(object[5] == null ? 0 : (Double) object[5]);
 
 			}
 		}

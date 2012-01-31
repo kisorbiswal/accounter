@@ -21,6 +21,7 @@ import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -338,6 +339,12 @@ public class InventoryManager extends Manager {
 					// vendorPaymentsList.setIssuedDate(new
 					// ClientFinanceDate(
 					// (Long) object[5]));
+					if (vendorPaymentsList.getType() == 17) {
+						name = Global.get().messages().taxAgencyPayment();
+					}
+					if (vendorPaymentsList.getType() == 25) {
+						name = Global.get().messages().vatAgencyPayment();
+					}
 					vendorPaymentsList.setCustomerName(name);
 					vendorPaymentsList.setSpentAmount((Double) object[8]);
 					vendorPaymentsList.setCurrency((Long) object[12]);

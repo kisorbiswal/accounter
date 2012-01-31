@@ -14,7 +14,7 @@
 		<property name="baseType" column="BASE_TYPE"></property>
 		<property name="subBaseType" column="SUB_BASE_TYPE"></property>
 		<property name="groupType" column="GROUP_TYPE"></property>
-		<property name="number" column="A_NUMBER"></property>
+		<property name="number" column="A_NUMBER" type="encryptedstring"></property>
 		<property name="name" not-null="true" type="encryptedstring"
 			column="NAME"></property>
 		<property name="isActive" column="IS_ACTIVE"></property>
@@ -1535,7 +1535,7 @@
 		</many-to-one>
 		<property name="name" type="encryptedstring" not-null="true"
 			column="NAME"></property>
-		<property name="vatBox" type="encryptedstring" column="VAT_BOX"></property>
+		<property name="vatBox" column="VAT_BOX"></property>
 		<property name="totalBox" type="encryptedstring" column="TOTAL_BOX"></property>
 		<property name="vatReturnType" column="VAT_RETURN_TYPE"></property>
 	</class>

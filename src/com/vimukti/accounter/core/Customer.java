@@ -486,8 +486,10 @@ public class Customer extends Payee implements IAccounterServerCore,
 		Query query = session
 				.getNamedQuery("getCustomers")
 				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
-				.setParameter("number", this.number,
-						EncryptedStringType.INSTANCE)
+				.setParameter(
+						"number",
+						this.number == null || this.number.isEmpty() ? null
+								: this.number, EncryptedStringType.INSTANCE)
 				.setLong("id", this.getID())
 				.setParameter("companyId", customer.getCompany().getID());
 

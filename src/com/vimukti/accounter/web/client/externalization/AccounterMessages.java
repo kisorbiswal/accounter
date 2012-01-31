@@ -5408,4 +5408,8 @@ public interface AccounterMessages extends Messages {
 
 	public String enableEncryption();
 
+	public String taxAgencyPayment();
+
+	public String vatAgencyPayment();
+
 }

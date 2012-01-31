@@ -254,7 +254,7 @@ T.STATUS as PAYMENT_STATUS
 	    on T.ID=TF.ID
     left outer join 
 	TRANSACTION_MAKE_DEPOSIT TMD
-	    on TMD.TRANSACTION_ID=TF.ID and TMD.IS_NEW_ENTRY = 'TRUE'
+	    on TMD.TRANSACTION_ID=TF.ID and TMD.IS_NEW_ENTRY = TRUE
     left outer join
         WRITE_CHECKS WC 
             on T.ID=WC.ID

@@ -502,7 +502,8 @@ public class ReportManager extends Manager {
 
 			transactionDetailByAccount
 					.setTotal(object[6] != null ? (Double) object[6] : 0.0);
-			transactionDetailByAccount.setMemo((String) object[7]);
+			transactionDetailByAccount.setMemo(object[7] == null ? ""
+					: (String) object[7]);
 			transactionMakeDepositsList.add(transactionDetailByAccount);
 
 		}
@@ -1691,7 +1692,7 @@ public class ReportManager extends Manager {
 			checkDetail.setPayeeName((String) object[5]);
 			checkDetail.setAccountName((String) object[6]);
 			checkDetail.setAmount((Double) object[7]);
-			checkDetail.setMemo((String) object[8]);
+			checkDetail.setMemo(object[8] == null ? "" : (String) object[8]);
 
 			queryResult.add(checkDetail);
 

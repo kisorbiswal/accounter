@@ -1265,47 +1265,6 @@
 		and at.transaction.company=:company
 	</query>
 
-	<query
-		name="getTAXRateCalculation.checkingby.salesLiabilityAccountName.taxDue">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXRateCalculation
-		pst where
-		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
-		Funds' and
-		pst.transaction != null and pst.taxDue != 0 and
-		pst.transaction.company=:company
-		order by
-		pst.taxAgency.id,
-		pst.taxItem.id
-	</query>
-
-	<query name="getTAXRateCalculation.between.startDate.endDate">
-		<query-param name="company" type="Company" />
-		<query-param name="startDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="taxAgency" type="long" />
-		from com.vimukti.accounter.core.TAXRateCalculation
-		pst where
-		pst.taxAgency.id=:taxAgency and
-		pst.taxAgency.salesLiabilityAccount.name != 'Un Deposited
-		Funds' and
-		pst.transaction != null and pst.taxDue != 0 and
-		pst.transaction.company=:company and
-		pst.transaction.transactionDate
-		between :startDate and
-		:endDate
-		order by pst.taxItem.id
-	</query>
-
-	<query
-		name="getTAXAdjustment.checkingby.salesLiabilityAccount.nameandbalanceDue">
-		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.TAXAdjustment t where
-		t.taxAgency.salesLiabilityAccount.name != 'Un Deposited Funds' and
-		t.balanceDue != 0 and t.company=:company order by
-		t.taxAgency.id
-	</query>
-
 	<query name="getTAXAdjustment.checkingby.transactionDate">
 		<query-param name="endDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="company" type="Company" />
