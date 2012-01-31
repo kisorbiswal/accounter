@@ -3,14 +3,9 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -20,7 +15,7 @@ import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 public class PurchaseOrderListView extends
 		TransactionsListView<PurchaseOrdersList> {
 
-	private PurchaseDetailesView purchaseDetailView;
+	// private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
 
 	// private static String CANCELLED = "Cancelled";
@@ -80,39 +75,19 @@ public class PurchaseOrderListView extends
 
 	}
 
-	@Override
-	protected void onAttach() {
-		purchaseDetailView = new PurchaseDetailesView();
-		gridLayout.add(purchaseDetailView);
-		gridLayout.setCellWidth(purchaseDetailView, "30%");
-		super.onAttach();
-	}
-
-	@Override
-	protected void onDetach() {
-		gridLayout.remove(purchaseDetailView);
-		super.onDetach();
-	}
-
-	public void onClick(PurchaseOrdersList obj) {
-		AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
-
-			@Override
-			public void onResultSuccess(IAccounterCore result) {
-				if (result != null)
-					purchaseDetailView
-							.setObjValues((ClientPurchaseOrder) result);
-			}
-
-			@Override
-			public void onException(AccounterException caught) {
-
-			}
-		};
-		rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-				obj.getTransactionId(), callbackforsalesOrder);
-
-	}
+	// @Override
+	// protected void onAttach() {
+	// purchaseDetailView = new PurchaseDetailesView();
+	// gridLayout.add(purchaseDetailView);
+	// gridLayout.setCellWidth(purchaseDetailView, "30%");
+	// super.onAttach();
+	// }
+	//
+	// @Override
+	// protected void onDetach() {
+	// gridLayout.remove(purchaseDetailView);
+	// super.onDetach();
+	// }
 
 	@Override
 	public void onSuccess(PaginationList<PurchaseOrdersList> result) {
@@ -141,47 +116,47 @@ public class PurchaseOrderListView extends
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(purchaseOrder);
-					if (grid.getRecords().isEmpty()) {
-						purchaseDetailView.itemsGrid.clear();
-						purchaseDetailView.itemsGrid.addEmptyMessage(messages
-								.noRecordsToShow());
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// purchaseDetailView.itemsGrid.clear();
+					// purchaseDetailView.itemsGrid.addEmptyMessage(messages
+					// .noRecordsToShow());
+					// }
 					continue;
 				}
 				if (text.equals(messages.completed())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(purchaseOrder);
-					if (grid.getRecords().isEmpty()) {
-						if (purchaseDetailView.itemsGrid != null) {
-							purchaseDetailView.itemsGrid.clear();
-							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages.noRecordsToShow());
-						}
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// if (purchaseDetailView.itemsGrid != null) {
+					// purchaseDetailView.itemsGrid.clear();
+					// purchaseDetailView.itemsGrid
+					// .addEmptyMessage(messages.noRecordsToShow());
+					// }
+					// }
 					continue;
 				}
 				if (text.equals(messages.cancelled())) {
 					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(purchaseOrder);
-					if (grid.getRecords().isEmpty()) {
-						if (purchaseDetailView.itemsGrid != null) {
-							purchaseDetailView.itemsGrid.clear();
-							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages.noRecordsToShow());
-						}
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// if (purchaseDetailView.itemsGrid != null) {
+					// purchaseDetailView.itemsGrid.clear();
+					// purchaseDetailView.itemsGrid
+					// .addEmptyMessage(messages.noRecordsToShow());
+					// }
+					// }
 					continue;
 				}
 				if (text.equalsIgnoreCase(messages.drafts())) {
 					if (purchaseOrder.getStatus() == VIEW_DRAFT)
 						grid.addData(purchaseOrder);
-					if (grid.getRecords().isEmpty()) {
-						if (purchaseDetailView.itemsGrid != null) {
-							purchaseDetailView.itemsGrid.clear();
-							purchaseDetailView.itemsGrid
-									.addEmptyMessage(messages.noRecordsToShow());
-						}
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// if (purchaseDetailView.itemsGrid != null) {
+					// purchaseDetailView.itemsGrid.clear();
+					// purchaseDetailView.itemsGrid
+					// .addEmptyMessage(messages.noRecordsToShow());
+					// }
+					// }
 					continue;
 				}
 			}
@@ -189,11 +164,11 @@ public class PurchaseOrderListView extends
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
-		if (purchaseDetailView.itemsGrid != null)
-			if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-				purchaseDetailView.itemsGrid.addEmptyMessage(messages
-						.noRecordsToShow());
-			}
+		// if (purchaseDetailView.itemsGrid != null)
+		// if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
+		// purchaseDetailView.itemsGrid.addEmptyMessage(messages
+		// .noRecordsToShow());
+		// }
 	}
 
 	@Override
@@ -216,29 +191,30 @@ public class PurchaseOrderListView extends
 		return true;
 	}
 
-	@Override
-	protected void onLoad() {
-		if (grid.getSelection() != null) {
-			AccounterAsyncCallback<IAccounterCore> callbackforpurchaseOrder = new AccounterAsyncCallback<IAccounterCore>() {
-
-				@Override
-				public void onResultSuccess(IAccounterCore result) {
-					if (result != null)
-						purchaseDetailView
-								.setObjValues((ClientPurchaseOrder) result);
-				}
-
-				@Override
-				public void onException(AccounterException caught) {
-
-				}
-			};
-			rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-					((PurchaseOrdersList) grid.getSelection())
-							.getTransactionId(), callbackforpurchaseOrder);
-		}
-		super.onLoad();
-	}
+	// @Override
+	// protected void onLoad() {
+	// if (grid.getSelection() != null) {
+	// AccounterAsyncCallback<IAccounterCore> callbackforpurchaseOrder = new
+	// AccounterAsyncCallback<IAccounterCore>() {
+	//
+	// @Override
+	// public void onResultSuccess(IAccounterCore result) {
+	// if (result != null)
+	// purchaseDetailView
+	// .setObjValues((ClientPurchaseOrder) result);
+	// }
+	//
+	// @Override
+	// public void onException(AccounterException caught) {
+	//
+	// }
+	// };
+	// rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
+	// ((PurchaseOrdersList) grid.getSelection())
+	// .getTransactionId(), callbackforpurchaseOrder);
+	// }
+	// super.onLoad();
+	// }
 
 	@Override
 	protected String getViewTitle() {

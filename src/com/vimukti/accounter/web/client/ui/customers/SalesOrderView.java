@@ -1352,7 +1352,8 @@ public class SalesOrderView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		ClientTransactionItem item = new ClientTransactionItem();
-		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
+		if (item.getInvoiced() != null
+				&& !DecimalUtil.isEquals(item.getInvoiced(), 0)) {
 			customerCombo.setDisabled(isInViewMode());
 		} else {
 			customerCombo.setDisabled(true);

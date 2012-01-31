@@ -169,6 +169,8 @@ public class PurchaseOrderView extends
 
 		vatTotalNonEditableText = new TaxItemsForm();
 
+		discountField = getDiscountField();
+
 		// vendorCombo =
 		// createVendorComboItem(messages.vendorName());
 
@@ -185,8 +187,8 @@ public class PurchaseOrderView extends
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
 			DynamicForm form = new DynamicForm();
+			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
-				taxCodeSelect = createTaxCodeSelectItem();
 				form.setFields(taxCodeSelect);
 			}
 			form.setFields(vatinclusiveCheck);
@@ -890,6 +892,15 @@ public class PurchaseOrderView extends
 				break;
 			}
 			initAccounterClass();
+
+			if (transaction.getTransactionItems() != null) {
+				if (isTrackDiscounts()) {
+					if (!isDiscountPerDetailLine()) {
+						this.discountField.setAmount(getdiscount(transaction
+								.getTransactionItems()));
+					}
+				}
+			}
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
@@ -1151,6 +1162,12 @@ public class PurchaseOrderView extends
 
 		if (isTrackTax()) {
 			setAmountIncludeTAX();
+		}
+
+		if (discountField.getAmount() != 0.0 && transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setDiscount(discountField.getAmount());
+			}
 		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
