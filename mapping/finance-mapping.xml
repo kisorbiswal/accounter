@@ -2211,7 +2211,7 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="startBalance" column="STARTING_BALANCE"></property>
 		<property name="closingBalance" column="CLOSING_BALANCE"></property>
-
+		<property name="isReconciled" column="IS_RECONCILED"></property>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID"></many-to-one>
 		<many-to-one name="reconciliation" class="Reconciliation"
 			column="RECONCILIATION_ID"></many-to-one>
