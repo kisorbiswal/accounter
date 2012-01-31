@@ -19,15 +19,6 @@ public abstract class TextAreaEditColumn<T> extends TextEditColumn<T> {
 				updateHeight(textArea.getElement());
 			}
 		});
-		// textArea.addKeyUpHandler(new KeyUpHandler() {
-		//
-		// @Override
-		// public void onKeyUp(KeyUpEvent event) {
-		// updateHeight(textArea.getElement());
-		// }
-		//
-		// });
-
 		return textArea;
 	}
 

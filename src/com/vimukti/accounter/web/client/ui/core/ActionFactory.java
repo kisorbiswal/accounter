@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
@@ -1423,4 +1424,7 @@ public class ActionFactory {
 		return new DepositAction();
 	}
 
+	public static BuildAssemblyAction getBuildAssemblyAction() {
+		return new BuildAssemblyAction();
+	}
 }
