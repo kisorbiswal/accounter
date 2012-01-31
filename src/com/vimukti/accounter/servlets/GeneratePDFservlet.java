@@ -543,7 +543,13 @@ public class GeneratePDFservlet extends BaseServlet {
 				return;
 
 			String brandingThemeId = request.getParameter("brandingThemeId");
-			int type = Integer.valueOf(request.getParameter("type"));
+
+			String typeStr = request.getParameter("type");
+			int type = 0;
+			if (typeStr != null) {
+				type = Integer.valueOf(typeStr);
+			}
+
 			FinanceTool financetool = new FinanceTool();
 			if (brandingThemeId != null) {
 				// If branding theme is valid, then check for isCustomFile.If
