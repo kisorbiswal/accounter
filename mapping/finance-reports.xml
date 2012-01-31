@@ -687,6 +687,24 @@
 		<query-param name="vendorName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+			
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="PURCHASE_DESCRIPTION" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />  
+		 
+		 
 		SELECT NAME , TYPE, DATE, NUMBER, PAYMENT_TERMS, DUE_DATE,
 		ITEM_NAME,
 		PURCHASE_DESCRIPTION, QUANTITY, UNIT_PRICE, AMOUNT,
@@ -703,6 +721,12 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+			
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="AMOUNT" type="double" />
+		 
+		 
 		SELECT NAME , SUM(AMOUNT) FROM
 		SALES_PURCHASES_VIEW WHERE
 		VENDOR_ID IS
@@ -717,6 +741,24 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+			<return-scalar column="ITEM_TYPE" type="int" />
+			<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+			<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		 <return-scalar column="DISCOUNT" type="double" />
+		<return-scalar column="UNIT" type="long" />  
+		 
+		 
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, NUMBER, DATE, PAYMENT_TERMS,
 		DUE_DATE, QUANTITY, UNIT_PRICE, AMOUNT, SHIPMENT_OR_DELIVERY_DATE ,
 		REFERENCE, TRANSACTION_ID,DISCOUNT, UNIT FROM
@@ -731,6 +773,22 @@
 		<query-param name="itemName" type="String" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+			<return-scalar column="ITEM_TYPE" type="int" />
+			<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="DUE_DATE" type="long" />
+			<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT_PRICE" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
+		<return-scalar column="REFERENCE" type="encryptedstring" />
+		 <return-scalar column="TRANSACTION_ID" type="long" />
+		 <return-scalar column="DISCOUNT" type="double" />
+		
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, NUMBER, DATE, PAYMENT_TERMS,
 		DUE_DATE, QUANTITY, UNIT_PRICE, AMOUNT, SHIPMENT_OR_DELIVERY_DATE ,
 		REFERENCE, TRANSACTION_ID ,DISCOUNT FROM
@@ -750,6 +808,11 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="AMOUNT" type="double" />
+		
 		SELECT ITEM_NAME, SUM(QUANTITY) AS QUANTITY,
 		SUM(AMOUNT) AS AMOUNT
 		FROM
