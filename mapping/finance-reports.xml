@@ -1073,13 +1073,26 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="startDate1" type="long" />
 		<query-param name="endDate1" type="long" />
+		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="P_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />		
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		<return-scalar column="FLOW" type="encryptedstring" />
+		<return-scalar column="BASE_TYPE" type="int" />
+		<return-scalar column="SUB_BASE_TYPE" type="int" />
+		<return-scalar column="GROUP_TYPE" type="int" />
 		SELECT
-		A.ID,
-		A.NAME,
-		A.A_NUMBER,
-		A.A_TYPE,
-		A.CASHFLOW_CATEGORY,
-		A.PARENT_ID,
+		A.ID AS IS,
+		A.NAME AS NAME,
+		A.A_NUMBER AS NUMBER,
+		A.A_TYPE AS TYPE,
+		A.CASHFLOW_CATEGORY AS CATOGERY,
+		A.PARENT_ID AS P_ID,
 		(CASE
 		WHEN (SELECT COUNT(AT1.ACCOUNT_ID)
 		FROM
@@ -1165,76 +1178,33 @@
 		A.A_NUMBER
 	</sql-query>
 
-
-	<!--This Profit And Loss report query included the Closing Postings. -->
-	<!--This query should be used for the Balance Sheet Report(while clicking 
-		Net Income entry). -->
-	<sql-query name="getProfitAndLoss_Closing_postings_Included">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		SELECT
-		A.ID,A.NAME,
-		A.A_NUMBER,
-		A.A_TYPE,
-		A.CASHFLOW_CATEGORY,
-		A.PARENT_ID,
-		(CASE
-		WHEN (SELECT COUNT(AT1.ACCOUNT_ID) FROM
-		ACCOUNT_TRANSACTION AT1
-		join TRANSACTION T1
-		ON AT1.TRANSACTION_ID=T1.ID
-		WHERE AT1.ACCOUNT_ID=A.ID
-		AND AT1.IS_CASH_BASIS_ENTRY=FALSE
-		AND
-		T1.T_DATE BETWEEN :startDate AND :endDate
-		AND
-		AT1.COMPANY_ID=:companyId)=0
-		THEN
-		0
-		ELSE (SELECT SUM(AT.AMOUNT) FROM
-		ACCOUNT_TRANSACTION AT
-		join
-		TRANSACTION T
-		ON AT.TRANSACTION_ID=T.ID
-		WHERE
-		AT.ACCOUNT_ID =A.ID
-		AND AT.COMPANY_ID=:companyId AND
-		AT.IS_CASH_BASIS_ENTRY=FALSE
-		AND T.T_DATE BETWEEN
-		:startDate AND
-		:endDate
-		GROUP BY AT.ACCOUNT_ID) END) AS AMOUNT,
-		A.FLOW AS FLOW,
-		A.BASE_TYPE AS BASE_TYPE,
-		A.SUB_BASE_TYPE AS
-		SUB_BASE_TYPE,
-		A.GROUP_TYPE AS GROUP_TYPE FROM
-		ACCOUNT A WHERE
-		A.A_TYPE
-		IN (14,15,16,17,18)
-		and A.BASE_TYPE !=0
-		ORDER BY A.BASE_TYPE,
-		A.SUB_BASE_TYPE,
-		A.GROUP_TYPE,
-		A.A_TYPE,
-		A.A_NUMBER
-	</sql-query>
-
-
 	<sql-query name="getCashFlowStatement">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
+		
+		<return-scalar column="ID" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="P_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />		
+		<return-scalar column="CASH_AT_BEGINNING_OF_PERIOD" type="double" />
+		<return-scalar column="FLOW" type="encryptedstring" />
+		<return-scalar column="BASE_TYPE" type="int" />
+		<return-scalar column="SUB_BASE_TYPE" type="int" />
+		<return-scalar column="GROUP_TYPE" type="int" />
+		
 		SELECT
-		A.ID,
-		A.NAME,
-		A.A_NUMBER,
-		A.A_TYPE,
-		A.CASHFLOW_CATEGORY,
-		A.PARENT_ID,
+		A.ID AS ID,
+		A.NAME AS NAME,
+		A.A_NUMBER AS NUMBER,
+		A.A_TYPE AS TYPE,
+		A.CASHFLOW_CATEGORY AS CATEGORY,
+		A.PARENT_ID AS P_ID,
 		(CASE
 		WHEN (SELECT COUNT(AT1.ACCOUNT_ID) FROM
 		ACCOUNT_TRANSACTION AT1
@@ -1414,6 +1384,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
 		<return-scalar column="CUSTOMER" type="encryptedstring" />
 		<return-scalar column="CONTACT" type="encryptedstring" />
 		<return-scalar column="PHONE" type="encryptedstring" />
@@ -1527,6 +1498,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
 		<return-scalar column="VENDOR" type="encryptedstring" />
 		<return-scalar column="CONTACT" type="encryptedstring" />
 		<return-scalar column="PHONE" type="encryptedstring" />
@@ -1639,6 +1611,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="FILE_AS" type="encryptedstring" />
 		<return-scalar column="IS_ACTIVE" type="boolean" />
@@ -1698,6 +1671,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="INVOICED_AMOUNT" type="double" />
 		<return-scalar column="STANDARD_COST" type="double" />
@@ -1940,13 +1914,13 @@
 		<query-param name="taxItemName" type="String" />
 
 		<return-scalar column="transaction_id" type="long" />
-		<return-scalar column="payee_name" type="string" />
-		<return-scalar column="taxagency_name" type="string" />
-		<return-scalar column="taxItem_name" type="string" />
+		<return-scalar column="payee_name" type="encryptedstring" />
+		<return-scalar column="taxagency_name" type="encryptedstring" />
+		<return-scalar column="taxItem_name" type="encryptedstring" />
 		<return-scalar column="rate" type="double" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="string" />
+		<return-scalar column="transaction_number" type="encryptedstring" />
 		<return-scalar column="memo" type="string" />
 		<return-scalar column="taxable_amount" type="double" />
 		<return-scalar column="sales_tax" type="double" />
@@ -2069,12 +2043,13 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="openingBalance" type="encryptedString" />
+		
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_AMOUNT" type="double" />
 		<return-scalar column="PAY_TO" type="string" />
-		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="ACCOUNT" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="BALANCE" type="double" />
@@ -2297,8 +2272,7 @@
 
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ITEM_TYPE" type="int" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="ITEM_ID" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 
 		select
 		DISTINCT(IT.ID) AS ITEM_ID,
@@ -2344,8 +2318,7 @@
 
 		<return-scalar column="ITEM_ID" type="long" />
 		<return-scalar column="ITEM_TYPE" type="int" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="ITEM_ID" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 
 		select
 		DISTINCT(IT.ID) AS ITEM_ID,
@@ -2391,8 +2364,7 @@
 		<query-param name="endDate" type="long" />
 
 		<return-scalar column="CUSTOMER_ID" type="long" />
-		<return-scalar column="CUSTOMER_NAME" type="string" />
-		<return-scalar column="CUSTOMER_ID" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 
 		select
 		DISTINCT(C.ID) AS CUSTOMER_ID,
@@ -2459,8 +2431,7 @@
 		<query-param name="endDate" type="long" />
 
 		<return-scalar column="VENDOR_ID" type="string" />
-		<return-scalar column="VENDOR_NAME" type="string" />
-		<return-scalar column="VENDOR_ID" type="string" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 
 		select
 		DISTINCT(V.ID) AS VENDOR_ID,
@@ -2522,11 +2493,11 @@
 		<query-param name="endDate" type="long" />
 
 
-		<return-scalar column="payee_name" type="string" />
+		<return-scalar column="payee_name" type="encryptedstring" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="string" />
+		<return-scalar column="transaction_number" type="encryptedstring" />
 		<return-scalar column="transaction_total" type="double" />
 		<return-scalar column="memo" type="string" />
 
@@ -2613,12 +2584,12 @@
 		<query-param name="endDate" type="long" />
 
 
-		<return-scalar column="account_name" type="string" />
-		<return-scalar column="payee_name" type="string" />
+		<return-scalar column="account_name" type="encryptedstring" />
+		<return-scalar column="payee_name" type="encryptedstring" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="string" />
+		<return-scalar column="transaction_number" type="encryptedstring" />
 		<return-scalar column="amount" type="double" />
 		<return-scalar column="memo" type="string" />
 
@@ -2750,12 +2721,12 @@
 		<query-param name="endDate" type="long" />
 
 
-		<return-scalar column="account_name" type="string" />
-		<return-scalar column="payee_name" type="string" />
+		<return-scalar column="account_name" type="encryptedstring" />
+		<return-scalar column="payee_name" type="encryptedstring" />
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="transaction_type" type="int" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="transaction_number" type="string" />
+		<return-scalar column="transaction_number" type="encryptedstring" />
 		<return-scalar column="amount" type="double" />
 		<return-scalar column="memo" type="string" />
 		SELECT A.NAME AS ACCOUNT_NAME,
@@ -2879,6 +2850,14 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring"" />
+		<return-scalar column="ACCOUNT_NUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_TYPE" type="int" />
+		<return-scalar column="LOCATION_ID" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="P_ID" type="long" />
 		SELECT
 		A.ID AS ACCOUNT_ID,
 		A.NAME AS ACCOUNT_NAME,
@@ -2924,7 +2903,7 @@
 		GROUP BY
 		AT.ACCOUNT_ID)
 		END) AS AMOUNT,
-		A.PARENT_ID
+		A.PARENT_ID AS P_ID
 		FROM ACCOUNT_TRANSACTION AT
 		LEFT
 		OUTER JOIN ACCOUNT A ON
@@ -2952,363 +2931,6 @@
 		A.A_TYPE,A.ID
 
 	</sql-query>
-	<!-- 11 Queries for TransactionDetailByAccount Report for all Accounts -->
-	<!--<sql-query name="getTransactionDetailByAccount_CashPurchase"> <query-param 
-		name="startDate" type="String" /> <query-param name="endDate" type="String" 
-		/> <return-scalar column="account_name" type="string"/> <return-scalar column="name" 
-		type="string"/> <return-scalar column="transaction_id" type="long"/> <return-scalar 
-		column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,tItem.line_total as amount from cash_purchase c left 
-		outer join transaction t on c.id = t.id left outer join transaction_item 
-		tItem on tItem.transaction_id = t.id left outer join vendor v on v.id = c.vendor_id 
-		left outer join payee p on p.id = v.id left outer join account a on a.id 
-		= tItem.account_id or a.id = c.payfrom_account_id left outer join item i 
-		on a.id = i.expense_account_id and tItem.item_id = i.id where T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CashSale"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from cash_sales cs left outer 
-		join transaction t on cs.id = t.id left outer join transaction_item ti on 
-		ti.transaction_id = t.id left outer join customer c on c.id = cs.customer_id 
-		left outer join payee p on p.id = c.id left outer join account a on a.id 
-		= ti.account_id or a.id = cs.deposit_in_account_id left outer join item i 
-		on a.id = i.income_account_id and i.id = ti.item_id left outer join taxagency 
-		ta on a.id = ta.account_id left outer join taxcode tc on tc.id = ti.taxcode_id 
-		and tc.taxagency_id = ta.id left outer join tax_rate_calculation trc on trc.transaction_item_id 
-		= ti.id and ta.id = trc.taxagency_id where T.T_DATE BETWEEN :startDate AND 
-		:endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CreditCardCharge"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from credit_card_charges ccc 
-		left outer join transaction t on t.id = ccc.id left outer join transaction_item 
-		ti on ti.transaction_id = t.id left outer join vendor v on v.id = ccc.vendor_id 
-		left outer join payee p on p.id = v.id left outer join account a on a.id 
-		= ti.account_id or a.id = ccc.payfrom_account_id left outer join item i on 
-		a.id = i.expense_account_id and i.id = ti.item_id where T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CustomerCreditMemo"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from customer_credit_memo ccm 
-		left outer join transaction t on t.id = ccm.id left outer join transaction_item 
-		ti on ti.transaction_id = t.id left outer join customer c on c.id = ccm.customer_id 
-		left outer join payee p on p.id = c.id left outer join account a on a.id 
-		= ti.account_id or a.id = cmp.accounts_receivable_id left outer join item 
-		i on a.id = i.income_account_id and i.id = ti.item_id left outer join taxagency 
-		ta on a.id = ta.account_id left outer join taxcode tc on tc.id = ti.taxcode_id 
-		and tc.taxagency_id = ta.id left outer join tax_rate_calculation trc on trc.transaction_item_id 
-		= ti.id and ta.id = trc.taxagency_id where T.T_DATE BETWEEN :startDate AND 
-		:endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_EnterBill"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from enter_bill eb left outer 
-		join transaction t on eb.id = t.id left outer join transaction_item ti on 
-		ti.transaction_id = t.id left outer join vendor v on v.id = eb.vendor_id 
-		left outer join payee p on p.id = v.id left outer join account a on a.id 
-		= ti.account_id or a.id = cmp.accounts_payable_id left outer join item i 
-		on a.id = i.expense_account_id and i.id = ti.item_id where T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_Invoice"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from invoice in left outer 
-		join transaction t on t.id = in.id left outer join transaction_item ti on 
-		ti.transaction_id = t.id left outer join customer c on c.id = in.customer_id 
-		left outer join payee p on p.id = c.id left outer join account a on a.id 
-		= ti.account_id or a.id = cmp.accounts_receivable_id left outer join item 
-		i on a.id = i.income_account_id and i.id = ti.item_id left outer join taxagency 
-		ta on a.id = ta.account_id left outer join taxcode tc on tc.id = ti.taxcode_id 
-		and tc.taxagency_id = ta.id left outer join tax_rate_calculation trc on trc.transaction_item_id 
-		= ti.id and a.id = trc.taxagency_id where T.T_DATE BETWEEN :startDate AND 
-		:endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_JournalEntry"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,e.debit - e.credit as amount from journal_entry je 
-		left outer join transaction t on t.id = je.id left outer join entry e on 
-		e.transaction_id = t.id left outer join customer c on c.id = e.customer_id 
-		left outer join vendor v on v.id = e.vendor_id left outer join payee p on 
-		p.id = v.id or p.id = c.id left outer join taxcode tc on tc.id = e.taxcode_id 
-		left outer join entry e1 on e1.transaction_id = je.id and e1.id !=e.id join 
-		account a on a.id = e1.account_id where e.type in (2,3) and T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_PayBill"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, case when 
-		(select pb.paybill_type from pay_bill pb where pb.id = tpb.transaction_id) 
-		= 1 then select p.name from vendor v left outer join payee p on p.id = v.id 
-		left outer join enter_bill eb on eb.vendor_id = v.id left outer join transaction_paybill 
-		tpb on tpb.enter_bill_id = eb.id where tpb.transaction_id = t.id else select 
-		p.name from vendor v left outer join payee p on p.id = v.id left outer join 
-		pay_bill pb on p.id = pb.vendor_id where pb.id = t.id end as name, t.id as 
-		transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,tpb.payment as amount from transaction_paybill tpb 
-		left outer join pay_bill pb on pb.id = tpb.transaction_id left outer join 
-		transaction t on t.id = tpb.transaction_id left outer join account a on a.id 
-		= cmp.accounts_payable_id where T.T_DATE BETWEEN :startDate AND :endDate 
-		order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_ReceivePayment"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,trp.payment as amount from transaction_receive_payment 
-		trp left outer join receive_payment rp on trp.transaction_id = rp.id left 
-		outer join transaction t on trp.transaction_id = t.id left outer join customer 
-		c on c.id = rp.customer_id left outer join payee p on p.id = c.id left outer 
-		join account a on a.id = cmp.accounts_receivable_id or a.id = trp.discount_id 
-		or a.id = trp.write_off_id or a.id = rp.account_id or a.id = cmp.accounts_receivable_id 
-		where T.T_DATE BETWEEN :startDate AND :endDate order by a.name </sql-query> 
-		<sql-query name="getTransactionDetailByAccount_VendorCreditMemo"> <query-param 
-		name="startDate" type="String" /> <query-param name="endDate" type="String" 
-		/> <return-scalar column="account_name" type="string"/> <return-scalar column="name" 
-		type="string"/> <return-scalar column="transaction_id" type="long"/> <return-scalar 
-		column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name as 
-		name, t.id as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from vendor_credit_memo vcm 
-		left outer join transaction t on t.id = vcm.id left outer join transaction_item 
-		ti on ti.transaction_id = t.id left outer join vendor v on v.id = vcm.vendor_id 
-		left outer join payee p on p.id = v.id left outer join account a on a.id 
-		= ti.account_id or a.id = cmp.accounts_payable_id left outer join item i 
-		on a.id = i.expense_account_id and i.id = ti.item_id where T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_WriteCheck"> 
-		<query-param name="startDate" type="String" /> <query-param name="endDate" 
-		type="String" /> <return-scalar column="account_name" type="string"/> <return-scalar 
-		column="name" type="string"/> <return-scalar column="transaction_id" type="long"/> 
-		<return-scalar column="transaction_type" type="int"/> <return-scalar column="transaction_date" 
-		type="date"/> <return-scalar column="transaction_number" type="long"/> <return-scalar 
-		column="amount" type="double"/> select a.name as account_name, p.name, t.id 
-		as transaction_id, t.t_type as transaction_type, t.t_date as transaction_date,t.number 
-		as transaction_number,ti.line_total as amount from write_checks wc left outer 
-		join transaction t on t.id = wc.id left outer join transaction_item ti on 
-		ti.transaction_id = t.id left outer join customer c on c.id = wc.customer_id 
-		left outer join vendor v on v.id = wc.vendor_id left outer join account a 
-		on a.id = ti.account_id or a.id = wc.account_id left outer join item i on 
-		a.id = i.income_account_id and i.id = ti.item_id left outer join taxagency 
-		ta on a.id = ta.account_id and ta.id = wc.tax_agency_id left outer join payee 
-		p on p.id = v.id or p.id = c.id or p.id = ta.id left outer join taxcode tc 
-		on tc.id = ti.taxcode_id and tc.taxagency_id = ta.id where T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> 11 Queries from Here 
-		for TransactionDetailByAccount Report for Particular Account <sql-query name="getTransactionDetailByAccount_CashPurchase_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,tItem.line_total 
-		as amount from cash_purchase c left outer join transaction t on c.id = t.id 
-		left outer join transaction_item tItem on tItem.transaction_id = t.id left 
-		outer join vendor v on v.id = c.vendor_id left outer join payee p on p.id 
-		= v.id left outer join account a on a.id = tItem.account_id or a.id = c.payfrom_account_id 
-		left outer join item i on a.id = i.expense_account_id and tItem.item_id = 
-		i.id where a.name=:accountName AND T.T_DATE BETWEEN :startDate AND :endDate 
-		order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CashSale_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from cash_sales cs left outer join transaction t on cs.id = t.id 
-		left outer join transaction_item ti on ti.transaction_id = t.id left outer 
-		join customer c on c.id = cs.customer_id left outer join payee p on p.id 
-		= c.id left outer join account a on a.id = ti.account_id or a.id = cs.deposit_in_account_id 
-		left outer join item i on a.id = i.income_account_id and i.id = ti.item_id 
-		left outer join taxagency ta on a.id = ta.account_id left outer join taxcode 
-		tc on tc.id = ti.taxcode_id and tc.taxagency_id = ta.id left outer join tax_rate_calculation 
-		trc on trc.transaction_item_id = ti.id and ta.id = trc.taxagency_id where 
-		a.name=:accountName AND T.T_DATE BETWEEN :startDate AND :endDate order by 
-		a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CreditCardCharge_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from credit_card_charges ccc left outer join transaction t on t.id 
-		= ccc.id left outer join transaction_item ti on ti.transaction_id = t.id 
-		left outer join vendor v on v.id = ccc.vendor_id left outer join payee p 
-		on p.id = v.id left outer join account a on a.id = ti.account_id or a.id 
-		= ccc.payfrom_account_id left outer join item i on a.id = i.expense_account_id 
-		and i.id = ti.item_id where a.name=:accountName AND T.T_DATE BETWEEN :startDate 
-		AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_CustomerCreditMemo_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from customer_credit_memo ccm left outer join transaction t on 
-		t.id = ccm.id left outer join transaction_item ti on ti.transaction_id = 
-		t.id left outer join customer c on c.id = ccm.customer_id left outer join 
-		payee p on p.id = c.id left outer join account a on a.id = ti.account_id 
-		or a.id = cmp.accounts_receivable_id left outer join item i on a.id = i.income_account_id 
-		and i.id = ti.item_id left outer join taxagency ta on a.id = ta.account_id 
-		left outer join taxcode tc on tc.id = ti.taxcode_id and tc.taxagency_id = 
-		ta.id left outer join tax_rate_calculation trc on trc.transaction_item_id 
-		= ti.id and ta.id = trc.taxagency_id where a.name=:accountName AND T.T_DATE 
-		BETWEEN :startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_EnterBill_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from enter_bill eb left outer join transaction t on eb.id = t.id 
-		left outer join transaction_item ti on ti.transaction_id = t.id left outer 
-		join vendor v on v.id = eb.vendor_id left outer join payee p on p.id = v.id 
-		left outer join account a on a.id = ti.account_id or a.id = cmp.accounts_payable_id 
-		left outer join item i on a.id = i.expense_account_id and i.id = ti.item_id 
-		where a.name=:accountName AND T.T_DATE BETWEEN :startDate AND :endDate order 
-		by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_Invoice_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from invoice in left outer join transaction t on t.id = in.id left 
-		outer join transaction_item ti on ti.transaction_id = t.id left outer join 
-		customer c on c.id = in.customer_id left outer join payee p on p.id = c.id 
-		left outer join account a on a.id = ti.account_id or a.id = cmp.accounts_receivable_id 
-		left outer join item i on a.id = i.income_account_id and i.id = ti.item_id 
-		left outer join taxagency ta on a.id = ta.account_id left outer join taxcode 
-		tc on tc.id = ti.taxcode_id and tc.taxagency_id = ta.id left outer join tax_rate_calculation 
-		trc on trc.transaction_item_id = ti.id and a.id = trc.taxagency_id where 
-		a.name=:accountName AND T.T_DATE BETWEEN :startDate AND :endDate order by 
-		a.name </sql-query> <sql-query name="getTransactionDetailByAccount_JournalEntry_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,e.debit 
-		- e.credit as amount from journal_entry je left outer join transaction t 
-		on t.id = je.id left outer join entry e on e.transaction_id = t.id left outer 
-		join customer c on c.id = e.customer_id left outer join vendor v on v.id 
-		= e.vendor_id left outer join payee p on p.id = v.id or p.id = c.id left 
-		outer join taxcode tc on tc.id = e.taxcode_id left outer join entry e1 on 
-		e1.transaction_id = je.id and e1.id !=e.id join account a on a.id = e1.account_id 
-		where e.type in (2,3) and a.name=:accountName AND T.T_DATE BETWEEN :startDate 
-		AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_PayBill_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, case when (select pb.paybill_type 
-		from pay_bill pb where pb.id = tpb.transaction_id) = 1 then select p.name 
-		from vendor v left outer join payee p on p.id = v.id left outer join enter_bill 
-		eb on eb.vendor_id = v.id left outer join transaction_paybill tpb on tpb.enter_bill_id 
-		= eb.id where tpb.transaction_id = t.id else select p.name from vendor v 
-		left outer join payee p on p.id = v.id left outer join pay_bill pb on p.id 
-		= pb.vendor_id where pb.id = t.id end as name, t.id as transaction_id, t.t_type 
-		as transaction_type, t.t_date as transaction_date,t.number as transaction_number,tpb.payment 
-		as amount from transaction_paybill tpb left outer join pay_bill pb on pb.id 
-		= tpb.transaction_id left outer join transaction t on t.id = tpb.transaction_id 
-		left outer join account a on a.id = cmp.accounts_payable_id where a.name=:accountName 
-		AND T.T_DATE BETWEEN :startDate and :endDate order by a.name </sql-query> 
-		<sql-query name="getTransactionDetailByAccount_ReceivePayment_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,trp.payment 
-		as amount from transaction_receive_payment trp left outer join receive_payment 
-		rp on trp.transaction_id = rp.id left outer join transaction t on trp.transaction_id 
-		= t.id left outer join customer c on c.id = rp.customer_id left outer join 
-		payee p on p.id = c.id left outer join account a on a.id = cmp.accounts_receivable_id 
-		or a.id = trp.discount_id or a.id = trp.write_off_id or a.id = rp.account_id 
-		or a.id = cmp.accounts_receivable_id where a.name=:accountName AND T.T_DATE 
-		BETWEEN :startDate AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_VendorCreditMemo_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name as name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from vendor_credit_memo vcm left outer join transaction t on t.id 
-		= vcm.id left outer join transaction_item ti on ti.transaction_id = t.id 
-		left outer join vendor v on v.id = vcm.vendor_id left outer join payee p 
-		on p.id = v.id left outer join account a on a.id = ti.account_id or a.id 
-		= cmp.accounts_payable_id left outer join item i on a.id = i.expense_account_id 
-		and i.id = ti.item_id where a.name=:accountName AND T.T_DATE BETWEEN :startDate 
-		AND :endDate order by a.name </sql-query> <sql-query name="getTransactionDetailByAccount_WriteCheck_ForParticularAccount"> 
-		<query-param name="accountName" type="String" /> <query-param name="startDate" 
-		type="String" /> <query-param name="endDate" type="String" /> <return-scalar 
-		column="account_name" type="string"/> <return-scalar column="name" type="string"/> 
-		<return-scalar column="transaction_id" type="long"/> <return-scalar column="transaction_type" 
-		type="int"/> <return-scalar column="transaction_date" type="date"/> <return-scalar 
-		column="transaction_number" type="long"/> <return-scalar column="amount" 
-		type="double"/> select a.name as account_name, p.name, t.id as transaction_id, 
-		t.t_type as transaction_type, t.t_date as transaction_date,t.number as transaction_number,ti.line_total 
-		as amount from write_checks wc left outer join transaction t on t.id = wc.id 
-		left outer join transaction_item ti on ti.transaction_id = t.id left outer 
-		join customer c on c.id = wc.customer_id left outer join vendor v on v.id 
-		= wc.vendor_id left outer join account a on a.id = ti.account_id or a.id 
-		= wc.account_id left outer join item i on a.id = i.income_account_id and 
-		i.id = ti.item_id left outer join taxagency ta on a.id = ta.account_id and 
-		ta.id = wc.tax_agency_id left outer join payee p on p.id = v.id or p.id = 
-		c.id or p.id = ta.id left outer join taxcode tc on tc.id = ti.taxcode_id 
-		and tc.taxagency_id = ta.id where a.name=:accountName AND T.T_DATE BETWEEN 
-		:startDate AND :endDate order by a.name </sql-query> -->
 
 	<sql-query name="getSalesTaxLiabilityReport">
 		<query-param name="companyId" type="long" />
@@ -3317,28 +2939,14 @@
 		<query-param name="start" type="long" />
 		<query-param name="end" type="long" />
 
-		<return-scalar column="TAXAGENCY_NAME" type="string" />
-		<return-scalar column="TAXITEM_NAME" type="string" />
+		<return-scalar column="TAXAGENCY_NAME" type="encryptedstring" />
+		<return-scalar column="TAXITEM_NAME" type="encryptedstring"" />
 		<return-scalar column="TAX_RATE" type="double" />
 		<return-scalar column="TAX_COLLECTED" type="double" />
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAXABLE_AMOUNT" type="double" />
 		<return-scalar column="NON_TAXABLE_AMOUNT" type="double" />
 		<return-scalar column="BEGINNING_BALANCE" type="double" />
-		<!-- SELECT P.NAME AS TAXAGENCY_NAME, TC.NAME AS TAXCODE_NAME, TRC.RATE 
-			AS TAX_RATE, SUM(TRC.TAX_COLLECTED) AS TAX_COLLECTED, (ROUND(SUM(T.TOTAL)/ 
-			count(trc.transaction_item_id)*count(distinct t.id),2))AS TOTAL, SUM(TRC.TAXABLE_AMOUNT) 
-			AS TAXABLE_AMOUNT, SUM(TRC.NON_TAXABLE_AMOUNT) AS NON_TAXABLE_AMOUNT, (SELECT 
-			SUM(TRC1.TAX_COLLECTED) FROM TAX_RATE_CALCULATION TRC1 LEFT OUTER JOIN TAXCODE 
-			TC ON TRC1.TAX_CODE_ID = TC.ID LEFT OUTER JOIN PAYEE P ON TC.TAXAGENCY_ID 
-			= P.ID LEFT OUTER JOIN TRANSACTION_ITEM TI ON TRC1.TRANSACTION_ITEM_ID = 
-			TI.ID LEFT OUTER JOIN TRANSACTION T ON TI.TRANSACTION_ID = T.ID where T.T_DATE 
-			BETWEEN :start AND :end AND TRC1.TAX_CODE_ID = TRC.TAX_CODE_ID GROUP BY TC.TAXAGENCY_ID) 
-			AS BEGINNING_BALANCE FROM TAX_RATE_CALCULATION TRC LEFT OUTER JOIN TAXCODE 
-			TC ON TRC.TAX_CODE_ID = TC.ID LEFT OUTER JOIN PAYEE P ON TC.TAXAGENCY_ID 
-			= P.ID LEFT OUTER JOIN TRANSACTION_ITEM TI ON TRC.TRANSACTION_ITEM_ID = TI.ID 
-			LEFT OUTER JOIN TRANSACTION T ON TI.TRANSACTION_ID = T.ID where T.T_DATE 
-			BETWEEN :startDate AND :endDate GROUP BY (TC.ID, TRC.RATE) ORDER BY TAXAGENCY_NAME -->
 
 		SELECT
 		P.NAME AS TAXAGENCY_NAME,
@@ -3778,6 +3386,14 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3805,6 +3421,9 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
 		SELECT
 		SUM(TI.LINE_TOTAL) AS ITEMTOTAL,
 		L.LOCATION_NAME AS LOCATIONNAME
@@ -3833,6 +3452,14 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="locationName" type="String" />
 
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3869,6 +3496,15 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
+		
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3901,6 +3537,9 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		SELECT
 		SUM(TI.LINE_TOTAL) AS ITEMTOTAL,
 		AC.CLASS_NAME AS CLASSNAME
@@ -3930,6 +3569,17 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="className" type="string" />
 		<query-param name="companyId" type="long" />
+		<query-param name="P_ACCOUNT" type="long" />
+		
+		<return-scalar column="TRANSACTIONDATE" type="long" />
+		<return-scalar column="TRANSACTIONTYPE" type="int" />
+		<return-scalar column="TRANSACTIONNUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="ITEMNAME" type="encryptedstring" />
+		<return-scalar column="ITEMTOTAL" type="double" />
+		<return-scalar column="CLASSNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTIONID" type="long" />
+		
 		SELECT
 		T.T_DATE AS TRANSACTIONDATE,
 		T.T_TYPE AS TRANSACTIONTYPE,
@@ -3970,6 +3620,13 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NUMBER" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_TYPE" type="int" />
+		<return-scalar column="CLASSNAME" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
 		SELECT
 		A.ID AS ACCOUNT_ID,
 		A.NAME AS ACCOUNT_NAME,
@@ -4011,7 +3668,7 @@
 		:endDate
 		GROUP BY AT.ACCOUNT_ID)
 		END) AS AMOUNT,
-		A.PARENT_ID
+		A.PARENT_ID AS P_ACCOUNT
 
 		FROM ACCOUNT_TRANSACTION AT
 		LEFT
