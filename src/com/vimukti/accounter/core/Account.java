@@ -1304,7 +1304,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		// Account newAccount = (Account) list.get(0);
 		// if (account.id != newAccount.id) {
 		// throw new InvalidOperationException(
-		// "Account Name already existed Enter Unique name for Account");
+		// .Account Name already existed Enter Unique name for Account");
 
 		if (!UserUtils.canDoThis(Account.class)) {
 			throw new AccounterException(
@@ -1345,8 +1345,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 					}
 				}
 				throw new AccounterException(
-						AccounterException.ERROR_NUMBER_CONFLICT,
-						"number conflict");
+						AccounterException.ERROR_NUMBER_CONFLICT);
 				// "An Account already exists with this number");
 			}
 		}

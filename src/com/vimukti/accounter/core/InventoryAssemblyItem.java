@@ -6,6 +6,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class InventoryAssemblyItem implements IAccounterServerCore {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7589197189218060851L;
+
 	private long id;
 
 	private int version;
@@ -13,6 +18,14 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 	private Item inventoryItem;
 
 	private Quantity quantity;
+	
+	private Double unitPrice;
+
+	private String discription;
+
+	private long warehouse;
+
+	private double linetotal;
 
 	@Override
 	public int getVersion() {
@@ -40,6 +53,54 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Item getInventoryItem() {
+		return inventoryItem;
+	}
+
+	public void setInventoryItem(Item inventoryItem) {
+		this.inventoryItem = inventoryItem;
+	}
+
+	public Quantity getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Quantity quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(Double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
+	public String getDiscription() {
+		return discription;
+	}
+
+	public void setDiscription(String discription) {
+		this.discription = discription;
+	}
+
+	public long getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(long warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public double getLinetotal() {
+		return linetotal;
+	}
+
+	public void setLinetotal(double linetotal) {
+		this.linetotal = linetotal;
 	}
 
 }
