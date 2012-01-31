@@ -134,6 +134,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
 
+	public static final int INVENTORY_SCHME_FIFO = 1;
+	public static final int INVENTORY_SCHME_LIFO = 2;
+	public static final int INVENTORY_SCHME_AVERAGE = 3;
+
 	// Company Preferrences
 
 	// /**
@@ -239,6 +243,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private boolean isShowLegalName;
 
 	private boolean isShowRegisteredAddress;
+
+	private int activeInventoryScheme = INVENTORY_SCHME_AVERAGE;
 
 	public long getLocationTrackingId() {
 		return locationTrackingId;
@@ -1587,6 +1593,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public void setIsAccountNumberRangeCheck(boolean value) {
 
 		set(ACCOUNTNUMBER_RANGE_CHECK, value);
+	}
+
+	public int getActiveInventoryScheme() {
+		return this.activeInventoryScheme;
 	}
 
 	public void setUnitsEnabled(boolean iswareHouseEnabled) {
