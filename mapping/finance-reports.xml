@@ -2940,7 +2940,7 @@
 		<query-param name="end" type="long" />
 
 		<return-scalar column="TAXAGENCY_NAME" type="encryptedstring" />
-		<return-scalar column="TAXITEM_NAME" type="encryptedstring"" />
+		<return-scalar column="TAXITEM_NAME" type="encryptedstring" />
 		<return-scalar column="TAX_RATE" type="double" />
 		<return-scalar column="TAX_COLLECTED" type="double" />
 		<return-scalar column="TOTAL" type="double" />
