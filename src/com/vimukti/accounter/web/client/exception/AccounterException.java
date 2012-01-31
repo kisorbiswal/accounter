@@ -149,6 +149,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_TAX_ENTRIES_EMPTY = 51;
 
+	public static final int ERROR_NO_FILED_VAT_ENTRIES_TO_SAVE = 52;
+
 	protected int errorCode;
 
 	// private long id;

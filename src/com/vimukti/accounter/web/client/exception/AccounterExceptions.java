@@ -157,9 +157,12 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_TAX_AGENCY_NULL:
 			return accounterMessages.pleaseSelectTAXAgencyToPayTAX();
-		
+
 		case AccounterException.ERROR_TAX_ENTRIES_EMPTY:
 			return accounterMessages.pleaseSelectAtLeastOneRecord();
+
+		case AccounterException.ERROR_NO_FILED_VAT_ENTRIES_TO_SAVE:
+			return accounterMessages.errorNoFiledVatEntriesToSave();
 
 		default:
 			return null;
