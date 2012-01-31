@@ -152,6 +152,12 @@
 				<one-to-many class="TDSTransactionItem" />
 			</list>
 		</joined-subclass>
+		<joined-subclass name="BuildAssembly" table="BUILD_ASSEMBLY">
+			<key column="ID" />
+			<property name="inventoryAssembly" column="INVENTORY_ASSEMBLY"></property>
+			<property name="refNo" column="REF_NO"></property>
+			<property name="quantityToBuild" column="QUANTITY_TO_BUILD"></property>
+		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
