@@ -145,7 +145,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 		if (selectItem.getType() == 1) {
 			itemType1.setValue(messages.service());
 		} else if (selectItem.getType() == 3) {
-			itemType1.setValue(messages.service());
+			itemType1.setValue(messages.product());
 		}
 		price1.setValue(String.valueOf(selectItem.getSalesPrice()));
 	}
@@ -153,21 +153,17 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = form.validate();
+		result.add(form1.validate());
 		if (fromClientItem != null && toClientItem != null) {
 			if (fromClientItem.getID() == toClientItem.getID()) {
 				result.addError(fromClientItem,
 						messages.notMove(messages.items()));
-				return result;
 			}
-			if (fromClientItem.getID() == toClientItem.getID()) {
+			if (fromClientItem.getType() != toClientItem.getType()) {
 				result.addError(fromClientItem,
-						messages.notMove(messages.items()));
-				return result;
+						messages.typesMustbeSame(messages.items()));
 			}
-			result = form1.validate();
-			result = form.validate();
 			return result;
-
 		}
 		return result;
 	}
