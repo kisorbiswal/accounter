@@ -2852,7 +2852,7 @@
 		<query-param name="companyId" type="long" />
 		
 		<return-scalar column="ACCOUNT_ID" type="long" />
-		<return-scalar column="ACCOUNT_NAME" type="encryptedstring"" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NUMBER" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_TYPE" type="int" />
 		<return-scalar column="LOCATION_ID" type="long" />
