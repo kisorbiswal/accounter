@@ -210,7 +210,7 @@
 		AND
 		T.COMPANY_ID=:companyId
 		AND T.SAVE_STATUS !=
-		202 AND T.SAVE_STATUS != 204 
+		202 AND T.SAVE_STATUS != 204
 		AND T.SAVE_STATUS != 201
 		ORDER BY T.T_DATE
 	</sql-query>
@@ -415,7 +415,8 @@
 		null
 		END AS DUE_DATE ,
 		T.NUMBER AS
-		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE
 		= 28
@@ -518,29 +519,43 @@
 		WHERE
 		CASE WHEN :transactionType =0 THEN
 		T.T_TYPE in
-		(2,3,6,14,23,26,27,28) 
+		(2,3,6,14,23,26,27,28)
 		ELSE T.T_TYPE=:transactionType
 		END
 		AND
 		CASE
 		WHEN
 		1=:viewType THEN
+		(CASE WHEN
+		:transactionType =0 THEN
+		(IR.BALANCE_DUE
+		&gt;0.0 OR EB.BALANCE_DUE
+		&gt;0.0 OR
+		VCM.BALANCE_DUE &gt;0.0
+		) ELSE TRUE
+		END) AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
+		WHEN
+		2=:viewType
+		THEN
 		(CASE WHEN :transactionType =0 THEN
-		(IR.BALANCE_DUE &gt;0.0 OR EB.BALANCE_DUE &gt;0.0 OR
-		VCM.BALANCE_DUE &gt;0.0		
-		) ELSE TRUE END) AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
-		WHEN 2=:viewType THEN
-		(CASE WHEN :transactionType =0 THEN
-		((:todayDate &gt; EB.DUE_DATE OR :todayDate &gt;
+		((:todayDate &gt;
+		EB.DUE_DATE OR
+		:todayDate &gt;
 		IR.DUE_DATE)
-		AND (CASE WHEN T.T_TYPE = 6 THEN EB.BALANCE_DUE &gt; 0
-		ELSE (IR.BALANCE_DUE &gt; 0.0 OR VCM.BALANCE_DUE
+		AND (CASE WHEN T.T_TYPE = 6
+		THEN
+		EB.BALANCE_DUE &gt; 0
+		ELSE (IR.BALANCE_DUE &gt; 0.0 OR
+		VCM.BALANCE_DUE
 		&gt; 0.0) END))
 		ELSE TRUE END) AND
-		(T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		(T.SAVE_STATUS !=204
+		AND
+		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		T.SAVE_STATUS=204
-		WHEN 4=:viewType
+		WHEN
+		4=:viewType
 		THEN
 		(T.SAVE_STATUS=201)
 		ELSE true
@@ -687,7 +702,8 @@
 		P.NAME AS
 		CUSTOMER_NAME,
 		T.NET_AMOUNT AS
-		TRANSACTION_NET_AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		TRANSACTION_NET_AMOUNT,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		CASE
 		WHEN T.T_TYPE = 8
 		THEN
@@ -695,7 +711,8 @@
 		ELSE
 		null
 		END
-		AS DUE_DATE,
+		AS
+		DUE_DATE,
 		T.TOTAL AS TOTAL_PRICE,
 		CASE
 		WHEN
@@ -710,7 +727,8 @@
 		0.0
 		END AS BALANCE,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN
 		TRUE
 		ELSE
@@ -759,15 +777,18 @@
 		1=:viewType THEN
 		(I.BALANCE_DUE
 		&gt;0.0 AND
-		T.STATUS != 2 AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
 		WHEN
 		2=:viewType
 		THEN
 		(I.BALANCE_DUE &gt;0.0 AND I.DUE_DATE &lt; :todayDate
 		AND
-		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		T.SAVE_STATUS
+		!=204 AND T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS = 204)
+		(T.SAVE_STATUS =
+		204)
 		WHEN 4=:viewType
 		THEN
 		(T.SAVE_STATUS =201)
@@ -779,7 +800,8 @@
 		T.SAVE_STATUS !=202
 		AND
 		T.T_DATE
-		BETWEEN :fromDate AND :toDate
+		BETWEEN
+		:fromDate AND :toDate
 		ORDER BY
 		DUE_DATE
 	</sql-query>
@@ -812,12 +834,14 @@
 		T.TOTAL AS
 		AMOUNT,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE
 		FALSE
 		END AS IS_VOIDED,
-		T.STATUS AS TRANSACTION_STATUS,
+		T.STATUS AS
+		TRANSACTION_STATUS,
 		CASE WHEN
 		T.T_TYPE = 12
 		THEN
@@ -1142,13 +1166,16 @@
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.T_DATE AS
 		PAYMENT_DATE ,
-		T.NUMBER AS TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS STATEMENT_RECORD_ID,
+		T.NUMBER AS TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS
+		STATEMENT_RECORD_ID,
 		T.STATUS AS
 		TRANSACTION_STATUS,
-		T.T_DATE AS ISSUE_DATE ,
+		T.T_DATE AS
+		ISSUE_DATE ,
 		CASE WHEN T.T_TYPE = 15
 		THEN WC.IN_FAVOUR_OF
-		WHEN T.T_TYPE = 17
+		WHEN T.T_TYPE =
+		17
 		THEN 'Tax Agency Payment'
 		WHEN
 		T.T_TYPE = 25
@@ -1156,7 +1183,8 @@
 		WHEN T.T_TYPE=11
 		THEN P.NAME END
 		AS NAME,
-		T.PAYMENT_METHOD AS PAYMENT_METHOD,
+		T.PAYMENT_METHOD AS
+		PAYMENT_METHOD,
 		T.TOTAL AS
 		AMOUNT_PAID,
 		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
@@ -1168,7 +1196,8 @@
 		FALSE
 		END AS VOIDED,
 		CASE
-		WHEN T.T_TYPE = 11
+		WHEN
+		T.T_TYPE = 11
 		THEN
 		PB.CHECK_NUMBER
 		WHEN
@@ -1219,14 +1248,16 @@
 		WHERE T.T_TYPE
 		in(11,15,17,25) AND NAME IS NOT NULL AND
 		CASE
-		WHEN 2=:viewType
+		WHEN
+		2=:viewType
 		THEN
 		(T.STATUS=2 AND T.SAVE_STATUS != 204)
 		WHEN 0=:viewType
 		THEN(T.STATUS=0
 		AND T.SAVE_STATUS != 204)
 		WHEN 3=:viewType
-		THEN (T.SAVE_STATUS = 204)
+		THEN
+		(T.SAVE_STATUS = 204)
 		ELSE true
 		END
 		AND
@@ -3228,7 +3259,8 @@
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		PURCHASE_ORDER PO
 		ON
 		A.ID = PO.SHIP_TO_ID
@@ -3256,15 +3288,18 @@
 		TRANSACTION_MAKE_DEPOSIT TMD
 		ON A.ID =
 		TMD.ACCOUNT_ID
-		OR A.ID =
+		OR
+		A.ID =
 		TMD.CASH_ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_PAYBILL TPB
-		ON A.ID =
+		ON A.ID
+		=
 		TPB.DISCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_RECEIVE_PAYMENT TRP
-		ON A.ID =
+		ON A.ID
+		=
 		TRP.DISCOUNT_ID
 		OR A.ID =
 		TRP.WRITE_OFF_ID
@@ -3976,7 +4011,8 @@
 		MD.DEPOSIT_TO
 		LEFT OUTER JOIN
 		TRANSACTION_DEPOSIT_ITEM TDI ON
-		A.ID =TDI.ACCOUNT_ID
+		A.ID
+		=TDI.ACCOUNT_ID
 		LEFT OUTER JOIN
 		PAY_BILL PB
 		ON A.ID=PB.PAYFROM_ID
@@ -7436,16 +7472,18 @@
 		T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
-	
+
 	<sql-query name="canDeleteTAXReturn">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_PAY_ID" type="long" />
-		
+
 		SELECT TPT.ID AS TRANSACTION_PAY_ID FROM TRANSACTION_PAY_TAX TPT
-		LEFT JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
-		LEFT JOIN TRANSACTION T ON T.ID=PT.ID 
+		LEFT
+		JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
+		LEFT JOIN TRANSACTION T ON
+		T.ID=PT.ID
 		WHERE TPT.VAT_RETURN_ID=:inputId AND T.COMPANY_ID=:companyId
 	</sql-query>
 
@@ -7737,7 +7775,8 @@
 		<return-scalar column="AMOUNT" type="double" />
 
 		SELECT AT.TRANSACTION_ID,
-		CASE WHEN A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN
+		CASE WHEN
+		A.ACCOUNT_CURRENCY!=C.PRIMARY_CURRENCY THEN
 		SUM(AT.AMOUNT/T.CURRENCY_FACTOR) ELSE
 		SUM(AT.AMOUNT) END AS AMOUNT
 		FROM
@@ -7850,7 +7889,8 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		SELECT
 		SUM(TRC.VAT_AMOUNT) AS TAX_AMOUNT,
-		SUM(TRC.LINE_TOTAL) AS NET_AMOUNT,
+		SUM(TRC.LINE_TOTAL) AS
+		NET_AMOUNT,
 		TAXI.TAX_RATE AS TAX_RATE,
 		T.T_TYPE AS TRANSACTION_TYPE
 
@@ -8578,20 +8618,32 @@
 		delete from stock_adjustment
 		where
 		company_id=cid;
-
-		delete from item where company_id=cid;
+		delete from inventory_assembly_item using
+		inventory_assembly , item where item.id=inventory_assembly.id and
+		inventory_assembly_item_id=inventory_assembly.id and
+		item.company_id=cid;
+		delete
+		from inventory_assembly using
+		item where
+		inventory_assembly.id=item.id and
+		item.company_id=cid;
+		delete from item
+		where company_id=cid;
 		delete from
 		stock_transfer where
 		company_id=cid;
 		delete from
 		stock_transfer_item
 		where company_id=cid;
-		delete from tax_adjustment
+		delete from
+		tax_adjustment
 		using transaction where
-		tax_adjustment.id=transaction.id and
+		tax_adjustment.id=transaction.id
+		and
 		transaction.company_id=cid;
 		delete
-		from tax_code where company_id=cid;
+		from tax_code where
+		company_id=cid;
 		delete from tax_group_tax_item
 		using tax_group where
 		tax_group_id=tax_group.id and
@@ -8602,7 +8654,8 @@
 		company_id=cid;
 		delete from tax_item_groups
 		where company_id=cid;
-		delete from tax_rate_calculation using
+		delete
+		from tax_rate_calculation using
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
@@ -13010,9 +13063,11 @@
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
-		T.T_DATE AS PAYMENT_DATE,
+		T.T_DATE AS
+		PAYMENT_DATE,
 		T.NUMBER AS TRANSACTION_NUMBER,
-		T.STATUS AS TRANSACTION_STATUS,
+		T.STATUS AS
+		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE,
 		P.NAME AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
@@ -13023,19 +13078,25 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		WC.CHECK_NUMBER AS CHECK_NUMBER,
+		WC.CHECK_NUMBER
+		AS CHECK_NUMBER,
 		T.CURRENCY AS CURRENCY
-		
+
 		FROM WRITE_CHECKS WC
-		LEFT JOIN TRANSACTION T ON T.ID = WC.ID
-		LEFT JOIN PAYEE P ON 
-		(P.ID=(CASE WHEN :isCustomerChecks = TRUE THEN WC.CUSTOMER_ID ELSE WC.VENDOR_ID END))
+		LEFT JOIN
+		TRANSACTION T ON T.ID = WC.ID
+		LEFT JOIN PAYEE
+		P ON
+		(P.ID=(CASE WHEN
+		:isCustomerChecks = TRUE THEN WC.CUSTOMER_ID ELSE WC.VENDOR_ID
+		END))
 
 		WHERE T.COMPANY_ID=:companyId AND
 		CASE
 		WHEN
 		0=:viewType THEN
-		((T.STATUS=0 OR
+		((T.STATUS=0
+		OR
 		T.STATUS=1 )AND T.SAVE_STATUS != 204
 		AND
 		T.SAVE_STATUS!=201)
@@ -13043,7 +13104,8 @@
 		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS !=
+		204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
@@ -13053,12 +13115,14 @@
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS != 202
+		AND T.SAVE_STATUS
+		!=
+		202
 		AND P.ID IS NOT NULL AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
-	</sql-query>	
+	</sql-query>
 
 	<sql-query name="getDepositsList">
 		<query-param name="companyId" type="long" />
@@ -13083,8 +13147,10 @@
 		T.TOTAL AS AMOUNT,
 		T.CURRENCY AS CURRENCY
 
-		FROM MAKE_DEPOSIT MD LEFT JOIN TRANSACTION T ON T.ID = MD.ID LEFT JOIN
-		ACCOUNT A ON A.ID = MD.DEPOSIT_TO
+		FROM MAKE_DEPOSIT MD LEFT JOIN
+		TRANSACTION T ON T.ID = MD.ID LEFT JOIN
+		ACCOUNT A ON A.ID =
+		MD.DEPOSIT_TO
 
 		WHERE
 		T.COMPANY_ID= :companyId AND
@@ -13100,7 +13166,8 @@
 		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS !=
+		204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
 		(T.SAVE_STATUS = 204)
@@ -13110,13 +13177,14 @@
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS != 202
+		AND T.SAVE_STATUS
+		!= 202
 		AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
-	
+
 	<sql-query name="getTransfersList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -13142,9 +13210,11 @@
 		T.TOTAL AS AMOUNT,
 		T.CURRENCY AS CURRENCY
 
-		FROM TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON T.ID = TF.ID LEFT JOIN
+		FROM
+		TRANSFER_FUND TF LEFT JOIN TRANSACTION T ON T.ID = TF.ID LEFT JOIN
 		ACCOUNT A1 ON A1.ID = TF.DEPOSIT_IN_ID
-		LEFT JOIN ACCOUNT A2 ON A2.ID = TF.DEPOSIT_FROM_ID
+		LEFT JOIN ACCOUNT A2 ON A2.ID =
+		TF.DEPOSIT_FROM_ID
 
 		WHERE
 		T.COMPANY_ID= :companyId AND
@@ -13159,17 +13229,20 @@
 		2=:viewType THEN
 		(T.STATUS=2
 		AND
-		T.SAVE_STATUS != 204 AND
+		T.SAVE_STATUS
+		!= 204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType THEN
-		(T.SAVE_STATUS = 204)
+		(T.SAVE_STATUS =
+		204)
 		WHEN
 		4=:viewType THEN
 		(T.SAVE_STATUS = 201)
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS != 202
+		AND
+		T.SAVE_STATUS != 202
 		AND
 		T.T_DATE
 		BETWEEN

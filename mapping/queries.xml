@@ -701,7 +701,6 @@
 		v.taxItem.company=:company and
 		v.transactionDate between :fromDate and
 		:toDate
-		and v.isFiled = false
 	</query>
 
 	<query name="getTaxrateCalc.by.taxitem.and.details">

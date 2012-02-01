@@ -278,6 +278,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			deleteButton.setVisible(false);
 			return;
 		}
+		deleteButton.setObj(obj);
 		deleteButton.setVisible(canDelete(obj));
 	}
 
