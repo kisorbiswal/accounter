@@ -182,7 +182,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		}
 
 		if (this.isVoid() && !oldPayTAX.isVoid()) {
-			doVoidEffect(session);
+			doVoidEffect(session, true);
 		} else {
 			if ((payFrom.getID() != oldPayTAX.payFrom.getID())
 					|| !DecimalUtil.isEquals(this.total, oldPayTAX.total)
@@ -207,6 +207,9 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 				payFrom.updateCurrentBalance(this, paidAmount, currencyFactor);
 				session.saveOrUpdate(payFrom);
 			}
+			for (TransactionPayTAX transactoinPayTax : oldPayTAX.transactionPayTAX) {
+				transactoinPayTax.doVoidEffect(session);
+			}
 			oldPayTAX.transactionPayTAX.clear();
 			for (TransactionPayTAX tpt : this.transactionPayTAX) {
 				tpt.setPayTAX(this);
@@ -217,12 +220,12 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
-			doVoidEffect(session);
+			doVoidEffect(session, false);
 		}
 		return super.onDelete(session);
 	}
 
-	private void doVoidEffect(Session session) {
+	private void doVoidEffect(Session session, boolean isUpdate) {
 		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
 		double paidAmount = total;
 		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
@@ -231,7 +234,18 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 		payFrom.updateCurrentBalance(this, -paidAmount, getCurrencyFactor());
 		session.saveOrUpdate(payFrom);
 		if (this.transactionPayTAX != null) {
-			transactionPayTAX.clear();
+			if (!isUpdate) {
+				if (!this.isVoid()) {
+					for (TransactionPayTAX transactoinPayTax : this.transactionPayTAX) {
+						transactoinPayTax.doVoidEffect(session);
+					}
+				}
+				transactionPayTAX.clear();
+			} else {
+				for (TransactionPayTAX transactoinPayTax : this.transactionPayTAX) {
+					transactoinPayTax.doVoidEffect(session);
+				}
+			}
 		}
 	}
 
@@ -284,8 +298,8 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
-
-		if (this.isVoidBefore()) {
+		PayTAX payTAX = (PayTAX) clientObject;
+		if (payTAX.isVoidBefore()) {
 			throw new AccounterException(
 					AccounterException.ERROR_NO_SUCH_OBJECT);
 		}
