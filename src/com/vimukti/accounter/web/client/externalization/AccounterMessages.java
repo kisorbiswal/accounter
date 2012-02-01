@@ -5424,6 +5424,7 @@ public interface AccounterMessages extends Messages {
 
 	public String enableEncryption();
 
+	public String unableToUploadStatementFile();
 	public String invalidCompanyName();
 
 	public String existedCompanyName();

@@ -85,7 +85,6 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 
 	public static final int EDIT_EVENT_CLICK = 1;
 	public static final int EDIT_EVENT_DBCLICK = 2;
-	private static final String ReconcilCombo = null;
 
 	protected boolean isAddRequired;
 

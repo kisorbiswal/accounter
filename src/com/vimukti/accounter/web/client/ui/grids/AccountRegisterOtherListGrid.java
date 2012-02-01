@@ -40,25 +40,34 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 			return accRegister.getNumber();
 		case 3:
 			if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
-				return DataUtils.amountAsStringWithCurrency(
-						accRegister.getAmount(), view.getCurrency());
+				return DataUtils.amountAsStringWithCurrency(accRegister
+						.getAmount(), view == null ? accRegister.getCurrency()
+						: view.getCurrency());
 			else
-				return DataUtils.amountAsStringWithCurrency(0.00,
-						view.getCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						0.00,
+						view == null ? accRegister.getCurrency() : view
+								.getCurrency());
 		case 4:
 			if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
 				return DataUtils.amountAsStringWithCurrency(
-						-1 * accRegister.getAmount(), view.getCurrency());
+						-1 * accRegister.getAmount(),
+						view == null ? accRegister.getCurrency() : view
+								.getCurrency());
 			else
-				return DataUtils.amountAsStringWithCurrency(0.00,
-						view.getCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						0.00,
+						view == null ? accRegister.getCurrency() : view
+								.getCurrency());
 		case 5:
 			return accRegister.getAccount();
 		case 6:
 			return accRegister.getMemo();
 		case 7:
 			return DataUtils.amountAsStringWithCurrency(
-					getBalanceValue(accRegister), view.getCurrency());
+					getBalanceValue(accRegister),
+					view == null ? accRegister.getCurrency() : view
+							.getCurrency());
 
 		case 8:
 			if (!accRegister.isVoided())

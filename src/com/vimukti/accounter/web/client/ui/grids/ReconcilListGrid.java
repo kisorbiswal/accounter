@@ -1,11 +1,8 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
-import com.vimukti.accounter.web.client.core.PaginationList;
-import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.customers.ReconcileCreateDialog;
@@ -16,14 +13,13 @@ import com.vimukti.accounter.web.client.ui.customers.ReconcileItemsListDialog;
  * @author vimukti10
  * 
  */
-public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord>
-		implements AsyncCallback<PaginationList<TransactionsList>> {
+public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 
 	private ClientStatementRecord statementRecord;
 	private ClientAccount bankAccount;
 	private int col;
 	private int row;
-	private PaginationList<TransactionsList> list;
+
 	private static final String FIND_MATCH = "Find & Match";
 
 	public ReconcilListGrid(ClientAccount account) {
@@ -161,13 +157,4 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord>
 				messages.spent(), messages.received(), messages.status() };
 	}
 
-	@Override
-	public void onFailure(Throwable caught) {
-
-	}
-
-	@Override
-	public void onSuccess(PaginationList<TransactionsList> result) {
-		this.list = result;
-	}
 }

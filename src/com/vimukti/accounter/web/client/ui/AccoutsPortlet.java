@@ -14,7 +14,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
@@ -65,7 +64,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 			String currencySymbol = currency == null ? getPrimaryCurrencySymbol()
 					: currency.getSymbol();
 
-			HorizontalPanel horizontalPanel = new HorizontalPanel();
+			// HorizontalPanel horizontalPanel = new HorizontalPanel();
 
 			VerticalPanel subPanel = new VerticalPanel();
 
@@ -159,11 +158,11 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				}
 			});
-			horizontalPanel.add(accountNameLabel);
-			horizontalPanel.add(reconcilButton);
+			subPanel.add(accountNameLabel);
+			subPanel.add(reconcilButton);
 
-			horizontalPanel.addStyleName("bank_account-header");
-			reconcilButton.addStyleName("bank_account_reconcil");
+			// horizontalPanel.addStyleName("bank_account-header");
+			// reconcilButton.addStyleName("bank_account_reconcil");
 
 			statementamountLabel = new CustomLabel("Statement Balance");
 			statementLabel = new CustomLabel(
@@ -261,7 +260,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 				e.printStackTrace();
 			}
 
-			body.add(horizontalPanel);
+			// body.add(horizontalPanel);
 			body.add(subHorizontalPanel);
 		}
 	}

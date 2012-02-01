@@ -2197,8 +2197,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate, int start, int length) {
 		PaginationList<TransactionsList> transactionsList = null;
 		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+			FinanceDate[] dates = getMinimumAndMaximumDates(null, null,
 					getCompanyId());
 			transactionsList = getFinanceTool().getInventoryManager()
 					.getSpentTransactionsList(getCompanyId(),
@@ -2216,8 +2215,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate, int start, int length) {
 		PaginationList<TransactionsList> transactionsList = null;
 		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+			FinanceDate[] dates = getMinimumAndMaximumDates(null, null,
 					getCompanyId());
 			transactionsList = getFinanceTool().getInventoryManager()
 					.getReceivedTransactionsList(getCompanyId(),
