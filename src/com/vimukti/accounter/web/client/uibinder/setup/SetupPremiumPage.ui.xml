@@ -15,7 +15,9 @@
 		<g:HorizontalPanel>
 		<g:Label ui:field="passwordLabel" />
 		<g:PasswordTextBox  ui:field="passwordField" /></g:HorizontalPanel>
-		
+		<g:HorizontalPanel>
+		<g:Label ui:field="conformPasswordLabel" />
+		<g:PasswordTextBox  ui:field="conformPasswordField" /></g:HorizontalPanel>
 		<g:HTML wordWrap="true" ui:field="passwordInfo" />
 		<g:Hyperlink ui:field="moreInfoLink" />
 		</g:VerticalPanel>
