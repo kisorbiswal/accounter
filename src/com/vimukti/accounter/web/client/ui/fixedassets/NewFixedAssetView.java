@@ -727,6 +727,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						getCompany().getPreferences()
 								.getDepreciationStartDate());
 				depAmount = 0.0;
+
 				/*
 				 * Make an rpc call to get the calculatedDepreciation amount if
 				 * the following condtions are satisfy
@@ -734,6 +735,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0)
 						&& !DecimalUtil.isEquals(purchasePrice, 0)
 						&& purchaseDate.before(depStartDate)) {
+					if ((purchaseDate.getDate() == 0)) {
+						purchaseDate = new ClientFinanceDate();
+					}
 					Accounter.createHomeService()
 							.getAccumulatedDepreciationAmount(depMethod,
 									depRate, purchasePrice,
@@ -760,6 +764,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									});
 				}
 			}
+
 		} catch (Exception e) {
 
 		}
