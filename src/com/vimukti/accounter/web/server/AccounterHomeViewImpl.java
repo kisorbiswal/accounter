@@ -1648,15 +1648,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public void mergeAccount(ClientAccount fromClientAccount,
+	public ClientAccount mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			tool.mergeAcoount(fromClientAccount, toClientAccount,
+			return tool.mergeAcoount(fromClientAccount, toClientAccount,
 					getCompanyId());
 		}
-
+		return null;
 	}
 
 	@Override

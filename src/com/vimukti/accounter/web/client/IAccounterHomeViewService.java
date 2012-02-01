@@ -339,7 +339,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientActivity> getAuditHistory(int objectType,
 			long objectID, long activityID) throws AccounterException;
 
-	void mergeAccount(ClientAccount fromClientAccount,
+	ClientAccount mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
 
 	// for sending pdf in email

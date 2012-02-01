@@ -377,7 +377,7 @@
 		<query-param name="from" type="long" />
 		<query-param name="balance" type="double" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Account set openingBalance=:balance
+		update com.vimukti.accounter.core.Account set totalBalanceInAccountCurrency=:balance
 		where
 		id=:from and company=:company
 	</query>
@@ -1860,6 +1860,14 @@
 		where
 		account.id=:fromID
 	</query>
+	<query name="update.merge.journalEntry.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		update com.vimukti.accounter.core.JournalEntry set involvedAccount.id=:toID
+		where
+		involvedAccount.id=:fromID
+	</query>
+	
 	<query name="update.merge.accounttransactionmakedeposit.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />

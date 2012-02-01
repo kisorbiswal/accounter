@@ -2000,14 +2000,16 @@ public class FinanceTool {
 		}
 	}
 
-	public void mergeAcoount(ClientAccount fromClientAccount,
+	public ClientAccount mergeAcoount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount, long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		double mergeBalance = toClientAccount.getOpeningBalance()
-				+ fromClientAccount.getOpeningBalance();
+		double mergeBalance = toClientAccount
+				.getTotalBalanceInAccountCurrency()
+				+ fromClientAccount.getTotalBalanceInAccountCurrency();
+
 		try {
 			session.getNamedQuery("update.merge.Account.oldBalance.tonew")
 					.setLong("from", toClientAccount.getID())
@@ -2049,6 +2051,10 @@ public class FinanceTool {
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
+			session.getNamedQuery("update.merge.journalEntry.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID()).executeUpdate();
+
 			session.getNamedQuery(
 					"update.merge.accounttransactionmakedeposit.old.tonew")
 					.setLong("fromID", fromClientAccount.getID())
@@ -2064,14 +2070,9 @@ public class FinanceTool {
 					.setLong("toID", toClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.account.old")
-					.setLong("from", fromClientAccount.getID())
-					.setEntity("company", company).executeUpdate();
-
 			Account account = (Account) session.get(Account.class,
 					fromClientAccount.getID());
 			User user = AccounterThreadLocal.get();
-
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
 					account);
 			session.save(activity);
@@ -2081,9 +2082,14 @@ public class FinanceTool {
 			account.setCompany(null);
 			session.delete(account);
 			tx.commit();
+			Account toaccount = (Account) session.get(Account.class,
+					toClientAccount.getID());
+			return (ClientAccount) new ClientConvertUtil().toClientObject(
+					toaccount, Util.getClientClass(toaccount));
 		} catch (Exception e) {
 			tx.rollback();
 		}
+		return null;
 
 	}
 

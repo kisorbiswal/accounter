@@ -373,7 +373,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Void> callback);
 
 	void mergeAccount(ClientAccount fromClientAccount,
-			ClientAccount toClientAccount, AsyncCallback<Void> callback);
+			ClientAccount toClientAccount, AsyncCallback<ClientAccount> callback);
 
 	// this method is used to send Pdf as an attachment in email
 	public void sendPdfInMail(String fileName, String subject, String content,

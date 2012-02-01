@@ -3,9 +3,11 @@ package com.vimukti.accounter.web.client.ui;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -196,8 +198,21 @@ public class AccountMergeDialog extends BaseDialog implements
 			Accounter.showError("Type of the both Accounts must be same ");
 		} else {
 			Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
-					this);
-			com.google.gwt.user.client.History.back();
+					new AccounterAsyncCallback<ClientAccount>() {
+
+						@Override
+						public void onException(AccounterException exception) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void onResultSuccess(ClientAccount result) {
+							getCompany().processUpdateOrCreateObject(result);
+							com.google.gwt.user.client.History.back();
+						}
+
+					});
 			return true;
 		}
 		return false;
