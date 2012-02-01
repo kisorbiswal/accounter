@@ -79,7 +79,7 @@ public class InventoryItemNameColumn extends
 				});
 				action.setType(ClientItem.TYPE_INVENTORY_PART);
 				action.setItemText(text);
-				action.run(null, true);
+				action.run(null, false);
 			}
 		};
 		return itemsList;

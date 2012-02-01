@@ -10,8 +10,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -28,8 +26,10 @@ import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -37,10 +37,12 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.ItemGroupCombo;
+import com.vimukti.accounter.web.client.ui.combo.MeasurementCombo;
 import com.vimukti.accounter.web.client.ui.combo.PurchaseItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
+import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
@@ -63,7 +65,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			itemTotalValue;
 	private IntegerField vendItemNumText, reorderPoint, onHandQuantity;
 	private TextAreaItem salesDescArea, purchaseDescArea;
-	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck;
+	CheckboxItem comCheck, activeCheck, itemTaxCheck;
 
 	private ItemGroupCombo itemGroupCombo, commodityCode;
 	private VendorCombo prefVendorCombo;
@@ -81,8 +83,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private DynamicForm salesInfoForm;
 	private FloatRangeValidator floatRangeValidator;
 	private IntegerRangeValidator integerRangeValidator;
-	protected ClientAccount selectAccount, selectExpAccount,
-			defaultIncomeAccount, defaultExpAccount;
 
 	protected ClientItemGroup selectItemGroup;
 	protected ClientVendor selectVendor;
@@ -92,6 +92,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private String itemName;
 	private InventoryAssemblyItemTable table;
 
+	private MeasurementCombo measurement;
+	private WarehouseCombo wareHouse;
 	private AccountCombo assetsAccount;
 	private DateField asOfDate;
 	private AddNewButton itemTableButton;
@@ -322,35 +324,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		vendItemNumText.setWidth(100);
 		vendItemNumText.setDisabled(isInViewMode());
 
-		isellCheck = new CheckboxItem(messages.isellthisproduct());
-		isellCheck.setDisabled(isInViewMode());
+		disableSalesFormItems(isInViewMode());
+		disablePurchaseFormItems(isInViewMode());
 
-		isellCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				disableSalesFormItems(!event.getValue());
-			}
-		});
-
-		ibuyCheck = new CheckboxItem(messages.ibuythisproduct());
-
-		ibuyCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
-
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				disablePurchaseFormItems(!event.getValue());
-
-			}
-
-		});
-		if (!isInViewMode()) {
-			isellCheck.setValue(true);
-			disablePurchaseFormItems(true);
-		}
-
-		salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
-				accountCombo, itemTaxCheck, comCheck, stdCostText);
+		salesInfoForm.setFields(salesDescArea, salesPriceText, accountCombo,
+				itemTaxCheck, comCheck, stdCostText);
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -369,9 +347,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-		purchaseInfoForm
-				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-						expAccCombo, prefVendorCombo, vendItemNumText);
+		purchaseInfoForm.setFields(purchaseDescArea, purchasePriceTxt,
+				expAccCombo, prefVendorCombo, vendItemNumText);
 		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		VerticalPanel salesVPanel = new VerticalPanel();
@@ -513,6 +490,12 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		this.add(mainVLay);
 
+		VerticalPanel stockPanel_1 = getStockPanel_1();
+		VerticalPanel stockPanel_2 = getStockPanel_2();
+
+		purchzVPanel.add(stockPanel_1);
+		purchzVPanel.add(stockPanel_2);
+
 		/* Adding dynamic forms in list */
 		listforms.add(itemForm);
 		listforms.add(salesInfoForm);
@@ -521,6 +504,38 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		listforms.add(itemInfoForm);
 		listforms.add(purchaseInfoForm);
 		settabIndexes();
+
+	}
+
+	private VerticalPanel getStockPanel_2() {
+		VerticalPanel measurementPanel = new VerticalPanel();
+		measurement = new MeasurementCombo(messages.measurement());
+		measurement.setDisabled(isInViewMode());
+
+		DynamicForm dynamicForm = new DynamicForm();
+		dynamicForm.setFields(measurement);
+
+		measurementPanel.add(dynamicForm);
+
+		return measurementPanel;
+	}
+
+	private VerticalPanel getStockPanel_1() {
+
+		VerticalPanel stockPanel = new VerticalPanel();
+		DynamicForm stockForm = new DynamicForm();
+
+		wareHouse = new WarehouseCombo(messages.wareHouse());
+
+		wareHouse.setDisabled(isInViewMode());
+		stockForm.setFields(wareHouse);
+		if (getPreferences().iswareHouseEnabled()) {
+			stockPanel.add(stockForm);
+		}
+		listforms.add(stockForm);
+
+		stockPanel.setWidth("100%");
+		return stockPanel;
 
 	}
 
@@ -578,51 +593,26 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		data.setUPCorSKU(skuText.getValue());
 
-		data.setISellThisItem(getBooleanValue(isellCheck));
-		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
+		data.setISellThisItem(true);
+		data.setIBuyThisItem(true);
 
-		if (getBooleanValue(isellCheck)) {
-			if (salesDescArea.getValue() != null)
-				data.setSalesDescription(salesDescArea.getValue().toString());
-			data.setSalesPrice(salesPriceText.getAmount());
-			if (accountCombo != null && accountCombo.getSelectedValue() != null) {
-				selectAccount = accountCombo.getSelectedValue();
-				data.setIncomeAccount(selectAccount.getID());
-			}
-
-			data.setCommissionItem(getBooleanValue(comCheck));
-		} else {
-			if (salesDescArea.getValue() != null)
-				data.setSalesDescription(salesDescArea.getValue().toString());
-			data.setSalesPrice(salesPriceText.getAmount());
-			if (accountCombo != null && accountCombo.getSelectedValue() != null) {
-				selectAccount = accountCombo.getSelectedValue();
-				data.setIncomeAccount(selectAccount.getID());
-			}
-
-			data.setCommissionItem(getBooleanValue(comCheck));
+		if (salesDescArea.getValue() != null)
+			data.setSalesDescription(salesDescArea.getValue().toString());
+		data.setSalesPrice(salesPriceText.getAmount());
+		if (accountCombo != null && accountCombo.getSelectedValue() != null) {
+			data.setIncomeAccount(accountCombo.getSelectedValue().getID());
 		}
 
-		if (getBooleanValue(ibuyCheck)) {
+		data.setCommissionItem(getBooleanValue(comCheck));
 
-			data.setPurchaseDescription(getStringValue(purchaseDescArea));
-			data.setPurchasePrice(purchasePriceTxt.getAmount());
-			if (selectVendor != null)
-				data.setPreferredVendor(selectVendor.getID());
-			if (expAccCombo != null && expAccCombo.getSelectedValue() != null) {
-				data.setExpenseAccount(selectExpAccount.getID());
-			}
-			data.setVendorItemNumber(vendItemNumText.getValue().toString());
-		} else {
-			data.setPurchaseDescription(getStringValue(purchaseDescArea));
-			data.setPurchasePrice(purchasePriceTxt.getAmount());
-			if (selectVendor != null)
-				data.setPreferredVendor(selectVendor.getID());
-			if (expAccCombo != null && expAccCombo.getSelectedValue() != null) {
-				data.setExpenseAccount(selectExpAccount.getID());
-			}
-			data.setVendorItemNumber(vendItemNumText.getValue().toString());
+		data.setPurchaseDescription(getStringValue(purchaseDescArea));
+		data.setPurchasePrice(purchasePriceTxt.getAmount());
+		if (selectVendor != null)
+			data.setPreferredVendor(selectVendor.getID());
+		if (expAccCombo != null && expAccCombo.getSelectedValue() != null) {
+			data.setExpenseAccount(expAccCombo.getSelectedValue().getID());
 		}
+		data.setVendorItemNumber(vendItemNumText.getValue().toString());
 
 		if (table.getAllRows() != null) {
 			List<ClientInventoryAssemblyItem> list = table.getAllRows();
@@ -650,6 +640,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			data.setOnhandQuantity(0);
 		data.setAsOfDate(asOfDate.getValue());
 		data.setTaxable(getBooleanValue(itemTaxCheck));
+
+		if (measurement.getSelectedValue() != null)
+			data.setMeasurement(measurement.getSelectedValue().getId());
+		if (wareHouse.getSelectedValue() != null)
+			data.setWarehouse(wareHouse.getSelectedValue().getID());
 	}
 
 	@Override
@@ -668,6 +663,26 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			data.setName(name);
 			System.out.println(name + messages.aftersaving());
 		}
+
+	}
+
+	private void setStockPanelData() {
+		ClientMeasurement measurement;
+		if (data.getMeasurement() != 0) {
+			measurement = getCompany().getMeasurement(data.getMeasurement());
+		} else {
+			measurement = getCompany().getMeasurement(
+					getCompany().getDefaultMeasurement());
+		}
+		this.measurement.setComboItem(measurement);
+		ClientWarehouse wareHouse;
+		if (data.getWarehouse() != 0) {
+			wareHouse = getCompany().getWarehouse(data.getWarehouse());
+		} else {
+			wareHouse = getCompany().getWarehouse(
+					getCompany().getDefaultWarehouse());
+		}
+		this.wareHouse.setComboItem(wareHouse);
 
 	}
 
@@ -716,13 +731,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			name = data.getName();
 			stdCostText.setAmount(data.getStandardCost());
 
-			isellCheck.setValue(data.isISellThisItem());
 			if (data.getSalesDescription() != null)
 				salesDescArea.setValue(data.getSalesDescription());
 			salesPriceText.setAmount(data.getSalesPrice());
 
 			ClientCompany company = getCompany();
-			selectAccount = company.getAccount(data.getIncomeAccount());
 			comCheck.setValue(data.isCommissionItem());
 
 			selectItemGroup = company.getItemGroup(data.getItemGroup());
@@ -730,7 +743,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 			activeCheck.setValue((data.isActive()));
 
-			ibuyCheck.setValue(data.isIBuyThisItem());
 			if (data.getPurchaseDescription() != null)
 				purchaseDescArea.setValue(data.getPurchaseDescription());
 			purchasePriceTxt.setAmount(data.getPurchasePrice());
@@ -750,8 +762,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 
 			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
-			onHandQuantity.setValue("0");
+			onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
+			// onHandQuantity.setValue("0");
 			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
 			asOfDate.setValue(data.getAsOfDate());
 
@@ -771,7 +783,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		initAccountList();
 		initVendorsList();
 		initItemGroups();
-		// setStockPanelData();
+		setStockPanelData();
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			if (data != null) {
@@ -781,27 +793,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		}
 		super.initData();
 	}
-
-	// private void setStockPanelData() {
-	// ClientMeasurement measurement;
-	// if (data.getMeasurement() != 0) {
-	// measurement = getCompany().getMeasurement(data.getMeasurement());
-	// } else {
-	// measurement = getCompany().getMeasurement(
-	// getCompany().getDefaultMeasurement());
-	// }
-	// this.measurement.setComboItem(measurement);
-	// ClientWarehouse wareHouse;
-	// if (data.getWarehouse() != 0) {
-	// wareHouse = getCompany().getWarehouse(data.getWarehouse());
-	// } else {
-	// wareHouse = getCompany().getWarehouse(
-	// getCompany().getDefaultWarehouse());
-	// }
-	// this.wareHouse.setComboItem(wareHouse);
-	// this.openingBalTxt.setAmount(data.getOpeningBalance());
-	//
-	// }
 
 	private void initItemGroups() {
 		List<ClientItemGroup> clientItemgroup = getCompany().getItemGroups();
@@ -813,74 +804,35 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 						data.getItemGroup()));
 			}
 		}
-		if (isInViewMode()) {
-			if (data.isISellThisItem()) {
-				ibuyCheck.setDisabled(true);
-				disablePurchaseFormItems(true);
-			}
-
-			if (data.isIBuyThisItem()) {
-				isellCheck.setDisabled(true);
-				disableSalesFormItems(true);
-			}
-
-		} else {
-			disablePurchaseFormItems(true);
-			disableSalesFormItems(!true);
-		}
 	}
 
 	private void initVendorsList() {
 		List<ClientVendor> clientVendor = getCompany().getActiveVendors();
 		if (clientVendor != null) {
 			prefVendorCombo.initCombo(clientVendor);
-			if (data != null && !isInViewMode()) {
+			if (data != null) {
 				prefVendorCombo.setComboItem(getCompany().getVendor(
 						data.getPreferredVendor()));
-				if (data.isIBuyThisItem() == false)
-					prefVendorCombo.setDisabled(true);
-				else
-					prefVendorCombo.setDisabled(false);
-
-			} else
-				prefVendorCombo.setDisabled(true);
+			}
+			prefVendorCombo.setDisabled(isInViewMode());
 		}
 
 	}
 
 	private void initAccountList() {
-		List<ClientAccount> listAccount = accountCombo.getFilterdAccounts();
-		List<ClientAccount> listExpAccount = expAccCombo.getFilterdAccounts();
-		if (!isInViewMode()) {
-			if (data != null && data.getIncomeAccount() != 0) {
-				accountCombo.setComboItem(getCompany().getAccount(
-						data.getIncomeAccount()));
-			}
-			if (data != null && data.isISellThisItem() == false) {
-				accountCombo.setDisabled(true);
-				selectExpAccount = getCompany().getAccount(
-						data.getExpenseAccount());
-				expAccCombo.setComboItem(selectExpAccount);
-			}
-			if (data != null && data.isIBuyThisItem() == false)
-				expAccCombo.setDisabled(true);
-			else
-				expAccCombo.setDisabled(false);
-
-		} else {
-			expAccCombo.setDisabled(true);
-
-			ClientAccount incomeAccount = getCompany().getAccount(
-					data.getIncomeAccount());
-			accountCombo.setComboItem(incomeAccount);
-
-			ClientAccount expenseAccount = getCompany().getAccount(
-					data.getExpenseAccount());
-			expAccCombo.setComboItem(expenseAccount);
-
+		if (data != null && data.getIncomeAccount() != 0) {
+			accountCombo.setComboItem(getCompany().getAccount(
+					data.getIncomeAccount()));
 		}
+		if (data != null && data.getExpenseAccount() != 0) {
+			expAccCombo.setComboItem(getCompany().getAccount(
+					data.getExpenseAccount()));
+		}
+		accountCombo.setDisabled(isInViewMode());
+		expAccCombo.setDisabled(isInViewMode());
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
@@ -897,31 +849,17 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		result.add(itemForm.validate());
 
-		if (!AccounterValidator.isSellorBuyCheck(isellCheck, ibuyCheck)) {
-			result.addError(isellCheck, messages.checkAnyone());
-		}
-		if (isellCheck.isChecked()) {
-			result.add(salesInfoForm.validate());
-		}
+		result.add(salesInfoForm.validate());
 		if (getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine()) {
 			result.add(itemInfoForm.validate());
 		}
-		if (ibuyCheck.isChecked()) {
-			result.add(purchaseInfoForm.validate());
+		result.add(purchaseInfoForm.validate());
+		if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
+			result.addError(salesPriceText, messages.enterValidAmount());
 		}
-
-		if (isellCheck.isChecked()) {
-			if (AccounterValidator.isNegativeAmount(salesPriceText.getAmount())) {
-				result.addError(salesPriceText, messages.enterValidAmount());
-			}
-		}
-
-		if (ibuyCheck.isChecked()) {
-			if (AccounterValidator.isNegativeAmount(purchasePriceTxt
-					.getAmount())) {
-				result.addError(purchasePriceTxt, messages.enterValidAmount());
-			}
+		if (AccounterValidator.isNegativeAmount(purchasePriceTxt.getAmount())) {
+			result.addError(purchasePriceTxt, messages.enterValidAmount());
 		}
 		table.validateGrid();
 		return result;
@@ -983,30 +921,14 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		stdCostText.setDisabled(isInViewMode());
 		itemGroupCombo.setDisabled(isInViewMode());
 		taxCode.setDisabled(isInViewMode());
-		isellCheck.setDisabled(isInViewMode());
-		ibuyCheck.setDisabled(isInViewMode());
-		if (ibuyCheck.getValue()) {
-			purchaseDescArea.setDisabled(isInViewMode());
-			expAccCombo.setDisabled(isInViewMode());
-			prefVendorCombo.setDisabled(isInViewMode());
-			purchasePriceTxt.setDisabled(isInViewMode());
-			vendItemNumText.setDisabled(isInViewMode());
-		} else {
-			purchaseDescArea.setDisabled(true);
-			expAccCombo.setDisabled(true);
-			prefVendorCombo.setDisabled(true);
-			purchasePriceTxt.setDisabled(true);
-			vendItemNumText.setDisabled(true);
-		}
-		if (isellCheck.getValue()) {
-			salesDescArea.setDisabled(isInViewMode());
-			accountCombo.setDisabled(isInViewMode());
-			salesPriceText.setDisabled(isInViewMode());
-		} else {
-			salesDescArea.setDisabled(true);
-			accountCombo.setDisabled(true);
-			salesPriceText.setDisabled(true);
-		}
+		purchaseDescArea.setDisabled(isInViewMode());
+		expAccCombo.setDisabled(isInViewMode());
+		prefVendorCombo.setDisabled(isInViewMode());
+		purchasePriceTxt.setDisabled(isInViewMode());
+		vendItemNumText.setDisabled(isInViewMode());
+		salesDescArea.setDisabled(isInViewMode());
+		accountCombo.setDisabled(isInViewMode());
+		salesPriceText.setDisabled(isInViewMode());
 		assetsAccount.setDisabled(isInViewMode());
 		reorderPoint.setDisabled(isInViewMode());
 		onHandQuantity.setDisabled(isInViewMode());
@@ -1014,7 +936,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		asOfDate.setDisabled(isInViewMode());
 
 		table.setDisabled(isInViewMode());
-
+		measurement.setDisabled(isInViewMode());
+		wareHouse.setDisabled(isInViewMode());
 		activeCheck.setDisabled(isInViewMode());
 
 	}
@@ -1040,7 +963,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private void settabIndexes() {
 		nameText.setTabIndex(1);
 		// isservice.setTabIndex(2);
-		isellCheck.setTabIndex(3);
 		salesDescArea.setTabIndex(4);
 		salesPriceText.setTabIndex(5);
 		accountCombo.setTabIndex(6);
@@ -1049,7 +971,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		itemGroupCombo.setTabIndex(9);
 		taxCode.setTabIndex(10);
 		activeCheck.setTabIndex(11);
-		ibuyCheck.setTabIndex(12);
 		purchaseDescArea.setTabIndex(13);
 		purchasePriceTxt.setTabIndex(14);
 		expAccCombo.setTabIndex(15);
