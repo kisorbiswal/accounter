@@ -2836,3 +2836,7 @@ input.date-field-textbox {
 .bank_recouncil-popup a,.bank_recouncil-popup a:ACTIVE {
 	color: #2D8B93;
 }
+.bottom_totals{
+	font-weight: bold;
+	float:right;
+}
