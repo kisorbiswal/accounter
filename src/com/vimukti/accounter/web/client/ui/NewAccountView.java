@@ -1365,7 +1365,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			selectedSubAccount = getCompany().getAccount(data.getParent());
 
-			if (selectedSubAccount != null) {
+			if (selectedSubAccount != null && subAccSelect != null) {
 				subAccSelect.setComboItem(selectedSubAccount);
 				subhierarchy = Utility.getHierarchy(selectedSubAccount);
 			}
