@@ -399,12 +399,12 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		// add checkbox if the isMultiSelectionEnable is true
 		if (isMultiSelectionEnable) {
 			final CheckBox box = new CheckBox();
+			box.setEnabled(!disable);
 			box.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 				@Override
 				public void onValueChange(ValueChangeEvent<Boolean> event) {
 					onCheckBoxValueChange((CheckBox) event.getSource());
-
 				}
 			});
 			setWidget(rowCount, -1, box);
