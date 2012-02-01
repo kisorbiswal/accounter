@@ -298,8 +298,12 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 
 		case AccounterException.ERROR_VERSION_MISMATCH:
 			return getMessages().objectModified();
-		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
-			return getMessages().transactionReconcilied();
+		case AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED:
+			return getMessages().errorEditingTransactionReconcilied();
+		case AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED:
+			return getMessages().errorVoidingTransactionReconcilied();
+		case AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED:
+			return getMessages().errorDeletingTransactionReconcilied();
 		case AccounterException.USED_IN_INVOICE:
 			return getMessages().usedinInvoiceSoYoucantEdit();
 		case AccounterException.INVOICE_PAID_VOID_IT:

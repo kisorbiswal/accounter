@@ -108,7 +108,9 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		for (ClientAccount account : bankAccounts) {
 			bankAccountsCombo.addItem(account);
 		}
-		bankAccountsCombo.setSelectedItem(0);
+		if (bankAccountsCombo.getSelectedValue() == null) {
+			bankAccountsCombo.setSelectedItem(0);
+		}
 		bankAccountChanged(bankAccountsCombo.getSelectedValue());
 	}
 
@@ -162,5 +164,21 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 				messages.selectReports(), "", description);
 		printDialog.show();
 		printDialog.center();
+	}
+
+	@Override
+	public ClientReconciliation saveView() {
+		ClientReconciliation reconciliation = new ClientReconciliation();
+		reconciliation.setAccount(bankAccountsCombo.getSelectedValue());
+		return reconciliation;
+	}
+
+	@Override
+	public void restoreView(ClientReconciliation reconciliation) {
+		if (reconciliation == null) {
+			return;
+		}
+		bankAccountsCombo.setSelected(reconciliation.getAccount().getName());
+		bankAccountChanged(bankAccountsCombo.getSelectedValue());
 	}
 }

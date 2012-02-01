@@ -49,8 +49,8 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_VERSION_MISMATCH:
 			return accounterMessages.objectModified();
-		case AccounterException.ERROR_TRANSACTION_RECONCILIED:
-			return accounterMessages.transactionReconcilied();
+		case AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED:
+			return accounterMessages.errorVoidingTransactionReconcilied();
 		case AccounterException.USED_IN_INVOICE:
 			return accounterMessages.usedinInvoiceSoYoucantEdit();
 		case AccounterException.INVOICE_PAID_VOID_IT:
@@ -163,6 +163,12 @@ public class AccounterExceptions {
 
 		case AccounterException.ERROR_NO_FILED_VAT_ENTRIES_TO_SAVE:
 			return accounterMessages.errorNoFiledVatEntriesToSave();
+
+		case AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED:
+			return accounterMessages.errorDeletingTransactionReconcilied();
+
+		case AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED:
+			return accounterMessages.errorEditingTransactionReconcilied();
 
 		default:
 			return null;

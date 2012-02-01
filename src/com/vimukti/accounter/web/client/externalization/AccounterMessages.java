@@ -4767,7 +4767,7 @@ public interface AccounterMessages extends Messages {
 
 	public String transactionNumberCouldNotBeInitiated();
 
-	public String transactionReconcilied();
+	public String errorVoidingTransactionReconcilied();
 
 	public String transactions();
 
@@ -5448,5 +5448,9 @@ public interface AccounterMessages extends Messages {
 	public String inventoryScheme();
 
 	public String typesMustbeSame(String items);
+
+	public String errorEditingTransactionReconcilied();
+
+	public String errorDeletingTransactionReconcilied();
 
 }

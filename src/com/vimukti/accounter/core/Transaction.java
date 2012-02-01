@@ -1223,7 +1223,7 @@ public abstract class Transaction extends CreatableObject implements
 		}
 		if (isVoid() && !getReconciliationItems().isEmpty()) {
 			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_RECONCILIED);
+					AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
 		}
 
 		return true;
@@ -1250,7 +1250,7 @@ public abstract class Transaction extends CreatableObject implements
 					}
 					if (!DecimalUtil.isEquals(presentAmount, amount)) {
 						throw new AccounterException(
-								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+								AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
 					}
 				}
 			}

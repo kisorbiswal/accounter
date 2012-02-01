@@ -494,7 +494,7 @@ public class FinanceTool {
 					Transaction transaction = (Transaction) serverObject;
 					if (!transaction.getReconciliationItems().isEmpty()) {
 						throw new AccounterException(
-								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+								AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED);
 					} else if (transaction.getCreditsAndPayments() != null) {
 						transaction.getCreditsAndPayments()
 								.canEdit(transaction);
