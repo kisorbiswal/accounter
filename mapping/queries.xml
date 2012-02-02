@@ -1098,7 +1098,7 @@
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
-		e.transactionDate between :fromDate and (e.expirationDate.day&lt;:today.day and e.expirationDate.month&lt;:today.month and e.expirationDate.year&lt;:today.year)
+		e.transactionDate between :fromDate and :toDate and e.expirationDate &lt;:today
 		order by e.lastModifiedDate desc
 	</query>
 
