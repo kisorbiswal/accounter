@@ -16,8 +16,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
-public class SalesPersonListView extends BaseListView<ClientPayee> {
+public class SalesPersonListView extends BaseListView<ClientPayee> implements
+		IPrintableView {
 
 	private List<ClientSalesPerson> listOfsalesPerson;
 
@@ -186,4 +188,20 @@ public class SalesPersonListView extends BaseListView<ClientPayee> {
 		return messages.salesPersons();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getSalesPersonsListExportCsv(
+				viewSelect.getSelectedValue(),
+				getExportCSVCallback(messages.salesPersonList()));
+	}
 }
