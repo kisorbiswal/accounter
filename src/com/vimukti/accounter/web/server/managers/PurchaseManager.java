@@ -337,10 +337,10 @@ public class PurchaseManager extends Manager {
 					: ((Integer) object[2]).intValue());
 			salesByCustomerDetail.setNumber((String) object[3]);
 			salesByCustomerDetail.setDate(new ClientFinanceDate(
-					((BigInteger) object[4]).longValue()));
+					((Long) object[4]).longValue()));
 			salesByCustomerDetail.setPaymentTermName((String) object[5]);
 			salesByCustomerDetail.setDueDate(object[6] == null ? null
-					: new ClientFinanceDate(((BigInteger) object[6])
+					: new ClientFinanceDate(((Long) object[6])
 							.longValue()));
 			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(object[7] == null ? 0 : ((Double) object[7])
@@ -351,12 +351,12 @@ public class PurchaseManager extends Manager {
 			salesByCustomerDetail.setAmount(object[9] == null ? 0
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setDeliveryDate(object[10] == null ? null
-					: new ClientFinanceDate(((BigInteger) object[10])
+					: new ClientFinanceDate(((Long) object[10])
 							.longValue()));
 			// salesByCustomerDetail.setIsVoid(object[11] == null ? true
 			// : ((Boolean) object[11]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[11]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[12])
+			salesByCustomerDetail.setTransactionId(((Long) object[12])
 					.longValue());
 			salesByCustomerDetail.setDiscount((Double) object[13]);
 			queryResult.add(salesByCustomerDetail);
