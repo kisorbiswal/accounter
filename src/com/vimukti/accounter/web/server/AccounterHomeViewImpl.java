@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
@@ -79,7 +78,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -1074,50 +1072,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return clientReceivePaymentList;
-	}
-
-	@Override
-	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
-			long transactionMakeDepositId) {
-		ClientTransactionMakeDeposit clientTransactionMakeDeposit = null;
-		TransactionMakeDeposit serverTransactionMakeDeposit = null;
-		try {
-
-			serverTransactionMakeDeposit = getFinanceTool()
-					.getTransactionMakeDeposit(transactionMakeDepositId,
-							getCompanyId());
-			clientTransactionMakeDeposit = new ClientConvertUtil()
-					.toClientObject(serverTransactionMakeDeposit,
-							ClientTransactionMakeDeposit.class);
-
-			// transactionMakeDeposit = (ClientTransactionMakeDeposit) manager
-			// .merge(transactionMakeDeposit);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return clientTransactionMakeDeposit;
-	}
-
-	@Override
-	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits() {
-		ArrayList<ClientTransactionMakeDeposit> makeDepositTransactionsList = null;
-
-		try {
-
-			makeDepositTransactionsList = getFinanceTool()
-					.getTransactionMakeDeposits(getCompanyId());
-
-			// makeDepositTransactionsList = (List<MakeDepositTransactionsList>)
-			// manager
-			// .merge(makeDepositTransactionsList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return makeDepositTransactionsList;
 	}
 
 	@Override

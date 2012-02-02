@@ -219,7 +219,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
 			viwType = ClientTransaction.STATUS_DRAFT;
 		} else if (viewType.equalsIgnoreCase(messages.expired())) {
-			viwType = ClientEstimate.STATUS_EXPIRED;
+			viwType = 6;
 		}
 		Accounter.createHomeService().getEstimates(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(), start,
