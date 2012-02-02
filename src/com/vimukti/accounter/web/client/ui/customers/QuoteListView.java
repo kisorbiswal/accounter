@@ -10,15 +10,17 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 
-public class QuoteListView extends TransactionsListView<ClientEstimate> {
+public class QuoteListView extends TransactionsListView<ClientEstimate>
+		implements IPrintableView {
 
 	protected List<ClientEstimate> estimates;
 
 	private List<ClientEstimate> listOfEstimates;
-
+	int viwType = -1;
 	private final int type;
 
 	public QuoteListView(int type) {
@@ -205,7 +207,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		int viwType = -1;
+
 		if (viewType.equalsIgnoreCase(messages.open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
 		} else if (viewType.equalsIgnoreCase(messages.rejected())) {
@@ -224,5 +226,22 @@ public class QuoteListView extends TransactionsListView<ClientEstimate> {
 		Accounter.createHomeService().getEstimates(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(), start,
 				length, this);
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getEstimatesExportCsv(type, viwType,
+				getStartDate().getDate(), getEndDate().getDate(),
+				getExportCSVCallback(messages.quotes()));
 	}
 }

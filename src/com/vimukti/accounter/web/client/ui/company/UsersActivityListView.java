@@ -10,6 +10,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,13 +20,16 @@ import com.vimukti.accounter.web.client.core.ClientActivity;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class UsersActivityListView extends BaseView {
+public class UsersActivityListView extends BaseView implements IPrintableView {
 
 	private Label titleItem;
 	private DateField fromdate, toDate;
@@ -187,5 +191,34 @@ public class UsersActivityListView extends BaseView {
 	@Override
 	protected boolean canDelete() {
 		return false;
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getUsersActivityLogExportCsv(
+				activityList.getFromDate(), activityList.getEndDate(),
+				activityList.getCustomiseValue(), new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String id) {
+						UIUtils.downloadFileFromTemp(
+								messages.usersActivityLogTitle() + ".csv", id);
+					}
+
+					@Override
+					public void onFailure(Throwable arg0) {
+						arg0.printStackTrace();
+					}
+				});
 	}
 }

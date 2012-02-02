@@ -269,8 +269,7 @@ public class CustomerManager extends PayeeManager {
 						.setEntity("company", company)
 						.setParameter("estimateType", estimateType)
 						.setParameter("fromDate", fromDate)
-						.setParameter("toDate", toDate)
-						.setParameter("status", viewType);
+						.setParameter("toDate", toDate);
 			}
 			if (length == -1) {
 				list = query.list();

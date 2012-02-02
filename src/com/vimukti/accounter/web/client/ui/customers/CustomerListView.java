@@ -17,10 +17,12 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomerListGrid;
 
-public class CustomerListView extends BaseListView<PayeeList> {
+public class CustomerListView extends BaseListView<PayeeList> implements
+		IPrintableView {
 
 	public CustomerListView() {
 
@@ -120,6 +122,16 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	}
 
 	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
 	public void onSuccess(PaginationList<PayeeList> result) {
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
@@ -194,6 +206,13 @@ public class CustomerListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return messages.payees(Global.get().Customers());
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getPayeeListExportCsv(
+				ClientPayee.TYPE_CUSTOMER, isActive,
+				getExportCSVCallback(Global.get().Customers()));
 	}
 
 	@Override

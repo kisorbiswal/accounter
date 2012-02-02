@@ -361,9 +361,11 @@
 		<query-param name="from" type="long" />
 		<query-param name="balance" type="double" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.Account set totalBalanceInAccountCurrency=:balance
+		update com.vimukti.accounter.core.Account set
+		totalBalanceInAccountCurrency=:balance
 		where
-		id=:from and company=:company
+		id=:from and
+		company=:company
 	</query>
 
 	<query name="delete.account.old">
@@ -1077,7 +1079,7 @@
 		cp.type=:type and cp.saveStatus!=204
 	</query>
 
-<query name="getEstimate">
+	<query name="getEstimate">
 		<query-param name="company" type="Company" />
 		<query-param name="estimateType" type="int" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
@@ -1086,9 +1088,10 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate
-		order by e.lastModifiedDate desc
+		order by
+		e.lastModifiedDate desc
 	</query>
-	
+
 	<query name="getExpiredEstimate">
 		<query-param name="company" type="Company" />
 		<query-param name="estimateType" type="int" />
@@ -1098,7 +1101,8 @@
 		from com.vimukti.accounter.core.Estimate e where e.company=:company
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
-		e.transactionDate between :fromDate and :toDate and e.expirationDate &lt;:today
+		e.transactionDate between :fromDate and :toDate and e.expirationDate
+		&lt;:today
 		order by e.lastModifiedDate desc
 	</query>
 
@@ -1809,11 +1813,12 @@
 	<query name="update.merge.journalEntry.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
-		update com.vimukti.accounter.core.JournalEntry set involvedAccount.id=:toID
+		update com.vimukti.accounter.core.JournalEntry set
+		involvedAccount.id=:toID
 		where
 		involvedAccount.id=:fromID
 	</query>
-	
+
 	<query name="update.merge.transactionmakedepositentries.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -2018,5 +2023,28 @@
 		from com.vimukti.accounter.core.Statement s where
 		s.company.id=:companyId
 		order by s.id
+	</query>
+
+	<query name="getAllItems">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Item i where
+		i.company.id=:companyId
+		order by i.id
+	</query>
+	<query name="getSalesPersons">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.SalesPerson s where
+		s.company.id=:companyId order by s.id
+	</query>
+	<query name="getTaxcodes">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TAXCode t where
+		t.company.id=:companyId order by t.id
+	</query>
+
+	<query name="getTaxItems">
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.TAXItem t where
+		t.company.id=:companyId order by t.id
 	</query>
 </hibernate-mapping>

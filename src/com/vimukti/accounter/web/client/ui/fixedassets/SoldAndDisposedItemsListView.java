@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.SoldAndDisposedItemsListGrid;
 
 /**
@@ -20,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.grids.SoldAndDisposedItemsListGrid;
  * 
  */
 public class SoldAndDisposedItemsListView extends
-		BaseListView<ClientFixedAsset> {
+		BaseListView<ClientFixedAsset> implements IPrintableView {
 
 	private int start;
 
@@ -158,4 +159,20 @@ public class SoldAndDisposedItemsListView extends
 		return messages.soldDisposedItems();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getFixedAssetListExportCsv(
+				ClientFixedAsset.STATUS_SOLD_OR_DISPOSED,
+				getExportCSVCallback(messages.soldAndDisposedItems()));
+	}
 }

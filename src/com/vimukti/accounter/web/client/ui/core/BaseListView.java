@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BudgetListView;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.company.JournalEntryListView;
@@ -686,5 +687,28 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	public Map<String, Object> saveView() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * Called by subclasses while downloading the csv file
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	protected AsyncCallback<String> getExportCSVCallback(final String filename) {
+		return new AsyncCallback<String>() {
+
+			@Override
+			public void onSuccess(String id) {
+				UIUtils.downloadFileFromTemp(filename + ".csv", id);
+
+			}
+
+			@Override
+			public void onFailure(Throwable arg0) {
+				arg0.printStackTrace();
+
+			}
+		};
 	}
 }

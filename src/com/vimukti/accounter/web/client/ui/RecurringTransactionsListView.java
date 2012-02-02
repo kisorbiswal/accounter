@@ -17,12 +17,14 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.RecurringsListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class RecurringTransactionsListView extends
-		TransactionsListView<ClientRecurringTransaction> {
+		TransactionsListView<ClientRecurringTransaction> implements
+		IPrintableView {
 
 	private final static String ALL = messages.all();
 	private final static String SCHEDULED = messages.scheduled();
@@ -258,5 +260,22 @@ public class RecurringTransactionsListView extends
 				iterator.remove();
 			}
 		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getRecurringsListExportCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
+				getExportCSVCallback(messages.recurringTransactionsList()));
 	}
 }

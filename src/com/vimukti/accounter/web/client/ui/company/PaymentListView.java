@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.SelectPaymentTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
@@ -20,7 +21,8 @@ import com.vimukti.accounter.web.client.ui.grids.PaymentsListGrid;
  * @author Mandeep Singh
  * 
  */
-public class PaymentListView extends TransactionsListView<PaymentsList> {
+public class PaymentListView extends TransactionsListView<PaymentsList>
+		implements IPrintableView {
 	private int checkType;
 	// private static String DELETED = "Deleted";
 
@@ -29,6 +31,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	public static final int TYPE_CUSTOMER_CHECKS = 1;
 	public static final int TYPE_VENDOR_CHECKS = 2;
+	private int type = 0;
 
 	public PaymentListView() {
 		super(messages.notIssued());
@@ -153,7 +156,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		int type = 0;
+
 		if (viewType.equalsIgnoreCase(messages.notIssued())) {
 			type = STATUS_NOT_ISSUED;
 		} else if (viewType.equalsIgnoreCase(messages.issued())) {
@@ -177,6 +180,33 @@ public class PaymentListView extends TransactionsListView<PaymentsList> {
 			Accounter.createHomeService().getPayeeChecks(false,
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
+		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		if (checkType == 0) {
+			Accounter.createExportCSVService().getPaymentsListExportCsv(
+					getStartDate().getDate(), getEndDate().getDate(), type,
+					getExportCSVCallback(messages.payments()));
+		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
+			Accounter.createExportCSVService().getPayeeChecksExportCsv(true,
+					getStartDate().getDate(), getEndDate().getDate(), type,
+					getExportCSVCallback(messages.payments()));
+		} else {
+			Accounter.createExportCSVService().getPayeeChecksExportCsv(false,
+					getStartDate().getDate(), getEndDate().getDate(), type,
+					getExportCSVCallback(messages.payments()));
 		}
 	}
 }

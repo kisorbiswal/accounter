@@ -10,8 +10,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
-public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> {
+public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList>
+		implements IPrintableView {
 
 	private int start;
 
@@ -101,4 +103,19 @@ public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList> 
 		return messages.stockAdjustments();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getStockAdjustmentsExportCsv(
+				getExportCSVCallback(messages.stockAdjustments()));
+	}
 }

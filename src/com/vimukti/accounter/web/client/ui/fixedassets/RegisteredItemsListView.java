@@ -13,13 +13,15 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.RegisteredItemsListGrid;
 
 /**
  * @author Murali.A
  * 
  */
-public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
+public class RegisteredItemsListView extends BaseListView<ClientFixedAsset>
+		implements IPrintableView {
 
 	public RegisteredItemsListView() {
 		this.isViewSelectRequired = false;
@@ -153,4 +155,20 @@ public class RegisteredItemsListView extends BaseListView<ClientFixedAsset> {
 		return messages.registeredItemsList();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getFixedAssetListExportCsv(
+				ClientFixedAsset.STATUS_REGISTERED,
+				getExportCSVCallback(messages.registeredItemsList()));
+	}
 }

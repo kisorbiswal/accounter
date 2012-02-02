@@ -13,13 +13,15 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.ManageTAXCodeListGrid;
 
 /**
  * @author gwt
  * 
  */
-public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
+public class ManageTAXCodesListView extends BaseListView<ClientTAXCode>
+		implements IPrintableView {
 
 	private List<ClientTAXCode> listOfTaxCodes;
 
@@ -146,4 +148,21 @@ public class ManageTAXCodesListView extends BaseListView<ClientTAXCode> {
 		return messages.vatCodeList();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+
+		Accounter.createExportCSVService().getTaxCodesListExportCsv(
+				viewSelect.getSelectedValue(),
+				getExportCSVCallback(messages.taxCodesList()));
+	}
 }

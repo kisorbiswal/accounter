@@ -147,7 +147,7 @@
 		<servlet-name>Company Password</servlet-name>
 		<url-pattern>company/companypassword</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>Activation</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.ActivationServlet
@@ -459,7 +459,7 @@
 		<servlet-name>uploadtemplatefile</servlet-name>
 		<url-pattern>/do/uploadtemplatefile</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>uploadstatementfile</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.UploadStatementFileServlet
@@ -753,6 +753,19 @@
 	<servlet-mapping>
 		<servlet-name>EmailActivationServlet </servlet-name>
 		<url-pattern>/main/emailActivation</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>iAccounterExportCSVImpl
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.AccounterExportCSVImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>iAccounterExportCSVImpl </servlet-name>
+		<url-pattern>/do/accounter/exportcsv/rpc/service </url-pattern>
 	</servlet-mapping>
 
 </web-app>

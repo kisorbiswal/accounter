@@ -10,9 +10,11 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.VATItemsListGrid;
 
-public class VatItemsListView extends BaseListView<ClientTAXItem> {
+public class VatItemsListView extends BaseListView<ClientTAXItem> implements
+		IPrintableView {
 
 	private List<ClientTAXItem> listOfVatItems;
 	private int start;
@@ -142,4 +144,20 @@ public class VatItemsListView extends BaseListView<ClientTAXItem> {
 		return messages.vatItemList();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getTaxItemsListExportCsv(
+				viewSelect.getSelectedValue(),
+				getExportCSVCallback(messages.taxItemsList()));
+	}
 }

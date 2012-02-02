@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
 
@@ -19,7 +20,8 @@ import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
  * 
  */
 
-public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
+public class VendorPaymentsListView extends TransactionsListView<PaymentsList>
+		implements IPrintableView {
 
 	private int transactionType;
 	private int viewType;
@@ -154,5 +156,25 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList> {
 				messages.all())) {
 			this.viewType = TYPE_ALL;
 		}
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getVendorPaymentsListExportCsv(
+				getStartDate().getDate(),
+				getEndDate().getDate(),
+				viewType,
+				getExportCSVCallback(messages.payeePayments(Global.get()
+						.Vendor())));
 	}
 }

@@ -17,10 +17,12 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.TAXAgencyListGrid;
 
-public class TAXAgencyListView extends BaseListView<PayeeList> {
+public class TAXAgencyListView extends BaseListView<PayeeList> implements
+		IPrintableView {
 
 	private List<PayeeList> listOfPayees;
 
@@ -199,5 +201,22 @@ public class TAXAgencyListView extends BaseListView<PayeeList> {
 		selectTypes.add(messages.inActive());
 		viewSelect.setComboItem(messages.active());
 		return selectTypes;
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getPayeeListExportCsv(
+				ClientPayee.TYPE_TAX_AGENCY, isActive,
+				getExportCSVCallback(messages.taxAgenciesList()));
 	}
 }

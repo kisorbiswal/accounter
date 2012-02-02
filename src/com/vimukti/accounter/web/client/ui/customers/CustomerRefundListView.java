@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
 
@@ -23,7 +24,7 @@ import com.vimukti.accounter.web.client.ui.grids.CustomerRefundListGrid;
  * 
  */
 public class CustomerRefundListView extends
-		TransactionsListView<CustomerRefundsList> {
+		TransactionsListView<CustomerRefundsList> implements IPrintableView {
 	protected List<CustomerRefundsList> transactions;
 	private List<CustomerRefundsList> listOfCustomerRefund = new ArrayList<CustomerRefundsList>();
 
@@ -194,5 +195,24 @@ public class CustomerRefundListView extends
 	@Override
 	protected String getViewTitle() {
 		return messages.customerRefunds(Global.get().Customer());
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getCustomerRefundsListExportCsv(
+				getStartDate().getDate(),
+				getEndDate().getDate(),
+				getExportCSVCallback(messages.customerRefund(Global.get()
+						.Customer())));
 	}
 }

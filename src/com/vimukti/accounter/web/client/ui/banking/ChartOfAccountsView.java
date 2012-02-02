@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
 
 /**
@@ -22,7 +23,8 @@ import com.vimukti.accounter.web.client.ui.grids.ChartOfAccountsListGrid;
  * @author Mandeep Singh Modified by Ravi Kira.G
  * 
  */
-public class ChartOfAccountsView extends BaseListView<ClientAccount> {
+public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
+		IPrintableView {
 	Label addAccLabel, hierLabel, lab1;
 	public int typeOfAccount;
 
@@ -185,4 +187,19 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> {
 		return messages.Account();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getAccountsExportCsv(typeOfAccount,
+				isActive, getExportCSVCallback(messages.Accounts()));
+	}
 }

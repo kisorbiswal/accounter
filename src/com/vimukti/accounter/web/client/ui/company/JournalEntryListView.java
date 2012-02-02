@@ -6,8 +6,10 @@ import java.util.List;
 import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
 
@@ -17,7 +19,7 @@ import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
  * 
  */
 public class JournalEntryListView extends
-		TransactionsListView<ClientJournalEntry> {
+		TransactionsListView<ClientJournalEntry> implements IPrintableView {
 	List<ClientJournalEntry> allEntries;
 
 	public JournalEntryListView() {
@@ -186,4 +188,20 @@ public class JournalEntryListView extends
 		return messages.journalEntries();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getJournalEntriesExportCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
+				getExportCSVCallback(messages.journalEntries()));
+	}
 }

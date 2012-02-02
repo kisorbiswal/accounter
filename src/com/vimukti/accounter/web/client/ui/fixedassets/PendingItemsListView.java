@@ -13,13 +13,15 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.PendingItemsListGrid;
 
 /**
  * @author Murali.A
  * 
  */
-public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
+public class PendingItemsListView extends BaseListView<ClientFixedAsset>
+		implements IPrintableView {
 
 	public PendingItemsListView() {
 		this.isViewSelectRequired = false;
@@ -129,4 +131,21 @@ public class PendingItemsListView extends BaseListView<ClientFixedAsset> {
 		return messages.pendingItemsList();
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getFixedAssetListExportCsv(
+				ClientFixedAsset.STATUS_PENDING,
+				getExportCSVCallback(messages.pendingItemsList()));
+
+	}
 }

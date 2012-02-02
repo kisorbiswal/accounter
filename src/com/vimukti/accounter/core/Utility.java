@@ -18,6 +18,8 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class Utility {
@@ -1497,6 +1499,194 @@ public class Utility {
 		}
 		startDate = new FinanceDate(cal.getTime());
 		return startDate;
+
+	}
+
+	/**
+	 * 
+	 * @param accountType
+	 * @return
+	 */
+	public static String getAccountTypeString(int accountType) {
+		AccounterMessages messages = Global.get().messages();
+		String accountTypeName = null;
+		switch (accountType) {
+		case Account.TYPE_INCOME:
+			accountTypeName = messages.income();
+			break;
+		case Account.TYPE_OTHER_INCOME:
+			accountTypeName = messages.otherIncome();
+			break;
+		case Account.TYPE_EXPENSE:
+			accountTypeName = messages.expense();
+			break;
+		case Account.TYPE_OTHER_EXPENSE:
+			accountTypeName = messages.otherExpense();
+			break;
+		case Account.TYPE_COST_OF_GOODS_SOLD:
+			accountTypeName = messages.costofGoodsSold();
+			break;
+		case Account.TYPE_CASH:
+			accountTypeName = messages.cash();
+			break;
+		case Account.TYPE_BANK:
+			accountTypeName = messages.bank();
+			break;
+		case Account.TYPE_OTHER_CURRENT_ASSET:
+			accountTypeName = messages.otherCurrentAsset();
+			break;
+		case Account.TYPE_INVENTORY_ASSET:
+			accountTypeName = messages.inventoryAsset();
+			break;
+		case Account.TYPE_OTHER_ASSET:
+			accountTypeName = messages.otherAssets();
+			break;
+		case Account.TYPE_FIXED_ASSET:
+			accountTypeName = messages.fixedAsset();
+			break;
+		case Account.TYPE_CREDIT_CARD:
+			accountTypeName = messages.creditCard();
+			break;
+		case Account.TYPE_PAYPAL:
+			accountTypeName = messages.paypal();
+			break;
+		case Account.TYPE_PAYROLL_LIABILITY:
+			accountTypeName = messages.payrollLiability();
+			break;
+		case Account.TYPE_OTHER_CURRENT_LIABILITY:
+			accountTypeName = messages.currentLiability();
+			break;
+		case Account.TYPE_LONG_TERM_LIABILITY:
+			accountTypeName = messages.longTermLiability();
+			break;
+		case Account.TYPE_EQUITY:
+			accountTypeName = messages.equity();
+			break;
+		case Account.TYPE_ACCOUNT_RECEIVABLE:
+			accountTypeName = messages.accountsReceivable();
+			break;
+		case Account.TYPE_ACCOUNT_PAYABLE:
+			accountTypeName = messages.accountsPayable();
+			break;
+
+		}
+		return accountTypeName;
+	}
+
+	/**
+	 * 
+	 * @param activityType
+	 * @return
+	 */
+	public static String getActivityType(int activityType) {
+		AccounterMessages messages = Global.get().messages();
+		StringBuffer buffer = new StringBuffer();
+		switch (activityType) {
+		case 0:
+			return messages.loggedIn();
+		case 1:
+			return messages.loggedOut();
+		case 2:
+			buffer.append(messages.added());
+			buffer.append(" : ");
+			return buffer.toString();
+		case 3:
+			buffer.append(messages.edited());
+			buffer.append(" : ");
+			return buffer.toString();
+		case 4:
+			buffer.append(messages.deleted());
+			buffer.append(" : ");
+			return buffer.toString();
+		case 5:
+			return messages.updatedPreferences();
+		case 7:
+			buffer.append(messages.voided());
+			buffer.append(" : ");
+			return buffer.toString();
+		case 8:
+			buffer.append(messages.merge());
+			buffer.append(":");
+			return buffer.toString();
+		default:
+			break;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param item
+	 * @return
+	 */
+	public static String getItemTypeText(Item item) {
+		AccounterMessages messages = Global.get().messages();
+		String itemText = "";
+
+		if (item == null)
+			return itemText;
+
+		switch (item.getType()) {
+
+		case ClientItem.TYPE_SERVICE:
+
+			itemText = messages.serviceItem();
+			break;
+
+		case ClientItem.TYPE_INVENTORY_PART:
+
+			itemText = messages.inventoryPart();
+
+			break;
+
+		case ClientItem.TYPE_DISCOUNT:
+
+			itemText = messages.discount();
+			break;
+
+		case ClientItem.TYPE_GROUP:
+
+			itemText = messages.group();
+			break;
+
+		case ClientItem.TYPE_INVENTORY_ASSEMBLY:
+
+			itemText = messages.inventoryAssembly();
+			break;
+
+		case ClientItem.TYPE_NON_INVENTORY_PART:
+
+			itemText = messages.NonInventory();
+			break;
+
+		case ClientItem.TYPE_PAYMENT:
+
+			itemText = messages.payment();
+
+			break;
+
+		case ClientItem.TYPE_SALES_TAX_GROUP:
+
+			itemText = messages.salesTaxGroups();
+
+			break;
+
+		case ClientItem.TYPE_SALES_TAX_ITEM:
+
+			itemText = messages.salesTaxItem();
+
+			break;
+
+		case ClientItem.TYPE_SUBTOTAL:
+
+			itemText = messages.SubTotal();
+
+			break;
+		default:
+			break;
+		}
+
+		return itemText;
 
 	}
 }
