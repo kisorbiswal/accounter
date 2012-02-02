@@ -120,7 +120,6 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.VENDORCREDITMEMO;
@@ -138,13 +137,6 @@ public class ClientVendorCreditMemo extends ClientTransaction {
 			transactionItems.add(clientTransactionItem.clone());
 		}
 		vendorCreditMemo.transactionItems = transactionItems;
-
-		// transactionMakeDeposit list
-		List<ClientTransactionMakeDeposit> transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposit.add(clientTransactionMakeDeposit.clone());
-		}
-		vendorCreditMemo.transactionMakeDeposit = transactionMakeDeposit;
 
 		// transactionPayBill list
 		List<ClientTransactionPayBill> transactionPayBillList = new ArrayList<ClientTransactionPayBill>();

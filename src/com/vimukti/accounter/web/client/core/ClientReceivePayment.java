@@ -319,12 +319,6 @@ public class ClientReceivePayment extends ClientTransaction {
 		}
 		receivePayment.transactionItems = transactionItems;
 
-		List<ClientTransactionMakeDeposit> transactionMakeDeposits = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposits.add(clientTransactionMakeDeposit.clone());
-		}
-		receivePayment.transactionMakeDeposit = transactionMakeDeposits;
-
 		List<ClientTransactionPayBill> transactionPayBills = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
 			transactionPayBills.add(clientTransactionPayBill.clone());

@@ -81,7 +81,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 		this.increaseVATLine = increaseVATLine;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -204,12 +203,6 @@ public class ClientTAXAdjustment extends ClientTransaction implements
 			transactionItems.add(clientTransactionItem.clone());
 		}
 		taxAdjustment.transactionItems = transactionItems;
-
-		List<ClientTransactionMakeDeposit> transactionMakeDeposits = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposits.add(clientTransactionMakeDeposit.clone());
-		}
-		taxAdjustment.transactionMakeDeposit = transactionMakeDeposits;
 
 		List<ClientTransactionPayBill> transactionPayBills = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {

@@ -159,12 +159,6 @@ public class ClientReceiveVAT extends ClientTransaction {
 		}
 		receiveVAT.transactionItems = transactionItems;
 
-		List<ClientTransactionMakeDeposit> transactionMakeDeposits = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposits.add(clientTransactionMakeDeposit.clone());
-		}
-		receiveVAT.transactionMakeDeposit = transactionMakeDeposits;
-
 		List<ClientTransactionPayBill> transactionPayBills = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
 			transactionPayBills.add(clientTransactionPayBill.clone());

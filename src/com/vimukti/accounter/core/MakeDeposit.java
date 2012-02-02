@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -266,5 +267,11 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 
 	public void setEstimates(Set<Estimate> estimates) {
 		this.estimates = estimates;
+	}
+
+	@Override
+	public void onLoad(Session session, Serializable arg1) {
+		// TODO Auto-generated method stub
+		super.onLoad(session, arg1);
 	}
 }

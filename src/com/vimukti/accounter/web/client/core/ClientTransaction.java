@@ -103,7 +103,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	private ClientStatementRecord statementRecord;
 
 	List<ClientTransactionItem> transactionItems = new ArrayList<ClientTransactionItem>();
-	List<ClientTransactionMakeDeposit> transactionMakeDeposit;
 	List<ClientTransactionPayBill> transactionPayBill = new ArrayList<ClientTransactionPayBill>();
 	List<ClientTransactionReceivePayment> transactionReceivePayment = new ArrayList<ClientTransactionReceivePayment>();
 	List<ClientTransactionIssuePayment> transactionIssuePayment;
@@ -468,22 +467,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	}
 
 	/**
-	 * @return the transactionMakeDeposit
-	 */
-	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposit() {
-		return transactionMakeDeposit;
-	}
-
-	/**
-	 * @param transactionMakeDeposit
-	 *            the transactionMakeDeposit to set
-	 */
-	public void setTransactionMakeDeposit(
-			List<ClientTransactionMakeDeposit> transactionMakeDeposit) {
-		this.transactionMakeDeposit = transactionMakeDeposit;
-	}
-
-	/**
 	 * @return the transactionPayBill
 	 */
 	public List<ClientTransactionPayBill> getTransactionPayBill() {
@@ -768,13 +751,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 			transactionItems.add(clientTransactionItem.clone());
 		}
 		clientTransactionClone.transactionItems = transactionItems;
-
-		// transactionMakeDeposit list
-		List<ClientTransactionMakeDeposit> transactionMakeDeposit = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposit.add(clientTransactionMakeDeposit.clone());
-		}
-		clientTransactionClone.transactionMakeDeposit = transactionMakeDeposit;
 
 		// transactionPayBill list
 		List<ClientTransactionPayBill> transactionPayBillList = new ArrayList<ClientTransactionPayBill>();

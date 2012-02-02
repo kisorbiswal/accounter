@@ -147,16 +147,17 @@ public class CreditsAndPayments implements IAccounterServerCore, Lifecycle {
 
 	}
 
-	public CreditsAndPayments(TransactionMakeDeposit transactionMakeDeposit) {
-
-		this.transaction = transactionMakeDeposit.makeDeposit;
-		this.creditAmount = transactionMakeDeposit.amount;
-		this.memo = "" + transaction.getNumber() + transaction;
-		this.balance = transactionMakeDeposit.amount;
-
-		this.payee = (transactionMakeDeposit).getCustomer();
-
-	}
+	// public CreditsAndPayments(TransactionMakeDeposit transactionMakeDeposit)
+	// {
+	//
+	// this.transaction = transactionMakeDeposit.makeDeposit;
+	// this.creditAmount = transactionMakeDeposit.amount;
+	// this.memo = "" + transaction.getNumber() + transaction;
+	// this.balance = transactionMakeDeposit.amount;
+	//
+	// this.payee = (transactionMakeDeposit).getCustomer();
+	//
+	// }
 
 	public String getMemo() {
 		return memo;

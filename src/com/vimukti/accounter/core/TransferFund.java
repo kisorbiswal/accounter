@@ -1,6 +1,5 @@
 package com.vimukti.accounter.core;
 
-import java.util.List;
 import java.util.Map;
 
 import org.hibernate.CallbackException;
@@ -56,8 +55,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 	double cashBackAmount;
 
 	//
-
-	List<TransactionMakeDeposit> transactionMakeDeposit;
 
 	public TransferFund() {
 		setType(Transaction.TYPE_TRANSFER_FUND);
@@ -168,22 +165,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	/**
-	 * @return the transactionMakeDeposit
-	 */
-	public List<TransactionMakeDeposit> getTransactionMakeDeposit() {
-		return transactionMakeDeposit;
-	}
-
-	/**
-	 * @param transactionMakeDeposit
-	 *            the transactionMakeDeposit to set
-	 */
-	public void setTransactionMakeDeposit(
-			List<TransactionMakeDeposit> transactionMakeDeposit) {
-		this.transactionMakeDeposit = transactionMakeDeposit;
 	}
 
 	@Override
@@ -317,9 +298,6 @@ public class TransferFund extends Transaction implements Lifecycle {
 		Map<Account, Double> map = super.getEffectingAccountsWithAmounts();
 		if (cashBackAccount != null) {
 			map.put(cashBackAccount, cashBackAmount);
-		}
-		for (TransactionMakeDeposit deposit : transactionMakeDeposit) {
-			map.put(deposit.getEffectingAccount(), deposit.getAmount());
 		}
 		return map;
 	}

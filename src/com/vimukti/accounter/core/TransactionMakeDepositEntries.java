@@ -1,15 +1,12 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 public class TransactionMakeDepositEntries implements IAccounterServerCore,
@@ -122,70 +119,6 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 		return this.id;
 	}
 
-	/**
-	 * To convert the transactionMakeDeposits from the server side object to
-	 * client side object.
-	 * 
-	 * @param transactionMakeDepositEntries
-	 * @return
-	 */
-	public static List<ClientTransactionMakeDeposit> prepareClientTransactionMakeDeposits(
-			List<TransactionMakeDepositEntries> transactionMakeDepositEntries) {
-		List<ClientTransactionMakeDeposit> list = new ArrayList<ClientTransactionMakeDeposit>();
-		if (transactionMakeDepositEntries != null
-				&& transactionMakeDepositEntries.size() > 0) {
-
-			for (TransactionMakeDepositEntries transactionMakeDepositEntry : transactionMakeDepositEntries) {
-
-				Payee payee = transactionMakeDepositEntry.getTransaction()
-						.getInvolvedPayee();
-
-				ClientTransactionMakeDeposit clientTransactionMakeDeposit = new ClientTransactionMakeDeposit();
-				clientTransactionMakeDeposit
-						.setDepositedTransaction(transactionMakeDepositEntry
-								.getTransaction().getID());
-				clientTransactionMakeDeposit
-						.setDate(transactionMakeDepositEntry.getTransaction()
-								.getDate().getDate());
-				clientTransactionMakeDeposit
-						.setNumber(transactionMakeDepositEntry.getTransaction()
-								.getNumber());
-				clientTransactionMakeDeposit
-						.setAmount(transactionMakeDepositEntry.getAmount());
-
-				clientTransactionMakeDeposit
-						.setCashAccount(transactionMakeDepositEntry
-								.getAccount().getID());
-				clientTransactionMakeDeposit
-						.setPaymentMethod(transactionMakeDepositEntry
-								.getTransaction().getPaymentMethod());
-				clientTransactionMakeDeposit
-						.setReference(transactionMakeDepositEntry
-								.getTransaction().getReference());
-
-				if (payee != null) {
-					if (payee.getType() == TYPE_CUSTOMER) {
-						clientTransactionMakeDeposit.setType(TYPE_CUSTOMER);
-						clientTransactionMakeDeposit.setCustomer(payee.getID());
-					} else if (payee.getType() == TYPE_VENDOR) {
-						clientTransactionMakeDeposit.setType(TYPE_VENDOR);
-						clientTransactionMakeDeposit.setVendor(payee.getID());
-					}
-
-				} else {
-					clientTransactionMakeDeposit
-							.setType(TYPE_FINANCIAL_ACCOUNT);
-					clientTransactionMakeDeposit
-							.setAccount(transactionMakeDepositEntry
-									.getAccount().getID());
-				}
-				list.add(clientTransactionMakeDeposit);
-			}
-		}
-
-		return list;
-	}
-
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
@@ -228,7 +161,7 @@ public class TransactionMakeDepositEntries implements IAccounterServerCore,
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

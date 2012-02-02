@@ -109,13 +109,6 @@ public class TransactionPayBill extends CreatableObject implements
 	boolean isVoid = false;
 
 	/**
-	 * This reference is used to refer the TransactionMakeDeposit that was the
-	 * cause of this TransactionPaybill(if any).
-	 */
-	@ReffereredObject
-	TransactionMakeDeposit transactionMakeDeposit;
-
-	/**
 	 * The reference to the payee from which the TransactionPayBill is created.
 	 */
 	@ReffereredObject
@@ -279,22 +272,6 @@ public class TransactionPayBill extends CreatableObject implements
 	}
 
 	/**
-	 * @return the transactionMakeDeposit
-	 */
-	public TransactionMakeDeposit getTransactionMakeDeposit() {
-		return transactionMakeDeposit;
-	}
-
-	/**
-	 * @param transactionMakeDeposit
-	 *            the transactionMakeDeposit to set
-	 */
-	public void setTransactionMakeDeposit(
-			TransactionMakeDeposit transactionMakeDeposit) {
-		this.transactionMakeDeposit = transactionMakeDeposit;
-	}
-
-	/**
 	 * @return the billNumber
 	 */
 	public String getBillNumber() {
@@ -349,17 +326,17 @@ public class TransactionPayBill extends CreatableObject implements
 				// enterBill
 				this.enterBill.updateBalance(amount, this.payBill);
 
-			} else if (this.transactionMakeDeposit != null) {
-				// Update the Payments and the balance due of the corresponding
-				// customer refund
-				this.transactionMakeDeposit
-						.setPayments(this.transactionMakeDeposit.getPayments()
-								+ amount);
-				this.transactionMakeDeposit
-						.setBalanceDue(this.transactionMakeDeposit
-								.getBalanceDue() - amount);
-
-			} else if (this.journalEntry != null) {
+			}/*
+			 * else if (this.transactionMakeDeposit != null) { // Update the
+			 * Payments and the balance due of the corresponding // customer
+			 * refund this.transactionMakeDeposit
+			 * .setPayments(this.transactionMakeDeposit.getPayments() + amount);
+			 * this.transactionMakeDeposit
+			 * .setBalanceDue(this.transactionMakeDeposit .getBalanceDue() -
+			 * amount);
+			 * 
+			 * }
+			 */else if (this.journalEntry != null) {
 				this.journalEntry.updateBalanceDue(-amount);
 			}
 
@@ -415,13 +392,15 @@ public class TransactionPayBill extends CreatableObject implements
 			session.saveOrUpdate(this.enterBill);
 			this.enterBill = null;
 
-		} else if (this.transactionMakeDeposit != null) {
-
-			this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
-			session.saveOrUpdate(this.transactionMakeDeposit);
-			this.transactionMakeDeposit = null;
-
-		} else if (this.journalEntry != null) {
+		} /*
+		 * else if (this.transactionMakeDeposit != null) {
+		 * 
+		 * this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
+		 * session.saveOrUpdate(this.transactionMakeDeposit);
+		 * this.transactionMakeDeposit = null;
+		 * 
+		 * }
+		 */else if (this.journalEntry != null) {
 			this.getJournalEntry().updateBalanceDue(amount);
 			session.saveOrUpdate(this.getJournalEntry());
 			this.journalEntry = null;
@@ -464,9 +443,10 @@ public class TransactionPayBill extends CreatableObject implements
 		if (this.enterBill != null) {
 			this.enterBill.updateBalance(amount, transaction);
 			HibernateUtil.getCurrentSession().saveOrUpdate(this.enterBill);
-		} else if (this.transactionMakeDeposit != null) {
-			this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount);
-		} else if (this.journalEntry != null) {
+		} /*
+		 * else if (this.transactionMakeDeposit != null) {
+		 * this.transactionMakeDeposit.updatePaymentsAndBalanceDue(amount); }
+		 */else if (this.journalEntry != null) {
 			this.journalEntry.updatePaymentsAndBalanceDue(amount);
 		}
 	}
