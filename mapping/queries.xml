@@ -228,14 +228,6 @@
 		where
 		customer.id=:fromID and company=:company
 	</query>
-	<query name="update.merge.transactionMakeDeposit.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.TransactionMakeDeposit set
-		customer.id=:toID where
-		customer.id=:fromID and company=:company
-	</query>
 
 	<query name="update.merge.JournalEntry.old.tonew">
 		<query-param name="fromID" type="long" />
@@ -322,14 +314,6 @@
 		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.PayBill set vendor.id=:toID
 		where
-		vendor.id=:fromID and company=:company
-	</query>
-	<query name="update.mergeVendor.transactionMakeDeposit.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.TransactionMakeDeposit set
-		vendor.id=:toID where
 		vendor.id=:fromID and company=:company
 	</query>
 	<query name="update.mergeVendor.vendorCreditMemo.old.tonew">
@@ -1253,13 +1237,6 @@
 		(type1,type2,type3) and a.company=:company
 	</query>
 
-	<query name="getTransactionMakeDeposit.by.id">
-		<query-param name="id" type="long" />
-		<query-param name="company" type="Company" />
-		from
-		com.vimukti.accounter.core.TransactionMakeDeposit tmd where tmd.id
-		=:id and tmd.depositedTransaction.company=:company
-	</query>
 
 	<query name="getTransactionMakeDeposit.by.checking.isDepositedandisVoid">
 		<query-param name="company" type="Company" />
@@ -1871,13 +1848,6 @@
 		involvedAccount.id=:fromID
 	</query>
 	
-	<query name="update.merge.accounttransactionmakedeposit.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		update com.vimukti.accounter.core.TransactionMakeDeposit set
-		cashAccount.id=:toID where
-		cashAccount.id=:fromID
-	</query>
 	<query name="update.merge.transactionmakedepositentries.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
