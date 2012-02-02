@@ -809,15 +809,15 @@ public class CustomerManager extends PayeeManager {
 			transactionHistory.setNumber((String) object[2]);
 
 			transactionHistory.setDate(new ClientFinanceDate(
-					((BigInteger) object[3]).longValue()));
+					((Long) object[3]).longValue()));
 			transactionHistory.setInvoicedAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
 			transactionHistory.setPaidAmount(object[5] == null ? 0
 					: ((Double) object[5]).doubleValue());
 			transactionHistory.setPaymentTerm((String) object[6]);
 			transactionHistory
-					.setDueDate(((BigInteger) object[7]) == null ? null
-							: new ClientFinanceDate(((BigInteger) object[7])
+					.setDueDate(((Long) object[7]) == null ? null
+							: new ClientFinanceDate(((Long) object[7])
 									.longValue()));
 			transactionHistory.setDebit(object[8] == null ? 0
 					: ((Double) object[8]).doubleValue());
@@ -827,7 +827,7 @@ public class CustomerManager extends PayeeManager {
 					: ((Double) object[10]).doubleValue());
 			transactionHistory.setWriteOff(object[11] == null ? 0
 					: ((Double) object[11]).doubleValue());
-			transactionHistory.setTransactionId(((BigInteger) object[12])
+			transactionHistory.setTransactionId(((Long) object[12])
 					.longValue());
 
 			transactionHistory
