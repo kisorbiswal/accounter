@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
 
@@ -20,7 +21,7 @@ import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
  * 
  */
 public class ReceivedPaymentListView extends
-		TransactionsListView<ReceivePaymentsList> {
+		TransactionsListView<ReceivePaymentsList> implements IPrintableView {
 	private int transactionType;
 
 	public ReceivedPaymentListView() {
@@ -143,5 +144,31 @@ public class ReceivedPaymentListView extends
 		Accounter.createHomeService().getReceivePaymentsList(
 				getStartDate().getDate(), getEndDate().getDate(),
 				transactionType, start, length, type, this);
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
 	};
+
+	@Override
+	public void exportToCsv() {
+		int type = 0;
+		if (viewType.equalsIgnoreCase(messages.paid())) {
+			type = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+			type = VIEW_VOIDED;
+		} else if (viewType.equalsIgnoreCase(messages.all())) {
+			type = VIEW_ALL;
+		}
+		Accounter.createExportCSVService().getReceivePaymentsListExportCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
+				transactionType, type,
+				getExportCSVCallback(messages.receivedPayments()));
+	}
 }

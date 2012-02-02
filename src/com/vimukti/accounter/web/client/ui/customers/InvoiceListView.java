@@ -63,6 +63,15 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	}
 
 	@Override
+	public void exportToCsv() {
+		viewId = checkViewType(viewType);
+		Accounter.createExportCSVService().getInvoiceListExportCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
+				transactionType, viewId,
+				getExportCSVCallback(messages.invoices()));
+	}
+
+	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
 			if (transactionType == 0
@@ -312,8 +321,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public boolean canExportToCsv() {
-
-		return false;
+		return true;
 	}
 
 	/**
