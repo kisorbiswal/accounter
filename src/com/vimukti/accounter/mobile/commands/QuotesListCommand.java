@@ -180,7 +180,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		} else if (type.equalsIgnoreCase(getMessages().drafts())) {
 			viwType = ClientTransaction.STATUS_DRAFT;
 		} else if (type.equalsIgnoreCase(getMessages().expired())) {
-			viwType = ClientEstimate.STATUS_EXPIRED;
+			viwType = 6;
 		}
 		List<Estimate> result = new ArrayList<Estimate>();
 		try {
