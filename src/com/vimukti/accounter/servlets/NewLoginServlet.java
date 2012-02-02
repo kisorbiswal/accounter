@@ -80,9 +80,8 @@ public class NewLoginServlet extends BaseServlet {
 
 				}
 			} else {
-				request.setAttribute(
-						"message",
-						"The details that you have are incorrect. If you have forgotten your details, please refer to your invitation or contact the person who invited you to Accounter.");
+				request.setAttribute("message",
+						"The details that you have are incorrect.");
 				showLogin(request, response);
 				return;
 			}
