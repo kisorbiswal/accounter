@@ -48,7 +48,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	private TransactionDepositTable transactionDepositTable;
 	private boolean locationTrackingEnabled;
 	private AddNewButton depositTableButton;
-	private DynamicForm totalForm = new DynamicForm();
+	private final DynamicForm totalForm = new DynamicForm();
 	private AmountLabel totalLabel;
 	private ArrayList<DynamicForm> listforms;
 	private List<ClientTransactionDepositItem> transactionDepositItems;
@@ -185,7 +185,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		String listString[] = new String[] { messages.cash(),
 				messages.creditCard(), messages.directDebit(),
 				messages.masterCard(), messages.onlineBanking(),
-				messages.standingOrder(), messages.switchMaestro() };
+				messages.standingOrder(), messages.switchMaestro(),
+				messages.cheque() };
 		List<String> selectedComboList = new ArrayList<String>();
 		for (int i = 0; i < listString.length; i++) {
 			selectedComboList.add(listString[i]);
@@ -372,6 +373,7 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	}
 
+	@Override
 	public List<ClientTransactionDepositItem> getAllTransactionDepositItems() {
 		return transactionDepositTable.getRecords();
 	}
