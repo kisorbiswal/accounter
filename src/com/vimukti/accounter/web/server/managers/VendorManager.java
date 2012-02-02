@@ -128,9 +128,13 @@ public class VendorManager extends PayeeManager {
 							: new ClientFinanceDate((Long) object[2]));
 					billsList.setNumber((object[3] == null ? null
 							: ((String) object[3])));
-					if(billsList.getType()==28){
-						billsList.setVendorName((String) object[14]);
-					}else{
+					if (billsList.getType() == 28) {
+						if (object.length > 14) {
+							billsList.setVendorName((String) object[14]);
+						} else {
+							billsList.setVendorName((String) object[4]);
+						}
+					} else {
 						billsList.setVendorName((String) object[4]);
 					}
 					billsList.setOriginalAmount((Double) object[5]);
@@ -1515,8 +1519,8 @@ public class VendorManager extends PayeeManager {
 							: "")
 							.equals(AccounterServerConstants.MEMO_OPENING_BALANCE)) ? 0
 							: ((Integer) object[1]).intValue());
-			transactionHistory.setDate(new ClientFinanceDate(
-					((Long) object[2]).longValue()));
+			transactionHistory.setDate(new ClientFinanceDate(((Long) object[2])
+					.longValue()));
 			transactionHistory.setNumber((String) object[3]);
 			transactionHistory.setInvoicedAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
@@ -1544,10 +1548,8 @@ public class VendorManager extends PayeeManager {
 			 */
 
 			transactionHistory.setMemo((String) object[7]);
-			transactionHistory
-					.setDueDate(((Long) object[8]) == null ? null
-							: new ClientFinanceDate(((Long) object[8])
-									.longValue()));
+			transactionHistory.setDueDate(((Long) object[8]) == null ? null
+					: new ClientFinanceDate(((Long) object[8]).longValue()));
 			transactionHistory.setPaymentTerm((String) object[9]);
 			transactionHistory.setDebit(object[10] == null ? 0
 					: ((Double) object[10]).doubleValue());
@@ -1556,8 +1558,8 @@ public class VendorManager extends PayeeManager {
 			transactionHistory.setIsVoid(object[12] == null ? true
 					: ((Boolean) object[12]).booleanValue());
 			transactionHistory.setReference((String) object[13]);
-			transactionHistory.setTransactionId(((Long) object[14])
-					.longValue());
+			transactionHistory
+					.setTransactionId(((Long) object[14]).longValue());
 			transactionHistory
 					.setBeginningBalance((object[15] != null ? (((Double) object[15])
 							.doubleValue()) : 0.0));
@@ -1632,10 +1634,8 @@ public class VendorManager extends PayeeManager {
 					((Long) object[2]).longValue()));
 			salesByCustomerDetail.setNumber((String) object[3]);
 			salesByCustomerDetail.setPaymentTermName((String) object[4]);
-			salesByCustomerDetail
-					.setDueDate(((Long) object[5]) == null ? null
-							: new ClientFinanceDate(((Long) object[5])
-									.longValue()));
+			salesByCustomerDetail.setDueDate(((Long) object[5]) == null ? null
+					: new ClientFinanceDate(((Long) object[5]).longValue()));
 			salesByCustomerDetail.setItemName((String) object[6]);
 			salesByCustomerDetail.setDescription((String) object[7]);
 			ClientQuantity quantity = new ClientQuantity();
@@ -1647,8 +1647,7 @@ public class VendorManager extends PayeeManager {
 			salesByCustomerDetail.setAmount(object[10] == null ? 0
 					: ((Double) object[10]).doubleValue());
 			salesByCustomerDetail.setDeliveryDate(object[11] == null ? null
-					: new ClientFinanceDate(((Long) object[11])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[11]).longValue()));
 			// salesByCustomerDetail.setIsVoid(object[12] == null ? true
 			// : ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[12]);
