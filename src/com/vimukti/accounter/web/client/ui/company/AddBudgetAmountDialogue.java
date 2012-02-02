@@ -379,6 +379,15 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 					decAmount.getAmount() != null ? decAmount.getAmount()
 							.toString() : "0");
 
+			double total = janAmount.getAmount() + febAmount.getAmount()
+					+ marAmount.getAmount() + aprAmount.getAmount()
+					+ mayAmount.getAmount() + junAmount.getAmount()
+					+ julAmount.getAmount() + augAmount.getAmount()
+					+ septAmount.getAmount() + octAmount.getAmount()
+					+ novAmount.getAmount() + decAmount.getAmount();
+
+			newMap.put(messages.total(), Double.toString(total));
+
 		} else if (budgetAddBy.getSelectedValue() == QUARTERS) {
 
 			String one, two, three, four;
@@ -430,6 +439,12 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			newMap.put(DayAndMonthUtil.nov(), four);
 
 			newMap.put(DayAndMonthUtil.dec(), four);
+			
+
+			double total = quater1Amount.getAmount() + quater2Amount.getAmount()
+					+ quater3Amount.getAmount() + quater4Amount.getAmount();
+
+			newMap.put(messages.total(), Double.toString(total));
 
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
@@ -514,6 +529,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 				newMap.put(DayAndMonthUtil.dec(), one);
 			}
+			
+			double total = annualAmount.getAmount();
+
+			newMap.put(messages.total(), Double.toString(total));
 		}
 
 		ArrayList<Object> mapList = new ArrayList<Object>();

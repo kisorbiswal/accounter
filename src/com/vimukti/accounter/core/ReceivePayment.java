@@ -703,7 +703,7 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 			if (item.getReconciliation().getAccount().getID() == getDepositIn()
 					.getID() && this.amount != receivePayment.amount) {
 				throw new AccounterException(
-						AccounterException.ERROR_TRANSACTION_RECONCILIED);
+						AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED);
 			}
 		}
 	}

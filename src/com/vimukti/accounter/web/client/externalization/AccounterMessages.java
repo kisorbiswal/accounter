@@ -4767,7 +4767,7 @@ public interface AccounterMessages extends Messages {
 
 	public String transactionNumberCouldNotBeInitiated();
 
-	public String transactionReconcilied();
+	public String errorVoidingTransactionReconcilied();
 
 	public String transactions();
 
@@ -5390,23 +5390,68 @@ public interface AccounterMessages extends Messages {
 
 	public String choose(String customer);
 
+	public String assemblyItem();
+
+	public String inventoryAssemblyItem();
+
+	public String buildAndClose();
+
+	public String buildAndNew();
+
+	public String quantityOnHand();
+
+	public String quantityOnSalesOrder();
+
+	public String buildPoint();
+
+	public String quantityToBuild();
+
+	public String buildRefNo();
+
+	public String buildAssembly();
+
+	public String totalValueOfMaterialsCost();
+
 	public String encryption();
 
 	public String encryptionEnablesyourCompanydata();
-
-	public String financialNumbersWillNotbeEncrypted();
-
-	public String encryptionExample();
 
 	public String companyPassword();
 
 	public String encryptionPasswordisImportant();
 
-	public String youCanChangeEncryptionPassword();
-
 	public String forMoreInfoOnEncryption();
 
 	public String enableEncryption();
+
+	public String unableToUploadStatementFile();
+	public String invalidCompanyName();
+
+	public String existedCompanyName();
+
+	public String multiCurrencyEnabled();
+
+	public String multiCurrencyNotEnabled();
+
+	public String incomeAccountSelected();
+
+	public String itemIsReadyToUpdateWithFollowingDetails();
+
+	public String doesNotHaveNegativeOrPositiveNumber(String text);
+
+	public String firstInfirstOut();
+
+	public String lastInfirstOut();
+
+	public String average();
+
+	public String inventoryScheme();
+
+	public String typesMustbeSame(String items);
+
+	public String errorEditingTransactionReconcilied();
+
+	public String errorDeletingTransactionReconcilied();
 
 	public String taxAgencyPayment();
 

@@ -154,7 +154,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 		if (!payTAX.isDraftOrTemplate()) {
-			doVoidEffect(session);
+			// doVoidEffect(session);
 		}
 		return false;
 	}
@@ -205,7 +205,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 		return false;
 	}
 
-	private void doVoidEffect(Session session) {
+	public void doVoidEffect(Session session) {
 		// We need to update the corresponding VATAgency's balance with this
 		// amount to pay.
 		this.taxAgency.updateBalance(session, this.taxReturn, this.amountToPay,
@@ -216,11 +216,11 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 
 		// The Accounts payable is also to be decreased as the amount to pay
 		// to VATAgency is decreased.
-		Account filedLiabilityAccount = taxReturn.getTaxAgency()
-				.getFiledLiabilityAccount();
-		if (filedLiabilityAccount != null) {
-			filedLiabilityAccount.updateCurrentBalance(this.payTAX,
-					this.amountToPay, 1);
+		Account account = taxReturn.getTaxAgency().getFiledLiabilityAccount();
+		if (account != null) {
+			account.updateCurrentBalance(this.payTAX, this.amountToPay, 1);
+			session.update(account);
+			account.onUpdate(session);
 		}
 	}
 

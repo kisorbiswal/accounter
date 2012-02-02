@@ -283,19 +283,17 @@ public class UserUtils {
 	}
 
 	private static void initFileds(User user) {
-		canDoManageAccounts = (user.getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES);
-		canDoBankReconcialiation = (user.getPermissions()
-				.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES);
-		canDoCompanySettings = (user.getPermissions()
-				.getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES);
-		canDoInvoiceBills = (user.getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES);
+		UserPermissions permissions = user.getPermissions();
+		canDoManageAccounts = (permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES);
+		canDoBankReconcialiation = (permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES);
+		canDoCompanySettings = (permissions.getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES);
+		canDoInvoiceBills = (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES);
 		canDoTaxTransactions = (user.getUserRole()
 				.equals(RolePermissions.ADMIN) || user.getUserRole().equals(
 				RolePermissions.FINANCIAL_ADVISER));
-		canDoPayBillsPayments = (user.getPermissions()
-				.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES);
+		canDoPayBillsPayments = (permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES);
 		canDoManageUsers = user.isCanDoUserManagement();
-		canDoInvendoryWarehouse = (user.getPermissions()
-				.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES);
+		canDoInvendoryWarehouse = (permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES);
 	}
 }

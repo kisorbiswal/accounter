@@ -349,6 +349,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		accountCombo.initCombo(getFixedAssetAccounts());
 		// purchase date of an asset
 		purchaseDateTxt = new DateField(messages.purchaseDate());
+		purchaseDateTxt.setRequired(true);
 		purchaseDateTxt.setDatethanFireEvent(new ClientFinanceDate());
 		purchaseDateTxt.addDateValueChangeHandler(new DateValueChangeHandler() {
 
@@ -726,6 +727,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 						getCompany().getPreferences()
 								.getDepreciationStartDate());
 				depAmount = 0.0;
+
 				/*
 				 * Make an rpc call to get the calculatedDepreciation amount if
 				 * the following condtions are satisfy
@@ -733,6 +735,9 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				if (depMethod != 0 && !DecimalUtil.isEquals(depRate, 0)
 						&& !DecimalUtil.isEquals(purchasePrice, 0)
 						&& purchaseDate.before(depStartDate)) {
+					if ((purchaseDate.getDate() == 0)) {
+						purchaseDate = new ClientFinanceDate();
+					}
 					Accounter.createHomeService()
 							.getAccumulatedDepreciationAmount(depMethod,
 									depRate, purchasePrice,
@@ -759,6 +764,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 									});
 				}
 			}
+
 		} catch (Exception e) {
 
 		}
@@ -939,7 +945,10 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 				data.setStatus(ClientFixedAsset.STATUS_PENDING);
 			}
 		}
-
+		if (purchaseDateTxt.getEnteredDate().isEmpty()) {
+			result.addError(purchaseDateTxt,
+					messages.pleaseSelect(messages.purchaseDate()));
+		}
 		if (accountCombo != null && accumulatedDepreciationAccount != null) {
 			if (validateAccount()) {
 				result.addError(accountCombo,
@@ -1096,7 +1105,6 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 		return messages.newFixedAsset();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);

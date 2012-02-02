@@ -432,7 +432,8 @@ public class StatementImportOptionView extends BaseView<ClientStatement> {
 			break;
 		case CLOSINGBALANCE:
 			if (head.contains(messages.ClosingBalance())) {
-				rec.setClosingBalance(Double.parseDouble(val));
+				rec.setClosingBalance(Double
+						.parseDouble(val.trim().length() == 0 ? "0.0" : val));
 			}
 			break;
 

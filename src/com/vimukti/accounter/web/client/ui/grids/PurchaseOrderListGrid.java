@@ -28,8 +28,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.date(),
-				messages.number(),
+		return new String[] { messages.date(), messages.number(),
 				Global.get().messages().payeeName(Global.get().Vendor()),
 				messages.purchasePrice() };
 	}
@@ -44,8 +43,8 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 		case 2:
 			return obj.getVendorName();
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), getCompany()
-					.getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(),
+					getCompany().getPrimaryCurrency());
 
 		default:
 			break;
@@ -74,7 +73,6 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 	protected void onClick(PurchaseOrdersList obj, int row, int col) {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		view.onClick(obj);
 		super.onClick(obj, row, col);
 	}
 

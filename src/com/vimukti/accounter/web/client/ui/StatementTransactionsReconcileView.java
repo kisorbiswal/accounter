@@ -6,12 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DecoratedTabPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -24,7 +24,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
-import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -32,81 +32,33 @@ import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.grids.BankStatementGrid;
+import com.vimukti.accounter.web.client.ui.grids.AccountRegisterOtherListGrid;
 import com.vimukti.accounter.web.client.ui.grids.ReconcilListGrid;
 
 public class StatementTransactionsReconcileView extends
 		BaseView<ClientReconciliation> {
 
-	private BankStatementGrid bankStatementGrid;
+	private AccountRegisterOtherListGrid grid;
+	protected List<AccountRegister> accountRegister;
+	// private BankStatementGrid bankStatementGrid;
 	private DecoratedTabPanel tabSet;
 	private AmountLabel closebalanceLable, clearedbalance, difference;
 	private ClientAccount account;
 	private AccounterMessages messages;
 	private VerticalPanel Vpanel, main_Vpanel;
-	private double totalAmount = 0.0;
+	// private double totalAmount = 0.0;
 	private ReconcilListGrid reconcilListGrid;
 	protected ClientStatement statement;
-	private PaginationList<TransactionsList> allRecords;
+	// private PaginationList<TransactionsList> allRecords;
 	double spentTotal = 0.0;
 	double receivedTotal = 0.0;
 
 	public StatementTransactionsReconcileView(long accountid,
 			ClientStatement statement) {
 		super();
-		// getAllTransactions();
 		this.account = getCompany().getAccount(accountid);
 		this.statement = statement;
 
-	}
-
-	/**
-	 * gets all the received and spent transactions
-	 */
-	private void getAllTransactions() {
-		rpcUtilService.getSpentAndReceivedTransactionsList(
-				new ClientFinanceDate().getDate(),
-				new ClientFinanceDate().getDate(), 0, 10,
-				new AsyncCallback<PaginationList<TransactionsList>>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						caught.printStackTrace();
-					}
-
-					public void onSuccess(
-							PaginationList<TransactionsList> result) {
-						if (result != null) {
-							addRecordsToGrid(result);
-						}
-					}
-
-				});
-
-	}
-
-	/**
-	 * adds all statementRecords to grid, by comparing the amount with all the
-	 * spent and received amounts
-	 * 
-	 * @param matchedRecords
-	 */
-	private void addRecordsToGrid(
-			PaginationList<TransactionsList> matchedRecords) {
-		int count = 0;
-		PaginationList<ClientStatementRecord> list = new PaginationList<ClientStatementRecord>();
-		List<ClientStatementRecord> stList = statement.getStatementList();
-		Iterator iterator = stList.iterator();
-		while ((iterator).hasNext()) {
-			ClientStatementRecord obj = (ClientStatementRecord) iterator.next();
-			list.add(obj);
-			if (obj.isMatched()) {
-				count++;
-			}
-		}
-		if (stList.size() == count) {
-			saveAndCloseButton.setVisible(true);
-		}
-		reconcilListGrid.setRecords(list);
 	}
 
 	@Override
@@ -270,39 +222,45 @@ public class StatementTransactionsReconcileView extends
 
 		VerticalPanel mainPanel = new VerticalPanel();
 
-		DynamicForm amountsForm = new DynamicForm();
-
 		// transactions grid
-		this.bankStatementGrid = new BankStatementGrid();
-		bankStatementGrid.init();
-		bankStatementGrid.setWidth("100%");
-		bankStatementGrid.addLoadingImagePanel();
-		bankStatementGrid.setRecords(statement.getStatementList());
+		// this.bankStatementGrid = new BankStatementGrid();
+		// bankStatementGrid.init();
+		// bankStatementGrid.setWidth("100%");
+		// bankStatementGrid.addLoadingImagePanel();
+		// bankStatementGrid.setRecords(statement.getStatementList());
 
-		// AmountLables
-		closebalanceLable = new AmountLabel(messages.ClosingBalance());
-		closebalanceLable.setHelpInformation(true);
-		closebalanceLable.setDisabled(true);
+		grid = new AccountRegisterOtherListGrid(false);
+		// grid.addStyleName("listgrid-tl");
+		grid.init();
+		// grid.setView(this);
+		accountSelected(account);
+		mainPanel.add(grid);
 
-		clearedbalance = new AmountLabel(messages.ClearedAmount());
-		clearedbalance.setHelpInformation(true);
-		clearedbalance.setDisabled(true);
+		// DynamicForm amountsForm = new DynamicForm();
+		// // AmountLables
+		// closebalanceLable = new AmountLabel(messages.ClosingBalance());
+		// closebalanceLable.setHelpInformation(true);
+		// closebalanceLable.setDisabled(true);
+		//
+		// clearedbalance = new AmountLabel(messages.ClearedAmount());
+		// clearedbalance.setHelpInformation(true);
+		// clearedbalance.setDisabled(true);
+		//
+		// difference = new AmountLabel(messages.Difference());
+		// difference.setHelpInformation(true);
+		// difference.setDisabled(true);
+		// setdataToAmountLables();
+		// amountsForm.setItems(closebalanceLable, clearedbalance, difference);
+		// VerticalPanel amountsPanel = new VerticalPanel();
+		// amountsPanel.setWidth("100%");
+		// amountsPanel.add(amountsForm);
+		//
+		// amountsPanel.setStyleName("bottom_total_view");
+		// amountsPanel.setCellHorizontalAlignment(amountsForm,
+		// HasHorizontalAlignment.ALIGN_RIGHT);
 
-		difference = new AmountLabel(messages.Difference());
-		difference.setHelpInformation(true);
-		difference.setDisabled(true);
-		setdataToAmountLables();
-		amountsForm.setItems(closebalanceLable, clearedbalance, difference);
-		VerticalPanel amountsPanel = new VerticalPanel();
-		amountsPanel.setWidth("100%");
-		amountsPanel.add(amountsForm);
-
-		amountsPanel.setStyleName("bottom_total_view");
-		amountsPanel.setCellHorizontalAlignment(amountsForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
-
-		mainPanel.add(bankStatementGrid);
-		mainPanel.add(amountsPanel);
+		// mainPanel.add(bankStatementGrid);
+		// mainPanel.add(amountsPanel);
 
 		return mainPanel;
 	}
@@ -319,7 +277,7 @@ public class StatementTransactionsReconcileView extends
 				.getStatementList()) {
 			if (statementRecord.isMatched()) {
 				if (statementRecord.getSpentAmount() > 0) {
-					clearedBalance -= statementRecord.getSpentAmount();
+					clearedBalance += statementRecord.getSpentAmount();
 				} else {
 					clearedBalance += statementRecord.getReceivedAmount();
 				}
@@ -359,6 +317,33 @@ public class StatementTransactionsReconcileView extends
 			saveAndCloseButton.setVisible(true);
 		}
 		reconcilListGrid.setRecords(list);
+
+		// for displaying the closingBalance, balanceDifference,clearedAmount
+		DynamicForm amountsForm = new DynamicForm();
+		// AmountLables
+		closebalanceLable = new AmountLabel(messages.ClosingBalance());
+		closebalanceLable.setHelpInformation(true);
+		closebalanceLable.setDisabled(true);
+
+		clearedbalance = new AmountLabel(messages.ClearedAmount());
+		clearedbalance.setHelpInformation(true);
+		clearedbalance.setDisabled(true);
+
+		difference = new AmountLabel(messages.Difference());
+		difference.setHelpInformation(true);
+		difference.setDisabled(true);
+		setdataToAmountLables();
+		amountsForm.setItems(closebalanceLable, clearedbalance, difference);
+		VerticalPanel amountsPanel = new VerticalPanel();
+		amountsPanel.setWidth("100%");
+		amountsPanel.add(amountsForm);
+
+		amountsPanel.addStyleName("bottom_total_view");
+		amountsPanel.setCellHorizontalAlignment(amountsForm,
+				HasHorizontalAlignment.ALIGN_RIGHT);
+
+		main_Vpanel.add(amountsPanel);
+
 		panel.add(main_Vpanel);
 		return panel;
 	}
@@ -491,6 +476,66 @@ public class StatementTransactionsReconcileView extends
 	@Override
 	public void setFocus() {
 
+	}
+
+	protected void accountSelected(final ClientAccount takenaccount) {
+
+		// if (takenaccount == null) {
+		// accountRegister = null;
+		// return;
+		// }
+
+		this.account = takenaccount;
+		grid.setAccount(takenaccount);
+		Accounter.createReportService().getAccountRegister(null, null,
+				takenaccount.getID(),
+				new AccounterAsyncCallback<ArrayList<AccountRegister>>() {
+
+					@Override
+					public void onException(AccounterException caught) {
+						Accounter.showError(messages
+								.failedtoGetListofAccounts(takenaccount
+										.getName()));
+
+					}
+
+					@Override
+					public void onResultSuccess(
+							ArrayList<AccountRegister> result) {
+						accountRegister = result;
+						getAccountRegisterGrid(result);
+
+					}
+
+				});
+		grid.removeAllRecords();
+		grid.addLoadingImagePanel();
+
+	}
+
+	public void getAccountRegisterGrid(List<AccountRegister> result) {
+
+		grid.removeAllRecords();
+		grid.removeLoadingImage();
+		grid.balance = 0.0;
+		grid.totalBalance = 0.0;
+		if (accountRegister != null) {
+			for (int i = 0; i < accountRegister.size(); i++) {
+				AccountRegister accRegister = this.accountRegister.get(i);
+				grid.addData(accRegister);
+				// this.total += accRegister.getBalance();
+			}
+			if (accountRegister.size() == 0) {
+				grid.addEmptyMessage(messages.noRecordsToShow());
+			}
+		} else {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+		}
+		// grid.updateFooterValues(FinanceApplication.constants()
+		// .endingbalance(), 6);
+		// grid.addFooterValue(DataUtils.getAmountAsString(takenaccount
+		// .getCurrentBalance()), 7);
+		// this.total = 0;
 	}
 
 	private boolean validateStaementRecords() {

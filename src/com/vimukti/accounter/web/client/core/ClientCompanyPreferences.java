@@ -130,7 +130,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
-
+	private static final long UNITS = 0x1000000000000000L;
+	public static final int INVENTORY_SCHME_FIFO = 1;
+	public static final int INVENTORY_SCHME_LIFO = 2;
+	public static final int INVENTORY_SCHME_AVERAGE = 3;
+	private int activeInventoryScheme = INVENTORY_SCHME_AVERAGE;
 	private String dateFormat;
 
 	private String currencyFormat;
@@ -1243,6 +1247,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		return get(WAREHOUSE);
 	}
 
+	public void setUnitsEnabled(boolean iswareHouseEnabled) {
+		this.set(UNITS, iswareHouseEnabled);
+	}
+
+	public boolean isUnitsEnabled() {
+		return get(UNITS);
+	}
+
 	public void setInventoryEnabled(boolean isInventoryEnabled) {
 		this.set(INVENTORY_ENABLED, isInventoryEnabled);
 	}
@@ -1376,8 +1388,15 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public void setIsAccountNumberRangeCheck(boolean value) {
-
 		set(ACCOUNTNUMBER_RANGE_CHECK, value);
+	}
+
+	public int getActiveInventoryScheme() {
+		return activeInventoryScheme;
+	}
+
+	public void setActiveInventoryScheme(int activeInventoryScheme) {
+		this.activeInventoryScheme = activeInventoryScheme;
 	}
 
 }

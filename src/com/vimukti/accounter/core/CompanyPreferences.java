@@ -123,6 +123,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	private static final long TRANSACTION_DISCOUNT_PER_DETAIL_LINE = 0x400000000000000L;
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
+	private static final long UNITS = 0x1000000000000000L;
 
 	public static int VAT_REPORTING_PERIOD_MONTHLY = 1;
 	public static int VAT_REPORTING_PERIOD_BIMONTHLY = 2;
@@ -132,6 +133,10 @@ public class CompanyPreferences implements IAccounterServerCore {
 	public static int VAT_REP_ENDPERIOD_MAR_JUN_SEP_DEC = 1;
 	public static int VAT_REP_ENDPERIOD_APR_JUL_OCT_JAN = 2;
 	public static int VAT_REP_ENDPERIOD_MAY_AUG_NOV_FEB = 3;
+
+	public static final int INVENTORY_SCHME_FIFO = 1;
+	public static final int INVENTORY_SCHME_LIFO = 2;
+	public static final int INVENTORY_SCHME_AVERAGE = 3;
 
 	// Company Preferrences
 
@@ -238,6 +243,8 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private boolean isShowLegalName;
 
 	private boolean isShowRegisteredAddress;
+
+	private int activeInventoryScheme = INVENTORY_SCHME_AVERAGE;
 
 	public long getLocationTrackingId() {
 		return locationTrackingId;
@@ -1588,4 +1595,15 @@ public class CompanyPreferences implements IAccounterServerCore {
 		set(ACCOUNTNUMBER_RANGE_CHECK, value);
 	}
 
+	public int getActiveInventoryScheme() {
+		return this.activeInventoryScheme;
+	}
+
+	public void setUnitsEnabled(boolean iswareHouseEnabled) {
+		this.set(UNITS, iswareHouseEnabled);
+	}
+
+	public boolean isUnitsEnabled() {
+		return get(UNITS);
+	}
 }

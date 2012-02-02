@@ -239,6 +239,7 @@
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="legalName" column="LEGALNAME"></property>
 			<property name="phone" type="encryptedstring" column="PHONE"></property>
+			<property name="activeInventoryScheme" column="ACTIVE_INVENTORY_SCHEME"></property>
 			<property name="fax" type="encryptedstring" column="FAX"></property>
 			<property name="webSite" type="encryptedstring" column="WEBSITE"></property>
 			<property name="isShowLegalName" column="SHOW_LEGAL_NAME"></property>
@@ -786,6 +787,31 @@
 			<key column="ITEM_ID" />
 			<one-to-many class="ItemStatus" />
 		</set>
+		<joined-subclass name="InventoryAssembly" table="INVENTORY_ASSEMBLY">
+			<key column="ID" />
+			<set name="components" table="INVENTORY_ASSEMBLY_ITEMS" cascade="save-update,delete-orphan">
+				<key column="INVENTORY_ASSEMBLY_ITEM_ID"></key>
+				<one-to-many class="InventoryAssemblyItem" />
+			</set>
+			<property name="isPurhasedThisItem" column="IS_PURHASED_THIS_ITEM"></property>
+			<property name="vendor" column="VENDOR"></property>
+		</joined-subclass>
+	</class>
+
+	<class name="InventoryAssemblyItem" table="INVENTORY_ASSEMBLY_ITEM">
+		<id name="id" column="ID">
+			<generator class="identity"></generator>
+		</id>
+		<property name="inventoryItem" column="INVENTORY_ITEM"></property>
+		<component name="quantity" class="Quantity">
+			<property name="value" column="QTY_VALUE"></property>
+			<many-to-one name="unit" class="Unit" column="QTY_UNIT"
+				cascade="save-update"></many-to-one>
+		</component>
+		<property name="unitPrice" column="UNIT_PRICE"></property>
+		<property name="discription" column="DISCRIPTION"></property>
+		<property name="warehouse" column="WARE_HOUSE"></property>
+		<property name="linetotal" column="LINE_TOTAL"></property>
 	</class>
 
 	<class name="TAXItemGroup" table="TAX_ITEM_GROUPS">
@@ -1157,11 +1183,6 @@
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="otherField1" column="OTHER_FIELD_1"></property>
-			<property name="otherField2" column="OTHER_FIELD_2"></property>
-			<property name="otherField3" column="OTHER_FIELD_3"></property>
-			<property name="otherField4" column="OTHER_FIELD_4"></property>
-			<property name="otherField5" column="OTHER_FIELD_5"></property>
 
 		</joined-subclass>
 	</class>
@@ -1347,6 +1368,7 @@
 		<property name="typeOfViewReports" column="TYPE_OF_VIEW_REPORTS"></property>
 		<property name="typeOfMangeAccounts" column="TYPE_OF_MANAGE_ACCOUNTS"></property>
 		<property name="typeOfInventoryWarehouse" column="TYPE_OF_INVENTORY_WAREHOUSE"></property>
+		<property name="typeOfSaveasDrafts" column="TYPE_OF_SAVE_AS_DRAFTS"></property>
 	</class>
 	<class name="User" table="USERS">
 		<id name="id" column="ID">
@@ -2270,7 +2292,7 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 		<property name="startBalance" column="STARTING_BALANCE"></property>
 		<property name="closingBalance" column="CLOSING_BALANCE"></property>
-
+		<property name="isReconciled" column="IS_RECONCILED"></property>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID"></many-to-one>
 		<many-to-one name="reconciliation" class="Reconciliation"
 			column="RECONCILIATION_ID"></many-to-one>

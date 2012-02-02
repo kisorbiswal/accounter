@@ -346,7 +346,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		Double credit = rec.getAppliedCredits();
 		Double payments = amountDue - (cashDiscount + credit);
 
-		// (rec).setPayment(payments);
+		(rec).setPayment(payments);
 		(rec).setCashDiscount(cashDiscount);
 
 		grid.update(rec);
@@ -1508,8 +1508,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		transactionNumber.setTabIndex(6);
 		endBalText.setTabIndex(8);
 		memoTextAreaItem.setTabIndex(9);
-		saveAndCloseButton.setTabIndex(10);
-		saveAndNewButton.setTabIndex(11);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(10);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(11);
 		cancelButton.setTabIndex(12);
 
 	}

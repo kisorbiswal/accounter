@@ -61,15 +61,21 @@ public class UploadStatementFileServlet extends BaseServlet {
 					while ((strLine = br.readLine()) != null) {
 						JSONObject jsonObject = new JSONObject();
 						String[] values = strLine.split(",");
+
 						if (isHeader) {
 							headers = values;
 							isHeader = false;
 						} else {
-							for (int i = 0; i < values.length; i++) {
-								jsonObject.put(headers[i], values[i].trim());
+							if (values.length == headers.length) {
+								for (int i = 0; i < values.length; i++) {
+									String value = values[i].trim().replaceAll(
+											"\"", "");
 
+									jsonObject.put(headers[i], value);
+
+								}
+								array.put(jsonObject);
 							}
-							array.put(jsonObject);
 						}
 					}
 				}

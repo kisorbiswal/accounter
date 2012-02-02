@@ -1365,7 +1365,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		} else {
 			selectedSubAccount = getCompany().getAccount(data.getParent());
 
-			if (selectedSubAccount != null) {
+			if (selectedSubAccount != null && subAccSelect != null) {
 				subAccSelect.setComboItem(selectedSubAccount);
 				subhierarchy = Utility.getHierarchy(selectedSubAccount);
 			}
@@ -1813,8 +1813,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		if (bankAccNumText != null) {
 			bankAccNumText.setTabIndex(12);
 		}
-		saveAndCloseButton.setTabIndex(13);
-		saveAndNewButton.setTabIndex(14);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(13);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(14);
 		cancelButton.setTabIndex(15);
 
 	}

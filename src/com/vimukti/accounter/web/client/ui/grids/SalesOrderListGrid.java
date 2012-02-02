@@ -36,7 +36,8 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		case 2:
 			return obj.getCustomerName();
 		case 3:
-			return DataUtils.amountAsStringWithCurrency(obj.getTotal(), getCompany().getPrimaryCurrency());
+			return DataUtils.amountAsStringWithCurrency(obj.getTotal(),
+					getCompany().getPrimaryCurrency());
 			// case 7:
 			// return amountAsString(obj.getBalance());
 
@@ -58,7 +59,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 		// NOTHING TO DO.
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
-		view.onClick(obj);
+		// view.onClick(obj);
 		super.onClick(obj, row, col);
 	}
 
@@ -76,8 +77,7 @@ public class SalesOrderListGrid extends BaseListGrid<SalesOrdersList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.date(),
-				messages.orderNumber(),
+		return new String[] { messages.date(), messages.orderNumber(),
 				messages.payeeName(Global.get().Customer()),
 				messages.totalPrice() };
 	}

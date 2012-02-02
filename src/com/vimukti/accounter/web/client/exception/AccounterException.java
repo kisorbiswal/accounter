@@ -77,7 +77,7 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_VERSION_MISMATCH = 15;
 
-	public static final int ERROR_TRANSACTION_RECONCILIED = 16;
+	public static final int ERROR_EDITING_TRANSACTION_RECONCILIED = 16;
 
 	public static final int USED_IN_INVOICE = 17;
 
@@ -148,6 +148,12 @@ public class AccounterException extends Exception implements IsSerializable {
 	public static final int ERROR_TAX_AGENCY_NULL = 50;
 
 	public static final int ERROR_TAX_ENTRIES_EMPTY = 51;
+
+	public static final int ERROR_NO_FILED_VAT_ENTRIES_TO_SAVE = 52;
+
+	public static final int ERROR_VOIDING_TRANSACTION_RECONCILIED = 53;
+
+	public static final int ERROR_DELETING_TRANSACTION_RECONCILIED = 54;
 
 	protected int errorCode;
 

@@ -11,7 +11,6 @@ import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -781,19 +780,6 @@ public class AccounterValidator {
 				&& DecimalUtil.isGreaterThan(amount, totalDepositAmount)) {
 			return false;
 		}
-		return true;
-
-	}
-
-	public static boolean validate_MakeDeposit_accountcombo(
-			ClientAccount selectedDepositInAccount,
-			List<ClientTransactionMakeDeposit> selectedRecords) {
-		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			if (rec.getAccount() == (selectedDepositInAccount.getID())) {
-				return false;
-			}
-		}
-
 		return true;
 
 	}

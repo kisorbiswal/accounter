@@ -3,14 +3,9 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
-import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -21,7 +16,7 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 
 	protected List<SalesOrdersList> salesList;
 
-	private SalesDetailesView salesDetailView;
+	// private SalesDetailesView salesDetailView;
 
 	private List<SalesOrdersList> listOfSalesOrder;
 
@@ -74,39 +69,40 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 		// NOTHING TO DO.
 	}
 
-	@Override
-	protected void onAttach() {
-		salesDetailView = new SalesDetailesView();
-		// salesDetailView.setPreferences(getPreferences());
-		salesDetailView.init();
-		gridLayout.add(salesDetailView);
-		super.onAttach();
-	}
+	// @Override
+	// protected void onAttach() {
+	// salesDetailView = new SalesDetailesView();
+	// // salesDetailView.setPreferences(getPreferences());
+	// salesDetailView.init();
+	// gridLayout.add(salesDetailView);
+	// super.onAttach();
+	// }
+	//
+	// @Override
+	// protected void onDetach() {
+	// gridLayout.remove(salesDetailView);
+	// super.onDetach();
+	// }
 
-	@Override
-	protected void onDetach() {
-		gridLayout.remove(salesDetailView);
-		super.onDetach();
-	}
-
-	public void onClick(SalesOrdersList obj) {
-		AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
-
-			@Override
-			public void onResultSuccess(IAccounterCore result) {
-				if (result != null)
-					salesDetailView.setObjValues((ClientSalesOrder) result);
-			}
-
-			@Override
-			public void onException(AccounterException caught) {
-
-			}
-		};
-		rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-				obj.getTransactionId(), callbackforsalesOrder);
-
-	}
+	// public void onClick(SalesOrdersList obj) {
+	// AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new
+	// AccounterAsyncCallback<IAccounterCore>() {
+	//
+	// @Override
+	// public void onResultSuccess(IAccounterCore result) {
+	// if (result != null)
+	// salesDetailView.setObjValues((ClientSalesOrder) result);
+	// }
+	//
+	// @Override
+	// public void onException(AccounterException caught) {
+	//
+	// }
+	// };
+	// rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+	// obj.getTransactionId(), callbackforsalesOrder);
+	//
+	// }
 
 	@Override
 	public void onSuccess(PaginationList<SalesOrdersList> result) {
@@ -136,41 +132,41 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_OPEN
 							|| salesOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
 						grid.addData(salesOrder);
-					if (grid.getRecords().isEmpty()) {
-						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
-								.noRecordsToShow());
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// salesDetailView.itemsGrid.clear();
+					// salesDetailView.itemsGrid.addEmptyMessage(messages
+					// .noRecordsToShow());
+					// }
 					continue;
 				}
 				if (text.equals(messages.completed())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
 						grid.addData(salesOrder);
-					if (grid.getRecords().isEmpty()) {
-						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
-								.noRecordsToShow());
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// salesDetailView.itemsGrid.clear();
+					// salesDetailView.itemsGrid.addEmptyMessage(messages
+					// .noRecordsToShow());
+					// }
 					continue;
 				}
 				if (text.equals(messages.cancelled())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
 						grid.addData(salesOrder);
-					if (grid.getRecords().isEmpty()) {
-						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
-								.noRecordsToShow());
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// salesDetailView.itemsGrid.clear();
+					// salesDetailView.itemsGrid.addEmptyMessage(messages
+					// .noRecordsToShow());
+					// }
 					continue;
 				}
 				if (text.equalsIgnoreCase(messages.drafts())) {
 					if (salesOrder.getStatus() == ClientTransaction.STATUS_DRAFT)
 						grid.addData(salesOrder);
-					if (grid.getRecords().isEmpty()) {
-						salesDetailView.itemsGrid.clear();
-						salesDetailView.itemsGrid.addEmptyMessage(messages
-								.noRecordsToShow());
-					}
+					// if (grid.getRecords().isEmpty()) {
+					// salesDetailView.itemsGrid.clear();
+					// salesDetailView.itemsGrid.addEmptyMessage(messages
+					// .noRecordsToShow());
+					// }
 					continue;
 				}
 
@@ -179,10 +175,10 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
-		if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
-			salesDetailView.itemsGrid.addEmptyMessage(messages
-					.noRecordsToShow());
-		}
+		// if (salesDetailView.itemsGrid.getRecords().isEmpty()) {
+		// salesDetailView.itemsGrid.addEmptyMessage(messages
+		// .noRecordsToShow());
+		// }
 	}
 
 	@Override
@@ -215,29 +211,30 @@ public class SalesOrderListView extends TransactionsListView<SalesOrdersList> {
 		return true;
 	}
 
-	@Override
-	protected void onLoad() {
-		if (grid.getSelection() != null) {
-			AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new AccounterAsyncCallback<IAccounterCore>() {
-
-				@Override
-				public void onResultSuccess(IAccounterCore result) {
-					if (result != null)
-						salesDetailView.setObjValues((ClientSalesOrder) result);
-				}
-
-				@Override
-				public void onException(AccounterException caught) {
-					// TODO Auto-generated method stub
-
-				}
-			};
-			rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
-					((SalesOrdersList) grid.getSelection()).getTransactionId(),
-					callbackforsalesOrder);
-		}
-		super.onLoad();
-	}
+	// @Override
+	// protected void onLoad() {
+	// if (grid.getSelection() != null) {
+	// AccounterAsyncCallback<IAccounterCore> callbackforsalesOrder = new
+	// AccounterAsyncCallback<IAccounterCore>() {
+	//
+	// @Override
+	// public void onResultSuccess(IAccounterCore result) {
+	// if (result != null)
+	// salesDetailView.setObjValues((ClientSalesOrder) result);
+	// }
+	//
+	// @Override
+	// public void onException(AccounterException caught) {
+	// // TODO Auto-generated method stub
+	//
+	// }
+	// };
+	// rpcGetService.getObjectById(AccounterCoreType.SALESORDER,
+	// ((SalesOrdersList) grid.getSelection()).getTransactionId(),
+	// callbackforsalesOrder);
+	// }
+	// super.onLoad();
+	// }
 
 	@Override
 	protected String getViewTitle() {

@@ -108,4 +108,19 @@ public class DeleteButton extends ImageButton {
 		Accounter.deleteObject(iDeleteCallback, obj);
 	}
 
+	/**
+	 * @return the obj
+	 */
+	public IAccounterCore getObj() {
+		return obj;
+	}
+
+	/**
+	 * @param obj
+	 *            the obj to set
+	 */
+	public void setObj(IAccounterCore obj) {
+		this.obj = obj;
+	}
+
 }

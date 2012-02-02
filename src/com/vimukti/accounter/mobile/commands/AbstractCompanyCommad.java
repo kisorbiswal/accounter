@@ -348,10 +348,10 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 				if (value == null) {
 					return;
 				} else if (value.trim().length() <= 5) {
-					setEnterString("Invalid Company Name. Name Should be grater than 5 characters");
+					setEnterString(getMessages().invalidCompanyName());
 					return;
 				} else if (AbstractCompanyCommad.this.getCompany(value) != null) {
-					setEnterString("Company exist with the same name.Please enter a different name");
+					setEnterString(getMessages().existedCompanyName());
 					return;
 				}
 				setEnterString(getMessages().pleaseEnter(
@@ -685,12 +685,12 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return " Multi currency enabled";
+				return getMessages().multiCurrencyEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return " Multi currency is not enabled";
+				return getMessages().multiCurrencyNotEnabled();
 			}
 		});
 	}

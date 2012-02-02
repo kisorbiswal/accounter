@@ -165,12 +165,12 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 				.equalsIgnoreCase(getMessages().creditCardExpenses())) {
 
 			baseListView = (BaseListView<T>) new ExpensesListView(getMessages()
-					.creditCard());
+					.creditCard(), ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().cashExpenses())) {
 
 			baseListView = (BaseListView<T>) new ExpensesListView(getMessages()
-					.cash());
+					.cash(), ClientTransaction.TYPE_CASH_EXPENSE);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().deposits())) {
 			baseListView = (BaseListView<T>) new DepositsTransfersListView(0);

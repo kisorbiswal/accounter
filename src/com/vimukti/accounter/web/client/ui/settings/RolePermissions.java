@@ -29,6 +29,8 @@ public class RolePermissions {
 
 	int typeOfBankReconcilation;
 
+	int typeOfSaveasDrafts;
+
 	int typeOfInvoicesBills;
 
 	int typeOfPayBillsPayments;
@@ -40,6 +42,7 @@ public class RolePermissions {
 	int typeOfMangeAccounts;
 
 	boolean canDoUserManagement;
+
 	private int typeOfInventoryWarehouse;
 
 	public String getRoleName() {
@@ -113,5 +116,13 @@ public class RolePermissions {
 
 	public void setTypeOfInventoryWarehouse(int typeOfInventoryWarehouse) {
 		this.typeOfInventoryWarehouse = typeOfInventoryWarehouse;
+	}
+
+	public int getTypeOfSaveasDrafts() {
+		return typeOfSaveasDrafts;
+	}
+
+	public void setTypeOfSaveasDrafts(int typeOfSaveasDrafts) {
+		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
 	}
 }

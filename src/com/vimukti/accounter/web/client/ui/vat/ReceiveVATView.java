@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -25,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionReceiveVAT;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -54,9 +57,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class ReceiveVATView extends
 		AbstractTransactionBaseView<ClientReceiveVAT> {
 
-	private static final int RECEIVEVAT_TRANSACTION_GRID = 0;
 	private ArrayList<DynamicForm> listforms;
-	private DateField date;
 	private DepositInAccountCombo depositInAccCombo;
 	private DateField billsDue;
 	private TAXAgencyCombo vatAgencyCombo;
@@ -78,7 +79,6 @@ public class ReceiveVATView extends
 	private ArrayList<ClientReceiveVATEntries> tempList;
 	private ClientFinanceDate dueDateOnOrBefore;
 
-	private DynamicForm fileterForm;
 	private TextItem transNumber;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
@@ -570,7 +570,7 @@ public class ReceiveVATView extends
 			clientEntry.setTaxAgency(entry.getTAXAgency());
 			clientEntry.setTAXReturn(entry.getTAXReturn());
 			// clientEntry.setAmountToReceive(entry.getAmount())
-			double total = entry.getAmount();
+			// double total = entry.getAmount();
 			double balance = entry.getBalance();
 			// clientEntry
 			// .setTaxDue(total - balance > 0.0 ? total - balance : 0.0);
@@ -808,62 +808,86 @@ public class ReceiveVATView extends
 
 	@Override
 	public void onEdit() {
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
 
-		if (transaction.canEdit) {
-			Accounter.showWarning(messages.W_116(), AccounterType.WARNING,
-					new ErrorDialogHandler() {
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
 
-						@Override
-						public boolean onYesClick() {
-							voidTransaction();
-							return true;
-						}
+				}
+			}
 
-						private void voidTransaction() {
-							AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					showWarningDialog();
+				}
+			}
 
-								@Override
-								public void onException(
-										AccounterException caught) {
-									Accounter.showError(messages
-											.failedtovoidReceiveVAT());
+		};
 
-								}
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+				.getType());
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
+	}
 
-								@Override
-								public void onResultSuccess(Boolean result) {
-									if (result) {
-										enableFormItems();
-									} else
+	protected void showWarningDialog() {
+		Accounter.showWarning(messages.W_116(), AccounterType.WARNING,
+				new ErrorDialogHandler() {
 
-										onFailure(new Exception());
-								}
+					@Override
+					public boolean onYesClick() {
+						voidTransaction();
+						return true;
+					}
 
-							};
-							if (isInViewMode()) {
-								AccounterCoreType type = UIUtils
-										.getAccounterCoreType(transaction
-												.getType());
-								rpcDoSerivce.voidTransaction(type,
-										transaction.id, callback);
+					private void voidTransaction() {
+						AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+
+							@Override
+							public void onException(AccounterException caught) {
+								Accounter.showError(messages
+										.failedtovoidReceiveVAT());
+
 							}
 
+							@Override
+							public void onResultSuccess(Boolean result) {
+								if (result) {
+									enableFormItems();
+								} else
+
+									onFailure(new Exception());
+							}
+
+						};
+						if (isInViewMode()) {
+							AccounterCoreType type = UIUtils
+									.getAccounterCoreType(transaction.getType());
+							rpcDoSerivce.voidTransaction(type, transaction.id,
+									callback);
 						}
 
-						@Override
-						public boolean onNoClick() {
+					}
 
-							return true;
-						}
+					@Override
+					public boolean onNoClick() {
 
-						@Override
-						public boolean onCancelClick() {
+						return true;
+					}
 
-							return true;
-						}
-					});
-		}
+					@Override
+					public boolean onCancelClick() {
 
+						return true;
+					}
+				});
 	}
 
 	private void enableFormItems() {
@@ -923,8 +947,10 @@ public class ReceiveVATView extends
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
 		currencyWidget.setTabIndex(8);
-		saveAndCloseButton.setTabIndex(9);
-		saveAndNewButton.setTabIndex(10);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(9);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
 
 	}

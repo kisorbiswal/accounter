@@ -350,12 +350,6 @@ public class ClientSalesOrder extends ClientTransaction {
 		}
 		salesOrder.transactionItems = transactionItems;
 
-		List<ClientTransactionMakeDeposit> transactionMakeDeposits = new ArrayList<ClientTransactionMakeDeposit>();
-		for (ClientTransactionMakeDeposit clientTransactionMakeDeposit : this.transactionMakeDeposit) {
-			transactionMakeDeposits.add(clientTransactionMakeDeposit.clone());
-		}
-		salesOrder.transactionMakeDeposit = transactionMakeDeposits;
-
 		List<ClientTransactionPayBill> transactionPayBills = new ArrayList<ClientTransactionPayBill>();
 		for (ClientTransactionPayBill clientTransactionPayBill : this.transactionPayBill) {
 			transactionPayBills.add(clientTransactionPayBill.clone());

@@ -1784,8 +1784,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		dueDateItem.setTabIndex(9);
 		orderNumText.setTabIndex(10);
 		memoTextAreaItem.setTabIndex(11);
-		saveAndCloseButton.setTabIndex(13);
-		saveAndNewButton.setTabIndex(14);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(12);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(13);
 		cancelButton.setTabIndex(15);
 	}
 

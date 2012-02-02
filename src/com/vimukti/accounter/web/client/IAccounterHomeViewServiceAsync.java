@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -244,12 +243,6 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getLatestReceivePayments(
 			AsyncCallback<ArrayList<ClientReceivePayment>> callback);
 
-	public void getTransactionMakeDeposit(long transactionMakeDepositId,
-			AsyncCallback<ClientTransactionMakeDeposit> callback);
-
-	public void getTransactionMakeDeposits(
-			AsyncCallback<List<ClientTransactionMakeDeposit>> callback);
-
 	public void getSalesOrders(long fromDate, long endDate,
 			AsyncCallback<PaginationList<SalesOrdersList>> callback);
 
@@ -373,7 +366,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Void> callback);
 
 	void mergeAccount(ClientAccount fromClientAccount,
-			ClientAccount toClientAccount, AsyncCallback<Void> callback);
+			ClientAccount toClientAccount, AsyncCallback<ClientAccount> callback);
 
 	// this method is used to send Pdf as an attachment in email
 	public void sendPdfInMail(String fileName, String subject, String content,

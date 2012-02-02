@@ -76,7 +76,7 @@ public class VATItemCombo extends CustomCombo<ClientTAXItemGroup> {
 						taxitem.getTaxAgency());
 				if (taxAgency != null) {
 					if (taxAgency.getTaxType() == ClientTAXAgency.TAX_TYPE_TDS) {
-						iterator.remove();
+						// iterator.remove();
 					}
 				}
 			}

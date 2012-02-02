@@ -98,21 +98,21 @@ public class CreditNotePdfGeneration {
 					qty = String.valueOf(item.getQuantity().getValue());
 				}
 				String unitPrice = Utility.decimalConversation(
-						item.getUnitPrice() / currencyFactor, symbol);
+						item.getUnitPrice() / currencyFactor, "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, symbol);
+						item.getLineTotal() / currencyFactor, "");
 
 				Double vaTfraction = item.getVATfraction();
 				String vatAmount = " ";
 				if (vaTfraction != null) {
 					vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, symbol);
+							item.getVATfraction() / currencyFactor, "");
 				}
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
 
 				String discount = Utility.decimalConversation(
-						item.getDiscount(), symbol);
+						item.getDiscount(), "");
 
 				TAXCode taxCode = item.getTaxCode();
 				String vatRate = " ";

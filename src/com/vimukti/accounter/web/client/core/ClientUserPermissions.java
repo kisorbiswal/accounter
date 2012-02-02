@@ -15,6 +15,8 @@ public class ClientUserPermissions implements IAccounterCore {
 
 	int typeOfInvoicesBills;
 
+	int typeOfSaveasDrafts;
+
 	int typeOfPayBillsPayments;
 
 	int typeOfCompanySettingsLockDates;
@@ -140,6 +142,14 @@ public class ClientUserPermissions implements IAccounterCore {
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public int getTypeOfSaveasDrafts() {
+		return typeOfSaveasDrafts;
+	}
+
+	public void setTypeOfSaveasDrafts(int typeOfSaveasDrafts) {
+		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
 	}
 
 }

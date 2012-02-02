@@ -1139,7 +1139,8 @@ public class CashSalesView extends
 			// if there is only one branding theme
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CASH_SALES, clientBrandingTheme.getID());
+					ClientTransaction.TYPE_CASH_SALES,
+					clientBrandingTheme.getID());
 		}
 	}
 
@@ -1232,8 +1233,11 @@ public class CashSalesView extends
 		depositInCombo.setTabIndex(8);
 		memoTextAreaItem.setTabIndex(9);
 		// menuButton.setTabIndex(10);
-		saveAndCloseButton.setTabIndex(11);
-		saveAndNewButton.setTabIndex(12);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(11);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(12);
+
 		cancelButton.setTabIndex(13);
 
 	}

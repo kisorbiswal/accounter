@@ -269,6 +269,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		permissions.setTypeOfCompanySettingsLockDates(RolePermissions.TYPE_YES);
 		permissions.setTypeOfViewReports(RolePermissions.TYPE_YES);
 		permissions.setTypeOfInventoryWarehouse(RolePermissions.TYPE_YES);
+		permissions.setTypeOfSaveasDrafts(RolePermissions.TYPE_YES);
 		user.setPermissions(permissions);
 		return user.getClientUser();
 	}

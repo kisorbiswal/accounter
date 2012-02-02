@@ -26,7 +26,14 @@
 			<g:VerticalPanel ui:field="hiddenPanel"
 				horizontalAlignment="ALIGN_LEFT" spacing="20">
 				<g:HorizontalPanel horizontalAlignment="ALIGN_LEFT">
-					<g:CheckBox ui:field="warehousesCheckBox" />
+					<g:VerticalPanel ui:field="subpanel">
+						<g:CheckBox ui:field="warehousesCheckBox" />
+						<g:CheckBox ui:field="unitsCheckBox" />
+						<g:Label ui:field="inventoryScheme" />
+						<g:RadioButton name="invenotry_type" ui:field="fifoOnly" />
+						<g:RadioButton name="invenotry_type" ui:field="lifoOnly" />
+						<g:RadioButton name="invenotry_type" ui:field="averageOnly" />
+					</g:VerticalPanel>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>

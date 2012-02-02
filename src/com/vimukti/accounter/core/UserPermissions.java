@@ -17,6 +17,8 @@ public class UserPermissions implements IAccounterServerCore {
 
 	int typeOfInvoicesBills;
 
+	int typeOfSaveasDrafts;
+
 	int typeOfPayBillsPayments;
 
 	int typeOfCompanySettingsLockDates;
@@ -127,5 +129,13 @@ public class UserPermissions implements IAccounterServerCore {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		// TODO Auto-generated method stub
 
+	}
+
+	public int getTypeOfSaveasDrafts() {
+		return typeOfSaveasDrafts;
+	}
+
+	public void setTypeOfSaveasDrafts(int typeOfSaveasDrafts) {
+		this.typeOfSaveasDrafts = typeOfSaveasDrafts;
 	}
 }

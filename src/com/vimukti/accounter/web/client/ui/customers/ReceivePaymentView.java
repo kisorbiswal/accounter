@@ -371,6 +371,8 @@ public class ReceivePaymentView extends
 			payment.setAmountDue(payment.getPayment()
 					+ payment.getAppliedCredits());
 			payment.setPayment(0.00D);
+			payment.setCashDiscount(0.0D);
+			payment.setWriteOff(0.0D);
 			payment.setAppliedCredits(0.00D, false);
 			records.add(payment);
 		}
@@ -788,8 +790,10 @@ public class ReceivePaymentView extends
 		customerNonEditablebalText.setTabIndex(6);
 		depositInCombo.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
-		saveAndCloseButton.setTabIndex(9);
-		saveAndNewButton.setTabIndex(10);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(9);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
 		tdsAmount.setTabIndex(12);
 	}

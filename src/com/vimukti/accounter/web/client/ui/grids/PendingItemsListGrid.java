@@ -6,15 +6,11 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
-import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.InputDialogHandler;
-import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
-import com.vimukti.accounter.web.client.ui.core.InvalidTransactionEntryException;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
@@ -151,40 +147,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	private void openNoteDialog(final ClientFixedAsset asset) {
 		noteDialog = new NoteDialog(messages.addNote(), "");
-		noteDialog.addInputDialogHandler(new InputDialogHandler() {
-
-			@Override
-			public boolean onOK() {
-				String note = noteDialog.noteArea.getValue() != null ? noteDialog.noteArea
-						.getValue().toString() : "";
-				// setAttribute("note", note, currentRow);
-
-				if (note.length() != 0) {
-					executeUpdate(asset, note);
-					return true;
-				} else
-					try {
-						PendingItemsListGrid.this.validate();
-					} catch (InvalidTransactionEntryException e) {
-						e.printStackTrace();
-					} catch (InvalidEntryException e) {
-						Accounter.showError(e.getMessage());
-					}
-				return false;
-			}
-
-			@Override
-			public void onCancel() {
-
-			}
-		});
-	}
-
-	private void executeUpdate(ClientFixedAsset asset, String value) {
-		ClientFixedAssetNote note = new ClientFixedAssetNote();
-		note.setNote(value);
-		asset.getFixedAssetNotes().add(note);
-		createOrUpdate(asset);
+		if (noteDialog.executeUpdate(asset)) {
+			updateData(asset);
+		}
 	}
 
 	@Override
@@ -236,12 +201,6 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 	@Override
 	public AccounterCoreType getType() {
 		return AccounterCoreType.FIXEDASSET;
-	}
-
-	protected void validate() throws InvalidTransactionEntryException,
-			InvalidEntryException {
-		throw new InvalidEntryException(messages.pleaseenterthenote());
-
 	}
 
 }

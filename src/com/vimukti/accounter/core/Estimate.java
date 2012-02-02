@@ -37,8 +37,7 @@ public class Estimate extends Transaction {
 	public static final int BILLABLEEXAPENSES = 4;
 
 	public static final int DEPOSIT_EXPENSES = 5;
-	
-	public static final int STATUS_EXPIRED = 6;
+
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */

@@ -136,22 +136,31 @@ public class UploadStatementDialog extends BaseDialog implements
 			@Override
 			public void onSubmitComplete(FormSubmitCompleteEvent event) {
 				StringBuilder result = new StringBuilder(event.getResults());
+
 				String aa = result.toString().replaceAll("<pre>", " ");
 				aa = aa.replaceAll("</pre>", " ");
-				JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
-				JSONArray array = jSONValue.isArray();
-				List<String[]> data = parseJsonArray(array);
+				// for checking the data length
+				if (aa.trim().length() > 2) {
+					JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
+					JSONArray array = jSONValue.isArray();
+					List<String[]> data = parseJsonArray(array);
 
-				HashMap<String, Integer> map = compareUploadedFileRecords(data);
-				int matched = map.get("matched");
-				int notMatched = map.get("notMatched");
-				if (notMatched != 0) {
-					ActionFactory.getStatementImportViewAction(data,
-							account.getID()).run();
-					removeFromParent();
+					HashMap<String, Integer> map = compareUploadedFileRecords(data);
+					int matched = map.get("matched");
+					int notMatched = map.get("notMatched");
+					if (notMatched != 0) {
+						ActionFactory.getStatementImportViewAction(data,
+								account.getID()).run();
+						removeFromParent();
+					} else {
+						Accounter.showInformation(messages
+								.statementAlreadyImported());
+						removeFromParent();
+						return;
+					}
 				} else {
 					Accounter.showInformation(messages
-							.statementAlreadyImported());
+							.unableToUploadStatementFile());
 					removeFromParent();
 					return;
 				}

@@ -55,7 +55,7 @@ public class ExpensesAction extends Action {
 				if (viewType == null || viewType.equals(""))
 					view = ExpensesListView.getInstance();
 				else
-					view = new ExpensesListView(viewType);
+					view = new ExpensesListView(viewType, 0);
 
 				// UIUtils.setCanvas(view, getViewConfiguration());
 				MainFinanceWindow.getViewManager().showView(view, null, false,

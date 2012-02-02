@@ -2,163 +2,215 @@
 	font-family: "ColabThi";
 	src: url("Fonts/ColabThi.otf") format("truetype");
 }
-*{
+
+* {
 	outline: none;
 }
-button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,
-input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner{
+
+button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="button"]::-moz-focus-inner,input[type="submit"]::-moz-focus-inner,input [type="checkbox"]::-moz-focus-inner,input[type="file"]>input[type="button"]::-moz-focus-inner
+	{
 	border: none;
 }
-.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,
-.maintainence_message,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory{
+
+.signup-submit-button,.signup-submit-mid,#contact_form_cont,#services_form_cont,.right-middle,.remaining-header-part-login,.maintainence_message,.createbutton,.loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton,.mandatory
+	{
 	float: right;
 }
-#label_holder,#label_holder,.right-side-options,.signup-submit #openid-cancel,p,div ul li,.delete_company,.create_new_company,
-.allviews-common-button,.mid-login-box1 td,.terms-error,#accounterForm fieldset td{
+
+#label_holder,#label_holder,.right-side-options,.signup-submit #openid-cancel,p,div ul li,.delete_company,.create_new_company,.allviews-common-button,.mid-login-box1 td,.terms-error,#accounterForm fieldset td
+	{
 	font-size: 13px;
 }
-body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter{
+
+body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter
+	{
 	text-align: center;
 }
-.unavailable_page,.maintanance_subcont,#maintananceContainer,.form-box,#commanContainer .accounterform,.new_login_page,.admin_details_header{
+
+.unavailable_page,.maintanance_subcont,#maintananceContainer,.form-box,#commanContainer .accounterform,.new_login_page,.admin_details_header
+	{
 	overflow: auto;
 }
-#mid-2,#mid,#but-g,#but-mid,.invoicing,#bank-layout,#contact-layout,.left-side-options,.terms-error input[type="checkbox"],.seperator,.left-middle,.image-text-button,
-.find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree,.menu-bar,#mid-right,#mid-left,#about-layout,#support-width,#about-1,#privacy-layout,#home-bg,
-#fea-bg,#abt-bg,#sup-bg,#blog-bg,.maintainence_logo,.rememberMe,#feedDiv,.new_login_accounterform,.left-arrow,#contact_content,.stepcarousel .panel  {
+
+#mid-2,#mid,#but-g,#but-mid,.invoicing,#bank-layout,#contact-layout,.left-side-options,.terms-error input[type="checkbox"],.seperator,.left-middle,.image-text-button,.find-an-acciuntant,.try-free,.Benifits,.Pricing-Plans,.features-tree,.menu-bar,#mid-right,#mid-left,#about-layout,#support-width,#about-1,#privacy-layout,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,.maintainence_logo,.rememberMe,#feedDiv,.new_login_accounterform,.left-arrow,#contact_content,.stepcarousel .panel
+	{
 	float: left;
 }
+
 #banner-mid2,#banner-mid1,#banner-mid-tab,#banner-mid,.signup-submit #openid-cancel,.easiest-label,.account-sys-label,.forget-but,#signup-mid
-.button-tryfree-pricing-page,.business-dashboard a,.fea a,.supp a,.use a,.pro a,.home a,#but-mid,.allviews-common-button,.signup-submit-mid{
-	color:white;
+.button-tryfree-pricing-page,.business-dashboard a,.fea a,.supp a,.use a,.pro a,.home a,#but-mid,.allviews-common-button,.signup-submit-mid
+	{
+	color: white;
 }
-#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,
-.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.admin_details_header,
-.newsletter,.form-bottom-options,.activate-code {
+
+#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.admin_details_header,.newsletter,.form-bottom-options,.activate-code
+	{
 	clear: both;
 }
-#manage-layout,#about-layout,#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2,#mid-1,#mid,
-#mid-right,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.body-container,.main_body-container{
+
+#manage-layout,#about-layout,#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2,#mid-1,#mid,#mid-right,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.body-container,.main_body-container
+	{
 	font-family: arial;
 }
-#mid,.login_box,.reset-login-box,.activation_code_box,.left-side-box{
+
+#mid,.login_box,.reset-login-box,.activation_code_box,.left-side-box {
 	border: 1px solid #929292
 }
-#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2{
-	text-align:justify;
+
+#about-1,#online-accounting-1,#invoicing-layout,#privacy-layout,#bank-layout,#contact-layout,#mid-2
+	{
+	text-align: justify;
 }
-.allviews-common-button,.signup-submit-mid,#notifyMe{
+
+.allviews-common-button,.signup-submit-mid,#notifyMe {
 	cursor: pointer;
 }
-#mid-1,#mid{
-	height:auto;
+
+#mid-1,#mid {
+	height: auto;
 }
+
 body {
 	font-family: Arial Unicode MS, Arial, sans-serif;
 }
+
 table {
 	border-collapse: collapse;
 }
+
 body,ul,li,ol,p,table,tr,td,table,html {
 	margin: 0px;
 	padding: 0px;
 }
-.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer {
+
+.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer
+	{
 	text-align: left;
 }
+
 .lower-part ol {
 	padding: 0 15px 25px;
 }
+
 .lower-part ol li {
 	width: 290px;
 	vertical-align: top;
 }
-div ul li,.contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child {
+
+div ul li,.contact_form_cont table tr td:first-child,.left-side-box table tr td:first-child
+	{
 	color: #000;
 }
+
 div ul li hover {
 	color: #c5c5c5;
 }
-.create_new_company,.allviews-common-button,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.header_p_style{
+
+.create_new_company,.allviews-common-button,.online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant,.header_p_style
+	{
 	font-weight: bold;
 }
-.header_p_style,.common-box,.allviews-common-button,form,.easiest-label,.account-sys-label{
+
+.header_p_style,.common-box,.allviews-common-button,form,.easiest-label,.account-sys-label
+	{
 	font-family: sans-serif;
 }
+
 .header_p_style {
 	font-size: 15px;
 	margin-bottom: 8px;
 }
-.main_body-container,.body-container,#maintananceContainer,.login_box,.left-side-box,#mid-1{
+
+.main_body-container,.body-container,#maintananceContainer,.login_box,.left-side-box,#mid-1
+	{
 	margin: 0px auto;
 }
+
 .main_body-container {
 	background: none repeat scroll 0 0 #28757D;
 }
+
 .body-container {
 	width: 956px !important;
 }
+
 .remaining-header-part-login {
 	font-size: 23px;
 	margin: 5px 15px 0 0;
 }
+
 p {
 	line-height: 18px;
 }
-#login-id { 
+
+#login-id {
 	color: #ffffff !important;
 	font-size: 17px;
 	margin-left: 16px;
 	line-height: 2;
 }
-#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel{
+
+#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel
+	{
 	text-decoration: none;
 }
+
 .account-sys-label {
 	font-weight: normal;
 	font-size: 35px;
 }
+
 .easiest-label {
 	font-size: 18px;
 }
+
 .logo-image {
 	padding: 15px 0 15px 15px;
 }
+
 .online-accounting,.bank-reconciliation,.invoicing,.find-an-acciuntant {
 	margin-left: 11px;
 	margin-right: 23pt;
 	width: 190px;
 }
+
 #but-g {
 	color: red;
 	font-size: 26px;
 	line-height: 1.9;
 	margin: 0px -5px;
 }
+
 #but-g hover {
 	border: 1px solid green;
 }
+
 .right-big {
 	margin-left: -7px;
 }
+
 #top {
 	background-color: #f7f6f2;
 }
-#cen { 
+
+#cen {
 	height: 330px !important;
 	padding-top: 50px;
 }
+
 #mid {
 	background-color: #ffffff;
 	width: 845px !important;
 	margin: 56px 56px 0 56px;
 }
-#mid-1 { 
+
+#mid-1 {
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
 	font-size: 15px;
 	width: 720px;
 }
+
 #mid-2 {
 	background-color: #f4f4f4;
 	height: 550px;
@@ -168,6 +220,7 @@ p {
 	border: 1px solid #ccc;
 	font-size: 15px;
 }
+
 #contact-layout {
 	background-color: #f4f4f4;
 	height: 345px !important;
@@ -177,6 +230,7 @@ p {
 	border: 1px solid #ccc;
 	font-size: 15px;
 }
+
 #privacy-layout {
 	background-color: #f4f4f4;
 	height: 350px;
@@ -186,6 +240,7 @@ p {
 	border: 1px solid #ccc;
 	font-size: 15px;
 }
+
 #about-1 {
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
@@ -196,7 +251,7 @@ p {
 	font-size: 15px;
 }
 
-#support-width{
+#support-width {
 	background-color: #F4F4F4;
 	border: 1px solid #CCCCCC;
 	height: 470px !important;
@@ -216,6 +271,7 @@ p {
 	width: 863px !important;
 	font-size: 15px;
 }
+
 #mid-left {
 	background-color: #d9d9d9;
 	height: 831px;
@@ -224,6 +280,7 @@ p {
 	margin-left: 50px;
 	border: 1px solid #ccc;
 }
+
 #mid-right {
 	background-color: #f4f4f4;
 	height: 831px;
@@ -234,9 +291,11 @@ p {
 	border: 1px solid #ccc;
 	font-size: 15px;
 }
+
 #down {
 	height: 50px;
 }
+
 #bot {
 	height: 55px !important;
 	background-color: #072027 !important;
@@ -253,9 +312,11 @@ li {
 	font-family: Georgia;
 	width: 100%;
 }
+
 .menu-bar {
 	margin-top: 5px;
 }
+
 #home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg {
 	margin-left: 13px;
 	padding: 8px 4px 0px;
@@ -264,39 +325,48 @@ li {
 	font-size: 16px;
 	outline: 0 none;
 }
+
 .header-hover {
 	color: #3299a4 !important;
 }
+
 .image-text-button {
 	margin-left: 30px;
 	margin-top: 30px;
 }
+
 .left-middle {
 	margin-left: 11px;
 	margin-top: 10px;
 	width: 398px;
 }
+
 .right-middle {
 	margin-left: 20px;
 	margin-top: 15px;
 	width: 521px;
 }
+
 a:visited {
 	color: #FFFFFF;
 }
+
 .online-accounting a,.bank-reconciliation a,.invoicing a,.find-an-acciuntant a
 	{
 	color: #079dd2;
 	font-size: 17px;
 }
+
 .fea-list a,.supp-list a,.use-lists a,.pro-list a,.home-list a {
 	color: #A0A0A0 !important;
 }
+
 .image-text-button input[type="button"] {
 	height: 45px;
 	width: 200px;
 	margin-left: 80px;
 }
+
 .seperator {
 	background: url("../images/signup-page-vertical-line.png") repeat-y
 		scroll 0 0 transparent;
@@ -304,78 +374,98 @@ a:visited {
 	margin-top: 41px;
 	padding: 1px;
 }
+
 .sites-header {
 	color: #3299a4 !important;
 	font-size: 35px;
 	vertical-align: bottom;
 	line-height: 1.8;
 }
+
 .lower-part {
 	padding: 20px 0px 0px 20px;
 	background: white;
 }
+
 .pro,.fea,.use,.supp,.home {
 	background: url("../images/footer-line.png") repeat-x scroll left bottom
 		transparent;
 	padding: 5px 5px 10px 30px;
 }
+
 .footer-options {
 	font-size: 17px;
 	padding: 7px;
 	line-height: 2.3;
 }
+
 .footer-options a {
 	color: #fff !important;
 	margin-right: 20px;
 }
+
 .footer-options a:HOVER,.privacy_policy a {
 	color: #3299a4 !important;
 }
+
 ul li a {
 	color: #3299A4;
 }
+
 ul li a:HOVER,ul li a:FOCUS {
 	color: #3299a4 !important;
 }
+
 .pro-list,.fea-list,.supp-list,.use-lists {
 	margin: 10px 0 0 30px;
 }
-#features-normal input[type="image"],#home-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"],
-.features input[type="image"],.home input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]{
+
+#features-normal input[type="image"],#home-normal input[type="image"],#about-normal input[type="image"],#pricing-normal input[type="image"],#support-normal input[type="image"],.features input[type="image"],.home input[type="image"],.about-page input[type="image"],.pricing-page input[type="image"],.support-page input[type="image"]
+	{
 	position: relative;
 }
+
 .right-button,.left-button {
 	margin-left: 20px;
 }
+
 .screen-dot {
 	margin-left: 20px;
 	margin-bottom: 6px;
 }
+
 .middle-signup-box h2 {
 	margin: 0px 0px 10px 20px;
 	color: #3299A4;
 }
+
 #left-box {
 	margin-bottom: -6px;
 	margin-bottom: -9px\0;
 	margin-left: 39px;
 }
-#select-box { 
+
+#select-box {
 	margin-top: 10px;
 	width: 222px;
 }
+
 #left-box-l {
 	margin-left: 87px;
 }
+
 #pwd-box {
 	margin-left: 60px;
 }
+
 #cmp-box {
 	margin-left: 20px;
 }
+
 input[type="text"] {
 	padding: 0 5px;
 }
+
 #mid-box,#mid-box1,#mid-box2,#mid-box3,#mid-box4,#mid-box5,#mid-box6 {
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
@@ -386,6 +476,7 @@ input[type="text"] {
 	width: 223px;
 	font-size: 15px;
 }
+
 #drop-down {
 	height: 22px;
 	margin-bottom: -6px;
@@ -393,52 +484,66 @@ input[type="text"] {
 	margin-left: -5px;
 	padding: 1px;
 }
+
 .try,.ben,.price,.left-side-box a {
 	color: #3299A4;
 }
+
 .try-list,.ben-list,.price-list,.first-name,.last-name,.email-address,.Phone-No,.current-system-drop-box,.left-side-box h5
 	{
 	color: #A0A0A0;
 }
+
 .button-signup-page a {
 	color: red;
 }
+
 .delete_message {
 	color: red;
 }
+
 .terms-error input[type="checkbox"] {
 	margin-right: -8px;
 	margin-right: 0px\0;
 	outline: 0 none;
 }
+
 .left-side-box {
 	background: none repeat scroll 0 0 white;
 	color: #A0A0A0;
 }
-#checkbox1 { 
+
+#checkbox1 {
 	margin-bottom: 10px;
 }
+
 #forget-link1,#signUp-link1 {
 	color: #3299A4;
 	font-size: 15px;
 }
+
 .mid-login-box1 {
 	margin-left: 0;
 	margin-top: 12px;
 }
+
 .left-side-options {
 	font-size: 20px;
 	margin-top: 40px;
 }
+
 .fieldset {
 	border: none !important;
 }
+
 #red,.red {
 	color: red;
 }
+
 .hiddenDiv {
 	margin: 15px 150px 100px 5px;
 }
+
 .stepcarousel {
 	position: relative; /*leave this value alone*/
 	border: 0px none;
@@ -447,11 +552,13 @@ input[type="text"] {
 	height: 280px; /*Height should enough to fit largest content's height*/
 	margin-bottom: 10px
 }
+
 .stepcarousel .belt {
 	position: absolute; /*leave this value alone*/
 	left: 0;
 	top: 0;
 }
+
 .stepcarousel .panel {
 	overflow: hidden;
 	/*clip content that go outside dimensions of holding panel DIV*/
@@ -459,14 +566,17 @@ input[type="text"] {
 	width: 502px;
 	/*Width of each panel holding each content. If removed, widths should be individually defined on each content DIV then. */
 }
+
 #contact_form_cont,#services_form_cont {
 	margin: 15px 25px 0 0;
 }
+
 #contact_content {
 	color: #333333;
 	font-size: 15px;
 	margin-top: 30px;
 }
+
 #contact_cont,#services_cont,#faq_cont,#screen_cont {
 	background-image: url("fx/contactbox.png");
 	height: 385px;
@@ -476,13 +586,15 @@ input[type="text"] {
 	width: 790px;
 	z-index: 9999999;
 }
-.footer-options a:hover
-	{
+
+.footer-options a:hover {
 	text-decoration: underline !important;
 }
+
 .pricing-table img {
 	margin: 25px 0 0 10px;
 }
+
 .adjust-padding {
 	padding-left: 45px;
 	padding-right: 35px;
@@ -491,21 +603,27 @@ input[type="text"] {
 noindex:-o-prefocus,.right-side-options {
 	margin-top: -5px !important;
 }
+
 noindex:-o-prefocus,.signup-submit-mid {
 	padding-bottom: 0px;
 }
+
 noindex:-o-prefocus,.terms-error input[type="checkbox"] {
 	margin-top: -14px;
 }
+
 noindex:-o-prefocus,.terms-error span {
 	margin-left: 20px !important;
 }
+
 noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	margin-bottom: -18px;
 }
+
 .mid-login-box1 td {
 	padding-right: 5px;
 }
+
 .logo-image img {
 	border: 0px none !important;
 }
@@ -518,15 +636,18 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 		margin-left: 0px;
 	}
 }
+
 #contact-layout div,#support-width div,#privacy-layout div,#mid-2 div {
 	background: #F4F4F4;
 }
+
 .remaining-header-part-login ul li {
 	background: url("../images/Login_button.png") no-repeat scroll 0 0
 		transparent;
 	width: 76px;
 	height: 36px;
 }
+
 .sign-up-left {
 	background: url("../images/Siginup_left.png") no-repeat scroll 0 0
 		transparent;
@@ -534,6 +655,7 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 	height: 52px;
 	width: 8px;
 }
+
 .sign-up-right {
 	background: url("../images/Siginup_right.png") no-repeat scroll 0 0
 		transparent;
@@ -551,23 +673,29 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 .signup-for-free-button ul li,.signup-submit-button ul li {
 	display: inline;
 }
+
 .signup-for-free-button {
 	margin: 20px 0 0 65px;
 }
+
 .signup-submit-button {
 	margin-top: 15px;
 }
+
 .support_textarea {
 	width: 223px;
 	height: 125px;
 	font-size: 15px;
 }
+
 .signup-for-free-button a:hover {
 	color: red !important;
 }
+
 :root #mid-box7 {
-	width: 210px \0/ IE9;
+	width: 210px \0/IE9;
 }
+
 .support_textarea {
 	overflow: hidden\0;
 }
@@ -575,12 +703,16 @@ noindex:-o-prefocus,.sign-up-left,noindex:-o-prefocus,.sign-up-right {
 input[type="submit"]:FOCUS {
 	outline: none;
 }
+
 #accounterForm .error {
 	display: block;
 }
-#accounterForm label.error,#activationForm label.error,#emailActivationForm label.error{
+
+#accounterForm label.error,#activationForm label.error,#emailActivationForm label.error
+	{
 	color: red !important;
 }
+
 .remaining-header-part-login a:FOCUS,.login-hover {
 	opacity: 0.5;
 	outline: 0px none;
@@ -588,15 +720,18 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =     0.5) !important;
+	filter: alpha(opacity =             0.5) !important;
 }
+
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
 	color: #3299A4 !important;
 	outline: none;
 }
+
 .menu-bar li .active {
 	color: #3299A4 !important;
 }
+
 .left-arrow {
 	background: url("../images/Pop-up.png") no-repeat scroll 0 0 transparent;
 	height: 15px;
@@ -604,6 +739,7 @@ input[type="submit"]:FOCUS {
 	margin-top: 14px;
 	width: 13px;
 }
+
 .indication-box {
 	background: none repeat scroll 0 0 #DFF1F5;
 	border: 1px solid #A1BFC8;
@@ -615,9 +751,11 @@ input[type="submit"]:FOCUS {
 	left: 0;
 	font-size: 12px;
 }
+
 .box-data {
 	padding: 2px 5px 0;
 }
+
 .mandatory {
 	background-color: #FFFFE6;
 	border: 1px solid #E6EACD;
@@ -625,6 +763,7 @@ input[type="submit"]:FOCUS {
 	font-size: 11px;
 	font-weight: normal
 }
+
 #accounterForm td:FIRST-CHILD {
 	text-align: right;
 	padding-right: 15px;
@@ -634,24 +773,31 @@ input[type="submit"]:FOCUS {
 	margin: 0 0;
 	padding: 0;
 }
+
 form {
 	font-weight: normal;
 }
-#commanContainer{
+
+#commanContainer {
 	width: 375px;
 }
-#commanNewContainer,#commanContainer{
+
+#commanNewContainer,#commanContainer {
 	margin: 7em auto;
 }
-#commanNewContainer{
+
+#commanNewContainer {
 	width: 960px;
 }
+
 #commanContainer label,#commanNewContainer label {
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
 }
-#commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form {
+
+#commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form
+	{
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #B1B1B1;
 	border-radius: 3px 3px 3px 3px;
@@ -660,10 +806,10 @@ form {
 	margin-left: 8px;
 	padding: 26px 10px 15px;
 	border-radius: 10px 10px 10px 10px;
-	clear:both;
+	clear: both;
 }
-#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],
-#commanNewContainer input[type="password"],#commanNewContainer select,#enterEmailDiv #emailField
+
+#commanContainer  input[type="text"],#commanContainer  input[type="password"],#commanContainer select,#commanNewContainer input[type="text"],#commanNewContainer input[type="password"],#commanNewContainer select,#enterEmailDiv #emailField
 	{
 	background: none repeat scroll 0 0 #FBFBFB;
 	border: 1px solid #B1B1B1;
@@ -674,15 +820,19 @@ form {
 	width: 97%;
 	height: 28px;
 }
+
 .loginbutton,#forgot-login,.signup-submit,.reset-button,.OkButton {
 	margin-right: 8px;
 }
+
 .allviews-common-button:FOCUS,.loginbutton input:focus,button {
 	border: 1px solid #10CDD1
 }
+
 input [type="checkbox"] {
 	border: 1px solid #7A7777;
 }
+
 .allviews-common-button {
 	background: none repeat scroll 0 0 #28757D;
 	border: 1px solid #002e36;
@@ -691,31 +841,38 @@ input [type="checkbox"] {
 	padding: 3px 10px;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
+
 .loginbutton input:active,.loginbutton input:hover {
 	background: #1a5158;
 	border: 1px solid #9ebfc3;
 }
+
 .form-bottom-options,.activate-code {
 	margin: 0 0 0 16px;
 	padding: 16px 16px 0px;
 	text-shadow: 0 1px 0 #FFFFFF;
 }
+
 .form-bottom-options a,#commanContainer a,#commanNewContainer a {
 	color: #28757D;
 	text-decoration: underline;
 }
-.accounterLogo{
+
+.accounterLogo {
 	padding: 0 0 15px 10px;
 }
+
 .accounterLogoimage {
 	padding: 0 0 15px 10px;
-	background: url("/images/Accounter_logo_title.png") no-repeat scroll 0 0 transparent;
-    display: inline-block;
-    height: 50px;
-    margin-left: 10px;
-    text-indent: -999em;
-    width: 230px;
+	background: url("/images/Accounter_logo_title.png") no-repeat scroll 0 0
+		transparent;
+	display: inline-block;
+	height: 50px;
+	margin-left: 10px;
+	text-indent: -999em;
+	width: 230px;
 }
+
 .common-box {
 	border-radius: 3px 3px 3px 3px;
 	border-style: solid;
@@ -724,104 +881,133 @@ input [type="checkbox"] {
 	padding: 12px;
 	font-size: 12px;
 }
+
 #login_error {
 	background-color: #FFEBE8;
 	border-color: #CC0000;
 }
-#login_success,#gmailregister{
+
+#login_success,#gmailregister {
 	background-color: #FFEBE8;
 	border-color: #99C68E;
 }
+
 #forgot-password_error,.create-company-message {
 	background-color: #FFFFE0;
 	border-color: #E6DB55;
 }
+
 .signup-container {
 	width: 1025px !important;
 	margin: 30px auto !important;
 }
+
 .signup-submit {
 	margin-top: 15px;
 }
+
 .reset-header,.company-heading {
 	color: #28757D;
 	margin-bottom: 10px;
 }
+
 #select-box {
 	padding: 0px !important;
 }
+
 .form-box li {
 	list-style-type: none;
 	display: block;
 }
+
 .form-box li a {
 	font-size: 15px;
-	padding-left:10px;
+	padding-left: 10px;
 }
+
 .form-box div a:hover {
 	color: #3299A4 !important;
 }
+
 .form-box ul {
 	margin-top: 20px;
 }
+
 .form-box {
 	min-height: 200px;
 }
+
 .check_label {
 	margin: 16px 0px 0px !important;
 }
+
 a#fdbk_tab {
 	right: 0px !important;
 	top: 40% !important;
 	left: inherit !important;
 	margin: 0 -7px 0 0 !important;
 }
+
 a#fdbk_tab:hover {
 	margin: 0px -4px 0 0 !important;
 }
+
 .fieldset textarea {
 	resize: none;
 }
+
 .resend-code {
 	padding: 10px 0 0 35px;
 }
+
 .companies-list a:FIRST-CHILD {
 	font-size: 18px;
 	text-decoration: none !important;
 }
+
 .delete_company {
 	text-decoration: none !important;
 	padding-top: 3px;
-	float:right;
+	float: right;
 }
+
 .companies-list a:hover {
 	text-decoration: underline !important;
 }
+
 .companies-list {
 	margin-bottom: 3px;
 }
+
 .password_strength {
 	padding: 0 5px;
 	display: inline-block;
 }
+
 .password_strength_1 {
 	background-color: #fcb6b1;
 }
+
 .password_strength_2 {
 	background-color: #fccab1;
 }
+
 .password_strength_3 {
 	background-color: #fcfbb1;
 }
+
 .password_strength_4 {
 	background-color: #dafcb1;
 }
+
 .password_strength_5 {
 	background-color: #bcfcb1;
 }
+
 .email_password,.text_box_margin {
 	margin: 10px 0px;
 }
+
 #mainFooter {
 	height: 25px;
 	margin-top: 0;
@@ -832,223 +1018,289 @@ a#fdbk_tab:hover {
 	color: #666666;
 	padding-top: 8px;
 }
+
 #mainFooter a,#mainFooter span {
 	color: #666666;
 	font-size: 12px;
 	padding: 0 5px;
 }
+
 #mainFooter a:hover {
 	text-decoration: underline;
 }
+
 #maintananceContainer {
 	background: none repeat scroll 0 0 #EAEEF1;
 	width: 960px;
 	height: 330px;
 }
+
 .maintainence_message {
 	color: #395169;
 	line-height: 2;
 }
+
 .maintanance_subcont {
 	padding: 25px;
 }
+
 .unavailable_page {
-	
 	padding: 20px 25px 0;
 }
+
 .terms_unorderlist li {
 	display: list-item !important;
 	list-style-type: square !important;
 	list-style-image: none !important;
 }
+
 .terms_unorderlist {
 	margin: 10px 0 0 30px;
 }
+
 .mid2_height {
 	height: auto !important;
 	padding-bottom: 20px;
 }
+
 .terms_and_contions,.privacy_policy {
 	padding: 0px 40px;
 }
+
 .support_send {
 	margin-right: 8px;
 }
+
 .support_send input {
 	width: 50px !important;
 }
+
 #reset_hint_box {
 	margin: -37px 0 0 265px;
 	position: absolute;
 	z-index: 1;
 }
-.new_logo_field{
-	margin:0px auto;
-	width:300px;
+
+.new_logo_field {
+	margin: 0px auto;
+	width: 300px;
 }
 /*.new_login_page{
 	height:380px;
 }*/
-.new_login_accounterform #login_error{
-	width:335px;
+.new_login_accounterform #login_error {
+	width: 335px;
 }
-#feedDiv{
-	width:400px;
+
+#feedDiv {
+	width: 400px;
 	padding: 0 34px 0 16px;
 }
-.new_login_accounterform{
+
+.new_login_accounterform {
 	border-left: 1px solid #28757D;
-    padding-left: 30px;
-    width: 420px;
+	padding-left: 30px;
+	width: 420px;
 }
-#feedDivUl li{
+
+#feedDivUl li {
 	border-bottom: 1px solid #B1B1B1;
-    padding: 3px;
-    width: 100%;
+	padding: 3px;
+	width: 100%;
 }
-#feedDivUl{
-	margin-top:15px;
+
+#feedDivUl {
+	margin-top: 15px;
 }
-#feedDivUl .listItemHover{
+
+#feedDivUl .listItemHover {
 	background: none repeat scroll 0 0 #D4EFFB;
-    border-bottom: 1px solid #5EC2ED;
+	border-bottom: 1px solid #5EC2ED;
 }
-#feedDiv h2{
-	color:#0079C6;
+
+#feedDiv h2 {
+	color: #0079C6;
 	margin-bottom: 10px;
 }
-#unChangedNewsDiv{
-	height:90px
+
+#unChangedNewsDiv {
+	height: 90px
 }
-#openIdForm{
-	margin-top:15px;
+
+#openIdForm {
+	margin-top: 15px;
 }
+
 .display-none,.hiddenDiv {
-    display: none;
+	display: none;
 }
-.maintainence_message #errorMsg{
-	color:red;
-	font-size:12px;
-	text-align:center;
+
+.maintainence_message #errorMsg {
+	color: red;
+	font-size: 12px;
+	text-align: center;
 	margin-right: 95px;
 }
-.maintainence_message #successmsgDiv{
-	color:green;
+
+.maintainence_message #successmsgDiv {
+	color: green;
 }
-.google_icon,.yahoo_icon,.facebook_icon,.aol_icon{
+
+.google_icon,.yahoo_icon,.facebook_icon,.aol_icon {
 	display: inline-block;
-    height: 34px;
-    text-indent: -999em;
-    width: 90px;
-    margin-top: 10px;
-    padding:3px;
-    border:1px solid white;
+	height: 34px;
+	text-indent: -999em;
+	width: 90px;
+	margin-top: 10px;
+	padding: 3px;
+	border: 1px solid white;
 }
-.google_icon{
-	background: url("../images/Google.jpg") no-repeat scroll 4px 5px transparent;
+
+.google_icon {
+	background: url("../images/Google.jpg") no-repeat scroll 4px 5px
+		transparent;
 }
-.yahoo_icon{
-	background: url("../images/Yahoo.jpg") no-repeat scroll 5px 5px transparent;
+
+.yahoo_icon {
+	background: url("../images/Yahoo.jpg") no-repeat scroll 5px 5px
+		transparent;
 }
-.aol_icon{
-	background: url("../images/AOL.jpg") no-repeat scroll 5px 5px transparent;
+
+.aol_icon {
+	background: url("../images/AOL.jpg") no-repeat scroll 5px 5px
+		transparent;
 }
-.facebook_icon{
-	background: url("../images/Facebook.jpg") no-repeat scroll 5px 5px transparent;
+
+.facebook_icon {
+	background: url("../images/Facebook.jpg") no-repeat scroll 5px 5px
+		transparent;
 }
-.new_login_accounterform #openIdForm a:hover,#openIdForm a:hover{
+
+.new_login_accounterform #openIdForm a:hover,#openIdForm a:hover {
 	border: 1px solid #CCCCCC;
-    border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
 }
-.new_login_accounterform #openIdForm span{
+
+.new_login_accounterform #openIdForm span {
 	display: block;
 }
-.new_login_accounterform #accounterForm{
-	  width: 264px;
+
+.new_login_accounterform #accounterForm {
+	width: 264px;
 }
-.footer-options div{
-	float:left;
+
+.footer-options div {
+	float: left;
 }
-.footer-options ul{
-	float:right;
+
+.footer-options ul {
+	float: right;
 }
-.footer-options div a{
+
+.footer-options div a {
 	background: url("../images/fblike.png") no-repeat scroll 0 0 transparent;
 	text-indent: -999em;
 	display: inline-block;
-	width:48px;
-	height:48px;
+	width: 48px;
+	height: 48px;
 }
-.delete-account-description{
+
+.delete-account-description {
 	height: 100px;
-    width: 280px;
-    border:1px solid #aaa;
+	width: 280px;
+	border: 1px solid #aaa;
 }
-.delete-account-options input[type="checkbox"]{
-	margin:5px;
+
+.delete-account-options input[type="checkbox"] {
+	margin: 5px;
 }
-.form-box,.companies-list{
-	overflow:auto;
+
+.form-box,.companies-list {
+	overflow: auto;
 }
-.company_lists{
+
+.company_lists {
 	overflow: visible;
-    white-space: nowrap;
-    width: 100%;
+	white-space: nowrap;
+	width: 100%;
 }
-.signup-left,.signup-right{
-	float:left;
+
+.signup-left,.signup-right {
+	float: left;
 }
-.signup-right li{
+
+.signup-right li {
 	display: block;
 }
-.signup-right h3{
-    border-bottom: 1px solid #F0F0F0;
-    font-weight: bold;
-    margin-top: 15px;
-    padding: 10px 0 5px;
-    width: 100%;
-    font-size:15px;
+
+.signup-right h3 {
+	border-bottom: 1px solid #F0F0F0;
+	font-weight: bold;
+	margin-top: 15px;
+	padding: 10px 0 5px;
+	width: 100%;
+	font-size: 15px;
 }
-.signup-left{
-	margin-right:45px;
+
+.signup-left {
+	margin-right: 45px;
 	border-right: 1px solid #DDD;
-    padding-right: 45px;
-    padding-left: 25px;
+	padding-right: 45px;
+	padding-left: 25px;
 }
+
 .signup-right ul li {
-	background: url("/images/check-mark-small.gif")no-repeat scroll left center;
+	background: url("/images/check-mark-small.gif") no-repeat scroll left
+		center;
 	padding-left: 20px;
 	line-height: 1.8;
-	margin-left:6px;
+	margin-left: 6px;
 }
+
 .companies-list a:FIRST-CHILD {
 	float: left;
 }
+
 .companies-list-page select {
-    margin-top: 17px !important;
+	margin-top: 17px !important;
 }
-#language_picker select{
+
+#language_picker select {
 	float: right;
-    margin-bottom: 5px;
-    width: 90px;	
+	margin-bottom: 5px;
+	width: 90px;
 }
-.company_lists{
-	clear:both;
+
+.company_lists {
+	clear: both;
 }
-.openid-signup-container{
-	width:600px !important;
+
+.openid-signup-container {
+	width: 600px !important;
 }
-#login_error{
-	clear:both;
+
+#login_error {
+	clear: both;
 }
-.form-bottom-options a:hover,.form-bottom-options a:FOCUS{
-	color:#072027 !important;
+
+.form-bottom-options a:hover,.form-bottom-options a:FOCUS {
+	color: #072027 !important;
 }
-.supported_browsers span{
-    color: #1A5158;
-    padding-left: 10px;
-    padding-top: 30px;
-    position: absolute;
-    vertical-align: top;
+
+.supported_browsers span {
+	color: #1A5158;
+	padding-left: 10px;
+	padding-top: 30px;
+	position: absolute;
+	vertical-align: top;
+}
+
+#subscription_form select {
+	margin: 16px 0 11px 33px;
+	width: 252px;
+}
+
+#subscribe_button {
+	margin: 16px 0 0 73px;
 }
 /* End of the new Login and forgot password page*/

@@ -80,9 +80,12 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		// .addClassName("recounciliation_grid");
 		setData();
 		this.add(mainPanel);
-		saveAndCloseButton.setVisible(false);
-		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
-		saveAndNewButton.setText(messages.payTax());
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setVisible(false);
+		if (saveAndNewButton != null) {
+			saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
+			saveAndNewButton.setText(messages.payTax());
+		}
 		deleteButton.setVisible(false);
 
 		deleteButton.addClickHandler(new ClickHandler() {
@@ -275,6 +278,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			deleteButton.setVisible(false);
 			return;
 		}
+		deleteButton.setObj(obj);
 		deleteButton.setVisible(canDelete(obj));
 	}
 

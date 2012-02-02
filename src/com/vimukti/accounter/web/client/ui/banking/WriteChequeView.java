@@ -1631,8 +1631,10 @@ public class WriteChequeView extends
 		balText.setTabIndex(7);
 		memoTextAreaItem.setTabIndex(8);
 		vatinclusiveCheck.setTabIndex(9);
-		saveAndCloseButton.setTabIndex(11);
-		saveAndNewButton.setTabIndex(12);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(11);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(12);
 		cancelButton.setTabIndex(13);
 
 	}

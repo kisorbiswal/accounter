@@ -43,7 +43,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -217,11 +216,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientReceivePayment> getLatestReceivePayments();
 
-	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
-			long transactionMakeDepositId);
-
-	public List<ClientTransactionMakeDeposit> getTransactionMakeDeposits();
-
 	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
 			long endDate) throws AccounterException;
 
@@ -339,7 +333,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	public ArrayList<ClientActivity> getAuditHistory(int objectType,
 			long objectID, long activityID) throws AccounterException;
 
-	void mergeAccount(ClientAccount fromClientAccount,
+	ClientAccount mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException;
 
 	// for sending pdf in email

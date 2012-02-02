@@ -107,8 +107,6 @@ import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionDepositItem;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.TransactionLog;
-import com.vimukti.accounter.core.TransactionMakeDeposit;
-import com.vimukti.accounter.core.TransactionMakeDepositEntries;
 import com.vimukti.accounter.core.TransactionPayBill;
 import com.vimukti.accounter.core.TransactionReceivePayment;
 import com.vimukti.accounter.core.TransferFund;
@@ -151,7 +149,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -496,7 +493,7 @@ public class FinanceTool {
 					Transaction transaction = (Transaction) serverObject;
 					if (!transaction.getReconciliationItems().isEmpty()) {
 						throw new AccounterException(
-								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+								AccounterException.ERROR_DELETING_TRANSACTION_RECONCILIED);
 					} else if (transaction.getCreditsAndPayments() != null) {
 						transaction.getCreditsAndPayments()
 								.canEdit(transaction);
@@ -1140,102 +1137,6 @@ public class FinanceTool {
 		} catch (DAOException e) {
 			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
 		}
-
-	}
-
-	public TransactionMakeDeposit getTransactionMakeDeposit(
-			long transactionMakeDepositId, long companyId) throws DAOException {
-		try {
-
-			Session session = HibernateUtil.getCurrentSession();
-			Company company = getCompany(companyId);
-			Query query = session
-					.getNamedQuery("getTransactionMakeDeposit.by.id")
-					.setParameter("id", transactionMakeDepositId)
-					.setEntity("company", company);
-			List list = query.list();
-
-			if (list != null) {
-				return (TransactionMakeDeposit) list.get(0);
-			} else
-				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
-						null));
-		} catch (DAOException e) {
-			throw (new DAOException(DAOException.DATABASE_EXCEPTION, e));
-		}
-	}
-
-	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits(
-			long companyId) throws DAOException {
-		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new ArrayList<ClientTransactionMakeDeposit>();
-
-		Session session = HibernateUtil.getCurrentSession();
-		Company company = getCompany(companyId);
-		Query query = session.getNamedQuery(
-				"getTransactionMakeDeposit.by.checking.isDepositedandisVoid")
-				.setEntity("company", company);
-
-		List<TransactionMakeDepositEntries> listing = query.list();
-
-		return new ArrayList<ClientTransactionMakeDeposit>(query.list());
-
-		// Query query = session
-		// .createQuery(
-		// "from com.vimukti.accounter.core.AccountTransaction at where at.account.name = 'Un Deposited Funds' and "
-		// +
-		// "at.transaction.isDeposited = 'false' and at.transaction.isVoid = 'false' "
-		// );
-		//
-		// List<AccountTransaction> listing = query.list();
-
-		// if (listing != null && listing.size() > 0) {
-		//
-		// for (TransactionMakeDepositEntries transactionMakeDepositEntry :
-		// listing) {
-		//
-		// MakeDepositTransactionsList makeDepositTransactionsList = new
-		// MakeDepositTransactionsList(
-		// ((ClientTransaction) new ClientConvertUtil()
-		// .toClientObject(
-		// transactionMakeDepositEntry.getTransaction(),
-		// Util
-		// .getClientEqualentClass(transactionMakeDepositEntry
-		// .getTransaction()
-		// .getClass()))),
-		// transactionMakeDepositEntry.getAmount());
-		//
-		// Payee payee = transactionMakeDepositEntry.getTransaction()
-		// .getInvolvedPayee();
-		//
-		// makeDepositTransactionsList.setCashAccountId(
-		// transactionMakeDepositEntry
-		// .getAccount().getID());
-		// makeDepositTransactionsList.setPaymentMethod(
-		// transactionMakeDepositEntry
-		// .getTransaction().getPaymentMethod());
-		// makeDepositTransactionsList.setReference(transactionMakeDepositEntry
-		// .getTransaction().getReference());
-		// makeDepositTransactionsList.setPayeeName(transactionMakeDepositEntry
-		// .getAccount().getName());
-		// if (payee != null) {
-		// makeDepositTransactionsList.setPayeeName(payee.getName());
-		// makeDepositTransactionsList.setType(payee.getType());
-		// if (payee.getType() == Payee.TYPE_CUSTOMER) {
-		// makeDepositTransactionsList
-		// .setType(Payee.TYPE_CUSTOMER);
-		// } else if (payee.getType() == Payee.TYPE_VENDOR) {
-		// makeDepositTransactionsList.setType(Payee.TYPE_VENDOR);
-		// } else if (payee.getType() == Payee.TYPE_TAX_AGENCY) {
-		// makeDepositTransactionsList
-		// .setType(Payee.TYPE_TAX_AGENCY);
-		// }
-		//
-		// transactionMakeDepositsList
-		// .add(makeDepositTransactionsList);
-		// }
-		// }
-		// }
-		// return transactionMakeDepositsList;
 
 	}
 
@@ -2006,14 +1907,16 @@ public class FinanceTool {
 		}
 	}
 
-	public void mergeAcoount(ClientAccount fromClientAccount,
+	public ClientAccount mergeAcoount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount, long companyId)
 			throws AccounterException {
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction tx = session.beginTransaction();
 		Company company = getCompany(companyId);
-		double mergeBalance = toClientAccount.getOpeningBalance()
-				+ fromClientAccount.getOpeningBalance();
+		double mergeBalance = toClientAccount
+				.getTotalBalanceInAccountCurrency()
+				+ fromClientAccount.getTotalBalanceInAccountCurrency();
+
 		try {
 			session.getNamedQuery("update.merge.Account.oldBalance.tonew")
 					.setLong("from", toClientAccount.getID())
@@ -2055,8 +1958,7 @@ public class FinanceTool {
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
-			session.getNamedQuery(
-					"update.merge.accounttransactionmakedeposit.old.tonew")
+			session.getNamedQuery("update.merge.journalEntry.old.tonew")
 					.setLong("fromID", fromClientAccount.getID())
 					.setLong("toID", toClientAccount.getID()).executeUpdate();
 
@@ -2070,14 +1972,9 @@ public class FinanceTool {
 					.setLong("toID", toClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
-			session.getNamedQuery("delete.account.old")
-					.setLong("from", fromClientAccount.getID())
-					.setEntity("company", company).executeUpdate();
-
 			Account account = (Account) session.get(Account.class,
 					fromClientAccount.getID());
 			User user = AccounterThreadLocal.get();
-
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
 					account);
 			session.save(activity);
@@ -2087,9 +1984,14 @@ public class FinanceTool {
 			account.setCompany(null);
 			session.delete(account);
 			tx.commit();
+			Account toaccount = (Account) session.get(Account.class,
+					toClientAccount.getID());
+			return (ClientAccount) new ClientConvertUtil().toClientObject(
+					toaccount, Util.getClientClass(toaccount));
 		} catch (Exception e) {
 			tx.rollback();
 		}
+		return null;
 
 	}
 
@@ -2232,6 +2134,9 @@ public class FinanceTool {
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
 		} else if (newTransaction instanceof Estimate) {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
+		} else if (newTransaction instanceof MakeDeposit) {
+			((MakeDeposit) newTransaction)
+					.setTransactionDepositItems(new ArrayList<TransactionDepositItem>());
 		}
 
 		session.setFlushMode(flushMode);

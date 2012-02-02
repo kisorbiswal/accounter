@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -9,8 +8,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,9 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.AddButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -28,7 +23,6 @@ import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -48,7 +42,6 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
-import com.vimukti.accounter.web.client.ui.edittable.tables.MakeDepositTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -68,9 +61,7 @@ public class MakeDepositView extends
 	DynamicForm memoForm, totForm;
 	DynamicForm form1, form2;
 	private AmountField amtText;
-	private MakeDepositTransactionTable gridView;
 
-	protected ClientTransactionMakeDeposit currentRecord;
 	protected boolean isClose;
 
 	private int TYPE_FINANCIAL_ACCOUNT = 1;
@@ -110,8 +101,6 @@ public class MakeDepositView extends
 	private HorizontalPanel bot1Panel;
 
 	private ArrayList<DynamicForm> listforms;
-
-	private AddButton addButton;
 
 	// private VerticalPanel botRightPanel;
 
@@ -168,57 +157,6 @@ public class MakeDepositView extends
 		this.transactionNo = transactionNumber;
 	}
 
-	private void addTransactionMakeDepositsToGrid(
-			List<ClientTransactionMakeDeposit> transactionMakeDepositList) {
-
-		ClientCompany company = getCompany();
-
-		ClientTransactionMakeDeposit records[] = new ClientTransactionMakeDeposit[transactionMakeDepositList
-				.size()];
-
-		Iterator<ClientTransactionMakeDeposit> it = transactionMakeDepositList
-				.iterator();
-		int i = 0;
-
-		while (it.hasNext()) {
-			ClientTransactionMakeDeposit entry = it.next();
-			// For avoiding the deletion of transaction items before clicking on
-			// the edit button
-			entry.setIsNewEntry(false);
-			records[i] = new ClientTransactionMakeDeposit();
-			// records[i].setAttribute(ATTR_CHECK, true);
-			records[i].setDate(entry.getDate());
-			if (entry.getNumber() != null)
-				records[i].setNumber(entry.getNumber());
-			if (entry.getPaymentMethod() != null)
-				records[i].setPaymentMethod(entry.getPaymentMethod());
-
-			if (entry.getType() == ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT) {
-				records[i].setType(TYPE_FINANCIAL_ACCOUNT);
-				records[i].setAccount(entry.getAccount());
-			} else if (entry.getType() == ClientTransactionMakeDeposit.TYPE_VENDOR) {
-				if (entry.getVendor() != 0) {
-					records[i].setType(TYPE_VENDOR);
-					records[i].setVendor(entry.getVendor());
-				}
-			} else {
-				if (entry.getCustomer() != 0) {
-					records[i].setType(TYPE_CUSTOMER);
-
-					records[i].setCustomer(entry.getCustomer());
-				}
-
-			}
-
-			if (entry.getReference() != null)
-				records[i].setReference(entry.getReference());
-
-			records[i].setAmount(entry.getAmount());
-			// records[i++].setEnabled(false);
-
-		}
-	}
-
 	protected void validateCashBackAmount() {
 
 		String amount = cashBackAmountText.getAmount().toString();
@@ -259,44 +197,6 @@ public class MakeDepositView extends
 			cashBackAmountText.setAmount(0.00);
 
 		}
-
-	}
-
-	private void addTracsactionMakeDepositsToGrid() {
-
-		gridView.addLoadingImagePanel();
-
-		AccounterAsyncCallback<List<ClientTransactionMakeDeposit>> callback = new AccounterAsyncCallback<List<ClientTransactionMakeDeposit>>() {
-
-			@Override
-			public void onException(AccounterException caught) {
-				Accounter.showError(messages.makeDepostTransationsListFailed());
-				gridView.removeAllRecords();
-			}
-
-			@Override
-			public void onResultSuccess(
-					List<ClientTransactionMakeDeposit> result) {
-				if (result == null) {
-					onFailure(null);
-					return;
-				}
-
-				if (result.size() != 0) {
-					gridView.removeAllRecords();
-					gridView.setRecords(result);
-
-				} else if (!isInViewMode()) {
-					gridView.removeAllRecords();
-					Accounter.showError(messages.noDepositsToShow());
-					// gridView.addEmptyMessage("No records to show");
-				}
-
-			}
-
-		};
-
-		Accounter.createHomeService().getTransactionMakeDeposits(callback);
 
 	}
 
@@ -360,83 +260,6 @@ public class MakeDepositView extends
 		return true;
 	}
 
-	private boolean checkLastRecord() {
-
-		Object records[] = gridView.getRecords().toArray();
-		ClientTransactionMakeDeposit rec = (ClientTransactionMakeDeposit) records[records.length - 1];
-		// FIXME-- check the condition,there is no possiblity of type/account to
-		// be '0'
-		if (rec.getType() == 0 || (rec.getAccount() == 0)) {
-			Accounter.showError(messages.pleaseChooseAnAccount());
-			return false;
-		}
-		return true;
-	}
-
-	public void initListGrid() {
-		gridView = new MakeDepositTransactionTable(this) {
-
-			@Override
-			protected void updateNonEditableItems() {
-				MakeDepositView.this.updateNonEditableItems();
-			}
-
-			@Override
-			protected boolean isInViewMode() {
-				return MakeDepositView.this.isInViewMode();
-			}
-		};
-		// gridView.setHeight("250px");
-		gridView.setDisabled(isInViewMode());
-		gridView.getElement().getStyle().setMarginTop(10, Unit.PX);
-	}
-
-	protected void validateAmountField(
-			ClientTransactionMakeDeposit selectedRecord) {
-
-		String amount = selectedRecord.getAmount() + "";
-		// if (amount.substring(0, 1).equals("$")) {
-		// amount = amount.substring(1);
-		// }
-		try {
-
-			Double enteredAmount = DataUtils.getAmountStringAsDouble(amount);
-
-			if (DecimalUtil.isLessThan(enteredAmount, -1000000000000.00)
-					|| DecimalUtil.isGreaterThan(enteredAmount,
-							1000000000000.00)) {
-				Accounter.showError(messages.amountExceedsTheLimit());
-				enteredAmount = 0.00;
-			} else
-				selectedRecord.setAmount(enteredAmount);
-		} catch (Exception e) {
-			Accounter.showError(messages.invalidAmount());
-			selectedRecord.setAmount(0.00);
-		}
-
-	}
-
-	protected void updateTotalAmount() {
-
-		calculatedTotal = 0D;
-		for (ClientTransactionMakeDeposit rec : gridView.getRecords()) {
-
-			ClientTransactionMakeDeposit record = rec;
-			// FIXME--need to implement
-			// if (record.getAttributeAsBoolean(ATTR_CHECK)) {
-			// calculatedTotal += UIUtils.unFormat(
-			// record.getAttribute(ATTR_AMOUNT)).doubleValue();
-			// }
-
-		}
-		// totAmtText.setValue(UIUtils.format(calculatedTotal));
-		// totText.setValue(UIUtils.format((calculatedTotal - (UIUtils
-		// .unFormat(UIUtils.toStr(cashBackAmountText.getValue()))))));
-		// totText.setAmount(getAmountInTransactionCurrency(calculatedTotal
-		// - getAmountInBaseCurrency(cashBackAmountText.getAmount())));
-
-	}
-
 	@Override
 	public ClientTransferFund saveView() {
 		ClientTransferFund saveView = super.saveView();
@@ -454,135 +277,6 @@ public class MakeDepositView extends
 
 	}
 
-	private List<ClientTransactionMakeDeposit> getTransactionMakeDepositsList() {
-		List<ClientTransactionMakeDeposit> transactionMakeDepositsList = new ArrayList<ClientTransactionMakeDeposit>();
-		ClientTransactionMakeDeposit entry;
-		// FIXME--need to check
-		// for (IsSerializable rec : gridView.getRecords()) {
-		// if (record.getAttributeAsBoolean(ATTR_CHECK)) {
-		// entry = new ClientTransactionMakeDeposit();
-		//
-		// // setting date
-		// entry.setDate(record.getAttributeAsDate(ATTR_DATE).getTime());
-		//
-		// // Setting cash account,number and payment method for old
-		// // entries
-		// if (record.getAttribute("cashAccountId") != null) {
-		//
-		// // setting isNewEntry for old entries .
-		// entry.setIsNewEntry(false);
-		//
-		// entry.setCashAccount(FinanceApplication.getCompany()
-		// .getAccount(
-		// UIUtils.toLong(record
-		// .getAttribute("cashAccountId")))
-		// .getID());
-		//
-		// // setting DepositedTransactionId
-		// entry.setDepositedTransaction(Long.parseLong(record
-		// .getAttribute("transactionId")));
-		// try {
-		// Long number = UIUtils.toLong(record
-		// .getAttribute(ATTR_NO));
-		// entry.setNumber(number);
-		// } catch (Exception e) {
-		// }
-		//
-		// if (record.getAttributeAsString(ATTR_PAYMENT_METHOD) != null) {
-		// entry.setPaymentMethod(record
-		// .getAttributeAsString(ATTR_PAYMENT_METHOD));
-		//
-		// }
-		//
-		// else {
-		// // setting isNewEntry for new entries .
-		// entry.setIsNewEntry(true);
-		// }
-		//
-		// // Setting Type and account or vendor or customer
-		// String selectedType = record
-		// .getAttributeAsString(ATTR_TYPE);
-		// String account = record.getAttributeAsString(ATTR_ACCOUNT);
-		// if (selectedType.equalsIgnoreCase("Financial Account")) {
-		//
-		// entry
-		// .setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
-		//
-		// for (ClientAccount temp : allAccounts) {
-		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setAccount(temp.getID());
-		// break;
-		// }
-		// }
-		//
-		// } else if (selectedType.equalsIgnoreCase("Vendor")) {
-		// entry.setType(ClientTransactionMakeDeposit.TYPE_VENDOR);
-		//
-		// for (ClientVendor temp : allVendors) {
-		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setVendor(temp.getID());
-		// break;
-		// }
-		// }
-		//
-		// } else {
-		// entry
-		// .setType(ClientTransactionMakeDeposit.TYPE_CUSTOMER);
-		// for (ClientCustomer temp : allCustomers) {
-		// if (temp.getName().equalsIgnoreCase(account)) {
-		// entry.setCustomer(temp.getID());
-		// break;
-		// }
-		// }
-		//
-		// }
-		//
-		// // Setting Reference
-		// String ref = record.getAttributeAsString(ATTR_REFERENCE);
-		// if (ref != null)
-		// entry.setReference(ref);
-		//
-		// // Setting amount
-		// // String amount = record.getAttribute(ATTR_AMOUNT);
-		// entry.setTotal(UIUtils.unFormat(record
-		// .getAttribute(ATTR_AMOUNT)));
-		//
-		// transactionMakeDepositsList.add(entry);
-		//
-		// }
-		//
-		// }
-		//
-		// }
-		return transactionMakeDepositsList;
-	}
-
-	private List<ClientTransactionMakeDeposit> getAllSelectedRecords(
-			ClientTransferFund makeDeposit) {
-		List<ClientTransactionMakeDeposit> selectedRecords = gridView
-				.getRecords();
-
-		for (ClientTransactionMakeDeposit rec : selectedRecords) {
-			rec.setID(0);
-			rec.setMakeDeposit(makeDeposit);
-		}
-
-		return selectedRecords;
-	}
-
-	@Override
-	protected void resetForms() {
-
-		// depoForm.resetValues();
-		// memoForm.resetValues();
-		gridView.removeAllRecords();
-		addTracsactionMakeDepositsToGrid();
-		// totForm.resetValues();
-		// form1.resetValues();
-		// form2.resetValues();
-
-	}
-
 	public String getSelectedItemId() {
 		return selectedItemId;
 	}
@@ -594,9 +288,6 @@ public class MakeDepositView extends
 	@Override
 	public void init() {
 		super.init();
-		TYPE_FINANCIAL_ACCOUNT = ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT;
-		TYPE_VENDOR = ClientTransactionMakeDeposit.TYPE_VENDOR;
-		TYPE_CUSTOMER = ClientTransactionMakeDeposit.TYPE_CUSTOMER;
 		initTransactionNumber();
 
 		// createControls();
@@ -699,7 +390,6 @@ public class MakeDepositView extends
 				amtText.setCurrency(getCurrency(selectedDepositFromAccount
 						.getCurrency()));
 			}
-			gridView.setRecords(transaction.getTransactionMakeDeposit());
 			initAccounterClass();
 			// gridView.setCanEdit(false);
 			updateTotals();
@@ -859,20 +549,6 @@ public class MakeDepositView extends
 		// Label lab1 = new Label(FinanceApplication.constants()
 		// .paymentsReceived());
 
-		addButton = new AddButton(this);
-
-		addButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ClientTransactionMakeDeposit deposit = new ClientTransactionMakeDeposit();
-				deposit.setIsNewEntry(true);
-				deposit.setType(ClientTransactionMakeDeposit.TYPE_FINANCIAL_ACCOUNT);
-				// deposit.set
-				gridView.add(deposit);
-			}
-		});
-
 		cashBackAccountSelect = new CashBackAccountsCombo(
 				messages.cashBackAccount());
 		cashBackAccountSelect.setHelpInformation(true);
@@ -960,8 +636,6 @@ public class MakeDepositView extends
 		// panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		addButton.setEnabled(!isInViewMode());
-
 		HorizontalPanel botHLay = new HorizontalPanel();
 		botHLay.setWidth("100%");
 		botHLay.add(memoForm);
@@ -975,8 +649,6 @@ public class MakeDepositView extends
 		vPanel.add(panel);
 		vPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		vPanel.add(botHLay);
-
-		initListGrid();
 
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setSize("100%", "100%");
@@ -1041,8 +713,6 @@ public class MakeDepositView extends
 
 	@Override
 	public void updateNonEditableItems() {
-		if (gridView == null)
-			return;
 		// totText.setAmount(getAmountInTransactionCurrency(gridView.getTotal()
 		// - getAmountInBaseCurrency(cashBackAmountText.getAmount())));
 	}
@@ -1234,8 +904,6 @@ public class MakeDepositView extends
 		depositInSelect.setDisabled(isInViewMode());
 		depositFromSelect.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
-		addButton.setEnabled(!isInViewMode());
-		gridView.setDisabled(isInViewMode());
 		cashBackMemoText.setDisabled(isInViewMode());
 		cashBackAmountText.setDisabled(isInViewMode());
 		cashBackAccountSelect.setDisabled(isInViewMode());
@@ -1243,9 +911,6 @@ public class MakeDepositView extends
 		amtText.setDisabled(isInViewMode());
 
 		// For deleting the transctionItems after we edit
-		for (ClientTransactionMakeDeposit ctmd : transaction
-				.getTransactionMakeDeposit())
-			ctmd.setIsNewEntry(true);
 		// transactionObject = null;
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
@@ -1306,15 +971,6 @@ public class MakeDepositView extends
 
 		transaction.setTotal(amtText.getAmount());
 
-		// setting transaction make deposits list
-		List<ClientTransactionMakeDeposit> listOfTrannsactionMakeDeposits = getAllSelectedRecords(transaction);
-		isListEmpty = false;
-		if (listOfTrannsactionMakeDeposits.size() == 0)
-			isListEmpty = true;
-		else
-			transaction
-					.setTransactionMakeDeposit(listOfTrannsactionMakeDeposits);
-
 		// Setting Cash back account
 		transaction
 				.setCashBackAccount(selectedCashBackAccount != null ? selectedCashBackAccount
@@ -1361,9 +1017,10 @@ public class MakeDepositView extends
 		date.setTabIndex(2);
 		transactionNumber.setTabIndex(3);
 		memoText.setTabIndex(4);
-		addButton.setTabIndex(5);
-		saveAndCloseButton.setTabIndex(6);
-		saveAndNewButton.setTabIndex(7);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(6);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(7);
 		cancelButton.setTabIndex(8);
 
 	}

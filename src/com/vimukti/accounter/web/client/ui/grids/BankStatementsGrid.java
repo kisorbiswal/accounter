@@ -1,6 +1,9 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientStatement;
+import com.vimukti.accounter.web.client.core.ClientStatementRecord;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -20,6 +23,7 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 	@Override
 	protected int[] setColTypes() {
 		return new int[] { ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_DATE,
 				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_TEXT,
 				ListGrid.COLUMN_TYPE_TEXT };
@@ -36,15 +40,20 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 		case 0:
 			return 15;
 		case 1:
-			return 55;
+			return 30;
 		case 2:
-			return 55;
+			return 35;
 		case 3:
-			return 55;
+			return 52;
 		case 4:
-			return 55;
+			return 52;
 		case 5:
-			return 55;
+			return 52;
+		case 6:
+			return 52;
+		case 7:
+			return 52;
+
 		}
 		return 0;
 	}
@@ -55,19 +64,36 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 		case 0:
 			return String.valueOf(obj.getID());
 		case 1:
-			return obj.getImporttedDate();
+			return obj.getStatementList().size();
 		case 2:
-			return obj.getStartDate();
+			return getTotalReconciledStatementRecords(obj);
 		case 3:
-			return obj.getEndDate();
+			return obj.getImporttedDate();
 		case 4:
+			return obj.getStartDate();
+		case 5:
+			return obj.getEndDate();
+		case 6:
 			return DataUtils.amountAsStringWithCurrency(obj.getStartBalance(),
 					getCompany().getPrimaryCurrency());
-		case 5:
+		case 7:
 			return DataUtils.amountAsStringWithCurrency(
 					obj.getClosingBalance(), getCompany().getPrimaryCurrency());
+
 		}
 		return null;
+	}
+
+	private int getTotalReconciledStatementRecords(ClientStatement obj) {
+		int matched = 0;
+		List<ClientStatementRecord> statementList = obj.getStatementList();
+		for (ClientStatementRecord stRecord : statementList) {
+			if (stRecord.isMatched()) {
+
+				matched++;
+			}
+		}
+		return matched;
 	}
 
 	@Override
@@ -86,8 +112,9 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.no(), "Imported Date",
-				messages.startDate(), messages.endDate(), "Starting Balance",
+		return new String[] { messages.no(), "Total Records",
+				"Reconciled Records", "Imported Date", messages.startDate(),
+				messages.endDate(), "Starting Balance",
 				messages.ClosingBalance() };
 	}
 }

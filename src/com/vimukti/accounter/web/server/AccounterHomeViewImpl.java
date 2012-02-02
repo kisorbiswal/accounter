@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
-import com.vimukti.accounter.core.TransactionMakeDeposit;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
@@ -79,7 +78,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransactionMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -1077,50 +1075,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ClientTransactionMakeDeposit getTransactionMakeDeposit(
-			long transactionMakeDepositId) {
-		ClientTransactionMakeDeposit clientTransactionMakeDeposit = null;
-		TransactionMakeDeposit serverTransactionMakeDeposit = null;
-		try {
-
-			serverTransactionMakeDeposit = getFinanceTool()
-					.getTransactionMakeDeposit(transactionMakeDepositId,
-							getCompanyId());
-			clientTransactionMakeDeposit = new ClientConvertUtil()
-					.toClientObject(serverTransactionMakeDeposit,
-							ClientTransactionMakeDeposit.class);
-
-			// transactionMakeDeposit = (ClientTransactionMakeDeposit) manager
-			// .merge(transactionMakeDeposit);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return clientTransactionMakeDeposit;
-	}
-
-	@Override
-	public ArrayList<ClientTransactionMakeDeposit> getTransactionMakeDeposits() {
-		ArrayList<ClientTransactionMakeDeposit> makeDepositTransactionsList = null;
-
-		try {
-
-			makeDepositTransactionsList = getFinanceTool()
-					.getTransactionMakeDeposits(getCompanyId());
-
-			// makeDepositTransactionsList = (List<MakeDepositTransactionsList>)
-			// manager
-			// .merge(makeDepositTransactionsList);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return makeDepositTransactionsList;
-	}
-
-	@Override
 	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
@@ -1637,15 +1591,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public void mergeAccount(ClientAccount fromClientAccount,
+	public ClientAccount mergeAccount(ClientAccount fromClientAccount,
 			ClientAccount toClientAccount) throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 
-			tool.mergeAcoount(fromClientAccount, toClientAccount,
+			return tool.mergeAcoount(fromClientAccount, toClientAccount,
 					getCompanyId());
 		}
-
+		return null;
 	}
 
 	@Override
@@ -2186,8 +2140,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate, int start, int length) {
 		PaginationList<TransactionsList> transactionsList = null;
 		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+			FinanceDate[] dates = getMinimumAndMaximumDates(null, null,
 					getCompanyId());
 			transactionsList = getFinanceTool().getInventoryManager()
 					.getSpentTransactionsList(getCompanyId(),
@@ -2205,8 +2158,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			long fromDate, long toDate, int start, int length) {
 		PaginationList<TransactionsList> transactionsList = null;
 		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(20110930), new ClientFinanceDate(),
+			FinanceDate[] dates = getMinimumAndMaximumDates(null, null,
 					getCompanyId());
 			transactionsList = getFinanceTool().getInventoryManager()
 					.getReceivedTransactionsList(getCompanyId(),

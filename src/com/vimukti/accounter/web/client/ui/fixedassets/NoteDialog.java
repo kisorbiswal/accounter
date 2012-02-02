@@ -2,6 +2,9 @@ package com.vimukti.accounter.web.client.ui.fixedassets;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
@@ -9,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 public class NoteDialog extends BaseDialog {
 
 	public TextAreaItem noteArea;
+	private ClientFixedAsset asset;
 
 	public NoteDialog(String title, String desc) {
 		super(title, desc);
@@ -36,6 +40,18 @@ public class NoteDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
+		if (noteArea.getValue().length() != 0) {
+			return executeUpdate(asset);
+		} else {
+			return false;
+		}
+	}
+
+	public boolean executeUpdate(ClientFixedAsset asset) {
+		setAsset(asset);
+		ClientFixedAssetNote note = new ClientFixedAssetNote();
+		note.setNote(noteArea.getValue());
+		asset.getFixedAssetNotes().add(note);
 		return true;
 	}
 
@@ -46,7 +62,24 @@ public class NoteDialog extends BaseDialog {
 	}
 
 	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (noteArea.getValue().length() == 0) {
+			result.addError(noteArea, messages.pleaseenterthenote());
+		}
+		return result;
+	}
+
+	public ClientFixedAsset getAsset() {
+		return asset;
+	}
+
+	@Override
 	protected boolean onCancel() {
 		return true;
+	}
+
+	public void setAsset(ClientFixedAsset asset) {
+		this.asset = asset;
 	}
 }

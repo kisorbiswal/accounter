@@ -1352,7 +1352,8 @@ public class SalesOrderView extends
 		transactionDateItem.setDisabled(isInViewMode());
 		transactionNumber.setDisabled(isInViewMode());
 		ClientTransactionItem item = new ClientTransactionItem();
-		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
+		if (item.getInvoiced() != null
+				&& !DecimalUtil.isEquals(item.getInvoiced(), 0)) {
 			customerCombo.setDisabled(isInViewMode());
 		} else {
 			customerCombo.setDisabled(true);
@@ -1482,8 +1483,10 @@ public class SalesOrderView extends
 		dueDateItem.setTabIndex(12);
 		memoTextAreaItem.setTabIndex(13);
 		// menuButton.setTabIndex(14);
-		saveAndCloseButton.setTabIndex(15);
-		saveAndNewButton.setTabIndex(16);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(15);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(16);
 		cancelButton.setTabIndex(17);
 	}
 

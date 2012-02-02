@@ -77,7 +77,8 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_TDS_CHALLAN = 34;
 
 	public static final int TYPE_MAKE_DEPOSIT = 35;
-
+	public static final int BUILD_ASSEMBLY = 36;
+	
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
@@ -679,6 +680,10 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 		super.onSave(session);
+		if (getStatementRecord() != null) {
+			getStatementRecord().getTransactionsLists().add(this);
+			session.saveOrUpdate(getStatementRecord());
+		}
 		if (!isDraftOrTemplate()) {
 			doCreateEffect(session);
 		}

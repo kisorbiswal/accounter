@@ -485,7 +485,7 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 		transactionsList = new ArrayList<TransactionsList>();
 		total_grid.removeAllRecords();
 		total_grid.removeLoadingImage();
-		if (result.isEmpty()) {
+		if (result == null) {
 			total_grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
@@ -498,12 +498,6 @@ public class ReconcileItemsListDialog extends BaseDialog implements
 
 		}
 	}
-
-	// public void updateRecordsCount(int start, int length, int total) {
-	// total_grid.updateRange(new Range(start, 5));
-	// total_grid.setRowCount(total, (start + length) == total);
-	//
-	// }
 
 	/**
 	 * to initialize the selected records grid , based on the records selected

@@ -491,8 +491,10 @@ public class AdjustTAXView extends
 		memo.setTabIndex(5);
 		adjustDate.setTabIndex(6);
 		entryNo.setTabIndex(7);
-		saveAndCloseButton.setTabIndex(8);
-		saveAndNewButton.setTabIndex(9);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(8);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(9);
 		cancelButton.setTabIndex(10);
 
 	}

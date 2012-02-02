@@ -152,6 +152,12 @@
 				<one-to-many class="TDSTransactionItem" />
 			</list>
 		</joined-subclass>
+		<joined-subclass name="BuildAssembly" table="BUILD_ASSEMBLY">
+			<key column="ID" />
+			<property name="inventoryAssembly" column="INVENTORY_ASSEMBLY"></property>
+			<property name="refNo" column="REF_NO"></property>
+			<property name="quantityToBuild" column="QUANTITY_TO_BUILD"></property>
+		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
 			<key column="ID" />
 			<property name="returnsDueOnOrBefore" column="RETURNS_DUE_ON_OR_BEFORE"
@@ -567,11 +573,6 @@
 			</many-to-one>
 			<property name="cashBackMemo" column="CASH_BACK_MEMO"></property>
 			<property name="cashBackAmount" column="CASH_BACK_AMOUNT"></property>
-			<list name="transactionMakeDeposit" cascade="save-update,delete-orphan">
-				<key column="TRANSACTION_ID" />
-				<list-index column="IDX" />
-				<one-to-many class="TransactionMakeDeposit" />
-			</list>
 		</joined-subclass>
 		<joined-subclass name="PayBill" table="PAY_BILL">
 			<key column="ID" />
@@ -1159,47 +1160,6 @@
 			<column name="VERSION" default="0"></column>
 		</property>
 	</class>
-	<class name="TransactionMakeDeposit" table="TRANSACTION_MAKE_DEPOSIT">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<property name="version" column="VERSION"></property>
-		<property name="date" column="DATE"
-			type="com.vimukti.accounter.core.LongUseType"></property>
-		<property name="type" column="TYPE"></property>
-		<many-to-one name="account" class="Account" cascade="save-update"
-			column="ACCOUNT_ID">
-		</many-to-one>
-		<many-to-one name="vendor" class="Vendor" cascade="save-update"
-			column="VENDOR_ID">
-		</many-to-one>
-		<many-to-one name="customer" class="Customer" cascade="save-update"
-			column="CUSTOMER_ID">
-		</many-to-one>
-		<property name="reference" type="encryptedstring" column="REFERENCE"></property>
-		<property name="amount" column="AMOUNT"></property>
-		<property name="isNewEntry" column="IS_NEW_ENTRY"></property>
-		<many-to-one name="cashAccount" class="Account" cascade="save-update"
-			column="CASH_ACCOUNT_ID">
-		</many-to-one>
-		<many-to-one name="makeDeposit" class="TransferFund"
-			column="MAKE_DEPOSIT_ID">
-		</many-to-one>
-		<property name="payments" column="PAYMENTS"></property>
-		<property name="balanceDue" column="BALANCE_DUE"></property>
-		<many-to-one name="depositedTransaction" class="Transaction"
-			column="DEPOSITED_TRANSACTION_ID">
-		</many-to-one>
-		<property name="number" type="encryptedstring" column="NUMBER"></property>
-		<property name="isVoid" column="IS_VOID"></property>
-		<set name="transactionPayBills" inverse="true" cascade="save-update,delete">
-			<key column="TRANSACTION_MAKE_DEPOSIT_ID"></key>
-			<one-to-many class="TransactionPayBill" />
-		</set>
-		<many-to-one name="creditsAndPayments" class="CreditsAndPayments"
-			column="CREDITS_AND_PAYMENTS_ID">
-		</many-to-one>
-	</class>
 	<class name="TransactionPayBill" table="TRANSACTION_PAYBILL">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1230,9 +1190,6 @@
 			<one-to-many class="TransactionCreditsAndPayments" />
 		</list>
 		<property name="isVoid" column="IS_VOID"></property>
-		<many-to-one name="transactionMakeDeposit" class="TransactionMakeDeposit"
-			cascade="save-update" column="TRANSACTION_MAKE_DEPOSIT_ID">
-		</many-to-one>
 		<property name="billNumber" type="encryptedstring" column="BILL_NUMBER"></property>
 		<many-to-one name="journalEntry" class="JournalEntry"
 			cascade="save-update" column="JOURNAL_ENTRY_ID">
@@ -1424,7 +1381,8 @@
 			type="com.vimukti.accounter.core.LongUseType"></property>
 
 		<many-to-one name="transaction" column="TRANSACTION_ID"
-			lazy="false" unique="true" not-null="true" cascade="save-update,delete-orphan" />
+			unique="true" not-null="true" cascade="save-update,delete-orphan" />
+
 		<many-to-one name="createdBy" column="CREATED_BY" class="User"
 			not-null="true"></many-to-one>
 		<many-to-one name="lastModifier" column="LAST_MODIFIER"

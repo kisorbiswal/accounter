@@ -240,12 +240,12 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				}
 				String unitPrice = null;
 				unitPrice = Utility.decimalConversation(item.getUnitPrice()
-						/ currencyFactor, symbol);
+						/ currencyFactor, "");
 				String totalPrice = Utility.decimalConversation(
-						item.getLineTotal() / currencyFactor, symbol);
+						item.getLineTotal() / currencyFactor, "");
 
 				String vatAmount = Utility.decimalConversation(
-						item.getVATfraction() / currencyFactor, symbol);
+						item.getVATfraction() / currencyFactor, "");
 
 				String name = item.getItem() != null ? item.getItem().getName()
 						: item.getAccount().getName();
@@ -257,8 +257,8 @@ public class InvoicePDFTemplete implements PrintTemplete {
 				if (company.getPreferences().isTrackDiscounts()) {
 					// if Discounts is enabled in Company Preferences, then
 					// only we need to show Discount Column
-					t.setVariable("discount", Utility.decimalConversation(
-							item.getDiscount(), symbol));
+					t.setVariable("discount",
+							Utility.decimalConversation(item.getDiscount(), ""));
 					t.addBlock("discountValueBlock");
 				}
 				t.setVariable("itemTotalPrice", totalPrice);
@@ -278,14 +278,14 @@ public class InvoicePDFTemplete implements PrintTemplete {
 
 			// for displaying sub total, vat total, total
 			String subtotal = Utility.decimalConversation(
-					invoice.getNetAmount() / currencyFactor, symbol);
+					invoice.getNetAmount() / currencyFactor, "");
 			if (company.getPreferences().isTrackTax()) {
 
 				t.setVariable("subTotal", subtotal);
 				t.addBlock("subtotal");
 				if (brandingTheme.isShowTaxColumn()) {
 					t.setVariable("vatTotal", Utility.decimalConversation(
-							(invoice.getTaxTotal() / currencyFactor), symbol));
+							(invoice.getTaxTotal() / currencyFactor), ""));
 					t.addBlock("VatTotal");
 				}
 			}

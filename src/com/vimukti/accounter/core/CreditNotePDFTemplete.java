@@ -148,12 +148,12 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 					description = description.replace("\n", "<br/>");
 					String qty = String.valueOf(item.getQuantity().getValue());
 					String unitPrice = Utility.decimalConversation(
-							item.getUnitPrice() / currencyFactor, symbol);
+							item.getUnitPrice() / currencyFactor, "");
 					String totalPrice = Utility.decimalConversation(
-							item.getLineTotal() / currencyFactor, symbol);
+							item.getLineTotal() / currencyFactor, "");
 					String vatRate = item.getTaxCode().getName();
 					String vatAmount = Utility.decimalConversation(
-							item.getVATfraction() / currencyFactor, symbol);
+							item.getVATfraction() / currencyFactor, "");
 
 					String name = "";
 					if (item.type == TransactionItem.TYPE_ITEM)
@@ -162,8 +162,8 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 						name = item.getAccount().getName();
 
 					t.setVariable("name", name);
-					t.setVariable("discount", Utility.decimalConversation(
-							item.getDiscount(), symbol));
+					t.setVariable("discount",
+							Utility.decimalConversation(item.getDiscount(), ""));
 
 					t.setVariable("description", description);
 					t.setVariable("quantity", qty);

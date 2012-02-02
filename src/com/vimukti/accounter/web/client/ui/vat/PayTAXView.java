@@ -7,11 +7,14 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -23,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionPayTAX;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
@@ -336,8 +340,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
 		currencyWidget.setTabIndex(8);
-		saveAndCloseButton.setTabIndex(9);
-		saveAndNewButton.setTabIndex(10);
+		if (saveAndCloseButton != null)
+			saveAndCloseButton.setTabIndex(9);
+		if (saveAndNewButton != null)
+			saveAndNewButton.setTabIndex(10);
 		cancelButton.setTabIndex(11);
 	}
 
@@ -481,7 +487,14 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				count++;
 			}
 		}
+		count = 0;
 		grid.setDisabled(isInViewMode());
+		for (ClientTransactionPayTAX record : list) {
+			if (record != null) {
+				grid.selectRow(count);
+				count++;
+			}
+		}
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(transaction.getTotal()), 2);
 
@@ -740,8 +753,33 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	@Override
 	public void onEdit() {
-		super.onEdit();
-		enableFormItems();
+		AsyncCallback<Boolean> editCallBack = new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if (caught instanceof InvocationException) {
+					Accounter.showMessage(messages.sessionExpired());
+				} else {
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
+
+				}
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					enableFormItems();
+				}
+			}
+
+		};
+
+		AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
+				.getType());
+		this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
 	}
 
 	private void enableFormItems() {
