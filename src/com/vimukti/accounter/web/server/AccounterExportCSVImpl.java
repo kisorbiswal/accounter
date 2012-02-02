@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXItem;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.utils.CSVExporter;
@@ -149,26 +150,29 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = Utility.getTransactionName(obj.getType());
 						break;
 					case 1:
-						columnValue = Utility
+						columnValue = obj.getDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
-										.getDate().getDate()));
+										.getDate().getDate())) : "";
 						break;
 					case 2:
-						columnValue = obj.getNumber();
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: " ";
 						break;
 					case 3:
 						columnValue = obj.getCustomerName();
 						break;
 					case 4:
-						columnValue = Utility
+						columnValue = obj.getDueDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
-										.getDueDate().getDate()));
+										.getDueDate().getDate())) : " ";
 						break;
 					case 5:
-						columnValue = String.valueOf(obj.getNetAmount());
+						columnValue = obj.getNetAmount() != 0 ? String
+								.valueOf(obj.getNetAmount()) : "";
 						break;
 					case 6:
-						columnValue = String.valueOf(obj.getTotalPrice());
+						columnValue = obj.getTotalPrice() != 0 ? String
+								.valueOf(obj.getTotalPrice()) : "";
 						break;
 					}
 					return columnValue;
@@ -219,23 +223,26 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPayee().getName();
 						break;
 					case 2:
-						columnValue = obj.getNumber();
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
 						break;
 					case 3:
-						columnValue = obj.getPhone();
+						columnValue = obj.getPhone() != null ? obj.getPhone()
+								: "";
 						break;
 					case 4:
-						columnValue = Utility
+						columnValue = obj.getExpirationDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
-										.getExpirationDate().getDate()));
+										.getExpirationDate().getDate())) : "";
 						break;
 					case 5:
-						columnValue = Utility
+						columnValue = obj.getDeliveryDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
-										.getDeliveryDate().getDate()));
+										.getDeliveryDate().getDate())) : "";
 						break;
 					case 6:
-						columnValue = String.valueOf(obj.getTotal());
+						columnValue = obj.getTotal() != 0 ? String.valueOf(obj
+								.getTotal()) : "";
 						break;
 					}
 					return columnValue;
@@ -286,7 +293,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getPaymentDate().getDate()));
 						break;
 					case 2:
-						columnValue = obj.getNumber();
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
 						break;
 					case 3:
 						columnValue = obj.getCustomerName();
@@ -295,10 +303,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPaymentMethodName();
 						break;
 					case 5:
-						columnValue = obj.getCheckNumber();
+						columnValue = obj.getCheckNumber() != null ? obj
+								.getCheckNumber() : "";
 						break;
 					case 6:
-						columnValue = String.valueOf(obj.getAmountPaid());
+						columnValue = obj.getAmountPaid() != 0 ? String
+								.valueOf(obj.getAmountPaid()) : "";
 						break;
 					}
 					return columnValue;
@@ -421,17 +431,20 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDate()));
 						break;
 					case 2:
-						columnValue = obj.getNumber();
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
 						break;
 					case 3:
 						columnValue = obj.getVendorName();
 
 						break;
 					case 4:
-						columnValue = String.valueOf(obj.getOriginalAmount());
+						columnValue = obj.getOriginalAmount() != 0 ? String
+								.valueOf(obj.getOriginalAmount()) : "";
 						break;
 					case 5:
-						columnValue = String.valueOf(obj.getBalance());
+						columnValue = obj.getBalance() != 0 ? String
+								.valueOf(obj.getBalance()) : "";
 						break;
 
 					}
@@ -683,21 +696,25 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 					String columnValue = null;
 					switch (index) {
 					case 0:
-						columnValue = obj.getName();
+						columnValue = obj.getName() != null ? obj.getName()
+								: "";
 						break;
 					case 1:
-						columnValue = obj.getAssetNumber();
+						columnValue = obj.getAssetNumber() != null ? obj
+								.getAssetNumber() : "";
 						break;
 					case 2:
 						columnValue = obj.getAssetAccount() != null ? obj
 								.getAssetAccount().getName() : "";
 						break;
 					case 3:
-						columnValue = Utility.getDateInSelectedFormat(obj
-								.getPurchaseDate());
+						columnValue = obj.getPurchaseDate() != null ? Utility
+								.getDateInSelectedFormat(obj.getPurchaseDate())
+								: "";
 						break;
 					case 4:
-						columnValue = String.valueOf(obj.getPurchasePrice());
+						columnValue = obj.getPurchasePrice() != 0 ? String
+								.valueOf(obj.getPurchasePrice()) : "";
 						break;
 					}
 					return columnValue;
@@ -1146,13 +1163,14 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						break;
 					case 2:
 						if (obj.getQuantity().getUnit() != 0) {
-							// StringBuffer result = new StringBuffer();
-							// ClientUnit unit = company.get.getUnitById(obj
-							// .getQuantity().getUnit());
-							// result.append(obj.getQuantity().getValue());
-							// result.append(" ");
-							// result.append(unit.getName());
-							columnValue = "";
+							Unit unit = (Unit) HibernateUtil
+									.getCurrentSession().get(Unit.class,
+											obj.getQuantity().getUnit());
+							StringBuffer result = new StringBuffer();
+							result.append(obj.getQuantity().getValue());
+							result.append(" ");
+							result.append(unit.getMeasurement().getName());
+							columnValue = result.toString();
 						} else {
 							columnValue = " ";
 						}
