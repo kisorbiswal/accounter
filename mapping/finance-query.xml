@@ -380,6 +380,7 @@
 		<query-param name="toDate" type="long" />
 		<query-param name="todayDate" type="long" />
 		<query-param name="viewType" type="int" />
+		
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
@@ -394,6 +395,8 @@
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
+		<return-scalar column="C_NAME" type="string" />
+		
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY,
@@ -417,9 +420,8 @@
 		TRANSACTION_NUMBER,T.STATEMENT_RECORD_ID AS
 		STATEMENT_RECORD_ID,
 		CASE
-		WHEN T.T_TYPE
-		= 28
-		THEN C.FULL_NAME
+		WHEN T.T_TYPE= 28
+		THEN NULL
 		ELSE
 		P.NAME
 		END
@@ -460,7 +462,8 @@
 		THEN
 		CP.EXPENSE_STATUS
 		ELSE 0 END
-		AS EXPENSE_STATUS
+		AS EXPENSE_STATUS,
+		C.FULL_NAME AS C_NAME
 		FROM
 		TRANSACTION T
 		LEFT
