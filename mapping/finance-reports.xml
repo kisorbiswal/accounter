@@ -80,6 +80,7 @@
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="C_NAME" type="string" />
 		<return-scalar column="TOTAL" type="double" />
 
 		SELECT
@@ -93,16 +94,17 @@
 		CASE
 		WHEN T.T_TYPE = 26 THEN
 		A.NAME
-		WHEN T.T_TYPE =
-		27
+		WHEN T.T_TYPE =	27
 		OR T.T_TYPE = 6
-		OR T.T_TYPE = 15 OR T.T_TYPE = 2
+		OR T.T_TYPE = 15 
+		OR T.T_TYPE = 2
 		OR T.T_TYPE = 24
 		THEN
 		P.NAME
 		WHEN T.T_TYPE = 28 THEN
-		C.FULL_NAME
+		NULL
 		END AS NAME,
+		C.FULL_NAME C_NAME,
 		T.TOTAL*T.CURRENCY_FACTOR AS
 		TOTAL
 
@@ -533,7 +535,7 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		
-		SELECT NAME , SUM(AMOUNT) FROM
+		SELECT NAME , SUM(AMOUNT) AS AMOUNT FROM
 		SALES_PURCHASES_VIEW WHERE
 		CUSTOMER_ID IS
 		NOT NULL AND COMPANY_ID=:companyId AND DATE BETWEEN
@@ -558,7 +560,7 @@
 		<return-scalar column="UNIT_PRICE" type="double" />
 		<return-scalar column="DISCOUNT" type="double" />
 		<return-scalar column="AMOUNT" type="double" />
-		<return-scalar column="SO_OR_QUOTE_NO" type="long" />
+		<return-scalar column="SO_OR_QUOTE_NO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
 		<return-scalar column="ITEM_GROUP" type="long" />
@@ -566,8 +568,8 @@
 		<return-scalar column="PAYMENT_TERMS" type="long" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="REFERENCE" type="encryptedstring" />
-		 <return-scalar column="TRANSACTION_ID" type="long" />
-		  <return-scalar column="UNIT" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="UNIT" type="long" />
 		 
 		SELECT ITEM_TYPE, ITEM_NAME, TYPE, DATE, NUMBER, NAME ,
 		QUANTITY,
@@ -598,7 +600,7 @@
 		<return-scalar column="UNIT_PRICE" type="double" />
 		<return-scalar column="DISCOUNT" type="double" />
 		<return-scalar column="AMOUNT" type="double" />
-		<return-scalar column="SO_OR_QUOTE_NO" type="long" />
+		<return-scalar column="SO_OR_QUOTE_NO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
 		<return-scalar column="ITEM_GROUP" type="long" />
@@ -635,7 +637,7 @@
 		
 		
 		
-		SELECT ITEM_NAME, SUM(QUANTITY) AS QUANTITY ,
+		SELECT ITEM_NAME AS NAME, SUM(QUANTITY) AS QUANTITY ,
 		SUM(AMOUNT) AS AMOUNT
 		FROM SALES_PURCHASES_VIEW
 		WHERE CUSTOMER_ID IS
@@ -839,8 +841,8 @@
 
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="DATE" type="long" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="DATE" type="long" />
 		<return-scalar column="TR_AMOUNT" type="double" />		
 		<return-scalar column="PAID_AMOUNT" type="double" />
 		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
@@ -1112,7 +1114,7 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="CATEGORY" type="int" />
 		<return-scalar column="P_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />		
 		<return-scalar column="FLOW" type="encryptedstring" />
@@ -1191,7 +1193,7 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="CATEGORY" type="int" />
 		<return-scalar column="P_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />		
 		<return-scalar column="TOTAL_AMOUNT" type="double" />
@@ -1200,11 +1202,11 @@
 		<return-scalar column="SUB_BASE_TYPE" type="int" />
 		<return-scalar column="GROUP_TYPE" type="int" />
 		SELECT
-		A.ID AS IS,
+		A.ID AS ID,
 		A.NAME AS NAME,
 		A.A_NUMBER AS NUMBER,
 		A.A_TYPE AS TYPE,
-		A.CASHFLOW_CATEGORY AS CATOGERY,
+		A.CASHFLOW_CATEGORY AS CATEGORY,
 		A.PARENT_ID AS P_ID,
 		(CASE
 		WHEN (SELECT COUNT(AT1.ACCOUNT_ID)
@@ -1302,7 +1304,7 @@
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="CATEGORY" type="long" />
+		<return-scalar column="CATEGORY" type="int" />
 		<return-scalar column="P_ID" type="long" />
 		<return-scalar column="AMOUNT" type="double" />		
 		<return-scalar column="CASH_AT_BEGINNING_OF_PERIOD" type="double" />
