@@ -453,23 +453,23 @@ public class BudgetCellTable extends CellTable<ClientBudgetItem> {
 				.sep())));
 		obj.setDecemberAmount(Double.parseDouble(result.get(DayAndMonthUtil
 				.dec())));
-		obj.setTotalAmount(Double.parseDouble(result.get(messages.totalAmount())));
+		obj.setTotalAmount(Double.parseDouble(result.get(messages.total())));
 
-		// Double total;
-		// total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.feb()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.mar()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.apr()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.jun()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.jul()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.aug()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.oct()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.nov()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.sep()))
-		// + Double.parseDouble(result.get(DayAndMonthUtil.dec()));
-		//
-		// obj.setTotalAmount(total);
+//		 Double total;
+//		 total = Double.parseDouble(result.get(DayAndMonthUtil.jan()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.feb()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.mar()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.apr()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.mayS()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.jun()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.jul()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.aug()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.oct()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.nov()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.sep()))
+//		 + Double.parseDouble(result.get(DayAndMonthUtil.dec()));
+//		
+//		 obj.setTotalAmount(total);
 
 		refreshAllRecords(obj);
 
