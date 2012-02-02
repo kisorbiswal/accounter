@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -72,11 +73,11 @@ public class AmountField extends TextItem {
 				try {
 					errorsWidget.clearError(this);
 					value = getValue();
-
 					if (value == null)
 						return;
-					Double amount = DataUtils.getAmountStringAsDouble(value
-							.toString());
+
+					Double amount = DataUtils.getAmountStringAsDouble(JNSI
+							.getCalcultedAmount(value.toString()));
 					if (!AccounterValidator.isAmountTooLarge(amount)
 							&& !AccounterValidator.isAmountNegative(amount)) {
 						setAmount(amount);
@@ -108,7 +109,7 @@ public class AmountField extends TextItem {
 		this.doubleAmount = amount;
 		if (amount != null) {
 			setValue(DataUtils.getAmountAsStringInCurrency(amount, null));
-		}else{
+		} else {
 			setValue("");
 		}
 
@@ -171,5 +172,4 @@ public class AmountField extends TextItem {
 	// return focusHandler;
 	//
 	// }
-
 }
