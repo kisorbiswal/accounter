@@ -148,8 +148,9 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 							.isProductandSerivesTrackingByCustomerEnabled();
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
 			isAllowedToAdd = preferences.isDelayedchargesEnabled();
-		} else if (result.getEstimateType() == ClientEstimate.SALES_ORDER) {
-			isAllowedToAdd = preferences.isSalesOrderEnabled();
+			// } else if (result.getEstimateType() ==
+			// ClientEstimate.SALES_ORDER) {
+			// isAllowedToAdd = preferences.isSalesOrderEnabled();
 		}
 		if (isAllowedToAdd) {
 			Accounter.createGETService().getObjectById(
@@ -183,8 +184,9 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			addBillableTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
 			addCreditsTransactionTreeItem(result, isSelected);
-		} else if (result.getEstimateType() == ClientEstimate.SALES_ORDER) {
-			addSalesOrderTransactionTreeItem(result, isSelected);
+			// } else if (result.getEstimateType() ==
+			// ClientEstimate.SALES_ORDER) {
+			// addSalesOrderTransactionTreeItem(result, isSelected);
 		}
 		setEnabled(isinViewMode());
 	}
@@ -516,7 +518,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		return grandTotal;
 	}
 
-	public void setRecords(List<ClientTransaction> estimates) {
+	public void quotesSelected(List<ClientTransaction> estimates) {
 		for (ClientTransaction estimate : estimates) {
 			if (estimate instanceof ClientEstimate) {
 				addEstimateTreeItemRow((ClientEstimate) estimate);
