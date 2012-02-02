@@ -1093,25 +1093,29 @@
 		cp.type=:type and cp.saveStatus!=204
 	</query>
 
-
-	<query name="getEstimate">
+<query name="getEstimate">
 		<query-param name="company" type="Company" />
 		<query-param name="estimateType" type="int" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
-		<query-param name="status" type="int" />
-		from com.vimukti.accounter.core.Estimate e
-		where e.company=:company
-		and
-		e.estimateType=:estimateType and e.saveStatus
-		!= 202 and
-		(:status=-1 or
-		:status=e.saveStatus or 
-		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204 and e.saveStatus!=202))
+		from com.vimukti.accounter.core.Estimate e where e.company=:company
+		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate
-		order by
-		e.lastModifiedDate desc
+		order by e.lastModifiedDate desc
+	</query>
+	
+	<query name="getExpiredEstimate">
+		<query-param name="company" type="Company" />
+		<query-param name="estimateType" type="int" />
+		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
+		<query-param name="today" type="com.vimukti.accounter.core.LongUseType" />
+		from com.vimukti.accounter.core.Estimate e where e.company=:company
+		and e.estimateType=:estimateType and e.saveStatus != 202
+		and
+		e.transactionDate between :fromDate and (e.expirationDate.day&lt;:today.day and e.expirationDate.month&lt;:today.month and e.expirationDate.year&lt;:today.year)
+		order by e.lastModifiedDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
