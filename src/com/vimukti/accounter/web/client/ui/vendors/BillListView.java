@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
 
@@ -23,9 +24,11 @@ import com.vimukti.accounter.web.client.ui.grids.BillsListGrid;
  * @modified by Ravi kiran.G
  * 
  */
-public class BillListView extends TransactionsListView<BillsList> {
+public class BillListView extends TransactionsListView<BillsList> implements
+		IPrintableView {
 	protected List<BillsList> allEnterBills;
 	private int transactionType;
+	int viewTypeId = 0;
 
 	private BillListView() {
 		super(messages.all());
@@ -179,22 +182,40 @@ public class BillListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		int viewType = 0;
+
 		String text = this.viewType;
 		if (text.equalsIgnoreCase(messages.open())) {
-			viewType = VIEW_OPEN;
+			viewTypeId = VIEW_OPEN;
 		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewType = VIEW_VOIDED;
+			viewTypeId = VIEW_VOIDED;
 		} else if (text.equalsIgnoreCase(messages.overDue())) {
-			viewType = VIEW_OVERDUE;
+			viewTypeId = VIEW_OVERDUE;
 		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewType = VIEW_ALL;
+			viewTypeId = VIEW_ALL;
 		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			viewType = VIEW_DRAFT;
+			viewTypeId = VIEW_DRAFT;
 		}
 		Accounter.createHomeService().getBillsAndItemReceiptList(false,
 				transactionType, getStartDate().getDate(),
-				getEndDate().getDate(), start, length, viewType, this);
+				getEndDate().getDate(), start, length, viewTypeId, this);
 		viewSelect.setComboItem(text);
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getBillsAndItemReceiptListExportCsv(
+				false, transactionType, getStartDate().getDate(),
+				getEndDate().getDate(), viewTypeId,
+				getExportCSVCallback(messages.bills()));
 	}
 }

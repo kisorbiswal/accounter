@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
 
@@ -25,7 +26,8 @@ import com.vimukti.accounter.web.client.ui.grids.VendorListGrid;
  * @modified Fernandez
  * 
  */
-public class VendorListView extends BaseListView<PayeeList> {
+public class VendorListView extends BaseListView<PayeeList> implements
+		IPrintableView {
 
 	public VendorListView() {
 		super();
@@ -217,5 +219,22 @@ public class VendorListView extends BaseListView<PayeeList> {
 	@Override
 	protected String getViewTitle() {
 		return messages.payees(Global.get().Vendors());
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getPayeeListExportCsv(
+				ClientPayee.TYPE_VENDOR, isActive,
+				getExportCSVCallback(Global.get().vendors()));
 	}
 }
