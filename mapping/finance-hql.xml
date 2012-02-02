@@ -173,11 +173,6 @@
 	<!-- <query name="list.TransactionCreditsAndPayments">from -->
 	<!-- com.vimukti.accounter.core.TransactionCreditsAndPayments</query> -->
 
-	<query name="list.TransactionMakeDeposit">
-		from
-		com.vimukti.accounter.core.TransactionMakeDeposit
-	</query>
-
 	<query name="list.TransactionPayBill">
 		<query-param name="company" type="Company" />
 		from com.vimukti.accounter.core.TransactionPayBill tb where
