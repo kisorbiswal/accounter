@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.ItemsListGrid;
 
 /**
@@ -21,7 +22,8 @@ import com.vimukti.accounter.web.client.ui.grids.ItemsListGrid;
  * @author Mandeep Singh modified by Rajesh.A
  * 
  */
-public class ItemListView extends BaseListView<ClientItem> {
+public class ItemListView extends BaseListView<ClientItem> implements
+		IPrintableView {
 	ArrayList<ClientItem> allItems = new ArrayList<ClientItem>();
 	private Double total = 0.00;
 	private ClientItem toBeDeletedItem;
@@ -226,5 +228,23 @@ public class ItemListView extends BaseListView<ClientItem> {
 	public void onSuccess(PaginationList<ClientItem> result) {
 		super.onSuccess(result);
 		grid.sort(10, false);
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getItemsExportCsv(isPurchaseType,
+				isSalesType, viewSelect.getSelectedValue(),
+				getExportCSVCallback(messages.items()));
+
 	}
 }

@@ -25,6 +25,8 @@ import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationServiceAsync;
+import com.vimukti.accounter.web.client.IAccounterExportCSVService;
+import com.vimukti.accounter.web.client.IAccounterExportCSVServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.IAccounterGETServiceAsync;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
@@ -77,12 +79,14 @@ public class Accounter implements EntryPoint {
 	public final static String REPORT_SERVICE_ENTRY_POINT = "/do/accounter/report/rpc/service";
 	public final static String USER_MANAGEMENT_ENTRY_POINT = "/do/accounter/user/rpc/service";
 	private static final String TRANSLATE_SERVICE_ENTRY_POINT = "/do/accounter/translate/rpc/service";
+	private final static String EXPORT_CSV_SERVICE_ENTRY_POINT = "/do/accounter/exportcsv/rpc/service";
 
 	private static IAccounterCRUDServiceAsync crudService;
 	private static IAccounterCompanyInitializationServiceAsync cIService;
 	private static IAccounterGETServiceAsync getService;
 	private static IAccounterHomeViewServiceAsync homeViewService;
 	private static IAccounterReportServiceAsync reportService;
+	private static IAccounterExportCSVServiceAsync exportCSVService;
 
 	private static AccounterMessages messages;
 	private static FinanceImages financeImages;
@@ -237,6 +241,21 @@ public class Accounter implements EntryPoint {
 					.setServiceEntryPoint(Accounter.HOME_SERVICE_ENTRY_POINT);
 		}
 		return homeViewService;
+	}
+
+	/**
+	 * For Export csv file
+	 * 
+	 * @return
+	 */
+	public static IAccounterExportCSVServiceAsync createExportCSVService() {
+		if (exportCSVService == null) {
+			exportCSVService = (IAccounterExportCSVServiceAsync) GWT
+					.create(IAccounterExportCSVService.class);
+			((ServiceDefTarget) exportCSVService)
+					.setServiceEntryPoint(Accounter.EXPORT_CSV_SERVICE_ENTRY_POINT);
+		}
+		return exportCSVService;
 	}
 
 	public static IAccounterReportServiceAsync createReportService() {

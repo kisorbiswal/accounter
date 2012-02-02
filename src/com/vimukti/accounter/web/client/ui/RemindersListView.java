@@ -19,9 +19,11 @@ import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeH
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.grids.RemindersListGrid;
 
-public class RemindersListView extends BaseListView<ClientReminder> {
+public class RemindersListView extends BaseListView<ClientReminder> implements
+		IPrintableView {
 
 	public static String ALL = messages.all();
 	public static String BILL = messages.bill();
@@ -268,5 +270,21 @@ public class RemindersListView extends BaseListView<ClientReminder> {
 		typesMap.put(VENDOR_CREDIT_MEMO,
 				ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
 		typesMap.put(WRITE_CHECK, ClientTransaction.TYPE_WRITE_CHECK);
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getRemindersListExportCsv(
+				getExportCSVCallback(messages.remindersList()));
 	}
 }
