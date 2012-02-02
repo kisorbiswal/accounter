@@ -497,7 +497,7 @@ public interface AccounterMessages extends Messages {
 
 	public String belgium();
 
-	public String Benfits();
+	public String Benefits();
 
 	public String bill();
 
@@ -5425,6 +5425,7 @@ public interface AccounterMessages extends Messages {
 	public String enableEncryption();
 
 	public String unableToUploadStatementFile();
+
 	public String invalidCompanyName();
 
 	public String existedCompanyName();

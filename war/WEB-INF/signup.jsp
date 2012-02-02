@@ -462,7 +462,7 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 	        </ul>
 	     </div> 
 	     <div class="benfits">
-	        <h3><i18n:i18n msg='Benfits'/>:</h3>
+	        <h3><i18n:i18n msg='Benefits'/>:</h3>
 	        <ul>
 	          <li><i18n:i18n msg='Accessfromanywhere'/></li>
 	          <li><i18n:i18n msg='Multiplecompanies'/></li>
