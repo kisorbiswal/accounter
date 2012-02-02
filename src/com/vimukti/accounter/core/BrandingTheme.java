@@ -566,6 +566,8 @@ public class BrandingTheme extends CreatableObject implements
 			return true;
 		super.onSave(arg0);
 		isOnSaveProccessed = true;
+		cashSaleTemplateName = "Classic Template";
+		cashSaleTitle = "CASH SALE";
 
 		return false;
 	}

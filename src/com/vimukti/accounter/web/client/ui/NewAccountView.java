@@ -1334,7 +1334,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		ClientAccount account = getCompany().getAccount(data.getParent());
 		if (account != null) {
 			parentAccountCombo.setVisible(true);
-			parentAccountCombo.setValue(account);
+			parentAccountCombo.setComboItem(account);
 		}
 
 		asofDate.setValue(new ClientFinanceDate(
