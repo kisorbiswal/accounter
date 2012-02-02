@@ -3815,7 +3815,7 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
-		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="CURRENCY" type="encryptedstring" />
 		<return-scalar column="EXCHANGE_RATE" type="double"/>
 		<return-scalar column="REALISED_GAIN_OR_LOSS" type="double"/>
 		
