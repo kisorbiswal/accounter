@@ -103,11 +103,11 @@ public class Manager {
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
-			openAndClosedOrder.setTransactionID(((BigInteger) object[0])
+			openAndClosedOrder.setTransactionID(((Long) object[0])
 					.longValue());
 			openAndClosedOrder.setTransactionType((Integer) object[1]);
 			openAndClosedOrder.setTransactionDate(new ClientFinanceDate(
-					((BigInteger) object[2]).longValue()));
+					((Long) object[2]).longValue()));
 			openAndClosedOrder.setVendorOrCustomerName((String) object[3]);
 			// openAndClosedOrder
 			// .setQuantity(object[4] != null ? ((BigDecimal) object[4])
