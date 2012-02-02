@@ -1906,9 +1906,6 @@
 		CASE
 		WHEN T.T_TYPE = 6
 		THEN T.ID
-		WHEN T.T_TYPE = 10
-		THEN
-		TMD.ID
 		END AS
 		ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -1923,7 +1920,7 @@
 		P
 		WHERE P.ID =
 		EB.VENDOR_ID
-		OR P.ID = TMD.VENDOR_ID AND P.COMPANY_ID=:companyId) AS
+		OR P.COMPANY_ID=:companyId) AS
 		VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1931,26 +1928,18 @@
 		WHEN T.T_TYPE = 6
 		THEN
 		T.TOTAL
-		WHEN
-		T.T_TYPE = 10
-		THEN TMD.AMOUNT
+
 		END AS ORIGINAL_AMOUNT ,
 		CASE
 		WHEN T.T_TYPE
 		= 6
 		THEN
 		EB.BALANCE_DUE
-		WHEN T.T_TYPE = 10
-		THEN
-		TMD.BALANCE_DUE
 		END AS
 		AMOUNT_DUE,
 		CASE
 		WHEN T.T_TYPE = 6
 		THEN EB.PAYMENTS
-		WHEN T.T_TYPE = 10
-		THEN
-		TMD.PAYMENTS
 		END AS PAYMENTS,
 		T.PAYMENT_METHOD AS
 		PAYMENT_METHOD
@@ -1964,17 +1953,8 @@
 		JOIN
 		TRANSFER_FUND TF
 		ON T.ID = TF.ID
-		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT
-		TMD
-		ON TMD.TRANSACTION_ID = TF.ID
-		and
-		TMD.IS_NEW_ENTRY= true
-		and TMD.TYPE
-		= 2
 		WHERE T.T_TYPE in (6,10) and
-		(EB.BALANCE_DUE>0.0 OR TMD.BALANCE_DUE
-		>0.0) AND
+		(EB.BALANCE_DUE>0.0) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
 	<!-- To retrieve the Enter Bills and MakeDeposits Vendor Entry Transasctions 
@@ -1999,39 +1979,28 @@
 		<return-scalar column="PAID_WITHIN" type="int" />
 		<return-scalar column="DISCOUNT" type="double" />
 		SELECT
-		CASE WHEN T.T_TYPE = 6 THEN T.ID WHEN T.T_TYPE = 10 THEN
-		TMD.ID
+		CASE WHEN T.T_TYPE = 6 THEN T.ID
 		END AS ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		CASE WHEN T.T_TYPE = 6 THEN
 		EB.DUE_DATE ELSE null END AS DUE_DATE ,
 		(SELECT
 		P.NAME FROM PAYEE P
-		WHERE P.ID = EB.VENDOR_ID OR P.ID = TMD.VENDOR_ID AND
-		P.COMPANY_ID=:companyId)
+		WHERE P.ID = EB.VENDOR_ID OR P.COMPANY_ID=:companyId)
 		AS VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		CASE WHEN T.T_TYPE =
 		6 THEN
-		T.TOTAL WHEN
-		T.T_TYPE =
-		10
-		THEN
-		TMD.AMOUNT END AS
+		T.TOTAL END AS
 		ORIGINAL_AMOUNT ,
 		CASE WHEN
 		T.T_TYPE = 6 THEN
-		EB.BALANCE_DUE WHEN
-		T.T_TYPE = 10
-		THEN
-		TMD.BALANCE_DUE END AS
+		EB.BALANCE_DUE END AS
 		AMOUNT_DUE,
 		CASE WHEN
 		T.T_TYPE = 6 THEN
-		EB.PAYMENTS WHEN T.T_TYPE = 10
-		THEN
-		TMD.PAYMENTS END
+		EB.PAYMENTS END
 		AS PAYMENTS,
 		T.PAYMENT_METHOD
 		AS PAYMENT_METHOD,
@@ -2055,21 +2024,12 @@
 		JOIN
 		TRANSFER_FUND TF
 		ON T.ID = TF.ID LEFT OUTER
-		JOIN
-		TRANSACTION_MAKE_DEPOSIT
-		TMD ON
-		TMD.TRANSACTION_ID = TF.ID and
-		TMD.IS_NEW_ENTRY= TRUE and
-		TMD.TYPE = 2
 		LEFT JOIN PAYMENTTERMS PT ON
 		PT.ID=EB.PAYMENT_TERM_ID
 		WHERE T.T_TYPE in (6,10) AND T.T_DATE &lt;=
 		:paymentDate and
-		(EB.BALANCE_DUE>0.0 OR
-		TMD.BALANCE_DUE
-		>0.0) and
+		(EB.BALANCE_DUE>0.0) and
 		(EB.VENDOR_ID
-		=:vendorId OR TMD.VENDOR_ID
 		=:vendorId) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
@@ -2930,7 +2890,6 @@
 		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
-		<return-scalar column="TMD_ID" type="long" />
 		<return-scalar column="CUSTOMER_PREPAYMENT_ID" type="long" />
 
 		SELECT CS.ID AS CUSTOMER_ID,
@@ -2944,7 +2903,6 @@
 		SO.ID AS SALES_ORDER_ID,
 		WC.ID AS WRITE_CHECK_ID,
 		JE.ID AS JOURNAL_ENTRY_ID,
-		TMD.ID AS TMD_ID,
 		CPP.ID AS
 		CUSTOMER_PREPAYMENT_ID
 		FROM CUSTOMER C
@@ -2983,10 +2941,6 @@
 		JOURNAL_ENTRY JE
 		ON
 		C.ID=JE.PAYEE_ID
-		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT TMD
-		ON
-		C.ID=TMD.CUSTOMER_ID
 		LEFT
 		OUTER JOIN
 		CUSTOMER_PREPAYMENT CPP
@@ -3008,8 +2962,6 @@
 		<return-scalar column="VENDOR_CREDIT_MEMO_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
-		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
-			type="long" />
 
 		SELECT IT.ID AS ITEM_ID,
 		CP.ID AS CASH_PURCHASE_ID,
@@ -3021,9 +2973,8 @@
 		VCM.ID AS VENDOR_CREDIT_MEMO_ID,
 		WC.ID
 		WRITE_CHECK_ID,
-		JE.ID AS JOURNAL_ENTRY_ID,
-		TMD.ID AS
-		TRANSACTION_MAKE_DEPOSIT_ID
+		JE.ID AS JOURNAL_ENTRY_ID
+		
 		FROM VENDOR V
 		LEFT OUTER JOIN
 		ITEM IT
@@ -3060,11 +3011,6 @@
 		JOURNAL_ENTRY JE
 		ON V.ID
 		= JE.PAYEE_ID
-		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT TMD
-		ON V.ID
-		=
-		TMD.VENDOR_ID
 		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
@@ -3094,8 +3040,6 @@
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
-		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
-			type="long" />
 		<return-scalar column="TRANSACTION_PAY_BILL_ID" type="long" />
 		<return-scalar column="TRANSACTION_RECEIVE_PAYMENT_ID"
 			type="long" />
@@ -3149,8 +3093,6 @@
 		TI.ID
 		AS
 		TRANSACTION_ITEM_ID,
-		TMD.ID AS
-		TRANSACTION_MAKE_DEPOSIT_ID,
 		TPB.ID AS
 		TRANSACTION_PAY_BILL_ID,
 		TRP.ID AS
@@ -3284,13 +3226,6 @@
 		TRANSACTION_ITEM TI
 		ON A.ID
 		= TI.ACCOUNT_ID
-		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT TMD
-		ON A.ID =
-		TMD.ACCOUNT_ID
-		OR
-		A.ID =
-		TMD.CASH_ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_PAYBILL TPB
 		ON A.ID
@@ -3858,8 +3793,6 @@
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="TRANSFER_FUND_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
-		<return-scalar column="TRANSACTION_MAKE_DEPOSIT_ID"
-			type="long" />
 		<return-scalar column="TRANSACTION_PAY_BILL_ID" type="long" />
 		<return-scalar column="TRANSACTION_RECEIVE_PAYMENT_ID"
 			type="long" />
@@ -3910,8 +3843,6 @@
 		TI.ID
 		AS
 		TRANSACTION_ITEM_ID,
-		TMD.ID AS
-		TRANSACTION_MAKE_DEPOSIT_ID,
 		TPB.ID AS
 		TRANSACTION_PAY_BILL_ID,
 		TRP.ID AS
@@ -4045,13 +3976,6 @@
 		ON
 		A.ID
 		= TI.ACCOUNT_ID
-		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT TMD
-		ON A.ID
-		=
-		TMD.ACCOUNT_ID
-		OR A.ID =
-		TMD.CASH_ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION_PAYBILL TPB
 		ON A.ID =
@@ -4491,8 +4415,7 @@
 		= 1 or T.T_TYPE = 4 or
 		T.T_TYPE = 5 or T.T_TYPE = 8 or
 		T.T_TYPE = 12 or
-		(T.T_TYPE = 10 AND
-		TMD.CUSTOMER_ID IS NOT NULL) or
+		T.T_TYPE = 10 or
 		(T.T_TYPE = 15 AND
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
@@ -4506,10 +4429,7 @@
 		or T.T_TYPE =
 		11 or
 		T.T_TYPE = 14 or
-		T.T_TYPE = 3 or (T.T_TYPE = 10 AND
-		TMD.VENDOR_ID
-		IS NOT
-		NULL) or
+		T.T_TYPE = 3 or T.T_TYPE = 10 or
 		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT
 		NULL) or
 		(T.T_TYPE = 16
@@ -4544,7 +4464,7 @@
 		T.T_TYPE
 		=
 		6 or T.T_TYPE
-		= 27
+		= 27 or T.T_TYPE = 10
 		then
 		T.TOTAL * T.CURRENCY_FACTOR
 		when T.T_TYPE = 4 or
@@ -4554,23 +4474,6 @@
 		T.T_TYPE = 29
 		then
 		-1*T.TOTAL * T.CURRENCY_FACTOR
-		when
-		T.T_TYPE = 10
-		then
-		case
-		when
-		TMD.TYPE = 3
-		then
-		-1*TMD.AMOUNT *
-		T.CURRENCY_FACTOR
-		when
-		TMD.TYPE
-		= 2
-		then
-		TMD.AMOUNT * T.CURRENCY_FACTOR
-		else
-		0.0
-		end
 		when
 		T.T_TYPE =
 		15
@@ -4833,10 +4736,7 @@
 		left outer join
 		TRANSFER_FUND TF
 		on T.ID=TF.ID
-		left outer join
-		TRANSACTION_MAKE_DEPOSIT TMD
-		on TMD.TRANSACTION_ID=TF.ID
-		and TMD.IS_NEW_ENTRY = 'TRUE'
+		
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -4862,10 +4762,7 @@
 		I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or
 		C.ID
 		= RP.CUSTOMER_ID
-		or
-		C.ID
-		=
-		TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
+		or C.ID = WC.CUSTOMER_ID
 		or C.ID
 		= JE.PAYEE_ID
 		or C.ID =
@@ -4883,7 +4780,7 @@
 		on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID =
 		EB.VENDOR_ID
 		or
-		V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID or V.ID =
+		V.ID = PB.VENDOR_ID or V.ID =
 		CCC.VENDOR_ID
 		or
 		V.ID = WC.VENDOR_ID or V.ID = JE.PAYEE_ID
@@ -5096,9 +4993,7 @@
 		T.T_TYPE = 5
 		or T.T_TYPE = 8 or
 		T.T_TYPE = 12 or
-		(T.T_TYPE = 10 AND
-		TMD.CUSTOMER_ID IS
-		NOT NULL) or
+		T.T_TYPE = 10 or
 		(T.T_TYPE = 15 AND
 		WC.CUSTOMER_ID IS
 		NOT NULL) or
@@ -5113,9 +5008,7 @@
 		11 or
 		T.T_TYPE = 14 or
 		T.T_TYPE = 3 or
-		(T.T_TYPE = 10 AND TMD.VENDOR_ID
-		IS NOT
-		NULL) or
+		T.T_TYPE = 10 or
 		(T.T_TYPE = 15 AND
 		WC.VENDOR_ID IS NOT NULL) or
 		(T.T_TYPE = 16
@@ -5138,26 +5031,13 @@
 		T.T_TYPE = 3 or
 		T.T_TYPE = 8 or T.T_TYPE = 2 or
 		T.T_TYPE = 6 or T.T_TYPE
-		= 27
+		= 27 or T.T_TYPE = 10
 		then
 		T.TOTAL
 		when T.T_TYPE = 4 or T.T_TYPE =
 		14 or T.T_TYPE = 29
 		then
 		-1*T.TOTAL
-		when T.T_TYPE = 10
-		then
-		case
-		when
-		TMD.TYPE = 3
-		then
-		-1*TMD.AMOUNT
-		when TMD.TYPE = 2
-		then
-		TMD.AMOUNT
-		else
-		0.0
-		end
 		when T.T_TYPE =
 		15
 		then
@@ -5398,10 +5278,7 @@
 		left outer join
 		TRANSFER_FUND TF
 		on T.ID=TF.ID
-		left outer join
-		TRANSACTION_MAKE_DEPOSIT TMD
-		on TMD.TRANSACTION_ID=TF.ID
-		and TMD.IS_NEW_ENTRY = 'TRUE'
+		
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -5429,9 +5306,7 @@
 		I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or
 		C.ID = RP.CUSTOMER_ID
 		or
-		C.ID
-		=
-		TMD.CUSTOMER_ID or C.ID = WC.CUSTOMER_ID
+		C.ID = WC.CUSTOMER_ID
 		or C.ID = JE.PAYEE_ID
 		or C.ID =
 		CPP.CUSTOMER_ID
@@ -5447,7 +5322,7 @@
 		on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID =
 		EB.VENDOR_ID
 		or
-		V.ID = PB.VENDOR_ID or V.ID = TMD.VENDOR_ID or V.ID =
+		V.ID = PB.VENDOR_ID or V.ID =
 		CCC.VENDOR_ID
 		or
 		V.ID = WC.VENDOR_ID or V.ID = JE_PAYEE_ID
@@ -8705,11 +8580,6 @@
 		from make_deposit using transaction where
 		make_deposit.id=transaction.id and transaction.company_id=cid;
 		delete
-		from transaction_make_deposit using
-		transfer_fund , transaction where
-		transaction_make_deposit.make_deposit_id=transfer_fund.id and
-		transaction.id=transfer_fund.id and transaction.company_id=cid;
-		delete
 		from transfer_fund using transaction where
 		transfer_fund.id=transaction.id and transaction.company_id=cid;
 		delete
@@ -9025,11 +8895,6 @@
 		transaction where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
-		delete
-		from transaction_make_deposit using
-		transfer_fund , transaction where
-		transaction_make_deposit.make_deposit_id=transfer_fund.id and
-		transaction.id=transfer_fund.id and transaction.company_id=cid;
 		delete
 		from transfer_fund using transaction where
 		transfer_fund.id=transaction.id and transaction.company_id=cid;

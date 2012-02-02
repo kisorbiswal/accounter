@@ -1146,11 +1146,6 @@
 			<property name="taxFilingFrequency" column="TAX_FILING_FREQUENCY"></property>
 			<property name="lastTAXReturnDate" column="LAST_TAX_RETURN_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="otherField1" column="OTHER_FIELD_1"></property>
-			<property name="otherField2" column="OTHER_FIELD_2"></property>
-			<property name="otherField3" column="OTHER_FIELD_3"></property>
-			<property name="otherField4" column="OTHER_FIELD_4"></property>
-			<property name="otherField5" column="OTHER_FIELD_5"></property>
 
 		</joined-subclass>
 	</class>

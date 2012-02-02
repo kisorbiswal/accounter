@@ -2444,10 +2444,6 @@
 		on
 		T.ID=RP.id
 		left outer join
-		TRANSACTION_MAKE_DEPOSIT TMD
-		on
-		TMD.TRANSACTION_ID=T.ID
-		left outer join
 		WRITE_CHECKS WC
 		on T.ID=WC.ID
 		left outer join
@@ -2461,7 +2457,7 @@
 		CR.CUSTOMER_ID or C.ID = I.CUSTOMER_ID or
 		C.ID = RP.CUSTOMER_ID or
 		C.ID
-		= JE.PAYEE_ID or C.ID = TMD.CUSTOMER_ID
+		= JE.PAYEE_ID
 		or C.ID =
 		WC.CUSTOMER_ID
 		left
@@ -2512,9 +2508,6 @@
 		PAY_BILL PB
 		on T.ID=PB.ID
 		left outer join
-		TRANSACTION_MAKE_DEPOSIT TMD
-		on TMD.TRANSACTION_ID=T.ID
-		left outer join
 		WRITE_CHECKS WC
 		on T.ID=WC.ID
 
@@ -2524,8 +2517,7 @@
 		CP.VENDOR_ID or
 		V.ID = VCM.VENDOR_ID or V.ID = EB.VENDOR_ID or
 		V.ID =
-		PB.VENDOR_ID or
-		V.ID = TMD.VENDOR_ID or V.ID = CCC.VENDOR_ID or
+		PB.VENDOR_ID  or V.ID = CCC.VENDOR_ID or
 		V.ID =
 		WC.VENDOR_ID
 		left outer join
