@@ -299,7 +299,11 @@ public class InventoryManager extends Manager {
 					billsList.setType((Integer) object[1]);
 					billsList.setNumber((object[3] == null ? null
 							: ((String) object[3])));
-					billsList.setCustomerName((String) object[4]);
+					if (billsList.getType() == 28) {
+						billsList.setCustomerName((String) object[14]);
+					} else {
+						billsList.setCustomerName((String) object[4]);
+					}
 					billsList.setSpentAmount((Double) object[5]);
 					billsList.setDate(new ClientFinanceDate((Long) object[9]));
 					billsList.setCurrency((Long) object[11]);
