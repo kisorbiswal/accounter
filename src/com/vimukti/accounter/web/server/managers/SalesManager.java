@@ -201,7 +201,7 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setType(object[2] == null ? 0
 					: ((Integer) object[2]).intValue());
 			salesByCustomerDetail.setDate(new ClientFinanceDate(
-					((BigInteger) object[3]).longValue()));
+					((Long) object[3]).longValue()));
 
 			salesByCustomerDetail.setNumber((String) object[4]);
 
@@ -218,11 +218,11 @@ public class SalesManager extends Manager {
 					: ((Double) object[9]).doubleValue());
 			salesByCustomerDetail.setSoOrQuoteNumber((String) object[10]);
 			salesByCustomerDetail
-					.setDueDate(((BigInteger) object[11]) == null ? null
-							: new ClientFinanceDate(((BigInteger) object[11])
+					.setDueDate(((Long) object[11]) == null ? null
+							: new ClientFinanceDate(((Long) object[11])
 									.longValue()));
 			salesByCustomerDetail.setDeliveryDate(object[12] == null ? null
-					: new ClientFinanceDate(((BigInteger) object[12])
+					: new ClientFinanceDate(((Long) object[12])
 							.longValue()));
 			salesByCustomerDetail.setItemGroup((String) object[13]);
 			salesByCustomerDetail.setDescription((String) object[14]);
@@ -249,7 +249,7 @@ public class SalesManager extends Manager {
 			 */
 			salesByCustomerDetail.setMemo((String) object[16]);
 			salesByCustomerDetail.setReference((String) object[17]);
-			salesByCustomerDetail.setTransactionId(((BigInteger) object[18])
+			salesByCustomerDetail.setTransactionId(((Long) object[18])
 					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
@@ -381,7 +381,7 @@ public class SalesManager extends Manager {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				SalesByLocationDetails salDetails = new SalesByLocationDetails();
-				salDetails.setDate(object[0] != null ? ((BigInteger) object[0])
+				salDetails.setDate(object[0] != null ? ((Long) object[0])
 						.longValue() : 0);
 				salDetails.setType(object[1] != null ? ((Integer) object[1])
 						: 0);
@@ -398,7 +398,7 @@ public class SalesManager extends Manager {
 						.setLocationName(object[6] != null ? ((String) object[6])
 								: null);
 				salDetails
-						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
+						.setTransactionid(object[7] != null ? ((Long) object[7])
 								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
@@ -453,7 +453,7 @@ public class SalesManager extends Manager {
 			while (iterator.hasNext()) {
 				object = (Object[]) iterator.next();
 				SalesByLocationDetails salDetails = new SalesByLocationDetails();
-				salDetails.setDate(object[0] != null ? ((BigInteger) object[0])
+				salDetails.setDate(object[0] != null ? ((Long) object[0])
 						.longValue() : 0);
 				salDetails.setType(object[1] != null ? ((Integer) object[1])
 						: 0);
@@ -470,7 +470,7 @@ public class SalesManager extends Manager {
 						.setLocationName(object[6] != null ? ((String) object[6])
 								: null);
 				salDetails
-						.setTransactionid(object[7] != null ? ((BigInteger) object[7])
+						.setTransactionid(object[7] != null ? ((Long) object[7])
 								.longValue() : 0);
 				salesByLocationDetailList.add(salDetails);
 			}
