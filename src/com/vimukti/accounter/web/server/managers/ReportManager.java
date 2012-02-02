@@ -129,7 +129,7 @@ public class ReportManager extends Manager {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId(((BigInteger) object[0]).longValue());
+			t.setAccountId(((Long) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -138,7 +138,7 @@ public class ReportManager extends Manager {
 					.intValue());
 			Account parentAccount = (object[5] == null) ? null
 					: (Account) session.get(Account.class,
-							((BigInteger) object[5]).longValue());
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
@@ -348,7 +348,7 @@ public class ReportManager extends Manager {
 		long previousAccountID = 0;
 		while (iterator.hasNext()) {
 			object = (Object[]) iterator.next();
-			long accountId = ((BigInteger) object[0]).longValue();
+			long accountId = ((Long) object[0]).longValue();
 			if (previousAccountID == 0 || previousAccountID != accountId) {
 				previousAccountID = accountId;
 				ProfitAndLossByLocation record = new ProfitAndLossByLocation();
@@ -360,19 +360,19 @@ public class ReportManager extends Manager {
 				record.setAccountType(object[3] == null ? 0
 						: ((Integer) object[3]).intValue());
 
-				long location = object[4] == null ? 0
-						: ((BigInteger) object[4]).longValue();
+				long location = object[4] == null ? 0 : ((Long) object[4])
+						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
 
 				record.getMap().put(location, amount);
 				record.setParentAccount(object[6] == null ? 0
-						: ((BigInteger) object[6]).longValue());
+						: ((Long) object[6]).longValue());
 				queryResult.add(record);
 			} else {
 				ProfitAndLossByLocation record = queryResult.get(queryResult
 						.size() - 1);
-				long location = object[4] == null ? 0
-						: ((BigInteger) object[4]).longValue();
+				long location = object[4] == null ? 0 : ((Long) object[4])
+						.longValue();
 				double amount = object[5] == null ? 0 : (Double) object[5];
 				/* + record.getMap().get(location) */;
 				record.getMap().get(location);
@@ -743,7 +743,7 @@ public class ReportManager extends Manager {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId(((BigInteger) object[0]).longValue());
+			t.setAccountId(((Long) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -752,7 +752,7 @@ public class ReportManager extends Manager {
 					.intValue());
 			Account parentAccount = (object[5] == null) ? null
 					: (Account) session.get(Account.class,
-							((BigInteger) object[5]).longValue());
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
@@ -823,7 +823,7 @@ public class ReportManager extends Manager {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId(((BigInteger) object[0]).longValue());
+			t.setAccountId((Long) object[0]);
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -832,7 +832,7 @@ public class ReportManager extends Manager {
 					.intValue());
 			Account parentAccount = (object[5] == null) ? null
 					: (Account) session.get(Account.class,
-							((BigInteger) object[5]).longValue());
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
@@ -908,7 +908,7 @@ public class ReportManager extends Manager {
 			salesByCustomerDetail.setType(object[1] == null ? 0
 					: ((Integer) object[1]).intValue());
 			salesByCustomerDetail.setDate(new ClientFinanceDate(
-					((BigInteger) object[2]).longValue()));
+					((Long) object[2]).longValue()));
 
 			salesByCustomerDetail.setNumber((String) object[3]);
 			/*
@@ -930,8 +930,7 @@ public class ReportManager extends Manager {
 			 */
 			salesByCustomerDetail.setMemo((String) object[4]);
 			salesByCustomerDetail.setDueDate(object[5] == null ? null
-					: new ClientFinanceDate(((BigInteger) object[5])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[5]).longValue()));
 			salesByCustomerDetail.setPaymentTermName((String) object[6]);
 			salesByCustomerDetail.setItemName((String) object[7]);
 			ClientQuantity quantity = new ClientQuantity();
@@ -943,13 +942,12 @@ public class ReportManager extends Manager {
 			salesByCustomerDetail.setAmount(object[10] == null ? 0
 					: ((Double) object[10]).doubleValue());
 			salesByCustomerDetail.setDeliveryDate(object[11] == null ? null
-					: new ClientFinanceDate(((BigInteger) object[11])
-							.longValue()));
+					: new ClientFinanceDate(((Long) object[11]).longValue()));
 			// salesByCustomerDetail.setIsVoid(object[12] == null ? true
 			// : ((Boolean) object[12]).booleanValue());
 			salesByCustomerDetail.setReference((String) object[12]);
 			salesByCustomerDetail.setTransactionId((object[13] == null ? 0
-					: (((BigInteger) object[13]).longValue())));
+					: (((Long) object[13]).longValue())));
 			queryResult.add(salesByCustomerDetail);
 		}
 		// return prepareSalesPurchaseEntriesForVoid(queryResult);
@@ -1730,8 +1728,15 @@ public class ReportManager extends Manager {
 			expense.setTransactionNumber(object[3] != null ? (String) object[3]
 					: "");
 			expense.setMemo(object[4] != null ? (String) object[4] : "");
-			expense.setName(object[5] != null ? (String) object[5] : "");
-			expense.setTotal(object[6] != null ? (Double) object[6] : 0);
+			String name = "";
+			if (object[5] != null) {
+				name = object[5].toString();
+			}
+			if (expense.getTransactionType() == 28) {
+				name = object[6].toString();
+			}
+			expense.setName(name);
+			expense.setTotal(object[6] != null ? (Double) object[7] : 0);
 			queryResult.add(expense);
 
 		}
@@ -3421,7 +3426,7 @@ public class ReportManager extends Manager {
 			// if ((object[6] == null ? 0 : ((Double) object[6]).doubleValue())
 			// != 0.0) {
 
-			t.setAccountId(((BigInteger) object[0]).longValue());
+			t.setAccountId(((Long) object[0]).longValue());
 			t.setAccountName((String) object[1]);
 			t.setAccountNumber((String) object[2]);
 			t.setAccountType(object[3] == null ? 0 : ((Integer) object[3])
@@ -3430,7 +3435,7 @@ public class ReportManager extends Manager {
 					.intValue());
 			Account parentAccount = (object[5] == null) ? null
 					: (Account) session.get(Account.class,
-							((BigInteger) object[5]).longValue());
+							((Long) object[5]).longValue());
 			if (parentAccount != null) {
 				t.setParentAccount(parentAccount.getID());
 			}
