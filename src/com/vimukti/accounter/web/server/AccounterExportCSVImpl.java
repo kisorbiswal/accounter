@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -1296,9 +1295,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			List<Item> allItems = null;
+
 			Session session = HibernateUtil.getCurrentSession();
+
 			List<Item> items = session.getNamedQuery("getAllItems")
 					.setParameter("companyId", getCompanyId()).list();
+
 			if (isSalesType && isPurchaseType) {
 				allItems = getItems(items, viewType);
 			} else if (isPurchaseType) {
@@ -1306,6 +1308,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			} else if (isSalesType) {
 				allItems = getSalesItems(items, viewType);
 			}
+
 			ICSVExportRunner<Item> icsvExportRunner = new ICSVExportRunner<Item>() {
 
 				@Override
@@ -1350,14 +1353,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								return String.valueOf(obj.getPurchasePrice());
 							}
 						}
-						if (ItemListView.isSalesType) {
+						if (isSalesType) {
 							return String.valueOf(obj.getSalesPrice());
 						} else
 							return String.valueOf(obj.getPurchasePrice());
 
 					case 4:
-						if (ItemListView.isPurchaseType
-								&& ItemListView.isSalesType) {
+						if (isPurchaseType && isSalesType) {
 							return String.valueOf(obj.getPurchasePrice());
 						}
 					}
@@ -1373,6 +1375,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param allItems
+	 * @param viewType
+	 * @return
+	 */
 	private List<Item> getSalesItems(List<Item> allItems, String viewType) {
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
@@ -1391,6 +1399,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	/**
+	 * 
+	 * @param allItems
+	 * @param viewType
+	 * @return
+	 */
 	private List<Item> getPurchaseItems(List<Item> allItems, String viewType) {
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
