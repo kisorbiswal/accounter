@@ -1587,7 +1587,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			public String getColumnValue(SalesPerson salesPerson, int index) {
 				switch (index) {
 				case 0:
-					return salesPerson.getName();
+					return salesPerson.getFirstName();
 				case 1:
 					return salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getAddress1() : "";

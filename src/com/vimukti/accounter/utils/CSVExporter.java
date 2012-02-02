@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.web.client.Global;
 
 public class CSVExporter<T> {
 
@@ -26,20 +27,26 @@ public class CSVExporter<T> {
 		FileWriter fstream = new FileWriter(csvfile);
 		BufferedWriter out = new BufferedWriter(fstream);
 		String[] columns = runner.getColumns();
-		// For headers
-		for (String columnValue : columns) {
-			out.write(columnValue);
-			out.write(",");
-		}
-		out.write("\n");
-		// For body
-		for (T t : list) {
-			for (int i = 0; i < columns.length; i++) {
-				String columnValue = runner.getColumnValue(t, i);
+		if (list.isEmpty()) {
+			out.write(Global.get().messages().noRecordsToShow());
+
+		} else {
+			// For headers
+			for (String columnValue : columns) {
 				out.write(columnValue);
 				out.write(",");
 			}
 			out.write("\n");
+			// For body
+
+			for (T t : list) {
+				for (int i = 0; i < columns.length; i++) {
+					String columnValue = runner.getColumnValue(t, i);
+					out.write(columnValue);
+					out.write(",");
+				}
+				out.write("\n");
+			}
 		}
 		out.flush();
 		out.close();
