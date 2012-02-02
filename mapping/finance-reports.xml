@@ -473,7 +473,7 @@
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT_PRICE" type="double" />
@@ -481,16 +481,16 @@
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		 <return-scalar column="TRANSACTION_ID" type="long" />
-		
-		SELECT NAME , TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
-		ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
-		SHIPMENT_OR_DELIVERY_DATE,
-		REFERENCE, TRANSACTION_ID FROM
-		SALES_PURCHASES_VIEW VIEW WHERE
-		CUSTOMER_ID IS NOT NULL AND
-		VIEW.COMPANY_ID=:companyId AND DATE BETWEEN
-		:startDate AND :endDate
-		ORDER BY NAME
+
+	SELECT NAME , TYPE, DATE, NUMBER, MEMO, DUE_DATE, PAYMENT_TERMS,
+	ITEM_NAME, QUANTITY, UNIT_PRICE, AMOUNT,
+	SHIPMENT_OR_DELIVERY_DATE,
+	REFERENCE, TRANSACTION_ID FROM
+	SALES_PURCHASES_VIEW VIEW WHERE
+	CUSTOMER_ID IS NOT NULL AND
+	VIEW.COMPANY_ID=:companyId AND DATE BETWEEN
+	:startDate AND :endDate
+	ORDER BY NAME
 	</sql-query>
 	<sql-query name="getSalesByCustomerDetailForParticularCustomer">
 		<query-param name="companyId" type="long" />
@@ -504,7 +504,7 @@
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT_PRICE" type="double" />
@@ -565,7 +565,7 @@
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
 		<return-scalar column="ITEM_GROUP" type="long" />
 		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
@@ -605,7 +605,7 @@
 		<return-scalar column="SHIPMENT_OR_DELIVERY_DATE" type="long" />
 		<return-scalar column="ITEM_GROUP" type="long" />
 		<return-scalar column="SALES_DESCRIPTION" type="encryptedstring" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="REFERENCE" type="encryptedstring" />
 		 <return-scalar column="TRANSACTION_ID" type="long" />
@@ -664,7 +664,7 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="PURCHASE_DESCRIPTION" type="encryptedstring" />
@@ -695,7 +695,7 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="PURCHASE_DESCRIPTION" type="encryptedstring" />
@@ -729,7 +729,7 @@
 		<return-scalar column="AMOUNT" type="double" />
 		 
 		 
-		SELECT NAME , SUM(AMOUNT) FROM
+		SELECT NAME , SUM(AMOUNT) AS AMOUNT FROM
 		SALES_PURCHASES_VIEW WHERE
 		VENDOR_ID IS
 		NOT NULL AND COMPANY_ID=:companyId AND DATE BETWEEN
@@ -749,7 +749,7 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 			<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT_PRICE" type="double" />
@@ -781,7 +781,7 @@
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="NUMBER" type="encryptedstring" />
 		<return-scalar column="DATE" type="long" />
-		<return-scalar column="PAYMENT_TERMS" type="long" />
+		<return-scalar column="PAYMENT_TERMS" type="encryptedstring" />
 		<return-scalar column="DUE_DATE" type="long" />
 			<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT_PRICE" type="double" />

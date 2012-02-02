@@ -125,7 +125,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 
 	@Override
 	public boolean canShow() {
-		return isSkip;
+		return true;
 	}
 
 	@Override
