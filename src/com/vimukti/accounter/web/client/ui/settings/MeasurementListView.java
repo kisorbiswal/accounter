@@ -9,8 +9,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
-public class MeasurementListView extends BaseListView<ClientMeasurement> {
+public class MeasurementListView extends BaseListView<ClientMeasurement>
+		implements IPrintableView {
 
 	@Override
 	public void init() {
@@ -83,7 +85,21 @@ public class MeasurementListView extends BaseListView<ClientMeasurement> {
 	@Override
 	public void updateInGrid(ClientMeasurement objectTobeModified) {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getAllUnitsExportCsv(
+				getExportCSVCallback(messages.measurementList()));
+	}
 }

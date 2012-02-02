@@ -11,9 +11,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
 public class WarehouseTransferListView extends
-		BaseListView<ClientStockTransfer> {
+		BaseListView<ClientStockTransfer> implements IPrintableView {
 
 	private int start;
 
@@ -71,14 +72,14 @@ public class WarehouseTransferListView extends
 		if (viewDate == null || viewDate.isEmpty()) {
 			return;
 		}
-//		isActiveAccounts = (Boolean) viewDate.get("isActive");
+		// isActiveAccounts = (Boolean) viewDate.get("isActive");
 		start = (Integer) viewDate.get("start");
 		onPageChange(start, getPageSize());
-//		if (isActiveAccounts) {
-//			viewSelect.setComboItem(messages.active());
-//		} else {
-//			viewSelect.setComboItem(messages.inActive());
-//		}
+		// if (isActiveAccounts) {
+		// viewSelect.setComboItem(messages.active());
+		// } else {
+		// viewSelect.setComboItem(messages.inActive());
+		// }
 
 	}
 
@@ -126,5 +127,21 @@ public class WarehouseTransferListView extends
 	public void print() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getWarehouseTransfersListExportCsv(
+				getExportCSVCallback(messages.warehouseTransferList()));
 	}
 }

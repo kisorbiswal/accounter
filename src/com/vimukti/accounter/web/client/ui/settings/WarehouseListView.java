@@ -8,8 +8,10 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 
-public class WarehouseListView extends BaseListView<ClientWarehouse> {
+public class WarehouseListView extends BaseListView<ClientWarehouse> implements
+		IPrintableView {
 
 	private int start;
 
@@ -110,5 +112,21 @@ public class WarehouseListView extends BaseListView<ClientWarehouse> {
 	public void updateInGrid(ClientWarehouse objectTobeModified) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getWarehousesExportCsv(
+				getExportCSVCallback(messages.warehouseList()));
 	}
 }
