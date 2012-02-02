@@ -2193,10 +2193,17 @@ public class FinanceTool {
 				InvoicePdfGeneration pdf = new InvoicePdfGeneration(invoice,
 						company, brandingTheme);
 
-				String templeteName = ServerConfiguration.getAttachmentsDir()
-						+ "/" + company.getId() + "/" + "templateFiles" + "/"
-						+ brandingTheme.getID() + "/"
-						+ brandingTheme.getInvoiceTempleteName();
+				String templeteName = "";
+				if (brandingTheme.getInvoiceTempleteName().equalsIgnoreCase(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "InvoiceOdt.odt";
+				} else {
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getInvoiceTempleteName();
+				}
 				InputStream in = new BufferedInputStream(new FileInputStream(
 						templeteName));
 
