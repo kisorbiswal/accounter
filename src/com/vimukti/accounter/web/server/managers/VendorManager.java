@@ -128,7 +128,11 @@ public class VendorManager extends PayeeManager {
 							: new ClientFinanceDate((Long) object[2]));
 					billsList.setNumber((object[3] == null ? null
 							: ((String) object[3])));
-					billsList.setVendorName((String) object[4]);
+					if(billsList.getType()==28){
+						billsList.setVendorName((String) object[14]);
+					}else{
+						billsList.setVendorName((String) object[4]);
+					}
 					billsList.setOriginalAmount((Double) object[5]);
 					billsList.setBalance(((Double) object[6]) == null ? null
 							: (Double) object[6]);
