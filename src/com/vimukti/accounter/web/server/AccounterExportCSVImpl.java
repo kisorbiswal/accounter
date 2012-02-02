@@ -1291,7 +1291,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public String getItemsExportCsv(final boolean isPurchaseType,
-			final boolean isSalesType, String viewType) {
+			final boolean isSalesType, String viewType, int itemType) {
 
 		try {
 			List<Item> allItems = null;
@@ -1301,14 +1301,17 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			List<Item> items = session.getNamedQuery("getAllItems")
 					.setParameter("companyId", getCompanyId()).list();
 
-			if (isSalesType && isPurchaseType) {
-				allItems = getItems(items, viewType);
-			} else if (isPurchaseType) {
-				allItems = getPurchaseItems(items, viewType);
-			} else if (isSalesType) {
-				allItems = getSalesItems(items, viewType);
+			if (itemType == 0) {
+				if (isSalesType && isPurchaseType) {
+					allItems = getItems(items, viewType);
+				} else if (isPurchaseType) {
+					allItems = getPurchaseItems(items, viewType);
+				} else if (isSalesType) {
+					allItems = getSalesItems(items, viewType);
+				}
+			} else {
+				allItems = getInventoryItems(items, viewType);
 			}
-
 			ICSVExportRunner<Item> icsvExportRunner = new ICSVExportRunner<Item>() {
 
 				@Override
@@ -1373,6 +1376,25 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private List<Item> getInventoryItems(List<Item> allItems, String viewType) {
+		List<Item> items = new ArrayList<Item>();
+		for (Item item : allItems) {
+			if (viewType.equalsIgnoreCase(messages.active())) {
+				if (item.isActive() == true
+						&& item.getType() == Item.TYPE_INVENTORY_PART) {
+					items.add(item);
+				}
+			} else {
+				if (item.isActive() == false
+						&& item.getType() == Item.TYPE_INVENTORY_PART) {
+					items.add(item);
+				}
+			}
+		}
+		return items;
+
 	}
 
 	/**
