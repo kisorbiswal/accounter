@@ -40,7 +40,7 @@
 		<property name="isOpeningBalanceEditable" column="IS_OPENING_BALANCE_EDITABLE"></property>
 		<property name="hierarchy" column="HIERARCHY"></property>
 		<property name="version" column="VERSION"></property>
-		<property name="flow" column="FLOW"></property>
+		<property name="flow" column="FLOW" type="encryptedstring"></property>
 		<property name="paypalEmail" type="encryptedstring" column="PAYPAL_EMAIL"></property>
 		<property name="lastCheckNum" column="LAST_CHECK_NUMBER"></property>
 		<many-to-one name="currency" column="ACCOUNT_CURRENCY"
