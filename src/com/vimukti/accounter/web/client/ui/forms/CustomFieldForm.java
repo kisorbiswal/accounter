@@ -20,7 +20,8 @@ public class CustomFieldForm extends DynamicForm {
 			if (c.isShowCustomer() && isCustomer) {
 				TextItem t = new TextItem(c.getName());
 				setFields(t);
-			} else if (c.isShowVendor()&& !isCustomer) {
+			}
+			if (c.isShowVendor() && !isCustomer) {
 				TextItem t = new TextItem(c.getName());
 				setFields(t);
 			}
