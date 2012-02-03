@@ -61,7 +61,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						filterList(selectItem);
-
 					}
 
 				});
@@ -88,7 +87,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		}
 		deleteButton.setVisible(false);
 
-		deleteButton.addClickHandler(new ClickHandler() {
+		deleteButton.addDeleteHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
@@ -248,6 +247,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 	@Override
 	public void deleteSuccess(IAccounterCore result) {
+		clientAbstractTAXReturns.remove(result);
 		grid.removeRow(grid.getSelectedRecordIndex());
 	}
 
