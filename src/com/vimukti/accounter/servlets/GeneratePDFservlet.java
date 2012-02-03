@@ -413,7 +413,7 @@ public class GeneratePDFservlet extends BaseServlet {
 					converter = new Converter();
 					int reportType = Integer.parseInt(request
 							.getParameter("reportType"));
-					if (reportType == 165
+					if (reportType == 174
 							&& company.getCountryPreferences() instanceof India) {
 						String status = request.getParameter("status");
 						long startDate = Long.parseLong(request
