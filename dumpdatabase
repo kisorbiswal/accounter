@@ -733,7 +733,6 @@ CREATE TABLE account (
     is_opening_balance_editable boolean,
     hierarchy character varying(255),
     version integer,
-
     flow character varying(255),
     paypal_email character varying(255),
     last_check_number character varying(255),
@@ -941,7 +940,6 @@ CREATE TABLE activity (
     user_name character varying(255),
     activity_type integer,
     object_type integer,
-
     name character varying(255),
     transaction_date bigint,
     amount double precision,
@@ -990,7 +988,6 @@ CREATE TABLE adjustment_reason (
     id bigint NOT NULL,
     company_id bigint NOT NULL,
     section character varying(255),
-
     name character varying(255),
     created_by bigint NOT NULL,
     last_modifier bigint NOT NULL,
@@ -1235,7 +1232,6 @@ CREATE TABLE branding_theme (
     bottom_margin double precision,
     margin_measurement_type integer,
     address_padding double precision,
-
     font character varying(255),
     font_size character varying(255),
     overdue_invoice_title character varying(255),
@@ -1691,10 +1687,8 @@ CREATE TABLE company (
     currency_format character varying(255),
     tax_id character varying(255),
     legalname character varying(255),
-
     phone character varying(255),
     active_inventory_scheme integer,
-
     fax character varying(255),
     website character varying(255),
     show_legal_name boolean,
@@ -1897,7 +1891,6 @@ SELECT pg_catalog.setval('creditrating_id_seq', 1, false);
 
 CREATE TABLE credits_and_payments (
     id bigint NOT NULL,
-
     memo text,
     credit_amount double precision,
     balance double precision,
@@ -2151,7 +2144,6 @@ ALTER TABLE public.customer_refund OWNER TO postgres;
 CREATE TABLE customfield (
     id bigint NOT NULL,
     company_id bigint NOT NULL,
-
     name character varying(255),
     showcustomer boolean,
     showvendor boolean
@@ -2528,7 +2520,6 @@ CREATE TABLE fixed_asset (
     sale_price double precision,
     no_depreciation boolean,
     depreciation_till_date bigint,
-
     notes character varying(255),
     loss_or_gain_disposal_account_id bigint,
     total_capital_gain_account_id bigint,
@@ -3267,7 +3258,6 @@ ALTER TABLE public.make_deposit OWNER TO postgres;
 CREATE TABLE measurement (
     id bigint NOT NULL,
     company_id bigint NOT NULL,
-
     name character varying(255),
     description character varying(255)
 );
@@ -3577,11 +3567,9 @@ CREATE TABLE payee (
     bank_branch character varying(255),
     phone_number character varying(255),
     fax_number character varying(255),
-
     email_id character varying(255),
     web_page_address character varying(255),
     is_active boolean,
-
     memo text,
     created_by bigint NOT NULL,
     last_modifier bigint NOT NULL,
@@ -4110,7 +4098,6 @@ CREATE TABLE recurring_transaction (
     due_date_type integer,
     due_date_value integer,
     action_type integer,
-
     name character varying(255),
     end_date_type integer,
     stopped boolean,
@@ -4173,9 +4160,6 @@ SELECT pg_catalog.setval('recurring_transaction_id_seq', 1, false);
 CREATE TABLE remember_me_key (
     id bigint NOT NULL,
     remember_key character varying(255),
-
-
-
     email_id character varying(255)
 );
 
@@ -4351,7 +4335,6 @@ ALTER TABLE public.sales_order OWNER TO postgres;
 CREATE TABLE sales_person (
     id bigint NOT NULL,
     company_id bigint NOT NULL,
-
     title character varying(255),
     first_name character varying(255),
     middle_name1 character varying(255),
@@ -4368,20 +4351,15 @@ CREATE TABLE sales_person (
     date_of_lastreview bigint,
     date_of_release bigint,
     is_active boolean,
-
     memo text,
     file_as character varying(255),
     phone_no character varying(255),
     fax_no character varying(255),
-
     email character varying(255),
     web_page_address character varying(255),
     type integer,
     address1 character varying(100),
     street character varying(100),
-
-
-
     city character varying(100),
     state character varying(100),
     zip character varying(100),
@@ -4440,7 +4418,6 @@ CREATE TABLE transaction (
     is_automatic_transaction boolean,
     is_validated boolean,
     payment_method character varying(255),
-
     memo text,
     reference character varying(255),
     sub_total double precision,
@@ -5402,9 +5379,6 @@ CREATE TABLE tdsdeductormasters (
     flatno character varying(255),
     buildingname character varying(255),
     roadname character varying(255),
-
-
-
     area character varying(255),
     city character varying(255),
     state character varying(255),
@@ -5480,8 +5454,6 @@ CREATE TABLE tdsresponsibleperson (
     flatno character varying(255),
     buildingname character varying(255),
     street character varying(255),
-
-
     area character varying(255),
     city character varying(255),
     statename character varying(255),
@@ -5590,7 +5562,6 @@ SELECT pg_catalog.setval('tdstransactionitem_id_seq', 1, false);
 CREATE TABLE transaction_credits_and_payments (
     id bigint NOT NULL,
     date bigint,
-
     memo text,
     amount_to_use double precision,
     transaction_receive_payment_id bigint,
@@ -6189,7 +6160,6 @@ SELECT pg_catalog.setval('transaction_receive_vat_id_seq', 1, false);
 CREATE TABLE unit (
     id bigint NOT NULL,
     company_id bigint NOT NULL,
-
     type character varying(255),
     factor double precision,
     is_default boolean,
@@ -6498,9 +6468,6 @@ CREATE TABLE warehouse (
     type integer,
     address1 character varying(100),
     street character varying(100),
-
-
-
     city character varying(100),
     state character varying(100),
     zip character varying(100),
@@ -10308,7 +10275,6 @@ COPY key (id, key, usage_order, usage_count) FROM stdin;
 2657	taxAgency	0	0
 2658	taxAgencyDiscountPaymentTerm	0	0
 2659	taxAgencyFinanceAcount	0	0
-
 2660	taxAmount	0	0
 2661	taxAtOnValue	0	0
 2662	taxCode	0	0
@@ -10674,7 +10640,6 @@ COPY key (id, key, usage_order, usage_count) FROM stdin;
 3022	vat3Ireland	0	0
 3023	vatAdjustment	0	0
 3024	vatAgency	0	0
-
 3025	vatBalance	0	0
 3026	vatCode	0	0
 3027	vatCodeList	0	0
@@ -14249,8 +14214,6 @@ COPY key_messages (message_id, key_id) FROM stdin;
 3293	3293
 3294	3294
 3295	3295
-
-
 \.
 
 
@@ -16966,7 +16929,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 2657	Tax Agency		f
 2658	The discount for the payment term will not be applied for a tax agency		f
 2659	This financial Account is specified as the liability Finance Category of a tax agency and can only be used for tax related transactions		f
-
 2660	Tax amount		f
 2661	Tax @ {taxRate} %  on  {value}		f
 2662	Tax Code		f
@@ -17067,7 +17029,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 2757	Taxpayer identification number(TIN)		f
 2758	Title		f
 2759	TIXTEEN		f
-
 2760	To		f
 2761	To Account		f
 2762	To add a class, click add. to change a class, select the class, and then click edit or remove.		f
@@ -17181,7 +17142,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 2870	TWENTY -		f
 2871	TWO		f
 2872	Type		f
-
 2873	UK		f
 2874	UK VAT		f
 2875	Unable to get {objType}		f
@@ -17334,7 +17294,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 3022	VAT 3(Ireland)		f
 3023	VAT Adjustment		f
 3024	VAT Agency		f
-
 3025	VAT Balance		f
 3026	VAT Code		f
 3027	VAT Code List		f
@@ -17416,9 +17375,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 3103	Editing this receive payment will void this transaction and create a new receive payment. Do you want to continue?	Warning while editing receive payment. Which is already paid.	f
 3104	You can not edit this journal entry directly. You have to edit the opening balance of that customer. Do you want to continue?	Warning while editing journal entry. Which is created by customer opening balance.	f
 3105	You can not edit this journal entry directly. You have to edit the opening balance of that vendor.  Do you want to continue?	Warning while editing journal entry. Which is created by vendor opening balance.	f
-
-
-
 3106	Editing this Pay Bill will void this transaction and create a new paybill. Do you want to continue?	Warning while editing pay bill. Which is already paid.	f
 3272	Quantity to Build		f
 3107	Editing this TAX Refund will void this transaction and create a new TAX Refund. Do you want to continue?	Warning while editing TAX refund. Which is already paid.	f
@@ -17505,7 +17461,6 @@ COPY message (id, value, comment, is_not_used) FROM stdin;
 3188	Sales price should not be zero or less than 0.	Used as validation message when sales price is zero in Selling Registere Item.	f
 3189	Zip Code	ZIP Code Zonal Improvement Plan. It is used in US and Canada. In India PIN code will be used..	f
 3190	Z-0%	One of the Tax Code.	f
-
 3191	of		f
 3192	Please Enter Valid {locationName} Name	validate the location name.	f
 3193	Depreciation Report	used for showing depreciation report.	f
