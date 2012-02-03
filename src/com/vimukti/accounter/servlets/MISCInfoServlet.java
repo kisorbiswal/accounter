@@ -71,29 +71,14 @@ public class MISCInfoServlet extends BaseServlet {
 					+ fileName.replace(" ", "") + ".pdf");
 			sos = response.getOutputStream();
 
-			if (formType == 1) {
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.getBytes(""));
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			} else if (formType == 0) {
-
+			
 				java.io.InputStream inputString = new ByteArrayInputStream(
 						outPutString.getBytes());
 				InputStreamReader miscCreator = new InputStreamReader(
 						inputString);
 				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			} else if (formType == 2) {
-
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.getBytes());
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			}
-
-			System.err.println("Converter obj created");
+			
+			//System.err.println("Converter obj created");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
