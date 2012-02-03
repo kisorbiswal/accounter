@@ -2081,4 +2081,9 @@
 		from com.vimukti.accounter.core.TAXItem t where
 		t.company.id=:companyId order by t.id
 	</query>
+	<query name="getTaxReturnById">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.TAXReturn tr where
+		tr.id=:id order by tr.id
+	</query>
 </hibernate-mapping>
