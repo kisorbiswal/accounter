@@ -78,7 +78,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public static final int TYPE_MAKE_DEPOSIT = 35;
 	public static final int BUILD_ASSEMBLY = 36;
-	
+
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
@@ -108,7 +108,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
-	
+
 	int type;
 	FinanceDate transactionDate;
 	String number = "0";
@@ -119,7 +119,7 @@ public abstract class Transaction extends CreatableObject implements
 	private RecurringTransaction recurringTransaction;
 
 	protected double currencyFactor = 1D;
-	
+
 	private StatementRecord statementRecord;
 
 	/**
@@ -235,7 +235,7 @@ public abstract class Transaction extends CreatableObject implements
 	TransactionMakeDepositEntries transactionMakeDepositEntries;
 
 	private boolean isValidated;
-	
+
 	List<WareHouseAllocation> wareHouseAllocations;
 
 	transient protected boolean isOnSaveProccessed;
@@ -1218,7 +1218,7 @@ public abstract class Transaction extends CreatableObject implements
 		}
 		if (isVoid() && !getReconciliationItems().isEmpty()) {
 			throw new AccounterException(
-					AccounterException.ERROR_TRANSACTION_RECONCILIED);
+					AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
 		}
 
 		return true;
@@ -1245,7 +1245,7 @@ public abstract class Transaction extends CreatableObject implements
 					}
 					if (!DecimalUtil.isEquals(presentAmount, amount)) {
 						throw new AccounterException(
-								AccounterException.ERROR_TRANSACTION_RECONCILIED);
+								AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
 					}
 				}
 			}
@@ -1543,7 +1543,7 @@ public abstract class Transaction extends CreatableObject implements
 	protected boolean isCurrencyFactorChanged() {
 		return currencyFactor != previousCurrencyFactor;
 	}
-	
+
 	public StatementRecord getStatementRecord() {
 		return statementRecord;
 	}
@@ -1552,7 +1552,7 @@ public abstract class Transaction extends CreatableObject implements
 		this.statementRecord = statementRecord;
 	}
 
-		public boolean isValidated() {
+	public boolean isValidated() {
 		return isValidated;
 	}
 
