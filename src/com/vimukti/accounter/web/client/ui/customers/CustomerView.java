@@ -442,7 +442,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 				: data.getCustomFieldValues();
 		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
 		for (ClientCustomFieldValue value : customFieldValues) {
-			if (company.getClientCustomField(value.getID()) == null) {
+			if (getCompany().getClientCustomField(value.getID()) == null) {
 				deleteCustomFieldValues.add(value);
 			}
 		}
