@@ -207,7 +207,9 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		isNZDefaultTaxItem(clientObject);
+		if (clientObject.getID() != 0) {
+			isNZDefaultTaxItem(clientObject);
+		}
 		return super.canEdit(clientObject);
 	}
 
