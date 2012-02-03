@@ -260,5 +260,10 @@ public class SelectItemsTo1099Dialog<T extends IAccounterCore> extends
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
 
 }

@@ -299,8 +299,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ messages.accountsSelected());
 
-		changeVendorHtml = new HTML(messages
-				.changePayees(Global.get().vendors()));
+		changeVendorHtml = new HTML("<b>"+messages
+				.changePayees(Global.get().vendors())+"</b>");
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -347,8 +347,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		});
 
-		changeAccountsHtml = new HTML(
-				messages.changePayees(messages.Accounts()));
+		changeAccountsHtml = new HTML("<b>"+
+				messages.changePayees(messages.Accounts())+"</b>");
 		changeAccountsHtml.addClickHandler(new ClickHandler() {
 
 			@Override
