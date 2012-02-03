@@ -6,6 +6,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -172,8 +173,11 @@ public class DepositsTransfersListGrid extends
 		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
 
 			@Override
-			public void onException(AccounterException caught) {
-
+			public void onException(AccounterException accounterException) {
+				int errorCode = accounterException.getErrorCode();
+				String errorString = AccounterExceptions
+						.getErrorString(errorCode);
+				Accounter.showError(errorString);
 			}
 
 			@Override
