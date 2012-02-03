@@ -2166,7 +2166,7 @@
 		<return-scalar column="PAY_TO" type="string" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="ACCOUNT" type="string" />
-		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
@@ -3907,7 +3907,7 @@
 		<query-param name="enteredDate" type="long" />
 		
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
-		<return-scalar column="CURRENCY_NAME" type="string" />
+		<return-scalar column="CURRENCY_NAME" type="encryptedstring" />
 		<return-scalar column="FOREIGN_BALANCE" type="double" />
 		<return-scalar column="CURRENT_BALANCE" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
