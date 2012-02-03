@@ -66,7 +66,7 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getAllUnitsExportCsv(AsyncCallback<String> callBack);
 
 	public void getItemsExportCsv(boolean isPurchaseType, boolean isSaleType,
-			String viewType, AsyncCallback<String> callBack);
+			String viewType, int itemType, AsyncCallback<String> callBack);
 
 	public void getTaxItemsListExportCsv(String viewType,
 			AsyncCallback<String> callBack);

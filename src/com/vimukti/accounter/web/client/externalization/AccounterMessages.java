@@ -5458,4 +5458,6 @@ public interface AccounterMessages extends Messages {
 
 	public String vatAgencyPayment();
 
+	public String youcannotEditDeleteDefaultTaxItem();
+
 }

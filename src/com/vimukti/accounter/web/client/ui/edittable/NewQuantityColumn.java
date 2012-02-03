@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
@@ -249,7 +250,8 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			}
 			ClientQuantity quantity = row.getQuantity();
 			if (quantity != null) {
-				quantity.setValue(DataUtils.getAmountStringAsDouble(value));
+				quantity.setValue(DataUtils.getAmountStringAsDouble(JNSI
+						.getCalcultedAmount(value)));
 			}
 			setQuantity(row, quantity);
 		} catch (Exception e) {

@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXItemGroup;
@@ -74,9 +75,16 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 	// getting all Tax Codes from Company Object & converting these to temporary
 	// TaxCodeInternal object for inserting data in Grid...
 	public List<ClientTAXItem> getAllTaxItem() {
+		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
 		List<ClientTAXItem> savedTaxItems = getCompany().getActiveTaxItems();
-
-		return savedTaxItems;
+		for (ClientTAXItem clientTAXItem : savedTaxItems) {
+			ClientTAXAgency taxAgency = Accounter.getCompany().getTaxAgency(
+					clientTAXItem.getTaxAgency());
+			if (taxAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+				taxItems.add(clientTAXItem);
+			}
+		}
+		return taxItems;
 	}
 
 	// getting all Available Tax Codes which are not available in Selected Tax

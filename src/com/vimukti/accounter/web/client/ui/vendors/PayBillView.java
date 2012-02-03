@@ -1190,11 +1190,10 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				amountDue = record.getPayment() + record.getAppliedCredits();
 			}
 			amountDue += cont.getAmountDue();
-			record.setAmountDue(amountDue);
-			record.setDummyDue(amountDue);
+			record.setAmountDue(cont.getOriginalAmount());
+			record.setDummyDue(cont.getOriginalAmount());
 
 			record.setBillNumber(cont.getBillNumber());
-
 			record.setCashDiscount(record.getCashDiscount()
 					+ cont.getCashDiscount());
 
@@ -1224,9 +1223,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
+			bill.setAmountDue(bill.getOriginalAmount());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
+			bill.setCashDiscount(0);
+			bill.setDiscountAccount(0);
 
 			records.add(bill);
 		}

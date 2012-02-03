@@ -38,61 +38,6 @@ public class DateUtills {
 		return getDateAsString(new ClientFinanceDate(date).getDateAsObject());
 	}
 
-	public String[] spilitString(String date) {
-
-		String str[] = new String[3];
-		try {
-			Integer.parseInt(date);
-			int i = 0;
-			if ((i = date.getBytes().length) <= 8
-					&& date.getBytes().length >= 4) {
-				switch (i) {
-				case 8:
-					str[0] = date.substring(0, 2);
-					str[1] = date.substring(2, 4);
-					str[2] = date.substring(4);
-					return str;
-				case 6:
-					str[0] = date.substring(0, 2);
-					str[1] = date.substring(2, 4);
-					str[2] = date.substring(4);
-					return str;
-				case 4:
-					str[0] = date.substring(0, 1);
-					str[1] = date.substring(1, 2);
-					str[2] = date.substring(2);
-					return str;
-				}
-			} else {
-				System.out.println("Please Enter Valid Date Format");
-			}
-		} catch (Exception e) {
-			byte[] bytes = date.getBytes();
-			int length = bytes.length;
-			switch (length) {
-			case 7:
-			case 9:
-				if ((bytes[0] >= 48) && (bytes[0] <= 57)) {
-					str[0] = date.substring(0, 2);
-					str[1] = date.substring(2, 5);
-					str[2] = date.substring(5);
-					return str;
-
-				} else {
-					str[0] = date.substring(0, 3);
-					str[1] = date.substring(3, 5);
-					str[2] = date.substring(5);
-					return str;
-				}
-			default:
-				// Window.alert("Please enter valid date");
-				break;
-			}
-
-		}
-		return null;
-	}
-
 	public int evaluateDate(String dateFormat) {
 		try {
 			return Integer.parseInt(dateFormat);

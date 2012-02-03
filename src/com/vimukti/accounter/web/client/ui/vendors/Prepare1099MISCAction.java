@@ -49,7 +49,7 @@ public class Prepare1099MISCAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		// TODO Auto-generated method stub
-		return null;
+		return "prepare_1099_MISC";
 	}
 
 	@Override

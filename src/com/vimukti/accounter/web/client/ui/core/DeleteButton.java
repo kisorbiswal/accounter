@@ -16,6 +16,7 @@ public class DeleteButton extends ImageButton {
 
 	private AbstractBaseView<?> view;
 	private IAccounterCore obj;
+	private ClickHandler clickHandler;
 
 	/**
 	 * Creates new Instance
@@ -39,29 +40,37 @@ public class DeleteButton extends ImageButton {
 
 			@Override
 			public void onClick(ClickEvent arg0) {
-				String warning = getWarning(obj);
-				Accounter.showWarning(warning, AccounterType.WARNING,
-						new ErrorDialogHandler() {
+				if (clickHandler != null) {
+					clickHandler.onClick(arg0);
+				} else {
+					String warning = getWarning(obj);
+					Accounter.showWarning(warning, AccounterType.WARNING,
+							new ErrorDialogHandler() {
 
-							@Override
-							public boolean onYesClick() {
-								executeDelete(obj);
-								return true;
-							}
+								@Override
+								public boolean onYesClick() {
+									executeDelete(obj);
+									return true;
+								}
 
-							@Override
-							public boolean onNoClick() {
-								return true;
-							}
+								@Override
+								public boolean onNoClick() {
+									return true;
+								}
 
-							@Override
-							public boolean onCancelClick() {
-								return false;
-							}
-						});
+								@Override
+								public boolean onCancelClick() {
+									return false;
+								}
+							});
+				}
 			}
 		});
 
+	}
+
+	public void addDeleteHandler(ClickHandler clickHandler) {
+		this.clickHandler = clickHandler;
 	}
 
 	private String getWarning(IAccounterCore obj) {

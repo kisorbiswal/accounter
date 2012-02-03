@@ -43,7 +43,6 @@ public class CustomFieldDialog extends BaseDialog {
 
 	private void initData() {
 		customFieldTable.addRows(getCompany().getCustomFields());
-
 	}
 
 	public void createControls() {
@@ -121,6 +120,7 @@ public class CustomFieldDialog extends BaseDialog {
 			@Override
 			public void deleteSuccess(IAccounterCore result) {
 				System.out.println();
+				company.deleteCustomField(result.getID());
 			}
 
 			@Override

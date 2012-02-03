@@ -57,7 +57,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 	String getAllUnitsExportCsv();
 
 	String getItemsExportCsv(boolean isPurchaseType, boolean isSaleType,
-			String viewType);
+			String viewType, int itemType);
 
 	String getTaxItemsListExportCsv(String viewType);
 

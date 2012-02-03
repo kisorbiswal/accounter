@@ -10,11 +10,13 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.TaxAgencyStartDateEndDateToolbar;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -68,6 +70,18 @@ public class FileTAXView extends AbstractFileTAXView {
 			public void onSuccess(ArrayList<TAXItemDetail> result) {
 				super.onSuccess(result);
 				print();
+			}
+
+			@Override
+			public void print() {
+				TaxAgencyStartDateEndDateToolbar bar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
+				long taxAgency = bar.taxAgencyCombo.getSelectedValue().getID();
+				this.startDate = toolbar.getStartDate();
+				this.endDate = toolbar.getEndDate();
+				UIUtils.generateReportPDF(
+						Integer.parseInt(String.valueOf(startDate.getDate())),
+						Integer.parseInt(String.valueOf(endDate.getDate())),
+						174, "", "", taxAgency);
 			}
 
 			@Override

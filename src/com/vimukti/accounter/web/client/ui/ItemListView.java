@@ -243,7 +243,7 @@ public class ItemListView extends BaseListView<ClientItem> implements
 	@Override
 	public void exportToCsv() {
 		Accounter.createExportCSVService().getItemsExportCsv(isPurchaseType,
-				isSalesType, viewSelect.getSelectedValue(),
+				isSalesType, viewSelect.getSelectedValue(), 0,
 				getExportCSVCallback(messages.items()));
 
 	}

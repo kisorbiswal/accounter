@@ -109,6 +109,8 @@ public class NewQuoteAction extends Action {
 			return "newCharge";
 		} else if (type == ClientEstimate.CREDITS) {
 			return "newCredit";
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return "salesorders";
 		}
 		return "";
 	}

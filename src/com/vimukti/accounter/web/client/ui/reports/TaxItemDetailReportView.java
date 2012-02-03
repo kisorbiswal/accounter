@@ -16,9 +16,11 @@ import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerRepo
  * @author Sai Prasad N
  * 
  */
+
 public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 
 	private long taxAgency;
+	private long taxReturnId;
 	private int row;
 	private TaxAgencyStartDateEndDateToolbar toolBar;
 
@@ -68,8 +70,8 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 		this.endDate = toolbar.getEndDate();
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 165, "",
-				"", this.taxAgency);
+				Integer.parseInt(String.valueOf(endDate.getDate())), 165,
+				String.valueOf(this.taxReturnId), "", this.taxAgency);
 	}
 
 	@Override
@@ -80,8 +82,8 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 		this.endDate = toolbar.getEndDate();
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 165, "",
-				"", this.taxAgency);
+				Integer.parseInt(String.valueOf(endDate.getDate())), 165,
+				String.valueOf(this.taxReturnId), "", this.taxAgency);
 	}
 
 	@Override
@@ -148,5 +150,13 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
 		isDatesArranged = true;
+	}
+
+	public long getTaxReturnId() {
+		return taxReturnId;
+	}
+
+	public void setTaxReturnId(long taxReturnId) {
+		this.taxReturnId = taxReturnId;
 	}
 }

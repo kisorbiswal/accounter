@@ -211,7 +211,8 @@ public class InventoryQuantityColumn extends
 			}
 			ClientQuantity quantity = row.getQuantity();
 			if (quantity != null) {
-				quantity.setValue(DataUtils.getAmountStringAsDouble(value));
+				quantity.setValue(DataUtils.getAmountStringAsDouble(JNSI
+						.getCalcultedAmount(value)));
 			}
 			setQuantity(row, quantity);
 		} catch (Exception e) {

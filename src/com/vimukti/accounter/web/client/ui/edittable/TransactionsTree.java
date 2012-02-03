@@ -24,16 +24,16 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceiptsList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
-import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public abstract class TransactionsTree<T> extends SimplePanel {
 	Tree tree;
@@ -50,6 +50,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	private TreeItem chargesTree;
 
 	private TreeItem quotesTree;
+
+	private TreeItem salesOrderTree;
+
+	private TreeItem purchaseOrderTree;
 
 	public TransactionsTree(ICurrencyProvider currencyProvider) {
 		this.currencyProvider = currencyProvider;
@@ -90,6 +94,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		chargesTree = null;
 		creditsTree = null;
 		billableTree = null;
+		salesOrderTree = null;
 		boolean isAllrowsSelected = false;
 		if (result.isEmpty() && isNew) {
 			return;
@@ -102,58 +107,94 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		}
 	}
 
-	private void addQuotesTreeItem(
-			EstimatesAndSalesOrdersList estimatesAndSalesOrdersList) {
-		Accounter.createGETService().getObjectById(AccounterCoreType.ESTIMATE,
-				estimatesAndSalesOrdersList.getTransactionId(),
-				new AsyncCallback<ClientEstimate>() {
+	private void addPurchaseOrderTreeItem(
+			ClientPurchaseOrder clientPurchaseOrder, boolean isSelected) {
+		if (purchaseOrderTree == null) {
+			purchaseOrderTree = getTransactionsTree(isSelected,
+					messages.purchaseOrderList());
+			tree.addItem(purchaseOrderTree);
+		}
+		String transactionLink = messages.purchaseOrder();
+		purchaseOrderTree.addItem(getChildTransactionTree(transactionLink,
+				clientPurchaseOrder, isSelected));
+	}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter.showError(messages
-								.unableToLoadRequiredQuote());
-					}
+	protected void addSalesOrderTransactionTreeItem(ClientEstimate salesOrder,
+			boolean isSelected) {
+		if (salesOrderTree == null) {
+			salesOrderTree = getTransactionsTree(isSelected,
+					messages.salesOrderList());
+			tree.addItem(salesOrderTree);
+		}
+		String transactionLink = messages.salesOrder();
+		salesOrderTree.addItem(getChildTransactionTree(transactionLink,
+				salesOrder, isSelected));
+	}
 
-					@Override
-					public void onSuccess(ClientEstimate result) {
-						if (result != null) {
-							addAllQuoteTransactionTreeItem(result, false);
+	private void addQuotesTreeItem(EstimatesAndSalesOrdersList result) {
+		ClientCompanyPreferences preferences = Accounter.getCompany()
+				.getPreferences();
+		boolean isAllowedToAdd = false;
+		if (result.getEstimateType() == ClientEstimate.QUOTES) {
+			isAllowedToAdd = preferences.isDoyouwantEstimates()
+					&& !preferences.isDontIncludeEstimates();
+		} else if (result.getEstimateType() == ClientEstimate.CHARGES) {
+			isAllowedToAdd = preferences.isDelayedchargesEnabled();
+		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
+				|| result.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
+			isAllowedToAdd = preferences
+					.isBillableExpsesEnbldForProductandServices()
+					&& preferences
+							.isProductandSerivesTrackingByCustomerEnabled();
+		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
+			isAllowedToAdd = preferences.isDelayedchargesEnabled();
+			// } else if (result.getEstimateType() ==
+			// ClientEstimate.SALES_ORDER) {
+			// isAllowedToAdd = preferences.isSalesOrderEnabled();
+		}
+		if (isAllowedToAdd) {
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.ESTIMATE, result.getTransactionId(),
+					new AsyncCallback<ClientEstimate>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Accounter.showError(messages
+									.unableToLoadRequiredQuote());
 						}
-					}
-				});
+
+						@Override
+						public void onSuccess(ClientEstimate result) {
+							if (result != null) {
+								addAllQuoteTransactionTreeItem(result, false);
+							}
+						}
+					});
+		}
 	}
 
 	protected void addAllQuoteTransactionTreeItem(ClientEstimate result,
 			boolean isSelected) {
-		ClientCompanyPreferences preferences = Accounter.getCompany()
-				.getPreferences();
 		if (result.getEstimateType() == ClientEstimate.QUOTES) {
-			if (preferences.isDoyouwantEstimates()) {
-				addQuotesTransactionTreeItem(result, isSelected);
-			}
+			addQuotesTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.CHARGES) {
-			if (preferences.isDelayedchargesEnabled()) {
-				addChargesTransactionTreeItem(result, isSelected);
-			}
+			addChargesTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
 				|| result.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
-			if (preferences.isBillableExpsesEnbldForProductandServices()
-					&& preferences
-							.isProductandSerivesTrackingByCustomerEnabled()) {
-				addBillableTransactionTreeItem(result, isSelected);
-			}
+			addBillableTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
-			if (preferences.isDelayedchargesEnabled()) {
-				addCreditsTransactionTreeItem(result, isSelected);
-			}
+			addCreditsTransactionTreeItem(result, isSelected);
+			// } else if (result.getEstimateType() ==
+			// ClientEstimate.SALES_ORDER) {
+			// addSalesOrderTransactionTreeItem(result, isSelected);
 		}
 		setEnabled(isinViewMode());
 	}
 
 	private TreeItem getChildTransactionTree(String transactionLink,
-			final ClientEstimate estimate, boolean isSelected) {
+			final ClientTransaction transaction, boolean isSelected) {
 		final TreeItem transactionTree = new TreeItem();
-		transactionTree.setUserObject(estimate);
+		transactionTree.setUserObject(transaction);
 		CheckBox checkBox = new CheckBox();
 		checkBox.setValue(isSelected);
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -176,8 +217,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			}
 		};
 		horizontalPanel.add(transactionLabel);
-		double estimateTotal = estimate.getTotal();
-		if (currencyProvider.getTransactionCurrency().getID() != estimate
+		double estimateTotal = transaction.getTotal();
+		if (currencyProvider.getTransactionCurrency().getID() != transaction
 				.getCurrency()) {
 			estimateTotal = estimateTotal
 					/ currencyProvider.getCurrencyFactor();
@@ -197,20 +238,26 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				event.preventDefault();
+				if (transaction instanceof ClientPurchaseOrder) {
+					UIUtils.runAction(transaction,
+							ActionFactory.getPurchaseOrderAction());
+					return;
+				}
+				ClientEstimate estimate = (ClientEstimate) transaction;
 				if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES) {
 					openEnterBillView(estimate);
 				} else if (estimate.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
 					openDepositView(estimate);
 				} else {
-					ReportsRPC.openTransactionView(estimate.getType(),
-							estimate.getID());
+					UIUtils.runAction(transaction, ActionFactory
+							.getNewQuoteAction(estimate.getEstimateType()));
 				}
 			}
 		});
 		TransactionItemsTable itemsTable = new TransactionItemsTable(
 				currencyProvider);
 		transactionTree.addItem(itemsTable);
-		List<ClientTransactionItem> transactionItems = estimate
+		List<ClientTransactionItem> transactionItems = transaction
 				.getTransactionItems();
 		itemsTable.setAllRows(transactionItems);
 		return transactionTree;
@@ -393,16 +440,11 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 				ClientEstimate estimate = (ClientEstimate) clientTransaction;
 				updateEstimateTotal(estimate);
 			} else {
-				ClientSalesOrder salesOrder = (ClientSalesOrder) clientTransaction;
-				updateSalesOrderTotal(salesOrder);
+				grandTotal += clientTransaction.getTotal();
+				lineTotal += clientTransaction.getNetAmount();
 			}
 		}
 		updateTransactionTotal();
-	}
-
-	private void updateSalesOrderTotal(ClientSalesOrder salesOrder) {
-		grandTotal += salesOrder.getTotal();
-		lineTotal += salesOrder.getNetAmount();
 	}
 
 	@Override
@@ -476,9 +518,13 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		return grandTotal;
 	}
 
-	public void quotesSelected(List<ClientEstimate> estimates) {
-		for (ClientEstimate estimate : estimates) {
-			addEstimateTreeItemRow(estimate);
+	public void quotesSelected(List<ClientTransaction> estimates) {
+		for (ClientTransaction estimate : estimates) {
+			if (estimate instanceof ClientEstimate) {
+				addEstimateTreeItemRow((ClientEstimate) estimate);
+			} else if (estimate instanceof ClientPurchaseOrder) {
+				addPurchaseOrderTreeItem((ClientPurchaseOrder) estimate, true);
+			}
 		}
 	}
 
@@ -544,6 +590,47 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 
 	public boolean validateTree() {
 		return getSelectedRecords().size() == 0 ? false : true;
+	}
+
+	public void setAllrows(List<PurchaseOrdersAndItemReceiptsList> result,
+			boolean isNew) {
+		clear();
+		tree = new Tree() {
+		};
+		this.add(tree);
+		quotesTree = null;
+		chargesTree = null;
+		creditsTree = null;
+		billableTree = null;
+		salesOrderTree = null;
+		purchaseOrderTree = null;
+		boolean isAllrowsSelected = false;
+		if (result.isEmpty() && isNew) {
+			return;
+		} else if (result.isEmpty() && !isNew) {
+			isAllrowsSelected = true;
+		}
+		createColumns(isAllrowsSelected);
+		for (PurchaseOrdersAndItemReceiptsList clientPurchaseOrder : result) {
+			Accounter.createGETService().getObjectById(
+					AccounterCoreType.PURCHASEORDER,
+					clientPurchaseOrder.getTransactionId(),
+					new AsyncCallback<ClientPurchaseOrder>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							Accounter.showError(messages
+									.unableToLoadRequiredQuote());
+						}
+
+						@Override
+						public void onSuccess(ClientPurchaseOrder result) {
+							if (result != null) {
+								addPurchaseOrderTreeItem(result, false);
+							}
+						}
+					});
+		}
 	}
 
 }

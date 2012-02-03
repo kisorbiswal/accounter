@@ -27,6 +27,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	public static final int DEPOSIT_EXAPENSES = 5;
 
+	public static final int SALES_ORDER = 6;
+
 	long customer;
 
 	private int estimateType;

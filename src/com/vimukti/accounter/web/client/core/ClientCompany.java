@@ -2140,7 +2140,14 @@ public class ClientCompany implements IAccounterCore {
 
 		case USER:
 			deleteUser(id);
+		case CUSTOMFIELD:
+			deleteCustomField(id);
 		}
+	}
+
+	public void deleteCustomField(long id) {
+		ClientCustomField object = Utility.getObject(this.customFields, id);
+		this.customFields.remove(object);
 	}
 
 	private void deleteUser(long id) {
@@ -3137,7 +3144,7 @@ public class ClientCompany implements IAccounterCore {
 	public ClientCustomField getCustomFieldByTitle(String title) {
 		ArrayList<ClientCustomField> customFields = getCustomFields();
 		for (ClientCustomField f : customFields) {
-			if (f.isShowCustomer() && f.getName().equals(title)) {
+			if (f.getName().equals(title)) {
 				return f;
 			}
 		}

@@ -202,7 +202,8 @@ public class TAXHistoryGrid extends AbstractTransactionGrid<ClientTAXReturn> {
 				List<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
 				taxEntries = obj.getTaxReturnEntries();
 				details = getData(taxEntries);
-				ActionFactory.getTaxItemDetailReportAction().run(details, true);
+				ActionFactory.getTaxItemDetailReportAction().run(details,
+						obj.getID(), true);
 
 			}
 		}

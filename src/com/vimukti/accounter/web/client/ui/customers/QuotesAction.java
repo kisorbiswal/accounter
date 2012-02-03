@@ -72,6 +72,8 @@ public class QuotesAction extends Action {
 			return "charges";
 		} else if (type == ClientEstimate.CREDITS) {
 			return "credits";
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return "salesorder";
 		}
 		return "quotes";
 	}
@@ -83,12 +85,12 @@ public class QuotesAction extends Action {
 
 	@Override
 	public String getText() {
-		String text="";
+		String text = "";
 		if (type == ClientEstimate.CHARGES) {
 			text = messages.Charges();
-		}else if (type == ClientEstimate.CREDITS) {
+		} else if (type == ClientEstimate.CREDITS) {
 			text = messages.credits();
-		}else if(type == ClientEstimate.QUOTES){
+		} else if (type == ClientEstimate.QUOTES) {
 			text = messages.quotes();
 		}
 		return text;

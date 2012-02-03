@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 
 public abstract class AmountColumn<T> extends TextEditColumn<T> {
@@ -32,7 +33,8 @@ public abstract class AmountColumn<T> extends TextEditColumn<T> {
 		try {
 			Double amount = null;
 			if (value != null && !value.equals("")) {
-				amount = DataUtils.getAmountStringAsDouble(value);
+				amount = DataUtils.getAmountStringAsDouble(JNSI
+						.getCalcultedAmount(value));
 			}
 			setAmount(row, amount);
 		} catch (Exception e) {

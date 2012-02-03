@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.edittable;
 
 import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.ui.JNSI;
 
 public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 
@@ -23,7 +24,7 @@ public abstract class QuantityColumn<T> extends TextEditColumn<T> {
 				value = "1";
 			}
 			ClientQuantity quantity = getQuantity(row);
-			quantity.setValue(Double.parseDouble(value));
+			quantity.setValue(Double.parseDouble(JNSI.getCalcultedAmount(value)));
 			setQuantity(row, quantity);
 		} catch (NumberFormatException e) {
 		}

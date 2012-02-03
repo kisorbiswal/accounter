@@ -1569,8 +1569,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getID() == 0 ? true : salesAndEstimates
 									.isEmpty());
 					transactionsTree
-							.quotesSelected((List<ClientEstimate>) (salesAndEstimates != null ? salesAndEstimates
-									: new ArrayList<ClientEstimate>()));
+							.quotesSelected((List<ClientTransaction>) (salesAndEstimates != null ? salesAndEstimates
+									: new ArrayList<ClientTransaction>()));
 					transactionsTree.setEnabled(!isInViewMode());
 					refreshTransactionGrid();
 				}
