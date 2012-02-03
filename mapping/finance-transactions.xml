@@ -791,7 +791,7 @@
 				<property name="stateOrProvinence"  type="encryptedstring" column="BILLING_ADDRESS_STATE"></property>
 				<property name="zipOrPostalCode"  type="encryptedstring" column="BILLING_ADDRESS_ZIP"></property>
 				<property name="countryOrRegion"  type="encryptedstring" column="BILLING_ADDRESS_COUNTRY"></property>
-				<property name="isSelected"  type="encryptedstring" column="BILLING_ADDRESS_IS_SELECTED"></property>
+				<property name="isSelected"  column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
@@ -804,7 +804,7 @@
 				<property name="countryOrRegion"  type="encryptedstring" column="SHIPPING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property  type="encryptedstring" name="phone" column="PHONE"></property>
+			<property  name="phone"  type="encryptedstring" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
