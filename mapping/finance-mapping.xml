@@ -809,7 +809,7 @@
 				cascade="save-update"></many-to-one>
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
-		<property name="discription" column="DISCRIPTION"></property>
+		<property name="discription" column="DISCRIPTION" type="encryptedstring"></property>
 		<property name="warehouse" column="WARE_HOUSE"></property>
 		<property name="linetotal" column="LINE_TOTAL"></property>
 	</class>
