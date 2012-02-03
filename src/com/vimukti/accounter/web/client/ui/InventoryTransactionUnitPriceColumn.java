@@ -33,7 +33,8 @@ public class InventoryTransactionUnitPriceColumn extends
 		try {
 			Double amount = 0.0;
 			if (value != null && !value.equals("")) {
-				amount = DataUtils.getAmountStringAsDouble(value);
+				amount = DataUtils.getAmountStringAsDouble(JNSI
+						.getCalcultedAmount(value));
 			}
 			setAmount(row, amount);
 		} catch (Exception e) {
