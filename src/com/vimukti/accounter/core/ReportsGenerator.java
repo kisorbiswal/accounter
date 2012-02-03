@@ -2,12 +2,14 @@ package com.vimukti.accounter.core;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
+import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -154,6 +156,7 @@ public class ReportsGenerator {
 		this.dateRangeHtml = dateRangeHtml;
 		this.company = company;
 		this.generationType = generationType;
+		this.status = null;
 	}
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
@@ -1338,11 +1341,19 @@ public class ReportsGenerator {
 			};
 			updateReport(taxItemDetailServerReportView, finaTool);
 			taxItemDetailServerReportView.resetVariables();
-			taxItemDetailServerReportView.onResultSuccess(finaTool
-					.getReportManager().getTAXItemDetailReport(
-							getCompany().getId(), Long.parseLong(status),
-							startDate.getDate(), endDate.getDate()));
-
+			
+			long taxId = Long.parseLong(navigateObjectName);
+			if (taxId != 0) {
+				taxItemDetailServerReportView.onResultSuccess(finaTool
+						.getReportManager().getTaxItemDetailByTaxReturnId(
+								Long.parseLong(navigateObjectName),
+								getCompany().getId()));
+			} else {
+				taxItemDetailServerReportView.onResultSuccess(finaTool
+						.getReportManager().getTAXItemDetailReport(
+								getCompany().getId(), Long.parseLong(status),
+								startDate.getDate(), endDate.getDate()));
+			}
 			return taxItemDetailServerReportView.getGridTemplate();
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			VATExceptionServerReport report = new VATExceptionServerReport(
