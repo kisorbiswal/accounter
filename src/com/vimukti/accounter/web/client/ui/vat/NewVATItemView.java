@@ -323,7 +323,10 @@ public class NewVATItemView extends BaseView<ClientTAXItem> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = ((AccounterException) caught).getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
+
 			}
 
 			@Override

@@ -5454,4 +5454,6 @@ public interface AccounterMessages extends Messages {
 
 	public String errorDeletingTransactionReconcilied();
 
+	public String youcannotEditDeleteDefaultTaxItem();
+
 }

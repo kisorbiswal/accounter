@@ -170,6 +170,9 @@ public class AccounterExceptions {
 		case AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED:
 			return accounterMessages.errorEditingTransactionReconcilied();
 
+		case AccounterException.ERROR_DELETING_DEFAULT_TAX_ITEM:
+			return accounterMessages.youcannotEditDeleteDefaultTaxItem();
+
 		default:
 			return null;
 		}

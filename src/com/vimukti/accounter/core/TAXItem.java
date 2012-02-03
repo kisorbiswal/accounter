@@ -9,6 +9,8 @@ import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.web.client.core.AccounterCommand;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.countries.NewZealand;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
  * A VATItem is a sub class of VATItemGroup. It consists of VATagency, VAT
@@ -200,6 +202,29 @@ public class TAXItem extends TAXItemGroup {
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;
+	}
+
+	@Override
+	public boolean canEdit(IAccounterServerCore clientObject)
+			throws AccounterException {
+		isNZDefaultTaxItem(clientObject);
+		return super.canEdit(clientObject);
+	}
+
+	private void isNZDefaultTaxItem(IAccounterServerCore clientObject)
+			throws AccounterException {
+		if (getCompany().getCountryPreferences() instanceof NewZealand) {
+			if (((TAXItem) clientObject).isDefault()) {
+				throw new AccounterException(
+						AccounterException.ERROR_DELETING_DEFAULT_TAX_ITEM);
+			}
+		}
+	}
+
+	public boolean canDelete(IAccounterServerCore serverCore)
+			throws AccounterException {
+		isNZDefaultTaxItem(serverCore);
+		return true;
 	}
 
 	@Override

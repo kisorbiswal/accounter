@@ -155,6 +155,8 @@ public class AccounterException extends Exception implements IsSerializable {
 
 	public static final int ERROR_DELETING_TRANSACTION_RECONCILIED = 54;
 
+	public static final int ERROR_DELETING_DEFAULT_TAX_ITEM = 55;
+
 	protected int errorCode;
 
 	// private long id;
