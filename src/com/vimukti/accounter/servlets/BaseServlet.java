@@ -102,19 +102,18 @@ public class BaseServlet extends HttpServlet {
 		try {
 
 			Session session = HibernateUtil.openSession();
-			Company company = getCompany(request);
-			if (company != null) {
-				String emailId = (String) request.getSession().getAttribute(
-						EMAIL_ID);
-				byte[] d2 = getD2(request);
-				if (emailId != null && d2 != null) {
-					User user = company.getUserByUserEmail(emailId);
-					if (user != null && user.getSecretKey() != null) {
-						try {
-							EU.createCipher(user.getSecretKey(), d2, emailId);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+			String emailId = (String) request.getSession().getAttribute(
+					EMAIL_ID);
+			Long companyID = (Long) request.getSession().getAttribute(
+					COMPANY_ID);
+			byte[] d2 = getD2(request);
+			if (emailId != null && d2 != null && companyID != null) {
+				User user = getUser(emailId, companyID);
+				if (user != null && user.getSecretKey() != null) {
+					try {
+						EU.createCipher(user.getSecretKey(), d2, emailId);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
 				}
 			}
