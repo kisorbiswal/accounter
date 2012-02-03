@@ -16,15 +16,9 @@ public class AccounterEncryptor implements Encryptor {
 			return null;
 		}
 		if (isActive()) {
-			return doEncrypt(value);
+			return EU.e(value);
 		}
-		return fromUTF16String(value);
-	}
-
-	private byte[] doEncrypt(String value) {
-		byte[] in = fromUTF16String(value);
-		in = EU.e(in);
-		return in;
+		return fromUTF8String(value);
 	}
 
 	private boolean isActive() {
@@ -37,14 +31,14 @@ public class AccounterEncryptor implements Encryptor {
 			return null;
 		}
 		if (isActive()) {
-			return doDecrypt(value);
+			return EU.d(value);
 		}
-		return toUTF16String(value);
+		return toUTF8String(value);
 	}
 
-	private String toUTF16String(byte[] value) {
+	private String toUTF8String(byte[] value) {
 		try {
-			String string = new String(value, "UTF-16");
+			String string = new String(value, "UTF-8");
 			return string;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -52,20 +46,14 @@ public class AccounterEncryptor implements Encryptor {
 		return null;
 	}
 
-	private byte[] fromUTF16String(String value) {
+	private byte[] fromUTF8String(String value) {
 		try {
-			byte[] bytes = value.getBytes("UTF-16");
+			byte[] bytes = value.getBytes("UTF-8");
 			return bytes;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private String doDecrypt(byte[] value) {
-		byte[] in = value;
-		in = EU.d(value);
-		return toUTF16String(in);
 	}
 
 	public static AccounterEncryptor getInstance() {
