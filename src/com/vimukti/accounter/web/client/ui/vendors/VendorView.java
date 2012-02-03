@@ -31,6 +31,7 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEmail;
 import com.vimukti.accounter.web.client.core.ClientFax;
@@ -885,10 +886,22 @@ public class VendorView extends BaseView<ClientVendor> {
 	}
 
 	public void createCustomFieldControls() {
+
 		customFieldForm.createControls(getCompany(),
 				data == null ? null : data.getCustomFieldValues(), false);
-		customFieldForm.setDisabled(isInViewMode());
+		Set<ClientCustomFieldValue> customFieldValues = data == null ? new HashSet<ClientCustomFieldValue>()
+				: data.getCustomFieldValues();
+		Set<ClientCustomFieldValue> deleteCustomFieldValues = new HashSet<ClientCustomFieldValue>();
+		for (ClientCustomFieldValue value : customFieldValues) {
+			if (getCompany().getClientCustomField(value.getID()) == null) {
+				deleteCustomFieldValues.add(value);
+			}
+		}
 
+		for (ClientCustomFieldValue clientCustomFieldValue : deleteCustomFieldValues) {
+			customFieldValues.remove(clientCustomFieldValue);
+		}
+		customFieldForm.setDisabled(isInViewMode());
 	}
 
 	protected void adjustFormWidths(int titlewidth, int listBoxWidth) {
