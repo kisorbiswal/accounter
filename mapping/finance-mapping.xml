@@ -100,7 +100,7 @@
 				column="LOCATION_ADDRESS_ZIP"></property>
 			<property name="countryOrRegion" type="encryptedstring"
 				column="LOCATION_ADDRESS_COUNTRY"></property>
-			<property name="isSelected" type="encryptedstring"
+			<property name="isSelected"  
 				column="LOCATION_ADDRESS_IS_SELECTED"></property>
 		</component>
 	</class>
