@@ -207,7 +207,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 
 	@Override
 	protected void onPageChange(int start, int length) {
-
+		viwType = -1;
 		if (viewType.equalsIgnoreCase(messages.open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
 		} else if (viewType.equalsIgnoreCase(messages.rejected())) {
