@@ -422,11 +422,11 @@ public class UserManager extends Manager {
 		while (i.hasNext()) {
 			Object[] object = (Object[]) i.next();
 			Activity activity = new Activity();
-			activity.setUserName(object[4].toString());
-			java.sql.Timestamp ts2 = java.sql.Timestamp.valueOf(object[3]
+			activity.setUserName(object[1].toString());
+			java.sql.Timestamp ts2 = java.sql.Timestamp.valueOf(object[0]
 					.toString());
 			activity.setTime(ts2);
-			activity.setHistory(object[13].toString());
+			activity.setHistory(object[2].toString());
 
 			ClientActivity clientActivity;
 			try {

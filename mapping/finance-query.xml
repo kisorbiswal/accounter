@@ -396,7 +396,7 @@
 		<return-scalar column="SAVE_STATUS" type="int" />
 		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
 		<return-scalar column="C_NAME" type="string" />
-		
+
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.CURRENCY AS CURRENCY,
@@ -472,7 +472,8 @@
 		CP
 		on
 		T.ID=CP.ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		VENDOR_CREDIT_MEMO VCM
 		on
 		T.ID=VCM.ID
@@ -1295,19 +1296,22 @@
 		THEN T.ID
 		END AS
 		ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		CASE
 		WHEN T.T_TYPE
 		= 6
 		THEN EB.DUE_DATE
 		ELSE
 		null
-		END AS DUE_DATE ,
+		END AS
+		DUE_DATE ,
 		(SELECT P.NAME FROM PAYEE
 		P
 		WHERE P.ID =
 		EB.VENDOR_ID
-		OR P.COMPANY_ID=:companyId) AS
+		OR
+		P.COMPANY_ID=:companyId) AS
 		VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1316,7 +1320,8 @@
 		THEN
 		T.TOTAL
 
-		END AS ORIGINAL_AMOUNT ,
+		END AS
+		ORIGINAL_AMOUNT ,
 		CASE
 		WHEN T.T_TYPE
 		= 6
@@ -1368,12 +1373,15 @@
 		SELECT
 		CASE WHEN T.T_TYPE = 6 THEN T.ID
 		END AS ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
 		CASE WHEN T.T_TYPE = 6 THEN
-		EB.DUE_DATE ELSE null END AS DUE_DATE ,
+		EB.DUE_DATE ELSE null END
+		AS DUE_DATE ,
 		(SELECT
 		P.NAME FROM PAYEE P
-		WHERE P.ID = EB.VENDOR_ID OR P.COMPANY_ID=:companyId)
+		WHERE P.ID = EB.VENDOR_ID OR
+		P.COMPANY_ID=:companyId)
 		AS VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1398,7 +1406,8 @@
 		NULL
 		END AS
 		DISCOUNT_DATE,
-		T.T_DATE AS TRANSACTION_DATE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
 		PT.IS_DATE_DRIVEN AS IS_DATE_DRIVEN,
 		PT.IF_PAID_WITHIN AS PAID_WITHIN,
 		PT.DISCOUNT_PERCENT AS DISCOUNT
@@ -2244,7 +2253,8 @@
 		JE.ID AS JOURNAL_ENTRY_ID,
 		CPP.ID AS
 		CUSTOMER_PREPAYMENT_ID
-		FROM CUSTOMER C
+		FROM CUSTOMER
+		C
 		LEFT OUTER
 		JOIN
 		CASH_SALES CS
@@ -2283,7 +2293,8 @@
 		LEFT
 		OUTER JOIN
 		CUSTOMER_PREPAYMENT CPP
-		ON C.ID = CPP.CUSTOMER_ID
+		ON C.ID =
+		CPP.CUSTOMER_ID
 		WHERE
 		C.ID=:inputId AND C.COMPANY_ID=:companyId
 		LIMIT 1
@@ -2313,16 +2324,18 @@
 		WC.ID
 		WRITE_CHECK_ID,
 		JE.ID AS JOURNAL_ENTRY_ID
-		
+
 		FROM VENDOR V
 		LEFT OUTER JOIN
 		ITEM IT
 		ON V.ID
 		= IT.PREFFERED_VENDOR
 		LEFT
-		OUTER JOIN
+		OUTER
+		JOIN
 		CASH_PURCHASE CP
-		ON V.ID =
+		ON
+		V.ID =
 		CP.VENDOR_ID
 		LEFT OUTER JOIN
 		CREDIT_CARD_CHARGES CCC
@@ -2347,10 +2360,14 @@
 		WRITE_CHECKS WC
 		ON V.ID = WC.VENDOR_ID
 		LEFT OUTER JOIN
-		JOURNAL_ENTRY JE
-		ON V.ID
+		JOURNAL_ENTRY
+		JE
+		ON
+		V.ID
 		= JE.PAYEE_ID
-		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId LIMIT 1
+		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId
+		LIMIT
+		1
 	</sql-query>
 
 
@@ -2570,23 +2587,28 @@
 		ON A.ID
 		=
 		TPB.DISCOUNT_ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		TRANSACTION_RECEIVE_PAYMENT TRP
 		ON A.ID
 		=
 		TRP.DISCOUNT_ID
-		OR A.ID =
+		OR
+		A.ID =
 		TRP.WRITE_OFF_ID
 		LEFT OUTER JOIN
-		TRANSACTION_MAKE_DEPOSIT_ENTRIES TMDE
+		TRANSACTION_MAKE_DEPOSIT_ENTRIES
+		TMDE
 		ON A.ID = TMDE.ACCOUNT_ID
 		LEFT
 		OUTER JOIN
 		TRANSACTION_EXPENSE TE
-		ON A.ID =
+		ON
+		A.ID =
 		TE.ACCOUNT_ID
 		WHERE A.ID =
-		:inputId AND A.COMPANY_ID=:companyId LIMIT 1
+		:inputId AND A.COMPANY_ID=:companyId
+		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteItem">
@@ -3764,11 +3786,13 @@
 		= 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or T.T_TYPE = 6
+		when T.T_TYPE =
+		2 or T.T_TYPE = 6
 		or T.T_TYPE =
 		11 or
 		T.T_TYPE = 14 or
-		T.T_TYPE = 3 or T.T_TYPE = 10 or
+		T.T_TYPE = 3 or
+		T.T_TYPE = 10 or
 		(T.T_TYPE = 15 AND WC.VENDOR_ID IS NOT
 		NULL) or
 		(T.T_TYPE = 16
@@ -3781,7 +3805,8 @@
 
 		case when T.T_TYPE = 11
 		THEN CASE
-		WHEN PB.PAYBILL_TYPE = 2
+		WHEN PB.PAYBILL_TYPE
+		= 2
 		THEN 25
 		ELSE
 		T.T_TYPE
@@ -3799,13 +3824,15 @@
 		T.T_TYPE = 1 or
 		T.T_TYPE
 		= 3 or
-		T.T_TYPE = 8 or T.T_TYPE = 2 or
+		T.T_TYPE = 8 or T.T_TYPE
+		= 2 or
 		T.T_TYPE
 		=
 		6 or T.T_TYPE
 		= 27 or T.T_TYPE = 10
 		then
-		T.TOTAL * T.CURRENCY_FACTOR
+		T.TOTAL *
+		T.CURRENCY_FACTOR
 		when T.T_TYPE = 4 or
 		T.T_TYPE =
 		14
@@ -4074,7 +4101,7 @@
 		left outer join
 		TRANSFER_FUND TF
 		on T.ID=TF.ID
-		
+
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -4084,7 +4111,8 @@
 		ON JE.ID=T.ID AND
 		(SELECT
 		PY.TYPE FROM
-		PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
+		PAYEE PY WHERE
+		PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
 
@@ -4095,10 +4123,12 @@
 		left outer
 		join
 		CUSTOMER C
-		on C.ID = CS.CUSTOMER_ID or C.ID =
+		on C.ID
+		= CS.CUSTOMER_ID or C.ID =
 		CCM.CUSTOMER_ID or
 		C.ID =
-		I.CUSTOMER_ID or C.ID = CR.CUSTOMER_ID or
+		I.CUSTOMER_ID or
+		C.ID = CR.CUSTOMER_ID or
 		C.ID
 		= RP.CUSTOMER_ID
 		or C.ID = WC.CUSTOMER_ID
@@ -4110,13 +4140,15 @@
 		PAYMENTTERMS PT
 		on
 		PT.ID =
-		EB.PAYMENT_TERM_ID or PT.ID = I.PAYMENT_TERMS_ID
+		EB.PAYMENT_TERM_ID or PT.ID =
+		I.PAYMENT_TERMS_ID
 
 		left outer
 		join
 		VENDOR
 		V
-		on V.ID = CP.VENDOR_ID or V.ID = VCM.VENDOR_ID or V.ID =
+		on V.ID = CP.VENDOR_ID or V.ID
+		= VCM.VENDOR_ID or V.ID =
 		EB.VENDOR_ID
 		or
 		V.ID = PB.VENDOR_ID or V.ID =
@@ -4342,7 +4374,8 @@
 		= 29
 		then
 		P.NAME
-		when T.T_TYPE = 2 or
+		when T.T_TYPE =
+		2 or
 		T.T_TYPE = 6 or T.T_TYPE =
 		11 or
 		T.T_TYPE = 14 or
@@ -4374,14 +4407,16 @@
 		then
 		T.TOTAL
 		when T.T_TYPE = 4 or T.T_TYPE =
-		14 or T.T_TYPE = 29
+		14 or
+		T.T_TYPE = 29
 		then
 		-1*T.TOTAL
 		when T.T_TYPE =
 		15
 		then
 		case
-		when WC.PAY_TO_TYPE = 1
+		when
+		WC.PAY_TO_TYPE = 1
 		then
 		-1*T.TOTAL
 		when
@@ -4430,7 +4465,8 @@
 		case
 		when
 		T.T_TYPE
-		= 1 or
+		=
+		1 or
 		T.T_TYPE = 3
 		or T.T_TYPE = 5
 		or
@@ -4444,7 +4480,8 @@
 		then
 		T.TOTAL
 		when
-		T.T_TYPE = 11
+		T.T_TYPE =
+		11
 		then
 		case
 		when
@@ -4617,7 +4654,7 @@
 		left outer join
 		TRANSFER_FUND TF
 		on T.ID=TF.ID
-		
+
 		left outer join
 		WRITE_CHECKS WC
 		on
@@ -4627,7 +4664,8 @@
 		ON JE.ID=T.ID AND
 		(SELECT
 		PY.TYPE FROM
-		PAYEE PY WHERE PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
+		PAYEE PY WHERE
+		PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
 
@@ -7624,10 +7662,19 @@
 		<query-param name="objectID" type="long" />
 		<query-param name="activityID" type="long" />
 
-		SELECT * FROM Activity a WHERE
+		<return-scalar column="TIME" type="timestamp" />
+		<return-scalar column="USER_NAME" type="encryptedstring" />
+		<return-scalar column="AUDIT_HISTORY" type="text" />
+
+		SELECT A.TIME_STAMP AS TIME,A.USER_NAME AS
+		USER_NAME,A.AUDITHISTORY AS
+		AUDIT_HISTORY FROM
+		ACTIVITY A WHERE
 		a.COMPANY_ID=:companyId AND
-		a.OBJECT_TYPE=:objectType AND
-		a.ID &lt;=:activityID AND
+		a.OBJECT_TYPE=:objectType
+		AND
+		a.ID
+		&lt;=:activityID AND
 		a.OBJECT_ID=:objectID
 
 	</sql-query>
@@ -8792,10 +8839,12 @@
 		P.ID =
 		C.ID
 		WHERE T.SAVE_STATUS &lt;&gt; 204 AND T.T_TYPE=8
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate AND
+		BETWEEN
+		:fromDate AND :toDate AND
 		I.DUE_DATE &lt;= :currentDate AND
 		C.ID=:customerId
 		ORDER BY DUE_DATE
@@ -8946,11 +8995,13 @@
 		WHERE
 		T.T_TYPE=1 AND
 		T.COMPANY_ID=:companyId AND
-		T.SAVE_STATUS=201 AND T.SAVE_STATUS
+		T.SAVE_STATUS=201 AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.T_DATE BETWEEN
 		:fromDate AND
-		:toDate AND C.ID=:customerId
+		:toDate AND
+		C.ID=:customerId
 	</sql-query>
 
 	<sql-query name="getAllCustomerCreditMemosByCustomer">
@@ -9022,9 +9073,11 @@
 		C.ID
 		WHERE T.T_TYPE=4
 		AND T.SAVE_STATUS
-		!= 202 AND
+		!=
+		202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate
+		BETWEEN :fromDate AND
+		:toDate
 		and
 		C.ID=:customerId
 	</sql-query>
@@ -9098,7 +9151,8 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=4
-		AND T.STATUS=101 AND T.SAVE_STATUS
+		AND T.STATUS=101 AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
@@ -9345,7 +9399,8 @@
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :fromDate
-		AND :toDate and
+		AND
+		:toDate and
 		C.ID=:customerId
 	</sql-query>
 
@@ -9417,7 +9472,8 @@
 		C.ID
 		WHERE T.T_TYPE=5 AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate and
 		C.ID=:customerId
@@ -9489,7 +9545,7 @@
 		ON
 		P.ID =
 		C.ID
-		WHERE T.T_TYPE=5 AND 
+		WHERE T.T_TYPE=5 AND
 		T.SAVE_STATUS=201 AND T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND
@@ -9570,11 +9626,13 @@
 		WHERE T.T_TYPE=5 AND
 		T.PAYMENT_METHOD
 		LIKE
-		:paymentmethod AND T.SAVE_STATUS
+		:paymentmethod AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
-		BETWEEN :fromDate
+		BETWEEN
+		:fromDate
 		AND :toDate and
 		C.ID=:customerId
 	</sql-query>
@@ -9657,11 +9715,12 @@
 		P.ID=RP.CUSTOMER_ID OR
 		P.ID=CP.CUSTOMER_ID
 		WHERE
-T.SAVE_STATUS
+		T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
-		:fromDate AND :toDate and
+		:fromDate AND
+		:toDate and
 		P.ID=:customerId
 	</sql-query>
 
@@ -10197,7 +10256,8 @@ T.SAVE_STATUS
 		T.T_TYPE =2
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN
 		:fromDate AND :toDate AND V.ID =:vendorId
 
 	</sql-query>
@@ -10339,10 +10399,12 @@ T.SAVE_STATUS
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =6 
+		T.T_TYPE =6
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND
+		:toDate AND
 		V.ID =:vendorId
 
 	</sql-query>
@@ -10411,10 +10473,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =6 AND T.SAVE_STATUS
-		!= 202 AND  EB.BALANCE_DUE
+		!= 202 AND EB.BALANCE_DUE
 		&gt;0.0
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND
 		:toDate AND
 		V.ID =:vendorId
 
@@ -10487,7 +10550,8 @@ T.SAVE_STATUS
 		T.SAVE_STATUS=201
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
 		:fromDate AND
 		:toDate AND
 		V.ID =:vendorId
@@ -10562,9 +10626,11 @@ T.SAVE_STATUS
 		!= 202 AND EB.BALANCE_DUE
 		&gt;0.0
 		AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND
 		:toDate AND
-		EB.DUE_DATE &lt; :currentDate AND V.ID =:vendorId
+		EB.DUE_DATE &lt; :currentDate
+		AND V.ID =:vendorId
 
 	</sql-query>
 
@@ -10633,7 +10699,8 @@ T.SAVE_STATUS
 		T.T_TYPE =11
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate
 		AND :toDate AND V.ID =:vendorId
 
 	</sql-query>
@@ -10701,9 +10768,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =15
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -10773,7 +10842,8 @@ T.SAVE_STATUS
 		T.SAVE_STATUS=201
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
@@ -10840,10 +10910,12 @@ T.SAVE_STATUS
 		PAYEE P
 		ON P.ID = V.ID
 		WHERE
-		T.T_TYPE =22 
-		AND T.SAVE_STATUS
+		T.T_TYPE =22
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -10911,9 +10983,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =22
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -10983,7 +11057,8 @@ T.SAVE_STATUS
 		AND
 		T.SAVE_STATUS=201 AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
@@ -11099,7 +11174,8 @@ T.SAVE_STATUS
 		WHERE T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId
-		AND T.T_DATE BETWEEN
+		AND
+		T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
@@ -11169,9 +11245,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =14
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -11239,10 +11317,12 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =14
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.SAVE_STATUS= 201 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
@@ -11325,7 +11405,8 @@ T.SAVE_STATUS
 		AND T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
-		BETWEEN :fromDate AND :toDate AND V.ID =:vendorId
+		BETWEEN :fromDate AND :toDate AND
+		V.ID =:vendorId
 	</sql-query>
 
 
@@ -11528,9 +11609,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE=26
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
 
@@ -11840,7 +11923,8 @@ T.SAVE_STATUS
 		C.ID
 		WHERE T.T_TYPE=7 T.SAVE_STATUS
 		!= 202 AND
-		AND E.ESTIMATETYPE =:estimateType
+		AND
+		E.ESTIMATETYPE =:estimateType
 		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :fromDate AND :toDate
@@ -11915,7 +11999,8 @@ T.SAVE_STATUS
 		C.ID
 		WHERE T.T_TYPE=7 T.SAVE_STATUS
 		!= 202 AND
-		AND E.ESTIMATETYPE =:estimateType
+		AND
+		E.ESTIMATETYPE =:estimateType
 		AND T.SAVE_STATUS=201 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
@@ -11987,9 +12072,11 @@ T.SAVE_STATUS
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =15
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate AND
+		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		:fromDate AND :toDate AND
 		V.ID =:customerId
 	</sql-query>
 
@@ -12059,7 +12146,8 @@ T.SAVE_STATUS
 		T.SAVE_STATUS=201
 		AND T.SAVE_STATUS
 		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId
+		AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:customerId
 	</sql-query>
@@ -12286,7 +12374,7 @@ T.SAVE_STATUS
 		delete from invoice_estimates where estimate_id=:estimateId
 	</sql-query>
 
-		<sql-query name="getPayeeWriteChecks">
+	<sql-query name="getPayeeWriteChecks">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
@@ -12367,7 +12455,7 @@ T.SAVE_STATUS
 		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
-	
+
 
 	<sql-query name="getDepositsList">
 		<query-param name="companyId" type="long" />
