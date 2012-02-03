@@ -132,10 +132,10 @@
 			<property name="interestPaidAmount"></property>
 			<property name="penaltyPaidAmount"></property>
 			<property name="otherAmount"></property>
-			<property name="paymentSection"></property>
+			<property name="paymentSection" type="encryptedstring"></property>
 			<property name="bankChalanNumber"></property>
 			<property name="checkNumber"></property>
-			<property name="bankBsrCode"></property>
+			<property name="bankBsrCode" type="encryptedstring"></property>
 			<property name="bookEntry"></property>
 			<property name="dateTaxPaid"></property>
 			<property name="chalanPeriod"></property>
@@ -144,7 +144,7 @@
 			<property name="assesmentYearStart"></property>
 			<property name="assesmentYearEnd"></property>
 			<property name="isFiled"></property>
-			<property name="etdsfillingAcknowledgementNo"></property>
+			<property name="etdsfillingAcknowledgementNo" type="encryptedstring"></property>
 			<property name="acknowledgementDate" type="com.vimukti.accounter.core.LongUseType"></property>
 			<list name="tdsTransactionItems" cascade="save-update,delete-orphan">
 				<key column="TDS_CHALLANDETAIL_ID"></key>
@@ -155,7 +155,7 @@
 		<joined-subclass name="BuildAssembly" table="BUILD_ASSEMBLY">
 			<key column="ID" />
 			<property name="inventoryAssembly" column="INVENTORY_ASSEMBLY"></property>
-			<property name="refNo" column="REF_NO"></property>
+			<property name="refNo" type="encryptedstring" column="REF_NO"></property>
 			<property name="quantityToBuild" column="QUANTITY_TO_BUILD"></property>
 		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
@@ -184,23 +184,23 @@
 			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CP_IS_PRIMARY"></property>
-				<property name="name" column="CP_NAME"></property>
-				<property name="title" column="CP_TITLE"></property>
-				<property name="businessPhone" column="CP_BUSINESS_PHONE"></property>
-				<property name="email" column="CP_EMAIL"></property>
+				<property name="name" type="encryptedstring" column="CP_NAME"></property>
+				<property name="title" type="encryptedstring" column="CP_TITLE"></property>
+				<property name="businessPhone" type="encryptedstring" column="CP_BUSINESS_PHONE"></property>
+				<property name="email" type="encryptedstring" column="CP_EMAIL"></property>
 			</component>
 			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
-				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+				<property name="address1" type="encryptedstring" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
-				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="street" type="encryptedstring" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city" type="encryptedstring" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" type="encryptedstring" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" type="encryptedstring" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" type="encryptedstring" column="VENDOR_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property name="phone" column="PHONE" type="encryptedstring"></property>
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
 				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
@@ -222,34 +222,34 @@
 				column="CUSTOMER_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
-				<property name="isPrimary" column="CS_IS_PRIMARY"></property>
-				<property name="name" column="CS_NAME"></property>
-				<property name="title" column="CS_TITLE"></property>
-				<property name="businessPhone" column="CS_BUSINESS_PHONE"></property>
-				<property name="email" column="CS_EMAIL"></property>
+				<property name="isPrimary" type="encryptedstring" column="CS_IS_PRIMARY"></property>
+				<property name="name" type="encryptedstring" column="CS_NAME"></property>
+				<property name="title" type="encryptedstring" column="CS_TITLE"></property>
+				<property name="businessPhone" type="encryptedstring" column="CS_BUSINESS_PHONE"></property>
+				<property name="email" type="encryptedstring" column="CS_EMAIL"></property>
 			</component>
 			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
-				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
-				<property name="street" column="BILLING_ADDRESS_STREET"></property>
-				<property name="city" column="BILLING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="address1" type="encryptedstring" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street" type="encryptedstring" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city" type="encryptedstring" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" type="encryptedstring" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" type="encryptedstring" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" type="encryptedstring" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
-				<property name="address1" column="SHIPPING_ADDRESS1"
+				<property name="address1" type="encryptedstring" column="SHIPPING_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
-				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="street" type="encryptedstring" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city" type="encryptedstring" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence" type="encryptedstring" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode" type="encryptedstring" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion" type="encryptedstring" column="SHIPPING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property name="phone" type="encryptedstring" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
@@ -275,26 +275,26 @@
 				column="VENDOR_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
-				<property name="isPrimary" column="CCC_IS_PRIMARY"></property>
-				<property name="name" column="CCC_NAME"></property>
-				<property name="title" column="CCC_TITLE"></property>
-				<property name="businessPhone" column="CCC_BUSINESS_PHONE"></property>
-				<property name="email" column="CCC_EMAIL"></property>
+				<property name="isPrimary"  type="encryptedstring" column="CCC_IS_PRIMARY"></property>
+				<property name="name"  type="encryptedstring" column="CCC_NAME"></property>
+				<property name="title"  type="encryptedstring" column="CCC_TITLE"></property>
+				<property name="businessPhone"  type="encryptedstring" column="CCC_BUSINESS_PHONE"></property>
+				<property name="email"  type="encryptedstring" column="CCC_EMAIL"></property>
 			</component>
 			<component name="vendorAddress" class="Address">
-				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
-				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
-				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="type"  type="encryptedstring" column="VENDOR_ADDRESS_TYPE"></property>
+				<property name="street"  type="encryptedstring" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="VENDOR_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
 				column="PAYFROM_ACCOUNT_ID">
 			</many-to-one>
-			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
+			<property name="checkNumber"  type="encryptedstring" column="CHECK_NUMBER" ></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 		</joined-subclass>
@@ -304,23 +304,23 @@
 				column="CUSTOMER_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
-				<property name="isPrimary" column="CCM_IS_PRIMARY"></property>
-				<property name="name" column="CCM_NAME"></property>
-				<property name="title" column="CCM_TITLE"></property>
-				<property name="businessPhone" column="CCM_BUSINESS_PHONE"></property>
-				<property name="email" column="CCM_EMAIL"></property>
+				<property name="isPrimary"  type="encryptedstring" column="CCM_IS_PRIMARY"></property>
+				<property name="name"  type="encryptedstring" column="CCM_NAME"></property>
+				<property name="title"  type="encryptedstring" column="CCM_TITLE"></property>
+				<property name="businessPhone"  type="encryptedstring" column="CCM_BUSINESS_PHONE"></property>
+				<property name="email"  type="encryptedstring" column="CCM_EMAIL"></property>
 			</component>
 			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
-				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
-				<property name="street" column="BILLING_ADDRESS_STREET"></property>
-				<property name="city" column="BILLING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="address1"  type="encryptedstring" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street"  type="encryptedstring" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
@@ -344,13 +344,13 @@
 			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring"></property>
 			<component name="address" class="Address">
 				<property name="type" column="CPP_ADDRESS_TYPE"></property>
-				<property name="address1" column="CPP_ADDRESS_ADDRESS1"
+				<property name="address1" column="CPP_ADDRESS_ADDRESS1"  type="encryptedstring" 
 					length="100"></property>
-				<property name="street" column="CPP_ADDRESS_STREET"></property>
-				<property name="city" column="CPP_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="CPP_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="CPP_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="CPP_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="CPP_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="CPP_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="CPP_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="CPP_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="CPP_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="CPP_ADDRESS_IS_SELECTED"></property>
 			</component>
 		</joined-subclass>
@@ -362,13 +362,13 @@
 			</many-to-one>
 			<component name="address" class="Address">
 				<property name="type" column="CR__ADDRESS_TYPE"></property>
-				<property name="address1" column="CR_ADDRESS_ADDRESS1"
+				<property name="address1"  type="encryptedstring" column="CR_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="CR__ADDRESS_STREET"></property>
-				<property name="city" column="CR__ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="CR__ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="CR__ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="CR__ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="CR__ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="CR__ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="CR__ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="CR__ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="CR__ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="CR__ADDRESS_IS_SELECTED"></property>
 			</component>
 			<many-to-one name="payFrom" class="Account" cascade="save-update"
@@ -386,24 +386,24 @@
 				column="VENDOR_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
-				<property name="isPrimary" column="EB_IS_PRIMARY"></property>
-				<property name="name" column="EB_NAME"></property>
-				<property name="title" column="EB_TITLE"></property>
-				<property name="businessPhone" column="EB_BUSINESS_PHONE"></property>
-				<property name="email" column="EB_EMAIL"></property>
+				<property name="isPrimary"  type="encryptedstring" column="EB_IS_PRIMARY"></property>
+				<property name="name"  type="encryptedstring" column="EB_NAME"></property>
+				<property name="title"  type="encryptedstring" column="EB_TITLE"></property>
+				<property name="businessPhone"  type="encryptedstring" column="EB_BUSINESS_PHONE"></property>
+				<property name="email"  type="encryptedstring" column="EB_EMAIL"></property>
 			</component>
 			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
 				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
-					length="100"></property>
-				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
-				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+					 type="encryptedstring" length="100"></property>
+				<property name="street"  type="encryptedstring" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="VENDOR_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERM_ID">
 			</many-to-one>
@@ -437,35 +437,35 @@
 				column="CUSTOMER_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
-				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
-				<property name="name" column="EST_NAME"></property>
-				<property name="title" column="EST_TITLE"></property>
-				<property name="businessPhone" column="EST_BUSINESS_PHONE"></property>
-				<property name="email" column="EST_EMAIL"></property>
+				<property name="isPrimary"  type="encryptedstring" column="EST_IS_PRIMARY"></property>
+				<property name="name"  type="encryptedstring" column="EST_NAME"></property>
+				<property name="title"  type="encryptedstring" column="EST_TITLE"></property>
+				<property name="businessPhone"  type="encryptedstring" column="EST_BUSINESS_PHONE"></property>
+				<property name="email"  type="encryptedstring" column="EST_EMAIL"></property>
 			</component>
 			<component name="address" class="Address">
 				<property name="type" column="ESTIMATE_ADDRESS_TYPE"></property>
-				<property name="address1" column="ESTIMATE_ADDRESS_ADDRESS1"
+				<property name="address1"  type="encryptedstring" column="ESTIMATE_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="ESTIMATE_ADDRESS_STREET"></property>
-				<property name="city" column="ESTIMATE_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="ESTIMATE_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="ESTIMATE_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="ESTIMATE_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="ESTIMATE_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="ESTIMATE_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="ESTIMATE_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="ESTIMATE_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="ESTIMATE_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="ESTIMATE_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
-				<property name="address1" column="SHIPPING_ADDRESS1"
+				<property name="address1"  type="encryptedstring" column="SHIPPING_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
-				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="SHIPPING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<property name="estimateType" column="ESTIMATETYPE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
@@ -491,33 +491,33 @@
 			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
-				<property name="name" column="INVOICE_NAME"></property>
-				<property name="title" column="INVOICE_TITLE"></property>
-				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
-				<property name="email" column="INVOICE_EMAIL"></property>
+				<property name="name"  type="encryptedstring" column="INVOICE_NAME"></property>
+				<property name="title"  type="encryptedstring" column="INVOICE_TITLE"></property>
+				<property name="businessPhone"  type="encryptedstring" column="INVOICE_BUSINESS_PHONE"></property>
+				<property name="email"  type="encryptedstring" column="INVOICE_EMAIL"></property>
 			</component>
 			<component name="billingAddress" class="Address">
 				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
-				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
-				<property name="street" column="BILLING_ADDRESS_STREET"></property>
-				<property name="city" column="BILLING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
+				<property name="address1"  type="encryptedstring" column="BILLING_ADDRESS1" length="100"></property>
+				<property name="street"  type="encryptedstring" column="BILLING_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="BILLING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="BILLING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="BILLING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="BILLING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<component name="shippingAdress" class="Address">
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
-				<property name="address1" column="SHIPPING_ADDRESS1"
+				<property name="address1" column="SHIPPING_ADDRESS1" type="encryptedstring" 
 					length="100"></property>
-				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
-				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="SHIPPING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property  type="encryptedstring" name="phone" column="PHONE"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
@@ -595,13 +595,13 @@
 			<property name="payBillType" column="PAYBILL_TYPE"></property>
 			<component name="address" class="Address">
 				<property name="type" column="PAYBILL_ADDRESS_TYPE"></property>
-				<property name="address1" column="PAYBILL_ADDRESS_ADDRESS1"
+				<property name="address1"  type="encryptedstring" column="PAYBILL_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="PAYBILL_ADDRESS_STREET"></property>
-				<property name="city" column="PAYBILL_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="PAYBILL_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="PAYBILL_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="PAYBILL_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="PAYBILL_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="PAYBILL_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="PAYBILL_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="PAYBILL_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="PAYBILL_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="PAYBILL_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<!-- <many-to-one name="VATCode" column="VAT_CODE_ID" class="TaxCode" -->
@@ -636,16 +636,16 @@
 			</component>
 			<component name="vendorAddress" class="Address">
 				<property name="type" column="VENDOR_ADDRESS_TYPE"></property>
-				<property name="address1" column="VENDOR_ADDRESS_ADDRESS1"
+				<property name="address1"  type="encryptedstring" column="VENDOR_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="VENDOR_ADDRESS_STREET"></property>
-				<property name="city" column="VENDOR_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="VENDOR_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="VENDOR_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="VENDOR_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="VENDOR_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="VENDOR_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="VENDOR_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="VENDOR_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="VENDOR_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="VENDOR_ADDRESS_IS_SELECTED"></property>
 			</component>
-			<property name="phone" column="PHONE"></property>
+			<property name="phone"  type="encryptedstring" column="PHONE"></property>
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERM_ID">
 			</many-to-one>
@@ -659,11 +659,11 @@
 				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
 				<property name="address1" column="SHIPPING_ADDRESS_ADDRESS1"
 					length="100"></property>
-				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
-				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
+				<property name="street"  type="encryptedstring" column="SHIPPING_ADDRESS_STREET"></property>
+				<property name="city"  type="encryptedstring" column="SHIPPING_ADDRESS_CITY"></property>
+				<property name="stateOrProvinence"  type="encryptedstring" column="SHIPPING_ADDRESS_STATE"></property>
+				<property name="zipOrPostalCode"  type="encryptedstring" column="SHIPPING_ADDRESS_ZIP"></property>
+				<property name="countryOrRegion"  type="encryptedstring" column="SHIPPING_ADDRESS_COUNTRY"></property>
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<many-to-one name="shippingTerms" class="ShippingTerms"
@@ -672,7 +672,7 @@
 			<many-to-one name="shippingMethod" class="ShippingMethod"
 				cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
-			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
+			<property name="purchaseOrderNumber"  type="encryptedstring" column="PURCHASE_ORDER_NUMBER"></property>
 			<!-- <list name="enterBills" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
 				/> <list-index column="EBX" /> <one-to-many class="EnterBill" /> </list> 
 				<list name="itemReceipts" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
