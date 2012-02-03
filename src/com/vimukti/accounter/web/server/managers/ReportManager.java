@@ -3474,7 +3474,9 @@ public class ReportManager extends Manager {
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
 			actual.setAtualAmount(bal.getAmount());
-
+			
+			boolean got= false;
+			
 			for (Budget budget : budgetList) {
 				if (budget.getID() == id) {
 					List<BudgetItem> budgetItems = budget.getBudgetItems();
@@ -3483,13 +3485,16 @@ public class ReportManager extends Manager {
 								.getID()) {
 							actual.setBudgetAmount(budgetItem.getTotalAmount());
 							actualList.add(actual);
+							got = true;
 							break;
 						} else {
-							actual.setBudgetAmount(0.00);
-							if (type == 0) {
-								actualList.add(actual);
-							}
-							break;
+							
+						}
+					}
+					if(got==false){
+						actual.setBudgetAmount(0.00);
+						if (type == 0) {
+							actualList.add(actual);
 						}
 					}
 				}
