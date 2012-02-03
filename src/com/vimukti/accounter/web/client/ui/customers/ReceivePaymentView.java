@@ -335,8 +335,8 @@ public class ReceivePaymentView extends
 				amountDue = record.getPayment() + record.getAppliedCredits();
 			}
 			amountDue += rpt.getAmountDue();
-			record.setAmountDue(amountDue);
-			record.setDummyDue(amountDue);
+			record.setAmountDue(rpt.getInvoiceAmount());
+			record.setDummyDue(rpt.getInvoiceAmount());
 
 			record.setDueDate(rpt.getDueDate() != null ? rpt.getDueDate()
 					.getDate() : 0);
@@ -349,15 +349,15 @@ public class ReceivePaymentView extends
 			record.setDiscountDate(rpt.getDiscountDate() != null ? rpt
 					.getDiscountDate().getDate() : 0);
 
-			record.setDiscountAccount(getCompany().getCashDiscountAccount());
-			record.setCashDiscount(record.getCashDiscount()
-					+ rpt.getCashDiscount());
+			record.setDiscountAccount(0);
+			record.setCashDiscount(0);
 
-			record.setWriteOff(rpt.getWriteOff());
+			record.setWriteOff(0);
 
 			record.setAppliedCredits(rpt.getAppliedCredits(), false);
 
 			record.setPayment(0);
+			record.setWriteOffAccount(0);
 
 			totalInoiceAmt += rpt.getInvoiceAmount();
 			totalDueAmt += rpt.getAmountDue();
@@ -368,11 +368,12 @@ public class ReceivePaymentView extends
 
 		for (ClientTransactionReceivePayment payment : transaction
 				.getTransactionReceivePayment()) {
-			payment.setAmountDue(payment.getPayment()
-					+ payment.getAppliedCredits());
+			payment.setAmountDue(payment.getInvoiceAmount());
 			payment.setPayment(0.00D);
 			payment.setCashDiscount(0.0D);
 			payment.setWriteOff(0.0D);
+			payment.setDiscountAccount(0);
+			payment.setWriteOffAccount(0);
 			payment.setAppliedCredits(0.00D, false);
 			records.add(payment);
 		}
