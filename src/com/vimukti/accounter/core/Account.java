@@ -1416,8 +1416,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			w.put(messages.currency(), this.currency.getFormalName());
 
 		w.put(messages.openingBalance(), this.openingBalance).gap();
-		w.put(messages.date(), this.asOf.toString());
-
+		if (this.asOf != null) {
+			w.put(messages.date(), this.asOf.toString());
+		}
 		w.put(messages.comment(), this.comment).gap();
 
 	}
