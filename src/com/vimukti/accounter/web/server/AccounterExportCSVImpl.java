@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
 /**
@@ -1292,19 +1291,26 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public String getItemsExportCsv(final boolean isPurchaseType,
-			final boolean isSalesType, String viewType) {
+			final boolean isSalesType, String viewType, int itemType) {
 
 		try {
 			List<Item> allItems = null;
+
 			Session session = HibernateUtil.getCurrentSession();
+
 			List<Item> items = session.getNamedQuery("getAllItems")
 					.setParameter("companyId", getCompanyId()).list();
-			if (isSalesType && isPurchaseType) {
-				allItems = getItems(items, viewType);
-			} else if (isPurchaseType) {
-				allItems = getPurchaseItems(items, viewType);
-			} else if (isSalesType) {
-				allItems = getSalesItems(items, viewType);
+
+			if (itemType == 0) {
+				if (isSalesType && isPurchaseType) {
+					allItems = getItems(items, viewType);
+				} else if (isPurchaseType) {
+					allItems = getPurchaseItems(items, viewType);
+				} else if (isSalesType) {
+					allItems = getSalesItems(items, viewType);
+				}
+			} else {
+				allItems = getInventoryItems(items, viewType);
 			}
 			ICSVExportRunner<Item> icsvExportRunner = new ICSVExportRunner<Item>() {
 
@@ -1350,14 +1356,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								return String.valueOf(obj.getPurchasePrice());
 							}
 						}
-						if (ItemListView.isSalesType) {
+						if (isSalesType) {
 							return String.valueOf(obj.getSalesPrice());
 						} else
 							return String.valueOf(obj.getPurchasePrice());
 
 					case 4:
-						if (ItemListView.isPurchaseType
-								&& ItemListView.isSalesType) {
+						if (isPurchaseType && isSalesType) {
 							return String.valueOf(obj.getPurchasePrice());
 						}
 					}
@@ -1373,6 +1378,31 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
+	private List<Item> getInventoryItems(List<Item> allItems, String viewType) {
+		List<Item> items = new ArrayList<Item>();
+		for (Item item : allItems) {
+			if (viewType.equalsIgnoreCase(messages.active())) {
+				if (item.isActive() == true
+						&& item.getType() == Item.TYPE_INVENTORY_PART) {
+					items.add(item);
+				}
+			} else {
+				if (item.isActive() == false
+						&& item.getType() == Item.TYPE_INVENTORY_PART) {
+					items.add(item);
+				}
+			}
+		}
+		return items;
+
+	}
+
+	/**
+	 * 
+	 * @param allItems
+	 * @param viewType
+	 * @return
+	 */
 	private List<Item> getSalesItems(List<Item> allItems, String viewType) {
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
@@ -1391,6 +1421,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	/**
+	 * 
+	 * @param allItems
+	 * @param viewType
+	 * @return
+	 */
 	private List<Item> getPurchaseItems(List<Item> allItems, String viewType) {
 		List<Item> items = new ArrayList<Item>();
 		for (Item item : allItems) {
@@ -1573,7 +1609,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			public String getColumnValue(SalesPerson salesPerson, int index) {
 				switch (index) {
 				case 0:
-					return salesPerson.getName();
+					return salesPerson.getFirstName();
 				case 1:
 					return salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getAddress1() : "";

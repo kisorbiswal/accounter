@@ -141,7 +141,8 @@
 		OR P.ID=E.CUSTOMER_ID
 		WHERE
 		T.STATUS !=2
-		AND T.T_TYPE IN (7, 21)
+		AND  T.SAVE_STATUS !=
+		202 AND T.T_TYPE IN (7, 21)
 		AND P.ID=:customerId
 		AND
 		T.COMPANY_ID=:companyId
@@ -160,7 +161,8 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
-		<return-scalar column="ESTIMATE_TYPE" type="int" />
+		<return-scalar column="ESTIMATE_TYPE" type="int" /> T.SAVE_STATUS !=
+		202 AND 
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -249,7 +251,8 @@
 		PAYEE P
 		ON
 		P.ID=S.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
+		WHERE T.T_TYPE = 21 AND  T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER
@@ -296,7 +299,8 @@
 		WHERE T.STATUS !=2 AND
 		T.STATUS !=102 AND T.STATUS != 103
 		AND T.T_TYPE IN (22, 23)
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		P.ID=:vendorId
 		AND T.COMPANY_ID=:companyId
 		ORDER BY
@@ -336,7 +340,8 @@
 		JOIN
 		PAYEE P
 		ON P.ID=PO.VENDOR_ID
-		WHERE T.T_TYPE = 22 AND
+		WHERE T.T_TYPE = 22 AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate
 		ORDER BY T.T_DATE
 	</sql-query>
@@ -370,7 +375,8 @@
 		WHERE T.STATUS !=2 AND T.STATUS !=102
 		AND T.T_TYPE =
 		22
-		AND P.ID=:vendorId
+		AND T.SAVE_STATUS !=
+		202 AND  P.ID=:vendorId
 		AND T.COMPANY_ID=:companyId
 		ORDER BY T.T_DATE
 	</sql-query>
@@ -665,7 +671,8 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE
-		IN(1,4,8)
+		IN(1,4,8) AND T.SAVE_STATUS !=
+		202
 		ORDER BY
 		DUE_DATE
 	</sql-query>
@@ -901,7 +908,8 @@
 		ELSE
 		true
 		END
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
 		:fromDate
@@ -1274,9 +1282,7 @@
 		T.T_DATE DESC
 	</sql-query>
 
-	<!-- Queries for retrieving the Make deposit Transctions list -->
-
-	<!-- Ends Here -->
+	
 	<!-- To retrieve the Enter Bills and MakeDeposits Vendor Entry Transasctions 
 		of all Vendors which are not paid OR partially paid, while creating Pay Bill -->
 	<sql-query name="getPayBillTransactionsList">
@@ -1310,8 +1316,7 @@
 		P
 		WHERE P.ID =
 		EB.VENDOR_ID
-		OR
-		P.COMPANY_ID=:companyId) AS
+		AND	P.COMPANY_ID=:companyId) AS
 		VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1345,7 +1350,8 @@
 		JOIN
 		TRANSFER_FUND TF
 		ON T.ID = TF.ID
-		WHERE T.T_TYPE in (6,10) and
+		WHERE T.T_TYPE in (6,10) and  T.SAVE_STATUS !=
+		202 AND 
 		(EB.BALANCE_DUE>0.0) AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
@@ -1380,8 +1386,7 @@
 		AS DUE_DATE ,
 		(SELECT
 		P.NAME FROM PAYEE P
-		WHERE P.ID = EB.VENDOR_ID OR
-		P.COMPANY_ID=:companyId)
+		WHERE P.ID = EB.VENDOR_ID AND P.COMPANY_ID=:companyId)
 		AS VENDOR_NAME ,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
@@ -1419,10 +1424,11 @@
 		T.ID=EB.ID LEFT OUTER
 		JOIN
 		TRANSFER_FUND TF
-		ON T.ID = TF.ID LEFT OUTER
+		ON T.ID = TF.ID
 		LEFT JOIN PAYMENTTERMS PT ON
 		PT.ID=EB.PAYMENT_TERM_ID
-		WHERE T.T_TYPE in (6,10) AND T.T_DATE &lt;=
+		WHERE T.T_TYPE in (6,10) AND T.SAVE_STATUS !=
+		202 AND  T.T_DATE &lt;=
 		:paymentDate and
 		(EB.BALANCE_DUE>0.0) and
 		(EB.VENDOR_ID
@@ -1504,7 +1510,8 @@
 		PT.ID=I.PAYMENT_TERMS_ID
 		WHERE T.T_TYPE
 		in (5,8)
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.T_DATE
 		&lt;=:paymentDate
 		AND
@@ -1552,7 +1559,8 @@
 		PAYEE P
 		ON P.ID = C.ID
 		WHERE I.BALANCE_DUE > 0.0 and
-		I.DUE_DATE &lt;= CURRENT_DATE AND T.COMPANY_ID=:companyId
+		I.DUE_DATE &lt;= CURRENT_DATE AND T.SAVE_STATUS !=
+		202 AND  T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 		DESC LIMIT 10
 	</sql-query>
@@ -1641,7 +1649,8 @@
 		PAYEE P
 		on P.ID = C.ID
 		where T.T_TYPE in(1,4,8,15)
-		AND T.COMPANY_ID=:companyId
+		AND T.SAVE_STATUS !=
+		202 AND  T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
@@ -1712,7 +1721,8 @@
 		P.ID = TA.ID
 		WHERE
 		T.T_TYPE
-		in(11,15) AND T.COMPANY_ID=:companyId
+		in(11,15) AND  T.SAVE_STATUS !=
+		202 AND T.COMPANY_ID=:companyId
 		ORDER BY
 		T.ID DESC LIMIT
 		10
@@ -1788,7 +1798,8 @@
 		CP.VENDOR_ID OR WC.VENDOR_ID
 		LEFT OUTER
 		JOIN PAYEE P ON P.ID = V.ID
-		WHERE T.T_TYPE in (2,4,6,14,15) AND
+		WHERE T.T_TYPE in (2,4,6,14,15) AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId ORDER BY
 		T.ID DESC LIMIT 10
 	</sql-query>
@@ -1875,7 +1886,8 @@
 		PAYEE P
 		on P.ID = C.ID OR P.ID = V.ID
 		WHERE
-		T.T_TYPE in (2,3,5,11,15) AND
+		T.T_TYPE in (2,3,5,11,15) AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId ORDER BY
 		T.ID
 		DESC
@@ -1899,7 +1911,8 @@
 		RP.AMOUNT AS RP_AMOUNT , T.ID AS RP_ID
 		FROM
 		RECEIVE_PAYMENT RP
-		JOIN TRANSACTION T ON RP.ID = T.ID AND
+		JOIN TRANSACTION T ON RP.ID = T.ID AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId ORDER BY
 		RP.ID
 		DESC
@@ -1921,7 +1934,8 @@
 		T.TOTAL AS CP_TOTAL,T.ID AS CP_ID
 		FROM
 		CASH_PURCHASE CP
-		JOIN TRANSACTION T ON CP.ID = T.ID AND T.COMPANY_ID=:companyId ORDER
+		JOIN TRANSACTION T ON CP.ID = T.ID AND T.SAVE_STATUS !=
+		202 AND  T.COMPANY_ID=:companyId ORDER
 		BY CP.ID
 		DESC LIMIT 10
 	</sql-query>
@@ -1941,7 +1955,8 @@
 		CS.SALES_PERSON_ID AS SALESPERSON_ID,
 		T.TOTAL AS TOTAL,T.ID AS
 		CS_ID
-		FROM CASH_SALES CS JOIN TRANSACTION T ON CS.ID = T.ID AND
+		FROM CASH_SALES CS JOIN TRANSACTION T ON CS.ID = T.ID AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId
 		ORDER BY T.ID
 		DESC
@@ -1976,7 +1991,8 @@
 		JOIN
 		TRANSACTION T
 		ON
-		WC.ID = T.ID AND
+		WC.ID = T.ID AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId
 		ORDER
 		BY T.ID DESC LIMIT 10
@@ -2004,7 +2020,8 @@
 		TRANSACTION T
 		ON
 		CR.ID = T.ID
-		AND T.COMPANY_ID=:companyId
+		AND  T.SAVE_STATUS !=
+		202 AND T.COMPANY_ID=:companyId
 		ORDER BY T.ID DESC LIMIT 10
 	</sql-query>
 
@@ -2034,7 +2051,8 @@
 		FROM
 		TRANSFER_FUND
 		TF JOIN TRANSACTION T ON TF.ID =
-		T.ID AND
+		T.ID AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId ORDER
 		BY T.ID
 		DESC LIMIT 10
@@ -2078,7 +2096,7 @@
 		I.NAME AS ITEM_NAME,
 		I.TYPE AS ITEM_TYPE,
 		I.SALES_PRICE AS SALES_PRICE, I.ID AS I_ID
-		FROM ITEM I WHERE
+		FROM ITEM I WHERE 
 		I.COMPANY_ID=:companyId
 		ORDER BY I.ID
 		DESC LIMIT 10
@@ -6353,7 +6371,8 @@
 		ON T.ID = I.ID
 
 		WHERE T.COMPANY_ID=:companyId AND
-		T.SAVE_STATUS =203 AND
+		T.SAVE_STATUS =203 AND T.SAVE_STATUS !=
+		202 AND 
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE
@@ -6375,7 +6394,8 @@
 		ON T.ID = E.ID
 
 		WHERE T.COMPANY_ID=:companyId AND
-		T.SAVE_STATUS =203 AND
+		T.SAVE_STATUS =203 AND T.SAVE_STATUS !=
+		202 AND 
 		CASE WHEN :presentDate = 0
 		THEN TRUE
 		ELSE
@@ -6730,13 +6750,20 @@
 		<query-param name="companyId" type="long" />
 
 		<return-scalar column="TRANSACTION_PAY_ID" type="long" />
+		<return-scalar column="TRANSACTION_RECEIVE_ID" type="long" />
 
-		SELECT TPT.ID AS TRANSACTION_PAY_ID FROM TRANSACTION_PAY_TAX TPT
+		SELECT TPT.ID AS TRANSACTION_PAY_ID ,
+		TRV.ID AS TRANSACTION_RECEIVE_ID
+		FROM TRANSACTION T
 		LEFT
-		JOIN PAY_TAX PT ON PT.ID=TPT.PAY_TAX_ID
-		LEFT JOIN TRANSACTION T ON
-		T.ID=PT.ID
-		WHERE TPT.VAT_RETURN_ID=:inputId AND T.COMPANY_ID=:companyId
+		JOIN PAY_TAX PT ON PT.ID=T.ID
+		LEFT JOIN RECEIVE_VAT RV 
+		ON RV.ID=T.ID
+		LEFT JOIN
+		TRANSACTION_PAY_TAX TPT ON
+		 TPT.PAY_TAX_ID=PT.ID
+		LEFT JOIN TRANSACTION_RECEIVE_VAT TRV ON TRV.RECEIVE_VAT_ID=RV.ID
+		WHERE (TPT.VAT_RETURN_ID=:inputId OR TRV.TAX_RETURN_ID=:inputId) AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getAllUserActivities">
@@ -8478,7 +8505,8 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE
-		IN(1,4,8) AND
+		IN(1,4,8) AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :fromDate AND :toDate AND
 		I.CUSTOMER_ID=:payeeId
@@ -9806,7 +9834,8 @@
 		=201)
 		ELSE true
 		END
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN
@@ -9905,7 +9934,8 @@
 		(T.SAVE_STATUS =201)
 		ELSE true
 		END
-		AND
+		AND  T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
 		BETWEEN :fromDate AND :toDate
@@ -9985,7 +10015,8 @@
 		(T.SAVE_STATUS =201)
 		ELSE true
 		END
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN
 		:fromDate AND
@@ -10064,7 +10095,8 @@
 		ELSE
 		true
 		END
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN :fromDate
 		AND :toDate
@@ -10140,7 +10172,8 @@
 		ELSE
 		true
 		END
-		AND
+		AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
@@ -10165,7 +10198,8 @@
 		LEFT OUTER JOIN
 		TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
 		WHERE
-		PB.TDS_TOTAL!=0 AND
+		PB.TDS_TOTAL!=0 AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND TTI IS NULL
 	</sql-query>
 
@@ -10186,7 +10220,8 @@
 		LEFT OUTER
 		JOIN TDSTRANSACTIONITEM TTI ON TTI.TRANSACTION_ID = T.ID
 		WHERE
-		RP.TDS_TOTAL!=0 AND
+		RP.TDS_TOTAL!=0 AND T.SAVE_STATUS !=
+		202 AND 
 		T.COMPANY_ID=:companyId AND TTI IS NULL
 	</sql-query>
 

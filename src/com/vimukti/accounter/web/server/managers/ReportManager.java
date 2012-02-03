@@ -42,7 +42,9 @@ import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTAXReturn;
+import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
@@ -3095,6 +3097,62 @@ public class ReportManager extends Manager {
 		return vatItemDetails;
 	}
 
+	public ArrayList<TAXItemDetail> getTaxItemDetailByTaxReturnId(long id,
+			long companyId) {
+
+		List<ClientTAXReturnEntry> taxEntries = null;
+		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+		Session session = HibernateUtil.getCurrentSession();
+		try {
+			ArrayList<TAXReturn> list = new ArrayList<TAXReturn>(session
+					.getNamedQuery("getTaxReturnById").setParameter("id", id)
+					.list());
+			for (TAXReturn tax : list) {
+				ClientTAXReturn obj = new ClientConvertUtil().toClientObject(
+						tax, ClientTAXReturn.class);
+				taxEntries = obj.getTaxReturnEntries();
+
+				for (ClientTAXReturnEntry c : taxEntries) {
+					TAXItemDetail detail = new TAXItemDetail();
+
+					TAXItem taxItem = (TAXItem) session.get(TAXItem.class,
+							c.getTaxItem());
+					ClientTAXItem clientObj = new ClientConvertUtil()
+							.toClientObject(taxItem, ClientTAXItem.class);
+
+					detail.setTaxAmount(c.getTaxAmount());
+					detail.setTransactionId(c.getTransaction());
+					// detail.setTaxItemName(company.getTAXItem(c.getTaxItem())
+					// .getName());
+
+					detail.setTaxItemName(clientObj.getName());
+					detail.setTransactionType(c.getTransactionType());
+					detail.setTransactionDate(new ClientFinanceDate(c
+							.getTransactionDate()));
+					detail.setNetAmount(c.getNetAmount());
+					// detail.setTAXRate(company.getTaxItem(c.getTaxItem())
+					// .getTaxRate());
+					detail.setTAXRate(clientObj.getTaxRate());
+					detail.setTotal(c.getGrassAmount());
+					details.add(detail);
+				}
+			}
+
+		} catch (Exception e) {
+		}
+		return details;
+
+	}
+
+	private ArrayList<TAXItemDetail> getData(
+			List<ClientTAXReturnEntry> taxEntries, long companyId) {
+
+		Company company = getCompany(companyId);
+		ArrayList<TAXItemDetail> details = new ArrayList<TAXItemDetail>();
+
+		return details;
+	}
+
 	public ArrayList<VATDetail> getVATExceptionDetailReport(Long companyId,
 			ClientFinanceDate start, ClientFinanceDate end, long taxReturnId) {
 
@@ -3486,7 +3544,9 @@ public class ReportManager extends Manager {
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
 			actual.setAtualAmount(bal.getAmount());
-
+			
+			boolean got= false;
+			
 			for (Budget budget : budgetList) {
 				if (budget.getID() == id) {
 					List<BudgetItem> budgetItems = budget.getBudgetItems();
@@ -3495,13 +3555,16 @@ public class ReportManager extends Manager {
 								.getID()) {
 							actual.setBudgetAmount(budgetItem.getTotalAmount());
 							actualList.add(actual);
+							got = true;
 							break;
 						} else {
-							actual.setBudgetAmount(0.00);
-							if (type == 0) {
-								actualList.add(actual);
-							}
-							break;
+							
+						}
+					}
+					if(got==false){
+						actual.setBudgetAmount(0.00);
+						if (type == 0) {
+							actualList.add(actual);
 						}
 					}
 				}

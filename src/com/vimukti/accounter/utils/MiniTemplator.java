@@ -717,11 +717,6 @@ public class MiniTemplator {
 		outputWriter.write(s);
 	}
 
-	byte[] getFileBytes() {
-		String s = generateOutput();
-		return s.getBytes();
-	}
-
 	public String getFileString() {
 		String s = generateOutput();
 		return s;

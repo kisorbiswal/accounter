@@ -97,6 +97,7 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.TAXRateCalculation;
 import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.TDSChalanDetail;
@@ -488,6 +489,10 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof TAXItem) {
+				if (((TAXItem) serverObject).canDelete(serverObject)) {
+					session.delete(serverObject);
+				}
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
@@ -2199,10 +2204,17 @@ public class FinanceTool {
 				InvoicePdfGeneration pdf = new InvoicePdfGeneration(invoice,
 						company, brandingTheme);
 
-				String templeteName = ServerConfiguration.getAttachmentsDir()
-						+ "/" + company.getId() + "/" + "templateFiles" + "/"
-						+ brandingTheme.getID() + "/"
-						+ brandingTheme.getInvoiceTempleteName();
+				String templeteName = "";
+				if (brandingTheme.getInvoiceTempleteName().equalsIgnoreCase(
+						"Classic Template")) {
+					templeteName = "templetes" + File.separator
+							+ "InvoiceOdt.odt";
+				} else {
+					templeteName = ServerConfiguration.getAttachmentsDir()
+							+ "/" + company.getId() + "/" + "templateFiles"
+							+ "/" + brandingTheme.getID() + "/"
+							+ brandingTheme.getInvoiceTempleteName();
+				}
 				InputStream in = new BufferedInputStream(new FileInputStream(
 						templeteName));
 

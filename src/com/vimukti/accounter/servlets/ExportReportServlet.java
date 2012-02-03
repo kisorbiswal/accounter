@@ -1,14 +1,21 @@
 package com.vimukti.accounter.servlets;
 
+import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.FontFactoryImp;
+import com.lowagie.text.pdf.BaseFont;
 import com.vimukti.accounter.core.CSVReportTemplate;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.ITemplate;
@@ -49,15 +56,17 @@ public class ExportReportServlet extends BaseServlet {
 			response.setContentType("application/csv");
 			response.setHeader("Content-disposition", "attachment; filename="
 					+ template.getFileName().trim().replace(" ", "") + ".csv");
+			FontFactory.setFontImp(new FontFactoryImpEx());
+			response.setCharacterEncoding("UTF-8");
+
 			sos = response.getOutputStream();
 
 			String templateBody = template.getBody();
 			if (templateBody == null) {
 				templateBody = "No records to show";
 			}
-
-			String header = template.getHeader() + "\n" + templateBody;
-			sos.write(header.getBytes());
+			String header = template.getHeader() + "\r\n" + templateBody;
+			sos.write(header.getBytes("UTF-8"));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -162,4 +171,36 @@ public class ExportReportServlet extends BaseServlet {
 		doGet(request, response);
 	}
 
+	public static class FontFactoryImpEx extends FontFactoryImp {
+
+		private static Properties properties;
+		private static String fontsPath = "./config/fonts/";
+
+		FontFactoryImpEx() {
+			properties = new Properties();
+			try {
+				properties.load(new FileInputStream(fontsPath
+						+ "pd4fonts.properties"));
+			} catch (Exception e) {
+
+			}
+		}
+
+		@Override
+		public Font getFont(String fontname, String encoding, boolean embedded,
+				float size, int style, Color color) {
+			try {
+				String fileName = properties.getProperty(fontname);
+				BaseFont bf = BaseFont.createFont(fontsPath + fileName,
+						BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+				bf.setSubset(true);
+				return new Font(bf, size, style, color);
+			} catch (Exception e) {
+				Font font = super.getFont(fontname, encoding, true, size,
+						style, color);
+				return font;
+			}
+
+		}
+	}
 }

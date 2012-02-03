@@ -63,8 +63,8 @@ public class CSVReportTemplate extends TemplateBuilder implements ITemplate {
 
 		cmpAdd = (forNullValue(TemplateBuilder.getCmpName()));
 
-		headerHtml = (cmpAdd + "\n" + dateRangeHtml + "\n" + reportTitle + "\n"
-				+ reportDate + "\n");
+		headerHtml = (cmpAdd + "\r\n" + dateRangeHtml + "\r\n" + reportTitle
+				+ "\r\n" + reportDate + "\r\n");
 
 	}
 

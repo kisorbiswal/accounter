@@ -123,6 +123,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_TAX_EXCEPTION_DETAIL = 171;
 	public final static int REALISED_EXCHANGE_LOSSES_AND_GAINS = 172;
 	public final static int UNREALISED_EXCHANGE_LOSSES_AND_GAINS = 173;
+	public final static int PRINT_FILE_TAX = 174;
 
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
@@ -153,6 +154,7 @@ public class ReportsGenerator {
 		this.dateRangeHtml = dateRangeHtml;
 		this.company = company;
 		this.generationType = generationType;
+		this.status = null;
 	}
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
@@ -1337,11 +1339,19 @@ public class ReportsGenerator {
 			};
 			updateReport(taxItemDetailServerReportView, finaTool);
 			taxItemDetailServerReportView.resetVariables();
-			taxItemDetailServerReportView.onResultSuccess(finaTool
-					.getReportManager().getTAXItemDetailReport(
-							getCompany().getId(), Long.parseLong(status),
-							startDate.getDate(), endDate.getDate()));
-
+			
+			long taxId = Long.parseLong(navigateObjectName);
+			if (taxId != 0) {
+				taxItemDetailServerReportView.onResultSuccess(finaTool
+						.getReportManager().getTaxItemDetailByTaxReturnId(
+								Long.parseLong(navigateObjectName),
+								getCompany().getId()));
+			} else {
+				taxItemDetailServerReportView.onResultSuccess(finaTool
+						.getReportManager().getTAXItemDetailReport(
+								getCompany().getId(), Long.parseLong(status),
+								startDate.getDate(), endDate.getDate()));
+			}
 			return taxItemDetailServerReportView.getGridTemplate();
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			VATExceptionServerReport report = new VATExceptionServerReport(
@@ -1356,10 +1366,9 @@ public class ReportsGenerator {
 			updateReport(report, finaTool);
 			report.resetVariables();
 			try {
-				
 
 				long taxReturnId = 0, taxAgency = 0;
-				
+
 				taxReturnId = Long.parseLong(navigateObjectName);
 				taxAgency = Long.parseLong(dateRangeHtml);
 
@@ -1385,7 +1394,7 @@ public class ReportsGenerator {
 			try {
 				long taxReturnId = Long.parseLong(navigateObjectName);
 				long taxAgencyId = Long.parseLong(dateRangeHtml);
-				
+
 				taxReport.onResultSuccess(finaTool.getReportManager()
 						.getTAXExceptionsForPrint(company.getId(), taxReturnId,
 								taxAgencyId));

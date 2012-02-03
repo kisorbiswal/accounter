@@ -59,8 +59,8 @@ public class TranslationUploadServlet extends BaseServlet {
 		pos = file.indexOf("\n", pos) + 1;
 		pos = file.indexOf("\n", pos) + 1;
 		int boundaryLocation = file.indexOf(boundary, pos) - 4;
-		int startPos = ((file.substring(0, pos)).getBytes()).length;
-		int endPos = ((file.substring(0, boundaryLocation)).getBytes()).length;
+		int startPos = (file.substring(0, pos)).length();
+		int endPos = (file.substring(0, boundaryLocation)).length();
 		saveFile = System.getProperty("java.io.tmpdir") + saveFile;
 		File ff = new File(saveFile);
 		FileOutputStream fileOut = new FileOutputStream(ff);

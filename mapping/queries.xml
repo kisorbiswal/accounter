@@ -1084,10 +1084,18 @@
 		<query-param name="estimateType" type="int" />
 		<query-param name="fromDate" type="com.vimukti.accounter.core.LongUseType" />
 		<query-param name="toDate" type="com.vimukti.accounter.core.LongUseType" />
-		from com.vimukti.accounter.core.Estimate e where e.company=:company
-		and e.estimateType=:estimateType and e.saveStatus != 202
+		<query-param name="status" type="int" />
+		from com.vimukti.accounter.core.Estimate e
+		where e.company=:company
 		and
-		e.transactionDate between :fromDate and :toDate
+		e.estimateType=:estimateType and e.saveStatus
+		!= 202 and
+		(:status=-1 or
+		:status=e.saveStatus or 
+		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204))
+		and
+		e.transactionDate between :fromDate and :toDate 
+		and e.saveStatus!=202
 		order by
 		e.lastModifiedDate desc
 	</query>
@@ -2046,5 +2054,10 @@
 		<query-param name="companyId" type="long" />
 		from com.vimukti.accounter.core.TAXItem t where
 		t.company.id=:companyId order by t.id
+	</query>
+	<query name="getTaxReturnById">
+		<query-param name="id" type="long" />
+		from com.vimukti.accounter.core.TAXReturn tr where
+		tr.id=:id order by tr.id
 	</query>
 </hibernate-mapping>

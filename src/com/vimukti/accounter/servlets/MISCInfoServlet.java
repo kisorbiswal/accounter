@@ -38,7 +38,7 @@ public class MISCInfoServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 	private String fileName;
 	private int formType;
-	private StringBuilder outPutString;
+	// private StringBuilder outPutString;
 	private Long companyID;
 	private Session session;
 	private FinanceTool financetool;
@@ -63,7 +63,7 @@ public class MISCInfoServlet extends BaseServlet {
 				System.err
 						.println("Their is a No Folder For Style Sheet & Image");
 			}
-			getTempleteObjByRequest(request, companyName);
+			String outPutString = getTempleteObjByRequest(request, companyName);
 			// generateData();
 
 			response.setContentType("application/pdf");
@@ -71,29 +71,14 @@ public class MISCInfoServlet extends BaseServlet {
 					+ fileName.replace(" ", "") + ".pdf");
 			sos = response.getOutputStream();
 
-			if (formType == 1) {
+			
 				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.toString().getBytes());
+						outPutString.getBytes());
 				InputStreamReader miscCreator = new InputStreamReader(
 						inputString);
 				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			} else if (formType == 0) {
-
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.toString().getBytes());
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			} else if (formType == 2) {
-
-				java.io.InputStream inputString = new ByteArrayInputStream(
-						outPutString.toString().getBytes());
-				InputStreamReader miscCreator = new InputStreamReader(
-						inputString);
-				converter.generatePdfDocuments(fileName, sos, miscCreator);
-			}
-
-			System.err.println("Converter obj created");
+			
+			//System.err.println("Converter obj created");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -106,14 +91,14 @@ public class MISCInfoServlet extends BaseServlet {
 		}
 	}
 
-	private void getTempleteObjByRequest(HttpServletRequest request,
+	private String getTempleteObjByRequest(HttpServletRequest request,
 			String companyName) throws TemplateSyntaxException, IOException,
 			AccounterException {
 
 		companyID = (Long) request.getSession().getAttribute(COMPANY_ID);
 		session = HibernateUtil.openSession();
 		fileName = "";
-		outPutString = new StringBuilder();
+		StringBuilder outPutString = new StringBuilder();
 
 		financetool = new FinanceTool();
 		TemplateBuilder.setCmpName(companyName);
@@ -176,6 +161,7 @@ public class MISCInfoServlet extends BaseServlet {
 			fileName = sampleTemplate.getFileName();
 			outPutString = outPutString.append(sampleTemplate.generatePDF());
 		}
+		return outPutString.toString();
 	}
 
 	protected void doGet(HttpServletRequest request,
