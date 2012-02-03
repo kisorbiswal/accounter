@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.io.UnsupportedEncodingException;
 import java.security.spec.KeySpec;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,29 +17,69 @@ import com.vimukti.accounter.main.CipherThreadLocal;
 public class EU {
 	private static Map<String, ByteArrayWrapper> keys = new HashMap<String, EU.ByteArrayWrapper>();
 
-	public synchronized static byte[] d(byte[] in) {
+	public synchronized static String d(byte[] in) {
 		CipherCouple cipherCouple = CipherThreadLocal.get();
 		if (cipherCouple == null) {
-			return in;
+			return toUTF8String(in);
 		}
 		Cipher cipher = cipherCouple.dCipher;
 		try {
-			return cipher.doFinal(in);
+			return toUTF16String(cipher.doFinal(in));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public synchronized static byte[] e(byte[] in) {
+	private static String toUTF16String(byte[] value) {
+		try {
+			String string = new String(value, "UTF-16");
+			return string;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static String toUTF8String(byte[] value) {
+		try {
+			String string = new String(value, "UTF-8");
+			return string;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public synchronized static byte[] e(String in) {
 		CipherCouple cipherCouple = CipherThreadLocal.get();
 		if (cipherCouple == null) {
-			return in;
+			return fromUTF8String(in);
 		}
 		Cipher cipher = cipherCouple.eCipher;
 		try {
-			return cipher.doFinal(in);
+			return cipher.doFinal(fromUTF16String(in));
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static byte[] fromUTF8String(String value) {
+		try {
+			byte[] bytes = value.getBytes("UTF-8");
+			return bytes;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static byte[] fromUTF16String(String value) {
+		try {
+			byte[] bytes = value.getBytes("UTF-16");
+			return bytes;
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return null;
