@@ -17,16 +17,18 @@ public class TaxItemDetailReportAction extends Action {
 	@Override
 	public void run() {
 
-		runAsync(data, isDependent);
+		runAsync(data, id, isDependent);
 	}
 
-	public void runAsync(final Object data, final Boolean dependent) {
+	public void runAsync(final Object data, final long id,
+			final Boolean dependent) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
 				TaxItemDetailReportView report = new TaxItemDetailReportView();
+				report.setTaxReturnId(id);
 				MainFinanceWindow.getViewManager().showView(report, data,
 						dependent, TaxItemDetailReportAction.this);
 
