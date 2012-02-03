@@ -90,7 +90,7 @@
 		<property name="email" type="encryptedstring" column="LOCATION_ADDRESS_EMAIL_ID"></property>
 		<property name="phone" type="encryptedstring" column="LOCATION_ADDRESS_PHONE"></property>
 		<component name="address" class="Address">
-			<property name="type" type="encryptedstring" column="LOCATION_ADDRESS_TYPE"></property>
+			<property name="type" column="LOCATION_ADDRESS_TYPE"></property>
 			<property name="address1" type="encryptedstring" column="LOCATION_ADDRESS_ADDRESS1"></property>
 			<property name="street" type="encryptedstring" column="LOCATION_ADDRESS_STREET"></property>
 			<property name="city" type="encryptedstring" column="LOCATION_ADDRESS_CITY"></property>
