@@ -5450,10 +5450,21 @@ public interface AccounterMessages extends Messages {
 
 	public String typesMustbeSame(String items);
 
+	public String importFile();
+
+	public String notMatched();
+
 	public String errorEditingTransactionReconcilied();
 
 	public String errorDeletingTransactionReconcilied();
 
+	public String inventoryValuationDetails();
+
+	public String inventoryStockStatusByItem();
+
+	public String inventoryStockStatusByVendor();
+
 	public String youcannotEditDeleteDefaultTaxItem();
 
+	public String receiveAmountCannotBeZeroOrLessThanZero();
 }
