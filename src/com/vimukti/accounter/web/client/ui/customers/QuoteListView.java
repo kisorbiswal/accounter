@@ -120,7 +120,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 
 	@Override
 	protected void filterList(String text) {
-		this.viewType = text;
+		this.setViewType(text);
 		onPageChange(0, getPageSize());
 		// grid.removeAllRecords();
 		// for (ClientEstimate estimate : listOfEstimates) {
@@ -208,19 +208,19 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	@Override
 	protected void onPageChange(int start, int length) {
 		viwType = -1;
-		if (viewType.equalsIgnoreCase(messages.open())) {
+		if (getViewType().equalsIgnoreCase(messages.open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
-		} else if (viewType.equalsIgnoreCase(messages.rejected())) {
+		} else if (getViewType().equalsIgnoreCase(messages.rejected())) {
 			viwType = ClientEstimate.STATUS_REJECTED;
-		} else if (viewType.equalsIgnoreCase(messages.accepted())) {
+		} else if (getViewType().equalsIgnoreCase(messages.accepted())) {
 			viwType = ClientEstimate.STATUS_ACCECPTED;
-		} else if (viewType.equalsIgnoreCase(messages.applied())) {
+		} else if (getViewType().equalsIgnoreCase(messages.applied())) {
 			viwType = ClientEstimate.STATUS_APPLIED;
-		} else if (viewType.equalsIgnoreCase(messages.close())) {
+		} else if (getViewType().equalsIgnoreCase(messages.close())) {
 			viwType = ClientEstimate.STATUS_CLOSE;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
 			viwType = ClientTransaction.STATUS_DRAFT;
-		} else if (viewType.equalsIgnoreCase(messages.expired())) {
+		} else if (getViewType().equalsIgnoreCase(messages.expired())) {
 			viwType = 6;
 		}
 		Accounter.createHomeService().getEstimates(type, viwType,
