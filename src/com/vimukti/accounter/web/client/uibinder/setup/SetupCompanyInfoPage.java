@@ -223,11 +223,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 		final ICountryPreferences countryPreferences = CountryPreferenceFactory
 				.get(countryName);
 		if (countryPreferences != null) {
-			Map<String, String> fields = new HashMap<String, String>();
-			for (String fieldName : countryPreferences.getCompanyFields()) {
-				fields.put(fieldName, "");
-			}
-			addFields(fields);
 			if (countryPreferences.getStates() != null) {
 				setStates(countryPreferences.getStates());
 			} else {
@@ -340,9 +335,6 @@ public class SetupCompanyInfoPage extends AbstractSetupPage {
 					this.timezoneslistbox.setSelectedIndex(timezones
 							.indexOf(preferences.getTimezone()));
 				}
-			}
-			if (!preferences.getCompanyFields().isEmpty()) {
-				addFields(preferences.getCompanyFields());
 			}
 		}
 	}
