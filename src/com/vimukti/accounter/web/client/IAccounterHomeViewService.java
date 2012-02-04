@@ -417,8 +417,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 	ClientTransaction getTransactionToCreate(ClientRecurringTransaction obj,
 			long transactionDate) throws AccounterException;
 
-	PaginationList<PaymentsList> getPayeeChecks(boolean isCustomerChecks,
-			long fromDate, long toDate, int start, int length, int viewType);
+	PaginationList<PaymentsList> getPayeeChecks(int type, long fromDate,
+			long toDate, int start, int length, int viewType);
 
 	ArrayList<IncomeExpensePortletInfo> getIncomeExpensePortletInfo(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate)

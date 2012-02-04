@@ -442,8 +442,8 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getTransactionToCreate(ClientRecurringTransaction obj,
 			long transactionDate, AsyncCallback<ClientTransaction> callBack);
 
-	void getPayeeChecks(boolean isCustomerChecks, long fromDate, long toDate,
-			int start, int length, int viewType,
+	void getPayeeChecks(int type, long fromDate, long toDate, int start,
+			int length, int viewType,
 			AsyncCallback<PaginationList<PaymentsList>> callBack);
 
 	void getBillsAndItemReceiptList(boolean isExpensesList,

@@ -32,8 +32,8 @@ public interface IAccounterExportCSVService extends RemoteService {
 
 	String getPaymentsListExportCsv(long fromDate, long toDate, int viewType);
 
-	String getPayeeChecksExportCsv(boolean isCustomerChecks, long fromDate,
-			long toDate, int viewType);
+	String getPayeeChecksExportCsv(int type, long fromDate, long toDate,
+			int viewType);
 
 	String getFixedAssetListExportCsv(int status);
 

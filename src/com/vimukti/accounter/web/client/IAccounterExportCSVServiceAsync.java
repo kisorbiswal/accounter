@@ -36,9 +36,8 @@ public interface IAccounterExportCSVServiceAsync {
 	public void getPaymentsListExportCsv(long fromDate, long toDate,
 			int viewType, AsyncCallback<String> callBack);
 
-	public void getPayeeChecksExportCsv(boolean isCustomerChecks,
-			long fromDate, long toDate, int viewType,
-			AsyncCallback<String> callBack);
+	public void getPayeeChecksExportCsv(int type, long fromDate, long toDate,
+			int viewType, AsyncCallback<String> callBack);
 
 	void getFixedAssetListExportCsv(int status, AsyncCallback<String> callback);
 
