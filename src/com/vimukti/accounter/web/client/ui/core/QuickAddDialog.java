@@ -5,101 +5,53 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.QuickAddListener;
-import com.vimukti.accounter.web.client.ui.forms.CustomDialog;
 import com.vimukti.accounter.web.client.ui.forms.TextBoxItem;
 
 /**
  * @author Srikanth Jessu
  * 
  */
-public class QuickAddDialog extends CustomDialog {
+public class QuickAddDialog extends BaseDialog<IAccounterCore> {
 
 	private TextBoxItem textBox;
-	private Button quickAddBtn;
 
 	private QuickAddListener<? extends IAccounterCore> listener;
 
 	public QuickAddDialog(String header) {
-		super();
-		setText(header);
+		super(header);
 		createControls();
 	}
 
 	private void createControls() {
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		Label nameLabel = new Label();
 		textBox = new TextBoxItem();
 
 		nameLabel.setText(messages.name());
 		// horizontalPanel.getElement().getStyle().setMargin(5, Unit.PX);
-		horizontalPanel.setSpacing(6);
-		
-		horizontalPanel.add(nameLabel);
-		horizontalPanel.add(textBox);
 
-		quickAddBtn = new Button(messages.QuickAdd());
+		bodyLayout.add(nameLabel);
+		bodyLayout.add(textBox);
+
+		okbtn.setText(messages.QuickAdd());
 		Button addAllInfoBtn = new Button(messages.AddAllInfo());
-		Button cancelBtn = new Button(messages.cancel());
-
-		quickAddBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (listener != null) {
-					if (textBox.getText().length() > 0) {
-						quickAdd();
-					} else {
-						Accounter.showError(messages.nameShouldnotbeempty());
-						return;
-					}
-				}
-				hide();
-			}
-		});
 
 		addAllInfoBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				if (listener != null) {
 					listener.onAddAllInfo(textBox.getText());
 				}
 				hide();
-			}
-		});
-
-		cancelBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// Doubt
-				if (listener != null) {
-					listener.onCancel();
-				}
-				hide();
 
 			}
 		});
-
-		HorizontalPanel buttonsPanel = new HorizontalPanel();
-		buttonsPanel.add(quickAddBtn);
-		buttonsPanel.add(addAllInfoBtn);
-		buttonsPanel.add(cancelBtn);
-
-		// buttonsPanel.getElement().getStyle().setMargin(5, Unit.PX);
-
-		VerticalPanel mainPanel = new VerticalPanel();
-		mainPanel.add(horizontalPanel);
-		mainPanel.add(buttonsPanel);
-
-		add(mainPanel);
+		footerLayout.add(addAllInfoBtn);
 		center();
 
 	}
@@ -121,7 +73,15 @@ public class QuickAddDialog extends CustomDialog {
 	}
 
 	public void setFocus() {
-		this.quickAddBtn.setFocus(true);
+
+	}
+
+	@Override
+	protected boolean onCancel() {
+		if (listener != null) {
+			listener.onCancel();
+		}
+		return true;
 	}
 
 	@Override
@@ -137,4 +97,21 @@ public class QuickAddDialog extends CustomDialog {
 		});
 
 	}
+
+	@Override
+	protected ValidationResult validate() {
+		IAccounterCore data = listener.getData(textBox.getText());
+		ValidationResult validate = super.validate();
+		if (data == null) {
+			validate.addError(textBox, messages.alreadyExist());
+		}
+		return validate;
+	}
+
+	@Override
+	protected boolean onOK() {
+		quickAdd();
+		return true;
+	}
+
 }
