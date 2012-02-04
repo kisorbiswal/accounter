@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,12 +25,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 			.create(ProductAndServicesOptionUiBinder.class);
 	@UiField
 	Label inventoryScheme;
-	@UiField
-	RadioButton fifoOnly;
-	@UiField
-	RadioButton lifoOnly;
-	@UiField
-	RadioButton averageOnly;
 	@UiField
 	VerticalPanel viewPanel;
 	@UiField
@@ -60,6 +55,8 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 	VerticalPanel totalPanel;
 	@UiField
 	VerticalPanel subpanel;
+	@UiField
+	ListBox inventorySchemeListBox;
 
 	public static final int INVENTORY_SCHME_FIFO = 1;
 	public static final int INVENTORY_SCHME_LIFO = 2;
@@ -96,9 +93,9 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 		servicesOnly.setText(messages.services_labelonly());
 		servicesOnlyText.setText(messages.servicesOnly());
 		productsOnly.setText(messages.products_labelonly());
-		fifoOnly.setText(messages.firstInfirstOut());
-		lifoOnly.setText(messages.lastInfirstOut());
-		averageOnly.setText(messages.average());
+		inventorySchemeListBox.addItem(messages.firstInfirstOut());
+		inventorySchemeListBox.addItem(messages.lastInfirstOut());
+		inventorySchemeListBox.addItem(messages.average());
 		inventoryScheme.setText(messages.inventoryScheme());
 
 		productsOnlyText.setText(messages.productsOnly());
@@ -107,7 +104,7 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 
 		inventoryCheckBox.setText(messages.inventoryTracking());
 		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
-		unitsCheckBox.setText(messages.units());
+		unitsCheckBox.setText(messages.enableUnits());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 
@@ -117,9 +114,6 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 				inventoryCheckBox.setValue(false);
 				warehousesCheckBox.setValue(false);
 				unitsCheckBox.setValue(false);
-				lifoOnly.setValue(false);
-				fifoOnly.setValue(false);
-				averageOnly.setValue(false);
 				totalPanel.setVisible(false);
 
 			}
@@ -148,7 +142,9 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 				hiddenPanel.setVisible(inventoryCheckBox.getValue());
 				if (inventoryCheckBox.getValue()) {
 					// for set the inventory schema value to option
-					setInventorySchemeValue();
+					inventorySchemeListBox
+							.setSelectedIndex(getCompanyPreferences()
+									.getActiveInventoryScheme() - 1);
 				}
 			}
 		});
@@ -181,15 +177,9 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 					warehousesCheckBox.getValue());
 			getCompanyPreferences().setUnitsEnabled(unitsCheckBox.getValue());
 			// for inventory scheme options
-			if (fifoOnly.getValue()) {
+			if (inventorySchemeListBox.getSelectedIndex() != -1) {
 				getCompanyPreferences().setActiveInventoryScheme(
-						INVENTORY_SCHME_FIFO);
-			} else if (lifoOnly.getValue()) {
-				getCompanyPreferences().setActiveInventoryScheme(
-						INVENTORY_SCHME_LIFO);
-			} else if (averageOnly.getValue()) {
-				getCompanyPreferences().setActiveInventoryScheme(
-						INVENTORY_SCHME_AVERAGE);
+						(inventorySchemeListBox.getSelectedIndex() + 1));
 			}
 		}
 	}
@@ -224,27 +214,12 @@ public class ProductAndServicesOption extends AbstractPreferenceOption {
 					.iswareHouseEnabled());
 			unitsCheckBox.setValue(getCompanyPreferences().isUnitsEnabled());
 			// for set the inventory schema value to option
-			setInventorySchemeValue();
+			inventorySchemeListBox.setSelectedIndex(getCompanyPreferences()
+					.getActiveInventoryScheme() - 1);
 
 		} else {
 			hiddenPanel.setVisible(false);
 		}
 	}
 
-	private void setInventorySchemeValue() {
-		int activeInventoryScheme = getCompanyPreferences()
-				.getActiveInventoryScheme();
-		switch (activeInventoryScheme) {
-		case INVENTORY_SCHME_FIFO:
-			fifoOnly.setValue(true);
-			break;
-		case INVENTORY_SCHME_LIFO:
-			lifoOnly.setValue(true);
-			break;
-		case INVENTORY_SCHME_AVERAGE:
-			averageOnly.setValue(true);
-			break;
-		}
-
-	}
 }
