@@ -362,7 +362,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		list.add("26Q");
 		list.add("27Q");
-		list.add("27EQ");
+		// list.add("27EQ");
 
 		return list;
 	}
