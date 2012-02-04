@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 
 /**
  * for exporting the the list as CSV file
@@ -75,5 +77,15 @@ public interface IAccounterExportCSVServiceAsync {
 
 	public void getSalesPersonsListExportCsv(String selectedValue,
 			AsyncCallback<String> exportCSVCallback);
+
+	public void getCustomerTransactionsListExportCsv(
+			ClientCustomer selectedCustomer, int transactionType,
+			int transactionStatusType, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, AsyncCallback<String> callback);
+
+	public void getVendorTransactionsListExportCsv(ClientVendor selectedVendor,
+			int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<String> callback);
 
 }
