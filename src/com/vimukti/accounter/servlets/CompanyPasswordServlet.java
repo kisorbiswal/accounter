@@ -25,7 +25,7 @@ public class CompanyPasswordServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String password = (String) req.getParameter("password");
+		String password = (String) req.getParameter("companyPassword");
 		Long companyId = (Long) req.getSession().getAttribute(COMPANY_ID);
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (password != null && companyId != null) {

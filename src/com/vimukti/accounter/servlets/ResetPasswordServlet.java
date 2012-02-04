@@ -110,8 +110,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			try {
 				// and save Client,
 				saveEntry(client);
-				Query query = hibernateSession
-						.getNamedQuery("updateUserSecret");
+				Query query = hibernateSession.getNamedQuery("setSecretNull");
 				query.setParameter("emailId", emailId);
 				query.executeUpdate();
 				transaction.commit();
