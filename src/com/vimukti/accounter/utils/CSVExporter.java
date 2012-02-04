@@ -1,9 +1,9 @@
 package com.vimukti.accounter.utils;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -24,8 +24,9 @@ public class CSVExporter<T> {
 		String createRandomFileName = SecureUtils.createRandomFileName();
 		File csvfile = new File(ServerConfiguration.getTmpDir(),
 				createRandomFileName);
-		FileWriter fstream = new FileWriter(csvfile);
-		BufferedWriter out = new BufferedWriter(fstream);
+		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(
+				csvfile), "UTF-8");
+
 		String[] columns = runner.getColumns();
 		if (list.isEmpty()) {
 			out.write(Global.get().messages().noRecordsToShow());
