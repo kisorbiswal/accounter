@@ -1904,4 +1904,94 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		}
 		return null;
 	}
+
+	/**
+	 * Based on the selected list, it will call the corresponding method
+	 */
+	@Override
+	public String getExportListCsv(long startDate, long endDate,
+			int transactionType, int viewId, String selectedItem) {
+
+		if (selectedItem.equalsIgnoreCase(messages.invoices())) {
+
+			return getInvoiceListExportCsv(startDate, endDate, transactionType,
+					viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.customerchecks())) {
+
+			return getPayeeChecksExportCsv(transactionType, startDate, endDate,
+					viewId);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.vendorchecks())) {
+			return getPayeeChecksExportCsv(transactionType, startDate, endDate,
+					viewId);
+		} else if (selectedItem
+				.equalsIgnoreCase(messages.customerCreditNotes())) {
+			return getInvoiceListExportCsv(startDate, endDate, transactionType,
+					viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.cashSales())) {
+			return getInvoiceListExportCsv(startDate, endDate, transactionType,
+					viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.receivedPayment())) {
+			return getReceivePaymentsListExportCsv(startDate, endDate,
+					transactionType, viewId);
+		} else if (selectedItem.equals(messages.payeePayments(Global.get()
+				.Customers()))) {
+			return getReceivePaymentsListExportCsv(startDate, endDate,
+					transactionType, viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages
+				.customerRefunds(Global.get().Customer()))) {
+
+			return getCustomerRefundsListExportCsv(startDate, endDate);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.receivedPayments())) {
+			return getReceivePaymentsListExportCsv(startDate, endDate,
+					transactionType, viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.billCredits())) {
+
+			return getBillsAndItemReceiptListExportCsv(false, transactionType,
+					startDate, endDate, viewId);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.billPayments())) {
+			return getVendorPaymentsListExportCsv(startDate, endDate,
+					transactionType);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.bills())) {
+
+			return getBillsAndItemReceiptListExportCsv(false, 0, startDate,
+					endDate, viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.creditCardExpenses())) {
+			return getBillsAndItemReceiptListExportCsv(false, transactionType,
+					startDate, endDate, viewId);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.cashExpenses())) {
+
+			return getBillsAndItemReceiptListExportCsv(true, transactionType,
+					startDate, endDate, viewId);
+
+		} else if (selectedItem.equalsIgnoreCase(messages
+				.inventoryAdjustments())) {
+			return getStockAdjustmentsExportCsv();
+
+		} else if (selectedItem.equalsIgnoreCase(messages.deposits())) {
+			return getDepositsAndTransfersListExportCsv(startDate, endDate,
+					viewId, transactionType);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.transferFunds())) {
+			return getDepositsAndTransfersListExportCsv(startDate, endDate,
+					viewId, transactionType);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.payments())) {
+			return getPaymentsListExportCsv(startDate, endDate, viewId);
+		} else if (selectedItem.equalsIgnoreCase(messages.journalEntries())) {
+
+			return getJournalEntriesExportCsv(startDate, endDate);
+
+		} else if (selectedItem.equalsIgnoreCase(messages.otherChecks())) {
+
+			return getPayeeChecksExportCsv(transactionType, startDate, endDate,
+					viewId);
+
+		}
+		return null;
+	}
 }
