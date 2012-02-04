@@ -203,7 +203,9 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 		switch (index) {
 		case 1:
-			return obj1.getNumber().compareTo(obj2.getNumber());
+			int num1 = Integer.parseInt(obj1.getNumber());
+			int num2 = Integer.parseInt(obj2.getNumber());
+			return UIUtils.compareInt(num1, num2);
 
 		case 2:
 			return obj1.getName().toLowerCase()
