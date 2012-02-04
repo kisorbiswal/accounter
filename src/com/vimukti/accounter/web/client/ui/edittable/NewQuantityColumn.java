@@ -1,11 +1,10 @@
 package com.vimukti.accounter.web.client.ui.edittable;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -46,9 +45,11 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 						row.getQuantity().getUnit());
 				StringBuffer data = new StringBuffer();
 				data.append(String.valueOf(row.getQuantity().getValue()));
-				data.append(" ");
-				if (unit != null) {
-					data.append(unit.getType());
+				if (getPreferences().isUnitsEnabled()) {
+					data.append(" ");
+					if (unit != null) {
+						data.append(unit.getType());
+					}
 				}
 				if (getPreferences().iswareHouseEnabled()) {
 					data.append(" (W: ");
@@ -70,7 +71,6 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public IsWidget getWidget(RenderContext<ClientTransactionItem> context) {
 		final IsWidget widget = super.getWidget(context);
@@ -78,48 +78,15 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		// Checking the units and wareHouses is enabled or not.
 		if (widget instanceof TextBox && getPreferences().iswareHouseEnabled()
 				|| getPreferences().isUnitsEnabled()) {
-			((TextBox) widget).addFocusListener(new FocusListener() {
+			((TextBox) widget).addFocusHandler(new FocusHandler() {
 				@Override
-				public void onFocus(Widget sender) {
+				public void onFocus(FocusEvent event) {
 					ClientItem item = Accounter.getCompany().getItem(
 							row.getItem());
 					if (item != null
 							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						showPopUp(row);
 						((TextBox) widget).setFocus(false);
-					}
-				}
-
-				@Override
-				public void onLostFocus(Widget arg0) {
-					// TODO Auto-generated method stub
-				}
-			});
-		} else if (widget instanceof TextBox) {
-			((TextBox) widget).addBlurHandler(new BlurHandler() {
-
-				@Override
-				public void onBlur(BlurEvent arg0) {
-					ClientItem item = Accounter.getCompany().getItem(
-							row.getItem());
-					if (item != null
-							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
-						ClientCompany company = Accounter.getCompany();
-						ClientWarehouse warehouse = company
-								.getWarehouse(company.getDefaultWarehouse());
-						ClientUnit defaultUnit = company.getMeasurement(
-								item.getMeasurement()).getDefaultUnit();
-						String value = ((TextBox) widget).getValue();
-						ClientQuantity quantity = row.getQuantity();
-						quantity.setUnit(defaultUnit.getId());
-						try {
-							quantity.setValue(DataUtils
-									.getAmountStringAsDouble(value));
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						setQuantity(row, quantity);
-						row.setWareHouse(warehouse.getID());
 					}
 				}
 			});
@@ -244,11 +211,18 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 				value = "1";
 			}
 			ClientItem item = Accounter.getCompany().getItem(row.getItem());
+			ClientQuantity quantity = row.getQuantity();
 			if (item != null
 					&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
-				return;
+				ClientCompany company = Accounter.getCompany();
+				ClientWarehouse warehouse = company.getWarehouse(company
+						.getDefaultWarehouse());
+				ClientUnit defaultUnit = company.getMeasurement(
+						item.getMeasurement()).getDefaultUnit();
+
+				quantity.setUnit(defaultUnit.getId());
+				row.setWareHouse(warehouse.getID());
 			}
-			ClientQuantity quantity = row.getQuantity();
 			if (quantity != null) {
 				quantity.setValue(DataUtils.getAmountStringAsDouble(JNSI
 						.getCalcultedAmount(value)));
