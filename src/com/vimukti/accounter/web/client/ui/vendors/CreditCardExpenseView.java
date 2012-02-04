@@ -330,7 +330,7 @@ public class CreditCardExpenseView extends
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
 		if (!isTemplate) {
-			termsForm.setFields(delivDate);
+			// termsForm.setFields(delivDate);
 		}
 		// termsForm.getCellFormatter().getElement(0, 0).setAttribute(
 		// messages.width(), "203px");
