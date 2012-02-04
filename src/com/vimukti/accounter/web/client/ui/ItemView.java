@@ -828,6 +828,9 @@ public class ItemView extends BaseView<ClientItem> {
 			purchasePriceTxt.setAmount(data.getPurchasePrice());
 
 			selectVendor = company.getVendor(data.getPreferredVendor());
+			if (selectVendor != null) {
+				prefVendorCombo.setComboItem(selectVendor);
+			}
 			if (data.getVendorItemNumber() != null) {
 				vendItemNumText.setValue(data.getVendorItemNumber());
 			}
