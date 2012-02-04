@@ -355,10 +355,8 @@ public class MenuBar {
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
-
 		return reportMenuBar;
-	}
-
+}
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
 		fixedAssetsReportMenu.addMenuItem(messages.depreciationReport(),
@@ -586,8 +584,8 @@ public class MenuBar {
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
-		companyAndFinancialMenuBar.addMenuItem(messages.bankStatements(),
-				HistoryTokens.BANKSTATEMENTS);
+		// companyAndFinancialMenuBar.addMenuItem(messages.bankStatements(),
+		// HistoryTokens.BANKSTATEMENTS);
 
 		if (isMulticurrencyEnabled) {
 			companyAndFinancialMenuBar.addMenuItem(
