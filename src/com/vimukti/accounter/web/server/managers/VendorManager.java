@@ -1702,8 +1702,8 @@ public class VendorManager extends PayeeManager {
 	}
 
 	public PaginationList<PaymentsList> getPayeeChecks(Long companyId,
-			boolean isCustomerChecks, FinanceDate fromDate, FinanceDate toDate,
-			int viewType, int start, int length) {
+			int type, FinanceDate fromDate, FinanceDate toDate, int viewType,
+			int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
 		int total;
 		PaginationList<PaymentsList> issuePaymentTransactionsList = new PaginationList<PaymentsList>();
@@ -1712,7 +1712,7 @@ public class VendorManager extends PayeeManager {
 				.setParameter("fromDate", fromDate.getDate())
 				.setParameter("toDate", toDate.getDate())
 				.setParameter("viewType", viewType)
-				.setParameter("isCustomerChecks", isCustomerChecks);
+				.setParameter("payeeType", type);
 		List list;
 		total = query.list().size();
 		list = query.setFirstResult(start).setMaxResults(length).list();
