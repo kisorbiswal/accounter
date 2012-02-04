@@ -86,8 +86,8 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 				if (customer instanceof ClientVendor) {
 					this.setComboItem(null);
 					this.setComboItem((ClientVendor) customer);
-					return true;
 				}
+				return true;
 			}
 		}
 		return false;
