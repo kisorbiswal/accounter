@@ -604,16 +604,15 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public String getPayeeChecksExportCsv(boolean isCustomerChecks,
-			long fromDate, long toDate, int viewType) {
+	public String getPayeeChecksExportCsv(int payeeType, long fromDate,
+			long toDate, int viewType) {
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			PaginationList<PaymentsList> payeeChecks = getFinanceTool()
 					.getVendorManager().getPayeeChecks(getCompanyId(),
-							isCustomerChecks, dates[0], dates[1], viewType, 0,
-							-1);
+							payeeType, dates[0], dates[1], viewType, 0, -1);
 			ICSVExportRunner<PaymentsList> icsvExportRunner = new ICSVExportRunner<PaymentsList>() {
 
 				@Override
