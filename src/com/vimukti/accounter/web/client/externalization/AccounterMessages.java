@@ -5472,5 +5472,9 @@ public interface AccounterMessages extends Messages {
 
 	public String receiveAmountCannotBeZeroOrLessThanZero();
 
+	public String enableUnits();
+
+	public String quantityNeeded();
+	
 	public String otherChecks();
 }
