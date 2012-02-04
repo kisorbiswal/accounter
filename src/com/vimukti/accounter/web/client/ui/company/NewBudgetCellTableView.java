@@ -11,6 +11,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.Handler;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientBudgetItem;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -59,7 +61,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	private ArrayList<DynamicForm> listforms;
 
-	List<ClientBudget> budgetList;
+	List<ClientBudget> budgetList = new ArrayList<ClientBudget>();
 
 	ClientBudget budgetForEditing = new ClientBudget();
 
@@ -71,12 +73,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	}
 
 	public NewBudgetCellTableView() {
-
-	}
-
-	public NewBudgetCellTableView(boolean isEdit, Object data1) {
-		isEditing = isEdit;
-		data = (ClientBudget) data1;
+		getBudgetListFromServer();
 	}
 
 	@Override
@@ -440,6 +437,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					.getValue().toString() : "";
 
 			if (name != null && !name.isEmpty()) {
+
 				for (ClientBudget budget : budgetList) {
 					if (name.equals(budget.getBudgetName())) {
 						result.addError(name, messages.alreadyExist());
@@ -469,6 +467,35 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		}
 
 		return result;
+
+	}
+
+	private void getBudgetListFromServer() {
+		Accounter.createHomeService().getBudgetList(
+				new AsyncCallback<PaginationList<ClientBudget>>() {
+
+					private ClientBudget temp;
+
+					@Override
+					public void onSuccess(PaginationList<ClientBudget> result) {
+						budgetList = result;
+						if (data != null) {
+							//remove what we are already editing
+							for (ClientBudget clientBudget : result) {
+								if(clientBudget.getID()==data.getID()){
+									temp = clientBudget;
+									break;
+								}
+							}
+							budgetList.remove(temp);
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
 
 	}
 
