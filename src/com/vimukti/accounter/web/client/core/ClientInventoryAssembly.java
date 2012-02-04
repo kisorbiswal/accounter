@@ -14,8 +14,6 @@ public class ClientInventoryAssembly extends ClientItem implements
 
 	private boolean isPurhasedThisItem;
 
-	private ClientVendor vendor;
-
 	public Set<ClientInventoryAssemblyItem> getComponents() {
 		return components;
 	}
@@ -30,14 +28,6 @@ public class ClientInventoryAssembly extends ClientItem implements
 
 	public void setPurhasedThisItem(boolean isPurhasedThisItem) {
 		this.isPurhasedThisItem = isPurhasedThisItem;
-	}
-
-	public ClientVendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(ClientVendor vendor) {
-		this.vendor = vendor;
 	}
 
 }

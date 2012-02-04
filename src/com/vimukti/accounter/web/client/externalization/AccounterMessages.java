@@ -5466,5 +5466,9 @@ public interface AccounterMessages extends Messages {
 
 	public String youcannotEditDeleteDefaultTaxItem();
 
+	public String accounterNotActivate();
+
+	public String incorrectEmailOrPassWord();
+
 	public String receiveAmountCannotBeZeroOrLessThanZero();
 }

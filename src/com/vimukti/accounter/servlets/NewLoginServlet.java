@@ -26,6 +26,7 @@ import com.vimukti.accounter.core.RememberMeKey;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 
 public class NewLoginServlet extends BaseServlet {
 
@@ -54,9 +55,8 @@ public class NewLoginServlet extends BaseServlet {
 					// TODO send the ResetPAssword page
 					// client.setRequirePasswordReset(false);
 					// saveEntry(client);
-					request.setAttribute(
-							"successmessage",
-							"Your account is not yet activated. Please enter the activation code below to activate your account or click on Resend activate code to get the activation code again.");
+					request.setAttribute("successmessage", Global.get()
+							.messages().accounterNotActivate());
 					dispatch(request, response, ACTIVATION_VIEW);
 
 				} else {
@@ -80,8 +80,8 @@ public class NewLoginServlet extends BaseServlet {
 
 				}
 			} else {
-				request.setAttribute("message",
-						"The details that you have are incorrect.");
+				request.setAttribute("message", Global.get().messages()
+						.incorrectEmailOrPassWord());
 				showLogin(request, response);
 				return;
 			}
