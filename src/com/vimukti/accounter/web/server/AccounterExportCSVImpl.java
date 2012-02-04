@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
@@ -27,6 +29,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterExportCSVService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
@@ -35,14 +38,17 @@ import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
+import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
@@ -60,11 +66,11 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	AccounterMessages messages = Global.get().messages();
 
 	public AccounterExportCSVImpl() {
 		super();
+
 	}
 
 	// From here export csv for list
@@ -93,16 +99,17 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPayeeName();
 						break;
 					case 1:
-						columnValue = obj.getCurrentMonth() != 0.0 ? String
-								.valueOf(obj.getCurrentMonth()) : "0.0";
+						columnValue = obj.getCurrentMonth() != 0.0 ? amountAsStringWithCurrency(
+								obj.getCurrentMonth(), obj.getCurrecny())
+								: "0.0";
 						break;
 					case 2:
-						columnValue = obj.getYearToDate() != 0.0 ? String
-								.valueOf(obj.getYearToDate()) : "0.0";
+						columnValue = obj.getYearToDate() != 0.0 ? amountAsStringWithCurrency(
+								obj.getYearToDate(), obj.getCurrecny()) : "0.0";
 						break;
 					case 3:
-						columnValue = obj.getBalance() != 0.0 ? String
-								.valueOf(obj.getBalance()) : "0.0";
+						columnValue = obj.getBalance() != 0.0 ? amountAsStringWithCurrency(
+								obj.getBalance(), obj.getCurrecny()) : "0.0";
 						break;
 					}
 					return columnValue;
@@ -166,12 +173,12 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDueDate().getDate())) : " ";
 						break;
 					case 5:
-						columnValue = obj.getNetAmount() != 0 ? String
-								.valueOf(obj.getNetAmount()) : "";
+						columnValue = obj.getNetAmount() != 0 ? amountAsStringWithCurrency(
+								obj.getNetAmount(), obj.getCurrency()) : "";
 						break;
 					case 6:
-						columnValue = obj.getTotalPrice() != 0 ? String
-								.valueOf(obj.getTotalPrice()) : "";
+						columnValue = obj.getTotalPrice() != 0 ? amountAsStringWithCurrency(
+								obj.getTotalPrice(), obj.getCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -240,8 +247,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDeliveryDate().getDate())) : "";
 						break;
 					case 6:
-						columnValue = obj.getTotal() != 0 ? String.valueOf(obj
-								.getTotal()) : "";
+						columnValue = obj.getTotal() != 0 ? amountAsStringWithCurrency(
+								obj.getTotal(), obj.getCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -306,8 +313,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getCheckNumber() : "";
 						break;
 					case 6:
-						columnValue = obj.getAmountPaid() != 0 ? String
-								.valueOf(obj.getAmountPaid()) : "";
+						columnValue = obj.getAmountPaid() != 0 ? amountAsStringWithCurrency(
+								obj.getAmountPaid(), obj.getCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -375,7 +382,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPaymentMethod();
 						break;
 					case 6:
-						columnValue = String.valueOf(obj.getAmountPaid());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
 					return columnValue;
@@ -438,12 +446,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 						break;
 					case 4:
-						columnValue = obj.getOriginalAmount() != 0 ? String
-								.valueOf(obj.getOriginalAmount()) : "";
+						columnValue = obj.getOriginalAmount() != 0 ? amountAsStringWithCurrency(
+								obj.getOriginalAmount(), obj.getCurrency())
+								: "";
 						break;
 					case 5:
-						columnValue = obj.getBalance() != 0 ? String
-								.valueOf(obj.getBalance()) : "";
+						columnValue = obj.getBalance() != 0 ? amountAsStringWithCurrency(
+								obj.getBalance(), obj.getCurrency()) : "";
 						break;
 
 					}
@@ -515,7 +524,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getCheckNumber();
 						break;
 					case 8:
-						columnValue = String.valueOf(obj.getAmountPaid());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
 
@@ -587,7 +597,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getCheckNumber();
 						break;
 					case 8:
-						columnValue = String.valueOf(obj.getAmountPaid());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
 
@@ -658,7 +669,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getCheckNumber();
 						break;
 					case 8:
-						columnValue = String.valueOf(obj.getAmountPaid());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
 
@@ -711,8 +723,9 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								: "";
 						break;
 					case 4:
-						columnValue = obj.getPurchasePrice() != 0 ? String
-								.valueOf(obj.getPurchasePrice()) : "";
+						columnValue = obj.getPurchasePrice() != 0 ? amountAsStringWithCurrency(
+								obj.getPurchasePrice(), obj.getCompany()
+										.getPrimaryCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -761,8 +774,9 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						return obj.getType() != 0 ? Utility
 								.getAccountTypeString(obj.getType()) : " ";
 					case 3:
-						return String.valueOf(obj
-								.getTotalBalanceInAccountCurrency());
+						return amountAsStringWithCurrency(
+								obj.getTotalBalanceInAccountCurrency(),
+								obj.getCurrency());
 					}
 					return null;
 				}
@@ -810,8 +824,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getMemo();
 						break;
 					case 3:
-						columnValue = obj.getTotal() != 0 ? String.valueOf(obj
-								.getTotal()) : "";
+						columnValue = obj.getTotal() != 0 ? amountAsStringWithCurrency(
+								obj.getTotal(), obj.getCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -872,8 +886,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDate())) : "";
 						break;
 					case 5:
-						columnValue = obj.getAmount() != null ? String
-								.valueOf(obj.getAmount()) : "";
+						columnValue = obj.getAmount() != null ? amountAsStringWithCurrency(
+								obj.getAmount(), obj.getCurrency()) : "";
 						break;
 					}
 					return columnValue;
@@ -948,7 +962,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getNextScheduleOn() == 0 ? null
 								: new FinanceDate(obj.getNextScheduleOn()));
 						break;
-					case 6: // transaction amount
+					case 6: // TODO transaction amount
 						columnValue = obj.getTransaction() != null ? String
 								.valueOf(obj.getTransaction().getTotal()) : "";
 						break;
@@ -1350,19 +1364,30 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 					case 3:
 						if (!(isPurchaseType && isSalesType)) {
 							if (obj.isISellThisItem()) {
-								return String.valueOf(obj.getSalesPrice());
+								return amountAsStringWithCurrency(
+										obj.getSalesPrice(), obj.getCompany()
+												.getPrimaryCurrency());
 							} else {
-								return String.valueOf(obj.getPurchasePrice());
+								return amountAsStringWithCurrency(
+										obj.getPurchasePrice(), obj
+												.getCompany()
+												.getPrimaryCurrency());
 							}
 						}
 						if (isSalesType) {
-							return String.valueOf(obj.getSalesPrice());
+							return amountAsStringWithCurrency(
+									obj.getSalesPrice(), obj.getCompany()
+											.getPrimaryCurrency());
 						} else
-							return String.valueOf(obj.getPurchasePrice());
+							return amountAsStringWithCurrency(
+									obj.getPurchasePrice(), obj.getCompany()
+											.getPrimaryCurrency());
 
 					case 4:
 						if (isPurchaseType && isSalesType) {
-							return String.valueOf(obj.getPurchasePrice());
+							return amountAsStringWithCurrency(
+									obj.getPurchasePrice(), obj.getCompany()
+											.getPrimaryCurrency());
 						}
 					}
 					return null;
@@ -1516,7 +1541,9 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						if (item.isPercentage())
 							return item.getTaxRate() + "%";
 						else
-							return String.valueOf(item.getTaxRate());
+							return amountAsStringWithCurrency(
+									item.getTaxRate(), item.getCompany()
+											.getPrimaryCurrency());
 					}
 					return null;
 				}
@@ -1641,4 +1668,240 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		return null;
 	}
 
+	@Override
+	public String getCustomerTransactionsListExportCsv(
+			final ClientCustomer customer, int transactionType,
+			int transactionStatusType, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
+		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+
+		try {
+			resultList = getFinanceTool().getCustomerManager()
+					.getCustomerTransactionsList(customer.getID(),
+							transactionType, transactionStatusType,
+							dates[0].getDate(), dates[1].getDate(),
+							getCompanyId());
+			ICSVExportRunner<TransactionHistory> icsvExportRunner = new ICSVExportRunner<TransactionHistory>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(), messages.type(),
+							messages.no(), messages.memo(), messages.dueDate(),
+							messages.amount() };
+				}
+
+				@Override
+				public String getColumnValue(TransactionHistory obj, int index) {
+
+					switch (index) {
+					case 0:
+						return obj.getDate() != null ? Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDate())) : "";
+					case 1:
+						return obj.getType() != 0 ? Utility
+								.getTransactionName(obj.getType()) : "";
+					case 2:
+						return obj.getNumber() != null ? obj.getNumber() : "";
+					case 3:
+						return obj.getMemo() != null ? obj.getMemo() : "";
+					case 4:
+						return obj.getDueDate() != null ? Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDueDate())) : "";
+					case 5:
+						return amountAsStringWithCurrency(obj.getAmount(),
+								customer.getCurrency());
+					}
+					return null;
+				}
+			};
+			CSVExporter<TransactionHistory> csvExporter = new CSVExporter<TransactionHistory>(
+					icsvExportRunner);
+			return csvExporter.export(resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public String getVendorTransactionsListExportCsv(final ClientVendor vendor,
+			int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
+		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+
+		try {
+
+			resultList = getFinanceTool().getVendorManager()
+					.getVendorTransactionsList(vendor.getID(), transactionType,
+							transactionStatusType, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId());
+			ICSVExportRunner<TransactionHistory> icsvExportRunner = new ICSVExportRunner<TransactionHistory>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] { messages.date(), messages.type(),
+							messages.no(), messages.memo(), messages.dueDate(),
+							messages.amount(), messages.account() };
+				}
+
+				@Override
+				public String getColumnValue(TransactionHistory obj, int index) {
+
+					switch (index) {
+					case 0:
+						return obj.getDate() != null ? Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDate())) : "";
+					case 1:
+						return obj.getType() != 0 ? Utility
+								.getTransactionName(obj.getType()) : "";
+					case 2:
+						return obj.getNumber() != null ? obj.getNumber() : "";
+					case 3:
+						return obj.getMemo() != null ? obj.getMemo() : "";
+					case 4:
+						return obj.getDueDate() != null ? Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDueDate())) : "";
+					case 5:
+						return amountAsStringWithCurrency(obj.getAmount(),
+								vendor.getCurrency());
+					case 6:
+						Account account = (Account) HibernateUtil
+								.getCurrentSession().get(Account.class,
+										obj.getAccType());
+
+						return account != null ? account.getName() : "";
+					}
+					return null;
+				}
+			};
+			CSVExporter<TransactionHistory> csvExporter = new CSVExporter<TransactionHistory>(
+					icsvExportRunner);
+			return csvExporter.export(resultList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 * @param currencyID
+	 * @param company
+	 * @return
+	 */
+	public String amountAsStringWithCurrency(double amount, long currencyID) {
+		Company company = (Company) HibernateUtil.getCurrentSession().get(
+				Company.class, getCompanyId());
+		Currency currency = (Currency) HibernateUtil.getCurrentSession().get(
+				Currency.class, currencyID);
+		if (currency == null) {
+			currency = company.getPrimaryCurrency();
+		}
+		return amountAsStringWithCurrency(amount, currency);
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 * @param currency
+	 * @return
+	 */
+	public String amountAsStringWithCurrency(Double amount, Currency currency) {
+		return getAmountAsStringInCurrency(amount, currency.getSymbol());
+	}
+
+	/**
+	 * 
+	 * @param amount
+	 * @param currencySymbol
+	 * @return
+	 */
+	public String getAmountAsStringInCurrency(double amount,
+			String currencySymbol) {
+		return Global.get().toCurrencyFormat(amount, currencySymbol);
+	}
+
+	public String getDepositsAndTransfersListExportCsv(long fromDate,
+			long toDate, final int type, final int transactionType) {
+		PaginationList<DepositsTransfersList> depositsAndTransfersList = null;
+		try {
+			if (transactionType == 0) {
+				depositsAndTransfersList = getFinanceTool().getCompanyManager()
+						.getDepositsList(getCompanyId(), fromDate, toDate, 0,
+								-1, type);
+			} else {
+				depositsAndTransfersList = getFinanceTool().getCompanyManager()
+						.getTransfersList(getCompanyId(), fromDate, toDate, 0,
+								-1, type);
+			}
+			ICSVExportRunner<DepositsTransfersList> icsvExportRunner = new ICSVExportRunner<DepositsTransfersList>() {
+
+				@Override
+				public String[] getColumns() {
+					if (transactionType == 0) {
+						return new String[] { messages.transactionDate(),
+								messages.type(), messages.number(),
+								messages.depositTo(), messages.amount() };
+					} else {
+						return new String[] { messages.transactionDate(),
+								messages.type(), messages.number(),
+								messages.transferTo(), messages.transferFrom(),
+								messages.amount() };
+					}
+				}
+
+				@Override
+				public String getColumnValue(DepositsTransfersList obj,
+						int index) {
+
+					switch (index) {
+					case 0:
+						return obj.getTransactionDate() != null ? Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getTransactionDate())) : "";
+					case 1:
+						return Utility.getTransactionName(obj.getType());
+					case 2:
+						return obj.getTransactionNumber();
+					case 3:
+						return obj.getInAccount() != null ? obj.getInAccount()
+								: "";
+					case 4:
+						if (transactionType == 0) {
+							return amountAsStringWithCurrency(obj.getAmount(),
+									obj.getCurrency());
+						} else {
+							return obj.getFromAccount() != null ? obj
+									.getFromAccount() : "";
+						}
+
+					case 5:
+						if (transactionType != 0) {
+							return amountAsStringWithCurrency(obj.getAmount(),
+									obj.getCurrency());
+						}
+
+					}
+					return null;
+				}
+			};
+			CSVExporter<DepositsTransfersList> csvExporter = new CSVExporter<DepositsTransfersList>(
+					icsvExportRunner);
+			return csvExporter.export(depositsAndTransfersList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
