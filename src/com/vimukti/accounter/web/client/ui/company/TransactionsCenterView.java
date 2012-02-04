@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -14,9 +15,9 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.company.options.TreeListPanel;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.customers.CustomerRefundListView;
 import com.vimukti.accounter.web.client.ui.customers.InvoiceListView;
 import com.vimukti.accounter.web.client.ui.customers.QuoteListView;
@@ -29,10 +30,19 @@ import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		IPrintableView, ISavableView<String> {
 
-	public BaseListView<T> baseListView;
+	public TransactionsListView<T> baseListView;
 	private final HorizontalPanel mainPanel;
 	private String selectedItem = null;
 	private TreeListPanel listPanel;
+	private ClientFinanceDate startDate;
+	private ClientFinanceDate endDate;
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_DRAFT = 4;
+	public static final int TYPE_ALL = 1000;
+	int transactionType = 0;
 
 	// private String selectedType;
 	//
@@ -71,7 +81,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		listPanel.addMenuPanel(messages.banking(), getBankCenterItems());
 
 		listPanel.addMenuPanel(messages.others(), getOtherCenterItems());
-		baseListView = (BaseListView<T>) new InvoiceListView();
+		baseListView = (TransactionsListView<T>) new InvoiceListView();
 		initGridData(getMessages().invoices());
 	}
 
@@ -90,108 +100,114 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		mainPanel.remove(baseListView);
 		// Customer Menu
 		if (itemName.equalsIgnoreCase(messages.customerchecks())) {
-
-			baseListView = (BaseListView<T>) new PaymentListView(
+			transactionType = PaymentListView.TYPE_CUSTOMER_CHECKS;
+			baseListView = (TransactionsListView<T>) new PaymentListView(
 					PaymentListView.TYPE_CUSTOMER_CHECKS);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().cashSales())) {
-
-			baseListView = (BaseListView<T>) new InvoiceListView(
+			transactionType = ClientTransaction.TYPE_CASH_SALES;
+			baseListView = (TransactionsListView<T>) new InvoiceListView(
 					ClientTransaction.TYPE_CASH_SALES);
 
 		} else if (itemName.equalsIgnoreCase(getMessages()
 				.customerCreditNotes())) {
-
-			baseListView = (BaseListView<T>) new InvoiceListView(
+			transactionType = ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO;
+			baseListView = (TransactionsListView<T>) new InvoiceListView(
 					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().quotes())) {
-
-			baseListView = (BaseListView<T>) new QuoteListView(
+			transactionType = ClientEstimate.QUOTES;
+			baseListView = (TransactionsListView<T>) new QuoteListView(
 					ClientEstimate.QUOTES);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().Charges())) {
-
-			baseListView = (BaseListView<T>) new QuoteListView(
+			transactionType = ClientEstimate.CHARGES;
+			baseListView = (TransactionsListView<T>) new QuoteListView(
 					ClientEstimate.CHARGES);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().credits())) {
-
-			baseListView = (BaseListView<T>) new QuoteListView(
+			transactionType = ClientEstimate.CREDITS;
+			baseListView = (TransactionsListView<T>) new QuoteListView(
 					ClientEstimate.CREDITS);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().invoices())) {
-
-			baseListView = (BaseListView<T>) new InvoiceListView(
+			transactionType = ClientTransaction.TYPE_INVOICE;
+			baseListView = (TransactionsListView<T>) new InvoiceListView(
 					ClientTransaction.TYPE_INVOICE);
-
 		} else if (itemName.equalsIgnoreCase(getMessages().receivedPayments())) {
-
-			baseListView = (BaseListView<T>) new ReceivedPaymentListView(
+			transactionType = ClientTransaction.TYPE_RECEIVE_PAYMENT;
+			baseListView = (TransactionsListView<T>) new ReceivedPaymentListView(
 					ClientTransaction.TYPE_RECEIVE_PAYMENT);
 
 		} else if (itemName.equals(getMessages().payeePayments(
 				Global.get().Customers()))) {
-
-			baseListView = (BaseListView<T>) new ReceivedPaymentListView(
+			transactionType = ClientTransaction.TYPE_CUSTOMER_PREPAYMENT;
+			baseListView = (TransactionsListView<T>) new ReceivedPaymentListView(
 					ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().customerRefunds(
 				Global.get().Customer()))) {
-
-			baseListView = (BaseListView<T>) new CustomerRefundListView();
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new CustomerRefundListView();
 
 		} else if (itemName.equalsIgnoreCase(getMessages().billCredits())) {
-
-			baseListView = (BaseListView<T>) new BillListView(getMessages()
-					.all(), ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
+			transactionType = ClientTransaction.TYPE_VENDOR_CREDIT_MEMO;
+			baseListView = (TransactionsListView<T>) new BillListView(
+					getMessages().all(),
+					ClientTransaction.TYPE_VENDOR_CREDIT_MEMO);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().billPayments())) {
-
-			baseListView = (BaseListView<T>) new VendorPaymentsListView(
+			transactionType = ClientTransaction.TYPE_VENDOR_PAYMENT;
+			baseListView = (TransactionsListView<T>) new VendorPaymentsListView(
 					ClientTransaction.TYPE_VENDOR_PAYMENT);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().bills())) {
-
-			baseListView = (BaseListView<T>) new BillListView(getMessages()
-					.all());
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new BillListView(
+					getMessages().all());
 
 		} else if (itemName.equalsIgnoreCase(messages.vendorchecks())) {
-
-			baseListView = (BaseListView<T>) new PaymentListView(
+			transactionType = PaymentListView.TYPE_VENDOR_CHECKS;
+			baseListView = (TransactionsListView<T>) new PaymentListView(
 					PaymentListView.TYPE_VENDOR_CHECKS);
 
 		} else if (itemName
 				.equalsIgnoreCase(getMessages().creditCardExpenses())) {
-
-			baseListView = (BaseListView<T>) new ExpensesListView(getMessages()
-					.creditCard(), ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+			transactionType = ClientTransaction.TYPE_CREDIT_CARD_EXPENSE;
+			baseListView = (TransactionsListView<T>) new ExpensesListView(
+					getMessages().creditCard(),
+					ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().cashExpenses())) {
-
-			baseListView = (BaseListView<T>) new ExpensesListView(getMessages()
-					.cash(), ClientTransaction.TYPE_CASH_EXPENSE);
+			transactionType = ClientTransaction.TYPE_CASH_EXPENSE;
+			baseListView = (TransactionsListView<T>) new ExpensesListView(
+					getMessages().cash(), ClientTransaction.TYPE_CASH_EXPENSE);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().deposits())) {
-			baseListView = (BaseListView<T>) new DepositsTransfersListView(0);
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new DepositsTransfersListView(
+					0);
 
 		} else if (itemName.equalsIgnoreCase(getMessages()
 				.inventoryAdjustments())) {
-
-			baseListView = (BaseListView<T>) new StockAdjustmentsListView();
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new StockAdjustmentsListView();
 
 		} else if (itemName.equalsIgnoreCase(getMessages().journalEntries())) {
-
-			baseListView = (BaseListView<T>) new JournalEntryListView();
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new JournalEntryListView();
 
 		} else if (itemName.equalsIgnoreCase(getMessages().transferFunds())) {
-			baseListView = (BaseListView<T>) new DepositsTransfersListView(1);
+			transactionType = 1;
+			baseListView = (TransactionsListView<T>) new DepositsTransfersListView(
+					1);
 
 		} else if (itemName.equalsIgnoreCase(getMessages().payments())) {
-			baseListView = (BaseListView<T>) new PaymentListView();
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new PaymentListView();
 		} else if (itemName.equalsIgnoreCase(messages.otherChecks())) {
-
-			baseListView = (BaseListView<T>) new PaymentListView(
+			transactionType = 0;
+			baseListView = (TransactionsListView<T>) new PaymentListView(
 					PaymentListView.TYPE_WRITE_CHECKS);
 
 		}
@@ -202,6 +218,9 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 		baseListView.init();
 		baseListView.initData();
 		baseListView.removeStyleName("abstract_base_view");
+
+		setStartDate(baseListView.getStartDate());
+		setEndDate(baseListView.getEndDate());
 	}
 
 	private List<String> getVendorCenterItems() {
@@ -288,10 +307,18 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public boolean canExportToCsv() {
-		if (baseListView instanceof IPrintableView) {
-			return ((IPrintableView) baseListView).canExportToCsv();
-		}
-		return false;
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		int viewId = checkViewType(baseListView.getViewType());
+
+		Accounter.createExportCSVService().getExportListCsv(
+				getStartDate().getDate(), getEndDate().getDate(),
+				transactionType, viewId, selectedItem,
+				baseListView.getExportCSVCallback(selectedItem));
+
 	}
 
 	@Override
@@ -305,6 +332,23 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 			initGridData(viewDate);
 			listPanel.setMenuSelected(viewDate);
 		}
+	}
+
+	private int checkViewType(String view) {
+		int id = 0;
+		if (view.equalsIgnoreCase(messages.open())) {
+			id = VIEW_OPEN;
+		} else if (view.equalsIgnoreCase(messages.voided())) {
+			id = VIEW_VOIDED;
+		} else if (view.equalsIgnoreCase(messages.overDue())) {
+			id = VIEW_OVERDUE;
+		} else if (view.equalsIgnoreCase(messages.all())) {
+			id = VIEW_ALL;
+		} else if (view.equalsIgnoreCase(messages.drafts())) {
+			id = VIEW_DRAFT;
+		}
+
+		return id;
 	}
 
 	// @Override
@@ -324,4 +368,20 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	// private String getSearchString() {
 	// return searchString;
 	// }
+
+	public ClientFinanceDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(ClientFinanceDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public ClientFinanceDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(ClientFinanceDate endDate) {
+		this.endDate = endDate;
+	}
 }
