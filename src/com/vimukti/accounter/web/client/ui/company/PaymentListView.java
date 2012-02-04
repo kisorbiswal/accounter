@@ -31,6 +31,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	public static final int TYPE_CUSTOMER_CHECKS = 1;
 	public static final int TYPE_VENDOR_CHECKS = 2;
+	public static final int TYPE_WRITE_CHECKS = 3;
 	private int type = 0;
 
 	public PaymentListView() {
@@ -85,6 +86,7 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			grid.addEmptyMessage(messages.noRecordsToShow());
 			return;
 		}
+
 		grid.setRecords(result);
 		grid.sort(12, false);
 		Window.scrollTo(0, 0);
@@ -173,11 +175,16 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
-			Accounter.createHomeService().getPayeeChecks(true,
+			Accounter.createHomeService().getPayeeChecks(1,
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
+		} else if (checkType == TYPE_WRITE_CHECKS) {
+			Accounter.createHomeService().getPayeeChecks(0,
+					getStartDate().getDate(), getEndDate().getDate(), start,
+					length, type, this);
+
 		} else {
-			Accounter.createHomeService().getPayeeChecks(false,
+			Accounter.createHomeService().getPayeeChecks(2,
 					getStartDate().getDate(), getEndDate().getDate(), start,
 					length, type, this);
 		}
@@ -200,11 +207,11 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(messages.payments()));
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
-			Accounter.createExportCSVService().getPayeeChecksExportCsv(true,
+			Accounter.createExportCSVService().getPayeeChecksExportCsv(1,
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(messages.payments()));
 		} else {
-			Accounter.createExportCSVService().getPayeeChecksExportCsv(false,
+			Accounter.createExportCSVService().getPayeeChecksExportCsv(2,
 					getStartDate().getDate(), getEndDate().getDate(), type,
 					getExportCSVCallback(messages.payments()));
 		}
