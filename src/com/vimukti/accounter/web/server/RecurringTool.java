@@ -161,8 +161,9 @@ public class RecurringTool extends Thread {
 
 				// Stop the recurring according to end date type.
 				if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_DATE) {
-					if (!recurringTransaction.getEndDate().after(
-							recurringTransaction.getNextScheduleOn())) {
+					if (recurringTransaction.getNextScheduleOn() == null
+							|| !recurringTransaction.getEndDate().after(
+									recurringTransaction.getNextScheduleOn())) {
 						recurringTransaction.setStopped(true);
 					}
 				} else if (recurringTransaction.getEndDateType() == RecurringTransaction.END_DATE_OCCURRENCES) {
