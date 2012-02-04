@@ -1,9 +1,7 @@
 package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClientTransactionPayBill implements IAccounterCore {
 
@@ -368,10 +366,8 @@ public class ClientTransactionPayBill implements IAccounterCore {
 		for (ClientTransactionCreditsAndPayments ctcap : this.transactionCreditsAndPayments) {
 			creditsTotal += ctcap.amountToUse;
 		}
-		if (creditsTotal > 0) {
-			appliedCredits = creditsTotal;
-			isCreditsApplied = true;
-		}
+		appliedCredits = creditsTotal;
+		isCreditsApplied = creditsTotal > 0;
 		this.payment = this.amountDue
 				- (this.appliedCredits + this.cashDiscount);
 
