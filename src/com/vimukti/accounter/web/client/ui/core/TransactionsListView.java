@@ -21,7 +21,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	public static final int VIEW_DRAFT = 4;
 	public static final int TYPE_ALL = 1000;
 
-	protected String viewType;
+	private String viewType;
 
 	public TransactionsListView() {
 		super();
