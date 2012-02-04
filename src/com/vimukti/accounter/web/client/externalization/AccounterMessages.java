@@ -5471,4 +5471,6 @@ public interface AccounterMessages extends Messages {
 	public String incorrectEmailOrPassWord();
 
 	public String receiveAmountCannotBeZeroOrLessThanZero();
+
+	public String otherChecks();
 }
