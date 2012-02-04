@@ -14,8 +14,6 @@ public class InventoryAssembly extends Item {
 
 	private boolean isPurhasedThisItem;
 
-	private Vendor vendor;
-
 	public Set<InventoryAssemblyItem> getComponents() {
 		return components;
 	}
@@ -30,13 +28,5 @@ public class InventoryAssembly extends Item {
 
 	public void setPurhasedThisItem(boolean isPurhasedThisItem) {
 		this.isPurhasedThisItem = isPurhasedThisItem;
-	}
-
-	public Vendor getVendor() {
-		return vendor;
-	}
-
-	public void setVendor(Vendor vendor) {
-		this.vendor = vendor;
 	}
 }
