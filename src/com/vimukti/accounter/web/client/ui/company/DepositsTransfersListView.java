@@ -119,11 +119,11 @@ public class DepositsTransfersListView extends
 	@Override
 	protected void onPageChange(int start, int length) {
 		int type = 0;
-		if (viewType.equalsIgnoreCase(messages.voided())) {
+		if (getViewType().equalsIgnoreCase(messages.voided())) {
 			type = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			type = TYPE_ALL;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
 			type = VIEW_DRAFT;
 		}
 		if (transactionType == 0) {

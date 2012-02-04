@@ -159,15 +159,15 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 	@Override
 	protected void onPageChange(int start, int length) {
 
-		if (viewType.equalsIgnoreCase(messages.notIssued())) {
+		if (getViewType().equalsIgnoreCase(messages.notIssued())) {
 			type = STATUS_NOT_ISSUED;
-		} else if (viewType.equalsIgnoreCase(messages.issued())) {
+		} else if (getViewType().equalsIgnoreCase(messages.issued())) {
 			type = STATUS_ISSUED;
-		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
 			type = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			type = TYPE_ALL;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
 			type = VIEW_DRAFT;
 		}
 		if (checkType == 0) {
