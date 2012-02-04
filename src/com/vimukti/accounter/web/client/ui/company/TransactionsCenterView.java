@@ -189,7 +189,7 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 		} else if (itemName.equalsIgnoreCase(getMessages().payments())) {
 			baseListView = (BaseListView<T>) new PaymentListView();
-		} else if (itemName.equalsIgnoreCase(messages.writeCheck())) {
+		} else if (itemName.equalsIgnoreCase(messages.otherChecks())) {
 
 			baseListView = (BaseListView<T>) new PaymentListView(
 					PaymentListView.TYPE_WRITE_CHECKS);
