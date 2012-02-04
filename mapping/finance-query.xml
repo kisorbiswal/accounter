@@ -12371,7 +12371,7 @@ T.SAVE_STATUS
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="viewType" type="int" />
-		<query-param name="isCustomerChecks" type="boolean" />
+		<query-param name="payeeType" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
@@ -12393,7 +12393,7 @@ T.SAVE_STATUS
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE AS ISSUE_DATE,
-		P.NAME AS NAME,
+		WC.IN_FAVOUR_OF AS NAME,
 		T.PAYMENT_METHOD AS PAYMENT_METHOD,
 		T.TOTAL AS AMOUNT_PAID,
 		CASE WHEN
@@ -12412,7 +12412,10 @@ T.SAVE_STATUS
 		LEFT JOIN PAYEE
 		P ON
 		(P.ID=(CASE WHEN
-		:isCustomerChecks = TRUE THEN WC.CUSTOMER_ID ELSE WC.VENDOR_ID
+		:payeeType = 1 THEN WC.CUSTOMER_ID
+		WHEN
+		:payeeType = 2 THEN WC.VENDOR_ID
+		 ELSE 0
 		END))
 
 		WHERE T.COMPANY_ID=:companyId AND
@@ -12442,7 +12445,7 @@ T.SAVE_STATUS
 		AND T.SAVE_STATUS
 		!=
 		202
-		AND P.ID IS NOT NULL AND
+		AND :payeeType= WC.PAY_TO_TYPE AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
