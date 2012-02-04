@@ -23,17 +23,20 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorsListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
-public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
+public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
+		implements IPrintableView {
 
 	private static final int TYPE_CASH_PURCHASE = 2;
 	private static final int TYPE_ENTER_BILL = 6;
@@ -510,4 +513,36 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		return selectedVendor;
 	}
 
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getVendorTransactionsListExportCsv(
+				selectedVendor, getTransactionType(),
+				getTransactionStatusType(), getStartDate(), getEndDate(),
+				new AsyncCallback<String>() {
+
+					@Override
+					public void onSuccess(String id) {
+						UIUtils.downloadFileFromTemp(
+								trasactionViewSelect.getSelectedValue()
+										+ " of " + selectedVendor.getName()
+										+ ".csv", id);
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter.showError(messages
+								.unableToPerformTryAfterSomeTime());
+					}
+				});
+	}
 }
