@@ -1971,6 +1971,54 @@ public class FinanceTool {
 					.setLong("toID", toClientAccount.getID())
 					.setEntity("company", company).executeUpdate();
 
+			session.getNamedQuery("update.merge.accounttaxrefund.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountpaytax.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountcustomerrefud.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.accountcustomerprepay.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountvendorrprepay.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountcashsale.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery("update.merge.accountcashpurchase.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.accounttransferfundsto.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
+			session.getNamedQuery(
+					"update.merge.accounttransferfundsfrom.old.tonew")
+					.setLong("fromID", fromClientAccount.getID())
+					.setLong("toID", toClientAccount.getID())
+					.setEntity("company", company).executeUpdate();
+
 			Account account = (Account) session.get(Account.class,
 					fromClientAccount.getID());
 			User user = AccounterThreadLocal.get();
