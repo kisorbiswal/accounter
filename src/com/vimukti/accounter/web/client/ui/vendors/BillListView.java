@@ -96,7 +96,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
-		this.viewType = currentView;
+		this.setViewType(currentView);
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
@@ -145,7 +145,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 
 	@Override
 	protected void filterList(String text) {
-		this.viewType = text;
+		this.setViewType(text);
 		grid.removeAllRecords();
 		onPageChange(0, getPageSize());
 	}
@@ -183,7 +183,7 @@ public class BillListView extends TransactionsListView<BillsList> implements
 	@Override
 	protected void onPageChange(int start, int length) {
 
-		String text = this.viewType;
+		String text = this.getViewType();
 		if (text.equalsIgnoreCase(messages.open())) {
 			viewTypeId = VIEW_OPEN;
 		} else if (text.equalsIgnoreCase(messages.voided())) {
