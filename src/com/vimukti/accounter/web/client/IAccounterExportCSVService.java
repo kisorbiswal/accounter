@@ -76,4 +76,7 @@ public interface IAccounterExportCSVService extends RemoteService {
 			int transactionType, int transactionStatusType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
+	String getExportListCsv(long startDate, long endDate, int transactionType,
+			int viewId, String selectedItem);
+
 }

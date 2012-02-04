@@ -88,4 +88,8 @@ public interface IAccounterExportCSVServiceAsync {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<String> callback);
 
+	public void getExportListCsv(long startDate, long endDate,
+			int transactionType, int viewId, String selectedItem,
+			AsyncCallback<String> exportCSVCallback);
+
 }
