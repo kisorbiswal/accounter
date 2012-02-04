@@ -35,9 +35,9 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected Action getAddNewAction() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			if (viewType.equals(messages.cash())) {
+			if (getViewType().equals(messages.cash())) {
 				return ActionFactory.CashExpenseAction();
-			} else if (viewType.equals(messages.creditCard())) {
+			} else if (getViewType().equals(messages.creditCard())) {
 				return ActionFactory.CreditCardExpenseAction();
 			}
 			return ActionFactory.getRecordExpensesAction();
@@ -49,13 +49,13 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected String getAddNewLabelString() {
 		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			if (viewType == null || viewType.equals(messages.all())
-					|| viewType.equals(messages.voided())) {
+			if (getViewType() == null || getViewType().equals(messages.all())
+					|| getViewType().equals(messages.voided())) {
 				return messages.addNewExpense();
 			}
-			if (viewType.equals(messages.cash())) {
+			if (getViewType().equals(messages.cash())) {
 				return messages.newcashExpenses();
-			} else if (viewType.equals(messages.creditCard())) {
+			} else if (getViewType().equals(messages.creditCard())) {
 				return messages.newCreditCardExpenses();
 			}
 		}
@@ -64,12 +64,12 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	@Override
 	protected String getListViewHeading() {
-		if (viewType == null || viewType.equals(messages.all())) {
+		if (getViewType() == null || getViewType().equals(messages.all())) {
 			return messages.expensesList();
 		}
-		if (viewType.equals(messages.cashExpenses())) {
+		if (getViewType().equals(messages.cashExpenses())) {
 			return messages.cashExpensesList();
-		} else if (viewType.equals(messages.creditCardExpenses())) {
+		} else if (getViewType().equals(messages.creditCardExpenses())) {
 			return messages.creditCardExpensesList();
 		}
 		return messages.expensesList();
@@ -93,7 +93,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
-		this.viewType = currentView;
+		this.setViewType(currentView);
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		dateRangeChanged(dateRange1);
@@ -146,15 +146,15 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 
 	private int checkViewType() {
 		int viewId = 0;
-		if (viewType.equalsIgnoreCase(messages.cash())) {
+		if (getViewType().equalsIgnoreCase(messages.cash())) {
 			viewId = VIEW_OPEN;
-		} else if (viewType.equalsIgnoreCase(messages.creditCard())) {
+		} else if (getViewType().equalsIgnoreCase(messages.creditCard())) {
 			viewId = VIEW_OVERDUE;
-		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
 			viewId = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			viewId = VIEW_ALL;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
 			viewId = VIEW_DRAFT;
 		}
 
@@ -170,7 +170,7 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	public void onSuccess(PaginationList<BillsList> result) {
 		grid.removeLoadingImage();
-		viewSelect.setComboItem(viewType);
+		viewSelect.setComboItem(getViewType());
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
