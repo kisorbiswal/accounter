@@ -5475,6 +5475,8 @@ public interface AccounterMessages extends Messages {
 	public String enableUnits();
 
 	public String quantityNeeded();
-	
+
 	public String otherChecks();
+
+	public String maximumNumberYouCanBuildFrom();
 }

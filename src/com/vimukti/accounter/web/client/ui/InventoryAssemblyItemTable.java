@@ -16,15 +16,22 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.InventoryTotalColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public abstract class InventoryAssemblyItemTable extends
 		EditTable<ClientInventoryAssemblyItem> implements ICurrencyProvider {
 
+	public static final int INVENTORY_ASSEMBLY_ITEM = 1;
+	public static final int BUILD_ASSEMBLY = 2;
+
 	double lineTotal;
 
 	protected ICurrencyProvider currencyProvider;
+	private int type;
 
-	public InventoryAssemblyItemTable(ICurrencyProvider currencyProvider) {
+	public InventoryAssemblyItemTable(int type,
+			ICurrencyProvider currencyProvider) {
+		this.type = type;
 		this.currencyProvider = currencyProvider;
 	}
 
@@ -32,7 +39,41 @@ public abstract class InventoryAssemblyItemTable extends
 
 	@Override
 	protected void initColumns() {
-		final InventoryQuantityColumn quantityColumn = new InventoryQuantityColumn();
+		final InventoryQuantityColumn quantityColumn = new InventoryQuantityColumn() {
+			@Override
+			protected String getColumnName() {
+				return messages.quantityNeeded();
+			}
+		};
+		TextEditColumn<ClientInventoryAssemblyItem> onhandQuantityColumn = new TextEditColumn<ClientInventoryAssemblyItem>() {
+
+			@Override
+			protected String getValue(ClientInventoryAssemblyItem row) {
+				if (row.getInventoryItem() != null) {
+					return row.getInventoryItem().getOnhandQuantity();
+				} else {
+					return "0";
+				}
+
+			}
+
+			@Override
+			public int getWidth() {
+				return 100;
+			}
+
+			@Override
+			protected String getColumnName() {
+				return messages.quantityOnHand();
+			}
+
+			@Override
+			protected void setValue(ClientInventoryAssemblyItem row,
+					String value) {
+				row.getInventoryItem().setOnhandQuantity(value);
+			}
+
+		};
 		InventoryItemNameColumn transactionItemNameColumn = new InventoryItemNameColumn(
 				true, currencyProvider) {
 
@@ -57,6 +98,7 @@ public abstract class InventoryAssemblyItemTable extends
 						quantity.setValue(1.0);
 						row.setQuantity(quantity);
 					}
+
 					if (row.getUnitPrice() == null) {
 						row.setUnitPrice(new Double(0));
 					}
@@ -86,13 +128,18 @@ public abstract class InventoryAssemblyItemTable extends
 
 		this.addColumn(new InventoryDescriptionEditColumn());
 
+		if (type == BUILD_ASSEMBLY) {
+			this.addColumn(onhandQuantityColumn);
+		}
+
 		this.addColumn(quantityColumn);
 
 		this.addColumn(new InventoryTransactionUnitPriceColumn(currencyProvider));
 
 		this.addColumn(new InventoryTotalColumn(currencyProvider));
-
-		this.addColumn(new DeleteColumn<ClientInventoryAssemblyItem>());
+		if (type == INVENTORY_ASSEMBLY_ITEM) {
+			this.addColumn(new DeleteColumn<ClientInventoryAssemblyItem>());
+		}
 	}
 
 	@Override

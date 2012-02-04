@@ -125,7 +125,6 @@ public class InventoryItemNameColumn extends
 		row.setInventoryItem(newValue);
 		onValueChange(row);
 		row.setDescription(getDiscription(newValue));
-
 		if (row.getQuantity() == null) {
 			ClientQuantity quantity = new ClientQuantity();
 			quantity.setValue(1.0);

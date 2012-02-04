@@ -1,7 +1,10 @@
 package com.vimukti.accounter.core;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.Session;
 
 public class InventoryAssembly extends Item {
 
@@ -13,6 +16,10 @@ public class InventoryAssembly extends Item {
 	private Set<InventoryAssemblyItem> components = new HashSet<InventoryAssemblyItem>();
 
 	private boolean isPurhasedThisItem;
+
+	public InventoryAssembly() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Set<InventoryAssemblyItem> getComponents() {
 		return components;
