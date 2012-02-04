@@ -603,7 +603,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.4.3</param-value>
+		<param-value>1.0.5.7.9</param-value>
 	</context-param>
 
 	<servlet>
