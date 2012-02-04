@@ -7,7 +7,6 @@ public class ClientBuildAssembly extends ClientTransaction {
 	 */
 	private static final long serialVersionUID = 8215768906353162049L;
 	private ClientInventoryAssembly inventoryAssembly;
-	private String refNo;
 	private Double quantityToBuild;
 
 	@Override
@@ -42,14 +41,6 @@ public class ClientBuildAssembly extends ClientTransaction {
 
 	public void setInventoryAssembly(ClientInventoryAssembly inventoryAssembly) {
 		this.inventoryAssembly = inventoryAssembly;
-	}
-
-	public String getRefNo() {
-		return refNo;
-	}
-
-	public void setRefNo(String refNo) {
-		this.refNo = refNo;
 	}
 
 	public Double getQuantityToBuild() {
