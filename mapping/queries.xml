@@ -1600,6 +1600,13 @@
 		<query-param name="secret" type="binary" />
 		update users set secret_key=:secret where id=:userId
 	</sql-query>
+	
+	 <sql-query name="setSecretNull">
+		<query-param name="emailId" type="string" />
+		update users set secret_key=null where client_id=(select id from
+		client where email_id=:emailId)
+	</sql-query>
+
 
 	<sql-query name="getUserSecrets">
 		<query-param name="emailId" type="String" />
