@@ -5481,4 +5481,15 @@ public interface AccounterMessages extends Messages {
 	public String maximumNumberYouCanBuildFrom();
 
 	public String dntHaveEnoughComponents(String number);
+
+	public String challanDetails();
+
+	public String eTDSFilling();
+
+	public String deducatorDetails();
+
+	public String responsePersonDetails();
+
+	public String deducatorMaster();
+
 }
