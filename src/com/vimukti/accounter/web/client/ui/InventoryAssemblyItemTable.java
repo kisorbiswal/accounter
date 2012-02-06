@@ -50,7 +50,7 @@ public abstract class InventoryAssemblyItemTable extends
 			@Override
 			protected String getValue(ClientInventoryAssemblyItem row) {
 				if (row.getInventoryItem() != null) {
-					return row.getInventoryItem().getOnhandQuantity();
+					return String.valueOf(row.getInventoryItem().getOnhandQuantity());
 				} else {
 					return "0";
 				}
@@ -70,7 +70,6 @@ public abstract class InventoryAssemblyItemTable extends
 			@Override
 			protected void setValue(ClientInventoryAssemblyItem row,
 					String value) {
-				row.getInventoryItem().setOnhandQuantity(value);
 			}
 
 		};
