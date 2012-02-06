@@ -478,6 +478,11 @@ public class TDSChalanDetailsView extends
 		payFromAccCombo.setComboItem(getCompany().getAccount(
 				transaction.getPayFrom()));
 
+		if (transaction.getPayFrom() != 0) {
+			endingBalanceText.setAmount(getCompany().getAccount(
+					transaction.getPayFrom())
+					.getTotalBalanceInAccountCurrency());
+		}
 		chalanSerialNumber.setNumber(transaction.getChalanSerialNumber());
 
 		if (transaction.isBookEntry()) {
