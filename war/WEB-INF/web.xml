@@ -754,7 +754,51 @@
 		<servlet-name>EmailActivationServlet </servlet-name>
 		<url-pattern>/main/emailActivation</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>GoPremiumServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.GoPremiumServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GoPremiumServlet </servlet-name>
+		<url-pattern>/main/subscription/cancel</url-pattern>
+		<url-pattern>/site/gopremium</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SubscribtionComplitionServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.SubscribtionComplitionServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubscribtionComplitionServlet </servlet-name>
+		<url-pattern>/main/subscription/thankyou</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>PayPalIPINServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.PayPalIPINServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PayPalIPINServlet </servlet-name>
+		<url-pattern>/main/paypal/ipn </url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SubscriptionManagementServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.SubscriptionManagementServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubscriptionManagementServlet </servlet-name>
+		<url-pattern>/site/subscriptionmanagement</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>iAccounterExportCSVImpl

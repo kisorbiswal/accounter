@@ -1,9 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -128,7 +126,7 @@ public class SignupServlet extends BaseServlet {
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-				ClientSubscription clientSubscription = new ClientSubscription();
+
 				// clientSubscription.setCreatedDate(new Date(System
 				// .currentTimeMillis()));
 				// Set<String> members = new HashSet<String>();
@@ -139,8 +137,14 @@ public class SignupServlet extends BaseServlet {
 				// Set<String> features = new HashSet<String>();
 				// subscription.setFeatures(features);
 				// clientSubscription.setSubscription(subscription);
+
+				ClientSubscription clientSubscription = new ClientSubscription();
+				clientSubscription.setSubscription(new Subscription());
+				saveEntry(clientSubscription);
+
 				client.setClientSubscription(clientSubscription);
 				client.setDeleted(false);
+
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);
 

@@ -5492,6 +5492,50 @@ public interface AccounterMessages extends Messages {
 
 	public String deducatorMaster();
 
+	public String YES();
+
+	public String NO();
+
+	public String branchOrdivison();
+
+	public String flatNo();
+
+	public String nameOfPremisis();
+
+	public String streetOrRoadName();
+
+	public String cityOrTown();
+
+	public String area();
+
+	public String hasAddressChangedSinceLastReturn();
+
+	public String telephoneNo();
+
+	public String tanNumber();
+
+	public String addressSameForResponsiblePersonAlso();
+
+	public String taxOfficeAddress();
+
+	public String deducatorType();
+
+	public String PAOCode();
+
+	public String PAORegistration();
+
+	public String ddoCode();
+
+	public String ddoRegistrationNumber();
+
+	public String ministry();
+
+	public String ministryName();
+
+	public String government();
+
+	public String particularOfDeducator();
+	
 	public String taxAgencyPayment();
 
 	public String vatAgencyPayment();

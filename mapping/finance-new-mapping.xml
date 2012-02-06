@@ -34,17 +34,36 @@
 			<many-to-many column="LANGUAGE_CODE"
 				class="com.vimukti.accounter.web.server.translate.Language" />
 		</set>
-		<many-to-one name="clientSubscription" class="com.vimukti.accounter.core.ClientSubscription"
-			lazy="false" column="CLIENT_SUBSCRIPTION" not-null="true">
+		<many-to-one name="clientSubscription"
+			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"
+			column="CLIENT_SUBSCRIPTION" not-null="true">
 		</many-to-one>
 	</class>
-	<!-- <class name="Subscription" table="SUBSCRIPTION">
+	<class name="ClientSubscription" table="CLIENT_SUBSCRIPTION">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="date" column="DATE"></property>
+		<many-to-one name="subscription" column="SUBSCRIPTION_ID"
+			unique="true" not-null="true" cascade="save-update,delete-orphan">
+		</many-to-one>
+		<property name="lastModified" column="LAST_MODIFIED"></property>
+		<property name="createdDate" column="CREATED_DATE"></property>
+		<set name="members" table="MEMBERS">
+			<key column="MEMBER_ID" />
+			<element column="EMAIL_ID" type="string" />
+		</set>
+	</class>
+	<class name="Subscription" table="SUBSCRIPTION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="NAME"></property>
 		<property name="type" column="TYPE"></property>
-	</class> -->
+		<set name="features" table="FEATURES">
+			<key column="FEATURE_ID" />
+			<element column="FEATURE_NAME" type="string" />
+		</set>
+	</class>
 	<!-- <class name="Subscription" table="SUBSCRIPTION">
 		<id name="id" column="ID">
 			<generator class="identity" />
