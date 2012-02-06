@@ -134,11 +134,11 @@ public class ReceivedPaymentListView extends
 	@Override
 	protected void onPageChange(int start, int length) {
 		int type = 0;
-		if (viewType.equalsIgnoreCase(messages.paid())) {
+		if (getViewType().equalsIgnoreCase(messages.paid())) {
 			type = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
 			type = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			type = VIEW_ALL;
 		}
 		Accounter.createHomeService().getReceivePaymentsList(
@@ -159,11 +159,11 @@ public class ReceivedPaymentListView extends
 	@Override
 	public void exportToCsv() {
 		int type = 0;
-		if (viewType.equalsIgnoreCase(messages.paid())) {
+		if (getViewType().equalsIgnoreCase(messages.paid())) {
 			type = ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-		} else if (viewType.equalsIgnoreCase(messages.voided())) {
+		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
 			type = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
 			type = VIEW_ALL;
 		}
 		Accounter.createExportCSVService().getReceivePaymentsListExportCsv(

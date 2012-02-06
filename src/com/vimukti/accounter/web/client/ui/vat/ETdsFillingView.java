@@ -143,7 +143,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		slectAssecementYear = new SelectCombo("Assessment year");
 		slectAssecementYear.setHelpInformation(true);
-		slectAssecementYear.initCombo(getFinancialYearList());
+		slectAssecementYear.initCombo(getAssessmentYearList());
 		slectAssecementYear.setDisabled(true);
 
 		financialYearCombo = new SelectCombo("Financial Year");
@@ -160,7 +160,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						slectAssecementYear.setSelected(getFinancialYearList()
+						slectAssecementYear.setSelected(getAssessmentYearList()
 								.get(financialYearCombo.getSelectedIndex() + 1));
 
 						String delims = "-";
@@ -232,6 +232,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 
+		tdsCellTable.addStyleName("tds-celltable");
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
 		scroll.setSize("910px", "100%");
@@ -362,7 +363,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		list.add("26Q");
 		list.add("27Q");
-		list.add("27EQ");
+		// list.add("27EQ");
 
 		return list;
 	}

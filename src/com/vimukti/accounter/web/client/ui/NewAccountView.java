@@ -1786,7 +1786,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 				}
 			});
 			if (accountType == ClientAccount.TYPE_BANK) {
-				buttonBar.add(uploadStatementBtn);
+				// buttonBar.add(uploadStatementBtn);
 			}
 			buttonBar.setCellHorizontalAlignment(reconcileBtn,
 					HasHorizontalAlignment.ALIGN_LEFT);

@@ -794,7 +794,6 @@
 				<one-to-many class="InventoryAssemblyItem" />
 			</set>
 			<property name="isPurhasedThisItem" column="IS_PURHASED_THIS_ITEM"></property>
-			<property name="vendor" column="VENDOR"></property>
 		</joined-subclass>
 	</class>
 

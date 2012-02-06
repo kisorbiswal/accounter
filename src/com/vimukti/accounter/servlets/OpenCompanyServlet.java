@@ -49,6 +49,7 @@ public class OpenCompanyServlet extends BaseServlet {
 	private static final String REDIRECT_PAGE = "/WEB-INF/Redirect.jsp";
 	private static final String USER_NAME = "userName";
 	private static final String COMPANY_NAME = "companyName";
+	private static final String SUBSCRIPTION = "subscription";
 	private static final String USER_AGENT = "User-Agent";
 	private static final String SUPPORTED_BROWSERS_URL = "/WEB-INF/supportedbrowsers.jsp";
 	private static final String FILE_NAME = "config/SupportedBrowsers.txt";
@@ -198,7 +199,10 @@ public class OpenCompanyServlet extends BaseServlet {
 					session.save(activity);
 				}
 				transaction.commit();
-
+				if (client.getSubscription() != null) {
+					request.setAttribute(SUBSCRIPTION, client.getSubscription()
+							.getId());
+				}
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);

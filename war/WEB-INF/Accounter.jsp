@@ -66,6 +66,7 @@
     <script type="text/javascript">
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
+    
     </script>
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
@@ -279,8 +280,19 @@
 	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
 	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a target="_blank" href="/site/support"> Support </a>
+	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
+	    <script type="text/javascript" >
+	    <% 
+			Long subscription=(Long)request.getAttribute("subscription");
+		%>
+			var subscription=<%= subscription %>;
+		    if(subscription==null){
+				$("#support").after('|<a target="_blank" href="/site/gopremium">Go Premium</a>'); 
+			}else{
+				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
+			}
+	    </script>
 	</div>
 	
     <!-- OPTIONAL: include this if you want history support -->

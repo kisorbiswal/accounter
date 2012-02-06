@@ -407,35 +407,37 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		mainVLay.add(hPanel);
 		mainVLay.add(topHLay);
 
-		table = new InventoryAssemblyItemTable(new ICurrencyProvider() {
+		table = new InventoryAssemblyItemTable(
+				InventoryAssemblyItemTable.INVENTORY_ASSEMBLY_ITEM,
+				new ICurrencyProvider() {
 
-			// private ClientCurrency currency;
-			// private double currencyFactor;
+					// private ClientCurrency currency;
+					// private double currencyFactor;
 
-			@Override
-			public Double getAmountInBaseCurrency(Double amount) {
-				// if (currency != null && amount != null) {
-				// if (currencyFactor < 0.0) {
-				// currencyFactor = 1.0;
-				// }
-				// return amount * currencyFactor;
-				// } else {
-				return amount;
-				// }
-			}
+					@Override
+					public Double getAmountInBaseCurrency(Double amount) {
+						// if (currency != null && amount != null) {
+						// if (currencyFactor < 0.0) {
+						// currencyFactor = 1.0;
+						// }
+						// return amount * currencyFactor;
+						// } else {
+						return amount;
+						// }
+					}
 
-			@Override
-			public ClientCurrency getTransactionCurrency() {
-				return getCompany().getPrimaryCurrency();
-			}
+					@Override
+					public ClientCurrency getTransactionCurrency() {
+						return getCompany().getPrimaryCurrency();
+					}
 
-			@Override
-			public Double getCurrencyFactor() {
-				// return currencyFactor;
-				return 1.0;
-			}
+					@Override
+					public Double getCurrencyFactor() {
+						// return currencyFactor;
+						return 1.0;
+					}
 
-		}) {
+				}) {
 
 			@Override
 			public ClientCurrency getTransactionCurrency() {

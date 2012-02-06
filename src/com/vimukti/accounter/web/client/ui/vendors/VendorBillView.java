@@ -127,6 +127,13 @@ public class VendorBillView extends
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
 			}
+			this.vendorAccountTransactionTable
+					.setRecords(getAccountTransactionItems(transaction
+							.getTransactionItems()));
+			this.vendorItemTransactionTable
+					.setRecords(getItemTransactionItems(transaction
+							.getTransactionItems()));
+
 			paymentTermsCombo.setValue(transaction.getPaymentTerm());
 			dueDateItem
 					.setValue(new ClientFinanceDate(transaction.getDueDate()));

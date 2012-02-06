@@ -27,7 +27,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	private ClientBrandingTheme brandingTheme;
 
 	private int transactionType;
-	private int viewId;
+	public int viewId;
 
 	public InvoiceListView() {
 		super(messages.open());
@@ -64,10 +64,10 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	public void exportToCsv() {
-		viewId = checkViewType(viewType);
+		setViewId(checkViewType(getViewType()));
 		Accounter.createExportCSVService().getInvoiceListExportCsv(
 				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, viewId,
+				transactionType, getViewId(),
 				getExportCSVCallback(messages.invoices()));
 	}
 
@@ -115,7 +115,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		}
 		grid.removeLoadingImage();
 		listOfInvoices = result;
-		viewSelect.setComboItem(viewType);
+		viewSelect.setComboItem(getViewType());
 		grid.setRecords(result);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), result.size(),
@@ -139,8 +139,8 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
 		listOfTypes.add(messages.drafts());
-		if (viewType != null && !viewType.equals("")) {
-			viewSelect.setComboItem(viewType);
+		if (getViewType() != null && !getViewType().equals("")) {
+			viewSelect.setComboItem(getViewType());
 		} else {
 			if (transactionType == 0
 					|| transactionType == ClientTransaction.TYPE_INVOICE) {
@@ -156,15 +156,15 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 	protected void filterList(String text) {
 		grid.removeAllRecords();
 		if (text.equalsIgnoreCase(messages.open())) {
-			viewId = VIEW_OPEN;
+			setViewId(VIEW_OPEN);
 		} else if (text.equalsIgnoreCase(messages.voided())) {
-			viewId = VIEW_VOIDED;
+			setViewId(VIEW_VOIDED);
 		} else if (text.equalsIgnoreCase(messages.overDue())) {
-			viewId = VIEW_OVERDUE;
+			setViewId(VIEW_OVERDUE);
 		} else if (text.equalsIgnoreCase(messages.all())) {
-			viewId = VIEW_ALL;
+			setViewId(VIEW_ALL);
 		} else if (text.equalsIgnoreCase(messages.drafts())) {
-			viewId = VIEW_DRAFT;
+			setViewId(VIEW_DRAFT);
 		}
 		onPageChange(0, getPageSize());
 
@@ -377,26 +377,34 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		viewId = checkViewType(viewType);
+		setViewId(checkViewType(getViewType()));
 		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
-				getEndDate().getDate(), transactionType, viewId, start, length,
-				this);
+				getEndDate().getDate(), transactionType, getViewId(), start,
+				length, this);
 
 	}
 
 	private int checkViewType(String view) {
-		if (viewType.equalsIgnoreCase(messages.open())) {
-			viewId = VIEW_OPEN;
-		} else if (viewType.equalsIgnoreCase(messages.voided())) {
-			viewId = VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase(messages.overDue())) {
-			viewId = VIEW_OVERDUE;
-		} else if (viewType.equalsIgnoreCase(messages.all())) {
-			viewId = VIEW_ALL;
-		} else if (viewType.equalsIgnoreCase(messages.drafts())) {
-			viewId = VIEW_DRAFT;
+		if (getViewType().equalsIgnoreCase(messages.open())) {
+			setViewId(VIEW_OPEN);
+		} else if (getViewType().equalsIgnoreCase(messages.voided())) {
+			setViewId(VIEW_VOIDED);
+		} else if (getViewType().equalsIgnoreCase(messages.overDue())) {
+			setViewId(VIEW_OVERDUE);
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
+			setViewId(VIEW_ALL);
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
+			setViewId(VIEW_DRAFT);
 		}
 
+		return getViewId();
+	}
+
+	public int getViewId() {
 		return viewId;
+	}
+
+	public void setViewId(int viewId) {
+		this.viewId = viewId;
 	}
 }

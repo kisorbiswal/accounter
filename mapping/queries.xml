@@ -1850,6 +1850,88 @@
 		where
 		bankAccount.id=:fromID and company=:company
 	</query>
+	
+	<query name="update.merge.accounttaxrefund.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.ReceiveVAT set depositIn.id=:toID
+		where
+		depositIn.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountpaytax.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.PayTAX set payFrom.id=:toID
+		where
+		payFrom.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountcustomerrefud.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.CustomerRefund set payFrom.id=:toID
+		where
+		payFrom.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountcustomerprepay.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.CustomerPrePayment set depositIn.id=:toID
+		where
+		depositIn.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountvendorrprepay.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.PayBill set payFrom.id=:toID
+		where
+		payFrom.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountcashpurchase.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.CashPurchase set payFrom.id=:toID
+		where
+		payFrom.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accountcashsale.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.CashSales set depositIn.id=:toID
+		where
+		depositIn.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accounttransferfundsto.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.TransferFund set depositIn.id=:toID
+		where
+		depositIn.id=:fromID and company=:company
+	</query>
+	
+	<query name="update.merge.accounttransferfundsfrom.old.tonew">
+		<query-param name="fromID" type="long" />
+		<query-param name="toID" type="long" />
+		<query-param name="company" type="Company" />
+		update com.vimukti.accounter.core.TransferFund set depositFrom.id=:toID
+		where
+		depositFrom.id=:fromID and company=:company
+	</query>
+	
 
 	<query name="getCompany.has.recurrings">
 		from com.vimukti.accounter.core.Company c

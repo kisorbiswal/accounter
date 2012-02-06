@@ -165,8 +165,10 @@ public class ClientConvertUtil extends ObjectConvertUtil {
 								getCreditsAndPayments((CreditsAndPayments) srcField
 										.get(src)));
 					} else if ((dstField.getType().getModifiers() & Modifier.ABSTRACT) > 0) {
-						Class<?> clientEqualentClass = getClientEqualentClass(srcField
-								.get(src).getClass());
+						Object obj = HibernateUtil
+								.initializeAndUnproxy(srcField.get(src));
+						Class<?> clientEqualentClass = getClientEqualentClass(obj
+								.getClass());
 						getClientAfterCheckingInCache(srcField.get(src),
 								clientEqualentClass);
 						dstField.set(

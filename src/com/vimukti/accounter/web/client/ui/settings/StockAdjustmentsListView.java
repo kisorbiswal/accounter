@@ -9,11 +9,11 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
+import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 
-public class StockAdjustmentsListView extends BaseListView<StockAdjustmentList>
-		implements IPrintableView {
+public class StockAdjustmentsListView extends
+		TransactionsListView<StockAdjustmentList> implements IPrintableView {
 
 	private int start;
 

@@ -5450,14 +5450,49 @@ public interface AccounterMessages extends Messages {
 
 	public String typesMustbeSame(String items);
 
+	public String importFile();
+
+	public String notMatched();
+
 	public String errorEditingTransactionReconcilied();
 
 	public String errorDeletingTransactionReconcilied();
 
-	public String taxAgencyPayment();
+	public String inventoryValuationDetails();
 
-	public String vatAgencyPayment();
+	public String inventoryStockStatusByItem();
+
+	public String inventoryStockStatusByVendor();
 
 	public String youcannotEditDeleteDefaultTaxItem();
 
+	public String accounterNotActivate();
+
+	public String incorrectEmailOrPassWord();
+
+	public String receiveAmountCannotBeZeroOrLessThanZero();
+
+	public String enableUnits();
+
+	public String quantityNeeded();
+
+	public String otherChecks();
+
+	public String maximumNumberYouCanBuildFrom();
+
+	public String dntHaveEnoughComponents(String number);
+
+	public String challanDetails();
+
+	public String eTDSFilling();
+
+	public String deducatorDetails();
+
+	public String responsePersonDetails();
+
+	public String deducatorMaster();
+
+	public String taxAgencyPayment();
+
+	public String vatAgencyPayment();
 }

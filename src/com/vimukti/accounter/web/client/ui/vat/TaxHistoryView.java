@@ -249,6 +249,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	public void deleteSuccess(IAccounterCore result) {
 		clientAbstractTAXReturns.remove(result);
 		grid.removeRow(grid.getSelectedRecordIndex());
+		if (grid.getRecords().size() > 0) {
+			deleteButton.setVisible(true);
+		}
 	}
 
 	@Override

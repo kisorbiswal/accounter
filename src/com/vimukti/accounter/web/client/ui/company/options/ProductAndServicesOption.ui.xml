@@ -29,10 +29,10 @@
 					<g:VerticalPanel ui:field="subpanel">
 						<g:CheckBox ui:field="warehousesCheckBox" />
 						<g:CheckBox ui:field="unitsCheckBox" />
-						<g:Label ui:field="inventoryScheme" />
-						<g:RadioButton name="invenotry_type" ui:field="fifoOnly" />
-						<g:RadioButton name="invenotry_type" ui:field="lifoOnly" />
-						<g:RadioButton name="invenotry_type" ui:field="averageOnly" />
+						<g:HorizontalPanel>
+							<g:Label ui:field="inventoryScheme" />
+							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
+						</g:HorizontalPanel>
 					</g:VerticalPanel>
 				</g:HorizontalPanel>
 			</g:VerticalPanel>

@@ -695,7 +695,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	 * @param filename
 	 * @return
 	 */
-	protected AsyncCallback<String> getExportCSVCallback(final String filename) {
+	public AsyncCallback<String> getExportCSVCallback(final String filename) {
 		return new AsyncCallback<String>() {
 
 			@Override

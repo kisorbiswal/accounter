@@ -465,7 +465,7 @@ public class RecurringTransaction extends CreatableObject implements
 				calendar.add(Calendar.DATE, intervalPeriod);
 			} else {
 				// add the daysInAdvanceToCreate days from actual date.
-				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
@@ -498,7 +498,7 @@ public class RecurringTransaction extends CreatableObject implements
 			} else {
 				// not scheduled yet, so we need to reduce the
 				// daysInAdvanced from the actual date
-				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -551,7 +551,7 @@ public class RecurringTransaction extends CreatableObject implements
 			if (!isScheduled()) {
 				// not yet scheduled, reduce the daysInAdvance from the actual
 				// date.
-				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -589,7 +589,7 @@ public class RecurringTransaction extends CreatableObject implements
 				calendar.add(Calendar.YEAR, intervalPeriod);
 			} else {
 				// not yet scheduled, reduce the daysInAdvance from actual date
-				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
@@ -638,7 +638,7 @@ public class RecurringTransaction extends CreatableObject implements
 			} else {
 				// not yet scheduled, reduce the daysInAdvance from the actual
 				// date
-				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+				// calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
 			}
 			return isValidScheduleTime(new FinanceDate(calendar.getTime())) ? calendar
 					.getTime() : null;
@@ -749,7 +749,9 @@ public class RecurringTransaction extends CreatableObject implements
 		if (nextScheduleOn != null) {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(nextScheduleOn.getAsDateObject());
-
+			if (type == RECURRING_SCHEDULED) {
+				calendar.add(Calendar.DAY_OF_MONTH, daysInAdvanceToCreate);
+			}
 			return new FinanceDate(calendar.getTime());
 		}
 		return null;

@@ -108,6 +108,8 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
 			transactionName = messages.taxAdjustment();
 			break;
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+			transactionName = messages.tdsChallan();
 		}
 		return transactionName;
 	}

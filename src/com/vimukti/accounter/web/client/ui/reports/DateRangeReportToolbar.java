@@ -35,8 +35,6 @@ public class DateRangeReportToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] reportBasisArray = { messages.cash(), messages.accrual() };
-
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
 				messages.lastMonth(), messages.thisFinancialYear(),
@@ -202,8 +200,9 @@ public class DateRangeReportToolbar extends ReportToolbar {
 			ClientFinanceDate endDate) {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
-		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
-				endDate);
+		setStartAndEndDates(fromItem.getDate(), toItem.getDate());
+		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
+				fromItem.getDate(), toItem.getDate());
 	}
 
 	@Override

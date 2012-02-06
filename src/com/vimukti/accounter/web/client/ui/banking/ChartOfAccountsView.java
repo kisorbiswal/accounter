@@ -127,7 +127,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 			return;
 		}
 		grid.setRecords(result);
-		grid.sort(10, false);
+		grid.sort(1, false);
 		Window.scrollTo(0, 0);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());

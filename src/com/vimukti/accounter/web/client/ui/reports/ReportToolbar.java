@@ -81,6 +81,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		this.endDate = endDate;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void dateRangeChanged(String dateRange) {
 		try {
 			ClientFinanceDate date = new ClientFinanceDate();
@@ -272,7 +273,9 @@ public abstract class ReportToolbar extends HorizontalPanel {
 					startDate = new ClientFinanceDate(date.getYear() - 1, 11, 1);
 					endDate = new ClientFinanceDate(date.getYear() - 1, 11, day);
 				} else {
-					day = getMonthLastDate(date.getMonth() - 1, date.getYear());
+					Date dateAsObject = date.getDateAsObject();
+					int month = dateAsObject.getMonth();
+					day = getMonthLastDate(month - 1, date.getYear());
 					startDate = new ClientFinanceDate(date.getYear(),
 							date.getMonth() - 1, 1);
 					endDate = new ClientFinanceDate(date.getYear(),
@@ -361,8 +364,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 				startDate = new ClientFinanceDate();
 				endDate = new ClientFinanceDate(startDate.getYear(), 11, 31);
 				setSelectedDateRange(messages.untilEndOfYear());
-
-			} else if (!getSelectedDateRange().equals(messages.thisWeek())
+			} else if ((!getSelectedDateRange().equals(messages.thisWeek()))
 					&& dateRange.equals(messages.thisWeek())) {
 				startDate = getWeekStartDate();
 				endDate.setDay(startDate.getDay() + 6);

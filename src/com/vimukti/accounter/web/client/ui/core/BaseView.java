@@ -345,6 +345,17 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		return list;
 	}
 
+	public List<String> getAssessmentYearList() {
+		ArrayList<String> list = new ArrayList<String>();
+
+		ClientFinanceDate date = new ClientFinanceDate();
+		int year = date.getYear();
+		for (int i = year - 10; i < year + 2; i++) {
+			list.add(Integer.toString(i) + "-" + Integer.toString(i + 1));
+		}
+		return list;
+	}
+
 	public List<String> getFinancialQuatersList() {
 		ArrayList<String> list = new ArrayList<String>();
 

@@ -22,17 +22,19 @@ import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends
-		AbstractPayeeCenterView<ClientCustomer> {
+		AbstractPayeeCenterView<ClientCustomer> implements IPrintableView {
 	private static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
@@ -515,5 +517,39 @@ public class CustomerCenterView<T> extends
 	@Override
 	public ClientCustomer saveView() {
 		return selectedCustomer;
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService()
+				.getCustomerTransactionsListExportCsv(selectedCustomer,
+						getTransactionType(), getTransactionStatusType(),
+						getStartDate(), getEndDate(),
+						new AsyncCallback<String>() {
+
+							@Override
+							public void onSuccess(String id) {
+								UIUtils.downloadFileFromTemp(
+										trasactionViewSelect.getSelectedValue()
+												+ " of "
+												+ selectedCustomer.getName()
+												+ ".csv", id);
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								caught.printStackTrace();
+							}
+						});
 	}
 }

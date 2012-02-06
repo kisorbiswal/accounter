@@ -1846,17 +1846,16 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public PaginationList<PaymentsList> getPayeeChecks(
-			boolean isCustomerChecks, long fromDate, long toDate, int start,
-			int length, int viewType) {
+	public PaginationList<PaymentsList> getPayeeChecks(int type, long fromDate,
+			long toDate, int start, int length, int viewType) {
 		PaginationList<PaymentsList> checks = null;
 		try {
 			FinanceDate[] dates = getMinimumAndMaximumDates(
 					new ClientFinanceDate(fromDate), new ClientFinanceDate(
 							toDate), getCompanyId());
 			checks = getFinanceTool().getVendorManager().getPayeeChecks(
-					getCompanyId(), isCustomerChecks, dates[0], dates[1],
-					viewType, start, length);
+					getCompanyId(), type, dates[0], dates[1], viewType, start,
+					length);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

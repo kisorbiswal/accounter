@@ -986,6 +986,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			this.shippingTerm = company.getShippingTerms(transaction
 					.getShippingTerm());
 			initTransactionNumber();
+			initTransactionsItems();
 			this.orderNumText
 					.setValue(transaction.getOrderNum() != null ? transaction
 							.getOrderNum() : "");

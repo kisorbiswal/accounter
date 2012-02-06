@@ -636,6 +636,22 @@ public class ReceiveVATView extends
 				&& grid.getSelectedRecords().size() == 0) {
 			result.addError(grid, messages.pleaseSelect(messages.fileVAT()));
 		}
+		if (grid != null && !grid.getRecords().isEmpty()) {
+
+			List<ClientTransactionReceiveVAT> selectedRecords = grid
+					.getSelectedRecords();
+			for (ClientTransactionReceiveVAT receiveVat : selectedRecords) {
+
+				int status = DecimalUtil.compare(
+						receiveVat.getAmountToReceive(), 0.00);
+				if (status <= 0) {
+					result.addError(grid,
+							messages.receiveAmountCannotBeZeroOrLessThanZero());
+
+				}
+			}
+
+		}
 		if (isInViewMode()) {
 			if (!AccounterValidator.isPositiveAmount(totalAmount)) {
 				// FIXME Need to Configm Object

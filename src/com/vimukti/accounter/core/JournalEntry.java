@@ -215,7 +215,7 @@ public class JournalEntry extends Transaction {
 			involvedAccount.setOpeningBalance(0.00D);
 			session.save(involvedAccount);
 		}
-
+		voidTransactionItems();
 	}
 
 	@Override

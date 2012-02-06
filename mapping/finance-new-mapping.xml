@@ -34,9 +34,17 @@
 			<many-to-many column="LANGUAGE_CODE"
 				class="com.vimukti.accounter.web.server.translate.Language" />
 		</set>
-
+		<many-to-one name="subscription"
+			class="com.vimukti.accounter.core.Subscription" column="SUBSCRIPTION_ID"
+			unique="true" />
 	</class>
-
+	<class name="Subscription" table="SUBSCRIPTION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="date" column="DATE"></property>
+		<property name="type" column="TYPE"></property>
+	</class>
 	<class name="Activation" table="ACTIVATION">
 		<id name="id" column="ID">
 			<generator class="identity" />

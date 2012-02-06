@@ -21,7 +21,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 	public static final int VIEW_DRAFT = 4;
 	public static final int TYPE_ALL = 1000;
 
-	protected String viewType;
+	private String viewType;
 
 	public TransactionsListView() {
 		super();
@@ -33,7 +33,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		super();
 		this.startDate = Accounter.getStartDate();
 		this.endDate = getCompany().getCurrentFiscalYearEndDate();
-		this.viewType = viewType;
+		this.setViewType(viewType);
 	}
 
 	@Override
@@ -58,13 +58,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 					public void selectedComboBoxItem(String selectItem) {
 						if (viewSelect.getSelectedValue() != null) {
 							grid.setViewType(viewSelect.getSelectedValue());
-							viewType = selectItem;
+							setViewType(selectItem);
 							filterList(viewSelect.getSelectedValue());
 						}
 					}
 				});
 		viewSelect.addStyleName("invoiceListCombo");
-		viewSelect.setComboItem(viewType);
+		viewSelect.setComboItem(getViewType());
 		return viewSelect;
 	}
 
@@ -344,7 +344,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		}
 		String currentView = (String) map.get("currentView");
 		viewSelect.setComboItem(currentView);
-		this.viewType = currentView;
+		this.setViewType(currentView);
 		String dateRange1 = (String) map.get("dateRange");
 		dateRangeSelector.setComboItem(dateRange1);
 		dateRangeChanged(dateRange1);
@@ -360,5 +360,13 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		setStartDate(fromItem.getDate());
 		setEndDate(toItem.getDate());
 		changeDates(startDate, endDate);
+	}
+
+	public String getViewType() {
+		return viewType;
+	}
+
+	public void setViewType(String viewType) {
+		this.viewType = viewType;
 	}
 }
