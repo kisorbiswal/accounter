@@ -38,6 +38,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	HTML passwordInfo;
 	@UiField
 	Hyperlink moreInfoLink;
+	private SetupWizard setupWizard;
 
 	interface SetupPremiumPageUiBinder extends
 			UiBinder<Widget, SetupPremiumPage> {
@@ -56,6 +57,7 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	 */
 	public SetupPremiumPage(SetupWizard setupWizard) {
 		initWidget(uiBinder.createAndBindUi(this));
+		this.setupWizard = setupWizard;
 		createControls();
 	}
 
