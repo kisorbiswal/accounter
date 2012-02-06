@@ -30,7 +30,7 @@ public class Client {
 	private Set<Language> languages;
 	private boolean isDeleted;
 	private boolean isEmailBounced;
-	private Subscription subscription;
+	private ClientSubscription clientSubscription;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -200,12 +200,11 @@ public class Client {
 		this.isEmailBounced = isEmailBounced;
 	}
 
-	public Subscription getSubscription() {
-		return subscription;
+	public ClientSubscription getClientSubscription() {
+		return clientSubscription;
 	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
+	public void setClientSubscription(ClientSubscription clientSubscription) {
+		this.clientSubscription = clientSubscription;
 	}
-
 }

@@ -1,7 +1,9 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -124,7 +128,18 @@ public class SignupServlet extends BaseServlet {
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-
+				ClientSubscription clientSubscription = new ClientSubscription();
+				// clientSubscription.setCreatedDate(new Date(System
+				// .currentTimeMillis()));
+				// Set<String> members = new HashSet<String>();
+				// members.add(emailId);
+				// clientSubscription.setMembers(members);
+				// Subscription subscription = new Subscription();
+				// subscription.setName("");
+				// Set<String> features = new HashSet<String>();
+				// subscription.setFeatures(features);
+				// clientSubscription.setSubscription(subscription);
+				client.setClientSubscription(clientSubscription);
 				client.setDeleted(false);
 				saveEntry(client);
 				session.setAttribute(EMAIL_ID, emailId);

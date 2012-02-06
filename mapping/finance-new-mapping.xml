@@ -34,17 +34,24 @@
 			<many-to-many column="LANGUAGE_CODE"
 				class="com.vimukti.accounter.web.server.translate.Language" />
 		</set>
-		<many-to-one name="subscription"
-			class="com.vimukti.accounter.core.Subscription" column="SUBSCRIPTION_ID"
-			unique="true" />
+		<many-to-one name="clientSubscription" class="com.vimukti.accounter.core.ClientSubscription"
+			lazy="false" column="CLIENT_SUBSCRIPTION" not-null="true">
+		</many-to-one>
 	</class>
-	<class name="Subscription" table="SUBSCRIPTION">
+	<!-- <class name="Subscription" table="SUBSCRIPTION">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
 		<property name="date" column="DATE"></property>
 		<property name="type" column="TYPE"></property>
-	</class>
+	</class> -->
+	<!-- <class name="Subscription" table="SUBSCRIPTION">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="date" column="DATE"></property>
+		<property name="type" column="TYPE"></property>
+	</class> -->
 	<class name="Activation" table="ACTIVATION">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -52,8 +59,6 @@
 		<property name="emailId" column="EMAIL_ID"></property>
 		<property name="token" column="TOKEN"></property>
 		<property name="signUpDate" column="SIGN_UP_DATE"></property>
-
-
 	</class>
 
 	<class name="Developer" table="DEVELOPER">

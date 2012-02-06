@@ -57,8 +57,8 @@ public class SetupPremiumPage extends AbstractSetupPage {
 	 */
 	public SetupPremiumPage(SetupWizard setupWizard) {
 		initWidget(uiBinder.createAndBindUi(this));
-		this.setupWizard = setupWizard;
 		createControls();
+		this.setupWizard = setupWizard;
 	}
 
 	@Override

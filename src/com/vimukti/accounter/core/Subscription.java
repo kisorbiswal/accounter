@@ -1,9 +1,9 @@
 package com.vimukti.accounter.core;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Subscription {
-
 	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 0;
 	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 1;
 	public static final int TWO_USERS_MONTHLY_SUBSCRIPTION = 2;
@@ -12,27 +12,11 @@ public class Subscription {
 	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 5;
 	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 6;
 	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 7;
-
-	private Date date;
-	private int type;
+	
+	private String name;
 	private long id;
-	private Client client;
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
+	private Set<String> features = new HashSet<String>();
+	private int type;
 
 	public long getId() {
 		return id;
@@ -42,12 +26,20 @@ public class Subscription {
 		this.id = id;
 	}
 
-	public Client getClient() {
-		return client;
+	public String getName() {
+		return name;
 	}
 
-	public void setClient(Client client) {
-		this.client = client;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Set<String> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Set<String> features) {
+		this.features = features;
 	}
 
 	public static String getTypeToString(int type) {
@@ -93,5 +85,13 @@ public class Subscription {
 			return 7;
 		}
 		return 1;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

@@ -37,6 +37,19 @@ public class DownloadTempFileServlet extends HttpServlet {
 				ServletOutputStream op = resp.getOutputStream();
 				resp.setHeader("Content-Disposition", "attachment; filename=\""
 						+ fileName + "\"");
+				resp.setHeader("Content-Description: File Transfer",
+						"attachment; filename=\"" + fileName + "\"");
+				resp.setHeader("Content-Type: application/octet-stream",
+						"attachment; filename=\"" + fileName + "\"");
+				resp.setHeader("Content-Transfer-Encoding: binary",
+						"attachment; filename=\"" + fileName + "\"");
+				resp.setHeader("Expires: 0", "attachment; filename=\""
+						+ fileName + "\"");
+				resp.setHeader(
+						"Cache-Control: must-revalidate, post-check=0, pre-check=0",
+						"attachment; filename=\"" + fileName + "\"");
+				resp.setHeader("Pragma: public", "attachment; filename=\""
+						+ fileName + "\"");
 				byte[] bbuf = new byte[BUFSIZE];
 				DataInputStream in = new DataInputStream(new FileInputStream(
 						file));

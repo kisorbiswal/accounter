@@ -40,13 +40,13 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			client = getClient(emailId);
 			managementData.setAdminMailId(emailId);
 			managementData.setSubscriptionDate(String.valueOf(client
-					.getSubscription().getDate()));
+					.getClientSubscription().getCreatedDate()));
 		}
 
 		managementData.setUserMailds(req.getParameter("userMailds").toString());
 		managementData.setSubscriptionType(Subscription.getStringToType(req
 				.getParameter("subscriptionType").toString()));
-		
+
 	}
 
 	private void showSubscriptionManagementDetails(HttpServletRequest req,
@@ -58,9 +58,9 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			managementData.setUserMailds(getUsersMailIds(client));
 			managementData.setAdminMailId(emailId);
 			managementData.setSubscriptionDate(String.valueOf(client
-					.getSubscription().getDate()));
-			managementData.setSubscriptionType(client.getSubscription()
-					.getType());
+					.getClientSubscription().getCreatedDate()));
+			managementData.setSubscriptionType(client.getClientSubscription()
+					.getSubscription().getType());
 			req.setAttribute("managementData", managementData);
 			dispatch(req, resp, view);
 		}
