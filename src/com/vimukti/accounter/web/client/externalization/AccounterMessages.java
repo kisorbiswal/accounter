@@ -5537,5 +5537,18 @@ public interface AccounterMessages extends Messages {
 	public String government();
 
 	public String particularOfDeducator();
+	
+
+	public String onHand();
+
+	public String avgCost();
+
+	public String inventoryValutionSummary();
+
+	public String percentOfToTAsset();
+
+	public String retailCost();
+
+	public String perOfTotRetail();
 
 }
