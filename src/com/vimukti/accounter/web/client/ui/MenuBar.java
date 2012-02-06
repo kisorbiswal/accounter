@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -266,13 +265,12 @@ public class MenuBar {
 			vatmenu.addMenuItem(messages.taxHistory(), HistoryTokens.TAXHISTORY);
 		}
 
-		if (company instanceof India) {
-			if (tdsEnabled) {
-				vatmenu.addMenuItem(getDeductorMasterMenu(messages
-						.deducatorMaster()));
-				vatmenu.addMenuItem(getForm16AMenu(messages.tds()));
-			}
-		}
+		// if (company instanceof India) {
+		// if (tdsEnabled) {
+		// vatmenu.addMenuItem(getDeductorMasterMenu("Deductor Master"));
+		// vatmenu.addMenuItem(getForm16AMenu("TDS"));
+		// }
+		// }
 		vatmenu.addSeparatorItem();
 		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
@@ -282,9 +280,8 @@ public class MenuBar {
 	private MenuItem getDeductorMasterMenu(String string) {
 		Menu formMenu = new Menu(string);
 
-		formMenu.addMenuItem(messages.deducatorDetails(),
-				HistoryTokens.DEDUCTORDETAILS);
-		formMenu.addMenuItem(messages.responsePersonDetails(),
+		formMenu.addMenuItem("Deductor Details", HistoryTokens.DEDUCTORDETAILS);
+		formMenu.addMenuItem("Responsible Person Details",
 				HistoryTokens.PERSONDETAILS);
 
 		return formMenu;
@@ -294,9 +291,8 @@ public class MenuBar {
 
 		Menu formMenu = new Menu(string);
 
-		formMenu.addMenuItem(messages.challanDetails(),
-				HistoryTokens.CHALANDETAILS);
-		formMenu.addMenuItem(messages.eTDSFilling(), HistoryTokens.eTDSFILLING);
+		formMenu.addMenuItem("Chalan Details", HistoryTokens.CHALANDETAILS);
+		formMenu.addMenuItem("e-TDS Filling", HistoryTokens.eTDSFILLING);
 
 		return formMenu;
 	}
@@ -360,8 +356,7 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
 		return reportMenuBar;
-	}
-
+}
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
 		fixedAssetsReportMenu.addMenuItem(messages.depreciationReport(),
@@ -696,11 +691,10 @@ public class MenuBar {
 				vendorMenuBar.addMenuItem(messages.expenseClaims(),
 						HistoryTokens.EXPENSECLAIMS);
 			}
-
+			vendorMenuBar.addSeparatorItem();
 		}
 		vendorMenuBar.addMenuItem(messages.buildAssembly(),
 				HistoryTokens.BUILD_ASSEMBLY);
-		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
 				.get().Vendor())));
 
