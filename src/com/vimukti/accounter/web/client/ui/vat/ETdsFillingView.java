@@ -143,7 +143,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		slectAssecementYear = new SelectCombo("Assessment year");
 		slectAssecementYear.setHelpInformation(true);
-		slectAssecementYear.initCombo(getFinancialYearList());
+		slectAssecementYear.initCombo(getAssessmentYearList());
 		slectAssecementYear.setDisabled(true);
 
 		financialYearCombo = new SelectCombo("Financial Year");
@@ -160,7 +160,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						slectAssecementYear.setSelected(getFinancialYearList()
+						slectAssecementYear.setSelected(getAssessmentYearList()
 								.get(financialYearCombo.getSelectedIndex() + 1));
 
 						String delims = "-";
