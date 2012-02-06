@@ -200,6 +200,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		email = new EmailField("Email");
 		email.setHelpInformation(true);
 		email.setDisabled(isInViewMode());
+		email.setRequired(true);
 
 		taxDynamicForm = new DynamicForm();
 		taxDynamicForm.setFields(deductorName, branchName, flatNo,
