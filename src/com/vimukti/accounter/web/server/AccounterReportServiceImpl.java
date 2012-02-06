@@ -41,6 +41,9 @@ import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -968,6 +971,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
 	public ArrayList<TransactionDetailByAccount> getAutomaticTransactions(
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		ArrayList<TransactionDetailByAccount> automaticTransactions = new ArrayList<TransactionDetailByAccount>();
@@ -2482,8 +2486,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			ArrayList<ClientBudget> budgets = new ArrayList<ClientBudget>();
-			budgets = (ArrayList<ClientBudget>) getFinanceTool().getBudgetList(
-					companyId);
+			budgets = getFinanceTool().getBudgetList(companyId);
 
 			for (ClientBudget budget : budgets) {
 				ArrayList<ClientBudgetItem> budgetItems = new ArrayList<ClientBudgetItem>();
@@ -2859,7 +2862,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<TAXItemDetail> getTAXItemExceptionDetailReport(
 			long taxAgency, long startDate, long endDate)
 			throws AccounterException {
-		
+
 		ArrayList<TAXItemDetail> list = getFinanceTool().getReportManager()
 				.getTAXItemExceptionDetailReport(getCompanyId(), taxAgency,
 						startDate, endDate);
@@ -3129,5 +3132,37 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				.getReportManager().getUnRealisedExchangeLossesAndGains(
 						enterdDate, getCompanyId(), exchangeRates);
 		return list;
+	}
+
+	@Override
+	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByVendor(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getInventoryManager()
+				.getInventoryStockStatusByVendor(getCompanyId(), start, end);
+	}
+
+	@Override
+	public ArrayList<InventoryValutionDetail> getInventoryValutionDetail(
+			long itemId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getInventoryManager()
+				.getInventoryValutionDetail(getCompanyId(), start, end, itemId);
+	}
+
+	@Override
+	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByItem(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getInventoryManager()
+				.getInventoryStockStatusByItem(getCompanyId(), start, end);
+	}
+
+	@Override
+	public ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getInventoryManager()
+				.getInventoryValutionSummary(getCompanyId(), start, end);
 	}
 }
