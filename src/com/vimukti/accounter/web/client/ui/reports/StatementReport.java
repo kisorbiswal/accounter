@@ -15,8 +15,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 
 public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public int precategory = 1001;
-	public static long payeeId = 0;
-	private final boolean isVendor;
+	private long payeeId = 0;
+	private boolean isVendor;
 
 	public StatementReport(boolean isVendor) {
 		this.isVendor = isVendor;
@@ -24,7 +24,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	}
 
 	public StatementReport(boolean isVendor, long payeeId) {
-		this.payeeId = payeeId;
+		this.setPayeeId(payeeId);
 		this.isVendor = isVendor;
 		this.serverReport = new StatementServerReport(isVendor, this);
 	}
@@ -33,7 +33,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	public void init() {
 
 		super.init();
-		this.toolbar.setPayeeId(this.payeeId);
+		this.toolbar.setPayeeId(this.getPayeeId());
 		// this.makeReportRequest(payeeId, toolbar.getStartDate(),
 		// toolbar.getEndDate());
 
@@ -42,7 +42,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	@Override
 	protected ClientCurrency getCurrency() {
 		ClientCompany company = Accounter.getCompany();
-		ClientPayee payee = company.getPayee(payeeId);
+		ClientPayee payee = company.getPayee(getPayeeId());
 		if (payee != null) {
 			return company.getCurrency(payee.getCurrency());
 		} else {
@@ -60,7 +60,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
-		this.makeReportRequest(payeeId, start, end);
+		this.makeReportRequest(getPayeeId(), start, end);
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		grid.clear();
 		// grid.addLoadingImagePanel();
 		if (payee != 0) {
-			payeeId = payee;
+			setPayeeId(payee);
 		}
-		Accounter.createReportService().getStatements(isVendor, payeeId,
+		Accounter.createReportService().getStatements(isVendor, getPayeeId(),
 				startDate, endDate, this);
 
 	}
@@ -91,7 +91,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 	@Override
 	public void print() {
 
-		if (payeeId == 0) {
+		if (getPayeeId() == 0) {
 			if (isVendor) {
 				Accounter.showError(messages
 						.pleaseSelect(Global.get().Vendor()));
@@ -104,19 +104,19 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 				UIUtils.generateReportPDF(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						167, "", "", payeeId);
+						167, "", "", getPayeeId());
 			} else {
 				UIUtils.generateReportPDF(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						150, "", "", payeeId);
+						150, "", "", getPayeeId());
 			}
 		}
 	}
 
 	@Override
 	public void exportToCsv() {
-		if (payeeId == 0) {
+		if (getPayeeId() == 0) {
 			if (isVendor) {
 				Accounter.showError(messages
 						.pleaseSelect(Global.get().Vendor()));
@@ -129,12 +129,12 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 				UIUtils.exportReport(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						167, "", "", payeeId);
+						167, "", "", getPayeeId());
 			} else {
 				UIUtils.exportReport(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						150, "", "", payeeId);
+						150, "", "", getPayeeId());
 			}
 		}
 	}
@@ -203,10 +203,13 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
 		long status1 = ((Long) map.get("statement"));
+		setPayeeId(status1);
 		toolbar.setPayeeId(status1);
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		Boolean isVendor = (Boolean) map.get("isVendor");
+		this.isVendor = isVendor == null ? false : isVendor;
 		isDatesArranged = true;
 	}
 
@@ -216,12 +219,21 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
-		long status = StatementReport.payeeId;
+		long status = getPayeeId();
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("statement", status);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("isVendor", isVendor);
 		return map;
+	}
+
+	public long getPayeeId() {
+		return payeeId;
+	}
+
+	public void setPayeeId(long payeeId) {
+		this.payeeId = payeeId;
 	}
 
 }
