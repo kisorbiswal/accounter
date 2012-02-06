@@ -5492,6 +5492,8 @@ public interface AccounterMessages extends Messages {
 
 	public String deducatorMaster();
 
+	public String cashPurchasePaidSoYouCantVoid();
+
 	public String YES();
 
 	public String NO();
