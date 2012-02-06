@@ -161,8 +161,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
-		<return-scalar column="ESTIMATE_TYPE" type="int" /> T.SAVE_STATUS !=
-		202 AND 
+		<return-scalar column="ESTIMATE_TYPE" type="int" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
@@ -11809,7 +11808,9 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="AMOUNT" type="double" />
+		SELECT A.NAME AS NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
 		LEFT JOIN ACCOUNT A ON AT.ACCOUNT_ID=A.ID LEFT JOIN TRANSACTION T ON
 		T.ID=AT.TRANSACTION_ID WHERE (A.A_TYPE=14 OR A.A_TYPE=17) AND
 		AT.COMPANY_ID=:companyId
