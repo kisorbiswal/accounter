@@ -1088,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	               (2),.datenumber-panel table {
+	                (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2836,7 +2836,12 @@ input.date-field-textbox {
 .bank_recouncil-popup a,.bank_recouncil-popup a:ACTIVE {
 	color: #2D8B93;
 }
-.bottom_totals{
+
+.bottom_totals {
 	font-weight: bold;
-	float:right;
+	float: right;
+}
+
+.tds-celltable{
+	min-height: 350px !important;
 }
