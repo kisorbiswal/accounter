@@ -321,8 +321,8 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 	public List<String> getYESNOList() {
 		List<String> names = new ArrayList<String>();
-		names.add("YES");
-		names.add("NO");
+		names.add(messages.YES());
+		names.add(messages.NO());
 		return names;
 
 	}
