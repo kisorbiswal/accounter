@@ -140,6 +140,11 @@ import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.EnterExchangeRatesAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryItemReportAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByItemAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByVendorAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryValuationDetailsAction;
+import com.vimukti.accounter.web.client.ui.reports.InventoryValutionSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
@@ -257,6 +262,18 @@ public class ActionFactory {
 
 	public static InventoryItemsAction getInventoryItemsAction() {
 		return new InventoryItemsAction();
+	}
+
+	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction() {
+		return new InventoryValuationDetailsAction();
+	}
+
+	public static InventoryStockStatusByItemAction getInventoryStockStatusByItemAction() {
+		return new InventoryStockStatusByItemAction();
+	}
+
+	public static InventoryStockStatusByVendorAction getInventoryStockStatusByVendorAction() {
+		return new InventoryStockStatusByVendorAction();
 	}
 
 	public static ConversionBalancesAction getConversionBalancesAction() {
@@ -890,6 +907,10 @@ public class ActionFactory {
 		return new ProfitAndLossAction();
 	}
 
+	public static InventoryItemReportAction getInventoryItemReportAction() {
+		return new InventoryItemReportAction();
+	}
+
 	public static SalesByItemSummaryAction getSalesByItemSummaryAction() {
 		return new SalesByItemSummaryAction();
 	}
@@ -1426,5 +1447,14 @@ public class ActionFactory {
 
 	public static BuildAssemblyAction getBuildAssemblyAction() {
 		return new BuildAssemblyAction();
+	}
+
+	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction(
+			Long id) {
+		return new InventoryValuationDetailsAction(id);
+	}
+
+	public static InventoryValutionSummaryReportAction getInventoryValutionSummaryReportAction() {
+		return new InventoryValutionSummaryReportAction();
 	}
 }
