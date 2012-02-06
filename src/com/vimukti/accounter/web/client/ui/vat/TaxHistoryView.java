@@ -104,8 +104,9 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 
 							@Override
 							public boolean onYesClick() {
+								ClientTAXReturn selection2 = selection;
 								Accounter.deleteObject(TaxHistoryView.this,
-										selection);
+										selection2);
 								return true;
 							}
 
@@ -226,7 +227,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (grid.getRecords().isEmpty()) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
 		}
-		taxReturnSelected(grid.getSelection());
 		saveAndNewButton.setVisible(!grid.getRecords().isEmpty());
 	}
 
@@ -249,8 +249,10 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 	public void deleteSuccess(IAccounterCore result) {
 		clientAbstractTAXReturns.remove(result);
 		grid.removeRow(grid.getSelectedRecordIndex());
-		if (grid.getRecords().size() > 0) {
+		if (grid.getRowCount() > 0) {
 			deleteButton.setVisible(true);
+		} else {
+			deleteButton.setVisible(false);
 		}
 	}
 
@@ -281,7 +283,6 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			deleteButton.setVisible(false);
 			return;
 		}
-		deleteButton.setObj(obj);
 		deleteButton.setVisible(canDelete(obj));
 	}
 
