@@ -232,6 +232,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
 
+		tdsCellTable.addStyleName("tds-celltable");
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
 		scroll.setSize("910px", "100%");

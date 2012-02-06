@@ -333,6 +333,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.add(horizontalPanel);
+		verticalPanel.setWidth("100%");
 
 		this.add(verticalPanel);
 
