@@ -359,15 +359,30 @@ public class MenuBar {
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
+		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 		return reportMenuBar;
 	}
-
+	
+	private MenuItem getInventoryReportMenu(String inventory) {
+		Menu inventoryMenuBar = new Menu(inventory);
+		inventoryMenuBar.addMenuItem(messages.inventoryValutionSummary(),
+				HistoryTokens.INVENTORY_VALUATION_SUMMARY);
+		inventoryMenuBar.addMenuItem(messages.inventoryValuationDetails(),
+				HistoryTokens.INVENTORY_VALUATION_DETAIL_REPORT);
+		inventoryMenuBar.addMenuItem(messages.inventoryStockStatusByItem(),
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_ITEM_REPORT);
+		inventoryMenuBar.addMenuItem(messages.inventoryStockStatusByVendor(),
+				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
+		return inventoryMenuBar;
+	}
+	
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
 		fixedAssetsReportMenu.addMenuItem(messages.depreciationReport(),
 				HistoryTokens.DEPRECIATIONSHEDULE);
 		return fixedAssetsReportMenu;
 	}
+	
 
 	private Menu getSalesSubMenu(String string) {
 		Menu salesMenu = new Menu(string);

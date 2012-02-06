@@ -359,6 +359,11 @@ public class HistoryTokens {
 
 	public static final String INVENTORY_ASSEMBLY = "inventoryassembly";
 
+	public static final String INVENTORY_VALUATION_SUMMARY = "InventoryValutionSummaryReport";
+	public static final String INVENTORY_VALUATION_DETAIL_REPORT = "InventoryValuationDetailReport";
+	public static final String INVENTORY_STOCK_STATUS_BY_ITEM_REPORT = "InventoryStockStatusByItemReport";
+	public static final String INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT = "InventoryStockStatusByVendorReport";
+
 	public HistoryTokens() {
 
 	}
