@@ -5479,4 +5479,6 @@ public interface AccounterMessages extends Messages {
 	public String otherChecks();
 
 	public String maximumNumberYouCanBuildFrom();
+
+	public String dntHaveEnoughComponents(String number);
 }

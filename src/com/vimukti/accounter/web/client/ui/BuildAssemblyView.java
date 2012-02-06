@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -41,6 +43,7 @@ public class BuildAssemblyView extends
 	private AmountField quantityToBuild;
 	private DateField dateField;
 	private TextAreaItem memoItem;
+	private ValidationResult result;
 
 	@Override
 	public void init() {
@@ -49,6 +52,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected void createControls() {
+		result = new ValidationResult();
 		itemCombo = new InventoryAssemblyItemCombo(messages.assemblyItem());
 		itemCombo.setRequired(true);
 
@@ -109,6 +113,18 @@ public class BuildAssemblyView extends
 		memoItem.setMemo(true, this);
 		maximumBuildsLabel = new AmountLabel(
 				messages.maximumNumberYouCanBuildFrom());
+		quantityToBuild.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (Integer.parseInt(maximumBuildsLabel.getValue()) < Integer
+						.parseInt(quantityToBuild.getValue())) {
+					result.add(quantityToBuild, messages
+							.dntHaveEnoughComponents(maximumBuildsLabel
+									.getValue()));
+				}
+			}
+		});
 
 		transactionNumber = new TextItem(messages.refNo());
 		DynamicForm headerForm = new DynamicForm();
@@ -187,8 +203,9 @@ public class BuildAssemblyView extends
 				assemblyItems.add(clientInventoryAssemblyItem);
 			}
 			itemTable.setRecords(assemblyItems);
-			quantityToBuild.setValue(Integer
+			maximumBuildsLabel.setValue(Integer
 					.toString(calculateNumberOfBuilds(assemblyItems)));
+
 		}
 
 	}
@@ -300,7 +317,6 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = new ValidationResult();
 		if (quantityToBuild.getAmount() < 0) {
 			result.addError(quantityToBuild,
 					messages.pleaseEnter(quantityToBuild.getName()));
