@@ -144,9 +144,12 @@ public class EU {
 	public static byte[] generateD2(String password, String emailId)
 			throws Exception {
 		byte[] s1 = EU.generatePBS(password);
-		byte[] s2 = EU.generateSymetric();
+		byte[] s2 = getKey(emailId);
+		if (s2 == null) {
+			s2 = EU.generateSymetric();
+			EU.storeKey(s2, emailId);
+		}
 		byte[] d2 = EU.encrypt(s1, s2);
-		EU.storeKey(s2, emailId);
 		return d2;
 	}
 
