@@ -356,7 +356,8 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
 		return reportMenuBar;
-}
+	}
+
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
 		fixedAssetsReportMenu.addMenuItem(messages.depreciationReport(),
@@ -691,10 +692,11 @@ public class MenuBar {
 				vendorMenuBar.addMenuItem(messages.expenseClaims(),
 						HistoryTokens.EXPENSECLAIMS);
 			}
-			vendorMenuBar.addSeparatorItem();
+
 		}
 		vendorMenuBar.addMenuItem(messages.buildAssembly(),
 				HistoryTokens.BUILD_ASSEMBLY);
+		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
 				.get().Vendor())));
 
