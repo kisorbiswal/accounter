@@ -119,7 +119,7 @@ public class BuildAssemblyView extends
 			public void onClick(ClickEvent event) {
 				if (Integer.parseInt(maximumBuildsLabel.getValue()) < Integer
 						.parseInt(quantityToBuild.getValue())) {
-					result.add(quantityToBuild, messages
+					result.addError(quantityToBuild, messages
 							.dntHaveEnoughComponents(maximumBuildsLabel
 									.getValue()));
 				}
