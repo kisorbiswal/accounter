@@ -1,7 +1,10 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
+import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.forms.FormItem;
@@ -10,8 +13,8 @@ import com.vimukti.accounter.web.client.ui.forms.Validator;
 
 public class DataUtils {
 
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	public static Validator phoneValidator() {
 		Validator custValidator = new Validator() {
 
@@ -349,6 +352,58 @@ public class DataUtils {
 	public static String getAmountAsStringInCurrency(double amount,
 			String currencySymbol) {
 		return Global.get().toCurrencyFormat(amount, currencySymbol);
+	}
+
+	/**
+	 * It will subtract qty2 from qty1
+	 * 
+	 * @param qty1
+	 * @param qty2
+	 * @return
+	 */
+	public static ClientQuantity subtractQuantities(ClientQuantity qty1,
+			ClientQuantity qty2) {
+		ClientQuantity qty = new ClientQuantity();
+		qty.setValue(-qty2.getValue());
+		qty.setUnit(qty2.getUnit());
+		return addQuantities(qty1, qty);
+	}
+
+	public static ClientQuantity addQuantities(ClientQuantity qty1,
+			ClientQuantity qty2) {
+		ClientCompany company = Accounter.getCompany();
+		ClientUnit unit1 = company.getUnitById(qty1.getUnit());
+		ClientUnit unit2 = company.getUnitById(qty2.getUnit());
+
+		if (unit1 == null ^ unit2 == null) {
+			// one unit is null and another one is not null.
+			throw new IllegalArgumentException(
+					"Can't able to add, null type mismatch");
+		}
+
+		if (unit1 != null && unit2.getMeasurement() != unit1.getMeasurement()) {
+			// unit available, but the both are not belongs to same Measurement.
+			throw new IllegalArgumentException(
+					"Can't able to add different Unit types");
+		}
+
+		/*
+		 * convert the quantities to default measure
+		 */
+		ClientQuantity thisQuantity = qty1.convertToDefaultUnit(unit1);
+		ClientQuantity otherQuantity = qty2.convertToDefaultUnit(unit2);
+
+		/*
+		 * add the default quantities to make result quantity.
+		 */
+		ClientQuantity resultQuantity = new ClientQuantity();
+		if (unit1 != null) {
+			resultQuantity.setUnit(qty1.getDefaultUnitId(unit1));
+		}
+		resultQuantity.setValue(thisQuantity.getValue()
+				+ otherQuantity.getValue());
+
+		return resultQuantity;
 	}
 
 }

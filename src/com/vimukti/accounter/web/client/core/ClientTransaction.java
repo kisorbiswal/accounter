@@ -48,8 +48,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_EMPLOYEE_EXPENSE = 28;
 	public static final int TYPE_CUSTOMER_PREPAYMENT = 29;
 	public static final int TYPE_ADJUST_SALES_TAX = 32;
-
 	public static final int TYPE_MAKE_DEPOSIT = 35;
+
+	public static final int TYPE_STOCK_ADJUSTMENT = 36;
+	public static final int TYPE_BUILD_ASSEMBLY = 37;
+
 	/*
 	 * There is no seperate transaction for VendorPayment.VendorPayment saved as
 	 * a Paybill.So,to open the VendorPaymentView in edit mode we use this

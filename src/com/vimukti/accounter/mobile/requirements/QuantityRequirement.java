@@ -82,7 +82,7 @@ public abstract class QuantityRequirement extends
 	}
 
 	protected String getValueRecordName() {
-		return getMessages().adjustmentQty();
+		return getMessages().adjustedQty();
 	}
 
 	protected abstract List<Unit> getLists(Context context);

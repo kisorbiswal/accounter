@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -14,9 +16,9 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
-import com.vimukti.accounter.core.StockAdjustmentItem;
 import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -427,12 +429,12 @@ public class InventoryManager extends Manager {
 				.setLong("companyId", companyId).list();
 		ArrayList<StockAdjustmentList> result = new ArrayList<StockAdjustmentList>();
 		for (StockAdjustment record : list) {
-			for (StockAdjustmentItem item : record.getStockAdjustmentItems()) {
+			for (TransactionItem item : record.getTransactionItems()) {
 				StockAdjustmentList s = new StockAdjustmentList();
 				s.setWareHouse(record.getWareHouse().getName());
 				s.setItem(item.getItem().getName());
 				s.setQuantity(new ClientConvertUtil().toClientObject(
-						item.getAdjustmentQty(), ClientQuantity.class));
+						item.getQuantity(), ClientQuantity.class));
 				s.setStockAdjustment(record.getID());
 				result.add(s);
 			}
@@ -453,6 +455,20 @@ public class InventoryManager extends Manager {
 			ClientItemStatus clientRecord = new ClientConvertUtil()
 					.toClientObject(record, ClientItemStatus.class);
 			result.add(clientRecord);
+		}
+		return result;
+	}
+
+	public Map<Long, Double> getAssetValuesOfAllInventory(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getAssetValueOfAllInventory")
+				.setParameter("companyId", companyId);
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		Map<Long, Double> result = new HashMap<Long, Double>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			result.put((Long) next[0], (Double) next[1]);
 		}
 		return result;
 	}

@@ -71,8 +71,8 @@ public class AccountTransaction extends CreatableObject implements
 		// if (this.transaction.transactionDate.getYear() == preferences
 		// .getStartOfFiscalYear().getYear()) {
 
-		int key = (transaction.transactionDate.getYear() + 1900) * 100
-				+ transaction.transactionDate.getMonth();
+		int key = (transaction.getDate().getYear() + 1900) * 100
+				+ transaction.getDate().getMonth();
 		if (this.account.monthViceAmounts.containsKey(key)) {
 			this.account.monthViceAmounts.put(key,
 					this.account.monthViceAmounts.get(key) + amount);

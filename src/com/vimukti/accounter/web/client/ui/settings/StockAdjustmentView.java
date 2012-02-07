@@ -2,29 +2,39 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
-import com.vimukti.accounter.web.client.core.ClientStockAdjustmentItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
+import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.tables.StockAdjustmentTable;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
-public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
+public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
+		implements ICurrencyProvider {
 
 	private VerticalPanel mainPanel;
 	private WarehouseCombo wareHouseCombo;
@@ -33,6 +43,8 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 	private DynamicForm form;
 	private List<DynamicForm> listForms;
 	private ClientWarehouse wareHouse;
+
+	AccountCombo adjustmentAccountCombo;
 
 	@Override
 	public void init() {
@@ -61,7 +73,16 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 					}
 				});
 
-		table = new StockAdjustmentTable() {
+		adjustmentAccountCombo = new AccountCombo(messages.adjustmentAccount()) {
+
+			@Override
+			protected List<ClientAccount> getAccounts() {
+				return getCompany().getActiveAccounts();
+			}
+		};
+		adjustmentAccountCombo.setRequired(true);
+		adjustmentAccountCombo.setDisabled(isInViewMode());
+		table = new StockAdjustmentTable(this) {
 
 			@Override
 			protected String getAvailableQuantity(long item) {
@@ -81,12 +102,12 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				table.add(new ClientStockAdjustmentItem());
+				table.add(new ClientTransactionItem());
 			}
 		});
 
 		form = new DynamicForm();
-		form.setFields(wareHouseCombo);
+		form.setFields(wareHouseCombo, adjustmentAccountCombo);
 		listForms.add(form);
 
 		mainPanel.add(form);
@@ -172,11 +193,17 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		if (wareHouseCombo.getSelectedValue() != null) {
 			data.setWareHouse(wareHouseCombo.getSelectedValue().getID());
 		}
-		data.setStockAdjustmentItems(getStockAdjustmentItems());
+		data.setTransactionItems(getStockAdjustmentItems());
+		if (adjustmentAccountCombo.getSelectedValue() != null) {
+			data.setAdjustmentAccount(adjustmentAccountCombo.getSelectedValue()
+					.getID());
+		}
+		data.setTransactionDate(new ClientFinanceDate().getDate());
 	}
 
 	@Override
 	public void initData() {
+		getAssetValuesForItems();
 		if (data == null) {
 			setData(new ClientStockAdjustment());
 			table.addEmptyMessage(messages.noRecordsToShow());
@@ -184,14 +211,38 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 			ClientWarehouse warehouse = getCompany().getWarehouse(
 					data.getWareHouse());
 			wareHouseCombo.setComboItem(warehouse);
-			List<ClientStockAdjustmentItem> stockAdjustmentItems = data
-					.getStockAdjustmentItems();
+			List<ClientTransactionItem> stockAdjustmentItems = data
+					.getTransactionItems();
 			if (stockAdjustmentItems != null && !stockAdjustmentItems.isEmpty()) {
 				table.setAllRows(stockAdjustmentItems);
 			} else {
 				table.addEmptyMessage(messages.noRecordsToShow());
 			}
+			adjustmentAccountCombo.select(getCompany().getAccount(
+					data.getAdjustmentAccount()));
 		}
+	}
+
+	private void getAssetValuesForItems() {
+
+		AccounterAsyncCallback<Map<Long, Double>> callback = new AccounterAsyncCallback<Map<Long, Double>>() {
+
+			@Override
+			public void onException(AccounterException exception) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onResultSuccess(Map<Long, Double> result) {
+				for (Entry<Long, Double> entry : result.entrySet()) {
+					ClientItem item = getCompany().getItem(entry.getKey());
+					item.setAssetValue(entry.getValue());
+				}
+			}
+		};
+
+		Accounter.createGETService().getAssetValuesForInventories(callback);
 	}
 
 	@Override
@@ -199,11 +250,12 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		wareHouseCombo.setFocus();
 	}
 
-	private List<ClientStockAdjustmentItem> getStockAdjustmentItems() {
-		List<ClientStockAdjustmentItem> rows = table.getAllRows();
-		List<ClientStockAdjustmentItem> result = new ArrayList<ClientStockAdjustmentItem>();
-		for (ClientStockAdjustmentItem item : rows) {
+	private List<ClientTransactionItem> getStockAdjustmentItems() {
+		List<ClientTransactionItem> rows = table.getAllRows();
+		List<ClientTransactionItem> result = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : rows) {
 			if (!item.isEmpty()) {
+				item.setID(0);
 				result.add(item);
 			}
 		}
@@ -220,24 +272,28 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 		wareHouseCombo.setDisabled(!getCompany().getPreferences()
 				.iswareHouseEnabled() || isInViewMode());
 		table.setDisabled(isInViewMode());
+		table.clear();
+		table.setAllRows(data.getTransactionItems());
 		addButton.setEnabled(!isInViewMode());
+		adjustmentAccountCombo.setDisabled(isInViewMode());
 	}
 
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		List<ClientStockAdjustmentItem> allRows = table.getAllRows();
+		List<ClientTransactionItem> allRows = table.getAllRows();
 		if (allRows.isEmpty()) {
 			result.addError(this, messages.pleaseSelectInventoryItemToSave());
 		}
-		for (ClientStockAdjustmentItem item : allRows) {
-			if (item.getAdjustmentQty().getValue() <= 0) {
+		for (ClientTransactionItem item : allRows) {
+			if (item.getQuantity().getValue() <= 0) {
 				result.addError(this, messages.valueOfQuantityShouldNotBeZero());
-			} else if (item.getAdjustmentQty().getUnit() <= 0) {
+			} else if (item.getQuantity().getUnit() <= 0) {
 				result.addError(this,
 						messages.pleaseSelectUnitForInventoryItem());
 			}
 		}
+		result.add(form.validate());
 		return result;
 	}
 
@@ -249,5 +305,20 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment> {
 	@Override
 	protected boolean canDelete() {
 		return false;
+	}
+
+	@Override
+	public Double getAmountInBaseCurrency(Double amount) {
+		return amount;
+	}
+
+	@Override
+	public ClientCurrency getTransactionCurrency() {
+		return getCompany().getPrimaryCurrency();
+	}
+
+	@Override
+	public Double getCurrencyFactor() {
+		return 1.00D;
 	}
 }

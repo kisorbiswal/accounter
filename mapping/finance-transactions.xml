@@ -93,6 +93,7 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="TAXRateCalculation" />
 		</set>
+		
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -155,7 +156,6 @@
 		<joined-subclass name="BuildAssembly" table="BUILD_ASSEMBLY">
 			<key column="ID" />
 			<property name="inventoryAssembly" column="INVENTORY_ASSEMBLY"></property>
-			<property name="refNo" column="REF_NO"></property>
 			<property name="quantityToBuild" column="QUANTITY_TO_BUILD"></property>
 		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">
@@ -1000,8 +1000,32 @@
 				<many-to-many class="Estimate" />
 			</set>
 		</joined-subclass>
-	</class>
+		
+		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
+			<key column="ID" />
+			<many-to-one name="company" column="COMPANY_ID" class="Company"
+				not-null="true">
+			</many-to-one>
+	
+			<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse"
+				not-null="true">
+			</many-to-one>
+			
+			<many-to-one name="adjustmentAccount" column="ADJUSTMENT_ACCOUNT" class="Account"
+				not-null="true">
+			</many-to-one>
+	
+			<many-to-one name="createdBy" class="User" column="CREATED_BY"
+				not-null="true" />
+			<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
+				not-null="true" />
+			<property name="createdDate" column="CREATED_ON" not-null="true" />
+			<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
+				not-null="true" />
 
+		</joined-subclass>
+	</class>
+	
 	<class name="Attachment" table="ATTACHMENTS">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -1091,6 +1115,10 @@
 			column="TRANS_ITEM_ACCOUNTER_CLASS">
 		</many-to-one>
 		<property name="isAmountIncludeTAX" column="AMOUNTS_INCLUDE_TAX"></property>
+		<set name="purchases" cascade="save-update,delete,delete-orphan">
+			<key column="TRANSACTION_ITEM_ID"></key>
+			<one-to-many class="InventoryPurchase" />
+		</set>
 	</class>
 
 	<class name="TransactionDepositItem" table="TRANSACTION_DEPOSIT_ITEM">

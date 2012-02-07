@@ -130,7 +130,7 @@ public abstract class CustomerItemTransactionTable extends
 			}
 		});
 
-		this.addColumn(new NewQuantityColumn() {
+		this.addColumn(new NewQuantityColumn(false) {
 			@Override
 			protected void setValue(ClientTransactionItem row, String value) {
 				super.setValue(row, value);

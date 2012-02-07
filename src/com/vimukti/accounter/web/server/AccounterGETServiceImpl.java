@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.IAccounterGETService;
@@ -2096,6 +2097,14 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 	public List<ClientTAXReturn> getAllTAXReturns() throws AccounterException {
 		return getFinanceTool().getTaxManager()
 				.getAllTAXReturns(getCompanyId());
+	}
+
+	@Override
+	public Map<Long, Double> getAssetValuesForInventories()
+			throws AccounterException {
+		Map<Long, Double> map = getFinanceTool().getInventoryManager()
+				.getAssetValuesOfAllInventory(getCompanyId());
+		return map;
 	}
 
 }

@@ -78,7 +78,7 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 	 * 
 	 * @return
 	 */
-	private ClientQuantity convertToDefaultUnit(ClientUnit unit) {
+	public ClientQuantity convertToDefaultUnit(ClientUnit unit) {
 		double conversionFactor = unit == null ? 1 : unit.getMeasurement()
 				.getConversionFactor(unit.getType());
 
@@ -90,7 +90,7 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		return quantity;
 	}
 
-	private long getDefaultUnitId(ClientUnit unit2) {
+	public long getDefaultUnitId(ClientUnit unit2) {
 		long id = 0;
 		ClientMeasurement measurement = unit2.getMeasurement();
 		List<ClientUnit> units = measurement.getUnits();
@@ -101,7 +101,6 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		}
 		return id;
 	}
-
 
 	@Override
 	public String getDisplayName() {
@@ -144,4 +143,5 @@ public class ClientQuantity implements IAccounterCore, IsSerializable,
 		// TODO Auto-generated method stub
 
 	}
+
 }

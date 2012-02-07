@@ -18,7 +18,7 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 	private Item inventoryItem;
 
 	private Quantity quantity;
-	
+
 	private Double unitPrice;
 
 	private String discription;
@@ -101,6 +101,11 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 
 	public void setLinetotal(double linetotal) {
 		this.linetotal = linetotal;
+	}
+
+	public double getCostByActiveScheme() {
+		// TODO Auto-generated method stub
+		return 0.00D;
 	}
 
 }

@@ -801,7 +801,7 @@ public abstract class CompanyInitializer {
 		 * this inventory assets account is used while creating the inventory
 		 * item
 		 */
-		createAccount(Account.TYPE_OTHER_CURRENT_ASSET, "Inventory Assets",
+		createAccount(Account.TYPE_INVENTORY_ASSET, "Inventory Assets",
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 
 		// createAccount(Account.TYPE_OTHER_CURRENT_ASSET,

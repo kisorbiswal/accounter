@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -426,5 +427,8 @@ public interface IAccounterGETServiceAsync {
 
 	public void getAllTAXReturns(
 			AsyncCallback<List<ClientTAXReturn>> accounterAsyncCallback);
+
+	public void getAssetValuesForInventories(
+			AsyncCallback<Map<Long, Double>> callback);
 
 }

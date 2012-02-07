@@ -34,7 +34,7 @@ public abstract class WareHouseTransferTableRequirement extends
 		list.add(itemNameReq);
 
 		list.add(new QuantityRequirement(QUANTITY, getMessages().pleaseEnter(
-				getMessages().adjustmentQty()), getMessages().adjustmentQty(),
+				getMessages().adjustedQty()), getMessages().adjustedQty(),
 				false) {
 
 			@Override

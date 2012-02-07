@@ -1,5 +1,7 @@
 package com.vimukti.accounter.core;
 
+import org.hibernate.CallbackException;
+import org.hibernate.Session;
 import org.json.JSONException;
 
 public class BuildAssembly extends Transaction {
@@ -9,10 +11,37 @@ public class BuildAssembly extends Transaction {
 	 */
 
 	private InventoryAssembly inventoryAssembly;
-	private String refNo;
 	private Double quantityToBuild;
 
 	private static final long serialVersionUID = -5038297775075086681L;
+
+	public BuildAssembly() {
+		super();
+		setType(TYPE_BUILD_ASSEMBLY);
+	}
+
+	@Override
+	public boolean onSave(Session session) throws CallbackException {
+
+		Account assemblyAssetsAccount = inventoryAssembly.getAssestsAccount();
+		double totalAssemblyCost = 0.00D;
+		for (InventoryAssemblyItem item : inventoryAssembly.getComponents()) {
+			double itemCost = item.getQuantity().calculatePrice(
+					item.getCostByActiveScheme());
+			itemCost = itemCost * quantityToBuild;
+			totalAssemblyCost += itemCost;
+			Account itemAssestsAccount = item.getInventoryItem()
+					.getAssestsAccount();
+			itemAssestsAccount.updateCurrentBalance(this, itemCost, 1);
+		}
+
+		assemblyAssetsAccount.updateCurrentBalance(this, -totalAssemblyCost, 1);
+
+		Quantity onhandQuantity = inventoryAssembly.getOnhandQty();
+		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
+
+		return super.onSave(session);
+	}
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
@@ -76,24 +105,11 @@ public class BuildAssembly extends Transaction {
 	}
 
 	/**
-	 * @param inventoryAssembly the inventoryAssembly to set
+	 * @param inventoryAssembly
+	 *            the inventoryAssembly to set
 	 */
 	public void setInventoryAssembly(InventoryAssembly inventoryAssembly) {
 		this.inventoryAssembly = inventoryAssembly;
-	}
-
-	/**
-	 * @return the refNo
-	 */
-	public String getRefNo() {
-		return refNo;
-	}
-
-	/**
-	 * @param refNo the refNo to set
-	 */
-	public void setRefNo(String refNo) {
-		this.refNo = refNo;
 	}
 
 	/**
@@ -104,7 +120,8 @@ public class BuildAssembly extends Transaction {
 	}
 
 	/**
-	 * @param quantityToBuild the quantityToBuild to set
+	 * @param quantityToBuild
+	 *            the quantityToBuild to set
 	 */
 	public void setQuantityToBuild(Double quantityToBuild) {
 		this.quantityToBuild = quantityToBuild;

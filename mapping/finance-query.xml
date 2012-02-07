@@ -12605,6 +12605,106 @@ T.SAVE_STATUS
 		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
+	
+	<sql-query name="createInventoryItemHistory">
+		CREATE OR REPLACE VIEW 
+		INVENTORY_ITEM_HISTORY_VIEW AS
+		SELECT
+		T.COMPANY_ID as
+		COMPANY_ID,
+		T.ID as
+		TRANSACTION_ID,
+		TI.ID as TRANSACTION_ITEM_ID,
+		TI.UNIT_PRICE as UNIT_PRICE,
+		TI.QTY_VALUE AS QUANTITY, 
+		TI.QTY_UNIT as QTY_UNIT,
+		IT.ID as ITEM_ID,
+		T.T_DATE AS TRANSACTION_DATE
+		
+		FROM
+		TRANSACTION_ITEM TI
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON T.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN 
+		ITEM IT ON TI.TYPE=1 AND IT.TYPE IN (2,4) AND
+		IT.ID=TI.ITEM_ID  
+		
+		WHERE T.SAVE_STATUS != 201 AND T.SAVE_STATUS != 202
+		AND (T.T_TYPE IN (2,6,14,26,27) OR CASE WHEN T.T_TYPE=36 THEN TI.QTY_VALUE &gt;= 0 ELSE FALSE END) ;
+
+	</sql-query>
+	
+	<sql-query name="getPurchasesOfItem.for.LIFO">
+		<query-param name="inventoryId" type="long"/>
+		
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="QUANTITY_VALUE" type="double" />
+		<return-scalar column="QUANTITY_UNIT" type="long" />
+		<return-scalar column="COST" type="double" />
+		SELECT 
+		TRANSACTION_ITEM_ID,
+		QUANTITY AS QUANTITY_VALUE,
+		QTY_UNIT AS QUANTITY_UNIT,
+		UNIT_PRICE AS COST
+		
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		ORDER BY TRANSACTION_DATE DESC,TRANSACTION_ITEM_ID DESC;
+	</sql-query>
+	
+	<sql-query name="getPurchasesOfItem">
+		<query-param name="inventoryId" type="long"/>
+		
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="QUANTITY_VALUE" type="double" />
+		<return-scalar column="QUANTITY_UNIT" type="long" />
+		<return-scalar column="COST" type="double" />
+		SELECT 
+		TRANSACTION_ITEM_ID,
+		QUANTITY AS QUANTITY_VALUE,
+		QTY_UNIT AS QUANTITY_UNIT,
+		UNIT_PRICE AS COST
+		
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		ORDER BY TRANSACTION_DATE,TRANSACTION_ITEM_ID;
+	</sql-query>
+	
+	<sql-query name="getAverageCost.of.Item">
+		<query-param name="inventoryId" type="long"/>
+		<return-scalar column="COST" type="double"/>
+		
+		SELECT 
+		((SUM(QUANTITY*UNIT_PRICE))/SUM(QUANTITY)) as COST
+
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		
+	</sql-query>
+	
+	<sql-query name="getAssetValueOfAllInventory">
+		<query-param name="companyId" type="long" />
+	
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="ASSET_VALUE" type="double" />
+		SELECT 
+		IT.ID AS ITEM_ID, 
+		SUM(AT.AMOUNT) AS ASSET_VALUE
+		
+		FROM ACCOUNT_TRANSACTION AT 
+		LEFT JOIN TRANSACTION T ON AT.TRANSACTION_ID=T.ID 
+		LEFT JOIN TRANSACTION_ITEM TI ON TI.TYPE=1 AND TI.TRANSACTION_ID=T.ID 
+		LEFT JOIN STOCK_ADJUSTMENT SA ON SA.ID=T.ID 
+		LEFT JOIN STOCK_ADJUSTMENT_ITEM SAI ON SAI.STOCK_ADJUSTMENT=SA.ID
+		LEFT JOIN ITEM IT ON IT.TYPE IN (2,4) AND (IT.ID=TI.ITEM_ID OR IT.ID=SAI.ITEM)
+		
+		 WHERE AT.ACCOUNT_ID=IT.ASSETS_ACCOUNT_ID
+		 AND AT.COMPANY_ID=:companyId AND T.COMPANY_ID=:companyId AND IT.COMPANY_ID=:companyId
+				 
+		 GROUP BY IT.ID;
+	
+	</sql-query>
 
 	<sql-query name="getInventoryHistoryView">
 		CREATE OR REPLACE VIEW INVENTORY_HISTORY_VIEW AS 

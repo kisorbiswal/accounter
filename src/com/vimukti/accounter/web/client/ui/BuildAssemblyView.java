@@ -195,7 +195,7 @@ public class BuildAssemblyView extends
 	protected void inventoryAssemblySelected(ClientInventoryAssembly selectItem) {
 		if (selectItem != null) {
 			buildPoint.setValue(Integer.toString(selectItem.getReorderPoint()));
-			quantityOnHand.setAmount((double) selectItem.getOnhandQuantity());
+			quantityOnHand.setAmount(selectItem.getOnhandQty().getValue());
 			Set<ClientInventoryAssemblyItem> components = selectItem
 					.getComponents();
 			List<ClientInventoryAssemblyItem> assemblyItems = new ArrayList<ClientInventoryAssemblyItem>();
@@ -226,8 +226,8 @@ public class BuildAssemblyView extends
 			if (data.getInventoryAssembly() != null) {
 				buildPoint.setValue(Integer.toString(data
 						.getInventoryAssembly().getReorderPoint()));
-				quantityOnHand.setAmount((double) data.getInventoryAssembly()
-						.getOnhandQuantity());
+				quantityOnHand.setAmount(data.getInventoryAssembly()
+						.getOnhandQty().getValue());
 				Set<ClientInventoryAssemblyItem> components = data
 						.getInventoryAssembly().getComponents();
 				List<ClientInventoryAssemblyItem> assemblyItems = new ArrayList<ClientInventoryAssemblyItem>();
@@ -283,8 +283,8 @@ public class BuildAssemblyView extends
 		int buildNumber = 0;
 		int tempBuildNumber = 0;
 		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
-			long onhandQuantity = clientInventoryAssemblyItem
-					.getInventoryItem().getOnhandQuantity();
+			double onhandQuantity = clientInventoryAssemblyItem
+					.getInventoryItem().getOnhandQty().getValue();
 			double value = clientInventoryAssemblyItem.getQuantity().getValue();
 			tempBuildNumber = (int) (onhandQuantity / value);
 			if (buildNumber > tempBuildNumber) {
