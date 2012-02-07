@@ -3203,4 +3203,8 @@ public class ClientCompany implements IAccounterCore {
 	public boolean hasPermission(String featureName) {
 		return false;
 	}
+
+	public boolean isUnlimitedUser() {
+		return true;
+	}
 }
