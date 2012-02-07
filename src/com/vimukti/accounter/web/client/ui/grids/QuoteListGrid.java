@@ -197,8 +197,13 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
 	private void showWarningDialog(final ClientEstimate obj, final int col) {
 		String msg = null;
-		if (col == 7 && obj.getStatus() == ClientEstimate.STATUS_OPEN) {
+		if (col == 7 && obj.getStatus() == ClientEstimate.STATUS_OPEN
+				&& obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
 			msg = messages.doyouwanttorejecttheEstimate();
+		} else if (col == 7
+				&& obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			Accounter.showError(messages.youCannotrejecttheEstimate());
+			return;
 		}
 		// else if (col == 9) {
 		// msg = "Do you want to Delete the Transaction";
