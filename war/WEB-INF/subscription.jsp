@@ -6,11 +6,19 @@
 <head>
 <title>Accounter | Subscription </title>
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
+<%
+String info =(String) request.getAttribute("info");
+%>
 </head>
 <body>
 <table id="commanContainer">
 <tr>
 <td>
+<c:if test="${info!=null}"> 
+<div id="login_success" class="common-box">
+	<span>${info}</span>
+</div>
+</c:if>
 <div class="form-box">
 <form id="subscription_form" action=" https://www.paypal.com/cgi-bin/webscr " method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
