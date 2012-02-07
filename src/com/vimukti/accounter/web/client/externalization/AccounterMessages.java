@@ -5573,4 +5573,8 @@ public interface AccounterMessages extends Messages {
 
 	public String perOfTotRetail();
 
+	public String depricatiedReport();
+
+	public String youCannotrejecttheEstimate();
+
 }
