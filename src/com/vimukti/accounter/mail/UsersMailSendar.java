@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.MaintananceInfoUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.PropertyParser;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 
 public class UsersMailSendar {
 	private static PropertyParser propertyParser;
@@ -55,8 +56,34 @@ public class UsersMailSendar {
 
 	}
 
+	public static EMailSenderAccount getEmailAcc(ClientEmailAccount sender) {
+
+		EMailSenderAccount acc = new EMailSenderAccount();
+
+		acc.setOutGoingMailServer(sender.getSmtpMailServer());
+		acc.setPortNumber(sender.getPortNumber());
+		acc.setProtocol(propertyParser.getProperty("protocol", ""));
+
+		acc.setSmtpAuthentication(propertyParser.getProperty(
+				"smtpAuthentication", "no").equalsIgnoreCase("yes"));
+
+		acc.setSslAutheticationRequired(sender.isSSL());
+
+		acc.setStartTtlsEnables(propertyParser.getProperty("startTtlsEnables",
+				"no").equalsIgnoreCase("yes"));
+
+		acc.setTls_starttlsAutheticationPort(propertyParser.getProperty(
+				"tls_starttlsAutheticationPort", ""));
+
+		acc.setSenderEmailID(sender.getEmailId());
+
+		acc.setSenderPassword(sender.getPassword());
+		return acc;
+
+	}
+
 	public static void sendPdfMail(File file, String comapanyName,
-			String subject, String content, String senderEmail,
+			String subject, String content, ClientEmailAccount sender,
 			String recipientEmail, String ccEmail) throws IOException {
 
 		try {
@@ -73,7 +100,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setReplayTO(senderEmail);
+		emailMsg.setReplayTO(sender.getEmailId());
 		emailMsg.setAttachment(file);
 
 		String[] toIds = recipientEmail.split(",");
@@ -88,10 +115,34 @@ public class UsersMailSendar {
 			}
 		}
 
-		EMailJob job = new EMailJob(emailMsg, getEmailAcc(), comapanyName);
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc(sender), comapanyName);
 
 		EmailManager.getInstance().addJob(job);
 
+	}
+
+	public static void sendTestMail(ClientEmailAccount sender, String recipient)
+			throws FileNotFoundException, IOException {
+
+		initPropertyParserToInviteUser();
+
+		String subject = propertyParser.getProperty("subjectForTestEmail", "");
+		String content = propertyParser.getProperty("contentForTestEmail", "");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setReplayTO(sender.getEmailId());
+
+		String[] toIds = recipient.split(",");
+
+		for (int i = 0; i < toIds.length; i++) {
+			emailMsg.setRecepeant(toIds[i]);
+		}
+
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc(sender));
+
+		EmailManager.getInstance().addJob(job);
 	}
 
 	public static void sendMailToInvitedUser(Client user, String password,
