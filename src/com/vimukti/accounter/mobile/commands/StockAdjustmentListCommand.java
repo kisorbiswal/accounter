@@ -38,7 +38,7 @@ public class StockAdjustmentListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override
@@ -49,9 +49,8 @@ public class StockAdjustmentListCommand extends AbstractCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<StockAdjustmentList>(
-				"stockadjustments", getMessages().pleaseSelect(
-						"any " + getMessages().stockAdjustment()
-								+ " to view details"), 40) {
+				"stockadjustments", getMessages()
+						.pleaseSelectAnyStockAdjustmentToViewDetails(), 40) {
 
 			@Override
 			protected String onSelection(StockAdjustmentList value) {
