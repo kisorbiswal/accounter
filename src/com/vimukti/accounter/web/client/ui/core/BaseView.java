@@ -14,8 +14,6 @@ import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
-import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -192,9 +190,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		if (!isInViewMode()) {
 			if (this instanceof TDSChalanDetailsView) {
-				ImageButton verifyButton = new ImageButton("Annexture",
-						Accounter.getFinanceImages().approve());
-				buttonBar.add(verifyButton);
+				// ImageButton verifyButton = new ImageButton("Annexture",
+				// Accounter.getFinanceImages().approve());
+				// buttonBar.add(verifyButton);
 			}
 			if (isSaveButtonAllowed()) {
 				if (saveAndCloseButton != null) {
