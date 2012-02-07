@@ -1750,6 +1750,7 @@ public class VendorManager extends PayeeManager {
 				paymentsList.setCheckNumber((String) object[10] == null ? ""
 						: (String) object[10]);
 				paymentsList.setCurrency((Long) object[11]);
+				paymentsList.setSaveStatus((Integer) object[12]);
 				issuePaymentTransactionsList.add(paymentsList);
 			}
 		}
