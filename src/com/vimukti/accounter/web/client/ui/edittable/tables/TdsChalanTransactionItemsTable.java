@@ -77,7 +77,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Deductee Name";
+				return messages.deducteeName();
 			}
 		};
 		this.addColumn(vendorNameColumn);
@@ -97,7 +97,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Amount paid/credit";
+				return messages.amountPaidOrCredited();
 			}
 
 			@Override
@@ -129,7 +129,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "TDS Amount";
+				return messages.tdsAmount();
 			}
 
 			@Override
@@ -161,7 +161,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Surcharge Amount";
+				return messages.surchageAmount();
 			}
 
 			@Override
@@ -194,7 +194,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Education Cess";
+				return messages.educationCess();
 			}
 
 			@Override
@@ -227,7 +227,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Total Tax";
+				return messages.totalTax();
 			}
 
 			@Override
@@ -268,7 +268,7 @@ public abstract class TdsChalanTransactionItemsTable extends
 
 			@Override
 			protected String getColumnName() {
-				return "Date of payment";
+				return messages.dateofPayment();
 			}
 		};
 		this.addColumn(dateColumn);

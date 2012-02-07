@@ -50,7 +50,7 @@ public class CreditsOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		label.setText("If you use the Receive Payment page, you'll see that it doesn't include a Credits, because credits were already applied automatically");
+		label.setText(messages.creditsOptionLabelTxt());
 		creditsApplyAutomatic.setText(messages.automaticallyApplycredits());
 
 	}

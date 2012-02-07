@@ -209,14 +209,14 @@ public class CreateStatementToolBar extends ReportToolbar {
 				reportview.makeReportRequest(selectedVendor.getID(), startDate,
 						endDate);
 			} else {
-				reportview.addEmptyMessage("No records to show");
+				reportview.addEmptyMessage(messages.noRecordsToShow());
 			}
 		} else {
 			if (selectedCusotmer != null) {
 				reportview.makeReportRequest(selectedCusotmer.getID(),
 						startDate, endDate);
 			} else {
-				reportview.addEmptyMessage("No records to show");
+				reportview.addEmptyMessage(messages.noRecordsToShow());
 			}
 		}
 	}

@@ -232,7 +232,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			@Override
 			public void onResultSuccess(Boolean result) {
 				if (result) {
-					if (!viewType.equalsIgnoreCase("All"))
+					if (!viewType.equalsIgnoreCase(messages.all()))
 						deleteRecord(obj);
 					obj.setStatus(ClientTransaction.STATUS_DELETED);
 					isDeleted = true;

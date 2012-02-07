@@ -54,22 +54,22 @@ public class ChalanDetailsListView extends BaseListView<ClientTDSChalanDetail> {
 
 	@Override
 	protected String getListViewHeading() {
-		return "Chalan List View";
+		return messages.challanListView();
 	}
 
 	@Override
-	protected Action getAddNewAction() {
+	protected Action<ClientTDSChalanDetail> getAddNewAction() {
 		return ActionFactory.getTDSChalanDetailsView();
 	}
 
 	@Override
 	protected String getAddNewLabelString() {
-		return "Add Chalan Details";
+		return messages.addChallanDetails();
 	}
 
 	@Override
 	protected String getViewTitle() {
-		return "Chalan List View";
+		return messages.challanListView();
 	}
 
 	@Override

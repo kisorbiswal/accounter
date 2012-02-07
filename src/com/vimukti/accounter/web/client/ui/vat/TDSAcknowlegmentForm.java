@@ -34,8 +34,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 	private DateField dateField;
 
 	public TDSAcknowlegmentForm() {
-		super("TDS Acknowledgement Form",
-				"Add the acknowledgement no. you get after e TDS filling.");
+		super(messages.TDSAcknowledgementForm(), messages
+				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
 		setWidth("650px");
 		createControls();
 		center();
@@ -51,20 +51,20 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 		HorizontalPanel layout1 = new HorizontalPanel();
 		VerticalPanel vPanel = new VerticalPanel();
 
-		formTypeCombo = new SelectCombo("Form No.");
+		formTypeCombo = new SelectCombo(messages.formNo());
 		formTypeCombo.setRequired(true);
 		formTypeCombo.setHelpInformation(true);
 		formTypeCombo.initCombo(getFormTypes());
 		formTypeCombo.setSelectedItem(0);
 
-		financialYearCombo = new SelectCombo("Financial Year");
+		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.setRequired(true);
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setSelectedItem(0);
 		financialYearCombo.setRequired(true);
 
-		quaterCombo = new SelectCombo("For Quarter");
+		quaterCombo = new SelectCombo(messages.forQuarter());
 		quaterCombo.setRequired(true);
 		quaterCombo.setHelpInformation(true);
 		quaterCombo.initCombo(getFinancialQuatersList());
@@ -136,8 +136,8 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 						@Override
 						public void onResultSuccess(Boolean isFiled) {
 							if (isFiled) {
-								result.addWarning(ackNoField,
-										"The acknowledgement number already filed.");
+								result.addWarning(ackNoField, messages
+										.theAcknowledgementNumberAlreadyFiled());
 							}
 						}
 					});
@@ -185,7 +185,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 
 	protected void showWarning() {
 		AccounterDialog accounterDialog = new AccounterDialog(
-				"This acknowledgement number already filed.Do you want to override?",
+				messages.thisAcknowledgementNumberAlreadyFiled(),
 				AccounterType.WARNING) {
 			@Override
 			protected void yesClicked() throws Exception {
@@ -226,7 +226,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 
 					@Override
 					public void onException(AccounterException exception) {
-						Accounter.showError("Update Failed");
+						Accounter.showError(messages.updateFailed());
 					}
 
 					@Override
@@ -234,7 +234,7 @@ public class TDSAcknowlegmentForm extends BaseDialog {
 						if (result) {
 							saveSuccess(null);
 						} else {
-							Accounter.showError("Update Failed");
+							Accounter.showError(messages.updateFailed());
 						}
 					}
 				});

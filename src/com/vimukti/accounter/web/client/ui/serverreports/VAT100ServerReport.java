@@ -105,13 +105,12 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	protected void iniHandler() {
 
-		this.handler = new ISectionHandler() {
+		this.handler = new ISectionHandler<VATSummary>() {
 
 			@Override
-			public void OnSectionAdd(Section section) {
+			public void OnSectionAdd(Section<VATSummary> section) {
 				if (section.footer
 						.equals("BOX 5 Net VAT to pay(or reclaim if negative)")) {
 					section.data[0] = "";
@@ -119,7 +118,7 @@ public class VAT100ServerReport extends AbstractFinaneReport<VATSummary> {
 			}
 
 			@Override
-			public void OnSectionEnd(Section section) {
+			public void OnSectionEnd(Section<VATSummary> section) {
 
 				if (section.footer.equals(getMessages().box3TotalVATDue())) {
 					box3amount = Double.valueOf(section.data[1].toString());

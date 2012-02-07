@@ -12,12 +12,12 @@ public class ETdsFillingAction extends Action {
 
 	public ETdsFillingAction() {
 		super();
-		this.catagory = "TDS";
+		this.catagory = messages.tds();
 	}
 
 	@Override
 	public String getText() {
-		return "E-TDS Filling";
+		return messages.eTDSFilling();
 	}
 
 	@Override

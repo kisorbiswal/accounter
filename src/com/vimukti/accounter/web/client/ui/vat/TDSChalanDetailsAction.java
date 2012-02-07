@@ -15,7 +15,7 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	public TDSChalanDetailsAction() {
 		super();
-		this.catagory = "TDS";
+		this.catagory = messages.tds();
 
 	}
 
@@ -77,7 +77,7 @@ public class TDSChalanDetailsAction extends Action<ClientTDSChalanDetail> {
 
 	@Override
 	public String getText() {
-		return "Chalan Details";
+		return messages.challanDetails();
 	}
 
 	public int getType() {

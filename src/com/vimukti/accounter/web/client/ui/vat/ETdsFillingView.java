@@ -109,7 +109,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
-		lab1.setText("e-TDS Filling");
+		lab1.setText(messages.eTDSFilling());
 		lab1.addStyleName("label-title");
 
 		formType = new SelectCombo("Form No.");
@@ -141,12 +141,12 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 			}
 		});
 
-		slectAssecementYear = new SelectCombo("Assessment year");
+		slectAssecementYear = new SelectCombo(messages.assessmentYear());
 		slectAssecementYear.setHelpInformation(true);
 		slectAssecementYear.initCombo(getAssessmentYearList());
 		slectAssecementYear.setDisabled(true);
 
-		financialYearCombo = new SelectCombo("Financial Year");
+		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setSelectedItem(0);
@@ -173,7 +173,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 				});
 
-		quaterSelectionCombo = new SelectCombo("For Quarter");
+		quaterSelectionCombo = new SelectCombo(messages.forQuarter());
 		quaterSelectionCombo.setHelpInformation(true);
 		quaterSelectionCombo.initCombo(getFinancialQuatersList());
 		quaterSelectionCombo.setSelectedItem(0);
@@ -258,7 +258,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 
 	@Override
 	protected String getViewTitle() {
-		return "e-TDS Filling";
+		return messages.eTDSFilling();
 
 	}
 
@@ -319,14 +319,14 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		ValidationResult result = new ValidationResult();
 
 		if (getCompany().getTdsDeductor() == null) {
-			result.addError("deductor",
-					"TDS deductor details not entered yet. Please fill the details first.");
+			result.addError("deductor", messages
+					.tdsDeductorDetailsNotEnteredYetPleaseFillTheDetailsFirst());
 		}
 
 		if (getCompany().getTdsResposiblePerson() == null) {
 			result.addError(
 					"responsible",
-					"TDS responsible person details not entered yet. Please fill the details first.");
+					messages.tDSResponsiblePersonDetailsNotEnteredYetPleaseFillTheDetailsFirst());
 		}
 
 		List<ClientETDSFillingItem> records = tdsCellTable.getAllRows();
@@ -334,7 +334,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		for (ClientETDSFillingItem row : records) {
 			if (row.getCompanyCode() == null || row.getCompanyCode().isEmpty()) {
 				result.addError(tdsCellTable,
-						"Please select deductee code for all records.");
+						messages.pleaseSelectDeducteeCodeForAllRecords());
 			}
 		}
 
@@ -392,9 +392,9 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 	protected void createButtons(ButtonBar buttonBar) {
 		// super.createButtons(buttonBar);
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
-		this.saveAndCloseButton.setText("Download .txt file");
+		this.saveAndCloseButton.setText(messages.downloadTxtFile());
 
-		acknowledgementFormButton = new Button("Enter Ack. No.");
+		acknowledgementFormButton = new Button(messages.enterAckNumber());
 		acknowledgementFormButton.setFocus(true);
 
 		acknowledgementFormButton.addClickHandler(new ClickHandler() {

@@ -99,8 +99,8 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 	@Override
 	public void onDoubleClick(ClientStatement obj) {
 		if (obj.isReconciled()) {
-			Accounter
-					.showInformation("This statement is already reconciled.For details go to reconcilation history");
+			Accounter.showInformation(messages
+					.thisStatementIsAlreadyReconciled());
 		} else {
 			UIUtils.runAction(
 					null,
@@ -112,9 +112,9 @@ public class BankStatementsGrid extends BaseListGrid<ClientStatement> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.no(), "Total Records",
-				"Reconciled Records", "Imported Date", messages.startDate(),
-				messages.endDate(), "Starting Balance",
-				messages.ClosingBalance() };
+		return new String[] { messages.no(), messages.totalRecords(),
+				messages.reconciledRecords(), messages.importedDate(),
+				messages.startDate(), messages.endDate(),
+				messages.startingBalance(), messages.ClosingBalance() };
 	}
 }

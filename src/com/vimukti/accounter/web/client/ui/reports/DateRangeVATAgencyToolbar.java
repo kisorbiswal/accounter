@@ -35,14 +35,10 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 	private void createControls() {
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
 				messages.financialYearToDate(),
 				// FinanceApplication.constants().today(),
@@ -74,8 +70,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				// FinanceApplication.constants().previousCalenderYear(),
 				messages.custom() };
 
-		vatAgencyCombo = new TAXAgencyCombo(messages
-				.chooseVATAgency(), false);
+		vatAgencyCombo = new TAXAgencyCombo(messages.chooseVATAgency(), false);
 		vatAgencyCombo.setHelpInformation(true);
 		vatAgencyCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientTAXAgency>() {
@@ -95,8 +90,7 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 				});
 		List<ClientTAXAgency> vatAgencies = vatAgencyCombo.getComboItems();
 		for (ClientTAXAgency vatAgency : vatAgencies) {
-			if (vatAgency.getName().equals(
-					messages.hmRevenueCustomsVAT())) {
+			if (vatAgency.getName().equals(messages.hmRevenueCustomsVAT())) {
 				vatAgencyCombo.setComboItem(vatAgency);
 				break;
 			}
@@ -116,7 +110,8 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						if (!dateRangeItem.getSelectedValue().equals("Custom")) {
+						if (!dateRangeItem.getSelectedValue().equals(
+								messages.custom())) {
 							dateRangeChanged(dateRangeItem.getSelectedValue());
 							// fromItem.setDisabled(true);
 							// toItem.setDisabled(true);

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.VATItemDetailServerReport;
 
-@SuppressWarnings("unchecked")
 public class VATItemDetailReport extends AbstractReportView<VATItemDetail> {
 
 	public VATItemDetailReport() {

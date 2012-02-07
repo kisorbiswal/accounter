@@ -63,43 +63,43 @@ public class TDSResponsiblePersonDetailsView extends
 
 	private void createControls() {
 
-		responsiblePersonName = new TextItem("Name");
+		responsiblePersonName = new TextItem(messages.name());
 		responsiblePersonName.setHelpInformation(true);
 		responsiblePersonName.setRequired(true);
 		responsiblePersonName.setDisabled(isInViewMode());
 
-		designation = new TextItem("Designation");
+		designation = new TextItem(messages.designation());
 		designation.setHelpInformation(true);
 		designation.setRequired(true);
 		designation.setDisabled(isInViewMode());
 
-		branchName = new TextItem("Branch/Division");
+		branchName = new TextItem(messages.branchOrdivison());
 		branchName.setHelpInformation(true);
 		branchName.setDisabled(isInViewMode());
 
-		flatNo = new TextItem("Flat No.");
+		flatNo = new TextItem(messages.flatNo());
 		flatNo.setHelpInformation(true);
 		flatNo.setRequired(true);
 		flatNo.setDisabled(isInViewMode());
 
-		buildingName = new TextItem("Name of Premisis/Building");
+		buildingName = new TextItem(messages.nameOfPremisis());
 		buildingName.setHelpInformation(true);
 		buildingName.setDisabled(isInViewMode());
 
-		streetName = new TextItem("Street/Road/lane");
+		streetName = new TextItem(messages.streetOrRoadName());
 		streetName.setHelpInformation(true);
 		streetName.setDisabled(isInViewMode());
 
-		areaName = new TextItem("Area/Location");
+		areaName = new TextItem(messages.area());
 		areaName.setHelpInformation(true);
 		areaName.setDisabled(isInViewMode());
 
-		cityName = new TextItem("City/Town/District	");
+		cityName = new TextItem(messages.cityOrTown());
 		cityName.setHelpInformation(true);
 		cityName.setRequired(true);
 		cityName.setDisabled(isInViewMode());
 
-		stateCombo = new SelectCombo("State Name");
+		stateCombo = new SelectCombo(messages.state());
 		stateCombo.setHelpInformation(true);
 		stateCombo.initCombo(getStatesList());
 		stateCombo.setSelectedItem(0);
@@ -114,13 +114,13 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		pinNumber = new IntegerField(this, "Pin Code");
+		pinNumber = new IntegerField(this, messages.postalCode());
 		pinNumber.setHelpInformation(true);
 		pinNumber.setRequired(true);
 		pinNumber.setDisabled(isInViewMode());
 
 		addressChangeCombo = new SelectCombo(
-				"Has Address changed since last return");
+				messages.hasAddressChangedSinceLastReturn());
 		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
 		addressChangeCombo.setDisabled(isInViewMode());
@@ -134,24 +134,24 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		stdNumber = new IntegerField(this, "Std Code");
+		stdNumber = new IntegerField(this, messages.STDCode());
 		stdNumber.setHelpInformation(true);
 		stdNumber.setDisabled(isInViewMode());
 
-		telephoneNumber = new IntegerField(this, "Telephone No.");
+		telephoneNumber = new IntegerField(this, messages.telephoneNo());
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
 
-		mobileNumber = new IntegerField(this, "Mobile No.");
+		mobileNumber = new IntegerField(this, messages.mobileNumber());
 		mobileNumber.setHelpInformation(true);
 		mobileNumber.setRequired(true);
 		mobileNumber.setDisabled(isInViewMode());
 
-		faxNumber = new IntegerField(this, "Fax No.");
+		faxNumber = new IntegerField(this, messages.faxNumber());
 		faxNumber.setHelpInformation(true);
 		faxNumber.setDisabled(isInViewMode());
 
-		email = new EmailField("Email");
+		email = new EmailField(messages.email());
 		email.setHelpInformation(true);
 		email.setDisabled(isInViewMode());
 
@@ -160,7 +160,7 @@ public class TDSResponsiblePersonDetailsView extends
 				branchName, flatNo, buildingName, streetName, areaName,
 				cityName, stateCombo, pinNumber, addressChangeCombo);
 
-		financialYearCombo = new SelectCombo("Financial Year");
+		financialYearCombo = new SelectCombo(messages.financialYear());
 		financialYearCombo.setHelpInformation(true);
 		financialYearCombo.initCombo(getFinancialYearList());
 		financialYearCombo.setDisabled(isInViewMode());
@@ -175,12 +175,12 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		assessmentYearCombo = new SelectCombo("Assessment Year");
+		assessmentYearCombo = new SelectCombo(messages.assessmentYear());
 		assessmentYearCombo.setHelpInformation(true);
 		assessmentYearCombo.initCombo(getFinancialYearList());
 		assessmentYearCombo.setDisabled(true);
 
-		returnType = new SelectCombo("Return Type");
+		returnType = new SelectCombo(messages.retutnType());
 		returnType.setHelpInformation(true);
 		returnType.initCombo(getReturnTypeList());
 		returnType.setDisabled(isInViewMode());
@@ -194,7 +194,7 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		existingTdsassess = new SelectCombo("Existing TDS assesse");
+		existingTdsassess = new SelectCombo(messages.existingTDSAssesses());
 		existingTdsassess.setHelpInformation(true);
 		existingTdsassess.initCombo(getYESNOList());
 		existingTdsassess.setSelectedItem(0);
@@ -209,12 +209,12 @@ public class TDSResponsiblePersonDetailsView extends
 					}
 				});
 
-		panCode = new TextItem("PAN Number");
+		panCode = new TextItem(messages.panNumber());
 		panCode.setHelpInformation(true);
 		panCode.setRequired(true);
 		panCode.setDisabled(isInViewMode());
 
-		tanNumber = new TextItem("TAN Number");
+		tanNumber = new TextItem(messages.tanNumber());
 		tanNumber.setHelpInformation(true);
 		tanNumber.setRequired(true);
 		tanNumber.setDisabled(isInViewMode());
@@ -291,8 +291,8 @@ public class TDSResponsiblePersonDetailsView extends
 
 	private List<String> getReturnTypeList() {
 		List<String> names = new ArrayList<String>();
-		names.add("Electronic");
-		names.add("Digital");
+		names.add(messages.electronic());
+		names.add(messages.digital());
 		return names;
 	}
 
@@ -310,7 +310,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 	@Override
 	protected String getViewTitle() {
-		return "Particular for Person Responsible for Tax Deduction";
+		return messages.particularForPersonResponsibleForTaxDeduction();
 	}
 
 	@Override
@@ -333,7 +333,7 @@ public class TDSResponsiblePersonDetailsView extends
 		result.add(otherDynamicForm.validate());
 
 		if (!UIUtils.isValidEmail(email.getValue())) {
-			result.addError(email, "Invalid email id.");
+			result.addError(email, messages.invalidEmail());
 		}
 		return result;
 
@@ -368,7 +368,7 @@ public class TDSResponsiblePersonDetailsView extends
 
 		data.setPinCode(pinNumber.getNumber());
 
-		if (addressChangeCombo.getSelectedValue().equals("YES")) {
+		if (addressChangeCombo.getSelectedValue().equals(messages.YES())) {
 			data.setAddressChanged(true);
 		} else {
 			data.setAddressChanged(false);
@@ -451,8 +451,7 @@ public class TDSResponsiblePersonDetailsView extends
 											.isAddressSameForResopsiblePerson()) {
 								data.setBranch(deductor.getBranch());
 								data.setFlatNo(deductor.getFlatNo());
-								data.setBuildingName(deductor
-										.getBuildingName());
+								data.setBuildingName(deductor.getBuildingName());
 								data.setStreet(deductor.getRoadName());
 								data.setArea(deductor.getArea());
 								data.setCity(deductor.getCity());

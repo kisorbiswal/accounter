@@ -75,8 +75,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 		flexTable = new FlexTable();
 		flexTable.insertRow(rowCount);
 		flexTable.setWidget(rowCount, 0, new Label(messages.use()));
-		flexTable.setWidget(rowCount, 1, new Label(messages
-				.get1099Information()));
+		flexTable.setWidget(rowCount, 1,
+				new Label(messages.get1099Information()));
 		flexTable.setWidget(rowCount, 2, new Label(messages.Account()));
 		rowCount++;
 		for (String string : strings) {
@@ -141,7 +141,7 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 			accountCombo.setDisabled(false);
 		}
 		DynamicForm accountsform = new DynamicForm();
-		accountCombo.setName("AccountsCombo");
+		accountCombo.setName(messages.Accounts());
 		accountsform.setFields(accountCombo);
 
 		anchor.addClickHandler(new ClickHandler() {
@@ -288,8 +288,8 @@ public class AssignAccountsTo1099Dialog extends BaseDialog {
 					accountByID.setBoxNumber(boxNo);
 					saveOrUpdate(accountByID);
 				} else {
-					Accounter
-							.showError("Please Select One Account For One Box Only..");
+					Accounter.showError(messages
+							.pleaseSelectOneAccountForOneBoxOnly());
 					return false;
 				}
 			}

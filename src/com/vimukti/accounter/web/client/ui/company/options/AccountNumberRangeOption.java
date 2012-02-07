@@ -56,7 +56,7 @@ public class AccountNumberRangeOption extends AbstractPreferenceOption {
 
 	@Override
 	public void createControls() {
-		label.setText("Enable or Disable the Account Number Range Checking.");
+		label.setText(messages.enableOrDisableTheAccountNumberRangeChecking());
 		accountNumberRangeCheck.setText(messages.accountNumberRangeCheck());
 	}
 

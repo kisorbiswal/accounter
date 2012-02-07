@@ -36,7 +36,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 	@Override
 	public void changeDates(ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		reportview.makeReportRequest(budgetId, startDate, endDate,reportType);
+		reportview.makeReportRequest(budgetId, startDate, endDate, reportType);
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 
 						accountCombo.show();
 						dateRangeSelect.show();
-//						monthSelectCombo.show();
-//						quaterlySelectCombo.show();
+						// monthSelectCombo.show();
+						// quaterlySelectCombo.show();
 					}
 				});
 
@@ -144,7 +144,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 					}
 				});
 
-		accountCombo = new SelectCombo("Show Accounts");
+		accountCombo = new SelectCombo(messages.showAccounts());
 		accountCombo.setHelpInformation(true);
 		accountCombo.initCombo(getAccountsList());
 		accountCombo.setSelectedItem(0);
@@ -185,18 +185,17 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 				});
 
 		addItems(budgetName, accountCombo);
-//		addItems(budgetName, accountCombo, dateRangeSelect, monthSelectCombo,
-//				quaterlySelectCombo);
+		// addItems(budgetName, accountCombo, dateRangeSelect, monthSelectCombo,
+		// quaterlySelectCombo);
 
 		monthSelectCombo.hide();
 		quaterlySelectCombo.hide();
-//		accountCombo.hide();
-//		dateRangeSelect.hide();
+		// accountCombo.hide();
+		// dateRangeSelect.hide();
 
 	}
 
 	protected void createDates() {
-		
 
 		int selectedIndex = budgetName.getSelectedIndex();
 		String string = financialMonthArray.get(selectedIndex);
@@ -229,59 +228,64 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 			mnth = 12;
 		}
 
-
-		ClientFinanceDate strtDate = new ClientFinanceDate(startYearArray.get(selectedIndex), mnth, 1);
+		ClientFinanceDate strtDate = new ClientFinanceDate(
+				startYearArray.get(selectedIndex), mnth, 1);
 		reportStartDate = strtDate;
-		
-		ClientFinanceDate endDate = new ClientFinanceDate(endYearArray.get(selectedIndex)-1, mnth+11, 30);
+
+		ClientFinanceDate endDate = new ClientFinanceDate(
+				endYearArray.get(selectedIndex) - 1, mnth + 11, 30);
 		reportEndDate = endDate;
-		
+
 	}
 
 	protected void createStartDateForQuater(int i) {
 
-		
 		int selectedIndex = budgetName.getSelectedIndex();
 		String string = financialMonthArray.get(selectedIndex);
 
-		int strtMn = 0, endMn=0;
-		if(i==1){
+		int strtMn = 0, endMn = 0;
+		if (i == 1) {
 			strtMn = 4;
 			endMn = 6;
-			ClientFinanceDate strtDate = new ClientFinanceDate(startYearArray.get(selectedIndex), strtMn, 1);
+			ClientFinanceDate strtDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), strtMn, 1);
 			reportStartDate = strtDate;
-			ClientFinanceDate endDate = new ClientFinanceDate(startYearArray.get(selectedIndex), endMn, 30);
+			ClientFinanceDate endDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), endMn, 30);
 			reportEndDate = endDate;
-		}else if(i==2){
+		} else if (i == 2) {
 			strtMn = 7;
 			endMn = 9;
-			ClientFinanceDate strtDate = new ClientFinanceDate(startYearArray.get(selectedIndex), strtMn, 1);
+			ClientFinanceDate strtDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), strtMn, 1);
 			reportStartDate = strtDate;
-			ClientFinanceDate endDate = new ClientFinanceDate(startYearArray.get(selectedIndex), endMn, 30);
+			ClientFinanceDate endDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), endMn, 30);
 			reportEndDate = endDate;
-		}else if(i==3){
+		} else if (i == 3) {
 			strtMn = 10;
 			endMn = 12;
-			ClientFinanceDate strtDate = new ClientFinanceDate(startYearArray.get(selectedIndex), strtMn, 1);
+			ClientFinanceDate strtDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), strtMn, 1);
 			reportStartDate = strtDate;
-			ClientFinanceDate endDate = new ClientFinanceDate(startYearArray.get(selectedIndex), endMn, 30);
+			ClientFinanceDate endDate = new ClientFinanceDate(
+					startYearArray.get(selectedIndex), endMn, 30);
 			reportEndDate = endDate;
-		}else if(i == 4){
+		} else if (i == 4) {
 			strtMn = 1;
 			endMn = 3;
-			ClientFinanceDate strtDate = new ClientFinanceDate(endYearArray.get(selectedIndex), strtMn, 1);
+			ClientFinanceDate strtDate = new ClientFinanceDate(
+					endYearArray.get(selectedIndex), strtMn, 1);
 			reportStartDate = strtDate;
-			ClientFinanceDate endDate = new ClientFinanceDate(endYearArray.get(selectedIndex), endMn, 30);
+			ClientFinanceDate endDate = new ClientFinanceDate(
+					endYearArray.get(selectedIndex), endMn, 30);
 			reportEndDate = endDate;
 		}
-		
 
-		
 	}
 
 	protected void createStartDate(String monthName) {
 
-		
 		int selectedIndex = budgetName.getSelectedIndex();
 		String string = monthName;
 
@@ -313,11 +317,12 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 			mnth = 12;
 		}
 
-
-		ClientFinanceDate strtDate = new ClientFinanceDate(startYearArray.get(selectedIndex), mnth, 1);
+		ClientFinanceDate strtDate = new ClientFinanceDate(
+				startYearArray.get(selectedIndex), mnth, 1);
 		reportStartDate = strtDate;
-		
-		ClientFinanceDate endDate = new ClientFinanceDate(startYearArray.get(selectedIndex), mnth, 30);
+
+		ClientFinanceDate endDate = new ClientFinanceDate(
+				startYearArray.get(selectedIndex), mnth, 30);
 		reportEndDate = endDate;
 
 	}
@@ -336,7 +341,6 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 
 		ArrayList<String> datesList = new ArrayList<String>();
 
-
 		datesList.add("Q1" + " " + DayAndMonthUtil.apr() + " - "
 				+ DayAndMonthUtil.jun());
 		datesList.add("Q2" + " " + DayAndMonthUtil.jul() + " - "
@@ -345,10 +349,9 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 				+ DayAndMonthUtil.dec());
 		datesList.add("Q4" + " " + DayAndMonthUtil.jan() + " - "
 				+ DayAndMonthUtil.mar());
-		
+
 		return datesList;
 	}
-
 
 	private List<String> getMonthNames() {
 		ArrayList<String> datesList = new ArrayList<String>();
@@ -370,8 +373,8 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 	private List<String> getAccountsList() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("All accounts");
-		list.add("Only Budget Accounts");
+		list.add(messages.allAccounts());
+		list.add(messages.onlyBudgetAccounts());
 
 		return list;
 	}

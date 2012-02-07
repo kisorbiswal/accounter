@@ -37,21 +37,15 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = { messages.open(),
-				messages.completed(),
+		String[] statusArray = { messages.open(), messages.completed(),
 				messages.cancelled(), messages.all() };
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
 		statusCombo = new ComboBoxItem();
 		statusCombo.setTitle(messages.status());
@@ -62,12 +56,13 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			@Override
 			public void onChange(ChangeEvent event) {
 
-				if (statusCombo.getValue().toString().equals("Open")) {
+				if (statusCombo.getValue().toString().equals(messages.open())) {
 					status = OPEN;
 				} else if (statusCombo.getValue().toString()
-						.equals("Completed")) {
+						.equals(messages.completed())) {
 					status = COMPLETED;
-				} else if (statusCombo.getValue().toString().equals("All")) {
+				} else if (statusCombo.getValue().toString()
+						.equals(messages.all())) {
 					status = ALL;
 				} else
 					status = CANCELLED;
@@ -126,8 +121,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				setEndDate(toItem.getDate());
 
 				changeDates(fromItem.getDate(), toItem.getDate());
-				dateRangeItem.setDefaultValue("Custom");
-				setSelectedDateRange("Custom");
+				dateRangeItem.setDefaultValue(messages.custom());
+				setSelectedDateRange(messages.custom());
 
 			}
 		});
@@ -147,10 +142,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 		});
 
-//		if (UIUtils.isMSIEBrowser()) {
-//			dateRangeItem.setWidth("200px");
-//			statusCombo.setWidth("200px");
-//		}
+		// if (UIUtils.isMSIEBrowser()) {
+		// dateRangeItem.setWidth("200px");
+		// statusCombo.setWidth("200px");
+		// }
 		addItems(statusCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 

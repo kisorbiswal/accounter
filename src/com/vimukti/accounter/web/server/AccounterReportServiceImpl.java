@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -1346,7 +1347,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			if (trialbalanceList.size() == 1) {
 				if (trialbalanceList.get(0).getAccountName()
-						.equals("Net Income")
+						.equals(Global.get().messages().netIncome())
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();

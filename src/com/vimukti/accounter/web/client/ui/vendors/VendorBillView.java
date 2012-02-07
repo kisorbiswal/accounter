@@ -578,7 +578,8 @@ public class VendorBillView extends
 			}
 		});
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
+		accountsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyAccount());
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -630,7 +631,8 @@ public class VendorBillView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
+		itemsDisclosurePanel = new DisclosurePanel(
+				messages.ItemizebyProductService());
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
