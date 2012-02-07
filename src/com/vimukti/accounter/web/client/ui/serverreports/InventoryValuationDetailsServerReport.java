@@ -15,6 +15,11 @@ public class InventoryValuationDetailsServerReport extends
 		this.reportView = view;
 	}
 
+	public InventoryValuationDetailsServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.type(), messages.date(),

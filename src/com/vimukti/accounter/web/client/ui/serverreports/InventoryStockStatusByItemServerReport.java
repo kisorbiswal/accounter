@@ -12,6 +12,11 @@ public class InventoryStockStatusByItemServerReport extends
 		this.reportView = view;
 	}
 
+	public InventoryStockStatusByItemServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "", "Item Description", "Pre_Vendor",
