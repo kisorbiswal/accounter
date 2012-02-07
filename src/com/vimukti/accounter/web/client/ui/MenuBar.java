@@ -297,6 +297,8 @@ public class MenuBar {
 		formMenu.addMenuItem(messages.challanDetails(),
 				HistoryTokens.CHALANDETAILS);
 		formMenu.addMenuItem(messages.eTDSFilling(), HistoryTokens.eTDSFILLING);
+		formMenu.addMenuItem("Enter Ack No.", HistoryTokens.ENTER_TDS_ACK_NO);
+		formMenu.addMenuItem("Form 16A", HistoryTokens.TDS_FORM16A);
 
 		return formMenu;
 	}
@@ -308,12 +310,12 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-		// if (company instanceof India) {
-		// if (tdsEnabled) {
-		// vatmenus.addMenuItem("Chalan Details List",
-		// HistoryTokens.CHALANDETAILSLIST);
-		// }
-		// }
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenus.addMenuItem("Chalan Details List",
+						HistoryTokens.CHALANDETAILSLIST);
+			}
+		}
 
 		return vatmenus;
 	}
@@ -499,6 +501,13 @@ public class MenuBar {
 		vatReportMenuBar.addMenuItem(messages.vatItemSummary(),
 				HistoryTokens.VATITEMSUMMARY);
 
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatReportMenuBar.addMenuItem(
+						messages.tdsAcknowledgmentsReport(),
+						HistoryTokens.TDS_ACK_REPORT);
+			}
+		}
 		return vatReportMenuBar;
 	}
 
