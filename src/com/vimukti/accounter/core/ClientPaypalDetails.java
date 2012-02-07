@@ -4,7 +4,7 @@ public class ClientPaypalDetails {
 	
 	private String first_name;
 	private String last_name;
-	private int payment_status;
+	private String payment_status;
 	private String payer_email;
 	private double  payment_gross;
 	private String mc_currency;
@@ -31,13 +31,6 @@ public class ClientPaypalDetails {
 		this.last_name = last_name;
 	}
 
-	public int getPayment_status() {
-		return payment_status;
-	}
-
-	public void setPayment_status(int payment_status) {
-		this.payment_status = payment_status;
-	}
 
 	public String getPayer_email() {
 		return payer_email;
@@ -47,13 +40,7 @@ public class ClientPaypalDetails {
 		this.payer_email = payer_email;
 	}
 
-	public String getPayment_gross() {
-		return payment_gross;
-	}
-
-	public void setPayment_gross(String payment_gross) {
-		this.payment_gross = payment_gross;
-	}
+	 
 
 	public String getMc_currency() {
 		return mc_currency;
@@ -77,6 +64,22 @@ public class ClientPaypalDetails {
 
 	public void setClinetEmailId(String clinetEmailId) {
 		this.clinetEmailId = clinetEmailId;
+	}
+
+	public double getPayment_gross() {
+		return payment_gross;
+	}
+
+	public void setPayment_gross(double payment_gross) {
+		this.payment_gross = payment_gross;
+	}
+
+	public String getPayment_status() {
+		return payment_status;
+	}
+
+	public void setPayment_status(String payment_status) {
+		this.payment_status = payment_status;
 	}
 	
 
