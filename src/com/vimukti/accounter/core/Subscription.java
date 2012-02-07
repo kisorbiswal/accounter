@@ -12,8 +12,7 @@ public class Subscription {
 	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 5;
 	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 6;
 	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 7;
-	
-	private String name;
+
 	private long id;
 	private Set<String> features = new HashSet<String>();
 	private int type;
@@ -24,14 +23,6 @@ public class Subscription {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Set<String> getFeatures() {

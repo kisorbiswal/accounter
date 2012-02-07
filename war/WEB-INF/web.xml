@@ -767,8 +767,8 @@
 		<url-pattern>/site/subscription/gopremium</url-pattern>
 	</servlet-mapping>
 	<servlet>
-	
-	<servlet-name>SubscribtionComplitionServlet
+
+		<servlet-name>SubscribtionComplitionServlet
 		</servlet-name>
 		<servlet-class>
 			com.vimukti.accounter.servlets.SubscribtionComplitionServlet

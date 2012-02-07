@@ -11,7 +11,7 @@ public class GoPremiumServlet extends BaseServlet {
 	/**
 	 * 
 	 */
-	private String view = "/WEB-INF/subscription.jsp";
+	public static String view = "/WEB-INF/gopremium.jsp";
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -22,9 +22,8 @@ public class GoPremiumServlet extends BaseServlet {
 			dispatch(req, resp, view);
 		} else {
 			req.setAttribute(PARAM_DESTINATION, "/site/gopremium");
-			this.getServletContext()
-			.getRequestDispatcher("/main/login")
-			.forward(req, resp);
+			this.getServletContext().getRequestDispatcher("/main/login")
+					.forward(req, resp);
 		}
 	}
 

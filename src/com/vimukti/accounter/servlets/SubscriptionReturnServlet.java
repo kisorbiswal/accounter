@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.main.ServerConfiguration;
 
 public class SubscriptionReturnServlet extends HttpServlet {
@@ -23,12 +25,12 @@ public class SubscriptionReturnServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static String VIEW = "/WEB-INF/paymentdone.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doGet(req, resp);
+		doPost(req, resp);
 	}
 
 	@Override
@@ -48,20 +50,65 @@ public class SubscriptionReturnServlet extends HttpServlet {
 				}
 				String status = params.get("payment_status");
 				if (!status.equals("Completed")) {
-					// Transaction Fail send this message to subscription
+					sendInfo("Your process is not completed", req, resp);
+					return;
 				}
 				saveDetailsInDB(params, emailId);
+				upgradeClient(params, emailId);
+				req.getRequestDispatcher(VIEW).forward(req, resp);
 			} else {
-				// Transaction Fail send this message to subscription
+				sendInfo("Your transaction is fail", req, resp);
 			}
 		} else {
 			resp.sendRedirect(BaseServlet.LOGIN_URL);
-			return;
+		}
+	}
+
+	private void upgradeClient(Map<String, String> params, String emailId) {
+		String type = params.get("option_selection1");
+		int paymentType = 0;
+		if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_YEARLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("")) {
+			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		}
+	}
+
+	private void sendInfo(String string, HttpServletRequest req,
+			HttpServletResponse resp) {
+		req.setAttribute("info", string);
+		try {
+			RequestDispatcher reqDispatcher = getServletContext()
+					.getRequestDispatcher(GoPremiumServlet.view);
+			reqDispatcher.forward(req, resp);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ServletException e) {
+			e.printStackTrace();
 		}
 	}
 
 	private void saveDetailsInDB(Map<String, String> params, String emailId) {
-		// TODO Auto-generated method stub
 
 	}
 
