@@ -1540,6 +1540,8 @@ public interface AccounterMessages extends Messages {
 	public String ELEVEN();
 
 	public String email();
+	
+	public String emailAccount();
 
 	public String emailAddress();
 
@@ -2254,6 +2256,8 @@ public interface AccounterMessages extends Messages {
 
 	public String isoCode();
 
+	public String isSsl();
+	
 	public String isSubAccount();
 
 	public String issued();
@@ -3464,6 +3468,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pointnumber(int pointNumber);
 
+	public String portNumber();
+	
 	public String portugal();
 
 	public String positive();
@@ -4252,6 +4258,10 @@ public interface AccounterMessages extends Messages {
 	public String skipSetup();
 
 	public String skipSetupInfo();
+	
+	public String smtpMailServer();
+	
+	public String smtpSettings();
 
 	public String soldAndDisposedItems();
 
@@ -4522,6 +4532,8 @@ public interface AccounterMessages extends Messages {
 	public String termsofUse();
 
 	public String territory();
+	
+	public String test();
 
 	public String thailand();
 
