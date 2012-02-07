@@ -67,6 +67,21 @@
 	<!-- <class name="Subscription" table="SUBSCRIPTION"> <id name="id" column="ID"> 
 		<generator class="identity" /> </id> <property name="date" column="DATE"></property> 
 		<property name="type" column="TYPE"></property> </class> -->
+		
+		<class name="ClientPaypalDetails" table="CLIENT_PAYPAL_DETAILS">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="firstname" column="FIRST_NAME"></property>
+		<property name="lastname" column="LAST_NAME"></property>
+		<property name="paymentStatus" column="PAYMENT_STATUS"></property>
+		<property name="payerEmail" column="PAYER_EMAIL"></property>
+		<property name="paymentGross" column="PAYMENT_GROSS" type='double'></property>
+		<property name="mcCurrency" column="MC_CURRENCY"></property>
+		<property name="addressCountry" column="ADDRESS_COUNTRY"></property>
+		<property name="clinetEmailId" column="CLIENT_EMAILID"></property>
+	 
+	</class>
 	<class name="Activation" table="ACTIVATION">
 		<id name="id" column="ID">
 			<generator class="identity" />

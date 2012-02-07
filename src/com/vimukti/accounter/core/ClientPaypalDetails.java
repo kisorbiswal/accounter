@@ -2,60 +2,73 @@ package com.vimukti.accounter.core;
 
 public class ClientPaypalDetails {
 	
-	private String first_name;
-	private String last_name;
-	private String payment_status;
-	private String payer_email;
-	private double  payment_gross;
-	private String mc_currency;
-	private String address_country;
+	private String firstname;
+	private String lastname;
+	private String paymentStatus;
+	private String payerEmail;
+	private double  paymentGross;
+	private String mcCurrency;
+	private String addressCountry;
 	private String clinetEmailId;
 	
 	public ClientPaypalDetails() {
 
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastname() {
+		return lastname;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
-
-	public String getPayer_email() {
-		return payer_email;
+	public String getPaymentStatus() {
+		return paymentStatus;
 	}
 
-	public void setPayer_email(String payer_email) {
-		this.payer_email = payer_email;
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 
-	 
-
-	public String getMc_currency() {
-		return mc_currency;
+	public String getPayerEmail() {
+		return payerEmail;
 	}
 
-	public void setMc_currency(String mc_currency) {
-		this.mc_currency = mc_currency;
+	public void setPayerEmail(String payerEmail) {
+		this.payerEmail = payerEmail;
 	}
 
-	public String getAddress_country() {
-		return address_country;
+	public double getPaymentGross() {
+		return paymentGross;
 	}
 
-	public void setAddress_country(String address_country) {
-		this.address_country = address_country;
+	public void setPaymentGross(double paymentGross) {
+		this.paymentGross = paymentGross;
+	}
+
+	public String getMcCurrency() {
+		return mcCurrency;
+	}
+
+	public void setMcCurrency(String mcCurrency) {
+		this.mcCurrency = mcCurrency;
+	}
+
+	public String getAddressCountry() {
+		return addressCountry;
+	}
+
+	public void setAddressCountry(String addressCountry) {
+		this.addressCountry = addressCountry;
 	}
 
 	public String getClinetEmailId() {
@@ -66,21 +79,5 @@ public class ClientPaypalDetails {
 		this.clinetEmailId = clinetEmailId;
 	}
 
-	public double getPayment_gross() {
-		return payment_gross;
-	}
-
-	public void setPayment_gross(double payment_gross) {
-		this.payment_gross = payment_gross;
-	}
-
-	public String getPayment_status() {
-		return payment_status;
-	}
-
-	public void setPayment_status(String payment_status) {
-		this.payment_status = payment_status;
-	}
-	
-
+	 
 }
