@@ -7,11 +7,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.countries.UnitedKingdom;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.LinkItem;
+import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 public class ReportSectionView extends BaseHomeView {
 
@@ -23,6 +26,7 @@ public class ReportSectionView extends BaseHomeView {
 	}
 
 	private VerticalPanel createControl() {
+
 		VerticalPanel mainLayout = new VerticalPanel();
 		BalanceSheetReport report = new BalanceSheetReport();
 		// report.setSize("80%", "80%");
@@ -41,6 +45,15 @@ public class ReportSectionView extends BaseHomeView {
 
 		HorizontalPanel HorizontalPanel2 = new HorizontalPanel();
 		HorizontalPanel2.setSize("100%", "70px");
+
+		HorizontalPanel HorizontalPanel3 = new HorizontalPanel();
+		HorizontalPanel3.setSize("100%", "70px");
+
+		HorizontalPanel HorizontalPanel4 = new HorizontalPanel();
+		HorizontalPanel4.setSize("100%", "70px");
+
+		HorizontalPanel HorizontalPanel5 = new HorizontalPanel();
+		HorizontalPanel5.setSize("100%", "70px");
 		// HorizontalPanel2.setMembersMargin(5);
 
 		// VLayout rightLayout= new VLayout();
@@ -150,12 +163,133 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		companyAndFinancialForm.setFields(profitAndLossLink, balanceSheetLink,
-				trailBalanceLink, cashFlowLink,
-				transactionDetailsByAccountsLink);
+		LinkItem generalLedgerLink = new LinkItem();
+		generalLedgerLink.setLinkTitle(messages.generalLedgerReport());
+		generalLedgerLink.setShowTitle(false);
+		generalLedgerLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getGlReportAction());
+			}
+
+		});
+
+		LinkItem expenseReportLink = new LinkItem();
+		expenseReportLink.setLinkTitle(messages.expenseReport());
+		expenseReportLink.setShowTitle(false);
+		expenseReportLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getExpenseReportAction());
+			}
+
+		});
+
+		LinkItem automaticTransactionsLink = new LinkItem();
+		automaticTransactionsLink
+				.setLinkTitle(messages.automaticTransactions());
+		automaticTransactionsLink.setShowTitle(false);
+		automaticTransactionsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getAutomaticTransactionsAction());
+			}
+
+		});
+
+		LinkItem salesTaxLiabilityLink = new LinkItem();
+		salesTaxLiabilityLink.setLinkTitle(messages.salesTaxLiability());
+		salesTaxLiabilityLink.setShowTitle(false);
+		salesTaxLiabilityLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesTaxLiabilityAction());
+			}
+
+		});
+
+		LinkItem transactionDetailByTaxItemLink = new LinkItem();
+		transactionDetailByTaxItemLink.setLinkTitle(messages
+				.transactionDetailByTaxItem());
+		transactionDetailByTaxItemLink.setShowTitle(false);
+		transactionDetailByTaxItemLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getTransactionDetailByTaxItemAction());
+			}
+
+		});
+
+		LinkItem reconciliationsReportLink = new LinkItem();
+		reconciliationsReportLink
+				.setLinkTitle(messages.reconciliationsReport());
+		reconciliationsReportLink.setShowTitle(false);
+		reconciliationsReportLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getReconcilationsAction());
+			}
+
+		});
+
+		LinkItem profitandLossByLocationLink = new LinkItem();
+		profitandLossByLocationLink.setLinkTitle(messages
+				.profitAndLossByLocation(Global.get().Location()));
+		profitandLossByLocationLink.setShowTitle(false);
+		profitandLossByLocationLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getProfitAndLossByLocationAction(true));
+			}
+
+		});
+
+		LinkItem profitandLossByClassLink = new LinkItem();
+		profitandLossByClassLink.setLinkTitle(messages.profitAndLossbyClass());
+		profitandLossByClassLink.setShowTitle(false);
+		profitandLossByClassLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getProfitAndLossByLocationAction(true));
+			}
+
+		});
+
+		companyAndFinancialForm
+				.setFields(profitAndLossLink, balanceSheetLink,
+						trailBalanceLink, cashFlowLink,
+						transactionDetailsByAccountsLink,
+						reconciliationsReportLink, automaticTransactionsLink,
+						expenseReportLink, generalLedgerLink);
 		if (Global.get().preferences().isEnableMultiCurrency()) {
 			companyAndFinancialForm.setFields(realisedExchangeLossesAndGains,
 					unRealisedExchangeLossesAndGains);
+		}
+
+		if (Global.get().preferences().isTrackTax()) {
+			companyAndFinancialForm.setFields(salesTaxLiabilityLink,
+					transactionDetailByTaxItemLink);
+		}
+
+		if (Global.get().preferences().isLocationTrackingEnabled()) {
+			companyAndFinancialForm.setFields(profitandLossByLocationLink);
+		}
+
+		if (Global.get().preferences().isClassTrackingEnabled()) {
+			companyAndFinancialForm.setFields(profitandLossByClassLink);
 		}
 
 		// Form for Sales type reports
@@ -219,9 +353,88 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
+		LinkItem salesOrderReportLink = new LinkItem();
+		salesOrderReportLink.setLinkTitle(messages.salesOrderReport());
+		salesOrderReportLink.setShowTitle(false);
+		salesOrderReportLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getSalesOrderAction());
+			}
+
+		});
+
+		LinkItem salesByLocationDetailLink = new LinkItem();
+		salesByLocationDetailLink.setLinkTitle(messages
+				.getSalesByLocationDetails(Global.get().Location()));
+		salesByLocationDetailLink.setShowTitle(false);
+		salesByLocationDetailLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByLocationDetailsAction(true));
+			}
+
+		});
+
+		LinkItem salesByLocationSummaryLink = new LinkItem();
+		salesByLocationSummaryLink.setLinkTitle(messages
+				.salesByLocationSummary(Global.get().Location()));
+		salesByLocationSummaryLink.setShowTitle(false);
+		salesByLocationSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByLocationSummaryAction(true));
+			}
+
+		});
+
+		LinkItem salesByClassDetailsLink = new LinkItem();
+		salesByClassDetailsLink.setLinkTitle(messages.salesByClassDetails());
+		salesByClassDetailsLink.setShowTitle(false);
+		salesByClassDetailsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByLocationDetailsAction(false));
+			}
+
+		});
+
+		LinkItem salesByClassSummaryLink = new LinkItem();
+		salesByClassSummaryLink.setLinkTitle(messages.salesByClassSummary());
+		salesByClassSummaryLink.setShowTitle(false);
+		salesByClassSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getSalesByLocationSummaryAction(false));
+			}
+
+		});
+
 		salesForm.setFields(salesByCustomerSummaryLink,
 				salesByCustomerDetailLink, salesByItemSummaryLink,
 				salesByItemDetailLink);
+
+		if (Global.get().preferences().isSalesOrderEnabled()) {
+			salesForm.setFields(salesOrderReportLink);
+		}
+		if (Global.get().preferences().isLocationTrackingEnabled()) {
+			salesForm.setFields(salesByLocationDetailLink,
+					salesByLocationSummaryLink);
+		}
+
+		if (Global.get().preferences().isClassTrackingEnabled()) {
+			salesForm.setFields(salesByClassDetailsLink,
+					salesByClassSummaryLink);
+		}
 
 		// Form for purchase type reports
 
@@ -284,16 +497,36 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
+		LinkItem purchaseOrderReportLink = new LinkItem();
+		purchaseOrderReportLink.setLinkTitle(messages.purchaseOrderReport());
+		purchaseOrderReportLink.setShowTitle(false);
+		purchaseOrderReportLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getPurchaseOrderAction());
+			}
+
+		});
+
 		purchaseForm.setFields(purchaseBySupplierSummaryLink,
 				purchaseBySupplierDetailLink, purchaseByItemSummaryLink,
 				purchaseByItemDetailLink);
+		if (Global.get().preferences().isPurchaseOrderEnabled()) {
+			purchaseForm.setFields(purchaseOrderReportLink);
+		}
 
-		// Form for Other type reports
-
-		DynamicForm otherForm = UIUtils.form(messages.other());
+		// Form for customer receivable type reports
+		DynamicForm customerForm = UIUtils.form(messages.other());
 		// otherForm.setWidth("50%");
-		otherForm.setHeight("40%");
-		otherForm.setNumCols(1);
+		customerForm.setHeight("40%");
+		customerForm.setNumCols(1);
+
+		// Form for vendor receivable type reports
+		DynamicForm vendorForm = UIUtils.form(messages.other());
+		// otherForm.setWidth("50%");
+		vendorForm.setHeight("40%");
+		vendorForm.setNumCols(1);
 
 		LinkItem customerTransactionHistoryLink = new LinkItem();
 		customerTransactionHistoryLink.setLinkTitle(messages
@@ -309,10 +542,10 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		LinkItem arAgingLink = new LinkItem();
-		arAgingLink.setLinkTitle(messages.arAgeing());
-		arAgingLink.setShowTitle(false);
-		arAgingLink.addClickHandler(new ClickHandler() {
+		LinkItem arAgingDetailLink = new LinkItem();
+		arAgingDetailLink.setLinkTitle(messages.arAgeing());
+		arAgingDetailLink.setShowTitle(false);
+		arAgingDetailLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
@@ -321,14 +554,66 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		LinkItem apAgingLink = new LinkItem();
-		apAgingLink.setLinkTitle(messages.apAging());
-		apAgingLink.setShowTitle(false);
-		apAgingLink.addClickHandler(new ClickHandler() {
+		LinkItem apAgingDetailLink = new LinkItem();
+		apAgingDetailLink.setLinkTitle(messages.apAging());
+		apAgingDetailLink.setShowTitle(false);
+		apAgingDetailLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getAorpAgingDetailAction());
+			}
+
+		});
+
+		LinkItem arAgingSummaryLink = new LinkItem();
+		arAgingSummaryLink.setLinkTitle(messages.arAgeingSummary());
+		arAgingSummaryLink.setShowTitle(false);
+		arAgingSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getArAgingSummaryReportAction());
+			}
+
+		});
+
+		LinkItem apAgingSummaryLink = new LinkItem();
+		apAgingSummaryLink.setLinkTitle(messages.apAgeingSummary());
+		apAgingSummaryLink.setShowTitle(false);
+		apAgingSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getAorpAgingSummaryReportAction());
+			}
+
+		});
+
+		LinkItem customerStatementLink = new LinkItem();
+		customerStatementLink.setLinkTitle(messages.payeeStatement(Global.get()
+				.Customers()));
+		customerStatementLink.setShowTitle(false);
+		customerStatementLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getStatementReport(false, 0));
+			}
+
+		});
+		LinkItem vendorStatementLink = new LinkItem();
+		vendorStatementLink.setLinkTitle(messages.apAgeingSummary());
+		vendorStatementLink.setShowTitle(false);
+		vendorStatementLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getStatementReport(true, 0));
 			}
 
 		});
@@ -361,23 +646,278 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 
-		otherForm.setFields(arAgingLink, apAgingLink,
-				mostProfitableCustomerLink, customerTransactionHistoryLink,
-				supplierTransactionHistoryLink);
+		customerForm.setFields(arAgingDetailLink, arAgingSummaryLink,
+				customerStatementLink, mostProfitableCustomerLink,
+				customerTransactionHistoryLink);
+		vendorForm.setFields(apAgingDetailLink, apAgingSummaryLink,
+				vendorStatementLink, supplierTransactionHistoryLink);
+
+		DynamicForm budgetform = UIUtils.form(messages.budget());
+		budgetform.setHeight("40%");
+		budgetform.setNumCols(1);
+
+		LinkItem budgetOverviewLink = new LinkItem();
+		budgetOverviewLink.setLinkTitle(messages.budgetOverview());
+		budgetOverviewLink.setShowTitle(false);
+		budgetOverviewLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getBudgetOverView());
+			}
+
+		});
+
+		LinkItem budgetVsActualsLink = new LinkItem();
+		budgetVsActualsLink.setLinkTitle(messages.budgetvsActuals());
+		budgetVsActualsLink.setShowTitle(false);
+		budgetVsActualsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getBudgetVsActionReport());
+			}
+
+		});
+		budgetform.setFields(budgetOverviewLink, budgetVsActualsLink);
+
+		DynamicForm fixedAssetform = UIUtils.form(messages.fixedAssest());
+		fixedAssetform.setHeight("40%");
+		fixedAssetform.setNumCols(1);
+
+		LinkItem depriciationLink = new LinkItem();
+		depriciationLink.setLinkTitle(messages.depreciationReport());
+		depriciationLink.setShowTitle(false);
+		depriciationLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getDepreciationSheduleAction());
+			}
+
+		});
+		fixedAssetform.setFields(depriciationLink);
+
+		DynamicForm inventoryform = UIUtils.form(messages.inventory());
+		inventoryform.setHeight("40%");
+		inventoryform.setNumCols(1);
+
+		LinkItem invValuationSummaryLink = new LinkItem();
+		invValuationSummaryLink.setLinkTitle(messages
+				.inventoryValutionSummary());
+		invValuationSummaryLink.setShowTitle(false);
+		invValuationSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getInventoryValutionSummaryReportAction());
+			}
+
+		});
+
+		LinkItem invValuationDetailsLink = new LinkItem();
+		invValuationDetailsLink.setLinkTitle(messages
+				.inventoryValuationDetails());
+		invValuationDetailsLink.setShowTitle(false);
+		invValuationDetailsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getInventoryValuationDetailsAction());
+			}
+
+		});
+		LinkItem invValuationStockStatusByItemLink = new LinkItem();
+		invValuationStockStatusByItemLink.setLinkTitle(messages
+				.inventoryStockStatusByItem());
+		invValuationStockStatusByItemLink.setShowTitle(false);
+		invValuationStockStatusByItemLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getInventoryStockStatusByItemAction());
+			}
+
+		});
+		LinkItem invValuationStockStatusByVendorLink = new LinkItem();
+		invValuationStockStatusByVendorLink.setLinkTitle(messages
+				.inventoryStockStatusByVendor());
+		invValuationStockStatusByVendorLink.setShowTitle(false);
+		invValuationStockStatusByVendorLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getInventoryStockStatusByVendorAction());
+			}
+
+		});
+
+		inventoryform.setFields(invValuationSummaryLink,
+				invValuationDetailsLink, invValuationStockStatusByItemLink,
+				invValuationStockStatusByVendorLink);
+
+		// TAX tab for uk country
+		DynamicForm ukTaxForm = UIUtils.form(messages.inventory());
+		ukTaxForm.setHeight("40%");
+		ukTaxForm.setNumCols(1);
+
+		LinkItem priorVatReturnsLink = new LinkItem();
+		priorVatReturnsLink.setLinkTitle(messages.priorVATReturns());
+		priorVatReturnsLink.setShowTitle(false);
+		priorVatReturnsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getVATSummaryReportAction());
+			}
+
+		});
+
+		LinkItem vatDetailLink = new LinkItem();
+		vatDetailLink.setLinkTitle(messages.vatDetail());
+		vatDetailLink.setShowTitle(false);
+		vatDetailLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getVATDetailsReportAction());
+			}
+
+		});
+		LinkItem vat100Link = new LinkItem();
+		vat100Link.setLinkTitle(messages.vat100());
+		vat100Link.setShowTitle(false);
+		vat100Link.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getVAT100ReportAction());
+			}
+
+		});
+		LinkItem unCategorisedVatAmountsLink = new LinkItem();
+		unCategorisedVatAmountsLink.setLinkTitle(messages
+				.uncategorisedVATAmounts());
+		unCategorisedVatAmountsLink.setShowTitle(false);
+		unCategorisedVatAmountsLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getVATUncategorisedAmountsReportAction());
+			}
+
+		});
+
+		LinkItem ecSalesListLink = new LinkItem();
+		ecSalesListLink.setLinkTitle(messages.ecSalesList());
+		ecSalesListLink.setShowTitle(false);
+		ecSalesListLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc, ActionFactory.getECSalesListAction());
+			}
+
+		});
+
+		LinkItem taxItemSummaryLink = new LinkItem();
+		taxItemSummaryLink.setLinkTitle(messages.vatItemSummary());
+		taxItemSummaryLink.setShowTitle(false);
+		taxItemSummaryLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getVATItemSummaryReportAction());
+			}
+
+		});
+		ukTaxForm.setFields(priorVatReturnsLink, vatDetailLink, vat100Link,
+				unCategorisedVatAmountsLink, ecSalesListLink,
+				taxItemSummaryLink);
+
+		// TAX tab for all other countries
+		DynamicForm otherCountriesTaxForm = UIUtils.form(messages.inventory());
+		otherCountriesTaxForm.setHeight("40%");
+		otherCountriesTaxForm.setNumCols(1);
+
+		LinkItem taxItemDetailLink = new LinkItem();
+		taxItemDetailLink.setLinkTitle(messages.taxItemDetailReport());
+		taxItemDetailLink.setShowTitle(false);
+		taxItemDetailLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getTaxItemDetailReportAction());
+			}
+
+		});
+
+		LinkItem taxItemExceptionLink = new LinkItem();
+		taxItemExceptionLink.setLinkTitle(messages
+				.taxItemExceptionDetailReport());
+		taxItemExceptionLink.setShowTitle(false);
+		taxItemExceptionLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				ClientAccount acc = null;
+				UIUtils.runAction(acc,
+						ActionFactory.getTaxItemExceptionDetailReportAction());
+			}
+
+		});
+
+		otherCountriesTaxForm.setFields(taxItemDetailLink,
+				taxItemExceptionLink, taxItemSummaryLink);
 
 		HorizontalPanel1.add(companyAndFinancialForm);
-		HorizontalPanel1.add(otherForm);
+		HorizontalPanel1.add(salesForm);
 		HorizontalPanel1.setCellWidth(companyAndFinancialForm, "50%");
-		HorizontalPanel1.setCellWidth(otherForm, "50%");
+		HorizontalPanel1.setCellWidth(salesForm, "50%");
 
-		HorizontalPanel2.add(salesForm);
-		HorizontalPanel2.add(purchaseForm);
-		HorizontalPanel2.setCellWidth(salesForm, "50%");
-		HorizontalPanel2.setCellWidth(purchaseForm, "50%");
+		HorizontalPanel2.add(customerForm);
+		HorizontalPanel2.add(vendorForm);
+		HorizontalPanel2.setCellWidth(customerForm, "50%");
+		HorizontalPanel2.setCellWidth(vendorForm, "50%");
+
+		HorizontalPanel3.add(inventoryform);
+		HorizontalPanel3.add(purchaseForm);
+		HorizontalPanel3.setCellWidth(inventoryform, "50%");
+		HorizontalPanel3.setCellWidth(purchaseForm, "50%");
+
+		HorizontalPanel4.add(budgetform);
+		HorizontalPanel4.add(fixedAssetform);
+		HorizontalPanel4.setCellWidth(budgetform, "50%");
+		HorizontalPanel4.setCellWidth(fixedAssetform, "50%");
+
+		ICountryPreferences company = Accounter.getCompany()
+				.getCountryPreferences();
+		if (company instanceof UnitedKingdom) {
+			HorizontalPanel5.add(ukTaxForm);
+			HorizontalPanel5.setCellWidth(ukTaxForm, "50%");
+		} else {
+			HorizontalPanel5.add(otherCountriesTaxForm);
+			HorizontalPanel5.setCellWidth(otherCountriesTaxForm, "50%");
+		}
 
 		mainLayout.add(HorizontalPanel1);
 		mainLayout.add(HorizontalPanel2);
+		mainLayout.add(HorizontalPanel3);
+		mainLayout.add(HorizontalPanel4);
+		mainLayout.add(HorizontalPanel5);
 		HorizontalPanel2.setStyleName("reports_top_align");
+		HorizontalPanel3.setStyleName("reports_top_align");
+		HorizontalPanel4.setStyleName("reports_top_align");
+		HorizontalPanel5.setStyleName("reports_top_align");
 		mainLayout.setStyleName("reports_home_align");
 
 		return mainLayout;
