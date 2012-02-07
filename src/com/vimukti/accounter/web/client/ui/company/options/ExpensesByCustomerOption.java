@@ -1,11 +1,15 @@
 package com.vimukti.accounter.web.client.ui.company.options;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
@@ -53,7 +57,19 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
 		UseBillableExpenseCheckBox.setText(messages.useBillabelExpenses());
 		UseBillableExpenseCheckBox.setStyleName("bold");
-		;
+		UseBillableExpenseCheckBox.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (Accounter.getCompany().hasPermission(
+						Features.BILLABLE_EXPENSE)) {
+				} else {
+					UseBillableExpenseCheckBox.setValue(false);
+					Accounter.showSubscriptionWarning();
+				}
+
+			}
+		});
 	}
 
 	@Override

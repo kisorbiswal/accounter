@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
@@ -79,7 +81,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		super.add(buttonBar);
 		if (data != null && mode != EditMode.CREATE) {
-			super.add(createHistoryView());
+			if (Accounter.getCompany().hasPermission(Features.HISTORY)) {
+				super.add(createHistoryView());
+			}
 		}
 		if (canAddAttachmentPanel()) {
 			transactionAttachmentPanel = new TransactionAttachmentPanel() {
@@ -94,7 +98,9 @@ public abstract class BaseView<T extends IAccounterCore> extends
 					BaseView.this.saveAttachment(attachment);
 				}
 			};
-			super.add(transactionAttachmentPanel);
+			if (Accounter.getCompany().hasPermission(Features.ATTACHMENTS)) {
+				super.add(transactionAttachmentPanel);
+			}
 		}
 	}
 

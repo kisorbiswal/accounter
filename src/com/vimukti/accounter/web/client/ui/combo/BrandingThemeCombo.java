@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.combo;
 
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionCallback;
@@ -45,23 +46,29 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public void onAddNew() {
-		if (themeDialog != null) {
-			themeDialog.hide();
-		}
-		NewBrandThemeAction action = ActionFactory.getNewBrandThemeAction();
-		action.setCallback(new ActionCallback<ClientBrandingTheme>() {
+		if (getCompany().hasPermission(Features.BRANDING_THEME)) {
 
-			@Override
-			public void actionResult(ClientBrandingTheme result) {
-				if(result.getName()!=null)
-				addItemThenfireEvent(result);
-				if (themeDialog != null) {
-					themeDialog.show();
-				}
+			if (themeDialog != null) {
+				themeDialog.hide();
 			}
-		});
 
-		action.run(null, true);
+			NewBrandThemeAction action = ActionFactory.getNewBrandThemeAction();
+			action.setCallback(new ActionCallback<ClientBrandingTheme>() {
+
+				@Override
+				public void actionResult(ClientBrandingTheme result) {
+					if (result.getName() != null)
+						addItemThenfireEvent(result);
+					if (themeDialog != null) {
+						themeDialog.show();
+					}
+				}
+			});
+
+			action.run(null, true);
+		} else {
+			Accounter.showSubscriptionWarning();
+		}
 	}
 
 	public BrandingThemeComboDialog getThemeDialog() {

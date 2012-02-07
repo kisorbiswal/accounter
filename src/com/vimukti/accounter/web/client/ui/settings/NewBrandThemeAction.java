@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
@@ -39,17 +41,20 @@ public class NewBrandThemeAction extends Action<ClientBrandingTheme> {
 
 	@Override
 	public void run() {
-		runAysnc(data, isDependent);
+		if (Accounter.getCompany().hasPermission(Features.BRANDING_THEME)) {
+			runAysnc(data, isDependent);
+		} else {
+			Accounter.showSubscriptionWarning();
+		}
 	}
 
 	private void runAysnc(Object data, Boolean isDependent) {
 		try {
 			if (data == null) {
-				view = new NewBrandingThemeView(messages
-						.brandingTheme(), "");
+				view = new NewBrandingThemeView(messages.brandingTheme(), "");
 			} else {
-				view = new NewBrandingThemeView(messages
-						.editBrandThemeLabel(), "", (ClientBrandingTheme) data);
+				view = new NewBrandingThemeView(messages.editBrandThemeLabel(),
+						"", (ClientBrandingTheme) data);
 
 			}
 			MainFinanceWindow.getViewManager().showView(view, data,

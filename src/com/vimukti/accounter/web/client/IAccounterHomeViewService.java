@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -50,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
+import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
@@ -478,4 +480,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 	PaginationList<DepositsTransfersList> getTransfersList(long date,
 			long date2, int start, int length, int type)
 			throws AccounterException;
+
+	public Set<InvitableUser> getIvitableUsers() throws AccounterException;
+
 }

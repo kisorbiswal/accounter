@@ -3205,6 +3205,6 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public boolean isUnlimitedUser() {
-		return true;
+		return false;
 	}
 }

@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -16,7 +18,11 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	@Override
 	public void run() {
-		runAsynce(data, isDependent);
+		if (Accounter.getCompany().hasPermission(Features.USER_ACTIVITY)) {
+			runAsynce(data, isDependent);
+		} else {
+			Accounter.showSubscriptionWarning();
+		}
 	}
 
 	public void runAsynce(final Object data, final boolean isDependent) {

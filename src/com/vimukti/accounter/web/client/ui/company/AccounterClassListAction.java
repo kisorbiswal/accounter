@@ -24,7 +24,8 @@ public class AccounterClassListAction extends Action {
 			@Override
 			public void onCreated() {
 				AccounterClassListDialog dialog = new AccounterClassListDialog(
-						messages.manageAccounterClass(), messages.toAddAccounterClass());
+						messages.manageAccounterClass(), messages
+								.toAddAccounterClass());
 				dialog.show();
 
 			}

@@ -1,11 +1,13 @@
 package com.vimukti.accounter.web.client.ui.banking;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.CustomerMergeDialog;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class MergeCustomerAction extends Action{
+public class MergeCustomerAction extends Action {
 
 	public MergeCustomerAction() {
 		super();
@@ -14,13 +16,15 @@ public class MergeCustomerAction extends Action{
 
 	@Override
 	public void run() {
-		
-		CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
-				messages.mergeCustomers(Global.get().customers()),
-				messages.payeeMergeDescription(Global.get().customer()));
+		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+			CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
+					messages.mergeCustomers(Global.get().customers()),
+					messages.payeeMergeDescription(Global.get().customer()));
 
-		customerMergeDialog.show();		
-		
+			customerMergeDialog.show();
+		} else {
+			Accounter.showSubscriptionWarning();
+		}
 
 	}
 

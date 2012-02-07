@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.ui.AccountMergeDialog;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
 public class MergeAccountsAction extends Action {
@@ -13,10 +15,13 @@ public class MergeAccountsAction extends Action {
 
 	@Override
 	public void run() {
-		AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
-				messages.mergeAccounts(), messages
-						.mergeDescription());
-		accountMergeDialog.show();
+		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+			AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
+					messages.mergeAccounts(), messages.mergeDescription());
+			accountMergeDialog.show();
+		} else {
+			Accounter.showSubscriptionWarning();
+		}
 	}
 
 	@Override
@@ -46,6 +51,5 @@ public class MergeAccountsAction extends Action {
 	public String getText() {
 		return messages.mergeAccounts();
 	}
-
 
 }

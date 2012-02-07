@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.corechart.LineChart;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -132,9 +133,14 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					UploadStatementDialog dialog = new UploadStatementDialog(
-							messages.uploadAttachment(), account);
-					dialog.show();
+					if (Accounter.getCompany().hasPermission(
+							Features.IMPORT_BANK_STATEMENTS)) {
+						UploadStatementDialog dialog = new UploadStatementDialog(
+								messages.uploadAttachment(), account);
+						dialog.show();
+					} else {
+						Accounter.showSubscriptionWarning();
+					}
 				}
 			});
 

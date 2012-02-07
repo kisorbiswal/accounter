@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class TrackEstimatesOption extends AbstractPreferenceOption {
 
@@ -56,6 +58,19 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 		noRadioButton.setText(messages.no());
 		useDelayedCharges.setText(messages.delayedCharges());
 		useDelayedCharges.setStyleName("bold");
+		useDelayedCharges.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (Accounter.getCompany().hasPermission(
+						Features.CREDITS_CHARGES)) {
+				} else {
+					useDelayedCharges.setValue(false);
+					Accounter.showSubscriptionWarning();
+				}
+
+			}
+		});
 		hiddenPanel.setVisible(getCompanyPreferences().isDoyouwantEstimates());
 
 		noRadioButton.addClickHandler(new ClickHandler() {

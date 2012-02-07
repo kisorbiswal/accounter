@@ -396,6 +396,12 @@ public class Accounter implements EntryPoint {
 		new AccounterDialog(msg, AccounterType.INFORMATION).show();
 	}
 
+	public static void showSubscriptionWarning() {
+
+		new AccounterDialog("You are not Subscribed", AccounterType.ERROR)
+				.show();
+	}
+
 	private static EventBus eventBus;
 
 	public static void showMessage(String message) {

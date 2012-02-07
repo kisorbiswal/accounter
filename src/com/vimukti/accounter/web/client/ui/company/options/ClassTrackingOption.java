@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Features;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 /**
  * @author vimukti36
@@ -108,10 +110,14 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		// onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
 
 		classTrackingCheckBox.addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
-				hiddenPanel.setVisible(classTrackingCheckBox.getValue());
+				if (Accounter.getCompany().hasPermission(Features.CLASS)) {
+					hiddenPanel.setVisible(classTrackingCheckBox.getValue());
+				} else {
+					classTrackingCheckBox.setValue(false);
+					Accounter.showSubscriptionWarning();
+				}
 
 			}
 		});

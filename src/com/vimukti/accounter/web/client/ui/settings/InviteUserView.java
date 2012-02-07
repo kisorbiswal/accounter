@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -16,10 +17,13 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
@@ -31,7 +35,9 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	TextItem firstNametext;
 	TextItem lastNametext;
+	SelectCombo emailCombo;
 	EmailField emailField;
+	Set<InvitableUser> usersList;
 	DynamicForm custForm;
 	CheckBox userManagementBox;
 	String[] permissions = { messages.createInvoicesAndBills(),
@@ -49,6 +55,26 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	public void init() {
 		super.init();
 		createControls();
+	}
+
+	private void initUsers() {
+		Accounter.createHomeService().getIvitableUsers(
+				new AccounterAsyncCallback<Set<InvitableUser>>() {
+
+					@Override
+					public void onException(AccounterException exception) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onResultSuccess(Set<InvitableUser> result) {
+						usersList = result;
+						for (InvitableUser invitableUser : result) {
+							emailCombo.addItem(invitableUser.getEmail());
+						}
+					}
+				});
 	}
 
 	private void createControls() {
@@ -117,6 +143,24 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				}
 			}
 		});
+		emailCombo = new SelectCombo(messages.email());
+		emailCombo.setRequired(true);
+		emailCombo.setDisabled(isInViewMode());
+		emailCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+
+						for (InvitableUser user : usersList) {
+							if (selectItem.equals(user.getEmail())) {
+								firstNametext.setValue(user.getFirstName());
+								lastNametext.setValue(user.getLastName());
+							}
+						}
+					}
+				});
+
 		userManagementBox = new CheckBox(
 				messages.allowThisUsertoAddorRemoveusers());
 		// userManagementBox.getElement().getStyle().setPadding(5, Unit.PX);
@@ -128,8 +172,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 		Label manageLabel = new Label(messages.manageUsers());
 		manageLabel.addStyleName("inviteUserLabel");
-
-		custForm.setFields(firstNametext, lastNametext, emailField);
+		if (getCompany().isUnlimitedUser()) {
+			custForm.setFields(firstNametext, lastNametext, emailField);
+		} else {
+			custForm.setFields(firstNametext, lastNametext, emailCombo);
+		}
 		Element element2 = custForm.getCellFormatter().getElement(0, 0);
 		// element2.setAttribute("width", "150px");
 		vPanel.add(custForm);
@@ -186,10 +233,22 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		super.initData();
 		if (getData() == null) {
 			setData(new ClientUserInfo());
+			initUsers();
+		} else {
+			if (getCompany().isUnlimitedUser()) {
+				emailField.setEmail((data.getEmail()));
+			} else {
+				emailCombo.addItem(data.getEmail());
+			}
 		}
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
-		emailField.setEmail(data.getEmail());
+
+		if (getCompany().isUnlimitedUser()) {
+			emailField.setEmail(data.getEmail());
+		} else {
+			emailCombo.setSelected(data.getEmail());
+		}
 
 		String userRole = data.getUserRole();
 
@@ -299,7 +358,8 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		firstNametext.setDisabled(isInViewMode());
 		lastNametext.setDisabled(isInViewMode());
 		if (!Accounter.getUser().getEmail().equals(data.getEmail()))
-			emailField.setDisabled(isInViewMode());
+			emailCombo.setDisabled(isInViewMode());
+		emailField.setDisabled(isInViewMode());
 		// grid.setDisabled(isInViewMode());
 
 		readOnly.setEnabled(!isInViewMode());
@@ -356,7 +416,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		data.setFirstName(firstNametext.getValue().toString());
 		data.setLastName(lastNametext.getValue().toString());
 		data.setFullName(data.getName());
-		data.setEmail(emailField.getValue().toString());
+		if (getCompany().isUnlimitedUser()) {
+			data.setEmail(emailField.getValue().toString());
+		} else {
+			data.setEmail(emailCombo.getValue().toString());
+		}
 		// user.setCanDoUserManagement(userManagementBox.getValue());
 		RolePermissions selectedRole = getSelectedRolePermission();
 		if (selectedRole != null) {
@@ -586,17 +650,31 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	public ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 
-		result.add(FormItem.validate(firstNametext, lastNametext, emailField));
-		if (isEmailIDExist(getData())) {
-			result.addError(emailField, messages.userExistsWithThisMailId());
-		}
+		if (getCompany().isUnlimitedUser()) {
+			result.add(FormItem.validate(firstNametext, lastNametext,
+					emailField));
+			if (isEmailIDExist(getData())) {
+				result.addError(emailField, messages.userExistsWithThisMailId());
+			}
 
-		if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
-				.getValue())) {
-			result.addError(emailField,
-					messages.pleaseSelect(messages.levelOfAccess()));
-		}
+			if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
+					.getValue())) {
+				result.addError(emailField,
+						messages.pleaseSelect(messages.levelOfAccess()));
+			}
+		} else {
+			result.add(FormItem.validate(firstNametext, lastNametext,
+					emailField));
+			if (isEmailIDExist(getData())) {
+				result.addError(emailField, messages.userExistsWithThisMailId());
+			}
 
+			if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
+					.getValue())) {
+				result.addError(emailField,
+						messages.pleaseSelect(messages.levelOfAccess()));
+			}
+		}
 		// for checking the userList for another admin role
 		ArrayList<ClientUserInfo> usersList = getCompany().getUsersList();
 		boolean hasAnotherAdmin = false;

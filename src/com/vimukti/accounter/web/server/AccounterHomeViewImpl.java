@@ -4,16 +4,13 @@
 package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 import org.apache.xerces.impl.dv.util.Base64;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ChequePdfGenerator;
@@ -34,7 +31,6 @@ import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
@@ -85,6 +81,7 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
+import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
@@ -2199,5 +2196,23 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return transactionsList;
+	}
+
+	@Override
+	public Set<InvitableUser> getIvitableUsers() throws AccounterException {
+		Set<InvitableUser> invitableUsers = new HashSet<InvitableUser>();
+		InvitableUser in1 = new InvitableUser();
+		in1.setFirstName("firstname1");
+		in1.setLastName("lastname1");
+		in1.setEmail("sureshbm13@gmail.com");
+
+		InvitableUser in2 = new InvitableUser();
+		in2.setFirstName("firstname2");
+		in2.setLastName("lastname2");
+		in2.setEmail("nagasureshbm13@gmail.com");
+
+		invitableUsers.add(in1);
+		invitableUsers.add(in2);
+		return invitableUsers;
 	}
 }

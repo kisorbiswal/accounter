@@ -12,8 +12,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientLocation;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class LocationTrackingOption extends AbstractPreferenceOption {
 
@@ -74,10 +76,10 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 	public void initData() {
 		long locationType = getCompanyPreferences().getLocationTrackingId();
-		locationTrackingCheckBoxLabel.setText(messages
-				.locationTracking(Global.get().Location()));
-		radioButtonsHeaderLabel.setText(messages.useTerminologyFor(
-				Global.get().Location()));
+		locationTrackingCheckBoxLabel.setText(messages.locationTracking(Global
+				.get().Location()));
+		radioButtonsHeaderLabel.setText(messages.useTerminologyFor(Global.get()
+				.Location()));
 		switch ((int) locationType) {
 		case ClientLocation.BUSINESS:
 			buisinessRadioButton.setValue(true);
@@ -163,7 +165,9 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 		storeRadioButton.setHTML(messages.store());
 		territoryRadioButton.setName(messages.locationGroup());
 		territoryRadioButton.setHTML(messages.territory());
-		radioButtonPanel.getElement().getStyle()
+		radioButtonPanel
+				.getElement()
+				.getStyle()
 				.setPaddingLeft(
 						(messages.useTerminologyFor(Global.get().Location())
 								.length() * 6), Unit.PX);
@@ -173,8 +177,13 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
-						.getValue());
+				if (Accounter.getCompany().hasPermission(Features.LOCATION)) {
+					radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
+							.getValue());
+				} else {
+					locationTrackingCheckBoxItm.setValue(false);
+					Accounter.showSubscriptionWarning();
+				}
 			}
 		});
 	}
