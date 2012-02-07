@@ -18,6 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -370,8 +371,11 @@ public interface IAccounterHomeViewServiceAsync {
 
 	// this method is used to send Pdf as an attachment in email
 	public void sendPdfInMail(String fileName, String subject, String content,
-			String senderEmail, String recipientEmail, String ccEmail,
+			ClientEmailAccount sender, String recipientEmail, String ccEmail,
 			AsyncCallback<Void> callback);
+
+	public void sendTestMail(ClientEmailAccount sender, String recipient,
+			AsyncCallback<Boolean> callback);
 
 	public void createPdfFile(long objectID, int type, long brandingThemeId,
 			AsyncCallback<String> callback);

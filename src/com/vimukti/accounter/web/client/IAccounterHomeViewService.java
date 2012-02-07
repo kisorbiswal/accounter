@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -338,9 +338,11 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	// for sending pdf in email
 
-	public void sendPdfInMail(String fileName, String subject, String content,
-			String senderEmail, String recipientEmail, String ccEmail)
-			throws Exception, IOException, AccounterException;
+	void sendPdfInMail(String fileName, String subject, String content,
+			ClientEmailAccount sender, String recipientEmail, String ccEmail)
+			throws Exception;
+
+	public boolean sendTestMail(ClientEmailAccount sender, String recipient);
 
 	public String createPdfFile(long objectID, int type, long brandingThemeId)
 			throws Exception;
