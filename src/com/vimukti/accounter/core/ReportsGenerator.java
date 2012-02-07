@@ -1347,7 +1347,8 @@ public class ReportsGenerator {
 			updateReport(taxItemDetailServerReportView, finaTool);
 			taxItemDetailServerReportView.resetVariables();
 
-			long taxId = Long.parseLong(navigateObjectName);
+			long taxId = (navigateObjectName == null || navigateObjectName
+					.isEmpty()) ? 0 : Long.parseLong(navigateObjectName);
 			if (taxId != 0) {
 				taxItemDetailServerReportView.onResultSuccess(finaTool
 						.getReportManager().getTaxItemDetailByTaxReturnId(
