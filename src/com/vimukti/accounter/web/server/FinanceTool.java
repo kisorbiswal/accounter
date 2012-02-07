@@ -3725,11 +3725,7 @@ public class FinanceTool {
 			Long trID = (Long) next[4];
 
 			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
-			if (formType != TDSChalanDetail.Form27EQ) {
-				clientTDSTransactionItem.setVendor(payeeId);
-			} else {
-				clientTDSTransactionItem.setCustomer(payeeId);
-			}
+			clientTDSTransactionItem.setVendor(payeeId);
 			clientTDSTransactionItem.setTdsAmount(tdsTotal);
 			clientTDSTransactionItem.setTotalAmount(total);
 			clientTDSTransactionItem.setTransactionDate(date);
@@ -3878,10 +3874,8 @@ public class FinanceTool {
 					eTDSObj.setTotalTDSfordeductees(total);
 					eTDSObj.setDateTaxDeposited(item.getTransactionDate()
 							.getDate());
-					eTDSObj.setDeducteeID(isForm27EQ ? item.getCustomer()
-							.getID() : item.getVendor().getID());
-					eTDSObj.setPanOfDeductee(isForm27EQ ? item.getCustomer()
-							.getPANno() : item.getVendor().getTaxId());
+					eTDSObj.setDeducteeID(item.getVendor().getID());
+					eTDSObj.setPanOfDeductee(item.getVendor().getTaxId());
 					eTDSObj.setDateOFpayment(chalan.getDateTaxPaid());
 					eTDSObj.setAmountPaid(item.getTotalAmount());
 					eTDSObj.setTds(item.getTdsAmount());
