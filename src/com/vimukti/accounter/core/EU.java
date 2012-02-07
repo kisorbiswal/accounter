@@ -196,11 +196,10 @@ public class EU {
 	public static String decryptAccounter(String parameter) {
 		byte[] generatePBS = generatePBS(ServerConfiguration.getAdminPassword());
 		try {
-			byte[] bytes = Base64.decode(parameter);
+			byte[] bytes = Base64.decodeWebSafe(parameter);
 			byte[] encrypt = decrypt(bytes, generatePBS);
 			return new String(encrypt);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}
@@ -210,9 +209,9 @@ public class EU {
 		byte[] bytes = emailId.getBytes();
 		try {
 			byte[] encrypt = encrypt(bytes, generatePBS);
-			return Base64.encode(encrypt);
+			String encode = Base64.encodeWebSafe(encrypt, true);
+			return encode;
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

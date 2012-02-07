@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -191,8 +192,8 @@ public class OpenCompanyServlet extends BaseServlet {
 					}
 				}
 				Company company = getCompany(request);
-				request.setAttribute("goPremiumId",
-						EU.encryptAccounter(emailID));
+				request.setAttribute("goPremiumId", URLEncoder.encode(
+						EU.encryptAccounter(emailID), "UTF-8"));
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				if (!isSupportedUser) {
@@ -201,10 +202,10 @@ public class OpenCompanyServlet extends BaseServlet {
 					session.save(activity);
 				}
 				transaction.commit();
-				if (client.getClientSubscription() != null) {
-					request.setAttribute(SUBSCRIPTION, client
-							.getClientSubscription().getId());
-				}
+				// if (client.getClientSubscription() != null) {
+				// request.setAttribute(SUBSCRIPTION, client
+				// .getClientSubscription().getId());
+				// }
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);

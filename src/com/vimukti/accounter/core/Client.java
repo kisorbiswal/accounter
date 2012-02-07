@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.web.server.translate.Language;
@@ -162,6 +164,22 @@ public class Client {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns ServerCompany From ID
+	 * 
+	 * @param companyID
+	 * @return
+	 */
+	public List<Company> getCompanies() {
+		Iterator<User> iterator = users.iterator();
+		List<Company> companies = new ArrayList<Company>();
+		while (iterator.hasNext()) {
+			Company next = iterator.next().getCompany();
+			companies.add(next);
+		}
+		return companies;
 	}
 
 	public long getID() {

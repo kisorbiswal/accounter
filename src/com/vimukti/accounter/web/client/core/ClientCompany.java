@@ -36,6 +36,17 @@ public class ClientCompany implements IAccounterCore {
 
 	public static final int TYPE_BASIC = 8;
 
+	public static final int FREE_CLIENT = 0;
+	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 1;
+	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 2;
+	public static final int TWO_USERS_MONTHLY_SUBSCRIPTION = 3;
+	public static final int TWO_USERS_YEARLY_SUBSCRIPTION = 4;
+	public static final int FIVE_USERS_MONTHLY_SUBSCRIPTION = 5;
+	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 6;
+	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 7;
+	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 8;
+	public static final int BEFORE_PAID_FETURE = 100;
+
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
 	// int accountingType = 0;
@@ -113,6 +124,10 @@ public class ClientCompany implements IAccounterCore {
 	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
+
+	private Set<String> features = new HashSet<String>();
+
+	private int subscriptionType;
 
 	private ArrayList<ClientAccount> accounts;
 
@@ -3201,10 +3216,23 @@ public class ClientCompany implements IAccounterCore {
 	}
 
 	public boolean hasPermission(String featureName) {
-		return false;
+		return features.contains(featureName);
+	}
+
+	public int getSubscriptionType() {
+		return subscriptionType;
+	}
+
+	public void setSubscriptionType(int subscriptionType) {
+		this.subscriptionType = subscriptionType;
+	}
+
+	public void setFeatures(Set<String> features) {
+		this.features = features;
 	}
 
 	public boolean isUnlimitedUser() {
-		return false;
+		return subscriptionType == UNLIMITED_USERS_MONTHLY_SUBSCRIPTION
+				|| subscriptionType == UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
 	}
 }

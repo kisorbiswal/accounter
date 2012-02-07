@@ -37,6 +37,7 @@ import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
@@ -718,7 +719,10 @@ public class CompanyManager extends Manager {
 		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
 		// .setParameter("email", logInUserEmail).uniqueResult();
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
-
+		Subscription subscription = logInUser.getClient()
+				.getClientSubscription().getSubscription();
+		clientCompany.setSubscriptionType(subscription.getType());
+		clientCompany.setFeatures(subscription.getFeatures());
 		List list = session.getNamedQuery("get.All.Units")
 				.setEntity("company", company).list();
 

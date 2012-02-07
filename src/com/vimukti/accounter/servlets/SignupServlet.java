@@ -139,7 +139,9 @@ public class SignupServlet extends BaseServlet {
 				// clientSubscription.setSubscription(subscription);
 
 				ClientSubscription clientSubscription = new ClientSubscription();
-				clientSubscription.setSubscription(new Subscription());
+				Subscription subscription = new Subscription();
+				saveEntry(subscription);
+				clientSubscription.setSubscription(subscription);
 				saveEntry(clientSubscription);
 
 				client.setClientSubscription(clientSubscription);

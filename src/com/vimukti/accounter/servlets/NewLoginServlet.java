@@ -320,6 +320,8 @@ public class NewLoginServlet extends BaseServlet {
 	private void showLogin(HttpServletRequest request,
 			HttpServletResponse response) {
 		String news = getNews();
+		Object attribute = request.getParameter(PARAM_DESTINATION);
+		request.setAttribute(PARAM_DESTINATION, attribute);
 		request.setAttribute("news", news);
 		dispatch(request, response, LOGIN_VIEW);
 		return;

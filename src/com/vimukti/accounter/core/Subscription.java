@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Subscription {
+	public static final int FREE_CLIENT = 0;
 	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 1;
 	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 2;
 	public static final int TWO_USERS_MONTHLY_SUBSCRIPTION = 3;
@@ -12,6 +13,7 @@ public class Subscription {
 	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 6;
 	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 7;
 	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 8;
+	public static final int BEFORE_PAID_FETURE = 100;
 
 	private long id;
 	private Set<String> features = new HashSet<String>();

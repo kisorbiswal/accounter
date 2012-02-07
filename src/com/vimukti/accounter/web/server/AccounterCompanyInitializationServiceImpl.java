@@ -28,6 +28,7 @@ import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -121,7 +122,17 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public static Company intializeCompany(
 			ClientCompanyPreferences preferences,
 			List<TemplateAccount> accounts, Client client, String password,
-			byte[] d2) {
+			byte[] d2) throws AccounterException {
+
+		int subscriptionType = client.getClientSubscription().getSubscription()
+				.getType();
+		if (subscriptionType == Subscription.BEFORE_PAID_FETURE
+				|| subscriptionType == Subscription.FREE_CLIENT) {
+			List<Company> companies = client.getCompanies();
+			if (companies.size() > 0) {
+				throw new AccounterException();
+			}
+		}
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {

@@ -15,6 +15,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -68,36 +69,51 @@ public class CompaniesServlet extends BaseServlet {
 			boolean isSupportedUser = isSupportUser(emailID);
 			httpSession.setAttribute(IS_SUPPORTED_USER, isSupportedUser);
 			Set<User> users = client.getUsers();
-			if (!isSupportedUser && users.isEmpty()) {
-				if (httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
-					req.setAttribute("message",
-							"You don't have any companies now.");
-				}
+			List<Company> list = new ArrayList<Company>();
+			if (isSupportedUser) {
+				// get.CompanyId.Tradingname.and.Country.of.supportUser
+				List<Object[]> objects = session.getNamedQuery(
+						"get.CompanyId.Tradingname.and.Country.of.supportUser")
+						.list();
+				addCompanies(list, objects);
+				req.getSession().setAttribute(SUPPORTED_EMAIL_ID, emailID);
 			} else {
-				List<Company> list = new ArrayList<Company>();
-				if (isSupportedUser) {
-					// get.CompanyId.Tradingname.and.Country.of.supportUser
-					List<Object[]> objects = session
-							.getNamedQuery(
-									"get.CompanyId.Tradingname.and.Country.of.supportUser")
-							.list();
-					addCompanies(list, objects);
-					req.getSession().setAttribute(SUPPORTED_EMAIL_ID, emailID);
-				} else {
-					List<Long> userIds = new ArrayList<Long>();
-					for (User user : users) {
-						if (!user.isDeleted()) {
-							userIds.add(user.getID());
-						}
+				List<Long> userIds = new ArrayList<Long>();
+				for (User user : users) {
+					if (!user.isDeleted()) {
+						userIds.add(user.getID());
 					}
-					List<Object[]> objects = session
+				}
+				List<Object[]> objects = new ArrayList<Object[]>();
+				if (!userIds.isEmpty()) {
+					objects = session
 							.getNamedQuery(
 									"get.CompanyId.Tradingname.and.Country.of.user")
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
-				req.setAttribute(ATTR_COMPANY_LIST, list);
+				int subscriptionType = client.getClientSubscription()
+						.getSubscription().getType();
+				if (subscriptionType == Subscription.BEFORE_PAID_FETURE
+						|| subscriptionType == Subscription.FREE_CLIENT) {
+					if (list.size() == 0) {
+						createCompany(req, resp);
+						return;
+					}
+					if (list.size() == 1) {
+						openCompany(req, resp, list.get(0).getId());
+						return;
+					} else {
+						req.setAttribute("canCreate", false);
+					}
+				}
+				if (list.isEmpty()
+						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
+					req.setAttribute("message",
+							"You don't have any companies now.");
+				}
 			}
+			req.setAttribute(ATTR_COMPANY_LIST, list);
 			req.getSession().removeAttribute(COMPANY_ID);
 		} catch (Exception e) {
 			e.printStackTrace();

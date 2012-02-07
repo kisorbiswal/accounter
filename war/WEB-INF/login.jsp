@@ -25,6 +25,7 @@
 <script  type="text/javascript" >
 <%
 	String news = request.getAttribute("news").toString();
+	String destination =(String) request.getAttribute("destination");
 %>
 	var news=<%= news%>;
 	var isNative=<%= isNative%>;
@@ -139,6 +140,9 @@
 			   </c:if>	
 			   <h3><i18n:i18n msg='signIn'/></h3>
 			   <form id="accounterForm" method="post" action="/main/login">
+			   		<c:if test="${destination != null}">
+			   		<input type="hidden" name="destination" value="${destination}">
+			    	</c:if>	
 			      <div class="email_password">
 				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>

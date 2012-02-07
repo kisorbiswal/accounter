@@ -172,7 +172,6 @@ public class ClientUser implements IAccounterCore {
 
 	}
 
-
 	public void setCanDoUserManagement(boolean canDoUserManagement) {
 		this.canDoUserManagement = canDoUserManagement;
 	}

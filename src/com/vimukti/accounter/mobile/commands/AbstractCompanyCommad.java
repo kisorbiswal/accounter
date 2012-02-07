@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.CoreUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -607,9 +608,14 @@ public abstract class AbstractCompanyCommad extends AbstractCommand {
 
 		setPreferences();
 
-		Company company = AccounterCompanyInitializationServiceImpl
-				.intializeCompany(preferences, accounts, context.getIOSession()
-						.getClient(), null, null);
+		Company company = null;
+		try {
+			company = AccounterCompanyInitializationServiceImpl
+					.intializeCompany(preferences, accounts, context
+							.getIOSession().getClient(), null, null);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		if (company == null) {
 			return new Result(getMessages().ProblemWhileCreating(
 					getMessages().company()));
