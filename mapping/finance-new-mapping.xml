@@ -57,7 +57,6 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<property name="name" column="NAME"></property>
 		<property name="type" column="TYPE"></property>
 		<set name="features" table="FEATURES">
 			<key column="FEATURE_ID" />
