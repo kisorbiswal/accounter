@@ -132,7 +132,7 @@ public class SubscriptionReturnServlet extends HttpServlet {
 		ClientPaypalDetails details = new ClientPaypalDetails();
 		details.setFirstname(params.get("first_name"));
 		details.setLastname(params.get("last_name"));
-		details.setAddressCountry(params.get("address_ country"));
+		details.setAddressCountry(params.get("address_country"));
 		details.setPayerEmail(params.get("payer_email"));
 		details.setPaymentGross(Double.parseDouble(params.get("payment_gross")));
 		details.setMcCurrency(params.get("mc_currency"));
