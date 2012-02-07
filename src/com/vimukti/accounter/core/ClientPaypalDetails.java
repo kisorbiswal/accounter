@@ -6,7 +6,7 @@ public class ClientPaypalDetails {
 	private String last_name;
 	private int payment_status;
 	private String payer_email;
-	private String payment_gross;
+	private double  payment_gross;
 	private String mc_currency;
 	private String address_country;
 	private String clinetEmailId;
