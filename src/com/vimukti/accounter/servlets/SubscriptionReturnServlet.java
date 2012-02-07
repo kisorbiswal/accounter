@@ -130,15 +130,14 @@ public class SubscriptionReturnServlet extends HttpServlet {
 
 	private void saveDetailsInDB(Map<String, String> params, String emailId) {
 		ClientPaypalDetails details = new ClientPaypalDetails();
-		details.setFirstname(params.get("firstname"));
-		details.setLastname(params.get("lastname"));
-		details.setAddressCountry(params.get("addressCountry"));
-		details.setPayerEmail(params.get("payerEmail"));
-		details.setPaymentGross(Double.parseDouble(params.get("paymentGross")));
-		details.setMcCurrency(params.get("mcCurrency"));
-		details.setPaymentStatus(params.get("paymentStatus"));
+		details.setFirstname(params.get("first_name"));
+		details.setLastname(params.get("last_name"));
+		details.setAddressCountry(params.get("address_ country"));
+		details.setPayerEmail(params.get("payer_email"));
+		details.setPaymentGross(Double.parseDouble(params.get("payment_gross")));
+		details.setMcCurrency(params.get("mc_currency"));
+		details.setPaymentStatus(params.get("payment_status"));
 		details.setClinetEmailId(emailId);
-		 
 	}
 
 	private String requestToPayPal(String transactionID) {
