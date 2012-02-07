@@ -110,8 +110,8 @@ public class TaxItemDetailReportView extends AbstractReportView<TAXItemDetail> {
 			toolBar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
 			toolBar.taxAgencyCombo.select(taxAgency2);
 			toolBar.taxAgencyCombo.setDisabled(true);
-			toolBar.fromItem.setEnteredDate(this.startDate);
-			toolBar.toItem.setEnteredDate(this.endDate);
+			toolBar.fromItem.setEnteredDate(toolBar.getStartDate());
+			toolBar.toItem.setEnteredDate(toolBar.getEndDate());
 			toolBar.fromItem.setDisabled(true);
 			toolBar.toItem.setDisabled(true);
 			toolBar.updateButton.setEnabled(false);
