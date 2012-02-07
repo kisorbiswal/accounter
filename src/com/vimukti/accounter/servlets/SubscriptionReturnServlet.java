@@ -15,9 +15,15 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class SubscriptionReturnServlet extends HttpServlet {
 
@@ -53,9 +59,17 @@ public class SubscriptionReturnServlet extends HttpServlet {
 					sendInfo("Your process is not completed", req, resp);
 					return;
 				}
-				saveDetailsInDB(params, emailId);
-				upgradeClient(params, emailId);
-				req.getRequestDispatcher(VIEW).forward(req, resp);
+				Session openSession = HibernateUtil.openSession();
+				try {
+					saveDetailsInDB(params, emailId);
+					upgradeClient(params, emailId);
+					req.getRequestDispatcher(VIEW).forward(req, resp);
+				} catch (Exception e) {
+				} finally {
+					if (openSession.isOpen()) {
+						openSession.close();
+					}
+				}
 			} else {
 				sendInfo("Your transaction is fail", req, resp);
 			}
@@ -67,31 +81,37 @@ public class SubscriptionReturnServlet extends HttpServlet {
 	private void upgradeClient(Map<String, String> params, String emailId) {
 		String type = params.get("option_selection1");
 		int paymentType = 0;
-		if (type.equals("")) {
+		if (type.equals("One user monthly")) {
 			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
+		} else if (type.equals("One user yearly")) {
 			paymentType = Subscription.ONE_USER_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("2 users monthly")) {
+			paymentType = Subscription.TWO_USERS_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("2 users yearly")) {
+			paymentType = Subscription.TWO_USERS_YEARLY_SUBSCRIPTION;
+		} else if (type.equals("5 users monthly")) {
+			paymentType = Subscription.FIVE_USERS_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("5 users yearly")) {
+			paymentType = Subscription.FIVE_USERS_YEARLY_SUBSCRIPTION;
+		} else if (type.equals("Unlimited Users monthly")) {
+			paymentType = Subscription.UNLIMITED_USERS_MONTHLY_SUBSCRIPTION;
+		} else if (type.equals("Unlimited Users yearly")) {
+			paymentType = Subscription.UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
 		}
+		Client client = getClient(emailId);
+		client.getClientSubscription().getSubscription().setType(paymentType);
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		session.saveOrUpdate(client);
+		beginTransaction.commit();
+	}
+
+	private Client getClient(String emailId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
+		namedQuery.setParameter("emailId", emailId);
+		Client client = (Client) namedQuery.uniqueResult();
+		return client;
 	}
 
 	private void sendInfo(String string, HttpServletRequest req,
@@ -109,7 +129,15 @@ public class SubscriptionReturnServlet extends HttpServlet {
 	}
 
 	private void saveDetailsInDB(Map<String, String> params, String emailId) {
-
+		ClientPaypalDetails details = new ClientPaypalDetails();
+		details.setFirst_name(params.get("first_name"));
+		details.setLast_name(params.get("last_name"));
+		details.setAddress_country(params.get("address_ country"));
+		details.setPayer_email(params.get("payer_email"));
+		details.setPayment_gross(Double.parseDouble(params.get("payment_gross")));
+		details.setMc_currency(params.get("mc_currency"));
+		details.setPayment_status(params.get("payment_status"));
+		details.setClinetEmailId(emailId);
 	}
 
 	private String requestToPayPal(String transactionID) {
@@ -137,7 +165,7 @@ public class SubscriptionReturnServlet extends HttpServlet {
 					new NameValuePair("submit", "PDT") };
 			method.setRequestBody(data);
 			HttpClient client = new HttpClient();
-			int executeMethod = client.executeMethod(method);
+			client.executeMethod(method);
 			String responseBodyAsString = method.getResponseBodyAsString();
 			return responseBodyAsString;
 		} catch (Exception e) {

@@ -279,7 +279,6 @@ public class BaseServlet extends HttpServlet {
 		Query namedQuery = session.getNamedQuery("getClient.by.mailId");
 		namedQuery.setParameter(EMAIL_ID, emailId);
 		Client client = (Client) namedQuery.uniqueResult();
-		// session.close();
 		return client;
 	}
 
