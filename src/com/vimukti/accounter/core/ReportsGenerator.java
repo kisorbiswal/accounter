@@ -1502,17 +1502,18 @@ public class ReportsGenerator {
 					return getDateInDefaultType(date);
 				}
 			};
-			updateReport(stockStatusItem, finaTool);
+			updateReport(stockStatusByVendor, finaTool);
 			try {
-				stockStatusItem.onResultSuccess(finaTool.getInventoryManager()
-						.getInventoryStockStatusByItem(company.getID(),
+				stockStatusByVendor.onResultSuccess(finaTool
+						.getInventoryManager().getInventoryStockStatusByItem(
+								company.getID(),
 								new ClientFinanceDate(startDate.getDate()),
 								new ClientFinanceDate(endDate.getDate())));
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return stockStatusItem.getGridTemplate();
+			return stockStatusByVendor.getGridTemplate();
 		default:
 			break;
 		}
