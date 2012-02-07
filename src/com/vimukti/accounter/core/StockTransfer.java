@@ -139,7 +139,7 @@ public class StockTransfer extends CreatableObject implements
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Stock Transfer").gap();
+		w.put(messages.type(), messages.stockTransfer()).gap();
 
 		w.put(messages.fromWarehouse(), this.fromWarehouse.getName());
 
