@@ -2,14 +2,12 @@ package com.vimukti.accounter.core;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
-import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -23,6 +21,10 @@ import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServ
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByItemServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
@@ -126,7 +128,10 @@ public class ReportsGenerator {
 	public final static int REALISED_EXCHANGE_LOSSES_AND_GAINS = 172;
 	public final static int UNREALISED_EXCHANGE_LOSSES_AND_GAINS = 173;
 	public final static int PRINT_FILE_TAX = 174;
-
+	public final static int REPORT_TYPE_INVENTORY_VALUTION_SUMMARY = 175;
+	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
+	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
+	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -140,7 +145,7 @@ public class ReportsGenerator {
 	private long vendorId;
 	private static Company company;
 	private String dateRangeHtml;
-	private int generationType;
+	private final int generationType;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
@@ -183,7 +188,7 @@ public class ReportsGenerator {
 		this.vendorId = vendorId;
 		this.boxNo = boxNo;
 		this.company = company;
-		this.generationType = generationType;
+		this.generationType = generationtypecsv;
 	}
 
 	public String generate(FinanceTool financeTool, int generationType)
@@ -1341,7 +1346,7 @@ public class ReportsGenerator {
 			};
 			updateReport(taxItemDetailServerReportView, finaTool);
 			taxItemDetailServerReportView.resetVariables();
-			
+
 			long taxId = Long.parseLong(navigateObjectName);
 			if (taxId != 0) {
 				taxItemDetailServerReportView.onResultSuccess(finaTool
@@ -1427,6 +1432,87 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return realisesExhanges.getGridTemplate();
+		case REPORT_TYPE_INVENTORY_VALUTION_SUMMARY:
+			InventoryValutionSummaryServerReport summaryReport = new InventoryValutionSummaryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(summaryReport, finaTool);
+			try {
+				summaryReport.onResultSuccess(finaTool.getInventoryManager()
+						.getInventoryValutionSummary(company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return summaryReport.getGridTemplate();
+		case REPORT_TYPE_INVENTORY_VALUTION_DETAIL:
+			InventoryValuationDetailsServerReport detailReport = new InventoryValuationDetailsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(detailReport, finaTool);
+			try {
+				detailReport.onResultSuccess(finaTool.getInventoryManager()
+						.getInventoryValutionDetail(company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate()),
+								Long.parseLong(status)));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return detailReport.getGridTemplate();
+		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM:
+			InventoryStockStatusByItemServerReport stockStatusItem = new InventoryStockStatusByItemServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(stockStatusItem, finaTool);
+			try {
+				stockStatusItem.onResultSuccess(finaTool.getInventoryManager()
+						.getInventoryStockStatusByItem(company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return stockStatusItem.getGridTemplate();
+		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR:
+			InventoryStockStatusByVendorServerReport stockStatusByVendor = new InventoryStockStatusByVendorServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(stockStatusItem, finaTool);
+			try {
+				stockStatusItem.onResultSuccess(finaTool.getInventoryManager()
+						.getInventoryStockStatusByItem(company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return stockStatusItem.getGridTemplate();
 		default:
 			break;
 		}
@@ -1686,6 +1772,14 @@ public class ReportsGenerator {
 			return "TAX Item Exception Report";
 		case REALISED_EXCHANGE_LOSSES_AND_GAINS:
 			return "Realised Exchange Losses & Gains Report";
+		case REPORT_TYPE_INVENTORY_VALUTION_SUMMARY:
+			return "Inventory Valution Summary";
+		case REPORT_TYPE_INVENTORY_VALUTION_DETAIL:
+			return "Inventory Valution Detail";
+		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM:
+			return "Inventory Stock Status By Item";
+		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR:
+			return "Inventory Stock Status By Vendor";
 		default:
 			break;
 		}
