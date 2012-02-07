@@ -191,6 +191,8 @@ public class OpenCompanyServlet extends BaseServlet {
 					}
 				}
 				Company company = getCompany(request);
+				request.setAttribute("goPremiumId",
+						EU.encryptAccounter(emailID));
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				if (!isSupportedUser) {

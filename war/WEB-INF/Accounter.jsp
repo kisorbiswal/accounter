@@ -285,10 +285,12 @@
 	    <script type="text/javascript" >
 	    <% 
 			Long subscription=(Long)request.getAttribute("subscription");
+			String goPremiumId=(String)request.getAttribute("goPremiumId");
 		%>
 			var subscription=<%= subscription %>;
+			var email_enc=<%= goPremiumId %>;
 		    if(subscription==null){
-				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>'); 
+				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+email_enc+'">Go Premium</a>'); 
 			}else{
 				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
 			}

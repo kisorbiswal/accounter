@@ -12,7 +12,9 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.google.gdata.util.common.util.Base64;
 import com.vimukti.accounter.main.CipherThreadLocal;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class EU {
 	private static Map<String, ByteArrayWrapper> keys = new HashMap<String, EU.ByteArrayWrapper>();
@@ -189,5 +191,29 @@ public class EU {
 		cipherCouple.dCipher = dCipher;
 		cipherCouple.eCipher = eCipher;
 		CipherThreadLocal.set(cipherCouple);
+	}
+
+	public static String decryptAccounter(String parameter) {
+		byte[] generatePBS = generatePBS(ServerConfiguration.getAdminPassword());
+		try {
+			byte[] bytes = Base64.decode(parameter);
+			byte[] encrypt = decrypt(bytes, generatePBS);
+			return new String(encrypt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static String encryptAccounter(String emailId) {
+		byte[] generatePBS = generatePBS(ServerConfiguration.getAdminPassword());
+		byte[] bytes = emailId.getBytes();
+		try {
+			byte[] encrypt = encrypt(bytes, generatePBS);
+			return Base64.encode(encrypt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
