@@ -2055,16 +2055,19 @@ public class FinanceTool {
 					.setEntity("company", company).executeUpdate();
 
 			Account account = (Account) session.get(Account.class,
+					toClientAccount.getID());
+
+			Account fromAccount = (Account) session.get(Account.class,
 					fromClientAccount.getID());
 			User user = AccounterThreadLocal.get();
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
 					account);
 			session.save(activity);
 
-			company.getAccounts().remove(account);
+			company.getAccounts().remove(fromAccount);
 			session.saveOrUpdate(company);
-			account.setCompany(null);
-			session.delete(account);
+			fromAccount.setCompany(null);
+			session.delete(fromAccount);
 			tx.commit();
 			Account toaccount = (Account) session.get(Account.class,
 					toClientAccount.getID());
@@ -2109,17 +2112,21 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
-			Item item = (Item) session.get(Item.class, fromClientItem.getID());
+			Item toItem = (Item) session.get(Item.class, toClientItem.getID());
+
+			Item fromItem = (Item) session.get(Item.class,
+					fromClientItem.getID());
 
 			User user = AccounterThreadLocal.get();
 
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
-					item);
+					toItem);
+
 			session.save(activity);
-			company.getItems().remove(item);
+			company.getItems().remove(fromItem);
 			session.saveOrUpdate(company);
-			item.setCompany(null);
-			session.delete(item);
+			fromItem.setCompany(null);
+			session.delete(fromItem);
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
