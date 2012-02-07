@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -190,4 +191,40 @@ public class VendorTransactionsHistoryGrid extends
 
 	}
 
+	@Override
+	protected int sort(TransactionHistory obj1, TransactionHistory obj2,
+			int index) {
+		switch (index) {
+		case 0:
+			ClientFinanceDate date = obj1.getDate();
+			ClientFinanceDate date2 = obj2.getDate();
+			return date.compareTo(date2);
+		case 1:
+			String name2 = obj1.getName().toLowerCase();
+			String name = obj2.getName().toLowerCase();
+			return name2.compareTo(name);
+		case 2:
+			String number = obj1.getNumber();
+			String number2 = obj2.getNumber();
+			return number.compareTo(number2);
+		case 3:
+			String memo = obj1.getMemo().toLowerCase();
+			String memo2 = obj2.getMemo().toLowerCase();
+			return memo.compareTo(memo2);
+		case 4:
+
+			ClientFinanceDate dueDate = obj1.getDueDate();
+			ClientFinanceDate dueDate2 = obj2.getDueDate();
+			return dueDate.compareTo(dueDate2);
+
+		case 5:
+			Double amount = obj1.getAmount();
+			Double amount2 = obj2.getAmount();
+			return amount.compareTo(amount2);
+		default:
+			break;
+		}
+
+		return 0;
+	}
 }
