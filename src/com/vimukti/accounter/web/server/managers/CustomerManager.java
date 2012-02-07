@@ -595,18 +595,21 @@ public class CustomerManager extends PayeeManager {
 
 			User user = AccounterThreadLocal.get();
 
-			Customer customer = (Customer) session.get(Customer.class,
+			Customer toCustomer = (Customer) session.get(Customer.class,
+					toClientCustomer.getID());
+
+			Customer fromcustomer = (Customer) session.get(Customer.class,
 					fromClientCustomer.getID());
 
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
-					customer);
+					toCustomer);
 			session.save(activity);
 
-			company.getCustomers().remove(customer);
+			company.getCustomers().remove(fromcustomer);
 			session.saveOrUpdate(company);
-			customer.setCompany(null);
+			fromcustomer.setCompany(null);
 
-			session.delete(customer);
+			session.delete(fromcustomer);
 			tx.commit();
 
 		} catch (Exception e) {
