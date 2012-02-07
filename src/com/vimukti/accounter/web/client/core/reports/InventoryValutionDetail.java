@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 
 public class InventoryValutionDetail extends BaseReport implements
 		IsSerializable, Serializable {
@@ -20,13 +21,13 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	private String payeeName;
 
-	private long transactionNo;
+	private String transactionNo;
 
-	private long quantity;
+	private ClientQuantity quantity;
 
 	private double cost;
 
-	private long onHand;
+	private ClientQuantity onHand;
 
 	private double assetValue;
 
@@ -60,19 +61,19 @@ public class InventoryValutionDetail extends BaseReport implements
 		this.payeeName = payeeName;
 	}
 
-	public long getTransactionNo() {
+	public String getTransactionNo() {
 		return transactionNo;
 	}
 
-	public void setTransactionNo(long transactionNo) {
+	public void setTransactionNo(String transactionNo) {
 		this.transactionNo = transactionNo;
 	}
 
-	public long getQuantity() {
+	public ClientQuantity getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(long quantity) {
+	public void setQuantity(ClientQuantity quantity) {
 		this.quantity = quantity;
 	}
 
@@ -84,11 +85,11 @@ public class InventoryValutionDetail extends BaseReport implements
 		this.cost = cost;
 	}
 
-	public long getOnHand() {
+	public ClientQuantity getOnHand() {
 		return onHand;
 	}
 
-	public void setOnHand(long onHand) {
+	public void setOnHand(ClientQuantity onHand) {
 		this.onHand = onHand;
 	}
 

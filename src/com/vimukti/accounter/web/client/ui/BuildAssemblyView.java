@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -24,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.DateField;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -109,6 +112,15 @@ public class BuildAssemblyView extends
 		quantityToBuild.setRequired(true);
 		dateField = new DateField(messages.date());
 		dateField.setEnteredDate(new ClientFinanceDate());
+		dateField.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				setTransactionDate(dateField.getDate());
+			}
+		});
+		setTransactionDate(dateField.getDate());
+		;
 		memoItem = new TextAreaItem(messages.memo());
 		memoItem.setMemo(true, this);
 		maximumBuildsLabel = new AmountLabel(
@@ -117,8 +129,8 @@ public class BuildAssemblyView extends
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Integer.parseInt(maximumBuildsLabel.getValue()) < Integer
-						.parseInt(quantityToBuild.getValue())) {
+				if (DecimalUtil.isLessThan(maximumBuildsLabel.getAmount(),
+						quantityToBuild.getAmount())) {
 					result.addError(quantityToBuild, messages
 							.dntHaveEnoughComponents(maximumBuildsLabel
 									.getValue()));
@@ -203,8 +215,8 @@ public class BuildAssemblyView extends
 				assemblyItems.add(clientInventoryAssemblyItem);
 			}
 			itemTable.setRecords(assemblyItems);
-			maximumBuildsLabel.setValue(Integer
-					.toString(calculateNumberOfBuilds(assemblyItems)));
+			maximumBuildsLabel
+					.setAmount(calculateNumberOfBuilds(assemblyItems));
 
 		}
 
@@ -215,42 +227,6 @@ public class BuildAssemblyView extends
 		super.createButtons(buttonBar);
 		saveAndCloseButton.setText(messages.buildAndClose());
 		saveAndNewButton.setText(messages.buildAndNew());
-	}
-
-	@Override
-	public void initData() {
-		if (data == null) {
-			setData(new ClientBuildAssembly());
-		} else {
-			setData(data);
-			if (data.getInventoryAssembly() != null) {
-				buildPoint.setValue(Integer.toString(data
-						.getInventoryAssembly().getReorderPoint()));
-				quantityOnHand.setAmount(data.getInventoryAssembly()
-						.getOnhandQty().getValue());
-				Set<ClientInventoryAssemblyItem> components = data
-						.getInventoryAssembly().getComponents();
-				List<ClientInventoryAssemblyItem> assemblyItems = new ArrayList<ClientInventoryAssemblyItem>();
-				for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : components) {
-					assemblyItems.add(clientInventoryAssemblyItem);
-				}
-				itemTable.setRecords(assemblyItems);
-			}
-
-			if (data.getInventoryAssembly() != null) {
-				itemCombo.setComboItem(data.getInventoryAssembly());
-			}
-			if (data.getDate() != null) {
-				dateField.setDefaultValue(data.getDate());
-			}
-			if (data.getNumber() != null) {
-				transactionNumber.setValue(data.getNumber());
-			}
-			if (data.getQuantityToBuild() != null) {
-				quantityToBuild.setAmount(data.getQuantityToBuild());
-			}
-			super.initData();
-		}
 	}
 
 	@Override
@@ -278,17 +254,19 @@ public class BuildAssemblyView extends
 
 	}
 
-	private int calculateNumberOfBuilds(
+	private double calculateNumberOfBuilds(
 			List<ClientInventoryAssemblyItem> assemblyItems) {
-		int buildNumber = 0;
-		int tempBuildNumber = 0;
+		Double buildNumber = null;
 		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
 			double onhandQuantity = clientInventoryAssemblyItem
 					.getInventoryItem().getOnhandQty().getValue();
 			double value = clientInventoryAssemblyItem.getQuantity().getValue();
-			tempBuildNumber = (int) (onhandQuantity / value);
-			if (buildNumber > tempBuildNumber) {
-				buildNumber = tempBuildNumber;
+			double temp = (int) (onhandQuantity / value);
+			if (buildNumber == null) {
+				buildNumber = temp;
+			}
+			if (buildNumber > temp) {
+				buildNumber = temp;
 			}
 		}
 		return buildNumber;
@@ -296,9 +274,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected void updateTransaction() {
-		if (transaction == null) {
-			transaction = new ClientBuildAssembly();
-		}
+
 		if (itemCombo.getSelectedValue() != null) {
 			transaction.setInventoryAssembly(itemCombo.getSelectedValue());
 		}
@@ -330,13 +306,45 @@ public class BuildAssemblyView extends
 
 	@Override
 	public void saveAndUpdateView() {
+		updateTransaction();
 		saveOrUpdate(transaction);
 	}
 
 	@Override
 	protected void initTransactionViewData() {
-		// TODO Auto-generated method stub
+		if (data == null) {
+			setData(new ClientBuildAssembly());
+		} else {
+			setData(data);
+			if (data.getInventoryAssembly() != null) {
+				buildPoint.setValue(Integer.toString(data
+						.getInventoryAssembly().getReorderPoint()));
+				quantityOnHand.setAmount(data.getInventoryAssembly()
+						.getOnhandQty().getValue());
+				Set<ClientInventoryAssemblyItem> components = data
+						.getInventoryAssembly().getComponents();
+				List<ClientInventoryAssemblyItem> assemblyItems = new ArrayList<ClientInventoryAssemblyItem>();
+				for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : components) {
+					assemblyItems.add(clientInventoryAssemblyItem);
+				}
+				itemTable.setRecords(assemblyItems);
+			}
 
+			if (data.getInventoryAssembly() != null) {
+				itemCombo.setComboItem(data.getInventoryAssembly());
+			}
+			if (data.getDate() != null) {
+				dateField.setDefaultValue(data.getDate());
+			}
+			if (data.getNumber() != null) {
+				transactionNumber.setValue(data.getNumber());
+			}
+			if (data.getQuantityToBuild() != null) {
+				quantityToBuild.setAmount(data.getQuantityToBuild());
+			}
+		}
+
+		initTransactionNumber();
 	}
 
 	@Override

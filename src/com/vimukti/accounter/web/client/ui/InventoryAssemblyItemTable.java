@@ -134,7 +134,7 @@ public abstract class InventoryAssemblyItemTable extends
 		this.addColumn(new InventoryTransactionUnitPriceColumn(currencyProvider) {
 			@Override
 			public int getWidth() {
-				return 80;
+				return 100;
 			}
 
 			@Override

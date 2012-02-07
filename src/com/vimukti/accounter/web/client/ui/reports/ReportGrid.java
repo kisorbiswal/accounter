@@ -99,8 +99,11 @@ public class ReportGrid<R> extends CustomTable {
 					addCell(rowCount, i, bold, getValue(values[i]), depth,
 							underline);
 				} else if (columnTypes[i] == COLUMN_TYPE_PERCENTAGE) {
-					addCell(rowCount, i, bold,
-							values[i] instanceof Double ? values[i].toString()
+					addCell(rowCount,
+							i,
+							bold,
+							values[i] instanceof Double ? DataUtils
+									.getAmountAsStrings((Double) values[i])
 									+ " %" : values[i].toString(), depth, false);
 				} else {
 					addCell(rowCount, i, bold, values[i].toString(), depth,

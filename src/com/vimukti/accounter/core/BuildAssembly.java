@@ -23,22 +23,9 @@ public class BuildAssembly extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		Account assemblyAssetsAccount = inventoryAssembly.getAssestsAccount();
-		double totalAssemblyCost = 0.00D;
-		for (InventoryAssemblyItem item : inventoryAssembly.getComponents()) {
-			double itemCost = item.getQuantity().calculatePrice(
-					item.getCostByActiveScheme());
-			itemCost = itemCost * quantityToBuild;
-			totalAssemblyCost += itemCost;
-			Account itemAssestsAccount = item.getInventoryItem()
-					.getAssestsAccount();
-			itemAssestsAccount.updateCurrentBalance(this, itemCost, 1);
+		if (inventoryAssembly != null) {
+			inventoryAssembly.buildAssembly(this, quantityToBuild);
 		}
-
-		assemblyAssetsAccount.updateCurrentBalance(this, -totalAssemblyCost, 1);
-
-		Quantity onhandQuantity = inventoryAssembly.getOnhandQty();
-		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
 
 		return super.onSave(session);
 	}

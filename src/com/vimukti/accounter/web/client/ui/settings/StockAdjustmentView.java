@@ -286,9 +286,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			result.addError(this, messages.pleaseSelectInventoryItemToSave());
 		}
 		for (ClientTransactionItem item : allRows) {
-			if (item.getQuantity().getValue() <= 0) {
-				result.addError(this, messages.valueOfQuantityShouldNotBeZero());
-			} else if (item.getQuantity().getUnit() <= 0) {
+			if (item.getQuantity().getUnit() <= 0) {
 				result.addError(this,
 						messages.pleaseSelectUnitForInventoryItem());
 			}

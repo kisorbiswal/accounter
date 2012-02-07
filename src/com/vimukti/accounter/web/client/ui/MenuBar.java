@@ -141,13 +141,13 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
-		if (notReadOnlyUser == true) {
-			if (iswareHouseEnabled) {
-				inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
-						HistoryTokens.STOCKADJUSTMENT, "H");
-			}
+		if (notReadOnlyUser) {
+			inventoryMenuBar.addMenuItem(messages.buildAssembly(),
+					HistoryTokens.BUILD_ASSEMBLY);
+			inventoryMenuBar.addSeparatorItem();
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
+		inventoryMenuBar.addSeparatorItem();
 		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
 				.InventoryLists()));
 
@@ -166,10 +166,8 @@ public class MenuBar {
 			inventoryMenu.addMenuItem(messages.warehouseTransferList(),
 					HistoryTokens.WAREHOUSETRANSFERLIST);
 		}
-		if (iswareHouseEnabled) {
-			inventoryMenu.addMenuItem(messages.stockAdjustments(),
-					HistoryTokens.STOCKADJUSTMENTS);
-		}
+		inventoryMenu.addMenuItem(messages.stockAdjustments(),
+				HistoryTokens.STOCKADJUSTMENTS);
 		inventoryMenu.addMenuItem(messages.measurementList(),
 				HistoryTokens.MEASUREMENTLIST);
 
@@ -179,7 +177,8 @@ public class MenuBar {
 	private Menu getNewInventoryMenu(String string) {
 
 		Menu newMenuBar = new Menu(string);
-
+		newMenuBar.addMenuItem(messages.stockAdjustment(),
+				HistoryTokens.STOCKADJUSTMENT, "H");
 		if (iswareHouseEnabled) {
 			newMenuBar.addMenuItem(messages.wareHouse(),
 					HistoryTokens.WAREHOUSE);
@@ -187,7 +186,7 @@ public class MenuBar {
 			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
 					HistoryTokens.WAREHOUSETRANSFER);
 		}
-		newMenuBar.addMenuItem(messages.addMeasurementName(),
+		newMenuBar.addMenuItem(messages.measurement(),
 				HistoryTokens.ADDMEASUREMENT);
 		return newMenuBar;
 
@@ -364,7 +363,7 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 		return reportMenuBar;
 	}
-	
+
 	private MenuItem getInventoryReportMenu(String inventory) {
 		Menu inventoryMenuBar = new Menu(inventory);
 		inventoryMenuBar.addMenuItem(messages.inventoryValutionSummary(),
@@ -377,14 +376,13 @@ public class MenuBar {
 				HistoryTokens.INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT);
 		return inventoryMenuBar;
 	}
-	
+
 	private MenuItem getFixedAssetReportSubMenu(String fixedAssest) {
 		Menu fixedAssetsReportMenu = new Menu(fixedAssest);
 		fixedAssetsReportMenu.addMenuItem(messages.depreciationReport(),
 				HistoryTokens.DEPRECIATIONSHEDULE);
 		return fixedAssetsReportMenu;
 	}
-	
 
 	private Menu getSalesSubMenu(String string) {
 		Menu salesMenu = new Menu(string);
@@ -722,8 +720,6 @@ public class MenuBar {
 			}
 
 		}
-		vendorMenuBar.addMenuItem(messages.buildAssembly(),
-				HistoryTokens.BUILD_ASSEMBLY);
 		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
 				.get().Vendor())));

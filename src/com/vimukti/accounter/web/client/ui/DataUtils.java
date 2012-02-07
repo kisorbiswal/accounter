@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientUnit;
@@ -404,6 +405,23 @@ public class DataUtils {
 				+ otherQuantity.getValue());
 
 		return resultQuantity;
+	}
+
+	public static String getQuantityAsString(ClientQuantity quantity) {
+		ClientCompanyPreferences preferences = Global.get().preferences();
+		ClientCompany company = Accounter.getCompany();
+		StringBuffer data = new StringBuffer();
+		data.append(String.valueOf(quantity.getValue()));
+
+		// if (preferences.isUnitsEnabled()) {
+		// ClientUnit unit = Accounter.getCompany().getUnitById(
+		// quantity.getUnit());
+		// data.append(" ");
+		// if (unit != null) {
+		// data.append(unit.getType());
+		// }
+		// }
+		return data.toString();
 	}
 
 }

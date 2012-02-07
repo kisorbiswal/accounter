@@ -924,7 +924,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private double createPurchases(Map<Quantity, Double> newPurchases,
 			boolean useAverage, Double averageCost) {
-		Quantity mapped = getQuantity().copy();
+		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getKey();
@@ -946,7 +946,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	private double clearPurchases() {
-		Quantity mapped = getQuantity().copy();
+		Quantity mapped = getQuantityCopy();
 		double amountToReverseUpdate = 0;
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
@@ -972,5 +972,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			isSales = getQuantity().getValue() < 0;
 		}
 		return isSales;
+	}
+
+	public Quantity getQuantityCopy() {
+		Quantity quantity = getQuantity().copy();
+		if (getTransaction().isStockAdjustment() && quantity.getValue() < 0) {
+			quantity.setValue(-quantity.getValue());
+		}
+		return quantity;
 	}
 }

@@ -488,10 +488,15 @@ public class InventoryManager extends Manager {
 			InventoryValutionSummary detail = new InventoryValutionSummary();
 			detail.setItemName((String) next[0]);
 			detail.setItemDescription((String) next[1]);
-			detail.setOnHand(((Long) next[2]));
-			detail.setAvgCost(((Double) next[3]));
-			detail.setSalesPrice(((Double) next[4]));
-			detail.setItemId((Long) next[5]);
+			ClientQuantity qty = new ClientQuantity();
+			qty.setValue(next[2] != null ? (Double) next[2] : 0);
+			qty.setUnit(next[3] != null ? (Long) next[3] : 0);
+			detail.setOnHand(qty);
+			detail.setAvgCost(next[4] != null ? (Double) next[4] : 0);
+			detail.setSalesPrice(next[5] != null ? (Double) next[5] : 0);
+			detail.setItemId(next[6] != null ? (Long) next[6] : 0);
+			detail.setAssetValue(next[7] != null ? (Double) next[7] : 0);
+			detail.setPerOfTotAsset(next[8] != null ? (Double) next[8] : 0);
 			result.add(detail);
 		}
 		return result;
@@ -536,17 +541,27 @@ public class InventoryManager extends Manager {
 		while (iterator.hasNext()) {
 			Object[] next = iterator.next();
 			InventoryValutionDetail detail = new InventoryValutionDetail();
-			detail.setTransactionId(((Long) next[0]));
-			detail.setTransactionDate(((Long) next[1]));
-			detail.setTransType((Integer) next[2]);
-			detail.setTransactionNo(((Long) next[3]));
-			detail.setQuantity(((Long) next[4]));
-			detail.setCost(((Double) next[5]));
-			detail.setOnHand(((Long) next[6]));
-			detail.setItemName((String) next[7]);
-			detail.setItemId((Long) next[8]);
-			detail.setPayeeName((String) next[9]);
-			detail.setPayeeId((Long) next[10]);
+			detail.setTransactionId(next[0] != null ? (Long) next[0] : 0);
+			detail.setTransactionDate(next[1] != null ? (Long) next[1] : 0);
+			detail.setTransType(next[2] != null ? (Integer) next[2] : 0);
+			detail.setTransactionNo((String) next[3]);
+
+			ClientQuantity tranxQty = new ClientQuantity();
+			tranxQty.setValue(next[4] != null ? (Double) next[4] : 0);
+			tranxQty.setUnit(next[5] != null ? (Long) next[5] : 0);
+			detail.setQuantity(tranxQty);
+
+			detail.setCost(next[6] != null ? (Double) next[6] : 0);
+
+			ClientQuantity qty = new ClientQuantity();
+			qty.setValue((Double) next[7]);
+			qty.setUnit(next[8] != null ? (Long) next[8] : 0);
+			detail.setOnHand(qty);
+
+			detail.setItemName((String) next[9]);
+			detail.setItemId(next[10] != null ? (Long) next[10] : 0);
+			detail.setPayeeName((String) next[11]);
+			detail.setPayeeId(next[12] != null ? (Long) next[12] : 0);
 			result.add(detail);
 		}
 		return result;
