@@ -182,8 +182,9 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 		ClientCurrency currency2 = getCompany().getCurrency(
 				toClientVendor.getCurrency());
 		if (!currency1.equals(currency2)) {
-			Accounter
-					.showError("Currencies of the both Suppliers must be same ");
+			Accounter.showError(messages
+					.currenciesOfTheBothCustomersMustBeSame(Global.get()
+							.vendors()));
 		} else {
 			Accounter.createHomeService().mergeVendor(fromclientVendor,
 					toClientVendor, this);

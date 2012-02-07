@@ -37,7 +37,7 @@ public class SupplierTransactionHistoryReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionHistory> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(Global.get().messages().noRecordsToShow());
 					return;
 				}
 

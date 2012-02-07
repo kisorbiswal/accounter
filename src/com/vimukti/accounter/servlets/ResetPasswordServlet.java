@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 
 public class ResetPasswordServlet extends BaseServlet {
 
@@ -82,16 +83,15 @@ public class ResetPasswordServlet extends BaseServlet {
 			String confirm = req.getParameter("confirmPassword");
 
 			if (password.isEmpty() || confirm.isEmpty()) {
-				dispatchMessage("Password enter a valid passowrd", req, resp,
-						view);
+				dispatchMessage(Global.get().messages()
+						.youHaveEnteredWrongPassword(), req, resp, view);
 				return;
 			}
 			// compare if not equal send error message
 			// otherwise
 			if (!password.equals(confirm)) {
-				dispatchMessage(
-						"Password mismatch. Please reenter the password", req,
-						resp, view);
+				dispatchMessage(Global.get().messages().passwordMismatch(),
+						req, resp, view);
 				return;
 			}
 

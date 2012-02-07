@@ -40,7 +40,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
-	//	String password = req.getParameter("password").trim();
+		// String password = req.getParameter("password").trim();
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
 		boolean isSubscribedToNewsLetter = false;
@@ -53,17 +53,20 @@ public class SignupOpenIdServlet extends BaseServlet {
 				&& req.getParameter("agree").equals("on"))
 			isAgreed = true;
 		if (!isAgreed) {
-			dispatchMessage("Please accept Terms of use", req, resp, view);
+			dispatchMessage(Global.get().messages().pleaseacceptTermsofuse(),
+					req, resp, view);
 		}
 
 		if (!isValidInputs(NAME, firstName, lastName, country)
 				|| !isValidInputs(MAIL_ID, emailId)) {
-			dispatchMessage("Given Inputs are wrong.", req, resp, view);
+			dispatchMessage(Global.get().messages().incorrectEmailOrPassWord(),
+					req, resp, view);
 			return;
 		}
 		emailId = emailId.toLowerCase();
-//		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-//				+ password));
+		// String passwordWithHash =
+		// HexUtil.bytesToHex(Security.makeHash(emailId
+		// + password));
 
 		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = null;
@@ -78,15 +81,18 @@ public class SignupOpenIdServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				req.setAttribute(
-						"errormessage",
-						"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.");
+				req.setAttribute("errormessage", Global.get().messages()
+						.alreadyRegisteredWithAccounter()
+						+ " <a href=\"/main/login\">"
+						+ Global.get().messages().here()
+						+ "</a> "
+						+ Global.get().messages().toLogin());
 				dispatch(req, resp, view);
 				return;
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
-//			 	String token = createActivation(emailId);
+				// String token = createActivation(emailId);
 
 				// Create Client and Save
 				Client client = new Client();
@@ -97,13 +103,13 @@ public class SignupOpenIdServlet extends BaseServlet {
 				client.setLastName(lastName);
 				client.setFullName(Global.get().messages()
 						.fullName(firstName, lastName));
-			//	client.setPassword(passwordWithHash);
+				// client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 
 				// Email to that user.
-			//	sendActivationEmail(token, client);
+				// sendActivationEmail(token, client);
 				// Send to SignUp Success View
 				String destUrl = req.getParameter(PARAM_DESTINATION);
 				HttpSession httpSession = req.getSession();

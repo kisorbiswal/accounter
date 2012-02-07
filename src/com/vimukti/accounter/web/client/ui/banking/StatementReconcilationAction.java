@@ -23,7 +23,7 @@ public class StatementReconcilationAction extends Action<ClientReconciliation> {
 
 	@Override
 	public String getText() {
-		return "Reconcilation";
+		return messages.Reconciliation();
 	}
 
 	@Override

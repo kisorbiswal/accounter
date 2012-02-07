@@ -52,8 +52,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 	private void createControls() {
 		enterStartDateLabel = new HTML();
-		enterStartDateLabel.setHTML(messages
-				.pleaseEnterNewStartDate());
+		enterStartDateLabel.setHTML(messages.pleaseEnterNewStartDate());
 		startDateItem = new DateField(messages.startDate());
 		startDateItem.setHelpInformation(true);
 
@@ -74,8 +73,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showInformation(messages
-						.fiscalyearsCreationFailed());
+				Accounter.showInformation(messages.fiscalyearsCreationFailed());
 			}
 
 			@Override
@@ -95,7 +93,7 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				callback);
 	}
 
-	@SuppressWarnings( { "deprecation", "unused" })
+	@SuppressWarnings({ "unused" })
 	private void createNessasaryFiscalYears() {
 		ArrayList<ClientFiscalYear> listofNewFiscalYears = new ArrayList<ClientFiscalYear>();
 		ClientFinanceDate changedStartDate = startDateItem.getDate();
@@ -124,8 +122,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(firstStartDate)) {
-					tempEndDate = new ClientFinanceDate(firstStartDate
-							.getDate());
+					tempEndDate = new ClientFinanceDate(
+							firstStartDate.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());
@@ -144,8 +142,8 @@ public class ChangeFiscalYearStartDateDialog extends BaseDialog {
 				tempEndDate.setYear(tempEndDate.getYear() + 1);
 				tempEndDate.setDay(tempEndDate.getDay() - 1);
 				if (tempEndDate.after(changedStartDate)) {
-					tempEndDate = new ClientFinanceDate(changedStartDate
-							.getDate());
+					tempEndDate = new ClientFinanceDate(
+							changedStartDate.getDate());
 				}
 				ClientFiscalYear newFiscalYear = new ClientFiscalYear();
 				newFiscalYear.setStartDate(tempStartDate.getDate());

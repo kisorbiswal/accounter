@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerLocal;
+import com.vimukti.accounter.web.client.Global;
 
 public class SupportServlet extends HttpServlet {
 
@@ -29,11 +30,11 @@ public class SupportServlet extends HttpServlet {
 		String string = (String) request.getParameter("ajax");
 		if (string == null || !Boolean.valueOf(string)) {
 			if (sendMailToSupport(request)) {
-				request.setAttribute("message",
-						"We've received your information");
+				request.setAttribute("message", Global.get().messages()
+						.weHaveReceivedYourInformation());
 			} else {
-				request.setAttribute("errormessage",
-						"please enter valid details");
+				request.setAttribute("errormessage", Global.get().messages()
+						.pleaseEnterValidDetails());
 			}
 			RequestDispatcher dispatcher = getServletContext()
 					.getRequestDispatcher(view);
@@ -57,8 +58,8 @@ public class SupportServlet extends HttpServlet {
 			return false;
 		}
 
-		UsersMailSendar.sendMailToSupport(name, email, "A Feedback Message",
-				comment);
+		UsersMailSendar.sendMailToSupport(name, email, Global.get().messages()
+				.aFeedbackMessage(), comment);
 		return true;
 	}
 

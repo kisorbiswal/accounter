@@ -13,7 +13,7 @@ public class TdsDeductorMasterAction extends Action {
 
 	public TdsDeductorMasterAction() {
 		super();
-		this.catagory = "Deductor Masters";
+		this.catagory = messages.deducatorMasters();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -56,6 +56,6 @@ public class TdsDeductorMasterAction extends Action {
 	@Override
 	public String getText() {
 		// TODO Auto-generated method stub
-		return "Deductor Masters Details";
+		return messages.deducatorMastersDetails();
 	}
 }

@@ -159,7 +159,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
-		annualAmount = new AmountField("Annual", this);
+		annualAmount = new AmountField(messages.annual(), this);
 		annualAmount.setHelpInformation(true);
 		annualAmount.setRequired(false);
 		annualAmount.setWidth(100);

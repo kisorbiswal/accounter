@@ -186,7 +186,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		 * adding the inventory information controls
 		 */
 
-		assetsAccount = new AccountCombo("Assets Account") {
+		assetsAccount = new AccountCombo(messages.assetsAccount()) {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {

@@ -194,8 +194,9 @@ public class CustomerMergeDialog extends BaseDialog<ClientCustomer> implements
 		ClientCurrency currency2 = getCompany().getCurrency(
 				clientCustomer.getCurrency());
 		if (!currency1.equals(currency2)) {
-			Accounter
-					.showError("Currencies of the both customers must be same ");
+			Accounter.showError(messages
+					.currenciesOfTheBothCustomersMustBeSame(Global.get()
+							.customers()));
 		} else {
 			Accounter.createHomeService().mergeCustomer(clientCustomer,
 					clientCustomer1, this);

@@ -31,7 +31,7 @@ public class SalesByCustomerSummaryReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<SalesByCustomerDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -44,7 +44,8 @@ public class SalesByCustomerSummaryReportCommand extends
 					totalAmount += record.getAmount();
 					customerSummaryList.add(createReportRecord(record));
 				}
-				makeResult.add("Total: " + getAmountWithCurrency(totalAmount));
+				makeResult.add(getMessages().total() + " : "
+						+ getAmountWithCurrency(totalAmount));
 			}
 		});
 	}

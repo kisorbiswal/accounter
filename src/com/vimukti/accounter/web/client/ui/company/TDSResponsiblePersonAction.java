@@ -13,7 +13,7 @@ public class TDSResponsiblePersonAction extends Action {
 
 	public TDSResponsiblePersonAction() {
 		super();
-		this.catagory = "Deductor Masters";
+		this.catagory = messages.deducatorMasters();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -55,7 +55,6 @@ public class TDSResponsiblePersonAction extends Action {
 
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
-		return "Particular for Person Responsible for Tax Deduction";
+		return messages.particularForPersonResponsibleForTaxDeduction();
 	}
 }
