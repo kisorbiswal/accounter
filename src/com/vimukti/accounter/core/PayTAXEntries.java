@@ -204,8 +204,8 @@ public class PayTAXEntries implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Pay Tax Entries").gap().gap();
+
+		w.put(messages.type(), messages.payTaxEntries()).gap().gap();
 		w.put(messages.amount(), this.amount);
 	}
 }

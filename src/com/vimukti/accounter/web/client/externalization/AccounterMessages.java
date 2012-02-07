@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.externalization;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.i18n.Messages;
 
@@ -5800,5 +5801,75 @@ public interface AccounterMessages extends Messages {
 	public String depricatiedReport();
 
 	public String youCannotrejecttheEstimate();
+
+	public String reportPts();
+
+	public String onSalesOrder();
+
+	public String forAssemblies();
+
+	public String order();
+
+	public String orderOnPo();
+
+	public String nextDeliveryDate();
+
+	public String salesPerWeek();
+
+	public String youAreSuccessfullyLoggedOut();
+
+	public String findAndMatch();
+
+	public String spentTransactions();
+
+	public String receivedTransactions();
+
+	public String lastReconcilliationDate();
+
+	public String reconciliations();
+
+	public String creditCardAccount();
+
+	public String paypalInformation();
+
+	public String creditCardType();
+
+	public String addNewType();
+
+	public String payExpenses();
+
+	public String youCannotDoThisBeforeLogin();
+
+	public String pleaseLogin();
+
+	public String youDoNotHavePermissionToDoThisAction();
+
+	public String youCanChangePermissionsFromCompanyPreferences();
+
+	public String nominalCodeRange();
+
+	public String payTaxEntries();
+
+	public String MISCInfo();
+
+	public String loadEmptyPaper();
+
+	public String MISCAdjustLabelText();
+
+	public String sampleInfoText();
+
+	public String sampleInfoLabelText();
+
+	public String printSample();
+
+	public String noTransactionAddedToMISCForm();
+
+	public String horizantal();
+
+	public String vertical();
+
+	public String MISCInfoLabelText();
+
+	public String preVendor(String vendor);
 
 }

@@ -286,8 +286,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getSetupPanel() {
 
-		disclosurePanel = new DisclosurePanel(messages
-				.setupVendorsAndAccounts(Global.get().vendors()));
+		disclosurePanel = new DisclosurePanel(
+				messages.setupVendorsAndAccounts(Global.get().vendors()));
 		disclosurePanel.setOpen(true);
 
 		setVendorsPanel = new HorizontalPanel();
@@ -299,16 +299,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		addAccount = new Label(getSelectedAccountsNum() + " "
 				+ messages.accountsSelected());
 
-		changeVendorHtml = new HTML("<b>"+messages
-				.changePayees(Global.get().vendors())+"</b>");
+		changeVendorHtml = new HTML("<b>"
+				+ messages.changePayees(Global.get().vendors()) + "</b>");
 		changeVendorHtml.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				final SelectItemsTo1099Dialog<ClientVendor> selectVendorsTo1099Dialog = new SelectItemsTo1099Dialog<ClientVendor>(
 						messages.vendorsSelected(Global.get().vendors()),
-						messages
-								.SelectVendorsToTrack1099(Global.get().vendors()));
+						messages.SelectVendorsToTrack1099(Global.get()
+								.vendors()));
 				ArrayList<ClientVendor> vendors = getCompany().getVendors();
 				ArrayList<ClientVendor> tempSelectedItemsList = new ArrayList<ClientVendor>();
 
@@ -347,8 +347,8 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 		});
 
-		changeAccountsHtml = new HTML("<b>"+
-				messages.changePayees(messages.Accounts())+"</b>");
+		changeAccountsHtml = new HTML("<b>"
+				+ messages.changePayees(messages.Accounts()) + "</b>");
 		changeAccountsHtml.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -375,7 +375,7 @@ public class Prepare1099MISCView extends AbstractBaseView {
 		setAccountsPanel.add(changeAccountsHtml);
 
 		Label infoLable = new Label(
-				"Before paying vendors this year, select vendors and assign accounts. These setup tasks ensure that the forms you file next year will be correct. If you have already made vendor payments this year, you may need to revise them to assign them to the proper accounts.");
+				messages.MISCInfo());
 
 		infoLable.setWordWrap(true);
 		infoLable.setHorizontalAlignment(ALIGN_JUSTIFY);
@@ -550,15 +550,16 @@ public class Prepare1099MISCView extends AbstractBaseView {
 
 	private DisclosurePanel getPrintSetUp() {
 
-		DisclosurePanel disclosurePanel = new DisclosurePanel(messages.printAlignmentAndSetup());
+		DisclosurePanel disclosurePanel = new DisclosurePanel(
+				messages.printAlignmentAndSetup());
 
-		Button printSample = new Button("Print Sample");
+		Button printSample = new Button(messages.printSample());
 		printSample.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if (vendor == null) {
-					Accounter.showError("No transaction added to MISC form.");
+					Accounter.showError(messages.noTransactionAddedToMISCForm());
 					return;
 				}
 				long vendorId = vendor.getID();
@@ -570,21 +571,21 @@ public class Prepare1099MISCView extends AbstractBaseView {
 			}
 
 		});
-		Label blankLabel = new Label("Load empty paper");
+		Label blankLabel = new Label(messages.loadEmptyPaper());
 		Label adjustLabel = new Label(
-				" Enter adjustments to move text 1/100th of an inch.");
+				messages.MISCAdjustLabelText());
 
 		Label sampleInfoLabel = new Label(
-				" This will always print a sample form for you. This one is not for your original form.");
+				messages.sampleInfoText());
 
 		Label sampleInfoLabel2 = new Label(
-				" Place the sample form printed on the 1099-Form. Hold them to the light and check the alignment. If they are not matching adjust the alignemnt and print the sample again.");
+		messages.sampleInfoLabelText());
 
-		HTML verLabel = new HTML("<B> Vertical </B>");
-		HTML horLabel = new HTML("<B> Horizantal </B>");
+		HTML verLabel = new HTML("<B>" + messages.vertical() + "</B>");
+		HTML horLabel = new HTML("<B> " + messages.horizantal() + " </B>");
 
 		Label infoLabel = new Label(
-				"	Alignment adjustment values are saved when you click Print Sample (above), or Print (below).If you print forms on more than one printer, write down the alignment values for each.");
+				messages.MISCInfoLabelText());
 
 		// HTML alignmentSelected = new HTML("<B> Horizantal :</B>"
 		// + horizontalValue + "<B> Vertical :</B>" + verticalValue);

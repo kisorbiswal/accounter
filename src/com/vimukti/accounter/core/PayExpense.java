@@ -146,7 +146,7 @@ public class PayExpense extends Transaction {
 		
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Pay Expense").gap();
+		w.put(messages.type(), messages.payExpenses()).gap();
 		w.put(messages.no(), this.number);
 		w.put(messages.date(), this.transactionDate.toString()).gap();
 		w.put(messages.currency(), this.currencyFactor);

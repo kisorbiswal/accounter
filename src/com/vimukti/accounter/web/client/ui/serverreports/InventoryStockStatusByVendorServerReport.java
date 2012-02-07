@@ -23,9 +23,11 @@ public class InventoryStockStatusByVendorServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", "Item Description", "Reorder_pts", "On Hand",
-				"On Sales Order", "For Assemblies", "Available", "Order",
-				"Order onPo", "Next Delivery Date", "Sales per week" };
+		return new String[] { "", messages.itemDescription(),
+				messages.reportPts(), messages.onHand(),
+				messages.onSalesOrder(), messages.forAssemblies(),
+				messages.available(), messages.order(), messages.orderOnPo(),
+				messages.nextDeliveryDate(), messages.salesPerWeek() };
 	}
 
 	@Override
@@ -35,9 +37,11 @@ public class InventoryStockStatusByVendorServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", "Item Description", "Reorder_pts", "On Hand",
-				"On Sales Order", "For Assemblies", "Available", "Order",
-				"Order onPo", "Next Delivery Date", "Sales per week" };
+		return new String[] { "", messages.itemDescription(),
+				messages.reportPts(), messages.onHand(),
+				messages.onSalesOrder(), messages.forAssemblies(),
+				messages.available(), messages.order(), messages.orderOnPo(),
+				messages.nextDeliveryDate(), messages.salesPerWeek() };
 	}
 
 	@Override

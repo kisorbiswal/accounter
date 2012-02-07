@@ -123,6 +123,6 @@ public class NominalCodeRange implements IAccounterServerCore, Lifecycle {
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 		
-		w.put(messages.type(), "Nominal Code Range").gap();
+		w.put(messages.type(),messages.nominalCodeRange()).gap();
 	}
 }

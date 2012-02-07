@@ -13,6 +13,7 @@ import com.vimukti.accounter.mobile.MobileSession;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class LogoutCommand extends Command {
 
@@ -34,7 +35,7 @@ public class LogoutCommand extends Command {
 		ioSession.removeAllMessages();
 
 		Result result = new Result();
-		result.add("You are successfully logged out.");
+		result.add(Global.get().messages().youAreSuccessfullyLoggedOut());
 		result.setCookie("No Cookie");
 
 		Session hibernateSession = context.getHibernateSession();

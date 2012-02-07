@@ -9,6 +9,7 @@ import java.util.List;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.mobile.store.Output;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
@@ -46,15 +47,15 @@ public class PatternResult extends Result {
 	public Result render(boolean isAuthenticated, Company company) {
 		if (login ? !isAuthenticated : false) {
 			Result result = new Result();
-			result.add("You can not do this action before login.");
-			result.add("Please login");
+			result.add(Global.get().messages().youCannotDoThisBeforeLogin());
+			result.add(Global.get().messages().pleaseLogin());
 			result.setNextCommand("login");
 			return result;
 		}
 		if (condition != null && !checkCondition(condition, company)) {
 			Result result = new Result();
-			result.add("You do not have permission to do this action.");
-			result.add("You can change permissions from Company Preferences.");
+			result.add(Global.get().messages().youDoNotHavePermissionToDoThisAction());
+			result.add(Global.get().messages().youCanChangePermissionsFromCompanyPreferences());
 			CommandList list = new CommandList();
 			list.add("companyPreferences");
 			result.add(list);

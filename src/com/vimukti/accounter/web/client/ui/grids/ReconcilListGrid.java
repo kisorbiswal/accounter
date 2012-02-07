@@ -44,7 +44,8 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 	@Override
 	protected String[] getSelectValues(ClientStatementRecord obj, int col) {
 		this.statementRecord = obj;
-		return new String[] { "Create", FIND_MATCH, messages.transfer() };
+		return new String[] { messages.create(""), messages.findAndMatch(),
+				messages.transfer() };
 	}
 
 	@Override
@@ -63,15 +64,15 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 			String title = null;
 			if (statementRecord.getSpentAmount() > 0) {
 				// then display all the spent amount transactions
-				title = "Spent Transactions";
+				title = messages.spentTransactions();
 			} else if (statementRecord.getReceivedAmount() > 0) {
 				// then display all the received amount transactions
-				title = "Received Transactions";
+				title = messages.receivedTransactions();
 			}
 			ReconcileItemsListDialog dialog = new ReconcileItemsListDialog(
 					title, statementRecord, bankAccount);
 			dialog.show();
-		} else if (value.equals("Create")) {
+		} else if (value.equals(messages.create(""))) {
 			ReconcileCreateDialog createDialog = new ReconcileCreateDialog(
 					statementRecord);
 			createDialog.show();
@@ -133,9 +134,9 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 		case 6:
 			if (obj.isMatched()) {
 
-				return "Match";
+				return messages.match();
 			}
-			return FIND_MATCH;
+			return messages.findAndMatch();
 		}
 		return null;
 	}

@@ -21,12 +21,12 @@ public class ReconcilationsServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.Account(), messages.accountType(),
-				messages.startDate(), "Last ReconcilationDate" };
+				messages.startDate(), messages.lastReconcilliationDate() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Reconciliations";
+		return messages.reconciliations();
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class ReconcilationsServerReport extends
 	@Override
 	public String[] getColunms() {
 		return new String[] { messages.Account(), messages.accountType(),
-				messages.startDate(), "Last ReconcilationDate" };
+				messages.startDate(), messages.lastReconcilliationDate() };
 	}
 
 	@Override

@@ -113,7 +113,8 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	public String getValue(Object object) {
 
 		return (object instanceof Double ? DataUtils
-				.getAmountAsStringInPrimaryCurrency((Double) object) : object.toString());
+				.getAmountAsStringInPrimaryCurrency((Double) object) : object
+				.toString());
 	}
 
 	@Override
@@ -164,11 +165,9 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		body.append(cellValue);
 		if (columnType == COLUMN_TYPE_AMOUNT) {
 			body.append("\" align=\"left\" ");
-		} 
-		else if (columnType == COLUMN_TYPE_TEXT) {
+		} else if (columnType == COLUMN_TYPE_TEXT) {
 			body.append("\" align=\"left\" ");
-		} 
-		else {
+		} else {
 			body.append("\" align=\"left\" ");
 		}
 
@@ -238,8 +237,9 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 	public String getBody(AccounterMessages messages) {
 
 		if (body == null || body.toString().isEmpty()) {
-			body = new StringBuffer(
-					"<html><body><center><p>No records to show</p></center></body></html>");
+			body = new StringBuffer("<html><body><center><p>"
+					+ messages.noRecordsToShow()
+					+ "</p></center></body></html>");
 		} else {
 			this.body.append("</table></div></div></td></tr></table>");
 		}
