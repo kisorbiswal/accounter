@@ -405,6 +405,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	protected void initTransactionViewData() {
 
+		initTaxAgencies();
 		if (transaction == null) {
 			setData(new ClientPayTAX());
 			initTransactionNumber();
@@ -511,6 +512,18 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		ClientAccount payFromAccount = payFromAccCombo.getSelectedValue();
 		if (payFromAccount != null)
 			payFromAccCombo.setComboItem(payFromAccount);
+	}
+
+	private void initTaxAgencies() {
+		ArrayList<ClientTAXAgency> agencies = getCompany()
+				.getActiveTAXAgencies();
+		List<ClientTAXAgency> result = new ArrayList<ClientTAXAgency>();
+		for (ClientTAXAgency agency : agencies) {
+			if (agency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+				result.add(agency);
+			}
+		}
+		taxAgencyCombo.initCombo(result);
 	}
 
 	private void fillGrid() {
