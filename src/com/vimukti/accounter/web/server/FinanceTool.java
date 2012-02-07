@@ -130,6 +130,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -2247,14 +2248,14 @@ public class FinanceTool {
 	 * @throws IOException
 	 */
 	public void sendPdfInMail(String fileName, String subject, String content,
-			String senderEmail, String toEmail, String ccEmail, long companyId)
-			throws Exception {
+			ClientEmailAccount sender, String toEmail, String ccEmail,
+			long companyId) throws Exception {
 
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
 		File file = new File(fileName);
 		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-				senderEmail, toEmail, ccEmail);
+				sender, toEmail, ccEmail);
 
 	}
 
@@ -3717,14 +3718,18 @@ public class FinanceTool {
 
 			Object[] next = (Object[]) iterator.next();
 
-			Long vendorId = (Long) next[0];
+			Long payeeId = (Long) next[0];
 			Double tdsTotal = (Double) next[1];
 			Double total = (Double) next[2];
 			Long date = (Long) next[3];
 			Long trID = (Long) next[4];
 
 			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
-			clientTDSTransactionItem.setVendor(vendorId);
+			if (formType != TDSChalanDetail.Form27EQ) {
+				clientTDSTransactionItem.setVendor(payeeId);
+			} else {
+				clientTDSTransactionItem.setCustomer(payeeId);
+			}
 			clientTDSTransactionItem.setTdsAmount(tdsTotal);
 			clientTDSTransactionItem.setTotalAmount(total);
 			clientTDSTransactionItem.setTransactionDate(date);
@@ -3839,6 +3844,7 @@ public class FinanceTool {
 
 		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 
+		boolean isForm27EQ = (formNo == TDSChalanDetail.Form27EQ);
 		try {
 
 			Query query = session.getNamedQuery("getTdsChalanDetails")
@@ -3872,8 +3878,10 @@ public class FinanceTool {
 					eTDSObj.setTotalTDSfordeductees(total);
 					eTDSObj.setDateTaxDeposited(item.getTransactionDate()
 							.getDate());
-					eTDSObj.setDeducteeID(item.getVendor().getID());
-					eTDSObj.setPanOfDeductee(item.getVendor().getTaxId());
+					eTDSObj.setDeducteeID(isForm27EQ ? item.getCustomer()
+							.getID() : item.getVendor().getID());
+					eTDSObj.setPanOfDeductee(isForm27EQ ? item.getCustomer()
+							.getPANno() : item.getVendor().getTaxId());
 					eTDSObj.setDateOFpayment(chalan.getDateTaxPaid());
 					eTDSObj.setAmountPaid(item.getTotalAmount());
 					eTDSObj.setTds(item.getTdsAmount());
