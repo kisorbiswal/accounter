@@ -77,6 +77,8 @@ public enum AccounterCoreType implements IsSerializable {
 
 	EMAIL("ClientEmail", "Email"),
 
+	EMAIL_ACCOUNT("ClientEmailAccount", "EmailAccount"),
+
 	ENTRY("ClientEntry", "Entry"),
 
 	FAX("ClientFax", "Fax"),
