@@ -233,7 +233,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			public String getValue(ClientETDSFillingItem object) {
-				return Accounter.getCompany().getVendor(object.getDeducteeID())
+				return Accounter.getCompany().getPayee(object.getDeducteeID())
 						.getName();
 
 			}
@@ -474,7 +474,8 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setCompanyCode(newValue.getName());
 			}
 
@@ -508,7 +509,8 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setRemark(newValue.getName());
 			}
 
@@ -593,7 +595,8 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setGrossingUpIndicator(newValue.getName());
 			}
 
