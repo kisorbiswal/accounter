@@ -554,7 +554,7 @@ public class InventoryManager extends Manager {
 			detail.setCost(next[6] != null ? (Double) next[6] : 0);
 
 			ClientQuantity qty = new ClientQuantity();
-			qty.setValue((Double) next[7]);
+			qty.setValue(next[7] != null ? (Double) next[7] : 0);
 			qty.setUnit(next[8] != null ? (Long) next[8] : 0);
 			detail.setOnHand(qty);
 
