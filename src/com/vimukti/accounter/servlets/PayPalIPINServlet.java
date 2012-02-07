@@ -26,5 +26,4 @@ public class PayPalIPINServlet extends BaseServlet {
 		// TODO Auto-generated method stub
 		super.doPost(req, resp);
 	}
-
 }

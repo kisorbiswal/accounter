@@ -288,7 +288,7 @@
 		%>
 			var subscription=<%= subscription %>;
 		    if(subscription==null){
-				$("#support").after('|<a target="_blank" href="/site/gopremium">Go Premium</a>'); 
+				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>'); 
 			}else{
 				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
 			}

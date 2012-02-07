@@ -15,6 +15,7 @@ public class ServerConfiguration {
 		return tmpDir;
 	}
 
+	private static String paypalIdentityId;
 	private static boolean isUnderMaintanance;
 	private static String sessionDbUrl;
 
@@ -143,6 +144,8 @@ public class ServerConfiguration {
 					System.getProperty("java.io.tmpdir", ""));
 
 			sessionDbUrl = prop.getProperty("sessionDbUrl", null);
+			paypalIdentityId = prop.getProperty("paypalIdentityId", null);
+
 			chatUsername = prop.getProperty("chatUsername", null);
 			chatpassword = prop.getProperty("chatPassword", null);
 			enableConsoleChatServer = prop.getProperty(
@@ -318,4 +321,7 @@ public class ServerConfiguration {
 		ServerConfiguration.emailLogger = emailLogger;
 	}
 
+	public static String getPaypalIdentityId() {
+		return paypalIdentityId;
+	}
 }

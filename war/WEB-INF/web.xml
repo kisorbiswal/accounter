@@ -764,10 +764,11 @@
 	<servlet-mapping>
 		<servlet-name>GoPremiumServlet </servlet-name>
 		<url-pattern>/main/subscription/cancel</url-pattern>
-		<url-pattern>/site/gopremium</url-pattern>
+		<url-pattern>/site/subscription/gopremium</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>SubscribtionComplitionServlet
+	
+	<servlet-name>SubscribtionComplitionServlet
 		</servlet-name>
 		<servlet-class>
 			com.vimukti.accounter.servlets.SubscribtionComplitionServlet
@@ -786,7 +787,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PayPalIPINServlet </servlet-name>
-		<url-pattern>/main/paypal/ipn </url-pattern>
+		<url-pattern>/main/paypal/ipn</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>SubscriptionManagementServlet

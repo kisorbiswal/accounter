@@ -5,15 +5,18 @@
 <html>
 <head>
 <title>Accounter | Subscription </title>
-<link type="text/css" href="../css/ss.css" rel="stylesheet" />
+<link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 </head>
 <body>
 <table id="commanContainer">
 <tr>
 <td>
 <div class="form-box">
-<form id="subscription_form" action=" https://www.sandbox.paypal.com/cgi-bin/webscr " method="post">
+<form id="subscription_form" action=" https://www.paypal.com/cgi-bin/webscr " method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="return" value="http://192.168.0.1:80/main/subscription/thankyou">
+<input type="hidden" name="rm" value="2">
+<input type="hidden" name="cancel_return" value="http://local.accounterlive.com/main/subscription/cancel">
 <input type="hidden" name="hosted_button_id" value="WU3NJFQJCM25G">
 <table>
 <tr><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr><td><select name="os0">

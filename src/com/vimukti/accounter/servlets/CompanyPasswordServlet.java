@@ -28,7 +28,15 @@ public class CompanyPasswordServlet extends BaseServlet {
 		String password = (String) req.getParameter("companyPassword");
 		Long companyId = (Long) req.getSession().getAttribute(COMPANY_ID);
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
-		if (password != null && companyId != null) {
+		if (emailId == null) {
+			resp.sendRedirect(LOGIN_URL);
+			return;
+		}
+		if (companyId == null) {
+			resp.sendRedirect(COMPANIES_URL);
+			return;
+		}
+		if (password != null) {
 			byte[] csk = EU.generatePBS(password);
 			byte[] comSecret = getCompanySecretFromDB(companyId);
 			try {
@@ -59,6 +67,7 @@ public class CompanyPasswordServlet extends BaseServlet {
 				dispatch(req, resp, VIEW);
 			}
 		} else {
+			req.setAttribute("error", "Please enter Company Password");
 			dispatch(req, resp, VIEW);
 		}
 	}
