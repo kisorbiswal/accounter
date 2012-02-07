@@ -178,9 +178,12 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 			final int col) {
 		String msg = null;
 		if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT && col == 6) {
-			msg = messages.youCannotVoidDraftedTransaction();
+			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getSaveStatus() != ClientTransaction.STATUS_DRAFT
+				&& col == 5) {
+			msg = messages.doyouwanttoVoidtheTransaction();
 		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
-				&& col == 6) {
+				&& (col == 6 || col == 5)) {
 			msg = messages.youCannotVoidDraftedTransaction();
 			Accounter.showError(msg);
 			return;
@@ -206,7 +209,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 					@Override
 					public boolean onYesClick() {
-						if (col == 6) {
+						if (col == 6 || col == 5) {
 							voidTransaction(coreType, transactionsID);
 						}
 						// else if (col == 7)
