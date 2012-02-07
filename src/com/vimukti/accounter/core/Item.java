@@ -2,11 +2,14 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
@@ -139,12 +142,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	private FinanceDate asOfDate;
 	private Account assestsAccount;
 	private int reorderPoint;
-	private long onhandQuantity;
+	private Quantity onHandQty;
 	private double itemTotalValue;
-
-	private long balance;
-
-	private Set<InventoryItemHistory> inventoryHistory = new HashSet<InventoryItemHistory>();
 
 	// TaxCode VATCode;
 
@@ -440,9 +439,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART) {
+		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
 			doCreateEffectForInventoryItem();
 		}
+		ChangeTracker.put(this);
 		return false;
 
 	}
@@ -451,72 +451,46 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		if (warehouse == null) {
 			return;
 		}
-		Session session = HibernateUtil.getCurrentSession();
-
-		if (!DecimalUtil.isEquals(itemTotalValue, 0)) {
-			JournalEntry journalEntry = createJournalEntry();
-			session.save(journalEntry);
-			for (int x = 0; x < balance; x++) {
-				InventoryItemHistory history = new InventoryItemHistory(this,
-						purchasePrice, journalEntry);
-				session.save(history);
-			}
+		if (!onHandQty.isEmpty() && !DecimalUtil.isEquals(itemTotalValue, 0)) {
+			Session session = HibernateUtil.getCurrentSession();
+			StockAdjustment adjustment = createStockAdjustment();
+			session.save(adjustment);
 		}
-
-		Unit selectedUnit = this.getMeasurement().getDefaultUnit();
-		Measurement defaultMeasurement = this.getMeasurement();
-		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		Double value = (this.onhandQuantity * selectedUnit.getFactor())
-				/ defaultUnit.getFactor();
-		warehouse.updateItemStatus(this, value, false);
-		warehouse.onUpdate(session);
-		session.saveOrUpdate(warehouse);
-
-		ChangeTracker.put(warehouse);
 	}
 
-	protected JournalEntry createJournalEntry() {
+	protected StockAdjustment createStockAdjustment() {
 
 		String number = NumberUtils.getNextTransactionNumber(
-				Transaction.TYPE_JOURNAL_ENTRY, getCompany());
+				Transaction.TYPE_STOCK_ADJUSTMENT, getCompany());
 
-		JournalEntry journalEntry = new JournalEntry();
-		// journalEntry.setInvolvedPayee(this);
-		journalEntry.setCompany(getCompany());
-		journalEntry.number = number;
-		journalEntry.transactionDate = asOfDate;
-		journalEntry.memo = "Opening Balance";
-		journalEntry.balanceDue = itemTotalValue;
+		StockAdjustment adjustment = new StockAdjustment();
+		adjustment.setCompany(getCompany());
+		adjustment.setNumber(number);
+		adjustment.setDate(asOfDate);
+		adjustment.setMemo(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		adjustment.setAdjustmentAccount(getCompany()
+				.getOpeningBalancesAccount());
+		adjustment.setWareHouse(warehouse);
 
-		List<TransactionItem> items = new ArrayList<TransactionItem>();
-		// Line 1
-		TransactionItem item1 = new TransactionItem();
-		item1.setAccount(getCompany().getOpeningBalancesAccount());
-		item1.setType(TransactionItem.TYPE_ACCOUNT);
-		item1.setDescription(getName());
-		item1.setLineTotal(-1 * itemTotalValue);
-		items.add(item1);
+		TransactionItem item = new TransactionItem();
+		item.setType(TransactionItem.TYPE_ITEM);
+		item.setItem(this);
+		item.setQuantity(onHandQty.copy());
+		item.setUnitPrice(purchasePrice);
+		item.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
+		item.setTransaction(adjustment);
+		item.setWareHouse(warehouse);
+		item.setLineTotal(itemTotalValue);
 
-		TransactionItem item2 = new TransactionItem();
-		item2.setAccount(assestsAccount);
-		item2.setType(TransactionItem.TYPE_ACCOUNT);
-		item2.setDescription(AccounterServerConstants.MEMO_OPENING_BALANCE);
-		item2.setLineTotal(itemTotalValue);
-		items.add(item2);
+		// Empty OnHandQty.Because StockAdjustment will update onHandQty
+		onHandQty.setValue(0);
+		item.doInventoryEffect();
 
-		journalEntry.setDebitTotal(items.get(1).getLineTotal());
-		journalEntry.setCreditTotal(items.get(0).getLineTotal());
+		List<TransactionItem> adjustmentItems = new ArrayList<TransactionItem>();
+		adjustmentItems.add(item);
+		adjustment.setTransactionItems(adjustmentItems);
 
-		journalEntry.setTransactionItems(items);
-
-		journalEntry.setCurrency(getCompany().getPrimaryCurrency());
-		journalEntry.setDate(new FinanceDate());
-
-		return journalEntry;
-	}
-
-	public void doReverseEffectForInventoryItem() {
-
+		return adjustment;
 	}
 
 	private void checkAccountsNull() throws AccounterException {
@@ -634,12 +608,12 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		this.reorderPoint = reorderPoint;
 	}
 
-	public long getOnhandQuantity() {
-		return onhandQuantity;
+	public Quantity getOnhandQty() {
+		return onHandQty;
 	}
 
-	public void setOnhandQuantity(long onhandQuantity) {
-		this.onhandQuantity = onhandQuantity;
+	public void setOnhandQuantity(Quantity onhandQuantity) {
+		this.onHandQty = onhandQuantity;
 	}
 
 	public double getItemTotalValue() {
@@ -663,15 +637,37 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		w.put(messages.name(), this.name);
 	}
 
-	public Set<InventoryItemHistory> getInventoryHistory() {
-		return inventoryHistory;
+	public void updateBalance(TransactionItem transactionItem, boolean isSales) {
+		if (getType() != Item.TYPE_INVENTORY_PART
+				&& getType() != Item.TYPE_INVENTORY_ASSEMBLY) {
+			return;
+		}
+		Warehouse wareHouse = transactionItem.getWareHouse();
+		if (wareHouse == null) {
+			return;
+		}
+		Quantity quantity = transactionItem.getQuantity();
+		Session session = HibernateUtil.getCurrentSession();
+		Unit selectedUnit = quantity.getUnit();
+		Measurement defaultMeasurement = this.getMeasurement();
+		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+		Double value = (quantity.getValue() * selectedUnit.getFactor())
+				/ defaultUnit.getFactor();
+		wareHouse.updateItemStatus(this, value, isSales);
+		wareHouse.onUpdate(session);
+		session.saveOrUpdate(wareHouse);
+		ChangeTracker.put(wareHouse);
+		int activeInventoryScheme = getActiveInventoryScheme();
+		if (isSales) {
+			doSalesEffect(transactionItem, activeInventoryScheme, false);
+		} else {
+			doPurchaseEffect(transactionItem, activeInventoryScheme, false);
+		}
+
+		ChangeTracker.put(this);
 	}
 
-	public void setInventoryHistory(Set<InventoryItemHistory> inventoryHistory) {
-		this.inventoryHistory = inventoryHistory;
-	}
-
-	public void updateBalance(TransactionItem transactionItem) {
+	public void doReverseEffect(TransactionItem transactionItem, boolean isSales) {
 		if (this.getType() != Item.TYPE_INVENTORY_PART) {
 			return;
 		}
@@ -686,164 +682,186 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
 		Double value = (quantity.getValue() * selectedUnit.getFactor())
 				/ defaultUnit.getFactor();
-		Transaction transaction = transactionItem.getTransaction();
-		if (transaction.isDebitTransaction()) {
-			wareHouse.updateItemStatus(this, value, false);
-		} else {
-			wareHouse.updateItemStatus(this, value, true);
-		}
+		wareHouse.updateItemStatus(this, value, !isSales);
 		wareHouse.onUpdate(session);
 		session.saveOrUpdate(wareHouse);
 		ChangeTracker.put(wareHouse);
-
-		updateAccounts(transactionItem);
-
-		InventoryItemHistory similarHistory = getSimilarHistory(transactionItem
-				.getUpdateAmount());
-		if (similarHistory != null) {
-			session.delete(similarHistory);
+		int activeInventoryScheme = getActiveInventoryScheme();
+		if (isSales) {
+			doSalesEffect(transactionItem, activeInventoryScheme, true);
 		} else {
-			InventoryItemHistory history = new InventoryItemHistory(this,
-					transactionItem.getUpdateAmount(), transaction);
-			session.save(history);
+			doPurchaseEffect(transactionItem, activeInventoryScheme, true);
 		}
+		ChangeTracker.put(this);
 	}
 
-	private InventoryItemHistory getSimilarHistory(double cost) {
-		for (InventoryItemHistory history : getInventoryHistory()) {
-			if (history.getCost() == -cost) {
-				return history;
-			}
+	private void doSalesEffect(TransactionItem transactionItem,
+			int inventoryScheme, boolean isReverse) {
+		Quantity quantity = transactionItem.getQuantity().copy();
+		List<TransactionItem> sales = getSales();
+		if (isReverse) {
+			quantity.setValue(-quantity.getValue());
+			transactionItem.modifyPurchases(null, false, null);
+			sales.remove(transactionItem);
 		}
-		return null;
+
+		onHandQty = onHandQty.subtract(quantity);
+		adjustSales(inventoryScheme, sales, getPurchases(inventoryScheme, -1));
 	}
 
-	private void updateAccounts(TransactionItem transactionItem) {
+	private void doPurchaseEffect(TransactionItem transactionItem,
+			int inventoryScheme, boolean isReverse) {
 		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = transactionItem.getTransaction();
-		double currencyFactor = transaction.getCurrencyFactor();
-		if (this.getType() == Item.TYPE_INVENTORY_PART) {
-			if (transaction.getTransactionCategory() != Transaction.CATEGORY_VENDOR) {
-				double costByInventoryScheme = getupdateAmount(transactionItem
-						.getItem());
-				if (expenseAccount != null) {
-					expenseAccount.updateCurrentBalance(transaction,
-							costByInventoryScheme, currencyFactor);
-					session.update(expenseAccount);
-				}
-				if (assestsAccount != null) {
-					assestsAccount.updateCurrentBalance(transaction,
-							-costByInventoryScheme, currencyFactor);
-					session.update(assestsAccount);
-				}
-			}
+		Quantity quantity = transactionItem.getQuantity().copy();
+		Double unitPrice = transactionItem.getUnitPrice();
+		List<InventoryDetails> purchases = new ArrayList<Item.InventoryDetails>();
+		if (isReverse) {
+			quantity.setValue(-quantity.getValue());
+			purchases = getPurchases(inventoryScheme, transactionItem.getID());
+		} else {
+			purchases = getPurchases(inventoryScheme, -1);
 		}
+		double amountToUpdate = (quantity.getValue() * unitPrice);
+		Transaction transaction = transactionItem.getTransaction();
+		assestsAccount.updateCurrentBalance(transaction, -amountToUpdate, 1);
+		session.update(assestsAccount);
+		onHandQty = onHandQty.add(quantity);
+
+		adjustSales(inventoryScheme, getSales(), purchases);
 	}
 
-	private void doReverseEffectAccounts(TransactionItem transactionItem) {
-		Session session = HibernateUtil.getCurrentSession();
-		Transaction transaction = transactionItem.getTransaction();
-		double currencyFactor = transaction.getCurrencyFactor();
-		if (this.getType() == Item.TYPE_INVENTORY_PART) {
-			if (transaction.getTransactionCategory() != Transaction.CATEGORY_VENDOR) {
-				double costByInventoryScheme = getupdateAmount(transactionItem
-						.getItem());
-				if (expenseAccount != null) {
-					expenseAccount.updateCurrentBalance(transaction,
-							costByInventoryScheme, currencyFactor);
-					session.update(expenseAccount);
-				}
-				if (assestsAccount != null) {
-					assestsAccount.updateCurrentBalance(transaction,
-							-costByInventoryScheme, currencyFactor);
-					session.update(assestsAccount);
-				}
-			}
-		}
-
-	}
-
-	public void doReverseEffect(TransactionItem transactionItem) {
-		if (this.getType() != Item.TYPE_INVENTORY_PART) {
+	private void adjustSales(int inventoryScheme, List<TransactionItem> sales,
+			List<InventoryDetails> purchases) {
+		if (sales.isEmpty()) {
 			return;
 		}
-		Warehouse wareHouse = transactionItem.getWareHouse();
-		if (wareHouse == null) {
-			return;
+		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
+		for (TransactionItem inventorySale : sales) {
+			Quantity salesQty = inventorySale.getQuantity().copy();
+			Map<Quantity, Double> purchaseForThisSale = new HashMap<Quantity, Double>();
+			while (purchaseIterator.hasNext()) {
+				InventoryDetails next = purchaseIterator.next();
+				Quantity purchaseQty = next.quantity;
+				int compareTo = purchaseQty.compareTo(salesQty);
+				if (compareTo < 0) {
+					purchaseForThisSale.put(purchaseQty, next.cost);
+					purchaseIterator.remove();
+					salesQty = salesQty.subtract(purchaseQty);
+					continue;
+				} else if (compareTo > 0) {
+					purchaseQty = purchaseQty.subtract(salesQty);
+					purchaseForThisSale.put(salesQty.copy(), next.cost);
+					next.quantity = purchaseQty;
+					salesQty.setValue(0.00D);
+					break;
+				} else {
+					purchaseForThisSale.put(purchaseQty, next.cost);
+					purchaseIterator.remove();
+					salesQty.setValue(0.00D);
+					break;
+				}
+			}
+			Double averageCost = null;
+			if (inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE) {
+				averageCost = getAverageCost();
+			}
+			inventorySale
+					.modifyPurchases(
+							purchaseForThisSale,
+							inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
+							averageCost);
 		}
-		Quantity quantity = transactionItem.getQuantity();
+	}
+
+	private List<TransactionItem> getSales() {
 		Session session = HibernateUtil.getCurrentSession();
-		Unit selectedUnit = quantity.getUnit();
-		Measurement defaultMeasurement = this.getMeasurement();
-		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		Double value = (quantity.getValue() * selectedUnit.getFactor())
-				/ defaultUnit.getFactor();
-		if (transactionItem.getTransaction().isDebitTransaction()) {
-			wareHouse.updateItemStatus(this, value, true);
-		} else {
-			wareHouse.updateItemStatus(this, value, false);
-		}
-		wareHouse.onUpdate(session);
-		session.saveOrUpdate(wareHouse);
-		ChangeTracker.put(wareHouse);
+		FlushMode flushMode = session.getFlushMode();
+		try {
+			session.setFlushMode(FlushMode.COMMIT);
+			Query query = session.getNamedQuery("list.InventorySales")
+					.setParameter("itemId", getID());
 
-		doReverseEffectAccounts(transactionItem);
+			return query.list();
+		} finally {
+			session.setFlushMode(flushMode);
+		}
 	}
 
-	/**
-	 * This will be used for Inventory Items Only.
-	 * 
-	 * @param item
-	 * 
-	 * @return
-	 */
-	public double getupdateAmount(Item item) {
+	private List<InventoryDetails> getPurchases(int activeInventoryScheme,
+			long exceptThis) {
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		List<InventoryDetails> details = new ArrayList<Item.InventoryDetails>();
+		try {
+			session.setFlushMode(FlushMode.COMMIT);
+			Query query = null;
+			if (activeInventoryScheme == CompanyPreferences.INVENTORY_SCHME_LIFO) {
+				query = session.getNamedQuery("getPurchasesOfItem.for.LIFO")
+						.setParameter("inventoryId", getID());
+			} else {
+				query = session.getNamedQuery("getPurchasesOfItem")
+						.setParameter("inventoryId", getID());
+			}
 
-		int type = 0;
-		List<InventoryItemHistory> list = new ArrayList<InventoryItemHistory>(
-				item.getInventoryHistory());
-		if (list.isEmpty()) {
-			// TODO
-		}
-		switch (type) {
-		case Item.INVENTORY_SCHME_FIFO: {
+			Iterator<Object[]> result = query.list().iterator();
+			while (result.hasNext()) {
+				Object[] next = result.next();
+				if (exceptThis > 0 && (Long) next[0] == exceptThis) {
+					continue;
+				}
+				Quantity quantity = new Quantity();
+				quantity.setValue((Double) next[1]);
 
-			return getCostByFIFO(list);
+				Unit unit = (Unit) session.get(Unit.class, (Long) next[2]);
+				quantity.setUnit(unit);
+				details.add(new InventoryDetails(quantity, (Double) next[3]));
+			}
+		} finally {
+			session.setFlushMode(flushMode);
 		}
-		case Item.INVENTORY_SCHME_LIFO: {
-			return getCostByLIFO(list);
-		}
-		case Item.INVENTORY_SCHME_AVERAGE: {
-
-			return getCostByAverage(list);
-		}
-		default:
-			return 0.0;
-		}
-
+		return details;
 	}
 
-	private double getCostByAverage(List<InventoryItemHistory> list) {
-		int total = 0;
-
-		for (InventoryItemHistory history : list) {
-			total += history.getCost();
-
+	public Double getAverageCost() {
+		Session session = HibernateUtil.getCurrentSession();
+		FlushMode flushMode = session.getFlushMode();
+		try {
+			session.setFlushMode(FlushMode.COMMIT);
+			Object result = session.getNamedQuery("getAverageCost.of.Item")
+					.setParameter("inventoryId", getID()).uniqueResult();
+			return (Double) result;
+		} finally {
+			session.setFlushMode(flushMode);
 		}
-		double cost = total / list.size();
-		return cost;
 	}
 
-	private double getCostByLIFO(List<InventoryItemHistory> list) {
-		InventoryItemHistory inventoryItemHistory = list.get(list.size() - 1);
-		double cost = inventoryItemHistory.getCost();
-		return cost;
+	private int getActiveInventoryScheme() {
+		int schemeType = getCompany().getPreferences()
+				.getActiveInventoryScheme();
+		return schemeType;
 	}
 
-	private double getCostByFIFO(List<InventoryItemHistory> list) {
-		double cost = 0.0;
-		InventoryItemHistory inventoryItemHistory = list.get(1);
-		cost = inventoryItemHistory.getCost();
-		return cost;
+	public void adjustQuantityAndValue(StockAdjustment adjustment,
+			Quantity currentQty, Quantity adjustedQty, double currentValue,
+			double adjustedValue) {
+		Session session = HibernateUtil.getCurrentSession();
+		double amountToUpdate = adjustedValue - currentValue;
+		Quantity quantityToUpdate = adjustedQty.subtract(currentQty);
+		getAssestsAccount()
+				.updateCurrentBalance(adjustment, -amountToUpdate, 1);
+		session.saveOrUpdate(assestsAccount);
+		setOnhandQuantity(getOnhandQty().add(quantityToUpdate));
+		ChangeTracker.put(this);
 	}
+
+	class InventoryDetails {
+		Quantity quantity;
+		double cost;
+
+		InventoryDetails(Quantity quantity, double cost) {
+			this.quantity = quantity;
+			this.cost = cost;
+		}
+	}
+
 }

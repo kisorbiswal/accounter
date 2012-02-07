@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -183,9 +184,8 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 	}
 
 	private void showWarningDialog(final AccountRegister obj) {
-		Accounter.showWarning(messages
-				.doyouwanttoVoidtheTransaction(), AccounterType.WARNING,
-				new ErrorDialogHandler() {
+		Accounter.showWarning(messages.doyouwanttoVoidtheTransaction(),
+				AccounterType.WARNING, new ErrorDialogHandler() {
 
 					@Override
 					public boolean onCancelClick() {
@@ -264,5 +264,72 @@ public class AccountRegisterListGrid extends BaseListGrid<AccountRegister> {
 
 	public void setAccount(ClientAccount account) {
 		this.currency = getCompany().getCurrency(account.getCurrency());
+	}
+
+	@Override
+	protected int sort(AccountRegister obj1, AccountRegister obj2, int index) {
+		switch (index) {
+		case 0:
+			ClientFinanceDate date1 = obj1.getDate();
+			ClientFinanceDate date2 = obj2.getDate();
+			if (date1 != null && date2 != null)
+				return date1.compareTo(date2);
+			break;
+		case 1:
+			String type1 = Utility.getTransactionName((obj1.getType()));
+			String type2 = Utility.getTransactionName((obj2.getType()));
+			return type1.toLowerCase().compareTo(type2.toLowerCase());
+		case 2:
+			if (accountType == ClientAccount.TYPE_BANK) {
+				String num1 = obj1.getCheckNumber();
+				String num2 = obj2.getCheckNumber();
+				return num1.compareTo(num2);
+			} else {
+				String num1 = obj1.getNumber();
+				String num2 = obj2.getNumber();
+				return num1.compareTo(num2);
+			}
+		case 3:
+			String name1 = obj1.getPayTo().toLowerCase();
+			String name2 = obj2.getPayTo().toLowerCase();
+			return name1.compareTo(name2);
+		case 4:
+			String memo1 = obj1.getMemo().toLowerCase();
+			String memo2 = obj2.getMemo().toLowerCase();
+			return memo1.compareTo(memo2);
+		case 5:
+			String account1 = obj1.getAccount().toLowerCase();
+			String account2 = obj2.getAccount().toLowerCase();
+			return account1.compareTo(account2);
+		case 6:
+			if (accountType == ClientAccount.TYPE_BANK) {
+				String bankAccValue1 = getBankAccValue(obj1.getAmount(), 6)
+						.toLowerCase();
+				String bankAccValue2 = getBankAccValue(obj2.getAmount(), 6)
+						.toLowerCase();
+				return bankAccValue1.compareTo(bankAccValue2);
+			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+				String creditAccValue1 = getCreditAccValue(obj1.getAmount(), 6);
+				String creditAccValue2 = getCreditAccValue(obj2.getAmount(), 6);
+				return creditAccValue1.compareTo(creditAccValue2);
+			}
+		case 7:
+			if (accountType == ClientAccount.TYPE_BANK) {
+				String bankAccValue1 = getBankAccValue(obj1.getAmount(), 7);
+				String bankAccValue2 = getBankAccValue(obj2.getAmount(), 7);
+				return bankAccValue1.compareTo(bankAccValue2);
+			} else if (accountType == ClientAccount.TYPE_CREDIT_CARD) {
+				String creditAccValue1 = getCreditAccValue(obj1.getAmount(), 7);
+				String creditAccValue2 = getCreditAccValue(obj2.getAmount(), 7);
+				return creditAccValue1.compareTo(creditAccValue2);
+			}
+		case 8:
+			Double balanceValue1 = getBalanceValue(obj1);
+			Double balanceValue2 = getBalanceValue(obj2);
+			return balanceValue1.compareTo(balanceValue2);
+		default:
+			break;
+		}
+		return 0;
 	}
 }

@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -635,18 +636,32 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		data.setItemTotalValue(itemTotalValue.getAmount());
 
-		if (onHandQuantity.getValue().length() > 0)
-			data.setOnhandQuantity(onHandQuantity.getNumber());
+		if (wareHouse.getSelectedValue() != null)
+			data.setWarehouse(wareHouse.getSelectedValue().getID());
 
-		else
-			data.setOnhandQuantity(0);
+		Long qtyValue = null;
+		if (onHandQuantity.getValue().length() > 0) {
+			qtyValue = onHandQuantity.getNumber();
+		} else {
+			qtyValue = 0l;
+		}
+		ClientMeasurement measurement = null;
+
+		if (this.measurement.getSelectedValue() != null) {
+			measurement = this.measurement.getSelectedValue();
+		} else {
+			measurement = getCompany().getMeasurement(
+					getCompany().getDefaultMeasurement());
+		}
+		data.setMeasurement(measurement.getId());
+		ClientQuantity quantity = new ClientQuantity();
+		quantity.setValue(qtyValue);
+		quantity.setUnit(measurement.getDefaultUnit().getId());
+		data.setOnhandQty(quantity);
+
 		data.setAsOfDate(asOfDate.getValue());
 		data.setTaxable(getBooleanValue(itemTaxCheck));
 
-		if (measurement.getSelectedValue() != null)
-			data.setMeasurement(measurement.getSelectedValue().getId());
-		if (wareHouse.getSelectedValue() != null)
-			data.setWarehouse(wareHouse.getSelectedValue().getID());
 	}
 
 	@Override
@@ -764,7 +779,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			}
 
 			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
+			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+					.getValue()));
 			// onHandQuantity.setValue("0");
 			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
 			asOfDate.setValue(data.getAsOfDate());

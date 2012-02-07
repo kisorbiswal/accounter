@@ -781,7 +781,12 @@
 			column="ASSETS_ACCOUNT_ID">
 		</many-to-one>
 		<property name="reorderPoint" column="REORDER_POINT"></property>
-		<property name="onhandQuantity" column="ON_HAND"></property>
+		<component name="onHandQty" class="Quantity">
+			<property name="value" column="ON_HAND_QTY_VALUE" />
+			<many-to-one name="unit" column="ON_HAND_QTY_UNIT" class="Unit"
+				cascade="save-update" />
+		</component>
+		
 		<property name="itemTotalValue" column="ITEM_TOTAL_VALUE"></property>
 		<set name="itemStatuses" inverse="true" cascade="delete">
 			<key column="ITEM_ID" />
@@ -796,6 +801,7 @@
 			<property name="isPurhasedThisItem" column="IS_PURHASED_THIS_ITEM"></property>
 		</joined-subclass>
 	</class>
+	
 
 	<class name="InventoryAssemblyItem" table="INVENTORY_ASSEMBLY_ITEM">
 		<id name="id" column="ID">
@@ -1805,60 +1811,7 @@
 			class="Measurement" />
 	</class>
 
-	<class name="StockAdjustment" table="STOCK_ADJUSTMENT">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true">
-		</many-to-one>
 
-		<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse"
-			not-null="true">
-		</many-to-one>
-
-		<set name="stockAdjustmentItems" cascade="save-update,delete-orphan">
-			<key column="STOCK_ADJUSTMENT"></key>
-			<one-to-many class="StockAdjustmentItem" />
-		</set>
-
-		<many-to-one name="createdBy" class="User" column="CREATED_BY"
-			not-null="true" />
-		<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
-			not-null="true" />
-		<property name="createdDate" column="CREATED_ON" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_ON"
-			not-null="true" />
-
-	</class>
-
-	<class name="StockAdjustmentItem" table="STOCK_ADJUSTMENT_ITEM">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse">
-		</many-to-one>
-		<property name="adjustmentPriceValue" type="double">
-			<column name="ADJUSTMENT_PRICE_VALUE" />
-		</property>
-		<component name="adjustmentQty" class="Quantity">
-			<property name="value" column="ADJUSTMENT_QTY_VALUE" />
-			<many-to-one name="unit" column="ADJUSTMENT_QTY_UNIT"
-				class="Unit" cascade="save-update" />
-		</component>
-		<property name="comment" type="encryptedstring">
-			<column name="COMMENT" />
-		</property>
-		<many-to-one name="item" class="com.vimukti.accounter.core.Item"
-			fetch="join">
-			<column name="ITEM" />
-		</many-to-one>
-		<component name="qtyBeforeTransaction" class="Quantity">
-			<property name="value" column="QTY_BEFORE_TRANSACTION_VALUE" />
-			<many-to-one name="unit" column="QTY_BEFORE_TRANSACTION_UNIT"
-				class="Unit" cascade="save-update" />
-		</component>
-	</class>
 
 	<class name="StockTransferItem" table="STOCK_TRANSFER_ITEM">
 		<id name="id" column="ID">
@@ -2300,6 +2253,19 @@
 			<list-index column="IDX" />
 			<one-to-many class="com.vimukti.accounter.core.StatementRecord" />
 		</list>
+	</class>
+	
+	<class name="InventoryPurchase" table="INVENTORY_PURCHASE">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<property name="version" column="VERSION"></property>
+		<component name="quantity" class="Quantity">
+			<property name="value" column="QTY_VALUE" />
+			<many-to-one name="unit" column="QTY_UNIT" class="Unit"
+				cascade="save-update" />
+		</component>
+		<property name="cost" column="PURCHASE_COST"></property>
 	</class>
 </hibernate-mapping>
 

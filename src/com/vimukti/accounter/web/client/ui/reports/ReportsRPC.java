@@ -17,7 +17,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomerCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientCustomerGroup;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
-import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
@@ -28,7 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientLocation;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
+import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
@@ -50,6 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
@@ -219,8 +219,8 @@ public class ReportsRPC {
 					ActionFactory.getTDSChalanDetailsView(), transactionId);
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
-			initCallBack(new ClientMakeDeposit(), ActionFactory.getDepositAction(),
-					transactionId);
+			initCallBack(new ClientMakeDeposit(),
+					ActionFactory.getDepositAction(), transactionId);
 			break;
 
 		// These cases were included to open the views other than transactions.
@@ -345,6 +345,10 @@ public class ReportsRPC {
 		case IAccounterCore.TDSCHALANDETAIL:
 			initCallBack(new ClientTDSChalanDetail(),
 					ActionFactory.getTDSChalanDetailsView(), transactionId);
+			break;
+		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
+			initCallBack(new ClientStockAdjustment(),
+					ActionFactory.getStockAdjustmentAction(), transactionId);
 			break;
 
 		}

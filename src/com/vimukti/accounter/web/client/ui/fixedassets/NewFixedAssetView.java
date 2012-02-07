@@ -971,6 +971,7 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 								.getLinkedAccumulatedDepreciationAccount()) {
 					result.addError(accumulatedDepreciationAccount, messages
 							.accandaccumulatedDepreciationAccShouldnotbesame());
+					showAccumltdAccountForm();
 				}
 			}
 

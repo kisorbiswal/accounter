@@ -889,7 +889,10 @@ public class RecurringTransactionDialog extends
 		for (DynamicForm form : dynamicForms) {
 			result.add(form.validate());
 		}
-
+		String selectedValue = dayOfWeekCombo.getSelectedValue();
+		if (selectedValue == null) {
+			result.addError(dayOfWeekCombo, "Please select day of the month");
+		}
 		ClientFinanceDate startDate = startDateField.getDate();
 		if (!startDate.after(new ClientFinanceDate())) {
 			result.addError(startDateField,

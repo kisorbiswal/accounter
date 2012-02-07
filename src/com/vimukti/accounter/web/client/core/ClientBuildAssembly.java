@@ -9,6 +9,10 @@ public class ClientBuildAssembly extends ClientTransaction {
 	private ClientInventoryAssembly inventoryAssembly;
 	private Double quantityToBuild;
 
+	public ClientBuildAssembly() {
+		setType(TYPE_BUILD_ASSEMBLY);
+	}
+
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub

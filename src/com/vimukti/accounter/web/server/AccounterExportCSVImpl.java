@@ -1158,7 +1158,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 				@Override
 				public String[] getColumns() {
 					return new String[] { messages.wareHouse(),
-							messages.itemName(), messages.adjustmentQty() };
+							messages.itemName(), messages.adjustedQty() };
 				}
 
 				@Override

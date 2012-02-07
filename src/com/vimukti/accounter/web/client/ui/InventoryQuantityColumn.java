@@ -1,14 +1,16 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -28,7 +30,7 @@ public class InventoryQuantityColumn extends
 
 	@Override
 	public int getWidth() {
-		return 80;
+		return 150;
 	}
 
 	protected String getValue(ClientInventoryAssemblyItem row) {
@@ -38,18 +40,20 @@ public class InventoryQuantityColumn extends
 			item = Accounter.getCompany().getItem(
 					row.getInventoryItem().getID());
 		}
+		ClientQuantity quantity = getQuantity(row);
 		if (item == null) {
-			ClientQuantity quantity = row.getQuantity();
 			return quantity != null ? String.valueOf(quantity.getValue()) : "";
 		} else {
 			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
-				ClientUnit unit = Accounter.getCompany().getUnitById(
-						row.getQuantity().getUnit());
 				StringBuffer data = new StringBuffer();
-				data.append(String.valueOf(row.getQuantity().getValue()));
-				data.append(" ");
-				if (unit != null) {
-					data.append(unit.getType());
+				data.append(String.valueOf(quantity.getValue()));
+				if (getPreferences().isUnitsEnabled()) {
+					ClientUnit unit = Accounter.getCompany().getUnitById(
+							row.getQuantity().getUnit());
+					data.append(" ");
+					if (unit != null) {
+						data.append(unit.getType());
+					}
 				}
 				if (getPreferences().iswareHouseEnabled()) {
 					data.append(" (W: ");
@@ -62,30 +66,30 @@ public class InventoryQuantityColumn extends
 
 				return data.toString();
 			} else {
-				ClientQuantity value = row.getQuantity();
-				if (value != null)
-					return String.valueOf(value.getValue());
+				if (quantity != null)
+					return String.valueOf(quantity.getValue());
 				else
 					return "";
 			}
 		}
 	}
 
+	protected ClientQuantity getQuantity(ClientInventoryAssemblyItem row) {
+		return row.getQuantity();
+	}
+
 	@Override
 	public IsWidget getWidget(RenderContext<ClientInventoryAssemblyItem> context) {
 		final IsWidget widget = super.getWidget(context);
 		final ClientInventoryAssemblyItem row = context.getRow();
-		if (widget instanceof TextBox) {
-			((TextBox) widget).addFocusListener(new FocusListener() {
-
+		if (widget instanceof TextBox && getPreferences().iswareHouseEnabled()
+				|| getPreferences().isUnitsEnabled()) {
+			((TextBox) widget).addFocusHandler(new FocusHandler() {
 				@Override
-				public void onLostFocus(Widget sender) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onFocus(Widget sender) {
+				public void onFocus(FocusEvent event) {
+					if (row.getInventoryItem() == null) {
+						return;
+					}
 					ClientItem item = Accounter.getCompany().getItem(
 							row.getInventoryItem().getID());
 					if (item != null
@@ -205,11 +209,24 @@ public class InventoryQuantityColumn extends
 			}
 			ClientItem item = Accounter.getCompany().getItem(
 					row.getInventoryItem().getID());
-			if (item != null
-					&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
-				return;
-			}
 			ClientQuantity quantity = row.getQuantity();
+			if (item != null
+					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || quantity == null)) {
+				ClientCompany company = Accounter.getCompany();
+				if (quantity == null) {
+					quantity = new ClientQuantity();
+				}
+				if (quantity.getUnit() == 0) {
+					ClientUnit defaultUnit = company.getMeasurement(
+							item.getMeasurement()).getDefaultUnit();
+					quantity.setUnit(defaultUnit.getId());
+				}
+				if (row.getWarehouse() == 0) {
+					ClientWarehouse warehouse = company.getWarehouse(company
+							.getDefaultWarehouse());
+					row.setWareHouse(warehouse.getID());
+				}
+			}
 			if (quantity != null) {
 				quantity.setValue(DataUtils.getAmountStringAsDouble(JNSI
 						.getCalcultedAmount(value)));

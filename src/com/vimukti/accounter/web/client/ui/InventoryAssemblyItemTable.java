@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.EditTable;
 import com.vimukti.accounter.web.client.ui.edittable.InventoryTotalColumn;
-import com.vimukti.accounter.web.client.ui.edittable.TextEditColumn;
 
 public abstract class InventoryAssemblyItemTable extends
 		EditTable<ClientInventoryAssemblyItem> implements ICurrencyProvider {
@@ -39,40 +38,6 @@ public abstract class InventoryAssemblyItemTable extends
 
 	@Override
 	protected void initColumns() {
-		final InventoryQuantityColumn quantityColumn = new InventoryQuantityColumn() {
-			@Override
-			protected String getColumnName() {
-				return messages.quantityNeeded();
-			}
-		};
-		TextEditColumn<ClientInventoryAssemblyItem> onhandQuantityColumn = new TextEditColumn<ClientInventoryAssemblyItem>() {
-
-			@Override
-			protected String getValue(ClientInventoryAssemblyItem row) {
-				if (row.getInventoryItem() != null) {
-					return String.valueOf(row.getInventoryItem().getOnhandQuantity());
-				} else {
-					return "0";
-				}
-
-			}
-
-			@Override
-			public int getWidth() {
-				return 100;
-			}
-
-			@Override
-			protected String getColumnName() {
-				return messages.quantityOnHand();
-			}
-
-			@Override
-			protected void setValue(ClientInventoryAssemblyItem row,
-					String value) {
-			}
-
-		};
 		InventoryItemNameColumn transactionItemNameColumn = new InventoryItemNameColumn(
 				true, currencyProvider) {
 
@@ -82,7 +47,8 @@ public abstract class InventoryAssemblyItemTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return (e.getType() == ClientItem.TYPE_INVENTORY_PART);
+						return (e.getType() == ClientItem.TYPE_INVENTORY_PART || e
+								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY);
 					}
 				};
 			}
@@ -107,7 +73,6 @@ public abstract class InventoryAssemblyItemTable extends
 							measurement.getDefaultUnit().getId());
 					row.setWareHouse(newValue.getWarehouse());
 					row.setDescription(newValue.getPurchaseDescription());
-					quantityColumn.setQuantity(row, row.getQuantity());
 				}
 				update(row);
 				// if (getAllRows().indexOf(row) == getAllRows().size() - 1) {
@@ -128,14 +93,62 @@ public abstract class InventoryAssemblyItemTable extends
 		this.addColumn(new InventoryDescriptionEditColumn());
 
 		if (type == BUILD_ASSEMBLY) {
-			this.addColumn(onhandQuantityColumn);
+			this.addColumn(new InventoryQuantityColumn() {
+
+				@Override
+				protected ClientQuantity getQuantity(
+						ClientInventoryAssemblyItem row) {
+					return row.getInventoryItem().getOnhandQty();
+				}
+
+				@Override
+				public int getWidth() {
+					return 150;
+				}
+
+				@Override
+				protected boolean isEnable() {
+					return false;
+				}
+
+				@Override
+				protected String getColumnName() {
+					return messages.quantityOnHand();
+				}
+
+			});
 		}
 
-		this.addColumn(quantityColumn);
+		this.addColumn(new InventoryQuantityColumn() {
+			@Override
+			protected String getColumnName() {
+				return messages.quantityNeeded();
+			}
 
-		this.addColumn(new InventoryTransactionUnitPriceColumn(currencyProvider));
+			@Override
+			protected boolean isEnable() {
+				return type != BUILD_ASSEMBLY;
+			}
+		});
 
-		this.addColumn(new InventoryTotalColumn(currencyProvider));
+		this.addColumn(new InventoryTransactionUnitPriceColumn(currencyProvider) {
+			@Override
+			public int getWidth() {
+				return 80;
+			}
+
+			@Override
+			protected boolean isEnable() {
+				return false;
+			}
+		});
+
+		this.addColumn(new InventoryTotalColumn(currencyProvider) {
+			@Override
+			public int getWidth() {
+				return 80;
+			}
+		});
 		if (type == INVENTORY_ASSEMBLY_ITEM) {
 			this.addColumn(new DeleteColumn<ClientInventoryAssemblyItem>());
 		}

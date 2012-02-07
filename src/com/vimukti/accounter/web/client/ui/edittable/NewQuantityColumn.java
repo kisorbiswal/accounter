@@ -28,6 +28,11 @@ import com.vimukti.accounter.web.client.ui.settings.UnitCombo;
 public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 
 	PopupPanel popup = new PopupPanel(true);
+	private boolean isUsedInPurcaseTransaction;
+
+	public NewQuantityColumn(boolean isUsingInPurchaseTransaction) {
+		this.isUsedInPurcaseTransaction = isUsingInPurchaseTransaction;
+	}
 
 	@Override
 	public int getWidth() {
@@ -41,17 +46,18 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			return quantity != null ? String.valueOf(quantity.getValue()) : "";
 		} else {
 			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
-				ClientUnit unit = Accounter.getCompany().getUnitById(
-						row.getQuantity().getUnit());
 				StringBuffer data = new StringBuffer();
 				data.append(String.valueOf(row.getQuantity().getValue()));
+
 				if (getPreferences().isUnitsEnabled()) {
+					ClientUnit unit = Accounter.getCompany().getUnitById(
+							row.getQuantity().getUnit());
 					data.append(" ");
 					if (unit != null) {
 						data.append(unit.getType());
 					}
 				}
-				if (getPreferences().iswareHouseEnabled()) {
+				if (isMultipleWarehouseEnabled()) {
 					data.append(" (W: ");
 					ClientWarehouse warehouse = Accounter.getCompany()
 							.getWarehouse(row.getWareHouse());
@@ -71,12 +77,16 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		}
 	}
 
+	protected boolean isMultipleWarehouseEnabled() {
+		return getPreferences().iswareHouseEnabled();
+	}
+
 	@Override
 	public IsWidget getWidget(RenderContext<ClientTransactionItem> context) {
 		final IsWidget widget = super.getWidget(context);
 		final ClientTransactionItem row = context.getRow();
 		// Checking the units and wareHouses is enabled or not.
-		if (widget instanceof TextBox && getPreferences().iswareHouseEnabled()
+		if (widget instanceof TextBox && isMultipleWarehouseEnabled()
 				|| getPreferences().isUnitsEnabled()) {
 			((TextBox) widget).addFocusHandler(new FocusHandler() {
 				@Override
@@ -152,29 +162,43 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			table.setWidget(1, 1, unitBox.getMainWidget());
 			table.getCellFormatter().addStyleName(1, 1, "quantity_unit_width");
 		}
-		if (getPreferences().iswareHouseEnabled()) {
+		if (isMultipleWarehouseEnabled()) {
 			table.setWidget(0, 2, wareHouseLabel);
 			table.setWidget(1, 2, whCombo.getMainWidget());
 		}
 		popup.add(table);
 		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
+			boolean isClosed;
 
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
-
+				if (isClosed) {
+					return;
+				}
+				isClosed = true;
 				String value = valueBox.getValue();
 				ClientUnit unit = unitBox.getSelectedValue();
 				if (value.isEmpty()) {
 					value = "1";
 				}
-				ClientQuantity quantity = row.getQuantity();
+				ClientQuantity quantity = new ClientQuantity();
 				try {
 					quantity.setValue(DataUtils.getAmountStringAsDouble(value));
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
 				if (unit != null)
 					quantity.setUnit(unit.getId());
+				ClientItem item = Accounter.getCompany().getItem(row.getItem());
+
+				if (!isUsedInPurcaseTransaction
+						&& quantity.compareTo(item.getOnhandQty()) > 0
+						&& item.getID() != 0) {
+					Accounter.showInformation(messages
+							.donnotHaveSufficientInventory(quantity.getValue(),
+									item.getOnhandQty().getValue()));
+				}
+
 				setQuantity(row, quantity);
 				if (whCombo.getSelectedValue() != null)
 					row.setWareHouse(whCombo.getSelectedValue().getID());
@@ -213,15 +237,21 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			ClientItem item = Accounter.getCompany().getItem(row.getItem());
 			ClientQuantity quantity = row.getQuantity();
 			if (item != null
-					&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || quantity == null)) {
 				ClientCompany company = Accounter.getCompany();
-				ClientWarehouse warehouse = company.getWarehouse(company
-						.getDefaultWarehouse());
-				ClientUnit defaultUnit = company.getMeasurement(
-						item.getMeasurement()).getDefaultUnit();
-
-				quantity.setUnit(defaultUnit.getId());
-				row.setWareHouse(warehouse.getID());
+				if (quantity == null) {
+					quantity = new ClientQuantity();
+				}
+				if (quantity.getUnit() == 0) {
+					ClientUnit defaultUnit = company.getMeasurement(
+							item.getMeasurement()).getDefaultUnit();
+					quantity.setUnit(defaultUnit.getId());
+				}
+				if (row.getWareHouse() == 0) {
+					ClientWarehouse warehouse = company.getWarehouse(company
+							.getDefaultWarehouse());
+					row.setWareHouse(warehouse.getID());
+				}
 			}
 			if (quantity != null) {
 				quantity.setValue(DataUtils.getAmountStringAsDouble(JNSI

@@ -274,14 +274,14 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	private void resetView(int type2) {
 		if (type2 == 0) {
-
+			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
 					mayAmount, junAmount, julAmount, augAmount, septAmount,
 					octAmount, novAmount, decAmount);
 
 		} else if (type2 == 1) {
-
+			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
 			quater1Amount = new AmountField(messages.quarterPeriod("1",
 					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()), this);
 			quater1Amount.setHelpInformation(true);
@@ -439,10 +439,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			newMap.put(DayAndMonthUtil.nov(), four);
 
 			newMap.put(DayAndMonthUtil.dec(), four);
-			
 
-			double total = quater1Amount.getAmount() + quater2Amount.getAmount()
-					+ quater3Amount.getAmount() + quater4Amount.getAmount();
+			double total = quater1Amount.getAmount()
+					+ quater2Amount.getAmount() + quater3Amount.getAmount()
+					+ quater4Amount.getAmount();
 
 			newMap.put(messages.total(), Double.toString(total));
 
@@ -501,6 +501,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 				newMap.put(DayAndMonthUtil.dec(), Double.toString(round(true,
 						31, roundOff, calculation, annualAmount.getAmount()
 								/ valueToDivide, 2)));
+				newMap.put(messages.totalAmount(),
+						Double.toString(annualAmount.getAmount()));
 			} else {
 				String one;
 				one = "0.00";
@@ -529,7 +531,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 				newMap.put(DayAndMonthUtil.dec(), one);
 			}
-			
+
 			double total = annualAmount.getAmount();
 
 			newMap.put(messages.total(), Double.toString(total));

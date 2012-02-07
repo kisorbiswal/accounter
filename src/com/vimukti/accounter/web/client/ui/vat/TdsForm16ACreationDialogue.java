@@ -338,6 +338,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					tdsCertificateNumber.getValue(), 0);
 		}
 		isCoveringLetter = false;
+		processCancel();
 		return true;
 
 	}

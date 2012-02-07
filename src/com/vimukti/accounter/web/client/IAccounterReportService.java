@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -24,6 +23,9 @@ import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -325,6 +327,22 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	List<CurrencyExchangeRate> getExchangeRatesOfDate(long date)
+			throws AccounterException;
+
+	ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByVendor(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<InventoryValutionDetail> getInventoryValutionDetail(long id,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByItem(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
+			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException;
 
 }

@@ -84,7 +84,6 @@ public class TDSChalanDetailsView extends
 
 	@Override
 	protected void createControls() {
-
 		selectFormTypeCombo = new SelectCombo(messages.formType());
 		selectFormTypeCombo.setHelpInformation(true);
 		selectFormTypeCombo.initCombo(getFormTypes());
@@ -403,6 +402,7 @@ public class TDSChalanDetailsView extends
 		horizontalPanel2.add(belowForm2);
 
 		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(voidedPanel);
 		verticalPanel.setWidth("100%");
 		verticalPanel.add(horizontalPanel1);
 		verticalPanel.add(table);
@@ -478,6 +478,11 @@ public class TDSChalanDetailsView extends
 		payFromAccCombo.setComboItem(getCompany().getAccount(
 				transaction.getPayFrom()));
 
+		if (transaction.getPayFrom() != 0) {
+			endingBalanceText.setAmount(getCompany().getAccount(
+					transaction.getPayFrom())
+					.getTotalBalanceInAccountCurrency());
+		}
 		chalanSerialNumber.setNumber(transaction.getChalanSerialNumber());
 
 		if (transaction.isBookEntry()) {

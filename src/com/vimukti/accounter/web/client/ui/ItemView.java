@@ -24,6 +24,7 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
@@ -65,6 +66,7 @@ public class ItemView extends BaseView<ClientItem> {
 			openingBalTxt, itemTotalValue;
 	private IntegerField vendItemNumText, weightText, reorderPoint,
 			onHandQuantity;
+	private AmountField avarageCost;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem isellCheck, comCheck, activeCheck, ibuyCheck, itemTaxCheck;
 
@@ -243,20 +245,23 @@ public class ItemView extends BaseView<ClientItem> {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				return getCompany().getAccounts();
+
+				return getCompany().getAccounts(
+						ClientAccount.TYPE_INVENTORY_ASSET);
 			}
 		};
 
-		ArrayList<ClientAccount> accounts = getCompany().getAccounts();
+		ArrayList<ClientAccount> accounts = getCompany().getAccounts(
+				ClientAccount.TYPE_INVENTORY_ASSET);
 		for (ClientAccount clientAccount : accounts) {
-			if ((Integer.parseInt(clientAccount.getNumber()) == 1001)) {
-				assetsAccount.setSelectedItem(accounts.indexOf(clientAccount));
-				break;
-			}
+			assetsAccount.setComboItem(clientAccount);
+			break;
 		}
+
 		assetsAccount.setHelpInformation(true);
 		assetsAccount.setDisabled(isInViewMode());
 		assetsAccount.setPopupWidth("500px");
+		assetsAccount.setRequired(true);
 
 		// ClientUnit unit =
 		// Accounter.getCompany().getUnitById(row.getAdjustmentQty().getUnit());
@@ -266,7 +271,7 @@ public class ItemView extends BaseView<ClientItem> {
 		// unitCombo.setDisabled(isInViewMode());
 		// unitCombo.setPopupWidth("500px");
 
-		reorderPoint = new IntegerField(this, "Reorder Point");
+		reorderPoint = new IntegerField(this, messages.reorderPoint());
 		reorderPoint.setHelpInformation(true);
 		reorderPoint.setWidth(100);
 		reorderPoint.setDisabled(isInViewMode());
@@ -276,10 +281,11 @@ public class ItemView extends BaseView<ClientItem> {
 				getBaseCurrency());
 		itemTotalValue.setHelpInformation(true);
 		itemTotalValue.setWidth(100);
-		itemTotalValue.setValue("0.0");
-		itemTotalValue.setDisabled(isInViewMode());
+		itemTotalValue.setAmount(0.00D);
+		itemTotalValue.setDisabled(true);
 
-		onHandQuantity = new IntegerField(this, "On Hand Quantity");
+		onHandQuantity = new IntegerField(this, messages.onHandQty());
+		onHandQuantity.setNumber(0l);
 		onHandQuantity.setHelpInformation(true);
 		onHandQuantity.setWidth(100);
 		onHandQuantity.setDisabled(isInViewMode());
@@ -288,7 +294,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double amount = salesPriceText.getAmount();
+				Double amount = purchasePriceTxt.getAmount();
 				if (onHandQuantity.getValue().length() > 0) {
 					Double amount2 = Double.valueOf(onHandQuantity.getValue());
 					itemTotalValue.setAmount(amount * amount2);
@@ -297,14 +303,19 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 		});
 
+		avarageCost = new AmountField(messages.avarageCost(), this);
+		avarageCost.setDisabled(true);
+
 		asOfDate = new DateField(messages.asOf());
 		asOfDate.setHelpInformation(true);
 		asOfDate.setDisabled(isInViewMode());
 		asOfDate.setEnteredDate(new ClientFinanceDate());
 
 		DynamicForm inventoryInfoForm = new DynamicForm();
-		inventoryInfoForm.setFields(assetsAccount, reorderPoint,
-				onHandQuantity, itemTotalValue, asOfDate);
+		inventoryInfoForm.setFields(assetsAccount, onHandQuantity,
+				itemTotalValue, avarageCost, asOfDate);
+		itemTotalValue.setVisible(!isInViewMode());
+		avarageCost.setVisible(isInViewMode());
 
 		/**
 		 * over
@@ -355,14 +366,24 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseDescArea.setWidth(100);
 		purchaseDescArea.setTitle(messages.purchaseDescription());
 		purchaseDescArea.setDisabled(isInViewMode());
-
-		purchasePriceTxt = new AmountField(messages.purchasePrice(), this,
-				getBaseCurrency());
+		purchasePriceTxt = new AmountField(
+				type == ClientItem.TYPE_INVENTORY_PART ? messages.standardCost()
+						: messages.purchasePrice(), this, getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setDisabled(isInViewMode());
+		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
-		expAccCombo = new PurchaseItemCombo(messages.expenseAccount());
+			@Override
+			public void onBlur(BlurEvent event) {
+				itemTotalValue.setAmount(purchasePriceTxt.getAmount()
+						* onHandQuantity.getNumber());
+			}
+		});
+
+		expAccCombo = new PurchaseItemCombo(
+				type == ClientItem.TYPE_INVENTORY_PART ? messages
+						.costOfGoodSold() : messages.expenseAccount());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
@@ -434,6 +455,7 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 
 		});
+
 		if (!isInViewMode()) {
 			if (isGeneratedFromCustomer) {
 				isellCheck.setValue(isGeneratedFromCustomer);
@@ -452,8 +474,13 @@ public class ItemView extends BaseView<ClientItem> {
 		// salesInfoForm.setFields(isellCheck, salesDescArea,
 		// salesPriceText, accountCombo, itemTaxCheck, comCheck,
 		// stdCostText);
-		salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
-				accountCombo, itemTaxCheck, comCheck, stdCostText);
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			salesInfoForm.setFields(salesDescArea, salesPriceText,
+					accountCombo, itemTaxCheck, comCheck);
+		} else {
+			salesInfoForm.setFields(isellCheck, salesDescArea, salesPriceText,
+					accountCombo, itemTaxCheck, comCheck, stdCostText);
+		}
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -472,9 +499,14 @@ public class ItemView extends BaseView<ClientItem> {
 		purchaseInfoForm = UIUtils.form(messages.purchaseInformation());
 		purchaseInfoForm.setNumCols(2);
 		purchaseInfoForm.setStyleName("purchase_info_form");
-		purchaseInfoForm
-				.setFields(ibuyCheck, purchaseDescArea, purchasePriceTxt,
-						expAccCombo, prefVendorCombo, vendItemNumText);
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			purchaseInfoForm.setFields(purchaseDescArea, purchasePriceTxt,
+					expAccCombo, vendItemNumText);
+		} else {
+			purchaseInfoForm.setFields(ibuyCheck, purchaseDescArea,
+					purchasePriceTxt, expAccCombo, vendItemNumText);
+		}
+
 		purchaseInfoForm.getCellFormatter().addStyleName(1, 0, "memoFormAlign");
 
 		VerticalPanel salesVPanel = new VerticalPanel();
@@ -664,10 +696,15 @@ public class ItemView extends BaseView<ClientItem> {
 
 		data.setUPCorSKU(skuText.getValue());
 
+		data.setISellThisItem(getBooleanValue(isellCheck));
+		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
+
 		if ((type == ClientItem.TYPE_NON_INVENTORY_PART || type == ClientItem.TYPE_INVENTORY_PART)
 				&& weightText.getNumber() != null) {
 			data.setWeight(UIUtils.toInt(weightText.getNumber()));
-			data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
+			if (assetsAccount.getSelectedValue() != null) {
+				data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
+			}
 
 			if (reorderPoint.getValue().length() > 0)
 				data.setReorderPoint(Integer.parseInt(reorderPoint.getValue()));
@@ -675,18 +712,43 @@ public class ItemView extends BaseView<ClientItem> {
 				data.setReorderPoint(0);
 
 			data.setItemTotalValue(itemTotalValue.getAmount());
-
-			if (onHandQuantity.getValue().length() > 0)
-				data.setOnhandQuantity(onHandQuantity.getNumber());
-
-			else
-				data.setOnhandQuantity(0);
+			if (asOfDate != null) {
+				data.setAsOfDate(asOfDate.getDate());
+			}
+			Long qtyValue = null;
+			if (onHandQuantity.getValue().length() > 0) {
+				qtyValue = onHandQuantity.getNumber();
+			} else {
+				qtyValue = 0l;
+			}
 			data.setAsOfDate(asOfDate.getValue());
 
-		}
+			if (type == ClientItem.TYPE_INVENTORY_PART) {
+				data.setISellThisItem(true);
+				data.setIBuyThisItem(true);
+				data.setMinStockAlertLevel(null);
+				data.setMaxStockAlertLevel(null);
+				data.setOpeningBalance(openingBalTxt.getAmount());
+				if (wareHouse.getSelectedValue() != null) {
+					data.setWarehouse(wareHouse.getSelectedValue().getID());
+				}
+				ClientMeasurement measurement = null;
+				if (this.measurement.getSelectedValue() != null) {
+					measurement = this.measurement.getSelectedValue();
+				} else {
+					measurement = getCompany().getMeasurement(
+							getCompany().getDefaultMeasurement());
+				}
+				data.setMeasurement(measurement.getId());
+				if (qtyValue != null) {
+					ClientQuantity qty = new ClientQuantity();
+					qty.setValue(qtyValue.doubleValue());
+					qty.setUnit(measurement.getDefaultUnit().getId());
+					data.setOnhandQty(qty);
+				}
 
-		data.setISellThisItem(getBooleanValue(isellCheck));
-		data.setIBuyThisItem(getBooleanValue(ibuyCheck));
+			}
+		}
 
 		if (getBooleanValue(isellCheck)) {
 			if (salesDescArea.getValue() != null)
@@ -728,15 +790,6 @@ public class ItemView extends BaseView<ClientItem> {
 		if (type == ClientItem.TYPE_NON_INVENTORY_PART
 				|| type == ClientItem.TYPE_SERVICE)
 			data.setTaxCode(selectTaxCode != null ? selectTaxCode.getID() : 0);
-		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			if (measurement.getSelectedValue() != null)
-				data.setMeasurement(measurement.getSelectedValue().getId());
-			if (wareHouse.getSelectedValue() != null)
-				data.setWarehouse(wareHouse.getSelectedValue().getID());
-			data.setMinStockAlertLevel(null);
-			data.setMaxStockAlertLevel(null);
-			data.setOpeningBalance(openingBalTxt.getAmount());
-		}
 	}
 
 	@Override
@@ -846,9 +899,11 @@ public class ItemView extends BaseView<ClientItem> {
 
 			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
 			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
-			onHandQuantity.setValue("0");
-			getItemStatus();
+			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+					.getValue()));
+			// getItemStatus();
 			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
+			avarageCost.setAmount(data.getAvarageCost());
 			asOfDate.setValue(data.getAsOfDate());
 
 		} else {
@@ -918,8 +973,13 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 
 		} else {
-			disablePurchaseFormItems(isGeneratedFromCustomer);
-			disableSalesFormItems(!isGeneratedFromCustomer);
+			if (type != ClientItem.TYPE_INVENTORY_PART) {
+				disablePurchaseFormItems(isGeneratedFromCustomer);
+				disableSalesFormItems(!isGeneratedFromCustomer);
+			} else {
+				disableSalesFormItems(false);
+				disablePurchaseFormItems(false);
+			}
 		}
 	}
 

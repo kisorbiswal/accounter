@@ -182,6 +182,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_CASH_EXPENSE = "Cash Expense";
 	public static final String TYPE_CREDIT_CARD_EXPENSE = "Credit Card Expense";
 	public static final String TYPE_EMPLOYEE_EXPENSE = "Employee Expense";
+	public static final String TYPE_STOCK_ADJUSTMENT = "Stock Adjustment";
 	public static final String TYPE_TDS_CHALLAN = "TDS Challan";
 
 	// constants for Table Names

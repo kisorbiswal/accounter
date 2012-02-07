@@ -1,41 +1,30 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.List;
 
-public class ClientStockAdjustment implements IAccounterCore {
+public class ClientStockAdjustment extends ClientTransaction {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	long id;
-	int version;
-
 	private long wareHouse;
 
-	private List<ClientStockAdjustmentItem> stockAdjustmentItems;
+	private long adjustmentAccount;
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
+	public ClientStockAdjustment() {
+		super();
+		setType(TYPE_STOCK_ADJUSTMENT);
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Utility.getTransactionName(getType());
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getName();
 	}
 
 	@Override
@@ -53,22 +42,23 @@ public class ClientStockAdjustment implements IAccounterCore {
 		return id;
 	}
 
-
-	public List<ClientStockAdjustmentItem> getStockAdjustmentItems() {
-		return stockAdjustmentItems;
-	}
-
-	public void setStockAdjustmentItems(
-			List<ClientStockAdjustmentItem> stockAdjustmentItems) {
-		this.stockAdjustmentItems = stockAdjustmentItems;
-	}
-
 	public long getWareHouse() {
 		return wareHouse;
 	}
 
 	public void setWareHouse(long wareHouse) {
 		this.wareHouse = wareHouse;
+	}
+
+	public void setAdjustmentAccount(long accountId) {
+		this.adjustmentAccount = accountId;
+	}
+
+	/**
+	 * @return the adjustmentAccount
+	 */
+	public long getAdjustmentAccount() {
+		return adjustmentAccount;
 	}
 
 }

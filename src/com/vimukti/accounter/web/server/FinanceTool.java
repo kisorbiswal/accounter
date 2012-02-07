@@ -273,11 +273,28 @@ public class FinanceTool {
 					serverObject);
 			session.save(activity);
 			if (serverObject instanceof Transaction) {
-				((Transaction) serverObject).setLastActivity(activity);
+				Transaction savingTrax = (Transaction) serverObject;
+				savingTrax.setLastActivity(activity);
 			}
 			session.saveOrUpdate(serverObject);
 
 			newTransaction.commit();
+
+			if (serverObject instanceof Transaction) {
+				org.hibernate.Transaction ht = session.beginTransaction();
+				try {
+					Transaction tt = (Transaction) serverObject;
+					for (TransactionItem item : tt.getTransactionItems()) {
+						item.doInventoryEffect();
+						session.save(item);
+					}
+					ht.commit();
+				} catch (Exception e) {
+					e.printStackTrace();
+					ht.rollback();
+				}
+			}
+
 			ChangeTracker.put(serverObject);
 
 			return serverObject.getID();
@@ -403,6 +420,22 @@ public class FinanceTool {
 			}
 			session.saveOrUpdate(serverObject);
 			newTransaction.commit();
+
+			if (serverObject instanceof Transaction) {
+				org.hibernate.Transaction ht = session.beginTransaction();
+				try {
+					Transaction tt = (Transaction) serverObject;
+					for (TransactionItem item : tt.getTransactionItems()) {
+						item.doInventoryEffect();
+						session.save(item);
+					}
+					ht.commit();
+				} catch (Exception e) {
+					e.printStackTrace();
+					ht.rollback();
+				}
+			}
+
 			ChangeTracker.put(serverObject);
 			return serverObject.getID();
 		} catch (Exception e) {
@@ -1441,6 +1474,8 @@ public class FinanceTool {
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
 		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
 		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
+		session.getNamedQuery("createInventoryItemHistory").executeUpdate();
+		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		transaction.commit();
 	}
 

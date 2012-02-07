@@ -8595,9 +8595,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=8
-		AND T.SAVE_STATUS
-		!= 202 AND
-		T.COMPANY_ID=:companyId AND T.T_DATE
+		AND T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :fromDate AND :toDate AND
 		C.ID=:customerId
 		ORDER BY DUE_DATE
@@ -12561,6 +12559,7 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="viewType" type="int" />
+		<query-param name="payeeType" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -12612,14 +12611,287 @@
 		ELSE
 		true
 		END
-		AND
-		T.SAVE_STATUS != 202
+		AND T.SAVE_STATUS
+		 != 202
 		AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
 	</sql-query>
+	
+	<sql-query name="createInventoryItemHistory">
+		CREATE OR REPLACE VIEW 
+		INVENTORY_ITEM_HISTORY_VIEW AS
+		SELECT
+		T.COMPANY_ID as
+		COMPANY_ID,
+		T.ID as
+		TRANSACTION_ID,
+		TI.ID as TRANSACTION_ITEM_ID,
+		TI.UNIT_PRICE as UNIT_PRICE,
+		TI.QTY_VALUE AS QUANTITY, 
+		TI.QTY_UNIT as QTY_UNIT,
+		IT.ID as ITEM_ID,
+		T.T_DATE AS TRANSACTION_DATE
+		
+		FROM
+		TRANSACTION_ITEM TI
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON T.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN 
+		ITEM IT ON TI.TYPE=1 AND IT.TYPE IN (2,4) AND
+		IT.ID=TI.ITEM_ID  
+		
+		WHERE T.SAVE_STATUS != 201 AND T.SAVE_STATUS != 202
+		AND (T.T_TYPE IN (2,6,14,26,27) OR CASE WHEN T.T_TYPE=36 THEN TI.QTY_VALUE &gt;= 0 ELSE FALSE END) ;
 
+	</sql-query>
+	
+	<sql-query name="getPurchasesOfItem.for.LIFO">
+		<query-param name="inventoryId" type="long"/>
+		
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="QUANTITY_VALUE" type="double" />
+		<return-scalar column="QUANTITY_UNIT" type="long" />
+		<return-scalar column="COST" type="double" />
+		SELECT 
+		TRANSACTION_ITEM_ID,
+		QUANTITY AS QUANTITY_VALUE,
+		QTY_UNIT AS QUANTITY_UNIT,
+		UNIT_PRICE AS COST
+		
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		ORDER BY TRANSACTION_DATE DESC,TRANSACTION_ITEM_ID DESC;
+	</sql-query>
+	
+	<sql-query name="getPurchasesOfItem">
+		<query-param name="inventoryId" type="long"/>
+		
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		<return-scalar column="QUANTITY_VALUE" type="double" />
+		<return-scalar column="QUANTITY_UNIT" type="long" />
+		<return-scalar column="COST" type="double" />
+		SELECT 
+		TRANSACTION_ITEM_ID,
+		QUANTITY AS QUANTITY_VALUE,
+		QTY_UNIT AS QUANTITY_UNIT,
+		UNIT_PRICE AS COST
+		
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		ORDER BY TRANSACTION_DATE,TRANSACTION_ITEM_ID;
+	</sql-query>
+	
+	<sql-query name="getAverageCost.of.Item">
+		<query-param name="inventoryId" type="long"/>
+		<return-scalar column="COST" type="double"/>
+		
+		SELECT 
+		((SUM(QUANTITY*UNIT_PRICE))/SUM(QUANTITY)) as COST
+
+		FROM INVENTORY_ITEM_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID= :inventoryId
+		
+	</sql-query>
+	
+	<sql-query name="getAssetValueOfAllInventory">
+		<query-param name="companyId" type="long" />
+	
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="ASSET_VALUE" type="double" />
+		SELECT 
+		IT.ID AS ITEM_ID, 
+		SUM(AT.AMOUNT) AS ASSET_VALUE
+		
+		FROM ACCOUNT_TRANSACTION AT 
+		LEFT JOIN TRANSACTION T ON AT.TRANSACTION_ID=T.ID 
+		LEFT JOIN TRANSACTION_ITEM TI ON TI.TYPE=1 AND TI.TRANSACTION_ID=T.ID 
+		LEFT JOIN STOCK_ADJUSTMENT SA ON SA.ID=T.ID 
+		LEFT JOIN STOCK_ADJUSTMENT_ITEM SAI ON SAI.STOCK_ADJUSTMENT=SA.ID
+		LEFT JOIN ITEM IT ON IT.TYPE IN (2,4) AND (IT.ID=TI.ITEM_ID OR IT.ID=SAI.ITEM)
+		
+		 WHERE AT.ACCOUNT_ID=IT.ASSETS_ACCOUNT_ID
+		 AND AT.COMPANY_ID=:companyId AND T.COMPANY_ID=:companyId AND IT.COMPANY_ID=:companyId
+				 
+		 GROUP BY IT.ID;
+	
+	</sql-query>
+
+	<sql-query name="getInventoryHistoryView">
+		CREATE OR REPLACE VIEW INVENTORY_HISTORY_VIEW AS 
+		SELECT T.ID AS TRANSACTION_ID,
+		IT.ID AS TRANSACTION_ITEM_ID,
+		T.COMPANY_ID AS COMPANY,
+		IT.ID AS ITEM_ID,
+		T.T_DATE AS TRANSACTION_DATE,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		CASE WHEN
+		T.T_TYPE IN (1,4,7,8) THEN -TI.QTY_VALUE ELSE
+		TI.QTY_VALUE END AS QTY_VALUE,
+		TI.QTY_UNIT,
+		TI.UNIT_PRICE AS COST,
+		TI.DESCRIPTION AS DESCRIPTION,
+		IT.NAME AS ITEM_NAME,
+		IT.ON_HAND_QTY_VALUE AS
+		ITEM_TOTAL_QUANTITY,
+		IT.PREFFERED_VENDOR AS
+		PREFFERED_VENDOR,
+		IT.SALES_PRICE AS ITEM_SALE_PRICE,
+		P.ID AS
+		PAYEE_ID,
+		P.NAME AS PAYEE_NAME
+
+
+		FROM
+		TRANSACTION_ITEM TI
+		LEFT JOIN TRANSACTION T ON
+		TI.TRANSACTION_ID=T.ID
+		LEFT JOIN INVOICE I ON I.ID=T.ID
+		LEFT JOIN
+		CASH_SALES CS ON CS.ID=T.ID
+		LEFT JOIN CUSTOMER_CREDIT_MEMO CCM ON
+		CCM.ID=T.ID
+		LEFT JOIN ENTER_BILL
+		EB ON EB.ID=T.ID
+		LEFT JOIN
+		VENDOR_CREDIT_MEMO VCM ON VCM.ID=T.ID
+		LEFT
+		JOIN CASH_PURCHASE CP ON
+		CP.ID=T.ID
+		LEFT JOIN CREDIT_CARD_CHARGES CC ON
+		CC.ID=T.ID
+
+		LEFT JOIN
+		CUSTOMER C
+		ON C.ID=CS.CUSTOMER_ID OR C.ID=CCM.CUSTOMER_ID OR C.ID=I.CUSTOMER_ID
+		LEFT JOIN VENDOR V
+		ON V.ID= CP.VENDOR_ID OR V.ID=VCM.VENDOR_ID OR V.ID=EB.VENDOR_ID OR
+		(V.ID=CC.VENDOR_ID AND
+		CC.VENDOR_ID IS NOT NULL)
+		LEFT JOIN PAYEE P ON
+		P.ID =C.ID OR P.ID =V.ID
+
+		LEFT JOIN ITEM IT ON TI.TYPE=1 AND IT.TYPE
+		IN (2,4) AND
+		TI.ITEM_ID=IT.ID
+		WHERE T.T_TYPE IN (1,2,4,6,7,8,14,26,27)
+		ORDER BY
+		T.T_DATE,T.ID;
+	</sql-query>
+
+	<sql-query name="getInventoryValutionDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemID" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="QTY_UNIT" type="long" />
+		<return-scalar column="COST" type="double" />
+		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
+		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="ITEM_ID" type="long" />
+		<return-scalar column="PAYEE_NAME" type="string" />
+		<return-scalar column="PAYEE_ID" type="long" />
+		SELECT TRANSACTION_ID,
+		TRANSACTION_DATE,
+		TRANSACTION_TYPE,
+		TRANSACTION_NUMBER,
+		QTY_UNIT,
+		COST,
+		ITEM_TOTAL_QUANTITY,
+		ITEM_NAME,
+		ITEM_ID,
+		PAYEE_NAME,
+		PAYEE_ID
+		FROM
+		INVENTORY_HISTORY_VIEW V WHERE
+		V.COMPANY=:companyId
+		AND
+		(V.TRANSACTION_DATE BETWEEN :fromDate
+		AND :toDate)
+		AND
+		CASE
+		WHEN
+		0=:itemID THEN
+		TRUE
+		ELSE
+		(V.ITEM_ID=:itemID)
+		END;
+	</sql-query>
+	<sql-query name="getInventoryValutionSummary">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
+		<return-scalar column="COST" type="double" />
+		<return-scalar column="ITEM_SALE_PRICE" type="double" />
+		<return-scalar column="ITEM_ID" type="long" />
+		SELECT ITEM_NAME,
+		DESCRIPTION,
+		ITEM_TOTAL_QUANTITY,
+		COST,
+		ITEM_SALE_PRICE,
+		ITEM_ID
+		FROM
+		INVENTORY_HISTORY_VIEW V WHERE
+		V.COMPANY=:companyId
+		AND
+		(V.TRANSACTION_DATE BETWEEN :fromDate
+		AND :toDate);
+	</sql-query>
+	<sql-query name="getInventoryStockStatusByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="PREFFERED_VENDOR" type="long" />
+		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+		SELECT
+		ITEM_NAME,
+		DESCRIPTION,
+		PREFFERED_VENDOR,
+		ITEM_TOTAL_QUANTITY,
+		ITEM_ID
+		FROM
+		INVENTORY_HISTORY_VIEW V WHERE
+		V.COMPANY=:companyId
+		AND
+		(V.TRANSACTION_DATE BETWEEN :fromDate
+		AND :toDate);
+	</sql-query>
+	<sql-query name="getInventoryStockStatusByVendor">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="PREFFERED_VENDOR" type="long" />
+		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
+		<return-scalar column="ITEM_ID" type="long" />
+		SELECT
+		ITEM_NAME,
+		DESCRIPTION,
+		PREFFERED_VENDOR,
+		ITEM_TOTAL_QUANTITY,
+		ITEM_ID
+		FROM
+		INVENTORY_HISTORY_VIEW V WHERE
+		V.COMPANY=:companyId
+		AND
+		(V.TRANSACTION_DATE BETWEEN :fromDate
+		AND :toDate);
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 

@@ -149,7 +149,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.wareHouse(), messages.itemName(),
-				messages.adjustmentQty(), messages.delete() };
+				messages.adjustedQty(), messages.delete() };
 	}
 
 }

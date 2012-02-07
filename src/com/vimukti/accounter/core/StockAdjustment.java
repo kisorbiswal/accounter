@@ -1,11 +1,10 @@
 package com.vimukti.accounter.core;
 
-import java.util.Set;
-
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -17,8 +16,7 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * @author Srikanth.J
  * 
  */
-public class StockAdjustment extends CreatableObject implements
-		IAccounterServerCore, INamedObject {
+public class StockAdjustment extends Transaction implements INamedObject {
 
 	/**
 	 * 
@@ -27,25 +25,16 @@ public class StockAdjustment extends CreatableObject implements
 
 	private Warehouse wareHouse;
 
-	private Set<StockAdjustmentItem> stockAdjustmentItems;
+	private Account adjustmentAccount;
+
+	public StockAdjustment() {
+		super();
+		setType(Transaction.TYPE_STOCK_ADJUSTMENT);
+	}
 
 	@Override
 	public String toString() {
 		return null;
-	}
-
-	/**
-	 * Calculates the total adjustment price based on the individual items
-	 * adjustment prices.
-	 * 
-	 * @return sum of individual adjumentPrices.
-	 */
-	public double totalAdjustmentPrice() {
-		double totalPrice = 0;
-		for (StockAdjustmentItem item : stockAdjustmentItems) {
-			totalPrice += item.getAdjustmentPriceValue();
-		}
-		return totalPrice;
 	}
 
 	@Override
@@ -63,29 +52,82 @@ public class StockAdjustment extends CreatableObject implements
 		this.wareHouse = wareHouse;
 	}
 
-	public Set<StockAdjustmentItem> getStockAdjustmentItems() {
-		return stockAdjustmentItems;
-	}
-
-	public void setStockAdjustmentItems(
-			Set<StockAdjustmentItem> stockAdjustmentItems) {
-		this.stockAdjustmentItems = stockAdjustmentItems;
-	}
-
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
-		for (StockAdjustmentItem item : stockAdjustmentItems) {
-			item.setWarehouse(wareHouse);
+		if (this.isOnSaveProccessed)
+			return true;
+		if (isDraftOrTemplate()) {
+			return false;
 		}
+		doCreateEffect(this);
 		return super.onSave(session);
 	}
 
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
-		for (StockAdjustmentItem item : stockAdjustmentItems) {
-			item.setWarehouse(wareHouse);
-		}
 		return super.onUpdate(session);
+	}
+
+	@Override
+	public void onEdit(Transaction clonedObject) {
+		super.onEdit(clonedObject);
+		StockAdjustment adjustment = (StockAdjustment) clonedObject;
+		Session session = HibernateUtil.getCurrentSession();
+		double totalAdjustment = 0.00D;
+		for (TransactionItem item : adjustment.getTransactionItems()) {
+			double adjustmentValue = item.getQuantity().calculatePrice(
+					item.getUnitPrice());
+			totalAdjustment += adjustmentValue;
+		}
+		Account adjustmentAccount = adjustment.getAdjustmentAccount();
+		adjustmentAccount.updateCurrentBalance(this, -totalAdjustment, 1);
+		session.saveOrUpdate(adjustmentAccount);
+		if (!isBecameVoid()) {
+			doCreateEffect(this);
+		}
+	}
+
+	private void doCreateEffect(StockAdjustment adjustment) {
+		Session session = HibernateUtil.getCurrentSession();
+		double totalAdjustment = 0.00D;
+		for (TransactionItem item : adjustment.getTransactionItems()) {
+			item.setWareHouse(adjustment.getWareHouse());
+			item.setTransaction(this);
+			double adjustmentValue = item.getQuantity().calculatePrice(
+					item.getUnitPrice());
+			totalAdjustment += adjustmentValue;
+		}
+		Account adjustmentAccount = adjustment.getAdjustmentAccount();
+		adjustmentAccount.updateCurrentBalance(this, totalAdjustment, 1);
+		setTotal(totalAdjustment);
+		session.saveOrUpdate(adjustmentAccount);
+		if (number == null) {
+			String number = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_STOCK_ADJUSTMENT, getCompany());
+			setNumber(number);
+		}
+	}
+
+	private void doReverseEffect(StockAdjustment adjustment) {
+		Session session = HibernateUtil.getCurrentSession();
+		double totalAdjustment = 0.00D;
+		for (TransactionItem item : adjustment.getTransactionItems()) {
+			item.doReverseEffect(session);
+			double adjustmentValue = item.getQuantity().calculatePrice(
+					item.getUnitPrice());
+			totalAdjustment += adjustmentValue;
+		}
+		Account adjustmentAccount = adjustment.getAdjustmentAccount();
+		adjustmentAccount.updateCurrentBalance(this, -totalAdjustment, 1);
+		session.saveOrUpdate(adjustmentAccount);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doReverseEffect(this);
+		}
+		return super.onDelete(session);
 	}
 
 	@Override
@@ -114,8 +156,65 @@ public class StockAdjustment extends CreatableObject implements
 		if (this.wareHouse != null)
 			w.put(messages.wareHouse(), this.wareHouse.getName());
 
-		if (this.stockAdjustmentItems != null)
-			w.put(messages.stockAdjustment(), this.stockAdjustmentItems);
+		if (this.transactionItems != null)
+			w.put(messages.stockAdjustment(), this.getTransactionItems());
+
+	}
+
+	/**
+	 * @return the adjustmentAccount
+	 */
+	public Account getAdjustmentAccount() {
+		return adjustmentAccount;
+	}
+
+	/**
+	 * @param adjustmentAccount
+	 *            the adjustmentAccount to set
+	 */
+	public void setAdjustmentAccount(Account adjustmentAccount) {
+		this.adjustmentAccount = adjustmentAccount;
+	}
+
+	@Override
+	public boolean isPositiveTransaction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isDebitTransaction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Account getEffectingAccount() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Payee getPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTransactionCategory() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Payee getInvolvedPayee() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void updatePayee(boolean onCreate) {
+		// TODO Auto-generated method stub
 
 	}
 }

@@ -75,7 +75,7 @@ public class StockAdjustmentListCommand extends AbstractCommand {
 				record.add(getMessages().itemName(), value.getItem());
 				Unit unit = (Unit) CommandUtils.getServerObjectById(value
 						.getQuantity().getUnit(), AccounterCoreType.UNIT);
-				record.add(getMessages().adjustmentQty(), value.getQuantity()
+				record.add(getMessages().adjustedQty(), value.getQuantity()
 						.getValue() + " " + unit.getType());
 				return record;
 			}

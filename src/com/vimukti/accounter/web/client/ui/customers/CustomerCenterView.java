@@ -429,7 +429,8 @@ public class CustomerCenterView<T> extends
 
 	@Override
 	protected void callRPC() {
-		custHistoryGrid.clear();
+		custHistoryGrid.removeAllRecords();
+		records = new ArrayList<TransactionHistory>();
 		if (selectedCustomer != null) {
 			Accounter.createReportService().getCustomerTransactionsList(
 					selectedCustomer.getID(), getTransactionType(),
@@ -446,7 +447,7 @@ public class CustomerCenterView<T> extends
 						public void onSuccess(
 								ArrayList<TransactionHistory> result) {
 							records = result;
-							custHistoryGrid.clear();
+							custHistoryGrid.removeAllRecords();
 							if (records != null) {
 								custHistoryGrid.addRecords(records);
 							}
@@ -458,9 +459,10 @@ public class CustomerCenterView<T> extends
 					});
 
 		} else {
-			custHistoryGrid.clear();
+			custHistoryGrid.removeAllRecords();
 			custHistoryGrid.addEmptyMessage(messages.thereAreNo(messages
 					.transactions()));
+
 		}
 	}
 

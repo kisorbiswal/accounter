@@ -3087,7 +3087,7 @@ public class ReportManager extends Manager {
 			tid.setTaxAmount(v.getTotal());
 			tid.setTaxItemName(v.getTaxItem().getName());
 			tid.setTAXRate(v.getTaxItem().getTaxRate());
-
+			tid.setTransactionDate(v.getDate().toClientFinanceDate());
 			tid.setTransactionId(v.getID());
 			tid.setTransactionNumber(v.getNumber());
 			tid.setTransactionType(v.getType());
@@ -3544,9 +3544,9 @@ public class ReportManager extends Manager {
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
 			actual.setAtualAmount(bal.getAmount());
-			
-			boolean got= false;
-			
+
+			boolean got = false;
+
 			for (Budget budget : budgetList) {
 				if (budget.getID() == id) {
 					List<BudgetItem> budgetItems = budget.getBudgetItems();
@@ -3558,10 +3558,10 @@ public class ReportManager extends Manager {
 							got = true;
 							break;
 						} else {
-							
+
 						}
 					}
-					if(got==false){
+					if (got == false) {
 						actual.setBudgetAmount(0.00);
 						if (type == 0) {
 							actualList.add(actual);

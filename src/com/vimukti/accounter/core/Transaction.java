@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.hibernate.Session;
 import org.hibernate.CallbackException;
+import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -75,9 +75,10 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_CUSTOMER_PRE_PAYMENT = 29;
 	public static final int TYPE_RECEIVE_TAX = 31;
 	public static final int TYPE_TDS_CHALLAN = 34;
-
 	public static final int TYPE_MAKE_DEPOSIT = 35;
-	public static final int BUILD_ASSEMBLY = 36;
+
+	public static final int TYPE_STOCK_ADJUSTMENT = 36;
+	public static final int TYPE_BUILD_ASSEMBLY = 37;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
@@ -125,7 +126,7 @@ public abstract class Transaction extends CreatableObject implements
 	/**
 	 * Many transaction consists of List of {@link TransactionItem}s
 	 */
-	List<TransactionItem> transactionItems;
+	List<TransactionItem> transactionItems = new ArrayList<TransactionItem>();
 
 	Set<Attachment> attachments = new HashSet<Attachment>();
 
@@ -659,6 +660,10 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof CustomerPrePayment;
 	}
 
+	public boolean isStockAdjustment() {
+		return this instanceof StockAdjustment;
+	}
+
 	/**
 	 * (non-Javadoc)
 	 * 
@@ -856,6 +861,11 @@ public abstract class Transaction extends CreatableObject implements
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
+		if (getStatementRecord() != null) {
+			getStatementRecord().getTransactionsLists().add(this);
+			session.saveOrUpdate(getStatementRecord());
+		}
+
 		// // this.accountTransactionEntriesList.clear();
 		//
 		// /**
@@ -1339,7 +1349,6 @@ public abstract class Transaction extends CreatableObject implements
 			accountTransactionEntriesList.add(accountTransaction);
 			return true;
 		} else {
-
 			accountTransactionEntriesList.remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
 			session.delete(similar);
@@ -1559,4 +1568,5 @@ public abstract class Transaction extends CreatableObject implements
 	public void setValidated(boolean isValidated) {
 		this.isValidated = isValidated;
 	}
+
 }

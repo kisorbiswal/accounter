@@ -15,13 +15,16 @@ public class ClientStockAdjustmentItem implements IAccounterCore {
 	private static final long serialVersionUID = 1L;
 	private long id;
 	// Price value at the time of transaction
-	private double adjustmentPriceValue;
-	private ClientQuantity adjustmentQty = new ClientQuantity();
-	// comment is specific to this adjustment item (along with reason).
+	private double adjustedPrice;
+
+	private double currentPrice;
+
+	private ClientQuantity adjustedtQty = new ClientQuantity();
+	// comment is specific to this adjustment item (along withT reason).
 	private String comment;
 	private long item;
 	// qtyBeforeTransaction is for further information, like report generation.
-	private ClientQuantity qtyBeforeTransaction;
+	private ClientQuantity currentQty;
 
 	// private ClientAdjustmentReason reason;
 	// private ClientWarehouse warehouse;
@@ -44,31 +47,31 @@ public class ClientStockAdjustmentItem implements IAccounterCore {
 	/**
 	 * @return the adjustmentPriceValue
 	 */
-	public double getAdjustmentPriceValue() {
-		return adjustmentPriceValue;
+	public double getAdjustedPrice() {
+		return adjustedPrice;
 	}
 
 	/**
 	 * @param adjustmentPriceValue
 	 *            the adjustmentPriceValue to set
 	 */
-	public void setAdjustmentPriceValue(double adjustmentPriceValue) {
-		this.adjustmentPriceValue = adjustmentPriceValue;
+	public void setAdjustedPrice(double adjustmentPriceValue) {
+		this.adjustedPrice = adjustmentPriceValue;
 	}
 
 	/**
 	 * @return the adjustmentQty
 	 */
-	public ClientQuantity getAdjustmentQty() {
-		return adjustmentQty;
+	public ClientQuantity getAdjustedQty() {
+		return adjustedtQty;
 	}
 
 	/**
 	 * @param adjustmentQty
 	 *            the adjustmentQty to set
 	 */
-	public void setAdjustmentQty(ClientQuantity adjustmentQty) {
-		this.adjustmentQty = adjustmentQty;
+	public void setAdjustedQty(ClientQuantity adjustmentQty) {
+		this.adjustedtQty = adjustmentQty;
 	}
 
 	/**
@@ -104,16 +107,16 @@ public class ClientStockAdjustmentItem implements IAccounterCore {
 	/**
 	 * @return the qtyBeforeTransaction
 	 */
-	public ClientQuantity getQtyBeforeTransaction() {
-		return qtyBeforeTransaction;
+	public ClientQuantity getCurrentQty() {
+		return currentQty;
 	}
 
 	/**
 	 * @param qtyBeforeTransaction
 	 *            the qtyBeforeTransaction to set
 	 */
-	public void setQtyBeforeTransaction(ClientQuantity qtyBeforeTransaction) {
-		this.qtyBeforeTransaction = qtyBeforeTransaction;
+	public void setCurrentQty(ClientQuantity qtyBeforeTransaction) {
+		this.currentQty = qtyBeforeTransaction;
 	}
 
 	// /**
@@ -193,5 +196,19 @@ public class ClientStockAdjustmentItem implements IAccounterCore {
 		return id;
 	}
 
+	/**
+	 * @return the currentPrice
+	 */
+	public double getCurrentPrice() {
+		return currentPrice;
+	}
+
+	/**
+	 * @param currentPrice
+	 *            the currentPrice to set
+	 */
+	public void setCurrentPrice(double currentPrice) {
+		this.currentPrice = currentPrice;
+	}
 
 }

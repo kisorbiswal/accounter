@@ -79,8 +79,10 @@ public class Quantity implements Comparable<Quantity> {
 	 */
 	public Quantity subtract(Quantity quantity) {
 		// multiply the value with -1. or change sign.
-		quantity.setValue(-quantity.getValue());
-		return add(quantity);
+		Quantity qty = new Quantity();
+		qty.setValue(-quantity.getValue());
+		qty.setUnit(quantity.getUnit());
+		return add(qty);
 	}
 
 	/**
@@ -159,4 +161,20 @@ public class Quantity implements Comparable<Quantity> {
 		Quantity otherQty = other.convertToDefaultUnit();
 		return (int) (thisQty.getValue() - otherQty.getValue());
 	}
+
+	public boolean isEmpty() {
+		return value == 0;
+	}
+
+	public boolean isPositive() {
+		return value > 0;
+	}
+
+	public Quantity copy() {
+		Quantity qty = new Quantity();
+		qty.setValue(getValue());
+		qty.setUnit(getUnit());
+		return qty;
+	}
+
 }

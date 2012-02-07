@@ -130,6 +130,9 @@ public class Utility implements IsSerializable, Serializable {
 			// transactionName = messages.taxAdjustment();
 			transactionName = messages.taxAdjustment();
 			break;
+		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
+			transactionName = messages.stockAdjustment();
+			break;
 		}
 		return transactionName;
 	}

@@ -26,7 +26,6 @@ public class ClientTransactionItem implements IAccounterCore {
 	public static final int TYPE_COMMENT = 2;
 	// public static final int TYPE_SALESTAX = 3;
 	public static final int TYPE_ACCOUNT = 4;
-	public static final int TYPE_INVENTORY_ITEM = 3;
 
 	int version;
 

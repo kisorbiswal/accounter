@@ -99,7 +99,8 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 	}
 
 	private VendorCombo createVendorCombo1() {
-		vendorCombo1 = new VendorCombo(messages.payeeTo(Global.get().Vendor()));
+		vendorCombo1 = new VendorCombo(messages.payeeTo(Global.get().Vendor()),
+				false);
 		vendorCombo1.setHelpInformation(true);
 		vendorCombo1.setRequired(true);
 		vendorCombo1
@@ -158,11 +159,11 @@ public class VendorMergeDialog extends BaseDialog<ClientCustomer> implements
 			if (fromclientVendor.getID() == toClientVendor.getID()) {
 				result.addError(fromclientVendor,
 						messages.notMove(Global.get().vendors()));
+				return result;
 			}
 		}
 
-		result = form.validate();
-		result = form1.validate();
+		result.add(form1.validate());
 
 		return result;
 

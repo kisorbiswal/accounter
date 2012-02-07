@@ -1,13 +1,16 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
-import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -173,6 +176,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private boolean isBillable;
 
 	private boolean isAmountIncludeTAX;
+
+	private Set<InventoryPurchase> purchases = new HashSet<InventoryPurchase>();
+	private transient boolean isNewlyCreated;
 
 	public TransactionItem() {
 
@@ -371,9 +377,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					effectingAccount.onUpdate(session);
 				}
 
-				if (this.type == TYPE_ITEM
-						&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
-					this.updateWareHouse(true);
+				if (this.type == TYPE_ITEM) {
+					item.doReverseEffect(this, isCustomerTransaction());
 				}
 			}
 		}
@@ -413,6 +418,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			return true;
 
 		this.setOnSaveProccessed(true);
+		isNewlyCreated = true;
 
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				&& ((CashPurchase) this.transaction).expenseStatus != CashPurchase.EMPLOYEE_EXPENSE_STATUS_APPROVED)
@@ -487,13 +493,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					session.saveOrUpdate(effectingAccount);
 					effectingAccount.onUpdate(session);
 				}
-
 				if (this.isTaxable) {
 					transaction.setTAXRateCalculation(this);
-				}
-				if (this.type == TYPE_ITEM
-						&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
-					this.updateWareHouse(false);
 				}
 			}
 		}
@@ -532,26 +533,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 	}
 
-	public void updateWareHouse(boolean isVoidOrDelete) {
-		if (wareHouse == null) {
-			return;
-		}
-		Session session = HibernateUtil.getCurrentSession();
-		Unit selectedUnit = this.quantity.getUnit();
-		Measurement defaultMeasurement = this.getItem().getMeasurement();
-		Unit defaultUnit = defaultMeasurement.getDefaultUnit();
-		Double value = (this.quantity.getValue() * selectedUnit.getFactor())
-				/ defaultUnit.getFactor();
-		if (transaction.isDebitTransaction()) {
-			wareHouse.updateItemStatus(item, value, isVoidOrDelete);
-		} else {
-			wareHouse.updateItemStatus(item, value, !isVoidOrDelete);
-		}
-		wareHouse.onUpdate(session);
-		session.saveOrUpdate(wareHouse);
-		ChangeTracker.put(wareHouse);
-	}
-
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
@@ -583,9 +564,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (this.isTaxable) {
 				transaction.setTAXRateCalculation(this);
 			}
-			if (this.type == TYPE_ITEM
-					&& this.item.getType() == Item.TYPE_INVENTORY_PART) {
-				this.updateWareHouse(true);
+			if (this.type == TYPE_ITEM && item != null) {
+				item.doReverseEffect(this, isCustomerTransaction());
 			}
 		}
 		// else if (this.type == TYPE_SALESTAX) {
@@ -639,8 +619,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		case TYPE_ITEM:
 
 			if (this.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-				return this.item.getExpenseAccount();
-			} else {
+				if (item.getType() != Item.TYPE_INVENTORY_PART) {
+					return this.item.getExpenseAccount();
+				}
+			} else if (!getTransaction().isStockAdjustment()) {
 				return this.item.getIncomeAccount();
 			}
 		}
@@ -878,5 +860,117 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	public void setAmountIncludeTAX(boolean isAmountIncludeTAX) {
 		this.isAmountIncludeTAX = isAmountIncludeTAX;
+	}
+
+	/**
+	 * @return the purchases
+	 */
+	public Set<InventoryPurchase> getPurchases() {
+		return purchases;
+	}
+
+	/**
+	 * @param purchases
+	 *            the purchases to set
+	 */
+	public void setPurchases(Set<InventoryPurchase> purchases) {
+		this.purchases = purchases;
+	}
+
+	/**
+	 * This Method will be called when TransactionItem is InventoryItem
+	 * 
+	 * @param newPurchases
+	 */
+	public void modifyPurchases(Map<Quantity, Double> newPurchases,
+			boolean useAverage, Double averageCost) {
+		Session session = HibernateUtil.getCurrentSession();
+		double amountToReverseUpdate = 0.00D;
+		double amountToUpdate = 0.00D;
+		if (newPurchases == null) {
+			// we are deleting this transaction item
+			amountToReverseUpdate += clearPurchases();
+		} else {
+			if (!isNewlyCreated) {
+				// remove all old amount
+				amountToReverseUpdate = clearPurchases();
+			}
+			amountToUpdate = createPurchases(newPurchases, useAverage,
+					averageCost);
+		}
+		// did some thing changed
+		if (!DecimalUtil.isEquals(amountToUpdate, amountToReverseUpdate)) {
+
+			Account assetsAccount = getItem().getAssestsAccount();
+			Account expenseAccount = null;
+			if (getTransaction().isStockAdjustment()) {
+				expenseAccount = ((StockAdjustment) getTransaction())
+						.getAdjustmentAccount();
+			} else {
+				expenseAccount = getItem().getExpenseAccount();
+			}
+			assetsAccount.updateCurrentBalance(getTransaction(),
+					-amountToReverseUpdate, 1);
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					amountToReverseUpdate, 1);
+			assetsAccount.updateCurrentBalance(getTransaction(),
+					amountToUpdate, 1);
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					-amountToUpdate, 1);
+			session.save(assetsAccount);
+			session.save(expenseAccount);
+		}
+	}
+
+	private double createPurchases(Map<Quantity, Double> newPurchases,
+			boolean useAverage, Double averageCost) {
+		Quantity mapped = getQuantity().copy();
+		double amountToUpdate = 0;
+		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
+			Quantity qty = entry.getKey();
+			double cost = useAverage ? averageCost : entry.getValue();
+			mapped = mapped.subtract(qty);
+			amountToUpdate += qty.getValue() * cost;
+			getPurchases().add(
+					new InventoryPurchase(item, qty, entry.getValue()));
+		}
+
+		if (!mapped.isEmpty()) {
+			double cost = (useAverage && averageCost != null) ? averageCost
+					: getUnitPrice();
+			// finally what ever is unmapped add the that using unitprice
+			amountToUpdate += mapped.getValue() * cost;
+			getPurchases().add(new InventoryPurchase(item, mapped, cost));
+		}
+		return amountToUpdate;
+	}
+
+	private double clearPurchases() {
+		Quantity mapped = getQuantity().copy();
+		double amountToReverseUpdate = 0;
+		for (InventoryPurchase purchase : getPurchases()) {
+			Quantity quantity = purchase.getQuantity();
+			mapped = mapped.subtract(quantity);
+			amountToReverseUpdate += quantity.getValue() * purchase.getCost();
+		}
+		getPurchases().clear();
+		return amountToReverseUpdate;
+	}
+
+	public void doInventoryEffect() {
+		if (getType() != TYPE_ITEM) {
+			return;
+		}
+
+		getItem().updateBalance(this, isCustomerTransaction());
+
+	}
+
+	private boolean isCustomerTransaction() {
+		boolean isSales = getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER;
+		if (transaction.isStockAdjustment()) {
+			isSales = getQuantity().getValue() < 0;
+		}
+		return isSales;
 	}
 }

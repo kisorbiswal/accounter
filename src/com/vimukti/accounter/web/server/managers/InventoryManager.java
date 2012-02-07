@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.server.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -14,9 +16,9 @@ import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
-import com.vimukti.accounter.core.StockAdjustmentItem;
 import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.core.Transaction;
+import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -32,6 +34,9 @@ import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
+import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -425,12 +430,12 @@ public class InventoryManager extends Manager {
 				.setLong("companyId", companyId).list();
 		ArrayList<StockAdjustmentList> result = new ArrayList<StockAdjustmentList>();
 		for (StockAdjustment record : list) {
-			for (StockAdjustmentItem item : record.getStockAdjustmentItems()) {
+			for (TransactionItem item : record.getTransactionItems()) {
 				StockAdjustmentList s = new StockAdjustmentList();
 				s.setWareHouse(record.getWareHouse().getName());
 				s.setItem(item.getItem().getName());
 				s.setQuantity(new ClientConvertUtil().toClientObject(
-						item.getAdjustmentQty(), ClientQuantity.class));
+						item.getQuantity(), ClientQuantity.class));
 				s.setStockAdjustment(record.getID());
 				result.add(s);
 			}
@@ -451,6 +456,122 @@ public class InventoryManager extends Manager {
 			ClientItemStatus clientRecord = new ClientConvertUtil()
 					.toClientObject(record, ClientItemStatus.class);
 			result.add(clientRecord);
+		}
+		return result;
+	}
+
+	public Map<Long, Double> getAssetValuesOfAllInventory(Long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getAssetValueOfAllInventory")
+				.setParameter("companyId", companyId);
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		Map<Long, Double> result = new HashMap<Long, Double>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			result.put((Long) next[0], (Double) next[1]);
+		}
+		return result;
+	}
+
+	public ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
+			Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getInventoryValutionSummary")
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", start.getDate())
+				.setParameter("toDate", end.getDate());
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		ArrayList<InventoryValutionSummary> result = new ArrayList<InventoryValutionSummary>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			InventoryValutionSummary detail = new InventoryValutionSummary();
+			detail.setItemName((String) next[0]);
+			detail.setItemDescription((String) next[1]);
+			detail.setOnHand(((Long) next[2]));
+			detail.setAvgCost(((Double) next[3]));
+			detail.setSalesPrice(((Double) next[4]));
+			detail.setItemId((Long) next[5]);
+			result.add(detail);
+		}
+		return result;
+	}
+
+	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByVendor(
+			long id, ClientFinanceDate start, ClientFinanceDate end) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getInventoryStockStatusByVendor")
+				.setParameter("companyId", id)
+				.setParameter("fromDate", start.getDate())
+				.setParameter("toDate", end.getDate());
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		ArrayList<InventoryStockStatusDetail> result = new ArrayList<InventoryStockStatusDetail>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			InventoryStockStatusDetail detail = new InventoryStockStatusDetail();
+			detail.setItemName((String) next[0]);
+			detail.setItemDesc((String) next[1]);
+			detail.setPreferVendor(((Long) next[2]));
+			detail.setOnHand(((Long) next[3]));
+			detail.setItemId((Long) next[4]);
+			result.add(detail);
+		}
+		return result;
+
+	}
+
+	public ArrayList<InventoryValutionDetail> getInventoryValutionDetail(
+			Long companyId, ClientFinanceDate start, ClientFinanceDate end,
+			long itemId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getInventoryValutionDetails")
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", start.getDate())
+				.setParameter("toDate", end.getDate())
+				.setParameter("itemID", itemId);
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		ArrayList<InventoryValutionDetail> result = new ArrayList<InventoryValutionDetail>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			InventoryValutionDetail detail = new InventoryValutionDetail();
+			detail.setTransactionId(((Long) next[0]));
+			detail.setTransactionDate(((Long) next[1]));
+			detail.setTransType((Integer) next[2]);
+			detail.setTransactionNo(((Long) next[3]));
+			detail.setQuantity(((Long) next[4]));
+			detail.setCost(((Double) next[5]));
+			detail.setOnHand(((Long) next[6]));
+			detail.setItemName((String) next[7]);
+			detail.setItemId((Long) next[8]);
+			detail.setPayeeName((String) next[9]);
+			detail.setPayeeId((Long) next[10]);
+			result.add(detail);
+		}
+		return result;
+	}
+
+	public ArrayList<InventoryStockStatusDetail> getInventoryStockStatusByItem(
+			Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = session.getNamedQuery("getInventoryStockStatusByItem")
+				.setParameter("companyId", companyId)
+				.setParameter("fromDate", start.getDate())
+				.setParameter("toDate", end.getDate());
+		List<Object[]> list = query.list();
+		Iterator<Object[]> iterator = list.iterator();
+		ArrayList<InventoryStockStatusDetail> result = new ArrayList<InventoryStockStatusDetail>();
+		while (iterator.hasNext()) {
+			Object[] next = iterator.next();
+			InventoryStockStatusDetail detail = new InventoryStockStatusDetail();
+			detail.setItemName((String) next[0]);
+			detail.setItemDesc((String) next[1]);
+			detail.setPreferVendor(((Long) next[2]));
+			detail.setOnHand(((Long) next[3]));
+			detail.setItemId((Long) next[4]);
+			result.add(detail);
 		}
 		return result;
 	}

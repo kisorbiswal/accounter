@@ -394,7 +394,8 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	@Override
 	protected void callRPC() {
-		vendHistoryGrid.clear();
+		vendHistoryGrid.removeAllRecords();
+		records = new ArrayList<TransactionHistory>();
 		if (selectedVendor != null) {
 			Accounter.createReportService().getVendorTransactionsList(
 					selectedVendor.getID(), getTransactionType(),
@@ -411,7 +412,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 						public void onSuccess(
 								ArrayList<TransactionHistory> result) {
 							records = result;
-							vendHistoryGrid.clear();
+							vendHistoryGrid.removeAllRecords();
 							if (records != null) {
 								vendHistoryGrid.addRecords(records);
 							}
@@ -423,7 +424,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 					});
 
 		} else {
-			vendHistoryGrid.clear();
+			vendHistoryGrid.removeAllRecords();
 			vendHistoryGrid.addEmptyMessage(messages.thereAreNo(messages
 					.transactions()));
 		}

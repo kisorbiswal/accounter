@@ -12,7 +12,7 @@ import com.vimukti.accounter.mobile.requirements.WarehouseRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
-import com.vimukti.accounter.web.client.core.ClientStockAdjustmentItem;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -72,8 +72,8 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 		Warehouse warehouse = (Warehouse) CommandUtils.getServerObjectById(
 				stockAdjustment.getWareHouse(), AccounterCoreType.WAREHOUSE);
 		get(WAREHOUSE).setValue(warehouse);
-		List<ClientStockAdjustmentItem> stockAdjustmentItems = stockAdjustment
-				.getStockAdjustmentItems();
+		List<ClientTransactionItem> stockAdjustmentItems = stockAdjustment
+				.getTransactionItems();
 		get(STOCK_ADJUSTMENT).setValue(stockAdjustmentItems);
 	}
 
@@ -117,7 +117,8 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 
 			@Override
 			protected Warehouse getWareHouse() {
-				return CreateStockAdjustmentCommand.this.get(WAREHOUSE).getValue();
+				return CreateStockAdjustmentCommand.this.get(WAREHOUSE)
+						.getValue();
 			}
 
 		});
@@ -126,9 +127,8 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Result onCompleteProcess(Context context) {
-		stockAdjustment
-				.setStockAdjustmentItems((List<ClientStockAdjustmentItem>) get(
-						STOCK_ADJUSTMENT).getValue());
+		stockAdjustment.setTransactionItems((List<ClientTransactionItem>) get(
+				STOCK_ADJUSTMENT).getValue());
 		stockAdjustment.setWareHouse(((Warehouse) get(WAREHOUSE).getValue())
 				.getID());
 		create(stockAdjustment, context);

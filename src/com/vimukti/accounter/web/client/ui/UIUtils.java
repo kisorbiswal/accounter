@@ -39,6 +39,7 @@ import com.vimukti.accounter.web.client.core.ClientFax;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPhone;
+import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -1127,6 +1128,8 @@ public class UIUtils {
 			return new ClientCashPurchase();
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 			return new ClientCreditCardCharge();
+		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
+			return new ClientStockAdjustment();
 		}
 
 		return null;

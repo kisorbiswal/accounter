@@ -202,6 +202,10 @@ public class CloneUtil2 extends ObjectConvertUtil {
 					dstField.set(dst, srcField.get(src));
 				} else if (isString(dstField.getType())) {
 					dstField.set(dst, srcField.get(src));
+				} else if (isQuantity(dstfieldType)) {
+
+					dstField.set(dst, srcField.get(src));
+
 				} else if (clazz.isInstance(srcField.get(src))) {
 					// Check if we have this object in client side
 					if (clientFieldType.isPrimitive()) {

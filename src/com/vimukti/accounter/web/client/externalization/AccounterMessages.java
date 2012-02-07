@@ -221,7 +221,7 @@ public interface AccounterMessages extends Messages {
 
 	public String adjustmentAccount();
 
-	public String adjustmentQty();
+	public String adjustedQty();
 
 	public String adjustmentreason();
 
@@ -5380,6 +5380,25 @@ public interface AccounterMessages extends Messages {
 
 	public String draftTransaction(String transactionName);
 
+	public String currentQty();
+
+	public String currentValue();
+
+	public String adjustedValue();
+
+	public String totalAdjustmentValue();
+
+	public String inventoryItemAdjustment();
+
+	public String avarageCost();
+
+	public String reorderPoint();
+
+	public String onHandQty();
+
+	public String donnotHaveSufficientInventory(double sellingItems,
+			double itemsHave);
+
 	public String salesOrPurchaseLiabilityAcc();
 
 	public String saleNumber();
@@ -5480,6 +5499,10 @@ public interface AccounterMessages extends Messages {
 
 	public String maximumNumberYouCanBuildFrom();
 
+	public String salesOrPurchaseRate();
+
+	public String quantityDiff();
+
 	public String dntHaveEnoughComponents(String number);
 
 	public String challanDetails();
@@ -5491,6 +5514,8 @@ public interface AccounterMessages extends Messages {
 	public String responsePersonDetails();
 
 	public String deducatorMaster();
+
+	public String cashPurchasePaidSoYouCantVoid();
 
 	public String YES();
 
@@ -5539,4 +5564,16 @@ public interface AccounterMessages extends Messages {
 	public String taxAgencyPayment();
 
 	public String vatAgencyPayment();
+	
+	public String onHand();
+
+	public String avgCost();
+
+	public String inventoryValutionSummary();
+
+	public String percentOfToTAsset();
+
+	public String retailCost();
+
+	public String perOfTotRetail();
 }

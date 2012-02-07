@@ -145,7 +145,7 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 
 		this.addColumn(new DescriptionEditColumn());
 
-		this.addColumn(new NewQuantityColumn());
+		this.addColumn(new NewQuantityColumn(true));
 
 		this.addColumn(new TransactionUnitPriceColumn(currencyProvider));
 
