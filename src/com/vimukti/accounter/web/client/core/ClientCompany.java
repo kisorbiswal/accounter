@@ -3199,4 +3199,8 @@ public class ClientCompany implements IAccounterCore {
 			ClientTDSResponsiblePerson tdsResposiblePerson) {
 		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
+
+	public boolean hasPermission(String featureName) {
+		return false;
+	}
 }
