@@ -57,8 +57,12 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			Client client = getClient(emailId);
 			managementData.setUserMailds(getUsersMailIds(client));
 			managementData.setAdminMailId(emailId);
-			managementData.setSubscriptionDate(String.valueOf(client
-					.getClientSubscription().getCreatedDate()));
+			if (client.getClientSubscription().getCreatedDate() != null) {
+				managementData.setSubscriptionDate(String.valueOf(client
+						.getClientSubscription().getCreatedDate()));
+			} else {
+				managementData.setSubscriptionDate(" ");
+			}
 			managementData.setSubscriptionType(client.getClientSubscription()
 					.getSubscription().getType());
 			req.setAttribute("managementData", managementData);

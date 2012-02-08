@@ -17,21 +17,23 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script src="/jscripts/jquery-1.7.min.js" type="text/javascript"></script>
 	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
+	<link type="text/css" href="../css/ss.css" rel="stylesheet" />
     <%
   		SubscriptionManagementData managementData=(SubscriptionManagementData)request.getAttribute("managementData");
   	%>
   	<title>Subscription Management</title>
   </head>
   <body>
-	<form id="subscription_complition_form" method="post">
-	<table>
+  <div id="subscriptionContainer">
+	<form id="subscription_complition_form" method="post"  class="form-box">
+	<table cellspacing="10">
 	<tr>
-	<td> Admin Email </td>
+	<td> Admin Email : </td>
 	<td>${managementData.adminMailId}</td>
 	</tr>
 	<tr>
-	<td> Subscription Type </td>
-	<td><select name="subscriptionType" id="#subScriptionType">
+	<td> Subscription Type : </td>
+	<td><select name="subscriptionType" id="subScriptionType">
     <option value="One User Monthly Subscription">One user : $5.00USD - monthly</option>
     <option value="One User Yearly Subscription">One user : $50.00USD - yearly</option>
     <option value="Two Users Monthly Subscription">2 users : $10.00USD - monthly</option>
@@ -43,15 +45,15 @@
 	</select></td>
 	</tr>
 	<tr>
-	<td> Subscription Date </td>
+	<td> Subscription Date : </td>
 	<td> ${managementData.subscriptionDate}</td>
 	</tr>
 	<tr>
-	<td> Users Emails </td>
+	<td> Users Emails : </td>
 	<td> <textarea id="mailIdsTextArea" name="userMailds" onsubmit="";></textarea> </td>
 	</tr>
 	</table>
-		<div class="subscribtionManagementButton">
+		<div class="subscribtionManagementButton" align="center">
    			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Change SubScription"/>
 		</div>
 		<script type="text/javascript">
@@ -77,5 +79,6 @@
 
 		</script>
 	 </form>  
+	 </div>
   </body>
 </html> 
