@@ -1015,7 +1015,7 @@ iframe,.address div {
 	font-size: 1.4em;
 	padding: 4px 0 0;
 	color: #454343;
-	text-align: left;
+	text-align: center;
 }
 
 .companies_list_down {
@@ -2589,7 +2589,7 @@ input.date-field-textbox {
 
 .companyName-parent {
 	float: left;
-	width: 65%;
+	width: 85%;
 }
 
 .companies_title {

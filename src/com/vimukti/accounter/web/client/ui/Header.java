@@ -151,7 +151,8 @@ public class Header extends FlowPanel {
 		// panel1.setWidth("25%");
 		panel1.setWidth("100%");
 		panel1.add(logoImg);
-		SimplePanel companiesLinkPanel = new SimplePanel();
+		final SimplePanel companiesPanel = new SimplePanel();
+		final SimplePanel companiesLinkPanel = new SimplePanel();
 
 		panel2 = new HorizontalPanel();
 		Accounter.createHomeService().getClientCompaniesCount(
@@ -168,9 +169,12 @@ public class Header extends FlowPanel {
 									"lang",
 									((CldrImpl) GWT.create(CldrImpl.class))
 											.isRTL() ? "ar" : "en");
-							panel2.add(companiesLink);
+							companiesPanel.add(companiesLink);
 							companiesLink.getElement().getParentElement()
 									.addClassName("companies_link_parent");
+						} else {
+							companyNameLabel.getElement().getParentElement()
+									.setAttribute("width", "100%");
 						}
 					}
 
@@ -180,7 +184,7 @@ public class Header extends FlowPanel {
 
 					}
 				});
-
+		panel2.add(companiesPanel);
 		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);
 		companiesLinkPanel.getElement().getParentElement()
@@ -217,8 +221,8 @@ public class Header extends FlowPanel {
 		headerLinks.add(panel3);
 		// this.add(headerLinks);
 		hpanel.add(headerLinks);
-		hpanel.setCellWidth(panel1, "30%");
-		hpanel.setCellWidth(panel2, "40%");
+		hpanel.setCellWidth(panel1, "20%");
+		hpanel.setCellWidth(panel2, "50%");
 		hpanel.setCellWidth(headerLinks, "30%");
 		this.add(hpanel);
 
