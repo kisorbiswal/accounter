@@ -64,7 +64,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-        <c:if test=${canCreate}>
+        <c:if test="<%= canCreate%>">
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	</c:if>
       	<ul><li>
