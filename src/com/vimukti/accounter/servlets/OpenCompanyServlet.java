@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -154,22 +156,7 @@ public class OpenCompanyServlet extends BaseServlet {
 				HttpSession httpSession = request.getSession();
 				Boolean isSupportedUser = (Boolean) httpSession
 						.getAttribute(IS_SUPPORTED_USER);
-				User user = null;
-				if (isSupportedUser) {
-					Company company = getCompany(request);
-					Set<User> users = company.getUsers();
-					for (User u : users) {
-						if (u.isAdmin()) {
-							user = u;
-							httpSession.setAttribute(EMAIL_ID, user.getClient()
-									.getEmailId());
-							httpSession.setAttribute(USER_ID, user.getID());
-							break;
-						}
-					}
-				} else {
-					user = getUser(emailID, serverCompanyID);
-				}
+				User user = getUser(emailID, serverCompanyID);
 				if (user == null) {
 					response.sendRedirect(COMPANIES_URL);
 					return;
@@ -195,6 +182,11 @@ public class OpenCompanyServlet extends BaseServlet {
 					}
 				}
 				Company company = getCompany(request);
+				if (company.isLocked()) {
+					request.getSession().setAttribute(COMPANY_ID, null);
+					response.sendRedirect(COMPANIES_URL + "?message=locked");
+					return;
+				}
 				if (!client.getClientSubscription().getSubscription()
 						.isPaidUser()) {
 					request.setAttribute("goPremiumId", URLEncoder.encode(

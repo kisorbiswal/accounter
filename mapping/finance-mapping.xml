@@ -100,8 +100,7 @@
 				column="LOCATION_ADDRESS_ZIP"></property>
 			<property name="countryOrRegion" type="encryptedstring"
 				column="LOCATION_ADDRESS_COUNTRY"></property>
-			<property name="isSelected"  
-				column="LOCATION_ADDRESS_IS_SELECTED"></property>
+			<property name="isSelected" column="LOCATION_ADDRESS_IS_SELECTED"></property>
 		</component>
 	</class>
 	<!-- Accounter Class Tracking -->
@@ -213,6 +212,7 @@
 			column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
 		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
+		<property name="isLocked" column="IS_LOCKED"></property>
 
 		<property name="ein" column="EIN"></property>
 		<property name="firstMonthOfFiscalYear" column="FIRSTMONTH_OF_FISCALYEAR"></property>
@@ -431,8 +431,8 @@
 				column="REGISTRED_STATE" not-null="true" length="100"></property>
 			<property name="zipOrPostalCode" type="encryptedstring"
 				column="REGISTRED_ZIP" not-null="true" length="100"></property>
-			<property name="countryOrRegion"
-				column="REGISTRED_COUNTRY" not-null="true" length="100"></property>
+			<property name="countryOrRegion" column="REGISTRED_COUNTRY"
+				not-null="true" length="100"></property>
 			<property name="isSelected" column="REGISTRED_IS_SELECTED"
 				not-null="true"></property>
 		</component>
@@ -786,7 +786,7 @@
 			<many-to-one name="unit" column="ON_HAND_QTY_UNIT" class="Unit"
 				cascade="save-update" />
 		</component>
-		
+
 		<property name="itemTotalValue" column="ITEM_TOTAL_VALUE"></property>
 		<set name="itemStatuses" inverse="true" cascade="delete">
 			<key column="ITEM_ID" />
@@ -801,7 +801,7 @@
 			<property name="isPurhasedThisItem" column="IS_PURHASED_THIS_ITEM"></property>
 		</joined-subclass>
 	</class>
-	
+
 
 	<class name="InventoryAssemblyItem" table="INVENTORY_ASSEMBLY_ITEM">
 		<id name="id" column="ID">
@@ -2254,7 +2254,7 @@
 			<one-to-many class="com.vimukti.accounter.core.StatementRecord" />
 		</list>
 	</class>
-	
+
 	<class name="InventoryPurchase" table="INVENTORY_PURCHASE">
 		<id name="id" column="ID">
 			<generator class="identity" />

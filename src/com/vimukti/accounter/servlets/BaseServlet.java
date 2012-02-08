@@ -106,6 +106,11 @@ public class BaseServlet extends HttpServlet {
 					EMAIL_ID);
 			Long companyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
+			if (islockedCompany(companyID)) {
+				response.sendError(HttpServletResponse.SC_FORBIDDEN,
+						"Your Company has been locked.");
+				return;
+			}
 			byte[] d2 = getD2(request);
 			if (emailId != null && d2 != null && companyID != null) {
 				User user = getUser(emailId, companyID);
@@ -131,6 +136,16 @@ public class BaseServlet extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Could Not Complete the Request!");
 		}
+	}
+
+	private boolean islockedCompany(Long companyID) {
+		if (companyID == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Object res = session.getNamedQuery("isCompanyLocked")
+				.setLong("companyId", companyID).uniqueResult();
+		return (Boolean) res;
 	}
 
 	public byte[] getD2(HttpServletRequest request)

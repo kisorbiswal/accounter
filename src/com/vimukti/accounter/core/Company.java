@@ -93,6 +93,8 @@ public class Company implements IAccounterServerCore {
 
 	int industry;
 
+	boolean isLocked;
+
 	private Set<Location> locations = new HashSet<Location>();
 	/**
 	 * Each company have it's own preferences. This will hold all the
@@ -1552,5 +1554,13 @@ public class Company implements IAccounterServerCore {
 
 	public void setSecretKey(byte[] secretKey) {
 		this.secretKey = secretKey;
+	}
+
+	public boolean isLocked() {
+		return isLocked;
+	}
+
+	public void setLocked(boolean isLocked) {
+		this.isLocked = isLocked;
 	}
 }

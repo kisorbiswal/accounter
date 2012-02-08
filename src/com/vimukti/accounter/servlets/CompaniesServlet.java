@@ -115,6 +115,10 @@ public class CompaniesServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String parameter = req.getParameter("message");
+		if (parameter != null && parameter.equals("locked")) {
+			req.setAttribute("message", "Your Company has been locked.");
+		}
 		dispatch(req, resp, companiedListView);
 	}
 

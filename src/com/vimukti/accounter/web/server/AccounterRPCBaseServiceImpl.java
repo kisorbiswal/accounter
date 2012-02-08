@@ -124,8 +124,11 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 				e.printStackTrace();
 			}
 		}
+		if (islockedCompany(serverCompanyID)) {
+			return false;
+		}
 		Company company = (Company) session.get(Company.class, serverCompanyID);
-		if (company == null) {
+		if (company == null || company.isLocked()) {
 			return false;
 		}
 		user = company.getUserByUserEmail(userEmail);
@@ -138,6 +141,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		CompanyPreferenceThreadLocal.set(preferences);
 
 		return true;
+	}
+
+	private boolean islockedCompany(Long companyID) {
+		if (companyID == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Object res = session.getNamedQuery("isCompanyLocked")
+				.setLong("companyId", companyID).uniqueResult();
+		return (Boolean) res;
 	}
 
 	public byte[] getD2(HttpServletRequest request)

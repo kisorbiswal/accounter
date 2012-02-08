@@ -300,7 +300,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 			}
 			return false;
 		}
-
+		if (islockedCompany(serverCompanyID)) {
+			return false;
+		}
 		String userEmail = (String) request.getSession().getAttribute(
 				BaseServlet.EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
@@ -313,7 +315,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		}
 
 		Company company = (Company) session.get(Company.class, serverCompanyID);
-		if (company == null) {
+		if (company == null || company.isLocked()) {
 			return false;
 		}
 		user = company.getUserByUserEmail(userEmail);
@@ -322,6 +324,16 @@ public class AccounterCompanyInitializationServiceImpl extends
 		}
 		AccounterThreadLocal.set(user);
 		return true;
+	}
+
+	private boolean islockedCompany(Long companyID) {
+		if (companyID == null) {
+			return false;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		Object res = session.getNamedQuery("isCompanyLocked")
+				.setLong("companyId", companyID).uniqueResult();
+		return (Boolean) res;
 	}
 
 	public byte[] getD2(HttpServletRequest request)

@@ -42,7 +42,6 @@
 		activation.id=:id
 	</query>
 
-
 	<query name="get.companiesList.by.emailId.and.password">
 		<query-param name="emailId" type="String" />
 		<query-param name="password" type="String" />
@@ -160,10 +159,18 @@
 		AND
 		T.COMPANY_ID=:companyId
 	</sql-query>
+
+	<sql-query name="isCompanyLocked">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="IS_LOCKED" type="boolean" />
+		SELECT IS_LOCKED FROM COMPANY WHERE ID=:companyId
+	</sql-query>
+
 	<sql-query name="getCompaniesByClientId">
 		<query-param name="clientId" type="long" />
 		SELECT C.COMPANY_ID FROM USERS C WHERE C.CLIENT_ID=:clientId
 	</sql-query>
+
 	<sql-query name="getCompanySecret">
 		<query-param name="companyId" type="long" />
 		<return-scalar column="SECRET" type="binary" />
