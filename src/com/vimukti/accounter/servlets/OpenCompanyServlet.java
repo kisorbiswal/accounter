@@ -35,6 +35,7 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -196,8 +197,13 @@ public class OpenCompanyServlet extends BaseServlet {
 					}
 				}
 				Company company = getCompany(request);
-				request.setAttribute("goPremiumId", URLEncoder.encode(
-						EU.encryptAccounter(emailID), "UTF-8"));
+				int subscriptionType = client.getClientSubscription()
+						.getSubscription().getType();
+				if (subscriptionType == Subscription.BEFORE_PAID_FETURE
+						|| subscriptionType == Subscription.FREE_CLIENT) {
+					request.setAttribute("goPremiumId", URLEncoder.encode(
+							EU.encryptAccounter(emailID), "UTF-8"));
+				}
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				if (!isSupportedUser) {
