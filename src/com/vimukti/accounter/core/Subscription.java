@@ -3,7 +3,9 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Subscription {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Subscription implements IsSerializable {
 	public static final int FREE_CLIENT = 0;
 	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 1;
 	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 2;
@@ -18,6 +20,9 @@ public class Subscription {
 	private long id;
 	private Set<String> features = new HashSet<String>();
 	private int type;
+
+	public Subscription() {
+	}
 
 	public long getId() {
 		return id;

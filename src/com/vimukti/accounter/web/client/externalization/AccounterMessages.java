@@ -5560,11 +5560,11 @@ public interface AccounterMessages extends Messages {
 	public String government();
 
 	public String particularOfDeducator();
-	
+
 	public String taxAgencyPayment();
 
 	public String vatAgencyPayment();
-	
+
 	public String onHand();
 
 	public String avgCost();
@@ -5576,4 +5576,6 @@ public interface AccounterMessages extends Messages {
 	public String retailCost();
 
 	public String perOfTotRetail();
+
+	public String freeUserText();
 }

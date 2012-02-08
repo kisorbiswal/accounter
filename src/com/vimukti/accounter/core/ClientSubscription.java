@@ -3,12 +3,18 @@ package com.vimukti.accounter.core;
 import java.util.Date;
 import java.util.Set;
 
-public class ClientSubscription {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class ClientSubscription implements IsSerializable {
 	private long id;
 	private Subscription subscription;
 	private Date createdDate;
 	private Date lastModified;
 	private Set<String> members;
+
+	public ClientSubscription() {
+
+	}
 
 	public long getId() {
 		return id;

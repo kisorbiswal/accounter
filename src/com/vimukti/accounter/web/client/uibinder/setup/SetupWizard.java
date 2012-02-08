@@ -18,10 +18,12 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -57,7 +59,32 @@ public class SetupWizard extends VerticalPanel {
 	private Map<Integer, AccountsTemplate> accountsTemplates = new HashMap<Integer, AccountsTemplate>();
 	private String password;
 
-	public SetupWizard(AsyncCallback<Boolean> callback) {
+	public SetupWizard(final AsyncCallback<Boolean> callback) {
+		Accounter.createCompanyInitializationService().getSubscription(
+				new AsyncCallback<Subscription>() {
+
+					@Override
+					public void onSuccess(Subscription result) {
+						if (result != null) {
+							if (result.getType() == ClientCompany.BEFORE_PAID_FETURE
+									|| result.getType() == ClientCompany.FREE_CLIENT) {
+								FreeUserPage freeUserPage = new FreeUserPage();
+								add(freeUserPage);
+							} else {
+								initSetup(callback);
+							}
+						}
+
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+				});
+	}
+
+	private void initSetup(AsyncCallback<Boolean> callback) {
 		preferences = new ClientCompanyPreferences();
 		Accounter.createCompanyInitializationService().getCountry(
 				new AsyncCallback<String>() {

@@ -370,4 +370,10 @@ public class AccounterCompanyInitializationServiceImpl extends
 				.setParameter("companyName", companyName).uniqueResult();
 		return clientId != null;
 	}
+
+	public Subscription getSubscription() {
+		String email = (String) getThreadLocalRequest().getSession()
+				.getAttribute(BaseServlet.EMAIL_ID);
+		return getClient(email).getClientSubscription().getSubscription();
+	}
 }
