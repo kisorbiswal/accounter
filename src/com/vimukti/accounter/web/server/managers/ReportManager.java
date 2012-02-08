@@ -1747,7 +1747,7 @@ public class ReportManager extends Manager {
 				name = object[6].toString();
 			}
 			expense.setName(name);
-			expense.setTotal(object[6] != null ? (Double) object[7] : 0);
+			expense.setTotal(object[7] != null ? (Double) object[7] : 0);
 			queryResult.add(expense);
 
 		}
