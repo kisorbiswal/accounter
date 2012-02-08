@@ -34,7 +34,8 @@ public class ResetPasswordServlet extends BaseServlet {
 			throws ServletException, IOException {
 
 		checkSession(req, resp);
-
+		String parameter = req.getParameter("type");
+		req.setAttribute("type", parameter);
 		dispatch(req, resp, view);
 	}
 

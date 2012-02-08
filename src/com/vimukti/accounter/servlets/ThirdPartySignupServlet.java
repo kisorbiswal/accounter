@@ -54,7 +54,7 @@ public class ThirdPartySignupServlet extends BaseServlet {
 						if (subType != Subscription.BEFORE_PAID_FETURE
 								|| subType == Subscription.FREE_CLIENT) {
 							if (client.getPassword() == null) {
-								response.sendRedirect("/main/resetpassword");
+								response.sendRedirect("/main/resetpassword?type=openid");
 							} else {
 								response.sendRedirect("/main/openidpassword");
 							}
