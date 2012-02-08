@@ -20,7 +20,7 @@ public class DeleteAccountServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String DELETE_ACCOUNT_CONFORM = "/WEB-INF/deleteAccount.jsp";
+	private static final String DELETE_ACCOUNT_CONFORM = "/WEB-INF/encryptionsettings.jsp";
 	protected static final String CANCEL_FORM = "/main/cancelform";
 
 	@Override

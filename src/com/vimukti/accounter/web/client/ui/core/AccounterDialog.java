@@ -24,6 +24,7 @@ public class AccounterDialog extends CustomDialog {
 	private boolean isError;
 	private Button okButton;
 	private Button cancelButton;
+	private HTML goPremiumLink;
 
 	public AccounterDialog(String mesg, AccounterType type) {
 
@@ -105,6 +106,37 @@ public class AccounterDialog extends CustomDialog {
 				}
 
 			});
+
+		} else if (isError = this.type.equals(AccounterType.SUBSCRIPTION)) {
+
+			// set imagePath for error type
+
+			if (isError) {
+				imageUrl = Accounter.getFinanceImages().errorIcon();
+				setText(messages.ERROR());
+
+			} else {
+
+				imageUrl = Accounter.getFinanceImages().infoIcon();
+				setText(messages.INFORMATION());
+			}
+
+			okButton = new Button(Accounter.getMessages().cancel());
+			okButton.setWidth("80px");
+			okButton.setEnabled(true);
+			okButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					okClicked();
+				}
+
+			});
+			goPremiumLink = new HTML(
+					"<a href='http://www.google.com' target='_blank'>go premium </a>");
+
+			buttonLayout.add(goPremiumLink);
+			buttonLayout.add(okButton);
 
 		} else {
 

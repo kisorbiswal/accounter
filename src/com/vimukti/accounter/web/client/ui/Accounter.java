@@ -199,8 +199,8 @@ public class Accounter implements EntryPoint {
 	}
 
 	private native static void reloadMacMenu() /*-{
-		$wnd.MacReload();
-	}-*/;
+												$wnd.MacReload();
+												}-*/;
 
 	public static MainFinanceWindow getMainFinanceWindow() {
 		return mainWindow;
@@ -372,19 +372,19 @@ public class Accounter implements EntryPoint {
 	private static CustomDialog expireDialog;
 
 	public enum AccounterType {
-		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION;
+		ERROR, WARNING, WARNINGWITHCANCEL, INFORMATION, SUBSCRIPTION;
 	}
 
 	private static native void removeLoadingImage() /*-{
-		var parent = $wnd.document.getElementById('loadingWrapper');
-		var footer = $wnd.document.getElementById('mainFooter');
-		//		var feedbackimg = $wnd.document.getElementById('contact');
-		//		feedbackimg.style.visibility = 'visible';
-		//var header = $wnd.document.getElementById('mainHeader');
-		parent.style.visibility = 'hidden';
-		footer.style.visibility = 'visible';
-		//header.style.visibility = 'visible';
-	}-*/;
+													var parent = $wnd.document.getElementById('loadingWrapper');
+													var footer = $wnd.document.getElementById('mainFooter');
+													//		var feedbackimg = $wnd.document.getElementById('contact');
+													//		feedbackimg.style.visibility = 'visible';
+													//var header = $wnd.document.getElementById('mainHeader');
+													parent.style.visibility = 'hidden';
+													footer.style.visibility = 'visible';
+													//header.style.visibility = 'visible';
+													}-*/;
 
 	/**
 	 * 
@@ -418,8 +418,8 @@ public class Accounter implements EntryPoint {
 
 	public static void showSubscriptionWarning() {
 
-		new AccounterDialog("You are not Subscribed", AccounterType.ERROR)
-				.show();
+		new AccounterDialog("You are not Subscribed",
+				AccounterType.SUBSCRIPTION).show();
 	}
 
 	private static EventBus eventBus;
@@ -677,6 +677,6 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static boolean hasPermission(String feature) {
-		return feature.contains(feature);
+		return false;
 	}
 }
