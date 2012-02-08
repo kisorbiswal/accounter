@@ -33,14 +33,14 @@ public class AdminLoginServlet extends BaseServlet {
 		if (session != null) {
 			String attribute = (String) session.getAttribute(EMAIL_ID);
 			if (attribute != null) {
-				doLogin(req, resp);
+				doAdminLogin(req, resp);
 				return;
 			}
 		}
 		dispatch(req, resp, ADMIN_LOGIN_VIEW);
 	}
 
-	private void doLogin(HttpServletRequest req, HttpServletResponse resp)
+	private void doAdminLogin(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		AdminUser adminUser = getAdminUser(req);
 		if (adminUser != null) {
@@ -83,7 +83,7 @@ public class AdminLoginServlet extends BaseServlet {
 			HttpSession session = req.getSession(true);
 			session.setAttribute(EMAIL_ID, email);
 			session.setAttribute(PASSWORD, passwd);
-			doLogin(req, resp);
+			doAdminLogin(req, resp);
 		} else {
 			req.setAttribute("errorMsg", "Enter values");
 			dispatch(req, resp, ADMIN_LOGIN_VIEW);

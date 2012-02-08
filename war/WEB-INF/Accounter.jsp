@@ -297,9 +297,10 @@
 		%>
 			var subscription=<%= subscription %>;
 			var goPId="<%= goPId %>";
-		    if(subscription==null){
+		    if(goPId!=null){
 				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
-			}else{
+			}
+			if(subscription!=null){
 				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
 			}
 	    </script>

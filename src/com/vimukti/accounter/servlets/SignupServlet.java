@@ -143,8 +143,8 @@ public class SignupServlet extends BaseServlet {
 				saveEntry(subscription);
 				clientSubscription.setSubscription(subscription);
 				saveEntry(clientSubscription);
-
 				client.setClientSubscription(clientSubscription);
+				
 				client.setDeleted(false);
 
 				saveEntry(client);

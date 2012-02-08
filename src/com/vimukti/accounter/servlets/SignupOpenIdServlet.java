@@ -13,6 +13,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
@@ -40,7 +42,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 		String emailId = req.getParameter("emailId").trim();
 		String firstName = req.getParameter("firstName").trim();
 		String lastName = req.getParameter("lastName").trim();
-	//	String password = req.getParameter("password").trim();
+		// String password = req.getParameter("password").trim();
 		String phoneNumber = req.getParameter("phoneNumber").trim();
 		String country = req.getParameter("country").trim();
 		boolean isSubscribedToNewsLetter = false;
@@ -62,8 +64,9 @@ public class SignupOpenIdServlet extends BaseServlet {
 			return;
 		}
 		emailId = emailId.toLowerCase();
-//		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-//				+ password));
+		// String passwordWithHash =
+		// HexUtil.bytesToHex(Security.makeHash(emailId
+		// + password));
 
 		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = null;
@@ -86,7 +89,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 			} else {
 				// else
 				// Generate Token and create Activation and save. then send
-//			 	String token = createActivation(emailId);
+				// String token = createActivation(emailId);
 
 				// Create Client and Save
 				Client client = new Client();
@@ -97,13 +100,20 @@ public class SignupOpenIdServlet extends BaseServlet {
 				client.setLastName(lastName);
 				client.setFullName(Global.get().messages()
 						.fullName(firstName, lastName));
-			//	client.setPassword(passwordWithHash);
+				// client.setPassword(passwordWithHash);
 				client.setPhoneNo(phoneNumber);
 				client.setCountry(country);
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 
+				ClientSubscription clientSubscription = new ClientSubscription();
+				Subscription subscription = new Subscription();
+				saveEntry(subscription);
+				clientSubscription.setSubscription(subscription);
+				saveEntry(clientSubscription);
+				client.setClientSubscription(clientSubscription);
+
 				// Email to that user.
-			//	sendActivationEmail(token, client);
+				// sendActivationEmail(token, client);
 				// Send to SignUp Success View
 				String destUrl = req.getParameter(PARAM_DESTINATION);
 				HttpSession httpSession = req.getSession();

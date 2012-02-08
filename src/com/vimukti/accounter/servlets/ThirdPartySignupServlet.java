@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ThirdPartySignupServlet extends BaseServlet {
@@ -17,12 +18,11 @@ public class ThirdPartySignupServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 
-	public void loginForUser(String email,String firstname,String lastname, HttpServletRequest request,
-			HttpServletResponse response) {
-		firstname = firstname==null ?"" :firstname;
-		lastname = lastname ==null ?"" :lastname;
+	public void loginForUser(String email, String firstname, String lastname,
+			HttpServletRequest request, HttpServletResponse response) {
+		firstname = firstname == null ? "" : firstname;
+		lastname = lastname == null ? "" : lastname;
 		request.setAttribute("email", email);
 		request.setAttribute("firstname", firstname);
 		request.setAttribute("lastname", lastname);
@@ -49,10 +49,16 @@ public class ThirdPartySignupServlet extends BaseServlet {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 					if (destUrl == null || destUrl.isEmpty()) {
-						client.setLoginCount(client.getLoginCount() + 1);
-						client.setLastLoginTime(System.currentTimeMillis());
-						session.saveOrUpdate(client);
-						redirectExternal(request, response, COMPANIES_URL);
+						int subType = client.getClientSubscription()
+								.getSubscription().getType();
+						if (subType != Subscription.BEFORE_PAID_FETURE
+								&& subType != Subscription.FREE_CLIENT) {
+							if (client.getPassword() == null) {
+								response.sendRedirect("main/");
+							} else {
+								// TODO ask to enter password
+							}
+						}
 					} else {
 						redirectExternal(request, response, destUrl);
 					}
@@ -75,6 +81,5 @@ public class ThirdPartySignupServlet extends BaseServlet {
 			}
 		}
 	}
-
 
 }
