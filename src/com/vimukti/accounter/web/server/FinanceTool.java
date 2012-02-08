@@ -521,10 +521,6 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
 				session.delete(serverObject);
-			} else if (serverObject instanceof TAXItem) {
-				if (((TAXItem) serverObject).canDelete(serverObject)) {
-					session.delete(serverObject);
-				}
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
@@ -535,6 +531,9 @@ public class FinanceTool {
 						transaction.getCreditsAndPayments()
 								.canEdit(transaction);
 					}
+				}
+				if (serverObject instanceof TAXItem) {
+					((TAXItem) serverObject).canDelete(serverObject);
 				}
 				if (canDelete(serverClass.getSimpleName(),
 						Long.parseLong(arg1), company.getID())) {
