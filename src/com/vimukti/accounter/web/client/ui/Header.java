@@ -173,12 +173,14 @@ public class Header extends FlowPanel {
 
 					}
 				});
-		int subscriptionType = Accounter.getCompany().getSubscriptionType();
-		if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
-				|| subscriptionType == ClientCompany.FREE_CLIENT) {
-			// TO DO
-		} else {
-			panel2.add(companiesLink);
+		if (Accounter.getCompany() != null) {
+			int subscriptionType = Accounter.getCompany().getSubscriptionType();
+			if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
+					|| subscriptionType == ClientCompany.FREE_CLIENT) {
+				// TO DO
+			} else {
+				panel2.add(companiesLink);
+			}
 		}
 
 		panel2.add(companiesLinkPanel);
