@@ -4,41 +4,86 @@
 <%@page pageEncoding="UTF-8" %>
 <html>
 <head>
+
 <title>Accounter | Subscription </title>
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
 %>
-</head>
-<body>
-<table id="commanContainer">
-<tr>
-<td>
-<c:if test="${info!=null}"> 
-<div id="login_success" class="common-box">
-	<span>${info}</span>
-</div>
-</c:if>
-<div class="form-box">
-<form id="encrpt_form" action="/main/encryption" method="post">
-<table>
-<tr><td><input type="hidden" name="on0" value="Companies list">Subscription options</td></tr><tr><td>
-<c:if test="${companeyList != null}">
-<select name="companyname">
-<c:forEach var="company" items="${companeyList}">
-<option value="${company}">${company}</option> 
-</c:forEach> 
-</c:if>
+<%@ include file="./feedback.jsp" %>
+<script type="text/javascript">
+$(document).ready(function() {
+$('#submitButton').click(function() {
+	$("#accounterForm").validate({
+		rules: {
+			pass1: "required",
+			pass2: {
+				required: true,
+				equalTo: "#pass1"
+			}
+		},
+		messages: {
+			pass1: "<i18n:i18n msg='pleaseenteryourpassword'/>",
+			pass2: {
+				required: "<i18n:i18n msg='pleaseconfirmyourpassword'/>",
+				equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
+			}
+		}
+	});
+});
 
-</table>Enter password
-<input type="password" name="pass1"  >Confirm password
-<input type="password" name="pass2"  >
-<input type="submit" name="submit" value="submit">
-<div>
-</form>
-</div>
-</td>
-</tr>
-</table>
+});	
+
+
+
+</script>
+
+</head>
+
+
+<body>
+		<div id="commanContainer">
+			<tr><td><c:if test="${info!=null}"> 
+					<div id="login_success" class="common-box">
+					<span>${info}</span>
+			</div>
+			</c:if>
+		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/> 
+			  <form id="accounterForm" action="/main/encryption"  class="accounterform" method="post">
+			 
+			 <input type="hidden" name="on0" value="Companies list">Companies list
+			<c:if test="${companeyList != null}">
+			<select name="companyname">
+			<c:forEach var="company" items="${companeyList}">
+			<option value="${company}">${company}</option> 
+			</c:forEach></select> 
+			</c:if>
+			 Enter password
+			<input type="password" id= "pass1" name="pass1"  >Confirm password
+			<input type="password" id= "pass2"  name="pass2"  >
+			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="submit">
+			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
+			<div>
+			</div>
+		
+		   </form>
+		   <div class="form-bottom-options">
+		     
+		   </div>
+		   </div>
+	     <!-- Footer Section-->
+		
+	 	
+			<div id="mainFooter"  >
+		    <div>
+		       <span><i18n:i18n msg='atTherateCopy'/></span> |
+		       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+		       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+		       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
+		    </div>
+		</div>
+			
+
+ 
 </body>
 </html>
