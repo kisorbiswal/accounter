@@ -42,10 +42,13 @@ public class EncryptCompaniesServlet extends BaseServlet {
 					userIds.add(user.getID());
 				}
 			}
-			List<String> list = currentSession
-					.getNamedQuery("get.NonEncrypted.CompanyNames.by.client")
-					.setParameterList("userIds", userIds).list();
-			req.setAttribute("companeyList", list);
+			if (!userIds.isEmpty()) {
+				List<String> list = currentSession
+						.getNamedQuery(
+								"get.NonEncrypted.CompanyNames.by.client")
+						.setParameterList("userIds", userIds).list();
+				req.setAttribute("companeyList", list);
+			}
 			dispatch(req, resp, ENCRYPT_VIEW);
 		} else {
 			resp.sendRedirect(LOGIN_URL);
