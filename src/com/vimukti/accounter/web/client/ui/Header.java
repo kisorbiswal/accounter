@@ -146,11 +146,7 @@ public class Header extends FlowPanel {
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
-		companiesLink = new Anchor(messages.companies(), "/main/companies");
-		companiesLink.addStyleName("companiesLink");
-		companiesLink.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-
+		
 		panel1 = new VerticalPanel();
 		// panel1.setWidth("25%");
 		panel1.setWidth("100%");
@@ -163,8 +159,20 @@ public class Header extends FlowPanel {
 
 					@Override
 					public void onSuccess(Integer result) {
-						// TODO Auto-generated method stub
+						companiesLink = new Anchor(messages.companies(), "/main/companies");
+						companiesLink.addStyleName("companiesLink");
+						companiesLink.getElement().setAttribute("lang",
+								((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 
+						int subscriptionType = 0;// Accounter.getCompany().getSubscriptionType();
+						if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
+								|| subscriptionType == ClientCompany.FREE_CLIENT) {
+							// TO DO
+						} else {
+						}
+						panel2.add(companiesLink);
+						companiesLink.getElement().getParentElement()
+						.addClassName("companies_link_parent");
 					}
 
 					@Override
@@ -173,22 +181,13 @@ public class Header extends FlowPanel {
 
 					}
 				});
-		if (Accounter.getCompany() != null) {
-			int subscriptionType = Accounter.getCompany().getSubscriptionType();
-			if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
-					|| subscriptionType == ClientCompany.FREE_CLIENT) {
-				// TO DO
-			} else {
-				panel2.add(companiesLink);
-			}
-		}
+		
 
 		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);
 		companiesLinkPanel.getElement().getParentElement()
 				.addClassName("arrow-right");
-		companiesLink.getElement().getParentElement()
-				.addClassName("companies_link_parent");
+		
 		// panel2.setWidth("50%");
 		panel2.setWidth("100%");
 		companyNameLabel.getElement().getParentElement()
