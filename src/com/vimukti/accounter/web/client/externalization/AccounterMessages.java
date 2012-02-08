@@ -5578,4 +5578,6 @@ public interface AccounterMessages extends Messages {
 	public String perOfTotRetail();
 
 	public String freeUserText();
+
+	public String subscribtionManagement();
 }
