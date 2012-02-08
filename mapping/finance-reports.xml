@@ -2835,12 +2835,13 @@
 		<return-scalar column="transaction_date" type="long" />
 		<return-scalar column="transaction_number" type="encryptedstring" />
 		<return-scalar column="amount" type="double" />
-		<return-scalar column="memo" type="string" />
+		<return-scalar column="memo" type="encryptedstring" />
+		<return-scalar column="c_name" type="string" />
 		SELECT A.NAME AS ACCOUNT_NAME,
 		CASE
 		WHEN T.T_TYPE = 28
 		THEN
-		C.FULL_NAME		 
+		NULL	 
 		WHEN T.T_TYPE = 15 THEN
 		WC.IN_FAVOUR_OF 
 		ELSE
@@ -2859,7 +2860,8 @@
 		NULL
 		ELSE
 		T.MEMO
-		END AS MEMO
+		END AS MEMO,
+		C.FULL_NAME	AS C_NAME
 
 		FROM
 		ACCOUNT_TRANSACTION AT
