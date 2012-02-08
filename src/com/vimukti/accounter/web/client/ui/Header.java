@@ -146,7 +146,7 @@ public class Header extends FlowPanel {
 				ActionFactory.getCompanyHomeAction().run(null, false);
 			}
 		});
-		
+
 		panel1 = new VerticalPanel();
 		// panel1.setWidth("25%");
 		panel1.setWidth("100%");
@@ -159,20 +159,25 @@ public class Header extends FlowPanel {
 
 					@Override
 					public void onSuccess(Integer result) {
-						companiesLink = new Anchor(messages.companies(), "/main/companies");
+						companiesLink = new Anchor(messages.companies(),
+								"/main/companies");
 						companiesLink.addStyleName("companiesLink");
-						companiesLink.getElement().setAttribute("lang",
-								((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+						companiesLink.getElement()
+								.setAttribute(
+										"lang",
+										((CldrImpl) GWT.create(CldrImpl.class))
+												.isRTL() ? "ar" : "en");
 
 						int subscriptionType = 0;// Accounter.getCompany().getSubscriptionType();
 						if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
 								|| subscriptionType == ClientCompany.FREE_CLIENT) {
 							// TO DO
 						} else {
+							panel2.add(companiesLink);
+							companiesLink.getElement().getParentElement()
+									.addClassName("companies_link_parent");
 						}
-						panel2.add(companiesLink);
-						companiesLink.getElement().getParentElement()
-						.addClassName("companies_link_parent");
+
 					}
 
 					@Override
@@ -181,13 +186,12 @@ public class Header extends FlowPanel {
 
 					}
 				});
-		
 
 		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);
 		companiesLinkPanel.getElement().getParentElement()
 				.addClassName("arrow-right");
-		
+
 		// panel2.setWidth("50%");
 		panel2.setWidth("100%");
 		companyNameLabel.getElement().getParentElement()

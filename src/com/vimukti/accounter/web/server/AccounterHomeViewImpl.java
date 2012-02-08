@@ -115,6 +115,7 @@ import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
+import com.vimukti.accounter.web.server.managers.CompanyManager;
 
 /**
  * @author Fernandez
@@ -2219,8 +2220,15 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public int getClientCompaniesCount() {
-		List<Company> companies = AccounterThreadLocal.get().getClient()
-				.getCompanies();
-		return companies.size();
+		long id = AccounterThreadLocal.get().getClient().getID();
+		CompanyManager manager = new CompanyManager();
+		int companies = 0;
+		try {
+			companies = manager.getClientCompaniesCount(id);
+		} catch (AccounterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return companies;
 	}
 }

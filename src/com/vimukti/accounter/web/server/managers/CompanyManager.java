@@ -722,7 +722,7 @@ public class CompanyManager extends Manager {
 		Subscription subscription = logInUser.getClient()
 				.getClientSubscription().getSubscription();
 		clientCompany.setSubscriptionType(subscription.getType());
-		clientCompany.setFeatures(subscription.getFeatures());
+		// clientCompany.setFeatures(subscription.getFeatures());
 		List list = session.getNamedQuery("get.All.Units")
 				.setEntity("company", company).list();
 
@@ -1860,6 +1860,6 @@ public class CompanyManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 		Object obj = session.getNamedQuery("getClirntCompanyCount")
 				.setParameter("clientId", clientId).uniqueResult();
-		return 0;
+		return ((Long) obj).intValue();
 	}
 }
