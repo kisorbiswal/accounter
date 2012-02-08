@@ -44,7 +44,7 @@ $('#submitButton').click(function() {
 <body align="center">
 
 
-		<div id="commanContainer">
+		<div id="commanContainer" class="encryptContainer">
 		
 			<tr><td><c:if test="${info!=null}"> 
 					<div id="login_success" class="common-box">
