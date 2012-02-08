@@ -470,11 +470,11 @@ input[type="text"] {
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
 	border: medium none;
-	height: 24px;
-	padding: 0 5px;
-	margin: 5px 0;
-	width: 223px;
 	font-size: 15px;
+	height: 23px;
+	margin: 5px 0;
+	padding: 0 5px;
+	width: 213px;
 }
 
 #drop-down {
@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =               0.5) !important;
+	filter: alpha(opacity =                 0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
