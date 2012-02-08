@@ -1314,3 +1314,7 @@ a#fdbk_tab:hover {
 .openidinfo {
 	padding-bottom: 20px;
 }
+
+.encryptContainer{
+	width: 700px !important;
+}
