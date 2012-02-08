@@ -66,6 +66,9 @@ public class ReportSectionView extends BaseHomeView {
 		// reportLabel.setHeight(20);
 		mainLayout.add(reportLabel);
 
+		Label companyAndFinancialLabel = new Label(
+				messages.companyAndFinancial());
+		companyAndFinancialLabel.setStyleName("name-label");
 		DynamicForm companyAndFinancialForm = UIUtils.form(messages
 				.companyAndFinancial());
 		// companyAndFinancialForm.setWidth("50%");
@@ -293,7 +296,8 @@ public class ReportSectionView extends BaseHomeView {
 		}
 
 		// Form for Sales type reports
-
+		Label salesLabel = new Label(messages.sales());
+		salesLabel.setStyleName("name-label");
 		DynamicForm salesForm = UIUtils.form(messages.sales());
 		// salesForm.setWidth("50%");
 		salesForm.setHeight("40%");
@@ -437,7 +441,8 @@ public class ReportSectionView extends BaseHomeView {
 		}
 
 		// Form for purchase type reports
-
+		Label purchaseLabel = new Label(messages.purchase());
+		purchaseLabel.setStyleName("name-label");
 		DynamicForm purchaseForm = UIUtils.form(messages.purchase());
 		// purchaseForm.setWidth("50%");
 		purchaseForm.setHeight("40%");
@@ -517,13 +522,21 @@ public class ReportSectionView extends BaseHomeView {
 		}
 
 		// Form for customer receivable type reports
-		DynamicForm customerForm = UIUtils.form(messages.other());
+		Label customersLabel = new Label(messages.customersAndReceivable(Global
+				.get().Customers()));
+		customersLabel.setStyleName("name-label");
+		DynamicForm customerForm = UIUtils.form(messages
+				.customersAndReceivable(Global.get().Customers()));
 		// otherForm.setWidth("50%");
 		customerForm.setHeight("40%");
 		customerForm.setNumCols(1);
 
 		// Form for vendor receivable type reports
-		DynamicForm vendorForm = UIUtils.form(messages.other());
+		Label vendorLabel = new Label(messages.vendorsAndPayables(Global.get()
+				.Vendors()));
+		vendorLabel.setStyleName("name-label");
+		DynamicForm vendorForm = UIUtils.form(messages
+				.vendorsAndPayables(Global.get().Vendors()));
 		// otherForm.setWidth("50%");
 		vendorForm.setHeight("40%");
 		vendorForm.setNumCols(1);
@@ -652,6 +665,8 @@ public class ReportSectionView extends BaseHomeView {
 		vendorForm.setFields(apAgingDetailLink, apAgingSummaryLink,
 				vendorStatementLink, supplierTransactionHistoryLink);
 
+		Label budgetLabel = new Label(messages.budget());
+		budgetLabel.setStyleName("name-label");
 		DynamicForm budgetform = UIUtils.form(messages.budget());
 		budgetform.setHeight("40%");
 		budgetform.setNumCols(1);
@@ -681,6 +696,8 @@ public class ReportSectionView extends BaseHomeView {
 		});
 		budgetform.setFields(budgetOverviewLink, budgetVsActualsLink);
 
+		Label fixedAssestLabel = new Label(messages.fixedAssest());
+		fixedAssestLabel.setStyleName("name-label");
 		DynamicForm fixedAssetform = UIUtils.form(messages.fixedAssest());
 		fixedAssetform.setHeight("40%");
 		fixedAssetform.setNumCols(1);
@@ -698,7 +715,8 @@ public class ReportSectionView extends BaseHomeView {
 
 		});
 		fixedAssetform.setFields(depriciationLink);
-
+		Label inventoryLabel = new Label(messages.inventory());
+		inventoryLabel.setStyleName("name-label");
 		DynamicForm inventoryform = UIUtils.form(messages.inventory());
 		inventoryform.setHeight("40%");
 		inventoryform.setNumCols(1);
@@ -762,6 +780,8 @@ public class ReportSectionView extends BaseHomeView {
 				invValuationStockStatusByVendorLink);
 
 		// TAX tab for uk country
+		Label taxLabel = new Label(messages.tax());
+		taxLabel.setStyleName("name-label");
 		DynamicForm ukTaxForm = UIUtils.form(messages.inventory());
 		ukTaxForm.setHeight("40%");
 		ukTaxForm.setNumCols(1);
@@ -845,7 +865,7 @@ public class ReportSectionView extends BaseHomeView {
 				taxItemSummaryLink);
 
 		// TAX tab for all other countries
-		DynamicForm otherCountriesTaxForm = UIUtils.form(messages.inventory());
+		DynamicForm otherCountriesTaxForm = UIUtils.form(messages.tax());
 		otherCountriesTaxForm.setHeight("40%");
 		otherCountriesTaxForm.setNumCols(1);
 
@@ -879,34 +899,71 @@ public class ReportSectionView extends BaseHomeView {
 		otherCountriesTaxForm.setFields(taxItemDetailLink,
 				taxItemExceptionLink, taxItemSummaryLink);
 
-		HorizontalPanel1.add(companyAndFinancialForm);
-		HorizontalPanel1.add(salesForm);
-		HorizontalPanel1.setCellWidth(companyAndFinancialForm, "50%");
-		HorizontalPanel1.setCellWidth(salesForm, "50%");
+		VerticalPanel companyAndFinancialPanel = new VerticalPanel();
+		companyAndFinancialPanel.add(companyAndFinancialLabel);
+		companyAndFinancialPanel.add(companyAndFinancialForm);
 
-		HorizontalPanel2.add(customerForm);
-		HorizontalPanel2.add(vendorForm);
-		HorizontalPanel2.setCellWidth(customerForm, "50%");
-		HorizontalPanel2.setCellWidth(vendorForm, "50%");
+		VerticalPanel salesPanel = new VerticalPanel();
+		salesPanel.add(salesLabel);
+		salesPanel.add(salesForm);
 
-		HorizontalPanel3.add(inventoryform);
-		HorizontalPanel3.add(purchaseForm);
-		HorizontalPanel3.setCellWidth(inventoryform, "50%");
-		HorizontalPanel3.setCellWidth(purchaseForm, "50%");
+		VerticalPanel customerPanel = new VerticalPanel();
+		customerPanel.add(customersLabel);
+		customerPanel.add(customerForm);
 
-		HorizontalPanel4.add(budgetform);
-		HorizontalPanel4.add(fixedAssetform);
-		HorizontalPanel4.setCellWidth(budgetform, "50%");
-		HorizontalPanel4.setCellWidth(fixedAssetform, "50%");
+		VerticalPanel vendorPanel = new VerticalPanel();
+		vendorPanel.add(vendorLabel);
+		vendorPanel.add(vendorForm);
+
+		VerticalPanel purchasePanel = new VerticalPanel();
+		purchasePanel.add(purchaseLabel);
+		purchasePanel.add(purchaseForm);
+
+		VerticalPanel inventoryPanel = new VerticalPanel();
+		inventoryPanel.add(inventoryLabel);
+		inventoryPanel.add(inventoryform);
+
+		VerticalPanel budgetPanel = new VerticalPanel();
+		budgetPanel.add(budgetLabel);
+		budgetPanel.add(budgetform);
+
+		VerticalPanel fixedAssestPanel = new VerticalPanel();
+		fixedAssestPanel.add(fixedAssestLabel);
+		fixedAssestPanel.add(fixedAssetform);
+
+		HorizontalPanel1.add(companyAndFinancialPanel);
+		HorizontalPanel1.add(salesPanel);
+		HorizontalPanel1.setCellWidth(companyAndFinancialPanel, "50%");
+		HorizontalPanel1.setCellWidth(salesPanel, "50%");
+
+		HorizontalPanel2.add(customerPanel);
+		HorizontalPanel2.add(vendorPanel);
+		HorizontalPanel2.setCellWidth(customerPanel, "50%");
+		HorizontalPanel2.setCellWidth(vendorPanel, "50%");
+
+		HorizontalPanel3.add(inventoryPanel);
+		HorizontalPanel3.add(purchasePanel);
+		HorizontalPanel3.setCellWidth(inventoryPanel, "50%");
+		HorizontalPanel3.setCellWidth(purchasePanel, "50%");
+
+		HorizontalPanel4.add(budgetPanel);
+		HorizontalPanel4.add(fixedAssestPanel);
+		HorizontalPanel4.setCellWidth(budgetPanel, "50%");
+		HorizontalPanel4.setCellWidth(fixedAssestPanel, "50%");
+
+		VerticalPanel taxPanel = new VerticalPanel();
+		taxPanel.add(taxLabel);
 
 		ICountryPreferences company = Accounter.getCompany()
 				.getCountryPreferences();
-		if (company instanceof UnitedKingdom) {
-			HorizontalPanel5.add(ukTaxForm);
-			HorizontalPanel5.setCellWidth(ukTaxForm, "50%");
-		} else {
-			HorizontalPanel5.add(otherCountriesTaxForm);
-			HorizontalPanel5.setCellWidth(otherCountriesTaxForm, "50%");
+		if (Global.get().preferences().isTrackTax()) {
+			if (company instanceof UnitedKingdom) {
+				taxPanel.add(ukTaxForm);
+			} else {
+				taxPanel.add(otherCountriesTaxForm);
+			}
+			HorizontalPanel5.add(taxPanel);
+			HorizontalPanel5.setCellWidth(taxPanel, "50%");
 		}
 
 		mainLayout.add(HorizontalPanel1);
@@ -914,6 +971,7 @@ public class ReportSectionView extends BaseHomeView {
 		mainLayout.add(HorizontalPanel3);
 		mainLayout.add(HorizontalPanel4);
 		mainLayout.add(HorizontalPanel5);
+
 		HorizontalPanel2.setStyleName("reports_top_align");
 		HorizontalPanel3.setStyleName("reports_top_align");
 		HorizontalPanel4.setStyleName("reports_top_align");
