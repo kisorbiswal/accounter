@@ -94,19 +94,19 @@ public class CompaniesServlet extends BaseServlet {
 				}
 				int subscriptionType = client.getClientSubscription()
 						.getSubscription().getType();
-				if (subscriptionType == Subscription.BEFORE_PAID_FETURE
-						|| subscriptionType == Subscription.FREE_CLIENT) {
-					if (list.size() == 0) {
-						createCompany(req, resp);
-						return;
-					}
-					if (list.size() == 1) {
-						openCompany(req, resp, list.get(0).getId());
-						return;
-					} else {
-						req.setAttribute("canCreate", false);
-					}
-				}
+				// if (subscriptionType == Subscription.BEFORE_PAID_FETURE
+				// || subscriptionType == Subscription.FREE_CLIENT) {
+				// if (list.size() == 0) {
+				// createCompany(req, resp);
+				// return;
+				// }
+				// if (list.size() == 1) {
+				// openCompany(req, resp, list.get(0).getId());
+				// return;
+				// } else {
+				// req.setAttribute("canCreate", false);
+				// }
+				// }
 				if (list.isEmpty()
 						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
