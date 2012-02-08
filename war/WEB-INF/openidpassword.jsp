@@ -95,7 +95,8 @@ $(document).ready(function() {
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
 							   <div >
-								     <div><i18n:i18n msg='password'/> : </div>
+							   		 <div class="openidinfo"><i18n:i18n msg='openidinfo'/> </div>
+								     <div style="font-weight:bold"><i18n:i18n msg='password'/> : </div>
 									 <div>
 										<input id="mid-box"  type="password" name="password" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password" />								
 									 </div>
@@ -107,6 +108,9 @@ $(document).ready(function() {
 								</c:if>
 								</div>
 					</form>
+					  <div class="form-bottom-options">
+					      <a href="/main/forgotpassword" id="forget-link1" tabindex="5"><i18n:i18n msg='lostyourpassword'/></a>
+					  </div>
 					</div>
 	<div class="down-test" id="down"></div>
 		

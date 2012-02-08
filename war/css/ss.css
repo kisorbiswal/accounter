@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                     0.5) !important;
+	filter: alpha(opacity =                       0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1307,6 +1307,10 @@ a#fdbk_tab:hover {
 	margin: 16px 0 0 73px;
 }
 
-#subscriptionContainer{
+#subscriptionContainer {
 	width: 420px;
+}
+
+.openidinfo {
+	padding-bottom: 20px;
 }

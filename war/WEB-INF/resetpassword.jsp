@@ -21,6 +21,9 @@
 
 $(document).ready(function() {
 		<%	boolean isResetPasswordRTL=(Boolean) request.getAttribute("isRTL");	%>
+		<%	String type=(String) request.getAttribute("type");	%>
+		if("openid" == "<%= type%>")
+			$("#info").append("<div class='openidinfo'><i18n:i18n msg='openidinfo'/></div>");
 		document.body.style.direction=(<%= isResetPasswordRTL %>)?"rtl":"ltr";
 //	$('#mid-box').attr('autocomplete', 'off');
 //	$('#mid-box').password_strength();
@@ -103,6 +106,7 @@ $(document).ready(function() {
 								<c:if test="${errorMessage == null}">
 								<div class="mid-login-box1">
 							   <div >
+							   		 <div id="info"></div>
 								     <div><i18n:i18n msg='newPassword'/> : </div>
 									 <div>
 										<input id="mid-box"  type="password" name="newPassword" onkeyup="CheckPassword(this.value)" tabindex="1" value="" class="reset_password" />								
@@ -125,7 +129,6 @@ $(document).ready(function() {
 					</div>
 	<div class="down-test" id="down"></div>
 		
-	 
 	<%@ include file="./scripts.jsp" %>
 		</body>
 </html>
