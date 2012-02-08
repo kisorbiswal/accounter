@@ -2107,4 +2107,9 @@ public class AccounterGETServiceImpl extends AccounterRPCBaseServiceImpl
 		return map;
 	}
 
+	@Override
+	public int getClientCompaniesCount() {
+		return 0;
+	}
+
 }

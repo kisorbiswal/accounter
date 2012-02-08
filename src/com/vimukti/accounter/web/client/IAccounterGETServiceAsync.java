@@ -431,4 +431,6 @@ public interface IAccounterGETServiceAsync {
 	public void getAssetValuesForInventories(
 			AsyncCallback<Map<Long, Double>> callback);
 
+	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
+
 }

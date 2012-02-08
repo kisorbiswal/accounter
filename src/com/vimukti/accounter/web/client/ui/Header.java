@@ -159,25 +159,19 @@ public class Header extends FlowPanel {
 
 					@Override
 					public void onSuccess(Integer result) {
-						companiesLink = new Anchor(messages.companies(),
-								"/main/companies");
-						companiesLink.addStyleName("companiesLink");
-						companiesLink.getElement()
-								.setAttribute(
-										"lang",
-										((CldrImpl) GWT.create(CldrImpl.class))
-												.isRTL() ? "ar" : "en");
-
 						int subscriptionType = 0;// Accounter.getCompany().getSubscriptionType();
-						if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
-								|| subscriptionType == ClientCompany.FREE_CLIENT) {
-							// TO DO
-						} else {
+						if (!((subscriptionType == ClientCompany.BEFORE_PAID_FETURE || subscriptionType == ClientCompany.FREE_CLIENT) && subscriptionType < 2)) {
+							companiesLink = new Anchor(messages.companies(),
+									"/main/companies");
+							companiesLink.addStyleName("companiesLink");
+							companiesLink.getElement().setAttribute(
+									"lang",
+									((CldrImpl) GWT.create(CldrImpl.class))
+											.isRTL() ? "ar" : "en");
 							panel2.add(companiesLink);
 							companiesLink.getElement().getParentElement()
 									.addClassName("companies_link_parent");
 						}
-
 					}
 
 					@Override
