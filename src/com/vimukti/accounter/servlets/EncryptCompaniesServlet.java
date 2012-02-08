@@ -43,7 +43,7 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				}
 			}
 			List<String> list = currentSession
-					.getNamedQuery("get.CompanyName.by.client")
+					.getNamedQuery("get.NonEncrypted.CompanyNames.by.client")
 					.setParameterList("userIds", userIds).list();
 			req.setAttribute("companeyList", list);
 			dispatch(req, resp, ENCRYPT_VIEW);
