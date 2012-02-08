@@ -52,13 +52,19 @@ public class ThirdPartySignupServlet extends BaseServlet {
 						int subType = client.getClientSubscription()
 								.getSubscription().getType();
 						if (subType != Subscription.BEFORE_PAID_FETURE
-								&& subType != Subscription.FREE_CLIENT) {
+								|| subType == Subscription.FREE_CLIENT) {
 							if (client.getPassword() == null) {
-								response.sendRedirect("main/");
+								response.sendRedirect("/main/resetpassword");
 							} else {
-								// TODO ask to enter password
+								response.sendRedirect("/main/openidpassword");
 							}
+							return;
 						}
+						client.setLoginCount(client.getLoginCount() + 1);
+						client.setLastLoginTime(System.currentTimeMillis());
+						session.saveOrUpdate(client);
+						redirectExternal(request, response, COMPANIES_URL);
+
 					} else {
 						redirectExternal(request, response, destUrl);
 					}
