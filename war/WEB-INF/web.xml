@@ -812,5 +812,15 @@
 		<servlet-name>iAccounterExportCSVImpl </servlet-name>
 		<url-pattern>/do/accounter/exportcsv/rpc/service </url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>OpenIDPasswordServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.OpenIDPasswordServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OpenIDPasswordServlet </servlet-name>
+		<url-pattern>/main/openidpassword</url-pattern>
+	</servlet-mapping>
 </web-app>
