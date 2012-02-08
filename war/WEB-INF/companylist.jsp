@@ -83,6 +83,7 @@
       <a style="float:left" href="/main/logout"><i18n:i18n msg='logout'/></a>
        <a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
+      <a   href="/main/deleteAccount"><i18n:i18n msg='encryption'/></a>
     </div>
       </td>
    </tr>
