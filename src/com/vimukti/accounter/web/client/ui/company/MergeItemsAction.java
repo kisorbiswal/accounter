@@ -15,7 +15,7 @@ public class MergeItemsAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+		if (Accounter.hasPermission(Features.MERGING)) {
 			ItemMergeDialog dialog = new ItemMergeDialog(messages.mergeItems(),
 					messages.itemDescription());
 

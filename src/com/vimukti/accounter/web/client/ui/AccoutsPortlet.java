@@ -133,7 +133,7 @@ public class AccoutsPortlet extends GraphPointsPortlet {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					if (Accounter.getCompany().hasPermission(
+					if (Accounter.hasPermission(
 							Features.IMPORT_BANK_STATEMENTS)) {
 						UploadStatementDialog dialog = new UploadStatementDialog(
 								messages.uploadAttachment(), account);

@@ -61,7 +61,7 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Accounter.getCompany().hasPermission(
+				if (Accounter.hasPermission(
 						Features.BILLABLE_EXPENSE)) {
 				} else {
 					UseBillableExpenseCheckBox.setValue(false);

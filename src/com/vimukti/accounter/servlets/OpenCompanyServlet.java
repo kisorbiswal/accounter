@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -126,6 +128,8 @@ public class OpenCompanyServlet extends BaseServlet {
 
 			HashMap<String, String> accounterLocale = getLocaleConstants();
 			request.setAttribute("accounterLocale", accounterLocale);
+			request.setAttribute("features", client.getClientSubscription()
+					.getSubscription().getFeatures());
 
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);

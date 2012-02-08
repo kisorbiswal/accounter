@@ -26,4 +26,9 @@ public class JNSI {
 		str = str.replace(/([\-\+\*\/])+/gi, '$1');
 		return String(eval(str));
 	}-*/;
+
+	public static native Object getFeatures()/*-{
+		return eval('$wnd.features');
+	}-*/;
+
 }

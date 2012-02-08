@@ -18,7 +18,7 @@ public class UsersActivityListAction extends Action<ClientActivity> {
 
 	@Override
 	public void run() {
-		if (Accounter.getCompany().hasPermission(Features.USER_ACTIVITY)) {
+		if (Accounter.hasPermission(Features.USER_ACTIVITY)) {
 			runAsynce(data, isDependent);
 		} else {
 			Accounter.showSubscriptionWarning();

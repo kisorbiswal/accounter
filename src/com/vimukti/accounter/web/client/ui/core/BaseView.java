@@ -81,7 +81,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 
 		super.add(buttonBar);
 		if (data != null && mode != EditMode.CREATE) {
-			if (Accounter.getCompany().hasPermission(Features.HISTORY)) {
+			if (Accounter.hasPermission(Features.HISTORY)) {
 				super.add(createHistoryView());
 			}
 		}
@@ -98,7 +98,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 					BaseView.this.saveAttachment(attachment);
 				}
 			};
-			if (Accounter.getCompany().hasPermission(Features.ATTACHMENTS)) {
+			if (Accounter.hasPermission(Features.ATTACHMENTS)) {
 				super.add(transactionAttachmentPanel);
 			}
 		}

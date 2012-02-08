@@ -46,7 +46,7 @@ public class BrandingThemeCombo extends CustomCombo<ClientBrandingTheme> {
 
 	@Override
 	public void onAddNew() {
-		if (getCompany().hasPermission(Features.BRANDING_THEME)) {
+		if (Accounter.hasPermission(Features.BRANDING_THEME)) {
 
 			if (themeDialog != null) {
 				themeDialog.hide();

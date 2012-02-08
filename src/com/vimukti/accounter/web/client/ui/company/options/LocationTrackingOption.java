@@ -177,7 +177,7 @@ public class LocationTrackingOption extends AbstractPreferenceOption {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Accounter.getCompany().hasPermission(Features.LOCATION)) {
+				if (Accounter.hasPermission(Features.LOCATION)) {
 					radioButtonsPanel.setVisible(locationTrackingCheckBoxItm
 							.getValue());
 				} else {

@@ -16,7 +16,7 @@ public class MergeVendorAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+		if (Accounter.hasPermission(Features.MERGING)) {
 			VendorMergeDialog vendorMergeDialog = new VendorMergeDialog(
 					messages.mergeVendors(Global.get().vendors()),
 					messages.payeeMergeDescription(Global.get().vendor()));

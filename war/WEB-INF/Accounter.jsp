@@ -34,6 +34,14 @@
   		%>
   			last: 'end'
   		};
+  		var features=[];
+  		<% Set<String> features=(Set<String>)request.getAttribute("features");
+  		if(features!=null){
+  			for(String f:features){
+  				%>features.push('<%= f %>');<%
+  			}
+  		}
+  		%>
   		
   		var accounter_locale={
   		<%

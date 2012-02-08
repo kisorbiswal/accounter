@@ -125,8 +125,6 @@ public class ClientCompany implements IAccounterCore {
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
 
-	private Set<String> features = new HashSet<String>();
-
 	private int subscriptionType;
 
 	private ArrayList<ClientAccount> accounts;
@@ -3215,20 +3213,12 @@ public class ClientCompany implements IAccounterCore {
 		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
 
-	public boolean hasPermission(String featureName) {
-		return features.contains(featureName);
-	}
-
 	public int getSubscriptionType() {
 		return subscriptionType;
 	}
 
 	public void setSubscriptionType(int subscriptionType) {
 		this.subscriptionType = subscriptionType;
-	}
-
-	public void setFeatures(Set<String> features) {
-		this.features = features;
 	}
 
 	public boolean isUnlimitedUser() {

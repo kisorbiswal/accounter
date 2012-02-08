@@ -16,7 +16,7 @@ public class MergeCustomerAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+		if (Accounter.hasPermission(Features.MERGING)) {
 			CustomerMergeDialog customerMergeDialog = new CustomerMergeDialog(
 					messages.mergeCustomers(Global.get().customers()),
 					messages.payeeMergeDescription(Global.get().customer()));

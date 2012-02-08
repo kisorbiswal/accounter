@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -63,6 +65,7 @@ public class Accounter implements EntryPoint {
 
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
+	private static Set<String> features;
 	private static ClientFinanceDate endDate;
 	private static PlaceController placeController;
 	public static SetupWizard setupWizard;
@@ -330,7 +333,7 @@ public class Accounter implements EntryPoint {
 		boolean isAdmin = JNSI.getIsAdmin("isAdmin");
 		IGlobal global = GWT.create(ClientGlobal.class);
 		Global.set(global);
-
+		loadFeatures();
 		if (isAdmin) {
 			return;
 		}
@@ -338,6 +341,19 @@ public class Accounter implements EntryPoint {
 		eventBus = new SimpleEventBus();
 		placeController = new PlaceController(eventBus);
 		loadCompany();
+	}
+
+	private void loadFeatures() {
+		Object obj = JNSI.getFeatures();
+		features = new HashSet<String>();
+		String string = obj.toString().trim();
+		if (string.isEmpty()) {
+			return;
+		}
+		String[] split = string.split(",");
+		for (String s : split) {
+			features.add(s);
+		}
 	}
 
 	public String getUserDisplayName() {
@@ -658,5 +674,9 @@ public class Accounter implements EntryPoint {
 		};
 		Accounter.createCRUDService().doCreateIssuePaymentEffect(obj,
 				transactionCallBack);
+	}
+
+	public static boolean hasPermission(String feature) {
+		return feature.contains(feature);
 	}
 }

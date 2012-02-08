@@ -112,7 +112,7 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 		classTrackingCheckBox.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Accounter.getCompany().hasPermission(Features.CLASS)) {
+				if (Accounter.hasPermission(Features.CLASS)) {
 					hiddenPanel.setVisible(classTrackingCheckBox.getValue());
 				} else {
 					classTrackingCheckBox.setValue(false);

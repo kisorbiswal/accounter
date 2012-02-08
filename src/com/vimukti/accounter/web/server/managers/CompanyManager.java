@@ -722,7 +722,6 @@ public class CompanyManager extends Manager {
 		Subscription subscription = logInUser.getClient()
 				.getClientSubscription().getSubscription();
 		clientCompany.setSubscriptionType(subscription.getType());
-		// clientCompany.setFeatures(subscription.getFeatures());
 		List list = session.getNamedQuery("get.All.Units")
 				.setEntity("company", company).list();
 

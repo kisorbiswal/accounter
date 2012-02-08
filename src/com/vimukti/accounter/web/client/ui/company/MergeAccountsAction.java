@@ -15,7 +15,7 @@ public class MergeAccountsAction extends Action {
 
 	@Override
 	public void run() {
-		if (Accounter.getCompany().hasPermission(Features.MERGING)) {
+		if (Accounter.hasPermission(Features.MERGING)) {
 			AccountMergeDialog accountMergeDialog = new AccountMergeDialog(
 					messages.mergeAccounts(), messages.mergeDescription());
 			accountMergeDialog.show();

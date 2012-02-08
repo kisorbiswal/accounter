@@ -62,7 +62,7 @@ public class TrackEstimatesOption extends AbstractPreferenceOption {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (Accounter.getCompany().hasPermission(
+				if (Accounter.hasPermission(
 						Features.CREDITS_CHARGES)) {
 				} else {
 					useDelayedCharges.setValue(false);
