@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.externalization;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.i18n.Messages;
 
@@ -5871,5 +5870,7 @@ public interface AccounterMessages extends Messages {
 	public String MISCInfoLabelText();
 
 	public String preVendor(String vendor);
+
+	public String subscribtionManagement();
 
 }
