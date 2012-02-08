@@ -20,7 +20,7 @@ public class InventoryStockStatusByItemServerReport extends
 
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", messages.itemDescription(),
+		return new String[] { "", messages.description(),
 				messages.preVendor(Global.get().Vendor()),
 				messages.reportPts(), messages.onHand(),
 				messages.onSalesOrder(), messages.forAssemblies(),
@@ -35,7 +35,7 @@ public class InventoryStockStatusByItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", messages.itemDescription(),
+		return new String[] { "", messages.description(),
 				messages.preVendor(Global.get().Vendor()),
 				messages.reportPts(), messages.onHand(),
 				messages.onSalesOrder(), messages.forAssemblies(),
