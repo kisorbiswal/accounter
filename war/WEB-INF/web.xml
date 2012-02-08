@@ -811,18 +811,6 @@
 	<servlet-mapping>
 		<servlet-name>iAccounterExportCSVImpl </servlet-name>
 		<url-pattern>/do/accounter/exportcsv/rpc/service </url-pattern>
-	
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>EncryptCompaniesServlet
-		</servlet-name>
-		<servlet-class>
-			com.vimukti.accounter.servlets.EncryptCompaniesServlet
-		</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>EncryptCompaniesServlet </servlet-name>
-		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>OpenIDPasswordServlet
@@ -835,5 +823,18 @@
 		<servlet-name>OpenIDPasswordServlet </servlet-name>
 		<url-pattern>/main/openidpassword</url-pattern>
 	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>EncryptCompaniesServlet
+		</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.servlets.EncryptCompaniesServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EncryptCompaniesServlet </servlet-name>
+		<url-pattern>/main/encryption</url-pattern>
+	</servlet-mapping>
+	
 
 </web-app>
