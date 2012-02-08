@@ -69,6 +69,7 @@ import com.vimukti.accounter.core.IRASGeneralLedgerLineInfo;
 import com.vimukti.accounter.core.IRASInformation;
 import com.vimukti.accounter.core.IRASPurchaseLineInfo;
 import com.vimukti.accounter.core.IRASSupplyLineInfo;
+import com.vimukti.accounter.core.InventoryPurchase;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
@@ -2165,6 +2166,7 @@ public class FinanceTool {
 				.getTransactionItems()) {
 			transactionItem.setTransaction(newTransaction);
 			transactionItem.setReferringTransactionItem(null);
+			transactionItem.setPurchases(new HashSet<InventoryPurchase>());
 		}
 		FinanceDate transactionDate = recurringTransaction
 				.getNextScheduledTransactionDate();
