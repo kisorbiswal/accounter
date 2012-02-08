@@ -45,7 +45,7 @@ public class Subscription implements IsSerializable {
 		case 0:
 			return "One User Monthly Subscription";
 		case 1:
-			return "One User Monthly Subscription";
+			return "One User Yearly Subscription";
 		case 2:
 			return "Two Users Monthly Subscription";
 		case 3:
@@ -67,7 +67,7 @@ public class Subscription implements IsSerializable {
 	public static int getStringToType(String type) {
 		if (type.equals("One User Monthly Subscription")) {
 			return 0;
-		} else if (type.equals("One User Monthly Subscription")) {
+		} else if (type.equals("One User Yearly Subscription")) {
 			return 1;
 		} else if (type.equals("Two Users Monthly Subscription")) {
 			return 2;
@@ -91,5 +91,9 @@ public class Subscription implements IsSerializable {
 
 	public void setType(int type) {
 		this.type = type;
+	}
+
+	public boolean isPaidUser() {
+		return !(type == BEFORE_PAID_FETURE || type == FREE_CLIENT);
 	}
 }

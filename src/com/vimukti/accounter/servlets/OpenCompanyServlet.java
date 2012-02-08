@@ -197,10 +197,8 @@ public class OpenCompanyServlet extends BaseServlet {
 					}
 				}
 				Company company = getCompany(request);
-				int subscriptionType = client.getClientSubscription()
-						.getSubscription().getType();
-				if (subscriptionType == Subscription.BEFORE_PAID_FETURE
-						|| subscriptionType == Subscription.FREE_CLIENT) {
+				if (!client.getClientSubscription().getSubscription()
+						.isPaidUser()) {
 					request.setAttribute("goPremiumId", URLEncoder.encode(
 							EU.encryptAccounter(emailID), "UTF-8"));
 				}

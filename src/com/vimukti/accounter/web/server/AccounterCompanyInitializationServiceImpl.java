@@ -124,10 +124,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			List<TemplateAccount> accounts, Client client, String password,
 			byte[] d2) throws AccounterException {
 
-		int subscriptionType = client.getClientSubscription().getSubscription()
-				.getType();
-		if (subscriptionType == Subscription.BEFORE_PAID_FETURE
-				|| subscriptionType == Subscription.FREE_CLIENT) {
+		if (!client.getClientSubscription().getSubscription().isPaidUser()) {
 			List<Company> companies = client.getCompanies();
 			if (companies.size() > 0) {
 				throw new AccounterException();

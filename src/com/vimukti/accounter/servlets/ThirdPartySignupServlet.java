@@ -49,10 +49,8 @@ public class ThirdPartySignupServlet extends BaseServlet {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute(EMAIL_ID, client.getEmailId());
 					if (destUrl == null || destUrl.isEmpty()) {
-						int subType = client.getClientSubscription()
-								.getSubscription().getType();
-						if (subType != Subscription.BEFORE_PAID_FETURE
-								|| subType == Subscription.FREE_CLIENT) {
+						if (!client.getClientSubscription().getSubscription()
+								.isPaidUser()) {
 							if (client.getPassword() == null) {
 								response.sendRedirect("/main/resetpassword?type=openid");
 							} else {
