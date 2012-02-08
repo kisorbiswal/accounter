@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
@@ -100,7 +101,9 @@ public class SetupWizard extends VerticalPanel {
 		allViewsList.add(new SetupSelectAccountsPage(this));
 		// IF SETUP SKIP THEN ONLY THIS VIEW SHOULD SHOW..
 		allViewsList.add(new SetupIndustrySelectionWithAccountsPage(this));
-		allViewsList.add(new SetupPremiumPage(this));
+		if (Accounter.hasPermission(Features.ENCRYPTION)) {
+			allViewsList.add(new SetupPremiumPage(this));
+		}
 		allViewsList.add(new SetupComplitionPage());
 	}
 
