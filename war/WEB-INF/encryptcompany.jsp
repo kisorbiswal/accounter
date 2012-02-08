@@ -41,16 +41,22 @@ $('#submitButton').click(function() {
 </head>
 
 
-<body>
+<body align="center">
+
+
 		<div id="commanContainer">
+		
 			<tr><td><c:if test="${info!=null}"> 
 					<div id="login_success" class="common-box">
 					<span>${info}</span>
 			</div>
 			</c:if>
-		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/> 
-			  <form id="accounterForm" action="/main/encryption"  class="accounterform" method="post">
-			 
+		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
+			  <form align="center" id="accounterForm"   action="/main/encryption" style="width:650px" class="accounterform" method="post">
+			  <div id="content" >
+			  <div  ><i18n:i18n msg='encryptionEnablesyourCompanydata'/></div>
+			  <div  ><i18n:i18n msg='encryptionPasswordisImportant'/></div>
+			  </div><div>
 			 <input type="hidden" name="on0" value="Companies list">Companies list
 			<c:if test="${companeyList != null}">
 			<select name="companyname">
@@ -65,7 +71,7 @@ $('#submitButton').click(function() {
 			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 			<div>
 			</div>
-		
+		</div>
 		   </form>
 		   <div class="form-bottom-options">
 		     
