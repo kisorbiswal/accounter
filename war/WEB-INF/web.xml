@@ -280,7 +280,7 @@
 		<url-pattern>/main/logout
 		</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>deleteAccount</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.DeleteAccountServlet
