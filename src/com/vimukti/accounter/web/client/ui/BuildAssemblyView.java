@@ -377,12 +377,16 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ClientBuildAssembly saveView() {
-		data.setInventoryAssembly(itemCombo.getSelectedValue().getID());
+		ClientInventoryAssembly selectedValue = itemCombo.getSelectedValue();
+		if (selectedValue != null) {
+			data.setInventoryAssembly(itemCombo.getSelectedValue().getID());
+		}
 		return data;
 	}
 
 	@Override
 	public void restoreView(ClientBuildAssembly assembly) {
+		super.restoreView(assembly);
 		ClientInventoryAssembly item = (ClientInventoryAssembly) getCompany()
 				.getItem(assembly.getInventoryAssembly());
 		itemCombo.setComboItem(item);
