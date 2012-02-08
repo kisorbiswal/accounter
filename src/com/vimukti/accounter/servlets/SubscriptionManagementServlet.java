@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
@@ -50,9 +51,14 @@ public class SubscriptionManagementServlet extends BaseServlet {
 	}
 
 	private void showSubscriptionManagementDetails(HttpServletRequest req,
-			HttpServletResponse resp) {
+			HttpServletResponse resp) throws IOException {
 		SubscriptionManagementData managementData = new SubscriptionManagementData();
-		String emailId = req.getSession().getAttribute(EMAIL_ID).toString();
+		HttpSession session = req.getSession();
+		if (session == null) {
+			resp.sendRedirect(LOGIN_URL);
+			return;
+		}
+		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailId != null) {
 			Client client = getClient(emailId);
 			managementData.setUserMailds(getUsersMailIds(client));
@@ -67,8 +73,10 @@ public class SubscriptionManagementServlet extends BaseServlet {
 					.getSubscription().getType());
 			req.setAttribute("managementData", managementData);
 			dispatch(req, resp, view);
+		} else {
+			resp.sendRedirect(LOGIN_URL);
+			return;
 		}
-		return;
 	}
 
 	private String getUsersMailIds(Client client) {
