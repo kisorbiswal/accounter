@@ -438,7 +438,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
+		if (type == TYPE_INVENTORY_PART) {
 			doCreateEffectForInventoryItem();
 		}
 		ChangeTracker.put(this);

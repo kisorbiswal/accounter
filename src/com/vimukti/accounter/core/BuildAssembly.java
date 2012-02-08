@@ -6,10 +6,6 @@ import org.json.JSONException;
 
 public class BuildAssembly extends Transaction {
 
-	/**
-	 * 
-	 */
-
 	private InventoryAssembly inventoryAssembly;
 	private Double quantityToBuild;
 
@@ -23,10 +19,34 @@ public class BuildAssembly extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		if (inventoryAssembly != null) {
-			inventoryAssembly.buildAssembly(this, quantityToBuild);
+		if (number == null) {
+			String number = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_BUILD_ASSEMBLY, getCompany());
+			setNumber(number);
 		}
 
+		for (InventoryAssemblyItem assemblyItem : inventoryAssembly
+				.getComponents()) {
+
+			Item inventoryItem = assemblyItem.getInventoryItem();
+			TransactionItem transactionItem = new TransactionItem();
+			transactionItem.setType(TransactionItem.TYPE_ITEM);
+			transactionItem.setTransaction(this);
+			transactionItem.setQuantity(assemblyItem.getQuantity());
+			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
+
+			transactionItem.setItem(inventoryItem);
+			transactionItem.setDescription("Build Assembly");
+			transactionItem.setWareHouse(assemblyItem.getWarehouse());
+			transactionItem.setLineTotal(assemblyItem.getQuantity()
+					.calculatePrice(assemblyItem.getUnitPrice()));
+			getTransactionItems().add(transactionItem);
+		}
+
+		Quantity onhandQuantity = inventoryAssembly.getOnhandQty();
+		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
+		inventoryAssembly.setOnhandQuantity(onhandQuantity);
+		session.update(inventoryAssembly);
 		return super.onSave(session);
 	}
 
@@ -44,7 +64,6 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -62,8 +81,7 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public int getTransactionCategory() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Transaction.CATEGORY_CUSTOMER;
 	}
 
 	@Override

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.vimukti.accounter.core"
+	default-access="field" auto-import="false">
+
+	<query name="get.InventoryItem.donnot.have.assetAccount">
+		from com.vimukti.accounter.core.Item it where it.type=2 and it.assetsAccount is null; 
+	</query>
+
+	<sql-query name="getNextAccountNumber">
+		<query-param name="companyId" type="long" />
+		<query-param name="subbaseType" type="int" />
+		
+		SELECT MAX(A_NUMBER) FROM ACCOUNT A 
+		WHERE SUB_BASE_TYPE=:subbaseType AND A.COMPANY_ID=:companyId;
+	
+	</sql-query> 
+	
+</hibernate-mapping>

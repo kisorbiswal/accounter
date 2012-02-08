@@ -777,7 +777,7 @@
 		</set>
 		<joined-subclass name="InventoryAssembly" table="INVENTORY_ASSEMBLY">
 			<key column="ID" />
-			<set name="components" table="INVENTORY_ASSEMBLY_ITEMS" cascade="save-update,delete-orphan">
+			<set name="components" table="INVENTORY_ASSEMBLY_ITEM" cascade="save-update,delete-orphan">
 				<key column="INVENTORY_ASSEMBLY_ITEM_ID"></key>
 				<one-to-many class="InventoryAssemblyItem" />
 			</set>
@@ -790,7 +790,9 @@
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
 		</id>
-		<property name="inventoryItem" column="INVENTORY_ITEM"></property>
+		<many-to-one name="inventoryItem" column="INVENTORY_ITEM_ID" class="Item"
+			not-null="true">
+		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE"></property>
 			<many-to-one name="unit" class="Unit" column="QTY_UNIT"
@@ -798,7 +800,9 @@
 		</component>
 		<property name="unitPrice" column="UNIT_PRICE"></property>
 		<property name="discription" column="DISCRIPTION"></property>
-		<property name="warehouse" column="WARE_HOUSE"></property>
+		<many-to-one name="warehouse" column="WARE_HOUSE" class="Warehouse"
+			not-null="true">
+		</many-to-one>
 		<property name="linetotal" column="LINE_TOTAL"></property>
 	</class>
 

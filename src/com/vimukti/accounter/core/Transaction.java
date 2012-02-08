@@ -664,6 +664,10 @@ public abstract class Transaction extends CreatableObject implements
 		return this instanceof StockAdjustment;
 	}
 
+	public boolean isBuildAssembly() {
+		return this instanceof BuildAssembly;
+	}
+
 	/**
 	 * (non-Javadoc)
 	 * 

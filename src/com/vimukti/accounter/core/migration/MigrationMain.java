@@ -8,15 +8,27 @@ import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class MigrationMain {
 	public static void main(String[] args) {
 		ServerConfiguration.init(null);
 		initLogger();
-		MakeDepositMigration mdm = new MakeDepositMigration();
-		mdm.start();
+		Session session = HibernateUtil.openSession();
+		Transaction transaction = session.beginTransaction();
+		try {
+			InventoryMigration migration = new InventoryMigration();
+			migration.start();
+			transaction.commit();
+		} catch (Exception e) {
+			transaction.rollback();
+		} finally {
+			session.close();
+		}
 	}
 
 	protected static String getArgument(String[] args, String name) {

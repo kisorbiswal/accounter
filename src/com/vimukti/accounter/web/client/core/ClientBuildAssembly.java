@@ -6,7 +6,7 @@ public class ClientBuildAssembly extends ClientTransaction {
 	 * 
 	 */
 	private static final long serialVersionUID = 8215768906353162049L;
-	private ClientInventoryAssembly inventoryAssembly;
+	private long inventoryAssembly;
 	private Double quantityToBuild;
 
 	public ClientBuildAssembly() {
@@ -39,11 +39,11 @@ public class ClientBuildAssembly extends ClientTransaction {
 		return id;
 	}
 
-	public ClientInventoryAssembly getInventoryAssembly() {
+	public long getInventoryAssembly() {
 		return inventoryAssembly;
 	}
 
-	public void setInventoryAssembly(ClientInventoryAssembly inventoryAssembly) {
+	public void setInventoryAssembly(long inventoryAssembly) {
 		this.inventoryAssembly = inventoryAssembly;
 	}
 

@@ -23,7 +23,7 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 
 	private String discription;
 
-	private long warehouse;
+	private Warehouse warehouse;
 
 	private double linetotal;
 
@@ -87,11 +87,11 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 		this.discription = discription;
 	}
 
-	public long getWarehouse() {
+	public Warehouse getWarehouse() {
 		return warehouse;
 	}
 
-	public void setWarehouse(long warehouse) {
+	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
 	}
 
@@ -101,11 +101,6 @@ public class InventoryAssemblyItem implements IAccounterServerCore {
 
 	public void setLinetotal(double linetotal) {
 		this.linetotal = linetotal;
-	}
-
-	public double getCostByActiveScheme() {
-		// TODO Auto-generated method stub
-		return 0.00D;
 	}
 
 }

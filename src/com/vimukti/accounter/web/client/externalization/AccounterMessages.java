@@ -5871,6 +5871,11 @@ public interface AccounterMessages extends Messages {
 
 	public String preVendor(String vendor);
 
-	public String subscribtionManagement();
+	public String newInventory();
 
+	public String newAssembly();
+
+	public String inventoryName();
+
+	public String subscribtionManagement();
 }

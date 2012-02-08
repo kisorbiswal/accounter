@@ -37,7 +37,7 @@ public class BuildAssemblyView extends
 		AbstractTransactionBaseView<ClientBuildAssembly> {
 
 	public BuildAssemblyView() {
-		super(ClientTransaction.BUILD_ASSEMBLY);
+		super(ClientTransaction.TYPE_BUILD_ASSEMBLY);
 	}
 
 	private InventoryAssemblyItemCombo itemCombo;
@@ -276,7 +276,8 @@ public class BuildAssemblyView extends
 	protected void updateTransaction() {
 
 		if (itemCombo.getSelectedValue() != null) {
-			transaction.setInventoryAssembly(itemCombo.getSelectedValue());
+			transaction.setInventoryAssembly(itemCombo.getSelectedValue()
+					.getID());
 		}
 		if (dateField.getTime() <= 0) {
 			transaction.setDate(dateField.getTime());
@@ -316,13 +317,14 @@ public class BuildAssemblyView extends
 			setData(new ClientBuildAssembly());
 		} else {
 			setData(data);
-			if (data.getInventoryAssembly() != null) {
-				buildPoint.setValue(Integer.toString(data
-						.getInventoryAssembly().getReorderPoint()));
-				quantityOnHand.setAmount(data.getInventoryAssembly()
-						.getOnhandQty().getValue());
-				Set<ClientInventoryAssemblyItem> components = data
-						.getInventoryAssembly().getComponents();
+			if (data.getInventoryAssembly() != 0) {
+				ClientInventoryAssembly assembly = (ClientInventoryAssembly) getCompany()
+						.getItem(data.getInventoryAssembly());
+				buildPoint
+						.setValue(Integer.toString(assembly.getReorderPoint()));
+				quantityOnHand.setAmount(assembly.getOnhandQty().getValue());
+				Set<ClientInventoryAssemblyItem> components = assembly
+						.getComponents();
 				List<ClientInventoryAssemblyItem> assemblyItems = new ArrayList<ClientInventoryAssemblyItem>();
 				for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : components) {
 					assemblyItems.add(clientInventoryAssemblyItem);
@@ -330,8 +332,10 @@ public class BuildAssemblyView extends
 				itemTable.setRecords(assemblyItems);
 			}
 
-			if (data.getInventoryAssembly() != null) {
-				itemCombo.setComboItem(data.getInventoryAssembly());
+			if (data.getInventoryAssembly() != 0) {
+				ClientInventoryAssembly item = (ClientInventoryAssembly) getCompany()
+						.getItem(data.getInventoryAssembly());
+				itemCombo.setComboItem(item);
 			}
 			if (data.getDate() != null) {
 				dateField.setDefaultValue(data.getDate());
@@ -373,14 +377,15 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ClientBuildAssembly saveView() {
-		ClientBuildAssembly assembly = new ClientBuildAssembly();
-		assembly.setInventoryAssembly(itemCombo.getSelectedValue());
-		return assembly;
+		data.setInventoryAssembly(itemCombo.getSelectedValue().getID());
+		return data;
 	}
 
 	@Override
 	public void restoreView(ClientBuildAssembly assembly) {
-		itemCombo.setComboItem(assembly.getInventoryAssembly());
-		inventoryAssemblySelected(assembly.getInventoryAssembly());
+		ClientInventoryAssembly item = (ClientInventoryAssembly) getCompany()
+				.getItem(assembly.getInventoryAssembly());
+		itemCombo.setComboItem(item);
+		inventoryAssemblySelected(item);
 	}
 }

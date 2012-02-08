@@ -78,6 +78,7 @@
 		<mapping resource="mapping/finance-new-queries.xml" />
 		<mapping resource="mapping/finance-translate-mapping.xml" />
 		<mapping resource="mapping/finance-search.xml" />
+		<mapping resource="mapping/finance-migration.xml" />
 
 
 

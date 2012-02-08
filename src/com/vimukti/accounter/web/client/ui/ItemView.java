@@ -151,10 +151,14 @@ public class ItemView extends BaseView<ClientItem> {
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.add(lab1);
+		if (this.type == TYPE_SERVICE) {
+			nameText = new TextItem(messages.serviceName());
+		} else if (this.type == NON_INVENTORY_PART) {
+			nameText = new TextItem(messages.productName());
+		} else {
+			nameText = new TextItem(messages.inventoryName());
+		}
 
-		nameText = new TextItem(
-				this.type == TYPE_SERVICE ? messages.serviceName()
-						: messages.productName());
 		nameText.setValue(itemName);
 		nameText.setHelpInformation(true);
 		nameText.setWidth(100);
@@ -188,11 +192,14 @@ public class ItemView extends BaseView<ClientItem> {
 			this.type = data.getType();
 		}
 		itemForm.setFields(nameText);
+
 		if (type == ClientItem.TYPE_SERVICE) {
 			lab1.setText(messages.newService());
-		} else {
+		} else if (type == NON_INVENTORY_PART) {
 			lab1.setText(messages.newProduct());
 			itemForm.setFields(weightText);
+		} else {
+			lab1.setText(messages.newInventory());
 		}
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
