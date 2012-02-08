@@ -491,10 +491,19 @@ public class ReportManager extends Manager {
 				if (transactionDetailByAccount.getTotal() > 0)
 					transactionDetailByAccount.setName("Box4");
 
-			} else
-				transactionDetailByAccount.setName((object[1] == null ? null
-						: ((String) object[1])));
-
+			} else {
+				if (transactionDetailByAccount.getTransactionType() == 28) {
+					if (object.length > 7) {
+						transactionDetailByAccount
+								.setName((object[8] == null ? null
+										: ((String) object[8])));
+					}
+				} else {
+					transactionDetailByAccount
+							.setName((object[1] == null ? null
+									: ((String) object[1])));
+				}
+			}
 			transactionDetailByAccount.setTransactionId((Long) object[2]);
 
 			transactionDetailByAccount
