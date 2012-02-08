@@ -11,6 +11,7 @@ import java.util.Set;
 import org.apache.xerces.impl.dv.util.Base64;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ChequePdfGenerator;
@@ -2214,5 +2215,12 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		invitableUsers.add(in1);
 		invitableUsers.add(in2);
 		return invitableUsers;
+	}
+
+	@Override
+	public int getClientCompaniesCount() {
+		List<Company> companies = AccounterThreadLocal.get().getClient()
+				.getCompanies();
+		return companies.size();
 	}
 }

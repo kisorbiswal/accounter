@@ -1850,4 +1850,16 @@ public class CompanyManager extends Manager {
 		}
 
 	}
+
+	/**
+	 * @param clientId
+	 * @return
+	 * @throws AccounterException
+	 */
+	public int getClientCompaniesCount(long clientId) throws AccounterException {
+		Session session = HibernateUtil.getCurrentSession();
+		Object obj = session.getNamedQuery("getClirntCompanyCount")
+				.setParameter("clientId", clientId).uniqueResult();
+		return 0;
+	}
 }

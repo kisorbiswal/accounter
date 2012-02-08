@@ -543,4 +543,6 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<PaginationList<TransactionsList>> asyncCallback);
 
 	public void getIvitableUsers(AsyncCallback<Set<InvitableUser>> asyncCallback);
+
+	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
 }

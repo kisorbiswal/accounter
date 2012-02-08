@@ -13,6 +13,7 @@ import com.google.gwt.i18n.client.impl.CldrImpl;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -157,7 +158,29 @@ public class Header extends FlowPanel {
 		SimplePanel companiesLinkPanel = new SimplePanel();
 
 		panel2 = new HorizontalPanel();
-		panel2.add(companiesLink);
+		Accounter.createHomeService().getClientCompaniesCount(
+				new AsyncCallback<Integer>() {
+
+					@Override
+					public void onSuccess(Integer result) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		int subscriptionType = Accounter.getCompany().getSubscriptionType();
+		if (subscriptionType == ClientCompany.BEFORE_PAID_FETURE
+				|| subscriptionType == ClientCompany.FREE_CLIENT) {
+			// TO DO
+		} else {
+			panel2.add(companiesLink);
+		}
+
 		panel2.add(companiesLinkPanel);
 		panel2.add(companyNameLabel);
 		companiesLinkPanel.getElement().getParentElement()

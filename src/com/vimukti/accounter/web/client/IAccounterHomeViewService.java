@@ -483,4 +483,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public Set<InvitableUser> getIvitableUsers() throws AccounterException;
 
+	public int getClientCompaniesCount();
+
 }
