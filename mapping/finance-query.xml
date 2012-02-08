@@ -12896,7 +12896,7 @@
 	<sql-query name="getClirntCompanyCount">
 		<query-param name="clientId" type="long" />
 		<return-scalar column="COMPANY_COUNT" type="long" />
-		 select count(res)  AS COMPANY_COUNT from (select cl.id from client cl left join users u on u.client_id=cl.id left join company c on c.id=u.company_id where cl.id=1 group by cl.id,u.id,c.id) as res
+		 select count(res)  AS COMPANY_COUNT from (select cl.id from client cl left join users u on u.client_id=cl.id left join company c on c.id=u.company_id where cl.id=:clientId group by cl.id,u.id,c.id) as res
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
