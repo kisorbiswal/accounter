@@ -99,7 +99,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 	@Override
 	protected ClientTAXCode getAddNewRow() {
 		ClientTAXCode code = new ClientTAXCode();
-		code.setName(messages.addaNewTaxCode());
+		code.setName(messages.comboDefaultAddNew(messages.taxCode()));
 		return code;
 	}
 
@@ -153,7 +153,7 @@ public class TaxCodeTable extends AbstractDropDownTable<ClientTAXCode> {
 			return null;
 		}
 		StringBuffer result = new StringBuffer(name);
-		if (name.equals(messages.addaNewTaxCode())) {
+		if (name.equals(messages.comboDefaultAddNew(messages.addaNewTaxCode()))) {
 			return result.toString();
 		}
 		return name;
