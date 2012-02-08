@@ -34,8 +34,8 @@ public class OpenIDPasswordServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		String emailId = (String) session.getAttribute(EMAIL_ID);
-		if (session != null && emailId != null) {
+		if (session != null && session.getAttribute(EMAIL_ID) != null) {
+			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String password = req.getParameter("password");
 			Client client = getClient(emailId);
 			if (client != null) {

@@ -7,6 +7,13 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
+
+import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class EncryptCompaniesServlet extends BaseServlet {
 
@@ -20,12 +27,29 @@ public class EncryptCompaniesServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO send messages with info attribute
-		List<String> list = new ArrayList<String>();
-		list.add("suresh");
-		list.add("nagaraj");
-		req.setAttribute("companeyList", list);
-		dispatch(req, resp, ENCRYPT_VIEW);
+		HttpSession session = req.getSession();
+		if (session != null && session.getAttribute(EMAIL_ID) != null) {
+			String emailId = (String) session.getAttribute(EMAIL_ID);
+			Client client = getClient(emailId);
+			if (client == null) {
+				resp.sendRedirect(LOGIN_URL);
+				return;
+			}
+			Session currentSession = HibernateUtil.getCurrentSession();
+			List<Long> userIds = new ArrayList<Long>();
+			for (User user : client.getUsers()) {
+				if (!user.isDeleted()) {
+					userIds.add(user.getID());
+				}
+			}
+			List<String> list = currentSession
+					.getNamedQuery("get.CompanyName.by.client")
+					.setParameterList("userIds", userIds).list();
+			req.setAttribute("companeyList", list);
+			dispatch(req, resp, ENCRYPT_VIEW);
+		} else {
+			resp.sendRedirect(LOGIN_URL);
+		}
 	}
 
 	@Override

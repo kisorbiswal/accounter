@@ -15,7 +15,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -92,21 +91,19 @@ public class CompaniesServlet extends BaseServlet {
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
-				int subscriptionType = client.getClientSubscription()
-						.getSubscription().getType();
-				// if (subscriptionType == Subscription.BEFORE_PAID_FETURE
-				// || subscriptionType == Subscription.FREE_CLIENT) {
-				// if (list.size() == 0) {
-				// createCompany(req, resp);
-				// return;
-				// }
-				// if (list.size() == 1) {
-				// openCompany(req, resp, list.get(0).getId());
-				// return;
-				// } else {
-				// req.setAttribute("canCreate", false);
-				// }
-				// }
+				if (client.getClientSubscription().getSubscription()
+						.isPaidUser()) {
+					if (list.size() == 0) {
+						createCompany(req, resp);
+						return;
+					}
+					if (list.size() == 1) {
+						openCompany(req, resp, list.get(0).getId());
+						return;
+					}
+					req.setAttribute("isPaid", false);
+				}
+				req.setAttribute("isPaid", true);
 				if (list.isEmpty()
 						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",

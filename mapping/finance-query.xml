@@ -7380,6 +7380,13 @@
 		T_COUNT=0,T_DATE DESC
 	</sql-query>
 
+	<sql-query name="get.CompanyName.by.client">
+		<query-param name="userIds" type="long" />
+		SELECT C.TRADING_NAME FROM
+		COMPANY C LEFT JOIN USERS U ON
+		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds ORDER BY C.TRADING_NAME
+	</sql-query>
+
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
 		<query-param name="userIds" type="long" />
 		<return-scalar column="COMPANY_ID" type="long" />

@@ -12,8 +12,8 @@
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 	<script type="text/javascript">
 		<%	boolean isConListRTL=(Boolean) request.getAttribute("isRTL");	%>
-		<%	Boolean canCreate=(Boolean) request.getAttribute("canCreate");	%>
-		<%	canCreate=canCreate==null?true:canCreate;	%>
+		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
+		<%	isPaid=isPaid==null?true:isPaid;	%>
 		window.onload=function(){
 		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
 		};
@@ -64,7 +64,7 @@
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
-        <c:if test="<%= canCreate%>">
+        <c:if test="<%= isPaid%>">
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	</c:if>
       	<ul><li>
