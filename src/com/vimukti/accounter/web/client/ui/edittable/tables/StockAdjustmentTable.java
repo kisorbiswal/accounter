@@ -221,7 +221,7 @@ public abstract class StockAdjustmentTable extends
 
 				@Override
 				protected String getColumnName() {
-					return messages.currentQty();
+					return messages.currentValue();
 				}
 
 				@Override
