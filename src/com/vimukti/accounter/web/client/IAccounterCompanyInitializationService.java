@@ -6,7 +6,6 @@ package com.vimukti.accounter.web.client;
 import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
@@ -31,7 +30,5 @@ public interface IAccounterCompanyInitializationService extends RemoteService {
 	public String getCountry();
 
 	boolean isCompanyNameExists(String companyName) throws AccounterException;
-
-	Subscription getSubscription();
 
 }
