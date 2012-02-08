@@ -816,7 +816,7 @@
 		<servlet-name>OpenIDPasswordServlet
 		</servlet-name>
 		<servlet-class>
-			com.vimukti.accounter.web.server.OpenIDPasswordServlet
+			com.vimukti.accounter.servlets.OpenIDPasswordServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>
