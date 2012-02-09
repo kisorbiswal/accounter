@@ -3633,6 +3633,16 @@
 		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
+	
+	<sql-query name="canDeleteTAXAdjustment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT TA.ID AS ID FROM TAX_ADJUSTMENT TA LEFT JOIN TRANSACTION T
+		ON
+		T.ID=TA.ID WHERE TA.ID IS NULL AND TA.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
 
 	<sql-query name="canDeleteWriteCheck">
 		<query-param name="inputId" type="long" />
