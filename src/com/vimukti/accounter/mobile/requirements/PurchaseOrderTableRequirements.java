@@ -51,8 +51,8 @@ public abstract class PurchaseOrderTableRequirements extends
 	@Override
 	protected Record createFullRecord(PurchaseOrdersList value) {
 		Record rec = new Record(value);
-		rec.add("Name", value.getVendorName());
-		rec.add("Balance", value.getBalance());
+		rec.add(getMessages().name(), value.getVendorName());
+		rec.add(getMessages().balance(), value.getBalance());
 		return rec;
 	}
 

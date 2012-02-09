@@ -14,6 +14,7 @@ import org.json.JSONException;
 
 import com.sun.istack.internal.Nullable;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -409,21 +410,21 @@ public class RecurringTransaction extends CreatableObject implements
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
-		sb.append(name).append(" - Every ");
+		sb.append(name).append(Global.get().messages().every());
 		sb.append(intervalPeriod).append(' ');
 		switch (intervalType) {
 		case INTERVAL_TYPE_DAILY:
-			sb.append("Day(s)");
+			sb.append(Global.get().messages().days());
 			break;
 		case INTERVAL_TYPE_WEEKLY:
-			sb.append("Week(s)");
+			sb.append(Global.get().messages().weeks());
 			break;
 		case INTERVAL_TYPE_MONTHLY_DAY:
 		case INTERVAL_TYPE_MONTHLY_WEEK:
-			sb.append("Month(s)");
+			sb.append(Global.get().messages().months());
 			break;
 		case INTERVAL_TYPE_YEARLY:
-			sb.append("Year(s)");
+			sb.append(Global.get().messages().years());
 		default:
 			sb.append("-");
 			break;

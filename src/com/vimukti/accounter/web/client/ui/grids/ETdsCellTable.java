@@ -43,9 +43,9 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 	private List<ClientBank> getGrossingUpIndicators() {
 		ArrayList<ClientBank> list = new ArrayList<ClientBank>();
 		ClientBank a = new ClientBank();
-		a.setName("Yes");
+		a.setName(messages.yes());
 		ClientBank b = new ClientBank();
-		b.setName("No");
+		b.setName(messages.no());
 		list.add(a);
 		list.add(b);
 
@@ -71,7 +71,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Sr. No.";
+				return messages.SRNo();
 			}
 
 			@Override
@@ -96,7 +96,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Bank BSR Code";
+				return messages.bankBSRCode();
 			}
 
 			@Override
@@ -120,7 +120,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Date Tax deposited";
+				return messages.dateTaxDeposited();
 			}
 
 			@Override
@@ -145,7 +145,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Chalan Serial NO.";
+				return messages.challanSerialNo();
 			}
 
 			@Override
@@ -170,7 +170,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Section for payment";
+				return messages.sectionForPayment();
 			}
 
 			@Override
@@ -195,7 +195,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Total TDS to be allocated among all deductees";
+				return messages.totalTDSToBeAllocatedAmongAllDeductees();
 			}
 
 			@Override
@@ -219,7 +219,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "PAN of Deductee";
+				return messages.panOfTheDeductee();
 			}
 
 			@Override
@@ -233,7 +233,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			public String getValue(ClientETDSFillingItem object) {
-				return Accounter.getCompany().getVendor(object.getDeducteeID())
+				return Accounter.getCompany().getPayee(object.getDeducteeID())
 						.getName();
 
 			}
@@ -246,7 +246,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Deductee Name";
+				return messages.deducteeName();
 			}
 
 			@Override
@@ -271,7 +271,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Date of Payment/Credit";
+				return messages.dateOfPaymentOrCredit();
 			}
 
 			@Override
@@ -296,7 +296,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Amount Paid/Credited";
+				return messages.amountPaidOrCredited();
 			}
 
 			@Override
@@ -321,7 +321,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "TDS";
+				return messages.tds();
 			}
 
 			@Override
@@ -346,7 +346,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Surcharge";
+				return messages.surcharge();
 			}
 
 			@Override
@@ -371,7 +371,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Education Cess";
+				return messages.educationCess();
 			}
 
 			@Override
@@ -397,7 +397,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Total Tax Deducted";
+				return messages.totalTaxDeducted();
 			}
 
 			@Override
@@ -423,7 +423,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Total Tax Deposited";
+				return messages.totalTaxDeposited();
 			}
 
 			@Override
@@ -448,7 +448,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Date of Deduction";
+				return messages.dateOfDeduction();
 			}
 
 			@Override
@@ -470,11 +470,12 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Deductee Code(01-Company/02-other than Company)";
+				return messages.deducteeCode();
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setCompanyCode(newValue.getName());
 			}
 
@@ -504,11 +505,12 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Remark(Reason for non-Deduction/lower deduction/higher deduction/threshold)";
+				return messages.remarkTDSChallan();
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setRemark(newValue.getName());
 			}
 
@@ -542,7 +544,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Rate at which Tax Deducted";
+				return messages.rateAtWhichDeducted();
 			}
 
 			@Override
@@ -567,7 +569,7 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Paid by book entry or otherwise";
+				return messages.paidByBookEntryOrOtherwise();
 			}
 
 			@Override
@@ -589,11 +591,12 @@ public abstract class ETdsCellTable extends EditTable<ClientETDSFillingItem> {
 
 			@Override
 			protected String getColumnName() {
-				return "Grossing up Indicator";
+				return messages.grossingUpIndicator();
 			}
 
 			@Override
-			protected void setValue(ClientETDSFillingItem row, ClientBank newValue) {
+			protected void setValue(ClientETDSFillingItem row,
+					ClientBank newValue) {
 				row.setGrossingUpIndicator(newValue.getName());
 			}
 

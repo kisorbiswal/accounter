@@ -31,7 +31,7 @@ public class TrialBalanceReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TrialBalance> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -45,9 +45,9 @@ public class TrialBalanceReportCommand extends
 					resultList.add(createReportRecord(record));
 				}
 				makeResult.add(resultList);
-				makeResult.add("Total Debit : "
+				makeResult.add(getMessages().debitTotalColon()
 						+ getAmountWithCurrency(totalDebit));
-				makeResult.add("Total Credit : "
+				makeResult.add(getMessages().creditTotalColon()
 						+ getAmountWithCurrency(totalCredit));
 			}
 		});
@@ -77,7 +77,8 @@ public class TrialBalanceReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(TrialBalance selection) {
-		return "Transaction Detail By Account ," + selection.getAccountNumber();
+		return getMessages().transactionDetailByAccount() + " ,"
+				+ selection.getAccountNumber();
 	}
 
 	@Override
@@ -96,11 +97,11 @@ public class TrialBalanceReportCommand extends
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Trial balance report details";
+		return getMessages().trialBalanceReportDetails();
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return "Trial balance report command closed successfully";
+		return getMessages().trialBalanceReportClosed();
 	}
 }

@@ -75,10 +75,10 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 	protected boolean onOK() {
 		if (brandingTheme == null) {
 			brandingTheme = new ClientBrandingTheme();
-			brandingTheme.setInvoiceTempleteName("Classic Template");
-			brandingTheme.setCreditNoteTempleteName("Classic Template");
-			brandingTheme.setQuoteTemplateName("Classic Template");
-			brandingTheme.setCashSaleTemplateName("Classic Template");
+			brandingTheme.setInvoiceTempleteName(messages.classicTemplate());
+			brandingTheme.setCreditNoteTempleteName(messages.classicTemplate());
+			brandingTheme.setQuoteTemplateName(messages.classicTemplate());
+			brandingTheme.setCashSaleTemplateName(messages.classicTemplate());
 
 		}
 
@@ -116,7 +116,7 @@ public class NewCustomThemeDialog extends BaseDialog<ClientBrandingTheme> {
 		ValidationResult result = new ValidationResult();
 		String name = themeName.getValue().toString();
 		if (name.trim().length() == 0)
-			result.addError(this, "Please Enter Valid Theme Name");
+			result.addError(this, messages.pleaseEnterValidLocationName(""));
 		return result;
 	}
 

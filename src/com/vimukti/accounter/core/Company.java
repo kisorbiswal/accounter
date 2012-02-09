@@ -284,6 +284,8 @@ public class Company implements IAccounterServerCore {
 
 	private Set<ChequeLayout> chequeLayouts = new HashSet<ChequeLayout>();
 
+	private Set<EmailAccount> emailAccounts = new HashSet<EmailAccount>();
+
 	String bankAccountNo;
 
 	String sortCode;
@@ -1556,6 +1558,14 @@ public class Company implements IAccounterServerCore {
 		this.secretKey = secretKey;
 	}
 
+	public Set<EmailAccount> getEmailAccounts() {
+		return emailAccounts;
+	}
+
+	public void setEmailAccounts(Set<EmailAccount> emailAccounts) {
+		this.emailAccounts = emailAccounts;
+	}
+	
 	public boolean isLocked() {
 		return isLocked;
 	}

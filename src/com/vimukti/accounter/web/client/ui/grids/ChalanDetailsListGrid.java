@@ -39,13 +39,13 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 		switch (index) {
 		case 0: {
 			if (obj.getFormType() == 1) {
-				return "Form26Q";
+				return messages.form26Q();
 			} else if (obj.getFormType() == 2) {
-				return "Form27Q";
+				return messages.form27Q();
 			} else if (obj.getFormType() == 3) {
-				return "Form27EQ";
+				return messages.form27EQ();
 			} else {
-				return "Form26Q";
+				return messages.form26Q();
 			}
 		}
 		case 1: {
@@ -101,9 +101,9 @@ public class ChalanDetailsListGrid extends BaseListGrid<ClientTDSChalanDetail> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { "Form Type", "Assessment Year",
-				messages.totalAmount(), "Chalan Period", "Date of Payment",
-				"Bank BSR Code", "" };
+		return new String[] { messages.formType(), messages.assessmentYear(),
+				messages.totalAmount(), messages.challanPeriod(),
+				messages.dateofPayment(), messages.bankBSRCode(), "" };
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class CurrencyComboWidget extends DynamicForm {
 
 		setStyleName("currencyTextBox");
 
-		currencyForm = new CurrencyFormItem("Factor :",
+		currencyForm = new CurrencyFormItem(messages.factor(),
 				baseCurrency.getFormalName());
 
 		currencyForm.addChangeHandler(new ChangeHandler() {

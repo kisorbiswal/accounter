@@ -17,7 +17,7 @@ public class TDSFiledDetailsAction extends Action {
 
 	public TDSFiledDetailsAction() {
 		super();
-		this.catagory = "TDS";
+		this.catagory = messages.tds();
 	}
 
 	@Override

@@ -12,8 +12,8 @@ public class ReconcilCombo extends CustomCombo {
 
 	public ArrayList<String> getList() {
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("Match & Find");
-		list.add("Create");
+		list.add(messages.findAndMatch());
+		list.add(messages.create(""));
 		list.add(messages.transfer());
 		list.add(messages.comments());
 

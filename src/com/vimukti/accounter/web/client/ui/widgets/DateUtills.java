@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 /**
  * 
@@ -43,43 +44,44 @@ public class DateUtills {
 			return Integer.parseInt(dateFormat);
 		} catch (Exception e) {
 			isMonth = true;
-			if (dateFormat.equalsIgnoreCase("Jan")
-					|| dateFormat.equalsIgnoreCase("January")) {
+			if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.jan())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.january())) {
 				return 1;
-			} else if (dateFormat.equalsIgnoreCase("Feb")
-					|| dateFormat.equalsIgnoreCase("February")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.feb())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.february())) {
 				return 2;
-			} else if (dateFormat.equalsIgnoreCase("Mar")
-					|| dateFormat.equalsIgnoreCase("March")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.mar())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.march())) {
 				return 3;
-			} else if (dateFormat.equalsIgnoreCase("Apr")
-					|| dateFormat.equalsIgnoreCase("April")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.apr())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.april())) {
 				return 4;
-			} else if (dateFormat.equalsIgnoreCase("May")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.may_full())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.mayS())) {
 				return 5;
-			} else if (dateFormat.equalsIgnoreCase("Jun")
-					|| dateFormat.equalsIgnoreCase("June")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.jun())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.june())) {
 				return 6;
-			} else if (dateFormat.equalsIgnoreCase("Jul")
-					|| dateFormat.equalsIgnoreCase("July")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.jul())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.july())) {
 				return 7;
-			} else if (dateFormat.equalsIgnoreCase("Aug")
-					|| dateFormat.equalsIgnoreCase("August")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.aug())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.august())) {
 				return 8;
-			} else if (dateFormat.equalsIgnoreCase("Sep")
-					|| dateFormat.equalsIgnoreCase("September")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.sep())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.september())) {
 				return 9;
-			} else if (dateFormat.equalsIgnoreCase("Oct")
-					|| dateFormat.equalsIgnoreCase("October")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.oct())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.october())) {
 				return 10;
-			} else if (dateFormat.equalsIgnoreCase("Nov")
-					|| dateFormat.equalsIgnoreCase("November")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.nov())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.november())) {
 				return 11;
-			} else if (dateFormat.equalsIgnoreCase("Dec")
-					|| dateFormat.equalsIgnoreCase("December")) {
+			} else if (dateFormat.equalsIgnoreCase(DayAndMonthUtil.dec())
+					|| dateFormat.equalsIgnoreCase(DayAndMonthUtil.december())) {
 				return 12;
 			} else {
-				System.out.println("Please enter Valid Month Format DDMMYYYY ");
+				System.out.println("Please enter Valid Month Format DDMMYYYY");
 			}
 		}
 		return 0;
@@ -89,43 +91,45 @@ public class DateUtills {
 		try {
 			return Integer.parseInt(monthFormat);
 		} catch (Exception e) {
-			if (monthFormat.equalsIgnoreCase("Jan")
-					|| monthFormat.equalsIgnoreCase("January")) {
+			if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.jan())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.january())) {
 				return 1;
-			} else if (monthFormat.equalsIgnoreCase("Feb")
-					|| monthFormat.equalsIgnoreCase("February")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.feb())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.february())) {
 				return 2;
-			} else if (monthFormat.equalsIgnoreCase("Mar")
-					|| monthFormat.equalsIgnoreCase("March")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.mar())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.march())) {
 				return 3;
-			} else if (monthFormat.equalsIgnoreCase("Apr")
-					|| monthFormat.equalsIgnoreCase("April")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.apr())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.april())) {
 				return 4;
-			} else if (monthFormat.equalsIgnoreCase("May")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.may_full())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.mayS())) {
 				return 5;
-			} else if (monthFormat.equalsIgnoreCase("Jun")
-					|| monthFormat.equalsIgnoreCase("June")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.jun())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.june())) {
 				return 6;
-			} else if (monthFormat.equalsIgnoreCase("Jul")
-					|| monthFormat.equalsIgnoreCase("July")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.jul())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.july())) {
 				return 7;
-			} else if (monthFormat.equalsIgnoreCase("Aug")
-					|| monthFormat.equalsIgnoreCase("August")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.aug())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.august())) {
 				return 8;
-			} else if (monthFormat.equalsIgnoreCase("Sep")
-					|| monthFormat.equalsIgnoreCase("September")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.sep())
+					|| monthFormat
+							.equalsIgnoreCase(DayAndMonthUtil.september())) {
 				return 9;
-			} else if (monthFormat.equalsIgnoreCase("Oct")
-					|| monthFormat.equalsIgnoreCase("October")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.oct())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.october())) {
 				return 10;
-			} else if (monthFormat.equalsIgnoreCase("Nov")
-					|| monthFormat.equalsIgnoreCase("November")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.nov())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.november())) {
 				return 11;
-			} else if (monthFormat.equalsIgnoreCase("Dec")
-					|| monthFormat.equalsIgnoreCase("December")) {
+			} else if (monthFormat.equalsIgnoreCase(DayAndMonthUtil.dec())
+					|| monthFormat.equalsIgnoreCase(DayAndMonthUtil.december())) {
 				return 12;
 			} else {
-				System.out.println("Please enter Valid Month Format DDMMYYYY ");
+				System.out.println("Please enter Valid Month Format DDMMYYYY");
 			}
 		}
 		return 0;
@@ -135,30 +139,29 @@ public class DateUtills {
 
 		switch (month) {
 		case 1:
-			return ("Jan");
+			return (DayAndMonthUtil.jan());
 		case 2:
-			return ("Feb");
+			return (DayAndMonthUtil.feb());
 		case 3:
-			return ("Mar");
+			return (DayAndMonthUtil.mar());
 		case 4:
-			return ("Apr");
+			return (DayAndMonthUtil.apr());
 		case 5:
-			return ("May");
+			return (DayAndMonthUtil.mayS());
 		case 6:
-			return ("Jun");
+			return (DayAndMonthUtil.jun());
 		case 7:
-			return ("July");
+			return (DayAndMonthUtil.july());
 		case 8:
-			return ("Aug");
+			return (DayAndMonthUtil.aug());
 		case 9:
-			return ("Sep");
+			return (DayAndMonthUtil.sep());
 		case 10:
-			return ("Oct");
-
+			return (DayAndMonthUtil.oct());
 		case 11:
-			return ("Nov");
+			return (DayAndMonthUtil.nov());
 		case 12:
-			return ("Dec");
+			return (DayAndMonthUtil.dec());
 		default:
 			break;
 

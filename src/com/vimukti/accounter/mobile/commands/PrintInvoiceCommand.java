@@ -85,7 +85,7 @@ public class PrintInvoiceCommand extends AbstractCommand {
 					UsersMailSendar.sendPdfMail(new File(createPdfFile),
 							tradingName, getMessages().invoiceFor() + " "
 									+ customerName, getMessages()
-									.pleaseFindAttachedInvoice(), emailId,
+									.pleaseFindAttachedInvoice(), null,
 							emailId, "");
 				} catch (Exception e) {
 					e.printStackTrace();

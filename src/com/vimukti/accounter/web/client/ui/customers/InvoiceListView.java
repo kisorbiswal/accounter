@@ -45,6 +45,11 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		super(messages.open());
 		isDeleteDisable = true;
 		this.transactionType = typeInvoicesOnly;
+
+		if (transactionType == ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO
+				|| transactionType == ClientTransaction.TYPE_CASH_SALES) {
+			setViewType(messages.all());
+		}
 	}
 
 	@Override

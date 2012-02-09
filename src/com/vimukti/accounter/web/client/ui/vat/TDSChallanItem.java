@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSTransactionItem;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -14,10 +15,12 @@ public class TDSChallanItem extends SimplePanel {
 
 	private final HTML html;
 	ClientTDSChalanDetail challan;
+	private AccounterMessages messages;
 
 	public TDSChallanItem(ClientTDSChalanDetail challan) {
 		this.challan = challan;
 		this.html = new HTML();
+		messages = Accounter.getMessages();
 		this.add(html);
 		initItem();
 	}
@@ -34,28 +37,32 @@ public class TDSChallanItem extends SimplePanel {
 
 		sb.appendHtmlConstant("<tr>");
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Challan Serial No : "
+		sb.appendEscaped(messages.challanSerialNo() + " : "
 				+ challan.getChalanSerialNumber());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Bank BSR Code : " + challan.getBankBsrCode());
+		sb.appendEscaped(messages.bankBSRCode() + " : "
+				+ challan.getBankBsrCode());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Nature of payment : " + challan.getPaymentSection());
+		sb.appendEscaped(messages.natureOfPayment() + " : "
+				+ challan.getPaymentSection());
 		sb.appendHtmlConstant("</td>");
 		sb.appendHtmlConstant("</tr>");
 
 		sb.appendHtmlConstant("<tr>");
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Date on Tax paid : "
+		sb.appendEscaped(messages.dateOnTaxPaid()
+				+ " : "
 				+ UIUtils.getDateByCompanyType(new ClientFinanceDate(challan
 						.getDateTaxPaid())));
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Payment method : "
+		sb.appendEscaped(messages.paymentMethod()
+				+ " : "
 				+ (challan.getPaymentMethod() != null ? challan
 						.getPaymentMethod() : ""));
 		sb.appendHtmlConstant("</td>");
@@ -64,36 +71,41 @@ public class TDSChallanItem extends SimplePanel {
 				.equals(Accounter.getMessages().cheque()))
 				|| challan.getCheckNumber() != 0) {
 			sb.appendHtmlConstant("<td>");
-			sb.appendEscaped("Cheque/Ref No : " + challan.getCheckNumber());
+			sb.appendEscaped(messages.chequeNo() + " : "
+					+ challan.getCheckNumber());
 			sb.appendHtmlConstant("</td>");
 		}
 		sb.appendHtmlConstant("</tr>");
 
 		sb.appendHtmlConstant("<tr>");
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Income Tax : " + challan.getIncomeTaxAmount());
+		sb.appendEscaped(messages.incomeTax() + challan.getIncomeTaxAmount());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Surcharge paid : " + challan.getSurchangePaidAmount());
+		sb.appendEscaped(messages.surchargePaid() + " : "
+				+ challan.getSurchangePaidAmount());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Education cess : " + challan.getEducationCessAmount());
+		sb.appendEscaped(messages.educationCess() + " : "
+				+ challan.getEducationCessAmount());
 		sb.appendHtmlConstant("</td>");
 		sb.appendHtmlConstant("</tr>");
 
 		sb.appendHtmlConstant("<tr>");
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Interest paid : " + challan.getInterestPaidAmount());
+		sb.appendEscaped(messages.interestPaid() + " : "
+				+ challan.getInterestPaidAmount());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Other amount paid : " + challan.getOtherAmount());
+		sb.appendEscaped(messages.otherAmountPaid() + " : "
+				+ challan.getOtherAmount());
 		sb.appendHtmlConstant("</td>");
 
 		sb.appendHtmlConstant("<td>");
-		sb.appendEscaped("Total : " + challan.getTotal());
+		sb.appendEscaped(messages.total() + " : " + challan.getTotal());
 		sb.appendHtmlConstant("</td>");
 		sb.appendHtmlConstant("</tr>");
 
@@ -197,63 +209,63 @@ public class TDSChallanItem extends SimplePanel {
 		sb.appendHtmlConstant("<tr>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Sr.No");
+		sb.appendEscaped(messages.SRNo());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Deductee code (01-Company,02-Other than Company)");
+		sb.appendEscaped(messages.deducteeCode());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("PAN of the deductee");
+		sb.appendEscaped(messages.panOfTheDeductee());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Name of the deductee");
+		sb.appendEscaped(messages.nameOfTheDeductee());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Date of Payment / Credit");
+		sb.appendEscaped(messages.dateOfPaymentOrCredit());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Amount paid / credited Rs.");
+		sb.appendEscaped(messages.amountPaidOrCreditedRs());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Paid by book entry or otherwise");
+		sb.appendEscaped(messages.paidByBookEntryOrOtherwise());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("TDS Rs.");
+		sb.appendEscaped(messages.tdsRs());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Surcharge Rs.");
+		sb.appendEscaped(messages.surchargeRs());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Education Cess Rs.");
+		sb.appendEscaped(messages.educationCessRs());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Total Tax deducted");
+		sb.appendEscaped(messages.totalTaxDeducted());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Total Tax deposited");
+		sb.appendEscaped(messages.totalTaxDeposited());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Date of deduction");
+		sb.appendEscaped(messages.dateOfDeduction());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Rate at which deducted");
+		sb.appendEscaped(messages.rateAtWhichDeducted());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("<th>");
-		sb.appendEscaped("Remark(Reason for non-Deduction/lower deduction/higher deduction/threshold)");
+		sb.appendEscaped(messages.remarkTDSChallan());
 		sb.appendHtmlConstant("</th>");
 
 		sb.appendHtmlConstant("</tr>");

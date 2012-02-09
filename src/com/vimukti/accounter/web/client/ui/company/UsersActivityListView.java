@@ -169,7 +169,7 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 
 	@Override
 	protected String getViewTitle() {
-		return "Users Activity";
+		return messages.usersActivity();
 	}
 
 	@Override

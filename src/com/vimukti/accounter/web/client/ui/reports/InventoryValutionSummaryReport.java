@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -31,6 +32,22 @@ public class InventoryValutionSummaryReport extends
 		record.setDateRange(toolbar.getSelectedDateRange());
 		UIUtils.runAction(record, ActionFactory
 				.getInventoryValuationDetailsAction(record.getId()));
+	}
+
+	@Override
+	public void print() {
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_VALUTION_SUMMARY, "", "");
+	}
+
+	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_VALUTION_SUMMARY, "", "");
 	}
 
 }

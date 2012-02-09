@@ -22,7 +22,7 @@ public class CreateIRASInformationFileDialog extends BaseDialog {
 	private Button downloadXml, downloadTxt;
 
 	public CreateIRASInformationFileDialog() {
-		super("create GST", null);
+		super(messages.createGST(), null);
 		createControls();
 		center();
 	}

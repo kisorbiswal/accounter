@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import java.util.ArrayList;
-
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -25,8 +24,11 @@ import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.EmailCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.company.EmailAccountDialog;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.EmailField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -43,9 +45,9 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 	private EmailCombo fromAddcombo;
 
-	String from = "";
 	private Button sendBtn;
 	private Button cancelBtn;
+	private Button smtpBtn;
 	final DynamicForm form1 = new DynamicForm();
 	final DynamicForm form2 = new DynamicForm();
 	final DynamicForm form3 = new DynamicForm();
@@ -90,11 +92,32 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		AccounterMessages messages = Global.get().messages();
 
-		fromAddcombo = new EmailCombo(messages.from(), false);
-		ArrayList<String> toAdd = fromAddcombo.getToAddress();
+		fromAddcombo = new EmailCombo(messages.from(), true);
+		fromAddcombo.setRequired(true);
+		fromAddcombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientEmailAccount>() {
 
-		from = toAdd.get(0);
-		fromAddcombo.setComboItem(toAdd.get(0));
+					@Override
+					public void selectedComboBoxItem(
+							ClientEmailAccount selectItem) {
+						if (selectItem != null) {
+							smtpBtn.setEnabled(true);
+						} else {
+							smtpBtn.setEnabled(false);
+						}
+					}
+				});
+
+		smtpBtn = new Button(messages.smtpSettings());
+		smtpBtn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showEmailAccountDialog();
+			}
+		});
+		smtpBtn.setEnabled(fromAddcombo.getSelectedValue() != null ? true
+				: false);
 
 		ClientContact contact = invoice.getContact();
 		String toemail = contact != null ? contact.getEmail() : "";
@@ -136,6 +159,7 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		form1.setFields(fromAddcombo, toAddress, ccAddress, subject);
 		HorizontalPanel horPanel = new HorizontalPanel();
 		horPanel.add(form1);
+		horPanel.add(smtpBtn);
 		horPanel.add(vPanel);
 
 		VerticalPanel mainPanel = new VerticalPanel();
@@ -178,17 +202,6 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 
 		this.add(mainPanel);
 
-		fromAddcombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
-
-					@Override
-					public void selectedComboBoxItem(String selectItem) {
-						fromAddcombo.setComboItem(selectItem);
-						from = (String) selectItem;
-					}
-
-				});
-
 		toAddress.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -209,6 +222,19 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		});
 	}
 
+	protected void showEmailAccountDialog() {
+		EmailAccountDialog dialog = new EmailAccountDialog(
+				fromAddcombo.getSelectedValue());
+		dialog.setCallback(new ActionCallback<ClientEmailAccount>() {
+
+			@Override
+			public void actionResult(ClientEmailAccount result) {
+				fromAddcombo.setComboItem(result);
+			}
+		});
+		dialog.center();
+	}
+
 	private String getValidMail(String email) {
 		if (email.trim().length() != 0) {
 			if (!UIUtils.isValidMultipleEmailIds(email)) {
@@ -220,59 +246,42 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 		return email;
 	}
 
-	private void updateControls() {
-		companyName = getPreferences().getTradingName();
-		ToAdd = toAddress.getValue().toString() != null ? toAddress.getValue()
-				.toString() : "";
-		getValidMail(toAddress.getValue().toString());
-		ccAdd = ccAddress.getValue().toString() != null ? ccAddress.getValue()
-				.toString() : "";
-		sub = subject.getValue().toString() != null ? subject.getValue()
-				.toString() : "";
-		body = emailBody.getValue().toString() != null ? emailBody.getValue()
-				.toString() : "";
-		body = body.replaceAll("\n", "<br/>");
-
-		Accounter.createHomeService().sendPdfInMail(fileName, sub, body, from,
-				ToAdd, ccAdd, new AsyncCallback<Void>() {
-					@Override
-					public void onFailure(Throwable caught) {
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						MainFinanceWindow.getViewManager().closeCurrentView();
-					}
-				});
-
-	}
-
 	@Override
 	public ValidationResult validate() {
 		ValidationResult result = super.validate();
-		if (from.trim().length() == 0
-				&& toAddress.getValue().trim().length() == 0) {
-			result.addError(
-					fromAddcombo,
-					messages.pleaseEnter(
-							messages.to() + " & "
-									+ messages.from()));
-		} else if (from.trim().length() == 0) {
-			result.addError(
-					fromAddcombo,
-					messages.pleaseEnter(
-							messages.from()));
-		} else if (toAddress.getValue().trim().length() == 0) {
-			result.addError(toAddress,
-					messages.pleaseEnter(messages.to()));
-		} else if (UIUtils.isValidEmail(from)
-				&& UIUtils.isValidMultipleEmailIds(toAddress.getValue()
-						.toString())) {
-			updateControls();
-
-		}
-
+		result.add(FormItem.validate(fromAddcombo, toAddress));
 		return result;
+	}
+
+	@Override
+	public void saveAndUpdateView() {
+		if (UIUtils.isValidMultipleEmailIds(toAddress.getValue().toString())) {
+			companyName = getPreferences().getTradingName();
+			ToAdd = toAddress.getValue().toString() != null ? toAddress
+					.getValue().toString() : "";
+			getValidMail(toAddress.getValue().toString());
+			ccAdd = ccAddress.getValue().toString() != null ? ccAddress
+					.getValue().toString() : "";
+			sub = subject.getValue().toString() != null ? subject.getValue()
+					.toString() : "";
+			body = emailBody.getValue().toString() != null ? emailBody
+					.getValue().toString() : "";
+			body = body.replaceAll("\n", "<br/>");
+
+			Accounter.createHomeService().sendPdfInMail(fileName, sub, body,
+					fromAddcombo.getSelectedValue(), ToAdd, ccAdd,
+					new AsyncCallback<Void>() {
+						@Override
+						public void onFailure(Throwable caught) {
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							MainFinanceWindow.getViewManager()
+									.closeCurrentView();
+						}
+					});
+		}
 	}
 
 	@Override

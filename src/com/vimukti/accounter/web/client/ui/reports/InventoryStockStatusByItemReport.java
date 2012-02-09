@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByItemServerReport;
 
 public class InventoryStockStatusByItemReport extends
@@ -27,5 +29,23 @@ public class InventoryStockStatusByItemReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
+	}
+
+	@Override
+	public void print() {
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM, "",
+				"");
+	}
+
+	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM, "",
+				"");
 	}
 }

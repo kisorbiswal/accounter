@@ -43,7 +43,7 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override

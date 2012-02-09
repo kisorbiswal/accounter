@@ -6,10 +6,6 @@ import org.json.JSONException;
 
 public class BuildAssembly extends Transaction {
 
-	/**
-	 * 
-	 */
-
 	private InventoryAssembly inventoryAssembly;
 	private Double quantityToBuild;
 
@@ -23,23 +19,34 @@ public class BuildAssembly extends Transaction {
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
 
-		Account assemblyAssetsAccount = inventoryAssembly.getAssestsAccount();
-		double totalAssemblyCost = 0.00D;
-		for (InventoryAssemblyItem item : inventoryAssembly.getComponents()) {
-			double itemCost = item.getQuantity().calculatePrice(
-					item.getCostByActiveScheme());
-			itemCost = itemCost * quantityToBuild;
-			totalAssemblyCost += itemCost;
-			Account itemAssestsAccount = item.getInventoryItem()
-					.getAssestsAccount();
-			itemAssestsAccount.updateCurrentBalance(this, itemCost, 1);
+		if (number == null) {
+			String number = NumberUtils.getNextTransactionNumber(
+					Transaction.TYPE_BUILD_ASSEMBLY, getCompany());
+			setNumber(number);
 		}
 
-		assemblyAssetsAccount.updateCurrentBalance(this, -totalAssemblyCost, 1);
+		for (InventoryAssemblyItem assemblyItem : inventoryAssembly
+				.getComponents()) {
+
+			Item inventoryItem = assemblyItem.getInventoryItem();
+			TransactionItem transactionItem = new TransactionItem();
+			transactionItem.setType(TransactionItem.TYPE_ITEM);
+			transactionItem.setTransaction(this);
+			transactionItem.setQuantity(assemblyItem.getQuantity());
+			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
+
+			transactionItem.setItem(inventoryItem);
+			transactionItem.setDescription("Build Assembly");
+			transactionItem.setWareHouse(assemblyItem.getWarehouse());
+			transactionItem.setLineTotal(assemblyItem.getQuantity()
+					.calculatePrice(assemblyItem.getUnitPrice()));
+			getTransactionItems().add(transactionItem);
+		}
 
 		Quantity onhandQuantity = inventoryAssembly.getOnhandQty();
 		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
-
+		inventoryAssembly.setOnhandQuantity(onhandQuantity);
+		session.update(inventoryAssembly);
 		return super.onSave(session);
 	}
 
@@ -57,7 +64,6 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public boolean isDebitTransaction() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -75,8 +81,7 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public int getTransactionCategory() {
-		// TODO Auto-generated method stub
-		return 0;
+		return Transaction.CATEGORY_CUSTOMER;
 	}
 
 	@Override

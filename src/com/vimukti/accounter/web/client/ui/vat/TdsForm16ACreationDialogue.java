@@ -47,11 +47,11 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	protected boolean isCoveringLetter;
 
 	public TdsForm16ACreationDialogue() {
-		super("TDS Acknowledgement Form",
-				"Add the details you get from the TIN Website and press create 16A form");
+		super(messages.TDSAcknowledgementForm(), messages
+				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
 		setWidth("650px");
 
-		okbtn.setText("Generate 16A form");
+		okbtn.setText(messages.generate16Aform());
 		okbtn.setWidth("150px");
 
 		emailBUtton = new Button(messages.email());
@@ -66,7 +66,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 			}
 		});
 
-		coveringLetter = new Button("Generate covering letter");
+		coveringLetter = new Button(messages.generateCoveringLetter());
 		coveringLetter.setFocus(true);
 		coveringLetter.setVisible(false);
 		coveringLetter.addClickHandler(new ClickHandler() {
@@ -94,7 +94,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		VerticalPanel vPanel = new VerticalPanel();
 
 		List<ClientVendor> vendors = getCompany().getActiveVendors();
-		vendorCombo = new VendorCombo("Deductee", false);
+		vendorCombo = new VendorCombo(messages.deductee(), false);
 		vendorCombo.setRequired(true);
 		vendorCombo.initCombo(vendors);
 		vendorCombo
@@ -106,7 +106,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					}
 				});
 
-		chalanQuarterPeriod = new SelectCombo("Select Quarter");
+		chalanQuarterPeriod = new SelectCombo(messages.selectQuarter());
 		chalanQuarterPeriod.setHelpInformation(true);
 		chalanQuarterPeriod.initCombo(getFinancialQuatersList());
 		chalanQuarterPeriod.setSelectedItem(0);
@@ -122,7 +122,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					}
 				});
 
-		monthlyCombo = new SelectCombo("Select Months");
+		monthlyCombo = new SelectCombo(messages.selectMonths());
 		monthlyCombo.setHelpInformation(true);
 		monthlyCombo.setComboItem(DayAndMonthUtil.january());
 		monthlyCombo.initCombo(getMonthsList());
@@ -136,7 +136,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 					}
 				});
 
-		location = new TextItem("Place");
+		location = new TextItem(messages.place());
 		location.setHelpInformation(true);
 
 		ClientFinanceDate todaysDate = new ClientFinanceDate();
@@ -147,19 +147,19 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		form16AprintDate.setTitle(messages.date());
 		form16AprintDate.setValue(todaysDate);
 
-		fromDate = new DateField("From Date");
+		fromDate = new DateField(messages.fromDate());
 		fromDate.setHelpInformation(true);
 		fromDate.setColSpan(1);
-		fromDate.setTitle("From Date");
+		fromDate.setTitle(messages.fromDate());
 		fromDate.setValue(todaysDate);
 
-		toDate = new DateField("To Date");
+		toDate = new DateField(messages.toDate());
 		toDate.setHelpInformation(true);
 		toDate.setColSpan(1);
-		toDate.setTitle("To Date");
+		toDate.setTitle(messages.toDate());
 		toDate.setValue(todaysDate);
 
-		tdsCertificateNumber = new TextItem("TDS Certificate No.");
+		tdsCertificateNumber = new TextItem(messages.tdsCertificateNumber());
 		tdsCertificateNumber.setHelpInformation(true);
 		tdsCertificateNumber.setRequired(true);
 		form0 = new DynamicForm();
@@ -171,7 +171,8 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		HorizontalPanel radioButtonPanel = new HorizontalPanel();
 
-		String[] sports = { "Quarterly", "Monthly", "Between Dates", "Yearly" };
+		String[] sports = { messages.quarterly(), messages.monthly(),
+				messages.betweenDates(), messages.yearly() };
 
 		final RadioButton button1 = new RadioButton("group", sports[0]);
 		button1.setValue(true);

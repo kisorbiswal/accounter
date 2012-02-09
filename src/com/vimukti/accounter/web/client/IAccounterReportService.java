@@ -294,7 +294,7 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	ArrayList<PayeeStatementsList> getStatements(boolean isVendor, long id,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate);
+			int viewType, ClientFinanceDate fromDate, ClientFinanceDate toDate);
 
 	ArrayList<Reconciliation> getAllReconciliations(ClientFinanceDate start,
 			ClientFinanceDate end, long companyId);

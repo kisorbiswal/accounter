@@ -1541,6 +1541,8 @@ public interface AccounterMessages extends Messages {
 
 	public String email();
 
+	public String emailAccount();
+
 	public String emailAddress();
 
 	public String emailAlerts();
@@ -2253,6 +2255,8 @@ public interface AccounterMessages extends Messages {
 	public String isMultiCurrencyEnable();
 
 	public String isoCode();
+
+	public String isSsl();
 
 	public String isSubAccount();
 
@@ -3464,6 +3468,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pointnumber(int pointNumber);
 
+	public String portNumber();
+
 	public String portugal();
 
 	public String positive();
@@ -4253,6 +4259,10 @@ public interface AccounterMessages extends Messages {
 
 	public String skipSetupInfo();
 
+	public String smtpMailServer();
+
+	public String smtpSettings();
+
 	public String soldAndDisposedItems();
 
 	public String soldDisposedItems();
@@ -4522,6 +4532,8 @@ public interface AccounterMessages extends Messages {
 	public String termsofUse();
 
 	public String territory();
+
+	public String test();
 
 	public String thailand();
 
@@ -5565,6 +5577,218 @@ public interface AccounterMessages extends Messages {
 
 	public String vatAgencyPayment();
 
+	public String deducatorMasters();
+
+	public String deducatorMastersDetails();
+
+	public String STDCode();
+
+	public String tdsfiling();
+
+	public String TDSAcknowledgementForm();
+
+	public String addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm();
+
+	public String generate16Aform();
+
+	public String generateCoveringLetter();
+
+	public String deductee();
+
+	public String selectQuarter();
+
+	public String selectMonths();
+
+	public String place();
+
+	public String tdsCertificateNumber();
+
+	public String betweenDates();
+
+	public String SRNo();
+
+	public String deducteeCode();
+
+	public String panOfTheDeductee();
+
+	public String nameOfTheDeductee();
+
+	public String dateOfPaymentOrCredit();
+
+	public String amountPaidOrCreditedRs();
+
+	public String paidByBookEntryOrOtherwise();
+
+	public String tdsRs();
+
+	public String surchargeRs();
+
+	public String educationCessRs();
+
+	public String totalTaxDeducted();
+
+	public String totalTaxDeposited();
+
+	public String dateOfDeduction();
+
+	public String rateAtWhichDeducted();
+
+	public String remarkTDSChallan();
+
+	public String challanPeriod();
+
+	public String chequeOrRefNo();
+
+		public String tdsDepositedByBookEntry();
+
+	public String deducteeName();
+
+	public String amountPaidOrCredited();
+
+	public String surchageAmount();
+
+	public String dateofPayment();
+
+	public String formNo();
+
+	public String forQuarter();
+
+	public String theAcknowledgementNumberAlreadyFiled();
+
+	public String updateFailed();
+
+	public String dateTaxDeposited();
+
+	public String sectionForPayment();
+
+	public String totalTDSToBeAllocatedAmongAllDeductees();
+
+	public String surcharge();
+
+	public String grossingUpIndicator();
+
+	public String designation();
+
+	public String retutnType();
+
+	public String electronic();
+
+	public String digital();
+
+	public String particularForPersonResponsibleForTaxDeduction();
+
+	public String existingTDSAssesses();
+
+	public String tdsDeductorDetailsNotEnteredYetPleaseFillTheDetailsFirst();
+
+	public String tDSResponsiblePersonDetailsNotEnteredYetPleaseFillTheDetailsFirst();
+
+	public String pleaseSelectDeducteeCodeForAllRecords();
+
+	public String enterAckNumber();
+
+	public String annual();
+
+	public String enableOrDisableTheAccountNumberRangeChecking();
+
+	public String pleaseSelectOneAccountForOneBoxOnly();
+
+	public String annexture();
+
+	public String thisStatementIsAlreadyReconciled();
+
+	public String totalRecords();
+
+	public String reconciledRecords();
+
+	public String reconciled();
+
+	public String spend();
+
+	public String importBankStatement();
+
+	public String showAccounts();
+
+	public String onlyBudgetAccounts();
+
+	public String importedDate();
+
+	public String thisAcknowledgementNumberAlreadyFiled();
+
+	public String challanListView();
+
+	public String addChallanDetails();
+
+	public String eightOnly();
+
+	public String fifteenThousandEightHundredSixtyEight();
+
+	public String creditsOptionLabelTxt();
+
+	public String createGST();
+
+	public String currenciesOfTheBothCustomersMustBeSame(String payees);
+
+	public String usersActivity();
+
+	public String trialBalanceReportClosed();
+
+	public String trialBalanceReportDetails();
+
+	public String formattingConflict();
+
+	public String headingReassign(String presentheading);
+
+	public String alreadyAssigned(String previpousHeading);
+
+	public String attemptingToreassign(String presentheading);
+
+	public String enterValidEmailForSignup();
+
+	public String notRegisteredWithThisEmailId();
+
+	public String enterEmail();
+
+	public String emailSentToYou();
+
+	public String cashReceipt();
+
+	public String ar();
+
+	public String ap();
+
+	public String cashDisbursement();
+
+	public String generalJournal();
+
+	public String rollbackDepreciationTill();
+
+	public String weHaveReceivedYourInformation();
+
+	public String pleaseEnterValidDetails();
+
+	public String aFeedbackMessage();
+
+	public String stockTransferItem();
+
+	public String stockTransfer();
+
+	public String pleaseSelectAnyStockAdjustmentToViewDetails();
+
+	public String success();
+
+	public String adjustmentTransaction();
+
+	public String alreadyRegisteredWithAccounter();
+
+	public String here();
+
+	public String toLogin();
+
+	public String passwordMismatch();
+
+	public String assetsAccount();
+
 	public String onHand();
 
 	public String avgCost();
@@ -5577,5 +5801,85 @@ public interface AccounterMessages extends Messages {
 
 	public String perOfTotRetail();
 
+	public String depricatiedReport();
+
+	public String youCannotrejecttheEstimate();
+
+	public String reportPts();
+
+	public String onSalesOrder();
+
+	public String forAssemblies();
+
+	public String order();
+
+	public String orderOnPo();
+
+	public String nextDeliveryDate();
+
+	public String salesPerWeek();
+
+	public String youAreSuccessfullyLoggedOut();
+
+	public String findAndMatch();
+
+	public String spentTransactions();
+
+	public String receivedTransactions();
+
+	public String lastReconcilliationDate();
+
+	public String reconciliations();
+
+	public String creditCardAccount();
+
+	public String paypalInformation();
+
+	public String creditCardType();
+
+	public String addNewType();
+
+	public String payExpenses();
+
+	public String youCannotDoThisBeforeLogin();
+
+	public String pleaseLogin();
+
+	public String youDoNotHavePermissionToDoThisAction();
+
+	public String youCanChangePermissionsFromCompanyPreferences();
+
+	public String nominalCodeRange();
+
+	public String payTaxEntries();
+
+	public String MISCInfo();
+
+	public String loadEmptyPaper();
+
+	public String MISCAdjustLabelText();
+
+	public String sampleInfoText();
+
+	public String sampleInfoLabelText();
+
+	public String printSample();
+
+	public String noTransactionAddedToMISCForm();
+
+	public String horizantal();
+
+	public String vertical();
+
+	public String MISCInfoLabelText();
+
+	public String preVendor(String vendor);
+
+	public String newInventory();
+
+	public String newAssembly();
+
+	public String inventoryName();
+	
 	public String subscribtionManagement();
 }

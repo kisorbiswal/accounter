@@ -4,7 +4,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.ui.core.Action;
 
-public class DeleteThemeAction extends Action {
+public class DeleteThemeAction extends Action<ClientBrandingTheme> {
 
 	public DeleteThemeAction() {
 		super();
@@ -29,8 +29,7 @@ public class DeleteThemeAction extends Action {
 	public void run() {
 		try {
 			DeleteThemeDialog deleteThemeDialog = new DeleteThemeDialog(
-					messages.deleteThemeLabel(), "",
-					(ClientBrandingTheme) data);
+					messages.deleteThemeLabel(), "", (ClientBrandingTheme) data);
 			deleteThemeDialog.show();
 			deleteThemeDialog.center();
 		} catch (Exception e) {

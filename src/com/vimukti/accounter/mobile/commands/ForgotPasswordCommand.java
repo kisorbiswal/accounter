@@ -26,13 +26,13 @@ public class ForgotPasswordCommand extends AbstractCommand {
 				if (value == null) {
 					return;
 				} else if (!isValidEmailId(value)) {
-					setEnterString("Enter a valid email address. Password will be sent to this email");
+					setEnterString(getMessages().enterValidEmailForSignup());
 					return;
 				} else if (getClient(value) == null) {
-					setEnterString("This Email ID is not registered with Accounter,  first signup with Accounter.");
+					setEnterString(getMessages().notRegisteredWithThisEmailId());
 					return;
 				}
-				setEnterString("Enter Email");
+				setEnterString(getMessages().enterEmail());
 				super.setValue(value);
 			}
 		});
@@ -65,7 +65,7 @@ public class ForgotPasswordCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Email sent to you";
+		return getMessages().emailSentToYou();
 	}
 
 	@Override

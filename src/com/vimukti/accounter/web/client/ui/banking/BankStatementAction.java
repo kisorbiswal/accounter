@@ -20,7 +20,7 @@ public class BankStatementAction extends Action<ClientTransaction> {
 
 	@Override
 	public String getText() {
-		return "Import BankStatement";
+		return messages.importBankStatement();
 	}
 
 	@Override

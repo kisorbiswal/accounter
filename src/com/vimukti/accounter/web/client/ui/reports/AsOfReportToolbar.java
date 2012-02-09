@@ -69,7 +69,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 				messages.custom() };
 
 		LabelItem report = new LabelItem();
-		report.setTitle("Report Basis - Accrual");
+		report.setTitle(messages.reportBasisAccrual());
 
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle(FinanceApplication.constants()

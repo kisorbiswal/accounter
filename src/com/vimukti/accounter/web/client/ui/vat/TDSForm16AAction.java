@@ -8,7 +8,7 @@ public class TDSForm16AAction extends Action {
 
 	public TDSForm16AAction() {
 		super();
-		this.catagory = "TDS";
+		this.catagory = messages.tds();
 
 	}
 
@@ -40,7 +40,7 @@ public class TDSForm16AAction extends Action {
 
 	@Override
 	public String getText() {
-		return "Chalan Details";
+		return messages.challanDetails();
 	}
 
 }

@@ -28,7 +28,7 @@ public class FormatingConfilctDialog extends BaseDialog {
 	public FormatingConfilctDialog(String previpousHeading,
 			String previousSelectedValue, String presentheading,
 			String nextSelectIndexValue) {
-		super("Formating Confilct", "");
+		super(messages.formattingConflict(), "");
 		this.previousSelectedValue = previousSelectedValue;
 		this.previpousHeading = previpousHeading;
 		this.presentheading = presentheading;
@@ -44,8 +44,8 @@ public class FormatingConfilctDialog extends BaseDialog {
 
 		VerticalPanel mainPanel = new VerticalPanel();
 		prevoiusPanel = new HorizontalPanel();
-		previousHeadingLabel = new CustomLabel(previpousHeading
-				+ "  is already assigned to...");
+		previousHeadingLabel = new CustomLabel(
+				messages.alreadyAssigned(previpousHeading));
 
 		previousLabel = new CustomLabel(previpousHeading);
 		priviousValue = new CustomLabel(previousSelectedValue);
@@ -53,8 +53,8 @@ public class FormatingConfilctDialog extends BaseDialog {
 		prevoiusPanel.add(priviousValue);
 
 		nextPanel = new HorizontalPanel();
-		nextHeadingLabel = new CustomLabel("You are attempting to reassign "
-				+ presentheading + " to");
+		nextHeadingLabel = new CustomLabel(
+				messages.attemptingToreassign(presentheading));
 		nextLabel = new CustomLabel(presentheading);
 		nextValue = new CustomLabel(nextSelectIndexValue);
 		nextPanel.add(nextLabel);
@@ -64,9 +64,8 @@ public class FormatingConfilctDialog extends BaseDialog {
 		mainPanel.add(prevoiusPanel);
 		mainPanel.add(nextHeadingLabel);
 		mainPanel.add(nextPanel);
-		mainPanel.add(new CustomLabel(
-				"Would you like to continue to reassign the " + presentheading
-						+ "?"));
+		mainPanel
+				.add(new CustomLabel(messages.headingReassign(presentheading)));
 		setBodyLayout(mainPanel);
 		show();
 

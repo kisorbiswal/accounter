@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,10 +28,15 @@ public class CreateStatementToolBar extends ReportToolbar {
 	private VendorCombo vendorCombo;
 	private ClientCustomer selectedCusotmer = null;
 	private ClientVendor selectedVendor = null;
-	private SelectCombo dateRangeItemCombo;
+	private SelectCombo dateRangeItemCombo, viewSelect;
 	private List<String> dateRangeItemList;
 	private Button updateButton;
 	private final boolean isVendor;
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_DRAFT = 4;
 
 	public CreateStatementToolBar(boolean isVendor,
 			AbstractReportView reportView) {
@@ -41,6 +47,20 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void createControls() {
 
+		String[] filter = { messages.open(), messages.overDue(),
+				messages.all(), messages.voided(), messages.drafts() };
+		viewSelect = new SelectCombo(messages.currentView());
+		viewSelect.initCombo(Arrays.asList(filter));
+		viewSelect
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+
+					@Override
+					public void selectedComboBoxItem(String selectItem) {
+						setFilter(selectItem);
+						payeeData();
+					}
+				});
+		setFilter(messages.open());
 		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
 				messages.thisMonth(), messages.lastWeek(),
 				messages.lastMonth(), messages.thisFinancialYear(),
@@ -159,14 +179,30 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
 		if (isVendor) {
-			addItems(vendorCombo, dateRangeItemCombo, fromItem, toItem);
+			addItems(viewSelect, vendorCombo, dateRangeItemCombo, fromItem,
+					toItem);
 		} else {
-			addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
+			addItems(viewSelect, customerCombo, dateRangeItemCombo, fromItem,
+					toItem);
 		}
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
 		// reportRequest();
+	}
+
+	private void setFilter(String open) {
+		if (open.equalsIgnoreCase(messages.open())) {
+			setViewId(VIEW_OPEN);
+		} else if (open.equalsIgnoreCase(messages.voided())) {
+			setViewId(VIEW_VOIDED);
+		} else if (open.equalsIgnoreCase(messages.overDue())) {
+			setViewId(VIEW_OVERDUE);
+		} else if (open.equalsIgnoreCase(messages.all())) {
+			setViewId(VIEW_ALL);
+		} else if (open.equalsIgnoreCase(messages.drafts())) {
+			setViewId(VIEW_DRAFT);
+		}
 	}
 
 	protected void customerData(ClientCustomer selectItem) {
@@ -209,14 +245,14 @@ public class CreateStatementToolBar extends ReportToolbar {
 				reportview.makeReportRequest(selectedVendor.getID(), startDate,
 						endDate);
 			} else {
-				reportview.addEmptyMessage("No records to show");
+				reportview.addEmptyMessage(messages.noRecordsToShow());
 			}
 		} else {
 			if (selectedCusotmer != null) {
 				reportview.makeReportRequest(selectedCusotmer.getID(),
 						startDate, endDate);
 			} else {
-				reportview.addEmptyMessage("No records to show");
+				reportview.addEmptyMessage(messages.noRecordsToShow());
 			}
 		}
 	}

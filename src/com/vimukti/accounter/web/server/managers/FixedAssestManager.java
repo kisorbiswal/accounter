@@ -370,11 +370,14 @@ public class FixedAssestManager extends Manager {
 		 * Preparing the keys and values for disposalSummary Map.
 		 */
 		Company company = getCompany(companyId);
-		String purchasedDate = "Purchase "
+		String purchasedDate = Global.get().messages().purchase()
 				+ format.format(fixedAsset.getPurchaseDate().getDateAsObject());
-		String currentAccumulatedDepreciation = "Current accumulated depreciation";
-		String depreciationTobePosted = "Depreciation to be posted (";
-		String rollBackDepreciation = "rollback deprecaition till ";
+		String currentAccumulatedDepreciation = Global.get().messages()
+				.currentAccumulatedDepreciation();
+		String depreciationTobePosted = Global.get().messages()
+				.deprecionToBePosted();
+		String rollBackDepreciation = Global.get().messages()
+				.rollbackDepreciationTill();
 		FinanceDate date = Depreciation.getDepreciationLastDate(company);
 		FinanceDate depreciationTillDate = null;
 		double depreciationToBePostedAmount = 0.0;

@@ -1,17 +1,14 @@
 package com.vimukti.accounter.core;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.hibernate.Session;
 
 public class InventoryAssembly extends Item {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4556028000041106619L;
+	private static final long serialVersionUID = 1l;
 
 	private Set<InventoryAssemblyItem> components = new HashSet<InventoryAssemblyItem>();
 
@@ -36,4 +33,5 @@ public class InventoryAssembly extends Item {
 	public void setPurhasedThisItem(boolean isPurhasedThisItem) {
 		this.isPurhasedThisItem = isPurhasedThisItem;
 	}
+
 }

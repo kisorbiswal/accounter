@@ -33,6 +33,7 @@ import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.WriteCheck;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -48,6 +49,7 @@ import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -1626,16 +1628,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	// this method is used to send Pdf as an attachment in email
 	@Override
 	public void sendPdfInMail(String fileName, String subject, String content,
-			String senderEmail, String recipientEmail, String ccEmail)
+			ClientEmailAccount sender, String recipientEmail, String ccEmail)
 			throws Exception {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			long id = getCompanyId();
-			tool.sendPdfInMail(fileName, subject, content, senderEmail,
+			tool.sendPdfInMail(fileName, subject, content, sender,
 					recipientEmail, ccEmail, id);
 
 		}
 
+	}
+
+	@Override
+	public boolean sendTestMail(ClientEmailAccount sender, String recipient) {
+		try {
+			UsersMailSendar.sendTestMail(sender, recipient);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**

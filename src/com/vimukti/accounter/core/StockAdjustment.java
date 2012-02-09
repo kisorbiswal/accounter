@@ -75,6 +75,9 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		Session session = HibernateUtil.getCurrentSession();
 		double totalAdjustment = 0.00D;
 		for (TransactionItem item : adjustment.getTransactionItems()) {
+			if (item.getQuantity().getValue() < 0) {
+				continue;
+			}
 			double adjustmentValue = item.getQuantity().calculatePrice(
 					item.getUnitPrice());
 			totalAdjustment += adjustmentValue;
@@ -93,6 +96,9 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		for (TransactionItem item : adjustment.getTransactionItems()) {
 			item.setWareHouse(adjustment.getWareHouse());
 			item.setTransaction(this);
+			if (item.getQuantity().getValue() < 0) {
+				continue;
+			}
 			double adjustmentValue = item.getQuantity().calculatePrice(
 					item.getUnitPrice());
 			totalAdjustment += adjustmentValue;
@@ -112,7 +118,10 @@ public class StockAdjustment extends Transaction implements INamedObject {
 		Session session = HibernateUtil.getCurrentSession();
 		double totalAdjustment = 0.00D;
 		for (TransactionItem item : adjustment.getTransactionItems()) {
-			item.doReverseEffect(session);
+			// item.doReverseEffect(session);
+			if (item.getQuantity().getValue() < 0) {
+				continue;
+			}
 			double adjustmentValue = item.getQuantity().calculatePrice(
 					item.getUnitPrice());
 			totalAdjustment += adjustmentValue;

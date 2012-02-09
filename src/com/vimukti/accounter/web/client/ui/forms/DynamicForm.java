@@ -7,6 +7,8 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.core.ValidationResult;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class DynamicForm extends FlexTable {
 
@@ -16,6 +18,7 @@ public class DynamicForm extends FlexTable {
 	private int nextRow;
 	private int noSpan;
 	private boolean isGroup;
+	protected AccounterMessages messages = Accounter.getMessages();
 
 	public ValidationResult validate() {
 		return FormItem.validate(this.formItems.toArray(new FormItem[formItems
@@ -45,12 +48,12 @@ public class DynamicForm extends FlexTable {
 		// this.getElement().getElementsByTagName("td").getItem(0)
 		// .setAttribute("class", "align-form");
 	}
-	
+
 	/**
 	 * 
 	 * @param item
 	 */
-	public void addField(FormItem item){
+	public void addField(FormItem item) {
 		this.formItems.add(item);
 		item.addWidgets(this);
 	}
@@ -155,9 +158,9 @@ public class DynamicForm extends FlexTable {
 
 			// Logical detach.
 			formItems.remove(formItem);
-			
+
 		}
-		removeFormItemTitle(formItem);		
+		removeFormItemTitle(formItem);
 		return true;
 	}
 

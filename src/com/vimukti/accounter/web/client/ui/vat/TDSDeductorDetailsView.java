@@ -87,37 +87,37 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private void createControls() {
 
-		deductorName = new TextItem("Name");
+		deductorName = new TextItem(messages.name());
 		deductorName.setHelpInformation(true);
 		deductorName.setRequired(true);
 		deductorName.setDisabled(isInViewMode());
 
-		branchName = new TextItem("Branch/Division");
+		branchName = new TextItem(messages.branchOrdivison());
 		branchName.setHelpInformation(true);
 		branchName.setDisabled(isInViewMode());
 
-		flatNo = new TextItem("Flat No.");
+		flatNo = new TextItem(messages.flatNo());
 		flatNo.setHelpInformation(true);
 		flatNo.setRequired(true);
 		flatNo.setDisabled(isInViewMode());
 
-		buildingName = new TextItem("Name of Premisis/Building");
+		buildingName = new TextItem(messages.nameOfPremisis());
 		buildingName.setHelpInformation(true);
 		buildingName.setDisabled(isInViewMode());
 
-		streetName = new TextItem("Street/Road Name");
+		streetName = new TextItem(messages.streetOrRoadName());
 		streetName.setHelpInformation(true);
 		streetName.setDisabled(isInViewMode());
 
-		areaName = new TextItem("Area");
+		areaName = new TextItem(messages.area());
 		areaName.setHelpInformation(true);
 		areaName.setDisabled(isInViewMode());
 
-		cityName = new TextItem("City/Town/District");
+		cityName = new TextItem(messages.cityOrTown());
 		cityName.setHelpInformation(true);
 		cityName.setDisabled(isInViewMode());
 
-		stateCombo = new SelectCombo("State");
+		stateCombo = new SelectCombo(messages.state());
 		stateCombo.setHelpInformation(true);
 		stateCombo.initCombo(getStatesList());
 		stateCombo.setDisabled(isInViewMode());
@@ -131,13 +131,13 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		pinNumber = new IntegerField(this, "Pin Code");
+		pinNumber = new IntegerField(this, messages.postalCode());
 		pinNumber.setHelpInformation(true);
 		pinNumber.setDisabled(isInViewMode());
 		pinNumber.setRequired(true);
 
 		addressChangeCombo = new SelectCombo(
-				"Has Address changed since last return");
+				messages.hasAddressChangedSinceLastReturn());
 		addressChangeCombo.setHelpInformation(true);
 		addressChangeCombo.initCombo(getYESNOList());
 		addressChangeCombo.setDisabled(isInViewMode());
@@ -155,37 +155,37 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		stdNumber = new TextItem("Std Code");
+		stdNumber = new TextItem(messages.STDCode());
 		stdNumber.setHelpInformation(true);
 		stdNumber.setDisabled(isInViewMode());
 
-		telephoneNumber = new IntegerField(this, "Telephone No.");
+		telephoneNumber = new IntegerField(this, messages.telephoneNo());
 		telephoneNumber.setHelpInformation(true);
 		telephoneNumber.setDisabled(isInViewMode());
 
-		faxNumber = new IntegerField(this, "Fax No.");
+		faxNumber = new IntegerField(this, messages.faxNumber());
 		faxNumber.setHelpInformation(true);
 		faxNumber.setDisabled(isInViewMode());
 
-		panNumber = new TextItem("Pan Number");
+		panNumber = new TextItem(messages.panNumber());
 		panNumber.setHelpInformation(true);
 		panNumber.setDisabled(isInViewMode());
 		panNumber.setRequired(true);
 
-		tanNumber = new TextItem("Tan Number");
+		tanNumber = new TextItem(messages.tanNumber());
 		tanNumber.setHelpInformation(true);
 		tanNumber.setDisabled(isInViewMode());
 		tanNumber.setRequired(true);
 
 		addressSameBox = new CheckboxItem(
-				"Address same for resposible person also");
+				messages.addressSameForResponsiblePersonAlso());
 		addressSameBox.setDisabled(isInViewMode());
 
 		taxOfficeAddrItem = new TextAreaItem();
 		taxOfficeAddrItem.setHelpInformation(true);
 		taxOfficeAddrItem.setWidth(100);
 		taxOfficeAddrItem.setRequired(true);
-		taxOfficeAddrItem.setTitle("Tax Office Address");
+		taxOfficeAddrItem.setTitle(messages.taxOfficeAddress());
 		taxOfficeAddrItem.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -193,11 +193,11 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				if (taxOfficeAddresses.isEmpty()) {
 					taxOfficeAddresses.put(0, null);
 				}
-				new AddressDialog("", "", taxOfficeAddrItem,
-						"Tax Office Address", taxOfficeAddresses);
+				new AddressDialog("", "", taxOfficeAddrItem, messages
+						.taxOfficeAddress(), taxOfficeAddresses);
 			}
 		});
-		email = new EmailField("Email");
+		email = new EmailField(messages.email());
 		email.setHelpInformation(true);
 		email.setDisabled(isInViewMode());
 		email.setRequired(true);
@@ -208,7 +208,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 				pinNumber, addressChangeCombo, stdNumber, telephoneNumber,
 				faxNumber, email);
 
-		statusCombo = new SelectCombo("Status");
+		statusCombo = new SelectCombo(messages.status());
 		statusCombo.setHelpInformation(true);
 		statusCombo.initCombo(getStatusTypes());
 		statusCombo.setDisabled(isInViewMode());
@@ -229,7 +229,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		deductorTypeOther = new SelectCombo("Deductor Type");
+		deductorTypeOther = new SelectCombo(messages.deducatorType());
 		deductorTypeOther.setHelpInformation(true);
 		deductorTypeOther.initCombo(getOthersList());
 		deductorTypeOther.setSelectedItem(0);
@@ -244,7 +244,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		deductorTypeGovernment = new SelectCombo("Deductor Type");
+		deductorTypeGovernment = new SelectCombo(messages.deducatorType());
 		deductorTypeGovernment.setHelpInformation(true);
 		deductorTypeGovernment.initCombo(getGovtList());
 		deductorTypeGovernment.setSelectedItem(0);
@@ -259,7 +259,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		govtState = new SelectCombo("State");
+		govtState = new SelectCombo(messages.state());
 		govtState.setHelpInformation(true);
 		govtState.initCombo(getStatesList());
 		govtState
@@ -271,23 +271,23 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		paoCode = new TextItem("PAO Code");
+		paoCode = new TextItem(messages.PAOCode());
 		paoCode.setHelpInformation(true);
 		paoCode.setDisabled(isInViewMode());
 
-		paoRegistration = new IntegerField(this, "PAO Registration No.");
+		paoRegistration = new IntegerField(this, messages.PAORegistration());
 		paoRegistration.setHelpInformation(true);
 		paoRegistration.setDisabled(isInViewMode());
 
-		ddoCode = new TextItem("DDO Code");
+		ddoCode = new TextItem(messages.ddoCode());
 		ddoCode.setHelpInformation(true);
 		ddoCode.setDisabled(isInViewMode());
 
-		ddoRegistration = new TextItem("DDO Registration No.");
+		ddoRegistration = new TextItem(messages.ddoRegistrationNumber());
 		ddoRegistration.setHelpInformation(true);
 		ddoRegistration.setDisabled(isInViewMode());
 
-		ministryCombo = new SelectCombo("Ministry/Dept. Name");
+		ministryCombo = new SelectCombo(messages.ministry());
 		ministryCombo.setHelpInformation(true);
 		ministryCombo.initCombo(getMinistryType());
 		ministryCombo.setSelectedItem(0);
@@ -308,7 +308,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 					}
 				});
 
-		ministryNameOtehr = new TextItem("Ministry/Dept. Name(Other)");
+		ministryNameOtehr = new TextItem(messages.ministryName());
 		ministryNameOtehr.setHelpInformation(true);
 		ministryNameOtehr.setDisabled(true);
 		ministryNameOtehr.setRequired(false);
@@ -504,8 +504,8 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	private List<String> getStatusTypes() {
 		List<String> names = new ArrayList<String>();
-		names.add("Others");
-		names.add("Government");
+		names.add(messages.other());
+		names.add(messages.government());
 		return names;
 	}
 
@@ -523,7 +523,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 
 	@Override
 	protected String getViewTitle() {
-		return "Particular of Deductor";
+		return messages.particularOfDeducator();
 	}
 
 	@Override
@@ -547,17 +547,19 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		result.add(otherDynamicForm.validate());
 
 		if (stateSelected == null) {
-			result.addError(govtState, "Select a state");
+			result.addError(govtState, messages.pleaseSelect(messages.state()));
 		}
 		if (deductorTypeSelected == null) {
-			result.addError(statusCombo, "Select a Deductor Type");
+			result.addError(statusCombo,
+					messages.pleaseSelect(messages.deducatorType()));
 		}
 		if (statusSelected == null) {
-			result.addError(statusCombo, "Select the status of Deductor");
+			result.addError(statusCombo,
+					messages.pleaseSelect(messages.status()));
 		}
 
 		if (!UIUtils.isValidEmail(email.getValue())) {
-			result.addError(email, "Invalid email id.");
+			result.addError(email, messages.invalidEmail());
 		}
 		return result;
 

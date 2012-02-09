@@ -141,13 +141,13 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
-		if (notReadOnlyUser == true) {
-			if (iswareHouseEnabled) {
-				inventoryMenuBar.addMenuItem(messages.stockAdjustment(),
-						HistoryTokens.STOCKADJUSTMENT, "H");
-			}
+		if (notReadOnlyUser) {
+			inventoryMenuBar.addMenuItem(messages.buildAssembly(),
+					HistoryTokens.BUILD_ASSEMBLY);
+			inventoryMenuBar.addSeparatorItem();
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
+		inventoryMenuBar.addSeparatorItem();
 		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
 				.InventoryLists()));
 
@@ -166,10 +166,8 @@ public class MenuBar {
 			inventoryMenu.addMenuItem(messages.warehouseTransferList(),
 					HistoryTokens.WAREHOUSETRANSFERLIST);
 		}
-		if (iswareHouseEnabled) {
-			inventoryMenu.addMenuItem(messages.stockAdjustments(),
-					HistoryTokens.STOCKADJUSTMENTS);
-		}
+		inventoryMenu.addMenuItem(messages.stockAdjustments(),
+				HistoryTokens.STOCKADJUSTMENTS);
 		inventoryMenu.addMenuItem(messages.measurementList(),
 				HistoryTokens.MEASUREMENTLIST);
 
@@ -179,7 +177,8 @@ public class MenuBar {
 	private Menu getNewInventoryMenu(String string) {
 
 		Menu newMenuBar = new Menu(string);
-
+		newMenuBar.addMenuItem(messages.stockAdjustment(),
+				HistoryTokens.STOCKADJUSTMENT, "H");
 		if (iswareHouseEnabled) {
 			newMenuBar.addMenuItem(messages.wareHouse(),
 					HistoryTokens.WAREHOUSE);
@@ -187,7 +186,7 @@ public class MenuBar {
 			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
 					HistoryTokens.WAREHOUSETRANSFER);
 		}
-		newMenuBar.addMenuItem(messages.addMeasurementName(),
+		newMenuBar.addMenuItem(messages.measurement(),
 				HistoryTokens.ADDMEASUREMENT);
 		return newMenuBar;
 
@@ -297,6 +296,8 @@ public class MenuBar {
 		formMenu.addMenuItem(messages.challanDetails(),
 				HistoryTokens.CHALANDETAILS);
 		formMenu.addMenuItem(messages.eTDSFilling(), HistoryTokens.eTDSFILLING);
+		formMenu.addMenuItem("Enter Ack No.", HistoryTokens.ENTER_TDS_ACK_NO);
+		formMenu.addMenuItem("Form 16A", HistoryTokens.TDS_FORM16A);
 
 		return formMenu;
 	}
@@ -308,12 +309,12 @@ public class MenuBar {
 		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
 		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
 				HistoryTokens.TAXAGENCYLIST);
-		// if (company instanceof India) {
-		// if (tdsEnabled) {
-		// vatmenus.addMenuItem("Chalan Details List",
-		// HistoryTokens.CHALANDETAILSLIST);
-		// }
-		// }
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenus.addMenuItem("Chalan Details List",
+						HistoryTokens.CHALANDETAILSLIST);
+			}
+		}
 
 		return vatmenus;
 	}
@@ -498,6 +499,13 @@ public class MenuBar {
 		vatReportMenuBar.addMenuItem(messages.vatItemSummary(),
 				HistoryTokens.VATITEMSUMMARY);
 
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatReportMenuBar.addMenuItem(
+						messages.tdsAcknowledgmentsReport(),
+						HistoryTokens.TDS_ACK_REPORT);
+			}
+		}
 		return vatReportMenuBar;
 	}
 
@@ -712,8 +720,6 @@ public class MenuBar {
 			}
 
 		}
-		vendorMenuBar.addMenuItem(messages.buildAssembly(),
-				HistoryTokens.BUILD_ASSEMBLY);
 		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
 				.get().Vendor())));

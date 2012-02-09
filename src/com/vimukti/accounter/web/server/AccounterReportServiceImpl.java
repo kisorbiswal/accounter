@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.Vendor;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBudget;
@@ -1346,7 +1347,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			if (trialbalanceList.size() == 1) {
 				if (trialbalanceList.get(0).getAccountName()
-						.equals("Net Income")
+						.equals(Global.get().messages().netIncome())
 						&& DecimalUtil.isEquals(trialbalanceList.get(0)
 								.getAmount(), 0)) {
 					trialbalanceList.clear();
@@ -2913,15 +2914,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeeStatementsList> getStatements(boolean isVendor,
-			long id, ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+			long id, int viewType, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
 		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
 				toDate, getCompanyId());
 		try {
 
 			resultList = getFinanceTool().getReportManager()
-					.getPayeeStatementsList(isVendor, id, financeDates[0],
-							financeDates[1], getCompanyId());
+					.getPayeeStatementsList(isVendor, id, viewType,
+							financeDates[0], financeDates[1], getCompanyId());
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)
@@ -3146,8 +3148,17 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<InventoryValutionDetail> getInventoryValutionDetail(
 			long itemId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getInventoryManager()
-				.getInventoryValutionDetail(getCompanyId(), start, end, itemId);
+
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<InventoryValutionDetail> list = getFinanceTool()
+				.getInventoryManager().getInventoryValutionDetail(
+						getCompanyId(), start, end, itemId);
+		InventoryValutionDetail obj = new InventoryValutionDetail();
+		if (list != null)
+			list.add((InventoryValutionDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
 	}
 
 	@Override
@@ -3162,7 +3173,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getInventoryManager()
-				.getInventoryValutionSummary(getCompanyId(), start, end);
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<InventoryValutionSummary> list = getFinanceTool()
+				.getInventoryManager().getInventoryValutionSummary(
+						getCompanyId(), start, end);
+		InventoryValutionSummary obj = new InventoryValutionSummary();
+		if (list != null)
+			list.add((InventoryValutionSummary) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
 	}
 }

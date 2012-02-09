@@ -124,9 +124,9 @@ public class TDSFiledDetailsView extends BaseView {
 	private List<String> getFormTypes() {
 		ArrayList<String> list = new ArrayList<String>();
 
-		list.add("Form No.26Q");
-		list.add("Form No.27Q");
-		list.add("Form No.27EQ");
+		list.add(messages.form26Q());
+		list.add(messages.form27Q());
+		list.add(messages.form27EQ());
 		return list;
 	}
 

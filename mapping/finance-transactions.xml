@@ -155,7 +155,9 @@
 		</joined-subclass>
 		<joined-subclass name="BuildAssembly" table="BUILD_ASSEMBLY">
 			<key column="ID" />
-			<property name="inventoryAssembly" column="INVENTORY_ASSEMBLY"></property>
+			<many-to-one name="inventoryAssembly" class="InventoryAssembly"
+				column="INVENTORY_ASSEMBLY">
+			</many-to-one>
 			<property name="quantityToBuild" column="QUANTITY_TO_BUILD"></property>
 		</joined-subclass>
 		<joined-subclass name="ReceiveVAT" table="RECEIVE_VAT">

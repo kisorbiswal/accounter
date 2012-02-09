@@ -7,6 +7,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
@@ -232,7 +233,7 @@ public class StatementRecord extends CreatableObject implements
 			jEntry.setCompany(bankAcc.getCompany());
 			jEntry.number = number;
 			jEntry.transactionDate = statementDate;
-			jEntry.memo = "Adjustment Transaction";
+			jEntry.memo = Global.get().messages().adjustmentTransaction();
 			jEntry.setCurrency(bankAcc.getCurrency());
 			jEntry.currencyFactor = bankAcc.getCurrencyFactor();
 
@@ -277,7 +278,7 @@ public class StatementRecord extends CreatableObject implements
 		journalEntry.setCompany(account.getCompany());
 		journalEntry.number = number;
 		journalEntry.transactionDate = statementDate;
-		journalEntry.memo = "Adjustment Transaction";
+		journalEntry.memo = Global.get().messages().adjustmentTransaction();
 		journalEntry.setCurrency(account.getCurrency());
 		journalEntry.currencyFactor = account.getCurrencyFactor();
 

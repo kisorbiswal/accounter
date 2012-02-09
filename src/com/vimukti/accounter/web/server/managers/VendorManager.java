@@ -1419,18 +1419,22 @@ public class VendorManager extends PayeeManager {
 					.setLong("toID", toClientVendor.getID())
 					.setEntity("company", company).executeUpdate();
 
-			Vendor vendor = (Vendor) session.get(Vendor.class,
+			Vendor toVendor = (Vendor) session.get(Vendor.class,
+					toClientVendor.getID());
+
+			Vendor fromVendor = (Vendor) session.get(Vendor.class,
 					fromClientVendor.getID());
+
 			User user = AccounterThreadLocal.get();
 
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
-					vendor);
+					toVendor);
 			session.save(activity);
 
-			company.getVendors().remove(vendor);
+			company.getVendors().remove(fromVendor);
 			session.saveOrUpdate(company);
-			vendor.setCompany(null);
-			session.delete(vendor);
+			fromVendor.setCompany(null);
+			session.delete(fromVendor);
 			tx.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1759,6 +1763,7 @@ public class VendorManager extends PayeeManager {
 				paymentsList.setCheckNumber((String) object[10] == null ? ""
 						: (String) object[10]);
 				paymentsList.setCurrency((Long) object[11]);
+				paymentsList.setSaveStatus((Integer) object[12]);
 				issuePaymentTransactionsList.add(paymentsList);
 			}
 		}

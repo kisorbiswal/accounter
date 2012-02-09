@@ -562,7 +562,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		if (paypalForm == null) {
 			lab1.setText("Paypal Account");
-			paypalForm = UIUtils.form("Paypal Information");
+			paypalForm = UIUtils.form(messages.paypalInformation());
 			paypalForm.setWidth("100%");
 
 			// typeSelect.setDefaultToFirstOption(Boolean.TRUE);
@@ -571,7 +571,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			bankAccNumText.setHelpInformation(true);
 			bankAccNumText.setWidth(100);
 
-			paypalEmail = new TextItem("Paypal Email");
+			paypalEmail = new TextItem(messages.paypalEmail());
 			paypalEmail.setWidth(100);
 			paypalEmail.setHelpInformation(true);
 			paypalEmail.setRequired(true);
@@ -586,7 +586,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							return;
 						}
 						if (!UIUtils.isValidEmail(em)) {
-							Accounter.showError("Invalid Email");
+							Accounter.showError(messages.invalidEmail());
 						} else {
 							data.setPaypalEmail(em);
 						}
@@ -759,14 +759,14 @@ public class NewAccountView extends BaseView<ClientAccount> {
 
 		bankNameSelect = null;
 		if (creditCardForm == null) {
-			lab1.setText("Credit Card Account");
-			typeSelect = new SelectCombo("Credit Card Type");
+			lab1.setText(messages.creditCardAccount());
+			typeSelect = new SelectCombo(messages.creditCardType());
 			typeSelect.setDisabled(isInViewMode());
 			// typeSelect.setWidth(100);
 			// typeSelect.setWidth("*");
 			typeMap = new ArrayList<String>();
 
-			typeMap.add("Add New Type");
+			typeMap.add(messages.addNewType());
 			typeMap.add(messages.master());
 			typeMap.add(messages.visa());
 			typeSelect.initCombo(typeMap);

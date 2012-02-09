@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import com.vimukti.accounter.core.ReportsGenerator;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -36,12 +37,19 @@ public class InventoryStockStatusByVendorReport extends
 
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
-		super.print();
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR,
+				"", "");
 	}
 
 	@Override
 	public void exportToCsv() {
-		super.exportToCsv();
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR,
+				"", "");
 	}
 }

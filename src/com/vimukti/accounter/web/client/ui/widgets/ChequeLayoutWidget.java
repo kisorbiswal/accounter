@@ -7,6 +7,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ChequeLayoutWidget extends SimplePanel {
 	private ClientChequeLayout chequeLayout;
@@ -26,15 +28,17 @@ public class ChequeLayoutWidget extends SimplePanel {
 	private HorizontalPanel topScale;
 	private VerticalPanel vertScale;
 	private AbsolutePanel chequeBody;
+	private AccounterMessages messages;
 
 	public ChequeLayoutWidget(ClientChequeLayout chequeLayout) {
 		this.chequeLayout = chequeLayout;
-		payeeName = "Payee Name";
-		amountWordLin1 = "Fiteen Thousad Eight Hundred Sixty";
-		amountWordLin2 = "Eight Only";
+		messages = Accounter.getMessages();
+		payeeName = messages.payeeName(messages.payee());
+		amountWordLin1 = messages.fifteenThousandEightHundredSixtyEight();
+		amountWordLin2 = messages.eightOnly();
 		amountFigr = "15868.00";
 		checkDate = "12/15/2011";
-		companyName = "Company name";
+		companyName = messages.companyName();
 		createControls();
 	}
 

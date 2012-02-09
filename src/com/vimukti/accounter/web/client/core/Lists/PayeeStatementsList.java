@@ -28,6 +28,7 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 	private long currency;
 	private double currencyFactor;
 	private long payeeId;
+	private int status;
 
 	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
@@ -224,6 +225,18 @@ public class PayeeStatementsList extends BaseReport implements IsSerializable,
 			break;
 		}
 		return null;
+	}
+
+	public void setSaveStatus(int status) {
+		this.setStatus(status);
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }

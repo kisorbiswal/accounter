@@ -248,6 +248,8 @@ public class RecurringTransactionDialog extends
 
 		okbtn.setText(messages.saveTemplate());
 		okbtn.setWidth("100px");
+
+		initDataForNewTemplate();
 	}
 
 	private void initRadioBtns() {

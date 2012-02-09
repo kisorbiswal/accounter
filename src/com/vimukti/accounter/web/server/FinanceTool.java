@@ -71,6 +71,7 @@ import com.vimukti.accounter.core.IRASGeneralLedgerLineInfo;
 import com.vimukti.accounter.core.IRASInformation;
 import com.vimukti.accounter.core.IRASPurchaseLineInfo;
 import com.vimukti.accounter.core.IRASSupplyLineInfo;
+import com.vimukti.accounter.core.InventoryPurchase;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.InvoicePDFTemplete;
 import com.vimukti.accounter.core.InvoicePdfGeneration;
@@ -132,6 +133,7 @@ import com.vimukti.accounter.web.client.core.ClientBudget;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientETDSFillingItem;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
@@ -522,10 +524,6 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
 				session.delete(serverObject);
-			} else if (serverObject instanceof TAXItem) {
-				if (((TAXItem) serverObject).canDelete(serverObject)) {
-					session.delete(serverObject);
-				}
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
@@ -536,6 +534,9 @@ public class FinanceTool {
 						transaction.getCreditsAndPayments()
 								.canEdit(transaction);
 					}
+				}
+				if (serverObject instanceof TAXItem) {
+					((TAXItem) serverObject).canDelete(serverObject);
 				}
 				if (canDelete(serverClass.getSimpleName(),
 						Long.parseLong(arg1), company.getID())) {
@@ -2061,16 +2062,19 @@ public class FinanceTool {
 					.setEntity("company", company).executeUpdate();
 
 			Account account = (Account) session.get(Account.class,
+					toClientAccount.getID());
+
+			Account fromAccount = (Account) session.get(Account.class,
 					fromClientAccount.getID());
 			User user = AccounterThreadLocal.get();
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
 					account);
 			session.save(activity);
 
-			company.getAccounts().remove(account);
+			company.getAccounts().remove(fromAccount);
 			session.saveOrUpdate(company);
-			account.setCompany(null);
-			session.delete(account);
+			fromAccount.setCompany(null);
+			session.delete(fromAccount);
 			tx.commit();
 			Account toaccount = (Account) session.get(Account.class,
 					toClientAccount.getID());
@@ -2115,17 +2119,21 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
-			Item item = (Item) session.get(Item.class, fromClientItem.getID());
+			Item toItem = (Item) session.get(Item.class, toClientItem.getID());
+
+			Item fromItem = (Item) session.get(Item.class,
+					fromClientItem.getID());
 
 			User user = AccounterThreadLocal.get();
 
 			Activity activity = new Activity(company, user, ActivityType.MERGE,
-					item);
+					toItem);
+
 			session.save(activity);
-			company.getItems().remove(item);
+			company.getItems().remove(fromItem);
 			session.saveOrUpdate(company);
-			item.setCompany(null);
-			session.delete(item);
+			fromItem.setCompany(null);
+			session.delete(fromItem);
 			tx.commit();
 		} catch (Exception e) {
 			tx.rollback();
@@ -2164,6 +2172,7 @@ public class FinanceTool {
 				.getTransactionItems()) {
 			transactionItem.setTransaction(newTransaction);
 			transactionItem.setReferringTransactionItem(null);
+			transactionItem.setPurchases(new HashSet<InventoryPurchase>());
 		}
 		FinanceDate transactionDate = recurringTransaction
 				.getNextScheduledTransactionDate();
@@ -2246,14 +2255,14 @@ public class FinanceTool {
 	 * @throws IOException
 	 */
 	public void sendPdfInMail(String fileName, String subject, String content,
-			String senderEmail, String toEmail, String ccEmail, long companyId)
-			throws Exception {
+			ClientEmailAccount sender, String toEmail, String ccEmail,
+			long companyId) throws Exception {
 
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
 		File file = new File(fileName);
 		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-				senderEmail, toEmail, ccEmail);
+				sender, toEmail, ccEmail);
 
 	}
 
@@ -3716,14 +3725,14 @@ public class FinanceTool {
 
 			Object[] next = (Object[]) iterator.next();
 
-			Long vendorId = (Long) next[0];
+			Long payeeId = (Long) next[0];
 			Double tdsTotal = (Double) next[1];
 			Double total = (Double) next[2];
 			Long date = (Long) next[3];
 			Long trID = (Long) next[4];
 
 			ClientTDSTransactionItem clientTDSTransactionItem = new ClientTDSTransactionItem();
-			clientTDSTransactionItem.setVendor(vendorId);
+			clientTDSTransactionItem.setVendor(payeeId);
 			clientTDSTransactionItem.setTdsAmount(tdsTotal);
 			clientTDSTransactionItem.setTotalAmount(total);
 			clientTDSTransactionItem.setTransactionDate(date);
@@ -3838,6 +3847,7 @@ public class FinanceTool {
 
 		List<ClientETDSFillingItem> etdsList = new ArrayList<ClientETDSFillingItem>();
 
+		boolean isForm27EQ = (formNo == TDSChalanDetail.Form27EQ);
 		try {
 
 			Query query = session.getNamedQuery("getTdsChalanDetails")

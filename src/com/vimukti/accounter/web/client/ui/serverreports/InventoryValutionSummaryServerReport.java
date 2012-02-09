@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class InventoryValutionSummaryServerReport extends
@@ -12,10 +13,15 @@ public class InventoryValutionSummaryServerReport extends
 		this.reportView = view;
 	}
 
+	public InventoryValutionSummaryServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", messages.description(), messages.onHand(),
-				messages.avgCost(), messages.assetsTotal(),
+		return new String[] { messages.itemName(), messages.description(),
+				messages.onHand(), messages.avgCost(), messages.assetsTotal(),
 				messages.percentOfToTAsset(), messages.salesPrice(),
 				messages.retailCost(), messages.perOfTotRetail() };
 	}
@@ -27,8 +33,8 @@ public class InventoryValutionSummaryServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", messages.description(), messages.onHand(),
-				messages.avgCost(), messages.assetsTotal(),
+		return new String[] { messages.itemName(), messages.description(),
+				messages.onHand(), messages.avgCost(), messages.assetsTotal(),
 				messages.percentOfToTAsset(), messages.salesPrice(),
 				messages.retailCost(), messages.perOfTotRetail() };
 	}
@@ -36,7 +42,7 @@ public class InventoryValutionSummaryServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_PERCENTAGE, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_NUMBER,
 				COLUMN_TYPE_PERCENTAGE };
 	}
@@ -44,9 +50,8 @@ public class InventoryValutionSummaryServerReport extends
 	@Override
 	public void processRecord(InventoryValutionSummary record) {
 		if (sectionDepth == 0) {
-			addSection(new String[] { record.getItemName() },
-					new String[] { getMessages().total() }, new int[] { 2, 4,
-							5, 7, 8 });
+			addSection(new String[] { "" }, new String[] { getMessages()
+					.total() }, new int[] { 4, 5, 7, 8 });
 		} else if (sectionDepth == 1) {
 			return;
 		}
@@ -58,11 +63,11 @@ public class InventoryValutionSummaryServerReport extends
 	public Object getColumnData(InventoryValutionSummary record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return "";
+			return record.getItemName();
 		case 1:
 			return record.getItemDescription();
 		case 2:
-			return record.getOnHand();
+			return DataUtils.getQuantityAsString(record.getOnHand());
 		case 3:
 			return record.getAvgCost();
 		case 4:

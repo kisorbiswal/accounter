@@ -112,7 +112,8 @@ public class SelectItemTypeDialog extends BaseDialog<ClientItem> {
 				action.setItemText(itemname);
 				action.run();
 			} else if (radio.equals(messages.inventoryAssembly())) {
-				InventoryAssemblyAction action = new InventoryAssemblyAction();
+				InventoryAssemblyAction action = new InventoryAssemblyAction(
+						forCustomer);
 				action.setDependent(isDependent);
 				action.setItemText(itemname);
 				action.run();

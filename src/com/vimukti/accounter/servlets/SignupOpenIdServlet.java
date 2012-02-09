@@ -55,12 +55,14 @@ public class SignupOpenIdServlet extends BaseServlet {
 				&& req.getParameter("agree").equals("on"))
 			isAgreed = true;
 		if (!isAgreed) {
-			dispatchMessage("Please accept Terms of use", req, resp, view);
+			dispatchMessage(Global.get().messages().pleaseacceptTermsofuse(),
+					req, resp, view);
 		}
 
 		if (!isValidInputs(NAME, firstName, lastName, country)
 				|| !isValidInputs(MAIL_ID, emailId)) {
-			dispatchMessage("Given Inputs are wrong.", req, resp, view);
+			dispatchMessage(Global.get().messages().incorrectEmailOrPassWord(),
+					req, resp, view);
 			return;
 		}
 		emailId = emailId.toLowerCase();
@@ -81,9 +83,12 @@ public class SignupOpenIdServlet extends BaseServlet {
 				// HttpSession session = req.getSession(true);
 				// session.setAttribute(EMAIL_ID, emailId);
 				// redirectExternal(req, resp, LOGIN_URL);
-				req.setAttribute(
-						"errormessage",
-						"This Email ID is already registered with Accounter, try to signup with another Email ID. If you are the registered user click <a href=\"/main/login\">here</a> to login.");
+				req.setAttribute("errormessage", Global.get().messages()
+						.alreadyRegisteredWithAccounter()
+						+ " <a href=\"/main/login\">"
+						+ Global.get().messages().here()
+						+ "</a> "
+						+ Global.get().messages().toLogin());
 				dispatch(req, resp, view);
 				return;
 			} else {

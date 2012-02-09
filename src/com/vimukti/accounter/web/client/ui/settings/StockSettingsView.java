@@ -92,8 +92,8 @@ public class StockSettingsView extends BaseView {
 
 		itemComboSelect = new SelectCombo(messages.itemType());
 		List<String> combolist = new ArrayList<String>();
-		combolist.add("Product");
-		combolist.add("Service");
+		combolist.add(messages.product());
+		combolist.add(messages.service());
 		itemComboSelect.initCombo(combolist);
 		itemGroupComboSelect = new ItemCombo(messages.stockItemName(), 0);
 		adjustmentQuantity = new IntegerField(this,

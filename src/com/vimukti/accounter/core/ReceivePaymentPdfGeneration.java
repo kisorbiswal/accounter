@@ -34,8 +34,17 @@ public class ReceivePaymentPdfGeneration {
 			receivePaymentTmplt.setPaymentMethod(receive.getPaymentMethod());
 			receivePaymentTmplt
 					.setReceivedFrom(receive.getCustomer().getName());
-			receivePaymentTmplt.setRegisteredAddress(company
-					.getRegisteredAddress().toString());
+
+			Address regAdr = company.getRegisteredAddress();
+
+			String regAddress = forAddress(regAdr.getAddress1(), false)
+					+ forAddress(regAdr.getStreet(), false)
+					+ forAddress(regAdr.getCity(), false)
+					+ forAddress(regAdr.getStateOrProvinence(), false)
+					+ forAddress(regAdr.getZipOrPostalCode(), false)
+					+ forAddress(regAdr.getCountryOrRegion(), true);
+
+			receivePaymentTmplt.setRegisteredAddress(regAddress);
 
 			FieldsMetadata headersMetaData = new FieldsMetadata();
 			headersMetaData.addFieldAsList("invoice.invoiceDate");
@@ -89,6 +98,20 @@ public class ReceivePaymentPdfGeneration {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String forAddress(String address, boolean isFooter) {
+		if (address == null) {
+			return "";
+		}
+		if (address.trim().length() == 0) {
+			return "";
+		}
+		if (isFooter) {
+			return address + "." + "\n";
+		} else {
+			return address + "," + "\n";
+		}
 	}
 
 	public class ReceivePaymentTemplate {

@@ -26,7 +26,8 @@ public class BankStatementGrid extends BaseListGrid<ClientStatementRecord> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.date(), messages.description(),
-				messages.referenceNo(), "Reconciled ", "Spend", "Received", };
+				messages.referenceNo(), messages.reconciled(),
+				messages.spend(), messages.received() };
 	}
 
 	@Override

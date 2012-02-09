@@ -13,7 +13,7 @@ public class ChalanListViewAction extends Action {
 
 	public ChalanListViewAction() {
 		super();
-		this.catagory = "Tax List";
+		this.catagory = messages.taxList();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -55,7 +55,6 @@ public class ChalanListViewAction extends Action {
 
 	@Override
 	public String getText() {
-		// TODO Auto-generated method stub
-		return "Chalan List View";
+		return messages.challanListView();
 	}
 }

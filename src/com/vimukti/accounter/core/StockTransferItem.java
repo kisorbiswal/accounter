@@ -90,7 +90,7 @@ public class StockTransferItem implements IAccounterServerCore {
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Stock Transfer Item").gap();
+		w.put(messages.type(), messages.stockTransferItem()).gap();
 
 		w.put(messages.item(), this.item.getName());
 

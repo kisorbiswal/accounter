@@ -535,7 +535,7 @@ public class CheckPrintingSettingView extends BaseView<ClientChequeLayout> {
 		saveButton.addStyleName("saveAndClose-Btn");
 		getButtonBar().add(saveButton);
 
-		ImageButton resetButton = new ImageButton("Reset", Accounter
+		ImageButton resetButton = new ImageButton(messages.reset(), Accounter
 				.getFinanceImages().saveAndClose());
 		resetButton.addClickHandler(new ClickHandler() {
 

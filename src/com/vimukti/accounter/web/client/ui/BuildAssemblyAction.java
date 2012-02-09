@@ -12,6 +12,7 @@ public class BuildAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	public BuildAssemblyAction() {
 		super();
+		this.catagory = messages.inventory();
 	}
 
 	@Override

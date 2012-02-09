@@ -470,11 +470,11 @@ input[type="text"] {
 	background: url("../images/text-box.png") no-repeat scroll left top
 		transparent;
 	border: medium none;
-	height: 24px;
-	padding: 0 5px;
-	margin: 5px 0;
-	width: 223px;
 	font-size: 15px;
+	height: 23px;
+	margin: 5px 0;
+	padding: 0 5px;
+	width: 213px;
 }
 
 #drop-down {

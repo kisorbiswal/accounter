@@ -227,7 +227,7 @@ public class TDSChalanDetailsView extends
 		totalAmountPaid.setValue("0.00");
 		totalAmountPaid.setDisabled(true);
 
-		natureOfPaymentCombo = new SelectCombo("Nature of Payment");
+		natureOfPaymentCombo = new SelectCombo(messages.natureOfPayment());
 		natureOfPaymentCombo.setHelpInformation(true);
 		if (formTypeSeclected == Form26Q) {
 			natureOfPaymentCombo.initCombo(get26QSectionsList());
@@ -248,7 +248,7 @@ public class TDSChalanDetailsView extends
 					}
 				});
 
-		modeOFPaymentCombo = new SelectCombo("Payment Method");
+		modeOFPaymentCombo = new SelectCombo(messages.paymentMethod());
 		modeOFPaymentCombo.setHelpInformation(true);
 		modeOFPaymentCombo.initCombo(getPaymentItems());
 		modeOFPaymentCombo.setDisabled(isInViewMode());
@@ -267,13 +267,13 @@ public class TDSChalanDetailsView extends
 					}
 				});
 
-		chalanSerialNumber = new IntegerField(this, "Chalan Serial No.");
+		chalanSerialNumber = new IntegerField(this, messages.challanSerialNo());
 		chalanSerialNumber.setHelpInformation(true);
 		chalanSerialNumber.setRequired(true);
 		chalanSerialNumber.setWidth(100);
 		chalanSerialNumber.setDisabled(isInViewMode());
 
-		chalanQuarterPeriod = new SelectCombo("Chalan Period");
+		chalanQuarterPeriod = new SelectCombo(messages.challanPeriod());
 		chalanQuarterPeriod.setHelpInformation(true);
 		chalanQuarterPeriod.initCombo(getFinancialQuatersList());
 		chalanQuarterPeriod.setRequired(true);
@@ -289,12 +289,12 @@ public class TDSChalanDetailsView extends
 					}
 				});
 
-		checkNumber = new IntegerField(this, "Cheque/Ref. No.");
+		checkNumber = new IntegerField(this, messages.chequeOrRefNo());
 		checkNumber.setHelpInformation(true);
 		checkNumber.setWidth(100);
 		checkNumber.setDisabled(isInViewMode());
 
-		tdsDepositedBY = new SelectCombo("TDS Deposited by book entry");
+		tdsDepositedBY = new SelectCombo(messages.tdsDepositedByBookEntry());
 		tdsDepositedBY.setHelpInformation(true);
 		tdsDepositedBY.initCombo(getYESNOList());
 		tdsDepositedBY.setRequired(true);
@@ -321,10 +321,10 @@ public class TDSChalanDetailsView extends
 		dateItem2.setHelpInformation(true);
 		dateItem2.setColSpan(1);
 		dateItem2.setEnteredDate(new ClientFinanceDate());
-		dateItem2.setTitle("Date on Tax Paid");
+		dateItem2.setTitle(messages.dateOnTaxPaid());
 		dateItem2.setDisabled(isInViewMode());
 
-		bankBsrCode = new TextItem("Bank BSR Code");
+		bankBsrCode = new TextItem(messages.bankBSRCode());
 		bankBsrCode.setHelpInformation(true);
 		bankBsrCode.setDisabled(isInViewMode());
 		bankBsrCode.setRequired(true);

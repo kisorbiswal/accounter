@@ -197,6 +197,8 @@ public class ClientCompany implements IAccounterCore {
 	private ArrayList<ClientCustomField> customFields;
 
 	private List<ClientChequeLayout> chequeLayouts;
+
+	private List<ClientEmailAccount> emailAccounts;
 	// private ArrayList<ClientTAXItemGroup> vatItemGroups;
 
 	Set<ClientNominalCodeRange> nominalCodeRange = new HashSet<ClientNominalCodeRange>();
@@ -3213,6 +3215,14 @@ public class ClientCompany implements IAccounterCore {
 		this.tdsResposiblePerson = tdsResposiblePerson;
 	}
 
+	public List<ClientEmailAccount> getEmailAccounts() {
+		return emailAccounts;
+	}
+
+	public void setEmailAccounts(List<ClientEmailAccount> emailAccounts) {
+		this.emailAccounts = emailAccounts;
+	}
+	
 	public int getSubscriptionType() {
 		return subscriptionType;
 	}

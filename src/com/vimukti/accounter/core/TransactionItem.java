@@ -622,7 +622,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				if (item.getType() != Item.TYPE_INVENTORY_PART) {
 					return this.item.getExpenseAccount();
 				}
-			} else if (!getTransaction().isStockAdjustment()) {
+			} else if (!getTransaction().isStockAdjustment()
+					&& !getTransaction().isBuildAssembly()) {
 				return this.item.getIncomeAccount();
 			}
 		}
@@ -906,6 +907,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (getTransaction().isStockAdjustment()) {
 				expenseAccount = ((StockAdjustment) getTransaction())
 						.getAdjustmentAccount();
+			} else if (getTransaction().isBuildAssembly()) {
+				expenseAccount = ((BuildAssembly) getTransaction())
+						.getInventoryAssembly().getAssestsAccount();
 			} else {
 				expenseAccount = getItem().getExpenseAccount();
 			}
@@ -913,18 +917,20 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					-amountToReverseUpdate, 1);
 			expenseAccount.updateCurrentBalance(getTransaction(),
 					amountToReverseUpdate, 1);
+
 			assetsAccount.updateCurrentBalance(getTransaction(),
 					amountToUpdate, 1);
 			expenseAccount.updateCurrentBalance(getTransaction(),
 					-amountToUpdate, 1);
-			session.save(assetsAccount);
-			session.save(expenseAccount);
+
+			session.saveOrUpdate(assetsAccount);
+			session.saveOrUpdate(expenseAccount);
 		}
 	}
 
 	private double createPurchases(Map<Quantity, Double> newPurchases,
 			boolean useAverage, Double averageCost) {
-		Quantity mapped = getQuantity().copy();
+		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getKey();
@@ -946,7 +952,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	}
 
 	private double clearPurchases() {
-		Quantity mapped = getQuantity().copy();
+		Quantity mapped = getQuantityCopy();
 		double amountToReverseUpdate = 0;
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
@@ -972,5 +978,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			isSales = getQuantity().getValue() < 0;
 		}
 		return isSales;
+	}
+
+	public Quantity getQuantityCopy() {
+		Quantity quantity = getQuantity().copy();
+		if (getTransaction().isStockAdjustment() && quantity.getValue() < 0) {
+			quantity.setValue(-quantity.getValue());
+		}
+		return quantity;
 	}
 }

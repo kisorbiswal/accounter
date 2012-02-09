@@ -207,7 +207,7 @@ public class PayVATCommand extends AbstractTransactionCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages().youDoNotHavePermissionToDoThisAction());
 			return "cancel";
 		}
 		return null;

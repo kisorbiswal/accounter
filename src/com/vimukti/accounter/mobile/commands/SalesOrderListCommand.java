@@ -20,7 +20,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 		super.addRequirements(list);
 
 		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
-				"Please Select", 5) {
+				getMessages().pleaseSelect(""), 5) {
 			@Override
 			protected Record createRecord(SalesOrdersList value) {
 				Record record = new Record(value);
@@ -110,7 +110,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	private List<SalesOrdersList> getSalesOrders(Context context) {

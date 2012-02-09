@@ -806,11 +806,11 @@ public class VendorView extends BaseView<ClientVendor> {
 			}
 		}
 
-		customFieldDialog = new CustomFieldDialog(this, "CustomField",
-				"Manage CustomFields");
+		customFieldDialog = new CustomFieldDialog(this, messages.CustomField(),
+				messages.ManageCustomFields());
 
 		addCustomFieldButton = new Button();
-		addCustomFieldButton.setText("Manage CustomFields");
+		addCustomFieldButton.setText(messages.ManageCustomFields());
 		addCustomFieldButton.setWidth("100%");
 		addCustomFieldButton.addClickHandler(new ClickHandler() {
 
@@ -848,7 +848,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		HorizontalPanel customField = new HorizontalPanel();
 		customField.setWidth("100%");
 		customFieldForm.setWidth("100%");
-		Label customLable = new Label("Custom Fields");
+		Label customLable = new Label(messages.CustomFieldstext());
 		customField.add(customLable);
 		customField.setCellWidth(customLable, "225px");
 		customField.add(addCustomFieldButton);

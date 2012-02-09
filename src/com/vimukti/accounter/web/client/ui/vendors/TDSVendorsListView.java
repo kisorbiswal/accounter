@@ -58,7 +58,7 @@ public class TDSVendorsListView extends BaseView<ClientTDSInfo> implements
 		if (saveAndCloseButton != null)
 			this.saveAndCloseButton.setVisible(false);
 		if (saveAndNewButton != null)
-			this.saveAndNewButton.setText("TDS Filing");
+			this.saveAndNewButton.setText(messages.tdsfiling());
 		label = new Label();
 		label.removeStyleName("gwt-style");
 		label.setWidth("100%");

@@ -62,8 +62,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	private TextItem nameText, skuText;
-	private AmountField salesPriceText, stdCostText, purchasePriceTxt,
-			itemTotalValue;
+	private AmountField salesPriceText, purchasePriceTxt, itemTotalValue;
 	private IntegerField vendItemNumText, reorderPoint, onHandQuantity;
 	private TextAreaItem salesDescArea, purchaseDescArea;
 	CheckboxItem comCheck, activeCheck, itemTaxCheck;
@@ -128,7 +127,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 		listforms = new ArrayList<DynamicForm>();
 
-		Label lab1 = new Label(messages.newProduct());
+		Label lab1 = new Label(messages.newAssembly());
 		lab1.setStyleName("label-title");
 
 		HorizontalPanel hPanel = new HorizontalPanel();
@@ -186,7 +185,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		 * adding the inventory information controls
 		 */
 
-		assetsAccount = new AccountCombo("Assets Account") {
+		assetsAccount = new AccountCombo(messages.assetsAccount()) {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
@@ -204,6 +203,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		assetsAccount.setHelpInformation(true);
 		assetsAccount.setDisabled(isInViewMode());
 		assetsAccount.setPopupWidth("500px");
+		assetsAccount.setRequired(true);
 
 		reorderPoint = new IntegerField(this, "Reorder Point");
 		reorderPoint.setHelpInformation(true);
@@ -215,10 +215,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 				getBaseCurrency());
 		itemTotalValue.setHelpInformation(true);
 		itemTotalValue.setWidth(100);
-		itemTotalValue.setValue("0.0");
-		itemTotalValue.setDisabled(isInViewMode());
+		itemTotalValue.setAmount(0.00D);
+		itemTotalValue.setDisabled(true);
 
 		onHandQuantity = new IntegerField(this, "On Hand Quantity");
+		onHandQuantity.setNumber(0l);
 		onHandQuantity.setHelpInformation(true);
 		onHandQuantity.setWidth(100);
 		onHandQuantity.setDisabled(isInViewMode());
@@ -227,7 +228,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				Double amount = salesPriceText.getAmount();
+				Double amount = purchasePriceTxt.getAmount();
 				if (onHandQuantity.getValue().length() > 0) {
 					Double amount2 = Double.valueOf(onHandQuantity.getValue());
 					itemTotalValue.setAmount(amount * amount2);
@@ -257,12 +258,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		comCheck.setDisabled(isInViewMode());
 
 		salesInfoForm = UIUtils.form(messages.salesInformation());
-
-		stdCostText = new AmountField(messages.standardCost(), this,
-				getBaseCurrency());
-		stdCostText.setHelpInformation(true);
-		stdCostText.setWidth(100);
-		stdCostText.setDisabled(isInViewMode());
 
 		itemGroupCombo = new ItemGroupCombo(messages.itemGroup());
 		itemGroupCombo.setHelpInformation(true);
@@ -296,13 +291,21 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		purchaseDescArea.setTitle(messages.purchaseDescription());
 		purchaseDescArea.setDisabled(isInViewMode());
 
-		purchasePriceTxt = new AmountField(messages.purchasePrice(), this,
+		purchasePriceTxt = new AmountField(messages.standardCost(), this,
 				getBaseCurrency());
 		purchasePriceTxt.setHelpInformation(true);
 		purchasePriceTxt.setWidth(100);
 		purchasePriceTxt.setDisabled(isInViewMode());
+		purchasePriceTxt.addBlurHandler(new BlurHandler() {
 
-		expAccCombo = new PurchaseItemCombo(messages.expenseAccount());
+			@Override
+			public void onBlur(BlurEvent event) {
+				itemTotalValue.setAmount(purchasePriceTxt.getAmount()
+						* onHandQuantity.getNumber());
+			}
+		});
+
+		expAccCombo = new PurchaseItemCombo(messages.costOfGoodSold());
 		expAccCombo.setHelpInformation(true);
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
@@ -329,7 +332,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		disablePurchaseFormItems(isInViewMode());
 
 		salesInfoForm.setFields(salesDescArea, salesPriceText, accountCombo,
-				itemTaxCheck, comCheck, stdCostText);
+				itemTaxCheck, comCheck);
 
 		if (!getPreferences().isTrackTax()
 				&& getPreferences().isTaxPerDetailLine())
@@ -592,7 +595,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			data.setName(nameText.getValue().toString());
 		if (selectItemGroup != null)
 			data.setItemGroup(selectItemGroup.getID());
-		data.setStandardCost(stdCostText.getAmount());
 
 		data.setUPCorSKU(skuText.getValue());
 
@@ -746,7 +748,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 			nameText.setValue(data.getName());
 			name = data.getName();
-			stdCostText.setAmount(data.getStandardCost());
 
 			if (data.getSalesDescription() != null)
 				salesDescArea.setValue(data.getSalesDescription());
@@ -838,16 +839,33 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 	}
 
 	private void initAccountList() {
-		if (data != null && data.getIncomeAccount() != 0) {
-			accountCombo.setComboItem(getCompany().getAccount(
-					data.getIncomeAccount()));
+		List<ClientAccount> listAccount = accountCombo.getFilterdAccounts();
+		List<ClientAccount> listExpAccount = expAccCombo.getFilterdAccounts();
+		if (listAccount != null) {
+			accountCombo.initCombo(listAccount);
+			expAccCombo.initCombo(listExpAccount);
 		}
-		if (data != null && data.getExpenseAccount() != 0) {
-			expAccCombo.setComboItem(getCompany().getAccount(
-					data.getExpenseAccount()));
+		if (!isInViewMode()) {
+			if (data != null && data.getIncomeAccount() != 0) {
+				accountCombo.setComboItem(getCompany().getAccount(
+						data.getIncomeAccount()));
+			}
+			ClientAccount selectExpAccount = getCompany().getAccount(
+					data.getExpenseAccount());
+			if (selectExpAccount != null) {
+				expAccCombo.setComboItem(selectExpAccount);
+			}
+		} else {
+			expAccCombo.setDisabled(true);
+			ClientAccount incomeAccount = getCompany().getAccount(
+					data.getIncomeAccount());
+			accountCombo.setComboItem(incomeAccount);
+
+			ClientAccount expenseAccount = getCompany().getAccount(
+					data.getExpenseAccount());
+			expAccCombo.setComboItem(expenseAccount);
+
 		}
-		accountCombo.setDisabled(isInViewMode());
-		expAccCombo.setDisabled(isInViewMode());
 	}
 
 	@SuppressWarnings("unused")
@@ -936,7 +954,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		salesDescArea.setDisabled(isInViewMode());
 		salesPriceText.setDisabled(isInViewMode());
 		accountCombo.setDisabled(isInViewMode());
-		stdCostText.setDisabled(isInViewMode());
 		itemGroupCombo.setDisabled(isInViewMode());
 		taxCode.setDisabled(isInViewMode());
 		purchaseDescArea.setDisabled(isInViewMode());
@@ -985,7 +1002,6 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		salesPriceText.setTabIndex(5);
 		accountCombo.setTabIndex(6);
 		comCheck.setTabIndex(7);
-		stdCostText.setTabIndex(8);
 		itemGroupCombo.setTabIndex(9);
 		taxCode.setTabIndex(10);
 		activeCheck.setTabIndex(11);

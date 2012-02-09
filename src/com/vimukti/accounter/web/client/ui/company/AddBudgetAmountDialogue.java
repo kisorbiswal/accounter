@@ -29,6 +29,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	private static final String NEAREST_TEN = messages.NearestTen();
 	private static final String NEAREST_HUNDRED = messages.NearestHundred();
 	private static final String NONE = messages.none();
+	protected static final int CALANDERTYPE_DAYS = 1;
+	protected static final int CALANDERTYPE_MONTHS = 2;
 
 	AmountField janAmount, febAmount, marAmount, aprAmount, mayAmount,
 			junAmount, julAmount, augAmount, septAmount, octAmount, novAmount,
@@ -45,7 +47,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 	private DisclosurePanel discloserPanel;
 	private SelectCombo budgetRoundOfMethod;
 
-	int calculation = 2;
+	int calendarType = 2;
 	int roundOff = 0;
 
 	public AddBudgetAmountDialogue(String title, String desc,
@@ -159,7 +161,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		decAmount.setRequired(false);
 		decAmount.setWidth(100);
 
-		annualAmount = new AmountField("Annual", this);
+		annualAmount = new AmountField(messages.annual(), this);
 		annualAmount.setHelpInformation(true);
 		annualAmount.setRequired(false);
 		annualAmount.setWidth(100);
@@ -220,10 +222,10 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 						System.out.println(radioButton.getText());
 						if ((radioButton.getText().toString())
 								.endsWith(stringArray[0]))
-							calculation = 1;
+							calendarType = CALANDERTYPE_DAYS;
 						else if ((radioButton.getText().toString())
 								.endsWith(stringArray[1]))
-							calculation = 2;
+							calendarType = CALANDERTYPE_MONTHS;
 					}
 				}
 			});
@@ -274,52 +276,52 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	private void resetView(int type2) {
 		if (type2 == 0) {
-			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
+
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(janAmount, febAmount, marAmount, aprAmount,
 					mayAmount, junAmount, julAmount, augAmount, septAmount,
 					octAmount, novAmount, decAmount);
 
 		} else if (type2 == 1) {
-			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
+
 			quater1Amount = new AmountField(messages.quarterPeriod("1",
 					DayAndMonthUtil.jan(), DayAndMonthUtil.apr()), this);
 			quater1Amount.setHelpInformation(true);
 			quater1Amount.setRequired(false);
 			quater1Amount.setWidth(100);
-			quater1Amount.setValue(Double.toString(janAmount.getAmount()
-					+ febAmount.getAmount() + marAmount.getAmount()));
+			quater1Amount.setAmount(janAmount.getAmount()
+					+ febAmount.getAmount() + marAmount.getAmount());
 
 			quater2Amount = new AmountField(messages.quarterPeriod("2",
 					DayAndMonthUtil.apr(), DayAndMonthUtil.mayS()), this);
 			quater2Amount.setHelpInformation(true);
 			quater2Amount.setRequired(false);
 			quater2Amount.setWidth(100);
-			quater2Amount.setValue(Double.toString(aprAmount.getAmount()
-					+ mayAmount.getAmount() + junAmount.getAmount()));
+			quater2Amount.setAmount(aprAmount.getAmount()
+					+ mayAmount.getAmount() + junAmount.getAmount());
 
 			quater3Amount = new AmountField(messages.quarterPeriod("3",
 					DayAndMonthUtil.jun(), DayAndMonthUtil.sep()), this);
 			quater3Amount.setHelpInformation(true);
 			quater3Amount.setRequired(false);
 			quater3Amount.setWidth(100);
-			quater3Amount.setValue(Double.toString(julAmount.getAmount()
-					+ augAmount.getAmount() + septAmount.getAmount()));
+			quater3Amount.setAmount(julAmount.getAmount()
+					+ augAmount.getAmount() + septAmount.getAmount());
 
 			quater4Amount = new AmountField(messages.quarterPeriod("4",
 					DayAndMonthUtil.oct(), DayAndMonthUtil.dec()), this);
 			quater4Amount.setHelpInformation(true);
 			quater4Amount.setRequired(false);
 			quater4Amount.setWidth(100);
-			quater4Amount.setValue(Double.toString(octAmount.getAmount()
-					+ novAmount.getAmount() + decAmount.getAmount()));
+			quater4Amount.setAmount(octAmount.getAmount()
+					+ novAmount.getAmount() + decAmount.getAmount());
 
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(quater1Amount, quater2Amount,
 					quater3Amount, quater4Amount);
 
 		} else if (type2 == 2) {
-			annualAmount.setValue(Double.toString(annualAmount.getAmount()));
+			annualAmount.setAmount(annualAmount.getAmount());
 			budgetAddForm.removeAllRows();
 			budgetAddForm.setFields(annualAmount);
 		}
@@ -393,25 +395,25 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 			String one, two, three, four;
 
 			if (quater1Amount.getAmount() != null)
-				one = Double.toString(round(false, 0, roundOff, calculation,
+				one = Double.toString(round(false, 0, roundOff, calendarType,
 						quater1Amount.getAmount() / 3.00, 2));
 			else
 				one = "0.00";
 
 			if (quater2Amount.getAmount() != null)
-				two = Double.toString(round(false, 0, roundOff, calculation,
+				two = Double.toString(round(false, 0, roundOff, calendarType,
 						quater2Amount.getAmount() / 3.00, 2));
 			else
 				two = "0.00";
 
 			if (quater3Amount.getAmount() != null)
-				three = Double.toString(round(false, 0, roundOff, calculation,
+				three = Double.toString(round(false, 0, roundOff, calendarType,
 						quater3Amount.getAmount() / 3.00, 2));
 			else
 				three = "0.00";
 
 			if (quater4Amount.getAmount() != null)
-				four = Double.toString(round(false, 0, roundOff, calculation,
+				four = Double.toString(round(false, 0, roundOff, calendarType,
 						quater4Amount.getAmount() / 3.00, 2));
 			else
 				four = "0.00";
@@ -449,60 +451,58 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
 			double valueToDivide = 12.00;
-			if (calculation == 1) {
+			if (calendarType == 1) {
 				valueToDivide = 365.00;
 			}
 			if (annualAmount.getAmount() != null) {
 
 				newMap.put(DayAndMonthUtil.jan(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.feb(), Double.toString(round(true,
-						28, roundOff, calculation, annualAmount.getAmount()
+						28, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.mar(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.apr(), Double.toString(round(true,
-						30, roundOff, calculation, annualAmount.getAmount()
+						30, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.mayS(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.jun(), Double.toString(round(true,
-						30, roundOff, calculation, annualAmount.getAmount()
+						30, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.jul(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.aug(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.sep(), Double.toString(round(true,
-						30, roundOff, calculation, annualAmount.getAmount()
+						30, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.oct(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.nov(), Double.toString(round(true,
-						30, roundOff, calculation, annualAmount.getAmount()
+						30, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
 
 				newMap.put(DayAndMonthUtil.dec(), Double.toString(round(true,
-						31, roundOff, calculation, annualAmount.getAmount()
+						31, roundOff, calendarType, annualAmount.getAmount()
 								/ valueToDivide, 2)));
-				newMap.put(messages.totalAmount(),
-						Double.toString(annualAmount.getAmount()));
 			} else {
 				String one;
 				one = "0.00";
@@ -568,8 +568,8 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 	}
 
-	public static double round(boolean year, int month, int round, int calc,
-			double value, int places) {
+	public static double round(boolean year, int month, int round,
+			int calandertype, double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
 
@@ -579,14 +579,14 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 
 		double valueFinal = tmp / factor;
 
-		double valueToReturn = calculateValue(valueFinal, round, calc, month,
-				year);
+		double valueToReturn = calculateValue(valueFinal, round, calandertype,
+				month, year);
 
 		return valueToReturn;
 	}
 
 	private static double calculateValue(double valueFinal, int round,
-			int calc, int monthDays, boolean year) {
+			int calandertype, int monthDays, boolean year) {
 
 		long round2 = Math.round(valueFinal);
 
@@ -603,7 +603,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		}
 
 		if (year == true) {
-			if (calc == 1) {
+			if (calandertype == CALANDERTYPE_MONTHS) {
 				valueFinal = valueFinal * monthDays;
 			}
 		}

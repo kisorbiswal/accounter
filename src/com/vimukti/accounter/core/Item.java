@@ -439,7 +439,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
+		if (type == TYPE_INVENTORY_PART) {
 			doCreateEffectForInventoryItem();
 		}
 		ChangeTracker.put(this);
@@ -697,7 +697,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 
 	private void doSalesEffect(TransactionItem transactionItem,
 			int inventoryScheme, boolean isReverse) {
-		Quantity quantity = transactionItem.getQuantity().copy();
+		Quantity quantity = transactionItem.getQuantityCopy();
 		List<TransactionItem> sales = getSales();
 		if (isReverse) {
 			quantity.setValue(-quantity.getValue());
@@ -737,7 +737,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 		for (TransactionItem inventorySale : sales) {
-			Quantity salesQty = inventorySale.getQuantity().copy();
+			Quantity salesQty = inventorySale.getQuantityCopy();
 			Map<Quantity, Double> purchaseForThisSale = new HashMap<Quantity, Double>();
 			while (purchaseIterator.hasNext()) {
 				InventoryDetails next = purchaseIterator.next();

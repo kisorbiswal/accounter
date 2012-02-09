@@ -2,9 +2,9 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ReportUtility;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
-import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class InventoryValuationDetailsServerReport extends
 		AbstractFinaneReport<InventoryValutionDetail> {
@@ -15,10 +15,15 @@ public class InventoryValuationDetailsServerReport extends
 		this.reportView = view;
 	}
 
+	public InventoryValuationDetailsServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.type(), messages.date(),
-				messages.name(), messages.name(), messages.quantity(),
+				messages.name(), messages.number(), messages.quantity(),
 				messages.cost(), messages.onHand(), messages.avgCost(),
 				messages.assetsTotal() };
 	}
@@ -32,16 +37,16 @@ public class InventoryValuationDetailsServerReport extends
 	public String[] getColunms() {
 
 		return new String[] { messages.type(), messages.date(),
-				messages.name(), messages.name(), messages.quantity(),
+				messages.name(), messages.number(), messages.quantity(),
 				messages.cost(), messages.onHand(), messages.avgCost(),
 				messages.assetsTotal() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
-		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_NUMBER,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_NUMBER, COLUMN_TYPE_AMOUNT,
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT };
 
 	}
@@ -52,8 +57,8 @@ public class InventoryValuationDetailsServerReport extends
 			this.sectionName = record.getItemName();
 			addSection(
 					new String[] { sectionName },
-					new String[] { getMessages().total() + record.getItemName() },
-					new int[] { 6, 8 });
+					new String[] { getMessages().total() + " of "
+							+ record.getItemName() }, new int[] { 4, 8 });
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record
@@ -73,21 +78,44 @@ public class InventoryValuationDetailsServerReport extends
 		case 0:
 			return ReportUtility.getTransactionName(record.getTransType());
 		case 1:
-			return DateUtills.getDateAsString(record.getTransactionDate());
+			return record.getTransactionDate();
 		case 2:
 			return record.getPayeeName();
 		case 3:
 			return record.getTransactionNo();
 		case 4:
-			return record.getCost();
+			return record.getQuantity().getValue();
 		case 5:
-			return record.getOnHand();
+			return record.getCost();
+		case 6:
+			return DataUtils.getQuantityAsString(record.getOnHand());
 		case 7:
 			return record.getCost();
 		case 8:
-			return record.getQuantity() * record.getCost();
+			return record.getQuantity().getValue() * record.getCost();
 		}
 		return null;
+	}
+
+	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 1:
+			return 100;
+		case 3:
+			return 50;
+		case 4:
+			return 100;
+		case 5:
+			return 80;
+		case 6:
+			return 100;
+		case 7:
+			return 80;
+		case 8:
+			return 100;
+		}
+		return -1;
 	}
 
 	@Override

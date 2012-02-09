@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -12,12 +13,19 @@ public class InventoryStockStatusByItemServerReport extends
 		this.reportView = view;
 	}
 
+	public InventoryStockStatusByItemServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
-		return new String[] { "", "Item Description", "Pre_Vendor",
-				"Reorder_pts", "On Hand", "On Sales Order", "For Assemblies",
-				"Available", "Order", "Order onPo", "Next Delivery Date",
-				"Sales per week" };
+		return new String[] { "", messages.description(),
+				messages.preVendor(Global.get().Vendor()),
+				messages.reportPts(), messages.onHand(),
+				messages.onSalesOrder(), messages.forAssemblies(),
+				messages.available(), messages.order(), messages.orderOnPo(),
+				messages.nextDeliveryDate(), messages.salesPerWeek() };
 	}
 
 	@Override
@@ -27,10 +35,12 @@ public class InventoryStockStatusByItemServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { "", "Item Description", "Pre_Vendor",
-				"Reorder_pts", "On Hand", "On Sales Order", "For Assemblies",
-				"Available", "Order", "Order onPo", "Next Delivery Date",
-				"Sales per week" };
+		return new String[] { "", messages.description(),
+				messages.preVendor(Global.get().Vendor()),
+				messages.reportPts(), messages.onHand(),
+				messages.onSalesOrder(), messages.forAssemblies(),
+				messages.available(), messages.order(), messages.orderOnPo(),
+				messages.nextDeliveryDate(), messages.salesPerWeek() };
 	}
 
 	@Override

@@ -189,9 +189,10 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 							@Override
 							public void selectedComboBoxItem(String selectItem) {
 								if (viewSelect.getSelectedValue() != null) {
-									if (viewSelect.getSelectedValue()
+									if (viewSelect
+											.getSelectedValue()
 											.toString()
-											.equalsIgnoreCase("Active"))
+											.equalsIgnoreCase(messages.active()))
 										filterList(true);
 									else
 										filterList(false);

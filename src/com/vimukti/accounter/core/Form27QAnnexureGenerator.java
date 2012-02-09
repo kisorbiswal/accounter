@@ -265,7 +265,7 @@ public class Form27QAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getRateAtWhichTaxDeducted() {
-		return getRate(vendorFinal.getTAXItem().getTaxRate());
+		return getRate(transactionItems.getTaxRate());
 	}
 
 	/**

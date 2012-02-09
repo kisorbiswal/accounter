@@ -3,6 +3,10 @@ package com.vimukti.accounter.core;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTDSDeductorMasters;
 import com.vimukti.accounter.web.client.core.ClientTDSResponsiblePerson;
@@ -53,30 +57,45 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 		int lineNumber = 3;
 		int chalNum = 1;
 		codesArrayIndex = 0;
-		for (ClientTDSChalanDetail chalan : chalanDetailsList) {
-			chalanDetails = chalan;
-			setLineNumber(lineNumber);
-			setRunningChalanNumber(chalNum);
-			chalNum++;
-			fileText = fileText + generateChalanVoucherDetailsRecord();
-			int serNum = 1;
-			for (ClientTDSTransactionItem items : chalanDetails
-					.getTdsTransactionItems()) {
-				setRunningSerialNumber(serNum);
-				serNum++;
-				Set<Vendor> vendors = company.getVendors();
-				for (Vendor vendor : vendors) {
-					if (vendor.getID() == items.getVendor()) {
-						vendorFinal = vendor;
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for (ClientTDSChalanDetail chalan : chalanDetailsList) {
+				chalanDetails = chalan;
+				setLineNumber(lineNumber);
+				setRunningChalanNumber(chalNum);
+				chalNum++;
+				fileText = fileText + generateChalanVoucherDetailsRecord();
+				int serNum = 1;
+				for (ClientTDSTransactionItem items : chalanDetails
+						.getTdsTransactionItems()) {
+					setRunningSerialNumber(serNum);
+					serNum++;
+					Set<Vendor> vendors = company.getVendors();
+					for (Vendor vendor : vendors) {
+						if (vendor.getID() == items.getVendor()) {
+							vendorFinal = vendor;
+						}
 					}
+					lineNumber++;
+					transactionItems = items;
+					setLineNumber(lineNumber);
+					fileText = fileText + generateDeducteeDetailsRecord();
+					codesArrayIndex++;
+
+					TDSTransactionItem serverObject = new ServerConvertUtil()
+							.toServerObject(null, transactionItems, session);
+					session.saveOrUpdate(serverObject);
 				}
 				lineNumber++;
-				transactionItems = items;
-				setLineNumber(lineNumber);
-				fileText = fileText + generateDeducteeDetailsRecord();
-				codesArrayIndex++;
 			}
-			lineNumber++;
+			tx.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (tx != null) {
+				tx.rollback();
+			}
 		}
 
 		return fileText;
@@ -236,7 +255,7 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getRateAtWhichTaxDeducted() {
-		return getRate(vendorFinal.getTAXItem().getTaxRate());
+		return getRate(transactionItems.getTaxRate());
 	}
 
 	/**
@@ -858,7 +877,12 @@ public class Form27EQAnnexureGenerator extends ETDSAnnexuresGenerator {
 	 * @return
 	 */
 	private String getBankChalanNumber() {
-		return Long.toString(chalanDetails.getBankChalanNumber());
+		if (!getNILChalanIndicator().equals("Y")
+				|| !chalanDetails.isBookEntry()) {
+			return Long.toString(chalanDetails.getBankChalanNumber());
+		} else {
+			return "";
+		}
 	}
 
 	/**

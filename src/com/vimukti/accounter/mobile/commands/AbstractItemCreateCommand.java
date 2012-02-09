@@ -535,8 +535,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	@Override
 	protected String getDetailsMessage() {
 		return getItem().getID() == 0 ? getMessages().readyToCreate(
-				getMessages().item())
-				: getMessages().itemIsReadyToUpdateWithFollowingDetails();
+				getMessages().item()) : getMessages()
+				.itemIsReadyToUpdateWithFollowingDetails();
 
 	}
 
@@ -609,7 +609,6 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 						AccounterCoreType.ACCOUNT));
 		get(IS_TAXABLE).setValue(item.isTaxable());
 		get(IS_COMMISION_ITEM).setValue(item.isCommissionItem());
-		get(STANDARD_COST).setValue(item.getStandardCost());
 		long itemGroup = item.getItemGroup();
 		get(ITEM_GROUP).setValue(
 				CommandUtils.getServerObjectById(itemGroup,
