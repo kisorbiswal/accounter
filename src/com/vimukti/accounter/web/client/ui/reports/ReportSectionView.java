@@ -80,6 +80,7 @@ public class ReportSectionView extends BaseHomeView {
 		profitAndLossLink.setShowTitle(false);
 		profitAndLossLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getProfitAndLossAction());
@@ -92,6 +93,7 @@ public class ReportSectionView extends BaseHomeView {
 		balanceSheetLink.setShowTitle(false);
 		balanceSheetLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getBalanceSheetAction());
@@ -104,6 +106,7 @@ public class ReportSectionView extends BaseHomeView {
 		cashFlowLink.setShowTitle(false);
 		cashFlowLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -117,6 +120,7 @@ public class ReportSectionView extends BaseHomeView {
 		trailBalanceLink.setShowTitle(false);
 		trailBalanceLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getTrialBalanceAction());
@@ -130,6 +134,7 @@ public class ReportSectionView extends BaseHomeView {
 		transactionDetailsByAccountsLink.setShowTitle(false);
 		transactionDetailsByAccountsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -144,6 +149,7 @@ public class ReportSectionView extends BaseHomeView {
 		realisedExchangeLossesAndGains.setShowTitle(false);
 		realisedExchangeLossesAndGains.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -158,6 +164,7 @@ public class ReportSectionView extends BaseHomeView {
 		unRealisedExchangeLossesAndGains.setShowTitle(false);
 		unRealisedExchangeLossesAndGains.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -171,6 +178,7 @@ public class ReportSectionView extends BaseHomeView {
 		generalLedgerLink.setShowTitle(false);
 		generalLedgerLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getGlReportAction());
@@ -183,6 +191,7 @@ public class ReportSectionView extends BaseHomeView {
 		expenseReportLink.setShowTitle(false);
 		expenseReportLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getExpenseReportAction());
@@ -196,6 +205,7 @@ public class ReportSectionView extends BaseHomeView {
 		automaticTransactionsLink.setShowTitle(false);
 		automaticTransactionsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -209,6 +219,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesTaxLiabilityLink.setShowTitle(false);
 		salesTaxLiabilityLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -223,6 +234,7 @@ public class ReportSectionView extends BaseHomeView {
 		transactionDetailByTaxItemLink.setShowTitle(false);
 		transactionDetailByTaxItemLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -237,6 +249,7 @@ public class ReportSectionView extends BaseHomeView {
 		reconciliationsReportLink.setShowTitle(false);
 		reconciliationsReportLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getReconcilationsAction());
@@ -250,6 +263,7 @@ public class ReportSectionView extends BaseHomeView {
 		profitandLossByLocationLink.setShowTitle(false);
 		profitandLossByLocationLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -263,6 +277,7 @@ public class ReportSectionView extends BaseHomeView {
 		profitandLossByClassLink.setShowTitle(false);
 		profitandLossByClassLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -309,6 +324,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByCustomerSummaryLink.setShowTitle(false);
 		salesByCustomerSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -323,6 +339,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByCustomerDetailLink.setShowTitle(false);
 		salesByCustomerDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -336,6 +353,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByItemSummaryLink.setShowTitle(false);
 		salesByItemSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -349,6 +367,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByItemDetailLink.setShowTitle(false);
 		salesByItemDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -362,6 +381,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesOrderReportLink.setShowTitle(false);
 		salesOrderReportLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getSalesOrderAction());
@@ -375,6 +395,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByLocationDetailLink.setShowTitle(false);
 		salesByLocationDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -389,6 +410,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByLocationSummaryLink.setShowTitle(false);
 		salesByLocationSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -402,6 +424,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByClassDetailsLink.setShowTitle(false);
 		salesByClassDetailsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -415,6 +438,7 @@ public class ReportSectionView extends BaseHomeView {
 		salesByClassSummaryLink.setShowTitle(false);
 		salesByClassSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -454,6 +478,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseBySupplierSummaryLink.setShowTitle(false);
 		purchaseBySupplierSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -468,6 +493,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseBySupplierDetailLink.setShowTitle(false);
 		purchaseBySupplierDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -482,6 +508,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseByItemSummaryLink.setShowTitle(false);
 		purchaseByItemSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -495,6 +522,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseByItemDetailLink.setShowTitle(false);
 		purchaseByItemDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getPurchaseByItemAction());
@@ -507,6 +535,7 @@ public class ReportSectionView extends BaseHomeView {
 		purchaseOrderReportLink.setShowTitle(false);
 		purchaseOrderReportLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getPurchaseOrderAction());
@@ -547,6 +576,7 @@ public class ReportSectionView extends BaseHomeView {
 		customerTransactionHistoryLink.setShowTitle(false);
 		customerTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -560,6 +590,7 @@ public class ReportSectionView extends BaseHomeView {
 		arAgingDetailLink.setShowTitle(false);
 		arAgingDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getArAgingDetailAction());
@@ -572,6 +603,7 @@ public class ReportSectionView extends BaseHomeView {
 		apAgingDetailLink.setShowTitle(false);
 		apAgingDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getAorpAgingDetailAction());
@@ -584,6 +616,7 @@ public class ReportSectionView extends BaseHomeView {
 		arAgingSummaryLink.setShowTitle(false);
 		arAgingSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -597,6 +630,7 @@ public class ReportSectionView extends BaseHomeView {
 		apAgingSummaryLink.setShowTitle(false);
 		apAgingSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -611,6 +645,7 @@ public class ReportSectionView extends BaseHomeView {
 		customerStatementLink.setShowTitle(false);
 		customerStatementLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -623,6 +658,7 @@ public class ReportSectionView extends BaseHomeView {
 		vendorStatementLink.setShowTitle(false);
 		vendorStatementLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -637,6 +673,7 @@ public class ReportSectionView extends BaseHomeView {
 		supplierTransactionHistoryLink.setShowTitle(false);
 		supplierTransactionHistoryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -651,6 +688,7 @@ public class ReportSectionView extends BaseHomeView {
 		mostProfitableCustomerLink.setShowTitle(false);
 		mostProfitableCustomerLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -676,6 +714,7 @@ public class ReportSectionView extends BaseHomeView {
 		budgetOverviewLink.setShowTitle(false);
 		budgetOverviewLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getBudgetOverView());
@@ -688,6 +727,7 @@ public class ReportSectionView extends BaseHomeView {
 		budgetVsActualsLink.setShowTitle(false);
 		budgetVsActualsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getBudgetVsActionReport());
@@ -707,6 +747,7 @@ public class ReportSectionView extends BaseHomeView {
 		depriciationLink.setShowTitle(false);
 		depriciationLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -727,6 +768,7 @@ public class ReportSectionView extends BaseHomeView {
 		invValuationSummaryLink.setShowTitle(false);
 		invValuationSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -741,6 +783,7 @@ public class ReportSectionView extends BaseHomeView {
 		invValuationDetailsLink.setShowTitle(false);
 		invValuationDetailsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -748,36 +791,40 @@ public class ReportSectionView extends BaseHomeView {
 			}
 
 		});
-		LinkItem invValuationStockStatusByItemLink = new LinkItem();
-		invValuationStockStatusByItemLink.setLinkTitle(messages
-				.inventoryStockStatusByItem());
-		invValuationStockStatusByItemLink.setShowTitle(false);
-		invValuationStockStatusByItemLink.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getInventoryStockStatusByItemAction());
-			}
-
-		});
-		LinkItem invValuationStockStatusByVendorLink = new LinkItem();
-		invValuationStockStatusByVendorLink.setLinkTitle(messages
-				.inventoryStockStatusByVendor());
-		invValuationStockStatusByVendorLink.setShowTitle(false);
-		invValuationStockStatusByVendorLink.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				ClientAccount acc = null;
-				UIUtils.runAction(acc,
-						ActionFactory.getInventoryStockStatusByVendorAction());
-			}
-
-		});
+		// LinkItem invValuationStockStatusByItemLink = new LinkItem();
+		// invValuationStockStatusByItemLink.setLinkTitle(messages
+		// .inventoryStockStatusByItem());
+		// invValuationStockStatusByItemLink.setShowTitle(false);
+		// invValuationStockStatusByItemLink.addClickHandler(new ClickHandler()
+		// {
+		//
+		// public void onClick(ClickEvent event) {
+		// ClientAccount acc = null;
+		// UIUtils.runAction(acc,
+		// ActionFactory.getInventoryStockStatusByItemAction());
+		// }
+		//
+		// });
+		// LinkItem invValuationStockStatusByVendorLink = new LinkItem();
+		// invValuationStockStatusByVendorLink.setLinkTitle(messages
+		// .inventoryStockStatusByVendor());
+		// invValuationStockStatusByVendorLink.setShowTitle(false);
+		// invValuationStockStatusByVendorLink.addClickHandler(new
+		// ClickHandler() {
+		//
+		// public void onClick(ClickEvent event) {
+		// ClientAccount acc = null;
+		// UIUtils.runAction(acc,
+		// ActionFactory.getInventoryStockStatusByVendorAction());
+		// }
+		//
+		// });
 
 		inventoryform.setFields(invValuationSummaryLink,
-				invValuationDetailsLink, invValuationStockStatusByItemLink,
-				invValuationStockStatusByVendorLink);
+				invValuationDetailsLink /*
+										 * invValuationStockStatusByItemLink,
+										 * invValuationStockStatusByVendorLink
+										 */);
 
 		// TAX tab for uk country
 		Label taxLabel = new Label(messages.tax());
@@ -791,6 +838,7 @@ public class ReportSectionView extends BaseHomeView {
 		priorVatReturnsLink.setShowTitle(false);
 		priorVatReturnsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -804,6 +852,7 @@ public class ReportSectionView extends BaseHomeView {
 		vatDetailLink.setShowTitle(false);
 		vatDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -816,6 +865,7 @@ public class ReportSectionView extends BaseHomeView {
 		vat100Link.setShowTitle(false);
 		vat100Link.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getVAT100ReportAction());
@@ -828,6 +878,7 @@ public class ReportSectionView extends BaseHomeView {
 		unCategorisedVatAmountsLink.setShowTitle(false);
 		unCategorisedVatAmountsLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -841,6 +892,7 @@ public class ReportSectionView extends BaseHomeView {
 		ecSalesListLink.setShowTitle(false);
 		ecSalesListLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc, ActionFactory.getECSalesListAction());
@@ -853,6 +905,7 @@ public class ReportSectionView extends BaseHomeView {
 		taxItemSummaryLink.setShowTitle(false);
 		taxItemSummaryLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -874,6 +927,7 @@ public class ReportSectionView extends BaseHomeView {
 		taxItemDetailLink.setShowTitle(false);
 		taxItemDetailLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -888,6 +942,7 @@ public class ReportSectionView extends BaseHomeView {
 		taxItemExceptionLink.setShowTitle(false);
 		taxItemExceptionLink.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				ClientAccount acc = null;
 				UIUtils.runAction(acc,
@@ -981,5 +1036,4 @@ public class ReportSectionView extends BaseHomeView {
 		return mainLayout;
 
 	}
-
 }
