@@ -36,6 +36,8 @@ public abstract class InventoryAssemblyItemTable extends
 
 	protected abstract void updateNonEditableItems();
 
+	protected abstract long getAssembly();
+
 	@Override
 	protected void initColumns() {
 		InventoryItemNameColumn transactionItemNameColumn = new InventoryItemNameColumn(
@@ -47,9 +49,13 @@ public abstract class InventoryAssemblyItemTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
+						if (getAssembly() == e.getID()) {
+							return false;
+						}
 						return (e.getType() == ClientItem.TYPE_INVENTORY_PART || e
 								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY);
 					}
+
 				};
 			}
 
@@ -62,6 +68,8 @@ public abstract class InventoryAssemblyItemTable extends
 						ClientQuantity quantity = new ClientQuantity();
 						quantity.setValue(1.0);
 						row.setQuantity(quantity);
+						double lt = quantity.getValue() * row.getUnitPrice();
+						row.setLineTotal(lt);
 					}
 
 					if (row.getUnitPrice() == null) {

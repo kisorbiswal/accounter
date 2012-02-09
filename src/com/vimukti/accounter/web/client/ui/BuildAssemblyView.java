@@ -96,6 +96,14 @@ public class BuildAssemblyView extends
 
 			}
 
+			@Override
+			protected long getAssembly() {
+				if (getData() == null) {
+					return 0;
+				}
+				return getData().getInventoryAssembly();
+			}
+
 		};
 
 		itemCombo
@@ -206,6 +214,11 @@ public class BuildAssemblyView extends
 
 	protected void inventoryAssemblySelected(ClientInventoryAssembly selectItem) {
 		if (selectItem != null) {
+			if (selectItem.getComponents().isEmpty()) {
+				Accounter.showInformation(messages
+						.youCannotBuildWithoutComponents());
+				return;
+			}
 			buildPoint.setValue(Integer.toString(selectItem.getReorderPoint()));
 			quantityOnHand.setAmount(selectItem.getOnhandQty().getValue());
 			Set<ClientInventoryAssemblyItem> components = selectItem
@@ -269,6 +282,9 @@ public class BuildAssemblyView extends
 				buildNumber = temp;
 			}
 		}
+		if (buildNumber == null) {
+			buildNumber = 0.00D;
+		}
 		return buildNumber;
 	}
 
@@ -294,6 +310,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ValidationResult validate() {
+
 		if (quantityToBuild.getAmount() < 0) {
 			result.addError(quantityToBuild,
 					messages.pleaseEnter(quantityToBuild.getName()));
@@ -301,6 +318,11 @@ public class BuildAssemblyView extends
 		if (itemCombo.getSelectedValue() == null) {
 			result.addError(itemCombo,
 					messages.pleaseSelect(itemCombo.getName()));
+		} else {
+			if (itemCombo.getSelectedValue().getComponents().isEmpty()) {
+				result.addError(itemCombo,
+						messages.youCannotBuildWithoutComponents());
+			}
 		}
 		return result;
 	}
@@ -377,11 +399,15 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ClientBuildAssembly saveView() {
-		ClientInventoryAssembly selectedValue = itemCombo.getSelectedValue();
-		if (selectedValue != null) {
-			data.setInventoryAssembly(itemCombo.getSelectedValue().getID());
+		ClientBuildAssembly saveView = super.saveView();
+		if (saveView != null) {
+			ClientInventoryAssembly selectedValue = itemCombo
+					.getSelectedValue();
+			if (selectedValue != null) {
+				saveView.setInventoryAssembly(selectedValue.getID());
+			}
 		}
-		return data;
+		return saveView;
 	}
 
 	@Override
@@ -391,5 +417,10 @@ public class BuildAssemblyView extends
 				.getItem(assembly.getInventoryAssembly());
 		itemCombo.setComboItem(item);
 		inventoryAssemblySelected(item);
+	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
 	}
 }

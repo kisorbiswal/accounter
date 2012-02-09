@@ -5878,4 +5878,6 @@ public interface AccounterMessages extends Messages {
 	public String inventoryName();
 
 	public String subscribtionManagement();
+
+	public String youCannotBuildWithoutComponents();
 }

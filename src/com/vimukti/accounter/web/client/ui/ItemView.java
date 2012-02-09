@@ -41,8 +41,11 @@ import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -255,6 +258,24 @@ public class ItemView extends BaseView<ClientItem> {
 
 				return getCompany().getAccounts(
 						ClientAccount.TYPE_INVENTORY_ASSET);
+			}
+
+			@Override
+			public void onAddNew() {
+				NewAccountAction action = ActionFactory.getNewAccountAction();
+				List<Integer> list = new ArrayList<Integer>();
+				list.add(ClientAccount.TYPE_INVENTORY_ASSET);
+				action.setAccountTypes(list);
+				action.setCallback(new ActionCallback<ClientAccount>() {
+
+					@Override
+					public void actionResult(ClientAccount result) {
+						if (result.getIsActive())
+							addItemThenfireEvent(result);
+					}
+				});
+
+				action.run(null, true);
 			}
 		};
 

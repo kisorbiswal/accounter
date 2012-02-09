@@ -42,9 +42,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (index == 0)
 			return 40;
 		else if (index == 2)
-			return 400;
+			return 350;
 		else if (index == 3)
-			return 100;
+			return 150;
 		else if (index == 4)
 			return 100;
 		else {
@@ -107,16 +107,22 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 					}
 				}
 				if (ItemListView.isSalesType) {
-					return DataUtils.amountAsStringWithCurrency(obj.getSalesPrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
-							obj.getSalesPrice(), currency) : "";
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getSalesPrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getSalesPrice(),
+									currency) : "";
 				} else
-					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
-							obj.getPurchasePrice(), currency) : "";
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getPurchasePrice(),
+									currency) : "";
 
 			case 5:
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(), currency) != null ? DataUtils.amountAsStringWithCurrency(
-							obj.getPurchasePrice(), currency) : "";
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getPurchasePrice(),
+									currency) : "";
 				} else
 					return Accounter.getFinanceMenuImages().delete();
 			}
@@ -126,24 +132,17 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	protected String[] getColumns() {
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			return new String[] { messages.active(),
-					messages.itemName(),
-					messages.description(),
-					messages.type(),
-					messages.salesPrice(),
-					messages.purchasePrice(), "" };
+			return new String[] { messages.active(), messages.itemName(),
+					messages.description(), messages.type(),
+					messages.salesPrice(), messages.purchasePrice(), "" };
 		} else if (ItemListView.isPurchaseType) {
-			return new String[] { messages.active(),
-					messages.itemName(),
-					messages.description(),
-					messages.type(),
+			return new String[] { messages.active(), messages.itemName(),
+					messages.description(), messages.type(),
 					messages.purchasePrice(), "" };
 
 		} else {
-			return new String[] { messages.active(),
-					messages.itemName(),
-					messages.description(),
-					messages.type(),
+			return new String[] { messages.active(), messages.itemName(),
+					messages.description(), messages.type(),
 					messages.salesPrice(), "" };
 
 		}
