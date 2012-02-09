@@ -685,6 +685,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
 		item.setId(0);
+		item.purchases = new HashSet<InventoryPurchase>();
 		return item;
 	}
 
