@@ -19,13 +19,11 @@ public class VoidButton extends ImageButton {
 	 * Creates new Instance
 	 */
 	public VoidButton(AbstractBaseView<?> view, IAccounterCore obj) {
-		super(messages.void1(), Accounter.getFinanceImages()
-				.voided());
+		super(messages.void1(), Accounter.getFinanceImages().voided());
 		this.view = view;
 		this.obj = obj;
-		String name = obj != null ? obj.getName() : "";
-		this.setTitle(messages.clickThisTo(
-				messages.void1(), name));
+		this.setTitle(messages.clickThisTo(messages.void1(), view.getAction()
+				.getViewName()));
 		// this.addStyleName("saveAndNew-Btn");
 		addClichHandler();
 	}
@@ -39,8 +37,7 @@ public class VoidButton extends ImageButton {
 			@Override
 			public void onClick(ClickEvent arg0) {
 
-				Accounter.showWarning(messages
-						.doyouwanttoVoidtheTransaction(),
+				Accounter.showWarning(messages.doyouwanttoVoidtheTransaction(),
 						AccounterType.WARNING, new ErrorDialogHandler() {
 
 							@Override

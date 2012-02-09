@@ -215,6 +215,7 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 				tpt.setPayTAX(this);
 			}
 		}
+		super.onEdit(clonedObject);
 	}
 
 	@Override
