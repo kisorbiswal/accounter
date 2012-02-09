@@ -134,4 +134,9 @@ public class InventoryValuationDetailsServerReport extends
 
 	}
 
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
 }
