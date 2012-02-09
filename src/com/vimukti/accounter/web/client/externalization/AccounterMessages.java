@@ -5880,4 +5880,6 @@ public interface AccounterMessages extends Messages {
 	public String subscribtionManagement();
 
 	public String youCannotBuildWithoutComponents();
+
+	public String youCannotBuildThisAssembly();
 }

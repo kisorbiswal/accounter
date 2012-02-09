@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -46,7 +46,6 @@ public class BuildAssemblyView extends
 	private AmountField quantityToBuild;
 	private DateField dateField;
 	private TextAreaItem memoItem;
-	private ValidationResult result;
 
 	@Override
 	public void init() {
@@ -55,7 +54,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected void createControls() {
-		result = new ValidationResult();
+
 		itemCombo = new InventoryAssemblyItemCombo(messages.assemblyItem());
 		itemCombo.setRequired(true);
 
@@ -133,15 +132,16 @@ public class BuildAssemblyView extends
 		memoItem.setMemo(true, this);
 		maximumBuildsLabel = new AmountLabel(
 				messages.maximumNumberYouCanBuildFrom());
-		quantityToBuild.addClickHandler(new ClickHandler() {
+		quantityToBuild.addBlurHandler(new BlurHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onBlur(BlurEvent event) {
 				if (DecimalUtil.isLessThan(maximumBuildsLabel.getAmount(),
 						quantityToBuild.getAmount())) {
-					result.addError(quantityToBuild, messages
+					Accounter.showError(messages
 							.dntHaveEnoughComponents(maximumBuildsLabel
 									.getValue()));
+					quantityToBuild.setAmount(0.0);
 				}
 			}
 		});
@@ -310,8 +310,14 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
 
-		if (quantityToBuild.getAmount() < 0) {
+		if (maximumBuildsLabel.getAmount() <= 0) {
+			result.addError(quantityToBuild,
+					messages.youCannotBuildThisAssembly());
+		}
+
+		if (quantityToBuild.getAmount() <= 0) {
 			result.addError(quantityToBuild,
 					messages.pleaseEnter(quantityToBuild.getName()));
 		}

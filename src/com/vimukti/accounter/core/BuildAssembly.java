@@ -86,8 +86,7 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterServerConstants.TYPE_BUILD_ASSEMBLY;
 	}
 
 	@Override
