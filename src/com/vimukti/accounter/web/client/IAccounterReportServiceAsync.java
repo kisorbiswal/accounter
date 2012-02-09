@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
@@ -32,6 +33,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
+import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -406,5 +408,17 @@ public interface IAccounterReportServiceAsync {
 	public void getInventoryValutionDetail(long id, ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<InventoryValutionDetail>> callback);
+
+	public void getBankingDepositDetils(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<BankDepositDetail>> callback);
+
+	public void getMissingCheckDetils(long accountId, ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<TransactionDetailByAccount>> callback);
+
+	public void getReconciliationDiscrepancy(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
 
 }

@@ -34,6 +34,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -51,6 +52,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
+import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -3183,5 +3185,26 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			list.add((InventoryValutionSummary) setStartEndDates(obj,
 					minimumAndMaximumDates));
 		return list;
+	}
+
+	@Override
+	public ArrayList<BankDepositDetail> getBankingDepositDetils(
+			ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
+			long accountId, ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
+			ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
