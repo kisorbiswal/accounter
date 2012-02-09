@@ -64,14 +64,16 @@ public abstract class InventoryAssemblyItemTable extends
 					ClientItem newValue) {
 				super.setValue(row, newValue);
 				if (newValue != null) {
+					ClientQuantity quantity;
 					if (row.getQuantity() == null) {
-						ClientQuantity quantity = new ClientQuantity();
+						quantity = new ClientQuantity();
 						quantity.setValue(1.0);
-						row.setQuantity(quantity);
-						double lt = quantity.getValue() * row.getUnitPrice();
-						row.setLineTotal(lt);
+					} else {
+						quantity = row.getQuantity();
 					}
-
+					row.setQuantity(quantity);
+					double lt = quantity.getValue() * row.getUnitPrice();
+					row.setLineTotal(lt);
 					if (row.getUnitPrice() == null) {
 						row.setUnitPrice(new Double(0));
 					}
