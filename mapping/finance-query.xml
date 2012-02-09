@@ -2700,39 +2700,6 @@
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
-
-		SELECT SO.ID AS SALES_ORDER_ID,
-		TI.ID AS TRANSACTION_ITEM_ID,
-		TE.ID AS
-		TRANSACTION_EXPENSE_ID,
-		ST.ID AS
-		STOCK_TRANSFER_ID
-		FROM ITEM I
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON
-		I.ID=SO.ITEM_ID
-		LEFT OUTER JOIN
-		TRANSACTION_ITEM TI
-		ON I.ID = TI.ITEM_ID
-		LEFT OUTER JOIN
-		TRANSACTION_EXPENSE TE
-		ON I.ID = TE.ITEM_ID
-		LEFT OUTER JOIN
-		STOCK_TRANSFER_ITEM ST
-		ON ST.ITEM = I.ID
-		WHERE I.ID =
-		:inputId AND
-		I.COMPANY_ID=:companyId LIMIT 1
-	</sql-query>
-	
-	<sql-query name="canDeleteInventoryAssembly">
-		<query-param name="inputId" type="long" />
-		<query-param name="companyId" type="long" />
-		<return-scalar column="SALES_ORDER_ID" type="long" />
-		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
-		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
-		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
 		<return-scalar column="BUILD_ASSEMBLY_ID" type="long" />
 
 		SELECT SO.ID AS SALES_ORDER_ID,
@@ -2762,9 +2729,7 @@
 		:inputId AND
 		I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
-
-
-
+	
 	<sql-query name="canDeleteCustomerGroup">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
