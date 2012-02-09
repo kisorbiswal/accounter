@@ -138,9 +138,9 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		List<String> listOfTypes = new ArrayList<String>();
 		if (transactionType == 0
 				|| transactionType == ClientTransaction.TYPE_INVOICE) {
-			listOfTypes.add(messages.open());
 			listOfTypes.add(messages.overDue());
 		}
+		listOfTypes.add(messages.open());
 		listOfTypes.add(messages.voided());
 		listOfTypes.add(messages.all());
 		listOfTypes.add(messages.drafts());
