@@ -83,7 +83,7 @@ body,ul,li,ol,p,table,tr,td,table,html {
 	padding: 0px;
 }
 
-.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer,#subscriptionContainer
+.header,.middle-part,.footer,#commanNewContainer,#commanContainer,.signup-box,#maintananceContainer
 	{
 	text-align: left;
 }
@@ -782,7 +782,7 @@ form {
 	width: 375px;
 }
 
-#commanNewContainer,#commanContainer,#subscriptionContainer {
+#commanNewContainer,#commanContainer{
 	margin: 7em auto;
 }
 
@@ -790,14 +790,14 @@ form {
 	width: 960px;
 }
 
-#commanContainer label,#commanNewContainer label,.subscriptionContainer
+#commanContainer label,#commanNewContainer label
 	{
 	color: #777777;
 	font-size: 14px;
 	margin: 0;
 }
 
-#commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form,.subscriptionContainer .form-box
+#commanContainer .accounterform,.form-box,.new_login_page,.signup-total-form
 	{
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #B1B1B1;
@@ -854,7 +854,7 @@ input [type="checkbox"] {
 	text-shadow: 0 1px 0 #FFFFFF;
 }
 
-.form-bottom-options a,#commanContainer a,#commanNewContainer a,#subscriptionContainer a
+.form-bottom-options a,#commanContainer a,#commanNewContainer a
 	{
 	color: #28757D;
 	text-decoration: underline;
@@ -1305,10 +1305,6 @@ a#fdbk_tab:hover {
 
 #subscribe_button {
 	margin: 16px 0 0 73px;
-}
-
-#subscriptionContainer {
-	width: 420px;
 }
 
 .openidinfo {

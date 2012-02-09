@@ -24,7 +24,7 @@
   	<title>Subscription Management</title>
   </head>
   <body>
-  <div id="subscriptionContainer">
+  <div id="commanContainer" style="width:420px;  font-size: 13px;">
 	<form id="subscription_complition_form" method="post"  class="form-box">
 	<table cellspacing="10">
 	<tr>
