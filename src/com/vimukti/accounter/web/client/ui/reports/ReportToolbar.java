@@ -22,6 +22,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	private String selectedDateRange = "";
 	protected AbstractReportView<?> reportview;
 	private long payeeId;
+	private int viewId = 0;
 
 	public boolean isToolBarComponentChanged;
 
@@ -42,6 +43,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		// getLastandOpenedFiscalYearEndDate();
 		itemSelectionHandler = new ReportToolBarItemSelectionHandler() {
 
+			@Override
 			public void onItemSelectionChanged(int type,
 					ClientFinanceDate startDate, ClientFinanceDate endDate) {
 
@@ -797,5 +799,13 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 	protected void payeeData() {
 
+	}
+
+	public void setViewId(int viewOpen) {
+		this.viewId = viewOpen;
+	}
+
+	public int getViewId() {
+		return viewId;
 	}
 }

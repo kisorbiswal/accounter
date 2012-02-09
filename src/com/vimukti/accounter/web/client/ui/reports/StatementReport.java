@@ -73,7 +73,7 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 			setPayeeId(payee);
 		}
 		Accounter.createReportService().getStatements(isVendor, getPayeeId(),
-				startDate, endDate, this);
+				toolbar.getViewId(), startDate, endDate, this);
 
 	}
 

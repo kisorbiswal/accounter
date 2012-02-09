@@ -2914,15 +2914,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<PayeeStatementsList> getStatements(boolean isVendor,
-			long id, ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+			long id, int viewType, ClientFinanceDate fromDate,
+			ClientFinanceDate toDate) {
 		ArrayList<PayeeStatementsList> resultList = new ArrayList<PayeeStatementsList>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(fromDate,
 				toDate, getCompanyId());
 		try {
 
 			resultList = getFinanceTool().getReportManager()
-					.getPayeeStatementsList(isVendor, id, financeDates[0],
-							financeDates[1], getCompanyId());
+					.getPayeeStatementsList(isVendor, id, viewType,
+							financeDates[0], financeDates[1], getCompanyId());
 
 			PayeeStatementsList obj = new PayeeStatementsList();
 			if (resultList != null)

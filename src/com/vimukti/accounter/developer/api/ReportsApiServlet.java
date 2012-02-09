@@ -93,7 +93,7 @@ public class ReportsApiServlet extends HttpServlet {
 				boolean isEnabledOfInactiveCustomer = (Boolean) req
 						.getAttribute("IsEnabledOfInactiveCustomer");
 
-				accounterReportServiceImpl.getStatements(isVendor, id,
+				accounterReportServiceImpl.getStatements(isVendor, id, 0,
 						fromDate, toDate);
 
 			} else if (methodName.equals("agedcreditors")) {

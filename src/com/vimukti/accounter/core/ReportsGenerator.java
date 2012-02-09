@@ -1254,7 +1254,7 @@ public class ReportsGenerator {
 			try {
 				statementReport.onResultSuccess(finaTool.getReportManager()
 						.getPayeeStatementsList(false, Long.parseLong(status),
-								startDate, endDate, company.getID()));
+								0, startDate, endDate, company.getID()));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1276,7 +1276,7 @@ public class ReportsGenerator {
 			try {
 				statementReport1.onResultSuccess(finaTool.getReportManager()
 						.getPayeeStatementsList(true, Long.parseLong(status),
-								startDate, endDate, company.getID()));
+								0, startDate, endDate, company.getID()));
 
 			} catch (Exception e) {
 				e.printStackTrace();

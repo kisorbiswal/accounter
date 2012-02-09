@@ -6029,7 +6029,8 @@
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
 		<query-param name="payeeId" type="String" />
-
+		<query-param name="viewType" type="int" />
+		<query-param name="todayDate" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -6049,7 +6050,7 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
-
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS TRANSACTION_NUMBER,
 		T.T_DATE AS TRANSACTION_DATE,
@@ -6091,7 +6092,8 @@
 		T.ID AS TRANSACTION_ID,
 		T.CURRENCY as
 		CURRENCY, T.CURRENCY_FACTOR
-		as CURRENCY_FACTOR
+		as CURRENCY_FACTOR,
+		T.SAVE_STATUS AS SAVE_STATUS
 
 		FROM TRANSACTION T
 		LEFT
@@ -6156,9 +6158,31 @@
 		ELSE
 		TRUE
 		END
-
+		AND
+		CASE
+		WHEN
+		1=:viewType THEN
+		(I.BALANCE_DUE
+		&gt;0.0 AND T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 2=:viewType
+		THEN
+		(I.BALANCE_DUE &gt;0.0 AND
+		I.DUE_DATE &lt; :todayDate AND
+		T.SAVE_STATUS
+		!=204 AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType
+		THEN
+		(T.SAVE_STATUS =204)
+		WHEN
+		4=:viewType
+		THEN
+		(T.SAVE_STATUS =201)
+		ELSE true
+		END
 		<!-- GROUP BY (T.T_DATE &lt; :startDate) -->
-
 		ORDER BY T.T_DATE DESC
 
 	</sql-query>
@@ -6255,7 +6279,8 @@
 		<query-param name="startDate" type="Long" />
 		<query-param name="endDate" type="Long" />
 		<query-param name="payeeId" type="String" />
-
+		<query-param name="viewType" type="int" />
+		<query-param name="todayDate" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="string" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -6264,7 +6289,8 @@
 		<return-scalar column="BALANCE" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
-
+		<return-scalar column="SAVE_STATUS" type="int" />
+	
 		SELECT T.T_DATE AS TRANSACTION_DATE,
 		CASE
 		WHEN T.T_TYPE = 11 AND
@@ -6292,9 +6318,15 @@
 		T.CURRENCY as
 		CURRENCY, T.CURRENCY_FACTOR
 		as
-		CURRENCY_FACTOR FROM
+		CURRENCY_FACTOR,
+		T.SAVE_STATUS AS SAVE_STATUS
+		 FROM
 		TRANSACTION T
-
+		LEFT
+		OUTER JOIN
+		ITEM_RECEIPT IR
+		on
+		T.ID = IR.ID
 		LEFT
 		OUTER
 		JOIN
@@ -6361,8 +6393,44 @@
 		T.SAVE_STATUS
 		!=204 AND
 		T.COMPANY_ID=:companyId
-
-
+		AND
+		CASE
+		WHEN
+		1=:viewType THEN
+		(CASE WHEN
+		0=0 THEN
+		(IR.BALANCE_DUE
+		&gt;0.0 OR E.BALANCE_DUE
+		&gt;0.0 OR
+		VCM.BALANCE_DUE &gt;0.0
+		) ELSE TRUE
+		END) AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
+		WHEN
+		2=:viewType
+		THEN
+		(CASE WHEN 0=0 THEN
+		((:todayDate &gt;
+		E.DUE_DATE OR
+		:todayDate &gt;
+		IR.DUE_DATE)
+		AND (CASE WHEN T.T_TYPE = 6
+		THEN
+		E.BALANCE_DUE &gt; 0
+		ELSE (IR.BALANCE_DUE &gt; 0.0 OR
+		VCM.BALANCE_DUE
+		&gt; 0.0) END))
+		ELSE TRUE END) AND
+		(T.SAVE_STATUS !=204
+		AND
+		T.SAVE_STATUS!=201)
+		WHEN 3=:viewType THEN
+		T.SAVE_STATUS=204
+		WHEN
+		4=:viewType
+		THEN
+		(T.SAVE_STATUS=201)
+		ELSE true
+		END
 
 	</sql-query>
 
