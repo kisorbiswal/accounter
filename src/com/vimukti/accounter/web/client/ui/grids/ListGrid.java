@@ -871,8 +871,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	}
 
 	@Override
-	public void enableOrDisableCheckBox(boolean isEnable) {
-		super.enableOrDisableCheckBox(isEnable);
+	public void checkedUncheckedCheckBox(boolean isEnable) {
+		super.checkedUncheckedCheckBox(isEnable);
 		onHeaderCheckBoxClick(isEnable);
 
 	}

@@ -79,12 +79,10 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 	protected String[] getColumns() {
 
 		if (getPreferences().getUseAccountNumbers() == true) {
-			messages = messages;
 			return new String[] { messages.active(), messages.no(),
 					messages.name(), messages.type(), messages.balance(),
 					messages.register(), "" };
 		} else {
-			messages = messages;
 			return new String[] { messages.active(), messages.name(),
 					messages.type(), messages.balance(), messages.register(),
 					"" };
@@ -227,12 +225,6 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 		}
 
 		return 0;
-	}
-
-	@Override
-	public void addData(ClientAccount obj) {
-		super.addData(obj);
-		((CheckBox) this.getWidget(currentRow, 0)).setEnabled(false);
 	}
 
 	@Override

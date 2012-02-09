@@ -117,6 +117,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 				start, length, this);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onSuccess(PaginationList<ClientAccount> result) {
 		grid.removeAllRecords();
@@ -129,6 +130,7 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 		grid.setRecords(result);
 		grid.sort(1, false);
 		Window.scrollTo(0, 0);
+		grid.enableOrDisableCheckBox(false);
 		updateRecordsCount(result.getStart(), grid.getTableRowCount(),
 				result.getTotalCount());
 		start = result.getStart();
@@ -159,6 +161,11 @@ public class ChartOfAccountsView extends BaseListView<ClientAccount> implements
 	protected void filterList(boolean isActive) {
 		this.isActive = isActive;
 		onPageChange(0, getPageSize());
+		if (grid.getRecords().isEmpty()) {
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
+
 	}
 
 	@Override

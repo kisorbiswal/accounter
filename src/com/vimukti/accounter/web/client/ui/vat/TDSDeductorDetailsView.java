@@ -247,7 +247,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		deductorTypeGovernment = new SelectCombo(messages.deducatorType());
 		deductorTypeGovernment.setHelpInformation(true);
 		deductorTypeGovernment.initCombo(getGovtList());
-		deductorTypeGovernment.setSelectedItem(0);
+		if ((getGovtList() != null) && (!getGovtList().isEmpty())) {
+			deductorTypeGovernment.setComboItem(getGovtList().get(0));
+		}
 		deductorTypeGovernment.setDisabled(isInViewMode());
 		deductorTypeGovernment.setRequired(true);
 		deductorTypeGovernment

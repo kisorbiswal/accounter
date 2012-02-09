@@ -10,8 +10,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public class ContactGrid extends ListGrid<ClientContact> {
-	
+
 	boolean isEditMode;
+
 	public ContactGrid() {
 		super(false);
 	}
@@ -119,7 +120,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 					.getValue();
 			List<ClientContact> contacts = getRecords();
 			if (isSelected) {
-				enableOrDisableCheckBox(false);
+				checkedUncheckedCheckBox(false);
 				for (ClientContact clientContact : contacts) {
 					if (!clientContact.equals(contact)) {
 						clientContact.setPrimary(false);
@@ -210,8 +211,7 @@ public class ContactGrid extends ListGrid<ClientContact> {
 			return String.valueOf(phone);
 		} catch (Exception e) {
 			if (valueString.length() != 0) {
-				Accounter.showError(messages
-						.invalidBusinessPhoneVal());
+				Accounter.showError(messages.invalidBusinessPhoneVal());
 				return "";
 			}
 		}
