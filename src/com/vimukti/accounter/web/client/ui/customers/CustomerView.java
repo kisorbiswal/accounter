@@ -704,7 +704,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency());
+				getBaseCurrency(), true);
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 

@@ -412,7 +412,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency());
+				getBaseCurrency(), true);
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 

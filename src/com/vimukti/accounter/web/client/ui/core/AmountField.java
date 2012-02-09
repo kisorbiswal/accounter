@@ -22,6 +22,8 @@ public class AmountField extends TextItem {
 
 	private boolean showCurrency = true;
 
+	private boolean allowNegative;
+
 	public AmountField(final String name, WidgetWithErrors errorsViewGrid,
 			ClientCurrency currency) {
 		this.errorsWidget = errorsViewGrid;
@@ -31,23 +33,19 @@ public class AmountField extends TextItem {
 		} else {
 			setTitle(name);
 		}
-		// addFocusHandler(getFocusHandler());
 		addBlurHandler(getBlurHandler());
 
 		// Set Default Values
 		setKeyPressFilter("[0-9.]");
 		setAmount(0.00D);
 		((TextBox) getMainWidget()).setTextAlignment(TextBoxBase.ALIGN_RIGHT);
-		// setKeyPressHandler(new KeyPressListener() {
-		//
-		// @Override
-		// public void onKeyPress(int keyCode) {
-		// if (!((keyCode >= 48 && keyCode <= 57) && keyCode != 190)) {
-		// setValue("0.00");
-		// }
-		// }
-		// });
 		this.currency = currency;
+	}
+
+	public AmountField(String name, WidgetWithErrors errorsViewGrid,
+			ClientCurrency currency, boolean allowNegative) {
+		this(name, errorsViewGrid, currency);
+		this.allowNegative = allowNegative;
 	}
 
 	public AmountField(final String name, WidgetWithErrors errorsViewGrid) {
@@ -79,7 +77,8 @@ public class AmountField extends TextItem {
 					Double amount = DataUtils.getAmountStringAsDouble(JNSI
 							.getCalcultedAmount(value.toString()));
 					if (!AccounterValidator.isAmountTooLarge(amount)
-							&& !AccounterValidator.isAmountNegative(amount)) {
+							&& (allowNegative || (!allowNegative && !AccounterValidator
+									.isAmountNegative(amount)))) {
 						setAmount(amount);
 					}
 					if (AmountField.this.blurHandler != null) {
