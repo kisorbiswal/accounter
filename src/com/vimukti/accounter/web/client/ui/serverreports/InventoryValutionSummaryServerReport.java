@@ -100,4 +100,9 @@ public class InventoryValutionSummaryServerReport extends
 
 	}
 
+	@Override
+	public String getDefaultDateRange() {
+		return messages.thisMonth();
+	}
+
 }
