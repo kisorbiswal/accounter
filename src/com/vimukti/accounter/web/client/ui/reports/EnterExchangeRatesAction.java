@@ -19,7 +19,7 @@ public class EnterExchangeRatesAction extends Action {
 
 			public void onCreated() {
 				EnterExchangeRatesDialog dialog = new EnterExchangeRatesDialog();
-				dialog.show();
+				dialog.center();
 			}
 
 			public void onCreateFailed(Throwable t) {

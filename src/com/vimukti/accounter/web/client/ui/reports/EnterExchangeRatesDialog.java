@@ -56,11 +56,12 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 			@Override
 			public void onResultSuccess(List<CurrencyExchangeRate> result) {
-				if (result == null) {
-					return;
-				}
 				if (table != null) {
-					table.setAllRows(result);
+					if (result == null) {
+						return;
+					} else {
+						table.setAllRows(result);
+					}
 				}
 			}
 		};
