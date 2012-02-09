@@ -160,7 +160,7 @@ public abstract class CompanyInitializer {
 		if (nextAccoutNo == null) {
 			nextAccoutNo = getMinimumRange(type);
 		}
-		Account account = new Account(type, nextAccoutNo, name,
+		Account account = new Account(type, String.valueOf(nextAccoutNo), name,
 				cashFlowCategory);
 		account.setCompany(company);
 		session.saveOrUpdate(account);

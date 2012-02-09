@@ -366,9 +366,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	 * @param isOpeningBalanceEditable
 	 * 
 	 */
-	public Account(int type, int number, String name, int cashFlowCategory) {
+	public Account(int type, String number, String name, int cashFlowCategory) {
 		this.type = type;
-		this.number = String.valueOf(number);
+		this.number = number;
 		this.name = name;
 		this.isActive = true;
 		this.cashFlowCategory = cashFlowCategory;

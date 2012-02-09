@@ -179,7 +179,7 @@ public class Utility {
 			transactionName = AccounterServerConstants.TYPE_EMPLOYEE_EXPENSE;
 			break;
 		case Transaction.TYPE_STOCK_ADJUSTMENT:
-			transactionName = AccounterServerConstants.TYPE_EMPLOYEE_EXPENSE;
+			transactionName = AccounterServerConstants.TYPE_STOCK_ADJUSTMENT;
 			break;
 		case Transaction.TYPE_TDS_CHALLAN:
 			transactionName = AccounterServerConstants.TYPE_TDS_CHALLAN;
