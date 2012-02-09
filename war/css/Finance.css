@@ -2842,10 +2842,13 @@ input.date-field-textbox {
 	float: right;
 }
 
-.tds-celltable {
+.tds-scroll-panel .editTable{
 	min-height: 350px !important;
+	border: none;
 }
-
+.tds-scroll-panel{
+	border: 1px solid #2D8B93;
+}
 .report-section a {
 	display: table;
 	text-decoration: underline;
