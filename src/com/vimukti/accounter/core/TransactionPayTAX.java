@@ -162,7 +162,7 @@ public class TransactionPayTAX implements IAccounterServerCore, Lifecycle {
 	@Override
 	public void onLoad(Session s, Serializable id) {
 		// currently not using anywhere in the project.
-		filedDate = taxReturn.getDate();
+		// filedDate = taxReturn.getDate();
 	}
 
 	@Override
