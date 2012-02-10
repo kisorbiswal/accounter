@@ -810,4 +810,13 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			taxCodeSelected(taxCode);
 		}
 	}
+
+	@Override
+	public boolean isTrackTax() {
+		if (transaction != null && transaction.haveTax()) {
+			return true;
+		} else {
+			return getPreferences().isTrackTax() && isTrackPaidTax();
+		}
+	}
 }
