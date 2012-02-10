@@ -3488,10 +3488,10 @@
 		<query-param name="companyId" type="long" />
 		<return-scalar column="ENTER_BILL_ID" type="long" />
 		<return-scalar column="CREDITS_ID" type="long" />
-		SELECT P.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
+		SELECT TI.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
 		ON
-		T.ID=P.ID
-		WHERE P.ID IS NULL AND P.ID =:inputId AND
+		T.ID=P.ID LEFT JOIN TDSTRANSACTIONITEM TI ON TI.TRANSACTION_ID = P.ID 
+		WHERE P.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT
 		1
 	</sql-query>
