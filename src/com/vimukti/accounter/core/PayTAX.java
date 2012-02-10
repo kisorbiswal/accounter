@@ -239,12 +239,14 @@ public class PayTAX extends Transaction implements IAccounterServerCore,
 				if (!this.isVoid()) {
 					for (TransactionPayTAX transactoinPayTax : this.transactionPayTAX) {
 						transactoinPayTax.doVoidEffect(session);
+						transactoinPayTax.setVatReturn(null);
 					}
 				}
 				transactionPayTAX.clear();
 			} else {
 				for (TransactionPayTAX transactoinPayTax : this.transactionPayTAX) {
 					transactoinPayTax.doVoidEffect(session);
+					transactoinPayTax.setVatReturn(null);
 				}
 			}
 		}
