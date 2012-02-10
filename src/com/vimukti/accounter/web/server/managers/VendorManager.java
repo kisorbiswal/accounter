@@ -1759,16 +1759,11 @@ public class VendorManager extends PayeeManager {
 		return issuePaymentTransactionsList;
 	}
 
-	public ArrayList<TransactionHistory> getVendorTransactionsList(
-			long vendorId, int transactionType, int transactionStatusType,
-			long startDate, long endDate, Long companyId) {
-
-		List l = getResultListbyType(vendorId, transactionType,
-				transactionStatusType, startDate, endDate, companyId);
+	public PaginationList<TransactionHistory> getVendorTransactionsList(List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> queryResult = new PaginationList<TransactionHistory>();
 		Set<String> payee = new HashSet<String>();
 		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
 		while ((iterator).hasNext()) {
@@ -1826,12 +1821,25 @@ public class VendorManager extends PayeeManager {
 
 		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
 
-		return new ArrayList<TransactionHistory>(queryResult);
+		return queryResult;
 	}
 
-	private List getResultListbyType(long vendorId, int transactionType,
-			int transactionStatusType, long startDate, long endDate,
-			Long companyId) {
+	/**
+	 * get the vendor transactions
+	 * 
+	 * @param vendorId
+	 * @param transactionType
+	 * @param transactionStatusType
+	 * @param startDate
+	 * @param endDate
+	 * @param companyId
+	 * @param start
+	 * @param length
+	 * @return
+	 */
+	public PaginationList<TransactionHistory> getResultListbyType(
+			long vendorId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId, int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
 		String queryName = null;
@@ -1862,7 +1870,6 @@ public class VendorManager extends PayeeManager {
 						.setParameter("vendorId", vendorId)
 						.setParameter("currentDate",
 								new FinanceDate().getDate());
-				return query.list();
 			}
 
 		} else if (transactionType == Transaction.TYPE_PAY_BILL) {
@@ -1906,13 +1913,25 @@ public class VendorManager extends PayeeManager {
 		} else {
 			queryName = "getAllTransactionsListByVendor";
 		}
-
-		query = session.getNamedQuery(queryName)
-				.setParameter("companyId", companyId)
-				.setParameter("fromDate", startDate)
-				.setParameter("toDate", endDate)
-				.setParameter("vendorId", vendorId);
-		return query.list();
+		if (query == null) {
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("vendorId", vendorId);
+		}
+		List list;
+		int total = 0;
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<TransactionHistory> vendorTransactionsList = getVendorTransactionsList(list);
+		vendorTransactionsList.setTotalCount(total);
+		vendorTransactionsList.setStart(start);
+		return vendorTransactionsList;
 	}
 
 	public ClientMakeDeposit getDepositByEstimateId(long estimateId)

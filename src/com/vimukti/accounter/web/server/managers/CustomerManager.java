@@ -865,16 +865,11 @@ public class CustomerManager extends PayeeManager {
 		return new ArrayList<TransactionHistory>(queryResult);
 	}
 
-	public ArrayList<TransactionHistory> getCustomerTransactionsList(
-			long customerId, int transactionType, int transactionStatusType,
-			long startDate, long endDate, Long companyId) {
-
-		List l = getResultListbyType(customerId, transactionType,
-				transactionStatusType, startDate, endDate, companyId);
+	public PaginationList<TransactionHistory> getCustomerTransactionsList(List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> queryResult = new PaginationList<TransactionHistory>();
 		Set<String> payee = new HashSet<String>();
 		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
 		while ((iterator).hasNext()) {
@@ -959,14 +954,15 @@ public class CustomerManager extends PayeeManager {
 		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
 
 		// return prepareEntriesForVoid(queryResult);
-		return new ArrayList<TransactionHistory>(queryResult);
+		return queryResult;
 	}
 
-	private List getResultListbyType(long customerId, int transactionType,
-			int transactionStatusType, long startDate, long endDate,
-			Long companyId) {
+	public PaginationList<TransactionHistory> getResultListbyType(
+			long customerId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId, int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
+		int total = 0;
 		String queryName = null;
 		if (transactionType == Transaction.TYPE_INVOICE) {
 
@@ -992,7 +988,6 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("currentDate",
 								new FinanceDate().getDate())
 						.setParameter("customerId", customerId);
-				return query.list();
 			}
 
 		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
@@ -1045,7 +1040,6 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
 						.setParameter("paymentmethod", typeOfRPString);
-				return query.list();
 
 			}
 		} else if (transactionType == Transaction.TYPE_CUSTOMER_REFUNDS) {
@@ -1072,7 +1066,6 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
 						.setParameter("paymentmethod", typeOfRPString);
-				return query.list();
 			}
 		} else if (transactionType == Transaction.TYPE_ESTIMATE) {
 			int typeOfEstiate = 1;
@@ -1100,7 +1093,6 @@ public class CustomerManager extends PayeeManager {
 					.setParameter("toDate", endDate)
 					.setParameter("customerId", customerId)
 					.setParameter("estimateType", typeOfEstiate);
-			return query.list();
 
 		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
 			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
@@ -1112,11 +1104,23 @@ public class CustomerManager extends PayeeManager {
 			queryName = "getAllTransactionsByCustomer";
 
 		}
-		query = session.getNamedQuery(queryName)
-				.setParameter("companyId", companyId)
-				.setParameter("fromDate", startDate)
-				.setParameter("toDate", endDate)
-				.setParameter("customerId", customerId);
-		return query.list();
+		if (query == null) {
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId);
+		}
+		List list;
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<TransactionHistory> customerTransactionsList = getCustomerTransactionsList(list);
+		customerTransactionsList.setTotalCount(total);
+		customerTransactionsList.setStart(start);
+		return customerTransactionsList;
 	}
 }
