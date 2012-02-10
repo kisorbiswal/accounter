@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -309,13 +310,15 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long bankAccountId, long comapnyId);
 
-	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
+	PaginationList<TransactionHistory> getCustomerTransactionsList(long id,
 			int transactionType, int transactionStatusType,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length);
 
-	public ArrayList<TransactionHistory> getVendorTransactionsList(long id,
+	PaginationList<TransactionHistory> getVendorTransactionsList(long id,
 			int transactionType, int transactionStatusType,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length);
 
 	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(long id,
 			ClientFinanceDate start, ClientFinanceDate end, int type);

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -365,8 +366,8 @@ public interface IAccounterReportServiceAsync {
 
 	public void getCustomerTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<TransactionHistory>> callback);
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callback);
 
 	void getReconciliationItemByBankAccountID(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long bankAccountId, long comapnyId,
@@ -374,8 +375,8 @@ public interface IAccounterReportServiceAsync {
 
 	public void getVendorTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<TransactionHistory>> callback);
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callback);
 
 	public void getBudgetvsAcualReportData(long id, ClientFinanceDate start,
 			ClientFinanceDate end, int type,
