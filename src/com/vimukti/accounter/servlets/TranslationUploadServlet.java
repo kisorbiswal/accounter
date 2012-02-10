@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.main.MessageLoader;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class TranslationUploadServlet extends BaseServlet {
 
@@ -24,13 +25,29 @@ public class TranslationUploadServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		req.setAttribute("isValid", Boolean.FALSE);
 		dispatch(req, resp, TRANSLATION_UPLOAD);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		String password = req.getParameter("password1");
+		String isSubmittingFile = req.getParameter("isSubmittingFile");
+		if (isSubmittingFile == null || isSubmittingFile.isEmpty()
+				|| !Boolean.valueOf(isSubmittingFile)) {
+			String adminPassword = ServerConfiguration.getAdminPassword();
+			if (password == null || (password.isEmpty())
+					|| !(password.equals(adminPassword))) {
+				req.setAttribute("message", "wrong password");
+				req.setAttribute("isValid", Boolean.FALSE);
+				dispatch(req, resp, TRANSLATION_UPLOAD);
+			} else if (password.equals(adminPassword)) {
+				req.setAttribute("isValid", Boolean.TRUE);
+				dispatch(req, resp, TRANSLATION_UPLOAD);
+			}
+			return;
+		}
 		String contentType = req.getContentType();
 		byte dataBytes[] = null;
 		if ((contentType != null)
