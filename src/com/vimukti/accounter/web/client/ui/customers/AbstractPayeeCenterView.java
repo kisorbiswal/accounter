@@ -13,7 +13,7 @@ import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 
 public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
-
+	public static final int DEFAULT_PAGE_SIZE = 25;
 	protected SelectCombo dateRangeSelector;
 	private List<String> dateRangeList;
 	private ClientFinanceDate startDate, endDate;
@@ -40,7 +40,7 @@ public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
 						dateRangeSelector.setComboItem(selectItem);
 						if (dateRangeSelector.getValue() != null) {
 							dateRangeChanged(selectItem);
-							callRPC();
+							callRPC(0, getPageSize());
 
 						}
 					}
@@ -48,7 +48,15 @@ public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
 
 	}
 
-	protected abstract void callRPC();
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
+	}
+
+	protected abstract void callRPC(int start, int length);
+
+	void onPageChange(int start, int length) {
+		callRPC(start, length);
+	}
 
 	private void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
