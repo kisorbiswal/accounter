@@ -230,10 +230,11 @@ public class ReportSectionView extends BaseHomeView {
 				.getInventoryValutionSummaryReportAction().getHistoryToken());
 		inventoryMap.put(messages.inventoryValuationDetails(), ActionFactory
 				.getInventoryValuationDetailsAction().getHistoryToken());
-		inventoryMap.put(messages.inventoryStockStatusByItem(), ActionFactory
-				.getInventoryStockStatusByItemAction().getHistoryToken());
-		inventoryMap.put(messages.inventoryStockStatusByVendor(), ActionFactory
-				.getInventoryStockStatusByVendorAction().getHistoryToken());
+		// inventoryMap.put(messages.inventoryStockStatusByItem(), ActionFactory
+		// .getInventoryStockStatusByItemAction().getHistoryToken());
+		// inventoryMap.put(messages.inventoryStockStatusByVendor(),
+		// ActionFactory
+		// .getInventoryStockStatusByVendorAction().getHistoryToken());
 
 		// TAX tab for uk country
 		ukTaxMap.put(messages.priorVATReturns(), ActionFactory
