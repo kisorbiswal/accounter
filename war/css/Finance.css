@@ -2863,3 +2863,6 @@ input.date-field-textbox {
 .report-section .section {
 	margin: 4px 0 20px 3px;
 }
+.exchange-table .norecord-empty-message{
+	margin-left: 51px;
+}
