@@ -442,8 +442,8 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								: "";
 						break;
 					case 3:
-						columnValue = obj.getVendorName();
-
+						columnValue = obj.getVendorName() != null ? obj
+								.getVendorName() : "";
 						break;
 					case 4:
 						columnValue = obj.getOriginalAmount() != 0 ? amountAsStringWithCurrency(
@@ -451,8 +451,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								: "";
 						break;
 					case 5:
-						columnValue = obj.getBalance() != 0 ? amountAsStringWithCurrency(
-								obj.getBalance(), obj.getCurrency()) : "";
+						if (obj.getBalance() != null) {
+							columnValue = obj.getBalance() != 0 ? amountAsStringWithCurrency(
+									obj.getBalance(), obj.getCurrency()) : "";
+						} else {
+							columnValue = amountAsStringWithCurrency(0,
+									obj.getCurrency());
+						}
 						break;
 
 					}
@@ -1675,14 +1680,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate endDate) {
 		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
 				getCompanyId());
-		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
 
 		try {
 			resultList = getFinanceTool().getCustomerManager()
-					.getCustomerTransactionsList(customer.getID(),
-							transactionType, transactionStatusType,
-							dates[0].getDate(), dates[1].getDate(),
-							getCompanyId());
+					.getResultListbyType(customer.getID(), transactionType,
+							transactionStatusType, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId(), 0, -1);
 			ICSVExportRunner<TransactionHistory> icsvExportRunner = new ICSVExportRunner<TransactionHistory>() {
 
 				@Override
@@ -1739,9 +1743,9 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			resultList = getFinanceTool().getVendorManager()
-					.getVendorTransactionsList(vendor.getID(), transactionType,
+					.getResultListbyType(vendor.getID(), transactionType,
 							transactionStatusType, dates[0].getDate(),
-							dates[1].getDate(), getCompanyId());
+							dates[1].getDate(), getCompanyId(), 0, -1);
 			ICSVExportRunner<TransactionHistory> icsvExportRunner = new ICSVExportRunner<TransactionHistory>() {
 
 				@Override
