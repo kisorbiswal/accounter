@@ -9,9 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -124,13 +131,33 @@ public class CustomerCenterView<T> extends
 		custHistoryGrid.init();
 		custHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
 				.get().Customer()));
+		int pageSize = getPageSize();
+		custHistoryGrid.addRangeChangeHandler2(new Handler() {
+
+			@Override
+			public void onRangeChange(RangeChangeEvent event) {
+				onPageChange(event.getNewRange().getStart(), event
+						.getNewRange().getLength());
+			}
+		});
+		SimplePager pager = new SimplePager(TextLocation.CENTER,
+				(Resources) GWT.create(Resources.class), false, pageSize * 2,
+				true);
+		pager.setDisplay(custHistoryGrid);
+		updateRecordsCount(0, 0, 0);
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(custHistoryGrid);
+		rightVpPanel.add(pager);
 		custHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		add(mainPanel);
 
+	}
+
+	public void updateRecordsCount(int start, int length, int total) {
+		custHistoryGrid.updateRange(new Range(start, getPageSize()));
+		custHistoryGrid.setRowCount(total, (start + length) == total);
 	}
 
 	private void viewTypeCombo() {
@@ -203,7 +230,7 @@ public class CustomerCenterView<T> extends
 						public void selectedComboBoxItem(String selectItem) {
 							if (trasactionViewSelect.getSelectedValue() != null) {
 								getMessagesList();
-								callRPC();
+								callRPC(0, getPageSize());
 							}
 
 						}
@@ -224,7 +251,7 @@ public class CustomerCenterView<T> extends
 						@Override
 						public void selectedComboBoxItem(String selectItem) {
 							if (trasactionViewTypeSelect.getSelectedValue() != null) {
-								callRPC();
+								callRPC(0, getPageSize());
 							}
 
 						}
@@ -374,7 +401,6 @@ public class CustomerCenterView<T> extends
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-
 					}
 				});
 	}
@@ -384,7 +410,7 @@ public class CustomerCenterView<T> extends
 		detailsPanel.showCustomerDetails(selectedCustomer);
 		custHistoryGrid.setSelectedCustomer(selectedCustomer);
 		MainFinanceWindow.getViewManager().updateButtons();
-		callRPC();
+		callRPC(0, getPageSize());
 	}
 
 	@Override
@@ -428,33 +454,36 @@ public class CustomerCenterView<T> extends
 	}
 
 	@Override
-	protected void callRPC() {
+	protected void callRPC(int start, int length) {
 		custHistoryGrid.removeAllRecords();
 		records = new ArrayList<TransactionHistory>();
 		if (selectedCustomer != null) {
 			Accounter.createReportService().getCustomerTransactionsList(
 					selectedCustomer.getID(), getTransactionType(),
 					getTransactionStatusType(), getStartDate(), getEndDate(),
-					new AsyncCallback<ArrayList<TransactionHistory>>() {
+					start, length,
+					new AsyncCallback<PaginationList<TransactionHistory>>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-
+							caught.printStackTrace();
 						}
 
 						@Override
 						public void onSuccess(
-								ArrayList<TransactionHistory> result) {
+								PaginationList<TransactionHistory> result) {
 							records = result;
 							custHistoryGrid.removeAllRecords();
 							if (records != null) {
 								custHistoryGrid.addRecords(records);
 							}
+							updateRecordsCount(result.getStart(),
+									result.size(), result.getTotalCount());
 							if (records.size() == 0) {
 								custHistoryGrid.addEmptyMessage(messages
 										.thereAreNo(messages.transactions()));
 							}
+
 						}
 					});
 
@@ -554,4 +583,5 @@ public class CustomerCenterView<T> extends
 							}
 						});
 	}
+
 }
