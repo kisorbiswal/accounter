@@ -64,7 +64,9 @@ public abstract class TransactionPayBillTable extends
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(row.getAmountDue() - row.getAppliedCredits());
+				// if (!getPreferences().isCreditsApplyAutomaticEnable()) {
+				// row.setPayment(row.getAmountDue() - row.getAppliedCredits());
+				// }
 				onSelectionChanged(row, value);
 			}
 
@@ -558,6 +560,7 @@ public abstract class TransactionPayBillTable extends
 					// TODO setAttribute("cashAccount",
 					// cashDiscountDialog.selectedDiscountAccount
 					// .getName(), currentRow);
+					selectedObject.updatePayment();
 					updateValue(selectedObject);
 
 					adjustPaymentValue(selectedObject);
@@ -740,9 +743,9 @@ public abstract class TransactionPayBillTable extends
 		for (ClientTransactionPayBill obj : this.getAllRows()) {
 
 			obj.setPayment(0.0);
-			// obj.setCashDiscount(0);
+			obj.setCashDiscount(0);
 			// NO NEED TO APPLY CREDITS HERE
-			// obj.setAppliedCredits(0, false);
+			obj.setAppliedCredits(0, false);
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);
 		}
@@ -772,6 +775,7 @@ public abstract class TransactionPayBillTable extends
 		}
 		obj.getTransactionCreditsAndPayments().clear();
 		obj.setAppliedCredits(0.0d, false);
+		obj.setCashDiscount(0.00D);
 		obj.setTdsAmount(0.00D);
 		update(obj);
 		adjustAmountAndEndingBalance();

@@ -345,9 +345,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		Double cashDiscount = rec.getCashDiscount();
 		Double credit = rec.getAppliedCredits();
 		Double payments = amountDue - (cashDiscount + credit);
+		if (rec.getPayment() == 0
+				&& !getPreferences().isCreditsApplyAutomaticEnable()) {
+			rec.setPayment(payments);
+		}
 
-		(rec).setPayment(payments);
-		(rec).setCashDiscount(cashDiscount);
+		rec.setCashDiscount(cashDiscount);
 
 		grid.update(rec);
 		adjustAmountAndEndingBalance();
@@ -794,7 +797,9 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
-				c.setPayment(due);
+				if (c.getPayment() == 0) {
+					c.setPayment(due);
+				}
 				grid.update(c);
 			}
 		}
@@ -1187,11 +1192,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 			} else {
 				transaction.getTransactionPayBill().remove(record);
-				amountDue = record.getPayment() + record.getAppliedCredits();
+				amountDue = record.getPayment() + record.getAppliedCredits()
+						+ record.getCashDiscount();
 			}
 			amountDue += cont.getAmountDue();
-			record.setAmountDue(cont.getOriginalAmount());
-			record.setDummyDue(cont.getOriginalAmount());
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
 
 			record.setBillNumber(cont.getBillNumber());
 			record.setCashDiscount(record.getCashDiscount()
@@ -1207,8 +1213,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 			record.setOriginalAmount(cont.getOriginalAmount());
 			record.setPayment(cont.getPayment());
-			record.setDiscountAccount(getCompany().getCashDiscountAccount());
-
 			record.setDiscountAccount(getCompany().getCashDiscountAccount());
 
 			totalOrginalAmt += record.getOriginalAmount();
@@ -1234,8 +1238,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		grid.setRecords(records);
 		size = records.size();
-		if (size == 0)
+		if (size == 0) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
+		} else {
+			grid.resetValues();
+		}
 	}
 
 	@Override
