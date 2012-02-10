@@ -1291,6 +1291,8 @@
 		<property name="taxDue" column="TAX_DUE"></property>
 		<many-to-one name="taxReturn" class="TAXReturn" column="VAT_RETURN_ID">
 		</many-to-one>
+		<property name="filedDate" column="FILED_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
 		<many-to-one name="payTAX" class="PayTAX" column="PAY_TAX_ID">
 		</many-to-one>
 		<property name="version" column="VERSION"></property>
