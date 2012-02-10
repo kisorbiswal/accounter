@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
@@ -3004,26 +3005,29 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
-			int transactionType, int transactionStatusType,
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	public PaginationList<TransactionHistory> getCustomerTransactionsList(
+			long id, int transactionType, int transactionStatusType,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length) {
 		return getcustomerTransactionlist(id, transactionType,
-				transactionStatusType, startDate, endDate, getCompanyId());
+				transactionStatusType, startDate, endDate, getCompanyId(),
+				start, length);
 	}
 
-	private ArrayList<TransactionHistory> getcustomerTransactionlist(
+	private PaginationList<TransactionHistory> getcustomerTransactionlist(
 			long customerId, int transactionType, int transactionStatusType,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate, Long companyId) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate,
+			Long companyId, int start, int length) {
 
 		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
 				getCompanyId());
-		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
 		try {
 
 			resultList = getFinanceTool().getCustomerManager()
-					.getCustomerTransactionsList(customerId, transactionType,
+					.getResultListbyType(customerId, transactionType,
 							transactionStatusType, dates[0].getDate(),
-							dates[1].getDate(), companyId);
+							dates[1].getDate(), companyId, start, length);
 
 			TransactionHistory obj = new TransactionHistory();
 			if (resultList != null)
@@ -3037,19 +3041,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<TransactionHistory> getVendorTransactionsList(
+	public PaginationList<TransactionHistory> getVendorTransactionsList(
 			long vendorId, int transactionType, int transactionStatusType,
-			ClientFinanceDate fromDate, ClientFinanceDate toDate) {
+			ClientFinanceDate fromDate, ClientFinanceDate toDate, int start,
+			int length) {
 
 		FinanceDate[] dates = getMinimumAndMaximumDates(fromDate, toDate,
 				getCompanyId());
-		ArrayList<TransactionHistory> resultList = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
 		try {
-
 			resultList = getFinanceTool().getVendorManager()
-					.getVendorTransactionsList(vendorId, transactionType,
+					.getResultListbyType(vendorId, transactionType,
 							transactionStatusType, dates[0].getDate(),
-							dates[1].getDate(), getCompanyId());
+							dates[1].getDate(), getCompanyId(), start, length);
 
 			TransactionHistory obj = new TransactionHistory();
 			if (resultList != null)
