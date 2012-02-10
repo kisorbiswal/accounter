@@ -282,7 +282,7 @@ public class ReceivePaymentView extends
 				}
 				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
-				gridView.updatePayment(c);
+				// gridView.updatePayment(c);
 				gridView.update(c);
 				this.transactionTotal = getGridTotal();
 				this.unUsedPayments = (totalWithTDS.getAmount() - transactionTotal);
@@ -332,11 +332,12 @@ public class ReceivePaymentView extends
 				}
 			} else {
 				transaction.getTransactionReceivePayment().remove(record);
-				amountDue = record.getPayment() + record.getAppliedCredits();
+				amountDue = record.getPayment() + record.getAppliedCredits()
+						+ record.getCashDiscount() + record.getWriteOff();
 			}
 			amountDue += rpt.getAmountDue();
-			record.setAmountDue(rpt.getInvoiceAmount());
-			record.setDummyDue(rpt.getInvoiceAmount());
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
 
 			record.setDueDate(rpt.getDueDate() != null ? rpt.getDueDate()
 					.getDate() : 0);
@@ -368,7 +369,8 @@ public class ReceivePaymentView extends
 
 		for (ClientTransactionReceivePayment payment : transaction
 				.getTransactionReceivePayment()) {
-			payment.setAmountDue(payment.getInvoiceAmount());
+			payment.setAmountDue(payment.getPayment()
+					+ payment.getAppliedCredits());
 			payment.setPayment(0.00D);
 			payment.setCashDiscount(0.0D);
 			payment.setWriteOff(0.0D);
