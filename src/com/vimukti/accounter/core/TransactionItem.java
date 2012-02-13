@@ -177,6 +177,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private boolean isAmountIncludeTAX;
 
+	private Account effectingAccount;
+
 	private Set<InventoryPurchase> purchases = new HashSet<InventoryPurchase>();
 	private transient boolean isNewlyCreated;
 	private transient boolean isReverseEffected;
@@ -491,6 +493,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 				Account effectingAccount = getEffectingAccount();
 				if (effectingAccount != null) {
+					this.effectingAccount = effectingAccount;
 					effectingAccount.updateCurrentBalance(this.transaction,
 							amount, transaction.currencyFactor);
 					session.saveOrUpdate(effectingAccount);
@@ -940,6 +943,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private double createPurchases(Map<Quantity, Double> newPurchases,
 			boolean useAverage, Double averageCost) {
+		Session session = HibernateUtil.getCurrentSession();
 		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
@@ -947,8 +951,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			double cost = useAverage ? averageCost : entry.getValue();
 			mapped = mapped.subtract(qty);
 			amountToUpdate += qty.getValue() * cost;
-			getPurchases().add(
-					new InventoryPurchase(item, qty, entry.getValue()));
+			InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
+					qty, entry.getValue());
+			session.save(inventoryPurchase);
+			getPurchases().add(inventoryPurchase);
 		}
 
 		if (!mapped.isEmpty()) {
@@ -956,18 +962,23 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 					: getUnitPrice();
 			// finally what ever is unmapped add the that using unitprice
 			amountToUpdate += mapped.getValue() * cost;
-			getPurchases().add(new InventoryPurchase(item, mapped, cost));
+			InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
+					mapped, cost);
+			session.save(inventoryPurchase);
+			getPurchases().add(inventoryPurchase);
 		}
 		return amountToUpdate;
 	}
 
 	private double clearPurchases() {
+		Session session = HibernateUtil.getCurrentSession();
 		Quantity mapped = getQuantityCopy();
 		double amountToReverseUpdate = 0;
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
 			mapped = mapped.subtract(quantity);
 			amountToReverseUpdate += quantity.getValue() * purchase.getCost();
+			session.delete(purchase);
 		}
 		getPurchases().clear();
 		return amountToReverseUpdate;
