@@ -179,6 +179,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private Set<InventoryPurchase> purchases = new HashSet<InventoryPurchase>();
 	private transient boolean isNewlyCreated;
+	private transient boolean isReverseEffected;
 
 	public TransactionItem() {
 
@@ -356,9 +357,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		if (transaction.isVoid()) {
+		if (transaction.isVoid() || this.isReverseEffected) {
 			return false;
 		}
+
+		this.isReverseEffected = true;
 
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				|| transaction.isDraftOrTemplate())
@@ -548,6 +551,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @param session
 	 */
 	public void doReverseEffect(Session session) {
+
+		if (this.isReverseEffected) {
+			return;
+		}
+		this.isReverseEffected = true;
 
 		// Double amount = (isPositiveTransaction() ? -1d : 1d)
 		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal

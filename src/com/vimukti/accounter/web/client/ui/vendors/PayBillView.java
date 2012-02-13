@@ -802,6 +802,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 				grid.update(c);
 			}
+			adjustAmountAndEndingBalance();
 		}
 
 		this.unUsedCreditsText.setAmount(grid.getUnusedCredits());
@@ -1227,7 +1228,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getOriginalAmount());
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);
