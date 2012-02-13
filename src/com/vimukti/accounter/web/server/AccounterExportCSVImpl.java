@@ -226,7 +226,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getDate().getDate()));
 						break;
 					case 1:
-						columnValue = obj.getPayee().getName();
+						columnValue = obj.getCustomer().getName();
 						break;
 					case 2:
 						columnValue = obj.getNumber() != null ? obj.getNumber()
