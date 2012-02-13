@@ -1216,6 +1216,8 @@ public class UIUtils {
 
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			return AccounterCoreType.PAYBILL;
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+			return AccounterCoreType.TDSCHALANDETAIL;
 
 		}
 		return null;
