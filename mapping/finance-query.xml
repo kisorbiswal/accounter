@@ -3504,8 +3504,7 @@
 	<sql-query name="canDeletePayBill">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ENTER_BILL_ID" type="long" />
-		<return-scalar column="CREDITS_ID" type="long" />
+		<return-scalar column="ID" type="long" />
 		SELECT TI.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
 		ON
 		T.ID=P.ID
