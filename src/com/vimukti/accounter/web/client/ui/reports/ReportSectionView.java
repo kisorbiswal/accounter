@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.BaseHomeView;
@@ -96,8 +97,8 @@ public class ReportSectionView extends BaseHomeView {
 
 		mainPanel = new HorizontalPanel();
 
-		companyAndFinancialMap.put(messages.companyAndFinancial(),
-				ActionFactory.getProfitAndLossAction().getHistoryToken());
+		companyAndFinancialMap.put(messages.profitAndLoss(), ActionFactory
+				.getProfitAndLossAction().getHistoryToken());
 		companyAndFinancialMap.put(messages.balanceSheet(), ActionFactory
 				.getBalanceSheetAction().getHistoryToken());
 		companyAndFinancialMap.put(messages.cashFlowStatement(), ActionFactory
@@ -105,6 +106,8 @@ public class ReportSectionView extends BaseHomeView {
 		companyAndFinancialMap.put(messages.transactionDetailsByAccount(),
 				ActionFactory.getTransactionDetailByAccountAction()
 						.getHistoryToken());
+		companyAndFinancialMap.put(messages.trialBalance(), ActionFactory
+				.getTrialBalanceAction().getHistoryToken());
 		if (Global.get().preferences().isEnableMultiCurrency()) {
 			companyAndFinancialMap.put(messages
 					.realisedExchangeLossesAndGains(), ActionFactory
@@ -214,9 +217,9 @@ public class ReportSectionView extends BaseHomeView {
 				.getAorpAgingSummaryReportAction().getHistoryToken());
 		vendorAndPayableMap.put(messages.payeeStatement(Global.get().Vendor()),
 				ActionFactory.getStatementReport(true, 0).getHistoryToken());
-		customersAndRecievableMap.put(messages.payeeTransactionHistory(Global
-				.get().Vendor()), ActionFactory
-				.getVendorTransactionHistoryAction().getHistoryToken());
+		vendorAndPayableMap.put(messages.payeeTransactionHistory(Global.get()
+				.Vendor()), ActionFactory.getVendorTransactionHistoryAction()
+				.getHistoryToken());
 
 		budgetMap.put(messages.budgetOverview(), ActionFactory
 				.getBudgetOverView().getHistoryToken());
@@ -259,6 +262,14 @@ public class ReportSectionView extends BaseHomeView {
 				.getTaxItemExceptionDetailReportAction().getHistoryToken());
 		taxMap.put(messages.uncategorisedVATAmounts(), ActionFactory
 				.getVATUncategorisedAmountsReportAction().getHistoryToken());
+		taxMap.put(messages.vatItemSummary(), ActionFactory
+				.getVATItemSummaryReportAction().getHistoryToken());
+		if (Accounter.getCompany().getCountryPreferences() instanceof India) {
+			if (Accounter.getCompany().getPreferences().isTDSEnabled()) {
+				taxMap.put(messages.tdsAcknowledgmentsReport(), ActionFactory
+						.getTDSAcknowledgmentsReportAction().getHistoryToken());
+			}
+		}
 
 		addLinksToPanel(companyAndFinancialMap, companyAndFinancialPanel);
 		addLinksToPanel(customersAndRecievableMap, customersAndRecievablePanel);
