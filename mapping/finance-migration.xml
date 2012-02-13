@@ -6,7 +6,7 @@
 	default-access="field" auto-import="false">
 
 	<query name="get.InventoryItem.donnot.have.assetAccount">
-		from com.vimukti.accounter.core.Item it where it.type=2 and it.assestsAccount is null
+		from com.vimukti.accounter.core.Item it where it.type=2 and (it.assestsAccount is null or it.assestsAccount.type!=5)
 	</query>
 
 	<sql-query name="getNextAccountNumber">
@@ -17,5 +17,10 @@
 		WHERE SUB_BASE_TYPE=:subbaseType AND A.COMPANY_ID=:companyId
 	
 	</sql-query> 
+	
+	<query name="get.AssetsAccountOfCompany">
+		<query-param name="company" type="com.vimukti.accounter.core.Company"/>
+		from com.vimukti.accounter.core.Account a where a.company=:company and a.type=5
+	</query>
 	
 </hibernate-mapping>

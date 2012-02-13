@@ -8,6 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Item;
@@ -24,29 +25,50 @@ public class InventoryMigration {
 				.getNamedQuery("get.InventoryItem.donnot.have.assetAccount");
 		List<Item> list = query.list();
 		for (Item inventoryItem : list) {
-			Account assestsAccount = inventoryItem.getAssestsAccount();
-			if (assestsAccount != null) {
+			Account assetsAccount = inventoryItem.getAssestsAccount();
+			if (assetsAccount == null) {
+				createAssetsAccount(session, inventoryItem);
 				continue;
 			}
 
-			AccounterThreadLocal.set(inventoryItem.getCreatedBy());
-			Company company = inventoryItem.getCompany();
+			if (assetsAccount.getName().equals(
+					AccounterServerConstants.ASSETS_INVENTORY)
+					&& assetsAccount.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
+				assetsAccount.setType(Account.TYPE_INVENTORY_ASSET);
+				session.save(assetsAccount);
+				continue;
+			}
 
-			String nextNum = getNextAccountNumber(company.getId(),
-					Account.SUBBASETYPE_CURRENT_ASSET);
-			log.info("Creating Account with number " + nextNum + " for Item '"
-					+ inventoryItem.getName() + "' of Company '"
-					+ company.getTradingName() + "'.");
-			Account account = new Account(Account.TYPE_INVENTORY_ASSET,
-					nextNum, "Inventory Assets",
-					Account.CASH_FLOW_CATEGORY_OPERATING);
-			account.setCompany(company);
-			session.save(account);
-			inventoryItem.setAssestsAccount(account);
-			session.saveOrUpdate(inventoryItem);
+			List<Account> assetsAccounts = session
+					.getNamedQuery("get.AssetsAccountOfCompany")
+					.setEntity("company", inventoryItem.getCompany()).list();
+
+			if (assetsAccounts == null || assetsAccounts.isEmpty()) {
+				createAssetsAccount(session, inventoryItem);
+			} else {
+				inventoryItem.setAssestsAccount(assetsAccounts.get(0));
+			}
 
 		}
 
+	}
+
+	private void createAssetsAccount(Session session, Item inventoryItem) {
+		AccounterThreadLocal.set(inventoryItem.getCreatedBy());
+		Company company = inventoryItem.getCompany();
+
+		String nextNum = getNextAccountNumber(company.getId(),
+				Account.SUBBASETYPE_CURRENT_ASSET);
+		log.info("Creating Account with number " + nextNum + " for Item '"
+				+ inventoryItem.getName() + "' of Company '"
+				+ company.getTradingName() + "'.");
+		Account account = new Account(Account.TYPE_INVENTORY_ASSET, nextNum,
+				AccounterServerConstants.ASSETS_INVENTORY,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		account.setCompany(company);
+		session.save(account);
+		inventoryItem.setAssestsAccount(account);
+		session.saveOrUpdate(inventoryItem);
 	}
 
 	private String getNextAccountNumber(long companyId, int subbaseType) {
