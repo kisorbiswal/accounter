@@ -60,7 +60,7 @@ import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
  * 
  */
 public class Accounter implements EntryPoint {
-
+	private static boolean isShutdown = false;
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
 	private static ClientFinanceDate endDate;
@@ -648,5 +648,13 @@ public class Accounter implements EntryPoint {
 		};
 		Accounter.createCRUDService().doCreateIssuePaymentEffect(obj,
 				transactionCallBack);
+	}
+
+	public static boolean isShutdown() {
+		return isShutdown;
+	}
+
+	public static void setShutdown(boolean isShutdown) {
+		Accounter.isShutdown = isShutdown;
 	}
 }
