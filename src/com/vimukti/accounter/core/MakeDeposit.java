@@ -188,6 +188,10 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
+		if (!this.getReconciliationItems().isEmpty()) {
+			throw new AccounterException(
+					AccounterException.ERROR_EDITING_TRANSACTION_RECONCILIED);
+		}
 
 		for (Estimate estimate : this.getEstimates()) {
 			if (estimate.getUsedInvoice() != null) {
