@@ -71,7 +71,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 	private static final String CREDIT_RATING = "creditRating";
 	private static final String PAYMENT_METHOD = "paymentMethod";
 	private static final String CUSTOMER_GROUP = "cusomerGroup";
-	private static final String PAN_NUM = " Personal Ledger number";
+	// private static final String PAN_NUM = " Personal Ledger number";
 	private static final String CST_NUM = "CST number";
 	private static final String SERVICE_TAX_NUM = "Service tax registration no";
 	private static final String TIN_NUM = "Taxpayer identification number";
@@ -377,8 +377,8 @@ public class CreateCustomerCommand extends AbstractCommand {
 		});
 
 		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
-				.pleaseEnter(getMessages().vatRegistrationNumber()),
-				getMessages().vatRegistrationNumber(), true, true) {
+				.pleaseEnter(getMessages().taxRegNo()), getMessages()
+				.taxRegNo(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -416,22 +416,19 @@ public class CreateCustomerCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(PAN_NUM, getMessages().pleaseEnter(
-				getMessages().panNumber()), getMessages().panNumber(), true,
-				true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackTax()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
-		});
+		/*
+		 * list.add(new NumberRequirement(PAN_NUM, getMessages().pleaseEnter(
+		 * getMessages().panNumber()), getMessages().panNumber(), true, true) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { if
+		 * (getPreferences().isTrackTax()) { return super.run(context,
+		 * makeResult, list, actions); } return null; } });
+		 */
 
 		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Customer())),
-				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+				getMessages().cstNumber()), getMessages().cstNumber(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -445,8 +442,8 @@ public class CreateCustomerCommand extends AbstractCommand {
 		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
-				.pleaseEnter(getMessages().serviceTax()), getMessages()
-				.serviceTax(), true, true) {
+				.pleaseEnter(getMessages().serviceTaxRegistrationNumber()),
+				getMessages().serviceTaxRegistrationNumber(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
