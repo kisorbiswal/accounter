@@ -35,8 +35,10 @@ public abstract class AccounterAsyncCallback<T> implements AsyncCallback<T> {
 				Accounter.showMessage(Global.get().messages().sessionExpired());
 				Accounter.getMainFinanceWindow().onSessionExpired();
 			} else {
-				Accounter.showInformation(Global.get().messages()
-						.unableToPerformTryAfterSomeTime());
+				if (Accounter.isShutdown()) {
+					Accounter.showInformation(Global.get().messages()
+							.unableToPerformTryAfterSomeTime());
+				}
 			}
 		}
 		exception.printStackTrace();
