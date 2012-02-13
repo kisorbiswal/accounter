@@ -166,6 +166,8 @@ public class SearchTable extends CellTable<SearchResultlist> {
 				return messages.charge();
 			} else if (transactionSubType == ClientEstimate.CREDITS) {
 				return messages.credit();
+			} else {
+				return messages.estimate();
 			}
 		} else if (transactionType == ClientTransaction.TYPE_PAY_BILL) {
 			return transactionSubType == ClientPayBill.TYPE_PAYBILL ? messages
@@ -174,6 +176,5 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		} else {
 			return Utility.getTransactionName(transactionType);
 		}
-		return "";
 	}
 }
