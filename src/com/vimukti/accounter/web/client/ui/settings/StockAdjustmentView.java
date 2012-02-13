@@ -304,6 +304,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 						messages.pleaseSelectUnitForInventoryItem());
 			}
 		}
+		result.add(table.validateGrid());
 		result.add(form.validate());
 		return result;
 	}

@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientUnit;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -354,4 +355,24 @@ public abstract class StockAdjustmentTable extends
 	private ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
+
+	public List<ClientTransactionItem> getRecords() {
+		return getAllRows();
+	}
+
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		for (ClientTransactionItem transactionItem : this.getRecords()) {
+			if (transactionItem.getQuantity().getValue() <= 0) {
+				result.addError(transactionItem.getQuantity(),
+						messages.pleaseEnter(messages.adjustedQty()));
+			}
+			if (transactionItem.getUnitPrice() <= 0) {
+				result.addError(transactionItem.getUnitPrice(),
+						messages.pleaseEnter(messages.salesOrPurchaseRate()));
+			}
+		}
+		return result;
+	}
+
 }
