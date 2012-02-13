@@ -11,8 +11,8 @@ import fr.opensagres.xdocreport.template.formatter.FieldsMetadata;
 
 public class ReceivePaymentPdfGeneration {
 
-	private ReceivePayment receive;
-	private Company company;
+	private final ReceivePayment receive;
+	private final Company company;
 
 	public ReceivePaymentPdfGeneration(ReceivePayment receive, Company company) {
 		this.receive = receive;
@@ -64,6 +64,17 @@ public class ReceivePaymentPdfGeneration {
 							.getDate().toString());
 					invoiceTemplate.setInvoiceNumber(payment.getInvoice()
 							.getNumber());
+				}
+				if (payment.isVoid && (payment.getInvoice() == null)
+						&& (payment.getJournalEntry() == null)
+						&& (payment.getCustomerRefund() == null)) {
+					invoiceTemplate
+							.setAmountApplied(DataUtils
+									.getAmountAsStringInCurrency(
+											payment.getInvoiceAmount(),
+											currencySymbol));
+					invoiceTemplate.setInvoiceDate("");
+					invoiceTemplate.setInvoiceNumber(payment.getNumber());
 				}
 				if (payment.getJournalEntry() != null) {
 					JournalEntry journalEntry = payment.getJournalEntry();
