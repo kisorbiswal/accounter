@@ -438,7 +438,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART) {
+		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
 			doCreateEffectForInventoryItem();
 		}
 		ChangeTracker.put(this);
@@ -667,7 +667,8 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public void doReverseEffect(TransactionItem transactionItem, boolean isSales) {
-		if (this.getType() != Item.TYPE_INVENTORY_PART) {
+		if (this.getType() != Item.TYPE_INVENTORY_PART
+				&& this.getType() != Item.TYPE_INVENTORY_ASSEMBLY) {
 			return;
 		}
 		Warehouse wareHouse = transactionItem.getWareHouse();

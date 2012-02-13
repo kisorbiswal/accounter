@@ -627,7 +627,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		case TYPE_ITEM:
 
 			if (this.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-				if (item.getType() != Item.TYPE_INVENTORY_PART) {
+				if (item.getType() != Item.TYPE_INVENTORY_PART
+						&& item.getType() != Item.TYPE_INVENTORY_ASSEMBLY) {
 					return this.item.getExpenseAccount();
 				}
 			} else if (!getTransaction().isStockAdjustment()
