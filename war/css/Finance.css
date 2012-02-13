@@ -2848,6 +2848,7 @@ input.date-field-textbox {
 }
 .tds-scroll-panel{
 	border: 1px solid #2D8B93;
+	height: 385px;
 }
 .report-section a {
 	display: table;
