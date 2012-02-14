@@ -544,7 +544,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	private VerticalPanel getStockPanel_2() {
 		VerticalPanel measurementPanel = new VerticalPanel();
-		measurement = new MeasurementCombo(messages.measurement());
+		measurement = new MeasurementCombo(messages.measurement(),
+				getPreferences().isUnitsEnabled());
 		measurement.setDisabled(isInViewMode());
 
 		DynamicForm dynamicForm = new DynamicForm();
