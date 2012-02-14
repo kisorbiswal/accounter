@@ -219,14 +219,16 @@ public class CreateCustomerPrepaymentCommand extends AbstractTransactionCommand 
 
 						@Override
 						public boolean filter(Account acc) {
-							return Arrays.asList(ClientAccount.TYPE_BANK,
-									ClientAccount.TYPE_CASH,
-									ClientAccount.TYPE_PAYPAL,
-									ClientAccount.TYPE_CREDIT_CARD,
-									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
-									ClientAccount.TYPE_INVENTORY_ASSET,
-									ClientAccount.TYPE_FIXED_ASSET).contains(
-									acc.getType())
+							return acc.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_CASH,
+													ClientAccount.TYPE_PAYPAL,
+													ClientAccount.TYPE_CREDIT_CARD,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_INVENTORY_ASSET,
+													ClientAccount.TYPE_FIXED_ASSET)
+											.contains(acc.getType())
 									&& acc.getID() != getCompany()
 											.getAccountsReceivableAccount()
 											.getID();
