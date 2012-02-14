@@ -23,6 +23,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
@@ -208,6 +209,8 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 						.currentLiability()));
 		list.add(new UserCommand("createBankAccount", "Create Equity Account",
 				getMessages().equity()));
+		list.add(new UserCommand("createBankAccount", "Create Paypal Account",
+				getMessages().paypal()));
 	}
 
 	protected List<Account> getAccounts(Context context) {
@@ -218,10 +221,11 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 				@Override
 				public boolean filter(Account e) {
 					return e.getIsActive()
-							&& (Arrays.asList(Account.TYPE_OTHER_CURRENT_ASSET,
-									Account.TYPE_OTHER_CURRENT_LIABILITY,
-									Account.TYPE_BANK, Account.TYPE_EQUITY)
-									.contains(e.getType()));
+							&& Arrays
+									.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
+											ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
+											ClientAccount.SUBBASETYPE_EQUITY)
+									.contains(e.getSubBaseType());
 				}
 			}.filter(obj)) {
 				filteredList.add(obj);
