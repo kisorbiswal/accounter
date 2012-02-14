@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.TAXCode;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
@@ -14,6 +15,7 @@ import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -280,8 +282,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		if (this.transaction != null
 				&& this.transaction.getID() != 0
 				&& context.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
-			return "deleteTransaction " + transaction.getType() + " "
-					+ transaction.getID();
+			int type = transaction.getType();
+			if (transaction.getType() == Transaction.TYPE_PAY_BILL) {
+				ClientPayBill payBill = (ClientPayBill) transaction;
+				type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
+						: ClientTransaction.TYPE_VENDOR_PAYMENT;
+			}
+			return "deleteTransaction " + type + " " + transaction.getID();
 		}
 		return null;
 	}
@@ -297,8 +304,13 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 				&& this.transaction.getID() != 0
 				&& !this.transaction.isVoid()
 				&& context.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
-			return "voidTransaction " + transaction.getType() + " "
-					+ transaction.getID();
+			int type = transaction.getType();
+			if (transaction.getType() == Transaction.TYPE_PAY_BILL) {
+				ClientPayBill payBill = (ClientPayBill) transaction;
+				type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
+						: ClientTransaction.TYPE_VENDOR_PAYMENT;
+			}
+			return "voidTransaction " + type + " " + transaction.getID();
 		}
 		return null;
 	}

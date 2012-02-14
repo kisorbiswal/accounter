@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
@@ -12,6 +13,8 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ForwardRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
+import com.vimukti.accounter.web.client.core.ClientPayBill;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 
 public class UpdateTransactionCommand extends AbstractCommand {
 
@@ -124,8 +127,13 @@ public class UpdateTransactionCommand extends AbstractCommand {
 			@Override
 			public String getNextCommand() {
 				Transaction transaction = get(TRANSACTION).getValue();
-				String transactionName = Utility.getTransactionName(transaction
-						.getType());
+				int type = transaction.getType();
+				if (transaction.getType() == Transaction.TYPE_PAY_BILL) {
+					PayBill payBill = (PayBill) transaction;
+					type = payBill.getPayBillType() == ClientPayBill.TYPE_PAYBILL ? ClientTransaction.TYPE_PAY_BILL
+							: ClientTransaction.TYPE_VENDOR_PAYMENT;
+				}
+				String transactionName = Utility.getTransactionName(type);
 				String replace = transactionName.replace(" ", "");
 				return "update" + replace + " " + transaction.getID();
 			}

@@ -338,11 +338,11 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	}
 
 	private void setValues(Context context) {
-		get(VENDOR).setValue(
-				CommandUtils.getServerObjectById(paybill.getVendor(),
-						AccounterCoreType.VENDOR));
+		Vendor vendor = (Vendor) CommandUtils.getServerObjectById(
+				paybill.getVendor(), AccounterCoreType.VENDOR);
+		get(VENDOR).setValue(vendor);
 		get(PAY_FROM).setValue(
-				CommandUtils.getServerObjectById(paybill.getAccountsPayable(),
+				CommandUtils.getServerObjectById(paybill.getPayFrom(),
 						AccounterCoreType.ACCOUNT));
 		get(PAYMENT_METHOD).setValue(
 				CommandUtils.getPaymentMethod(
@@ -373,9 +373,7 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 					.setPayment(clientTransactionPayBill.getPayment());
 			payBillTransaction.setPaymentMethod(CommandUtils.getPaymentMethod(
 					paybill.getPaymentMethodForCommands(), getMessages()));
-			payBillTransaction.setVendorName(((Vendor) CommandUtils
-					.getServerObjectById(clientTransactionPayBill.getVendor(),
-							AccounterCoreType.VENDOR)).getName());
+			payBillTransaction.setVendorName(vendor.getName());
 			payBillTransaction.setCredits(clientTransactionPayBill
 					.getAppliedCredits());
 			payBillTransaction.setTransactionId(clientTransactionPayBill
@@ -458,37 +456,54 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		List<ClientTransactionPayBill> clientTransactionPayBills = new ArrayList<ClientTransactionPayBill>();
 		List<PayBillTransactionList> paybills = get(BILLS_DUE).getValue();
 		for (PayBillTransactionList curntRec : paybills) {
-
-			ClientTransactionPayBill record = new ClientTransactionPayBill();
-			if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
-				record.setEnterBill(curntRec.getTransactionId());
+			ClientTransactionPayBill record = getTransactionPayBillByTransaction(
+					curntRec.getType(), curntRec.getTransactionId());
+			if (record == null) {
+				record = new ClientTransactionPayBill();
+				if (curntRec.getType() == ClientTransaction.TYPE_ENTER_BILL) {
+					record.setEnterBill(curntRec.getTransactionId());
+				} else if (curntRec.getType() == ClientTransaction.TYPE_TRANSFER_FUND) {
+					record.setTransactionMakeDeposit(curntRec
+							.getTransactionId());
+				} else if (curntRec.getType() == ClientTransaction.TYPE_JOURNAL_ENTRY) {
+					record.setJournalEntry(curntRec.getTransactionId());
+				}
 			}
 			record.setAmountDue(curntRec.getAmountDue());
-
-			record.setDummyDue(curntRec.getAmountDue());
-
 			record.setBillNumber(curntRec.getBillNumber());
+			record.setCashDiscount(record.getCashDiscount()
+					+ curntRec.getCashDiscount());
 
-			record.setCashDiscount(curntRec.getCashDiscount());
-
-			// For applying credits manully pass true as second argument
 			record.setAppliedCredits(curntRec.getCredits(), false);
 
-			record.setDiscountDate(curntRec.getDiscountDate().getDate());
+			record.setDiscountDate(curntRec.getDiscountDate() != null ? curntRec
+					.getDiscountDate().getDate() : 0);
 
 			record.setDueDate(curntRec.getDueDate() != null ? curntRec
 					.getDueDate().getDate() : 0);
 
 			record.setOriginalAmount(curntRec.getOriginalAmount());
 			record.setPayment(curntRec.getPayment());
-			// record.setPayBill(paybill);
-			Payee vendor = get(VENDOR).getValue();
-			if (vendor != null)
-				record.setVendor(vendor.getID());
+			record.setDiscountAccount(getCompany().getCashDiscountAccount() == null ? 0
+					: getCompany().getCashDiscountAccount().getID());
 			clientTransactionPayBills.add(record);
 		}
 		return clientTransactionPayBills;
+	}
 
+	private ClientTransactionPayBill getTransactionPayBillByTransaction(
+			int transactionType, long transactionId) {
+		for (ClientTransactionPayBill bill : paybill.getTransactionPayBill()) {
+			if ((transactionType == ClientTransaction.TYPE_ENTER_BILL && bill
+					.getEnterBill() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_TRANSFER_FUND && bill
+							.getTransactionMakeDeposit() == transactionId)
+					|| (transactionType == ClientTransaction.TYPE_JOURNAL_ENTRY && bill
+							.getJournalEntry() == transactionId)) {
+				return bill;
+			}
+		}
+		return null;
 	}
 
 	@Override
