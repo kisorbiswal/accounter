@@ -209,7 +209,7 @@
 		<outputs>
 			<command title="Vendors" />
 			<command value="items vendor" title="items" />
-			<command if="manageBills" title="billsAndItemReceipts" />
+			<command if="manageBills" title="billsAndExpenses" />
 			<command title="vendorPayments" />
 		</outputs>
 	</pattern>
@@ -466,7 +466,7 @@
 			<command title="receivedPaymentsList" />
 			<command title="customerRefundsList" />
 			<command title="vendorPaymentsList" />
-			<command title="billsAndItemReceiptsList" />
+			<command title="billsAndExpenses" />
 			<command title="bankAccountsList" />
 			<command title="salesOrderList" />
 			<command title="purchaseOrderList" />
