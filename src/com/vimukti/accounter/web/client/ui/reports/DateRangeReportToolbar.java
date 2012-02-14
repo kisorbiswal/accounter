@@ -201,8 +201,8 @@ public class DateRangeReportToolbar extends ReportToolbar {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
 		setStartAndEndDates(fromItem.getDate(), toItem.getDate());
-		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL,
-				fromItem.getDate(), toItem.getDate());
+		itemSelectionHandler.onItemSelectionChanged(TYPE_ACCRUAL, startDate,
+				endDate);
 	}
 
 	@Override
