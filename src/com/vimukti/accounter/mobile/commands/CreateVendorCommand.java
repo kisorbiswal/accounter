@@ -411,7 +411,7 @@ public class CreateVendorCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(VAT_REGISTRATION_NUMBER, getMessages()
+		list.add(new StringRequirement(VAT_REGISTRATION_NUMBER, getMessages()
 				.pleaseEnter(getMessages().taxRegNo()), getMessages()
 				.taxRegNo(), true, true) {
 			@Override
