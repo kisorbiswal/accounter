@@ -30,6 +30,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -196,14 +197,17 @@ public class CreateCustomerPrepaymentCommand extends AbstractTransactionCommand 
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
 				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
 				list.add(new UserCommand("createBankAccount",
-						"Create CreditAccount", "CreditAccount"));
+						"Create CreditAccount", getMessages().creditCard()));
 				list.add(new UserCommand("createBankAccount",
-						"Create FixedAsset Account", "FixedAsset"));
+						"Create FixedAsset Account", getMessages().fixedAsset()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
 			}
 
 			@Override
@@ -214,12 +218,18 @@ public class CreateCustomerPrepaymentCommand extends AbstractTransactionCommand 
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							if (e.getIsActive()
-									&& e.getType() == Account.TYPE_BANK) {
-								return true;
-							}
-							return false;
+						public boolean filter(Account acc) {
+							return Arrays.asList(ClientAccount.TYPE_BANK,
+									ClientAccount.TYPE_CASH,
+									ClientAccount.TYPE_PAYPAL,
+									ClientAccount.TYPE_CREDIT_CARD,
+									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+									ClientAccount.TYPE_INVENTORY_ASSET,
+									ClientAccount.TYPE_FIXED_ASSET).contains(
+									acc.getType())
+									&& acc.getID() != getCompany()
+											.getAccountsReceivableAccount()
+											.getID();
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);

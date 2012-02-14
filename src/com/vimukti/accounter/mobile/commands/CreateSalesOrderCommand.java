@@ -37,7 +37,6 @@ import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -68,8 +67,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_SALES_ORDER,
-						context.getCompany()));
+						ClientTransaction.TYPE_ESTIMATE, context.getCompany()));
 		get(CONTACT).setDefaultValue(null);
 		Set<PaymentTerms> paymentTerms = context.getCompany().getPaymentTerms();
 		for (PaymentTerms p : paymentTerms) {
@@ -301,30 +299,31 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 
 	}
 
-	private ClientSalesOrder createSalesOrderObjetc(Context context) {
-		ClientSalesOrder newSalesOrder = new ClientSalesOrder();
+	private ClientEstimate createSalesOrderObjetc(Context context) {
+		ClientEstimate newSalesOrder = new ClientEstimate();
 
 		Customer customer = get(CUSTOMER).getValue();
 		newSalesOrder.setCustomer(customer.getID());
-		newSalesOrder.setType(ClientTransaction.TYPE_SALES_ORDER);
+		newSalesOrder.setType(ClientTransaction.TYPE_ESTIMATE);
 		newSalesOrder.setPhone((String) get(PHONE).getValue());
 		int statusNumber = 0;
 		if (get(STATUS).getValue().equals(getMessages().open())) {
 			statusNumber = ClientTransaction.STATUS_OPEN;
 		} else if (get(STATUS).getValue().equals(getMessages().completed())) {
-			statusNumber = ClientTransaction.STATUS_COMPLETED;
+			statusNumber = ClientTransaction.STATUS_APPLIED;
 		} else if (get(STATUS).getValue().equals(getMessages().cancelled())) {
 			statusNumber = ClientTransaction.STATUS_CANCELLED;
 		}
 
 		ClientAddress billTo = get(BILL_TO).getValue();
-		newSalesOrder.setBillingAddress(billTo);
+		// newSalesOrder.setBillingAddress(billTo);
 		newSalesOrder.setStatus(statusNumber);
 		ClientFinanceDate value = get(DATE).getValue();
 		newSalesOrder.setDate(value.getDate());
 		newSalesOrder.setNumber((String) get(NUMBER).getValue());
 
-		newSalesOrder.setCustomerOrderNumber((String) get(ORDER_NO).getValue());
+		// newSalesOrder.setCustomerOrderNumber((String)
+		// get(ORDER_NO).getValue());
 
 		PaymentTerms newPaymentTerms = get(PAYMENT_TERMS).getValue();
 		if (newPaymentTerms != null)
@@ -347,7 +346,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 				e1.printStackTrace();
 			}
 
-			newSalesOrder.setEstimate(cEstimate.getID());
+			// newSalesOrder.setEstimate(cEstimate.getID());
 			addEstimate(cEstimate, items);
 		}
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();

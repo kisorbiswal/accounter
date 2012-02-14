@@ -199,13 +199,15 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 	}
 
 	protected void addCreateAccountCommands(CommandList list) {
-		list.add(new UserCommand("createBankAccount", "Bank"));
+		list.add(new UserCommand("createBankAccount", getMessages().bank()));
 		list.add(new UserCommand("createBankAccount",
-				"Create Other CurrentAsset Account", "Other Current Asset"));
+				"Create Other CurrentAsset Account", getMessages()
+						.otherCurrentAsset()));
 		list.add(new UserCommand("createBankAccount",
-				"Create Current Liability Account", "Current Liability"));
+				"Create Current Liability Account", getMessages()
+						.currentLiability()));
 		list.add(new UserCommand("createBankAccount", "Create Equity Account",
-				"Equity"));
+				getMessages().equity()));
 	}
 
 	protected List<Account> getAccounts(Context context) {

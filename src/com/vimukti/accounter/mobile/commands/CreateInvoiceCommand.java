@@ -48,7 +48,6 @@ import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
@@ -442,18 +441,6 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 		return cEstimate;
 	}
 
-	private ClientSalesOrder getSalesOrder(long transactionId, Context context) {
-		ClientSalesOrder cSalesOrder = null;
-		try {
-			cSalesOrder = new FinanceTool().getManager().getObjectById(
-					AccounterCoreType.SALESORDER, transactionId,
-					context.getCompany().getID());
-		} catch (AccounterException e1) {
-			e1.printStackTrace();
-		}
-		return cSalesOrder;
-	}
-
 	@Override
 	protected Result onCompleteProcess(Context context) {
 		ClientFinanceDate date = get(DATE).getValue();
@@ -551,25 +538,15 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 		ClientCompanyPreferences preferences = context.getPreferences();
 
 		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
-		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
 			if (e != null) {
-				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					ClientEstimate cct = getEstimate(
-							estimatesAndSalesOrdersList.getTransactionId(),
-							context);
-					estimates.add(cct);
-				} else {
-					ClientSalesOrder cSalesOrder = getSalesOrder(
-							estimatesAndSalesOrdersList.getTransactionId(),
-							context);
-					salesOrders.add(cSalesOrder);
-				}
+				ClientEstimate cct = getEstimate(
+						estimatesAndSalesOrdersList.getTransactionId(), context);
+				estimates.add(cct);
 			}
 		}
 		invoice.setSaveStatus(ClientTransaction.STATUS_APPROVE);
 		invoice.setEstimates(estimates);
-		invoice.setSalesOrders(salesOrders);
 		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
 			setAmountIncludeTAX(invoice, isVatInclusive);
@@ -582,11 +559,6 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 		double taxTotal = updateTotals(context, invoice, true);
 		double totalAmount = 0.0;
 		double totalNetAmount = 0.0;
-		for (ClientSalesOrder clientSalesOrder : salesOrders) {
-			totalAmount += clientSalesOrder.getTotal();
-			totalNetAmount += clientSalesOrder.getNetAmount();
-			taxTotal += clientSalesOrder.getTaxTotal();
-		}
 		for (ClientEstimate clientEstimate : estimates) {
 			if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
 				totalAmount -= clientEstimate.getTotal();
@@ -669,23 +641,14 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {
 			if (e != null) {
-				if (estimatesAndSalesOrdersList.getType() == ClientTransaction.TYPE_ESTIMATE) {
-					ClientEstimate clientEstimate = getEstimate(
-							estimatesAndSalesOrdersList.getTransactionId(),
-							context);
-					if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
-						result[0] -= clientEstimate.getNetAmount();
-						result[1] -= clientEstimate.getTaxTotal();
-					} else {
-						result[0] += clientEstimate.getNetAmount();
-						result[1] += clientEstimate.getTaxTotal();
-					}
+				ClientEstimate clientEstimate = getEstimate(
+						estimatesAndSalesOrdersList.getTransactionId(), context);
+				if (clientEstimate.getEstimateType() == ClientEstimate.CREDITS) {
+					result[0] -= clientEstimate.getNetAmount();
+					result[1] -= clientEstimate.getTaxTotal();
 				} else {
-					ClientSalesOrder cSalesOrder = getSalesOrder(
-							estimatesAndSalesOrdersList.getTransactionId(),
-							context);
-					result[0] += cSalesOrder.getNetAmount();
-					result[1] += cSalesOrder.getTaxTotal();
+					result[0] += clientEstimate.getNetAmount();
+					result[1] += clientEstimate.getTaxTotal();
 				}
 			}
 		}

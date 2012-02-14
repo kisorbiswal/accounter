@@ -106,7 +106,8 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createAccount", "Credit card"));
+				list.add(new UserCommand("createAccount", getMessages()
+						.creditCard()));
 			}
 		});
 

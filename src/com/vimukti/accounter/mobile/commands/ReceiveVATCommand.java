@@ -51,14 +51,15 @@ public class ReceiveVATCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
 				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
 				list.add(new UserCommand("createBankAccount",
-						"Create CreditAccount", "CreditAccount"));
+						"Create CreditAccount", getMessages().creditCard()));
 				list.add(new UserCommand("createBankAccount",
-						"Create FixedAsset Account", "FixedAsset"));
+						"Create FixedAsset Account", getMessages().fixedAsset()));
 			}
 
 			@Override
