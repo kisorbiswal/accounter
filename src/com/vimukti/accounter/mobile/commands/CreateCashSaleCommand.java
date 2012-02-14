@@ -285,11 +285,18 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& Arrays.asList(Account.TYPE_BANK,
-											Account.TYPE_OTHER_CURRENT_ASSET)
-											.contains(e.getType());
+						public boolean filter(Account acc) {
+							return Arrays.asList(ClientAccount.TYPE_BANK,
+									ClientAccount.TYPE_CASH,
+									ClientAccount.TYPE_PAYPAL,
+									ClientAccount.TYPE_CREDIT_CARD,
+									ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+									ClientAccount.TYPE_INVENTORY_ASSET,
+									ClientAccount.TYPE_FIXED_ASSET).contains(
+									acc.getType())
+									&& acc.getID() != getCompany()
+											.getAccountsReceivableAccount()
+											.getID();
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
