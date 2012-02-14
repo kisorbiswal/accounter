@@ -376,7 +376,7 @@ public class CreateCustomerCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(VATREGISTER_NUM, getMessages()
+		list.add(new StringRequirement(VATREGISTER_NUM, getMessages()
 				.pleaseEnter(getMessages().taxRegNo()), getMessages()
 				.taxRegNo(), true, true) {
 			@Override
