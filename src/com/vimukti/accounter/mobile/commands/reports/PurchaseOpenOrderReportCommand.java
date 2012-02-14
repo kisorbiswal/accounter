@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -93,20 +92,20 @@ public class PurchaseOpenOrderReportCommand extends
 		try {
 			if (status == 4) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getPurchaseOrders(-1, getStartDate(), getEndDate(),
+						.getPurchaseOrders(getStartDate(), getEndDate(),
 								getCompanyId());
 			} else if (status == 1) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getPurchaseOrders(ClientTransaction.STATUS_OPEN,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getOpenPurchaseOrders(getStartDate(), getEndDate(),
+								getCompanyId());
 			} else if (status == 2) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getPurchaseOrders(ClientTransaction.STATUS_COMPLETED,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getCompletedPurchaseOrders(getStartDate(),
+								getEndDate(), getCompanyId());
 			} else if (status == 3) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getPurchaseOrders(ClientTransaction.STATUS_CANCELLED,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getCanceledPurchaseOrders(getStartDate(),
+								getEndDate(), getCompanyId());
 			}
 
 		} catch (Exception e) {

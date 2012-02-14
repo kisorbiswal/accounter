@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -111,19 +110,19 @@ public class SalesOpenOrderReportCommand extends
 		try {
 			if (status == 1) {
 				openAndClosedOrders = new FinanceTool().getSalesManager()
-						.getSalesOrders(ClientTransaction.STATUS_OPEN,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getOpenSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
 			} else if (status == 2) {
 				openAndClosedOrders = new FinanceTool().getSalesManager()
-						.getSalesOrders(ClientTransaction.STATUS_COMPLETED,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getCompletedSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
 			} else if (status == 3) {
 				openAndClosedOrders = new FinanceTool().getSalesManager()
-						.getSalesOrders(ClientTransaction.STATUS_CANCELLED,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getCanceledSalesOrders(getStartDate(), getEndDate(),
+								getCompanyId());
 			} else if (status == 4) {
 				openAndClosedOrders = new FinanceTool().getSalesManager()
-						.getSalesOrders(-1, getStartDate(), getEndDate(),
+						.getSalesOrders(getStartDate(), getEndDate(),
 								getCompanyId());
 			}
 

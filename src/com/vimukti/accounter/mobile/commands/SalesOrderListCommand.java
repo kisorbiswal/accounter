@@ -3,14 +3,14 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.Estimate;
-import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesOrderListCommand extends AbstractTransactionListCommand {
@@ -19,12 +19,12 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
 
-		list.add(new ShowListRequirement<Estimate>("SalesOrderList",
+		list.add(new ShowListRequirement<SalesOrdersList>("SalesOrderList",
 				getMessages().pleaseSelect(""), 5) {
 			@Override
-			protected Record createRecord(Estimate value) {
+			protected Record createRecord(SalesOrdersList value) {
 				Record record = new Record(value);
-				record.add(getMessages().name(), value.getCustomer().getName());
+				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().number(), value.getNumber());
 				record.add(getMessages().total(), value.getTotal());
 				return record;
@@ -36,33 +36,33 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 			}
 
 			@Override
-			protected boolean filter(Estimate e, String name) {
-				return e.getCustomer().getName().startsWith(name)
+			protected boolean filter(SalesOrdersList e, String name) {
+				return e.getCustomerName().startsWith(name)
 						|| e.getNumber().startsWith(
 								"" + getNumberFromString(name));
 			}
 
 			@Override
-			protected List<Estimate> getLists(Context context) {
-				List<Estimate> completeList = getSalesOrders(context);
-				List<Estimate> list = new ArrayList<Estimate>();
+			protected List<SalesOrdersList> getLists(Context context) {
+				List<SalesOrdersList> completeList = getSalesOrders(context);
+				List<SalesOrdersList> list = new ArrayList<SalesOrdersList>();
 
 				String type = SalesOrderListCommand.this.get(VIEW_BY)
 						.getValue();
-				for (Estimate salesOrder : completeList) {
+				for (SalesOrdersList salesOrder : completeList) {
 					if (type.equals(SalesOrderListCommand.this.getMessages()
 							.open())) {
-						if (salesOrder.getStatus() == Estimate.STATUS_OPEN)
+						if (salesOrder.getStatus() == Transaction.STATUS_OPEN)
 							list.add(salesOrder);
 					}
 					if (type.equals(SalesOrderListCommand.this.getMessages()
 							.completed())) {
-						if (salesOrder.getStatus() == Estimate.STATUS_APPLIED)
+						if (salesOrder.getStatus() == Transaction.STATUS_COMPLETED)
 							list.add(salesOrder);
 					}
 					if (type.equals(SalesOrderListCommand.this.getMessages()
 							.cancelled())) {
-						if (salesOrder.getStatus() == Estimate.STATUS_REJECTED)
+						if (salesOrder.getStatus() == Transaction.STATUS_CANCELLED)
 							list.add(salesOrder);
 					}
 				}
@@ -81,7 +81,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 			}
 
 			@Override
-			protected String onSelection(Estimate value) {
+			protected String onSelection(SalesOrdersList value) {
 				return null;
 			}
 		});
@@ -113,13 +113,12 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 		return getMessages().success();
 	}
 
-	private List<Estimate> getSalesOrders(Context context) {
+	private List<SalesOrdersList> getSalesOrders(Context context) {
 		FinanceTool tool = new FinanceTool();
 		try {
-			return tool.getCustomerManager().getEstimates(
-					context.getCompany().getID(), Estimate.SALES_ORDER, 0,
-					new FinanceDate(getStartDate()),
-					new FinanceDate(getEndDate()), 0, -1);
+			return tool.getSalesManager().getSalesOrdersList(
+					context.getCompany().getID(), getStartDate().getDate(),
+					getEndDate().getDate());
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
