@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.vimukti.accounter.web.client.Global;
@@ -28,7 +30,7 @@ import com.vimukti.accounter.web.client.ui.vendors.ExpensesListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorPaymentsListView;
 
 public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
-		IPrintableView, ISavableView<String> {
+		IPrintableView, ISavableView<Map<String, Object>> {
 
 	public TransactionsListView<T> baseListView;
 	private final HorizontalPanel mainPanel;
@@ -326,16 +328,38 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 	}
 
 	@Override
-	public String saveView() {
-		return selectedItem;
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("currentView", baseListView.getViewType());
+		map.put("dateRange", baseListView.getDateRange());
+		map.put("startDate", baseListView.getStartDate());
+		map.put("endDate", baseListView.getEndDate());
+		map.put("selectedItem", selectedItem);
+		return map;
+
 	}
 
 	@Override
-	public void restoreView(String viewDate) {
-		if (viewDate != null) {
-			initGridData(viewDate);
-			listPanel.setMenuSelected(viewDate);
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			return;
 		}
+		String selectedItem = (String) map.get("selectedItem");
+		if (selectedItem != null) {
+			initGridData(selectedItem);
+			listPanel.setMenuSelected(selectedItem);
+		}
+		String currentView = (String) map.get("currentView");
+		baseListView.setViewType(currentView);
+		String dateRange1 = (String) map.get("dateRange");
+		baseListView.setDateRange(dateRange1);
+		baseListView.dateRangeChanged(dateRange1);
+		ClientFinanceDate startDate1 = (ClientFinanceDate) map.get("startDate");
+		baseListView.setStartDate(startDate1);
+		ClientFinanceDate endDate1 = (ClientFinanceDate) map.get("endDate");
+		baseListView.setEndDate(endDate1);
+
+		baseListView.restoreView(currentView, dateRange1);
 	}
 
 	private int checkViewType(String view) {
