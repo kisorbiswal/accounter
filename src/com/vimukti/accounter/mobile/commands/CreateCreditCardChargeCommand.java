@@ -12,10 +12,12 @@ import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
@@ -32,6 +34,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -248,6 +251,23 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			}
 
 			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("newBankAccount", getMessages().bank()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Cash Account", getMessages().cash()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Inventory Account", getMessages()
+								.inventoryAsset()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Creditcard Account", getMessages().creditCard()));
+			}
+
+			@Override
 			protected List<Account> getLists(Context context) {
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
@@ -255,11 +275,10 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 
 						@Override
 						public boolean filter(Account e) {
-							if (e.getIsActive()) {
-								if (e.getType() == Account.TYPE_BANK
-										|| e.getType() == Account.TYPE_OTHER_ASSET) {
-									return true;
-								}
+							if (e.getIsActive()
+									&& (e.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET || e
+											.getType() == ClientAccount.TYPE_CREDIT_CARD)) {
+								return true;
 							}
 							return false;
 						}
