@@ -81,6 +81,8 @@ public class MenuBar {
 
 	private boolean isMulticurrencyEnabled;
 
+	private boolean isUnitsEnabled;
+
 	private String countryOrRegion;
 
 	public MenuBar() {
@@ -168,9 +170,10 @@ public class MenuBar {
 		}
 		inventoryMenu.addMenuItem(messages.stockAdjustments(),
 				HistoryTokens.STOCKADJUSTMENTS);
-		inventoryMenu.addMenuItem(messages.measurementList(),
-				HistoryTokens.MEASUREMENTLIST);
-
+		if (isUnitsEnabled) {
+			inventoryMenu.addMenuItem(messages.measurementList(),
+					HistoryTokens.MEASUREMENTLIST);
+		}
 		return inventoryMenu;
 	}
 
@@ -186,8 +189,10 @@ public class MenuBar {
 			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
 					HistoryTokens.WAREHOUSETRANSFER);
 		}
-		newMenuBar.addMenuItem(messages.measurement(),
-				HistoryTokens.ADDMEASUREMENT);
+		if (isUnitsEnabled) {
+			newMenuBar.addMenuItem(messages.measurement(),
+					HistoryTokens.ADDMEASUREMENT);
+		}
 		return newMenuBar;
 
 	}
@@ -1157,6 +1162,8 @@ public class MenuBar {
 				.getCountryOrRegion();
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
+
+		this.isUnitsEnabled = preferences.isUnitsEnabled();
 
 		getMenuBar();
 	}
