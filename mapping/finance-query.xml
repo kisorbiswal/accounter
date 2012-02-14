@@ -7834,8 +7834,8 @@
 	</query>
 	<query name="getVendorsOrderByName">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Vendor c where c.company=:company
-		order by c.name
+			  from com.vimukti.accounter.core.Vendor c where c.isActive=true and c.company=:company
+               order by c.name
 	</query>
 
 	<sql-query name="getRecentTransactionList">
