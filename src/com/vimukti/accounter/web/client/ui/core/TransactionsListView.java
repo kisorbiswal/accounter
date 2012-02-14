@@ -325,7 +325,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		}
 	}
 
-	public void filterList(String selectedValue) {
+	protected void filterList(String selectedValue) {
 
 	}
 
