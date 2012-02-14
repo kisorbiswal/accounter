@@ -34,6 +34,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		this.startDate = Accounter.getStartDate();
 		this.endDate = getCompany().getCurrentFiscalYearEndDate();
 		this.setViewType(viewType);
+		this.setDateRange(messages.all());
 	}
 
 	@Override
@@ -83,6 +84,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		dateRangeSelector.initCombo(dateRanges);
 
 		dateRangeSelector.setComboItem(messages.all());
+		setDateRange(messages.all());
 		// if (UIUtils.isMSIEBrowser())
 		// dateRangeSelector.setWidth("105px");
 
@@ -94,6 +96,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 								&& !selectItem.equals(messages.custom())) {
 							dateRangeChanged(dateRangeSelector
 									.getSelectedValue());
+							setDateRange(dateRangeSelector.getSelectedValue());
 							grid.setViewType(dateRangeSelector
 									.getSelectedValue());
 							dateRangeSelector.removeComboItem(messages.custom());
@@ -322,7 +325,7 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 		}
 	}
 
-	protected void filterList(String selectedValue) {
+	public void filterList(String selectedValue) {
 
 	}
 
@@ -368,5 +371,28 @@ public abstract class TransactionsListView<T> extends BaseListView<T> {
 
 	public void setViewType(String viewType) {
 		this.viewType = viewType;
+	}
+
+	@Override
+	public String getDateRange() {
+		return super.getDateRange();
+	}
+
+	@Override
+	public void setDateRange(String selectedValue) {
+		super.setDateRange(selectedValue);
+	}
+
+	@Override
+	public void restoreView(String currentView, String dateRange) {
+		if (currentView != null) {
+			viewSelect.setComboItem(currentView);
+			setViewType(currentView);
+		}
+		if (dateRange != null) {
+			dateRangeSelector.setComboItem(dateRange);
+			setDateRange(dateRange);
+		}
+		filterList(currentView);
 	}
 }

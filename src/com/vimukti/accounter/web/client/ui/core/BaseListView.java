@@ -107,6 +107,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected ClientPayee selectedPayee;
 	private PaginationList<ClientBudget> budgetList;
 	private ClientBudget budgetData;
+	private String dateRange;
 
 	@Override
 	public void init() {
@@ -223,6 +224,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 				}
 			});
+
 		}
 
 		fromItem = new DateItem();
@@ -428,6 +430,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		add(mainVLay);
 		setSize("100%", "100%");
 
+	}
+
+	protected void setDateRange(String selectedValue) {
+		this.dateRange = selectedValue;
+	}
+
+	protected String getDateRange() {
+		return dateRange;
 	}
 
 	protected int getPageSize() {
@@ -711,5 +721,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			}
 		};
+	}
+
+	protected void restoreView(String currentView, String dateRange) {
+
 	}
 }
