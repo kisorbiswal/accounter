@@ -88,4 +88,9 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 	}
 
+	@Override
+	protected boolean onCancel() {
+		return true;
+	}
+
 }
