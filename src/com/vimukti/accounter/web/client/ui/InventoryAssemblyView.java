@@ -1019,7 +1019,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		measurement.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		activeCheck.setDisabled(isInViewMode());
-
+		itemTableButton.setEnabled(!isInViewMode());
 	}
 
 	@Override
