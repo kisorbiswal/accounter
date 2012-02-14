@@ -113,7 +113,7 @@ public class TDSChalanDetailsView extends
 
 		slectAssecementYear = new SelectCombo(messages.assessmentYear());
 		slectAssecementYear.setHelpInformation(true);
-		slectAssecementYear.initCombo(getFinancialYearList());
+		slectAssecementYear.initCombo(getAssessmentYearList());
 		slectAssecementYear.setDisabled(true);
 
 		financialYearCombo = new SelectCombo(messages.financialYear());
@@ -126,7 +126,7 @@ public class TDSChalanDetailsView extends
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						slectAssecementYear.setSelected(getFinancialYearList()
+						slectAssecementYear.setSelected(getAssessmentYearList()
 								.get(financialYearCombo.getSelectedIndex() + 1));
 						assessmentYear = slectAssecementYear.getSelectedValue();
 
