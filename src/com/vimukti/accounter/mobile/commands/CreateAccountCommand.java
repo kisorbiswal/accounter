@@ -749,6 +749,7 @@ public class CreateAccountCommand extends AbstractCommand {
 			}
 			if (!string.isEmpty()) {
 				get(ACCOUNT_TYPE).setValue(string);
+				get(ACCOUNT_TYPE).setEditable(false);
 			}
 			return null;
 		}
