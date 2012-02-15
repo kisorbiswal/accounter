@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -74,6 +75,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 	Label wareHouseCommentLabel;
 	@UiField
 	Label inventoryCommentLabel;
+	@UiField
+	ListBox inventorySchemeListBox;
+	@UiField
+	CheckBox unitsCheckBox;
+	@UiField
+	Label inventoryScheme;
 
 	interface SetupSellTypeAndSalesTaxPageUiBinder extends
 			UiBinder<Widget, SetupSellTypeAndSalesTaxPage> {
@@ -106,17 +113,20 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 
 		trackCheckbox.setText(messages.chargeOrTrackTax());
 		trackLabel.setText(messages.descChrageTrackTax());
-		taxItemTransactionLabel.setText(messages
-				.taxtItemTransaction());
-		onepeTransactionRadioButton.setText(messages
-				.onepertransaction());
+		taxItemTransactionLabel.setText(messages.taxtItemTransaction());
+		onepeTransactionRadioButton.setText(messages.onepertransaction());
 		oneperTransactionLabel.setText(messages.oneperDescription());
-		oneperdetaillineRadioButton.setText(messages
-				.oneperdetailline());
-		oneperdetaillineLabel.setText(messages
-				.oneperDetailDescription());
+		oneperdetaillineRadioButton.setText(messages.oneperdetailline());
+		oneperdetaillineLabel.setText(messages.oneperDetailDescription());
 		enableTaxCheckbox.setText(messages.enableTracking());
 		enableTaxLabel.setText(messages.enableTrackingDescription());
+
+		inventorySchemeListBox.addItem(messages.firstInfirstOut());
+		inventorySchemeListBox.addItem(messages.lastInfirstOut());
+		inventorySchemeListBox.addItem(messages.average());
+		inventoryScheme.setText(messages.inventoryScheme());
+		unitsCheckBox.setText(messages.enableUnits());
+
 		trackCheckbox.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -126,11 +136,9 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			}
 		});
 		inventoryCheckBox.setText(messages.enableInventoryTracking());
-		inventoryCommentLabel.setText(messages
-				.inventoryTrackingComment());
+		inventoryCommentLabel.setText(messages.inventoryTrackingComment());
 		warehousesCheckBox.setText(messages.haveMultipleWarehouses());
-		wareHouseCommentLabel.setText(messages
-				.multipleWarehousesComment());
+		wareHouseCommentLabel.setText(messages.multipleWarehousesComment());
 
 		servicesOnly.addClickHandler(new ClickHandler() {
 
@@ -165,6 +173,7 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			@Override
 			public void onClick(ClickEvent event) {
 				hiddenPanel.setVisible(inventoryCheckBox.getValue());
+				totalPanel.setVisible(inventoryCheckBox.getValue());
 			}
 		});
 	}
@@ -199,6 +208,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 			inventoryCheckBox.setValue(true);
 			hiddenPanel.setVisible(true);
 			warehousesCheckBox.setValue(preferences.iswareHouseEnabled());
+			inventoryCheckBox.setValue(true);
+			hiddenPanel.setVisible(true);
+			unitsCheckBox.setVisible(true);
+			// for set the inventory schema value to option
+			inventorySchemeListBox.setSelectedIndex(preferences
+					.getActiveInventoryScheme() - 1);
 		} else {
 			hiddenPanel.setVisible(false);
 		}
@@ -222,6 +237,12 @@ public class SetupSellTypeAndSalesTaxPage extends AbstractSetupPage {
 		preferences.setInventoryEnabled(inventoryCheckBox.getValue());
 		if (inventoryCheckBox.getValue()) {
 			preferences.setwareHouseEnabled(warehousesCheckBox.getValue());
+			preferences.setUnitsEnabled(unitsCheckBox.getValue());
+			// for inventory scheme options
+			if (inventorySchemeListBox.getSelectedIndex() != -1) {
+				preferences.setActiveInventoryScheme((inventorySchemeListBox
+						.getSelectedIndex() + 1));
+			}
 		}
 	}
 

@@ -33,6 +33,11 @@
 				horizontalAlignment="ALIGN_LEFT" styleName="{style.subPanel}">
 				<g:CheckBox ui:field="warehousesCheckBox" />
 				<g:Label ui:field="wareHouseCommentLabel" styleName="organisation_comment" />
+				<g:CheckBox ui:field="unitsCheckBox" />
+						<g:HorizontalPanel>
+							<g:Label ui:field="inventoryScheme" />
+							<g:ListBox ui:field="inventorySchemeListBox"></g:ListBox>
+						</g:HorizontalPanel>
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 		<!--
