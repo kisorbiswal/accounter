@@ -127,9 +127,12 @@ public class VendorBillView extends
 						.getCurrencyFactor());
 				currencyWidget.setDisabled(isInViewMode());
 			}
-			this.vendorAccountTransactionTable
-					.setRecords(getAccountTransactionItems(transaction
-							.getTransactionItems()));
+			if (!getAccountTransactionItems(transaction.getTransactionItems())
+					.isEmpty()) {
+				this.vendorAccountTransactionTable
+						.setRecords(getAccountTransactionItems(transaction
+								.getTransactionItems()));
+			}
 			this.vendorItemTransactionTable
 					.setRecords(getItemTransactionItems(transaction
 							.getTransactionItems()));
@@ -1505,6 +1508,7 @@ public class VendorBillView extends
 		return false;
 	}
 
+	@Override
 	protected void updateDiscountValues() {
 
 		if (discountField.getAmount() != null) {
