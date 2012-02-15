@@ -147,12 +147,13 @@ public class JournalEntry extends Transaction {
 		this.isOnSaveProccessed = true;
 		this.total = this.debitTotal;
 
-		// Creating Activity
-		Activity activity = new Activity(getCompany(),
-				AccounterThreadLocal.get(), ActivityType.ADD, this);
-		session.save(activity);
-		this.setLastActivity(activity);
-
+		if (this.involvedPayee != null || this.involvedAccount != null) {
+			// Creating Activity
+			Activity activity = new Activity(getCompany(),
+					AccounterThreadLocal.get(), ActivityType.ADD, this);
+			session.save(activity);
+			this.setLastActivity(activity);
+		}
 		return false;
 	}
 
