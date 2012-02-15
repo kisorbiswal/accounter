@@ -693,7 +693,7 @@ public class RecurringTransactionDialog extends
 	protected boolean onOK() {
 		boolean shouldValidate = getRecurringTypeOptions().indexOf(
 				recurringTypeCombo.getSelectedValue()) == ClientRecurringTransaction.RECURRING_SCHEDULED;
-		if (view.validateAndUpdateTransaction(shouldValidate)) {
+		if (view == null || view.validateAndUpdateTransaction(shouldValidate)) {
 			updateData();
 			saveOrUpdate(data);
 			okbtn.setEnabled(false);
@@ -718,7 +718,9 @@ public class RecurringTransactionDialog extends
 		this.removeFromParent();
 		okbtn.setEnabled(true);
 		cancelBtn.setEnabled(true);
-		view.recurringDialog = null;
+		if (view != null) {
+			view.recurringDialog = null;
+		}
 		RecurringConfirmDialog success = new RecurringConfirmDialog();
 		success.center();
 	}
@@ -785,7 +787,7 @@ public class RecurringTransactionDialog extends
 		// schedule we need to save only schedule not with template. Template
 		// will be saved separately. But first time we should save transaction
 		// also as a template.
-		if (data.getId() == 0) {
+		if (data.getId() == 0 && view != null) {
 			ClientTransaction transaction = view.getTransactionObject();
 			transaction.setID(0);
 			data.setTransaction(transaction);
