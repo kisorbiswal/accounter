@@ -36,6 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
@@ -124,6 +125,10 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_CASH_SALES:
 			initCallBack(new ClientCashSales(),
 					ActionFactory.getNewCashSaleAction(), transactionId);
+		case IAccounterCore.RECURING_TRANSACTION:
+			initCallBack(new ClientRecurringTransaction(),
+					ActionFactory.getRecurringTransactionDialogAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			initCallBack(new ClientWriteCheck(),
