@@ -60,10 +60,18 @@ public class DepreciationSheduleServerReport extends
 	@Override
 	public int getColumnWidth(int index) {
 		switch (index) {
-		case 0:
-			return 85;
+		case 1:
+			return 55;
+		case 2:
+			return 50;
+		case 3:
+			return 65;
+		case 4:
+			return 45;
+		case 9:
+			return 65;
 		case 10:
-			return 60;
+			return 90;
 		default:
 			return -1;
 		}
