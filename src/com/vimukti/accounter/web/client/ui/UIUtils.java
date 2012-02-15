@@ -1048,6 +1048,10 @@ public class UIUtils {
 			return messages.Account();
 		case ClientTransactionItem.TYPE_ITEM:
 			return messages.item();
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			return messages.creditCardExpense();
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			return messages.cashExpense();
 			// case ClientTransactionItem.TYPE_SALESTAX:
 			// return messages.taxGroup();
 		default:
