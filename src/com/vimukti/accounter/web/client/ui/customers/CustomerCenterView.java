@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
@@ -66,11 +65,6 @@ public class CustomerCenterView<T> extends
 
 	public CustomerCenterView() {
 
-	}
-
-	@Override
-	public boolean canEdit() {
-		return selectedCustomer == null ? false : true;
 	}
 
 	@Override
@@ -450,10 +444,6 @@ public class CustomerCenterView<T> extends
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-	}
-
-	@Override
 	protected void callRPC(int start, int length) {
 		custHistoryGrid.removeAllRecords();
 		records = new ArrayList<TransactionHistory>();
@@ -537,17 +527,61 @@ public class CustomerCenterView<T> extends
 	}
 
 	@Override
-	public void restoreView(ClientPayee customer) {
-		this.selectedCustomer = (ClientCustomer) customer;
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		String activeInactive = (String) map.get("activeInActive");
+		activeInActiveSelect.setComboItem(activeInactive);
+		if (activeInactive.equalsIgnoreCase(messages.active())) {
+			refreshActiveinActiveList(true);
+		} else {
+			refreshActiveinActiveList(false);
+
+		}
+
+		String currentView = (String) map.get("currentView");
+		trasactionViewSelect.setComboItem(currentView);
+		if (currentView != null) {
+			getMessagesList();
+		}
+
+		String transctionType = (String) map.get("transactionType");
+		trasactionViewTypeSelect.setComboItem(transctionType);
+
+		String dateRange1 = (String) map.get("dateRange");
+		dateRangeSelector.setComboItem(dateRange1);
+		if (dateRange1 != null) {
+			dateRangeChanged(dateRange1);
+		}
+		PayeeList object = (PayeeList) map.get("payeeSelection");
+		custGrid.setSelection(object);
+
+		String customer = (String) map.get("selectedCustomer");
+
+		if (customer != null && !(customer.isEmpty())) {
+			selectedCustomer = getCompany().getCustomerByName(customer);
+		}
 		if (this.selectedCustomer != null) {
 			custGrid.setSelectedCustomer(selectedCustomer);
 			OncusotmerSelected();
+		} else {
+			callRPC(0, getPageSize());
 		}
 	}
 
 	@Override
-	public ClientCustomer saveView() {
-		return selectedCustomer;
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
+		map.put("currentView", trasactionViewSelect.getSelectedValue());
+		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
+		map.put("dateRange", dateRangeSelector.getSelectedValue());
+		map.put("selectedCustomer", selectedCustomer == null ? ""
+				: selectedCustomer.getName());
+		PayeeList selection = custGrid.getSelection();
+		map.put("payeeSelection", selection);
+		return map;
 	}
 
 	@Override
