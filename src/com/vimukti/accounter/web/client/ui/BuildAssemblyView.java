@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -271,8 +272,9 @@ public class BuildAssemblyView extends
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
 		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
-			double onhandQuantity = clientInventoryAssemblyItem
-					.getInventoryItem().getOnhandQty().getValue();
+			ClientItem item = getCompany().getItem(
+					clientInventoryAssemblyItem.getInventoryItem());
+			double onhandQuantity = item.getOnhandQty().getValue();
 			double value = clientInventoryAssemblyItem.getQuantity().getValue();
 			double temp = (int) (onhandQuantity / value);
 			if (buildNumber == null) {

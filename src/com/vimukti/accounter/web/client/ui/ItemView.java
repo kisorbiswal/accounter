@@ -437,10 +437,11 @@ public class ItemView extends BaseView<ClientItem> {
 				});
 		expAccCombo.setPopupWidth("500px");
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			ClientAccount costOfGoodsAccount = getCompany().getAccount(
+			selectExpAccount = getCompany().getAccount(
 					getCompany().getCostOfGoodsSold());
-			if (costOfGoodsAccount != null) {
-				expAccCombo.setComboItem(costOfGoodsAccount);
+			defaultExpAccount = selectExpAccount;
+			if (selectExpAccount != null) {
+				expAccCombo.setComboItem(selectExpAccount);
 			}
 		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
@@ -928,18 +929,22 @@ public class ItemView extends BaseView<ClientItem> {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
 			}
 			itemTaxCheck.setValue(data.isTaxable());
-			if (data.getAssestsAccount() != 0) {
-				assetsAccount.setSelected(getCompany().getAccount(
-						data.getAssestsAccount()).getName());
+			if (type == ClientItem.TYPE_INVENTORY_PART
+					|| type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+				if (data.getAssestsAccount() != 0) {
+					assetsAccount.setSelected(getCompany().getAccount(
+							data.getAssestsAccount()).getName());
+				}
+				reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
+				// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
+				onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+						.getValue()));
+				// getItemStatus();
+				itemTotalValue.setValue(Double.toString(data
+						.getItemTotalValue()));
+				avarageCost.setAmount(data.getAvarageCost());
+				asOfDate.setValue(data.getAsOfDate());
 			}
-			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
-			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
-					.getValue()));
-			// getItemStatus();
-			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
-			avarageCost.setAmount(data.getAvarageCost());
-			asOfDate.setValue(data.getAsOfDate());
 
 		} else {
 			setData(new ClientItem());

@@ -720,7 +720,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		Accounter.showError(errorString);
 
 		updateItem();
-		if (exceptionMessage.contains(messages.failed())) {
+		if (exceptionMessage != null
+				&& exceptionMessage.contains(messages.failed())) {
 			data.setName(name);
 			System.out.println(name + messages.aftersaving());
 		}
@@ -829,11 +830,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			asOfDate.setValue(data.getAsOfDate());
 
 			if (data.getComponents() != null) {
-				List<ClientInventoryAssemblyItem> list = new ArrayList<ClientInventoryAssemblyItem>();
-				Set<ClientInventoryAssemblyItem> set = data.getComponents();
-				for (ClientInventoryAssemblyItem item : set) {
-					list.add(item);
-				}
+				List<ClientInventoryAssemblyItem> list = new ArrayList<ClientInventoryAssemblyItem>(
+						data.getComponents());
 				table.setRecords(list);
 			}
 

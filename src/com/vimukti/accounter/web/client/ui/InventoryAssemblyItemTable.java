@@ -108,7 +108,9 @@ public abstract class InventoryAssemblyItemTable extends
 				@Override
 				protected ClientQuantity getQuantity(
 						ClientInventoryAssemblyItem row) {
-					return row.getInventoryItem().getOnhandQty();
+					ClientItem item = getCompany().getItem(
+							row.getInventoryItem());
+					return item.getOnhandQty();
 				}
 
 				@Override
@@ -209,7 +211,7 @@ public abstract class InventoryAssemblyItemTable extends
 	@Override
 	public void addRows(List<ClientInventoryAssemblyItem> rows) {
 		for (ClientInventoryAssemblyItem item : getRecords()) {
-			if (item.getInventoryItem() == null) {
+			if (item.getInventoryItem() == 0) {
 				delete(item);
 			}
 		}
@@ -267,7 +269,7 @@ public abstract class InventoryAssemblyItemTable extends
 			if (transactionItem.isEmpty()) {
 				continue;
 			}
-			if (transactionItem.getInventoryItem() == null) {
+			if (transactionItem.getInventoryItem() == 0) {
 				result.addError("GridItem-",
 						messages.pleaseSelect(messages.inventoryItem()));
 			}
