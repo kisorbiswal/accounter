@@ -92,4 +92,8 @@ public interface IAccounterExportCSVServiceAsync {
 			int transactionType, int viewId, String selectedItem,
 			AsyncCallback<String> exportCSVCallback);
 
+	public void getBillsAndItemReceiptListExportCSV(boolean b,
+			int transactionType, long date, long date2, int checkViewType,
+			int i, int j, AsyncCallback<String> exportCSVCallback);
+
 }
