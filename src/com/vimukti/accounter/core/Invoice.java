@@ -180,11 +180,6 @@ public class Invoice extends Transaction implements Lifecycle {
 	private List<Estimate> estimates;
 
 	/**
-	 * {@link SalesOrder} against which the Invoice was made.
-	 */
-	List<SalesOrder> salesOrders;
-
-	/**
 	 * Invoice Discount FinanceDate
 	 */
 	FinanceDate discountDate;
@@ -402,14 +397,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		return discountDate;
 	}
 
-	public List<SalesOrder> getSalesOrders() {
-		return salesOrders;
-	}
-
-	public void setSalesOrders(List<SalesOrder> salesOrders) {
-		this.salesOrders = salesOrders;
-	}
-
 	@Override
 	public void setTransactionItems(List<TransactionItem> transactionItems) {
 		super.setTransactionItems(transactionItems);
@@ -438,6 +425,7 @@ public class Invoice extends Transaction implements Lifecycle {
 			if (isTemplate()) {
 				addEstimateTransactionItems();
 			}
+			this.estimates.clear();
 			return false;
 		}
 		if (this.total < 0) {
@@ -453,7 +441,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		}
 		doCreateEffect(session);
 		return false;
-
 	}
 
 	private void addEstimateTransactionItems() {
@@ -497,9 +484,6 @@ public class Invoice extends Transaction implements Lifecycle {
 		 * 
 		 */
 		modifyEstimate(this, true);
-
-		modifySalesOrder(this, true);
-
 	}
 
 	private void modifyEstimate(Invoice invoice, boolean isCreated) {
@@ -701,133 +685,6 @@ public class Invoice extends Transaction implements Lifecycle {
 			est.setUsedInvoice(null, session);
 			session.saveOrUpdate(est);
 		}
-
-		for (SalesOrder salesOrder : invoice.getSalesOrders()) {
-			SalesOrder so = (SalesOrder) session.get(SalesOrder.class,
-					salesOrder.getID());
-			so.setUsedInvoice(null, session);
-			session.saveOrUpdate(so);
-		}
-
-	}
-
-	private void modifySalesOrder(Invoice invoice, boolean isAddition) {
-		if (invoice.salesOrders == null)
-			return;
-		Session session = HibernateUtil.getCurrentSession();
-		for (SalesOrder salesOrder : invoice.salesOrders) {
-			salesOrder = (SalesOrder) session.get(SalesOrder.class,
-					salesOrder.getID());
-			if (salesOrder != null) {
-				boolean isPartiallyInvoiced = false;
-				boolean flag = true;
-				if (invoice.transactionItems != null
-						&& invoice.transactionItems.size() > 0) {
-
-					for (TransactionItem transactionItem : invoice.transactionItems) {
-						/**
-						 * This is to know whether this transaction item is of
-						 * new one or it's came from any Sales Order.
-						 */
-
-						if (transactionItem.getReferringTransactionItem() != null) {
-							TransactionItem referringTransactionItem = (TransactionItem) session
-									.get(TransactionItem.class, transactionItem
-											.getReferringTransactionItem()
-											.getID());
-							double amount = 0d;
-
-							if (!isAddition)
-								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-									if (DecimalUtil
-											.isLessThan(
-													transactionItem.lineTotal,
-													transactionItem
-															.getQuantity()
-															.calculatePrice(
-																	referringTransactionItem.unitPrice)))
-										referringTransactionItem.usedamt -= transactionItem.lineTotal;
-									else
-										referringTransactionItem.usedamt -= transactionItem
-												.getQuantity()
-												.calculatePrice(
-														referringTransactionItem.unitPrice);
-								} else
-									referringTransactionItem.usedamt -= transactionItem.lineTotal;
-
-							else {
-								if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-									if (DecimalUtil
-											.isLessThan(
-													transactionItem.lineTotal,
-													transactionItem
-															.getQuantity()
-															.calculatePrice(
-																	referringTransactionItem.unitPrice)))
-										referringTransactionItem.usedamt += transactionItem.lineTotal;
-									else
-										referringTransactionItem.usedamt += transactionItem
-												.getQuantity()
-												.calculatePrice(
-														referringTransactionItem.unitPrice);
-								} else
-									referringTransactionItem.usedamt += transactionItem.lineTotal;
-							}
-							amount = referringTransactionItem.usedamt;
-							/**
-							 * This is to save changes to the invoiced amount of
-							 * the referring transaction item to this
-							 * transaction item.
-							 */
-							session.update(referringTransactionItem);
-
-							if (flag
-									&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
-											.getQuantity().compareTo(
-													referringTransactionItem
-															.getQuantity()) < 0)))) {
-								if (isAddition ? DecimalUtil.isLessThan(amount,
-										referringTransactionItem.lineTotal)
-										: DecimalUtil.isGreaterThan(amount, 0)) {
-									isPartiallyInvoiced = true;
-									flag = false;
-								}
-							}
-							// if (id != 0l && !invoice.isVoid())
-							// referringTransactionItem.usedamt +=
-							// transactionItem.lineTotal;
-
-						}
-
-					}
-				}
-				/**
-				 * Updating the Status of the Sales Order involved in this
-				 * Invoice depending on the above Analysis.
-				 */
-				if (!isPartiallyInvoiced) {
-					double usdAmount = 0;
-					for (TransactionItem orderTransactionItem : salesOrder.transactionItems)
-						// if (orderTransactionItem.getType() != 6)
-						usdAmount += orderTransactionItem.usedamt;
-					// else
-					// usdAmount += orderTransactionItem.lineTotal;
-					if (DecimalUtil.isLessThan(usdAmount, salesOrder.netAmount))
-						isPartiallyInvoiced = true;
-				}
-				// if (isPartiallyInvoiced) {
-				// salesOrder.status = Transaction.STATUS_OPEN;
-				// } else {
-				salesOrder.status = isAddition ? Transaction.STATUS_COMPLETED
-						: Transaction.STATUS_OPEN;
-
-				// }
-
-				salesOrder.onUpdate(session);
-				session.saveOrUpdate(salesOrder);
-
-			}
-		}
 	}
 
 	@Override
@@ -986,44 +843,9 @@ public class Invoice extends Transaction implements Lifecycle {
 			}
 			this.updateTransactionReceivepayments();
 			doUpdateEffectEstiamtes(this, invoice, session);
-			doUpdateEffectSalesOrder(this, invoice, session);
 		}
 
 		super.onEdit(invoice);
-
-	}
-
-	private void doUpdateEffectSalesOrder(Invoice newInvoice,
-			Invoice oldInvoice, Session session) {
-
-		List<SalesOrder> salesOrdersExistsInOldInvoice = new ArrayList<SalesOrder>();
-		for (SalesOrder oldEstiamte : oldInvoice.getSalesOrders()) {
-			SalesOrder salesOrder = null;
-			for (SalesOrder newSalesOrder : newInvoice.getSalesOrders()) {
-				if (oldEstiamte.getID() == newSalesOrder.getID()) {
-					salesOrder = newSalesOrder;
-					salesOrdersExistsInOldInvoice.add(newSalesOrder);
-					break;
-				}
-			}
-			if (salesOrder != null) {
-				salesOrder.setUsedInvoice(newInvoice, session);
-			} else {
-				salesOrder = (SalesOrder) session.get(SalesOrder.class,
-						oldEstiamte.getID());
-				salesOrder.setUsedInvoice(null, session);
-			}
-			if (salesOrder != null) {
-				session.saveOrUpdate(salesOrder);
-			}
-		}
-
-		for (SalesOrder salesOrder : newInvoice.getSalesOrders()) {
-			if (!salesOrdersExistsInOldInvoice.contains(salesOrder)) {
-				salesOrder.setUsedInvoice(newInvoice, session);
-				session.saveOrUpdate(salesOrder);
-			}
-		}
 
 	}
 
