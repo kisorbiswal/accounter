@@ -62,6 +62,7 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 		return this.body.toString();
 	}
 
+	@Override
 	public void prepareBodyHead() {
 		String[] headerTites = reportView.getColunms();
 		body.append("<tr class=\"gridHeaderRow\"> ");
@@ -76,15 +77,15 @@ public class PDFReportGridTemplate<R> extends ReportGridTemplate {
 
 			Alignment headerAlign = reportView.getHeaderHAlign(i);
 			if (headerAlign == null) {
-				if (columnTypes[i] == COLUMN_TYPE_NUMBER
-						|| columnTypes[i] == COLUMN_TYPE_AMOUNT) {
-
+				int columnType = columnTypes[i];
+				if (columnType == COLUMN_TYPE_NUMBER
+						|| columnType == COLUMN_TYPE_AMOUNT
+						|| columnType == COLUMN_TYPE_DATE
+						|| columnType == COLUMN_TYPE_TEXT) {
 					headerAlign = Alignment.H_ALIGN_CENTER;
-				} else if (columnTypes[i] == COLUMN_TYPE_DATE) {
-
-					headerAlign = Alignment.H_ALIGN_CENTER;
-				} else if (columnTypes[i] == COLUMN_TYPE_TEXT) {
-
+				} else if (columnType == COLUMN_TYPE_PERCENTAGE) {
+					headerAlign = Alignment.H_ALIGN_RIGHT;
+				} else {
 					headerAlign = Alignment.H_ALIGN_CENTER;
 				}
 			}
