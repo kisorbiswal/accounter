@@ -16,6 +16,9 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.impl.FocusImpl;
@@ -107,7 +110,13 @@ public class MainFinanceWindow extends VerticalPanel {
 		// SetupWizard setupWizard = new SetupWizard();
 		// add(setupWizard);
 		// }
+		Window.addWindowClosingHandler(new ClosingHandler() {
 
+			@Override
+			public void onWindowClosing(ClosingEvent event) {
+				Accounter.setShutdown(true);
+			}
+		});
 	}
 
 	private native boolean isTouch() /*-{
@@ -589,6 +598,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSalesByCustomerSummaryAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerSummaryAction());
+		actions.put(ActionFactory.getEstimatesByJobAction().getHistoryToken(),
+				ActionFactory.getEstimatesByJobAction());
 		actions.put(ActionFactory.getSalesByCustomerDetailAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerDetailAction());
