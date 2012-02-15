@@ -364,6 +364,11 @@ public class HistoryTokens {
 	public static final String INVENTORY_STOCK_STATUS_BY_ITEM_REPORT = "InventoryStockStatusByItemReport";
 	public static final String INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT = "InventoryStockStatusByVendorReport";
 
+	public static final String BANK_DEPOSIT_DETAIL_REPORT = "DepositDetailReport";
+	public static final String BANK_CHECK_DETAIL_REPORT = "CheckDetail";
+
+	public static final String RECURRING_TRANSACTION = "recurringTransaction";
+
 	public HistoryTokens() {
 
 	}
