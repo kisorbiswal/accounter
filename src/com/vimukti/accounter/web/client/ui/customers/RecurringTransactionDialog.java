@@ -101,6 +101,9 @@ public class RecurringTransactionDialog extends
 			ClientRecurringTransaction transaction) {
 		super(messages.recurring(), messages.recurringDescription());
 		this.view = parentView;
+		if (parentView == null) {
+
+		}
 		data = transaction;
 		init();
 		center();
@@ -765,7 +768,8 @@ public class RecurringTransactionDialog extends
 		if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
 			data.setNotifyCreatedTransaction(notifyAboutCreatedTransactions
 					.getValue());
-			data.setDaysBeforeToRemind(0);
+			data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
+					.getValue()));
 		} else if (data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
 			try {
 				data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
