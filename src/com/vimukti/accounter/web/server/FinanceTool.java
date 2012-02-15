@@ -2214,8 +2214,6 @@ public class FinanceTool {
 		if (newTransaction instanceof Invoice) {
 			((Invoice) newTransaction).setEstimates(new ArrayList<Estimate>());
 			((Invoice) newTransaction)
-					.setSalesOrders(new ArrayList<SalesOrder>());
-			((Invoice) newTransaction)
 					.setTransactionReceivePayments(new HashSet<TransactionReceivePayment>());
 			((Invoice) newTransaction).setBalanceDue(newTransaction.getTotal());
 			((Invoice) newTransaction).setPayments(0);
