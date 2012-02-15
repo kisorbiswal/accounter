@@ -181,9 +181,8 @@ public class AccountRegisterCommand extends AbstractCommand {
 		ClientFinanceDate todaydate = new ClientFinanceDate();
 		String selectedOption = get(SHOWTRANSACTION_TYPE).getValue();
 		if (selectedOption.equals(getMessages().all())) {
-			startDate = CommandUtils.getCurrentFiscalYearStartDate(context
-					.getPreferences());
-			endDate = new ClientFinanceDate();
+			startDate = new ClientFinanceDate(0);
+			endDate = new ClientFinanceDate(0);
 		} else if (selectedOption.equals(getMessages().today())) {
 			startDate = todaydate;
 			endDate = todaydate;
