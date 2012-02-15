@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
+import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public class RecentTransactionHistoryGrid extends
 		ListGrid<RecentTransactionsList> {
@@ -41,7 +42,9 @@ public class RecentTransactionHistoryGrid extends
 					Math.abs(obj.getAmount()),
 					getCompany().getCurrency(obj.getCurrecyId()));
 		case 0:
-			return obj.getTransactionDate();
+			return DateUtills.getSelectedFormatDate(
+					DateUtills.getDateAsString(obj.getTransactionDate()),
+					getCompany().getPreferences().getDateFormat());
 		case 3:
 			return obj.getName();
 		default:
