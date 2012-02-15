@@ -598,8 +598,6 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSalesByCustomerSummaryAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerSummaryAction());
-		actions.put(ActionFactory.getEstimatesByJobAction().getHistoryToken(),
-				ActionFactory.getEstimatesByJobAction());
 		actions.put(ActionFactory.getSalesByCustomerDetailAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerDetailAction());
