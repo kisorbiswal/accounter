@@ -5904,4 +5904,7 @@ public interface AccounterMessages extends Messages {
 	public String youCannotBuildThisAssembly();
 
 	public String reportTotal(String jobName);
+	
+	public String enablePreference(String preferences);
+	
 }
