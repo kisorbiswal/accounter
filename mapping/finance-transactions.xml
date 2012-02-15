@@ -1121,6 +1121,7 @@
 			<key column="TRANSACTION_ITEM_ID"></key>
 			<one-to-many class="InventoryPurchase" />
 		</set>
+		<many-to-one name="effectingAccount" class="Account" column="EFFECTING_ACCOUNT"/>
 	</class>
 
 	<class name="TransactionDepositItem" table="TRANSACTION_DEPOSIT_ITEM">

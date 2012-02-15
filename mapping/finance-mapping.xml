@@ -359,12 +359,17 @@
 		<many-to-one name="exchangeLossOrGainAccount" class="Account"
 			column="EXCHANGE_LOSS_OR_GAIN_ACCOUNT" cascade="delete">
 		</many-to-one>
+		<many-to-one name="costOfGoodsSold" class="Account"
+			column="COST_OF_GOODS_SOLD" cascade="delete">
+		</many-to-one>
+		
 		<many-to-one name="tdsDeductor" class="TDSDeductorMasters"
 			column="TDS_DEDUCTOR" cascade="delete">
 		</many-to-one>
 		<many-to-one name="tdsResposiblePerson" class="TDSResponsiblePerson"
 			column="TDS_RESPONSIBLE_PERSON" cascade="delete">
 		</many-to-one>
+		
 		<!-- <many-to-one name="prepaidVATaccount" class="Account" -->
 		<!-- column="PREPAID_VAT_ACCOUNT_ID"> -->
 		<!-- </many-to-one> -->
@@ -2236,6 +2241,7 @@
 				cascade="save-update" />
 		</component>
 		<property name="cost" column="PURCHASE_COST"></property>
+		<many-to-one name="effectingAccount" not-null="true"  column="EFFECTING_ACCOUNT" class="Account"/>
 	</class>
 </hibernate-mapping>
 

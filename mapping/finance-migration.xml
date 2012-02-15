@@ -5,8 +5,9 @@
 <hibernate-mapping package="com.vimukti.accounter.core"
 	default-access="field" auto-import="false">
 
-	<query name="get.InventoryItem.donnot.have.assetAccount">
-		from com.vimukti.accounter.core.Item it where it.type=2 and (it.assestsAccount is null or it.assestsAccount.type!=5)
+	<query name="get.All.InventoryItem">
+		<query-param name="companyId" type="long"/>
+		from com.vimukti.accounter.core.Item it where it.company.id=:companyId and it.type=2
 	</query>
 
 	<sql-query name="getNextAccountNumber">
@@ -19,8 +20,8 @@
 	</sql-query> 
 	
 	<query name="get.AssetsAccountOfCompany">
-		<query-param name="company" type="com.vimukti.accounter.core.Company"/>
-		from com.vimukti.accounter.core.Account a where a.company=:company and a.type=5
+		<query-param name="companyId" type="long"/>
+		from com.vimukti.accounter.core.Account a where a.company.id=:companyId and a.type=5
 	</query>
 	
 </hibernate-mapping>
