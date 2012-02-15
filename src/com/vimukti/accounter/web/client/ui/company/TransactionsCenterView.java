@@ -314,16 +314,17 @@ public class TransactionsCenterView<T> extends AbstractBaseView<T> implements
 
 	@Override
 	public void exportToCsv() {
-		int viewId = 0;
-		if (!selectedItem
-				.equalsIgnoreCase(getMessages().inventoryAdjustments())) {
-			viewId = checkViewType(baseListView.getViewType());
-		}
-
-		Accounter.createExportCSVService().getExportListCsv(
-				getStartDate().getDate(), getEndDate().getDate(),
-				transactionType, viewId, selectedItem,
-				baseListView.getExportCSVCallback(selectedItem));
+		baseListView.exportToCsv();
+		// int viewId = 0;
+		// if (!selectedItem
+		// .equalsIgnoreCase(getMessages().inventoryAdjustments())) {
+		// viewId = checkViewType(baseListView.getViewType());
+		// }
+		//
+		// Accounter.createExportCSVService().getExportListCsv(
+		// getStartDate().getDate(), getEndDate().getDate(),
+		// transactionType, viewId, selectedItem,
+		// baseListView.getExportCSVCallback(selectedItem));
 
 	}
 
