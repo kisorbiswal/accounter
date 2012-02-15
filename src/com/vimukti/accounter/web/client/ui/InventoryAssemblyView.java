@@ -531,10 +531,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		this.add(mainVLay);
 
 		VerticalPanel stockPanel_1 = getStockPanel_1();
-		VerticalPanel stockPanel_2 = getStockPanel_2();
-
 		purchzVPanel.add(stockPanel_1);
-		purchzVPanel.add(stockPanel_2);
+		VerticalPanel stockPanel_2 = getStockPanel_2();
+		if (getPreferences().isUnitsEnabled()) {
+			purchzVPanel.add(stockPanel_2);
+		}
 
 		/* Adding dynamic forms in list */
 		listforms.add(itemForm);
@@ -549,8 +550,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	private VerticalPanel getStockPanel_2() {
 		VerticalPanel measurementPanel = new VerticalPanel();
-		measurement = new MeasurementCombo(messages.measurement(),
-				getPreferences().isUnitsEnabled());
+		measurement = new MeasurementCombo(messages.measurement());
 		measurement.setDisabled(isInViewMode());
 
 		DynamicForm dynamicForm = new DynamicForm();

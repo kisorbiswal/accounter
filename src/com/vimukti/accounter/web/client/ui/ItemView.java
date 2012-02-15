@@ -604,14 +604,15 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			VerticalPanel stockPanel_1 = getStockPanel_1();
-			VerticalPanel stockPanel_2 = getStockPanel_2();
 
 			purchzVPanel.add(stockPanel_1);
-			purchzVPanel.add(stockPanel_2);
-
 			purchzVPanel.setCellHorizontalAlignment(stockPanel_1, ALIGN_LEFT);
-			purchzVPanel.setCellHorizontalAlignment(stockPanel_2, ALIGN_LEFT);
-
+			VerticalPanel stockPanel_2 = getStockPanel_2();
+			if (getPreferences().isUnitsEnabled()) {
+				purchzVPanel.add(stockPanel_2);
+				purchzVPanel.setCellHorizontalAlignment(stockPanel_2,
+						ALIGN_LEFT);
+			}
 		}
 		this.add(mainVLay);
 
@@ -655,8 +656,7 @@ public class ItemView extends BaseView<ClientItem> {
 
 	private VerticalPanel getStockPanel_2() {
 		VerticalPanel measurementPanel = new VerticalPanel();
-		measurement = new MeasurementCombo(messages.measurement(),
-				getPreferences().isUnitsEnabled());
+		measurement = new MeasurementCombo(messages.measurement());
 		measurement.setDisabled(isInViewMode());
 
 		DynamicForm dynamicForm = new DynamicForm();
