@@ -463,8 +463,7 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
-						&& getPreferences().isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+						&& getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;

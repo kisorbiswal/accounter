@@ -2,6 +2,7 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import com.vimukti.accounter.mobile.ActionNames;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.InputType;
 import com.vimukti.accounter.mobile.Record;
@@ -22,7 +23,9 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 		if (canAddToResult) {
 			value = context.getSelection(getName());
 		} else {
-			value = context.getSelection(ACTIONS);
+			if (!(context.getSelection(ACTIONS) instanceof ActionNames)) {
+				value = context.getSelection(ACTIONS);
+			}
 		}
 		Object attribute = context.getAttribute("onSelection");
 		context.removeAttribute("onSelection");
@@ -43,16 +46,17 @@ public abstract class CommandsRequirement extends AbstractRequirement<String> {
 		ResultList resultList = new ResultList(getName());
 		if (canAddToResult) {
 			makeResult.add(resultList);
-		} else {
-			resultList = actions;
 		}
 
 		for (String n : actionNames) {
 			Record record = new Record(n);
 			record.add(n);
-			resultList.add(record);
+			if (canAddToResult) {
+				resultList.add(record);
+			} else {
+				actions.add(record);
+			}
 		}
-
 		return null;
 	}
 

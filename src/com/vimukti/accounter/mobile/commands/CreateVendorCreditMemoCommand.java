@@ -268,8 +268,7 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
-						&& getPreferences().isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+						&& getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -318,11 +317,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 		}
 		String phone = get(PHONE).getValue();
 		vendorCreditMemo.setPhone(phone);
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(vendorCreditMemo, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());

@@ -354,8 +354,7 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
-						&& getPreferences().isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+						&& getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -412,11 +411,9 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 		cashPurchase.setMemo(memoText);
 
 		items.addAll(accounts);
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(cashPurchase, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

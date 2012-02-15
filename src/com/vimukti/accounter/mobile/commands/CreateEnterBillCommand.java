@@ -370,8 +370,7 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
-				if (preferences.isTrackTax() && preferences.isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+				if (preferences.isTrackTax() && preferences.isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -427,11 +426,9 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 
 		items.addAll(accounts);
 
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(enterBill, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());

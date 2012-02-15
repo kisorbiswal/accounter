@@ -68,6 +68,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			boolean isSales) {
 		List<ClientTransactionItem> allrecords = transaction
 				.getTransactionItems();
+		Boolean isVatInclusive = (Boolean) (get(IS_VAT_INCLUSIVE) != null ? get(
+				IS_VAT_INCLUSIVE).getValue()
+				: false);
+		setAmountIncludeTAX(transaction, isVatInclusive);
 		double[] result = getTransactionTotal(isAmountIncludeTAX(transaction),
 				allrecords, isSales);
 		double grandTotal = result[0] + result[1];
@@ -217,17 +221,30 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
+		Boolean isVatInclusive = false;
+		if (get(IS_VAT_INCLUSIVE) != null) {
+			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
+		}
+
 		boolean isSales = false;
 		List<ClientTransactionItem> allrecords = new ArrayList<ClientTransactionItem>();
 		if (get(ITEMS) != null) {
 			TransactionItemTableRequirement req = (TransactionItemTableRequirement) get(ITEMS);
 			List<ClientTransactionItem> itemReqValue = req.getValue();
+			for (ClientTransactionItem clientTransactionItem : itemReqValue) {
+				clientTransactionItem.setAmountIncludeTAX(isVatInclusive);
+			}
+			req.setValue(itemReqValue);
 			isSales = req.isSales();
 			allrecords.addAll(itemReqValue);
 		}
 		if (get(ACCOUNTS) != null) {
 			TransactionAccountTableRequirement req = (TransactionAccountTableRequirement) get(ACCOUNTS);
 			List<ClientTransactionItem> accountReqValue = req.getValue();
+			for (ClientTransactionItem clientTransactionItem : accountReqValue) {
+				clientTransactionItem.setAmountIncludeTAX(isVatInclusive);
+			}
+			req.setValue(accountReqValue);
 			isSales = req.isSales();
 			allrecords.addAll(accountReqValue);
 		}
@@ -246,10 +263,6 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			}
 		}
 
-		Boolean isVatInclusive = false;
-		if (get(IS_VAT_INCLUSIVE) != null) {
-			isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
-		}
 		double[] result = getTransactionTotal(isVatInclusive, allrecords,
 				isSales);
 

@@ -382,8 +382,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
-				if (preferences.isTrackTax()
-						&& !preferences.isTaxPerDetailLine()) {
+				if (preferences.isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -547,9 +546,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 		}
 		invoice.setSaveStatus(ClientTransaction.STATUS_APPROVE);
 		invoice.setEstimates(estimates);
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(invoice, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -619,6 +616,7 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		// TODO
+		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		List<ClientTransactionItem> allrecords = get(ITEMS).getValue();
 		List<EstimatesAndSalesOrdersList> e = get(ESTIMATEANDSALESORDER)
 				.getValue();
@@ -627,16 +625,16 @@ public class CreateInvoiceCommand extends AbstractTransactionCommand {
 					getMessages().pleaseSelect(getMessages().transactionItem()));
 		}
 		ClientCompanyPreferences preferences = context.getPreferences();
-		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			TAXCode taxCode = get(TAXCODE).getValue();
-			for (ClientTransactionItem item : allrecords) {
+		for (ClientTransactionItem item : allrecords) {
+			if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
+				TAXCode taxCode = get(TAXCODE).getValue();
 				if (taxCode != null) {
 					item.setTaxCode(taxCode.getID());
 				}
 			}
+			item.setAmountIncludeTAX(isVatInclusive);
 		}
 
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		double[] result = getTransactionTotal(isVatInclusive, allrecords, true);
 
 		for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : e) {

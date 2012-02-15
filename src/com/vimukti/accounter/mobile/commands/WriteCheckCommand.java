@@ -259,8 +259,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
-				if (preferences.isTrackTax()
-						&& !preferences.isTaxPerDetailLine()) {
+				if (preferences.isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -355,9 +354,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(writeCheck, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : accounts) {
 				item.setTaxCode(taxCode.getID());
