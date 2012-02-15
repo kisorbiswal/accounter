@@ -90,6 +90,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
+import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
@@ -690,7 +691,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected boolean canAddDraftButton() {
 		return getCompany().getLoggedInUser().getPermissions()
 				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES
-				&& canRecur() ? true
+				&& canRecur() ? (transaction == null ? true : transaction
+				.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
 	}
 
@@ -1676,7 +1678,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			List<ClientTransactionItem> transactionItems) {
 		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem item : transactionItems) {
-			if (item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
+			if (item.getReferringTransactionItem() == 0
+					&& item.getType() == ClientTransactionItem.TYPE_ACCOUNT) {
 				list.add(item);
 			}
 		}
@@ -1687,7 +1690,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			List<ClientTransactionItem> transactionItems) {
 		List<ClientTransactionItem> list = new ArrayList<ClientTransactionItem>();
 		for (ClientTransactionItem item : transactionItems) {
-			if (item.getType() == ClientTransactionItem.TYPE_ITEM) {
+			if (item.getReferringTransactionItem() == 0
+					&& item.getType() == ClientTransactionItem.TYPE_ITEM) {
 				list.add(item);
 			}
 		}
