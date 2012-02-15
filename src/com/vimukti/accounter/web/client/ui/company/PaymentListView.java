@@ -72,6 +72,8 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 			return messages.paymentsList();
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			return messages.payeeChecks(Global.get().Customer());
+		} else if (checkType == TYPE_WRITE_CHECKS) {
+			return messages.otherChecks();
 		} else {
 			return messages.payeeChecks(Global.get().Vendor());
 		}
@@ -205,15 +207,19 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 		if (checkType == 0) {
 			Accounter.createExportCSVService().getPaymentsListExportCsv(
 					getStartDate().getDate(), getEndDate().getDate(), type,
-					getExportCSVCallback(messages.payments()));
+					getExportCSVCallback(getListViewHeading()));
 		} else if (checkType == TYPE_CUSTOMER_CHECKS) {
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(1,
 					getStartDate().getDate(), getEndDate().getDate(), type,
-					getExportCSVCallback(messages.payments()));
+					getExportCSVCallback(getListViewHeading()));
+		} else if (checkType == TYPE_WRITE_CHECKS) {
+			Accounter.createExportCSVService().getPayeeChecksExportCsv(0,
+					getStartDate().getDate(), getEndDate().getDate(), type,
+					getExportCSVCallback(getListViewHeading()));
 		} else {
 			Accounter.createExportCSVService().getPayeeChecksExportCsv(2,
 					getStartDate().getDate(), getEndDate().getDate(), type,
-					getExportCSVCallback(messages.payments()));
+					getExportCSVCallback(getListViewHeading()));
 		}
 	}
 }
