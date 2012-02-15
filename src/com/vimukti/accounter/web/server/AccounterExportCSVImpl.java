@@ -112,6 +112,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getBalance(), obj.getCurrecny()) : "0.0";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -181,6 +182,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getTotalPrice(), obj.getCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -251,6 +253,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getTotal(), obj.getCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -317,6 +320,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmountPaid(), obj.getCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -386,6 +390,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -461,6 +466,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						break;
 
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -533,7 +539,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
-
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -606,7 +612,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
-
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -678,7 +684,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmountPaid(), obj.getCurrency());
 						break;
 					}
-
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -733,6 +739,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getPrimaryCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -770,20 +777,28 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(ClientAccount obj, int index) {
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return obj.getNumber() != null ? obj.getNumber() : "";
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
+						break;
 					case 1:
-						return obj.getName() != null ? obj.getName() : "";
+						columnValue = obj.getName() != null ? obj.getName()
+								: "";
+						break;
 					case 2:
-						return obj.getType() != 0 ? Utility
+						columnValue = obj.getType() != 0 ? Utility
 								.getAccountTypeString(obj.getType()) : " ";
+						break;
 					case 3:
-						return amountAsStringWithCurrency(
+						columnValue = amountAsStringWithCurrency(
 								obj.getTotalBalanceInAccountCurrency(),
 								obj.getCurrency());
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 
@@ -833,6 +848,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getTotal(), obj.getCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -895,6 +911,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								obj.getAmount(), obj.getCurrency()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -972,6 +989,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.valueOf(obj.getTransaction().getTotal()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1026,6 +1044,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 										.getTransaction().getTotal()) : "";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1068,6 +1087,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 								.getDDINumber() : " ";
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1140,6 +1160,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						break;
 
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1193,6 +1214,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						}
 						break;
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1244,6 +1266,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 							break;
 						}
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
@@ -1352,50 +1375,54 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(Item obj, int index) {
+					String columnValue = null;
 					switch (index) {
 					case 0:
 						return obj.getName() != null ? obj.getName() : "";
 					case 1:
 						if (!isPurchaseType) {
-							return obj.getSalesDescription() != null ? obj
+							columnValue = obj.getSalesDescription() != null ? obj
 									.getSalesDescription() : "";
 						} else
-							return obj.getPurchaseDescription() != null ? obj
+							columnValue = obj.getPurchaseDescription() != null ? obj
 									.getPurchaseDescription() : "";
-
+						break;
 					case 2:
-						return Utility.getItemTypeText(obj) != null ? Utility
+						columnValue = Utility.getItemTypeText(obj) != null ? Utility
 								.getItemTypeText(obj) : "";
+						break;
 					case 3:
 						if (!(isPurchaseType && isSalesType)) {
 							if (obj.isISellThisItem()) {
-								return amountAsStringWithCurrency(
+								columnValue = amountAsStringWithCurrency(
 										obj.getSalesPrice(), obj.getCompany()
 												.getPrimaryCurrency());
 							} else {
-								return amountAsStringWithCurrency(
+								columnValue = amountAsStringWithCurrency(
 										obj.getPurchasePrice(), obj
 												.getCompany()
 												.getPrimaryCurrency());
 							}
 						}
 						if (isSalesType) {
-							return amountAsStringWithCurrency(
+							columnValue = amountAsStringWithCurrency(
 									obj.getSalesPrice(), obj.getCompany()
 											.getPrimaryCurrency());
 						} else
-							return amountAsStringWithCurrency(
+							columnValue = amountAsStringWithCurrency(
 									obj.getPurchasePrice(), obj.getCompany()
 											.getPrimaryCurrency());
-
+						break;
 					case 4:
 						if (isPurchaseType && isSalesType) {
-							return amountAsStringWithCurrency(
+							columnValue = amountAsStringWithCurrency(
 									obj.getPurchasePrice(), obj.getCompany()
 											.getPrimaryCurrency());
 						}
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<Item> csvExporter = new CSVExporter<Item>(
@@ -1529,28 +1556,34 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(TAXItem item, int index) {
+					String columnValue = null;
 					switch (index) {
 
 					case 0:
-						return item.getName() != null ? item.getName() : "";
+						columnValue = item.getName() != null ? item.getName()
+								: "";
 					case 1:
 						TAXAgency agency = null;
 						if (item.getTaxAgency() != null) {
 							agency = item.getTaxAgency();
 						}
-						return agency != null ? agency.getName() : "";
+						columnValue = agency != null ? agency.getName() : "";
+						break;
 					case 2:
-						return item.getDescription() != null ? item
+						columnValue = item.getDescription() != null ? item
 								.getDescription() : "";
+						break;
 					case 3:
 						if (item.isPercentage())
-							return item.getTaxRate() + "%";
+							columnValue = item.getTaxRate() + "%";
 						else
-							return amountAsStringWithCurrency(
+							columnValue = amountAsStringWithCurrency(
 									item.getTaxRate(), item.getCompany()
 											.getPrimaryCurrency());
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<TAXItem> csvExporter = new CSVExporter<TAXItem>(
@@ -1590,15 +1623,19 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(TAXCode taxCode, int index) {
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return taxCode.getName() != null ? taxCode.getName()
-								: "";
+						columnValue = taxCode.getName() != null ? taxCode
+								.getName() : "";
+						break;
 					case 1:
-						return taxCode.getDescription() != null ? taxCode
+						columnValue = taxCode.getDescription() != null ? taxCode
 								.getDescription() : "";
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<TAXCode> csvExporter = new CSVExporter<TAXCode>(
@@ -1638,29 +1675,37 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 			@Override
 			public String getColumnValue(SalesPerson salesPerson, int index) {
+				String columnValue = null;
 				switch (index) {
 				case 0:
-					return salesPerson.getFirstName();
+					columnValue = salesPerson.getFirstName();
+					break;
 				case 1:
-					return salesPerson.getAddress() != null ? salesPerson
+					columnValue = salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getAddress1() : "";
+					break;
 				case 2:
-					return salesPerson.getAddress() != null ? salesPerson
+					columnValue = salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getCity() : "";
+					break;
 				case 3:
-					return salesPerson.getAddress() != null ? salesPerson
+					columnValue = salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getStateOrProvinence() : "";
+					break;
 
 				case 4:
-					return salesPerson.getAddress() != null ? salesPerson
+					columnValue = salesPerson.getAddress() != null ? salesPerson
 							.getAddress().getZipOrPostalCode() : "";
+					break;
 				case 5:
-					return salesPerson.getPhoneNo();
-
+					columnValue = salesPerson.getPhoneNo();
+					break;
 				case 6:
-					return salesPerson.getFaxNo();
+					columnValue = salesPerson.getFaxNo();
+					break;
 				}
-				return null;
+				columnValue = '"' + columnValue + '"';
+				return columnValue;
 			}
 		};
 		CSVExporter<SalesPerson> csvExporter = new CSVExporter<SalesPerson>(
@@ -1698,28 +1743,37 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(TransactionHistory obj, int index) {
-
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return obj.getDate() != null ? Utility
+						columnValue = obj.getDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getDate())) : "";
+						break;
 					case 1:
-						return obj.getType() != 0 ? Utility
+						columnValue = obj.getType() != 0 ? Utility
 								.getTransactionName(obj.getType()) : "";
+						break;
 					case 2:
-						return obj.getNumber() != null ? obj.getNumber() : "";
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
+						break;
 					case 3:
-						return obj.getMemo() != null ? obj.getMemo() : "";
+						columnValue = obj.getMemo() != null ? obj.getMemo()
+								: "";
+						break;
 					case 4:
-						return obj.getDueDate() != null ? Utility
+						columnValue = obj.getDueDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getDueDate())) : "";
+						break;
 					case 5:
-						return amountAsStringWithCurrency(obj.getAmount(),
-								customer.getCurrency());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmount(), customer.getCurrency());
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<TransactionHistory> csvExporter = new CSVExporter<TransactionHistory>(
@@ -1757,34 +1811,44 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 
 				@Override
 				public String getColumnValue(TransactionHistory obj, int index) {
-
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return obj.getDate() != null ? Utility
+						columnValue = obj.getDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getDate())) : "";
+						break;
 					case 1:
-						return obj.getType() != 0 ? Utility
+						columnValue = obj.getType() != 0 ? Utility
 								.getTransactionName(obj.getType()) : "";
+						break;
 					case 2:
-						return obj.getNumber() != null ? obj.getNumber() : "";
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
+						break;
 					case 3:
-						return obj.getMemo() != null ? obj.getMemo() : "";
+						columnValue = obj.getMemo() != null ? obj.getMemo()
+								: "";
+						break;
 					case 4:
-						return obj.getDueDate() != null ? Utility
+						columnValue = obj.getDueDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getDueDate())) : "";
+						break;
 					case 5:
-						return amountAsStringWithCurrency(obj.getAmount(),
-								vendor.getCurrency());
+						columnValue = amountAsStringWithCurrency(
+								obj.getAmount(), vendor.getCurrency());
+						break;
 					case 6:
 						Account account = (Account) HibernateUtil
 								.getCurrentSession().get(Account.class,
 										obj.getAccType());
 
-						return account != null ? account.getName() : "";
+						columnValue = account != null ? account.getName() : "";
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<TransactionHistory> csvExporter = new CSVExporter<TransactionHistory>(
@@ -1868,36 +1932,41 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 				@Override
 				public String getColumnValue(DepositsTransfersList obj,
 						int index) {
-
+					String columnValue = null;
 					switch (index) {
 					case 0:
-						return obj.getTransactionDate() != null ? Utility
+						columnValue = obj.getTransactionDate() != null ? Utility
 								.getDateInSelectedFormat(new FinanceDate(obj
 										.getTransactionDate())) : "";
+						break;
 					case 1:
-						return Utility.getTransactionName(obj.getType());
+						columnValue = Utility.getTransactionName(obj.getType());
+						break;
 					case 2:
-						return obj.getTransactionNumber();
+						columnValue = obj.getTransactionNumber();
+						break;
 					case 3:
-						return obj.getInAccount() != null ? obj.getInAccount()
-								: "";
+						columnValue = obj.getInAccount() != null ? obj
+								.getInAccount() : "";
+						break;
 					case 4:
 						if (transactionType == 0) {
-							return amountAsStringWithCurrency(obj.getAmount(),
-									obj.getCurrency());
+							columnValue = amountAsStringWithCurrency(
+									obj.getAmount(), obj.getCurrency());
 						} else {
-							return obj.getFromAccount() != null ? obj
+							columnValue = obj.getFromAccount() != null ? obj
 									.getFromAccount() : "";
 						}
-
+						break;
 					case 5:
 						if (transactionType != 0) {
-							return amountAsStringWithCurrency(obj.getAmount(),
-									obj.getCurrency());
+							columnValue = amountAsStringWithCurrency(
+									obj.getAmount(), obj.getCurrency());
 						}
-
+						break;
 					}
-					return null;
+					columnValue = '"' + columnValue + '"';
+					return columnValue;
 				}
 			};
 			CSVExporter<DepositsTransfersList> csvExporter = new CSVExporter<DepositsTransfersList>(
@@ -2062,6 +2131,7 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						break;
 
 					}
+					columnValue = '"' + columnValue + '"';
 					return columnValue;
 				}
 			};
