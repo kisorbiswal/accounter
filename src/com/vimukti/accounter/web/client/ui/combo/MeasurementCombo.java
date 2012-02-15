@@ -7,8 +7,8 @@ import com.vimukti.accounter.web.client.ui.settings.AddMeasurementAction;
 
 public class MeasurementCombo extends CustomCombo<ClientMeasurement> {
 
-	public MeasurementCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 1);
+	public MeasurementCombo(String title) {
+		super(title);
 		initCombo(getCompany().getMeasurements());
 	}
 
