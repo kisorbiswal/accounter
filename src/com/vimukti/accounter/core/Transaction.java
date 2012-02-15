@@ -1573,4 +1573,16 @@ public abstract class Transaction extends CreatableObject implements
 		this.isValidated = isValidated;
 	}
 
+	public List<Item> getInventoryUsed() {
+		List<Item> inventory = new ArrayList<Item>();
+		for (TransactionItem tItem : getTransactionItems()) {
+			if (tItem.getType() != TransactionItem.TYPE_ITEM
+					|| (tItem.getItem().getType() == Item.TYPE_INVENTORY_PART && tItem
+							.getItem().getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
+				continue;
+			}
+			inventory.add(tItem.getItem());
+		}
+		return inventory;
+	}
 }

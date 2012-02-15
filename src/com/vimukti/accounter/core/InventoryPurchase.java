@@ -21,14 +21,18 @@ public class InventoryPurchase implements IAccounterServerCore {
 
 	private double cost;
 
+	private Account effectingAccount;
+
 	public InventoryPurchase() {
 		// Default Constructor
 	}
 
-	public InventoryPurchase(Item item, Quantity quantity, double cost) {
+	public InventoryPurchase(Item item, Account effectingAccount,
+			Quantity quantity, double cost) {
 		this.item = item;
 		this.quantity = quantity;
 		this.cost = cost;
+		this.effectingAccount = effectingAccount;
 	}
 
 	@Override
@@ -102,6 +106,21 @@ public class InventoryPurchase implements IAccounterServerCore {
 	 */
 	public void setItem(Item item) {
 		this.item = item;
+	}
+
+	/**
+	 * @return the effectingAccount
+	 */
+	public Account getEffectingAccount() {
+		return effectingAccount;
+	}
+
+	/**
+	 * @param effectingAccount
+	 *            the effectingAccount to set
+	 */
+	public void setEffectingAccount(Account effectingAccount) {
+		this.effectingAccount = effectingAccount;
 	}
 
 }

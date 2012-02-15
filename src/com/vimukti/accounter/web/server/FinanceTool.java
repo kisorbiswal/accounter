@@ -281,13 +281,12 @@ public class FinanceTool {
 			newTransaction.commit();
 
 			if (serverObject instanceof Transaction) {
+
 				org.hibernate.Transaction ht = session.beginTransaction();
 				try {
 					Transaction tt = (Transaction) serverObject;
-					for (TransactionItem item : tt.getTransactionItems()) {
-						item.doInventoryEffect();
-						session.save(item);
-					}
+					List<Item> inventory = tt.getInventoryUsed();
+					InventoryUtils.remapSalesPurchases(inventory);
 					ht.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -425,10 +424,8 @@ public class FinanceTool {
 				org.hibernate.Transaction ht = session.beginTransaction();
 				try {
 					Transaction tt = (Transaction) serverObject;
-					for (TransactionItem item : tt.getTransactionItems()) {
-						item.doInventoryEffect();
-						session.save(item);
-					}
+					List<Item> inventory = tt.getInventoryUsed();
+					InventoryUtils.remapSalesPurchases(inventory);
 					ht.commit();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -549,6 +546,19 @@ public class FinanceTool {
 			session.save(activity);
 
 			hibernateTransaction.commit();
+
+			if (serverObject instanceof Transaction) {
+				org.hibernate.Transaction ht = session.beginTransaction();
+				try {
+					Transaction tt = (Transaction) serverObject;
+					List<Item> inventory = tt.getInventoryUsed();
+					InventoryUtils.remapSalesPurchases(inventory);
+					ht.commit();
+				} catch (Exception e) {
+					e.printStackTrace();
+					ht.rollback();
+				}
+			}
 
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

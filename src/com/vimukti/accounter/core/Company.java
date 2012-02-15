@@ -40,6 +40,8 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
+	public static final int CURRENT_VERSION = 1;
+
 	private long id;
 	private int version;
 	private Measurement defaultMeasurement;
@@ -171,6 +173,8 @@ public class Company implements IAccounterServerCore {
 	Account pendingItemReceiptsAccount;
 
 	private Account exchangeLossOrGainAccount;
+
+	private Account costOfGoodsSold;
 
 	@ReffereredObject
 	private Account cashDiscountAccount;
@@ -1562,5 +1566,16 @@ public class Company implements IAccounterServerCore {
 
 	public void setEmailAccounts(Set<EmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
+	}
+
+	public void setCostOfGoodsSold(Account costOfGoodsSold) {
+		this.costOfGoodsSold = costOfGoodsSold;
+	}
+
+	/**
+	 * @return the costOfGoodsSold
+	 */
+	public Account getCostOfGoodsSold() {
+		return costOfGoodsSold;
 	}
 }

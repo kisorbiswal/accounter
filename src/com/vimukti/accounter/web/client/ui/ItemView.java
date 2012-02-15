@@ -251,7 +251,7 @@ public class ItemView extends BaseView<ClientItem> {
 		 * adding the inventory information controls
 		 */
 
-		assetsAccount = new AccountCombo("Assets Account") {
+		assetsAccount = new AccountCombo(messages.assetsAccount()) {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
@@ -436,6 +436,13 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			ClientAccount costOfGoodsAccount = getCompany().getAccount(
+					getCompany().getCostOfGoodsSold());
+			if (costOfGoodsAccount != null) {
+				expAccCombo.setComboItem(costOfGoodsAccount);
+			}
+		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);
@@ -925,7 +932,6 @@ public class ItemView extends BaseView<ClientItem> {
 				assetsAccount.setSelected(getCompany().getAccount(
 						data.getAssestsAccount()).getName());
 			}
-
 			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
 			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
 			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
@@ -1066,7 +1072,9 @@ public class ItemView extends BaseView<ClientItem> {
 				accountCombo.setDisabled(true);
 				selectExpAccount = getCompany().getAccount(
 						data.getExpenseAccount());
-				expAccCombo.setComboItem(selectExpAccount);
+				if (selectExpAccount != null) {
+					expAccCombo.setComboItem(selectExpAccount);
+				}
 			}
 			if (data != null && data.isIBuyThisItem() == false)
 				expAccCombo.setDisabled(true);

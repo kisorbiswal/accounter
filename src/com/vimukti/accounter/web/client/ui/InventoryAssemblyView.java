@@ -331,6 +331,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
 		expAccCombo.setPopupWidth("500px");
+		ClientAccount costOfGoodsAccount = getCompany().getAccount(
+				getCompany().getCostOfGoodsSold());
+		if (costOfGoodsAccount != null) {
+			expAccCombo.setComboItem(costOfGoodsAccount);
+		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);

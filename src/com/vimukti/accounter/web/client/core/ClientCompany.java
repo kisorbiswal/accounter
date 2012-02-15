@@ -97,6 +97,11 @@ public class ClientCompany implements IAccounterCore {
 	private long taxLiabilityAccount;
 
 	private long VATFiledLiabilityAccount;
+
+	private long exchangeLossOrGainAccount;
+
+	private long costOfGoodsSold;
+
 	// String prepaidVATaccount;
 	// String ECAcquisitionVATaccount;
 
@@ -3208,5 +3213,35 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setEmailAccounts(List<ClientEmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
+	}
+
+	/**
+	 * @return the exchangeLossOrGainAccount
+	 */
+	public long getExchangeLossOrGainAccount() {
+		return exchangeLossOrGainAccount;
+	}
+
+	/**
+	 * @param exchangeLossOrGainAccount
+	 *            the exchangeLossOrGainAccount to set
+	 */
+	public void setExchangeLossOrGainAccount(long exchangeLossOrGainAccount) {
+		this.exchangeLossOrGainAccount = exchangeLossOrGainAccount;
+	}
+
+	/**
+	 * @return the costOfGoodsSold
+	 */
+	public long getCostOfGoodsSold() {
+		return costOfGoodsSold;
+	}
+
+	/**
+	 * @param costOfGoodsSold
+	 *            the costOfGoodsSold to set
+	 */
+	public void setCostOfGoodsSold(long costOfGoodsSold) {
+		this.costOfGoodsSold = costOfGoodsSold;
 	}
 }

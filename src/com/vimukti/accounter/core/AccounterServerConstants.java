@@ -27,6 +27,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String CASH_DISCOUNT_GIVEN = "Discounts Given";
 	public static final String WRITE_OFF = "Write off";
 	public static final String CASH_DISCOUNT_TAKEN = "Cash Discount taken";
+	public static final String COST_OF_GOODS_SOLD = "Cost of Goods Sold";
 	public static final String BANK_CHARGE = "Bank Charge";
 	public static final String OTHER_CASH_INCOME = "Other Cash Income";
 	public static final String OTHER_CASH_EXPENSE = "Other Cash Expense";

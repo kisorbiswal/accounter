@@ -405,6 +405,12 @@ public abstract class CompanyInitializer {
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setCashDiscountsTaken(cashDiscountsTaken);
 
+		Account costOfGoodsSold = createAccount(
+				Account.TYPE_COST_OF_GOODS_SOLD,
+				AccounterServerConstants.COST_OF_GOODS_SOLD,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setCostOfGoodsSold(costOfGoodsSold);
+
 		// This is the direct references to the Other Cash Expense Account for
 		// the purpose of the Cash Basis Journal Entry.
 		createAccount(Account.TYPE_EXPENSE,

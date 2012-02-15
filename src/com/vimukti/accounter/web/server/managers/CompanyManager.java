@@ -41,6 +41,7 @@ import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.core.migration.MigrationUtil;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.services.IS2SService;
@@ -593,6 +594,10 @@ public class CompanyManager extends Manager {
 		Session session = HibernateUtil.getCurrentSession();
 
 		Company company = getCompany(companyId);
+		if (company != null && companyId != 0
+				&& company.getVersion() < Company.CURRENT_VERSION) {
+			MigrationUtil.migrate(company);
+		}
 		User logInUser = company.getUserByUserEmail(logInUserEmail);
 		if (logInUser == null) {
 			throw new AccounterException(

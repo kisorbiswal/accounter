@@ -81,7 +81,7 @@ public abstract class CustomerItemTransactionTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isISellThisItem();
+						return e.isISellThisItem() && e.getIncomeAccount() != 0;
 					}
 				};
 			}
