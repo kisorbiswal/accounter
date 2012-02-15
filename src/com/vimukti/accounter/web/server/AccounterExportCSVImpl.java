@@ -1998,4 +1998,79 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 		}
 		return null;
 	}
+
+	@Override
+	public String getBillsAndItemReceiptListExportCSV(boolean isExpensesList,
+			int transactionType, long fromDate, long toDate, int start,
+			int pageSize, int checkViewType) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
+			PaginationList<BillsList> billsList = getFinanceTool()
+					.getVendorManager().getBillsList(isExpensesList,
+							getCompanyId(), transactionType,
+							dates[0].getDate(), dates[1].getDate(), start,
+							pageSize, checkViewType);
+			ICSVExportRunner<BillsList> icsvExportRunner = new ICSVExportRunner<BillsList>() {
+
+				@Override
+				public String[] getColumns() {
+
+					return new String[] {
+							messages.type(),
+							messages.date(),
+							messages.no(),
+							Global.get().messages()
+									.payeeName(Global.get().Vendor()),
+							messages.originalAmount(), messages.balance() };
+				}
+
+				@Override
+				public String getColumnValue(BillsList obj, int index) {
+					String columnValue = null;
+					switch (index) {
+					case 0:
+						columnValue = Utility.getTransactionName(obj.getType());
+						break;
+					case 1:
+						columnValue = Utility
+								.getDateInSelectedFormat(new FinanceDate(obj
+										.getDate()));
+						break;
+					case 2:
+						columnValue = obj.getNumber() != null ? obj.getNumber()
+								: "";
+						break;
+					case 3:
+						columnValue = obj.getVendorName() != null ? obj
+								.getVendorName() : "";
+						break;
+					case 4:
+						columnValue = obj.getOriginalAmount() != 0 ? amountAsStringWithCurrency(
+								obj.getOriginalAmount(), obj.getCurrency())
+								: "";
+						break;
+					case 5:
+						if (obj.getBalance() != null) {
+							columnValue = obj.getBalance() != 0 ? amountAsStringWithCurrency(
+									obj.getBalance(), obj.getCurrency()) : "";
+						} else {
+							columnValue = amountAsStringWithCurrency(0,
+									obj.getCurrency());
+						}
+						break;
+
+					}
+					return columnValue;
+				}
+			};
+			CSVExporter<BillsList> csvExporter = new CSVExporter<BillsList>(
+					icsvExportRunner);
+			return csvExporter.export(billsList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
