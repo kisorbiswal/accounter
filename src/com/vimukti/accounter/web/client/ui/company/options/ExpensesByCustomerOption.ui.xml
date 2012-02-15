@@ -11,6 +11,7 @@
 		<g:VerticalPanel spacing="5">
 			<g:CheckBox ui:field="expenseandProductandServiceTrackingbyCustomer" />
 			<g:CheckBox ui:field="UseBillableExpenseCheckBox" />
+			<g:CheckBox ui:field="PurchaseOrderCheckBox" />
 		</g:VerticalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

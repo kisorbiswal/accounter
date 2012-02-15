@@ -15,6 +15,8 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 	CheckBox expenseandProductandServiceTrackingbyCustomer;
 	@UiField
 	CheckBox UseBillableExpenseCheckBox;
+	@UiField
+	CheckBox PurchaseOrderCheckBox;
 
 	interface ExpensesByCustomerOptionUiBinder extends
 			UiBinder<Widget, ExpensesByCustomerOption> {
@@ -38,6 +40,8 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 				expenseandProductandServiceTrackingbyCustomer.getValue());
 		getCompanyPreferences().setBillableExpsesEnbldForProductandServices(
 				UseBillableExpenseCheckBox.getValue());
+		getCompanyPreferences().setPurchaseOrderEnabled(
+				PurchaseOrderCheckBox.getValue());
 	}
 
 	@Override
@@ -53,7 +57,9 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 		expenseandProductandServiceTrackingbyCustomer.setStyleName("bold");
 		UseBillableExpenseCheckBox.setText(messages.useBillabelExpenses());
 		UseBillableExpenseCheckBox.setStyleName("bold");
-		;
+		PurchaseOrderCheckBox.setText(messages.enablePreference(messages
+				.purchaseOrder()));
+		PurchaseOrderCheckBox.setStyleName("bold");
 	}
 
 	@Override
@@ -63,6 +69,8 @@ public class ExpensesByCustomerOption extends AbstractPreferenceOption {
 						.isProductandSerivesTrackingByCustomerEnabled());
 		UseBillableExpenseCheckBox.setValue(getCompanyPreferences()
 				.isBillableExpsesEnbldForProductandServices());
+		PurchaseOrderCheckBox.setValue(getCompanyPreferences()
+				.isPurchaseOrderEnabled());
 
 	}
 
