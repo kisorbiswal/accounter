@@ -1,6 +1,13 @@
 package com.vimukti.accounter.servlets;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,11 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,40 +24,81 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.Subscription;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
-public class SubscriptionReturnServlet extends HttpServlet {
+public class IPNServlet extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private static String VIEW = "/WEB-INF/paymentdone.jsp";
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		doPost(req, resp);
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
 		String emailId = (String) req.getSession().getAttribute(
 				BaseServlet.EMAIL_ID);
-		String transactionID = req.getParameter("tx");
-		if (emailId != null && transactionID != null) {
-			String requestToPayPal = requestToPayPal(transactionID);
-			String[] split = requestToPayPal.split("\n");
-			if (split[0].equals("SUCCESS")) {
-				Map<String, String> params = new HashMap<String, String>();
-				for (int i = 1; i < split.length; i++) {
-					String[] split2 = split[i].split("=");
-					params.put(split2[0], split2[1]);
-				}
-				String status = params.get("payment_status");
-				if (!status.equals("Completed")) {
+		// read post from PayPal
+		// system and add 'cmd'
+		Enumeration en = req.getParameterNames();
+		String str = "cmd=_notify-validate";
+		Map<String, String> params = new HashMap<String, String>();
+		while (en.hasMoreElements()) {
+			String paramName = (String) en.nextElement();
+			String paramValue = req.getParameter(paramName);
+			params.put(paramName, paramName);
+			str = str + "&" + paramName + "=" + URLEncoder.encode(paramValue);
+		}
+
+		// post back to PayPal system to validate
+		// NOTE: change http: to https: in the following URL to verify using SSL
+		// (for increased security).
+		// using HTTPS requires either Java 1.4 or greater, or Java Secure
+		// Socket Extension (JSSE)
+		// and configured for older versions.
+		URL u = new URL("https://www.sandbox.paypal.com/cgi-bin/webscr");
+		URLConnection uc = u.openConnection();
+		uc.setDoOutput(true);
+		uc.setRequestProperty("Content-Type",
+				"application/x-www-form-urlencoded");
+		PrintWriter pw = new PrintWriter(uc.getOutputStream());
+		pw.println(str);
+		pw.close();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				uc.getInputStream()));
+		String res = in.readLine();
+		in.close();
+
+		// assign posted variables to local variables
+		// String itemName = req.getParameter("item_name");
+		// String itemNumber = req.getParameter("item_number");
+		String paymentStatus = req.getParameter("payment_status");
+		// String paymentAmount = req.getParameter("mc_gross");
+		// String paymentCurrency = req.getParameter("mc_currency");
+		String txnId = req.getParameter("txn_id");
+		// String receiverEmail = req.getParameter("receiver_email");
+		// String payerEmail = req.getParameter("payer_email");
+
+		if (res.equals("VERIFIED")) {
+			// check that paymentStatus=Completed
+			// check that txnId has not been previously processed
+			// check that receiverEmail is your Primary PayPal email
+			// check that paymentAmount/paymentCurrency are correct
+			// process payment
+
+			if (emailId != null && txnId != null) {
+				if (!paymentStatus.equals("Completed")) {
 					sendInfo("Your process is not completed", req, resp);
 					return;
 				}
@@ -71,10 +114,13 @@ public class SubscriptionReturnServlet extends HttpServlet {
 					}
 				}
 			} else {
-				sendInfo("Your transaction is fail", req, resp);
+				resp.sendRedirect(BaseServlet.LOGIN_URL);
 			}
+
+		} else if (res.equals("INVALID")) {
+			// log for investigation
 		} else {
-			resp.sendRedirect(BaseServlet.LOGIN_URL);
+			// error
 		}
 	}
 
@@ -138,42 +184,7 @@ public class SubscriptionReturnServlet extends HttpServlet {
 		details.setMcCurrency(params.get("mc_currency"));
 		details.setPaymentStatus(params.get("payment_status"));
 		details.setClinetEmailId(emailId);
-	}
-
-	private String requestToPayPal(String transactionID) {
-		PostMethod method = null;
-
-		String urlString = "https://www.paypal.com/cgi-bin/webscr";
-
-		try {
-			// Creating the GetMethod instance
-			method = new PostMethod(urlString);
-
-			// Retries to establish a successful connection the specified number
-			// of times if the initial attempts are not successful.
-			method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-					new DefaultHttpMethodRetryHandler(1, false));
-
-			method.getParams().setParameter("http.socket.timeout",
-					new Integer(5000));
-
-			NameValuePair[] data = {
-					new NameValuePair("cmd", "_notify-synch"),
-					new NameValuePair("tx", transactionID),
-					new NameValuePair("at",
-							ServerConfiguration.getPaypalIdentityId()),
-					new NameValuePair("submit", "PDT") };
-			method.setRequestBody(data);
-			HttpClient client = new HttpClient();
-			client.executeMethod(method);
-			String responseBodyAsString = method.getResponseBodyAsString();
-			return responseBodyAsString;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			method.releaseConnection();
-		}
-		return null;
 
 	}
+
 }
