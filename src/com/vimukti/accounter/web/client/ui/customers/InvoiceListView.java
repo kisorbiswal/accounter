@@ -73,7 +73,7 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		Accounter.createExportCSVService().getInvoiceListExportCsv(
 				getStartDate().getDate(), getEndDate().getDate(),
 				transactionType, getViewId(),
-				getExportCSVCallback(messages.invoices()));
+				getExportCSVCallback(getListViewHeading()));
 	}
 
 	@Override
