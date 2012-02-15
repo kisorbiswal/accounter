@@ -1457,4 +1457,8 @@ public class ActionFactory {
 	public static InventoryValutionSummaryReportAction getInventoryValutionSummaryReportAction() {
 		return new InventoryValutionSummaryReportAction();
 	}
+
+	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
+		return new RecurringTransactionDialogAction();
+	}
 }
