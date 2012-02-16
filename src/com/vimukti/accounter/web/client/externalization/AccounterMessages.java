@@ -5907,4 +5907,6 @@ public interface AccounterMessages extends Messages {
 	
 	public String enablePreference(String preferences);
 	
+	public String jobProfitabilitySummary();
+	
 }
