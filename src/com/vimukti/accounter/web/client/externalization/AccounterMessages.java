@@ -5905,6 +5905,12 @@ public interface AccounterMessages extends Messages {
 
 	public String reportTotal(String jobName);
 
+	public String checkNumber();
+
+	public String checkAmount();
+
+	public String jobProfitabilitySummary();
+
 	public String enablePreference(String preferences);
 
 	public String pleaseMapProperly(String selectedValue, String value);
