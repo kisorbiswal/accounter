@@ -128,6 +128,8 @@ import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.AutomaticTransactionsAction;
 import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
+import com.vimukti.accounter.web.client.ui.reports.BankCheckDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.BankDepositDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
@@ -259,6 +261,14 @@ public class ActionFactory {
 
 	public static InventoryItemsAction getInventoryItemsAction() {
 		return new InventoryItemsAction();
+	}
+
+	public static BankDepositDetailReportAction getBankDepositDetailReportAction() {
+		return new BankDepositDetailReportAction();
+	}
+
+	public static BankCheckDetailReportAction getBankCheckDetailReportAction() {
+		return new BankCheckDetailReportAction();
 	}
 
 	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction() {
@@ -1455,4 +1465,5 @@ public class ActionFactory {
 	public static ImportAction getImportAction() {
 		return new ImportAction();
 	}
+
 }
