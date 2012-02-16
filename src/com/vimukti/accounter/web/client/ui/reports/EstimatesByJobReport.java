@@ -33,6 +33,16 @@ public class EstimatesByJobReport extends AbstractReportView<EstimatesByJob> {
 	}
 
 	@Override
+	public boolean canPrint() {
+		return true;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
+	}
+
+	@Override
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
