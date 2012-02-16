@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
@@ -3200,9 +3201,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<BankDepositDetail> getBankingDepositDetils(
-			ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<BankDepositDetail> list = getFinanceTool().getReportManager()
+				.getBankDepositDetails(getCompanyId(), start, end);
+		BankDepositDetail obj = new BankDepositDetail();
+		if (list != null)
+			list.add((BankDepositDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
+
 	}
 
 	@Override
@@ -3218,4 +3228,21 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<BankCheckDetail> getBankCheckDetils(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<BankCheckDetail> list = getFinanceTool().getReportManager()
+				.getBankCheckDetails(getCompanyId(), start, end);
+		BankCheckDetail obj = new BankCheckDetail();
+		if (list != null)
+			list.add((BankCheckDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
+
+	}
+
 }
