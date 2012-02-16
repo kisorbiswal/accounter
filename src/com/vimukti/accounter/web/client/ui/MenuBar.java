@@ -366,17 +366,12 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
-		reportMenuBar.addMenuItem(getJobsReportMenu(messages.job()));
+	
 		return reportMenuBar;
 	}
 
 	
-	private MenuItem getJobsReportMenu(String title) {
-		Menu jobsMenu = new Menu(title);
-		jobsMenu.addMenuItem(messages.jobProfitabilitySummary(),
-				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
-		return jobsMenu;
-	}
+	
 	private MenuItem getInventoryReportMenu(String inventory) {
 		Menu inventoryMenuBar = new Menu(inventory);
 		inventoryMenuBar.addMenuItem(messages.inventoryValutionSummary(),
@@ -575,6 +570,8 @@ public class MenuBar {
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 		customersAndReceivableMenuBar.addMenuItem("Estimates by Job",
 				HistoryTokens.ESTIMATEBYJOB);
+		customersAndReceivableMenuBar.addMenuItem(messages.jobProfitabilitySummary(),
+				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
 
 		return customersAndReceivableMenuBar;
 	}
