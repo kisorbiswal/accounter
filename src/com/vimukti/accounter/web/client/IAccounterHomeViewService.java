@@ -73,7 +73,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -216,11 +215,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	public ArrayList<ClientReceivePayment> getLatestReceivePayments();
 
-	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
-			long endDate) throws AccounterException;
+	// public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
+	// long endDate) throws AccounterException;
 
-	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
-			long toDate) throws AccounterException;
+	PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+			long toDate, int type, int start, int length)
+			throws AccounterException;
 
 	/*
 	 * public ArrayList<SalesOrdersList> getSalesOrdersForCustomer(long

@@ -76,7 +76,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
@@ -244,10 +243,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getLatestReceivePayments(
 			AsyncCallback<ArrayList<ClientReceivePayment>> callback);
 
-	public void getSalesOrders(long fromDate, long endDate,
-			AsyncCallback<PaginationList<SalesOrdersList>> callback);
+	// public void getSalesOrders(long fromDate, long endDate,
+	// AsyncCallback<PaginationList<SalesOrdersList>> callback);
 
-	public void getPurchaseOrders(long fromDate, long toDate,
+	public void getPurchaseOrders(long fromDate, long toDate, int type,
+
+	int start, int length,
 			AsyncCallback<PaginationList<PurchaseOrdersList>> callback);
 
 	/*

@@ -217,45 +217,45 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-	public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getPurchaseOrderReport(int type,ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	// public void getSalesOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getSalesOrderReport(int type,ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOpenOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	// public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
 	void getPriorVATReturnVATDetailReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,

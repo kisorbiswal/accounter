@@ -181,35 +181,35 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	// public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);

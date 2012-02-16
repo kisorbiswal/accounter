@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.core.Lists;
 
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
@@ -17,11 +16,11 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 
 	ClientFinanceDate transactionDate;
 
-	String description;
-
-	double quantity;
-
 	double amount;
+
+	private String number;
+
+	private Integer status;
 
 	public long getTransactionID() {
 		return transactionID;
@@ -35,7 +34,7 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 		return id;
 	}
 
-	public void setID(long id){
+	public void setID(long id) {
 		this.id = id;
 	}
 
@@ -63,22 +62,6 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 		this.transactionDate = transactionDate;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public double getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
-	}
-
 	public double getAmount() {
 		return amount;
 	}
@@ -87,4 +70,19 @@ public class OpenAndClosedOrders extends BaseReport implements IsSerializable {
 		this.amount = amount;
 	}
 
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
 }

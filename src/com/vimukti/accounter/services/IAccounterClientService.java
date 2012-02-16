@@ -20,20 +20,19 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnitOfMeasure;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -259,12 +258,6 @@ public interface IAccounterClientService {
 
 	public ClientReceivePayment alterReceivePayment(long company,
 			ClientReceivePayment receivePayment) throws DAOException;
-
-	public ClientSalesOrder createSalesOrder(long company,
-			ClientSalesOrder salesOrder) throws DAOException;
-
-	public ClientSalesOrder alterSalesOrder(long company,
-			ClientSalesOrder salesOrder) throws DAOException;
 
 	public ClientVendorCreditMemo createVendorCreditMemo(long company,
 			ClientVendorCreditMemo vendorCreditMemo) throws DAOException;

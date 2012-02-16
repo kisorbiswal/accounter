@@ -45,27 +45,20 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected List<PurchaseOrdersList> getLists(Context context) {
-				List<PurchaseOrdersList> list = new ArrayList<PurchaseOrdersList>();
-				List<PurchaseOrdersList> completeList = getPurchaseOrder(context);
 				String type = PurchaseOrderListCommand.this.get(VIEW_BY)
 						.getValue();
-				for (PurchaseOrdersList order : completeList) {
-
-					if (type.equals(getMessages().open())) {
-						if (order.getStatus() == ClientTransaction.STATUS_OPEN
-								|| order.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
-							list.add(order);
-					}
-					if (type.equals(getMessages().completed())) {
-						if (order.getStatus() == ClientTransaction.STATUS_COMPLETED)
-							list.add(order);
-					}
-					if (type.equals(getMessages().cancelled())) {
-						if (order.getStatus() == ClientTransaction.STATUS_CANCELLED)
-							list.add(order);
-					}
+				int order = -1;
+				if (type.equals(getMessages().open())) {
+					order = ClientTransaction.STATUS_OPEN;
 				}
-				return list;
+				if (type.equals(getMessages().completed())) {
+					order = ClientTransaction.STATUS_APPLIED;
+				}
+				if (type.equals(getMessages().cancelled())) {
+					order = ClientTransaction.STATUS_CANCELLED;
+				}
+				return getPurchaseOrder(context, order);
+
 			}
 
 			@Override
@@ -85,12 +78,12 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 		});
 	}
 
-	private List<PurchaseOrdersList> getPurchaseOrder(Context context) {
+	private List<PurchaseOrdersList> getPurchaseOrder(Context context, int order) {
 		FinanceTool tool = new FinanceTool();
 		try {
 			return tool.getPurchageManager().getPurchaseOrdersList(
 					context.getCompany().getID(), getStartDate().getDate(),
-					getEndDate().getDate());
+					getEndDate().getDate(), order, 0, -1);
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
