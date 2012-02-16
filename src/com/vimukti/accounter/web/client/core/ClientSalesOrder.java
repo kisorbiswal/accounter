@@ -21,7 +21,7 @@ public class ClientSalesOrder extends ClientTransaction {
 	ClientAddress shippingAdress;
 
 	String phone;
-
+	long job;
 	long salesPerson;
 
 	long paymentTerm;
@@ -380,5 +380,13 @@ public class ClientSalesOrder extends ClientTransaction {
 	@Override
 	public String getDisplayName() {
 		return getName();
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 }

@@ -57,6 +57,7 @@ public interface IAccounterCore extends IsSerializable, Serializable,
 	public static final int REPORT_GROUP = 87;
 	public static final int BANK_STATEMENT = 88;
 	public static final int BANKSTATEMENT_RECORD = 88;
+	public static final int JOB = 90;
 	public static final int RECURING_TRANSACTION = 89;
 
 	String getName();

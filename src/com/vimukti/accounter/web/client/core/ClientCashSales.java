@@ -10,6 +10,7 @@ public class ClientCashSales extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
+	private long job;
 
 	ClientContact contact;
 
@@ -308,7 +309,6 @@ public class ClientCashSales extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CASHSALES;
@@ -320,5 +320,13 @@ public class ClientCashSales extends ClientTransaction {
 		clientCashSalesClone.billingAddress = this.billingAddress.clone();
 		clientCashSalesClone.shippingAdress = this.shippingAdress.clone();
 		return clientCashSalesClone;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 }

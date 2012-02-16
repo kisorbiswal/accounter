@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.core;
 public class ClientCustomerPrePayment extends ClientTransaction {
 
 	long customer;
-
+	private long job;
 	long depositIn;
 
 	ClientAddress address;
@@ -33,7 +33,6 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 	public String getName() {
 		return Utility.getTransactionName(getType());
 	}
-
 
 	@Override
 	public AccounterCoreType getObjectType() {
@@ -107,6 +106,14 @@ public class ClientCustomerPrePayment extends ClientTransaction {
 
 	public String getpaymentMethod() {
 		return paymentMethod;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 
 }

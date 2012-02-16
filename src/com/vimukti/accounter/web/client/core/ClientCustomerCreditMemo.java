@@ -7,7 +7,7 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
-
+	private long job;
 	ClientContact contact;
 
 	ClientAddress billingAddress;
@@ -264,5 +264,13 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 				.clone();
 
 		return clientCustomerCreditMemoClone;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 }

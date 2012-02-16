@@ -13,6 +13,7 @@ public class ClientInvoice extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
+	private long job;
 
 	ClientContact contact;
 
@@ -512,7 +513,6 @@ public class ClientInvoice extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.INVOICE;
@@ -544,5 +544,13 @@ public class ClientInvoice extends ClientTransaction {
 		// transactions.add(clientTransaction);
 		// }
 		return transactions;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 }

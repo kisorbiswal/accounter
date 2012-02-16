@@ -31,6 +31,8 @@ public class ClientEstimate extends ClientTransaction {
 
 	long customer;
 
+	private long job;
+
 	private int estimateType;
 
 	ClientContact contact;
@@ -334,6 +336,14 @@ public class ClientEstimate extends ClientTransaction {
 	 */
 	public void setUsedInvoice(long usedInvoice) {
 		this.usedInvoice = usedInvoice;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 
 }
