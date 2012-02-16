@@ -110,7 +110,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
-
+	private Job job;
 	int type;
 	FinanceDate transactionDate;
 	String number = "0";
@@ -1585,5 +1585,13 @@ public abstract class Transaction extends CreatableObject implements
 			inventory.add(tItem.getItem());
 		}
 		return inventory;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }

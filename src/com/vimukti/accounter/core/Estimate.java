@@ -43,7 +43,6 @@ public class Estimate extends Transaction {
 	 */
 	@ReffereredObject
 	Customer customer;
-	private Job job;
 	private int transactionType;
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
@@ -504,14 +503,6 @@ public class Estimate extends Transaction {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 
-	}
-
-	public Job getJob() {
-		return job;
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
 	}
 
 }

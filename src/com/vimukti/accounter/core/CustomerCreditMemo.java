@@ -81,7 +81,6 @@ public class CustomerCreditMemo extends Transaction implements
 	 */
 	@ReffereredObject
 	Customer customer;
-	private Job job;
 
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
@@ -543,11 +542,4 @@ public class CustomerCreditMemo extends Transaction implements
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
 
-	public Job getJob() {
-		return job;
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
-	}
 }

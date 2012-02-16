@@ -91,7 +91,6 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	@ReffereredObject
 	Customer customer;
 
-	private Job job;
 	double amount = 0D;
 
 	double customerBalance = 0D;
@@ -770,13 +769,5 @@ public class ReceivePayment extends Transaction implements Lifecycle {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	public Job getJob() {
-		return job;
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
 	}
 }

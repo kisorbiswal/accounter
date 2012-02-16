@@ -58,7 +58,6 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	@ReffereredObject
 	Customer payTo;
 
-	private Job job;
 	/**
 	 * This defaults to the Bill to address of the chosen Customer. The User may
 	 * change later onwards.
@@ -444,13 +443,5 @@ public class CustomerRefund extends Transaction implements IAccounterServerCore 
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? -total : total;
 		payTo.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
-	}
-
-	public Job getJob() {
-		return job;
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
 	}
 }

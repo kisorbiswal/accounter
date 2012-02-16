@@ -61,7 +61,6 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	 */
 	@ReffereredObject
 	Customer customer;
-	private Job job;
 	/**
 	 * The contact of the payee. (His alternate phone number, email, primary
 	 * address etc are entered
@@ -662,11 +661,4 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 
 	}
 
-	public Job getJob() {
-		return job;
-	}
-
-	public void setJob(Job job) {
-		this.job = job;
-	}
 }
