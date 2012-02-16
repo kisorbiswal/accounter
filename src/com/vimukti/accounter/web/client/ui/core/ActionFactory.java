@@ -147,6 +147,7 @@ import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByItemAct
 import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByVendorAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValuationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValutionSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.JobProfitabilitySummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
@@ -1470,5 +1471,9 @@ public class ActionFactory {
 
 	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
 		return new RecurringTransactionDialogAction();
+	}
+	
+	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
+		return new JobProfitabilitySummaryReportAction();
 	}
 }
