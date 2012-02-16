@@ -3714,7 +3714,8 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long companyId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
