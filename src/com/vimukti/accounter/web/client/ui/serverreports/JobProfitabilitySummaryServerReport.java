@@ -1,68 +1,92 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.reports.JobProfitabilitySummary;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class JobProfitabilitySummaryServerReport extends
-		AbstractFinaneReport<JobProfitabilitySummary> {
+		AbstractFinaneReport<JobProfitability> {
+
+	private int customerId;
+	private String customerName;
 
 	public JobProfitabilitySummaryServerReport(
-			IFinanceReport<JobProfitabilitySummary> reportView) {
+			IFinanceReport<JobProfitability> reportView) {
 		this.reportView = reportView;
+	}
+
+	public JobProfitabilitySummaryServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "", "Act. Cost", "Act. Revenue", "Difference" };
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return null;
+		return messages.jobProfitabilitySummary();
 	}
 
 	@Override
 	public String[] getColunms() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "", "Act. Cost", "Act. Revenue", "Difference" };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
-		// TODO Auto-generated method stub
+		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+	}
+
+	@Override
+	public void processRecord(JobProfitability record) {
+		if (sectionDepth == 0) {
+			this.customerId = record.getCustomerId();
+			this.customerName = record.getName();
+			addSection(new String[] {}, new String[] { getMessages().total() },
+					new int[] { 1, 2, 3 });
+		} else if (sectionDepth == 1) {
+			// No need to do anything, just allow adding this record
+			if (customerId != record.getCustomerId()) {
+				endSection();
+			} else {
+				return;
+			}
+		}
+		// Go on recursive calling if we reached this place
+		processRecord(record);
+	}
+
+	@Override
+	public Object getColumnData(JobProfitability record, int index) {
+		switch (index) {
+		case 0:
+			return record.getName();
+		case 1:
+			return record.getCostAmount();
+		case 2:
+			return record.getRevenueAmount();
+		case 3:
+			return record.getRevenueAmount() - record.getCostAmount();
+		}
 		return null;
 	}
 
 	@Override
-	public void processRecord(JobProfitabilitySummary record) {
-		// TODO Auto-generated method stub
-
+	public ClientFinanceDate getStartDate(JobProfitability obj) {
+		return obj.getStartDate();
 	}
 
 	@Override
-	public Object getColumnData(JobProfitabilitySummary record, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ClientFinanceDate getStartDate(JobProfitabilitySummary obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ClientFinanceDate getEndDate(JobProfitabilitySummary obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public ClientFinanceDate getEndDate(JobProfitability obj) {
+		return obj.getEndDate();
 	}
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		// TODO Auto-generated method stub
 
 	}
 
