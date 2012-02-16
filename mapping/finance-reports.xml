@@ -7,57 +7,55 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
-
-		SELECT T.ID,
-		T.T_TYPE,
-		T.T_DATE,
-		P.NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
+		<query-param name="type" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS ORIGINAL_AMOUNT,
+		SO.DELIVERY_DATE AS
+		TRANSACTION_DATE,
+		P.NAME AS VENDOR_NAME,
+		T.STATUS AS TRANSACTION_STATUS
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
-		SALES_ORDER SO
+		ESTIMATE SO
 		ON T.ID = SO.ID
 		LEFT OUTER JOIN
 		PAYEE P
 		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
+		WHERE T.T_TYPE = 7 AND
+		SO.ESTIMATETYPE=6 AND
 		T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.COMPANY_ID=:companyId
-		ORDER BY
-		P.NAME, T.T_DATE
-
+		T.COMPANY_ID=:companyId AND
+		(CASE WHEN :type =-1
+		THEN TRUE WHEN
+		T.STATUS=:type
+		THEN T.SAVE_STATUS != 201
+		ELSE
+		T.SAVE_STATUS=:type END)AND
+		T.SAVE_STATUS != 202
+		ORDER BY P.NAME, T.T_DATE
 	</sql-query>
 
 
-	<sql-query name="getOpenSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		SELECT T.ID,
-		T.T_TYPE,
-		T.T_DATE,
-		P.NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
-		:startDate AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getOpenSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS IN (0, 2) AND T.T_DATE BETWEEN 
+		:startDate AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE 
+		</sql-query> -->
 
 	<sql-query name="getExpenseReportByType">
 		<query-param name="companyId" type="long" />
@@ -163,233 +161,79 @@
 
 	</sql-query>
 
-	<sql-query name="getClosedSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		ESTIMATE SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID 
+		WHERE T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS=4 and T.T_DATE BETWEEN 
+		:startDate AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE 
+		</sql-query> <sql-query name="getCompletedSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 T.STATUS IN (5) AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS=2 and T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+	<!-- <sql-query name="getCanceledSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS =1 AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-	</sql-query>
-
-
-	<sql-query name="getCompletedSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		SELECT T.ID,
-		T.T_TYPE,
-		T.T_DATE,
-		P.NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (102) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.T_DATE BETWEEN :startDate AND :endDate AND T.COMPANY_ID=:companyId 
+		ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 
-	<sql-query name="getCanceledSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
+	<!-- <sql-query name="getOpenPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID =:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		SELECT T.ID,
-		T.T_TYPE,
-		T.T_DATE,
-		P.NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (103) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-
-	<sql-query name="getPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY
-		P.NAME, T.T_DATE
-
-
-	</sql-query>
-
-
-	<sql-query name="getOpenPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
-		:startDate AND :endDate
-		AND T.COMPANY_ID =:companyId ORDER BY P.NAME,
-		T.T_DATE
-
-
-	</sql-query>
-
-	<sql-query name="getClosedPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getClosedPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND 
+		:endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 
 
-	<sql-query name="getCompletedPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
+	<!-- <sql-query name="getCompletedPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-	<sql-query name="getCanceledPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		SELECT T.ID ,
-		T.T_TYPE ,
-		T.T_DATE ,
-		P.NAME ,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-
+	<!-- <sql-query name="getCanceledPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 	<sql-query name="getMinimumAndMaximumTransactionDate">
 		<query-param name="companyId" type="long" />

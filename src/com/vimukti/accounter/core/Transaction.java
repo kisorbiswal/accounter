@@ -63,7 +63,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_PAY_EXPENSE = 19;
 	public static final int TYPE_TAX_RETURN = 20;
 
-	public static final int TYPE_SALES_ORDER = 21;
+	// public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
