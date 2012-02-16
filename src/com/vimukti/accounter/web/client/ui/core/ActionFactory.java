@@ -107,6 +107,7 @@ import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
+import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -138,6 +139,7 @@ import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.EnterExchangeRatesAction;
+import com.vimukti.accounter.web.client.ui.reports.EstimatesByJobAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryItemReportAction;
@@ -627,6 +629,10 @@ public class ActionFactory {
 
 	public static NewCustomerAction getNewCustomerAction() {
 		return new NewCustomerAction();
+	}
+
+	public static NewJobAction getNewJobAction() {
+		return new NewJobAction();
 	}
 
 	public static NewCustomerAction getNewCustomerAction(String quickAddText) {
@@ -1212,6 +1218,10 @@ public class ActionFactory {
 			boolean isLocation) {
 
 		return new ProfitAndLossByLocationAction(isLocation);
+	}
+
+	public static EstimatesByJobAction getEstimatesByJobAction() {
+		return new EstimatesByJobAction();
 	}
 
 	public static BudgetAction getBudgetActions() {

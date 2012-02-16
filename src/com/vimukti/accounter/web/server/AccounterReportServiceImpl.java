@@ -43,10 +43,12 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
+import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -3209,6 +3211,53 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
 			ClientFinanceDate start, ClientFinanceDate end) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<EstimatesByJob> getEstimatesByJob(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+
+		ArrayList<EstimatesByJob> estimatesByJob = new ArrayList<EstimatesByJob>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			estimatesByJob = getFinanceTool().getReportManager()
+					.getEstimatesByJob(financeDates[0], financeDates[1],
+							getCompanyId().longValue());
+			EstimatesByJob obj = new EstimatesByJob();
+			if (estimatesByJob != null)
+				estimatesByJob.add((EstimatesByJob) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return estimatesByJob;
+
+	}
+
+	@Override
+	public ArrayList<JobActualCostDetail> getJobActualCostOrRevenueDetails(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			boolean isActualcostDetail, long transactionId, long jobId) {
+		ArrayList<JobActualCostDetail> jobActualCostDetails = new ArrayList<JobActualCostDetail>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			jobActualCostDetails = getFinanceTool().getReportManager()
+					.getJobActualCostOrRevenueDetails(financeDates[0],
+							financeDates[1], getCompanyId().longValue(),
+							isActualcostDetail, transactionId, jobId);
+			JobActualCostDetail obj = new JobActualCostDetail();
+			if (jobActualCostDetails != null) {
+				jobActualCostDetails
+						.add((JobActualCostDetail) setStartEndDates(obj,
+								financeDates));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

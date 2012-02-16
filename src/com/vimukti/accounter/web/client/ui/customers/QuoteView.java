@@ -115,6 +115,11 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientEstimate ent = this.transaction;
 
@@ -431,6 +436,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		deliveryDate = createTransactionDeliveryDateItem();
 		deliveryDate.setEnteredDate(getTransactionDate());
 		DynamicForm locationform = new DynamicForm();
+		jobListCombo = createJobListCombo();
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (type == ClientEstimate.QUOTES) {
+				phoneForm.setFields(jobListCombo);
+			} else {
+				locationform.setFields(jobListCombo);
+			}
+		}
 		if (locationTrackingEnabled) {
 			if (type == ClientEstimate.QUOTES) {
 				phoneForm.setFields(locationCombo);
@@ -744,7 +757,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		transaction = quote;
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		transaction.setEstimateType(type);
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
@@ -930,6 +945,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 		superinitTransactionViewData();
 		initAllItems();
 		initAccounterClass();
@@ -1164,6 +1182,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			classListCombo.setDisabled(isInViewMode());
 		}
 		statusCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 

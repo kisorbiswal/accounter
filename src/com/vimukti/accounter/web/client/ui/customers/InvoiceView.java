@@ -88,7 +88,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
 	private AmountLabel netAmountLabel, balanceDueNonEditableText,
 			paymentsNonEditableText;
-
+	private DynamicForm termsForm;
 	// private WarehouseAllocationTable table;
 	// private DisclosurePanel inventoryDisclosurePanel;
 
@@ -192,7 +192,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void createControls() {
 		Label lab1;
 		DynamicForm dateNoForm = new DynamicForm();
-		DynamicForm termsForm = new DynamicForm();
+		termsForm = new DynamicForm();
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		DynamicForm vatForm = new DynamicForm();
@@ -351,6 +351,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			termsForm.setFields(jobListCombo);
+		}
 		// termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(messages.terms());
@@ -874,7 +878,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
-
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+		}
 		this.setCustomer(customer);
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -919,7 +927,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		transaction.setEstimates(new ArrayList<ClientEstimate>());
 		transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
 		getEstimatesAndSalesOrder();
-
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1083,6 +1090,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
+
+			if (getPreferences().isJobTrackingEnabled()) {
+				jobSelected(company.getjob(transaction.getJob()));
+			}
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
@@ -1386,6 +1397,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				}
 			}
 		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		transaction.setNetAmount(netAmountLabel.getAmount());
 		if (isTrackTax()) {
 			// if (isTaxPerDetailLine()) {
@@ -1679,6 +1693,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			paymentsNonEditableText.setVisible(isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+		}
 		enableAttachmentPanel(!isInViewMode());
 	}
 
