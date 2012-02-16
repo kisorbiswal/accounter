@@ -118,13 +118,23 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 		return list;
 	}
 
+	private int checkViewType(String view) {
+		if (view.equalsIgnoreCase(getMessages().open())) {
+			return (VIEW_OPEN);
+		} else if (view.equalsIgnoreCase(getMessages().voided())) {
+			return (VIEW_VOIDED);
+		} else if (view.equalsIgnoreCase(getMessages().overDue())) {
+			return (VIEW_OVERDUE);
+		}
+		return VIEW_ALL;
+	}
+
 	private List<InvoicesList> getInvoices(Context context) {
 		String viewType = get(VIEW_BY).getValue();
 		try {
 			return new FinanceTool().getInventoryManager().getInvoiceList(
 					context.getCompany().getId(), getStartDate().getDate(),
-					getEndDate().getDate(), 0,
-					getViewByList().indexOf(viewType) + 1, 0, -1);
+					getEndDate().getDate(), 0, checkViewType(viewType), 0, -1);
 		} catch (Exception e) {
 		}
 		return new ArrayList<InvoicesList>();
