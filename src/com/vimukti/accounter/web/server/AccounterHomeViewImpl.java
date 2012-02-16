@@ -110,7 +110,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -1076,24 +1075,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientReceivePaymentList;
 	}
 
-	@Override
-	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
-			long toDate) throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(fromDate), new ClientFinanceDate(
-							toDate), getCompanyId());
-			return tool != null ? tool.getPurchageManager()
-					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate()) : null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	/*
 	 * @Override public List<SalesOrdersList> getPurchaseOrdersForVendor(long
 	 * vendorID) throws AccounterException {
@@ -1102,24 +1083,24 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * 
 	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
 	 */
-	@Override
-	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
-			long toDate) throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(fromDate), new ClientFinanceDate(
-							toDate), getCompanyId());
-			return tool != null ? tool.getSalesManager().getSalesOrdersList(
-					getCompanyId(), dates[0].getDate(), dates[1].getDate())
-					: null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	// @Override
+	// public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
+	// long toDate) throws AccounterException {
+	//
+	// FinanceTool tool = getFinanceTool();
+	//
+	// try {
+	// FinanceDate[] dates = getMinimumAndMaximumDates(
+	// new ClientFinanceDate(fromDate), new ClientFinanceDate(
+	// toDate), getCompanyId());
+	// return tool != null ? tool.getSalesManager().getSalesOrdersList(
+	// getCompanyId(), dates[0].getDate(), dates[1].getDate())
+	// : null;
+	// } catch (DAOException e) {
+	// e.printStackTrace();
+	// }
+	// return null;
+	// }
 
 	/*
 	 * @Override public List<SalesOrdersList> getSalesOrdersForCustomer(long
@@ -2223,5 +2204,23 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 
 		return transactionsList;
+	}
+
+	@Override
+	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+			long toDate, int type, int start, int length)
+			throws AccounterException {
+		try {
+			FinanceTool tool = getFinanceTool();
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
+			return tool != null ? tool.getPurchageManager()
+					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), type, start, length) : null;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

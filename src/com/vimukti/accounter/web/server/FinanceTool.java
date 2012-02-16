@@ -85,13 +85,13 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
@@ -2110,10 +2110,10 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
-			session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
-					.setLong("fromID", fromClientItem.getID())
-					.setLong("toID", toClientItem.getID())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
+			// .setLong("fromID", fromClientItem.getID())
+			// .setLong("toID", toClientItem.getID())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.trasactionexpense.old.tonew")
 					.setLong("fromID", fromClientItem.getID())
@@ -2222,6 +2222,8 @@ public class FinanceTool {
 		} else if (newTransaction instanceof EnterBill) {
 			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
+					.setPurchaseOrders(new ArrayList<PurchaseOrder>());
+			((EnterBill) newTransaction)
 					.setTransactionPayBills(new HashSet<TransactionPayBill>());
 			((EnterBill) newTransaction).setBalanceDue(newTransaction
 					.getTotal());
@@ -2233,6 +2235,8 @@ public class FinanceTool {
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
 		} else if (newTransaction instanceof Estimate) {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
+		} else if (newTransaction instanceof PurchaseOrder) {
+			((PurchaseOrder) newTransaction).setUsedBill(null, session);
 		}
 
 		session.setFlushMode(flushMode);

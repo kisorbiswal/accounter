@@ -617,7 +617,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(messages.Account());
+		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
+			
+		};
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -626,7 +628,13 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 		expenseAccountsSelect.setDisabled(isInViewMode());
-
+		List<ClientAccount> list = new ArrayList<ClientAccount>();
+		for(ClientAccount account : getCompany().getAccounts()) {
+			if(account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account.getType() == ClientAccount.TYPE_EXPENSE) {
+				list.add(account);
+			}
+		}
+		expenseAccountsSelect.initCombo(list);
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency());
 		creditLimitText.setHelpInformation(true);

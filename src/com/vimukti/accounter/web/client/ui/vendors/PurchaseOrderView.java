@@ -38,6 +38,7 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.ShipToForm;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -79,10 +80,6 @@ public class PurchaseOrderView extends
 	private TextAreaItem billtoAreaItem;
 	private ShipToForm shipToAddress;
 	private DateField dueDateItem;
-
-	private long dueDate;
-	private long despatchDate;
-	private long deliveryDate;
 
 	VerticalPanel amountsForm;
 
@@ -803,9 +800,6 @@ public class PurchaseOrderView extends
 			// status = "Applied";
 			// lab1.setText(FinanceApplication.constants().purchaseOrder()
 			// + " (" + status + ")");
-			this.dueDate = transaction.getDueDate();
-			this.despatchDate = transaction.getDespatchDate();
-			this.deliveryDate = transaction.getDeliveryDate();
 
 			this.transactionItems = transaction.getTransactionItems();
 			initTransactionNumber();
@@ -911,7 +905,7 @@ public class PurchaseOrderView extends
 		itemsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ITEM, false));
-
+		initTransactionNumber();
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
 		}
@@ -1046,15 +1040,17 @@ public class PurchaseOrderView extends
 				|| vendorItemTransactionTable == null) {
 			return;
 		}
-		ClientTAXCode tax = taxCodeSelect.getSelectedValue();
-		if (tax != null) {
-			for (ClientTransactionItem item : vendorAccountTransactionTable
-					.getRecords()) {
-				item.setTaxCode(tax.getID());
-			}
-			for (ClientTransactionItem item : vendorItemTransactionTable
-					.getRecords()) {
-				item.setTaxCode(tax.getID());
+		if (taxCodeSelect != null) {
+			ClientTAXCode tax = taxCodeSelect.getSelectedValue();
+			if (tax != null) {
+				for (ClientTransactionItem item : vendorAccountTransactionTable
+						.getRecords()) {
+					item.setTaxCode(tax.getID());
+				}
+				for (ClientTransactionItem item : vendorItemTransactionTable
+						.getRecords()) {
+					item.setTaxCode(tax.getID());
+				}
 			}
 		}
 		double lineTotal = vendorAccountTransactionTable.getLineTotal()
@@ -1118,7 +1114,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
+			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
@@ -1152,10 +1148,8 @@ public class PurchaseOrderView extends
 					.getDate()));
 
 		transaction.setMemo(getMemoTextAreaItem());
-		if (transaction.getNetAmount() != 0)
-			transaction
-					.setNetAmount(vendorAccountTransactionTable.getLineTotal()
-							+ vendorItemTransactionTable.getLineTotal());
+		transaction.setNetAmount(vendorAccountTransactionTable.getLineTotal()
+				+ vendorItemTransactionTable.getLineTotal());
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
 				+ vendorItemTransactionTable.getGrandTotal());
 		// transaction.setReference(getRefText());
@@ -1386,7 +1380,10 @@ public class PurchaseOrderView extends
 
 				@Override
 				public void onException(AccounterException caught) {
-					Accounter.showError(caught.getMessage());
+					int errorCode = ((AccounterException) caught)
+							.getErrorCode();
+					Accounter.showError(AccounterExceptions
+							.getErrorString(errorCode));
 				}
 
 				@Override
@@ -1400,7 +1397,6 @@ public class PurchaseOrderView extends
 			AccounterCoreType type = UIUtils.getAccounterCoreType(transaction
 					.getType());
 			this.rpcDoSerivce.canEdit(type, transaction.id, editCallBack);
-
 		}
 
 	}
@@ -1413,7 +1409,8 @@ public class PurchaseOrderView extends
 		shipToAddress.businessSelect.setDisabled(isInViewMode());
 		// shipToCombo.setDisabled(isEdit);
 		ClientTransactionItem item = new ClientTransactionItem();
-		if (!DecimalUtil.isEquals(item.getInvoiced(), 0)) {
+		if (!DecimalUtil.isEquals(
+				item.getInvoiced() == null ? 0 : item.getInvoiced(), 0)) {
 			vendorCombo.setDisabled(isInViewMode());
 		} else {
 			vendorCombo.setDisabled(true);
@@ -1586,21 +1583,6 @@ public class PurchaseOrderView extends
 					.currencyTotal(formalName));
 		}
 		netAmount.setTitle(messages.currencyNetAmount(formalName));
-	}
-
-	@Override
-	protected boolean canDelete() {
-		return false;
-	}
-
-	@Override
-	protected boolean canVoid() {
-		return false;
-	}
-
-	@Override
-	protected boolean canRecur() {
-		return false;
 	}
 
 	protected void updateDiscountValues() {
