@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
+import com.vimukti.accounter.web.client.ui.reports.JobActualCostDetailReport;
 
 public class JobActualCostDetailServerReport extends
 		AbstractFinaneReport<JobActualCostDetail> {
@@ -20,6 +21,12 @@ public class JobActualCostDetailServerReport extends
 	public JobActualCostDetailServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
+	}
+
+	public JobActualCostDetailServerReport(
+			JobActualCostDetailReport jobActualCostDetailReport,
+			boolean isActualcostDetail) {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
