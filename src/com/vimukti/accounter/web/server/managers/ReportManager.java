@@ -35,6 +35,7 @@ import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -3736,5 +3737,11 @@ public class ReportManager extends Manager {
 			list.add(job);
 		}
 		return list;
+	}
+
+	public ArrayList<UnBilledCostsByJob> getUnBilledCostsByJobReport(
+			Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
