@@ -71,7 +71,7 @@ public class VATItemSummaryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(VATItemSummary selection) {
-		return "VAT Item Detail ," + selection.getName();
+		return "vatItemDetail ," + selection.getName();
 	}
 
 	@Override
