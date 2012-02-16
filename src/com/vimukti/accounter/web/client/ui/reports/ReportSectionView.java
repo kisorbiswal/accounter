@@ -25,11 +25,11 @@ public class ReportSectionView extends BaseHomeView {
 	private Map<String, String> companyAndFinancialMap,
 			customersAndRecievableMap, inventoryMap, budgetMap, taxMap,
 			vendorAndPayableMap, salesMap, purchaseMap, fixedAssetMap,
-			ukTaxMap;
+			ukTaxMap, bankingMap;
 	private FlowPanel companyAndFinancialPanel, customersAndRecievablePanel,
 			inventoryPanel, budgetPanel, taxPanel, vendorAndPayablePanel,
 			salesPanel, purchasePanel, fixedAssetPanel, mainTaxPanel,
-			ukTaxPanel;
+			ukTaxPanel, bankingPanel;
 
 	private FlowPanel rightPanel, leftPanel;
 	private HorizontalPanel mainPanel;
@@ -48,6 +48,7 @@ public class ReportSectionView extends BaseHomeView {
 		companyAndFinancialMap = new HashMap<String, String>();
 		customersAndRecievableMap = new HashMap<String, String>();
 		inventoryMap = new HashMap<String, String>();
+		bankingMap = new HashMap<String, String>();
 		budgetMap = new HashMap<String, String>();
 		taxMap = new HashMap<String, String>();
 		vendorAndPayableMap = new HashMap<String, String>();
@@ -61,6 +62,7 @@ public class ReportSectionView extends BaseHomeView {
 		Label customersAndRecievableHeader = new Label(
 				messages.customersAndReceivable(Global.get().Customers()));
 		Label inventoryHeader = new Label(messages.inventory());
+		Label bankingHeader = new Label(messages.banking());
 		Label budgetHeader = new Label(messages.budget());
 		Label vendorAndPayableHeader = new Label(
 				messages.vendorsAndPayables(Global.get().Vendors()));
@@ -75,6 +77,8 @@ public class ReportSectionView extends BaseHomeView {
 		customersAndRecievablePanel.addStyleName("section");
 		inventoryPanel = new FlowPanel();
 		inventoryPanel.addStyleName("section");
+		bankingPanel = new FlowPanel();
+		bankingPanel.addStyleName("section");
 		budgetPanel = new FlowPanel();
 		budgetPanel.addStyleName("section");
 		taxPanel = new FlowPanel();
@@ -236,6 +240,12 @@ public class ReportSectionView extends BaseHomeView {
 		// ActionFactory
 		// .getInventoryStockStatusByVendorAction().getHistoryToken());
 
+		// for banking
+		bankingMap.put(messages.depositDetail(), ActionFactory
+				.getBankDepositDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.checkDetail(), ActionFactory
+				.getBankCheckDetailReportAction().getHistoryToken());
+
 		// TAX tab for uk country
 		ukTaxMap.put(messages.priorVATReturns(), ActionFactory
 				.getVATSummaryReportAction().getHistoryToken());
@@ -265,6 +275,7 @@ public class ReportSectionView extends BaseHomeView {
 		addLinksToPanel(companyAndFinancialMap, companyAndFinancialPanel);
 		addLinksToPanel(customersAndRecievableMap, customersAndRecievablePanel);
 		addLinksToPanel(inventoryMap, inventoryPanel);
+		addLinksToPanel(bankingMap, bankingPanel);
 		addLinksToPanel(budgetMap, budgetPanel);
 		addLinksToPanel(ukTaxMap, ukTaxPanel);
 		addLinksToPanel(taxMap, taxPanel);
@@ -289,6 +300,8 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.add(customersAndRecievablePanel);
 		leftPanel.add(inventoryHeader);
 		leftPanel.add(inventoryPanel);
+		leftPanel.add(bankingHeader);
+		leftPanel.add(bankingPanel);
 
 		rightPanel.add(budgetHeader);
 		rightPanel.add(budgetPanel);
