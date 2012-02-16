@@ -58,6 +58,8 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
+	public final static int REPORT_TYPE_BANK_DEPOSIT_REPORT = 179;
+	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 
 	protected ReportToolbar toolbar;
 

@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
-import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -67,8 +66,10 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		super.onAttach();
 	}
 
+	CheckBox checkBox;
+
 	private void createColumns(boolean isAllrowsSelected) {
-		CheckBox checkBox = new CheckBox(messages.selectAll());
+		checkBox = new CheckBox(messages.selectAll());
 		checkBox.setValue(isAllrowsSelected);
 		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -95,6 +96,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		creditsTree = null;
 		billableTree = null;
 		salesOrderTree = null;
+		purchaseOrderTree = null;
 		boolean isAllrowsSelected = false;
 		if (result.isEmpty() && isNew) {
 			return;
@@ -132,45 +134,22 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 	}
 
 	private void addQuotesTreeItem(EstimatesAndSalesOrdersList result) {
-		ClientCompanyPreferences preferences = Accounter.getCompany()
-				.getPreferences();
-		boolean isAllowedToAdd = false;
-		if (result.getEstimateType() == ClientEstimate.QUOTES) {
-			isAllowedToAdd = preferences.isDoyouwantEstimates()
-					&& !preferences.isDontIncludeEstimates();
-		} else if (result.getEstimateType() == ClientEstimate.CHARGES) {
-			isAllowedToAdd = preferences.isDelayedchargesEnabled();
-		} else if (result.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
-				|| result.getEstimateType() == ClientEstimate.DEPOSIT_EXAPENSES) {
-			isAllowedToAdd = preferences
-					.isBillableExpsesEnbldForProductandServices()
-					&& preferences
-							.isProductandSerivesTrackingByCustomerEnabled();
-		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
-			isAllowedToAdd = preferences.isDelayedchargesEnabled();
-			// } else if (result.getEstimateType() ==
-			// ClientEstimate.SALES_ORDER) {
-			// isAllowedToAdd = preferences.isSalesOrderEnabled();
-		}
-		if (isAllowedToAdd) {
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.ESTIMATE, result.getTransactionId(),
-					new AsyncCallback<ClientEstimate>() {
+		Accounter.createGETService().getObjectById(AccounterCoreType.ESTIMATE,
+				result.getTransactionId(), new AsyncCallback<ClientEstimate>() {
 
-						@Override
-						public void onFailure(Throwable caught) {
-							Accounter.showError(messages
-									.unableToLoadRequiredQuote());
-						}
+					@Override
+					public void onFailure(Throwable caught) {
+						Accounter.showError(messages
+								.unableToLoadRequiredQuote());
+					}
 
-						@Override
-						public void onSuccess(ClientEstimate result) {
-							if (result != null) {
-								addAllQuoteTransactionTreeItem(result, false);
-							}
+					@Override
+					public void onSuccess(ClientEstimate result) {
+						if (result != null) {
+							addAllQuoteTransactionTreeItem(result, false);
 						}
-					});
-		}
+					}
+				});
 	}
 
 	protected void addAllQuoteTransactionTreeItem(ClientEstimate result,
@@ -184,9 +163,8 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 			addBillableTransactionTreeItem(result, isSelected);
 		} else if (result.getEstimateType() == ClientEstimate.CREDITS) {
 			addCreditsTransactionTreeItem(result, isSelected);
-			// } else if (result.getEstimateType() ==
-			// ClientEstimate.SALES_ORDER) {
-			// addSalesOrderTransactionTreeItem(result, isSelected);
+		} else if (result.getEstimateType() == ClientEstimate.SALES_ORDER) {
+			addSalesOrderTransactionTreeItem(result, isSelected);
 		}
 		setEnabled(isinViewMode());
 	}
@@ -518,7 +496,7 @@ public abstract class TransactionsTree<T> extends SimplePanel {
 		return grandTotal;
 	}
 
-	public void quotesSelected(List<ClientTransaction> estimates) {
+	public void setRecords(List<ClientTransaction> estimates) {
 		for (ClientTransaction estimate : estimates) {
 			if (estimate instanceof ClientEstimate) {
 				addEstimateTreeItemRow((ClientEstimate) estimate);

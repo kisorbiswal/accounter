@@ -12,11 +12,8 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
 
 public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
-	private PurchaseOrderListView view;
-
 	public PurchaseOrderListGrid(PurchaseOrderListView purchaseOrderListView) {
 		super(false);
-		this.view = purchaseOrderListView;
 	}
 
 	@Override
@@ -44,7 +41,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 			return obj.getVendorName();
 		case 3:
 			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(),
-					getCompany().getPrimaryCurrency());
+					obj.getCurrency());
 
 		default:
 			break;

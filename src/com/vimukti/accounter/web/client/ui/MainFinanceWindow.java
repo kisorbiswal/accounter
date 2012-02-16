@@ -548,10 +548,12 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), ActionFactory
 				.getPaymentsAction(PaymentsAction.BANKING));
 
-		actions.put(ActionFactory.getSalesOrderAction().getHistoryToken(),
-				ActionFactory.getSalesOrderAction());
-		actions.put(ActionFactory.getSalesOrderListAction().getHistoryToken(),
-				ActionFactory.getSalesOrderListAction());
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.SALES_ORDER)
+				.getHistoryToken(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.SALES_ORDER));
+		actions.put(ActionFactory.getQuotesAction(ClientEstimate.SALES_ORDER)
+				.getHistoryToken(), ActionFactory
+				.getQuotesAction(ClientEstimate.SALES_ORDER));
 		actions.put(ActionFactory.getSalesOpenOrderAction().getHistoryToken(),
 				ActionFactory.getSalesOpenOrderAction());
 
@@ -930,9 +932,21 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getDepositAction().getHistoryToken(),
 				ActionFactory.getDepositAction());
 
+		actions.put(ActionFactory.getImportAction().getHistoryToken(),
+				ActionFactory.getImportAction());
+
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
-	}
+
+		// for banking reports
+		actions.put(ActionFactory.getBankDepositDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getBankDepositDetailReportAction());
+		actions.put(ActionFactory.getBankCheckDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getBankCheckDetailReportAction());
+
+		}
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();

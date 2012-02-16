@@ -12,11 +12,6 @@ import com.vimukti.accounter.web.client.core.ClientInvoice;
 public class InvoiceImporter extends AbstractImporter<ClientInvoice> {
 
 	@Override
-	public Type getType() {
-		return Type.INVOICE;
-	}
-
-	@Override
 	protected List<Field<?>> getAllFields() {
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 
@@ -24,6 +19,16 @@ public class InvoiceImporter extends AbstractImporter<ClientInvoice> {
 		fields.add(new Field<String>("number"));
 
 		return fields;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public ClientInvoice getData() {
+		ClientInvoice invoice = new ClientInvoice();
+		Field<String> fieldByName = (Field<String>) getFieldByName("customer");
+		String value = fieldByName.getValue();
+		invoice.setCustomer(getCustomerByName(value));
+		return invoice;
 	}
 
 }

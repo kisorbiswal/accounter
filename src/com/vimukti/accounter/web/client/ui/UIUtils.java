@@ -1194,9 +1194,6 @@ public class UIUtils {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			return AccounterCoreType.JOURNALENTRY;
 
-		case ClientTransaction.TYPE_SALES_ORDER:
-			return AccounterCoreType.SALESORDER;
-
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			return AccounterCoreType.PURCHASEORDER;
 
@@ -2079,7 +2076,6 @@ public class UIUtils {
 		case ClientTransaction.TYPE_ESTIMATE:
 		case ClientTransaction.TYPE_INVOICE:
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-		case ClientTransaction.TYPE_SALES_ORDER:
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			return ClientTransaction.CATEGORY_CUSTOMER;
 

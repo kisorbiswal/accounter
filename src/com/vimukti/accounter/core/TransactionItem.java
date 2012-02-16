@@ -529,13 +529,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			} else {
 				return est.getUsedInvoice() != null;
 			}
-		case Transaction.TYPE_SALES_ORDER:
-			SalesOrder order = ((SalesOrder) transaction);
-			if (whenDeleting) {
-				return order.getUsedInvoice() != order.getOldUsedInvoice();
-			} else {
-				return order.getUsedInvoice() != null;
-			}
 		case Transaction.TYPE_PURCHASE_ORDER:
 			return ((PurchaseOrder) transaction).getUsedBill() != null;
 		default:
@@ -925,12 +918,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			mergreChanges(newPurchases, useAverage, averageCost);
 
 			Account assetsAccount = getItem().getAssestsAccount();
+			if (assetsAccount != null) {
+				assetsAccount.updateCurrentBalance(getTransaction(),
+						-amountToReverseUpdate, 1);
+				assetsAccount.updateCurrentBalance(getTransaction(),
+						amountToUpdate, 1);
+				session.saveOrUpdate(assetsAccount);
+			}
 
-			assetsAccount.updateCurrentBalance(getTransaction(),
-					-amountToReverseUpdate, 1);
-			assetsAccount.updateCurrentBalance(getTransaction(),
-					amountToUpdate, 1);
-			session.saveOrUpdate(assetsAccount);
 		}
 	}
 
@@ -986,12 +981,14 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private double createPurchase(Session session, Quantity qty, double cost) {
 		double purchaseValue = qty.getValue() * cost;
 		Account expenseAccount = getExpenseAccountForInventoryPurchase();
-		expenseAccount
-				.updateCurrentBalance(getTransaction(), -purchaseValue, 1);
-		InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
-				expenseAccount, qty, cost);
-		session.save(inventoryPurchase);
-		getPurchases().add(inventoryPurchase);
+		if (expenseAccount != null) {
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					-purchaseValue, 1);
+			InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
+					expenseAccount, qty, cost);
+			session.save(inventoryPurchase);
+			getPurchases().add(inventoryPurchase);
+		}
 		return purchaseValue;
 	}
 

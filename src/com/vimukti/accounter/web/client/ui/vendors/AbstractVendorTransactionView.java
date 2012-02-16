@@ -783,13 +783,12 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 							messages.taxExceptionMesg());
 				}
 			}
-			if (!isTaxPerDetailLine()) {
+			if ((!(this instanceof VendorBillView)) && !isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
 							messages.pleaseSelect(messages.taxCode()));
 				}
-
 			}
 		}
 		return result;

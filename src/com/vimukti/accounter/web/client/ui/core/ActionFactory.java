@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
@@ -112,8 +113,6 @@ import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivedPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.RecurringsListAction;
-import com.vimukti.accounter.web.client.ui.customers.SalesOrderAction;
-import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.DisposingRegisteredItemAction;
@@ -129,6 +128,8 @@ import com.vimukti.accounter.web.client.ui.reports.ARAgingDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.ARAgingSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.AutomaticTransactionsAction;
 import com.vimukti.accounter.web.client.ui.reports.BalanceSheetAction;
+import com.vimukti.accounter.web.client.ui.reports.BankCheckDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.BankDepositDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewReportAction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetvsActualsAction;
 import com.vimukti.accounter.web.client.ui.reports.CashFlowStatementAction;
@@ -153,7 +154,6 @@ import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction;
-import com.vimukti.accounter.web.client.ui.reports.PurchaseClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
@@ -166,7 +166,6 @@ import com.vimukti.accounter.web.client.ui.reports.SalesByItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByItemSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
-import com.vimukti.accounter.web.client.ui.reports.SalesClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
 import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
@@ -262,6 +261,14 @@ public class ActionFactory {
 
 	public static InventoryItemsAction getInventoryItemsAction() {
 		return new InventoryItemsAction();
+	}
+
+	public static BankDepositDetailReportAction getBankDepositDetailReportAction() {
+		return new BankDepositDetailReportAction();
+	}
+
+	public static BankCheckDetailReportAction getBankCheckDetailReportAction() {
+		return new BankCheckDetailReportAction();
 	}
 
 	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction() {
@@ -752,14 +759,6 @@ public class ActionFactory {
 		return new CustomerRefundsAction();
 	}
 
-	public static SalesOrderAction getSalesOrderAction() {
-		return new SalesOrderAction();
-	}
-
-	public static SalesOrderListAction getSalesOrderListAction() {
-		return new SalesOrderListAction();
-	}
-
 	public static NewSalesperSonAction getNewSalesperSonAction() {
 		return new NewSalesperSonAction();
 	}
@@ -935,17 +934,19 @@ public class ActionFactory {
 		return new PurchaseOpenOrderAction();
 	}
 
-	public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
-		return new PurchaseClosedOrderAction();
-	}
-
+	//
+	// public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
+	// return new PurchaseClosedOrderAction();
+	// }
+	//
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {
 		return new SalesOpenOrderAction();
 	}
 
-	public static SalesClosedOrderAction getSalesCloseOrderAction() {
-		return new SalesClosedOrderAction();
-	}
+	//
+	// public static SalesClosedOrderAction getSalesCloseOrderAction() {
+	// return new SalesClosedOrderAction();
+	// }
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
 		return new VATDetailsReportAction();
@@ -1127,7 +1128,6 @@ public class ActionFactory {
 	}
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
-
 		return new VendorPaymentsListAction();
 	}
 
@@ -1461,4 +1461,9 @@ public class ActionFactory {
 	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
 		return new RecurringTransactionDialogAction();
 	}
+
+	public static ImportAction getImportAction() {
+		return new ImportAction();
+	}
+
 }

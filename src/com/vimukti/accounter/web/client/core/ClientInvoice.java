@@ -48,8 +48,6 @@ public class ClientInvoice extends ClientTransaction {
 
 	List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 
-	List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
-
 	String orderNum;
 
 	ClientTAXItemGroup taxItemGroup;
@@ -228,14 +226,6 @@ public class ClientInvoice extends ClientTransaction {
 	 */
 	public Set<ClientTransactionReceivePayment> getTransactionReceivePayments() {
 		return transactionReceivePayments;
-	}
-
-	public List<ClientSalesOrder> getSalesOrders() {
-		return salesOrders;
-	}
-
-	public void setSalesOrders(List<ClientSalesOrder> salesOrders) {
-		this.salesOrders = salesOrders;
 	}
 
 	/**
@@ -512,7 +502,6 @@ public class ClientInvoice extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.INVOICE;
@@ -533,16 +522,5 @@ public class ClientInvoice extends ClientTransaction {
 		clientInvoiceClone.billingAddress = this.billingAddress.clone();
 		clientInvoiceClone.shippingAdress = this.shippingAdress.clone();
 		return clientInvoiceClone;
-	}
-
-	public List<ClientTransaction> getSalesAndEstimates() {
-		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
-		if (getEstimates() != null) {
-			transactions.addAll(getEstimates());
-		}
-		// for (ClientTransaction clientTransaction : this.getSalesOrders()) {
-		// transactions.add(clientTransaction);
-		// }
-		return transactions;
 	}
 }

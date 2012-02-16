@@ -46,7 +46,8 @@ public class CustomFieldDialog extends BaseDialog {
 	}
 
 	public void createControls() {
-		customFieldTable = new CustomFieldTable();
+		customFieldTable = new CustomFieldTable() {
+		};
 
 		addNew = new Button();
 		addNew.setText(messages.add());
@@ -101,6 +102,7 @@ public class CustomFieldDialog extends BaseDialog {
 				customFields2.add(f);
 				saveOrUpdate(f);
 			} else {
+				delete(f);
 				customFieldTable.delete(f);
 			}
 		}
@@ -121,6 +123,11 @@ public class CustomFieldDialog extends BaseDialog {
 			public void deleteSuccess(IAccounterCore result) {
 				System.out.println();
 				company.deleteCustomField(result.getID());
+				if (parentView instanceof CustomerView) {
+					((CustomerView) parentView).createCustomFieldControls();
+				} else {
+					((VendorView) parentView).createCustomFieldControls();
+				}
 			}
 
 			@Override

@@ -4,26 +4,25 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.SalesOrderServerReport;
 
-public class PurchaseOpenOrderReport extends
-		AbstractReportView<OpenAndClosedOrders> {
+public class SalesOrderReport extends AbstractReportView<OpenAndClosedOrders> {
 
 	private long status;
 
-	public PurchaseOpenOrderReport() {
-		this.serverReport = new PurchaseOpenOrderServerReport(this);
+	public SalesOrderReport() {
+		this.serverReport = new SalesOrderServerReport(this);
 	}
 
 	@Override
 	public void init() {
+
 		super.init();
-		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(), messages.thisMonth(),
-				messages.lastWeek(), messages
-						.lastMonth(),
-				messages.thisFinancialYear(), messages.lastFinancialYear(), messages
-						.thisFinancialQuarter(), messages
-						.lastFinancialQuarter(), messages.custom());
+		toolbar.setDateRanageOptions(messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
+				messages.lastFinancialQuarter(), messages.custom());
 	}
 
 	@Override
@@ -42,24 +41,16 @@ public class PurchaseOpenOrderReport extends
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void makeReportRequest(int status, ClientFinanceDate start,
 			ClientFinanceDate end) {
-		if (status == 1)
-			Accounter.createReportService().getPurchaseOpenOrderReport(start,
-					end, this);
-		else if (status == 2)
-			Accounter.createReportService().getPurchaseCompletedOrderReport(
-					start, end, this);
-		else if (status == 3)
-			Accounter.createReportService().getPurchaseCancelledOrderReport(
-					start, end, this);
-		else
-			Accounter.createReportService().getPurchaseOrderReport(start, end,
-					this);
+		Accounter.createReportService().getSalesOrderReport(status, start, end,
+				this);
+
 		this.status = status;
 	}
 
@@ -70,9 +61,10 @@ public class PurchaseOpenOrderReport extends
 
 	@Override
 	public void print() {
+
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 134, "",
+				Integer.parseInt(String.valueOf(endDate.getDate())), 125, "",
 				"", status);
 	}
 
@@ -95,11 +87,10 @@ public class PurchaseOpenOrderReport extends
 					obj2.getTransactionDate());
 
 		case 1:
-			return obj1.getVendorOrCustomerName().toLowerCase()
-					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
+			return obj1.getNumber().compareTo(obj2.getNumber());
 
 			// case 2:
-			// // if (isPurchases)
+			// // if (isSales)
 			// return obj1.getDescription().toLowerCase().compareTo(
 			// obj2.getDescription().toLowerCase());
 			// else
@@ -108,8 +99,10 @@ public class PurchaseOpenOrderReport extends
 			// case 2:
 			// return UIUtils
 			// .compareDouble(obj1.getQuantity(), obj2.getQuantity());
-
 		case 2:
+			return obj1.getVendorOrCustomerName().toLowerCase()
+					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
+		case 3:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
 		}
@@ -119,7 +112,7 @@ public class PurchaseOpenOrderReport extends
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 134, "",
+				Integer.parseInt(String.valueOf(endDate.getDate())), 125, "",
 				"", status);
 	}
 }

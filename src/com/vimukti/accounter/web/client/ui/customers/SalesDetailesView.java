@@ -1,17 +1,11 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
-import java.util.List;
-
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
-import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.AbstractView;
 
 /**
@@ -102,8 +96,7 @@ public class SalesDetailesView extends AbstractView {
 		orderNumberField = new HTML();
 
 		Label conLabel = new Label();
-		conLabel.setText(messages.payeeOrderNumber(
-				Global.get().customer()));
+		conLabel.setText(messages.payeeOrderNumber(Global.get().customer()));
 		conLabel.setStyleName("selectedview_labelstyle");
 
 		customerNumberField = new HTML();
@@ -172,47 +165,10 @@ public class SalesDetailesView extends AbstractView {
 	 */
 	public void setEmptyMessage() {
 		flexTable.clear();
-		flexTable.setWidget(0, 0, new HTML(messages
-				.selectATaskNotetoSeeTheDetails()));
+		flexTable.setWidget(0, 0,
+				new HTML(messages.selectATaskNotetoSeeTheDetails()));
 		cellFormatter.setHeight(0, 0, "300px");
 		cellFormatter.setAlignment(0, 0, ALIGN_CENTER, ALIGN_MIDDLE);
-	}
-
-	/**
-	 * this method responsibility is assign the sales order values for
-	 * corresponding Fields
-	 * 
-	 * @param salesOrder
-	 */
-	public void setObjValues(ClientSalesOrder salesOrder) {
-
-		refreshView();
-
-		List<ClientTransactionItem> transactionItems = salesOrder
-				.getTransactionItems();
-		itemsGrid.setRecords(transactionItems);
-
-		orderNumberField.setText(String.valueOf(salesOrder.getNumber()));
-		if (salesOrder.getCustomerOrderNumber() != null)
-			customerNumberField.setText(String.valueOf(salesOrder
-					.getCustomerOrderNumber()));
-		dueDateField.setText(UIUtils
-				.getDateByCompanyType(new ClientFinanceDate(salesOrder
-						.getDueDate())));
-		if (salesOrder.getStatus() == 101)
-			statusField.setText(messages.open());
-		else if (salesOrder.getStatus() == 102)
-			statusField.setText(messages.completed());
-		else if (salesOrder.getStatus() == 103)
-			statusField.setText(messages.cancelled());
-		ClientAddress address = salesOrder.getBillingAddress();
-		if (address != null) {
-			billingAdress.setHTML(addressInfo(address));
-		}
-		address = salesOrder.getShippingAdress();
-		if (address != null) {
-			shippingAdress.setHTML(addressInfo(address));
-		}
 	}
 
 	/**

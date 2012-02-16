@@ -74,14 +74,13 @@ public class FileTAXView extends AbstractFileTAXView {
 
 			@Override
 			public void print() {
-				TaxAgencyStartDateEndDateToolbar bar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
-				long taxAgency = bar.taxAgencyCombo.getSelectedValue().getID();
+				long taxAgency = taxAgencyCombo.getSelectedValue().getID();
 				this.startDate = toolbar.getStartDate();
 				this.endDate = toolbar.getEndDate();
 				UIUtils.generateReportPDF(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						174, "", "", taxAgency);
+						165, "", "", taxAgency);
 			}
 
 			@Override

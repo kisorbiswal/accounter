@@ -7,6 +7,7 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -15,6 +16,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerRep
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.BankCheckDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.BankDepositServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServerReport;
@@ -33,8 +36,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailSer
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByVendorSummaryServerReport;
-import com.vimukti.accounter.web.client.ui.serverreports.PurchaseClosedOrderServerReport;
-import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOpenOrderServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.RealisedExchangeLossesAndGainsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationDetailsByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
@@ -47,8 +49,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemDetailServer
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByLocationsummaryServerReport;
-import com.vimukti.accounter.web.client.ui.serverreports.SalesClosedOrderServerReport;
-import com.vimukti.accounter.web.client.ui.serverreports.SalesOpenOrderServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.SalesOrderServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesTaxLiabilityServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.StatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TAXItemDetailServerReportView;
@@ -84,7 +85,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_SALESBYITEMSUMMARY = 123;
 	public final static int REPORT_TYPE_SALESBYITEMDETAIL = 124;
 	public final static int REPORT_TYPE_SALESORDER_OPEN = 125;
-	public final static int REPORT_TYPE_SALESORDER_CLOSE = 126;
+	// public final static int REPORT_TYPE_SALESORDER_CLOSE = 126;
 	public final static int REPORT_TYPE_AP_AGEINGSUMMARY = 127;
 	public final static int REPORT_TYPE_AP_AGEINGDETAIL = 128;
 	public final static int REPORT_TYPE_VENDORTRANSACTIONHISTORY = 129;
@@ -93,7 +94,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_PURCHASEBYITEMSUMMARY = 132;
 	public final static int REPORT_TYPE_PURCHASEBYITEMDETAIL = 133;
 	public final static int REPORT_TYPE_PURCHASEORDER_OPEN = 134;
-	public final static int REPORT_TYPE_PURCHASEORDER_CLOSE = 135;
+	// public final static int REPORT_TYPE_PURCHASEORDER_CLOSE = 135;
 	public final static int REPORT_TYPE_PRIORVATRETURNS = 136;
 	public final static int REPORT_TYPE_VAT100 = 137;
 	public final static int REPORT_TYPE_VATDETAIL = 138;
@@ -132,6 +133,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
+	public final static int REPORT_TYPE_BANK_DEPOSIT_REPORT = 179;
+	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -634,7 +637,7 @@ public class ReportsGenerator {
 			}
 			return salesByItemDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_SALESORDER_OPEN:
-			SalesOpenOrderServerReport salesOpenOrderServerReport = new SalesOpenOrderServerReport(
+			SalesOrderServerReport salesOpenOrderServerReport = new SalesOrderServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 				@Override
@@ -646,55 +649,33 @@ public class ReportsGenerator {
 			updateReport(salesOpenOrderServerReport, finaTool);
 			salesOpenOrderServerReport.resetVariables();
 			try {
-				if (Integer.parseInt(status) == 1) {
-					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesOpenOrderReport(startDate
-									.toClientFinanceDate(), endDate
-									.toClientFinanceDate(), getCompany()
-									.getID()));
-				} else if (Integer.parseInt(status) == 2) {
-					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesCompletedOrderReport(startDate
-									.toClientFinanceDate(), endDate
-									.toClientFinanceDate(), getCompany()
-									.getID()));
-				} else if (Integer.parseInt(status) == 3) {
-					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesCancelledOrderReport(startDate
-									.toClientFinanceDate(), endDate
-									.toClientFinanceDate(), getCompany()
-									.getID()));
-				} else {
-					salesOpenOrderServerReport.onResultSuccess(reportsSerivce
-							.getSalesOrderReport(startDate
-									.toClientFinanceDate(), endDate
-									.toClientFinanceDate(), getCompany()
-									.getID()));
-				}
+				salesOpenOrderServerReport.onResultSuccess(reportsSerivce
+						.getSalesOrderReport(Integer.parseInt(status),
+								startDate.toClientFinanceDate(), endDate
+										.toClientFinanceDate(), getCompany()
+										.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return salesOpenOrderServerReport.getGridTemplate();
-		case REPORT_TYPE_SALESORDER_CLOSE:
-			SalesClosedOrderServerReport salesClosedOrderServerReport = new SalesClosedOrderServerReport(
-					this.startDate.getDate(), this.endDate.getDate(),
-					generationType1) {
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-
-					return getDateInDefaultType(date);
-				}
-			};
-			updateReport(salesClosedOrderServerReport, finaTool);
-			salesClosedOrderServerReport.resetVariables();
-			try {
-				salesClosedOrderServerReport.onResultSuccess(finaTool
-						.getSalesManager().getClosedSalesOrders(startDate,
-								endDate, getCompany().getID()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return salesClosedOrderServerReport.getGridTemplate();
+			/*
+			 * case REPORT_TYPE_SALESORDER_CLOSE: SalesOpenOrderServerReport
+			 * salesClosedOrderServerReport = new SalesOpenOrderServerReport(
+			 * this.startDate.getDate(), this.endDate.getDate(),
+			 * generationType1) {
+			 * 
+			 * @Override public String getDateByCompanyType(ClientFinanceDate
+			 * date) {
+			 * 
+			 * return getDateInDefaultType(date); } };
+			 * updateReport(salesClosedOrderServerReport, finaTool);
+			 * salesClosedOrderServerReport.resetVariables(); try {
+			 * salesClosedOrderServerReport.onResultSuccess(finaTool
+			 * .getSalesManager().getClosedSalesOrders(startDate, endDate,
+			 * getCompany().getID())); } catch (Exception e) {
+			 * e.printStackTrace(); } return
+			 * salesClosedOrderServerReport.getGridTemplate();
+			 */
 		case REPORT_TYPE_AP_AGEINGSUMMARY:
 			APAgingSummaryServerReport apAgingSummaryServerReport = new APAgingSummaryServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -870,7 +851,7 @@ public class ReportsGenerator {
 			}
 			return purchaseByItemDetailServerReport.getGridTemplate();
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
-			PurchaseOpenOrderServerReport purchaseOpenOrderServerReport = new PurchaseOpenOrderServerReport(
+			PurchaseOrderServerReport purchaseOpenOrderServerReport = new PurchaseOrderServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
 					generationType1) {
 				@Override
@@ -882,59 +863,33 @@ public class ReportsGenerator {
 			updateReport(purchaseOpenOrderServerReport, finaTool);
 			purchaseOpenOrderServerReport.resetVariables();
 			try {
-				if (Integer.parseInt(status) == 1) {
-					purchaseOpenOrderServerReport
-							.onResultSuccess(reportsSerivce
-									.getPurchaseOpenOrderReport(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				} else if (Integer.parseInt(status) == 2) {
-					purchaseOpenOrderServerReport
-							.onResultSuccess(reportsSerivce
-									.getPurchaseCompletedOrderReport(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				} else if (Integer.parseInt(status) == 3) {
-					purchaseOpenOrderServerReport
-							.onResultSuccess(reportsSerivce
-									.getPurchaseCancelledOrderReport(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				} else {
-					purchaseOpenOrderServerReport
-							.onResultSuccess(reportsSerivce
-									.getPurchaseOrderReport(
-											startDate.toClientFinanceDate(),
-											endDate.toClientFinanceDate(),
-											getCompany().getID()));
-				}
+				purchaseOpenOrderServerReport.onResultSuccess(reportsSerivce
+						.getPurchaseOrderReport(Integer.parseInt(status),
+								startDate.toClientFinanceDate(), endDate
+										.toClientFinanceDate(), getCompany()
+										.getID()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return purchaseOpenOrderServerReport.getGridTemplate();
-		case REPORT_TYPE_PURCHASEORDER_CLOSE:
-			PurchaseClosedOrderServerReport purchaseClosedOrderServerReport = new PurchaseClosedOrderServerReport(
-					this.startDate.getDate(), this.endDate.getDate(),
-					generationType1) {
-				@Override
-				public String getDateByCompanyType(ClientFinanceDate date) {
-
-					return getDateInDefaultType(date);
-				}
-			};
-			updateReport(purchaseClosedOrderServerReport, finaTool);
-			purchaseClosedOrderServerReport.resetVariables();
-			try {
-				purchaseClosedOrderServerReport.onResultSuccess(finaTool
-						.getPurchageManager().getClosedPurchaseOrders(
-								startDate, endDate, getCompany().getID()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return purchaseClosedOrderServerReport.getGridTemplate();
+			/*
+			 * case REPORT_TYPE_PURCHASEORDER_CLOSE:
+			 * PurchaseOpenOrderServerReport purchaseClosedOrderServerReport =
+			 * new PurchaseOpenOrderServerReport( this.startDate.getDate(),
+			 * this.endDate.getDate(), generationType1) {
+			 * 
+			 * @Override public String getDateByCompanyType(ClientFinanceDate
+			 * date) {
+			 * 
+			 * return getDateInDefaultType(date); } };
+			 * updateReport(purchaseClosedOrderServerReport, finaTool);
+			 * purchaseClosedOrderServerReport.resetVariables(); try {
+			 * purchaseClosedOrderServerReport.onResultSuccess(finaTool
+			 * .getPurchageManager().getClosedPurchaseOrders( startDate,
+			 * endDate, getCompany().getID())); } catch (Exception e) {
+			 * e.printStackTrace(); } return
+			 * purchaseClosedOrderServerReport.getGridTemplate();
+			 */
 		case REPORT_TYPE_PRIORVATRETURNS:
 			PriorVATReturnsServerReport priorVATReturnsServerReport = new PriorVATReturnsServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1515,6 +1470,39 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return stockStatusByVendor.getGridTemplate();
+
+		case REPORT_TYPE_BANK_DEPOSIT_REPORT:
+			BankDepositServerReport bankDepositReport = new BankDepositServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(bankDepositReport, finaTool);
+
+			bankDepositReport.onResultSuccess(finaTool.getReportManager()
+					.getBankDepositDetails(company.getID(),
+							new ClientFinanceDate(startDate.getDate()),
+							new ClientFinanceDate(endDate.getDate())));
+
+			return bankDepositReport.getGridTemplate();
+		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
+			BankCheckDetailServerReport bankCheckDetailReport = new BankCheckDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(bankCheckDetailReport, finaTool);
+
+			bankCheckDetailReport.onResultSuccess(finaTool.getReportManager()
+					.getBankCheckDetails(company.getID(),
+							new ClientFinanceDate(startDate.getDate()),
+							new ClientFinanceDate(endDate.getDate())));
+
+			return bankCheckDetailReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1693,9 +1681,19 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESBYITEMDETAIL:
 			return "Sales By Item Detail Report";
 		case REPORT_TYPE_SALESORDER_OPEN:
-			return "Sales Open Order Report";
-		case REPORT_TYPE_SALESORDER_CLOSE:
-			return "Sales Closed Order Report";
+			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
+				return "Sales Open Order Report";
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+				return "Sales Completed Order Report";
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
+				return "Sales Cancelled Order Report";
+			} else {
+				return "Sales Order Report";
+			}
+			/*
+			 * case REPORT_TYPE_SALESORDER_CLOSE: return
+			 * "Sales Closed Order Report";
+			 */
 		case REPORT_TYPE_AP_AGEINGSUMMARY:
 			return "AP Ageing Summary Report";
 		case REPORT_TYPE_AP_AGEINGDETAIL:
@@ -1713,9 +1711,20 @@ public class ReportsGenerator {
 		case REPORT_TYPE_PURCHASEBYITEMDETAIL:
 			return "Purchase By Item Detail Report";
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
-			return "Purchase Open Order Report";
-		case REPORT_TYPE_PURCHASEORDER_CLOSE:
-			return "Purchase Closed Order Report";
+			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
+				return "Purchase Open Order Report";
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+				return "Purchase Completed Order Report";
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
+				return "Purchase Cancelled Order Report";
+			} else {
+				return "Purchase Order Report";
+			}
+
+			/*
+			 * case REPORT_TYPE_PURCHASEORDER_CLOSE: return
+			 * "Purchase Closed Order Report";
+			 */
 		case REPORT_TYPE_PRIORVATRETURNS:
 			return "Prior VAT Return Report";
 		case REPORT_TYPE_VAT100:
@@ -1782,6 +1791,10 @@ public class ReportsGenerator {
 			return "Inventory Stock Status By Item";
 		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR:
 			return "Inventory Stock Status By Vendor";
+		case REPORT_TYPE_BANK_DEPOSIT_REPORT:
+			return "Deposit Detail";
+		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
+			return "Check Detail";
 		default:
 			break;
 		}

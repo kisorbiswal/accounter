@@ -1,6 +1,8 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class ClientEnterBill extends ClientTransaction {
@@ -36,17 +38,9 @@ public class ClientEnterBill extends ClientTransaction {
 
 	Set<ClientTransactionPayBill> transactionPayBills = new HashSet<ClientTransactionPayBill>();
 
-	long purchaseOrder;
+	private List<ClientPurchaseOrder> purchaseOrders = new ArrayList<ClientPurchaseOrder>();
 
 	long itemReceipt;
-
-	public long getPurchaseOrder() {
-		return purchaseOrder;
-	}
-
-	public void setPurchaseOrder(long purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
-	}
 
 	public long getItemReceipt() {
 		return itemReceipt;
@@ -245,7 +239,6 @@ public class ClientEnterBill extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.ENTERBILL;
@@ -269,6 +262,14 @@ public class ClientEnterBill extends ClientTransaction {
 		}
 		clientEnterBillClone.transactionPayBills = transactionPayBills;
 		return clientEnterBillClone;
+	}
+
+	public List<ClientPurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(List<ClientPurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
 	}
 
 }

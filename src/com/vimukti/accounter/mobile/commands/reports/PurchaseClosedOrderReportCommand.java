@@ -7,6 +7,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -26,13 +27,10 @@ public class PurchaseClosedOrderReportCommand extends
 					UIUtils.getDateByCompanyType(record.getTransactionDate()));
 		else
 			openRecord.add("", "");
+		openRecord.add(getMessages().number(), record.getNumber());
 		openRecord.add(Global.get().Customer(),
 				record.getVendorOrCustomerName());
-		openRecord.add(getMessages().description(), record.getDescription());
-		openRecord.add(getMessages().quantity(),
-				((Double) record.getQuantity()).toString());
 		openRecord.add(getMessages().amount(), record.getAmount());
-
 		return openRecord;
 	}
 
@@ -46,8 +44,8 @@ public class PurchaseClosedOrderReportCommand extends
 		ArrayList<OpenAndClosedOrders> openAndClosedOrders = new ArrayList<OpenAndClosedOrders>();
 		try {
 			openAndClosedOrders = new FinanceTool().getPurchageManager()
-					.getClosedPurchaseOrders(getStartDate(), getEndDate(),
-							getCompanyId());
+					.getPurchaseOrders(ClientTransaction.STATUS_CANCELLED,
+							getStartDate(), getEndDate(), getCompanyId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

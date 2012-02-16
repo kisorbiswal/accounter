@@ -105,4 +105,28 @@ public class InventoryValutionSummaryServerReport extends
 		return messages.thisMonth();
 	}
 
+	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 2:
+			return 60;
+		case 3:
+			return 90;
+		case 4:
+			return 100;
+		case 5:
+			return 70;
+		case 6:
+			return 90;
+		case 7:
+			return 100;
+		case 8:
+			return 70;
+
+		default:
+			break;
+		}
+		return super.getColumnWidth(index);
+	}
+
 }

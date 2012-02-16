@@ -42,7 +42,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.SellingOrDisposingFixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 
@@ -420,13 +419,6 @@ public class AccounterGUIDAOService extends HibernateDaoSupport implements
 
 	@Override
 	public ArrayList<Item> getSalesItems() throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public ArrayList<SalesOrdersList> getSalesOrdersList(String customerId)
-			throws DAOException {
 
 		return null;
 	}

@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.core.Lists.DepositsTransfersList;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.PaymentsList;
+import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -2064,6 +2065,57 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 			return getPayeeChecksExportCsv(transactionType, startDate, endDate,
 					viewId);
 
+		}
+		return null;
+	}
+
+	@Override
+	public String getPurchaseOrderExportCsv(int type, long startDate,
+			long endDate) {
+		try {
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(startDate), new ClientFinanceDate(
+							endDate), getCompanyId());
+			ArrayList<PurchaseOrdersList> purchaseOrders = getFinanceTool()
+					.getPurchageManager()
+					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), type, 0, -1);
+			ICSVExportRunner<PurchaseOrdersList> icsvExportRunner = new ICSVExportRunner<PurchaseOrdersList>() {
+
+				@Override
+				public String[] getColumns() {
+					return new String[] {
+							messages.date(),
+							messages.number(),
+							Global.get().messages()
+									.payeeName(Global.get().Vendor()),
+							messages.purchasePrice() };
+				}
+
+				@Override
+				public String getColumnValue(PurchaseOrdersList obj, int index) {
+					switch (index) {
+					case 0:
+						return Utility.getDateInSelectedFormat(new FinanceDate(
+								obj.getDate().getDate()));
+					case 1:
+						return obj.getNumber();
+					case 2:
+						return obj.getVendorName();
+					case 3:
+						return amountAsStringWithCurrency(
+								obj.getPurchasePrice(), obj.getCurrency());
+					default:
+						break;
+					}
+					return null;
+				}
+			};
+			CSVExporter<PurchaseOrdersList> csvExporter = new CSVExporter<PurchaseOrdersList>(
+					icsvExportRunner);
+			return csvExporter.export(purchaseOrders);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

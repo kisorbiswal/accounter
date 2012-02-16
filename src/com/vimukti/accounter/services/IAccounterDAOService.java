@@ -32,7 +32,6 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -335,7 +334,7 @@ public interface IAccounterDAOService {
 	public ReceivePayment getReceivePayment(long companyId,
 			long receivePaymentId) throws DAOException;
 
-	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
+	public Estimate getSalesOrder(long companyId, long salesOrderId)
 			throws DAOException;
 
 	public VendorCreditMemo getVendorCreditMemo(long companyId,

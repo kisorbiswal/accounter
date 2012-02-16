@@ -37,7 +37,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_PAY_EXPENSE = 19;
 	public static final int TYPE_TAX_RETURN = 20;
 
-	public static final int TYPE_SALES_ORDER = 21;
+	// public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
@@ -66,6 +66,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
+	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_TEMPLATE = 202;

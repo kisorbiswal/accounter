@@ -15,12 +15,18 @@ public class TaxHistoryAction extends Action {
 
 	@Override
 	public void run() {
+
+		runAsync(data, isDependent);
+
+	}
+
+	private void runAsync(final Object data, final boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
+			@Override
 			public void onCreated() {
-
 				MainFinanceWindow.getViewManager().showView(
-						new TaxHistoryView(), null, false,
+						new TaxHistoryView(), data, isDependent,
 						TaxHistoryAction.this);
 
 			}
@@ -29,7 +35,6 @@ public class TaxHistoryAction extends Action {
 				// //UIUtils.logError("Failed to Load Vendor list", t);
 			}
 		});
-
 	}
 
 	@Override
@@ -49,7 +54,7 @@ public class TaxHistoryAction extends Action {
 
 	@Override
 	public String getHelpToken() {
-		return "taxHistory";
+		return "tax-History";
 	}
 
 	@Override
