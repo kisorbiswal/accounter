@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByI
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobActualCostDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
@@ -134,6 +135,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
 	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 183;
+	public final static int REPORT_TYPE_ACTUAL_COST_DETAIL = 184;
+	
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1537,7 +1540,26 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return estimatesByJobServerReport.getGridTemplate();
+		case REPORT_TYPE_ACTUAL_COST_DETAIL:
+			JobActualCostDetailServerReport actualCostDetailServerReport = new JobActualCostDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
 
+			};
+			updateReport(actualCostDetailServerReport, finaTool);
+			try {
+				actualCostDetailServerReport.onResultSuccess(finaTool
+						.getReportManager().getJobActualCostOrRevenueDetails(
+								new FinanceDate(startDate.getDate()),
+								new FinanceDate(endDate.getDate()),
+								company.getID(), true, 1, 1));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return actualCostDetailServerReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1807,6 +1829,8 @@ public class ReportsGenerator {
 			return "Inventory Stock Status By Vendor";
 		case REPORT_TYPE_ESTIMATE_BY_JOB:
 			return "Estimates By Job";
+		case REPORT_TYPE_ACTUAL_COST_DETAIL:
+			return "Job Actual Cost Detail Report";
 		default:
 			break;
 		}
