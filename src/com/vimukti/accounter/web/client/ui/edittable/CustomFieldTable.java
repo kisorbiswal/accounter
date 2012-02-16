@@ -96,13 +96,11 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 		} else {
 			showWarningDialog(row);
 		}
-
 	}
 
 	private void showWarningDialog(final ClientCustomField row) {
 
-		Accounter.showWarning(messages
-				.areYouwantToDeletecustomField(),
+		Accounter.showWarning(messages.areYouwantToDeletecustomField(),
 
 		AccounterType.WARNING, new ErrorDialogHandler() {
 
@@ -128,7 +126,12 @@ public class CustomFieldTable extends EditTable<ClientCustomField> {
 	}
 
 	private void deleteRow(ClientCustomField row) {
+		deleteCustomField(row);
 		super.delete(row);
+	}
+
+	protected void deleteCustomField(ClientCustomField row) {
+
 	}
 
 	private void onSelectionChanged(ClientCustomField obj, boolean value) {

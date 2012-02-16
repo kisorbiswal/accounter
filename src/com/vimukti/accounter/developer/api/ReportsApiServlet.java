@@ -305,13 +305,12 @@ public class ReportsApiServlet extends HttpServlet {
 								clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesclosedorderlist")) {
-				result = accounterReportServiceImpl.getSalesClosedOrderReport(
+				result = accounterReportServiceImpl.getSalesOrderReport(4,
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salescancelledorderreport")) {
-				result = accounterReportServiceImpl
-						.getSalesCancelledOrderReport(clientFinanceStartDate,
-								clientFinanceEndDate);
+				result = accounterReportServiceImpl.getSalesOrderReport(103,
+						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesbyitemdetailbyname")) {
 				String itemName = (String) req.getAttribute("Name");
@@ -319,13 +318,12 @@ public class ReportsApiServlet extends HttpServlet {
 						itemName, clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesordelist")) {
-				result = accounterReportServiceImpl.getSalesOrderReport(
+				result = accounterReportServiceImpl.getSalesOrderReport(-1,
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salescompletedorder")) {
-				result = accounterReportServiceImpl
-						.getSalesCompletedOrderReport(clientFinanceStartDate,
-								clientFinanceEndDate);
+				result = accounterReportServiceImpl.getSalesOrderReport(102,
+						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("ageddebtorsbydebitorname")) {
 				String Name = (String) req.getAttribute("Name");
@@ -333,7 +331,7 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesopenorder")) {
-				result = accounterReportServiceImpl.getSalesOpenOrderReport(
+				result = accounterReportServiceImpl.getSalesOrderReport(0,
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("agedCreditorsbydebitorname")) {
@@ -342,9 +340,8 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchaseclosedorder")) {
-				result = accounterReportServiceImpl
-						.getPurchaseClosedOrderReport(clientFinanceStartDate,
-								clientFinanceEndDate);
+				result = accounterReportServiceImpl.getPurchaseOrderReport(4,
+						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("transactiondetailbyaccountname")) {
 				String accountName = (String) req.getAttribute("Name");
@@ -359,13 +356,12 @@ public class ReportsApiServlet extends HttpServlet {
 						minimumAndMaximumTransactionDate);
 
 			} else if (methodName.equals("purchaseorder")) {
-				result = accounterReportServiceImpl.getPurchaseOrderReport(
+				result = accounterReportServiceImpl.getPurchaseOrderReport(-1,
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchasecancelledorder")) {
-				result = accounterReportServiceImpl
-						.getPurchaseCancelledOrderReport(
-								clientFinanceStartDate, clientFinanceEndDate);
+				result = accounterReportServiceImpl.getPurchaseOrderReport(103,
+						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("transactiondetailbytaxitemname")) {
 				String taxItemName = (String) req.getAttribute("Name");
@@ -378,16 +374,15 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchasecompletedlist")) {
-				result = accounterReportServiceImpl
-						.getPurchaseCompletedOrderReport(
-								clientFinanceStartDate, clientFinanceEndDate);
+				result = accounterReportServiceImpl.getPurchaseOrderReport(102,
+						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("cashflowreport")) {
 				result = accounterReportServiceImpl.getCashFlowReport(
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchaseopenorderlist")) {
-				result = accounterReportServiceImpl.getPurchaseOpenOrderReport(
+				result = accounterReportServiceImpl.getPurchaseOrderReport(1,
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("profitandlossreport")) {

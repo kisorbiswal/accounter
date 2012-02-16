@@ -81,7 +81,7 @@ public class UncategorisedVATAmountsReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			UncategorisedAmountsReport selection) {
-		return "update transaction " + selection.getID();
+		return "updateTransaction " + selection.getID();
 	}
 
 	@Override

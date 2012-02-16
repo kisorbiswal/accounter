@@ -33,7 +33,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -702,31 +701,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	}
 
-	private ShippingTermsCombo createShippingTermsCombo() {
-
-		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
-				messages.shippingTerms());
-		shippingTermsCombo.setHelpInformation(true);
-		shippingTermsCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
-
-					@Override
-					public void selectedComboBoxItem(
-							ClientShippingTerms selectItem) {
-						shippingTerm = selectItem;
-						if (shippingTerm != null && shippingTermsCombo != null) {
-							shippingTermsCombo.setComboItem(getCompany()
-									.getShippingTerms(shippingTerm.getID()));
-							shippingTermsCombo.setDisabled(isInViewMode());
-						}
-					}
-
-				});
-
-		shippingTermsCombo.setDisabled(isInViewMode());
-		return shippingTermsCombo;
-	}
-
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		super.createButtons(buttonBar);
@@ -821,17 +795,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			List<ClientTransaction> selectedRecords = transactionsTree
 					.getSelectedRecords();
 			if (!isInViewMode()) {
-				List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
 				List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 				for (ClientTransaction clientTransaction : selectedRecords) {
-					if (clientTransaction instanceof ClientSalesOrder) {
-						salesOrders.add((ClientSalesOrder) clientTransaction);
-					} else {
-						estimates.add((ClientEstimate) clientTransaction);
-					}
+					estimates.add((ClientEstimate) clientTransaction);
 				}
 				transaction.setEstimates(estimates);
-				transaction.setSalesOrders(salesOrders);
 				transaction.setTransactionItems(customerTransactionTable
 						.getTransactionItems());
 			}
@@ -917,7 +885,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			updateAmountsFromGUI();
 		}
 		transaction.setEstimates(new ArrayList<ClientEstimate>());
-		transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
 		getEstimatesAndSalesOrder();
 
 	}
@@ -1277,39 +1244,30 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		super.updateTransaction();
 		List<ClientTransaction> selectedRecords = transactionsTree
 				.getSelectedRecords();
-		List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
 		List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 		for (ClientTransaction clientTransaction : selectedRecords) {
-			if (clientTransaction instanceof ClientSalesOrder) {
-				salesOrders.add((ClientSalesOrder) clientTransaction);
-			} else {
-				ClientEstimate estimate = (ClientEstimate) clientTransaction;
-				if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
-						&& estimate.getCurrency() != getCurrencycode().getID()) {
-					estimate.setCurrency(getCurrencycode().getID());
-					estimate.setTotal(estimate.getTotal() / getCurrencyFactor());
-					estimate.setNetAmount(estimate.getNetAmount()
+			ClientEstimate estimate = (ClientEstimate) clientTransaction;
+			if (estimate.getEstimateType() == ClientEstimate.BILLABLEEXAPENSES
+					&& estimate.getCurrency() != getCurrencycode().getID()) {
+				estimate.setCurrency(getCurrencycode().getID());
+				estimate.setTotal(estimate.getTotal() / getCurrencyFactor());
+				estimate.setNetAmount(estimate.getNetAmount()
+						/ getCurrencyFactor());
+				estimate.setTaxTotal(estimate.getTaxTotal()
+						/ getCurrencyFactor());
+				for (ClientTransactionItem item : estimate
+						.getTransactionItems()) {
+					item.setLineTotal(item.getLineTotal() / getCurrencyFactor());
+					item.setDiscount(item.getDiscount() / getCurrencyFactor());
+					item.setUnitPrice(item.getUnitPrice() / getCurrencyFactor());
+					item.setVATfraction(item.getVATfraction()
 							/ getCurrencyFactor());
-					estimate.setTaxTotal(estimate.getTaxTotal()
-							/ getCurrencyFactor());
-					for (ClientTransactionItem item : estimate
-							.getTransactionItems()) {
-						item.setLineTotal(item.getLineTotal()
-								/ getCurrencyFactor());
-						item.setDiscount(item.getDiscount()
-								/ getCurrencyFactor());
-						item.setUnitPrice(item.getUnitPrice()
-								/ getCurrencyFactor());
-						item.setVATfraction(item.getVATfraction()
-								/ getCurrencyFactor());
-					}
-
 				}
-				estimates.add(estimate);
+
 			}
+			estimates.add(estimate);
 		}
 		transaction.setEstimates(estimates);
-		transaction.setSalesOrders(salesOrders);
 		if (taxCode != null && transactionItems != null) {
 			for (ClientTransactionItem item : transactionItems) {
 				item.setTaxCode(taxCode.getID());
@@ -1427,7 +1385,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (getCustomer() != null && getCustomer() != previousCustomer) {
 			transaction.setEstimates(new ArrayList<ClientEstimate>());
-			transaction.setSalesOrders(new ArrayList<ClientSalesOrder>());
 			getEstimatesAndSalesOrder();
 		}
 		// result.add(super.validate());
@@ -1509,76 +1466,101 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private void getEstimatesAndSalesOrder() {
 		ClientCompanyPreferences preferences = getCompany().getPreferences();
 
-		if (preferences.isDoyouwantEstimates()
-				|| preferences.isBillableExpsesEnbldForProductandServices()
-				|| preferences.isProductandSerivesTrackingByCustomerEnabled()
-				|| preferences.isDelayedchargesEnabled()) {
-			if (preferences.isDontIncludeEstimates()) {
+		if ((preferences.isDoyouwantEstimates() && !preferences
+				.isDontIncludeEstimates())
+				|| (preferences.isBillableExpsesEnbldForProductandServices() && preferences
+						.isProductandSerivesTrackingByCustomerEnabled())
+				|| preferences.isDelayedchargesEnabled()
+				|| preferences.isSalesOrderEnabled()) {
+			if (this.rpcUtilService == null)
 				return;
+			if (getCustomer() == null) {
+				Accounter.showError(messages.pleaseSelect(Global.get()
+						.customer()));
+			} else {
+
+				AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						return;
+					}
+
+					@Override
+					public void onSuccess(
+							ArrayList<EstimatesAndSalesOrdersList> result) {
+						if (result == null)
+							onFailure(new Exception());
+						filterEstimates(result);
+					}
+
+				};
+
+				this.rpcUtilService.getEstimatesAndSalesOrdersList(
+						getCustomer().getID(), callback);
 			}
 		}
-		if (this.rpcUtilService == null)
-			return;
-		if (getCustomer() == null) {
-			Accounter.showError(messages.pleaseSelect(Global.get().customer()));
-		} else {
+	}
 
-			AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>> callback = new AsyncCallback<ArrayList<EstimatesAndSalesOrdersList>>() {
+	protected void filterEstimates(ArrayList<EstimatesAndSalesOrdersList> result) {
+		List<ClientEstimate> salesAndEstimates = transaction.getEstimates();
+		if (transaction.getID() != 0 && !result.isEmpty()) {
+			ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
+			ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
 
-				@Override
-				public void onFailure(Throwable caught) {
-					return;
-				}
-
-				@Override
-				public void onSuccess(
-						ArrayList<EstimatesAndSalesOrdersList> result) {
-					if (result == null)
-						onFailure(new Exception());
-					List<ClientTransaction> salesAndEstimates = transaction
-							.getSalesAndEstimates();
-					if (transaction.getID() != 0 && !result.isEmpty()) {
-						ArrayList<EstimatesAndSalesOrdersList> estimatesList = new ArrayList<EstimatesAndSalesOrdersList>();
-						ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
-
-						for (ClientTransaction clientTransaction : salesAndEstimates) {
-							boolean isThere = false;
-							for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
-								if (estimatesalesorderlist.getTransactionId() == clientTransaction
-										.getID()) {
-									estimatesList.add(estimatesalesorderlist);
-									isThere = true;
-								}
-							}
-							if (!isThere) {
-								notAvailableEstimates.add(clientTransaction);
-							}
+			for (ClientTransaction clientTransaction : salesAndEstimates) {
+				boolean isThere = false;
+				for (EstimatesAndSalesOrdersList estimatesalesorderlist : result) {
+					int estimateType = estimatesalesorderlist.getEstimateType();
+					int status = estimatesalesorderlist.getStatus();
+					if (estimatesalesorderlist.getTransactionId() == clientTransaction
+							.getID()) {
+						estimatesList.add(estimatesalesorderlist);
+						isThere = true;
+					} else if (estimateType == ClientEstimate.QUOTES) {
+						if (getPreferences().isDontIncludeEstimates()) {
+							estimatesList.add(estimatesalesorderlist);
+						} else if (getPreferences()
+								.isIncludeAcceptedEstimates()
+								&& status != ClientEstimate.STATUS_ACCECPTED) {
+							estimatesList.add(estimatesalesorderlist);
 						}
-
-						if (transaction.isDraft()) {
-							for (ClientTransaction clientTransaction : notAvailableEstimates) {
-								salesAndEstimates.remove(clientTransaction);
-							}
-						}
-
-						for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
-							result.remove(estimatesAndSalesOrdersList);
-						}
+					} else if ((estimateType == ClientEstimate.CHARGES || estimateType == ClientEstimate.CREDITS)
+							&& !getPreferences().isDelayedchargesEnabled()) {
+						estimatesList.add(estimatesalesorderlist);
+					} else if (estimateType == ClientEstimate.SALES_ORDER
+							&& !getPreferences().isSalesOrderEnabled()) {
+						estimatesList.add(estimatesalesorderlist);
+					} else if ((estimateType == ClientEstimate.BILLABLEEXAPENSES || estimateType == ClientEstimate.DEPOSIT_EXAPENSES)
+							&& !(getPreferences()
+									.isBillableExpsesEnbldForProductandServices() && getPreferences()
+									.isProductandSerivesTrackingByCustomerEnabled())) {
+						estimatesList.add(estimatesalesorderlist);
 					}
-					transactionsTree.setAllrows(
-							result,
-							transaction.getID() == 0 ? true : salesAndEstimates
-									.isEmpty());
-					transactionsTree
-							.quotesSelected((List<ClientTransaction>) (salesAndEstimates != null ? salesAndEstimates
-									: new ArrayList<ClientTransaction>()));
-					transactionsTree.setEnabled(!isInViewMode());
-					refreshTransactionGrid();
 				}
-			};
-			this.rpcUtilService.getEstimatesAndSalesOrdersList(getCustomer()
-					.getID(), callback);
+				if (!isThere) {
+					notAvailableEstimates.add(clientTransaction);
+				}
+			}
+
+			if (transaction.isDraft()) {
+				for (ClientTransaction clientTransaction : notAvailableEstimates) {
+					salesAndEstimates.remove(clientTransaction);
+				}
+			}
+
+			for (EstimatesAndSalesOrdersList estimatesAndSalesOrdersList : estimatesList) {
+				result.remove(estimatesAndSalesOrdersList);
+			}
 		}
+		transactionsTree.setAllrows(result, transaction.getID() == 0 ? true
+				: salesAndEstimates.isEmpty());
+		if (transaction.getEstimates() != null) {
+			transactionsTree.setRecords(new ArrayList<ClientTransaction>(
+					transaction.getEstimates()));
+		}
+		transactionsTree.setEnabled(!isInViewMode());
+		refreshTransactionGrid();
 	}
 
 	@Override

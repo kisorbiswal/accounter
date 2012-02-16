@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -76,9 +77,9 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -244,10 +245,12 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getLatestReceivePayments(
 			AsyncCallback<ArrayList<ClientReceivePayment>> callback);
 
-	public void getSalesOrders(long fromDate, long endDate,
-			AsyncCallback<PaginationList<SalesOrdersList>> callback);
+	// public void getSalesOrders(long fromDate, long endDate,
+	// AsyncCallback<PaginationList<SalesOrdersList>> callback);
 
-	public void getPurchaseOrders(long fromDate, long toDate,
+	public void getPurchaseOrders(long fromDate, long toDate, int type,
+
+	int start, int length,
 			AsyncCallback<PaginationList<PurchaseOrdersList>> callback);
 
 	/*
@@ -543,4 +546,11 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getSpentAndReceivedTransactionsList(long endOfFiscalYear,
 			long date, int i, int j,
 			AsyncCallback<PaginationList<TransactionsList>> asyncCallback);
+
+	public void getFieldsOf(int importerType,
+			AsyncCallback<List<Field<?>>> callback);
+
+	void importData(String filePath, int importerType,
+			Map<String, String> importMap, AsyncCallback<Boolean> callback);
+
 }

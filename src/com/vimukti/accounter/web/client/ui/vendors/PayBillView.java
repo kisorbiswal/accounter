@@ -824,11 +824,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
 				.getFormalName()));
 
-		if (vendor == null) {
-			paybillTransactionList = null;
-			return;
-		}
-
 		grid.resetValues();
 		grid.creditsAndPayments.clear();
 		this.setVendor(vendor);

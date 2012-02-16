@@ -2,23 +2,14 @@ package com.vimukti.accounter.web.client.imports;
 
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+
 /**
  * @author Prasanna Kumar G
  * 
  * @param <T>
  */
-public interface Importer<T> {
-
-	enum Type {
-		INVOICE, CUSTOMER, VENDOR
-	}
-
-	/**
-	 * Returns the Type of the Importer
-	 * 
-	 * @return
-	 */
-	public Type getType();
+public interface Importer<T extends IAccounterCore> {
 
 	/**
 	 * Returns Output Object that is Generated after Matching
@@ -33,5 +24,13 @@ public interface Importer<T> {
 	 * @return
 	 */
 	public Map<String, String> getImportedData();
+
+	/**
+	 * 
+	 * Loads the Data(ColumnName,ColumnValue) from File
+	 * 
+	 * @param data
+	 */
+	public void loadData(Map<String, String> data);
 
 }

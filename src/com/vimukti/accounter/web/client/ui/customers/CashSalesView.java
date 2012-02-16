@@ -479,7 +479,7 @@ public class CashSalesView extends
 
 	}
 
-	private ShippingTermsCombo createShippingTermsCombo() {
+	protected ShippingTermsCombo createShippingTermsCombo() {
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
 				messages.shippingTerms());

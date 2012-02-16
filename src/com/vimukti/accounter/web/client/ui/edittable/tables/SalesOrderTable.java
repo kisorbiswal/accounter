@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -123,5 +126,15 @@ public abstract class SalesOrderTable extends CustomerItemTransactionTable {
 		});
 
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
+	}
+
+	public List<ClientTransactionItem> getReferingTransactionItems() {
+		List<ClientTransactionItem> refurringItems = new ArrayList<ClientTransactionItem>();
+		for (ClientTransactionItem item : getAllRows()) {
+			if (item.getID() != 0 && item.getReferringTransactionItem() != 0) {
+				refurringItems.add(item);
+			}
+		}
+		return refurringItems;
 	}
 }

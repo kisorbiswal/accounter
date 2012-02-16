@@ -278,6 +278,14 @@ public class UserUtils {
 			if (canDoInvendoryWarehouse) {
 				return true;
 			}
+		} else if (clas.equals(PurchaseOrder.class)) {
+			if (canDoInvoiceBills) {
+				return true;
+			}
+		} else if (clas.equals(Warehouse.class)) {
+			if (canDoInvendoryWarehouse) {
+				return true;
+			}
 		}
 		return false;
 	}

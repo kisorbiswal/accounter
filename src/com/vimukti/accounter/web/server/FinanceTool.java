@@ -4,7 +4,9 @@
 package com.vimukti.accounter.web.server;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -85,13 +87,13 @@ import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PortletConfiguration;
 import com.vimukti.accounter.core.PortletPageConfiguration;
 import com.vimukti.accounter.core.PrintTemplete;
+import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVAT;
 import com.vimukti.accounter.core.Reconciliation;
 import com.vimukti.accounter.core.ReconciliationItem;
 import com.vimukti.accounter.core.RecurringTransaction;
 import com.vimukti.accounter.core.Reminder;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.Statement;
 import com.vimukti.accounter.core.StockAdjustment;
@@ -160,6 +162,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.imports.Importer;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -1479,7 +1482,7 @@ public class FinanceTool {
 		session.getNamedQuery("createSalesPurchasesView").executeUpdate();
 		session.getNamedQuery("createTransactionHistoryView").executeUpdate();
 		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
-		session.getNamedQuery("createInventoryItemHistory").executeUpdate();
+		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		transaction.commit();
 	}
@@ -2110,10 +2113,10 @@ public class FinanceTool {
 					.setLong("fromID", fromClientItem.getID())
 					.setLong("toID", toClientItem.getID()).executeUpdate();
 
-			session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
-					.setLong("fromID", fromClientItem.getID())
-					.setLong("toID", toClientItem.getID())
-					.setEntity("company", company).executeUpdate();
+			// session.getNamedQuery("update.merge.itemsalesorder.old.tonew")
+			// .setLong("fromID", fromClientItem.getID())
+			// .setLong("toID", toClientItem.getID())
+			// .setEntity("company", company).executeUpdate();
 
 			session.getNamedQuery("update.merge.trasactionexpense.old.tonew")
 					.setLong("fromID", fromClientItem.getID())
@@ -2222,6 +2225,8 @@ public class FinanceTool {
 		} else if (newTransaction instanceof EnterBill) {
 			((EnterBill) newTransaction).setEstimates(new HashSet<Estimate>());
 			((EnterBill) newTransaction)
+					.setPurchaseOrders(new ArrayList<PurchaseOrder>());
+			((EnterBill) newTransaction)
 					.setTransactionPayBills(new HashSet<TransactionPayBill>());
 			((EnterBill) newTransaction).setBalanceDue(newTransaction
 					.getTotal());
@@ -2233,6 +2238,8 @@ public class FinanceTool {
 			((JournalEntry) newTransaction).transactionPayBills = new HashSet<TransactionPayBill>();
 		} else if (newTransaction instanceof Estimate) {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
+		} else if (newTransaction instanceof PurchaseOrder) {
+			((PurchaseOrder) newTransaction).setUsedBill(null, session);
 		}
 
 		session.setFlushMode(flushMode);
@@ -4414,5 +4421,48 @@ public class FinanceTool {
 		}
 		return statements;
 
+	}
+
+	public void importData(long companyId, String filePath, int importerType,
+			Map<String, String> importMap) throws AccounterException {
+		try {
+			Importer<? extends IAccounterCore> importer = getImporterByType(
+					importerType, importMap);
+
+			String[] headers = null;
+			boolean isHeader = true;
+			File file = new File(filePath);
+			DataInputStream in = new DataInputStream(new FileInputStream(
+					file.getAbsolutePath()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String strLine;
+			while ((strLine = br.readLine()) != null) {
+				Map<String, String> columnNameValueMap = new HashMap<String, String>();
+				String[] values = strLine.split(",");
+				if (isHeader) {
+					headers = values;
+					isHeader = false;
+				} else {
+					if (values.length == headers.length) {
+						for (int i = 0; i < values.length; i++) {
+							String value = values[i].trim()
+									.replaceAll("\"", "");
+							columnNameValueMap.put(headers[i], value);
+						}
+						importer.loadData(columnNameValueMap);
+					}
+				}
+			}
+			file.delete();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AccounterException(e.getMessage());
+		}
+	}
+
+	private Importer<? extends IAccounterCore> getImporterByType(
+			int importerType, Map<String, String> importMap) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

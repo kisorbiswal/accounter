@@ -337,6 +337,8 @@ public class HistoryTokens {
 
 	public static final String IMPORTDATA = "importData";
 
+	public static final String IMPORT = "import";
+
 	public static final String eTDSFILLING = "eTDSFilling";
 
 	public static final String ENTER_TDS_ACK_NO = "enterTDSAckNo";

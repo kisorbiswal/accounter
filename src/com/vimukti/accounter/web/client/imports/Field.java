@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.imports;
 
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+
 /**
  * @author Prasanna Kumar G
  * 
@@ -100,7 +102,23 @@ public class Field<T> {
 		return isRequired ? value != null : true;
 	}
 
-	public boolean validate(Object obj) {
-		return false;
+	public boolean validate(String value) {
+		try {
+			Object obj = null;
+			if (this.value instanceof Integer) {
+				obj = Integer.valueOf(value);
+			} else if (this.value instanceof Long) {
+				obj = Long.valueOf(value);
+			} else if (this.value instanceof Double) {
+				obj = Double.valueOf(value);
+			} else if (this.value instanceof ClientFinanceDate) {
+				// TODO Implemet Fully
+				obj = new ClientFinanceDate(value);
+			}
+			this.value = (T) obj;
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 }

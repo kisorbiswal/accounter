@@ -82,7 +82,7 @@
 			<command if="isUK" title="vat100" />
 			<command if="isUK" title="vatExceptionDetail" />
 			<command if="isNotUK" title="taxItemExceptionDetailReport" />
-			<command if="isUK" title="uncategorizedVATAmounts" />
+			<command if="isUK" title="uncategorisedVATAmounts" />
 			<command if="isUK" title="ecSalesList" />
 			<command if="isUK" title="vatItemSummary" />
 			<command if="isNotUK" title="vatItemSummary" />

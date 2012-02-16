@@ -17,6 +17,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Estimate;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -222,13 +224,34 @@ public class CustomerManager extends PayeeManager {
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
 				.setParameter("customerId", customerId)
 				.setParameter("companyId", companyId);
-
+		CompanyPreferences preferences = getCompany(companyId).getPreferences();
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
-
 			Object[] obj = (Object[]) list.get(i);
+			int status = ((Integer) obj[8]).intValue();
+			int estimateType = ((Integer) obj[7]).intValue();
+			if (estimateType == Estimate.QUOTES) {
+				if (preferences.isDontIncludeEstimates()) {
+					continue;
+				} else if (preferences.isIncludeAcceptedEstimates()
+						&& status != Estimate.STATUS_ACCECPTED) {
+					continue;
+				}
+			} else if ((estimateType == Estimate.CHARGES || estimateType == Estimate.CREDITS)
+					&& !preferences.isDelayedchargesEnabled()) {
+				continue;
+			} else if (estimateType == Estimate.SALES_ORDER
+					&& !preferences.isSalesOrderEnabled()) {
+				continue;
+			} else if ((estimateType == ClientEstimate.BILLABLEEXAPENSES || estimateType == ClientEstimate.DEPOSIT_EXAPENSES)
+					&& !(preferences
+							.isBillableExpsesEnbldForProductandServices() && preferences
+							.isProductandSerivesTrackingByCustomerEnabled())) {
+				continue;
+			}
+
 			// for (int j = 0; j < obj.length; j++)
 			EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
 			el.setTransactionId(((Long) obj[0]).longValue());
@@ -241,6 +264,7 @@ public class CustomerManager extends PayeeManager {
 			if (obj[7] != null) {
 				el.setEstimateType(((Integer) obj[7]).intValue());
 			}
+			el.setStatus(((Integer) obj[8]).intValue());
 			esl.add(el);
 		}
 
@@ -252,11 +276,9 @@ public class CustomerManager extends PayeeManager {
 			int length) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			int total;
 			List<Estimate> list;
 			Company company = getCompany(companyId);
-			Query query;
-			query = session.getNamedQuery("getEstimate")
+			Query query = session.getNamedQuery("getEstimate")
 					.setEntity("company", company)
 					.setParameter("estimateType", estimateType)
 					.setParameter("fromDate", fromDate)
@@ -265,7 +287,6 @@ public class CustomerManager extends PayeeManager {
 			if (length == -1) {
 				list = query.list();
 			} else {
-				total = query.list().size();
 				list = query.setFirstResult(start).setMaxResults(length).list();
 			}
 			if (list != null) {

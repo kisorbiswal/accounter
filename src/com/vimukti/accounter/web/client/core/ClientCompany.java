@@ -121,8 +121,6 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientAccount> accounts;
 
-	// private ArrayList<ClientJob> jobs;
-
 	private ArrayList<ClientCustomer> customers;
 
 	private ArrayList<ClientVendor> vendors;
@@ -1473,10 +1471,6 @@ public class ClientCompany implements IAccounterCore {
 	public ClientLocation getLocation(long locationId) {
 		return Utility.getObject(this.locations, locationId);
 	}
-
-	// public ClientJob getjob(long jobId) {
-	// return Utility.getObject(this.jobs, jobId);
-	// }
 
 	public ClientAdvertisement getAdvertisement(long advertiseId) {
 		return Utility.getObject(this.advertisements, advertiseId);
@@ -3220,14 +3214,6 @@ public class ClientCompany implements IAccounterCore {
 	public void setEmailAccounts(List<ClientEmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
 	}
-
-	// public ArrayList<ClientJob> getJobs() {
-	// return jobs;
-	// }
-	//
-	// public void setJobs(ArrayList<ClientJob> jobs) {
-	// this.jobs = jobs;
-	// }
 
 	/**
 	 * @return the exchangeLossOrGainAccount

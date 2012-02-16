@@ -101,9 +101,6 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_RECEIVE_TAX:
 			transactionName = messages.receiveTAX();
 			break;
-		case ClientTransaction.TYPE_SALES_ORDER:
-			transactionName = messages.salesOrder();
-			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			transactionName = messages.purchaseOrder();
 			break;
@@ -1400,19 +1397,6 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
-			break;
-		case ClientTransaction.TYPE_SALES_ORDER:
-			switch (status) {
-			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(messages.notInvoiced());
-				break;
-			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(messages.partiallyInvoiced());
-				break;
-			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(messages.invoiced());
-				break;
-			}
 			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			switch (status) {

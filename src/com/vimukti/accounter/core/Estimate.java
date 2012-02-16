@@ -38,12 +38,13 @@ public class Estimate extends Transaction {
 
 	public static final int DEPOSIT_EXPENSES = 5;
 
+	public static final int SALES_ORDER = 6;
+
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
 	@ReffereredObject
 	Customer customer;
-	private int transactionType;
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
 	 */
@@ -119,11 +120,19 @@ public class Estimate extends Transaction {
 	 * @see Invoice
 	 * @see SalesOrder
 	 */
-	boolean isTurnedToInvoiceOrSalesOrder = false;
+	// boolean isTurnedToInvoiceOrSalesOrder = false;
 
 	private Invoice usedInvoice;
 
 	private Invoice oldUsedInvoice;
+
+	private String customerOrderNumber;
+
+	private ShippingTerms shippingTerm;
+
+	private ShippingMethod shippingMethod;
+
+	private FinanceDate dueDate;
 
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
@@ -257,14 +266,14 @@ public class Estimate extends Transaction {
 		return taxTotal;
 	}
 
-	public boolean isTurnedToInvoiceOrSalesOrder() {
-		return isTurnedToInvoiceOrSalesOrder;
-	}
-
-	public void setTurnedToInvoiceOrSalesOrder(
-			boolean isTurnedToInvoiceOrSalesOrder) {
-		this.isTurnedToInvoiceOrSalesOrder = isTurnedToInvoiceOrSalesOrder;
-	}
+	// public boolean isTurnedToInvoiceOrSalesOrder() {
+	// return isTurnedToInvoiceOrSalesOrder;
+	// }
+	//
+	// public void setTurnedToInvoiceOrSalesOrder(
+	// boolean isTurnedToInvoiceOrSalesOrder) {
+	// this.isTurnedToInvoiceOrSalesOrder = isTurnedToInvoiceOrSalesOrder;
+	// }
 
 	@Override
 	public boolean isDebitTransaction() {
@@ -288,8 +297,7 @@ public class Estimate extends Transaction {
 
 	@Override
 	public Payee getPayee() {
-
-		return null;
+		return getCustomer();
 	}
 
 	public void setTotal(Double total) {
@@ -333,7 +341,8 @@ public class Estimate extends Transaction {
 		}
 
 		if (this.getID() != 0) {
-			if (this.status == Transaction.STATUS_APPLIED) {
+			if (usedInvoice != null
+					&& this.status == Transaction.STATUS_APPLIED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
 				// "This Quote is Already used in SalesOrder or Invoice");
@@ -354,14 +363,6 @@ public class Estimate extends Transaction {
 		}
 
 		return true;
-	}
-
-	public int getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(int transactionType) {
-		this.transactionType = transactionType;
 	}
 
 	public int getEstimateType() {
@@ -432,7 +433,7 @@ public class Estimate extends Transaction {
 			status = STATUS_APPLIED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
-			status = STATUS_ACCECPTED;
+			status = STATUS_OPEN;
 		}
 	}
 
@@ -503,5 +504,37 @@ public class Estimate extends Transaction {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 
+	}
+
+	public String getCustomerOrderNumber() {
+		return customerOrderNumber;
+	}
+
+	public void setCustomerOrderNumber(String customerOrderNumber) {
+		this.customerOrderNumber = customerOrderNumber;
+	}
+
+	public ShippingTerms getShippingTerm() {
+		return shippingTerm;
+	}
+
+	public void setShippingTerm(ShippingTerms shippingTerm) {
+		this.shippingTerm = shippingTerm;
+	}
+
+	public ShippingMethod getShippingMethod() {
+		return shippingMethod;
+	}
+
+	public void setShippingMethod(ShippingMethod shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	public FinanceDate getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(FinanceDate dueDate) {
+		this.dueDate = dueDate;
 	}
 }

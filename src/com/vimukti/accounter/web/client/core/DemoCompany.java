@@ -104,8 +104,6 @@ public class DemoCompany implements IAccounterCore {
 
 	private ArrayList<ClientTransaction> transactions;
 
-	private ArrayList<ClientSalesOrder> salesOrders;
-
 	private ArrayList<ClientPurchaseOrder> purchaseOrders;
 
 	private ArrayList<ClientBank> banks;
@@ -335,7 +333,6 @@ public class DemoCompany implements IAccounterCore {
 		return 0;
 	}
 
-
 	public ArrayList<ClientAccount> getAccounts() {
 		return accounts;
 	}
@@ -399,14 +396,6 @@ public class DemoCompany implements IAccounterCore {
 
 	public void setTransactions(ArrayList<ClientTransaction> transactions) {
 		this.transactions = transactions;
-	}
-
-	public ArrayList<ClientSalesOrder> getSalesOrders() {
-		return salesOrders;
-	}
-
-	public void setSalesOrders(ArrayList<ClientSalesOrder> salesOrders) {
-		this.salesOrders = salesOrders;
 	}
 
 	public ArrayList<ClientPurchaseOrder> getPurchaseOrders() {
