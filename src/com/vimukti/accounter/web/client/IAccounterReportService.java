@@ -24,10 +24,12 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
+import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -358,5 +360,12 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
 			ClientFinanceDate start, ClientFinanceDate end);
+
+	ArrayList<EstimatesByJob> getEstimatesByJob(ClientFinanceDate start,
+			ClientFinanceDate end);
+
+	ArrayList<JobActualCostDetail> getJobActualCostOrRevenueDetails(
+			ClientFinanceDate start, ClientFinanceDate end,
+			boolean isActualcostDetail, long transactionId, long jobId);
 
 }
