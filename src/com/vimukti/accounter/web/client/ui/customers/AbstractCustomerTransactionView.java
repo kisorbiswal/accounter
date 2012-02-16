@@ -44,6 +44,7 @@ import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.SalesPersonCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.combo.ShippingMethodsCombo;
+import com.vimukti.accounter.web.client.ui.combo.ShippingTermsCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.core.AbstractTransactionBaseView;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -1023,6 +1024,31 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		}
 		addItemTransactionItem(transactionItem);
 
+	}
+
+	protected ShippingTermsCombo createShippingTermsCombo() {
+
+		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
+				messages.shippingTerms());
+		shippingTermsCombo.setHelpInformation(true);
+		shippingTermsCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientShippingTerms selectItem) {
+						shippingTerm = selectItem;
+						if (shippingTerm != null && shippingTermsCombo != null) {
+							shippingTermsCombo.setComboItem(getCompany()
+									.getShippingTerms(shippingTerm.getID()));
+							shippingTermsCombo.setDisabled(isInViewMode());
+						}
+					}
+
+				});
+
+		shippingTermsCombo.setDisabled(isInViewMode());
+		return shippingTermsCombo;
 	}
 
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);

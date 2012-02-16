@@ -548,10 +548,12 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), ActionFactory
 				.getPaymentsAction(PaymentsAction.BANKING));
 
-		actions.put(ActionFactory.getSalesOrderAction().getHistoryToken(),
-				ActionFactory.getSalesOrderAction());
-		actions.put(ActionFactory.getSalesOrderListAction().getHistoryToken(),
-				ActionFactory.getSalesOrderListAction());
+		actions.put(ActionFactory.getNewQuoteAction(ClientEstimate.SALES_ORDER)
+				.getHistoryToken(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.SALES_ORDER));
+		actions.put(ActionFactory.getQuotesAction(ClientEstimate.SALES_ORDER)
+				.getHistoryToken(), ActionFactory
+				.getQuotesAction(ClientEstimate.SALES_ORDER));
 		actions.put(ActionFactory.getSalesOpenOrderAction().getHistoryToken(),
 				ActionFactory.getSalesOpenOrderAction());
 

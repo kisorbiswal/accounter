@@ -1483,7 +1483,7 @@ public interface AccounterMessages extends Messages {
 
 	public String doyouwanttoDeletetheTransaction();
 
-	public String doyouwanttorejecttheEstimate();
+	public String doyouwanttorejecttheEstimate(String typeString);
 
 	public String doyouWantToUseStatements();
 
@@ -5904,7 +5904,7 @@ public interface AccounterMessages extends Messages {
 	public String youCannotBuildThisAssembly();
 
 	public String reportTotal(String jobName);
-	
+
 	public String enablePreference(String preferences);
-	
+
 }

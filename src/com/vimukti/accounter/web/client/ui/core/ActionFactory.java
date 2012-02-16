@@ -112,8 +112,6 @@ import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivedPaymentsAction;
 import com.vimukti.accounter.web.client.ui.customers.RecurringsListAction;
-import com.vimukti.accounter.web.client.ui.customers.SalesOrderAction;
-import com.vimukti.accounter.web.client.ui.customers.SalesOrderListAction;
 import com.vimukti.accounter.web.client.ui.customers.SalesPersonAction;
 import com.vimukti.accounter.web.client.ui.customers.TaxDialogAction;
 import com.vimukti.accounter.web.client.ui.fixedassets.DisposingRegisteredItemAction;
@@ -153,7 +151,6 @@ import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByItemSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction;
-import com.vimukti.accounter.web.client.ui.reports.PurchaseClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.PurchaseOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
@@ -166,7 +163,6 @@ import com.vimukti.accounter.web.client.ui.reports.SalesByItemDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByItemSummaryAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesByLocationSummaryAction;
-import com.vimukti.accounter.web.client.ui.reports.SalesClosedOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.SalesTaxLiabilityAction;
 import com.vimukti.accounter.web.client.ui.reports.StatementReportAction;
@@ -752,14 +748,6 @@ public class ActionFactory {
 		return new CustomerRefundsAction();
 	}
 
-	public static SalesOrderAction getSalesOrderAction() {
-		return new SalesOrderAction();
-	}
-
-	public static SalesOrderListAction getSalesOrderListAction() {
-		return new SalesOrderListAction();
-	}
-
 	public static NewSalesperSonAction getNewSalesperSonAction() {
 		return new NewSalesperSonAction();
 	}
@@ -935,17 +923,19 @@ public class ActionFactory {
 		return new PurchaseOpenOrderAction();
 	}
 
-	public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
-		return new PurchaseClosedOrderAction();
-	}
-
+	//
+	// public static PurchaseClosedOrderAction getPurchaseClosedOrderAction() {
+	// return new PurchaseClosedOrderAction();
+	// }
+	//
 	public static SalesOpenOrderAction getSalesOpenOrderAction() {
 		return new SalesOpenOrderAction();
 	}
 
-	public static SalesClosedOrderAction getSalesCloseOrderAction() {
-		return new SalesClosedOrderAction();
-	}
+	//
+	// public static SalesClosedOrderAction getSalesCloseOrderAction() {
+	// return new SalesClosedOrderAction();
+	// }
 
 	public static VATDetailsReportAction getVATDetailsReportAction() {
 		return new VATDetailsReportAction();
@@ -1127,7 +1117,6 @@ public class ActionFactory {
 	}
 
 	public static VendorPaymentsListAction getVendorPaymentsAction() {
-
 		return new VendorPaymentsListAction();
 	}
 
