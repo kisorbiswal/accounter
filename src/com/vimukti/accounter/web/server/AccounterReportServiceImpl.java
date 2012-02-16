@@ -68,6 +68,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
@@ -79,6 +80,7 @@ import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.UnBilledCostsByJobReport;
 
 public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		implements IAccounterReportService {
@@ -3264,16 +3266,41 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			ClientFinanceDate start, ClientFinanceDate end) throws AccounterException
-			 {
+			ClientFinanceDate start, ClientFinanceDate end) {
 		JobProfitability obj = new JobProfitability();
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
-		ArrayList<JobProfitability> list = getFinanceTool().getReportManager()
-				.getJobProfitabilitySummaryReport(getCompanyId(), start, end);
-		if (list != null)
-			list.add((JobProfitability) setStartEndDates(obj,
-					minimumAndMaximumDates));
+		ArrayList<JobProfitability> list = null;
+		try {
+			list = getFinanceTool().getReportManager()
+					.getJobProfitabilitySummaryReport(getCompanyId(), start,
+							end);
+			if (list != null)
+				list.add((JobProfitability) setStartEndDates(obj,
+						minimumAndMaximumDates));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public ArrayList<UnBilledCostsByJob> getUnBilledCostsByJob(
+			ClientFinanceDate start, ClientFinanceDate end) {
+		UnBilledCostsByJob obj = new UnBilledCostsByJob();
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<UnBilledCostsByJob> list = null;
+		try {
+			list = getFinanceTool().getReportManager()
+					.getUnBilledCostsByJobReport(getCompanyId(), start, end);
+			if (list != null)
+				list.add((UnBilledCostsByJob) setStartEndDates(obj,
+						minimumAndMaximumDates));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		return list;
 	}
 }
