@@ -53,6 +53,7 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -3710,5 +3711,29 @@ public class ReportManager extends Manager {
 			jobActualCostDetails.add(jobActualCostDetail);
 		}
 		return jobActualCostDetails;
+	}
+
+	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
+			Long companyId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
+		List result = session.getNamedQuery("getJobProfitabilitySummary")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			JobProfitability job = new JobProfitability();
+			job.setTransactionId((Long) objects[0]);
+			job.setCustomerId((Integer) objects[1]);
+			job.setJobId((Integer) objects[2]);
+			job.setTransactionType((Integer) objects[3]);
+			job.setName((String) objects[4]);
+			job.setCostAmount((Double) objects[5]);
+			job.setRevenueAmount((Double) objects[6]);
+			list.add(job);
+		}
+		return list;
 	}
 }
