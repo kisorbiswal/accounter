@@ -16,6 +16,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerRep
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.BankCheckDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.BankDepositServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CashFlowStatementServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHistoryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServerReport;
@@ -131,6 +133,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
+	public final static int REPORT_TYPE_BANK_DEPOSIT_REPORT = 179;
+	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1466,6 +1470,39 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return stockStatusByVendor.getGridTemplate();
+
+		case REPORT_TYPE_BANK_DEPOSIT_REPORT:
+			BankDepositServerReport bankDepositReport = new BankDepositServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(bankDepositReport, finaTool);
+
+			bankDepositReport.onResultSuccess(finaTool.getReportManager()
+					.getBankDepositDetails(company.getID(),
+							new ClientFinanceDate(startDate.getDate()),
+							new ClientFinanceDate(endDate.getDate())));
+
+			return bankDepositReport.getGridTemplate();
+		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
+			BankCheckDetailServerReport bankCheckDetailReport = new BankCheckDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(bankCheckDetailReport, finaTool);
+
+			bankCheckDetailReport.onResultSuccess(finaTool.getReportManager()
+					.getBankCheckDetails(company.getID(),
+							new ClientFinanceDate(startDate.getDate()),
+							new ClientFinanceDate(endDate.getDate())));
+
+			return bankCheckDetailReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1754,6 +1791,10 @@ public class ReportsGenerator {
 			return "Inventory Stock Status By Item";
 		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR:
 			return "Inventory Stock Status By Vendor";
+		case REPORT_TYPE_BANK_DEPOSIT_REPORT:
+			return "Deposit Detail";
+		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
+			return "Check Detail";
 		default:
 			break;
 		}
