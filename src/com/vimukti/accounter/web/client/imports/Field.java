@@ -99,4 +99,8 @@ public class Field<T> {
 	public boolean isValid() {
 		return isRequired ? value != null : true;
 	}
+
+	public boolean validate(Object obj) {
+		return false;
+	}
 }
