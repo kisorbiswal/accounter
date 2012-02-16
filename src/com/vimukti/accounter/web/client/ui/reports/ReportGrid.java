@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.Sorting;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.grids.CustomTable;
@@ -259,7 +260,12 @@ public class ReportGrid<R> extends CustomTable {
 	protected void cellClicked(int rowIndex, int cellIndex) {
 		if (list.size() > rowIndex && list.get(rowIndex) != null) {
 			selectedObjecd = list.get(rowIndex);
-			reportView.OnRecordClick(selectedObjecd);
+			if (reportView instanceof JobProfitabilitySummaryReport) {
+				((JobProfitabilitySummaryReport) reportView).OnClick(
+						(JobProfitability) selectedObjecd, rowIndex, cellIndex);
+			} else {
+				reportView.OnRecordClick(selectedObjecd);
+			}
 		}
 
 	}
