@@ -565,6 +565,8 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
+		customersAndReceivableMenuBar.addMenuItem("Estimates by Job",
+				HistoryTokens.ESTIMATEBYJOB);
 
 		return customersAndReceivableMenuBar;
 	}
@@ -872,6 +874,8 @@ public class MenuBar {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
+			newCustomerMenuBar.addMenuItem(messages.newJob(),
+					HistoryTokens.NEWJOB);
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
 			if (isDoyouwantEstimates) {
