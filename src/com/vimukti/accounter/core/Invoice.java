@@ -438,7 +438,9 @@ public class Invoice extends Transaction implements Lifecycle {
 			if (isTemplate()) {
 				addEstimateTransactionItems();
 			}
-			this.estimates.clear();
+			if (this.estimates != null) {
+				this.estimates.clear();
+			}
 			return false;
 		}
 		if (this.total < 0) {
