@@ -934,6 +934,11 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
+		
+		// for job reports
+				actions.put(ActionFactory.getJobProfitabilitySummaryReportAction()
+						.getHistoryToken(), ActionFactory
+						.getJobProfitabilitySummaryReportAction());
 	}
 
 	public ClientCompany getCompany() {
