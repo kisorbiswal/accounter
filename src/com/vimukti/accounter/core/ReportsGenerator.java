@@ -20,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHist
 import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.EstimatesByJobServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
@@ -132,6 +133,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
+	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 183;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1515,6 +1517,27 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return stockStatusByVendor.getGridTemplate();
+		case REPORT_TYPE_ESTIMATE_BY_JOB:
+			EstimatesByJobServerReport estimatesByJobServerReport = new EstimatesByJobServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(estimatesByJobServerReport, finaTool);
+			try {
+				estimatesByJobServerReport.onResultSuccess(finaTool
+						.getReportManager().getEstimatesByJob(
+								new FinanceDate(startDate.getDate()),
+								new FinanceDate(endDate.getDate()),
+								company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return estimatesByJobServerReport.getGridTemplate();
+
 		default:
 			break;
 		}
@@ -1782,6 +1805,8 @@ public class ReportsGenerator {
 			return "Inventory Stock Status By Item";
 		case REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR:
 			return "Inventory Stock Status By Vendor";
+		case REPORT_TYPE_ESTIMATE_BY_JOB:
+			return "Estimates By Job";
 		default:
 			break;
 		}

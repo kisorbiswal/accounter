@@ -37,7 +37,7 @@ public class SalesOrder extends Transaction {
 	 */
 	@ReffereredObject
 	Customer customer;
-
+	Job job;
 	/**
 	 * Contact Selected for the Selected Customer
 	 */
@@ -749,7 +749,7 @@ public class SalesOrder extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.salesOrder()).gap();
@@ -805,6 +805,14 @@ public class SalesOrder extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 }

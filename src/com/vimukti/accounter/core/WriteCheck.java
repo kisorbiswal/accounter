@@ -50,6 +50,7 @@ public class WriteCheck extends Transaction {
 	@ReffereredObject
 	Customer customer;
 
+	private Job job;
 	/**
 	 * The Vendor to whom we are writing this check.
 	 */
@@ -440,5 +441,13 @@ public class WriteCheck extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }

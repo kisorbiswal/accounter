@@ -1460,4 +1460,9 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 		this.statementLastDate = statementLastDate;
 	}
 
+	public void clearOpeningBalance() {
+		totalBalance -= openingBalance;
+		openingBalance = 0.0;
+	}
+
 }

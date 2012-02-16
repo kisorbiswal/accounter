@@ -23,6 +23,8 @@ public class CustomerPrePayment extends Transaction {
 	@ReffereredObject
 	Customer customer;
 
+	private Job job;
+
 	/**
 	 * {@link account}, associated With this CustomerPrePayment
 	 */
@@ -322,5 +324,13 @@ public class CustomerPrePayment extends Transaction {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }

@@ -88,6 +88,8 @@ public class Invoice extends Transaction implements Lifecycle {
 	@ReffereredObject
 	Customer customer;
 
+	private Job job;
+
 	/**
 	 * The Desired Contact as Per the Selected Customer
 	 * 
@@ -1230,5 +1232,13 @@ public class Invoice extends Transaction implements Lifecycle {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? -total : total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }
