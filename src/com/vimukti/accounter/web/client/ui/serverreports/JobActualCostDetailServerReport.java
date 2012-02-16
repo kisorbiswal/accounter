@@ -11,13 +11,10 @@ public class JobActualCostDetailServerReport extends
 
 	private String sectionName = "";
 	private String jobName = "";
-	private boolean isActualcostDetail;
 
 	public JobActualCostDetailServerReport(
-			IFinanceReport<JobActualCostDetail> reportView,
-			boolean isActualcostDetail) {
+			IFinanceReport<JobActualCostDetail> reportView) {
 		this.reportView = reportView;
-		this.isActualcostDetail = isActualcostDetail;
 	}
 
 	public JobActualCostDetailServerReport(long startDate, long endDate,
@@ -35,12 +32,7 @@ public class JobActualCostDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-
-		if (isActualcostDetail) {
-			return "Job Actual Cost Detail";
-		} else {
-			return "Job Actual Revenue Detail";
-		}
+		return "Job Actual Cost Detail";
 	}
 
 	@Override
