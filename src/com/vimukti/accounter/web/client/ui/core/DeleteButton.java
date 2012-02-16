@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -78,8 +79,21 @@ public class DeleteButton extends ImageButton {
 		String warning = null;
 		if (obj instanceof ClientTransaction) {
 			ClientTransaction transaction = (ClientTransaction) obj;
-			name = ReportUtility.getTransactionName(((ClientTransaction) obj)
-					.getType());
+			if (transaction.getType() == ClientTransaction.TYPE_ESTIMATE) {
+				ClientEstimate estimate = (ClientEstimate) transaction;
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					name = messages.quote();
+				} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
+					name = messages.charge();
+				} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
+					name = messages.credit();
+				} else if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+					name = messages.salesOrder();
+				}
+			} else {
+				name = ReportUtility
+						.getTransactionName(((ClientTransaction) obj).getType());
+			}
 			if (transaction.isTemplate()) {
 				warning = messages.recurringTemplateDeleteWarning(name
 						.toLowerCase());
