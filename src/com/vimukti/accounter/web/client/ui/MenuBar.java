@@ -81,9 +81,9 @@ public class MenuBar {
 
 	private boolean isMulticurrencyEnabled;
 
-	private boolean isUnitsEnabled;
-
 	private String countryOrRegion;
+
+	private boolean isUnitsEnalbled;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -113,15 +113,6 @@ public class MenuBar {
 
 		if (canDoBanking) {
 			this.addMenu(getBankingMenu(messages.banking()));
-		}
-
-		if (isSalesOrderEnabled) {
-			this.addMenu(getSalesSubMenu(messages.sales()));
-
-		}
-
-		if (isPurchaseOrderEnabled) {
-			this.addMenu(getPurchaseSubMenu(messages.purchases()));
 		}
 
 		if (canDoInventory && isInventoryEnabled) {
@@ -170,7 +161,7 @@ public class MenuBar {
 		}
 		inventoryMenu.addMenuItem(messages.stockAdjustments(),
 				HistoryTokens.STOCKADJUSTMENTS);
-		if (isUnitsEnabled) {
+		if (isUnitsEnalbled) {
 			inventoryMenu.addMenuItem(messages.measurementList(),
 					HistoryTokens.MEASUREMENTLIST);
 		}
@@ -189,7 +180,7 @@ public class MenuBar {
 			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
 					HistoryTokens.WAREHOUSETRANSFER);
 		}
-		if (isUnitsEnabled) {
+		if (isUnitsEnalbled) {
 			newMenuBar.addMenuItem(messages.measurement(),
 					HistoryTokens.ADDMEASUREMENT);
 		}
@@ -389,44 +380,6 @@ public class MenuBar {
 		return fixedAssetsReportMenu;
 	}
 
-	private Menu getSalesSubMenu(String string) {
-		Menu salesMenu = new Menu(string);
-
-		if (canDoInvoiceAndBillTransactions) {
-			salesMenu.addMenuItem(messages.salesOrder(),
-					HistoryTokens.SALESORDER);
-		}
-		if (canSeeInvoiceTransactions) {
-			salesMenu.addMenuItem(messages.salesOrderList(),
-					HistoryTokens.SALESORDERLIST);
-		}
-		if (canViewReports) {
-			salesMenu.addMenuItem(messages.salesOrderReport(),
-					HistoryTokens.SALESORDERREPORT);
-		}
-
-		return salesMenu;
-	}
-
-	private Menu getPurchaseSubMenu(String string) {
-		Menu purchaseMenu = new Menu(string);
-
-		if (canDoInvoiceAndBillTransactions) {
-			purchaseMenu.addMenuItem(messages.purchaseOrder(),
-					HistoryTokens.PURCHASEORDER);
-		}
-		if (canSeeInvoiceTransactions) {
-			purchaseMenu.addMenuItem(messages.purchaseOrderList(),
-					HistoryTokens.PURCHASEORDERLIST);
-		}
-		if (canViewReports) {
-			purchaseMenu.addMenuItem(messages.purchaseOrderReport(),
-					HistoryTokens.PURCHASEORDERREPORT);
-		}
-
-		return purchaseMenu;
-	}
-
 	private Menu getVendorAndPayablesMenu(String string) {
 
 		Menu vendorAndPayableMenuBar = new Menu(string);
@@ -441,7 +394,6 @@ public class MenuBar {
 		vendorAndPayableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Vendor()),
 				HistoryTokens.VENDORTRANSACTIONHISTORY);
-
 		return vendorAndPayableMenuBar;
 	}
 
@@ -752,7 +704,10 @@ public class MenuBar {
 					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);
 		}
-
+		if (isPurchaseOrderEnabled && canSeeInvoiceTransactions) {
+			vendorListMenuBar.addMenuItem(messages.purchaseOrderList(),
+					HistoryTokens.PURCHASEORDERLIST);
+		}
 		return vendorListMenuBar;
 	}
 
@@ -771,6 +726,12 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
 					HistoryTokens.NEWCASHPURCHASE);
 		}
+
+		if (canDoInvoiceAndBillTransactions && isPurchaseOrderEnabled) {
+			newVendorMenuBar.addMenuItem(messages.purchaseOrder(),
+					HistoryTokens.PURCHASEORDER);
+		}
+
 		if (canDoInvoiceAndBillTransactions) {
 
 			newVendorMenuBar.addMenuItem(
@@ -853,6 +814,10 @@ public class MenuBar {
 						HistoryTokens.CREDITS);
 			}
 
+			if (isSalesOrderEnabled) {
+				customerListMenuBar.addMenuItem(messages.salesOrderList(),
+						HistoryTokens.SALESORDERLIST);
+			}
 		}
 		if (canSeeBanking) {
 			customerListMenuBar.addMenuItem(messages.receivedPayments(),
@@ -885,6 +850,10 @@ public class MenuBar {
 				newCustomerMenuBar.addMenuItem(messages.newCredit(),
 						HistoryTokens.NEWCREDIT);
 			}
+			if (isSalesOrderEnabled) {
+				newCustomerMenuBar.addMenuItem(messages.salesOrder(),
+						HistoryTokens.SALESORDER);
+			}
 
 			newCustomerMenuBar.addMenuItem(messages.newInvoice(),
 					HistoryTokens.NEWINVOICE);
@@ -916,6 +885,8 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
+
+		companyMenuBar.addMenuItem(messages.importFile(), HistoryTokens.IMPORT);
 
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
@@ -1130,6 +1101,8 @@ public class MenuBar {
 
 		this.iswareHouseEnabled = preferences.iswareHouseEnabled();
 
+		this.isUnitsEnalbled = preferences.isUnitsEnabled();
+
 		this.isPurchaseOrderEnabled = preferences.isPurchaseOrderEnabled();
 
 		this.isSalesOrderEnabled = preferences.isSalesOrderEnabled();
@@ -1162,8 +1135,6 @@ public class MenuBar {
 				.getCountryOrRegion();
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
-
-		this.isUnitsEnabled = preferences.isUnitsEnabled();
 
 		getMenuBar();
 	}

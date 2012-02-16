@@ -85,6 +85,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	private String title;
 	private SelectCombo statusCombo;
 
+	private DateField dueDateItem;
+
+	private TextItem customerOrderText;
+
 	public QuoteView(int type, String title) {
 		super(ClientTransaction.TYPE_ESTIMATE);
 		this.title = title;
@@ -228,6 +232,14 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		ClientFinanceDate transDate = this.transactionDateItem.getEnteredDate();
 		calculateDatesforPayterm(transDate);
+
+		if (transDate != null && paymentTerm != null) {
+			ClientFinanceDate dueDate = Utility.getCalculatedDueDate(transDate,
+					paymentTerm);
+			if (dueDate != null) {
+				dueDateItem.setValue(dueDate);
+			}
+		}
 	}
 
 	private void calculateDatesforPayterm(ClientFinanceDate transDate) {
@@ -281,6 +293,10 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			return ClientEstimate.STATUS_CLOSE;
 		} else if (status.equals(messages.rejected())) {
 			return ClientEstimate.STATUS_REJECTED;
+		} else if (status.equals(messages.completed())) {
+			return ClientTransaction.STATUS_APPLIED;
+		} else if (status.equals(messages.cancelled())) {
+			return ClientTransaction.STATUS_CANCELLED;
 		}
 		return -1;
 	}
@@ -289,19 +305,22 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		switch (status) {
 		case ClientEstimate.STATUS_OPEN:
 			return messages.open();
-
 		case ClientEstimate.STATUS_ACCECPTED:
+			if (type == ClientEstimate.SALES_ORDER) {
+				return messages.completed();
+			}
 			return messages.accepted();
-
 		case ClientEstimate.STATUS_CLOSE:
 			return messages.closed();
-
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
-
 		case ClientEstimate.STATUS_APPLIED:
+			if (type == ClientEstimate.SALES_ORDER) {
+				return messages.completed();
+			}
 			return messages.closed();
-
+		case ClientTransaction.STATUS_CANCELLED:
+			return messages.cancelled();
 		default:
 			break;
 		}
@@ -399,7 +418,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		custForm = UIUtils.form(Global.get().customer());
 		custForm.setCellSpacing(5);
 		// custForm.setWidth("100%");
-		if (type == ClientEstimate.QUOTES) {
+		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
 			custForm.setFields(customerCombo, contactCombo, phoneSelect,
 					billToTextArea);
 		} else {
@@ -418,10 +437,20 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		statusCombo.initCombo(getStatusList());
 		statusCombo.setSelectedItem(0);
 
+		customerOrderText = new TextItem(messages.payeeOrderNo(Global.get()
+				.customer()));
+		customerOrderText.setWidth(50);
+		customerOrderText.setColSpan(1);
+		customerOrderText.setDisabled(isInViewMode());
+
+		shippingTermsCombo = createShippingTermsCombo();
+
+		shippingMethodsCombo = createShippingMethodCombo();
+
 		salesPersonCombo = createSalesPersonComboItem();
 
 		payTermsSelect = createPaymentTermsSelectItem();
-
+		dueDateItem = createDueDateItem();
 		quoteExpiryDate = new DateField(messages.expirationDate());
 		quoteExpiryDate.setHelpInformation(true);
 		quoteExpiryDate.setEnteredDate(getTransactionDate());
@@ -440,18 +469,42 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 		if (getPreferences().isSalesPersonEnabled()) {
 			if (isTemplate) {
-				phoneForm.setFields(statusCombo, salesPersonCombo,
-						payTermsSelect);
+				if (type == ClientEstimate.SALES_ORDER) {
+					phoneForm.setFields(statusCombo, dueDateItem,
+							customerOrderText, shippingTermsCombo,
+							shippingMethodsCombo, payTermsSelect);
+				} else {
+					phoneForm.setFields(statusCombo, salesPersonCombo,
+							payTermsSelect);
+				}
 			} else {
-				phoneForm.setFields(statusCombo, salesPersonCombo,
-						payTermsSelect, quoteExpiryDate, deliveryDate);
+				if (type == ClientEstimate.SALES_ORDER) {
+					phoneForm.setFields(statusCombo, dueDateItem,
+							customerOrderText, shippingTermsCombo,
+							shippingMethodsCombo, payTermsSelect);
+				} else {
+					phoneForm.setFields(statusCombo, salesPersonCombo,
+							payTermsSelect, quoteExpiryDate, deliveryDate);
+				}
 			}
 		} else {
 			if (isTemplate) {
-				phoneForm.setFields(statusCombo, payTermsSelect);
+				if (type == ClientEstimate.SALES_ORDER) {
+					phoneForm.setFields(statusCombo, dueDateItem,
+							customerOrderText, shippingTermsCombo,
+							shippingMethodsCombo, payTermsSelect);
+				} else {
+					phoneForm.setFields(statusCombo, payTermsSelect);
+				}
 			} else {
-				phoneForm.setFields(statusCombo, payTermsSelect,
-						quoteExpiryDate, deliveryDate);
+				if (type == ClientEstimate.SALES_ORDER) {
+					phoneForm.setFields(statusCombo, dueDateItem,
+							customerOrderText, shippingTermsCombo,
+							shippingMethodsCombo, payTermsSelect);
+				} else {
+					phoneForm.setFields(statusCombo, payTermsSelect,
+							quoteExpiryDate, deliveryDate);
+				}
 			}
 		}
 		phoneForm.setStyleName("align-form");
@@ -461,7 +514,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			if (type == ClientEstimate.QUOTES) {
+			if (type == ClientEstimate.QUOTES
+					|| type == ClientEstimate.SALES_ORDER) {
 				phoneForm.setFields(classListCombo);
 			} else {
 				locationform.setFields(classListCombo);
@@ -631,7 +685,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		VerticalPanel rightVLay = new VerticalPanel();
 		rightVLay.setWidth("100%");
 		rightVLay.setHorizontalAlignment(ALIGN_RIGHT);
-		if (type == ClientEstimate.QUOTES) {
+		if (type == ClientEstimate.QUOTES || type == ClientEstimate.SALES_ORDER) {
 			rightVLay.add(phoneForm);
 		} else {
 			rightVLay.add(locationform);
@@ -685,6 +739,22 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (isMultiCurrencyEnabled()) {
 			foreignCurrencyamountLabel.hide();
 		}
+	}
+
+	protected DateField createDueDateItem() {
+
+		DateField dateItem = new DateField(messages.dueDate());
+		dateItem.setToolTip(messages.selectDateUntilDue(this.getAction()
+				.getViewName()));
+		dateItem.setTitle(messages.dueDate());
+		dateItem.setColSpan(1);
+
+		dateItem.setDisabled(isInViewMode());
+
+		// formItems.add(dateItem);
+
+		return dateItem;
+
 	}
 
 	@Override
@@ -742,13 +812,21 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		quote.setStatus(getStatus(selectedValue));
 
 		transaction = quote;
-
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 
 		transaction.setEstimateType(type);
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
+		if (type == ClientEstimate.SALES_ORDER) {
+			transaction.setCustomerOrderNumber(customerOrderText.getValue());
+			transaction.setShippingTerm(shippingTerm == null ? 0 : shippingTerm
+					.getID());
+			if (shippingMethod != null)
+				transaction.setShippingMethod(shippingMethod.getID());
+			if (dueDateItem.getEnteredDate() != null)
+				transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
+		}
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {
@@ -806,6 +884,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		if (transaction == null) {
 			setData(new ClientEstimate());
+			if (type == ClientEstimate.SALES_ORDER) {
+				dueDateItem.setEnteredDate(new ClientFinanceDate());
+			}
 		} else {
 
 			if (currencyWidget != null) {
@@ -857,6 +938,18 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			paymentTermsSelected(this.paymentTerm);
 			priceLevelSelected(this.priceLevel);
 			salesPersonSelected(this.salesPerson);
+			dueDateItem.setEnteredDate(new ClientFinanceDate(transaction
+					.getDueDate()));
+			this.shippingTerm = company.getShippingTerms(transaction
+					.getShippingTerm());
+			if (this.shippingTerm != null) {
+				shippingTermsCombo.setComboItem(shippingTerm);
+			}
+			this.shippingMethod = company.getShippingMethod(transaction
+					.getShippingMethod());
+			if (shippingMethod != null) {
+				shippingMethodsCombo.setComboItem(shippingMethod);
+			}
 			this.transactionItems = transaction.getTransactionItems();
 
 			if (transaction.getDeliveryDate() != 0)
@@ -871,7 +964,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			}
 
 			statusCombo.setComboItem(getStatusString(transaction.getStatus()));
-
+			customerOrderText.setValue(transaction.getCustomerOrderNumber());
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(estimate.getReference());
 			if (isTrackTax()) {
@@ -925,6 +1018,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			deliveryDate.setDisabled(isInViewMode());
 			taxCodeSelect.setDisabled(isInViewMode());
 			statusCombo.setDisabled(isInViewMode());
+			customerOrderText.setDisabled(isInViewMode());
 			statusCombo.initCombo(getStatusList());
 		}
 		if (locationTrackingEnabled)
@@ -1042,7 +1136,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		ValidationResult result = super.validate();
 		// Validations
 		// 1. isValidDueOrDeliveryDate?
-
+		if (type == ClientEstimate.SALES_ORDER
+				&& !AccounterValidator.isValidDueOrDelivaryDates(
+						this.dueDateItem.getDate(), getTransactionDate())) {
+			result.addError(this.dueDateItem,
+					messages.the() + " " + messages.dueDate() + " " + " "
+							+ messages.cannotbeearlierthantransactiondate());
+		}
 		if (!AccounterValidator.isValidDueOrDelivaryDates(
 				this.quoteExpiryDate.getEnteredDate(), this.transactionDate)) {
 			result.addError(
@@ -1164,6 +1264,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			classListCombo.setDisabled(isInViewMode());
 		}
 		statusCombo.setDisabled(isInViewMode());
+		customerOrderText.setDisabled(isInViewMode());
+		shippingTermsCombo.setDisabled(isInViewMode());
+		dueDateItem.setDisabled(isInViewMode());
 		super.onEdit();
 	}
 
@@ -1212,6 +1315,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 	@Override
 	protected String getViewTitle() {
+		if (type == ClientEstimate.CHARGES) {
+			return messages.charge();
+		} else if (type == ClientEstimate.CREDITS) {
+			return messages.credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return messages.salesOrder();
+		}
 		return messages.quote();
 	}
 
@@ -1296,13 +1406,19 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 	public List<String> getStatusList() {
 		ArrayList<String> statuses = new ArrayList<String>();
 		statuses.add(messages.open());
-		statuses.add(messages.accepted());
-		statuses.add(messages.closed());
-		if (transaction == null
-				|| transaction.getStatus() == ClientEstimate.STATUS_REJECTED
-				|| transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
-			statuses.add(messages.rejected());
+		if (type != ClientEstimate.SALES_ORDER) {
+			statuses.add(messages.accepted());
+			statuses.add(messages.closed());
+			if (transaction == null
+					|| transaction.getStatus() == ClientEstimate.STATUS_REJECTED
+					|| transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
+				statuses.add(messages.rejected());
+			}
+		} else {
+			statuses.add(messages.completed());
+			statuses.add(messages.cancelled());
 		}
+
 		return statuses;
 	}
 
@@ -1341,5 +1457,4 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 			discountField.setAmount(0d);
 		}
 	}
-
 }

@@ -368,6 +368,8 @@ public class SearchInputDialog extends BaseDialog {
 			return ClientEstimate.CREDITS;
 		} else if (selectedValue.equals(messages.charge())) {
 			return ClientEstimate.CHARGES;
+		} else if (selectedValue.equals(messages.salesOrder())) {
+			return ClientEstimate.SALES_ORDER;
 		}
 		return 0;
 	}
@@ -413,6 +415,8 @@ public class SearchInputDialog extends BaseDialog {
 			return ClientTransaction.TYPE_ESTIMATE;
 		} else if (selectItem.equals(messages.credit())) {
 			return ClientTransaction.TYPE_ESTIMATE;
+		} else if (selectItem.equals(messages.salesOrder())) {
+			return ClientTransaction.TYPE_ESTIMATE;
 		} else if (selectItem.equals(messages.writeCheck())) {
 			return ClientTransaction.TYPE_WRITE_CHECK;
 		} else if (selectItem.equals(messages.creditCardExpense())) {
@@ -446,6 +450,8 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages
 				.payeeCredit(Global.get().Vendor()))) {
 			return ClientTransaction.TYPE_VENDOR_CREDIT_MEMO;
+		} else if (selectItem.equals(messages.purchaseOrder())) {
+			return ClientTransaction.TYPE_PURCHASE_ORDER;
 		}
 		return 0;
 	}
@@ -648,6 +654,8 @@ public class SearchInputDialog extends BaseDialog {
 			setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.credit())) {
 			setOptionsByCustomer(selectItem);
+		} else if (selectItem.equals(messages.salesOrder())) {
+			setOptionsByCustomer(selectItem);
 		} else if (selectItem.equals(messages.writeCheck())) {
 			setOptionsForPayeeList(selectItem);
 		} else if (selectItem.equals(messages.creditCardExpense())) {
@@ -681,6 +689,8 @@ public class SearchInputDialog extends BaseDialog {
 		} else if (selectItem.equals(messages
 				.payeeCredit(Global.get().Vendor()))) {
 			setOptionsForSupplierTransactions(selectItem);
+		} else if (selectItem.equals(messages.purchaseOrder())) {
+			setOptionsForPayeeList(selectItem);
 		}
 	}
 
@@ -704,6 +714,9 @@ public class SearchInputDialog extends BaseDialog {
 		List<String> list = new ArrayList<String>();
 		for (String string : searchByPayee) {
 			list.add(string);
+		}
+		if (selectItem.equals(messages.purchaseOrder())) {
+			list.remove(1);
 		}
 		if (selectItem.equals(messages.bill())) {
 			list.add(messages.productOrService());
@@ -883,6 +896,14 @@ public class SearchInputDialog extends BaseDialog {
 			transactionTypes.add(messages.charge());
 			transactionTypes.add(messages.credit());
 		}
+		if (getCompany().getPreferences().isSalesOrderEnabled()) {
+			transactionTypes.add(messages.salesOrder());
+		}
+
+		if (getCompany().getPreferences().isPurchaseOrderEnabled()) {
+			transactionTypes.add(messages.purchaseOrder());
+		}
+
 		Collections.sort(transactionTypes);
 		return transactionTypes;
 	}

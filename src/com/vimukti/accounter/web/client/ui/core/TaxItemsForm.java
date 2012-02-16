@@ -10,9 +10,10 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
@@ -61,11 +62,13 @@ public class TaxItemsForm extends DynamicForm {
 			for (ClientEstimate clientEstimate : estimates) {
 				transactionItems.addAll(clientEstimate.getTransactionItems());
 			}
+		}
 
-			List<ClientSalesOrder> salesOrders = ((ClientInvoice) transaction)
-					.getSalesOrders();
-			for (ClientSalesOrder clientSalesOrder : salesOrders) {
-				transactionItems.addAll(clientSalesOrder.getTransactionItems());
+		if (transaction instanceof ClientEnterBill) {
+			List<ClientPurchaseOrder> orders = ((ClientEnterBill) transaction)
+					.getPurchaseOrders();
+			for (ClientPurchaseOrder order : orders) {
+				transactionItems.addAll(order.getTransactionItems());
 			}
 		}
 

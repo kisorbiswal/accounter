@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 
 /**
@@ -12,7 +13,8 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
  * 
  * @param <T>
  */
-public abstract class AbstractImporter<T> implements Importer<T> {
+public abstract class AbstractImporter<T extends IAccounterCore> implements
+		Importer<T> {
 
 	private List<Field<?>> fields = new ArrayList<Field<?>>();
 
@@ -20,12 +22,6 @@ public abstract class AbstractImporter<T> implements Importer<T> {
 
 	public AbstractImporter() {
 		fields = getAllFields();
-	}
-
-	@Override
-	public T getData() {
-		// TODO
-		return null;
 	}
 
 	protected abstract List<Field<?>> getAllFields();
@@ -47,6 +43,14 @@ public abstract class AbstractImporter<T> implements Importer<T> {
 		}
 	}
 
+	@Override
+	public void loadData(Map<String, String> data) {
+		for (Field<?> field : fields) {
+			String value = data.get(field.getColumnName());
+			field.validate(value);
+		}
+	}
+
 	/**
 	 * @param fields
 	 *            the fields to set
@@ -65,6 +69,10 @@ public abstract class AbstractImporter<T> implements Importer<T> {
 	@Override
 	public Map<String, String> getImportedData() {
 		return importedData;
+	}
+
+	protected long getCustomerByName(String customerName) {
+		return 0;
 	}
 
 }

@@ -47,6 +47,8 @@ import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
+import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
@@ -3633,4 +3635,66 @@ public class ReportManager extends Manager {
 		}
 		return list;
 	}
+
+	public ArrayList<BankDepositDetail> getBankDepositDetails(Long companyId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<BankDepositDetail> list = new ArrayList<BankDepositDetail>();
+		List result = session.getNamedQuery("getBankDepositDetails")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+
+			Object[] objects = (Object[]) iterator.next();
+			BankDepositDetail depositDetail = new BankDepositDetail();
+			depositDetail.setTransactionId((Long) objects[0]);
+			depositDetail.setTransactionType((Integer) objects[1]);
+			depositDetail.setNumber((Long) objects[2]);
+			depositDetail
+					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
+							(Long) objects[3]) : null);
+			depositDetail.setPayeeName("");
+			depositDetail.setAccountName((String) objects[4]);
+			depositDetail.setAmount((Double) objects[5]);
+			list.add(depositDetail);
+		}
+
+		return list;
+	}
+
+	public ArrayList<BankCheckDetail> getBankCheckDetails(Long companyId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<BankCheckDetail> list = new ArrayList<BankCheckDetail>();
+		List result = session.getNamedQuery("getBankCheckDetails")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+
+			Object[] objects = (Object[]) iterator.next();
+			BankCheckDetail checkDetail = new BankCheckDetail();
+			checkDetail.setTransactionId((Long) objects[0]);
+			checkDetail.setTransactionType((Integer) objects[1]);
+			checkDetail.setTransactionNumber((Long) objects[2]);
+			checkDetail
+					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
+							(Long) objects[3]) : null);
+			checkDetail.setCheckAmount((Double) objects[4]);
+			checkDetail.setCheckNumber(objects[5] != null ? (String) objects[5]
+					: "");
+
+			checkDetail.setPayeeName("");
+			list.add(checkDetail);
+		}
+		return list;
+	}
+
+	// public ArrayList<JobProfitability> getJobProfitabilityReport(
+	// Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
+	// return null;
+	// }
 }

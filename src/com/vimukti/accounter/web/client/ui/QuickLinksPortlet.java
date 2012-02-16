@@ -56,7 +56,13 @@ public class QuickLinksPortlet extends Portlet {
 			quickLinksMap.put(messages.newCharge(), ActionFactory
 					.getNewQuoteAction(ClientEstimate.CHARGES)
 					.getHistoryToken());
+			quickLinksMap.put(messages.newCredit(), ActionFactory
+					.getNewQuoteAction(ClientEstimate.CREDITS)
+					.getHistoryToken());
 		}
+		quickLinksMap.put(messages.newSalesOrder(), ActionFactory
+				.getNewQuoteAction(ClientEstimate.SALES_ORDER)
+				.getHistoryToken());
 		quickLinksMap.put(messages.newJournalEntry(), ActionFactory
 				.getNewJournalEntryAction().getHistoryToken());
 		quickLinksMap.put(messages.receivePayment(), ActionFactory
