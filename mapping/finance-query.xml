@@ -13147,6 +13147,95 @@
 		(V.TRANSACTION_DATE BETWEEN :fromDate
 		AND :toDate);
 	</sql-query>
+	<sql-query name="getBankDepositDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		
+		SELECT 
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.T_DATE AS TRANSACTION_DATE,
+		A.NAME AS ACCOUNT_NAME,
+		CASE 
+		WHEN 
+		(A.is_increase)
+		THEN 
+		-AMOUNT
+		ELSE 
+		AMOUNT END  AS AMOUNT		
+		FROM ACCOUNT_TRANSACTION AT 
+		LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID 
+		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
+		
+		WHERE A.COMPANY_ID=:companyId  AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)  AND (A.A_TYPE=2 OR 
+		AT.TRANSACTION_ID IN 
+			(SELECT AT2.TRANSACTION_ID 
+				FROM ACCOUNT_TRANSACTION AT2 
+				LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID  
+				WHERE A2.A_TYPE=2)   )AND ( T.T_DATE &lt;= :endDate AND  T.T_DATE &gt;= :startDate)
+		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
+	</sql-query>
+	
+	<sql-query name="getBankCheckDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+			<return-scalar column="TRANSACTION_ID" type="long" />
+			<return-scalar column="TRANSACTION_TYPE" type="int" />
+			<return-scalar column="TRANSACTION_NUMBER" type="long" />
+			<return-scalar column="TRANSACTION_DATE" type="long" />
+			<return-scalar column="AMOUNT" type="double" />
+			<return-scalar column="CHECK_NUMBER" type="string" />
+		
+				SELECT T.ID AS TRANSACTION_ID,
+				T.T_TYPE AS TRANSACTION_TYPE,
+				T.NUMBER AS TRANSACTION_NUMBER,
+				T.T_DATE AS TRANSACTION_DATE,
+				T.TOTAL AS AMOUNT,
+				CASE
+				WHEN T.T_TYPE=15
+				THEN
+				W.CHECK_NUMBER
+				WHEN T_TYPE IN(2,26,28) THEN
+				CP.CHECK_NUMBER
+				WHEN T_TYPE=5 THEN
+				CR.CHECK_NUMBER
+				WHEN T.T_TYPE=17
+				THEN
+				PT.CHECK_NUMBER
+				WHEN T_TYPE=11 THEN
+				PB.CHECK_NUMBER
+				WHEN T_TYPE in(3,27) THEN
+				CCC.CHECK_NUMBER
+				WHEN T.T_TYPE=31
+				THEN
+				RV.CHECK_NUMBER
+				WHEN T.T_TYPE=29
+				THEN
+				CPP.CHECK_NUMBER
+				END AS CHECK_NUMBER
+				FROM TRANSACTION T
+				LEFT JOIN WRITE_CHECKS W ON W.ID=T.ID
+				LEFT JOIN CASH_PURCHASE CP ON CP.ID=T.ID
+				LEFT JOIN CUSTOMER_REFUND CR ON CR.ID=T.ID
+				LEFT JOIN PAY_TAX PT ON PT.ID=T.ID
+				LEFT JOIN PAY_BILL PB ON PB.ID=T.ID
+				LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
+				LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
+				LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID=T.ID
+				WHERE T.COMPANY_ID=:companyId AND T.PAYMENT_METHOD='Check' AND ( T.T_DATE
+				&lt;= :endDate AND T.T_DATE &gt;= :startDate);
+	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
