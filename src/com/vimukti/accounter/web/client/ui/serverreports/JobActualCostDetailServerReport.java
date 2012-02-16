@@ -5,28 +5,24 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
-import com.vimukti.accounter.web.client.ui.reports.JobActualCostDetailReport;
 
 public class JobActualCostDetailServerReport extends
 		AbstractFinaneReport<JobActualCostDetail> {
 
 	private String sectionName = "";
 	private String jobName = "";
+	private boolean isActualcostDetail;
 
 	public JobActualCostDetailServerReport(
-			IFinanceReport<JobActualCostDetail> reportView) {
+			IFinanceReport<JobActualCostDetail> reportView,
+			boolean isActualcostDetail) {
 		this.reportView = reportView;
+		this.isActualcostDetail = isActualcostDetail;
 	}
 
 	public JobActualCostDetailServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
-	}
-
-	public JobActualCostDetailServerReport(
-			JobActualCostDetailReport jobActualCostDetailReport,
-			boolean isActualcostDetail) {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -39,7 +35,12 @@ public class JobActualCostDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Job Actual Cost Detail";
+
+		if (isActualcostDetail) {
+			return "Job Actual Cost Detail";
+		} else {
+			return "Job Actual Revenue Detail";
+		}
 	}
 
 	@Override
