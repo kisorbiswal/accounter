@@ -204,9 +204,6 @@ public class ReportSectionView extends BaseHomeView {
 		customersAndRecievableMap.put(
 				messages.payeeStatement(Global.get().Customers()),
 				ActionFactory.getStatementReport(false, 0).getHistoryToken());
-		customersAndRecievableMap.put(messages.mostProfitableCustomer(Global
-				.get().Customer()), ActionFactory
-				.getMostProfitableCustomersAction().getHistoryToken());
 		customersAndRecievableMap.put(messages.payeeTransactionHistory(Global
 				.get().Customer()), ActionFactory
 				.getCustomerTransactionHistoryAction().getHistoryToken());
@@ -246,22 +243,16 @@ public class ReportSectionView extends BaseHomeView {
 				.getVATDetailsReportAction().getHistoryToken());
 		ukTaxMap.put(messages.vat100(), ActionFactory.getVAT100ReportAction()
 				.getHistoryToken());
-		ukTaxMap.put(messages.uncategorisedVATAmounts(), ActionFactory
-				.getVATUncategorisedAmountsReportAction().getHistoryToken());
 		ukTaxMap.put(messages.ecSalesList(), ActionFactory
 				.getECSalesListAction().getHistoryToken());
 		ukTaxMap.put(messages.vatItemSummary(), ActionFactory
 				.getVATItemSummaryReportAction().getHistoryToken());
-		ukTaxMap.put(messages.uncategorisedVATAmounts(), ActionFactory
-				.getVATUncategorisedAmountsReportAction().getHistoryToken());
 
 		// TAX tab for all other countries
 		taxMap.put(messages.taxItemDetailReport(), ActionFactory
 				.getTaxItemDetailReportAction().getHistoryToken());
 		taxMap.put(messages.taxItemExceptionDetailReport(), ActionFactory
 				.getTaxItemExceptionDetailReportAction().getHistoryToken());
-		taxMap.put(messages.uncategorisedVATAmounts(), ActionFactory
-				.getVATUncategorisedAmountsReportAction().getHistoryToken());
 		taxMap.put(messages.vatItemSummary(), ActionFactory
 				.getVATItemSummaryReportAction().getHistoryToken());
 		if (Accounter.getCompany().getCountryPreferences() instanceof India) {

@@ -34,17 +34,17 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
 		EditTable<ClientTransactionPayBill> {
-	private boolean canEdit;
+	private final boolean canEdit;
 	private ClientVendor vendor;
-	private List<Integer> selectedValues = new ArrayList<Integer>();
+	private final List<Integer> selectedValues = new ArrayList<Integer>();
 	private boolean gotCreditsAndPayments;
 	public List<ClientCreditsAndPayments> creditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 
 	public boolean isAlreadyOpened;
-	private ICurrencyProvider currencyProvider;
+	private final ICurrencyProvider currencyProvider;
 	private ClientTAXItem tdsCode;
 	private boolean isForceShowTDS;
-	private boolean enableDiscount;
+	private final boolean enableDiscount;
 	private long transactionId;
 
 	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
@@ -58,6 +58,7 @@ public abstract class TransactionPayBillTable extends
 		this.transactionId = transactionId;
 	}
 
+	@Override
 	protected void initColumns() {
 		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
 
@@ -458,8 +459,9 @@ public abstract class TransactionPayBillTable extends
 	 */
 	public void updateValue(ClientTransactionPayBill obj) {
 		// obj.setPayment(obj.getAmountDue());
-		updatesAmounts(obj);
 		updateTotalPayment(obj);
+		updatesAmounts(obj);
+		adjustAmountAndEndingBalance();
 		calculateUnusedCredits();
 		update(obj);
 	}
@@ -675,6 +677,7 @@ public abstract class TransactionPayBillTable extends
 						transactionId,
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
 								Accounter.showInformation(messages
 										.failedTogetCreditsListAndPayments(vendor
@@ -685,6 +688,7 @@ public abstract class TransactionPayBillTable extends
 
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<ClientCreditsAndPayments> result) {
 								if (result == null)
@@ -819,6 +823,7 @@ public abstract class TransactionPayBillTable extends
 		return getAllRows();
 	}
 
+	@Override
 	protected abstract boolean isInViewMode();
 
 	public double getTDSTotal() {
@@ -844,7 +849,6 @@ public abstract class TransactionPayBillTable extends
 		double tdsToPay;
 		tdsToPay = calculateTDS(bill.getPayment());
 		bill.setTdsAmount(tdsToPay);
-
 	}
 
 	public void showTDS(boolean value) {
