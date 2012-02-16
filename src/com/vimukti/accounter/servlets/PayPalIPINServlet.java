@@ -31,20 +31,16 @@ public class PayPalIPINServlet extends BaseServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static String VIEW = "/WEB-INF/paymentdone.jsp";
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
 		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		String emailId = (String) req.getSession().getAttribute(
-				BaseServlet.EMAIL_ID);
 		// read post from PayPal
 		// system and add 'cmd'
 		Enumeration en = req.getParameterNames();
@@ -53,9 +49,14 @@ public class PayPalIPINServlet extends BaseServlet {
 		while (en.hasMoreElements()) {
 			String paramName = (String) en.nextElement();
 			String paramValue = req.getParameter(paramName);
-			params.put(paramName, paramName);
+			params.put(paramName, paramValue);
 			str = str + "&" + paramName + "=" + URLEncoder.encode(paramValue);
 		}
+
+		String paymentStatus = req.getParameter("payment_status");
+		String emailId = req.getParameter("custom");
+		String txnId = req.getParameter("txn_id");
+		String txnType = req.getParameter("txn_type");
 
 		// post back to PayPal system to validate
 		// NOTE: change http: to https: in the following URL to verify using SSL
@@ -77,15 +78,9 @@ public class PayPalIPINServlet extends BaseServlet {
 		String res = in.readLine();
 		in.close();
 
-		// assign posted variables to local variables
-		// String itemName = req.getParameter("item_name");
-		// String itemNumber = req.getParameter("item_number");
-		String paymentStatus = req.getParameter("payment_status");
-		// String paymentAmount = req.getParameter("mc_gross");
-		// String paymentCurrency = req.getParameter("mc_currency");
-		String txnId = req.getParameter("txn_id");
-		// String receiverEmail = req.getParameter("receiver_email");
-		// String payerEmail = req.getParameter("payer_email");
+		if (txnType.equals("subscr_cancel")) {
+			removeClientSubscription(emailId);
+		}
 
 		if (res.equals("VERIFIED")) {
 			// check that paymentStatus=Completed
@@ -103,7 +98,6 @@ public class PayPalIPINServlet extends BaseServlet {
 				try {
 					saveDetailsInDB(params, emailId);
 					upgradeClient(params, emailId);
-					req.getRequestDispatcher(VIEW).forward(req, resp);
 				} catch (Exception e) {
 				} finally {
 					if (openSession.isOpen()) {
@@ -111,7 +105,6 @@ public class PayPalIPINServlet extends BaseServlet {
 					}
 				}
 			} else {
-				resp.sendRedirect(BaseServlet.LOGIN_URL);
 			}
 
 		} else if (res.equals("INVALID")) {
@@ -121,24 +114,34 @@ public class PayPalIPINServlet extends BaseServlet {
 		}
 	}
 
+	private void removeClientSubscription(String emailId) {
+		Client client = getClient(emailId);
+		client.getClientSubscription().getSubscription().setType(0);
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		session.saveOrUpdate(client);
+		beginTransaction.commit();
+
+	}
+
 	private void upgradeClient(Map<String, String> params, String emailId) {
 		String type = params.get("option_selection1");
 		int paymentType = 0;
-		if (type.equals("One user")) {
+		if (type.equals("One user monthly")) {
 			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("One user")) {
+		} else if (type.equals("One user yearly")) {
 			paymentType = Subscription.ONE_USER_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("2 users")) {
+		} else if (type.equals("2 users monthly")) {
 			paymentType = Subscription.TWO_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("2 users")) {
+		} else if (type.equals("2 users yearly")) {
 			paymentType = Subscription.TWO_USERS_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("5 users")) {
+		} else if (type.equals("5 users monthly")) {
 			paymentType = Subscription.FIVE_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("5 users")) {
+		} else if (type.equals("5 users yearly")) {
 			paymentType = Subscription.FIVE_USERS_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("Unlimited Users")) {
+		} else if (type.equals("Unlimited Users monthly")) {
 			paymentType = Subscription.UNLIMITED_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("Unlimited Users")) {
+		} else if (type.equals("Unlimited Users yearly")) {
 			paymentType = Subscription.UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
 		}
 		Client client = getClient(emailId);
@@ -169,7 +172,8 @@ public class PayPalIPINServlet extends BaseServlet {
 		details.setLastname(params.get("last_name"));
 		details.setAddressCountry(params.get("address_country"));
 		details.setPayerEmail(params.get("payer_email"));
-		details.setPaymentGross(Double.parseDouble(params.get("payment_gross")));
+		String string = params.get("mc_gross");
+		details.setPaymentGross(Double.parseDouble(string));
 		details.setMcCurrency(params.get("mc_currency"));
 		details.setPaymentStatus(params.get("payment_status"));
 		details.setClinetEmailId(emailId);

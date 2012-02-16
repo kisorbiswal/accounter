@@ -787,7 +787,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PayPalIPINServlet </servlet-name>
-		<url-pattern>/main/paypal/ipn</url-pattern>
+		<url-pattern>/main/subscription/ipn</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>SubscriptionManagementServlet

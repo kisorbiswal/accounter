@@ -8,6 +8,11 @@
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
+String emailId = (String) request.getSession().getAttribute("emailId");
+ if(emailId ==null){
+	 emailId="";
+ }
+
 %>
 </head>
 <body>
@@ -20,25 +25,32 @@ String info =(String) request.getAttribute("info");
 </div>
 </c:if>
 <div class="form-box">
+
+
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 <input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="***REMOVED***">
+<input type="hidden" name="hosted_button_id" value="JZ5R2VVPJUVKG">
+<input type="hidden" name="custom"  value = "<%= emailId %>"   >
 <table>
 <tr><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr><td><select name="os0">
-	<option value="One user">One user : $5.00USD - monthly</option>
-	<option value="One user">One user : $50.00USD - yearly</option>
-	<option value="2 users">2 users : $10.00USD - monthly</option>
-	<option value="2 users">2 users : $100.00USD - yearly</option> 
-	<option value="5 users">5 users : $25.00USD - monthly</option>
-	<option value="5 users">5 users : $250.00USD - yearly</option>
-	<option value="Unlimited Users">Unlimited Users : $100.00USD - monthly</option>
-	<option value="Unlimited Users">Unlimited Users : $1,000.00USD - yearly</option>
+	<option value="One user monthly">One user monthly : $5.00USD - monthly</option>
+	<option value="One user yearly">One user yearly : $50.00USD - yearly</option>
+	<option value="2 users monthly">2 users monthly : $10.00USD - monthly</option>
+	<option value="2 users yearly">2 users yearly : $100.00USD - yearly</option>
+	<option value="5 users monthly">5 users monthly : $25.00USD - monthly</option>
+	<option value="5 users yearly">5 users yearly : $250.00USD - yearly</option>
+	<option value="Unlimited Users monthly">Unlimited Users monthly : $100.00USD - monthly</option>
+	<option value="Unlimited Users yearly">Unlimited Users yearly : $1,000.00USD - yearly</option>
 </select> </td></tr>
 </table>
 <input type="hidden" name="currency_code" value="USD">
 <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
 <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
+
+
+
+
 </div>
 </td>
 </tr>

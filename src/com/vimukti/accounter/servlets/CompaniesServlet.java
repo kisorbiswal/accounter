@@ -15,6 +15,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -93,13 +94,18 @@ public class CompaniesServlet extends BaseServlet {
 				}
 				if (client.getClientSubscription().getSubscription()
 						.isPaidUser()) {
+
 					if (list.size() == 0) {
 						createCompany(req, resp);
 						return;
 					}
 					if (list.size() == 1) {
-						openCompany(req, resp, list.get(0).getId());
-						return;
+						Subscription subscription = client
+								.getClientSubscription().getSubscription();
+						if (subscription.getType() < 2) {
+							openCompany(req, resp, list.get(0).getId());
+							return;
+						}
 					}
 					req.setAttribute("isPaid", false);
 				}

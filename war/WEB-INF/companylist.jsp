@@ -84,6 +84,7 @@
        <a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
       <a   href="/main/encryption"><i18n:i18n msg='encryption'/></a>
+      <a target="_blank" href="/site/subscription/gopremium">Go Premium</a>'
     </div>
       </td>
    </tr>

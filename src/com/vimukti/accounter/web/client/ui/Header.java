@@ -160,7 +160,8 @@ public class Header extends FlowPanel {
 
 					@Override
 					public void onSuccess(Integer result) {
-						int subscriptionType = 0;// Accounter.getCompany().getSubscriptionType();
+						int subscriptionType = Accounter.getCompany()
+								.getSubscriptionType();
 						if (!((subscriptionType == ClientCompany.BEFORE_PAID_FETURE || subscriptionType == ClientCompany.FREE_CLIENT) && subscriptionType < 2)) {
 							companiesLink = new Anchor(messages.companies(),
 									"/main/companies");

@@ -1,21 +1,22 @@
 package com.vimukti.accounter.core;
 
 public class ClientPaypalDetails {
-	
+
 	long id;
 
 	private String firstname;
 	private String lastname;
 	private String paymentStatus;
 	private String payerEmail;
-	private double  paymentGross;
+	private double paymentGross;
 	private String mcCurrency;
 	private String addressCountry;
 	private String clinetEmailId;
-	
+
 	public ClientPaypalDetails() {
 
 	}
+
 	public long getId() {
 		return id;
 	}
@@ -23,7 +24,6 @@ public class ClientPaypalDetails {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
 
 	public String getFirstname() {
 		return firstname;
@@ -89,5 +89,4 @@ public class ClientPaypalDetails {
 		this.clinetEmailId = clinetEmailId;
 	}
 
-	 
 }

@@ -81,21 +81,21 @@ public class SubscriptionReturnServlet extends HttpServlet {
 	private void upgradeClient(Map<String, String> params, String emailId) {
 		String type = params.get("option_selection1");
 		int paymentType = 0;
-		if (type.equals("One user")) {
+		if (type.equals("One user monthly")) {
 			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("One user")) {
+		} else if (type.equals("One user yearly")) {
 			paymentType = Subscription.ONE_USER_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("2 users")) {
+		} else if (type.equals("2 users monthly")) {
 			paymentType = Subscription.TWO_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("2 users")) {
+		} else if (type.equals("2 users yearly")) {
 			paymentType = Subscription.TWO_USERS_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("5 users")) {
+		} else if (type.equals("5 users monthly")) {
 			paymentType = Subscription.FIVE_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("5 users")) {
+		} else if (type.equals("5 users yearly")) {
 			paymentType = Subscription.FIVE_USERS_YEARLY_SUBSCRIPTION;
-		} else if (type.equals("Unlimited Users")) {
+		} else if (type.equals("Unlimited Users monthly")) {
 			paymentType = Subscription.UNLIMITED_USERS_MONTHLY_SUBSCRIPTION;
-		} else if (type.equals("Unlimited Users")) {
+		} else if (type.equals("Unlimited Users yearly")) {
 			paymentType = Subscription.UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
 		}
 		Client client = getClient(emailId);
