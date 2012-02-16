@@ -5,6 +5,7 @@ package com.vimukti.accounter.web.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -113,6 +114,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -2222,5 +2224,20 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<Field<?>> getFieldsOf(int importerType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean importData(String filePath, int importerType,
+			Map<String, String> importMap) throws AccounterException {
+
+		getFinanceTool().importData(getCompanyId(), filePath, importerType,
+				importMap);
+		return true;
 	}
 }

@@ -1576,6 +1576,9 @@ public abstract class Transaction extends CreatableObject implements
 
 	public List<Item> getInventoryUsed() {
 		List<Item> inventory = new ArrayList<Item>();
+		if (this.isDraftOrTemplate()) {
+			return inventory;
+		}
 		for (TransactionItem tItem : getTransactionItems()) {
 			if (tItem.getType() != TransactionItem.TYPE_ITEM
 					|| (tItem.getItem().getType() != Item.TYPE_INVENTORY_PART && tItem

@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -76,6 +77,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -480,4 +482,9 @@ public interface IAccounterHomeViewService extends RemoteService {
 	PaginationList<DepositsTransfersList> getTransfersList(long date,
 			long date2, int start, int length, int type)
 			throws AccounterException;
+
+	List<Field<?>> getFieldsOf(int importerType);
+
+	boolean importData(String filePath, int importerType,
+			Map<String, String> importMap) throws AccounterException;
 }
