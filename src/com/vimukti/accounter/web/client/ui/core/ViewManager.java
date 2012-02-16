@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.ui.core;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +41,6 @@ import com.vimukti.accounter.web.client.ui.HistoryToken;
 import com.vimukti.accounter.web.client.ui.HistoryTokenUtils;
 import com.vimukti.accounter.web.client.ui.ImageButton;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
-import com.vimukti.accounter.web.client.ui.banking.StatementImportViewAction;
 import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
@@ -735,42 +733,13 @@ public class ViewManager extends HorizontalPanel {
 			}
 
 		});
-		ImageButton importButton = new ImageButton(messages.importFile(),
-				Accounter.getFinanceImages().addIcon());
-		importButton.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				List<String[]> list = new ArrayList<String[]>();
-				list.add(new String[] { "name", "number", "opening balance",
-						"items", "bank number", "sales tax number" });
-				list.add(new String[] { "inv_name", "inv_number",
-						"inv_opening balance", "inv_items", "inv_bank number",
-						"inv_sales tax number" });
-				list.add(new String[] { "cash_sale_name", "cash_sale_number",
-						"cash_sale_opening balance", "cash_sale_items",
-						"cash_sale_bank number", "cash_sale_sales tax number" });
-				list.add(new String[] { "enter_bill_name", "enter_bill_number",
-						"enter_bill_opening balance", "enter_bill_items",
-						"enter_bill_bank number", "enter_bil_sales tax number" });
-				list.add(new String[] { "48675", "56569", "9867", "23121",
-						"32423", "324324" });
-				list.add(new String[] { "7777", "2222", "11111", "99999",
-						"33333", "55555" });
-				StatementImportViewAction action = new StatementImportViewAction(
-						list, 1);
-				action.run();
-			}
-		});
 
-		previousButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		nextButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		previousButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		nextButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		group1.add(previousButton);
 		group1.add(nextButton);
-		previousButton.getElement().getParentElement()
-				.addClassName("prebutton");
+		previousButton.getElement().getParentElement().addClassName("prebutton");
 		nextButton.getElement().getParentElement().addClassName("nextbutton");
 
 		group1.add(viewTitleLabel);
@@ -786,29 +755,28 @@ public class ViewManager extends HorizontalPanel {
 		group5.add(configButton);
 
 		group6.add(searchButton);
-		group6.add(importButton);
 		group7.add(addCustomerButton);
 		group8.add(addVendorButton);
-
-		exportButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		printButton.getElement().setAttribute("lang",
-				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-
-		// HorizontalPanel horizontalPanel = new HorizontalPanel();
-		// horizontalPanel.setWidth("100%");
-		// horizontalPanel.add(group1);
-		// horizontalPanel.add(group2);
-		// horizontalPanel.add(group7);
-		// horizontalPanel.add(group8);
-		// horizontalPanel.add(group9);
-		// horizontalPanel.add(group4);
-		// horizontalPanel.add(group5);
-		// horizontalPanel.add(group6);
-		// horizontalPanel.add(group3);
-		//
-		// toolBar.add(horizontalPanel);
-
+		
+		exportButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		printButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		
+		
+//		HorizontalPanel horizontalPanel = new HorizontalPanel();
+//		horizontalPanel.setWidth("100%");
+//		horizontalPanel.add(group1);
+//		horizontalPanel.add(group2);
+//		horizontalPanel.add(group7);
+//		horizontalPanel.add(group8);
+//		horizontalPanel.add(group9);
+//		horizontalPanel.add(group4);
+//		horizontalPanel.add(group5);
+//		horizontalPanel.add(group6);
+//		horizontalPanel.add(group3);
+//		
+//		toolBar.add(horizontalPanel);
+		
+		
 		toolBar.add(group1);
 		group1.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.add(group3);
