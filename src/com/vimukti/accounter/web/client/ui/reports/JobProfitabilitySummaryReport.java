@@ -1,8 +1,10 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilitySummaryServerReport;
 
 public class JobProfitabilitySummaryReport extends
@@ -36,14 +38,12 @@ public class JobProfitabilitySummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		if(columnIndex ==0)
-		{//calls cost method,
-			
-		}else if(columnIndex == 1)
-		{//calls revenue method
-			
+		if (columnIndex == 0) {// calls cost method,
+
+		} else if (columnIndex == 1) {// calls revenue method
+
 		}
-		
+
 	}
 
 	@Override
@@ -58,9 +58,19 @@ public class JobProfitabilitySummaryReport extends
 
 	@Override
 	public void print() {
+		String customerName = this.data != null ? ((JobProfitability) this.data)
+				.getName() : "";
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 185, "",
+				"", customerName);
 	}
 
 	@Override
 	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 185, "",
+				"");
 	}
 }
