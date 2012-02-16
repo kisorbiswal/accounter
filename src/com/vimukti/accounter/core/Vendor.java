@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -320,17 +321,27 @@ public class Vendor extends Payee {
 		}
 
 		Vendor vendor = (Vendor) clientObject;
-		Query query = session.getNamedQuery("getVendor.by.name")
-				.setString("name", vendor.name)
-				.setEntity("company", vendor.getCompany());
-		List list = query.list();
-		if (list != null && list.size() > 0) {
-			Vendor newVendor = (Vendor) list.get(0);
-			if (vendor.getID() != newVendor.getID()) {
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-				// "A Supplier already exists with this name");
+		if (this.getID() == 0) {
+			return super.canEdit(clientObject);
+		}
+		FlushMode flushMode = session.getFlushMode();
+
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			Query query = session.getNamedQuery("getVendor.by.name")
+					.setString("name", vendor.name)
+					.setEntity("company", vendor.getCompany());
+			List list = query.list();
+			if (list != null && list.size() > 0) {
+				Vendor newVendor = (Vendor) list.get(0);
+				if (vendor.getID() != newVendor.getID()) {
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+					// "A Supplier already exists with this name");
+				}
 			}
+		} finally {
+			session.setFlushMode(flushMode);
 		}
 		return true;
 	}
