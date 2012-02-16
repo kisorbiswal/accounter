@@ -21,7 +21,6 @@ public class ClientSalesOrder extends ClientTransaction {
 	ClientAddress shippingAdress;
 
 	String phone;
-	long job;
 	long salesPerson;
 
 	long paymentTerm;
@@ -382,11 +381,4 @@ public class ClientSalesOrder extends ClientTransaction {
 		return getName();
 	}
 
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
-	}
 }

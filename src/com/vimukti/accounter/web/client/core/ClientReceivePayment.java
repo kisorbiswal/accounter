@@ -15,7 +15,6 @@ public class ClientReceivePayment extends ClientTransaction {
 	public static final int TYPE_CUSTOMER_PAYMENT = 2;
 
 	long customer;
-	private long job;
 	ClientAddress address;
 
 	private double amount = 0D;
@@ -354,14 +353,6 @@ public class ClientReceivePayment extends ClientTransaction {
 	 */
 	public void setTdsTotal(double tdsTotal) {
 		this.tdsTotal = tdsTotal;
-	}
-
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
 	}
 
 }

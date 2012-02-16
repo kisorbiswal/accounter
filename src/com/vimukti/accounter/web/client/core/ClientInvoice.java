@@ -13,7 +13,6 @@ public class ClientInvoice extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
-	private long job;
 
 	ClientContact contact;
 
@@ -546,11 +545,4 @@ public class ClientInvoice extends ClientTransaction {
 		return transactions;
 	}
 
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
-	}
 }

@@ -10,7 +10,6 @@ public class ClientCashSales extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
-	private long job;
 
 	ClientContact contact;
 
@@ -322,11 +321,4 @@ public class ClientCashSales extends ClientTransaction {
 		return clientCashSalesClone;
 	}
 
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
-	}
 }

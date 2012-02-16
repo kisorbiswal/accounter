@@ -23,7 +23,6 @@ public class ClientWriteCheck extends ClientTransaction {
 	long customer;
 
 	long vendor;
-	private long job;
 	long taxAgency;
 
 	ClientAddress address;
@@ -261,11 +260,4 @@ public class ClientWriteCheck extends ClientTransaction {
 		this.inFavourOf = inFavourOf;
 	}
 
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
-	}
 }

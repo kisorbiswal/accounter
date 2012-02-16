@@ -17,7 +17,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 	// long date;
 
 	long payTo;
-	private long job;
 	ClientAddress address;
 
 	long payFrom;
@@ -158,11 +157,4 @@ public class ClientCustomerRefund extends ClientTransaction {
 		return clientCustomerRefundClone;
 	}
 
-	public long getJob() {
-		return job;
-	}
-
-	public void setJob(long job) {
-		this.job = job;
-	}
 }
