@@ -93,7 +93,7 @@
 			<key column="TRANSACTION_ID"></key>
 			<one-to-many class="TAXRateCalculation" />
 		</set>
-		
+
 		<many-to-one name="lastActivity" class="Activity" column="LAST_ACTIVITY"></many-to-one>
 
 		<!-- <joined-subclass name="PayTAX" table="PAY_TAX"> <key column="ID" /> 
@@ -223,6 +223,8 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CS_IS_PRIMARY"></property>
 				<property name="name" column="CS_NAME"></property>
@@ -305,6 +307,8 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CCM_IS_PRIMARY"></property>
 				<property name="name" column="CCM_NAME"></property>
@@ -342,6 +346,8 @@
 				column="DEPOSITIN_ID"></many-to-one>
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID"></many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<component name="address" class="Address">
@@ -361,6 +367,8 @@
 			<key column="ID" />
 			<many-to-one name="payTo" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
+			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
 			</many-to-one>
 			<component name="address" class="Address">
 				<property name="type" column="CR__ADDRESS_TYPE"></property>
@@ -438,6 +446,8 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
 				<property name="name" column="EST_NAME"></property>
@@ -490,6 +500,8 @@
 			<key column="ID" />
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
+			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
@@ -747,6 +759,8 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<property name="amount" column="AMOUNT"></property>
 			<property name="customerBalance" column="CUSTOMER_BALANCE"></property>
 			<many-to-one name="depositIn" class="Account" cascade="save-update"
@@ -777,6 +791,8 @@
 			<key column="ID" />
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
+			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
 			</many-to-one>
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
@@ -891,6 +907,8 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+			<many-to-one name="job" class="Job" column="JOB_ID">
+			</many-to-one>
 			<many-to-one name="vendor" class="Vendor" cascade="save-update"
 				column="VENDOR_ID">
 			</many-to-one>
@@ -1002,21 +1020,21 @@
 				<many-to-many class="Estimate" />
 			</set>
 		</joined-subclass>
-		
+
 		<joined-subclass name="StockAdjustment" table="STOCK_ADJUSTMENT">
 			<key column="ID" />
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
 				not-null="true">
 			</many-to-one>
-	
+
 			<many-to-one name="wareHouse" column="WAREHOUSE" class="Warehouse"
 				not-null="true">
 			</many-to-one>
-			
-			<many-to-one name="adjustmentAccount" column="ADJUSTMENT_ACCOUNT" class="Account"
-				not-null="true">
+
+			<many-to-one name="adjustmentAccount" column="ADJUSTMENT_ACCOUNT"
+				class="Account" not-null="true">
 			</many-to-one>
-	
+
 			<many-to-one name="createdBy" class="User" column="CREATED_BY"
 				not-null="true" />
 			<many-to-one name="lastModifier" class="User" column="LAST_MODIFIER"
@@ -1027,7 +1045,7 @@
 
 		</joined-subclass>
 	</class>
-	
+
 	<class name="Attachment" table="ATTACHMENTS">
 		<id name="id" column="ID">
 			<generator class="identity" />
