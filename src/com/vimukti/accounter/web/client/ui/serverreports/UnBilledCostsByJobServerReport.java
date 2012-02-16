@@ -1,9 +1,9 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.reports.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class UnBilledCostsByJobServerReport extends
