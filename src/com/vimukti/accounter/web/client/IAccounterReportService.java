@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -28,6 +29,7 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -351,7 +353,8 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<BankDepositDetail> getBankingDepositDetils(
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
 			ClientFinanceDate start, ClientFinanceDate end);
@@ -359,4 +362,8 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
 			ClientFinanceDate start, ClientFinanceDate end);
 
+	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;
+
+	
 }

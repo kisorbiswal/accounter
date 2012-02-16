@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -229,7 +230,7 @@ public interface IAccounterReportServiceAsync {
 	// ClientFinanceDate endDate,
 	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseOrderReport(int type,ClientFinanceDate startDate,
+	public void getPurchaseOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
@@ -245,7 +246,7 @@ public interface IAccounterReportServiceAsync {
 	// ClientFinanceDate endDate,
 	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getSalesOrderReport(int type,ClientFinanceDate startDate,
+	public void getSalesOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
@@ -421,5 +422,9 @@ public interface IAccounterReportServiceAsync {
 	public void getReconciliationDiscrepancy(ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
+
+	public void getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<BankCheckDetail>> callback);
 
 }
