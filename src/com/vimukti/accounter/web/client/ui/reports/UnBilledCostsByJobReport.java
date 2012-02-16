@@ -1,7 +1,7 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
-import com.vimukti.accounter.web.client.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.reports.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.UnBilledCostsByJobServerReport;

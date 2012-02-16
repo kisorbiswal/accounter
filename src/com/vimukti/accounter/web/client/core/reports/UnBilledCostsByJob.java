@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client;
+package com.vimukti.accounter.web.client.core.reports;
 
 import java.io.Serializable;
 
