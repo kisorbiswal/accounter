@@ -49,6 +49,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
+import com.vimukti.accounter.web.client.core.reports.UnBilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
@@ -59,6 +60,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.CurrencyExchangeRate;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.client.ui.reports.UnBilledCostsByJobReport;
 
 public interface IAccounterReportService extends RemoteService {
 
@@ -370,6 +372,9 @@ public interface IAccounterReportService extends RemoteService {
 			boolean isActualcostDetail, long transactionId, long jobId);
 
 	ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			ClientFinanceDate start, ClientFinanceDate end) throws AccounterException;
+			ClientFinanceDate start, ClientFinanceDate end);
+
+	ArrayList<UnBilledCostsByJob> getUnBilledCostsByJob(
+			ClientFinanceDate start, ClientFinanceDate end);
 
 }
