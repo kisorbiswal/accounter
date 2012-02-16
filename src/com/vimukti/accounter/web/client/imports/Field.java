@@ -20,7 +20,7 @@ public class Field<T> {
 	/**
 	 * Value of the Field
 	 */
-	private T value;
+	private String value;
 
 	/**
 	 * Tells whether this Field is Required or not
@@ -69,7 +69,7 @@ public class Field<T> {
 	/**
 	 * @return the value
 	 */
-	public T getValue() {
+	public String getValue() {
 		return value;
 	}
 
@@ -77,7 +77,7 @@ public class Field<T> {
 	 * @param value
 	 *            the value to set
 	 */
-	public void setValue(T value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

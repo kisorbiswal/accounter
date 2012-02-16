@@ -886,6 +886,8 @@ public class MenuBar {
 		//
 		// companyMenuBar.addSeparatorItem();
 
+		companyMenuBar.addMenuItem(messages.importFile(), HistoryTokens.IMPORT);
+
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");

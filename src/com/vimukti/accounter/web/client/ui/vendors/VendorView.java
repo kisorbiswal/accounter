@@ -1409,10 +1409,10 @@ public class VendorView extends BaseView<ClientVendor> {
 			} else {
 				// Setting Federal Id
 				taxIDText.setValue(data.getFederalTaxId());
-				if (getCountryPreferences().isServiceTaxAvailable()) {
-					serviceTaxRegisterationNumber.setValue(data
-							.getServiceTaxRegistrationNumber());
-				}
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				serviceTaxRegisterationNumber.setValue(data
+						.getServiceTaxRegistrationNumber());
 			}
 		}
 	}

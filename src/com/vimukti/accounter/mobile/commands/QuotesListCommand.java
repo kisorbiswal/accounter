@@ -177,7 +177,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 	private List<Estimate> getEstimates(Context context) {
 		String type = get(VIEW_BY).getValue();
 
-		int viwType = 0;
+		int viwType = -1;
 		if (type.equalsIgnoreCase(getMessages().open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
 		} else if (type.equalsIgnoreCase(getMessages().rejected())) {

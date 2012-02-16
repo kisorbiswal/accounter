@@ -5907,4 +5907,10 @@ public interface AccounterMessages extends Messages {
 
 	public String enablePreference(String preferences);
 
+	public String pleaseMapProperly(String selectedValue, String value);
+
+	public String propertyMatchedAlready();
+
+	public String unassigned();
+
 }

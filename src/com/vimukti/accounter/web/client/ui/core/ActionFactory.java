@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
@@ -1449,5 +1450,9 @@ public class ActionFactory {
 
 	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
 		return new RecurringTransactionDialogAction();
+	}
+
+	public static ImportAction getImportAction() {
+		return new ImportAction();
 	}
 }
