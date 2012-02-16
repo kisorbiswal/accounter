@@ -937,7 +937,16 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
-	}
+
+		// for banking reports
+		actions.put(ActionFactory.getBankDepositDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getBankDepositDetailReportAction());
+		actions.put(ActionFactory.getBankCheckDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getBankCheckDetailReportAction());
+
+		}
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();
