@@ -21,7 +21,7 @@ public class SalesOpenOrderAction extends Action {
 
 			public void onCreated() {
 
-				AbstractReportView<OpenAndClosedOrders> report = new SalesOpenOrderReport();
+				AbstractReportView<OpenAndClosedOrders> report = new SalesOrderReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, SalesOpenOrderAction.this);
 

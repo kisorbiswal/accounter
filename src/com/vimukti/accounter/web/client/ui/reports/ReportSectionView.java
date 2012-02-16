@@ -160,7 +160,7 @@ public class ReportSectionView extends BaseHomeView {
 				.getSalesByItemDetailAction().getHistoryToken());
 		if (Global.get().preferences().isSalesOrderEnabled()) {
 			salesMap.put(messages.salesOrderReport(), ActionFactory
-					.getSalesOrderAction().getHistoryToken());
+					.getSalesOpenOrderAction().getHistoryToken());
 		}
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
 			salesMap.put(messages.getSalesByLocationDetails(Global.get()
