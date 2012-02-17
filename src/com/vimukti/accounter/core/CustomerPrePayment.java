@@ -231,16 +231,18 @@ public class CustomerPrePayment extends Transaction {
 				this.setCreditsAndPayments(creditsAndPayments);
 				session.save(creditsAndPayments);
 
-			} else if (!DecimalUtil.isEquals(customerPrePayment.total,
-					this.total) || isCurrencyFactorChanged()) {
+			}
 
+			if (customerPrePayment.customer.getID() != this.customer.getID()
+					|| (!DecimalUtil.isEquals(customerPrePayment.total,
+							this.total) || isCurrencyFactorChanged())) {
 				customerPrePayment.customer.updateBalance(session, this,
 						-customerPrePayment.total,
 						customerPrePayment.getCurrencyFactor());
 				this.customer.updateBalance(session, this, +this.total);
 				this.creditsAndPayments.updateCreditPayments(this.total);
-
 			}
+
 			if (this.depositIn.getID() != customerPrePayment.depositIn.getID()
 					|| !DecimalUtil.isEquals(this.total,
 							customerPrePayment.total)
