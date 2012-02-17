@@ -770,9 +770,9 @@ public class RecurringTransactionDialog extends
 		if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
 			data.setNotifyCreatedTransaction(notifyAboutCreatedTransactions
 					.getValue());
-			data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
-					.getValue()));
-		} else if (data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
+		}
+		if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED
+				|| data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
 			try {
 				data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
 						.getValue()));
