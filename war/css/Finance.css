@@ -1088,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	                  (2),.datenumber-panel table {
+	                       (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2842,14 +2842,16 @@ input.date-field-textbox {
 	float: right;
 }
 
-.tds-scroll-panel .editTable{
+.tds-scroll-panel .editTable {
 	min-height: 350px !important;
 	border: none;
 }
-.tds-scroll-panel{
+
+.tds-scroll-panel {
 	border: 1px solid #2D8B93;
 	height: 385px;
 }
+
 .report-section a {
 	display: table;
 	text-decoration: underline;
@@ -2864,6 +2866,49 @@ input.date-field-textbox {
 .report-section .section {
 	margin: 4px 0 20px 3px;
 }
-.exchange-table .norecord-empty-message{
+
+.exchange-table .norecord-empty-message {
 	margin-left: 51px;
+}
+
+.import-right-panel {
+	display: table;
+}
+
+.import-mapping-panel {
+	border: 1px solid #000000;
+	width: 100%;
+}
+
+.import-button-panel .prev_button {
+	float: left;
+}
+
+.import-button-panel .next_button {
+	float: right;
+}
+
+.import-match-content {
+	width: 100%;
+}
+
+.import-match-content td {
+	width: 30%;
+}
+
+.import-match-content .table-header {
+	font-weight: bold;
+}
+
+.import-preview-panel,.import-preview-panel table {
+	width: 100%;
+}
+
+.import-preview-panel {
+	padding-left: 25px;
+}
+
+.import-preview-panel .preview-header {
+	font-size: 1.5em;
+	font-weight: bold;
 }
