@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +28,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ListFilter;
@@ -160,19 +160,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 					@Override
 					public boolean filter(Account account) {
 						if (account.getIsActive()
-								&& account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_EXPENSE
-								&& account.getType() != Account.TYPE_OTHER_EXPENSE
-								&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY) {
+								&& (account.getType() == ClientAccount.TYPE_INCOME || account
+										.getType() == ClientAccount.TYPE_OTHER_INCOME)) {
 							return true;
 						} else {
 							return false;
@@ -325,10 +314,10 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return null;
 			}
 		});
-
+		String price = itemType == ClientItem.TYPE_INVENTORY_PART ? getMessages()
+				.standardCost() : getMessages().purchasePrice();
 		list.add(new AmountRequirement(PURCHASE_PRICE, getMessages()
-				.pleaseEnter(getMessages().purchasePrice()), getMessages()
-				.purchasePrice(), true, true) {
+				.pleaseEnter(price), price, true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -339,9 +328,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			}
 		});
 
+		String expenseAccountMsg = itemType == ClientItem.TYPE_INVENTORY_PART ? getMessages()
+				.costOfGoodSold() : getMessages().expenseAccount();
 		list.add(new AccountRequirement(EXPENSE_ACCOUNT, getMessages()
-				.pleaseEnter(getMessages().expenseAccount()), getMessages()
-				.expenseAccount(), false, true, null) {
+				.pleaseEnter(expenseAccountMsg), expenseAccountMsg, false,
+				true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -357,12 +348,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return Utility.filteredList(new ListFilter<Account>() {
 
 					@Override
-					public boolean filter(Account e) {
-						return Arrays.asList(Account.TYPE_EXPENSE,
-								Account.TYPE_COST_OF_GOODS_SOLD,
-								Account.TYPE_OTHER_EXPENSE).contains(
-								e.getType())
-								&& e.getIsActive();
+					public boolean filter(Account account) {
+						return (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
+								|| account.getType() == ClientAccount.TYPE_EXPENSE || account
+								.getType() == ClientAccount.TYPE_OTHER_EXPENSE)
+								&& account.getIsActive();
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}

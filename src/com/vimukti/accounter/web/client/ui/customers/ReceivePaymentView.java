@@ -370,7 +370,8 @@ public class ReceivePaymentView extends
 		for (ClientTransactionReceivePayment payment : transaction
 				.getTransactionReceivePayment()) {
 			payment.setAmountDue(payment.getPayment()
-					+ payment.getAppliedCredits());
+					+ payment.getAppliedCredits() + payment.getCashDiscount()
+					+ payment.getWriteOff());
 			payment.setPayment(0.00D);
 			payment.setCashDiscount(0.0D);
 			payment.setWriteOff(0.0D);
