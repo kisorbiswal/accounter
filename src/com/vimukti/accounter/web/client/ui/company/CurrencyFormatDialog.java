@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -156,9 +157,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 					}
 				});
 		form.setFields(currencySymbolItem, positiveCurrencyFormatCombo,
-				negativeCurrencyFormatCombo, decimalSymbolItem,
-				noOfDigitsAfterDecimalText, digitGroupingSymbolItem,
-				digitGroupingCombo);
+				negativeCurrencyFormatCombo, noOfDigitsAfterDecimalText,
+				decimalSymbolItem, digitGroupingSymbolItem, digitGroupingCombo);
 
 		panel.setContentWidget(formatForm);
 
@@ -176,10 +176,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 			decimalSymbolItem.setValue(decimalSymbol);
 		}
 
-		if (noOfDigitsAfterDecimal != 0) {
-			noOfDigitsAfterDecimalText.setValue(String
-					.valueOf(noOfDigitsAfterDecimal));
-		}
+		noOfDigitsAfterDecimalText.setValue(String
+				.valueOf(noOfDigitsAfterDecimal));
 
 		digitGroupSymbol = preferences.getDigitGroupCharacter();
 
@@ -247,6 +245,13 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 		positiveTextItem.setValue(pValue);
 		negativeTextItem.setValue(nValue);
+		if (noOfDigitsAfterDecimal == 0) {
+			decimalSymbolItem.setDisabled(true);
+			decimalSymbolItem.setValue("");
+			decimalSymbol = "";
+		} else {
+			decimalSymbolItem.setDisabled(false);
+		}
 	}
 
 	protected void initNegativeFormatValues() {
@@ -321,6 +326,17 @@ public class CurrencyFormatDialog extends BaseDialog {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = new ValidationResult();
+		if (noOfDigitsAfterDecimal > 0
+				&& (decimalSymbol == null || decimalSymbol.isEmpty())) {
+			result.addError(decimalSymbolItem,
+					messages.pleaseEnterDecimalSymbol());
+		}
+		return result;
 	}
 
 }
