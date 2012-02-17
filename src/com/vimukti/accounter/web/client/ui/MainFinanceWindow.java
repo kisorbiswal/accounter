@@ -477,6 +477,20 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
+		
+		actions.put(ActionFactory.getMissingChecksReportAction()
+				.getHistoryToken(), ActionFactory
+				.getMissingChecksReportAction());
+		actions.put(ActionFactory.getReconciliationDiscrepancyReportAction()
+				.getHistoryToken(), ActionFactory
+				.getReconciliationDiscrepancyReportAction());
+		
+		actions.put(ActionFactory.getInventoryAssemblyAction()
+				.getHistoryToken(), ActionFactory.getInventoryAssemblyAction());
+		actions.put(
+				ActionFactory.getNewInventoryItemAction().getHistoryToken(),
+				ActionFactory.getNewInventoryItemAction());
+		
 		actions.put(ActionFactory.getQuotesAction(ClientEstimate.QUOTES)
 				.getHistoryToken(), ActionFactory
 				.getQuotesAction(ClientEstimate.QUOTES));

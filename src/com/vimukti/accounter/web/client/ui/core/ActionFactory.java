@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientStatement;
 import com.vimukti.accounter.web.client.core.ClientStatementRecord;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
 import com.vimukti.accounter.web.client.ui.banking.AccountRegisterAction;
 import com.vimukti.accounter.web.client.ui.banking.BankStatementAction;
@@ -147,6 +149,7 @@ import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByVendorA
 import com.vimukti.accounter.web.client.ui.reports.InventoryValuationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValutionSummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.MissingChecksReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossAction;
 import com.vimukti.accounter.web.client.ui.reports.ProfitAndLossByLocationAction;
@@ -157,6 +160,7 @@ import com.vimukti.accounter.web.client.ui.reports.PurchaseByVendorSummaryAction
 import com.vimukti.accounter.web.client.ui.reports.PurchaseOpenOrderAction;
 import com.vimukti.accounter.web.client.ui.reports.RealisedExchangeLossesAndGainsAction;
 import com.vimukti.accounter.web.client.ui.reports.ReconcilationsAction;
+import com.vimukti.accounter.web.client.ui.reports.ReconciliationDiscrepancyReportAction;
 import com.vimukti.accounter.web.client.ui.reports.ReportsHomeAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListAction;
 import com.vimukti.accounter.web.client.ui.reports.ReverseChargeListDetailAction;
@@ -257,6 +261,24 @@ public class ActionFactory {
 
 	public static GeneralSettingsAction getGeneralSettingsAction() {
 		return new GeneralSettingsAction();
+	}
+
+	public static InventoryAssemblyAction getInventoryAssemblyAction() {
+		return new InventoryAssemblyAction();
+	}
+
+	public static NewItemAction getNewInventoryItemAction() {
+		NewItemAction action = new NewItemAction(true);
+		action.setType(ClientItem.TYPE_INVENTORY_PART);
+		return action;
+	}
+
+	public static MissingChecksReportAction getMissingChecksReportAction() {
+		return new MissingChecksReportAction();
+	}
+
+	public static ReconciliationDiscrepancyReportAction getReconciliationDiscrepancyReportAction() {
+		return new ReconciliationDiscrepancyReportAction();
 	}
 
 	public static InventoryItemsAction getInventoryItemsAction() {

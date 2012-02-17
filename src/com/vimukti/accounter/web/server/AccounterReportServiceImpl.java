@@ -3217,16 +3217,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
-			long accountId, ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getReportManager().getMissionChecksByAccount(
+				accountId, start, end, getCompanyId());
 	}
 
 	@Override
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getReportManager()
+				.getReconciliationDiscrepancyByAccount(accountId, start, end,
+						getCompanyId());
 	}
 
 	@Override

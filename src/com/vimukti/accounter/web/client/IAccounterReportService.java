@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
-import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -357,13 +356,14 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end);
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException;
 
-	
 }

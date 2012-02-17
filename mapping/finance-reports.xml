@@ -4240,6 +4240,146 @@
 		AND TC.ACKNOWLEDGEMENTDATE BETWEEN
 		:startDate AND :endDate
 	</sql-query>
+	
+	<sql-query name="get.missing.checks.by.account">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="accountId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" /> 
+		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT 
+			T.ID AS TRANSACTION_ID,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.T_DATE AS TRANSACTION_DATE,
+			P.NAME AS NAME,
+			A.NAME AS ACCOUNT_NAME,
+			T.MEMO AS MEMO,
+			T.TOTAL AS TOTAL_AMOUNT,
+			CASE 
+				WHEN T.T_TYPE=15 
+					THEN W.CHECK_NUMBER 
+				WHEN T_TYPE IN(2,26,28) 
+					THEN CP.CHECK_NUMBER
+				WHEN T_TYPE=5 
+					THEN CR.CHECK_NUMBER
+				WHEN T.T_TYPE=17 
+					THEN PT.CHECK_NUMBER
+				WHEN T_TYPE=11 
+					THEN PB.CHECK_NUMBER
+				WHEN T_TYPE in(3,27) 
+					THEN CCC.CHECK_NUMBER
+				WHEN T.T_TYPE=31
+					THEN RV.CHECK_NUMBER
+				WHEN T.T_TYPE=29 
+					THEN CPP.CHECK_NUMBER
+				WHEN T.T_TYPE=12
+					THEN RP.CHECK_NUMBER 
+				END AS CHECK_NUMBER 
+ 		FROM 
+ 			TRANSACTION T
+				LEFT JOIN WRITE_CHECKS W ON W.ID=T.ID
+				LEFT JOIN CASH_PURCHASE CP ON CP.ID=T.ID
+				LEFT JOIN CUSTOMER_REFUND CR ON CR.ID=T.ID
+				LEFT JOIN PAY_TAX PT ON PT.ID=T.ID
+				LEFT JOIN PAY_BILL PB ON PB.ID=T.ID
+				LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
+				LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
+				LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID=T.ID
+				LEFT JOIN MAKE_DEPOSIT M ON M.ID=T.ID
+				LEFT JOIN INVOICE I ON I.ID=T.ID
+				LEFT JOIN RECEIVE_PAYMENT RP ON RP.ID=T.ID
+				LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+				LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+				LEFT JOIN PAYEE P ON P.ID=W.VENDOR_ID OR P.ID=W.CUSTOMER_ID OR P.ID=CP.VENDOR_ID 
+				OR P.ID=CR.CUSTOMER_ID OR P.ID=PB.VENDOR_ID OR P.ID=PT.TAX_AGENCY_ID OR P.ID=CCC.VENDOR_ID
+				OR P.ID=RV.TAX_AGENCY_ID
+				OR P.ID=CPP.CUSTOMER_ID
+				OR P.ID=I.CUSTOMER_ID
+				OR P.ID=RP.CUSTOMER_ID
+		WHERE 
+			T.COMPANY_ID=:companyId 
+		AND 
+			(T.T_DATE BETWEEN :startDate AND :endDate)
+		AND
+			A.ID=:accountId
+		ORDER BY 
+			T.T_TYPE
+
+	</sql-query>
+	
+	<sql-query name="get.reconcilition.discrepancy.by.account">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="enteredDate" type="long" />
+		<query-param name="accountId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT * 
+		FROM 
+			RECONCILIATION_ITEM RT 
+			LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+			LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+			LEFT JOIN RECONCILIATION_ITEM RT ON RT.TRANSACTION_ID=T.ID
+			LEFT JOIN RECONCILIATION R ON R.ID=RT.RECONCILIATION_ID
+		WHERE
+			
+	</sql-query>
+	
+	<sql-query name="get.all.invoices.by.account">
+		<!-- <query-param name="accountId" type="long" /> -->
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" /> 
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT 
+			T.ID AS TRANSACTION_ID,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.NUMBER AS TRANSACTION_NUMBER,
+			T.T_DATE AS TRANSACTION_DATE,
+			P.NAME AS NAME,
+			A.NAME AS ACCOUNT_NAME,
+			T.MEMO AS MEMO,
+			T.TOTAL AS TOTAL_AMOUNT
+ 		FROM 
+ 			TRANSACTION T
+				LEFT JOIN INVOICE I ON I.ID=T.ID
+				LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+				LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+				LEFT JOIN PAYEE P ON P.ID=I.CUSTOMER_ID
+		WHERE 
+			T.COMPANY_ID=:companyId 
+		AND 
+			(T.T_DATE BETWEEN :startDate AND :endDate)
+		AND 
+			T.T_TYPE = 8
+		ORDER BY
+			T.NUMBER
+		
+		</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 

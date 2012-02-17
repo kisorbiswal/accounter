@@ -259,6 +259,8 @@ public class HistoryTokens {
 	public static final String STOCKADJUSTMENT = "stockAdjustment";
 
 	public static final String INVENTORYITEM = "inventoryItem";
+	
+	public static final String INVENTORYITEMS = "inventoryItems";
 
 	public static final String WAREHOUSELIST = "WarehouseList";
 
@@ -366,6 +368,10 @@ public class HistoryTokens {
 	public static final String INVENTORY_STOCK_STATUS_BY_ITEM_REPORT = "InventoryStockStatusByItemReport";
 	public static final String INVENTORY_STOCK_STATUS_BY_VENDOR_REPORT = "InventoryStockStatusByVendorReport";
 
+	public static final String MISSION_CHECKS = "missionChecks";
+
+	public static final String RECONCILIATION_DISCREPANCY = "reconciliationDiscrepancy";
+	
 	public static final String BANK_DEPOSIT_DETAIL_REPORT = "DepositDetailReport";
 	public static final String BANK_CHECK_DETAIL_REPORT = "CheckDetail";
 

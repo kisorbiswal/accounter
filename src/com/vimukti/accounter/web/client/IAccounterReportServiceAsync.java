@@ -419,8 +419,8 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callback);
 
-	public void getReconciliationDiscrepancy(ClientFinanceDate start,
-			ClientFinanceDate end,
+	public void getReconciliationDiscrepancy(long accountId,
+			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
 
 	public void getBankCheckDetils(ClientFinanceDate start,
