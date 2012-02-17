@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.IntegerField;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -25,8 +26,10 @@ public class CurrencyFormatDialog extends BaseDialog {
 	private static final char CURRENCY_SIGN = '\u00A4';
 
 	private TextItem positiveTextItem, negativeTextItem, decimalSymbolItem,
-			digitGroupingSymbolItem, currencySymbolItem,
-			noOfDigitsAfterDecimalText;
+			digitGroupingSymbolItem, currencySymbolItem;
+
+	private IntegerField noOfDigitsAfterDecimalText;
+
 	private SelectCombo positiveCurrencyFormatCombo,
 			negativeCurrencyFormatCombo, digitGroupingCombo;
 
@@ -42,7 +45,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 	private int digitGroupNum;
 
-	private int noOfDigitsAfterDecimal;
+	private long noOfDigitsAfterDecimal;
 
 	String[] groups = { "12,34,56,789" };
 
@@ -118,20 +121,19 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				decimalSymbol = decimalSymbolItem.getValue();
+				decimalSymbol = decimalSymbolItem.getValue().trim();
 				initPositiveFormatValues();
 				initNegativeFormatValues();
 				update();
 			}
 		});
-		noOfDigitsAfterDecimalText = new TextItem(
+		noOfDigitsAfterDecimalText = new IntegerField(this,
 				messages.noOfDigitsAfterDecimal());
 		noOfDigitsAfterDecimalText.addBlurHandler(new BlurHandler() {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				noOfDigitsAfterDecimal = Integer
-						.valueOf(noOfDigitsAfterDecimalText.getValue());
+				noOfDigitsAfterDecimal = noOfDigitsAfterDecimalText.getNumber();
 				update();
 			}
 		});
@@ -235,6 +237,14 @@ public class CurrencyFormatDialog extends BaseDialog {
 			value += "0";
 		}
 
+		if (noOfDigitsAfterDecimal == 0) {
+			decimalSymbolItem.setDisabled(true);
+			decimalSymbolItem.setValue("");
+			decimalSymbol = "";
+		} else {
+			decimalSymbolItem.setDisabled(false);
+		}
+
 		String pValue = posForValue[posNum].replaceAll("S",
 				AccounterNumberFormat.quoteReplacement(currencySymbol))
 				.replaceAll("1D1", value);
@@ -245,13 +255,6 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 		positiveTextItem.setValue(pValue);
 		negativeTextItem.setValue(nValue);
-		if (noOfDigitsAfterDecimal == 0) {
-			decimalSymbolItem.setDisabled(true);
-			decimalSymbolItem.setValue("");
-			decimalSymbol = "";
-		} else {
-			decimalSymbolItem.setDisabled(false);
-		}
 	}
 
 	protected void initNegativeFormatValues() {
@@ -295,7 +298,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		ClientCompanyPreferences companyPreferences = getCompanyPreferences();
-		companyPreferences.setDecimalNumber(noOfDigitsAfterDecimal);
+		companyPreferences.setDecimalNumber((int) noOfDigitsAfterDecimal);
 		companyPreferences.setDecimalCharacte(decimalSymbol);
 		companyPreferences.setDigitGroupCharacter(digitGroupSymbol);
 
@@ -332,7 +335,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		if (noOfDigitsAfterDecimal > 0
-				&& (decimalSymbol == null || decimalSymbol.isEmpty())) {
+				&& (decimalSymbol == null || decimalSymbol.trim().isEmpty())) {
 			result.addError(decimalSymbolItem,
 					messages.pleaseEnterDecimalSymbol());
 		}
