@@ -57,7 +57,7 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 
 			@Override
 			protected String onSelection(ExpenseList selection, String name) {
-				return "update transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override
