@@ -125,11 +125,24 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 			allRecords = new FinanceTool().getVendorManager().getBillsList(
 					false, context.getCompany().getID(), 0,
 					getStartDate().getDate(), getEndDate().getDate(), 0, -1,
-					getViewByList().indexOf(viewBY) + 1);
+					checkViewType(viewBY));
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		return allRecords;
+	}
+
+	private int checkViewType(String view) {
+		if (view.equalsIgnoreCase(getMessages().open())) {
+			return (VIEW_OPEN);
+		} else if (view.equalsIgnoreCase(getMessages().voided())) {
+			return (VIEW_VOIDED);
+		} else if (view.equalsIgnoreCase(getMessages().overDue())) {
+			return (VIEW_OVERDUE);
+		} else if (view.equalsIgnoreCase(getMessages().drafts())) {
+			return (VIEW_DRAFT);
+		}
+		return TYPE_ALL;
 	}
 
 	@Override
@@ -138,6 +151,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 		list.add(getMessages().open());
 		list.add(getMessages().voided());
 		list.add(getMessages().overDue());
+		list.add(getMessages().drafts());
 		list.add(getMessages().all());
 		return list;
 	}

@@ -29,6 +29,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByV
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.MissingChecksServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
@@ -40,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOrderServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.RealisedExchangeLossesAndGainsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationDetailsByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ReconciliationDiscrepancyServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListServerReport;
@@ -135,6 +137,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
 	public final static int REPORT_TYPE_BANK_DEPOSIT_REPORT = 179;
 	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
+	public final static int REPORT_TYPE_MISSION_CHECKS = 181;
+	public final static int REPORT_TYPE_RECONCILIATION_DISCREPANCY = 182;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1503,6 +1507,50 @@ public class ReportsGenerator {
 							new ClientFinanceDate(endDate.getDate())));
 
 			return bankCheckDetailReport.getGridTemplate();
+		case REPORT_TYPE_RECONCILIATION_DISCREPANCY:
+			ReconciliationDiscrepancyServerReport discrepancyServerReport = new ReconciliationDiscrepancyServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(discrepancyServerReport, finaTool);
+			try {
+				discrepancyServerReport
+						.onResultSuccess(finaTool.getReportManager()
+								.getReconciliationDiscrepancyByAccount(
+										Long.valueOf(status),
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return discrepancyServerReport.getGridTemplate();
+		case REPORT_TYPE_MISSION_CHECKS:
+			MissingChecksServerReport checksServerReport = new MissingChecksServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(checksServerReport, finaTool);
+			try {
+				checksServerReport
+						.onResultSuccess(finaTool.getReportManager()
+								.getMissionChecksByAccount(
+										Long.valueOf(status),
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return checksServerReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1795,6 +1843,10 @@ public class ReportsGenerator {
 			return "Deposit Detail";
 		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
 			return "Check Detail";
+		case REPORT_TYPE_MISSION_CHECKS:
+			return "Missing Checks";
+		case REPORT_TYPE_RECONCILIATION_DISCREPANCY:
+			return "Reconciliation Discrepancy";
 		default:
 			break;
 		}
