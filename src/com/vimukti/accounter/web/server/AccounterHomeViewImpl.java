@@ -2227,9 +2227,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<Field<?>> getFieldsOf(int importerType) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Field<?>> getFieldsOf(int importerType)
+			throws AccounterException {
+		return getFinanceTool().getFieldsOfImporter(importerType);
 	}
 
 	@Override

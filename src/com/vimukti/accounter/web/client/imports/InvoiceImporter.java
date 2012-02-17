@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientInvoice;
 public class InvoiceImporter extends AbstractImporter<ClientInvoice> {
 
 	@Override
-	protected List<Field<?>> getAllFields() {
+	public List<Field<?>> getAllFields() {
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 
 		fields.add(new Field<String>("customer", true));

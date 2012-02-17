@@ -1,7 +1,6 @@
 package com.vimukti.accounter.web.client.imports;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +17,11 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 
 	private List<Field<?>> fields = new ArrayList<Field<?>>();
 
-	private Map<String, String> importedData = new HashMap<String, String>();
-
 	public AbstractImporter() {
 		fields = getAllFields();
 	}
 
-	protected abstract List<Field<?>> getAllFields();
+	public abstract List<Field<?>> getAllFields();
 
 	protected Field<?> getFieldByName(String fieldName) {
 		for (Field<?> field : getFields()) {
@@ -67,8 +64,11 @@ public abstract class AbstractImporter<T extends IAccounterCore> implements
 	}
 
 	@Override
-	public Map<String, String> getImportedData() {
-		return importedData;
+	public void updateFields(Map<String, String> importMap) {
+		for (Field<?> field : fields) {
+			String string = importMap.get(field.getName());
+			field.setColumnName(string);
+		}
 	}
 
 	protected long getCustomerByName(String customerName) {

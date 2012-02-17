@@ -483,7 +483,7 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long date2, int start, int length, int type)
 			throws AccounterException;
 
-	List<Field<?>> getFieldsOf(int importerType);
+	List<Field<?>> getFieldsOf(int importerType) throws AccounterException;
 
 	boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException;
