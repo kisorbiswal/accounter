@@ -144,7 +144,9 @@ public class NewItemAction extends Action<ClientItem> {
 
 	@Override
 	public String getHistoryToken() {
-		if (forCustomer) {
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			return "inventoryItem";
+		} else if (forCustomer) {
 			return "newItemCustomer";
 		}
 		return "newItemSupplier";

@@ -356,13 +356,14 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end);
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException;
 
-	
 }

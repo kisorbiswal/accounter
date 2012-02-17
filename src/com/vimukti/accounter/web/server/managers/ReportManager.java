@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
+import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -3689,6 +3690,93 @@ public class ReportManager extends Manager {
 
 			checkDetail.setPayeeName("");
 			list.add(checkDetail);
+		}
+		return list;
+	}
+
+	public ArrayList<TransactionDetailByAccount> getMissionChecksByAccount(
+			long accountId, ClientFinanceDate start, ClientFinanceDate end,
+			long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
+		Account account = (Account) session.get(Account.class, accountId);
+		List result = null;
+		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
+			result = session.getNamedQuery("get.all.invoices.by.account")
+					.setParameter("startDate", start.getDate())
+					.setParameter("endDate", end.getDate())
+					.setParameter("companyId", companyId).list();
+		} else if (account.getType() == ClientAccount.TYPE_BANK) {
+			result = session.getNamedQuery("get.missing.checks.by.account")
+					.setParameter("accountId", accountId)
+					.setParameter("startDate", start.getDate())
+					.setParameter("endDate", end.getDate())
+					.setParameter("companyId", companyId).list();
+		}
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			TransactionDetailByAccount detailByAccount = new TransactionDetailByAccount();
+			detailByAccount
+					.setTransactionId((Long) (objects[0] != null ? objects[0]
+							: 0));
+			detailByAccount
+					.setTransactionType((Integer) (objects[1] != null ? objects[1]
+							: 0));
+			detailByAccount
+					.setTransactionNumber((String) (objects[2] != null ? objects[2]
+							: ""));
+			ClientFinanceDate date = new ClientFinanceDate(
+					(Long) (objects[3] != null ? objects[3] : 0));
+			detailByAccount.setTransactionDate(date);
+			detailByAccount.setName((String) (objects[4] != null ? objects[4]
+					: ""));
+			detailByAccount
+					.setAccountName((String) (objects[5] != null ? objects[5]
+							: ""));
+			detailByAccount.setMemo((String) (objects[6] != null ? objects[6]
+					: ""));
+			detailByAccount.setTotal((Double) (objects[7] != null ? objects[7]
+					: 0.0));
+			list.add(detailByAccount);
+
+		}
+		return list;
+	}
+
+	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancyByAccount(
+			long accountId, ClientFinanceDate start, ClientFinanceDate end,
+			long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<ReconciliationDiscrepancy> list = new ArrayList<ReconciliationDiscrepancy>();
+		List result = session
+				.getNamedQuery("get.reconcilition.discrepancy.by.account")
+				.setParameter("account", accountId)
+				.setParameter("startDate", start.getDate())
+				.setParameter("enteredDate", end.getDate())
+				.setParameter("companyId", companyId).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			ReconciliationDiscrepancy discrepancy = new ReconciliationDiscrepancy();
+			discrepancy
+					.setTransactionId((Long) (objects[0] != null ? objects[0]
+							: 0));
+			int number = Integer
+					.valueOf((String) (objects[1] != null ? objects[1] : ""));
+			discrepancy.setTransactionNumber(String.valueOf(number));
+			ClientFinanceDate date = new ClientFinanceDate(
+					(Long) (objects[2] != null ? objects[2] : 0));
+			discrepancy.setTransactionDate(date);
+			discrepancy
+					.setName((String) (objects[3] != null ? objects[3] : ""));
+			discrepancy
+					.setAccountName((String) (objects[4] != null ? objects[4]
+							: ""));
+			discrepancy
+					.setReconciliedAmount((Double) (objects[6] != null ? objects[6]
+							: 0.0));
+			list.add(discrepancy);
 		}
 		return list;
 	}
