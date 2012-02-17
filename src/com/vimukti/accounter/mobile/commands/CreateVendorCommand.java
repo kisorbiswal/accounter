@@ -38,6 +38,7 @@ import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -289,7 +290,9 @@ public class CreateVendorCommand extends AbstractCommand {
 				List<Account> lists = new ArrayList<Account>();
 				Set<Account> accounts = context.getCompany().getAccounts();
 				for (Account account : accounts) {
-					if (account.getIsActive()) {
+					if (account.getIsActive()
+							&& (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account
+									.getType() == ClientAccount.TYPE_EXPENSE)) {
 						lists.add(account);
 					}
 				}
