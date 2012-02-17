@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class JobActualCostDetail extends BaseReport implements IsSerializable,
 		Serializable {
@@ -13,12 +14,12 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 
 	private String customerName;
 	private String jobName;
+	private long jobid;
 	private int type;
 	private ClientFinanceDate transactionDate;
 	private String number;
 	private String memo;
-	private ClientAccount account;
-	private ClientAccount splitAccount;
+	private long account;
 	private double total;
 	private long transaction;
 
@@ -70,20 +71,18 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 		this.memo = memo;
 	}
 
-	public ClientAccount getAccount() {
+	public long getAccount() {
 		return account;
 	}
 
-	public void setAccount(ClientAccount account) {
+	public void setAccount(long account) {
 		this.account = account;
 	}
 
 	public ClientAccount getSplitAccount() {
-		return splitAccount;
-	}
-
-	public void setSplitAccount(ClientAccount splitAccount) {
-		this.splitAccount = splitAccount;
+		ClientAccount account = Accounter.getCompany().getAccount(
+				Accounter.getCompany().getAccountsReceivableAccountId());
+		return account;
 	}
 
 	public double getTotal() {
@@ -100,5 +99,13 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 
 	public void setTransaction(long transaction) {
 		this.transaction = transaction;
+	}
+
+	public long getJobid() {
+		return jobid;
+	}
+
+	public void setJobid(long jobid) {
+		this.jobid = jobid;
 	}
 }

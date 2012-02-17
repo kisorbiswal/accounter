@@ -2,8 +2,10 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class JobActualCostDetailServerReport extends
@@ -71,7 +73,8 @@ public class JobActualCostDetailServerReport extends
 					getMessages().reportTotal(sectionName) }, new int[] { 8 });
 
 		} else if (sectionDepth == 2) {
-			this.jobName = record.getJobName();
+			ClientJob job = Accounter.getCompany().getjob(record.getJobid());
+			this.jobName = job.getJobName();
 			addSection(new String[] { "", jobName }, new String[] { "", "", "",
 					"", "", getMessages().reportTotal(jobName) },
 					new int[] { 8 });
@@ -113,7 +116,8 @@ public class JobActualCostDetailServerReport extends
 		case 5:
 			return record.getMemo();
 		case 6:
-			return record.getAccount().getName();
+			return Accounter.getCompany().getAccount(record.getAccount())
+					.getName();
 		case 7:
 			return record.getSplitAccount().getName();
 		case 8:

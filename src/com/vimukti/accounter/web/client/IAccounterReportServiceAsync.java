@@ -50,6 +50,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
+import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
@@ -437,5 +438,9 @@ public interface IAccounterReportServiceAsync {
 	public void getJobProfitabilitySummaryReport(ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<JobProfitability>> callBack);
+
+	public void getUnBilledCostsByJob(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<UnbilledCostsByJob>> callBack);
 
 }

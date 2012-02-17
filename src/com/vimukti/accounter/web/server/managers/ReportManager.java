@@ -67,6 +67,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
+import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATDetailReport;
@@ -3690,7 +3691,7 @@ public class ReportManager extends Manager {
 		if (isActualcostDetail) {
 			query = session.getNamedQuery("getJobActualCostTransactions")
 					.setParameter("companyId", companyId)
-					.setParameter("transactionId", transactionId)
+					.setParameter("customerId", transactionId)
 					.setParameter("jobId", jobId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
@@ -3706,9 +3707,18 @@ public class ReportManager extends Manager {
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
-			JobActualCostDetail jobActualCostDetail = new JobActualCostDetail();
-			// TODO set value to object.
-			jobActualCostDetails.add(jobActualCostDetail);
+			JobActualCostDetail costDetail = new JobActualCostDetail();
+			costDetail.setCustomerName((String) objects[0]);
+			costDetail.setJobid(((Long) objects[1]).longValue());
+			costDetail.setType(((Integer) objects[2]).intValue());
+			costDetail.setTransactionDate(new ClientFinanceDate(
+					((Long) objects[3]).longValue()));
+			costDetail.setNumber((String) objects[4]);
+			costDetail.setMemo((String) objects[5]);
+			costDetail.setAccount(((Long) objects[6]).longValue());
+			costDetail.setTransaction(((Long) objects[7]).longValue());
+			costDetail.setTotal(((Double) objects[8]).doubleValue());
+			jobActualCostDetails.add(costDetail);
 		}
 		return jobActualCostDetails;
 	}
@@ -3734,6 +3744,32 @@ public class ReportManager extends Manager {
 			job.setCostAmount((Double) objects[5]);
 			job.setRevenueAmount((Double) objects[6]);
 			list.add(job);
+		}
+		return list;
+	}
+
+	/**
+	 * 
+	 * @param companyId
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public ArrayList<UnbilledCostsByJob> getUnBilledCostsByJobReport(
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<UnbilledCostsByJob> list = new ArrayList<UnbilledCostsByJob>();
+		List result = session.getNamedQuery("getUnBilledCostsByJob")
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate)
+				.setParameter("endDate", endDate).list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			UnbilledCostsByJob costsByJob = new UnbilledCostsByJob();
+
+			list.add(costsByJob);
 		}
 		return list;
 	}
