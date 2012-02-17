@@ -657,6 +657,12 @@ public class WriteChequeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		setAmountIncludeTAX();
 
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null) {
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+			}
+		}
+
 		if (isTrackDiscounts()) {
 			if (discountField.getAmount() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
@@ -743,6 +749,10 @@ public class WriteChequeView extends
 		bankAccForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			bankAccForm.setFields(locationCombo);
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			bankAccForm.setFields(jobListCombo);
+		}
 		bankAccForm.setFields(bankAccSelect, balText);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -797,10 +807,20 @@ public class WriteChequeView extends
 							} else {
 
 								PayToSelected(selectItem);
-
+								// Job Tracking
+								if (getPreferences().isJobTrackingEnabled()) {
+									jobListCombo.setValue("");
+									jobListCombo
+											.setCustomer((ClientCustomer) selectItem);
+								}
 								payee = selectItem;
 							}
 						} else {
+							if (getPreferences().isJobTrackingEnabled()) {
+								jobListCombo.setValue("");
+								jobListCombo
+										.setCustomer((ClientCustomer) selectItem);
+							}
 							payee = selectItem;
 						}
 						updateAddressAndGrid();
@@ -1451,6 +1471,9 @@ public class WriteChequeView extends
 		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect.setDisabled(isInViewMode());
@@ -1592,6 +1615,9 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(company.getjob(transaction.getJob()));
+		}
 		vendorAccountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ACCOUNT, true));

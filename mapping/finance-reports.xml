@@ -4454,7 +4454,71 @@
 		ORDER BY
 		P.ID,J.ID
 	</sql-query>
+	<sql-query name="getJobActualRevenueTransactions">
+		<query-param name="companyId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
 
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="JOB_ID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="DATE" type="long" />
+		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+
+		SELECT
+		P.NAME AS CUSTOMER_NAME,
+		T.JOB_ID AS JOB_ID,
+		T.T_TYPE AS TYPE,
+		T.T_DATE AS
+		DATE,
+		T.NUMBER AS NUMBER,
+		T.MEMO AS MEMO,
+		CASE
+		WHEN
+		TI.TYPE=4
+		THEN
+		TI.ACCOUNT_ID ELSE IT.INCOME_ACCOUNT_ID
+		END AS ACCOUNT_ID,
+		T.ID AS
+		TRANSACTION_ID,
+		TI.LINE_TOTAL AS TOTAL
+		FROM
+		TRANSACTION_ITEM TI
+		LEFT OUTER
+		JOIN
+		TRANSACTION T ON
+		T.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN INVOICE I ON
+		I.ID = T.ID
+		LEFT
+		OUTER JOIN CASH_SALES CS ON CS.ID=T.ID
+		LEFT OUTER JOIN
+		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID =T.ID
+		LEFT OUTER JOIN PAYEE P ON
+		P.ID=I.CUSTOMER_ID OR P.ID = CS.CUSTOMER_ID OR
+		P.ID=CCM.ID
+		LEFT OUTER
+		JOIN ACCOUNT A ON (TI.TYPE=4 AND A.ID =TI.ACCOUNT_ID)
+		LEFT OUTER JOIN
+		ITEM IT ON (TI.TYPE=1 AND IT.ID=TI.ITEM_ID)
+		WHERE
+		T.JOB_ID IS NOT NULL
+		AND T.COMPANY_ID=:companyId AND
+		T.T_TYPE IN (1,8) AND
+		P.ID=:customerId
+		AND
+		T.JOB_ID=:jobId AND T.T_DATE BETWEEN
+		:startDate
+		AND
+		:endDate ORDER BY
+		T.ID,TI.ID
+	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 
