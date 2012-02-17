@@ -5919,12 +5919,4 @@ public interface AccounterMessages extends Messages {
 
 	public String unassigned();
 
-	public String nameInCSV();
-
-	public String fieldValue();
-
-	public String accounterField();
-
-	public String mappingPreview();
-
 }
