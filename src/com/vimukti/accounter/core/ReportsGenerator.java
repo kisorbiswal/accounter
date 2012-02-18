@@ -27,6 +27,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByV
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.JobActualCostDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobEstimatesVsActualsSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilitySummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
@@ -58,6 +60,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailS
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.UnBilledCostsByJobServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.VATExceptionServerReport;
@@ -136,7 +139,10 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
 	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 183;
 	public final static int REPORT_TYPE_ACTUAL_COST_DETAIL = 184;
-	
+	public final static int REPORT_TYPE_PROFITABILTY_SUMMARY = 185;
+	public final static int REPORT_TYPE_UNBILLED_COSTS_BY_JOB = 186;
+	public final static int REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL = 187;
+	public final static int REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY = 188;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1560,10 +1566,68 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return actualCostDetailServerReport.getGridTemplate();
+		case REPORT_TYPE_PROFITABILTY_SUMMARY:
+			JobProfitabilitySummaryServerReport jobProfitabilitySummaryServerReport = new JobProfitabilitySummaryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(jobProfitabilitySummaryServerReport, finaTool);
+			try {
+				jobProfitabilitySummaryServerReport.onResultSuccess(finaTool
+						.getReportManager().getJobProfitabilitySummaryReport(
+								company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return jobProfitabilitySummaryServerReport.getGridTemplate();
+		case REPORT_TYPE_UNBILLED_COSTS_BY_JOB:
+			UnBilledCostsByJobServerReport unBilledCostsByJobServerReport = new UnBilledCostsByJobServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(unBilledCostsByJobServerReport, finaTool);
+			try {
+				unBilledCostsByJobServerReport.onResultSuccess(finaTool
+						.getReportManager().getUnBilledCostsByJobReport(
+								company.getId(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		case REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY:
+			JobEstimatesVsActualsSummaryServerReport jobEstimatesVsActualsSummaryServerReport = new JobEstimatesVsActualsSummaryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(jobEstimatesVsActualsSummaryServerReport, finaTool);
+			try {
+				jobEstimatesVsActualsSummaryServerReport
+						.onResultSuccess(finaTool
+								.getReportManager()
+								.getJobEstimatesVsActualsSummaryReport(
+										company.getId(),
+										new ClientFinanceDate(startDate
+												.getDate()),
+										new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		default:
 			break;
 		}
-
 		return null;
 	}
 
@@ -1831,6 +1895,14 @@ public class ReportsGenerator {
 			return "Estimates By Job";
 		case REPORT_TYPE_ACTUAL_COST_DETAIL:
 			return "Job Actual Cost Detail Report";
+		case REPORT_TYPE_PROFITABILTY_SUMMARY:
+			return "Job Profitability Summary Report";
+		case REPORT_TYPE_UNBILLED_COSTS_BY_JOB:
+			return "Unbilled Costs By Job";
+		case REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL:
+			return "Item Actual Cost Detail";
+		case REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY:
+			return "Job Estimates Vs Actuals Summary";
 		default:
 			break;
 		}
