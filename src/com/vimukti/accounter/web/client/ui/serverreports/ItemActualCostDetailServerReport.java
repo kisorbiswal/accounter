@@ -34,10 +34,11 @@ public class ItemActualCostDetailServerReport extends
 
 	@Override
 	public String getTitle() {
-		if (isActualCostDetail)
+		if (isActualCostDetail) {
 			return messages.itemActualRevenueDetail();
-		else
+		} else {
 			return messages.itemActualCostDetail();
+		}
 	}
 
 	@Override

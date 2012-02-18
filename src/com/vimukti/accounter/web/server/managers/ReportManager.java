@@ -3815,6 +3815,7 @@ public class ReportManager extends Manager {
 			long itemId, boolean isActualcostDetail) {
 
 		Session session = HibernateUtil.getCurrentSession();
+
 		List list;
 		if (isActualcostDetail) {
 			list = session.getNamedQuery("getItemActualRevenueDetails")

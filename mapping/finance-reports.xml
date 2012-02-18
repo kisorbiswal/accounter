@@ -4681,7 +4681,6 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="itemId" type="long" />
-
 		<return-scalar column="TR_ID" type="long" />
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
