@@ -1047,6 +1047,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
 					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
