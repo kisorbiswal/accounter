@@ -62,6 +62,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ReportsRPC {
 
@@ -99,6 +100,9 @@ public class ReportsRPC {
 
 	public static void openTransactionView(int transactionType,
 			long transactionId) {
+		if (!Accounter.getUser().isCanDoUserManagement()) {
+			return;
+		}
 		switch (transactionType) {
 
 		case ClientTransaction.TYPE_PAY_BILL:
@@ -167,6 +171,7 @@ public class ReportsRPC {
 					ActionFactory.getNewCreditMemoAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
+
 			initCallBack(new ClientPayTAX(), ActionFactory.getpayTAXAction(),
 					transactionId);
 			break;
@@ -355,6 +360,9 @@ public class ReportsRPC {
 	}
 
 	public static void openTransactionView(ClientTransaction transaction) {
+		if (!Accounter.getUser().isCanDoUserManagement()) {
+			return;
+		}
 		switch (transaction.getType()) {
 
 		case ClientTransaction.TYPE_TRANSFER_FUND:
