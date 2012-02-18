@@ -179,6 +179,7 @@ import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAct
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
 import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
 import com.vimukti.accounter.web.client.ui.reports.UnRealisedExchangeLossesAndGainsAction;
+import com.vimukti.accounter.web.client.ui.reports.UnbilledCostsByJobAction;
 import com.vimukti.accounter.web.client.ui.reports.VAT100ReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATDetailsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATItemSummaryReportAction;
@@ -1216,13 +1217,17 @@ public class ActionFactory {
 	}
 
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
-			boolean isLocation) {
+			int category) {
 
-		return new ProfitAndLossByLocationAction(isLocation);
+		return new ProfitAndLossByLocationAction(category);
 	}
 
 	public static EstimatesByJobAction getEstimatesByJobAction() {
 		return new EstimatesByJobAction();
+	}
+
+	public static UnbilledCostsByJobAction getUnbilledCostsByJobAction() {
+		return new UnbilledCostsByJobAction();
 	}
 
 	public static BudgetAction getBudgetActions() {
@@ -1472,7 +1477,7 @@ public class ActionFactory {
 	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
 		return new RecurringTransactionDialogAction();
 	}
-	
+
 	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
 		return new JobProfitabilitySummaryReportAction();
 	}
