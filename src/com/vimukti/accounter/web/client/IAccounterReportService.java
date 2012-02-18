@@ -29,7 +29,9 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
@@ -175,7 +177,7 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
-			boolean isLocation, ClientFinanceDate startDate,
+			int categoryType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	ArrayList<SalesByLocationDetails> getSalesByLocationDetailsReport(
@@ -376,5 +378,12 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<UnbilledCostsByJob> getUnBilledCostsByJob(
 			ClientFinanceDate start, ClientFinanceDate end);
+
+	ArrayList<JobEstimatesVsActualsSummary> getJobEstimatesVsActualsSummaryReport(
+			ClientFinanceDate start, ClientFinanceDate end);
+
+	ArrayList<ItemActualCostDetail> getItemActualCostDetail(
+			ClientFinanceDate start, ClientFinanceDate end, long itemId,
+			long jobId);
 
 }
