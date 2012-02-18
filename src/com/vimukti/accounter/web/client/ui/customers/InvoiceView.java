@@ -1817,7 +1817,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	@Override
 	protected void updateDiscountValues() {
-
 		if (discountField.getAmount() != null) {
 			customerTransactionTable.setDiscount(discountField.getAmount());
 		} else {
