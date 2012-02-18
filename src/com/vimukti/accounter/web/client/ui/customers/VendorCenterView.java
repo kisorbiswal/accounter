@@ -34,13 +34,15 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.VendorTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.VendorsListGrid;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
-public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
+public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
+		implements IPrintableView {
 
 	private static final int TYPE_CASH_PURCHASE = 2;
 	private static final int TYPE_ENTER_BILL = 6;
@@ -622,16 +624,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 		} else {
 			callRPC(0, getPageSize());
 		}
-	}
-
-	@Override
-	public boolean canEdit() {
-		return selectedVendor != null;
-	}
-
-	@Override
-	public boolean isDirty() {
-		return false;
 	}
 
 }

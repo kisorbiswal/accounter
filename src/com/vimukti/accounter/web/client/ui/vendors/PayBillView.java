@@ -1223,8 +1223,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
-					+ bill.getCashDiscount());
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);

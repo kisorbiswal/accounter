@@ -54,8 +54,10 @@ public class PatternResult extends Result {
 		}
 		if (condition != null && !checkCondition(condition, company)) {
 			Result result = new Result();
-			result.add(Global.get().messages().youDoNotHavePermissionToDoThisAction());
-			result.add(Global.get().messages().youCanChangePermissionsFromCompanyPreferences());
+			result.add(Global.get().messages()
+					.youDoNotHavePermissionToDoThisAction());
+			result.add(Global.get().messages()
+					.youCanChangePermissionsFromCompanyPreferences());
 			CommandList list = new CommandList();
 			list.add("companyPreferences");
 			result.add(list);
@@ -90,6 +92,8 @@ public class PatternResult extends Result {
 			return countryPreferences instanceof UnitedKingdom;
 		} else if (condition.equals("inventoryEnabled")) {
 			return preferences.isInventoryEnabled();
+		} else if (condition.equals("salesOrderEnable")) {
+			return preferences.isSalesOrderEnabled();
 		}
 		return true;
 	}

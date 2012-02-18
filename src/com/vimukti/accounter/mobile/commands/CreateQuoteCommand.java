@@ -13,6 +13,8 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.ShippingMethod;
+import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
@@ -28,6 +30,9 @@ import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
 import com.vimukti.accounter.mobile.requirements.PaymentTermRequirement;
 import com.vimukti.accounter.mobile.requirements.PhoneRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingMethodRequirement;
+import com.vimukti.accounter.mobile.requirements.ShippingTermRequirement;
+import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxCodeRequirement;
 import com.vimukti.accounter.mobile.requirements.TransactionItemTableRequirement;
@@ -53,6 +58,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 	private static final String DELIVERY_DATE = "deliveryDate";
 	private static final String EXPIRATION_DATE = "expirationDate";
 	private static final String PAYMENT_TERMS = "paymentTerms";
+	private static final String STATUS = "status";
+	private static final String CUSTOMER_ORDER_NO = "customerOrderNo";
 
 	private ClientEstimate estimate;
 
@@ -166,8 +173,9 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().date()), getMessages().date(), true, true));
 
-		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
-				getMessages().number()), getMessages().number(), true, false));
+		list.add(new NumberRequirement(CUSTOMER_ORDER_NO, getMessages()
+				.pleaseEnter(getMessages().number()), getMessages().number(),
+				true, false));
 
 		list.add(new PaymentTermRequirement(PAYMENT_TERMS, getMessages()
 				.pleaseEnterName(getMessages().paymentTerm()), getMessages()
@@ -182,7 +190,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES
+						|| estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -201,7 +210,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES
+						|| estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -213,7 +223,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES
+						|| estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -232,6 +243,41 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			}
 		});
 
+		list.add(new StringListRequirement(STATUS, getMessages().pleaseSelect(
+				getMessages().status()), getMessages().status(), true, true,
+				null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.QUOTES
+						|| estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(getMessages().status());
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseEnter(getMessages().status());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getStatusTypes();
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
+			}
+		});
+
 		list.add(new DateRequirement(DELIVERY_DATE, getMessages().pleaseEnter(
 				getMessages().deliveryDate()), getMessages().deliveryDate(),
 				true, true) {
@@ -239,6 +285,18 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new DateRequirement(DUE_DATE, getMessages().pleaseEnter(
+				getMessages().dueDate()), getMessages().dueDate(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -257,6 +315,79 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				return null;
 			}
 		});
+
+		list.add(new ShippingTermRequirement(SHIPPING_TERM, getMessages()
+				.pleaseSelect(getMessages().shippingTerm()), getMessages()
+				.shippingTerm(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().pleaseSelect(getMessages().shippingTerm());
+			}
+
+			@Override
+			protected List<ShippingTerms> getLists(Context context) {
+				return new ArrayList<ShippingTerms>(context.getCompany()
+						.getShippingTerms());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().shippingTerms());
+			}
+
+			@Override
+			protected boolean filter(ShippingTerms e, String name) {
+				return e.getName().equalsIgnoreCase(name);
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()
+						&& estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new ShippingMethodRequirement(SHIPPING_METHOD, getMessages()
+				.pleaseSelect(getMessages().shippingMethod()), getMessages()
+				.shippingMethod(), true, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().pleaseSelect(
+						getMessages().shippingMethod());
+			}
+
+			@Override
+			protected List<ShippingMethod> getLists(Context context) {
+				return new ArrayList<ShippingMethod>(context.getCompany()
+						.getShippingMethods());
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().shippingMethodList());
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isDoProductShipMents()
+						&& estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
+		list.add(new NumberRequirement(NUMBER, getMessages().pleaseEnter(
+				getMessages().number()), getMessages().number(), true, true));
 
 		list.add(new StringRequirement(MEMO, getMessages().pleaseEnter(
 				getMessages().memo()), getMessages().memo(), true, true));
@@ -308,6 +439,43 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				return "Include VAT with Amount disabled";
 			}
 		});
+
+	}
+
+	protected List<String> getStatusTypes() {
+		ArrayList<String> statuses = new ArrayList<String>();
+		statuses.add(getMessages().open());
+		if (estimate.getEstimateType() != ClientEstimate.SALES_ORDER) {
+			statuses.add(getMessages().accepted());
+			statuses.add(getMessages().closed());
+			if (estimate == null
+					|| estimate.getStatus() == ClientEstimate.STATUS_REJECTED
+					|| estimate.getSaveStatus() != ClientTransaction.STATUS_DRAFT) {
+				statuses.add(getMessages().rejected());
+			}
+		} else {
+			statuses.add(getMessages().completed());
+			statuses.add(getMessages().cancelled());
+		}
+
+		return statuses;
+	}
+
+	private int getSaveStatus(String status) {
+		if (status.equals(getMessages().open())) {
+			return ClientEstimate.STATUS_OPEN;
+		} else if (status.equals(getMessages().accepted())) {
+			return ClientEstimate.STATUS_ACCECPTED;
+		} else if (status.equals(getMessages().closed())) {
+			return ClientEstimate.STATUS_CLOSE;
+		} else if (status.equals(getMessages().rejected())) {
+			return ClientEstimate.STATUS_REJECTED;
+		} else if (status.equals(getMessages().completed())) {
+			return ClientTransaction.STATUS_APPLIED;
+		} else if (status.equals(getMessages().cancelled())) {
+			return ClientTransaction.STATUS_CANCELLED;
+		}
+		return -1;
 	}
 
 	@Override
@@ -331,6 +499,9 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		String phone = get(PHONE).getValue();
 		estimate.setPhone(phone);
 
+		String saveStatus = get(STATUS).getValue();
+		estimate.setStatus(getSaveStatus(saveStatus));
+
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
@@ -339,6 +510,21 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				item.setTaxCode(taxCode.getID());
 			}
 		}
+		ShippingMethod method = get(SHIPPING_METHOD).getValue();
+		if (method != null) {
+			estimate.setShippingMethod(method.getID());
+		}
+
+		ShippingTerms shippingTerms = get(SHIPPING_TERM).getValue();
+		if (shippingTerms != null) {
+			estimate.setShippingTerm(shippingTerms.getID());
+		}
+
+		String customerOrderNo = get(CUSTOMER_ORDER_NO).getValue();
+		estimate.setCustomerOrderNumber(customerOrderNo);
+
+		ClientFinanceDate dueDate = get(DUE_DATE).getValue();
+		estimate.setDueDate(dueDate.getDate());
 
 		estimate.setTransactionItems(items);
 
@@ -420,9 +606,11 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				get(PAYMENT_TERMS).setDefaultValue(p);
 			}
 		}
-
-		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
-		get("expirationDate").setDefaultValue(new ClientFinanceDate());
+		get(DUE_DATE).setDefaultValue(new ClientFinanceDate());
+		get(CUSTOMER_ORDER_NO).setDefaultValue(" ");
+		get(STATUS).setDefaultValue(getMessages().open());
+		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
+		get(EXPIRATION_DATE).setDefaultValue(new ClientFinanceDate());
 
 		get(MEMO).setDefaultValue(" ");
 		get(BILL_TO).setDefaultValue(new ClientAddress());
@@ -564,6 +752,15 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 							estimate.getTransactionItems(), context));
 
 		}
+		get(CUSTOMER_ORDER_NO).setValue(estimate.getCustomerOrderNumber());
+		get(SHIPPING_METHOD).setValue(
+				CommandUtils.getServerObjectById(estimate.getShippingMethod(),
+						AccounterCoreType.SHIPPING_METHOD));
+		get(SHIPPING_TERM).setValue(
+				CommandUtils.getServerObjectById(estimate.getShippingTerm(),
+						AccounterCoreType.SHIPPING_TERM));
+		get(DUE_DATE).setValue(new ClientFinanceDate(estimate.getDueDate()));
+		get(STATUS).setValue(getSaveStatusAsString(estimate.getSaveStatus()));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(estimate.getDeliveryDate()));
 		get(EXPIRATION_DATE).setValue(
@@ -576,6 +773,32 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		get(MEMO).setValue(estimate.getMemo());
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(estimate));
 		get(PHONE).setValue(estimate.getPhone());
+	}
+
+	private String getSaveStatusAsString(int saveStatus) {
+		switch (saveStatus) {
+		case ClientEstimate.STATUS_OPEN:
+			return getMessages().open();
+		case ClientEstimate.STATUS_ACCECPTED:
+			if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+				return getMessages().completed();
+			}
+			return getMessages().accepted();
+		case ClientEstimate.STATUS_CLOSE:
+			return getMessages().closed();
+		case ClientEstimate.STATUS_REJECTED:
+			return getMessages().rejected();
+		case ClientEstimate.STATUS_APPLIED:
+			if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+				return getMessages().completed();
+			}
+			return getMessages().closed();
+		case ClientTransaction.STATUS_CANCELLED:
+			return getMessages().cancelled();
+		default:
+			break;
+		}
+		return "";
 	}
 
 	@Override
