@@ -99,6 +99,9 @@ public class ReportsRPC {
 
 	public static void openTransactionView(int transactionType,
 			long transactionId) {
+		if (!Accounter.getUser().isCanDoUserManagement()) {
+			return;
+		}
 		switch (transactionType) {
 
 		case ClientTransaction.TYPE_PAY_BILL:
@@ -167,6 +170,7 @@ public class ReportsRPC {
 					ActionFactory.getNewCreditMemoAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
+
 			initCallBack(new ClientPayTAX(), ActionFactory.getpayTAXAction(),
 					transactionId);
 			break;
@@ -349,12 +353,14 @@ public class ReportsRPC {
 			initCallBack(new ClientStockAdjustment(),
 					ActionFactory.getStockAdjustmentAction(), transactionId);
 			break;
-
 		}
 
 	}
 
 	public static void openTransactionView(ClientTransaction transaction) {
+		if (!Accounter.getUser().isCanDoUserManagement()) {
+			return;
+		}
 		switch (transaction.getType()) {
 
 		case ClientTransaction.TYPE_TRANSFER_FUND:
