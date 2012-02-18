@@ -4,3 +4,8 @@ war/WEB-INF/deploy/*
 war/accounter.client/*
 gwt-unitCache/*
 logs/*
+war/*.gz
+war/*/*.gz
+war/*/*/*.gz
+build/*
+build
