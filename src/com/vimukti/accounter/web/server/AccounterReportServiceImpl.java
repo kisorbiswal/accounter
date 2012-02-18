@@ -3329,7 +3329,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<ItemActualCostDetail> getItemActualCostDetail(
 			ClientFinanceDate start, ClientFinanceDate end, long itemId,
-			long jobId) {
+			boolean isActualcostDetail) {
 		ArrayList<ItemActualCostDetail> jobActualCostDetails = new ArrayList<ItemActualCostDetail>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(start, end,
 				getCompanyId());
@@ -3337,7 +3337,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			jobActualCostDetails = getFinanceTool().getReportManager()
 					.getItemActualCostOrRevenueDetails(financeDates[0],
 							financeDates[1], getCompanyId().longValue(),
-							itemId, jobId);
+							itemId, isActualcostDetail);
 			JobActualCostDetail obj = new JobActualCostDetail();
 			if (jobActualCostDetails != null) {
 				jobActualCostDetails
