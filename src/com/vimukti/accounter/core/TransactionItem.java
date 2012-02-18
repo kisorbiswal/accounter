@@ -39,7 +39,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	// public static final int TYPE_SERVICE = 6;
 
 	int version;
-
+	private Job job;
 	/**
 	 * @return the vatItem
 	 */
@@ -1066,5 +1066,13 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			quantity.setValue(-quantity.getValue());
 		}
 		return quantity;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }
