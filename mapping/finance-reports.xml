@@ -4519,6 +4519,160 @@
 		:endDate ORDER BY
 		T.ID,TI.ID
 	</sql-query>
+
+	<sql-query name="getUnBilledCostsByJob">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="JOB_ID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="ITEM_ACCOUNT" type="long" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		CASE WHEN T.T_TYPE = 6 THEN
+		TI.LINE_TOTAL
+		ELSE T.TOTAL END AS TOTAL
+		,
+		CASE WHEN T.T_TYPE = 6 THEN TI.JOB_ID
+		ELSE
+		T.JOB_ID END AS JOB_ID,
+		T.T_TYPE AS TYPE,
+		T.MEMO AS MEMO,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.T_DATE AS TR_DATE,
+		CASE WHEN TI.TYPE=4
+		THEN
+		TI.ACCOUNT_ID ELSE
+		IT.EXPENSE_ACCOUNT_ID END AS ITEM_ACCOUNT ,
+		CASE WHEN
+		T.T_TYPE =
+		6 THEN TI.CUSTOMER_ID
+		ELSE P.ID END AS CUSTOMER_ID
+		FROM
+		TRANSACTION T
+		LEFT OUTER JOIN
+		ENTER_BILL E ON
+		E.ID=T.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS W ON W.ID=T.ID
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID=T.ID
+		LEFT
+		OUTER JOIN ITEM IT ON
+		(TI.TYPE=1 AND
+		IT.ID=TI.ITEM_ID)
+		LEFT OUTER JOIN
+		PAYEE P ON
+		P.ID=TI.CUSTOMER_ID OR P.ID
+		= W.CUSTOMER_ID
+		WHERE
+		T.COMPANY_ID=:companyId AND
+		T.T_TYPE IN(6,15) AND
+		CASE WHEN T.T_TYPE = 6
+		THEN
+		TI.JOB_ID IS NOT NULL
+		AND TI.IS_BILLABLE
+		ELSE
+		T.JOB_ID IS NOT NULL
+		END
+		AND T.T_DATE BETWEEN
+		:startDate
+		AND
+		:endDate
+		ORDER
+		BY T.ID
+	</sql-query>
+	<sql-query name="getProfitAndLossByJob">
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		SELECT
+		A.ID AS ACCOUNT_ID,
+		A.NAME AS ACCOUNT_NAME,
+		A.A_NUMBER AS
+		ACCOUNT_NUMBER,
+		A.A_TYPE AS ACCOUNT_TYPE,
+		L.ID AS LOCATION_ID,
+		(CASE
+		WHEN
+		(SELECT COUNT(AT1.ACCOUNT_ID)
+		FROM
+		ACCOUNT_TRANSACTION AT1
+		join
+		TRANSACTION T1
+		ON AT1.TRANSACTION_ID=T1.ID
+		WHERE AT1.ACCOUNT_ID=A.ID
+		AND
+		AT1.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
+		AND
+		AT1.IS_CASH_BASIS_ENTRY='FALSE'
+		AND T1.T_DATE BETWEEN :startDate
+		AND
+		:endDate
+		AND AT1.COMPANY_ID=:companyId)=0
+		THEN 0
+		ELSE
+		(SELECT
+		SUM(AT.AMOUNT)
+		FROM
+		ACCOUNT_TRANSACTION AT
+		join
+		TRANSACTION T
+		ON
+		AT.TRANSACTION_ID=T.ID
+		WHERE
+		AT.ACCOUNT_ID =A.ID
+		AND
+		AT.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
+		AND
+		AT.IS_CASH_BASIS_ENTRY='FALSE'
+		AND T.T_DATE BETWEEN :startDate AND
+		:endDate
+		AND AT.COMPANY_ID=:companyId
+		GROUP BY
+		AT.ACCOUNT_ID,AT.TRANSACTION_ID)
+		END) AS
+		AMOUNT,
+		A.PARENT_ID
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT
+		OUTER JOIN ACCOUNT A
+		ON
+		A.ID=AT.ACCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON T.ID =AT.TRANSACTION_ID
+		LEFT OUTER JOIN
+		ENTER_BILL EB ON EB.ID=T.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID =EB.ID
+		LEFT OUTER JOIN JOB L ON L.ID=T.JOB_ID OR
+		L.ID=TI.JOB_ID
+		WHERE
+		T.T_DATE BETWEEN :startDate AND :endDate
+		AND
+		(T.JOB_ID IS NOT NULL OR TI.JOB_ID IS NOT NULL )
+		AND
+		A.A_TYPE IN
+		(14,15,16,17,18)
+		AND
+		A.BASE_TYPE !=0 AND
+		A.COMPANY_ID=:companyId
+		GROUP BY
+		A.ID,L.ID ,AT.TRANSACTION_ID ORDER BY A.BASE_TYPE,
+		A.SUB_BASE_TYPE,
+		A.GROUP_TYPE,
+		A.A_TYPE,A.ID
+	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 

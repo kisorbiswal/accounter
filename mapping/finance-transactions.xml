@@ -1089,6 +1089,8 @@
 		</many-to-one>
 		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
 		</many-to-one>
+		<many-to-one name="job" class="Job" column="JOB_Id">
+		</many-to-one>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">
