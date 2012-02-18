@@ -9,12 +9,11 @@ import com.vimukti.accounter.web.client.ui.serverreports.ItemActualCostDetailSer
 public class ItemActualCostDetailReport extends
 		AbstractReportView<ItemActualCostDetail> {
 	private long itemId;
-	private long jobId;
+	private boolean isActualcostDetail;
 
-	public ItemActualCostDetailReport(boolean isActualcostDetail, long itemId,
-			long jobId) {
+	public ItemActualCostDetailReport(boolean isActualcostDetail, long itemId) {
 		this.itemId = itemId;
-		this.jobId = jobId;
+		this.isActualcostDetail = isActualcostDetail;
 		this.serverReport = new ItemActualCostDetailServerReport(this,
 				isActualcostDetail);
 	}
@@ -22,7 +21,7 @@ public class ItemActualCostDetailReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getItemActualCostDetail(start, end,
-				itemId, jobId, this);
+				itemId, isActualcostDetail, this);
 	}
 
 	@Override
