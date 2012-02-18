@@ -56,7 +56,7 @@ public class MenuBar {
 	private boolean isSalesOrderEnabled;
 
 	private boolean isClassTrackingEnabled;
-
+	private boolean isJobTrackingEnabled;
 	private boolean isLocationTrackingEnabled;
 
 	private boolean isTaxTracking;
@@ -366,12 +366,10 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
-	
+
 		return reportMenuBar;
 	}
 
-	
-	
 	private MenuItem getInventoryReportMenu(String inventory) {
 		Menu inventoryMenuBar = new Menu(inventory);
 		inventoryMenuBar.addMenuItem(messages.inventoryValutionSummary(),
@@ -570,8 +568,11 @@ public class MenuBar {
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
 		customersAndReceivableMenuBar.addMenuItem("Estimates by Job",
 				HistoryTokens.ESTIMATEBYJOB);
-		customersAndReceivableMenuBar.addMenuItem(messages.jobProfitabilitySummary(),
+		customersAndReceivableMenuBar.addMenuItem(
+				messages.jobProfitabilitySummary(),
 				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		customersAndReceivableMenuBar.addMenuItem("Unbilled Costs By Job",
+				HistoryTokens.UNBILLED_COSTS_BY_JOB);
 
 		return customersAndReceivableMenuBar;
 	}
@@ -619,6 +620,11 @@ public class MenuBar {
 			companyAndFinancialMenuBar.addMenuItem(
 					messages.profitAndLossbyClass(),
 					HistoryTokens.PROFITANDLOSSBYCLASS);
+		}
+
+		if (isJobTrackingEnabled) {
+			companyAndFinancialMenuBar.addMenuItem("Profit & Loss by Job",
+					HistoryTokens.PROFITANDLOSSBYJOBS);
 		}
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
@@ -1118,6 +1124,8 @@ public class MenuBar {
 		this.canDoBanking = canDoBanking(clientUser);
 
 		this.isClassTracking = preferences.isClassTrackingEnabled();
+
+		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
 
 		this.canSeeBanking = canSeeBanking(clientUser);
 

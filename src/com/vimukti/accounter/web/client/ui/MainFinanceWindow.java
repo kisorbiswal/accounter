@@ -58,6 +58,9 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	public static Map<String, Action> actions;
 	private CometClient cometClient;
+	private static final int CLASS = 1;
+	private static final int LOCATION = 2;
+	private static final int JOB = 3;
 
 	protected AccounterMessages messages = Global.get().messages();
 	private boolean shouldReconnect = true;
@@ -600,6 +603,8 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getSalesByCustomerSummaryAction());
 		actions.put(ActionFactory.getEstimatesByJobAction().getHistoryToken(),
 				ActionFactory.getEstimatesByJobAction());
+		actions.put(ActionFactory.getUnbilledCostsByJobAction()
+				.getHistoryToken(), ActionFactory.getUnbilledCostsByJobAction());
 		actions.put(ActionFactory.getSalesByCustomerDetailAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerDetailAction());
@@ -695,17 +700,22 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getReportsHomeAction().getHistoryToken(),
 				ActionFactory.getReportsHomeAction());
 
-		ProfitAndLossByLocationAction profitAndLossByLocationActionTrue = ActionFactory
-				.getProfitAndLossByLocationAction(true);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionLocation = ActionFactory
+				.getProfitAndLossByLocationAction(LOCATION);
 
-		ProfitAndLossByLocationAction profitAndLossByLocationActionFalse = ActionFactory
-				.getProfitAndLossByLocationAction(false);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionClass = ActionFactory
+				.getProfitAndLossByLocationAction(CLASS);
 
-		actions.put(profitAndLossByLocationActionTrue.getHistoryToken(),
-				profitAndLossByLocationActionTrue);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionJob = ActionFactory
+				.getProfitAndLossByLocationAction(JOB);
 
-		actions.put(profitAndLossByLocationActionFalse.getHistoryToken(),
-				profitAndLossByLocationActionFalse);
+		actions.put(profitAndLossByLocationActionLocation.getHistoryToken(),
+				profitAndLossByLocationActionLocation);
+		actions.put(profitAndLossByLocationActionJob.getHistoryToken(),
+				profitAndLossByLocationActionJob);
+
+		actions.put(profitAndLossByLocationActionClass.getHistoryToken(),
+				profitAndLossByLocationActionClass);
 		ReconcilationsAction reconcilationsAction = ActionFactory
 				.getReconcilationsAction();
 		actions.put(reconcilationsAction.getHistoryToken(),
@@ -934,11 +944,11 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
-		
+
 		// for job reports
-				actions.put(ActionFactory.getJobProfitabilitySummaryReportAction()
-						.getHistoryToken(), ActionFactory
-						.getJobProfitabilitySummaryReportAction());
+		actions.put(ActionFactory.getJobProfitabilitySummaryReportAction()
+				.getHistoryToken(), ActionFactory
+				.getJobProfitabilitySummaryReportAction());
 	}
 
 	public ClientCompany getCompany() {
