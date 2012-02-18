@@ -1398,8 +1398,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			}
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
-			if(jobListCombo.getSelectedValue()!= null){
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null) {
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 			}
 		}
 		transaction.setNetAmount(netAmountLabel.getAmount());
