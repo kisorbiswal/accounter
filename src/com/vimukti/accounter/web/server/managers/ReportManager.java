@@ -3692,21 +3692,21 @@ public class ReportManager extends Manager {
 	 */
 	public ArrayList<JobActualCostDetail> getJobActualCostOrRevenueDetails(
 			FinanceDate startDate, FinanceDate endDate, long companyId,
-			boolean isActualcostDetail, long transactionId, long jobId) {
+			boolean isActualcostDetail, long customerId, long jobId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobActualCostDetail> jobActualCostDetails = new ArrayList<JobActualCostDetail>();
 		Query query = null;
 		if (isActualcostDetail) {
 			query = session.getNamedQuery("getJobActualCostTransactions")
 					.setParameter("companyId", companyId)
-					.setParameter("customerId", transactionId)
+					.setParameter("customerId", customerId)
 					.setParameter("jobId", jobId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
 		} else {
 			query = session.getNamedQuery("getJobActualRevenueTransactions")
 					.setParameter("companyId", companyId)
-					.setParameter("transactionId", transactionId)
+					.setParameter("customerId", customerId)
 					.setParameter("jobId", jobId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
@@ -3727,6 +3727,10 @@ public class ReportManager extends Manager {
 			costDetail.setTransaction(((Long) objects[7]).longValue());
 			costDetail.setTotal(((Double) objects[8]).doubleValue());
 			jobActualCostDetails.add(costDetail);
+			JobActualCostDetail jobActualCostDetail = new JobActualCostDetail();
+			jobActualCostDetail.setCustomerName((String) objects[0]);
+
+			jobActualCostDetails.add(jobActualCostDetail);
 		}
 		return jobActualCostDetails;
 	}

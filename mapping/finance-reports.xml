@@ -4445,7 +4445,7 @@
 		OUTER JOIN
 		PAYEE P ON P.ID=E.CUSTOMER_ID
 		WHERE
-		T.JOB_ID
+		E.JOB_ID
 		IS NOT NULL AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:startDate
@@ -4518,6 +4518,7 @@
 		AND
 		:endDate ORDER BY
 		T.ID,TI.ID
+
 	</sql-query>
 
 	<sql-query name="getUnBilledCostsByJob">

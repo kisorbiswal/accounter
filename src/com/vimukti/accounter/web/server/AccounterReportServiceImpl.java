@@ -3244,7 +3244,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public ArrayList<JobActualCostDetail> getJobActualCostOrRevenueDetails(
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			boolean isActualcostDetail, long transactionId, long jobId) {
+			boolean isActualcostDetail, long customerId, long jobId) {
 		ArrayList<JobActualCostDetail> jobActualCostDetails = new ArrayList<JobActualCostDetail>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, getCompanyId());
@@ -3252,7 +3252,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			jobActualCostDetails = getFinanceTool().getReportManager()
 					.getJobActualCostOrRevenueDetails(financeDates[0],
 							financeDates[1], getCompanyId().longValue(),
-							isActualcostDetail, transactionId, jobId);
+							isActualcostDetail, customerId, jobId);
 			JobActualCostDetail obj = new JobActualCostDetail();
 			if (jobActualCostDetails != null) {
 				jobActualCostDetails
@@ -3272,11 +3272,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		JobProfitability obj = new JobProfitability();
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
-		ArrayList<JobProfitability> list = getFinanceTool().getReportManager()
-				.getJobProfitabilitySummaryReport(getCompanyId(), start, end);
-		if (list != null)
-			list.add((JobProfitability) setStartEndDates(obj,
-					minimumAndMaximumDates));
+		ArrayList<JobProfitability> list = null;
+		try {
+			list = getFinanceTool().getReportManager()
+					.getJobProfitabilitySummaryReport(getCompanyId(), start,
+							end);
+			if (list != null)
+				list.add((JobProfitability) setStartEndDates(obj,
+						minimumAndMaximumDates));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+
 		return list;
 	}
 
