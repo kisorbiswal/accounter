@@ -12,13 +12,14 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 
 	private String itemName;
 	private int type;
-	private int transactionId;
+	private long transactionId;
 	private ClientFinanceDate date;
 	private String number;
 	private String customerName;
 	private String memo;
 	private String quantity;
 	private double amount;
+	private int itemType;
 
 	public String getItemName() {
 		return itemName;
@@ -84,12 +85,20 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 		this.amount = amount;
 	}
 
-	public int getTransactionId() {
+	public long getTransactionId() {
 		return transactionId;
 	}
 
-	public void setTransactionId(int transactionId) {
+	public void setTransactionId(long transactionId) {
 		this.transactionId = transactionId;
+	}
+
+	public int getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(int itemType) {
+		this.itemType = itemType;
 	}
 
 }
