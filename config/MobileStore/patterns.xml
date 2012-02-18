@@ -149,6 +149,7 @@
 			<command if="trackingQuotes" title="newQuote" />
 			<command if="delayedCharges" title="newCredit" />
 			<command if="delayedCharges" title="newCharge" />
+			<command if="salesOrderEnable" title="newSalesOrder" />
 			<command title="newInvoice" />
 			<command title="newCashSale" />
 			<command title="newCreditNotes" />
@@ -163,6 +164,7 @@
 			<command if="trackingQuotes" title="quotes" />
 			<command if="delayedCharges" title="credits" />
 			<command if="delayedCharges" title="Charges" />
+			<command if="salesOrderEnable" title="salesOrders" />
 			<command title="invoices" />
 			<command title="receivedPayments" />
 			<command title="customerRefunds" />

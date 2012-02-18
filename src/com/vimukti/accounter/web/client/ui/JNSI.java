@@ -19,8 +19,9 @@ public class JNSI {
 	}-*/;
 
 	public static native String getCalcultedAmount(String str)/*-{
+		str = str.replace(/0*([0-9\.]+)/gi, '$1');
 		str = str.replace(/[^0-9\+\-\.x\*\/]/gi, '');
-		str = str.replace(/^[^1-9\.\-]+/gi, '');
+		str = str.replace(/^[^0-9\.\-]+/gi, '');
 		str = str.replace(/[^0-9\.]+$/gi, '');
 		str = str.replace(/x/gi, '*');
 		str = str.replace(/([\-\+\*\/])+/gi, '$1');

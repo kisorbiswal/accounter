@@ -47,7 +47,6 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	private ArrayList<DynamicForm> listforms;
-	private DateField date;
 	private PayFromAccountsCombo payFromAccCombo;
 	private DateField billsDue;
 	private TAXAgencyCombo taxAgencyCombo;
@@ -60,9 +59,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	private VerticalPanel gridLayout;
 	private TransactionPayTAXGrid grid;
 	private Double totalAmount = 0.0D;
-	private String transactionNumber;
 	private ClientFinanceDate dueDateOnOrBefore;
-	private TextItem transNumber;
 	private TextItem checkNoText;
 	private CheckboxItem printCheck;
 	private boolean isChecked = false;
@@ -86,10 +83,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		// lab.setHeight("35px");
 		transactionDateItem = createTransactionDateItem();
 
-		transNumber = createTransactionNumberItem();
-		transNumber.setTitle(messages.no());
-		transNumber.setToolTip(messages
-				.giveNoTo(this.getAction().getViewName()));
+		transactionNumber = createTransactionNumberItem();
+		transactionNumber.setTitle(messages.no());
+		transactionNumber.setToolTip(messages.giveNoTo(this.getAction()
+				.getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
 		payFromAccCombo.setHelpInformation(true);
@@ -202,7 +199,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		DynamicForm dateForm = new DynamicForm();
 		dateForm.setNumCols(4);
 		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(transactionDateItem, transNumber);
+		dateForm.setFields(transactionDateItem, transactionNumber);
 		HorizontalPanel datepanel = new HorizontalPanel();
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
@@ -336,7 +333,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		paymentMethodCombo.setTabIndex(2);
 		billsDue.setTabIndex(3);
 		transactionDateItem.setTabIndex(4);
-		transNumber.setTabIndex(5);
+		transactionNumber.setTabIndex(5);
 		amountText.setTabIndex(6);
 		endingBalanceText.setTabIndex(7);
 		currencyWidget.setTabIndex(8);
@@ -445,7 +442,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
 		transactionDateItem.setEnteredDate(transaction.getDate());
-		transNumber.setValue(transaction.getNumber());
+		initTransactionNumber();
 
 		if (selectedPayFromAccount != null) {
 			endingBalanceText.setAmount(selectedPayFromAccount
@@ -568,30 +565,6 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	}
 
 	@Override
-	protected void initTransactionNumber() {
-
-		rpcUtilService.getNextTransactionNumber(ClientTransaction.TYPE_PAY_TAX,
-				new AccounterAsyncCallback<String>() {
-
-					@Override
-					public void onException(AccounterException caught) {
-						Accounter.showError(messages
-								.failedToGetTransactionNumber());
-					}
-
-					@Override
-					public void onResultSuccess(String result) {
-						if (result == null)
-							onFailure(null);
-						transactionNumber = result;
-						transNumber.setValue(result);
-					}
-
-				});
-
-	}
-
-	@Override
 	public ValidationResult validate() {
 
 		ValidationResult result = new ValidationResult();
@@ -658,7 +631,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 	@Override
 	protected void updateTransaction() {
 		super.updateTransaction();
-		transaction.setNumber(transactionNumber);
+		transaction.setNumber(transactionNumber.getValue());
 		transaction.setType(ClientTransaction.TYPE_PAY_TAX);
 
 		if (transactionDateItem.getEnteredDate() != null)
