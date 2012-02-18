@@ -103,9 +103,9 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	protected boolean onOK() {
 		updateData();
 		saveOrUpdate(data);
-		return false;
+		return true;
 	}
-	
+
 	@Override
 	protected boolean onCancel() {
 		return true;

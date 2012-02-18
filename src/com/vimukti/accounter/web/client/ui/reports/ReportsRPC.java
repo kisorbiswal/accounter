@@ -62,7 +62,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ReportsRPC {
 
@@ -354,7 +353,6 @@ public class ReportsRPC {
 			initCallBack(new ClientStockAdjustment(),
 					ActionFactory.getStockAdjustmentAction(), transactionId);
 			break;
-
 		}
 
 	}

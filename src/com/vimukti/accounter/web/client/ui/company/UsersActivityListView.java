@@ -84,7 +84,12 @@ public class UsersActivityListView extends BaseView implements IPrintableView {
 		dateForm.setFields(fromdate, toDate);
 
 		activityList = new UsersActivityList(fromdate.getValue(),
-				toDate.getValue(), value);
+				toDate.getValue(), value) {
+			@Override
+			public void refreshData() {
+				refreshActivityList();
+			}
+		};
 		SimplePager.Resources pagerResources = GWT
 				.create(SimplePager.Resources.class);
 		SimplePager pager = new SimplePager(TextLocation.CENTER,
