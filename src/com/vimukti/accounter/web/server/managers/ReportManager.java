@@ -52,7 +52,9 @@ import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
 import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
+import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
@@ -314,7 +316,7 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocation(
-			boolean isLocation, FinanceDate startDate, FinanceDate endDate,
+			int categoryType, FinanceDate startDate, FinanceDate endDate,
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		Company company = getCompany(companyId);
@@ -332,16 +334,22 @@ public class ReportManager extends Manager {
 		if (year != startDate1.getYear())
 			startDate1 = new FinanceDate(year, 01, 01);
 		List l;
-		if (isLocation) {
+
+		if (categoryType == 2) {
 			l = session.getNamedQuery("getProfitAndLossByLocation")
 					.setParameter("companyId", companyId)
 
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
-		} else {
+		} else if (categoryType == 1) {
 			l = session.getNamedQuery("getProfitAndLossByClass")
 					.setParameter("companyId", companyId)
 
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate()).list();
+		} else {
+			l = session.getNamedQuery("getProfitAndLossByJob")
+					.setParameter("companyId", companyId)
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate()).list();
 		}
@@ -3730,8 +3738,8 @@ public class ReportManager extends Manager {
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
@@ -3762,15 +3770,47 @@ public class ReportManager extends Manager {
 		ArrayList<UnbilledCostsByJob> list = new ArrayList<UnbilledCostsByJob>();
 		List result = session.getNamedQuery("getUnBilledCostsByJob")
 				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate)
-				.setParameter("endDate", endDate).list();
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
 			UnbilledCostsByJob costsByJob = new UnbilledCostsByJob();
-
+			costsByJob.setTransaction((Long) objects[0]);
+			costsByJob.setAmount((Double) objects[1]);
+			costsByJob.setJobId((Long) objects[2]);
+			costsByJob.setType((Integer) objects[3]);
+			costsByJob.setMemo((String) objects[4]);
+			costsByJob.setCustomerName((String) objects[5]);
+			costsByJob.setTransactionDate(new ClientFinanceDate(
+					(Long) objects[6]));
+			costsByJob.setAccount((Long) objects[7]);
+			costsByJob.setCustomerId((Long) objects[8]);
 			list.add(costsByJob);
 		}
 		return list;
 	}
+
+	public ArrayList<JobEstimatesVsActualsSummary> getJobEstimatesVsActualsSummaryReport(
+			long id, ClientFinanceDate clientFinanceDate,
+			ClientFinanceDate clientFinanceDate2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param companyId
+	 * @param itemId
+	 * @return
+	 */
+	public ArrayList<ItemActualCostDetail> getItemActualCostOrRevenueDetails(
+			FinanceDate startDate, FinanceDate endDate, long companyId,
+			long itemId, long jobId) {
+		// TODO
+		return null;
+	}
+
 }
