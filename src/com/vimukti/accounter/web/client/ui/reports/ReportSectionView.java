@@ -137,14 +137,17 @@ public class ReportSectionView extends BaseHomeView {
 		if (Global.get().preferences().isLocationTrackingEnabled()) {
 			companyAndFinancialMap.put(messages.profitAndLossByLocation(Global
 					.get().Location()), ActionFactory
-					.getProfitAndLossByLocationAction(true).getHistoryToken());
+					.getProfitAndLossByLocationAction(2).getHistoryToken());
 		}
 		if (Global.get().preferences().isClassTrackingEnabled()) {
 			companyAndFinancialMap.put(messages.profitAndLossbyClass(),
-					ActionFactory.getProfitAndLossByLocationAction(true)
+					ActionFactory.getProfitAndLossByLocationAction(1)
 							.getHistoryToken());
 		}
-
+		if (Global.get().preferences().isJobTrackingEnabled()) {
+			companyAndFinancialMap.put("Profit & Loss By Job", ActionFactory
+					.getProfitAndLossByLocationAction(3).getHistoryToken());
+		}
 		salesMap.put(messages.salesByCustomerSummary(Global.get().customer()),
 				ActionFactory.getSalesByCustomerSummaryAction()
 						.getHistoryToken());

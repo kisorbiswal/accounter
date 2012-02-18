@@ -14,29 +14,33 @@ import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocation
 public class ProfitAndLossByLocationReport extends
 		AbstractReportView<ProfitAndLossByLocation> {
 
-	private boolean isLocation;
+	private int category_type;
 
-	public ProfitAndLossByLocationReport(boolean isLocation) {
-		this.isLocation = isLocation;
+	public ProfitAndLossByLocationReport(int category_type) {
+		this.category_type = category_type;
 		ProfitAndLossByLocationServerReport.locations = Accounter.getCompany()
 				.getLocations();
 		ProfitAndLossByLocationServerReport.classes = Accounter.getCompany()
 				.getAccounterClasses();
+		ProfitAndLossByLocationServerReport.jobs = Accounter.getCompany()
+				.getJobs();
 		int numcolumns = 0;
-		if (isLocation) {
+		if (category_type == ProfitAndLossByLocationServerReport.JOB) {
+			numcolumns = ProfitAndLossByLocationServerReport.jobs.size() + 2;
+		} else if (category_type == ProfitAndLossByLocationServerReport.LOCATION) {
 			numcolumns = ProfitAndLossByLocationServerReport.locations.size() + 2;
 		} else {
 			numcolumns = ProfitAndLossByLocationServerReport.classes.size() + 2;
 		}
 		ProfitAndLossByLocationServerReport.noColumns = numcolumns;
 		this.serverReport = new ProfitAndLossByLocationServerReport(this,
-				isLocation);
+				category_type);
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getProfitAndLossByLocationReport(
-				isLocation, start, end, this);
+				category_type, start, end, this);
 	}
 
 	@Override
@@ -90,12 +94,14 @@ public class ProfitAndLossByLocationReport extends
 		map.put("endDate", endDate);
 		return map;
 	}
-	
+
 	@Override
 	public void print() {
-		int reportType = 153;
-		if (isLocation) {
+		int reportType = 0;
+		if (category_type == 1) {
 			reportType = 161;
+		} else if (category_type == 2) {
+			reportType = 153;
 		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
