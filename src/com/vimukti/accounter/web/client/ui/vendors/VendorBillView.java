@@ -1185,7 +1185,8 @@ public class VendorBillView extends
 	}
 
 	protected void getPurchaseOrdersAndItemReceipt() {
-		if (this.rpcUtilService == null)
+		if (this.rpcUtilService == null
+				|| !getPreferences().isPurchaseOrderEnabled())
 			return;
 		if (getVendor() == null) {
 			Accounter.showError(messages.pleaseSelectThePayee(Global.get()

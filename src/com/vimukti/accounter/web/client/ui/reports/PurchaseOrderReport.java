@@ -1,5 +1,8 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -9,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOrderServerRepo
 public class PurchaseOrderReport extends
 		AbstractReportView<OpenAndClosedOrders> {
 
-	private long status;
+	private int status;
 
 	public PurchaseOrderReport() {
 		this.serverReport = new PurchaseOrderServerReport(this);
@@ -23,6 +26,36 @@ public class PurchaseOrderReport extends
 				messages.lastMonth(), messages.thisFinancialYear(),
 				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(), messages.custom());
+	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String selectedDateRange = toolbar.getSelectedDateRange();
+		ClientFinanceDate startDate = toolbar.getStartDate();
+		ClientFinanceDate endDate = toolbar.getEndDate();
+		map.put("selectedDateRange", selectedDateRange);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		map.put("status", status);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			isDatesArranged = false;
+			return;
+		}
+		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
+		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
+		this.serverReport.setStartAndEndDates(startDate, endDate);
+		toolbar.setEndDate(endDate);
+		toolbar.setStartDate(startDate);
+		SalesPurchasesReportToolbar reportToolbar = (SalesPurchasesReportToolbar) toolbar;
+		reportToolbar.setStatus((Integer) map.get("status"));
+		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
+		isDatesArranged = true;
 	}
 
 	@Override

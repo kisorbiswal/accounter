@@ -9,6 +9,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -52,6 +53,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			statusList.add(statusArray[i]);
 		}
 		statusCombo.initCombo(statusList);
+
 		statusCombo.setComboItem(statusArray[0]);
 		statusCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -201,5 +203,18 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			setStartDate(startDate);
 			setEndDate(endDate);
 		}
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+		if (status == ClientEstimate.STATUS_OPEN
+				|| status == ClientTransaction.STATUS_OPEN) {
+			statusCombo.setComboItem(messages.open());
+		} else if (status == ClientTransaction.STATUS_APPLIED) {
+			statusCombo.setComboItem(messages.completed());
+		} else if (status == -1) {
+			statusCombo.setComboItem(messages.all());
+		} else
+			statusCombo.setComboItem(messages.cancelled());
 	}
 }
