@@ -35,13 +35,13 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	}
 
 	private void input() {
-		fields.put("number", new Field<String>("HHHH"));
-		fields.put("name", new Field<String>("GGGG"));
-		fields.put("balance", new Field<String>("IIII"));
-		fields.put("amount", new Field<String>("JJJJ"));
-		fields.put("cost", new Field<String>("KKKK"));
-		fields.put("item", new Field<String>("LLLL"));
-		fields.put("s_item", new Field<String>("MMMM"));
+		fields.put("number", new Field<String>("HHHH", ""));
+		fields.put("name", new Field<String>("GGGG", ""));
+		fields.put("balance", new Field<String>("IIII", ""));
+		fields.put("amount", new Field<String>("JJJJ", ""));
+		fields.put("cost", new Field<String>("KKKK", ""));
+		fields.put("item", new Field<String>("LLLL", ""));
+		fields.put("s_item", new Field<String>("MMMM", ""));
 	}
 
 	private void createControls() {
