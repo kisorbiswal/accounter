@@ -29,12 +29,16 @@ public class Field<T> {
 	 */
 	private boolean isRequired;
 
-	public Field(String name) {
-		this(name, false);
+	private String desplayName;
+
+	public Field(String name, String displayName) {
+		this(name, displayName, false);
+
 	}
 
-	public Field(String name, boolean isRequired) {
+	public Field(String name, String displayName, boolean isRequired) {
 		this.name = name;
+		this.desplayName = displayName;
 		this.isRequired = isRequired;
 	}
 
@@ -96,6 +100,14 @@ public class Field<T> {
 	 */
 	public void setRequired(boolean isRequired) {
 		this.isRequired = isRequired;
+	}
+
+	public String getDesplayName() {
+		return desplayName;
+	}
+
+	public void setDesplayName(String desplayName) {
+		this.desplayName = desplayName;
 	}
 
 	public boolean isValid() {

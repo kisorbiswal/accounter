@@ -3,20 +3,21 @@ package com.vimukti.accounter.web.client.imports;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
 
 /**
  * @author Prasanna Kumar G
  * 
  */
-public class InvoiceImporter extends AbstractImporter<ClientInvoice> {
+public class InvoiceImporter extends TransactionImporter<ClientInvoice> {
 
 	@Override
 	public List<Field<?>> getAllFields() {
 		List<Field<?>> fields = new ArrayList<Field<?>>();
-
-		fields.add(new Field<String>("customer", true));
-		fields.add(new Field<String>("number"));
+		fields.add(new Field<String>(messages.customer(), messages
+				.payeeName(Global.get().Customer()), true));
+		fields.add(new Field<String>("", "number"));
 
 		return fields;
 	}
