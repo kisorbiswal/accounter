@@ -44,7 +44,6 @@ import com.vimukti.accounter.web.client.ui.forms.CheckboxItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
-import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 /**
  * @modified by Ravi Kiran.G
@@ -178,23 +177,6 @@ public class NewSalesPersonView extends BaseView<ClientSalesPerson> {
 				.getViewName()));
 		dateOfBirth.setDisabled(isInViewMode());
 		dateOfBirth.setEnteredDate(new ClientFinanceDate());
-
-		// dateOfBirth.setEndDate(new ClientFinanceDate(19910101));
-		// dateOfBirth.setStartDate(new ClientFinanceDate(18910101));
-		dateOfBirth.addDateValueChangeHandler(new DateValueChangeHandler() {
-
-			@Override
-			public void onDateValueChange(ClientFinanceDate date) {
-				long mustdate = new ClientFinanceDate().getDate() - 180000;
-				if (new ClientFinanceDate(mustdate).before(dateOfBirth
-						.getEnteredDate())) {
-					addError(dateOfBirth,
-							messages.dateofBirthshouldshowmorethan18years());
-				} else {
-					clearError(dateOfBirth);
-				}
-			}
-		});
 
 		dateOfHire = new DateField(messages.dateofHire());
 		dateOfHire.setToolTip(messages.selectDateOfHire(this.getAction()

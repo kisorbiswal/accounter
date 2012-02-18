@@ -30,7 +30,7 @@ public class VoidTransactionCommand extends AbstractDeleteCommand {
 		} catch (AccounterException e) {
 			addFirstMessage(context, e.getMessage());
 		}
-		return transactionName + "List";
+		return transactionName.replace(" ", "").toLowerCase() + "List";
 	}
 
 }

@@ -345,9 +345,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		Double cashDiscount = rec.getCashDiscount();
 		Double credit = rec.getAppliedCredits();
 		Double payments = amountDue - (cashDiscount + credit);
+		if (rec.getPayment() == 0
+				&& !getPreferences().isCreditsApplyAutomaticEnable()) {
+			rec.setPayment(payments);
+		}
 
-		(rec).setPayment(payments);
-		(rec).setCashDiscount(cashDiscount);
+		rec.setCashDiscount(cashDiscount);
 
 		grid.update(rec);
 		adjustAmountAndEndingBalance();
@@ -794,9 +797,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 				c.setAppliedCredits(creditsApplied, false);
 				c.setCreditsApplied(true);
-				c.setPayment(due);
+				if (c.getPayment() == 0) {
+					c.setPayment(due);
+				}
 				grid.update(c);
 			}
+			adjustAmountAndEndingBalance();
 		}
 
 		this.unUsedCreditsText.setAmount(grid.getUnusedCredits());
@@ -817,11 +823,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
 				.getFormalName()));
-
-		if (vendor == null) {
-			paybillTransactionList = null;
-			return;
-		}
 
 		grid.resetValues();
 		grid.creditsAndPayments.clear();
@@ -1187,11 +1188,12 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				}
 			} else {
 				transaction.getTransactionPayBill().remove(record);
-				amountDue = record.getPayment() + record.getAppliedCredits();
+				amountDue = record.getPayment() + record.getAppliedCredits()
+						+ record.getCashDiscount();
 			}
 			amountDue += cont.getAmountDue();
-			record.setAmountDue(cont.getOriginalAmount());
-			record.setDummyDue(cont.getOriginalAmount());
+			record.setAmountDue(amountDue);
+			record.setDummyDue(amountDue);
 
 			record.setBillNumber(cont.getBillNumber());
 			record.setCashDiscount(record.getCashDiscount()
@@ -1209,8 +1211,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			record.setPayment(cont.getPayment());
 			record.setDiscountAccount(getCompany().getCashDiscountAccount());
 
-			record.setDiscountAccount(getCompany().getCashDiscountAccount());
-
 			totalOrginalAmt += record.getOriginalAmount();
 			totalDueAmt += record.getAmountDue();
 			totalPayment += record.getPayment();
@@ -1223,7 +1223,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getOriginalAmount());
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);
@@ -1234,8 +1234,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		grid.setRecords(records);
 		size = records.size();
-		if (size == 0)
+		if (size == 0) {
 			grid.addEmptyMessage(messages.noRecordsToShow());
+		} else {
+			grid.resetValues();
+		}
 	}
 
 	@Override

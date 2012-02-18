@@ -1048,6 +1048,10 @@ public class UIUtils {
 			return messages.Account();
 		case ClientTransactionItem.TYPE_ITEM:
 			return messages.item();
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+			return messages.creditCardExpense();
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+			return messages.cashExpense();
 			// case ClientTransactionItem.TYPE_SALESTAX:
 			// return messages.taxGroup();
 		default:
@@ -1190,9 +1194,6 @@ public class UIUtils {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			return AccounterCoreType.JOURNALENTRY;
 
-		case ClientTransaction.TYPE_SALES_ORDER:
-			return AccounterCoreType.SALESORDER;
-
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			return AccounterCoreType.PURCHASEORDER;
 
@@ -1216,6 +1217,8 @@ public class UIUtils {
 
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			return AccounterCoreType.PAYBILL;
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+			return AccounterCoreType.TDSCHALANDETAIL;
 
 		}
 		return null;
@@ -2073,7 +2076,6 @@ public class UIUtils {
 		case ClientTransaction.TYPE_ESTIMATE:
 		case ClientTransaction.TYPE_INVOICE:
 		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
-		case ClientTransaction.TYPE_SALES_ORDER:
 		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
 			return ClientTransaction.CATEGORY_CUSTOMER;
 

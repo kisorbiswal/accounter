@@ -412,7 +412,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		vendorSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency());
+				getBaseCurrency(), true);
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
@@ -617,7 +617,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(messages.Account());
+		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
+			
+		};
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -626,7 +628,13 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 		expenseAccountsSelect.setDisabled(isInViewMode());
-
+		List<ClientAccount> list = new ArrayList<ClientAccount>();
+		for(ClientAccount account : getCompany().getAccounts()) {
+			if(account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account.getType() == ClientAccount.TYPE_EXPENSE) {
+				list.add(account);
+			}
+		}
+		expenseAccountsSelect.initCombo(list);
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
@@ -1401,10 +1409,10 @@ public class VendorView extends BaseView<ClientVendor> {
 			} else {
 				// Setting Federal Id
 				taxIDText.setValue(data.getFederalTaxId());
-				if (getCountryPreferences().isServiceTaxAvailable()) {
-					serviceTaxRegisterationNumber.setValue(data
-							.getServiceTaxRegistrationNumber());
-				}
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				serviceTaxRegisterationNumber.setValue(data
+						.getServiceTaxRegistrationNumber());
 			}
 		}
 	}
@@ -1471,7 +1479,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override

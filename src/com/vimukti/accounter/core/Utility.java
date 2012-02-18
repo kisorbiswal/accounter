@@ -133,6 +133,8 @@ public class Utility {
 		case Transaction.TYPE_PAY_BILL:
 			transactionName = AccounterServerConstants.TYPE_PAY_BILL;
 			break;
+		case Transaction.TYPE_VENDOR_PAYMENT:
+			transactionName = AccounterServerConstants.TYPE_VENDOR_PAYMENT;
 		case Transaction.TYPE_RECEIVE_PAYMENT:
 			transactionName = AccounterServerConstants.TYPE_RECEIVE_PAYMENT;
 			break;
@@ -160,9 +162,6 @@ public class Utility {
 		case Transaction.TYPE_ADJUST_VAT_RETURN:
 			transactionName = AccounterServerConstants.TYPE_VAT_ADJUSTMENT;
 			break;
-		case Transaction.TYPE_SALES_ORDER:
-			transactionName = AccounterServerConstants.TYPE_SALES_ORDER;
-			break;
 		case Transaction.TYPE_PURCHASE_ORDER:
 			transactionName = AccounterServerConstants.TYPE_PURCHASE_ORDER;
 			break;
@@ -179,7 +178,10 @@ public class Utility {
 			transactionName = AccounterServerConstants.TYPE_EMPLOYEE_EXPENSE;
 			break;
 		case Transaction.TYPE_STOCK_ADJUSTMENT:
-			transactionName = AccounterServerConstants.TYPE_EMPLOYEE_EXPENSE;
+			transactionName = AccounterServerConstants.TYPE_STOCK_ADJUSTMENT;
+			break;
+		case Transaction.TYPE_TDS_CHALLAN:
+			transactionName = AccounterServerConstants.TYPE_TDS_CHALLAN;
 			break;
 		case Transaction.TYPE_TDS_CHALLAN:
 			transactionName = AccounterServerConstants.TYPE_TDS_CHALLAN;
@@ -1244,19 +1246,6 @@ public class Utility {
 		case Transaction.TYPE_MAKE_DEPOSIT:
 			break;
 		case Transaction.TYPE_TRANSFER_FUND:
-			break;
-		case Transaction.TYPE_SALES_ORDER:
-			switch (status) {
-			case Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(AccounterServerConstants.STATUS_NOT_INVOICED);
-				break;
-			case Transaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(AccounterServerConstants.STATUS_PARTIALLY_INVOICED);
-				break;
-			case Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(AccounterServerConstants.STATUS_INVOICED);
-				break;
-			}
 			break;
 		case Transaction.TYPE_PURCHASE_ORDER:
 			switch (status) {

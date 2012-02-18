@@ -99,7 +99,9 @@ public class CreateVATCodeCommand extends AbstractCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				Boolean value = get(IS_TAXABLE).getValue();
-				if (value && context.getPreferences().isTrackPaidTax()) {
+				if (value
+						&& (isSales ? true : context.getPreferences()
+								.isTrackPaidTax())) {
 					setVATItemValue();
 					return super.run(context, makeResult, list, actions);
 				} else {

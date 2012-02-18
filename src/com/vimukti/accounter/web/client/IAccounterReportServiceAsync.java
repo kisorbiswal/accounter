@@ -10,12 +10,15 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
+import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
@@ -32,6 +35,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
+import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -214,45 +218,45 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-	public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getPurchaseOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	// public void getSalesOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getSalesOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOpenOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	// public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
 	void getPriorVATReturnVATDetailReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
@@ -363,8 +367,8 @@ public interface IAccounterReportServiceAsync {
 
 	public void getCustomerTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<TransactionHistory>> callback);
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callback);
 
 	void getReconciliationItemByBankAccountID(ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long bankAccountId, long comapnyId,
@@ -372,8 +376,8 @@ public interface IAccounterReportServiceAsync {
 
 	public void getVendorTransactionsList(long id, int transactionType,
 			int transactionStatusType, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<TransactionHistory>> callback);
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callback);
 
 	public void getBudgetvsAcualReportData(long id, ClientFinanceDate start,
 			ClientFinanceDate end, int type,
@@ -406,5 +410,21 @@ public interface IAccounterReportServiceAsync {
 	public void getInventoryValutionDetail(long id, ClientFinanceDate start,
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<InventoryValutionDetail>> callback);
+
+	public void getBankingDepositDetils(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<BankDepositDetail>> callback);
+
+	public void getMissingCheckDetils(long accountId, ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<TransactionDetailByAccount>> callback);
+
+	public void getReconciliationDiscrepancy(long accountId,
+			ClientFinanceDate start, ClientFinanceDate end,
+			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
+
+	public void getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<BankCheckDetail>> callback);
 
 }

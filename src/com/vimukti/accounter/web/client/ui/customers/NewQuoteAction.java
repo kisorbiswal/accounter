@@ -32,6 +32,8 @@ public class NewQuoteAction extends Action {
 			title = messages.charge();
 		} else if (type == ClientEstimate.CREDITS) {
 			title = messages.credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			title = messages.salesOrder();
 		}
 
 	}
@@ -67,6 +69,8 @@ public class NewQuoteAction extends Action {
 					case ClientEstimate.CREDITS:
 						title = messages.credit();
 						break;
+					case ClientEstimate.SALES_ORDER:
+						title = messages.salesOrder();
 					default:
 						break;
 					}
@@ -110,7 +114,7 @@ public class NewQuoteAction extends Action {
 		} else if (type == ClientEstimate.CREDITS) {
 			return "newCredit";
 		} else if (type == ClientEstimate.SALES_ORDER) {
-			return "salesorders";
+			return "salesOrder";
 		}
 		return "";
 	}
@@ -128,6 +132,8 @@ public class NewQuoteAction extends Action {
 			title = messages.newCharge();
 		} else if (type == ClientEstimate.CREDITS) {
 			title = messages.newCredit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			title = messages.newSalesOrder();
 		}
 		return title;
 	}
@@ -141,6 +147,8 @@ public class NewQuoteAction extends Action {
 			viewName = messages.charge();
 		} else if (type == ClientEstimate.CREDITS) {
 			viewName = messages.credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			viewName = messages.salesOrder();
 		}
 		return viewName;
 	}

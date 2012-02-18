@@ -30,7 +30,7 @@ public class InventoryItemNameColumn extends
 
 	@Override
 	protected ClientItem getValue(ClientInventoryAssemblyItem row) {
-		return (ClientItem) row.getInventoryItem();
+		return Accounter.getCompany().getItem(row.getInventoryItem());
 	}
 
 	public ListFilter<ClientItem> getItemsFilter() {
@@ -122,7 +122,7 @@ public class InventoryItemNameColumn extends
 				row.setUnitPrice(unitPrice);
 			}
 		}
-		row.setInventoryItem(newValue);
+		row.setInventoryItem(newValue.getID());
 		onValueChange(row);
 		row.setDescription(getDiscription(newValue));
 		if (row.getQuantity() == null) {
@@ -135,7 +135,7 @@ public class InventoryItemNameColumn extends
 
 	private boolean isSameItems(ClientInventoryAssemblyItem row,
 			ClientItem newValue) {
-		if (row.getInventoryItem().getID() == newValue.getID()) {
+		if (row.getInventoryItem() == newValue.getID()) {
 			return true;
 		}
 		return false;

@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.vimukti.accounter.mobile.CommandList;
@@ -47,8 +48,10 @@ public class UserActivityLogCommand extends AbstractCommand {
 			@Override
 			protected Record createRecord(ClientActivity value) {
 				Record record = new Record(value);
-				record.add(getMessages().date(),
-						new ClientFinanceDate(value.getTime()));
+				SimpleDateFormat format = new SimpleDateFormat(getPreferences()
+						.getDateFormat());
+				String format2 = format.format(value.getTime());
+				record.add(getMessages().date(), format2);
 				record.add(getMessages().userName(), value.getUserName());
 				record.add(getMessages().activity(), getActivityDataType(value));
 				record.add(getMessages().amount(),
@@ -58,7 +61,8 @@ public class UserActivityLogCommand extends AbstractCommand {
 
 			@Override
 			protected boolean filter(ClientActivity e, String name) {
-				return e.getName().startsWith(name);
+				return e.getName() == null ? true : e.getName()
+						.startsWith(name);
 			}
 
 			@Override
@@ -83,8 +87,8 @@ public class UserActivityLogCommand extends AbstractCommand {
 		ClientFinanceDate endDate = get(TO_DATE).getValue();
 
 		List<ClientActivity> activities = new FinanceTool().getUserManager()
-				.getUsersActivityLog(startDate, endDate, 1,0, VALUES_TO_SHOW,
-						context.getCompany().getId());
+				.getUsersActivityLog(startDate, endDate, 0, -1,
+						context.getCompany().getId(), 0);
 
 		startIndex += activities.size();
 

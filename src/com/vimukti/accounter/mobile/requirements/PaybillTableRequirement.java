@@ -69,9 +69,7 @@ public abstract class PaybillTableRequirement extends
 	@Override
 	protected void getRequirementsValues(PayBillTransactionList obj) {
 		Double amount = get(AMOUNT).getValue();
-		Double due = obj.getAmountDue() - amount;
 		obj.setPayment(amount);
-		obj.setAmountDue(due);
 	}
 
 	@Override

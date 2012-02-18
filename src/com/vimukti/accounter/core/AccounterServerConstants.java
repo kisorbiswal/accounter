@@ -27,6 +27,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String CASH_DISCOUNT_GIVEN = "Discounts Given";
 	public static final String WRITE_OFF = "Write off";
 	public static final String CASH_DISCOUNT_TAKEN = "Cash Discount taken";
+	public static final String COST_OF_GOODS_SOLD = "Cost of Goods Sold";
 	public static final String BANK_CHARGE = "Bank Charge";
 	public static final String OTHER_CASH_INCOME = "Other Cash Income";
 	public static final String OTHER_CASH_EXPENSE = "Other Cash Expense";
@@ -184,6 +185,7 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String TYPE_EMPLOYEE_EXPENSE = "Employee Expense";
 	public static final String TYPE_STOCK_ADJUSTMENT = "Stock Adjustment";
 	public static final String TYPE_TDS_CHALLAN = "TDS Challan";
+	public static final String TYPE_BUILD_ASSEMBLY = "Build Assembly";
 
 	// constants for Table Names
 
@@ -730,5 +732,6 @@ public class AccounterServerConstants implements IsSerializable, Serializable {
 	public static final String EXCHANGE_LOSS_OR_GAIN = "Exchange Loss or Gain";
 	public static final String GST_TAX_PAYABLE = "GST Tax Payable";
 	public static final String QST_TAX_PAYABLE = "QST Tax Payable";
-	public static final String CONSUMPTION_TAX_PAYABLE = "Consumption Tax Payable";;
+	public static final String CONSUMPTION_TAX_PAYABLE = "Consumption Tax Payable";
+	public static final String TYPE_VENDOR_PAYMENT = "Vendor Prepayment";
 }

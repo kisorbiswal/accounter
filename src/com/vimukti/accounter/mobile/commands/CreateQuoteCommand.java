@@ -292,8 +292,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
-				if (preferences.isTrackTax()
-						&& !preferences.isTaxPerDetailLine()) {
+				if (preferences.isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -333,10 +332,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		estimate.setPhone(phone);
 
 		List<ClientTransactionItem> items = get(ITEMS).getValue();
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(estimate, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());
@@ -378,6 +375,9 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
 			return estimate.getID() == 0 ? getMessages().creating(
 					getMessages().charge()) : "Charge updating..";
+		} else if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+			return estimate.getID() == 0 ? getMessages().creating(
+					getMessages().salesOrder()) : "Charge updating..";
 		}
 
 		return "";
@@ -397,6 +397,10 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			return estimate.getID() == 0 ? getMessages().readyToCreate(
 					getMessages().charge()) : getMessages().readyToUpdate(
 					getMessages().Charges());
+		} else if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+			return estimate.getID() == 0 ? getMessages().readyToCreate(
+					getMessages().salesOrder()) : getMessages().readyToUpdate(
+					getMessages().salesOrder());
 		}
 
 		return "";
@@ -440,6 +444,10 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			return estimate.getID() == 0 ? getMessages().createSuccessfully(
 					getMessages().charge()) : getMessages().updateSuccessfully(
 					getMessages().charge());
+		} else if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
+			return estimate.getID() == 0 ? getMessages().createSuccessfully(
+					getMessages().salesOrder()) : getMessages()
+					.updateSuccessfully(getMessages().salesOrder());
 		}
 		return "";
 	}
@@ -452,6 +460,8 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 			estimateType = ClientEstimate.CHARGES;
 		} else if (commandString.contains("credit")) {
 			estimateType = ClientEstimate.CREDITS;
+		} else if (commandString.contains("sales")) {
+			estimateType = ClientEstimate.SALES_ORDER;
 		}
 		if (commandString.contains("quote")) {
 			if (!context.getPreferences().isDoyouwantEstimates()) {
@@ -488,6 +498,12 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 							getMessages().selectATransactionToUpdate(
 									getMessages().Charges()));
 					return "chargesList";
+				} else if (estimateType == ClientEstimate.SALES_ORDER) {
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().Charges()));
+					return "salesorderlist";
 				}
 			}
 
@@ -506,6 +522,12 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 							getMessages().selectATransactionToUpdate(
 									getMessages().credits()));
 					return "creditsList " + string;
+				} else if (estimateType == ClientEstimate.CHARGES) {
+					addFirstMessage(
+							context,
+							getMessages().selectATransactionToUpdate(
+									getMessages().Charges()));
+					return "chargesList " + string;
 				} else if (estimateType == ClientEstimate.CHARGES) {
 					addFirstMessage(
 							context,

@@ -197,6 +197,36 @@ public class CreateVendorCommand extends AbstractCommand {
 		list.add(new AddressRequirement(SHIP_TO, getMessages().pleaseEnter(
 				getMessages().shipTo()), getMessages().shipTo(), true, true));
 
+		// This is to ask user whether he wants to maintain both addresses same
+		/*
+		 * list.add(new BooleanRequirement("isBothAddrSame", false) {
+		 * 
+		 * @Override public Result run(Context context, Result makeResult,
+		 * ResultList list, ResultList actions) { ClientAddress billTo =
+		 * CreateVendorCommand.this.get(BILL_TO) .getValue(); ClientAddress
+		 * shipto = CreateVendorCommand.this.get(SHIP_TO) .getValue(); if
+		 * ((billTo.getAddress1().isEmpty() && !shipto.getAddress1() .isEmpty())
+		 * || (shipto.getAddress1().isEmpty() && !billTo
+		 * .getAddress1().isEmpty())) { Result run = super.run(context,
+		 * makeResult, list, actions); Boolean isSame = (Boolean) getValue(); if
+		 * (isSame != null && isSame) { if (billTo.getAddress1().isEmpty() &&
+		 * !shipto.getAddress1().isEmpty()) { get(BILL_TO).setValue(shipto); }
+		 * if (shipto.getAddress1().isEmpty() &&
+		 * !billTo.getAddress1().isEmpty()) { get(SHIP_TO).setValue(billTo); }
+		 * 
+		 * } Record record = ((MultiRequirement) get(BILL_TO)) .getRecord();
+		 * list.remove(record); list.add(record); Record shiptorecord =
+		 * ((MultiRequirement) get(SHIP_TO)) .getRecord();
+		 * list.remove(shiptorecord); list.add(shiptorecord); return run; }
+		 * return null; }
+		 * 
+		 * @Override protected String getTrueString() { return
+		 * "Both addresses same"; }
+		 * 
+		 * @Override protected String getFalseString() { return
+		 * "Both addresses are different"; } });
+		 */
+
 		list.add(new NumberRequirement(PHONE, getMessages().pleaseEnter(
 				getMessages().phoneNumber()), getMessages().phoneNumber(),
 				true, true));
@@ -381,9 +411,9 @@ public class CreateVendorCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new NumberRequirement(VAT_REGISTRATION_NUMBER, getMessages()
-				.pleaseEnter(getMessages().vatRegistrationNumber()),
-				getMessages().vatRegistrationNumber(), true, true) {
+		list.add(new StringRequirement(VAT_REGISTRATION_NUMBER, getMessages()
+				.pleaseEnter(getMessages().taxRegNo()), getMessages()
+				.taxRegNo(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -396,9 +426,9 @@ public class CreateVendorCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new TaxCodeRequirement(VENDOR_VAT_CODE,
-				"Please enter the tax code name", getMessages().taxCode(),
-				true, true, null) {
+		list.add(new TaxCodeRequirement(VENDOR_VAT_CODE, getMessages()
+				.pleaseSelect(getMessages().taxCode()),
+				getMessages().taxCode(), true, true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -422,8 +452,8 @@ public class CreateVendorCommand extends AbstractCommand {
 		});
 
 		list.add(new NumberRequirement(CST_NUM, getMessages().pleaseEnter(
-				getMessages().payeeNumber(Global.get().Customer())),
-				getMessages().payeeNumber(Global.get().Customer()), true, true) {
+				getMessages().cstNumber()), getMessages().cstNumber(), true,
+				true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -437,8 +467,8 @@ public class CreateVendorCommand extends AbstractCommand {
 		});
 
 		list.add(new NumberRequirement(SERVICE_TAX_NUM, getMessages()
-				.pleaseEnter(getMessages().serviceTax()), getMessages()
-				.serviceTax(), true, true) {
+				.pleaseEnter(getMessages().serviceTaxRegistrationNumber()),
+				getMessages().serviceTaxRegistrationNumber(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -757,20 +787,20 @@ public class CreateVendorCommand extends AbstractCommand {
 			}
 			if (vendorNumber.equals(old.getVendorNumber())) {
 				return getMessages().objAlreadyExistsWithNumber(
-						Global.get().customer());
+						Global.get().vendor());
 			} else if (vendorNumber == null
 					|| vendorNumber.trim().length() == 0) {
 				error = getMessages()
 						.pleaseEnterVendorNumberItShouldNotBeEmpty(
-								Global.get().Customer());
+								Global.get().vendor());
 				break;
 			} else if (checkIfNotNumber(vendorNumber)) {
 				error = getMessages().payeeNumberShouldBeNumber(
-						Global.get().customer());
+						Global.get().vendor());
 				break;
 			} else if (Integer.parseInt(vendorNumber.toString()) < 1) {
 				error = getMessages().payeeNumberShouldBePos(
-						Global.get().customer());
+						Global.get().vendor());
 				break;
 			}
 		}

@@ -36,9 +36,8 @@ public class InventoryQuantityColumn extends
 	protected String getValue(ClientInventoryAssemblyItem row) {
 
 		ClientItem item = null;
-		if (row.getInventoryItem() != null) {
-			item = Accounter.getCompany().getItem(
-					row.getInventoryItem().getID());
+		if (row.getInventoryItem() != 0) {
+			item = Accounter.getCompany().getItem(row.getInventoryItem());
 		}
 		ClientQuantity quantity = getQuantity(row);
 		if (item == null) {
@@ -87,11 +86,11 @@ public class InventoryQuantityColumn extends
 			((TextBox) widget).addFocusHandler(new FocusHandler() {
 				@Override
 				public void onFocus(FocusEvent event) {
-					if (row.getInventoryItem() == null) {
+					if (row.getInventoryItem() == 0) {
 						return;
 					}
 					ClientItem item = Accounter.getCompany().getItem(
-							row.getInventoryItem().getID());
+							row.getInventoryItem());
 					if (item != null
 							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
 						showPopUp(row);
@@ -117,8 +116,8 @@ public class InventoryQuantityColumn extends
 				row.getQuantity().getUnit());
 		ClientWarehouse wareHouse = Accounter.getCompany().getWarehouse(
 				row.getWarehouse());
-		ClientItem item = Accounter.getCompany().getItem(
-				row.getInventoryItem().getID());
+		ClientItem item = Accounter.getCompany()
+				.getItem(row.getInventoryItem());
 		final TextBox valueBox = new TextBox();
 		valueBox.setFocus(true);
 		valueBox.setText(String.valueOf(row.getQuantity().getValue()));
@@ -208,7 +207,7 @@ public class InventoryQuantityColumn extends
 				value = "1";
 			}
 			ClientItem item = Accounter.getCompany().getItem(
-					row.getInventoryItem().getID());
+					row.getInventoryItem());
 			ClientQuantity quantity = row.getQuantity();
 			if (item != null
 					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || quantity == null)) {

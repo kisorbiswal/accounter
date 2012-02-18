@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
@@ -207,5 +208,19 @@ public class ExpensesListView extends TransactionsListView<BillsList> {
 	@Override
 	protected int getPageSize() {
 		return DEFAULT_PAGE_SIZE;
+	}
+
+	@Override
+	public void exportToCsv() {
+		Accounter.createExportCSVService().getBillsAndItemReceiptListExportCSV(
+				true,
+				transactionType,
+				getStartDate().getDate(),
+				getEndDate().getDate(),
+				start,
+				getPageSize(),
+				checkViewType(),
+				getExportCSVCallback(UIUtils
+						.getTransactionTypeName(transactionType)));
 	}
 }

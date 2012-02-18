@@ -81,7 +81,7 @@ public abstract class CustomerItemTransactionTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
-						return e.isISellThisItem();
+						return e.isISellThisItem() && e.getIncomeAccount() != 0;
 					}
 				};
 			}
@@ -94,7 +94,8 @@ public abstract class CustomerItemTransactionTable extends
 				updateDiscountValues(row);
 				super.setValue(row, newValue);
 				if (newValue != null
-						&& newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
+						&& (newValue.getType() == ClientItem.TYPE_INVENTORY_PART || newValue
+								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)) {
 					ClientMeasurement measurement = Accounter.getCompany()
 							.getMeasurement(newValue.getMeasurement());
 					if (row.getQuantity() == null) {

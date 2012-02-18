@@ -35,6 +35,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -286,24 +287,35 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
-				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+				list.add(new UserCommand("newBankAccount", getMessages().bank()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Cash Account", getMessages().cash()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Inventory Account", getMessages()
+								.inventoryAsset()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
+				list.add(new UserCommand("newBankAccount",
+						"Create Creditcard Account", getMessages().creditCard()));
 			}
 
 			@Override
 			protected List<Account> getLists(Context context) {
-
 				List<Account> filteredList = new ArrayList<Account>();
 				for (Account obj : context.getCompany().getAccounts()) {
 					if (new ListFilter<Account>() {
 
 						@Override
 						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& Arrays.asList(Account.TYPE_BANK)
-											.contains(e.getType());
+							if (e.getIsActive()
+									&& (e.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET || e
+											.getType() == ClientAccount.TYPE_CREDIT_CARD)) {
+								return true;
+							}
+							return false;
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -451,8 +463,7 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
-						&& getPreferences().isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+						&& getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;

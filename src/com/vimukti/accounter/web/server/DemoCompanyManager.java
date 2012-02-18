@@ -25,7 +25,6 @@ import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -84,7 +83,6 @@ public class DemoCompanyManager {
 		xStream.alias("Invoice", ClientInvoice.class);
 
 		xStream.alias("salesOrders", List.class);
-		xStream.alias("ClientSalesOrder", ClientSalesOrder.class);
 
 		xStream.alias("purchaseOrders", List.class);
 		xStream.alias("ClientPurchaseOrder", ClientPurchaseOrder.class);

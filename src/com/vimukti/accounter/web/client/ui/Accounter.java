@@ -62,7 +62,7 @@ import com.vimukti.accounter.web.client.uibinder.setup.SetupWizard;
  * 
  */
 public class Accounter implements EntryPoint {
-
+	private static boolean isShutdown = false;
 	private static MainFinanceWindow mainWindow;
 	protected ValueCallBack<Accounter> callback;
 	private static Set<String> features;
@@ -678,5 +678,12 @@ public class Accounter implements EntryPoint {
 
 	public static boolean hasPermission(String feature) {
 		return false;
+	}
+	public static boolean isShutdown() {
+		return isShutdown;
+	}
+
+	public static void setShutdown(boolean isShutdown) {
+		Accounter.isShutdown = isShutdown;
 	}
 }

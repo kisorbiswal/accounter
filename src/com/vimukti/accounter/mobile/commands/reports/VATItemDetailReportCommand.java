@@ -110,7 +110,7 @@ public class VATItemDetailReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(VATItemDetail selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

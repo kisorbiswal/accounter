@@ -224,10 +224,11 @@ public class CreateVendorPrepaymentCommand extends AbstractTransactionCommand {
 				false, false, null) {
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
 				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
 			}
 
 			@Override

@@ -160,7 +160,7 @@ public abstract class CompanyInitializer {
 		if (nextAccoutNo == null) {
 			nextAccoutNo = getMinimumRange(type);
 		}
-		Account account = new Account(type, nextAccoutNo, name,
+		Account account = new Account(type, String.valueOf(nextAccoutNo), name,
 				cashFlowCategory);
 		account.setCompany(company);
 		session.saveOrUpdate(account);
@@ -404,6 +404,12 @@ public abstract class CompanyInitializer {
 				AccounterServerConstants.CASH_DISCOUNT_TAKEN,
 				Account.CASH_FLOW_CATEGORY_OPERATING);
 		company.setCashDiscountsTaken(cashDiscountsTaken);
+
+		Account costOfGoodsSold = createAccount(
+				Account.TYPE_COST_OF_GOODS_SOLD,
+				AccounterServerConstants.COST_OF_GOODS_SOLD,
+				Account.CASH_FLOW_CATEGORY_OPERATING);
+		company.setCostOfGoodsSold(costOfGoodsSold);
 
 		// This is the direct references to the Other Cash Expense Account for
 		// the purpose of the Cash Basis Journal Entry.

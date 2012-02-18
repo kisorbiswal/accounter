@@ -2,18 +2,19 @@ package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
-import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
-public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
-
+public abstract class AbstractPayeeCenterView<T> extends AbstractBaseView<T>
+		implements ISavableView<Map<String, Object>> {
+	public static final int DEFAULT_PAGE_SIZE = 25;
 	protected SelectCombo dateRangeSelector;
 	private List<String> dateRangeList;
 	private ClientFinanceDate startDate, endDate;
@@ -40,7 +41,7 @@ public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
 						dateRangeSelector.setComboItem(selectItem);
 						if (dateRangeSelector.getValue() != null) {
 							dateRangeChanged(selectItem);
-							callRPC();
+							callRPC(0, getPageSize());
 
 						}
 					}
@@ -48,9 +49,17 @@ public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
 
 	}
 
-	protected abstract void callRPC();
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
+	}
 
-	private void dateRangeChanged(String dateRange) {
+	protected abstract void callRPC(int start, int length);
+
+	void onPageChange(int start, int length) {
+		callRPC(start, length);
+	}
+
+	public void dateRangeChanged(String dateRange) {
 		ClientFinanceDate date = new ClientFinanceDate();
 		startDate = Accounter.getStartDate();
 		endDate = getCompany().getCurrentFiscalYearEndDate();
@@ -215,11 +224,6 @@ public abstract class AbstractPayeeCenterView<T> extends BaseView<ClientPayee> {
 
 	public ClientFinanceDate getEndDate() {
 		return endDate;
-	}
-
-	@Override
-	public List<DynamicForm> getForms() {
-		return null;
 	}
 
 	@Override

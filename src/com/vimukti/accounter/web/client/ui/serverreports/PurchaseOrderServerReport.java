@@ -6,23 +6,19 @@ import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
-public class PurchaseOpenOrderServerReport extends
+public class PurchaseOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
 
-	private boolean isPurchases;
-
-	public PurchaseOpenOrderServerReport(long startDate, long endDate,
+	public PurchaseOrderServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
-		isPurchases = true;
 	}
 
-	public PurchaseOpenOrderServerReport(
+	public PurchaseOrderServerReport(
 			IFinanceReport<OpenAndClosedOrders> reportView) {
 		this.reportView = reportView;
-		isPurchases = true;
 	}
 
 	@Override
@@ -34,7 +30,7 @@ public class PurchaseOpenOrderServerReport extends
 			else
 				break;
 		case 1:
-			return record.getVendorOrCustomerName();
+			return record.getNumber();
 			// case 2:
 			// // if (isPurchases)
 			// return record.getDescription();
@@ -44,8 +40,9 @@ public class PurchaseOpenOrderServerReport extends
 			// return ((Double) record.getQuantity()).toString();
 
 		case 2:
+			return record.getVendorOrCustomerName();
+		case 3:
 			return record.getAmount();
-
 		default:
 			break;
 		}
@@ -56,7 +53,7 @@ public class PurchaseOpenOrderServerReport extends
 	public int[] getColumnTypes() {
 		// if (isPurchases)
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
 		// else
 		// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 		// COLUMN_TYPE_AMOUNT };
@@ -66,7 +63,7 @@ public class PurchaseOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isPurchases)
 		return new String[] { getMessages().orderDate(),
-				Global.get().vendor(),
+				getMessages().number(), Global.get().vendor(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getMessages().amount() };
@@ -121,7 +118,7 @@ public class PurchaseOpenOrderServerReport extends
 
 		int col;
 		// if (isPurchases)
-		col = 2;
+		col = 3;
 		// else
 		// col = 2;
 		// if (sectionDepth == 0) {
@@ -193,7 +190,7 @@ public class PurchaseOpenOrderServerReport extends
 
 	@Override
 	public int getColumnWidth(int index) {
-		if (index == 0 || index == 2)
+		if (index == 0 || index == 3)
 			return 250;
 		else
 			return -1;
@@ -213,9 +210,11 @@ public class PurchaseOpenOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
+			return obj1.getNumber().toLowerCase()
+					.compareTo(obj2.getNumber().toLowerCase());
+		case 2:
 			return obj1.getVendorOrCustomerName().toLowerCase()
 					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
-
 			// case 2:
 			// // if (isPurchases)
 			// return obj1.getDescription().toLowerCase().compareTo(
@@ -227,7 +226,7 @@ public class PurchaseOpenOrderServerReport extends
 			// return Utility_R
 			// .compareDouble(obj1.getQuantity(), obj2.getQuantity());
 
-		case 2:
+		case 3:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
 		}
@@ -243,7 +242,7 @@ public class PurchaseOpenOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().orderDate(),
-				getMessages().Vendor(),
+				getMessages().number(), getMessages().Vendor(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getMessages().amount() };

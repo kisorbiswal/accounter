@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.CallbackException;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.dialect.EncryptedStringType;
@@ -455,7 +456,9 @@ public class Customer extends Payee implements IAccounterServerCore,
 		}
 
 		Customer customer = (Customer) clientObject;
-		super.canEdit(clientObject);
+		if (this.getID() == 0) {
+			return super.canEdit(clientObject);
+		}
 		// if (this.name.equals(customer.name)
 		// && this.number.equals(customer.number)
 		// && this.id == customer.id)
@@ -482,49 +485,55 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// }
 		// }
 		// }
+		FlushMode flushMode = session.getFlushMode();
 
-		Query query = session
-				.getNamedQuery("getCustomers")
-				.setParameter("name", this.name, EncryptedStringType.INSTANCE)
-				.setParameter(
-						"number",
-						this.number == null || this.number.isEmpty() ? null
-								: this.number, EncryptedStringType.INSTANCE)
-				.setLong("id", this.getID())
-				.setParameter("companyId", customer.getCompany().getID());
+		session.setFlushMode(FlushMode.COMMIT);
+		try {
+			Query query = session
+					.getNamedQuery("getCustomers")
+					.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+					.setParameter(
+							"number",
+							this.number == null || this.number.isEmpty() ? null
+									: this.number, EncryptedStringType.INSTANCE)
+					.setLong("id", this.getID())
+					.setParameter("companyId", customer.getCompany().getID());
 
-		List list = query.list();
-		Iterator it = list.iterator();
-		while (it.hasNext()) {
-			Object[] object = (Object[]) it.next();
+			List list = query.list();
+			Iterator it = list.iterator();
+			while (it.hasNext()) {
+				Object[] object = (Object[]) it.next();
 
-			if (this.name.equalsIgnoreCase((String) object[0])) {
-				Iterator it2 = list.iterator();
-				while (it2.hasNext()) {
-					Object[] object2 = (Object[]) it2.next();
-					if (this.number.equals(object2[1])) {
-						throw new AccounterException(
-								AccounterException.ERROR_NAME_CONFLICT);
-						// "A Customer already exists with this name and number");
+				if (this.name.equalsIgnoreCase((String) object[0])) {
+					Iterator it2 = list.iterator();
+					while (it2.hasNext()) {
+						Object[] object2 = (Object[]) it2.next();
+						if (this.number.equals(object2[1])) {
+							throw new AccounterException(
+									AccounterException.ERROR_NAME_CONFLICT);
+							// "A Customer already exists with this name and number");
+						}
 					}
-				}
-				throw new AccounterException(
-						AccounterException.ERROR_NAME_CONFLICT);
-				// "A Customer already exists with this name");
-			} else if (this.number.equals(object[1])) {
-				Iterator it2 = list.iterator();
-				while (it2.hasNext()) {
-					Object[] object2 = (Object[]) it2.next();
-					if (this.name.equalsIgnoreCase((String) object2[0])) {
-						throw new AccounterException(
-								AccounterException.ERROR_NUMBER_CONFLICT);
-						// "A Customer already exists with this name and number");
+					throw new AccounterException(
+							AccounterException.ERROR_NAME_CONFLICT);
+					// "A Customer already exists with this name");
+				} else if (this.number.equals(object[1])) {
+					Iterator it2 = list.iterator();
+					while (it2.hasNext()) {
+						Object[] object2 = (Object[]) it2.next();
+						if (this.name.equalsIgnoreCase((String) object2[0])) {
+							throw new AccounterException(
+									AccounterException.ERROR_NUMBER_CONFLICT);
+							// "A Customer already exists with this name and number");
+						}
 					}
+					throw new AccounterException(
+							AccounterException.ERROR_NUMBER_CONFLICT);
+					// "A Customer already exists with this number");
 				}
-				throw new AccounterException(
-						AccounterException.ERROR_NUMBER_CONFLICT);
-				// "A Customer already exists with this number");
 			}
+		} finally {
+			session.setFlushMode(flushMode);
 		}
 
 		return true;

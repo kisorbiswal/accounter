@@ -1483,7 +1483,7 @@ public interface AccounterMessages extends Messages {
 
 	public String doyouwanttoDeletetheTransaction();
 
-	public String doyouwanttorejecttheEstimate();
+	public String doyouwanttorejecttheEstimate(String typeString);
 
 	public String doyouWantToUseStatements();
 
@@ -5503,6 +5503,24 @@ public interface AccounterMessages extends Messages {
 
 	public String receiveAmountCannotBeZeroOrLessThanZero();
 
+	public String job();
+
+	public String jobName();
+
+	public String pending();
+
+	public String awarded();
+
+	public String inprogress();
+
+	public String notAwarded();
+
+	public String jobStatus();
+
+	public String projectendDate();
+
+	public String newJob();
+
 	public String enableUnits();
 
 	public String quantityNeeded();
@@ -5639,7 +5657,7 @@ public interface AccounterMessages extends Messages {
 
 	public String chequeOrRefNo();
 
-		public String tdsDepositedByBookEntry();
+	public String tdsDepositedByBookEntry();
 
 	public String deducteeName();
 
@@ -5805,6 +5823,8 @@ public interface AccounterMessages extends Messages {
 
 	public String youCannotrejecttheEstimate();
 
+	public String jobTracking();
+
 	public String reportPts();
 
 	public String onSalesOrder();
@@ -5880,6 +5900,27 @@ public interface AccounterMessages extends Messages {
 	public String newAssembly();
 
 	public String inventoryName();
-	
+
 	public String subscribtionManagement();
+
+	public String youCannotBuildWithoutComponents();
+
+	public String youCannotBuildThisAssembly();
+
+	public String reportTotal(String jobName);
+
+	public String checkNumber();
+
+	public String checkAmount();
+
+	public String jobProfitabilitySummary();
+
+	public String enablePreference(String preferences);
+
+	public String pleaseMapProperly(String selectedValue, String value);
+
+	public String propertyMatchedAlready();
+
+	public String unassigned();
+
 }

@@ -148,7 +148,7 @@ public abstract class CustomTable extends VerticalPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					enableOrDisableCheckBox(((CheckBox) event.getSource())
+					checkedUncheckedCheckBox(((CheckBox) event.getSource())
 							.getValue());
 				}
 			});
@@ -272,6 +272,18 @@ public abstract class CustomTable extends VerticalPanel {
 	 */
 
 	public void enableOrDisableCheckBox(boolean isEnable) {
+		if (disable)
+			return;
+		for (int i = 0; i < this.getTableRowCount(); i++) {
+			Widget wdget = this.getWidget(i, 0);
+			if (wdget != null && wdget instanceof CheckBox) {
+				CheckBox box = (CheckBox) this.getWidget(i, 0);
+				box.setEnabled(isEnable);
+			}
+		}
+	}
+
+	public void checkedUncheckedCheckBox(boolean isChecked) {
 		if (disable)
 			return;
 		for (int i = 0; i < this.getTableRowCount(); i++) {

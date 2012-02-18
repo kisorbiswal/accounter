@@ -262,14 +262,17 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
 				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
 				list.add(new UserCommand("createBankAccount",
-						"Create CreditAccount", "CreditAccount"));
+						"Create CreditAccount", getMessages().creditCard()));
 				list.add(new UserCommand("createBankAccount",
-						"Create FixedAsset Account", "FixedAsset"));
+						"Create FixedAsset Account", getMessages().fixedAsset()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
 			}
 
 			@Override
@@ -285,11 +288,20 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& Arrays.asList(Account.TYPE_BANK,
-											Account.TYPE_OTHER_CURRENT_ASSET)
-											.contains(e.getType());
+						public boolean filter(Account acc) {
+							return acc.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_CASH,
+													ClientAccount.TYPE_PAYPAL,
+													ClientAccount.TYPE_CREDIT_CARD,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_INVENTORY_ASSET,
+													ClientAccount.TYPE_FIXED_ASSET)
+											.contains(acc.getType())
+									&& acc.getID() != getCompany()
+											.getAccountsReceivableAccount()
+											.getID();
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -347,8 +359,7 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
-				if (preferences.isTrackTax()
-						&& !preferences.isTaxPerDetailLine()) {
+				if (preferences.isTrackTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -517,9 +528,7 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 		cashSale.setDeliverydate(deliveryDate.getDate());
 
 		ClientCompanyPreferences preferences = context.getPreferences();
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		if (preferences.isTrackTax() && !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(cashSale, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

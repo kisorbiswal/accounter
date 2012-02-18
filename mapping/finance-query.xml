@@ -163,7 +163,9 @@
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="REMAINING_TOTAL" type="double" />
 		<return-scalar column="ESTIMATE_TYPE" type="int" />
+		<return-scalar column="STATUS" type="int" />
 		SELECT
+		T.STATUS AS STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS
@@ -189,75 +191,36 @@
 		ESTIMATE E
 		on T.ID
 		= E.ID AND T.STATUS IN (0,2)
-		LEFT OUTER
-		JOIN
-		SALES_ORDER S
-		on T.ID=S.ID
-		AND
-		T.STATUS !=
-		2 AND T.STATUS!=102 AND
-		T.STATUS != 103
 		LEFT
 		OUTER JOIN
 		PAYEE P
 		ON
-		P.ID=S.CUSTOMER_ID
-		OR
 		P.ID=E.CUSTOMER_ID
 		WHERE
-		T.T_TYPE IN (7,
-		21)
+		T.T_TYPE =7
 		AND
 		P.ID=:customerId
 		AND
 		T.COMPANY_ID=:companyId
-		AND T.SAVE_STATUS NOT
+		AND	T.SAVE_STATUS NOT
 		IN (202,201,204)
 		ORDER BY T.T_DATE
 	</sql-query>
-	<sql-query name="getSalesOrdersList">
-		<query-param name="companyId" type="long" />
-		<query-param name="fromDate" type="long" />
-		<query-param name="toDate" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
-		<return-scalar column="TOTAL_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
-		<return-scalar column="PHONE" type="encryptedstring" />
-		<return-scalar column="DUE_DATE" type="long" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		SELECT
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS TRANSACTION_TYPE,
-		T.NUMBER AS
-		TRANSACTION_NUMBER,
-		T.TOTAL AS TOTAL_PRICE,
-		T.T_DATE AS
-		TRANSACTION_DATE,
-		P.NAME AS CUSTOMER_NAME,
-		S.PHONE AS PHONE,
-		S.DUE_DATE
-		AS DUE_DATE,
-		T.STATUS AS TRANSACTION_STATUS
-		FROM TRANSACTION T
-		LEFT OUTER
-		JOIN
-		SALES_ORDER S
-		on T.ID=S.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON
-		P.ID=S.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND T.SAVE_STATUS !=
-		202 AND
-		T.COMPANY_ID=:companyId AND
-		T.T_DATE BETWEEN :fromDate AND :toDate
-		ORDER
-		BY
-		T.T_DATE
-	</sql-query>
+	<!-- <sql-query name="getSalesOrdersList"> <query-param name="companyId" 
+		type="long" /> <query-param name="fromDate" type="long" /> <query-param name="toDate" 
+		type="long" /> <return-scalar column="TRANSACTION_ID" type="long" /> <return-scalar 
+		column="TRANSACTION_TYPE" type="int" /> <return-scalar column="TRANSACTION_NUMBER" 
+		type="string" /> <return-scalar column="TOTAL_PRICE" type="double" /> <return-scalar 
+		column="TRANSACTION_DATE" type="long" /> <return-scalar column="CUSTOMER_NAME" 
+		type="string" /> <return-scalar column="PHONE" type="string" /> <return-scalar 
+		column="DUE_DATE" type="long" /> <return-scalar column="TRANSACTION_STATUS" 
+		type="int" /> SELECT T.ID AS TRANSACTION_ID, T.T_TYPE AS TRANSACTION_TYPE, 
+		T.NUMBER AS TRANSACTION_NUMBER, T.TOTAL AS TOTAL_PRICE, T.T_DATE AS TRANSACTION_DATE, 
+		P.NAME AS CUSTOMER_NAME, S.PHONE AS PHONE, S.DUE_DATE AS DUE_DATE, T.STATUS 
+		AS TRANSACTION_STATUS FROM TRANSACTION T LEFT OUTER JOIN SALES_ORDER S on 
+		T.ID=S.ID LEFT OUTER JOIN PAYEE P ON P.ID=S.CUSTOMER_ID WHERE T.T_TYPE = 
+		21 AND T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND :toDate 
+		ORDER BY T.T_DATE </sql-query> -->	
 	<sql-query name="getPurchasesAndItemReceipts">
 		<query-param name="vendorId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -303,6 +266,11 @@
 		202 AND
 		P.ID=:vendorId
 		AND T.COMPANY_ID=:companyId
+		AND
+		T.SAVE_STATUS !=
+		202 AND
+		T.SAVE_STATUS != 204
+		AND T.SAVE_STATUS != 201
 		ORDER
 		BY
 		T.T_DATE
@@ -311,6 +279,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
+		<query-param name="type" type="int" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -320,18 +289,18 @@
 		<return-scalar column="PHONE" type="encryptedstring" />
 		<return-scalar column="DELIVERY_DATE" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CURRENCY" type="long" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		T.TOTAL AS ORIGINAL_AMOUNT,
-		T.T_DATE AS
+		PO.DELIVERY_DATE AS
 		TRANSACTION_DATE,
 		P.NAME AS VENDOR_NAME,
-		PO.PHONE AS PHONE,
-		PO.DELIVERY_DATE AS DELIVERY_DATE,
-		T.STATUS AS TRANSACTION_STATUS
+		T.STATUS AS TRANSACTION_STATUS,
+		T.CURRENCY AS CURRENCY
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -346,7 +315,14 @@
 		202 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN :fromDate AND
 		:toDate
-		ORDER BY T.T_DATE
+		AND
+		(CASE WHEN :type =-1
+		THEN TRUE WHEN T.STATUS=:type
+		THEN T.SAVE_STATUS != 201 AND T.SAVE_STATUS != 204
+		ELSE 
+		T.SAVE_STATUS=:type END) AND T.SAVE_STATUS != 202
+		ORDER
+		BY T.T_DATE
 	</sql-query>
 	<sql-query name="getNotReceivedPurchaseOrdersList">
 		<query-param name="vendorId" type="Long" />
@@ -979,17 +955,20 @@
 		T.T_TYPE = 5
 		THEN
 		T.TOTAL
-		WHEN T.T_TYPE=17
+		WHEN
+		T.T_TYPE=17
 		THEN
 		(SELECT
 		(SUM(TPV1.AMOUNT_TO_PAY)) FROM
 		PAY_TAX PV1
-		LEFT OUTER
+		LEFT
+		OUTER
 		JOIN
 		TRANSACTION_PAY_TAX TPV1
 		ON PV1.ID =
 		TPV1.PAY_TAX_ID
-		WHERE PV1.ID =
+		WHERE
+		PV1.ID =
 		T.ID)/T.CURRENCY_FACTOR
 		WHEN T.T_TYPE=31
 		THEN
@@ -1006,7 +985,8 @@
 		END AS AMOUNT_PAID,
 		CASE
 		WHEN
-		T.SAVE_STATUS = 204
+		T.SAVE_STATUS =
+		204
 		THEN TRUE
 		ELSE
 		FALSE
@@ -1020,7 +1000,8 @@
 		CP.CHECK_NUMBER
 		WHEN T.T_TYPE
 		= 3
-		THEN CCC.CHECK_NUMBER
+		THEN
+		CCC.CHECK_NUMBER
 		WHEN
 		T.T_TYPE
 		= 5
@@ -1031,12 +1012,14 @@
 		WHEN
 		T.T_TYPE = 15
 		THEN WC.CHECK_NUMBER
-		END AS CHECK_NUMBER,
+		END AS
+		CHECK_NUMBER,
 		T.CURRENCY AS
 		CURRENCY,
 		T.SAVE_STATUS AS SAVE_STATUS
 
-		FROM TRANSACTION T
+		FROM
+		TRANSACTION T
 		LEFT
 		OUTER
 		JOIN
@@ -1054,7 +1037,8 @@
 		ON
 		T.ID=PV.ID
 		LEFT
-		OUTER JOIN
+		OUTER
+		JOIN
 		TRANSACTION_PAY_TAX TPV
 		ON TPV.ID=PV.ID
 		LEFT
@@ -1198,11 +1182,13 @@
 		AS NAME,
 		T.PAYMENT_METHOD AS
 		PAYMENT_METHOD,
-		T.TOTAL AS
-		AMOUNT_PAID,
+		CASE WHEN T.T_TYPE=11 THEN T.TOTAL -PB.TDS_TOTAL ELSE
+		T.TOTAL END AS AMOUNT_PAID,
 		PB.PAYBILL_TYPE AS PAYBILL_TYPE,
 		CASE
-		WHEN T.SAVE_STATUS =
+		WHEN
+		T.SAVE_STATUS
+		=
 		204
 		THEN TRUE
 		ELSE
@@ -1237,21 +1223,26 @@
 		LEFT OUTER
 		JOIN
 		PAY_TAX PST
-		ON T.ID = PST.ID
+		ON
+		T.ID = PST.ID
 		LEFT OUTER JOIN
 		VENDOR V
 		ON V.ID =
 		PB.VENDOR_ID
-		OR V.ID = WC.VENDOR_ID
+		OR V.ID =
+		WC.VENDOR_ID
 		LEFT OUTER JOIN
 		TAXAGENCY TA
 		ON TA.ID
-		= PB.VENDOR_ID
-		OR TA.ID =
+		=
+		PB.VENDOR_ID
+		OR TA.ID
+		=
 		WC.VENDOR_ID
 		OR TA.ID = WC.TAX_AGENCY_ID
 		OR
-		TA.ID = PST.TAX_AGENCY_ID
+		TA.ID =
+		PST.TAX_AGENCY_ID
 		LEFT OUTER JOIN
 		PAYEE P
 		ON P.ID = V.ID
@@ -2272,7 +2263,6 @@
 		<return-scalar column="ESTIMATE_ID" type="long" />
 		<return-scalar column="INVOICE_ID" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
-		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
 		<return-scalar column="CUSTOMER_PREPAYMENT_ID" type="long" />
@@ -2285,7 +2275,6 @@
 		I.ID AS INVOICE_ID,
 		RP.ID
 		RECEIVE_PAYMENT_ID,
-		SO.ID AS SALES_ORDER_ID,
 		WC.ID AS WRITE_CHECK_ID,
 		JE.ID AS JOURNAL_ENTRY_ID,
 		CPP.ID AS
@@ -2315,10 +2304,6 @@
 		LEFT OUTER JOIN
 		RECEIVE_PAYMENT RP
 		ON C.ID = RP.CUSTOMER_ID
-		LEFT OUTER JOIN
-		SALES_ORDER
-		SO
-		ON C.ID = SO.CUSTOMER_ID
 		LEFT OUTER JOIN
 		WRITE_CHECKS WC
 		ON
@@ -2654,16 +2639,17 @@
 		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
-		<return-scalar column="STOCK_ADJUSTMENT_ID" type="long" />
 		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
+		<return-scalar column="BUILD_ASSEMBLY_ID" type="long" />
 
 		SELECT SO.ID AS SALES_ORDER_ID,
 		TI.ID AS TRANSACTION_ITEM_ID,
 		TE.ID AS
 		TRANSACTION_EXPENSE_ID,
-		SA.ID AS STOCK_ADJUSTMENT_ID,
 		ST.ID AS
-		STOCK_TRANSFER_ID
+		STOCK_TRANSFER_ID,
+		BA.ID AS
+		BUILD_ASSEMBLY_ID
 		FROM ITEM I
 		LEFT OUTER JOIN
 		SALES_ORDER SO
@@ -2677,17 +2663,15 @@
 		ON I.ID = TE.ITEM_ID
 		LEFT OUTER
 		JOIN
-		STOCK_ADJUSTMENT_ITEM SA
-		ON SA.ITEM = I.ID
-		LEFT OUTER JOIN
 		STOCK_TRANSFER_ITEM ST
 		ON ST.ITEM = I.ID
+		LEFT OUTER JOIN
+		BUILD_ASSEMBLY BA
+		ON BA.INVENTORY_ASSEMBLY=I.ID
 		WHERE I.ID =
 		:inputId AND
 		I.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
-
-
 
 	<sql-query name="canDeleteCustomerGroup">
 		<query-param name="inputId" type="long" />
@@ -3445,12 +3429,13 @@
 	<sql-query name="canDeletePayBill">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ENTER_BILL_ID" type="long" />
-		<return-scalar column="CREDITS_ID" type="long" />
-		SELECT P.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
+		<return-scalar column="ID" type="long" />
+		SELECT TI.ID AS ID FROM PAY_BILL P LEFT JOIN TRANSACTION T
 		ON
 		T.ID=P.ID
-		WHERE P.ID IS NULL AND P.ID =:inputId AND
+		LEFT JOIN TDSTRANSACTIONITEM TI ON TI.TRANSACTION_ID = P.ID
+		WHERE P.ID
+		=:inputId AND
 		T.COMPANY_ID=:companyId LIMIT
 		1
 	</sql-query>
@@ -3590,6 +3575,16 @@
 		SELECT C.ID AS ID FROM CASH_SALES C LEFT JOIN TRANSACTION T
 		ON
 		T.ID=C.ID WHERE C.ID IS NULL AND C.ID =:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
+
+	<sql-query name="canDeleteTAXAdjustment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT TA.ID AS ID FROM TAX_ADJUSTMENT TA LEFT JOIN TRANSACTION T
+		ON
+		T.ID=TA.ID WHERE TA.ID IS NULL AND TA.ID =:inputId AND
 		T.COMPANY_ID=:companyId LIMIT 1
 	</sql-query>
 
@@ -4147,8 +4142,7 @@
 		JOURNAL_ENTRY JE
 		ON JE.ID=T.ID AND
 		(SELECT
-		PY.TYPE FROM
-		PAYEE PY WHERE
+		PY.TYPE FROM PAYEE PY WHERE
 		PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
@@ -4700,8 +4694,7 @@
 		JOURNAL_ENTRY JE
 		ON JE.ID=T.ID AND
 		(SELECT
-		PY.TYPE FROM
-		PAYEE PY WHERE
+		PY.TYPE FROM PAYEE PY WHERE
 		PY.ID=JE.PAYEE_ID AND JE.PAYEE_ID IS NOT
 		NULL)
 		IN (2,1)
@@ -4751,8 +4744,8 @@
 		join
 		PAYEE P
 		on
-		P.ID = C.ID OR P.ID = V.ID OR
-		P.ID=JE.PAYEE_ID order by T.ID
+		P.ID = C.ID OR P.ID = V.ID OR P.ID=JE.PAYEE_ID order by
+		T.ID
 
 	</sql-query>
 
@@ -6050,16 +6043,19 @@
 		T.CURRENCY as
 		CURRENCY, T.CURRENCY_FACTOR
 		as CURRENCY_FACTOR,
-		T.SAVE_STATUS AS SAVE_STATUS
+		T.SAVE_STATUS AS
+		SAVE_STATUS
 
 		FROM TRANSACTION T
 		LEFT
 		OUTER JOIN INVOICE I ON I.ID = T.ID
 		LEFT OUTER JOIN
 		CUSTOMER_CREDIT_MEMO CCM ON CCM.ID = T.ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP
+		LEFT OUTER JOIN RECEIVE_PAYMENT
+		RP
 		ON RP.ID = T.ID
 		LEFT OUTER JOIN JOURNAL_ENTRY JE ON JE.ID = T.ID
 		LEFT
@@ -6120,7 +6116,8 @@
 		WHEN
 		1=:viewType THEN
 		(I.BALANCE_DUE
-		&gt;0.0 AND T.STATUS != 2 AND
+		&gt;0.0 AND T.STATUS
+		!= 2 AND
 		T.SAVE_STATUS !=204 AND
 		T.SAVE_STATUS!=201)
 		WHEN 2=:viewType
@@ -6247,7 +6244,6 @@
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="SAVE_STATUS" type="int" />
-	
 		SELECT T.T_DATE AS TRANSACTION_DATE,
 		CASE
 		WHEN T.T_TYPE = 11 AND
@@ -6277,7 +6273,7 @@
 		as
 		CURRENCY_FACTOR,
 		T.SAVE_STATUS AS SAVE_STATUS
-		 FROM
+		FROM
 		TRANSACTION T
 		LEFT
 		OUTER JOIN
@@ -6294,8 +6290,10 @@
 		LEFT OUTER JOIN
 		VENDOR_CREDIT_MEMO VCM
 		ON
-		VCM.ID = T.ID
-		LEFT OUTER
+		VCM.ID
+		= T.ID
+		LEFT
+		OUTER
 		JOIN
 		WRITE_CHECKS WC ON
 		T.ID = WC.ID
@@ -6353,24 +6351,29 @@
 		AND
 		CASE
 		WHEN
-		1=:viewType THEN
+		1=:viewType
+		THEN
 		(CASE WHEN
 		0=0 THEN
 		(IR.BALANCE_DUE
 		&gt;0.0 OR E.BALANCE_DUE
-		&gt;0.0 OR
+		&gt;0.0
+		OR
 		VCM.BALANCE_DUE &gt;0.0
 		) ELSE TRUE
-		END) AND T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201
+		END) AND T.SAVE_STATUS !=204 AND
+		T.SAVE_STATUS!=201
 		WHEN
 		2=:viewType
 		THEN
 		(CASE WHEN 0=0 THEN
-		((:todayDate &gt;
+		((:todayDate
+		&gt;
 		E.DUE_DATE OR
 		:todayDate &gt;
 		IR.DUE_DATE)
-		AND (CASE WHEN T.T_TYPE = 6
+		AND (CASE WHEN T.T_TYPE =
+		6
 		THEN
 		E.BALANCE_DUE &gt; 0
 		ELSE (IR.BALANCE_DUE &gt; 0.0 OR
@@ -6833,30 +6836,30 @@
 		T.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
-
+	<sql-query name="canDeletePurchaseOrder">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ENTER_BILL_ID" type="long" />
+		SELECT E.USED_BILL AS ENTER_BILL_ID
+		FROM PURCHASE_ORDER E LEFT JOIN
+		TRANSACTION T ON T.ID=E.ID
+		WHERE E.ID=:inputId AND
+		T.COMPANY_ID=:companyId LIMIT 1
+	</sql-query>
 	<sql-query name="canDeleteTAXReturn">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-
 		<return-scalar column="TRANSACTION_PAY_ID" type="long" />
 		<return-scalar column="TRANSACTION_RECEIVE_ID" type="long" />
-
-		SELECT TPT.ID AS TRANSACTION_PAY_ID ,
-		TRV.ID AS TRANSACTION_RECEIVE_ID
+		SELECT TPT.ID AS TRANSACTION_PAY_ID ,TRV.ID AS TRANSACTION_RECEIVE_ID
 		FROM TRANSACTION T
 		LEFT
 		JOIN PAY_TAX PT ON PT.ID=T.ID
+		LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
 		LEFT JOIN
-		RECEIVE_VAT RV
-		ON RV.ID=T.ID
-		LEFT JOIN
-		TRANSACTION_PAY_TAX TPT ON
-		TPT.PAY_TAX_ID=PT.ID
-		LEFT JOIN TRANSACTION_RECEIVE_VAT TRV ON
-		TRV.RECEIVE_VAT_ID=RV.ID
-		WHERE (TPT.VAT_RETURN_ID=:inputId OR
-		TRV.TAX_RETURN_ID=:inputId) AND
-		T.COMPANY_ID=:companyId
+		TRANSACTION_PAY_TAX TPT ON TPT.PAY_TAX_ID=PT.ID
+		LEFT JOIN TRANSACTION_RECEIVE_VAT TRV ON TRV.RECEIVE_VAT_ID=RV.ID
+		WHERE (TPT.VAT_RETURN_ID=:inputId OR TRV.TAX_RETURN_ID=:inputId) AND T.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="getAllUserActivities">
@@ -7756,8 +7759,8 @@
 	</query>
 	<query name="getVendorsOrderByName">
 		<query-param name="company" type="Company" />
-		from com.vimukti.accounter.core.Vendor c where c.company=:company
-		order by c.name
+			  from com.vimukti.accounter.core.Vendor c where c.isActive=true and c.company=:company
+               order by c.name
 	</query>
 
 	<sql-query name="getRecentTransactionList">
@@ -7999,16 +8002,13 @@
 		from shippingterms where
 		company_id=cid;
 
-		delete from stock_adjustment_item using
-		stock_adjustment where
-		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
-		stock_adjustment.company_id=cid;
-
 		delete from stock_adjustment
 		where
 		company_id=cid;
-		delete from inventory_assembly_item using
-		inventory_assembly , item where item.id=inventory_assembly.id and
+		delete
+		from inventory_assembly_item using
+		inventory_assembly , item where
+		item.id=inventory_assembly.id and
 		inventory_assembly_item_id=inventory_assembly.id and
 		item.company_id=cid;
 		delete
@@ -8333,16 +8333,13 @@
 		delete from stock_adjustment
 		where company_id=cid;
 
-		delete from stock_adjustment_item using
-		stock_adjustment where
-		stock_adjustment.id=stock_adjustment_item.stock_adjustment and
-		stock_adjustment.company_id=cid;
-
 		delete from item where company_id=cid;
-		delete from stock_transfer where
+		delete from
+		stock_transfer where
 		company_id=cid;
 		delete from
-		stock_transfer_item where company_id=cid;
+		stock_transfer_item
+		where company_id=cid;
 		delete from tax_adjustment
 		using transaction where
 		tax_adjustment.id=transaction.id and
@@ -8361,19 +8358,24 @@
 		where company_id=cid;
 		delete
 		from tax_rate_calculation using
-		transaction where
+		transaction
+		where
 		transaction_id=transaction.id and
 		transaction.company_id=cid;
 		delete
 		from tax_return using transaction
-		where tax_return.id=transaction.id
+		where
+		tax_return.id=transaction.id
 		and transaction.company_id=cid;
-		delete from tax_return_entry using
+		delete from
+		tax_return_entry using
 		transaction where
-		transaction_id=transaction.id and
+		transaction_id=transaction.id
+		and
 		transaction.company_id=cid;
 		delete
-		from taxagency where company_id=cid;
+		from taxagency where
+		company_id=cid;
 		delete from taxrates where
 		company_id=cid;
 
@@ -9923,6 +9925,12 @@
 		AND
 		CASE
 		WHEN
+		1=:viewType THEN
+		(CCM.BALANCE_DUE
+		&gt;0.0 AND
+		T.STATUS != 2 AND
+		T.SAVE_STATUS !=204 AND T.SAVE_STATUS!=201)
+		WHEN
 		3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
@@ -10105,7 +10113,10 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=1 AND
-		CASE
+		CASE WHEN
+		1=:viewType THEN
+		(T.SAVE_STATUS !=204 AND
+		T.SAVE_STATUS!=201)
 		WHEN 3=:viewType
 		THEN
 		(T.SAVE_STATUS =204)
@@ -10154,13 +10165,15 @@
 		THEN TRUE
 		ELSE
 		FALSE
-		END AS IS_VOIDED,
+		END AS
+		IS_VOIDED,
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		RP.CHECK_NUMBER
 		AS
 		CHECK_NUMBER,
-		T.CURRENCY AS CURRENCY
+		T.CURRENCY AS
+		CURRENCY
 
 		FROM
 		TRANSACTION T
@@ -10174,7 +10187,8 @@
 		CUSTOMER C
 		ON
 		C.ID
-		= RP.CUSTOMER_ID
+		=
+		RP.CUSTOMER_ID
 		LEFT
 		OUTER
 		JOIN
@@ -10188,18 +10202,21 @@
 		CASE
 		WHEN 2=:viewType
 		THEN
-		(T.SAVE_STATUS != 204)
+		(T.SAVE_STATUS
+		!= 204)
 		WHEN 3=:viewType
 		THEN
 		T.SAVE_STATUS = 204
 		ELSE
 		true
 		END
-		AND T.SAVE_STATUS !=
+		AND
+		T.SAVE_STATUS !=
 		202 AND
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE
-		BETWEEN :fromDate
+		BETWEEN
+		:fromDate
 		AND :toDate
 	</sql-query>
 	<sql-query name="getCustomerPrepaymentsList">
@@ -12735,7 +12752,7 @@
 		:fromDate AND :toDate
 	</sql-query>
 
-	<sql-query name="createInventoryItemHistory">
+	<sql-query name="createInventoryPurchaseHistory">
 		CREATE OR REPLACE VIEW
 		INVENTORY_PURCHASE_HISTORY_VIEW AS
 		SELECT
@@ -12764,8 +12781,7 @@
 		TI.TYPE=1 AND IT.TYPE IN (2,4) AND
 		IT.ID=TI.ITEM_ID
 
-		WHERE T.SAVE_STATUS
-		!= 201 AND T.SAVE_STATUS != 202
+		WHERE T.SAVE_STATUS NOT IN (201,202)
 		AND (T.T_TYPE IN
 		(2,6,14,26,27) OR CASE
 		WHEN T.T_TYPE=36 THEN TI.QTY_VALUE &gt;= 0 ELSE
@@ -12788,7 +12804,8 @@
 		UNIT_PRICE AS
 		COST
 
-		FROM INVENTORY_PURCHASE_HISTORY_VIEW IHV
+		FROM INVENTORY_PURCHASE_HISTORY_VIEW
+		IHV
 		WHERE IHV.ITEM_ID= :inventoryId
 		ORDER
 		BY TRANSACTION_DATE
@@ -12810,7 +12827,8 @@
 		UNIT_PRICE AS
 		COST
 
-		FROM INVENTORY_PURCHASE_HISTORY_VIEW IHV
+		FROM INVENTORY_PURCHASE_HISTORY_VIEW
+		IHV
 		WHERE IHV.ITEM_ID= :inventoryId
 		ORDER
 		BY
@@ -12824,7 +12842,8 @@
 		SELECT
 		((SUM(QUANTITY*UNIT_PRICE))/SUM(QUANTITY)) as COST
 
-		FROM INVENTORY_PURCHASE_HISTORY_VIEW IHV
+		FROM
+		INVENTORY_PURCHASE_HISTORY_VIEW IHV
 		WHERE IHV.ITEM_ID= :inventoryId
 	</sql-query>
 
@@ -12836,16 +12855,22 @@
 		SELECT
 		IT.ID AS ITEM_ID,
 		SUM(AT.AMOUNT) AS ASSET_VALUE
-		
-		FROM ACCOUNT_TRANSACTION AT 
-		LEFT JOIN TRANSACTION T ON AT.TRANSACTION_ID=T.ID 
-		LEFT JOIN TRANSACTION_ITEM TI ON TI.TYPE=1 AND TI.TRANSACTION_ID=T.ID 
-		LEFT JOIN ITEM IT ON IT.TYPE IN (2,4) AND IT.ID=TI.ITEM_ID
-		
-		 WHERE AT.ACCOUNT_ID=IT.ASSETS_ACCOUNT_ID
-		 AND AT.COMPANY_ID=:companyId AND T.COMPANY_ID=:companyId AND IT.COMPANY_ID=:companyId
-				 
-		 GROUP BY IT.ID;
+
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT JOIN TRANSACTION T ON
+		AT.TRANSACTION_ID=T.ID
+		LEFT JOIN TRANSACTION_ITEM TI ON TI.TYPE=1 AND
+		TI.TRANSACTION_ID=T.ID
+		LEFT JOIN ITEM IT ON IT.TYPE IN (2,4) AND
+		IT.ID=TI.ITEM_ID
+
+		WHERE AT.ACCOUNT_ID=IT.ASSETS_ACCOUNT_ID
+		AND
+		AT.COMPANY_ID=:companyId AND T.COMPANY_ID=:companyId AND
+		IT.COMPANY_ID=:companyId
+
+		GROUP BY IT.ID;
 	</sql-query>
 
 	<sql-query name="getInventoryHistoryView">
@@ -12855,14 +12880,16 @@
 		IT.ID AS TRANSACTION_ITEM_ID,
 		IT.COMPANY_ID AS COMPANY,
 		IT.ID AS ITEM_ID,
-		T.T_DATE AS TRANSACTION_DATE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
 		T.T_TYPE AS
 		TRANSACTION_TYPE,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		CASE WHEN
 		T.T_TYPE IN
-		(1,4,7,8) THEN -TI.QTY_VALUE ELSE
+		(1,4,8) THEN -TI.QTY_VALUE
+		ELSE
 		TI.QTY_VALUE END AS
 		QTY_VALUE,
 		TI.QTY_UNIT,
@@ -12872,7 +12899,8 @@
 		IT.NAME AS ITEM_NAME,
 		IT.ON_HAND_QTY_VALUE AS
 		ITEM_TOTAL_QUANTITY,
-		IT.ON_HAND_QTY_UNIT AS ITEM_UNITS,
+		IT.ON_HAND_QTY_UNIT AS
+		ITEM_UNITS,
 		IT.PREFFERED_VENDOR AS
 		PREFFERED_VENDOR,
 		IT.SALES_PRICE AS
@@ -12880,34 +12908,55 @@
 		P.ID AS
 		PAYEE_ID,
 		P.NAME AS PAYEE_NAME,
+		(SELECT
+		SUM(AT.AMOUNT) AS ASSET_VALUE
+		FROM ACCOUNT_TRANSACTION AT
+		LEFT JOIN
+		TRANSACTION T2 ON AT.TRANSACTION_ID=T2.ID
+		LEFT JOIN TRANSACTION_ITEM
+		TI2 ON TI.TYPE=1 AND TI2.TRANSACTION_ID=T2.ID
+		LEFT JOIN ITEM IT2 ON
+		IT2.TYPE IN (2,4) AND IT2.ID=TI2.ITEM_ID
+		WHERE
+		AT.ACCOUNT_ID=IT2.ASSETS_ACCOUNT_ID
+		AND AT.COMPANY_ID=IT.COMPANY_ID AND
+		IT2.COMPANY_ID=IT.COMPANY_ID
+		AND IT2.ID=it.ID
+		GROUP BY IT.ID) as
+		ASSET_CHANGE,
 		(SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
-		FROM ACCOUNT_TRANSACTION AT 
-		LEFT JOIN TRANSACTION T2 ON AT.TRANSACTION_ID=T2.ID 
-		LEFT JOIN TRANSACTION_ITEM TI2 ON TI.TYPE=1 AND TI2.TRANSACTION_ID=T2.ID 
-		LEFT JOIN ITEM IT2 ON IT2.TYPE IN (2,4) AND IT2.ID=TI2.ITEM_ID
-		WHERE AT.ACCOUNT_ID=IT2.ASSETS_ACCOUNT_ID
-		AND AT.COMPANY_ID=IT.COMPANY_ID AND IT2.COMPANY_ID=IT.COMPANY_ID
-		AND IT2.ID=it.ID				 
-		GROUP BY IT.ID) as ASSET_CHANGE,
-		(SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
-		FROM ACCOUNT_TRANSACTION AT 
-		LEFT JOIN TRANSACTION T2 ON AT.TRANSACTION_ID=T2.ID 
-		LEFT JOIN TRANSACTION_ITEM TI2 ON TI2.TYPE=1 AND TI2.TRANSACTION_ID=T2.ID 
-		LEFT JOIN ITEM IT2 ON IT2.TYPE IN (2,4) AND IT2.ID=TI2.ITEM_ID
-		WHERE AT.ACCOUNT_ID=IT2.ASSETS_ACCOUNT_ID
-		AND AT.COMPANY_ID=IT.COMPANY_ID AND IT2.COMPANY_ID=IT.COMPANY_ID) AS TOTAL_ASSET,
-		IT.PURCHASE_DESCRIPTION AS ITEM_PURCHASE_DESCRIPTION
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT JOIN TRANSACTION T2 ON
+		AT.TRANSACTION_ID=T2.ID
+		LEFT JOIN TRANSACTION_ITEM TI2 ON TI2.TYPE=1
+		AND TI2.TRANSACTION_ID=T2.ID
+		LEFT JOIN ITEM IT2 ON IT2.TYPE IN (2,4)
+		AND IT2.ID=TI2.ITEM_ID
+		WHERE
+		AT.ACCOUNT_ID=IT2.ASSETS_ACCOUNT_ID
+		AND
+		AT.COMPANY_ID=IT.COMPANY_ID AND
+		IT2.COMPANY_ID=IT.COMPANY_ID) AS
+		TOTAL_ASSET,
+		IT.PURCHASE_DESCRIPTION
+		AS ITEM_PURCHASE_DESCRIPTION,
+		IT.AS_OF_DATE AS ASOFDATE
 
 
-		FROM ITEM IT LEFT JOIN 
-		TRANSACTION_ITEM TI ON TI.TYPE=1 AND IT.TYPE
+		FROM ITEM IT
+		LEFT JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TYPE=1 AND IT.TYPE
 		IN (2,4) AND TI.ITEM_ID=IT.ID
-		LEFT JOIN TRANSACTION T ON
+		LEFT JOIN
+		TRANSACTION T ON
 		TI.TRANSACTION_ID=T.ID
 		LEFT JOIN INVOICE I ON I.ID=T.ID
 		LEFT JOIN
 		CASH_SALES CS ON CS.ID=T.ID
-		LEFT JOIN CUSTOMER_CREDIT_MEMO CCM ON
+		LEFT JOIN CUSTOMER_CREDIT_MEMO CCM
+		ON
 		CCM.ID=T.ID
 		LEFT JOIN ENTER_BILL
 		EB ON EB.ID=T.ID
@@ -12933,7 +12982,7 @@
 		LEFT JOIN PAYEE P ON
 		P.ID =C.ID OR P.ID =V.ID
 
-		WHERE TI.ID IS NULL OR T.T_TYPE IN (1,2,4,6,7,8,14,26,27,36)
+		WHERE TI.ID IS NULL OR (T.T_TYPE IN (1,2,4,6,8,14,26,27,36) AND T.SAVE_STATUS NOT IN (201,202))
 		ORDER BY
 		T.T_DATE,T.ID;
 	</sql-query>
@@ -12983,7 +13032,8 @@
 		TRUE
 		ELSE
 		(V.ITEM_ID=:itemID)
-		END ORDER BY  ITEM_NAME;
+		END
+		ORDER BY ITEM_NAME;
 	</sql-query>
 	<sql-query name="getInventoryValutionSummary">
 		<query-param name="companyId" type="long" />
@@ -13002,21 +13052,24 @@
 		ITEM_PURCHASE_DESCRIPTION DESCRIPTION,
 		ITEM_TOTAL_QUANTITY,
 		ITEM_UNITS,
-		(SELECT 
-		((SUM(QUANTITY*UNIT_PRICE))/SUM(QUANTITY)) FROM INVENTORY_PURCHASE_HISTORY_VIEW IHV
-		WHERE IHV.ITEM_ID=V.ITEM_ID) AS COST,
+		(SELECT
+		((SUM(QUANTITY*UNIT_PRICE))/SUM(QUANTITY)) FROM
+		INVENTORY_PURCHASE_HISTORY_VIEW IHV
+		WHERE IHV.ITEM_ID=V.ITEM_ID) AS
+		COST,
 		ITEM_SALE_PRICE,
 		ITEM_ID,
 		ASSET_CHANGE as ASSET_TOTAL,
 		(ASSET_CHANGE*100/(V.TOTAL_ASSET)) AS ASSET_PERC
-		
 		FROM
 		INVENTORY_HISTORY_VIEW V WHERE
 		V.COMPANY=:companyId
 		AND
-		(V.TRANSACTION_DATE IS NULL OR V.TRANSACTION_DATE BETWEEN :fromDate
+		(V.ASOFDATE
+		BETWEEN :fromDate
 		AND :toDate)
-		GROUP BY ITEM_ID,item_name,ITEM_TOTAL_QUANTITY,ITEM_UNITS,ITEM_SALE_PRICE,ASSET_CHANGE,TOTAL_ASSET,ITEM_PURCHASE_DESCRIPTION;
+		GROUP BY
+		ITEM_ID,item_name,ITEM_TOTAL_QUANTITY,ITEM_UNITS,ITEM_SALE_PRICE,ASSET_CHANGE,TOTAL_ASSET,ITEM_PURCHASE_DESCRIPTION;
 	</sql-query>
 	<sql-query name="getInventoryStockStatusByItem">
 		<query-param name="companyId" type="long" />
@@ -13067,6 +13120,95 @@
 		<query-param name="clientId" type="long" />
 		<return-scalar column="COMPANY_COUNT" type="long" />
 		 select count(res)  AS COMPANY_COUNT from (select cl.id from client cl left join users u on u.client_id=cl.id left join company c on c.id=u.company_id where cl.id=:clientId group by cl.id,u.id,c.id) as res
+	</sql-query>
+	<sql-query name="getBankDepositDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="AMOUNT" type="double" />
+		
+		SELECT 
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS TRANSACTION_NUMBER,
+		T.T_DATE AS TRANSACTION_DATE,
+		A.NAME AS ACCOUNT_NAME,
+		CASE 
+		WHEN 
+		(A.is_increase)
+		THEN 
+		-AMOUNT
+		ELSE 
+		AMOUNT END  AS AMOUNT		
+		FROM ACCOUNT_TRANSACTION AT 
+		LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID 
+		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
+		
+		WHERE A.COMPANY_ID=:companyId  AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)  AND (A.A_TYPE=2 OR 
+		AT.TRANSACTION_ID IN 
+			(SELECT AT2.TRANSACTION_ID 
+				FROM ACCOUNT_TRANSACTION AT2 
+				LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID  
+				WHERE A2.A_TYPE=2)   )AND ( T.T_DATE &lt;= :endDate AND  T.T_DATE &gt;= :startDate)
+		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
+	</sql-query>
+	
+	<sql-query name="getBankCheckDetails">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+			<return-scalar column="TRANSACTION_ID" type="long" />
+			<return-scalar column="TRANSACTION_TYPE" type="int" />
+			<return-scalar column="TRANSACTION_NUMBER" type="long" />
+			<return-scalar column="TRANSACTION_DATE" type="long" />
+			<return-scalar column="AMOUNT" type="double" />
+			<return-scalar column="CHECK_NUMBER" type="string" />
+		
+				SELECT T.ID AS TRANSACTION_ID,
+				T.T_TYPE AS TRANSACTION_TYPE,
+				T.NUMBER AS TRANSACTION_NUMBER,
+				T.T_DATE AS TRANSACTION_DATE,
+				T.TOTAL AS AMOUNT,
+				CASE
+				WHEN T.T_TYPE=15
+				THEN
+				W.CHECK_NUMBER
+				WHEN T_TYPE IN(2,26,28) THEN
+				CP.CHECK_NUMBER
+				WHEN T_TYPE=5 THEN
+				CR.CHECK_NUMBER
+				WHEN T.T_TYPE=17
+				THEN
+				PT.CHECK_NUMBER
+				WHEN T_TYPE=11 THEN
+				PB.CHECK_NUMBER
+				WHEN T_TYPE in(3,27) THEN
+				CCC.CHECK_NUMBER
+				WHEN T.T_TYPE=31
+				THEN
+				RV.CHECK_NUMBER
+				WHEN T.T_TYPE=29
+				THEN
+				CPP.CHECK_NUMBER
+				END AS CHECK_NUMBER
+				FROM TRANSACTION T
+				LEFT JOIN WRITE_CHECKS W ON W.ID=T.ID
+				LEFT JOIN CASH_PURCHASE CP ON CP.ID=T.ID
+				LEFT JOIN CUSTOMER_REFUND CR ON CR.ID=T.ID
+				LEFT JOIN PAY_TAX PT ON PT.ID=T.ID
+				LEFT JOIN PAY_BILL PB ON PB.ID=T.ID
+				LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
+				LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
+				LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID=T.ID
+				WHERE T.COMPANY_ID=:companyId AND T.PAYMENT_METHOD='Check' AND ( T.T_DATE
+				&lt;= :endDate AND T.T_DATE &gt;= :startDate);
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

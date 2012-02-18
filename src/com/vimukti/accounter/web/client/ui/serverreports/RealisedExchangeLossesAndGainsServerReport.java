@@ -60,7 +60,7 @@ public class RealisedExchangeLossesAndGainsServerReport extends
 			return ReportUtility
 					.getTransactionName(record.getTransactionType());
 		case 1:
-			return record.getTransactionDate();
+			return getDateByCompanyType(record.getTransactionDate());
 		case 2:
 			return record.getPayeeName();
 		case 3:

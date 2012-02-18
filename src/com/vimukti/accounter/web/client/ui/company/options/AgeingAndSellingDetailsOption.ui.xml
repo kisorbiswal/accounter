@@ -14,6 +14,7 @@
 				<g:RadioButton name="ageingGroup" ui:field="ageingforduedateRadioButton" />
 				<g:RadioButton name="ageingGroup"
 					ui:field="ageingfortransactiondateRadioButton" checked="true" />
+					<g:CheckBox ui:field="salesOrderCheckBox" />
 			</g:VerticalPanel>
 		</g:VerticalPanel>
 		<!-- <g:VerticalPanel styleName="companyInfoPanel"> <g:Label ui:field="sellingsLabel" 

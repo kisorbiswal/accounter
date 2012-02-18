@@ -20,10 +20,10 @@ public class ConsoleChatClient {
 			BufferedReader br = new BufferedReader(new InputStreamReader(
 					System.in));
 			System.out.print("Enter user Email:");
-			String email = "nagarajutv11@vimukti.com";
+			String email = "***REMOVED***";
 
 			email += " eng";
-			Socket client = new Socket("192.168.0.54", 9085);
+			Socket client = new Socket("192.168.0.89", 9085);
 			ObjectOutputStream out = new ObjectOutputStream(
 					client.getOutputStream());
 			ObjectInputStream in = new ObjectInputStream(

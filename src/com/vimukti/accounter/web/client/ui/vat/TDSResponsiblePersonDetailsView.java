@@ -235,6 +235,7 @@ public class TDSResponsiblePersonDetailsView extends
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.add(horizontalPanel);
 
+		verticalPanel.setSize("100%", "100%");
 		this.add(verticalPanel);
 
 		if (data != null) {

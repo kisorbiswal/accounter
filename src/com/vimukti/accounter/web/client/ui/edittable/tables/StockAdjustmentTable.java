@@ -8,7 +8,9 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ListFilter;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
@@ -30,6 +32,8 @@ public abstract class StockAdjustmentTable extends
 		this.currencyProvider = currencyProvider;
 	}
 
+	protected abstract ClientWarehouse getSelectedWareHouse();
+
 	@Override
 	protected void initColumns() {
 
@@ -38,6 +42,9 @@ public abstract class StockAdjustmentTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
+						if (e.getWarehouse() != getSelectedWareHouse().getID()) {
+							return false;
+						}
 						if (e.getType() == ClientItem.TYPE_INVENTORY_PART
 								|| e.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 							return true;
@@ -195,6 +202,18 @@ public abstract class StockAdjustmentTable extends
 					super.setQuantity(row, qty);
 				}
 
+				@Override
+				protected ClientQuantity getQuantity(ClientTransactionItem row) {
+					ClientItem item = getItem(row.getItem());
+					if (item == null) {
+						return row.getQuantity();
+					}
+					ClientQuantity onhandQty = item.getOnhandQty();
+					ClientQuantity addQuantities = DataUtils.addQuantities(
+							onhandQty, row.getQuantity());
+					return addQuantities;
+				}
+
 			});
 
 			this.addColumn(new AmountColumn<ClientTransactionItem>(
@@ -336,4 +355,24 @@ public abstract class StockAdjustmentTable extends
 	private ClientCompany getCompany() {
 		return Accounter.getCompany();
 	}
+
+	public List<ClientTransactionItem> getRecords() {
+		return getAllRows();
+	}
+
+	public ValidationResult validateGrid() {
+		ValidationResult result = new ValidationResult();
+		for (ClientTransactionItem transactionItem : this.getRecords()) {
+			if (transactionItem.getQuantity().getValue() <= 0) {
+				result.addError(transactionItem.getQuantity(),
+						messages.pleaseEnter(messages.adjustedQty()));
+			}
+			if (transactionItem.getUnitPrice() <= 0) {
+				result.addError(transactionItem.getUnitPrice(),
+						messages.pleaseEnter(messages.salesOrPurchaseRate()));
+			}
+		}
+		return result;
+	}
+
 }

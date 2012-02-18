@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.vat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -112,7 +113,7 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		lab1.setText(messages.eTDSFilling());
 		lab1.addStyleName("label-title");
 
-		formType = new SelectCombo("Form No.");
+		formType = new SelectCombo(messages.formNo());
 		formType.setHelpInformation(true);
 		formType.initCombo(getFormTypes());
 		formType.setSelectedItem(0);
@@ -231,12 +232,13 @@ public class ETdsFillingView extends BaseView<ClientETDSFillingItem> {
 		mainVLay.setSize("100%", "300px");
 		mainVLay.add(lab1);
 		mainVLay.add(topHLay);
+		topHLay.getElement().getStyle().setPaddingTop(10, Unit.PX);
 
-		tdsCellTable.addStyleName("tds-celltable");
 		ScrollPanel scroll = new ScrollPanel();
 		scroll.add(tdsCellTable);
-		scroll.setSize("910px", "100%");
+		scroll.setWidth("910px");
 		scroll.setTouchScrollingDisabled(false);
+		scroll.addStyleName("tds-scroll-panel");
 
 		mainVLay.add(scroll);
 

@@ -53,6 +53,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_ISSUE_PAYMENT = 9;
 	public static final int TYPE_TRANSFER_FUND = 10;
 	public static final int TYPE_PAY_BILL = 11;
+	public static final int TYPE_VENDOR_PAYMENT = 25;
 	public static final int TYPE_RECEIVE_PAYMENT = 12;
 	public static final int TYPE_VENDOR_CREDIT_MEMO = 14;
 	public static final int TYPE_WRITE_CHECK = 15;
@@ -62,7 +63,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int TYPE_PAY_EXPENSE = 19;
 	public static final int TYPE_TAX_RETURN = 20;
 
-	public static final int TYPE_SALES_ORDER = 21;
+	// public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
@@ -1573,4 +1574,19 @@ public abstract class Transaction extends CreatableObject implements
 		this.isValidated = isValidated;
 	}
 
+	public List<Item> getInventoryUsed() {
+		List<Item> inventory = new ArrayList<Item>();
+		if (this.isDraftOrTemplate()) {
+			return inventory;
+		}
+		for (TransactionItem tItem : getTransactionItems()) {
+			if (tItem.getType() != TransactionItem.TYPE_ITEM
+					|| (tItem.getItem().getType() != Item.TYPE_INVENTORY_PART && tItem
+							.getItem().getType() != Item.TYPE_INVENTORY_ASSEMBLY)) {
+				continue;
+			}
+			inventory.add(tItem.getItem());
+		}
+		return inventory;
+	}
 }

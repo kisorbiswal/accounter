@@ -93,6 +93,19 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			protected boolean isInViewMode() {
 				return StockAdjustmentView.this.isInViewMode();
 			}
+
+			@Override
+			protected ClientWarehouse getSelectedWareHouse() {
+				ClientWarehouse selectedValue = wareHouseCombo
+						.getSelectedValue();
+				if (selectedValue == null) {
+					selectedValue = getCompany().getWarehouse(
+							getCompany().getDefaultWarehouse());
+					wareHouseCombo.setComboItem(selectedValue);
+				}
+				return selectedValue;
+			}
+
 		};
 		table.setDisabled(isInViewMode());
 
@@ -291,6 +304,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 						messages.pleaseSelectUnitForInventoryItem());
 			}
 		}
+		result.add(table.validateGrid());
 		result.add(form.validate());
 		return result;
 	}

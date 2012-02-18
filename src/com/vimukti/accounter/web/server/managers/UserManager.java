@@ -17,9 +17,11 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -369,6 +371,14 @@ public class UserManager extends Manager {
 			invitedClient.setFullName(clientUser.getFullName());
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
 					.makeHash(emailId + randomString)));
+
+			ClientSubscription clientSubscription = new ClientSubscription();
+			Subscription subscription = new Subscription();
+			session.save(subscription);
+			clientSubscription.setSubscription(subscription);
+			session.save(clientSubscription);
+			invitedClient.setClientSubscription(clientSubscription);
+
 			// invitedClient.setRequirePasswordReset(true);
 		} else {
 			userExists = true;

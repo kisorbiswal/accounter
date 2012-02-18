@@ -1088,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	                (2),.datenumber-panel table {
+	                  (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -2842,6 +2842,28 @@ input.date-field-textbox {
 	float: right;
 }
 
-.tds-celltable{
+.tds-scroll-panel .editTable{
 	min-height: 350px !important;
+	border: none;
+}
+.tds-scroll-panel{
+	border: 1px solid #2D8B93;
+	height: 385px;
+}
+.report-section a {
+	display: table;
+	text-decoration: underline;
+	color: #000000;
+	margin: 1px;
+}
+
+.report-section .gwt-Label {
+	font-weight: bold;
+}
+
+.report-section .section {
+	margin: 4px 0 20px 3px;
+}
+.exchange-table .norecord-empty-message{
+	margin-left: 51px;
 }

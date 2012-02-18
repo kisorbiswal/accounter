@@ -439,11 +439,12 @@
 		name="payBill">
 		<alias>billPay</alias>
 		<alias>createPayBill</alias>
+		<alias>updateVendorPayment</alias>
 	</command>
 
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.BillsAndExpensesListCommand"
-		name="billsAndExpensesList">
+		name="billsAndExpenses">
 		<alias>bills</alias>
 		<alias>billsList</alias>
 		<alias>creditCardExpenseList</alias>
@@ -788,8 +789,6 @@
 		<alias>modifyVendorPrepayment</alias>
 		<alias>editVendorPrepayment</alias>
 		<alias>newVendorPayment</alias>
-		<alias>updateVendorPayment</alias>
-
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.VendorsListCommand"

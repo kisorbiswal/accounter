@@ -6,7 +6,6 @@ import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.Global;
@@ -87,11 +86,6 @@ public class SearchTable extends CellTable<SearchResultlist> {
 
 	}
 
-	private void addEmptyMsg() {
-		HTML emptyMessage = new HTML(messages.noRecordsToShow());
-		this.setEmptyTableWidget(emptyMessage);
-	}
-
 	private void initTableColumns() {
 
 		TextColumn<SearchResultlist> transactionDateColumn = new TextColumn<SearchResultlist>() {
@@ -109,6 +103,11 @@ public class SearchTable extends CellTable<SearchResultlist> {
 			@Override
 			public SafeHtml getValue(final SearchResultlist object) {
 				return new SafeHtml() {
+
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 7929174412047187326L;
 
 					@Override
 					public String asString() {
@@ -160,12 +159,14 @@ public class SearchTable extends CellTable<SearchResultlist> {
 	private String getTransactionName(int transactionType,
 			int transactionSubType) {
 		if (transactionType == ClientTransaction.TYPE_ESTIMATE) {
-			if (transactionSubType == ClientEstimate.QUOTES) {
-				return messages.estimate();
-			} else if (transactionSubType == ClientEstimate.CHARGES) {
+			if (transactionSubType == ClientEstimate.CHARGES) {
 				return messages.charge();
 			} else if (transactionSubType == ClientEstimate.CREDITS) {
 				return messages.credit();
+			} else if (transactionSubType == ClientEstimate.SALES_ORDER) {
+				return messages.salesOrder();
+			} else {
+				return messages.estimate();
 			}
 		} else if (transactionType == ClientTransaction.TYPE_PAY_BILL) {
 			return transactionSubType == ClientPayBill.TYPE_PAYBILL ? messages
@@ -174,6 +175,5 @@ public class SearchTable extends CellTable<SearchResultlist> {
 		} else {
 			return Utility.getTransactionName(transactionType);
 		}
-		return "";
 	}
 }

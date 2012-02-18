@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyFactorRequirement;
 import com.vimukti.accounter.mobile.requirements.CurrencyListRequirement;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
+import com.vimukti.accounter.mobile.requirements.EmailRequirement;
 import com.vimukti.accounter.mobile.requirements.ListRequirement;
 import com.vimukti.accounter.mobile.requirements.NameRequirement;
 import com.vimukti.accounter.mobile.requirements.NumberRequirement;
@@ -57,6 +58,7 @@ public class CreateAccountCommand extends AbstractCommand {
 	private static final String BANK_ACCOUNT_TYPE = "Bank Account Type";
 	private static final String IS_SUB_ACCOUNT = "isSubAccount";
 	private static final String PARENT_ACCOUNT = "parentAccount";
+	private static final String PAY_PAL_EMAIL_ID = "paypalemailId";
 	private ClientAccount account;
 
 	@Override
@@ -355,6 +357,21 @@ public class CreateAccountCommand extends AbstractCommand {
 			}
 		});
 
+		list.add(new EmailRequirement(PAY_PAL_EMAIL_ID, getMessages()
+				.pleaseEnter(getMessages().paypalEmail()), getMessages()
+				.paypalEmail(), false, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				int accountType = CreateAccountCommand.this
+						.getAccountType((String) get(ACCOUNT_TYPE).getValue());
+				if (accountType == ClientAccount.TYPE_PAYPAL) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+		});
+
 		list.add(new BooleanRequirement(IS_SUB_ACCOUNT, true) {
 
 			@Override
@@ -606,7 +623,7 @@ public class CreateAccountCommand extends AbstractCommand {
 		} else {
 			account.setIncrease(Boolean.FALSE);
 		}
-
+		account.setPaypalEmail((String) get(PAY_PAL_EMAIL_ID).getValue());
 		Boolean isSubAccount = get(IS_SUB_ACCOUNT).getValue();
 		if (isSubAccount) {
 			Account parentAcc = get(PARENT_ACCOUNT).getValue();
@@ -732,6 +749,7 @@ public class CreateAccountCommand extends AbstractCommand {
 			}
 			if (!string.isEmpty()) {
 				get(ACCOUNT_TYPE).setValue(string);
+				get(ACCOUNT_TYPE).setEditable(false);
 			}
 			return null;
 		}
@@ -799,6 +817,7 @@ public class CreateAccountCommand extends AbstractCommand {
 		get(PARENT_ACCOUNT).setValue(
 				CommandUtils.getServerObjectById(account.getParent(),
 						AccounterCoreType.ACCOUNT));
+		get(PAY_PAL_EMAIL_ID).setValue(account.getPaypalEmail());
 		return null;
 	}
 

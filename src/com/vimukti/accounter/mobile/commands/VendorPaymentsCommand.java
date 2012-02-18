@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -152,11 +153,12 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
 						getEndDate().getDate(), 0, -1,
-						getViewByList().indexOf(currentView) + 1);
+						checkViewType(currentView));
 			} else {
 				paymentsLists = tool.getCustomerManager().getPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
-						getEndDate().getDate(), 0, -1, 0);
+						getEndDate().getDate(), 0, -1,
+						checkViewType(currentView));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -189,6 +191,19 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 		}
 		return null;
 
+	}
+
+	private int checkViewType(String viewSelect) {
+		if (viewSelect.equalsIgnoreCase(getMessages().notIssued())) {
+			return Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().issued())) {
+			return Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().voided())) {
+			return Transaction.VIEW_VOIDED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().all())) {
+			return TYPE_ALL;
+		}
+		return TYPE_ALL;
 	}
 
 	@Override

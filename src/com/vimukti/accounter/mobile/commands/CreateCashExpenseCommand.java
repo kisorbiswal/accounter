@@ -11,10 +11,12 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.Vendor;
+import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
@@ -108,10 +110,8 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 						@Override
 						public boolean filter(Account e) {
 							return e.getIsActive()
-									&& Arrays
-											.asList(ClientAccount.TYPE_BANK,
-													ClientAccount.TYPE_OTHER_CURRENT_ASSET)
-											.contains(e.getType());
+									&& (e.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET || e
+											.getType() == ClientAccount.TYPE_CREDIT_CARD);
 						}
 					}.filter(obj)) {
 						filteredList.add(obj);
@@ -129,6 +129,24 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 			@Override
 			protected boolean filter(Account e, String name) {
 				return e.getName().contains(name);
+			}
+
+			@Override
+			protected void setCreateCommand(CommandList list) {
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Cash Account", getMessages().cash()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Creditcard Account", getMessages().creditCard()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Inventory Account", getMessages()
+								.inventoryAsset()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
 			}
 		});
 		list.add(new VendorRequirement(VENDOR, getMessages().pleaseSelect(
@@ -336,8 +354,7 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 					ResultList list, ResultList actions) {
 				ClientCompanyPreferences preferences = context.getPreferences();
 				if (preferences.isTrackTax()
-						&& getPreferences().isTrackPaidTax()
-						&& !preferences.isTaxPerDetailLine()) {
+						&& getPreferences().isTrackPaidTax()) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -394,11 +411,9 @@ public class CreateCashExpenseCommand extends AbstractTransactionCommand {
 		cashPurchase.setMemo(memoText);
 
 		items.addAll(accounts);
-		Boolean isVatInclusive = get(IS_VAT_INCLUSIVE).getValue();
 		ClientCompanyPreferences preferences = context.getPreferences();
 		if (preferences.isTrackTax() && getPreferences().isTrackPaidTax()
 				&& !preferences.isTaxPerDetailLine()) {
-			setAmountIncludeTAX(cashPurchase, isVatInclusive);
 			TAXCode taxCode = get(TAXCODE).getValue();
 			for (ClientTransactionItem item : items) {
 				item.setTaxCode(taxCode.getID());

@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -177,8 +178,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 	private boolean isAmountIncludeTAX;
 
+	private Account effectingAccount;
+
 	private Set<InventoryPurchase> purchases = new HashSet<InventoryPurchase>();
 	private transient boolean isNewlyCreated;
+	private transient boolean isReverseEffected;
 
 	public TransactionItem() {
 
@@ -356,9 +360,11 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onDelete(Session session) throws CallbackException {
 
-		if (transaction.isVoid()) {
+		if (transaction.isVoid() || this.isReverseEffected) {
 			return false;
 		}
+
+		this.isReverseEffected = true;
 
 		if (this.transaction.type == Transaction.TYPE_EMPLOYEE_EXPENSE
 				|| transaction.isDraftOrTemplate())
@@ -367,8 +373,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		if (shouldUpdateAccounts(true)) {
 
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-				Account effectingAccount = this.getEffectingAccount();
-				if (effectingAccount != null) {
+				if (this.effectingAccount != null) {
 					effectingAccount.updateCurrentBalance(this.transaction, -1
 							* this.updateAmount,
 							transaction.previousCurrencyFactor);
@@ -488,6 +493,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
 				Account effectingAccount = getEffectingAccount();
 				if (effectingAccount != null) {
+					this.effectingAccount = effectingAccount;
 					effectingAccount.updateCurrentBalance(this.transaction,
 							amount, transaction.currencyFactor);
 					session.saveOrUpdate(effectingAccount);
@@ -495,6 +501,10 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 				if (this.isTaxable) {
 					transaction.setTAXRateCalculation(this);
+				}
+
+				if (this.type == TYPE_ITEM && item != null) {
+					getItem().updateBalance(this, isCustomerTransaction());
 				}
 			}
 		}
@@ -519,13 +529,6 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			} else {
 				return est.getUsedInvoice() != null;
 			}
-		case Transaction.TYPE_SALES_ORDER:
-			SalesOrder order = ((SalesOrder) transaction);
-			if (whenDeleting) {
-				return order.getUsedInvoice() != order.getOldUsedInvoice();
-			} else {
-				return order.getUsedInvoice() != null;
-			}
 		case Transaction.TYPE_PURCHASE_ORDER:
 			return ((PurchaseOrder) transaction).getUsedBill() != null;
 		default:
@@ -549,12 +552,16 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 */
 	public void doReverseEffect(Session session) {
 
+		if (this.isReverseEffected) {
+			return;
+		}
+		this.isReverseEffected = true;
+
 		// Double amount = (isPositiveTransaction() ? -1d : 1d)
 		// * (this.transaction.isAmountsIncludeVAT() ? this.lineTotal
 		// - this.VATfraction : this.lineTotal);
 		if (this.type == TYPE_ACCOUNT || this.type == TYPE_ITEM) {
-			Account effectingAccount = this.getEffectingAccount();
-			if (effectingAccount != null) {
+			if (this.effectingAccount != null) {
 				effectingAccount.updateCurrentBalance(this.transaction, -1
 						* this.getUpdateAmount(), transaction.currencyFactor);
 				effectingAccount.onUpdate(session);
@@ -619,7 +626,8 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		case TYPE_ITEM:
 
 			if (this.transaction.getTransactionCategory() == Transaction.CATEGORY_VENDOR) {
-				if (item.getType() != Item.TYPE_INVENTORY_PART) {
+				if (item.getType() != Item.TYPE_INVENTORY_PART
+						&& item.getType() != Item.TYPE_INVENTORY_ASSEMBLY) {
 					return this.item.getExpenseAccount();
 				}
 			} else if (!getTransaction().isStockAdjustment()
@@ -685,6 +693,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	protected TransactionItem clone() throws CloneNotSupportedException {
 		TransactionItem item = (TransactionItem) super.clone();
 		item.setId(0);
+		item.purchases = new HashSet<InventoryPurchase>();
 		return item;
 	}
 
@@ -890,86 +899,154 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		double amountToUpdate = 0.00D;
 		if (newPurchases == null) {
 			// we are deleting this transaction item
-			amountToReverseUpdate += clearPurchases();
+			amountToReverseUpdate += getPreviousPurchaseAmount();
 		} else {
 			if (!isNewlyCreated) {
 				// remove all old amount
-				amountToReverseUpdate = clearPurchases();
+				// amountToReverseUpdate = clearPurchases();
+				amountToReverseUpdate = getPreviousPurchaseAmount();
 			}
-			amountToUpdate = createPurchases(newPurchases, useAverage,
+
+			amountToUpdate = getNewPurchaseAmount(newPurchases, useAverage,
 					averageCost);
+			// amountToUpdate = createPurchases(newPurchases, useAverage,
+			// averageCost);
 		}
 		// did some thing changed
 		if (!DecimalUtil.isEquals(amountToUpdate, amountToReverseUpdate)) {
 
+			mergreChanges(newPurchases, useAverage, averageCost);
+
 			Account assetsAccount = getItem().getAssestsAccount();
-			Account expenseAccount = null;
-			if (getTransaction().isStockAdjustment()) {
-				expenseAccount = ((StockAdjustment) getTransaction())
-						.getAdjustmentAccount();
-			} else if (getTransaction().isBuildAssembly()) {
-				expenseAccount = ((BuildAssembly) getTransaction())
-						.getInventoryAssembly().getAssestsAccount();
-			} else {
-				expenseAccount = getItem().getExpenseAccount();
+			if (assetsAccount != null) {
+				assetsAccount.updateCurrentBalance(getTransaction(),
+						-amountToReverseUpdate, 1);
+				assetsAccount.updateCurrentBalance(getTransaction(),
+						amountToUpdate, 1);
+				session.saveOrUpdate(assetsAccount);
 			}
-			assetsAccount.updateCurrentBalance(getTransaction(),
-					-amountToReverseUpdate, 1);
-			expenseAccount.updateCurrentBalance(getTransaction(),
-					amountToReverseUpdate, 1);
 
-			assetsAccount.updateCurrentBalance(getTransaction(),
-					amountToUpdate, 1);
-			expenseAccount.updateCurrentBalance(getTransaction(),
-					-amountToUpdate, 1);
-
-			session.saveOrUpdate(assetsAccount);
-			session.saveOrUpdate(expenseAccount);
 		}
 	}
 
-	private double createPurchases(Map<Quantity, Double> newPurchases,
+	private void mergreChanges(Map<Quantity, Double> newPurchases,
+			boolean useAverage, Double averageCost) {
+
+		if (newPurchases == null) {
+			clearPurchases();
+			return;
+		}
+
+		Session session = HibernateUtil.getCurrentSession();
+		Quantity mapped = getQuantityCopy();
+		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
+		while (iterator.hasNext()) {
+			InventoryPurchase next = iterator.next();
+			Double cost = (useAverage && averageCost != null) ? averageCost
+					: newPurchases.get(next.getQuantity());
+			if (cost == next.getCost()) {
+				iterator.remove();
+				mapped = mapped.subtract(next.getQuantity());
+				newPurchases.remove(next.getQuantity());
+			}
+		}
+
+		// Deleting Previous Purchases
+		clearPurchases();
+
+		// Creating New Purchases
+		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
+			Quantity qty = entry.getKey();
+			double cost = useAverage ? averageCost : entry.getValue();
+			mapped = mapped.subtract(qty);
+			createPurchase(session, qty, cost);
+		}
+		if (!mapped.isEmpty()) {
+			double cost = (useAverage && averageCost != null) ? averageCost
+					: getUnitPrice();
+			// finally what ever is unmapped add the that using unitprice
+			createPurchase(session, mapped, cost);
+		}
+
+	}
+
+	/**
+	 * Creates a Purchase
+	 * 
+	 * @param session
+	 * @param qty
+	 * @param cost
+	 * @return
+	 */
+	private double createPurchase(Session session, Quantity qty, double cost) {
+		double purchaseValue = qty.getValue() * cost;
+		Account expenseAccount = getExpenseAccountForInventoryPurchase();
+		if (expenseAccount != null) {
+			expenseAccount.updateCurrentBalance(getTransaction(),
+					-purchaseValue, 1);
+			InventoryPurchase inventoryPurchase = new InventoryPurchase(item,
+					expenseAccount, qty, cost);
+			session.save(inventoryPurchase);
+			getPurchases().add(inventoryPurchase);
+		}
+		return purchaseValue;
+	}
+
+	private double getNewPurchaseAmount(Map<Quantity, Double> newPurchases,
 			boolean useAverage, Double averageCost) {
 		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getKey();
-			double cost = useAverage ? averageCost : entry.getValue();
+			double cost = (useAverage && averageCost != null) ? averageCost
+					: entry.getValue();
 			mapped = mapped.subtract(qty);
 			amountToUpdate += qty.getValue() * cost;
-			getPurchases().add(
-					new InventoryPurchase(item, qty, entry.getValue()));
 		}
 
 		if (!mapped.isEmpty()) {
 			double cost = (useAverage && averageCost != null) ? averageCost
 					: getUnitPrice();
-			// finally what ever is unmapped add the that using unitprice
 			amountToUpdate += mapped.getValue() * cost;
-			getPurchases().add(new InventoryPurchase(item, mapped, cost));
 		}
 		return amountToUpdate;
 	}
 
-	private double clearPurchases() {
-		Quantity mapped = getQuantityCopy();
+	private double getPreviousPurchaseAmount() {
 		double amountToReverseUpdate = 0;
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
-			mapped = mapped.subtract(quantity);
-			amountToReverseUpdate += quantity.getValue() * purchase.getCost();
+			double purchaseValue = quantity.getValue() * purchase.getCost();
+			amountToReverseUpdate += purchaseValue;
 		}
-		getPurchases().clear();
 		return amountToReverseUpdate;
 	}
 
-	public void doInventoryEffect() {
-		if (getType() != TYPE_ITEM) {
-			return;
+	private void clearPurchases() {
+		Session session = HibernateUtil.getCurrentSession();
+		for (InventoryPurchase purchase : getPurchases()) {
+			Quantity quantity = purchase.getQuantity();
+			double purchaseValue = quantity.getValue() * purchase.getCost();
+			session.delete(purchase);
+			Account expenseAccount = purchase.getEffectingAccount();
+			expenseAccount.updateCurrentBalance(this.getTransaction(),
+					purchaseValue, 1);
+			session.saveOrUpdate(expenseAccount);
 		}
+	}
 
-		getItem().updateBalance(this, isCustomerTransaction());
-
+	private Account getExpenseAccountForInventoryPurchase() {
+		Account expenseAccount = null;
+		if (getTransaction().isStockAdjustment()) {
+			expenseAccount = ((StockAdjustment) getTransaction())
+					.getAdjustmentAccount();
+		} else if (getTransaction().isBuildAssembly()) {
+			expenseAccount = ((BuildAssembly) getTransaction())
+					.getInventoryAssembly().getAssestsAccount();
+		} else {
+			expenseAccount = getItem().getExpenseAccount();
+		}
+		return expenseAccount;
 	}
 
 	private boolean isCustomerTransaction() {

@@ -405,4 +405,13 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
+
+	@Override
+	public boolean isTrackTax() {
+		if (transaction != null && transaction.haveTax()) {
+			return true;
+		} else {
+			return getPreferences().isTrackTax() && isTrackPaidTax();
+		}
+	}
 }

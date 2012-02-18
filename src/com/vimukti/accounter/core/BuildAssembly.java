@@ -4,6 +4,8 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.core.change.ChangeTracker;
+
 public class BuildAssembly extends Transaction {
 
 	private InventoryAssembly inventoryAssembly;
@@ -47,6 +49,7 @@ public class BuildAssembly extends Transaction {
 		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
 		inventoryAssembly.setOnhandQuantity(onhandQuantity);
 		session.update(inventoryAssembly);
+		ChangeTracker.put(inventoryAssembly);
 		return super.onSave(session);
 	}
 
@@ -86,8 +89,7 @@ public class BuildAssembly extends Transaction {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return AccounterServerConstants.TYPE_BUILD_ASSEMBLY;
 	}
 
 	@Override

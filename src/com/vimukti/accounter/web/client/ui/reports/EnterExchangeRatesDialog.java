@@ -39,6 +39,7 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 		dynamicForm.setFields(enteredDateItem);
 		updateExchangeRates(enteredDateItem.getDate());
 		this.table = new CurrencyExchangeRateTable();
+		this.table.addStyleName("exchange-table");
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(dynamicForm);
 		panel.add(table);
@@ -56,11 +57,12 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 
 			@Override
 			public void onResultSuccess(List<CurrencyExchangeRate> result) {
-				if (result == null) {
-					return;
-				}
 				if (table != null) {
-					table.setAllRows(result);
+					if (result == null && result.isEmpty()) {
+						return;
+					} else {
+						table.setAllRows(result);
+					}
 				}
 			}
 		};
@@ -84,6 +86,11 @@ public class EnterExchangeRatesDialog extends BaseDialog {
 	@Override
 	public void setFocus() {
 
+	}
+
+	@Override
+	protected boolean onCancel() {
+		return true;
 	}
 
 }

@@ -236,6 +236,8 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 					.getFiledLiabilityAccount();
 			account.updateCurrentBalance(this.receiveVAT, -1
 					* this.amountToReceive, 1);
+			
+			this.taxReturn = null;
 		}
 		return false;
 	}

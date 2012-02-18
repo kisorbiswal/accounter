@@ -15,7 +15,9 @@ import org.json.JSONException;
 import com.sun.istack.internal.Nullable;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -31,7 +33,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
  * 
  */
 public class RecurringTransaction extends CreatableObject implements
-		IAccounterServerCore {
+		IAccounterServerCore, INamedObject {
 
 	private static final long serialVersionUID = 1L;
 	private static final int DAYS_PER_WEEK = 7;
@@ -817,7 +819,20 @@ public class RecurringTransaction extends CreatableObject implements
 
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
-		// TODO Auto-generated method stub
+		// if (getSaveStatus() == STATUS_DRAFT) {
+		// return;
+		// }
+
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.name(), this.name);
+		w.put(messages.recurringType(), this.type).gap();
+		w.put(messages.intervalType(), this.intervalType);
+		w.put(messages.daysInAdvance(), this.daysInAdvanceToCreate).gap();
+		w.put(messages.startDate(), this.startDate.toString());
+		w.put(messages.endDateType(), this.endDateType).gap();
+		w.put(messages.onSpecificWeek(), this.weekOfMonth);
+		w.put(messages.onSpecificDay(), this.dayOfMonth).gap();
+		w.put(messages.remindMe(), this.daysBeforeToRemind);
 
 	}
 
@@ -843,5 +858,10 @@ public class RecurringTransaction extends CreatableObject implements
 
 	public void setNotifyCreatedTransaction(boolean notifyCreatedTransaction) {
 		this.notifyCreatedTransaction = notifyCreatedTransaction;
+	}
+
+	@Override
+	public int getObjType() {
+		return IAccounterCore.RECURING_TRANSACTION;
 	}
 }

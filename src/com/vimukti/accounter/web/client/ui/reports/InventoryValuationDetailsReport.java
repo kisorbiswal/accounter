@@ -22,8 +22,7 @@ public class InventoryValuationDetailsReport extends
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				ReportsGenerator.REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "",
-				id);
+				REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "", id);
 	}
 
 	@Override
@@ -31,8 +30,7 @@ public class InventoryValuationDetailsReport extends
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				ReportsGenerator.REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "",
-				id);
+				REPORT_TYPE_INVENTORY_VALUTION_DETAIL, "", "", id);
 	}
 
 	@Override

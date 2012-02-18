@@ -29,6 +29,7 @@ import com.vimukti.accounter.mobile.requirements.StringRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
@@ -92,14 +93,17 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(new UserCommand("createBankAccount", "Bank"));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.bank()));
 				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account",
-						"Other Current Asset"));
+						"Create Other CurrentAsset Account", getMessages()
+								.otherCurrentAsset()));
 				list.add(new UserCommand("createBankAccount",
-						"Create CreditAccount", "CreditAccount"));
+						"Create CreditAccount", getMessages().creditCard()));
 				list.add(new UserCommand("createBankAccount",
-						"Create FixedAsset Account", "FixedAsset"));
+						"Create FixedAsset Account", getMessages().fixedAsset()));
+				list.add(new UserCommand("createBankAccount",
+						"Create Paypal Account", getMessages().paypal()));
 			}
 
 			@Override
@@ -109,14 +113,18 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							return e.getIsActive()
-									&& Arrays.asList(Account.TYPE_BANK,
-											Account.TYPE_CREDIT_CARD,
-											Account.TYPE_OTHER_CURRENT_ASSET,
-											Account.TYPE_FIXED_ASSET).contains(
-											e.getType())
-									&& e.getID() != context.getCompany()
+						public boolean filter(Account acc) {
+							return acc.getIsActive()
+									&& Arrays
+											.asList(ClientAccount.TYPE_BANK,
+													ClientAccount.TYPE_CASH,
+													ClientAccount.TYPE_PAYPAL,
+													ClientAccount.TYPE_CREDIT_CARD,
+													ClientAccount.TYPE_OTHER_CURRENT_ASSET,
+													ClientAccount.TYPE_INVENTORY_ASSET,
+													ClientAccount.TYPE_FIXED_ASSET)
+											.contains(acc.getType())
+									&& acc.getID() != getCompany()
 											.getAccountsReceivableAccount()
 											.getID();
 						}

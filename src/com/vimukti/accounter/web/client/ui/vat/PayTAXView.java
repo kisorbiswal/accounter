@@ -452,7 +452,9 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					.getTotalBalanceInAccountCurrency());
 		}
 		paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-		if (transaction.getPaymentMethod().equals(messages.check())) {
+
+		if (transaction.getPaymentMethod() != null ? transaction
+				.getPaymentMethod().equals(messages.check()) : false) {
 			printCheck.setDisabled(isInViewMode());
 			checkNoText.setDisabled(isInViewMode());
 		} else {

@@ -36,6 +36,8 @@ public abstract class InventoryAssemblyItemTable extends
 
 	protected abstract void updateNonEditableItems();
 
+	protected abstract long getAssembly();
+
 	@Override
 	protected void initColumns() {
 		InventoryItemNameColumn transactionItemNameColumn = new InventoryItemNameColumn(
@@ -47,9 +49,13 @@ public abstract class InventoryAssemblyItemTable extends
 
 					@Override
 					public boolean filter(ClientItem e) {
+						if (getAssembly() == e.getID()) {
+							return false;
+						}
 						return (e.getType() == ClientItem.TYPE_INVENTORY_PART || e
 								.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY);
 					}
+
 				};
 			}
 
@@ -58,12 +64,16 @@ public abstract class InventoryAssemblyItemTable extends
 					ClientItem newValue) {
 				super.setValue(row, newValue);
 				if (newValue != null) {
+					ClientQuantity quantity;
 					if (row.getQuantity() == null) {
-						ClientQuantity quantity = new ClientQuantity();
+						quantity = new ClientQuantity();
 						quantity.setValue(1.0);
-						row.setQuantity(quantity);
+					} else {
+						quantity = row.getQuantity();
 					}
-
+					row.setQuantity(quantity);
+					double lt = quantity.getValue() * row.getUnitPrice();
+					row.setLineTotal(lt);
 					if (row.getUnitPrice() == null) {
 						row.setUnitPrice(new Double(0));
 					}
@@ -98,7 +108,9 @@ public abstract class InventoryAssemblyItemTable extends
 				@Override
 				protected ClientQuantity getQuantity(
 						ClientInventoryAssemblyItem row) {
-					return row.getInventoryItem().getOnhandQty();
+					ClientItem item = getCompany().getItem(
+							row.getInventoryItem());
+					return item.getOnhandQty();
 				}
 
 				@Override
@@ -199,7 +211,7 @@ public abstract class InventoryAssemblyItemTable extends
 	@Override
 	public void addRows(List<ClientInventoryAssemblyItem> rows) {
 		for (ClientInventoryAssemblyItem item : getRecords()) {
-			if (item.getInventoryItem() == null) {
+			if (item.getInventoryItem() == 0) {
 				delete(item);
 			}
 		}
@@ -257,7 +269,7 @@ public abstract class InventoryAssemblyItemTable extends
 			if (transactionItem.isEmpty()) {
 				continue;
 			}
-			if (transactionItem.getInventoryItem() == null) {
+			if (transactionItem.getInventoryItem() == 0) {
 				result.addError("GridItem-",
 						messages.pleaseSelect(messages.inventoryItem()));
 			}

@@ -10,7 +10,7 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 
 	private int version;
 
-	private ClientItem inventoryItem;
+	private long inventoryItem;
 
 	private ClientQuantity quantity;
 
@@ -50,7 +50,7 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 
 	@Override
 	public void setID(long id) {
-
+		this.id = id;
 	}
 
 	@Override
@@ -67,11 +67,11 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 		this.id = id;
 	}
 
-	public ClientItem getInventoryItem() {
+	public long getInventoryItem() {
 		return inventoryItem;
 	}
 
-	public void setInventoryItem(ClientItem inventoryItem) {
+	public void setInventoryItem(long inventoryItem) {
 		this.inventoryItem = inventoryItem;
 	}
 
@@ -116,7 +116,7 @@ public class ClientInventoryAssemblyItem implements IAccounterCore {
 	}
 
 	public boolean isEmpty() {
-		if ((this.inventoryItem == null && getID() == 0)
+		if ((this.inventoryItem == 0 && getID() == 0)
 				&& this.unitPrice == null
 				&& (this.linetotal == 0)
 				&& (this.quantity == null || this.quantity.getValue() == 0 || this.quantity

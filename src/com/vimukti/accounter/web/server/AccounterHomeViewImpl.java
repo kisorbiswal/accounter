@@ -6,6 +6,7 @@ package com.vimukti.accounter.web.server;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.xerces.impl.dv.util.Base64;
@@ -108,10 +109,10 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -1075,24 +1076,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return clientReceivePaymentList;
 	}
 
-	@Override
-	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
-			long toDate) throws AccounterException {
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(fromDate), new ClientFinanceDate(
-							toDate), getCompanyId());
-			return tool != null ? tool.getPurchageManager()
-					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
-							dates[1].getDate()) : null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	/*
 	 * @Override public List<SalesOrdersList> getPurchaseOrdersForVendor(long
 	 * vendorID) throws AccounterException {
@@ -1101,24 +1084,24 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	 * 
 	 * return tool != null ? tool.getPurchaseOrdersForVendor(vendorID) : null; }
 	 */
-	@Override
-	public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
-			long toDate) throws AccounterException {
-
-		FinanceTool tool = getFinanceTool();
-
-		try {
-			FinanceDate[] dates = getMinimumAndMaximumDates(
-					new ClientFinanceDate(fromDate), new ClientFinanceDate(
-							toDate), getCompanyId());
-			return tool != null ? tool.getSalesManager().getSalesOrdersList(
-					getCompanyId(), dates[0].getDate(), dates[1].getDate())
-					: null;
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	// @Override
+	// public PaginationList<SalesOrdersList> getSalesOrders(long fromDate,
+	// long toDate) throws AccounterException {
+	//
+	// FinanceTool tool = getFinanceTool();
+	//
+	// try {
+	// FinanceDate[] dates = getMinimumAndMaximumDates(
+	// new ClientFinanceDate(fromDate), new ClientFinanceDate(
+	// toDate), getCompanyId());
+	// return tool != null ? tool.getSalesManager().getSalesOrdersList(
+	// getCompanyId(), dates[0].getDate(), dates[1].getDate())
+	// : null;
+	// } catch (DAOException e) {
+	// e.printStackTrace();
+	// }
+	// return null;
+	// }
 
 	/*
 	 * @Override public List<SalesOrdersList> getSalesOrdersForCustomer(long
@@ -2243,5 +2226,36 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return companies;
+	}
+	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
+			long toDate, int type, int start, int length)
+			throws AccounterException {
+		try {
+			FinanceTool tool = getFinanceTool();
+			FinanceDate[] dates = getMinimumAndMaximumDates(
+					new ClientFinanceDate(fromDate), new ClientFinanceDate(
+							toDate), getCompanyId());
+			return tool != null ? tool.getPurchageManager()
+					.getPurchaseOrdersList(getCompanyId(), dates[0].getDate(),
+							dates[1].getDate(), type, start, length) : null;
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Field<?>> getFieldsOf(int importerType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean importData(String filePath, int importerType,
+			Map<String, String> importMap) throws AccounterException {
+
+		getFinanceTool().importData(getCompanyId(), filePath, importerType,
+				importMap);
+		return true;
 	}
 }

@@ -110,7 +110,8 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 					row.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
 							* disc / 100))
 							: lt);
-					if (newValue.getType() == ClientItem.TYPE_INVENTORY_PART) {
+					if (newValue.getType() == ClientItem.TYPE_INVENTORY_PART
+							|| newValue.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 						ClientMeasurement measurement = Accounter.getCompany()
 								.getMeasurement(newValue.getMeasurement());
 						row.getQuantity().setUnit(

@@ -119,9 +119,17 @@ public class CommandUtils {
 	 */
 	public static ClientFinanceDate getCurrentFiscalYearStartDate(
 			ClientCompanyPreferences preferences) {
+		Calendar cal = Calendar.getInstance();
 		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
-		startDate.setDay(1);
+		cal.setTime(startDate.getDateAsObject());
+		cal.set(Calendar.MONTH, preferences.getFiscalYearFirstMonth());
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+
+		while (new ClientFinanceDate(cal.getTime())
+				.after(new ClientFinanceDate())) {
+			cal.add(Calendar.YEAR, -1);
+		}
+		startDate = new ClientFinanceDate(cal.getTime());
 		return startDate;
 	}
 
@@ -134,9 +142,7 @@ public class CommandUtils {
 	public static ClientFinanceDate getCurrentFiscalYearEndDate(
 			ClientCompanyPreferences preferences) {
 
-		ClientFinanceDate startDate = new ClientFinanceDate();
-		startDate.setMonth(preferences.getFiscalYearFirstMonth() + 1);
-		startDate.setDay(1);
+		ClientFinanceDate startDate = getCurrentFiscalYearStartDate(preferences);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(startDate.getDateAsObject());
@@ -144,7 +150,9 @@ public class CommandUtils {
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
 		calendar.set(Calendar.DATE,
 				calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+
 		ClientFinanceDate endDate = new ClientFinanceDate(calendar.getTime());
+
 		return endDate;
 	}
 
@@ -1297,9 +1305,6 @@ public class CommandUtils {
 
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			return AccounterCoreType.JOURNALENTRY;
-
-		case ClientTransaction.TYPE_SALES_ORDER:
-			return AccounterCoreType.SALESORDER;
 
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			return AccounterCoreType.PURCHASEORDER;

@@ -40,8 +40,7 @@ public class InventoryStockStatusByVendorReport extends
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR,
-				"", "");
+				REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR, "", "");
 	}
 
 	@Override
@@ -49,7 +48,6 @@ public class InventoryStockStatusByVendorReport extends
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				ReportsGenerator.REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR,
-				"", "");
+				REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR, "", "");
 	}
 }

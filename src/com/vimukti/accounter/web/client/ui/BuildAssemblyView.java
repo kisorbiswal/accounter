@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientInventoryAssemblyItem;
+import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -46,7 +47,6 @@ public class BuildAssemblyView extends
 	private AmountField quantityToBuild;
 	private DateField dateField;
 	private TextAreaItem memoItem;
-	private ValidationResult result;
 
 	@Override
 	public void init() {
@@ -55,7 +55,7 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected void createControls() {
-		result = new ValidationResult();
+
 		itemCombo = new InventoryAssemblyItemCombo(messages.assemblyItem());
 		itemCombo.setRequired(true);
 
@@ -96,6 +96,14 @@ public class BuildAssemblyView extends
 
 			}
 
+			@Override
+			protected long getAssembly() {
+				if (getData() == null) {
+					return 0;
+				}
+				return getData().getInventoryAssembly();
+			}
+
 		};
 
 		itemCombo
@@ -125,15 +133,16 @@ public class BuildAssemblyView extends
 		memoItem.setMemo(true, this);
 		maximumBuildsLabel = new AmountLabel(
 				messages.maximumNumberYouCanBuildFrom());
-		quantityToBuild.addClickHandler(new ClickHandler() {
+		quantityToBuild.addBlurHandler(new BlurHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onBlur(BlurEvent event) {
 				if (DecimalUtil.isLessThan(maximumBuildsLabel.getAmount(),
 						quantityToBuild.getAmount())) {
-					result.addError(quantityToBuild, messages
+					Accounter.showError(messages
 							.dntHaveEnoughComponents(maximumBuildsLabel
 									.getValue()));
+					quantityToBuild.setAmount(0.0);
 				}
 			}
 		});
@@ -206,6 +215,11 @@ public class BuildAssemblyView extends
 
 	protected void inventoryAssemblySelected(ClientInventoryAssembly selectItem) {
 		if (selectItem != null) {
+			if (selectItem.getComponents().isEmpty()) {
+				Accounter.showInformation(messages
+						.youCannotBuildWithoutComponents());
+				return;
+			}
 			buildPoint.setValue(Integer.toString(selectItem.getReorderPoint()));
 			quantityOnHand.setAmount(selectItem.getOnhandQty().getValue());
 			Set<ClientInventoryAssemblyItem> components = selectItem
@@ -258,8 +272,9 @@ public class BuildAssemblyView extends
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
 		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
-			double onhandQuantity = clientInventoryAssemblyItem
-					.getInventoryItem().getOnhandQty().getValue();
+			ClientItem item = getCompany().getItem(
+					clientInventoryAssemblyItem.getInventoryItem());
+			double onhandQuantity = item.getOnhandQty().getValue();
 			double value = clientInventoryAssemblyItem.getQuantity().getValue();
 			double temp = (int) (onhandQuantity / value);
 			if (buildNumber == null) {
@@ -268,6 +283,9 @@ public class BuildAssemblyView extends
 			if (buildNumber > temp) {
 				buildNumber = temp;
 			}
+		}
+		if (buildNumber == null) {
+			buildNumber = 0.00D;
 		}
 		return buildNumber;
 	}
@@ -294,13 +312,25 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ValidationResult validate() {
-		if (quantityToBuild.getAmount() < 0) {
+		ValidationResult result = new ValidationResult();
+
+		if (maximumBuildsLabel.getAmount() <= 0) {
+			result.addError(quantityToBuild,
+					messages.youCannotBuildThisAssembly());
+		}
+
+		if (quantityToBuild.getAmount() <= 0) {
 			result.addError(quantityToBuild,
 					messages.pleaseEnter(quantityToBuild.getName()));
 		}
 		if (itemCombo.getSelectedValue() == null) {
 			result.addError(itemCombo,
 					messages.pleaseSelect(itemCombo.getName()));
+		} else {
+			if (itemCombo.getSelectedValue().getComponents().isEmpty()) {
+				result.addError(itemCombo,
+						messages.youCannotBuildWithoutComponents());
+			}
 		}
 		return result;
 	}
@@ -377,11 +407,15 @@ public class BuildAssemblyView extends
 
 	@Override
 	public ClientBuildAssembly saveView() {
-		ClientInventoryAssembly selectedValue = itemCombo.getSelectedValue();
-		if (selectedValue != null) {
-			data.setInventoryAssembly(itemCombo.getSelectedValue().getID());
+		ClientBuildAssembly saveView = super.saveView();
+		if (saveView != null) {
+			ClientInventoryAssembly selectedValue = itemCombo
+					.getSelectedValue();
+			if (selectedValue != null) {
+				saveView.setInventoryAssembly(selectedValue.getID());
+			}
 		}
-		return data;
+		return saveView;
 	}
 
 	@Override
@@ -391,5 +425,10 @@ public class BuildAssemblyView extends
 				.getItem(assembly.getInventoryAssembly());
 		itemCombo.setComboItem(item);
 		inventoryAssemblySelected(item);
+	}
+
+	@Override
+	protected boolean canRecur() {
+		return false;
 	}
 }

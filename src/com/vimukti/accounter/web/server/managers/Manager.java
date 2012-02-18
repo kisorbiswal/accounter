@@ -103,17 +103,19 @@ public class Manager {
 		while ((iterator).hasNext()) {
 			OpenAndClosedOrders openAndClosedOrder = new OpenAndClosedOrders();
 			object = (Object[]) iterator.next();
-			openAndClosedOrder.setTransactionID(((Long) object[0])
-					.longValue());
+			openAndClosedOrder.setTransactionID(((Long) object[0]).longValue());
 			openAndClosedOrder.setTransactionType((Integer) object[1]);
+			openAndClosedOrder.setNumber((String) object[2]);
+			openAndClosedOrder.setAmount(object[3] != null ? (Double) object[3]
+					: 0.0);
 			openAndClosedOrder.setTransactionDate(new ClientFinanceDate(
-					((Long) object[2]).longValue()));
-			openAndClosedOrder.setVendorOrCustomerName((String) object[3]);
+					(Long) object[4]));
+			openAndClosedOrder.setVendorOrCustomerName((String) object[5]);
+			openAndClosedOrder.setStatus((Integer) object[6]);
 			// openAndClosedOrder
 			// .setQuantity(object[4] != null ? ((BigDecimal) object[4])
 			// .intValue() : 0);
-			openAndClosedOrder.setAmount(object[4] != null ? (Double) object[4]
-					: 0.0);
+
 			queryResult.add(openAndClosedOrder);
 		}
 		return new ArrayList<OpenAndClosedOrders>(queryResult);
@@ -310,8 +312,8 @@ public class Manager {
 	protected FinanceDate getCurrentFiscalYearStartDate(Company company) {
 		FinanceDate startDate = new FinanceDate();
 		int firstMonth = company.getPreferences().getFiscalYearFirstMonth();
-		if(firstMonth>startDate.getMonth()){
-			startDate.setYear(startDate.getYear()-1);
+		if (firstMonth > startDate.getMonth()) {
+			startDate.setYear(startDate.getYear() - 1);
 		}
 		startDate.setMonth(firstMonth);
 		startDate.setDate(1);

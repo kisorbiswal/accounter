@@ -45,7 +45,8 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			ClientQuantity quantity = row.getQuantity();
 			return quantity != null ? String.valueOf(quantity.getValue()) : "";
 		} else {
-			if (item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+			if (item.getType() == ClientItem.TYPE_INVENTORY_PART
+					|| item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
 				StringBuffer data = new StringBuffer();
 				data.append(String.valueOf(row.getQuantity().getValue()));
 
@@ -94,7 +95,8 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 					ClientItem item = Accounter.getCompany().getItem(
 							row.getItem());
 					if (item != null
-							&& item.getType() == ClientItem.TYPE_INVENTORY_PART) {
+							&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || item
+									.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY)) {
 						showPopUp(row);
 						((TextBox) widget).setFocus(false);
 					}
@@ -102,6 +104,10 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			});
 		}
 		return widget;
+	}
+
+	protected ClientQuantity getQuantity(ClientTransactionItem row) {
+		return row.getQuantity();
 	}
 
 	private void showPopUp(final ClientTransactionItem row) {
@@ -115,13 +121,13 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 		Label wareHouseLabel = new Label(messages.wareHouse());
 
 		ClientUnit unit = Accounter.getCompany().getUnitById(
-				row.getQuantity().getUnit());
+				getQuantity(row).getUnit());
 		ClientWarehouse wareHouse = Accounter.getCompany().getWarehouse(
 				row.getWareHouse());
 		ClientItem item = Accounter.getCompany().getItem(row.getItem());
 		final TextBox valueBox = new TextBox();
 		valueBox.setFocus(true);
-		valueBox.setText(String.valueOf(row.getQuantity().getValue()));
+		valueBox.setText(String.valueOf(getQuantity(row).getValue()));
 		final UnitCombo unitBox = new UnitCombo("");
 		if (item != null) {
 			ClientMeasurement measurement = Accounter.getCompany()
@@ -237,7 +243,8 @@ public class NewQuantityColumn extends TextEditColumn<ClientTransactionItem> {
 			ClientItem item = Accounter.getCompany().getItem(row.getItem());
 			ClientQuantity quantity = row.getQuantity();
 			if (item != null
-					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART || quantity == null)) {
+					&& (item.getType() == ClientItem.TYPE_INVENTORY_PART
+							|| item.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY || quantity == null)) {
 				ClientCompany company = Accounter.getCompany();
 				if (quantity == null) {
 					quantity = new ClientQuantity();

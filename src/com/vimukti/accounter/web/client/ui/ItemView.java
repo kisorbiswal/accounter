@@ -41,8 +41,11 @@ import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -86,8 +89,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private DynamicForm salesInfoForm;
 	private FloatRangeValidator floatRangeValidator;
 	private IntegerRangeValidator integerRangeValidator;
-	protected ClientAccount selectAccount, selectExpAccount,
-			defaultIncomeAccount, defaultExpAccount;
+	protected ClientAccount defaultIncomeAccount, defaultExpAccount;
 
 	protected ClientItemGroup selectItemGroup;
 	protected ClientVendor selectVendor;
@@ -225,8 +227,7 @@ public class ItemView extends BaseView<ClientItem> {
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
-					public void selectedComboBoxItem(ClientAccount selectItem) {
-						selectAccount = selectItem;
+					public void selectedComboBoxItem(ClientAccount selectAccount) {
 						if (selectAccount != null
 								&& selectAccount != defaultIncomeAccount
 								&& defaultIncomeAccount != null) {
@@ -248,13 +249,31 @@ public class ItemView extends BaseView<ClientItem> {
 		 * adding the inventory information controls
 		 */
 
-		assetsAccount = new AccountCombo("Assets Account") {
+		assetsAccount = new AccountCombo(messages.assetsAccount()) {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
 
 				return getCompany().getAccounts(
 						ClientAccount.TYPE_INVENTORY_ASSET);
+			}
+
+			@Override
+			public void onAddNew() {
+				NewAccountAction action = ActionFactory.getNewAccountAction();
+				List<Integer> list = new ArrayList<Integer>();
+				list.add(ClientAccount.TYPE_INVENTORY_ASSET);
+				action.setAccountTypes(list);
+				action.setCallback(new ActionCallback<ClientAccount>() {
+
+					@Override
+					public void actionResult(ClientAccount result) {
+						if (result.getIsActive())
+							addItemThenfireEvent(result);
+					}
+				});
+
+				action.run(null, true);
 			}
 		};
 
@@ -397,8 +416,8 @@ public class ItemView extends BaseView<ClientItem> {
 		expAccCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
-					public void selectedComboBoxItem(ClientAccount selectItem) {
-						selectExpAccount = selectItem;
+					public void selectedComboBoxItem(
+							ClientAccount selectExpAccount) {
 						if (selectExpAccount != null
 								&& selectExpAccount != defaultExpAccount) {
 							if (type == ClientItem.TYPE_SERVICE)
@@ -415,6 +434,13 @@ public class ItemView extends BaseView<ClientItem> {
 					}
 				});
 		expAccCombo.setPopupWidth("500px");
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			ClientAccount selectExpAccount = getCompany().getAccount(
+					getCompany().getCostOfGoodsSold());
+			if (selectExpAccount != null) {
+				expAccCombo.setComboItem(selectExpAccount);
+			}
+		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);
@@ -576,14 +602,15 @@ public class ItemView extends BaseView<ClientItem> {
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
 			VerticalPanel stockPanel_1 = getStockPanel_1();
-			VerticalPanel stockPanel_2 = getStockPanel_2();
 
 			purchzVPanel.add(stockPanel_1);
-			purchzVPanel.add(stockPanel_2);
-
 			purchzVPanel.setCellHorizontalAlignment(stockPanel_1, ALIGN_LEFT);
-			purchzVPanel.setCellHorizontalAlignment(stockPanel_2, ALIGN_LEFT);
-
+			VerticalPanel stockPanel_2 = getStockPanel_2();
+			if (getPreferences().isUnitsEnabled()) {
+				purchzVPanel.add(stockPanel_2);
+				purchzVPanel.setCellHorizontalAlignment(stockPanel_2,
+						ALIGN_LEFT);
+			}
 		}
 		this.add(mainVLay);
 
@@ -761,15 +788,15 @@ public class ItemView extends BaseView<ClientItem> {
 			if (salesDescArea.getValue() != null)
 				data.setSalesDescription(salesDescArea.getValue().toString());
 			data.setSalesPrice(salesPriceText.getAmount());
-			if (selectAccount != null)
-				data.setIncomeAccount(selectAccount.getID());
+			if (accountCombo.getSelectedValue() != null)
+				data.setIncomeAccount(accountCombo.getSelectedValue().getID());
 			data.setCommissionItem(getBooleanValue(comCheck));
 		} else {
 			if (salesDescArea.getValue() != null)
 				data.setSalesDescription(salesDescArea.getValue().toString());
 			data.setSalesPrice(salesPriceText.getAmount());
-			if (selectAccount != null)
-				data.setIncomeAccount(selectAccount.getID());
+			if (accountCombo.getSelectedValue() != null)
+				data.setIncomeAccount(accountCombo.getSelectedValue().getID());
 			data.setCommissionItem(getBooleanValue(comCheck));
 		}
 
@@ -779,8 +806,8 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setPurchasePrice(purchasePriceTxt.getAmount());
 			if (selectVendor != null)
 				data.setPreferredVendor(selectVendor.getID());
-			if (selectExpAccount != null)
-				data.setExpenseAccount(selectExpAccount.getID());
+			if (expAccCombo.getSelectedValue() != null)
+				data.setExpenseAccount(expAccCombo.getSelectedValue().getID());
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		} else {
@@ -788,8 +815,8 @@ public class ItemView extends BaseView<ClientItem> {
 			data.setPurchasePrice(purchasePriceTxt.getAmount());
 			if (selectVendor != null)
 				data.setPreferredVendor(selectVendor.getID());
-			if (selectExpAccount != null)
-				data.setExpenseAccount(selectExpAccount.getID());
+			if (expAccCombo.getSelectedValue() != null)
+				data.setExpenseAccount(expAccCombo.getSelectedValue().getID());
 
 			data.setVendorItemNumber(vendItemNumText.getValue().toString());
 		}
@@ -811,7 +838,8 @@ public class ItemView extends BaseView<ClientItem> {
 		Accounter.showError(errorString);
 
 		updateItem();
-		if (exceptionMessage.contains(messages.failed())) {
+		if (exceptionMessage != null
+				&& exceptionMessage.contains(messages.failed())) {
 			data.setName(name);
 			System.out.println(name + messages.aftersaving());
 		}
@@ -874,7 +902,6 @@ public class ItemView extends BaseView<ClientItem> {
 			salesPriceText.setAmount(data.getSalesPrice());
 
 			ClientCompany company = getCompany();
-			selectAccount = company.getAccount(data.getIncomeAccount());
 			comCheck.setValue(data.isCommissionItem());
 
 			selectItemGroup = company.getItemGroup(data.getItemGroup());
@@ -899,19 +926,22 @@ public class ItemView extends BaseView<ClientItem> {
 				selectTaxCode = company.getTAXCode(data.getTaxCode());
 			}
 			itemTaxCheck.setValue(data.isTaxable());
-			if (data.getAssestsAccount() != 0) {
-				assetsAccount.setSelected(getCompany().getAccount(
-						data.getAssestsAccount()).getName());
+			if (type == ClientItem.TYPE_INVENTORY_PART
+					|| type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+				if (data.getAssestsAccount() != 0) {
+					assetsAccount.setSelected(getCompany().getAccount(
+							data.getAssestsAccount()).getName());
+				}
+				reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
+				// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
+				onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
+						.getValue()));
+				// getItemStatus();
+				itemTotalValue.setValue(Double.toString(data
+						.getItemTotalValue()));
+				avarageCost.setAmount(data.getAvarageCost());
+				asOfDate.setValue(data.getAsOfDate());
 			}
-
-			reorderPoint.setValue(Integer.toString(data.getReorderPoint()));
-			// onHandQuantity.setValue(Long.toString(data.getOnhandQuantity()));
-			onHandQuantity.setValue(String.valueOf(data.getOnhandQty()
-					.getValue()));
-			// getItemStatus();
-			itemTotalValue.setValue(Double.toString(data.getItemTotalValue()));
-			avarageCost.setAmount(data.getAvarageCost());
-			asOfDate.setValue(data.getAsOfDate());
 
 		} else {
 			setData(new ClientItem());
@@ -1019,9 +1049,7 @@ public class ItemView extends BaseView<ClientItem> {
 						.incomeandDistribution());
 				defaultExpAccount = getDefaultAccount(messages
 						.cashDiscountTaken());
-				selectAccount = defaultIncomeAccount;
 				accountCombo.setComboItem(defaultIncomeAccount);
-				selectExpAccount = defaultExpAccount;
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 			if (type == ClientItem.TYPE_NON_INVENTORY_PART) {
@@ -1029,9 +1057,7 @@ public class ItemView extends BaseView<ClientItem> {
 						.incomeandDistribution());
 				defaultExpAccount = getDefaultAccount(messages
 						.cashDiscountTaken());
-				selectAccount = defaultIncomeAccount;
 				accountCombo.setComboItem(defaultIncomeAccount);
-				selectExpAccount = defaultExpAccount;
 				expAccCombo.setComboItem(defaultExpAccount);
 			}
 		}
@@ -1042,9 +1068,11 @@ public class ItemView extends BaseView<ClientItem> {
 			}
 			if (data != null && data.isISellThisItem() == false) {
 				accountCombo.setDisabled(true);
-				selectExpAccount = getCompany().getAccount(
+				ClientAccount selectExpAccount = getCompany().getAccount(
 						data.getExpenseAccount());
-				expAccCombo.setComboItem(selectExpAccount);
+				if (selectExpAccount != null) {
+					expAccCombo.setComboItem(selectExpAccount);
+				}
 			}
 			if (data != null && data.isIBuyThisItem() == false)
 				expAccCombo.setDisabled(true);

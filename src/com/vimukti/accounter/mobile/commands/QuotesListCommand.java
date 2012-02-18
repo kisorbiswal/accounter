@@ -31,6 +31,8 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			estimateType = ClientEstimate.CHARGES;
 		} else if (commandString.contains("credits")) {
 			estimateType = ClientEstimate.CREDITS;
+		} else if (commandString.contains("sales")) {
+			estimateType = ClientEstimate.SALES_ORDER;
 		}
 
 		if (commandString.contains("quote")) {
@@ -74,6 +76,8 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			return "Success" + getMessages().creditsList();
 		} else if (estimateType == ClientEstimate.CHARGES) {
 			return "Success" + getMessages().chargesList();
+		} else if (estimateType == ClientEstimate.SALES_ORDER) {
+			return "Success" + getMessages().salesOrderList();
 		}
 		return "";
 	}
@@ -103,6 +107,8 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 					return getMessages().creditsList();
 				} else if (estimateType == ClientEstimate.CHARGES) {
 					return getMessages().chargesList();
+				} else if (estimateType == ClientEstimate.SALES_ORDER) {
+					return getMessages().salesOrderList();
 				}
 				return "";
 			}
@@ -117,6 +123,9 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 				} else if (estimateType == ClientEstimate.CHARGES) {
 					return getMessages()
 							.youDontHaveAny(getMessages().Charges());
+				} else if (estimateType == ClientEstimate.SALES_ORDER) {
+					return getMessages().youDontHaveAny(
+							getMessages().salesOrders());
 				}
 				return "";
 			}
@@ -144,6 +153,8 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 					list.add("newCharge");
 				} else if (estimateType == ClientEstimate.CREDITS) {
 					list.add("newCredit");
+				} else if (estimateType == ClientEstimate.SALES_ORDER) {
+					list.add("newSalesOrder");
 				}
 			}
 
@@ -166,7 +177,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 	private List<Estimate> getEstimates(Context context) {
 		String type = get(VIEW_BY).getValue();
 
-		int viwType = 0;
+		int viwType = -1;
 		if (type.equalsIgnoreCase(getMessages().open())) {
 			viwType = ClientEstimate.STATUS_OPEN;
 		} else if (type.equalsIgnoreCase(getMessages().rejected())) {

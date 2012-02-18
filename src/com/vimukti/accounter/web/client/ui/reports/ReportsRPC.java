@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
+import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -124,6 +124,10 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_CASH_SALES:
 			initCallBack(new ClientCashSales(),
 					ActionFactory.getNewCashSaleAction(), transactionId);
+		case IAccounterCore.RECURING_TRANSACTION:
+			initCallBack(new ClientRecurringTransaction(),
+					ActionFactory.getRecurringTransactionDialogAction(),
+					transactionId);
 			break;
 		case ClientTransaction.TYPE_WRITE_CHECK:
 			initCallBack(new ClientWriteCheck(),
@@ -169,11 +173,6 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			initCallBack(new ClientJournalEntry(),
 					ActionFactory.getNewJournalEntryAction(), transactionId);
-			break;
-
-		case ClientTransaction.TYPE_SALES_ORDER:
-			initCallBack(new ClientSalesOrder(),
-					ActionFactory.getSalesOrderAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
@@ -404,6 +403,9 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
 			ActionFactory.getDepositAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			ActionFactory.getPurchaseOrderAction().run(transaction, false);
 			break;
 		}
 	}

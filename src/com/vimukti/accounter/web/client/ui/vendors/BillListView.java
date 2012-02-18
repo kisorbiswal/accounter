@@ -216,6 +216,6 @@ public class BillListView extends TransactionsListView<BillsList> implements
 		Accounter.createExportCSVService().getBillsAndItemReceiptListExportCsv(
 				false, transactionType, getStartDate().getDate(),
 				getEndDate().getDate(), viewTypeId,
-				getExportCSVCallback(messages.bills()));
+				getExportCSVCallback(getListViewHeading()));
 	}
 }

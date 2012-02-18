@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Estimate;
@@ -34,6 +35,7 @@ import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -223,13 +225,34 @@ public class CustomerManager extends PayeeManager {
 		Query query = session.getNamedQuery("getEstimatesAndSalesOrdersList")
 				.setParameter("customerId", customerId)
 				.setParameter("companyId", companyId);
-
+		CompanyPreferences preferences = getCompany(companyId).getPreferences();
 		List list = query.list();
 		List<EstimatesAndSalesOrdersList> esl = new ArrayList<EstimatesAndSalesOrdersList>();
 
 		for (int i = 0; i < list.size(); i++) {
-
 			Object[] obj = (Object[]) list.get(i);
+			int status = ((Integer) obj[8]).intValue();
+			int estimateType = ((Integer) obj[7]).intValue();
+			if (estimateType == Estimate.QUOTES) {
+				if (preferences.isDontIncludeEstimates()) {
+					continue;
+				} else if (preferences.isIncludeAcceptedEstimates()
+						&& status != Estimate.STATUS_ACCECPTED) {
+					continue;
+				}
+			} else if ((estimateType == Estimate.CHARGES || estimateType == Estimate.CREDITS)
+					&& !preferences.isDelayedchargesEnabled()) {
+				continue;
+			} else if (estimateType == Estimate.SALES_ORDER
+					&& !preferences.isSalesOrderEnabled()) {
+				continue;
+			} else if ((estimateType == ClientEstimate.BILLABLEEXAPENSES || estimateType == ClientEstimate.DEPOSIT_EXAPENSES)
+					&& !(preferences
+							.isBillableExpsesEnbldForProductandServices() && preferences
+							.isProductandSerivesTrackingByCustomerEnabled())) {
+				continue;
+			}
+
 			// for (int j = 0; j < obj.length; j++)
 			EstimatesAndSalesOrdersList el = new EstimatesAndSalesOrdersList();
 			el.setTransactionId(((Long) obj[0]).longValue());
@@ -242,6 +265,7 @@ public class CustomerManager extends PayeeManager {
 			if (obj[7] != null) {
 				el.setEstimateType(((Integer) obj[7]).intValue());
 			}
+			el.setStatus(((Integer) obj[8]).intValue());
 			esl.add(el);
 		}
 
@@ -253,11 +277,9 @@ public class CustomerManager extends PayeeManager {
 			int length) throws DAOException {
 		try {
 			Session session = HibernateUtil.getCurrentSession();
-			int total;
 			List<Estimate> list;
 			Company company = getCompany(companyId);
-			Query query;
-			query = session.getNamedQuery("getEstimate")
+			Query query = session.getNamedQuery("getEstimate")
 					.setEntity("company", company)
 					.setParameter("estimateType", estimateType)
 					.setParameter("fromDate", fromDate)
@@ -266,7 +288,6 @@ public class CustomerManager extends PayeeManager {
 			if (length == -1) {
 				list = query.list();
 			} else {
-				total = query.list().size();
 				list = query.setFirstResult(start).setMaxResults(length).list();
 			}
 			if (list != null) {
@@ -870,16 +891,11 @@ public class CustomerManager extends PayeeManager {
 		return new ArrayList<TransactionHistory>(queryResult);
 	}
 
-	public ArrayList<TransactionHistory> getCustomerTransactionsList(
-			long customerId, int transactionType, int transactionStatusType,
-			long startDate, long endDate, Long companyId) {
-
-		List l = getResultListbyType(customerId, transactionType,
-				transactionStatusType, startDate, endDate, companyId);
+	public PaginationList<TransactionHistory> getCustomerTransactionsList(List l) {
 
 		Object[] object = null;
 		Iterator iterator = l.iterator();
-		List<TransactionHistory> queryResult = new ArrayList<TransactionHistory>();
+		PaginationList<TransactionHistory> queryResult = new PaginationList<TransactionHistory>();
 		Set<String> payee = new HashSet<String>();
 		Map<String, TransactionHistory> openingBalnaceEntries = new HashMap<String, TransactionHistory>();
 		while ((iterator).hasNext()) {
@@ -964,14 +980,15 @@ public class CustomerManager extends PayeeManager {
 		mergeOpeningBalanceEntries(queryResult, payee, openingBalnaceEntries);
 
 		// return prepareEntriesForVoid(queryResult);
-		return new ArrayList<TransactionHistory>(queryResult);
+		return queryResult;
 	}
 
-	private List getResultListbyType(long customerId, int transactionType,
-			int transactionStatusType, long startDate, long endDate,
-			Long companyId) {
+	public PaginationList<TransactionHistory> getResultListbyType(
+			long customerId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId, int start, int length) {
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = null;
+		int total = 0;
 		String queryName = null;
 		if (transactionType == Transaction.TYPE_INVOICE) {
 
@@ -997,7 +1014,6 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("currentDate",
 								new FinanceDate().getDate())
 						.setParameter("customerId", customerId);
-				return query.list();
 			}
 
 		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
@@ -1051,7 +1067,6 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("customerId", customerId)
 						.setParameter("paymentmethod", typeOfRPString,
 								EncryptedStringType.INSTANCE);
-				return query.list();
 
 			}
 		} else if (transactionType == Transaction.TYPE_CUSTOMER_REFUNDS) {
@@ -1077,8 +1092,8 @@ public class CustomerManager extends PayeeManager {
 						.setParameter("fromDate", startDate)
 						.setParameter("toDate", endDate)
 						.setParameter("customerId", customerId)
-						.setParameter("paymentmethod", typeOfRPString);
-				return query.list();
+						.setParameter("paymentmethod", typeOfRPString,
+								EncryptedStringType.INSTANCE);
 			}
 		} else if (transactionType == Transaction.TYPE_ESTIMATE) {
 			int typeOfEstiate = 1;
@@ -1106,7 +1121,6 @@ public class CustomerManager extends PayeeManager {
 					.setParameter("toDate", endDate)
 					.setParameter("customerId", customerId)
 					.setParameter("estimateType", typeOfEstiate);
-			return query.list();
 
 		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
 			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
@@ -1118,11 +1132,23 @@ public class CustomerManager extends PayeeManager {
 			queryName = "getAllTransactionsByCustomer";
 
 		}
-		query = session.getNamedQuery(queryName)
-				.setParameter("companyId", companyId)
-				.setParameter("fromDate", startDate)
-				.setParameter("toDate", endDate)
-				.setParameter("customerId", customerId);
-		return query.list();
+		if (query == null) {
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId);
+		}
+		List list;
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<TransactionHistory> customerTransactionsList = getCustomerTransactionsList(list);
+		customerTransactionsList.setTotalCount(total);
+		customerTransactionsList.setStart(start);
+		return customerTransactionsList;
 	}
 }

@@ -7,67 +7,55 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
+		<query-param name="type" type="int" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="VENDOR_NAME" type="string" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.TOTAL AS ORIGINAL_AMOUNT,
+		SO.DELIVERY_DATE AS
+		TRANSACTION_DATE,
+		P.NAME AS VENDOR_NAME,
+		T.STATUS AS TRANSACTION_STATUS
 		FROM TRANSACTION T
 		LEFT OUTER JOIN
-		SALES_ORDER SO
+		ESTIMATE SO
 		ON T.ID = SO.ID
 		LEFT OUTER JOIN
 		PAYEE P
 		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
+		WHERE T.T_TYPE = 7 AND
+		SO.ESTIMATETYPE=6 AND
 		T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.COMPANY_ID=:companyId
-		ORDER BY
-		P.NAME, T.T_DATE
-
+		T.COMPANY_ID=:companyId AND
+		(CASE WHEN :type =-1
+		THEN TRUE WHEN
+		T.STATUS=:type
+		THEN T.SAVE_STATUS != 201
+		ELSE
+		T.SAVE_STATUS=:type END)AND
+		T.SAVE_STATUS != 202
+		ORDER BY P.NAME, T.T_DATE
 	</sql-query>
 
 
-	<sql-query name="getOpenSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
-		:startDate AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getOpenSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS IN (0, 2) AND T.T_DATE BETWEEN 
+		:startDate AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE 
+		</sql-query> -->
 
 	<sql-query name="getExpenseReportByType">
 		<query-param name="companyId" type="long" />
@@ -175,277 +163,79 @@
 
 	</sql-query>
 
-	<sql-query name="getClosedSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
+	<!-- <sql-query name="getClosedSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		ESTIMATE SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID 
+		WHERE T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS=4 and T.T_DATE BETWEEN 
+		:startDate AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE 
+		</sql-query> <sql-query name="getCompletedSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 T.STATUS IN (5) AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS=2 and T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
+	<!-- <sql-query name="getCanceledSalesOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID, T.T_TYPE, T.T_DATE, P.NAME, (SELECT 
+		SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID = T.ID 
+		AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN ESTIMATE 
+		SO ON T.ID = SO.ID LEFT OUTER JOIN PAYEE P ON P.ID = SO.CUSTOMER_ID WHERE 
+		T.T_TYPE = 7 AND SO.ESTIMATETYPE=6 AND T.STATUS =1 AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-	</sql-query>
-
-
-	<sql-query name="getCompletedSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (102) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.T_DATE BETWEEN :startDate AND :endDate AND T.COMPANY_ID=:companyId 
+		ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 
-	<sql-query name="getCanceledSalesOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
+	<!-- <sql-query name="getOpenPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID =:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON T.ID = SO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = SO.CUSTOMER_ID
-		WHERE T.T_TYPE = 21 AND
-		T.STATUS IN (103) AND T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-
-	<sql-query name="getPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.T_DATE BETWEEN :startDate AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY
-		P.NAME, T.T_DATE
-
-
-	</sql-query>
-
-
-	<sql-query name="getOpenPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (1, 101) AND T.T_DATE BETWEEN
-		:startDate AND :endDate
-		AND T.COMPANY_ID =:companyId ORDER BY P.NAME,
-		T.T_DATE
-
-
-	</sql-query>
-
-	<sql-query name="getClosedPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND
-		:endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
+	<!-- <sql-query name="getClosedPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (2) and T.T_DATE BETWEEN :startDate AND 
+		:endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 
 
-	<sql-query name="getCompletedPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
+	<!-- <sql-query name="getCompletedPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (102) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-	<sql-query name="getCanceledPurchaseOrders">
-		<query-param name="companyId" type="long" />
-		<query-param name="startDate" type="long" />
-		<query-param name="endDate" type="long" />
-		
-		<return-scalar column="ID" type="long" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="T_DATE" type="long" />
-		<return-scalar column="NAME" type="encryptedstring" />
-		<return-scalar column="TOTAL" type="double" />
-		SELECT T.ID AS ID,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS T_DATE,
-		P.NAME AS NAME,
-		<!-- (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
-			= T.ID AND TI.TYPE IN (1,4) ) , -->
-		T.TOTAL AS TOTAL
-
-		FROM TRANSACTION T
-		LEFT OUTER JOIN
-		PURCHASE_ORDER PO
-		ON T.ID =
-		PO.ID
-		LEFT OUTER JOIN
-		PAYEE P
-		ON P.ID = PO.VENDOR_ID
-		WHERE T.T_TYPE = 22
-		AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate
-		AND :endDate AND
-		T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE
-
-	</sql-query>
-
-
+	<!-- <sql-query name="getCanceledPurchaseOrders"> <query-param name="companyId" 
+		type="long" /> <query-param name="startDate" type="long" /> <query-param 
+		name="endDate" type="long" /> SELECT T.ID , T.T_TYPE , T.T_DATE , P.NAME 
+		, (SELECT SUM(TI.QUANTITY) FROM TRANSACTION_ITEM TI WHERE TI.TRANSACTION_ID 
+		= T.ID AND TI.TYPE IN (1,4) ) , T.TOTAL FROM TRANSACTION T LEFT OUTER JOIN 
+		PURCHASE_ORDER PO ON T.ID = PO.ID LEFT OUTER JOIN PAYEE P ON P.ID = PO.VENDOR_ID 
+		WHERE T.T_TYPE = 22 AND T.STATUS IN (103) and T.T_DATE BETWEEN :startDate 
+		AND :endDate AND T.COMPANY_ID=:companyId ORDER BY P.NAME, T.T_DATE </sql-query> -->
 
 	<sql-query name="getMinimumAndMaximumTransactionDate">
 		<query-param name="companyId" type="long" />
@@ -886,7 +676,7 @@
 		SUM(TV1.PAID_AMOUNT) FROM TRANSACTION_HISTORY_VIEW TV1 WHERE
 		TV1.COMPANY_ID=:companyId AND TV1.CUSTOMER_ID = TV.CUSTOMER_ID AND
 		TV1.DATE BETWEEN :start AND :end
-		GROUP BY TV1.CUSTOMER_ID) AS DIFF_AMOUNT,
+		GROUP BY TV1.CUSTOMER_ID),
 		CASE WHEN
 		TV.SAVE_STATUS = 204
 		THEN TRUE
@@ -1527,7 +1317,8 @@
 		t.t_date
 		between :startDate and :endDate AND
 		at1.COMPANY_ID=:companyId) end)
-		as amount
+		as
+		amount
 	</sql-query>
 
 
@@ -1659,12 +1450,14 @@
 		T.T_TYPE =12 THEN -1 * T.TOTAL*T.CURRENCY_FACTOR
 		END AS TOTAL,
 		CASE
-		WHEN T.SAVE_STATUS = 204
+		WHEN
+		T.SAVE_STATUS = 204
 		THEN TRUE
 		ELSE
 		FALSE
 		END AS VOID,
-		T.ID as TRANSACTION_ID,
+		T.ID as
+		TRANSACTION_ID,
 		T.MEMO AS MEMO
 
 		FROM
@@ -1673,36 +1466,46 @@
 
 		LEFT
 		OUTER
-		JOIN CUSTOMER_REFUND CR ON T.ID=CR.ID
+		JOIN
+		CUSTOMER_REFUND CR ON T.ID=CR.ID
 		LEFT OUTER JOIN
-		CUSTOMER_CREDIT_MEMO CCM ON T.ID=CCM.ID
+		CUSTOMER_CREDIT_MEMO
+		CCM ON T.ID=CCM.ID
 		LEFT OUTER JOIN INVOICE I ON
 		T.ID=I.ID
-		LEFT OUTER JOIN RECEIVE_PAYMENT RP ON T.ID=RP.ID
+		LEFT OUTER JOIN
+		RECEIVE_PAYMENT RP ON T.ID=RP.ID
 		LEFT OUTER
-		JOIN CUSTOMER_PREPAYMENT CPP ON T.ID = CPP.ID
+		JOIN CUSTOMER_PREPAYMENT CPP
+		ON T.ID = CPP.ID
 		LEFT OUTER JOIN
 		JOURNAL_ENTRY JE ON T.ID = JE.ID
-		JOIN CUSTOMER C ON
+		JOIN
+		CUSTOMER C ON
 		C.ID =
 		CR.CUSTOMER_ID OR
 		C.ID = CCM.CUSTOMER_ID OR
-		C.ID = I.CUSTOMER_ID OR
+		C.ID =
+		I.CUSTOMER_ID OR
 		C.ID
 		= CPP.CUSTOMER_ID OR
 		C.ID = JE.PAYEE_ID OR
-		C.ID = RP.CUSTOMER_ID
+		C.ID =
+		RP.CUSTOMER_ID
 		JOIN
 		PAYEE P ON P.ID = C.ID
-		LEFT OUTER JOIN PAYMENTTERMS PT ON PT.ID =
+		LEFT OUTER JOIN PAYMENTTERMS
+		PT ON PT.ID =
 		I.PAYMENT_TERMS_ID
 
 		WHERE T.T_DATE
-		BETWEEN :startDate AND :endDate AND
+		BETWEEN :startDate AND
+		:endDate AND
 		T.T_TYPE IN
 		(4,5,8,12,16,29)
 		AND
-		T.COMPANY_ID=:companyId AND T.SAVE_STATUS !=204 
+		T.COMPANY_ID=:companyId AND
+		T.SAVE_STATUS !=204
 
 		ORDER BY P.NAME, T.T_TYPE, T.T_DATE
 
@@ -1817,7 +1620,8 @@
 		AND
 		T.COMPANY_ID=:companyId
 
-		ORDER BY P.NAME,T.T_TYPE,
+		ORDER BY
+		P.NAME,T.T_TYPE,
 		T_DATE
 	</sql-query>
 
@@ -1991,7 +1795,8 @@
 		T.COMPANY_ID=:companyId
 		GROUP BY P.NAME, P.FILE_AS,
 		CG.NAME
-		ORDER BY P.NAME
+		ORDER BY
+		P.NAME
 
 
 	</sql-query>
@@ -3133,18 +2938,21 @@
 
 		FROM
 		ACCOUNT_TRANSACTION AT
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		TRANSACTION T
 		ON
 		AT.TRANSACTION_ID = T.ID
 		LEFT OUTER JOIN
 		ACCOUNT A
-		ON A.ID =
+		ON
+		A.ID =
 		AT.ACCOUNT_ID
 		LEFT OUTER JOIN
 		CASH_PURCHASE CP
 		ON T.ID = CP.ID
-		LEFT OUTER
+		LEFT
+		OUTER
 		JOIN
 		CASH_SALES CS
 		ON T.ID = CS.ID
@@ -3157,7 +2965,8 @@
 		CCM.ID
 		LEFT OUTER JOIN
 		ENTER_BILL EB
-		ON T.ID = EB.ID
+		ON
+		T.ID = EB.ID
 		LEFT OUTER JOIN
 		INVOICE I
 		ON T.ID = I.ID
@@ -3167,17 +2976,20 @@
 		VCM.ID
 		LEFT OUTER JOIN
 		WRITE_CHECKS WC
-		ON T.ID = WC.ID
+		ON
+		T.ID = WC.ID
 		LEFT OUTER JOIN
 		RECEIVE_PAYMENT RP
 		ON T.ID = RP.ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		PAY_BILL PB
 		ON T.ID =
 		PB.ID
 		LEFT OUTER JOIN
 		CUSTOMER_PREPAYMENT CPP
-		ON T.ID = CPP.ID
+		ON
+		T.ID = CPP.ID
 		LEFT OUTER
 		JOIN
 		CUSTOMER_REFUND CR
@@ -3188,20 +3000,26 @@
 		= JE.ID
 		LEFT OUTER JOIN
 		PAYEE P
-		ON P.ID = CP.VENDOR_ID OR P.ID =
+		ON P.ID =
+		CP.VENDOR_ID OR P.ID =
 		CCC.VENDOR_ID
 		OR P.ID = EB.VENDOR_ID OR
-		P.ID = VCM.VENDOR_ID OR P.ID =
+		P.ID =
+		VCM.VENDOR_ID OR P.ID =
 		WC.VENDOR_ID
-		OR P.ID = CS.CUSTOMER_ID OR P.ID = CCM.CUSTOMER_ID OR P.ID
+		OR P.ID = CS.CUSTOMER_ID OR P.ID =
+		CCM.CUSTOMER_ID OR P.ID
 		=
-		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR P.ID = I.CUSTOMER_ID
+		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR
+		P.ID = I.CUSTOMER_ID
 		OR
-		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR P.ID =
+		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR
+		P.ID =
 		CPP.CUSTOMER_ID
 		OR P.ID = CR.CUSTOMER_ID
 		LEFT OUTER JOIN
-		USERS U ON U.ID = CP.EMPLOYEE
+		USERS U ON
+		U.ID = CP.EMPLOYEE
 		LEFT OUTER JOIN
 		CLIENT C ON C.ID = U.CLIENT_ID
 		WHERE
@@ -3261,7 +3079,8 @@
 		AND AT1.COMPANY_ID=:companyId)=0
 		THEN 0
 		ELSE
-		(SELECT SUM(AT.AMOUNT)
+		(SELECT
+		SUM(AT.AMOUNT)
 		FROM
 		ACCOUNT_TRANSACTION AT
 		join
@@ -3283,7 +3102,8 @@
 		A.PARENT_ID AS P_ID
 		FROM ACCOUNT_TRANSACTION AT
 		LEFT
-		OUTER JOIN ACCOUNT A ON
+		OUTER JOIN ACCOUNT A
+		ON
 		A.ID=AT.ACCOUNT_ID
 		LEFT OUTER JOIN
 		TRANSACTION T
@@ -3297,7 +3117,8 @@
 		T.T_DATE BETWEEN :startDate AND :endDate
 		AND
 		L.ID IS NOT NULL
-		AND A.A_TYPE IN (14,15,16,17,18)
+		AND
+		A.A_TYPE IN (14,15,16,17,18)
 		AND
 		A.BASE_TYPE !=0 AND
 		A.COMPANY_ID=:companyId
@@ -3378,7 +3199,7 @@
 
 		where T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN
-		:startDate AND :endDate 
+		:startDate AND :endDate
 		GROUP BY
 		T_ITEM.ID, TRC.RATE,
 		TIG.NAME, P.NAME
@@ -4047,7 +3868,8 @@
 		END) AS AMOUNT,
 		A.PARENT_ID AS P_ACCOUNT
 
-		FROM ACCOUNT_TRANSACTION AT
+		FROM
+		ACCOUNT_TRANSACTION AT
 		LEFT
 		OUTER JOIN ACCOUNT A ON
 		A.ID=AT.ACCOUNT_ID
@@ -4059,7 +3881,8 @@
 		ACCOUNTER_CLASS AC
 		ON
 		AC.ID=T.TRANSACTION_ACCOUNTER_CLASS
-		WHERE T.COMPANY_ID=:companyId AND
+		WHERE
+		T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN :startDate AND :endDate
 		AND
 		AC.ID IS NOT NULL
@@ -4075,12 +3898,12 @@
 		A.A_TYPE,A.ID
 
 	</sql-query>
-	
+
 	<sql-query name="getRealisedExchangeLossesOrGains">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -4097,92 +3920,117 @@
 		AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS TRANSACTION_DATE,
-		CASE 
+		CASE
 		WHEN T.T_TYPE = 15 THEN
 		WC.IN_FAVOUR_OF ELSE P.NAME
 		END AS PAYEE_NAME,
-		C.FORMAL_NAME AS CURRENCY,
+		C.FORMAL_NAME AS
+		CURRENCY,
 		T.CURRENCY_FACTOR AS EXCHANGE_RATE,
 		SUM(AT.AMOUNT) AS
 		REALISED_GAIN_OR_LOSS
 
 		FROM
 		ACCOUNT_TRANSACTION AT
-		LEFT OUTER JOIN TRANSACTION T
+		LEFT
+		OUTER JOIN
+		TRANSACTION T
 		ON AT.TRANSACTION_ID = T.ID
-		LEFT JOIN CURRENCY C 
-		ON C.ID=T.CURRENCY
+		LEFT JOIN CURRENCY
+		C
+		ON
+		C.ID=T.CURRENCY
 		LEFT JOIN COMPANY COM
-		ON COM.ID=AT.COMPANY_ID		
-		LEFT OUTER JOIN	CASH_PURCHASE CP
+		ON COM.ID=AT.COMPANY_ID
+		LEFT OUTER
+		JOIN CASH_PURCHASE CP
 		ON T.ID = CP.ID
-		LEFT OUTER JOIN	CASH_SALES CS
-		ON T.ID = CS.ID
-		LEFT OUTER JOIN	CREDIT_CARD_CHARGES CCC
-		ON T.ID = CCC.ID
+		LEFT OUTER JOIN CASH_SALES
+		CS
+		ON
+		T.ID = CS.ID
+		LEFT OUTER JOIN CREDIT_CARD_CHARGES CCC
+		ON T.ID =
+		CCC.ID
 		LEFT OUTER JOIN
 		CUSTOMER_CREDIT_MEMO CCM
 		ON T.ID = CCM.ID
-		LEFT OUTER JOIN	ENTER_BILL EB
-		ON	T.ID = EB.ID
-		LEFT OUTER JOIN	INVOICE I
-		ON T.ID = I.ID
+		LEFT
+		OUTER JOIN
+		ENTER_BILL EB
+		ON T.ID = EB.ID
+		LEFT OUTER JOIN INVOICE I
+		ON
+		T.ID = I.ID
 		LEFT OUTER JOIN
 		VENDOR_CREDIT_MEMO VCM
 		ON T.ID = VCM.ID
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		WRITE_CHECKS WC
-		ON	T.ID = WC.ID
+		ON T.ID = WC.ID
 		LEFT OUTER JOIN
 		RECEIVE_PAYMENT RP
-		ON T.ID = RP.ID
+		ON T.ID
+		= RP.ID
 		LEFT OUTER JOIN
 		PAY_BILL PB
-		ON T.ID = PB.ID
+		ON T.ID =
+		PB.ID
 		LEFT OUTER JOIN
 		CUSTOMER_PREPAYMENT CPP
 		ON T.ID = CPP.ID
-		LEFT OUTER JOIN
-		CUSTOMER_REFUND CR
+		LEFT OUTER
+		JOIN
+		CUSTOMER_REFUND
+		CR
 		ON T.ID = CR.ID
 		LEFT JOIN JOURNAL_ENTRY JE
-		ON T.ID = JE.ID
-		LEFT OUTER JOIN
-		PAYEE P	ON 
+		ON T.ID
+		= JE.ID
+		LEFT OUTER
+		JOIN
+		PAYEE P ON
 		P.ID = CP.VENDOR_ID OR P.ID = CCC.VENDOR_ID
-		OR P.ID = EB.VENDOR_ID OR
-		P.ID =	VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
-		OR P.ID = CS.CUSTOMER_ID OR P.ID =
+		OR P.ID =
+		EB.VENDOR_ID OR
+		P.ID =
+		VCM.VENDOR_ID OR P.ID = WC.VENDOR_ID
+		OR P.ID =
+		CS.CUSTOMER_ID OR P.ID =
 		CCM.CUSTOMER_ID OR P.ID =
-		WC.CUSTOMER_ID OR P.ID = WC.TAX_AGENCY_ID OR
+		WC.CUSTOMER_ID OR
+		P.ID = WC.TAX_AGENCY_ID OR
 		P.ID = I.CUSTOMER_ID
 		OR
-		P.ID = RP.CUSTOMER_ID OR P.ID = PB.VENDOR_ID OR
+		P.ID = RP.CUSTOMER_ID
+		OR P.ID = PB.VENDOR_ID OR
 		P.ID =
 		CPP.CUSTOMER_ID
 		OR P.ID = CR.CUSTOMER_ID
-		
+
 		WHERE
-		T.COMPANY_ID=:companyId AND T.T_TYPE NOT IN (9) AND T.T_DATE BETWEEN
+		T.COMPANY_ID=:companyId AND T.T_TYPE NOT IN (9) AND T.T_DATE
+		BETWEEN
 		:startDate AND :endDate
-		AND AT.AMOUNT != 0 AND AT.ACCOUNT_ID=COM.EXCHANGE_LOSS_OR_GAIN_ACCOUNT
+		AND AT.AMOUNT != 0 AND
+		AT.ACCOUNT_ID=COM.EXCHANGE_LOSS_OR_GAIN_ACCOUNT
 		GROUP BY
 		T.ID,PB.ID,P.NAME,WC.IN_FAVOUR_OF,C.ID
 		ORDER BY T.T_DATE
-		
+
 	</sql-query>
-	
+
 	<sql-query name="getUnrealisedExchangeLossOrGain">
 		<query-param name="companyId" type="long" />
 		<query-param name="enteredDate" type="long" />
-		
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="CURRENCY_NAME" type="encryptedstring" />
 		<return-scalar column="FOREIGN_BALANCE" type="double" />
 		<return-scalar column="CURRENT_BALANCE" type="double" />
 		<return-scalar column="CURRENCY_ID" type="long" />
-	
-		SELECT 
+
+		SELECT
 		A.NAME AS ACCOUNT_NAME,
 		CURR.FORMAL_NAME AS CURRENCY_NAME,
 		SUM(AT.AMOUNT/T.CURRENCY_FACTOR) AS FOREIGN_BALANCE,
@@ -4225,7 +4073,7 @@
 		<return-scalar column="YEAR_START" type="int" />
 		<return-scalar column="YEAR_END" type="int" />
 		<return-scalar column="DATE" type="long" />
-		
+
 		SELECT TC.ETDSFILLINGACKNOWLEDGEMENTNO AS ACK_NO,
 		TC.FORMTYPE AS
 		FORM_TYPE,
@@ -4243,6 +4091,146 @@
 		AND TC.ACKNOWLEDGEMENTDATE BETWEEN
 		:startDate AND :endDate
 	</sql-query>
+	
+	<sql-query name="get.missing.checks.by.account">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="accountId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" /> 
+		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT 
+			T.ID AS TRANSACTION_ID,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.T_DATE AS TRANSACTION_DATE,
+			P.NAME AS NAME,
+			A.NAME AS ACCOUNT_NAME,
+			T.MEMO AS MEMO,
+			T.TOTAL AS TOTAL_AMOUNT,
+			CASE 
+				WHEN T.T_TYPE=15 
+					THEN W.CHECK_NUMBER 
+				WHEN T_TYPE IN(2,26,28) 
+					THEN CP.CHECK_NUMBER
+				WHEN T_TYPE=5 
+					THEN CR.CHECK_NUMBER
+				WHEN T.T_TYPE=17 
+					THEN PT.CHECK_NUMBER
+				WHEN T_TYPE=11 
+					THEN PB.CHECK_NUMBER
+				WHEN T_TYPE in(3,27) 
+					THEN CCC.CHECK_NUMBER
+				WHEN T.T_TYPE=31
+					THEN RV.CHECK_NUMBER
+				WHEN T.T_TYPE=29 
+					THEN CPP.CHECK_NUMBER
+				WHEN T.T_TYPE=12
+					THEN RP.CHECK_NUMBER 
+				END AS CHECK_NUMBER 
+ 		FROM 
+ 			TRANSACTION T
+				LEFT JOIN WRITE_CHECKS W ON W.ID=T.ID
+				LEFT JOIN CASH_PURCHASE CP ON CP.ID=T.ID
+				LEFT JOIN CUSTOMER_REFUND CR ON CR.ID=T.ID
+				LEFT JOIN PAY_TAX PT ON PT.ID=T.ID
+				LEFT JOIN PAY_BILL PB ON PB.ID=T.ID
+				LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
+				LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
+				LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID=T.ID
+				LEFT JOIN MAKE_DEPOSIT M ON M.ID=T.ID
+				LEFT JOIN INVOICE I ON I.ID=T.ID
+				LEFT JOIN RECEIVE_PAYMENT RP ON RP.ID=T.ID
+				LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+				LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+				LEFT JOIN PAYEE P ON P.ID=W.VENDOR_ID OR P.ID=W.CUSTOMER_ID OR P.ID=CP.VENDOR_ID 
+				OR P.ID=CR.CUSTOMER_ID OR P.ID=PB.VENDOR_ID OR P.ID=PT.TAX_AGENCY_ID OR P.ID=CCC.VENDOR_ID
+				OR P.ID=RV.TAX_AGENCY_ID
+				OR P.ID=CPP.CUSTOMER_ID
+				OR P.ID=I.CUSTOMER_ID
+				OR P.ID=RP.CUSTOMER_ID
+		WHERE 
+			T.COMPANY_ID=:companyId 
+		AND 
+			(T.T_DATE BETWEEN :startDate AND :endDate)
+		AND
+			A.ID=:accountId
+		ORDER BY 
+			T.T_TYPE
+
+	</sql-query>
+	
+	<sql-query name="get.reconcilition.discrepancy.by.account">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="enteredDate" type="long" />
+		<query-param name="accountId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT * 
+		FROM 
+			RECONCILIATION_ITEM RT 
+			LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+			LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+			LEFT JOIN RECONCILIATION_ITEM RT ON RT.TRANSACTION_ID=T.ID
+			LEFT JOIN RECONCILIATION R ON R.ID=RT.RECONCILIATION_ID
+		WHERE
+			
+	</sql-query>
+	
+	<sql-query name="get.all.invoices.by.account">
+		<!-- <query-param name="accountId" type="long" /> -->
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" /> 
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="TOTAL_AMOUNT" type="double" />
+		
+		SELECT 
+			T.ID AS TRANSACTION_ID,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.NUMBER AS TRANSACTION_NUMBER,
+			T.T_DATE AS TRANSACTION_DATE,
+			P.NAME AS NAME,
+			A.NAME AS ACCOUNT_NAME,
+			T.MEMO AS MEMO,
+			T.TOTAL AS TOTAL_AMOUNT
+ 		FROM 
+ 			TRANSACTION T
+				LEFT JOIN INVOICE I ON I.ID=T.ID
+				LEFT JOIN ACCOUNT_TRANSACTION AT ON AT.TRANSACTION_ID=T.ID
+				LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID
+				LEFT JOIN PAYEE P ON P.ID=I.CUSTOMER_ID
+		WHERE 
+			T.COMPANY_ID=:companyId 
+		AND 
+			(T.T_DATE BETWEEN :startDate AND :endDate)
+		AND 
+			T.T_TYPE = 8
+		ORDER BY
+			T.NUMBER
+		
+		</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>
 

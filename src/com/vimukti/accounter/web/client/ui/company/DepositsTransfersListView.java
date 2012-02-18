@@ -41,6 +41,7 @@ public class DepositsTransfersListView extends
 		// FinanceApplication.createHomeService().getPaymentsList(this);
 	}
 
+	@Override
 	public void onSuccess(PaginationList<DepositsTransfersList> result) {
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
@@ -118,23 +119,41 @@ public class DepositsTransfersListView extends
 
 	@Override
 	protected void onPageChange(int start, int length) {
-		int type = 0;
-		if (getViewType().equalsIgnoreCase(messages.voided())) {
-			type = VIEW_VOIDED;
-		} else if (getViewType().equalsIgnoreCase(messages.all())) {
-			type = TYPE_ALL;
-		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
-			type = VIEW_DRAFT;
-		}
 		if (transactionType == 0) {
 			Accounter.createHomeService().getDepositsList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, type, this);
+					length, checkViewType(), this);
 		} else {
 			Accounter.createHomeService().getTransfersList(
 					getStartDate().getDate(), getEndDate().getDate(), start,
-					length, type, this);
+					length, checkViewType(), this);
 		}
 	}
 
+	public int checkViewType() {
+		int type = 0;
+		if (getViewType().equalsIgnoreCase(messages.voided())) {
+			return type = VIEW_VOIDED;
+		} else if (getViewType().equalsIgnoreCase(messages.all())) {
+			return type = TYPE_ALL;
+		} else if (getViewType().equalsIgnoreCase(messages.drafts())) {
+			return type = VIEW_DRAFT;
+		}
+		return type;
+	}
+
+	@Override
+	public void exportToCsv() {
+		if (transactionType == 0) {
+			Accounter.createExportCSVService().getExportListCsv(
+					getStartDate().getDate(), getEndDate().getDate(),
+					transactionType, checkViewType(), messages.deposits(),
+					getExportCSVCallback(messages.deposits()));
+		} else {
+			Accounter.createExportCSVService().getExportListCsv(
+					getStartDate().getDate(), getEndDate().getDate(),
+					transactionType, checkViewType(), messages.transferFunds(),
+					getExportCSVCallback(messages.transferFunds()));
+		}
+	}
 }

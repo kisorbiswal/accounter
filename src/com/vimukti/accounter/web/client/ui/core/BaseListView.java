@@ -45,7 +45,6 @@ import com.vimukti.accounter.web.client.ui.forms.DateItem;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
-import com.vimukti.accounter.web.client.ui.grids.SalesOrderListGrid;
 import com.vimukti.accounter.web.client.ui.vat.ChalanDetailsListView;
 import com.vimukti.accounter.web.client.ui.vendors.VendorListView;
 import com.vimukti.accounter.web.client.util.CountryPreferenceFactory;
@@ -107,6 +106,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 	protected ClientPayee selectedPayee;
 	private PaginationList<ClientBudget> budgetList;
 	private ClientBudget budgetData;
+	private String dateRange;
 
 	@Override
 	public void init() {
@@ -223,6 +223,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 				}
 			});
+
 		}
 
 		fromItem = new DateItem();
@@ -374,8 +375,7 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		gridLayout.setHeight("100%");
 		grid.setView(this);
 		gridLayout.add(grid);
-		if (grid instanceof PurchaseOrderListGrid
-				|| grid instanceof SalesOrderListGrid) {
+		if (grid instanceof PurchaseOrderListGrid) {
 			gridLayout.setCellWidth(grid, "70%");
 			gridLayout.setCellHeight(grid, "100%");
 		}
@@ -428,6 +428,14 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 		add(mainVLay);
 		setSize("100%", "100%");
 
+	}
+
+	protected void setDateRange(String selectedValue) {
+		this.dateRange = selectedValue;
+	}
+
+	protected String getDateRange() {
+		return dateRange;
 	}
 
 	protected int getPageSize() {
@@ -711,5 +719,9 @@ public abstract class BaseListView<T> extends AbstractBaseView<T> implements
 
 			}
 		};
+	}
+
+	protected void restoreView(String currentView, String dateRange) {
+
 	}
 }

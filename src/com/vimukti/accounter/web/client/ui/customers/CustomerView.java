@@ -704,7 +704,7 @@ public class CustomerView extends BaseView<ClientCustomer> {
 		customerSinceDate.setEnteredDate(new ClientFinanceDate());
 
 		openingBalText = new AmountField(messages.openingBalance(), this,
-				getBaseCurrency());
+				getBaseCurrency(), true);
 		openingBalText.setHelpInformation(true);
 		openingBalText.setDisabled(isInViewMode());
 
@@ -1437,7 +1437,10 @@ public class CustomerView extends BaseView<ClientCustomer> {
 
 			@Override
 			public void onException(AccounterException caught) {
-				Accounter.showError(caught.getMessage());
+				int errorCode = caught.getErrorCode();
+
+				Accounter.showError(AccounterExceptions
+						.getErrorString(errorCode));
 			}
 
 			@Override

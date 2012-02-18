@@ -185,7 +185,7 @@
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.SalesOrder set customer.id=:toID
+		update com.vimukti.accounter.core.Estimate set customer.id=:toID
 		where customer.id=:fromID and company=:company
 	</query>
 
@@ -241,9 +241,14 @@
 	</query>
 	<query name="delete.customFiledValuesByCustomField">
 		<query-param name="Id" type="long" />
-		delete from com.vimukti.accounter.core.CustomFieldValue cv where
-		cv.customField.id=:Id
+		delete from com.vimukti.accounter.core.CustomFieldValue cv
+		where cv.customField.id=:Id
 	</query>
+	<query name="get.customFiledValuesByCustomField">
+		<query-param name="Id" type="long" />
+		 from com.vimukti.accounter.core.CustomFieldValue cv
+		where cv.customField.id=:Id
+	</query>	
 	<query name="update.merge.writeCheck.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1733,14 +1738,14 @@
 		item.id=:fromID
 	</query>
 
-	<query name="update.merge.itemsalesorder.old.tonew">
+	<!-- <query name="update.merge.itemsalesorder.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID
 		where
 		salesTaxItem.id=:fromID and company=:company
-	</query>
+	</query> -->
 
 	<query name="update.merge.trasactionexpense.old.tonew">
 		<query-param name="fromID" type="long" />
@@ -2154,8 +2159,8 @@
 		<query-param name="itemId" type="long" />
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
 		from  com.vimukti.accounter.core.TransactionItem sale 
-		where sale.item.id=:itemId 
-		and (sale.transaction.type in (1,4,7,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
+		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		and (sale.transaction.type in (1,4,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>
 	

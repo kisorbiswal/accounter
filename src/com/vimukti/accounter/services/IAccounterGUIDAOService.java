@@ -39,7 +39,6 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersAndItemReceipts
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
-import com.vimukti.accounter.web.client.core.Lists.SalesOrdersList;
 import com.vimukti.accounter.web.client.core.Lists.SellingOrDisposingFixedAssetList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 
@@ -229,8 +228,8 @@ public interface IAccounterGUIDAOService {
 	public ArrayList<PurchaseOrdersAndItemReceiptsList> getPurchasesAndItemReceiptsList(
 			String vendorId) throws DAOException;
 
-	ArrayList<SalesOrdersList> getSalesOrdersList(String customerId)
-			throws DAOException;
+	// ArrayList<SalesOrdersList> getSalesOrdersList(String customerId)
+	// throws DAOException;
 
 	ArrayList<PurchaseOrdersList> getPurchaseOrdersList(String vendorId)
 			throws DAOException;

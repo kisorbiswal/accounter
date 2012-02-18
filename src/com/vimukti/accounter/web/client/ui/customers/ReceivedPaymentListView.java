@@ -169,6 +169,6 @@ public class ReceivedPaymentListView extends
 		Accounter.createExportCSVService().getReceivePaymentsListExportCsv(
 				getStartDate().getDate(), getEndDate().getDate(),
 				transactionType, type,
-				getExportCSVCallback(messages.receivedPayments()));
+				getExportCSVCallback(getListViewHeading()));
 	}
 }

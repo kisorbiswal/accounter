@@ -783,13 +783,12 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 							messages.taxExceptionMesg());
 				}
 			}
-			if (!isTaxPerDetailLine()) {
+			if ((!(this instanceof VendorBillView)) && !isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
 							messages.pleaseSelect(messages.taxCode()));
 				}
-
 			}
 		}
 		return result;
@@ -808,6 +807,15 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (taxCodeSelect != null && taxCode != null) {
 			this.taxCodeSelect.setComboItem(taxCode);
 			taxCodeSelected(taxCode);
+		}
+	}
+
+	@Override
+	public boolean isTrackTax() {
+		if (transaction != null && transaction.haveTax()) {
+			return true;
+		} else {
+			return getPreferences().isTrackTax() && isTrackPaidTax();
 		}
 	}
 }

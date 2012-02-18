@@ -247,7 +247,9 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 		deductorTypeGovernment = new SelectCombo(messages.deducatorType());
 		deductorTypeGovernment.setHelpInformation(true);
 		deductorTypeGovernment.initCombo(getGovtList());
-		deductorTypeGovernment.setSelectedItem(0);
+		if ((getGovtList() != null) && (!getGovtList().isEmpty())) {
+			deductorTypeGovernment.setComboItem(getGovtList().get(0));
+		}
 		deductorTypeGovernment.setDisabled(isInViewMode());
 		deductorTypeGovernment.setRequired(true);
 		deductorTypeGovernment
@@ -354,6 +356,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void governmentSelected() {
 		deductorTypeOther.hide();
 		deductorTypeGovernment.show();
+		deductorTypeSelected = deductorTypeGovernment.getSelectedValue();
 		paoCode.setDisabled(false);
 		paoRegistration.setDisabled(false);
 		ddoCode.setDisabled(false);
@@ -375,6 +378,7 @@ public class TDSDeductorDetailsView extends BaseView<ClientTDSDeductorMasters> {
 	protected void otherSelected() {
 		deductorTypeOther.show();
 		deductorTypeGovernment.hide();
+		deductorTypeSelected = deductorTypeOther.getSelectedValue();
 		paoCode.setDisabled(true);
 		paoRegistration.setDisabled(true);
 		ddoCode.setDisabled(true);

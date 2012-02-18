@@ -44,7 +44,10 @@ import com.vimukti.accounter.web.client.ui.combo.SalesItemCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
 import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.combo.WarehouseCombo;
+import com.vimukti.accounter.web.client.ui.company.NewAccountAction;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.AmountField;
 import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.DateField;
@@ -189,16 +192,34 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 			@Override
 			protected List<ClientAccount> getAccounts() {
-				return getCompany().getAccounts();
+				return getCompany().getAccounts(
+						ClientAccount.TYPE_INVENTORY_ASSET);
+			}
+
+			@Override
+			public void onAddNew() {
+				NewAccountAction action = ActionFactory.getNewAccountAction();
+				List<Integer> list = new ArrayList<Integer>();
+				list.add(ClientAccount.TYPE_INVENTORY_ASSET);
+				action.setAccountTypes(list);
+				action.setCallback(new ActionCallback<ClientAccount>() {
+
+					@Override
+					public void actionResult(ClientAccount result) {
+						if (result.getIsActive())
+							addItemThenfireEvent(result);
+					}
+				});
+
+				action.run(null, true);
 			}
 		};
 
-		ArrayList<ClientAccount> accounts = getCompany().getAccounts();
+		ArrayList<ClientAccount> accounts = getCompany().getAccounts(
+				ClientAccount.TYPE_INVENTORY_ASSET);
 		for (ClientAccount clientAccount : accounts) {
-			if ((Integer.parseInt(clientAccount.getNumber()) == 1001)) {
-				assetsAccount.setSelectedItem(accounts.indexOf(clientAccount));
-				break;
-			}
+			assetsAccount.setComboItem(clientAccount);
+			break;
 		}
 		assetsAccount.setHelpInformation(true);
 		assetsAccount.setDisabled(isInViewMode());
@@ -310,6 +331,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		expAccCombo.setRequired(true);
 		expAccCombo.setDisabled(isInViewMode());
 		expAccCombo.setPopupWidth("500px");
+		ClientAccount costOfGoodsAccount = getCompany().getAccount(
+				getCompany().getCostOfGoodsSold());
+		if (costOfGoodsAccount != null) {
+			expAccCombo.setComboItem(costOfGoodsAccount);
+		}
 		prefVendorCombo = new VendorCombo(messages.preferredVendor(Global.get()
 				.Vendor()));
 		prefVendorCombo.setHelpInformation(true);
@@ -474,6 +500,14 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 					add(new ClientInventoryAssemblyItem());
 				}
 			}
+
+			@Override
+			protected long getAssembly() {
+				if (getData() == null) {
+					return 0;
+				}
+				return getData().getID();
+			}
 		};
 		mainVLay.add(table);
 		table.setDisabled(isInViewMode());
@@ -497,10 +531,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		this.add(mainVLay);
 
 		VerticalPanel stockPanel_1 = getStockPanel_1();
-		VerticalPanel stockPanel_2 = getStockPanel_2();
-
 		purchzVPanel.add(stockPanel_1);
-		purchzVPanel.add(stockPanel_2);
+		VerticalPanel stockPanel_2 = getStockPanel_2();
+		if (getPreferences().isUnitsEnabled()) {
+			purchzVPanel.add(stockPanel_2);
+		}
 
 		/* Adding dynamic forms in list */
 		listforms.add(itemForm);
@@ -620,16 +655,12 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		data.setVendorItemNumber(vendItemNumText.getValue().toString());
 
 		if (table.getAllRows() != null) {
-			List<ClientInventoryAssemblyItem> list = table.getAllRows();
-			Set<ClientInventoryAssemblyItem> set = new HashSet<ClientInventoryAssemblyItem>();
-			for (ClientInventoryAssemblyItem item : list) {
-				if (!item.isEmpty()) {
-					set.add(item);
-				}
-			}
-			data.setComponents(set);
+
+			data.setComponents(getComponents());
 		}
-		data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
+		if (assetsAccount.getSelectedValue() != null) {
+			data.setAssestsAccount(assetsAccount.getSelectedValue().getID());
+		}
 
 		if (reorderPoint.getValue().length() > 0)
 			data.setReorderPoint(Integer.parseInt(reorderPoint.getValue()));
@@ -666,6 +697,17 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 
 	}
 
+	private Set<ClientInventoryAssemblyItem> getComponents() {
+		List<ClientInventoryAssemblyItem> list = table.getAllRows();
+		Set<ClientInventoryAssemblyItem> set = new HashSet<ClientInventoryAssemblyItem>();
+		for (ClientInventoryAssemblyItem item : list) {
+			if (!item.isEmpty()) {
+				set.add(item);
+			}
+		}
+		return set;
+	}
+
 	@Override
 	public void saveFailed(AccounterException exception) {
 		super.saveFailed(exception);
@@ -678,7 +720,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		Accounter.showError(errorString);
 
 		updateItem();
-		if (exceptionMessage.contains(messages.failed())) {
+		if (exceptionMessage != null
+				&& exceptionMessage.contains(messages.failed())) {
 			data.setName(name);
 			System.out.println(name + messages.aftersaving());
 		}
@@ -787,11 +830,8 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			asOfDate.setValue(data.getAsOfDate());
 
 			if (data.getComponents() != null) {
-				List<ClientInventoryAssemblyItem> list = new ArrayList<ClientInventoryAssemblyItem>();
-				Set<ClientInventoryAssemblyItem> set = data.getComponents();
-				for (ClientInventoryAssemblyItem item : set) {
-					list.add(item);
-				}
+				List<ClientInventoryAssemblyItem> list = new ArrayList<ClientInventoryAssemblyItem>(
+						data.getComponents());
 				table.setRecords(list);
 			}
 
@@ -897,6 +937,14 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		if (AccounterValidator.isNegativeAmount(purchasePriceTxt.getAmount())) {
 			result.addError(purchasePriceTxt, messages.enterValidAmount());
 		}
+
+		Long number = onHandQuantity.getNumber();
+		if (number != null && number > 0) {
+			if (getComponents().isEmpty()) {
+				result.addError(table,
+						messages.youCannotBuildWithoutComponents());
+			}
+		}
 		table.validateGrid();
 		return result;
 	}
@@ -974,7 +1022,7 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		measurement.setDisabled(isInViewMode());
 		wareHouse.setDisabled(isInViewMode());
 		activeCheck.setDisabled(isInViewMode());
-
+		itemTableButton.setEnabled(!isInViewMode());
 	}
 
 	@Override

@@ -9,9 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Resources;
+import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
@@ -27,7 +34,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.VendorSelectionListener;
@@ -63,11 +69,6 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 	public VendorCenterView() {
 
-	}
-
-	@Override
-	public boolean canEdit() {
-		return selectedVendor == null ? false : true;
 	}
 
 	@Override
@@ -126,13 +127,34 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		vendHistoryGrid.init();
 		vendHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
 				.get().Vendor()));
+		int pageSize = getPageSize();
+		vendHistoryGrid.addRangeChangeHandler2(new Handler() {
+
+			@Override
+			public void onRangeChange(RangeChangeEvent event) {
+				onPageChange(event.getNewRange().getStart(), event
+						.getNewRange().getLength());
+			}
+
+		});
+		SimplePager pager = new SimplePager(TextLocation.CENTER,
+				(Resources) GWT.create(Resources.class), false, pageSize * 2,
+				true);
+		pager.setDisplay(vendHistoryGrid);
+		updateRecordsCount(0, 0, 0);
 		rightVpPanel.add(transactionGridpanel);
 		rightVpPanel.add(vendHistoryGrid);
+		rightVpPanel.add(pager);
 		vendHistoryGrid.setHeight("494px");
 		mainPanel.add(leftVpPanel);
 		mainPanel.add(rightVpPanel);
 		add(mainPanel);
 
+	}
+
+	public void updateRecordsCount(int start, int length, int total) {
+		vendHistoryGrid.updateRange(new Range(start, getPageSize()));
+		vendHistoryGrid.setRowCount(total, (start + length) == total);
 	}
 
 	private void initVendorListGrid() {
@@ -228,7 +250,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 						public void selectedComboBoxItem(String selectItem) {
 							if (trasactionViewSelect.getSelectedValue() != null) {
 								getMessagesList();
-								callRPC();
+								callRPC(0, getPageSize());
 							}
 
 						}
@@ -249,7 +271,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 						@Override
 						public void selectedComboBoxItem(String selectItem) {
 							if (trasactionViewTypeSelect.getSelectedValue() != null) {
-								callRPC();
+								callRPC(0, getPageSize());
 							}
 
 						}
@@ -355,7 +377,7 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		detailsPanel.showVendorDetails(selectedVendor);
 		vendHistoryGrid.setSelectedVendor(selectedVendor);
 		MainFinanceWindow.getViewManager().updateButtons();
-		callRPC();
+		callRPC(0, getPageSize());
 	}
 
 	@Override
@@ -389,18 +411,15 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 	}
 
 	@Override
-	protected void createButtons(ButtonBar buttonBar) {
-	}
-
-	@Override
-	protected void callRPC() {
+	protected void callRPC(int start, int length) {
 		vendHistoryGrid.removeAllRecords();
 		records = new ArrayList<TransactionHistory>();
 		if (selectedVendor != null) {
 			Accounter.createReportService().getVendorTransactionsList(
 					selectedVendor.getID(), getTransactionType(),
 					getTransactionStatusType(), getStartDate(), getEndDate(),
-					new AsyncCallback<ArrayList<TransactionHistory>>() {
+					start, length,
+					new AsyncCallback<PaginationList<TransactionHistory>>() {
 
 						@Override
 						public void onFailure(Throwable caught) {
@@ -410,12 +429,14 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 						@Override
 						public void onSuccess(
-								ArrayList<TransactionHistory> result) {
+								PaginationList<TransactionHistory> result) {
 							records = result;
 							vendHistoryGrid.removeAllRecords();
 							if (records != null) {
 								vendHistoryGrid.addRecords(records);
 							}
+							updateRecordsCount(result.getStart(),
+									result.size(), result.getTotalCount());
 							if (records.size() == 0) {
 								vendHistoryGrid.addEmptyMessage(messages
 										.thereAreNo(messages.transactions()));
@@ -500,19 +521,19 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 		return lastDay;
 	}
 
-	@Override
-	public void restoreView(ClientPayee vendor) {
-		this.selectedVendor = (ClientVendor) vendor;
-		if (this.selectedVendor != null) {
-			vendorlistGrid.setSelectedVendor(selectedVendor);
-			onVendorSelected();
-		}
-	}
-
-	@Override
-	public ClientVendor saveView() {
-		return selectedVendor;
-	}
+	// @Override
+	// public void restoreView(ClientPayee vendor) {
+	// this.selectedVendor = (ClientVendor) vendor;
+	// if (this.selectedVendor != null) {
+	// vendorlistGrid.setSelectedVendor(selectedVendor);
+	// onVendorSelected();
+	// }
+	// }
+	//
+	// @Override
+	// public ClientVendor saveView() {
+	// return selectedVendor;
+	// }
 
 	@Override
 	public boolean canPrint() {
@@ -546,4 +567,63 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 					}
 				});
 	}
+
+	@Override
+	public Map<String, Object> saveView() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("activeInActive", activeInActiveSelect.getSelectedValue());
+		map.put("currentView", trasactionViewSelect.getSelectedValue());
+		map.put("transactionType", trasactionViewTypeSelect.getSelectedValue());
+		map.put("dateRange", dateRangeSelector.getSelectedValue());
+		map.put("selectedCustomer", selectedVendor == null ? ""
+				: selectedVendor.getName());
+		PayeeList selection = vendorlistGrid.getSelection();
+		map.put("payeeSelection", selection);
+		return map;
+	}
+
+	@Override
+	public void restoreView(Map<String, Object> map) {
+		if (map == null || map.isEmpty()) {
+			return;
+		}
+		String activeInactive = (String) map.get("activeInActive");
+		activeInActiveSelect.setComboItem(activeInactive);
+		if (activeInactive.equalsIgnoreCase(messages.active())) {
+			refreshActiveinactiveList(true);
+		} else {
+			refreshActiveinactiveList(false);
+
+		}
+
+		String currentView = (String) map.get("currentView");
+		trasactionViewSelect.setComboItem(currentView);
+		if (currentView != null) {
+			getMessagesList();
+		}
+
+		String transctionType = (String) map.get("transactionType");
+		trasactionViewTypeSelect.setComboItem(transctionType);
+
+		String dateRange1 = (String) map.get("dateRange");
+		dateRangeSelector.setComboItem(dateRange1);
+		if (dateRange1 != null) {
+			dateRangeChanged(dateRange1);
+		}
+		PayeeList object = (PayeeList) map.get("payeeSelection");
+		vendorlistGrid.setSelection(object);
+
+		String customer = (String) map.get("selectedCustomer");
+
+		if (customer != null && !(customer.isEmpty())) {
+			selectedVendor = getCompany().getVendorByName(customer);
+		}
+		if (this.selectedVendor != null) {
+			vendorlistGrid.setSelectedVendor(selectedVendor);
+			onVendorSelected();
+		} else {
+			callRPC(0, getPageSize());
+		}
+	}
+
 }

@@ -34,17 +34,17 @@ import com.vimukti.accounter.web.client.ui.widgets.DateUtills;
 
 public abstract class TransactionPayBillTable extends
 		EditTable<ClientTransactionPayBill> {
-	private boolean canEdit;
+	private final boolean canEdit;
 	private ClientVendor vendor;
-	private List<Integer> selectedValues = new ArrayList<Integer>();
+	private final List<Integer> selectedValues = new ArrayList<Integer>();
 	private boolean gotCreditsAndPayments;
 	public List<ClientCreditsAndPayments> creditsAndPayments = new ArrayList<ClientCreditsAndPayments>();
 
 	public boolean isAlreadyOpened;
-	private ICurrencyProvider currencyProvider;
+	private final ICurrencyProvider currencyProvider;
 	private ClientTAXItem tdsCode;
 	private boolean isForceShowTDS;
-	private boolean enableDiscount;
+	private final boolean enableDiscount;
 	private long transactionId;
 
 	public TransactionPayBillTable(boolean enableDiscount, boolean canEdit,
@@ -58,13 +58,16 @@ public abstract class TransactionPayBillTable extends
 		this.transactionId = transactionId;
 	}
 
+	@Override
 	protected void initColumns() {
 		this.addColumn(new CheckboxEditColumn<ClientTransactionPayBill>() {
 
 			@Override
 			protected void onChangeValue(boolean value,
 					ClientTransactionPayBill row) {
-				row.setPayment(row.getAmountDue() - row.getAppliedCredits());
+				// if (!getPreferences().isCreditsApplyAutomaticEnable()) {
+				// row.setPayment(row.getAmountDue() - row.getAppliedCredits());
+				// }
 				onSelectionChanged(row, value);
 			}
 
@@ -456,8 +459,9 @@ public abstract class TransactionPayBillTable extends
 	 */
 	public void updateValue(ClientTransactionPayBill obj) {
 		// obj.setPayment(obj.getAmountDue());
-		updatesAmounts(obj);
 		updateTotalPayment(obj);
+		updatesAmounts(obj);
+		adjustAmountAndEndingBalance();
 		calculateUnusedCredits();
 		update(obj);
 	}
@@ -558,6 +562,7 @@ public abstract class TransactionPayBillTable extends
 					// TODO setAttribute("cashAccount",
 					// cashDiscountDialog.selectedDiscountAccount
 					// .getName(), currentRow);
+					selectedObject.updatePayment();
 					updateValue(selectedObject);
 
 					adjustPaymentValue(selectedObject);
@@ -672,6 +677,7 @@ public abstract class TransactionPayBillTable extends
 						transactionId,
 						new AccounterAsyncCallback<ArrayList<ClientCreditsAndPayments>>() {
 
+							@Override
 							public void onException(AccounterException caught) {
 								Accounter.showInformation(messages
 										.failedTogetCreditsListAndPayments(vendor
@@ -682,6 +688,7 @@ public abstract class TransactionPayBillTable extends
 
 							}
 
+							@Override
 							public void onResultSuccess(
 									ArrayList<ClientCreditsAndPayments> result) {
 								if (result == null)
@@ -740,9 +747,9 @@ public abstract class TransactionPayBillTable extends
 		for (ClientTransactionPayBill obj : this.getAllRows()) {
 
 			obj.setPayment(0.0);
-			// obj.setCashDiscount(0);
+			obj.setCashDiscount(0);
 			// NO NEED TO APPLY CREDITS HERE
-			// obj.setAppliedCredits(0, false);
+			obj.setAppliedCredits(0, false);
 			selectedValues.remove((Integer) indexOf(obj));
 			update(obj);
 		}
@@ -772,6 +779,7 @@ public abstract class TransactionPayBillTable extends
 		}
 		obj.getTransactionCreditsAndPayments().clear();
 		obj.setAppliedCredits(0.0d, false);
+		obj.setCashDiscount(0.00D);
 		obj.setTdsAmount(0.00D);
 		update(obj);
 		adjustAmountAndEndingBalance();
@@ -815,6 +823,7 @@ public abstract class TransactionPayBillTable extends
 		return getAllRows();
 	}
 
+	@Override
 	protected abstract boolean isInViewMode();
 
 	public double getTDSTotal() {
@@ -840,7 +849,6 @@ public abstract class TransactionPayBillTable extends
 		double tdsToPay;
 		tdsToPay = calculateTDS(bill.getPayment());
 		bill.setTdsAmount(tdsToPay);
-
 	}
 
 	public void showTDS(boolean value) {

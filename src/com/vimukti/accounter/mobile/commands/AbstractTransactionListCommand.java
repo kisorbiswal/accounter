@@ -16,6 +16,12 @@ public abstract class AbstractTransactionListCommand extends AbstractCommand {
 
 	private ClientFinanceDate startDate;
 	private ClientFinanceDate endDate;
+	public static final int VIEW_ALL = 0;
+	public static final int VIEW_OPEN = 1;
+	public static final int VIEW_OVERDUE = 2;
+	public static final int VIEW_VOIDED = 3;
+	public static final int VIEW_DRAFT = 4;
+	public static final int TYPE_ALL = 1000;
 
 	@Override
 	protected void setDefaultValues(Context context) {

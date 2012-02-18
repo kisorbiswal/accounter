@@ -25,10 +25,12 @@ public class MigrationMain {
 			migration.start();
 			transaction.commit();
 		} catch (Exception e) {
+			e.printStackTrace();
 			transaction.rollback();
 		} finally {
 			session.close();
 		}
+		System.out.println("Migration Completed...!");
 	}
 
 	protected static String getArgument(String[] args, String name) {

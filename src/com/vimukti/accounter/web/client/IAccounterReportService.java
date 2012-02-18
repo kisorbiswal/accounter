@@ -10,12 +10,15 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
+import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
@@ -32,6 +35,7 @@ import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
 import com.vimukti.accounter.web.client.core.reports.Reconciliation;
+import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeList;
 import com.vimukti.accounter.web.client.core.reports.ReverseChargeListDetail;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
@@ -178,35 +182,35 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	// public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
@@ -307,13 +311,15 @@ public interface IAccounterReportService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long bankAccountId, long comapnyId);
 
-	public ArrayList<TransactionHistory> getCustomerTransactionsList(long id,
+	PaginationList<TransactionHistory> getCustomerTransactionsList(long id,
 			int transactionType, int transactionStatusType,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length);
 
-	public ArrayList<TransactionHistory> getVendorTransactionsList(long id,
+	PaginationList<TransactionHistory> getVendorTransactionsList(long id,
 			int transactionType, int transactionStatusType,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length);
 
 	public ArrayList<BudgetActuals> getBudgetvsAcualReportData(long id,
 			ClientFinanceDate start, ClientFinanceDate end, int type);
@@ -344,5 +350,20 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<InventoryValutionSummary> getInventoryValutionSummary(
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException;
+
+	ArrayList<BankDepositDetail> getBankingDepositDetils(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;
 
 }

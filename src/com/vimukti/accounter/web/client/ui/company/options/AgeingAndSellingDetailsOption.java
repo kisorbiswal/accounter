@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.client.ui.company.options;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,6 +20,8 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 	RadioButton ageingfortransactiondateRadioButton;
 	@UiField
 	Label ageingdescriptionLabel;
+	@UiField
+	CheckBox salesOrderCheckBox;
 
 	interface AgeingAndSellingDetailsOptionUiBinder extends
 			UiBinder<Widget, AgeingAndSellingDetailsOption> {
@@ -30,6 +33,7 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		initData();
 	}
 
+	@Override
 	public void initData() {
 		if (getCompanyPreferences().getAgeingFromTransactionDateORDueDate() == 1) {
 			ageingforduedateRadioButton.setValue(true);
@@ -38,8 +42,11 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 			ageingforduedateRadioButton.setValue(false);
 			ageingfortransactiondateRadioButton.setValue(true);
 		}
+		salesOrderCheckBox.setValue(getCompanyPreferences()
+				.isSalesOrderEnabled());
 	}
 
+	@Override
 	public void createControls() {
 
 		ageingforduedateRadioButton.setText(messages.ageingforduedate());
@@ -48,6 +55,9 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 		ageingLabel.setText(messages.ageingDetails());
 		ageingdescriptionLabel.setText(messages.agingDetailsDescription());
 		ageingdescriptionLabel.setStyleName("organisation_comment");
+		salesOrderCheckBox.setText(messages.enablePreference(messages
+				.salesOrder()));
+		salesOrderCheckBox.setStyleName("bold");
 	}
 
 	public AgeingAndSellingDetailsOption(String firstName) {
@@ -65,6 +75,8 @@ public class AgeingAndSellingDetailsOption extends AbstractPreferenceOption {
 			getCompanyPreferences().setAgeingFromTransactionDateORDueDate(1);
 		else
 			getCompanyPreferences().setAgeingFromTransactionDateORDueDate(2);
+		getCompanyPreferences().setSalesOrderEnabled(
+				salesOrderCheckBox.getValue());
 
 	}
 

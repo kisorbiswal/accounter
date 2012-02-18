@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.ui.HistoryTokens;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -44,7 +45,7 @@ public class InventoryItemsAction extends Action<ClientItem> {
 
 	@Override
 	public String getHistoryToken() {
-		return "inventoryItem";
+		return HistoryTokens.INVENTORYITEMS;
 	}
 
 	@Override

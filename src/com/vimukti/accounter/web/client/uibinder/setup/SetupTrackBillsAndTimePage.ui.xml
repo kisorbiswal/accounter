@@ -6,13 +6,17 @@
 		.important {
 			font-weight: bold;
 		}
+		
+		.managing-html {
+			margin-left: 30px;
+		}
 	</ui:style>
 	<g:VerticalPanel ui:field="mainViewPanel">
 		<g:Label ui:field="headerLabel" styleName="setup_header_label" />
 		<g:VerticalPanel ui:field="viewPanel">
 			<g:VerticalPanel ui:field="managing" styleName="bills_panel">
 				<g:HTML wordWrap="true" ui:field="managingInfo" />
-				<g:HTML wordWrap="true" ui:field="managingList" />
+				<g:HTML styleName="managing-html" wordWrap="true" ui:field="managingList" />
 				<g:HTML wordWrap="true" ui:field="trackTimeText" styleName="track_question" />
 				<g:RadioButton name="bills" ui:field="managingYes"
 					styleName="employee_yesno" />
