@@ -1,2 +1,0 @@
-serviceClass: com.vimukti.accounter.web.client.translate.TranslateService
-path: F5215F7F0E92EA96AA137CF1D3116086.gwt.rpc

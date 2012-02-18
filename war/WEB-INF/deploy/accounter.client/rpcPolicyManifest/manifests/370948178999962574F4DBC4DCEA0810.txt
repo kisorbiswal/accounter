@@ -1,2 +1,0 @@
-serviceClass: com.vimukti.accounter.web.client.IAccounterHomeViewService
-path: E598CFFA538A45A564A75F5C4432F66F.gwt.rpc

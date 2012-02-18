@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.grids;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -99,9 +98,9 @@ public class RecurringsListGrid extends
 		if (!(Accounter.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)) {
 			return;
 		}
-		ClientTransaction transaction = obj.getTransaction();
-		transaction.setClientRecurringTransaction(obj);
-		ReportsRPC.openTransactionView(transaction);
+
+		ReportsRPC.openTransactionView(obj.getTransaction().getType(), obj
+				.getTransaction().getID());
 
 		// TODO need to open dialog also.
 		// RecurringTransactionDialog dialog = null;

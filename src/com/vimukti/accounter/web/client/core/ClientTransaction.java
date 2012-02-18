@@ -163,8 +163,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	private Set<ClientAttachment> attachments = new HashSet<ClientAttachment>();
 
-	private ClientRecurringTransaction clientRecurringTransaction;
-
 	// boolean showPricesWithVATOrVATInclusive;
 	// boolean EUVATExemptPayee;
 	// boolean isVATreturned;
@@ -956,13 +954,5 @@ public abstract class ClientTransaction implements IAccounterCore {
 
 	public void setValidated(boolean isValidated) {
 		this.isValidated = isValidated;
-	}
-
-	public void setClientRecurringTransaction(ClientRecurringTransaction obj) {
-		this.clientRecurringTransaction = obj;
-	}
-
-	public ClientRecurringTransaction getClientRecurringTransaction() {
-		return clientRecurringTransaction;
 	}
 }

@@ -1,6 +1,5 @@
 package com.vimukti.accounter.mobile.utils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -110,13 +109,6 @@ public class CommandUtils {
 			}
 		}
 		return null;
-	}
-
-	public static String getDateByCompanyType(ClientFinanceDate value,
-			ClientCompanyPreferences preferences) {
-		SimpleDateFormat format = new SimpleDateFormat(
-				preferences.getDateFormat());
-		return format.format(value.getDateAsObject());
 	}
 
 	/**

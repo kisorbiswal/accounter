@@ -32,7 +32,6 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -594,8 +593,8 @@ public class CustomerPrePaymentView extends
 					if (value == null)
 						return;
 
-					Double amount = DataUtils.getAmountStringAsDouble(JNSI
-							.getCalcultedAmount(value.toString()));
+					Double amount = DataUtils.getAmountStringAsDouble(value
+							.toString());
 					if (DecimalUtil.isLessThan(amount, 0)) {
 						Accounter.showError(messages.noNegativeAmounts());
 						amountText.setAmount(0.00D);

@@ -105,7 +105,7 @@ public class SupplierTransactionHistoryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(TransactionHistory selection) {
-		return "updateTransaction " + selection.getTransactionId();
+		return "update transaction " + selection.getTransactionId();
 	}
 
 	@Override

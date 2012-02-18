@@ -815,8 +815,7 @@ class NumberFormat2 {
 		newVal = newVal.replaceAll(" ", "");
 
 		// ensure that the first decimal separator is a . and remove the rest.
-		int index = inputDecimalValue == null || inputDecimalValue.isEmpty() ? -1
-				: newVal.indexOf(inputDecimalValue);
+		int index = newVal.indexOf(inputDecimalValue);
 		if (index != -1) {
 			newVal = newVal.replaceAll(re, "");
 			newVal = newVal.substring(0, newVal.indexOf(inputDecimalValue))

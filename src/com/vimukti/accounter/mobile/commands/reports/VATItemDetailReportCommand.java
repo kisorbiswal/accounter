@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands.reports;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vimukti.accounter.core.TAXAgency;
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -15,64 +16,38 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.ReportResultRequirement;
-import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
-import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.services.DAOException;
+import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class VATItemDetailReportCommand extends
-		NewAbstractReportCommand<TAXItemDetail> {
+		NewAbstractReportCommand<VATItemDetail> {
+	TAXItem taxItem;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages()
-				.pleaseSelect(getMessages().taxAgency()), getMessages()
-				.taxAgency(), false, true, null) {
-
-			@Override
-			protected String getSetMessage() {
-				return getMessages().hasSelected(getMessages().taxAgency());
-			}
-
-			@Override
-			protected List<TAXAgency> getLists(Context context) {
-				return new ArrayList<TAXAgency>(context.getCompany()
-						.getTaxAgencies());
-			}
-
-			@Override
-			protected String getEmptyString() {
-				return null;
-			}
-
-			@Override
-			protected boolean filter(TAXAgency e, String name) {
-				return e.getName().startsWith(name);
-			}
-		});
 		addDateRangeFromToDateRequirements(list);
-		list.add(new ReportResultRequirement<TAXItemDetail>() {
+		list.add(new ReportResultRequirement<VATItemDetail>() {
 
 			@Override
-			protected String onSelection(TAXItemDetail selection, String name) {
+			protected String onSelection(VATItemDetail selection, String name) {
 				return addCommandOnRecordClick(selection);
 			}
 
 			@Override
 			protected void fillResult(Context context, Result makeResult) {
-				List<TAXItemDetail> records = getRecords();
+				List<VATItemDetail> records = getRecords();
 				if (records.isEmpty()) {
 					makeResult.add("No Records to show");
 					return;
 				}
 
-				Map<String, List<TAXItemDetail>> recordGroups = new HashMap<String, List<TAXItemDetail>>();
-				for (TAXItemDetail transactionDetailByAccount : records) {
-					String taxItemName = transactionDetailByAccount
-							.getTaxItemName();
-					List<TAXItemDetail> group = recordGroups.get(taxItemName);
+				Map<String, List<VATItemDetail>> recordGroups = new HashMap<String, List<VATItemDetail>>();
+				for (VATItemDetail transactionDetailByAccount : records) {
+					String taxItemName = transactionDetailByAccount.getName();
+					List<VATItemDetail> group = recordGroups.get(taxItemName);
 					if (group == null) {
-						group = new ArrayList<TAXItemDetail>();
+						group = new ArrayList<VATItemDetail>();
 						recordGroups.put(taxItemName, group);
 					}
 					group.add(transactionDetailByAccount);
@@ -82,49 +57,59 @@ public class VATItemDetailReportCommand extends
 				List<String> taxItems = new ArrayList<String>(keySet);
 				Collections.sort(taxItems);
 				for (String accountName : taxItems) {
-					List<TAXItemDetail> group = recordGroups.get(accountName);
+					List<VATItemDetail> group = recordGroups.get(accountName);
 					double totalAmount = 0.0;
 					addSelection(accountName);
 					ResultList resultList = new ResultList(accountName);
 					resultList.setTitle(accountName);
-					for (TAXItemDetail rec : group) {
-						totalAmount += rec.getTaxAmount();
+					for (VATItemDetail rec : group) {
+						totalAmount += rec.getAmount();
 						resultList.add(createReportRecord(rec));
 					}
 					makeResult.add(resultList);
-					makeResult.add(getMessages().total()
+					makeResult.add("Total: "
 							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
 	}
 
-	protected Record createReportRecord(TAXItemDetail record) {
+	protected Record createReportRecord(VATItemDetail record) {
 		Record ecRecord = new Record(record);
-		ecRecord.add(getMessages().type(),
+		ecRecord.add("Type",
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add(getMessages().date(), CommandUtils.getDateByCompanyType(
-				record.getTransactionDate(), getPreferences()));
-		ecRecord.add(getMessages().number(), record.getTransactionNumber());
-		ecRecord.add(getMessages().taxRate(), record.isPercentage() ? "    "
-				+ record.getTAXRate() + "%" : record.getTAXRate());
-		ecRecord.add(getMessages().grossAmount(),
-				getAmountWithCurrency(record.getTotal()));
-		ecRecord.add(getMessages().taxableAmount(),
-				getAmountWithCurrency(record.getTaxAmount()));
-		ecRecord.add(getMessages().netAmount(),
-				getAmountWithCurrency(record.getNetAmount()));
+		ecRecord.add("Date", record.getDate());
+		ecRecord.add("No", record.getTransactionNumber());
+		ecRecord.add("Name", record.getName());
+		ecRecord.add("Memo", record.getMemo());
+		ecRecord.add("Amount", getAmountWithCurrency(record.getAmount()));
+		ecRecord.add("Sales Price",
+				getAmountWithCurrency(record.getSalesPrice()));
 		return ecRecord;
 	}
 
-	protected ArrayList<TAXItemDetail> getRecords() {
-		TAXAgency agency = get(TAX_AGENCY).getValue();
-		return new FinanceTool().getReportManager().getTAXItemDetailReport(
-				getCompanyId(), agency.getID(), getStartDate().getDate(),
-				getEndDate().getDate());
+	protected List<VATItemDetail> getRecords() {
+
+		try {
+			if (taxItem == null) {
+				return new FinanceTool().getReportManager()
+						.getVATItemDetailReport(getStartDate(), getEndDate(),
+								getCompanyId());
+			} else {
+				return new FinanceTool().getReportManager()
+						.getVATItemDetailReport(taxItem.getName(),
+								getStartDate(), getEndDate(), getCompanyId());
+			}
+		} catch (DAOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return new ArrayList<VATItemDetail>();
 	}
 
-	protected String addCommandOnRecordClick(TAXItemDetail selection) {
+	protected String addCommandOnRecordClick(VATItemDetail selection) {
 		return "updateTransaction " + selection.getTransactionId();
 	}
 
@@ -140,11 +125,10 @@ public class VATItemDetailReportCommand extends
 			}
 		}
 		if (itemName != null) {
-			Set<TAXAgency> taxItems = context.getCompany().getTaxAgencies();
-			for (TAXAgency taxItem : taxItems) {
+			Set<TAXItem> taxItems = context.getCompany().getTaxItems();
+			for (TAXItem taxItem : taxItems) {
 				if (taxItem.getName().equalsIgnoreCase(itemName)) {
-					get(TAX_AGENCY).setValue(taxItem);
-					break;
+					this.taxItem = taxItem;
 				}
 			}
 		}

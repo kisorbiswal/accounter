@@ -749,6 +749,10 @@
 		<alias>editCredit</alias>
 		<alias>modifyCredit</alias>
 		<alias>updateCredit</alias>
+		<alias>newSalesOrder</alias>
+		<alias>modifySalesOrder</alias>
+		<alias>updateSalesOrder</alias>
+		<alias>editSalesOrder</alias>
 	</command>
 
 	<command
@@ -957,6 +961,8 @@
 		<alias>Charges</alias>
 		<alias>chargesList</alias>
 		<alias>quoteList</alias>
+		<alias>salesOrderList</alias>
+		<alias>salesOrders</alias>
 	</command>
 
 	<command

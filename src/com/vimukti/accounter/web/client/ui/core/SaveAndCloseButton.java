@@ -5,7 +5,6 @@ package com.vimukti.accounter.web.client.ui.core;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -57,19 +56,6 @@ public class SaveAndCloseButton extends ImageButton {
 					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
 					final ClientTransaction transaction = transactionView
 							.getTransactionObject();
-					ClientRecurringTransaction recurTransaction = transaction
-							.getClientRecurringTransaction();
-					if (recurTransaction != null
-							&& recurTransaction.getType() != ClientRecurringTransaction.RECURRING_SCHEDULED) {
-						boolean isValid = transactionView
-								.validateAndUpdateTransaction(false);
-						if (isValid) {
-							view.saveAndUpdateView();
-							view.setSaveCliecked(true);
-							view.setCloseOnSave(true);
-						}
-						return;
-					}
 					if (transaction.isDraft()) {
 						Accounter.deleteObject(new IDeleteCallback() {
 

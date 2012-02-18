@@ -1,2 +1,0 @@
-serviceClass: com.vimukti.accounter.web.client.IAccounterExportCSVService
-path: 493099FC0586F8253924C47E36BDC91E.gwt.rpc
