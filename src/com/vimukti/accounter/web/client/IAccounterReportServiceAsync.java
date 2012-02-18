@@ -455,7 +455,7 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate start,
 			ClientFinanceDate end,
 			long itemId,
-			long jobId,
+			boolean isActualcostDetail,
 			AsyncCallback<ArrayList<ItemActualCostDetail>> itemActualCostDetailReport);
 
 }

@@ -384,6 +384,6 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<ItemActualCostDetail> getItemActualCostDetail(
 			ClientFinanceDate start, ClientFinanceDate end, long itemId,
-			long jobId);
+			boolean isActualcostDetail);
 
 }
