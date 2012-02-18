@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class ItemActualCostDetailServerReport extends
 		AbstractFinaneReport<ItemActualCostDetail> {
 	private String sectionName = "";
-	private String customerName = "";
+	private String itemName = "";
 	private boolean isActualCostDetail;
 
 	public ItemActualCostDetailServerReport(
@@ -35,9 +35,9 @@ public class ItemActualCostDetailServerReport extends
 	@Override
 	public String getTitle() {
 		if (isActualCostDetail)
-			return messages.itemActualCostDetail();
-		else
 			return messages.itemActualRevenueDetail();
+		else
+			return messages.itemActualCostDetail();
 	}
 
 	@Override
@@ -61,28 +61,29 @@ public class ItemActualCostDetailServerReport extends
 			addSection(new String[] { "" }, new String[] { "", "", "", "",
 					getMessages().total() }, new int[] { 7 });
 		} else if (sectionDepth == 1) {
-			this.sectionName = record.getItemName();
+			String itemType = Utility.getItemType(record.getItemType());
+			this.sectionName = itemType;
 			addSection(new String[] { sectionName }, new String[] { "", "",
 					getMessages().reportTotal(sectionName) }, new int[] { 7 });
 
 		} else if (sectionDepth == 2) {
-			this.customerName = record.getCustomerName();
-			addSection(new String[] { "", customerName }, new String[] { "",
-					"", "", "", "", getMessages().reportTotal(customerName) },
+			this.itemName = record.getItemName();
+			addSection(new String[] { "", itemName }, new String[] { "", "",
+					"", "", "", getMessages().reportTotal(itemName) },
 					new int[] { 7 });
 		} else if (sectionDepth == 3) {
-			if (!customerName.equals(record.getCustomerName())) {
+			if (!itemName.equals(record.getCustomerName())) {
 				endSection();
 			}
 			if (!sectionName.equals(record.getItemName())) {
-				if (!customerName.equals(record.getCustomerName())) {
+				if (!itemName.equals(record.getCustomerName())) {
 					endSection();
 				} else {
 					endSection();
 					endSection();
 				}
 			}
-			if (customerName.equals(record.getCustomerName())
+			if (itemName.equals(record.getCustomerName())
 					&& sectionName.equals(record.getItemName())) {
 				return;
 			}
