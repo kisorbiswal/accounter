@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -457,5 +458,11 @@ public interface IAccounterReportServiceAsync {
 			long itemId,
 			boolean isActualcostDetail,
 			AsyncCallback<ArrayList<ItemActualCostDetail>> itemActualCostDetailReport);
+
+	public void getJobProfitabilityDetailByJobReport(long payeeId, long jobId,
+			ClientFinanceDate start, ClientFinanceDate end,
+			AsyncCallback<ArrayList<JobProfitabilityDetailByJob>> itemActualCostDetailReport);
+	
+	
 
 }

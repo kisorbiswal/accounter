@@ -573,7 +573,9 @@ public class MenuBar {
 				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
 		customersAndReceivableMenuBar.addMenuItem("Unbilled Costs By Job",
 				HistoryTokens.UNBILLED_COSTS_BY_JOB);
-
+		
+		customersAndReceivableMenuBar.addMenuItem(messages.jobProfitabilityDetail(),
+				HistoryTokens.JOB_PROFITABILITY_DETAIL);
 		return customersAndReceivableMenuBar;
 	}
 

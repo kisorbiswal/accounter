@@ -1614,7 +1614,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	 */
 	public JobCombo createJobListCombo() {
 
-		jobListCombo = new JobCombo(messages.job());
+		jobListCombo = new JobCombo(messages.job(), true);
 		jobListCombo.setHelpInformation(true);
 		jobListCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientJob>() {

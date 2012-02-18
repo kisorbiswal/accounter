@@ -56,6 +56,7 @@ import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.core.reports.RealisedExchangeLossOrGain;
 import com.vimukti.accounter.web.client.core.reports.ReconcilationItemList;
@@ -3716,49 +3717,23 @@ public class ReportManager extends Manager {
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
 			JobActualCostDetail costDetail = new JobActualCostDetail();
-			costDetail.setCustomerName((String) objects[0]);
-			costDetail.setJobid(((Long) objects[1]).longValue());
-			costDetail.setType(((Integer) objects[2]).intValue());
+			
+			costDetail.setType(((Integer) objects[0]).intValue());
 			costDetail.setTransactionDate(new ClientFinanceDate(
-					((Long) objects[3]).longValue()));
-			costDetail.setNumber((String) objects[4]);
-			costDetail.setMemo((String) objects[5]);
-			costDetail.setAccount(((Long) objects[6]).longValue());
-			costDetail.setTransaction(((Long) objects[7]).longValue());
-			costDetail.setTotal(((Double) objects[8]).doubleValue());
+					((Long) objects[1]).longValue()));
+			costDetail.setNumber((String) objects[2]);
+			costDetail.setMemo((String) objects[3]);
+			costDetail.setAccount(((Long) objects[4]).longValue());
+			costDetail.setTransaction(((Long) objects[5]).longValue());
+			costDetail.setTotal(((Double) objects[6]).doubleValue());
+			
 			jobActualCostDetails.add(costDetail);
-			JobActualCostDetail jobActualCostDetail = new JobActualCostDetail();
-			jobActualCostDetail.setCustomerName((String) objects[0]);
-
-			jobActualCostDetails.add(jobActualCostDetail);
+		
 		}
 		return jobActualCostDetails;
-	}
-
-	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long companyId, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		Session session = HibernateUtil.getCurrentSession();
-		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
-		List result = session.getNamedQuery("getJobProfitabilitySummary")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate()).list();
-		Iterator iterator = result.iterator();
-		while (iterator.hasNext()) {
-			Object[] objects = (Object[]) iterator.next();
-			JobProfitability job = new JobProfitability();
-			job.setTransactionId((Long) objects[0]);
-			job.setCustomerId((Integer) objects[1]);
-			job.setJobId((Integer) objects[2]);
-			job.setTransactionType((Integer) objects[3]);
-			job.setName((String) objects[4]);
-			job.setCostAmount((Double) objects[5]);
-			job.setRevenueAmount((Double) objects[6]);
-			list.add(job);
 		}
-		return list;
-	}
+
+	
 
 	/**
 	 * 
@@ -3847,5 +3822,54 @@ public class ReportManager extends Manager {
 			querylist.add(actualCostDetail);
 		}
 		return querylist;
+	}
+	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
+			Long id, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
+		List result = session.getNamedQuery("getJobProfitabilitySummary")
+				.setParameter("id", id)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			JobProfitability job = new JobProfitability();
+			job.setJobId((Long) objects[0]);
+			job.setCustomerId((Long) objects[1]);
+			job.setName((String) objects[2]);
+			job.setCostAmount((Double) (objects[3]== null? 0.0:objects[3]));
+			job.setRevenueAmount((Double) (objects[4]== null? 0.0:objects[4]));
+			list.add(job);
+		}
+		return list;
+	}
+
+	public ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
+			long payeeId, long jobId, Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		Session session = HibernateUtil.getCurrentSession();
+		ArrayList<JobProfitabilityDetailByJob> list = new ArrayList<JobProfitabilityDetailByJob>();
+		List result = session.getNamedQuery("JobProfitabilityDetailByJob")
+				.setParameter("payeeId", payeeId)
+				.setParameter("jobId", jobId)
+				.setParameter("companyId", companyId)
+				.setParameter("startDate", startDate.getDate())
+				.setParameter("endDate", endDate.getDate())
+				.list();
+		Iterator iterator = result.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			JobProfitabilityDetailByJob job = new JobProfitabilityDetailByJob();
+			job.setItemId((Long)objects[0]);
+			job.setItemType((Long) objects[1]);
+			job.setItemName((String) objects[2]);
+			job.setCostAmount((Double) (objects[3]== null? 0.0:objects[3]));
+			job.setRevenueAmount((Double) (objects[4]== null? 0.0:objects[4]));
+			list.add(job);
+		}
+		return list;
 	}
 }

@@ -20,6 +20,7 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 	private String quantity;
 	private double amount;
 	private int itemType;
+	
 
 	public String getItemName() {
 		return itemName;

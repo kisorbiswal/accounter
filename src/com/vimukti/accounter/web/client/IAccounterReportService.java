@@ -33,6 +33,7 @@ import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -385,5 +386,9 @@ public interface IAccounterReportService extends RemoteService {
 	ArrayList<ItemActualCostDetail> getItemActualCostDetail(
 			ClientFinanceDate start, ClientFinanceDate end, long itemId,
 			boolean isActualcostDetail);
+
+	ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
+			long payeeId, long jobId, ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;
 
 }

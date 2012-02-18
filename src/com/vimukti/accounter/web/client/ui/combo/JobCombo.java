@@ -13,8 +13,8 @@ public class JobCombo extends CustomCombo<ClientJob> {
 	private ValueCallBack<ClientJob> newJobtHandler;
 	private ClientCustomer customer;
 
-	public JobCombo(String title) {
-		super(title, true, 1);
+	public JobCombo(String title, boolean isNewRequired) {
+		super(title, isNewRequired, 1);
 	}
 
 	private void getJobsByCustomer() {

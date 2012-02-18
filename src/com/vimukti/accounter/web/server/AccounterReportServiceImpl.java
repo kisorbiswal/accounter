@@ -52,6 +52,7 @@ import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -3262,7 +3263,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return jobActualCostDetails;
 	}
 
 	@Override
@@ -3349,5 +3350,22 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			e.printStackTrace();
 		}
 		return jobActualCostDetails;
+	}
+
+
+
+	@Override
+	public ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
+			long payeeId, long jobId, ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException {
+		JobProfitabilityDetailByJob obj = new JobProfitabilityDetailByJob();
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool().getReportManager()
+				.getJobProfitabilityDetailByJobReport(payeeId, jobId,getCompanyId(), start, end);
+		if (list != null)
+			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
 	}
 }

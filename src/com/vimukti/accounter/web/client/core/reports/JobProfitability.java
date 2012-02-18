@@ -14,11 +14,12 @@ public class JobProfitability extends BaseReport implements Serializable,
 
 	private long transactionId;
 	private int transactionType;
-	private int customerId;
-	private int jobId;
+	private long customerId;
+	private long jobId;
 	private String name;
 	private double costAmount;
 	private double revenueAmount;
+	private boolean isCost;
 
 	public double getRevenueAmount() {
 		return revenueAmount;
@@ -60,20 +61,28 @@ public class JobProfitability extends BaseReport implements Serializable,
 		this.name = name;
 	}
 
-	public int getCustomerId() {
+	public long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int cusotmerId) {
+	public void setCustomerId(long cusotmerId) {
 		this.customerId = cusotmerId;
 	}
 
-	public int getJobId() {
+	public long getJobId() {
 		return jobId;
 	}
 
-	public void setJobId(int jobId) {
+	public void setJobId(long jobId) {
 		this.jobId = jobId;
+	}
+
+	public boolean isCost() {
+		return isCost;
+	}
+
+	public void setCost(boolean isCost) {
+		this.isCost = isCost;
 	}
 
 }

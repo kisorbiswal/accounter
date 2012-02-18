@@ -147,6 +147,9 @@ import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByItemAct
 import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByVendorAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValuationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValutionSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.ItemActualCostDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.JobActualDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.JobProfitabilityDetailReportAction;
 import com.vimukti.accounter.web.client.ui.reports.JobProfitabilitySummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
@@ -1480,5 +1483,15 @@ public class ActionFactory {
 
 	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
 		return new JobProfitabilitySummaryReportAction();
+	}
+	
+	public static JobActualDetailAction getJobActualCostDetailReportAction() {
+		return new JobActualDetailAction();
+	}
+	public static JobProfitabilityDetailReportAction getJobProfitabilityDetailReportAction() {
+		return new JobProfitabilityDetailReportAction();
+	}
+	public static ItemActualCostDetailReportAction getItemActualCostDetailReportAction() {
+		return new ItemActualCostDetailReportAction();
 	}
 }

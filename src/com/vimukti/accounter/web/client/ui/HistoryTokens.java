@@ -367,9 +367,10 @@ public class HistoryTokens {
 	public static final String BANK_DEPOSIT_DETAIL_REPORT = "DepositDetailReport";
 	public static final String BANK_CHECK_DETAIL_REPORT = "CheckDetail";
 	public static final String RECURRING_TRANSACTION = "recurringTransaction";
-	public static final String JOB_PROFITABILITY_SUMMARY_REPORT = "jobProfitabilitySummary";
 	public static final String PROFITANDLOSSBYJOBS = "Profit&LossbyJob";
 	public static String UNBILLED_COSTS_BY_JOB = "UnbilledCostsByJob";
+	public static final String JOB_PROFITABILITY_SUMMARY_REPORT = "jobProfitabilitySummary";
+	public static final String JOB_PROFITABILITY_DETAIL="jobProfitabilityDetail";
 
 	public HistoryTokens() {
 

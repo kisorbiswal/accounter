@@ -54,6 +54,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOP_MARGIN = 305;
 	public static final int TOOLBAR_TYPE_VENDOR = 14;
 	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
+	public static final int TOOLBAR_TYPE_JOB=15;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_SUMMARY = 175;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
@@ -477,6 +478,9 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 				break;
 			case TOOLBAR_TYPE_TAXAGENCY:
 				toolbar = new TaxAgencyStartDateEndDateToolbar(isVATPriorReport);
+				break;
+			case TOOLBAR_TYPE_JOB:
+				toolbar = new CreateJobIdToolBar(false, this);
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();

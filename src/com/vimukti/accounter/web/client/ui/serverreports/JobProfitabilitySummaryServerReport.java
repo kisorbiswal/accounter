@@ -2,12 +2,13 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class JobProfitabilitySummaryServerReport extends
 		AbstractFinaneReport<JobProfitability> {
 
-	private int customerId;
+	private long customerId;
 	private String customerName;
 
 	public JobProfitabilitySummaryServerReport(
@@ -45,8 +46,8 @@ public class JobProfitabilitySummaryServerReport extends
 	public void processRecord(JobProfitability record) {
 		if (sectionDepth == 0) {
 			this.customerId = record.getCustomerId();
-			this.customerName = record.getName();
-			addSection(new String[] {}, new String[] { getMessages().total() },
+			this.customerName=	Accounter.getCompany().getCustomer(customerId).getName();
+			addSection(new String[] {this.customerName}, new String[] { getMessages().total() },
 					new int[] { 1, 2, 3 });
 		} else if (sectionDepth == 1) {
 			// No need to do anything, just allow adding this record

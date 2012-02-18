@@ -49,9 +49,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 		String[] filter = { messages.open(), messages.overDue(),
 				messages.all(), messages.voided(), messages.drafts() };
-		viewSelect = new SelectCombo(messages.currentView());
-		viewSelect.initCombo(Arrays.asList(filter));
-		viewSelect
+		setViewSelect(new SelectCombo(messages.currentView()));
+		getViewSelect().initCombo(Arrays.asList(filter));
+		getViewSelect()
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
@@ -78,7 +78,10 @@ public class CreateStatementToolBar extends ReportToolbar {
 						@Override
 						public void selectedComboBoxItem(ClientVendor selectItem) {
 							setPayeeId(selectItem.getID());
+							
 						}
+
+						
 					});
 
 			if (getPayeeId() != 0) {
@@ -95,6 +98,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 						public void selectedComboBoxItem(
 								ClientCustomer selectItem) {
 							setPayeeId(selectItem.getID());
+							createDisplayJobCombo();
 						}
 					});
 			if (getPayeeId() != 0) {
@@ -179,10 +183,10 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
 		if (isVendor) {
-			addItems(viewSelect, vendorCombo, dateRangeItemCombo, fromItem,
+			addItems(getViewSelect(), vendorCombo, dateRangeItemCombo, fromItem,
 					toItem);
 		} else {
-			addItems(viewSelect, customerCombo, dateRangeItemCombo, fromItem,
+			addItems(getViewSelect(), customerCombo, dateRangeItemCombo, fromItem,
 					toItem);
 		}
 		add(updateButton);
@@ -286,6 +290,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate);
 	}
 
+	protected void createDisplayJobCombo() {
+		
+	}
 	@Override
 	protected void payeeData() {
 		if (isVendor) {
@@ -301,5 +308,13 @@ public class CreateStatementToolBar extends ReportToolbar {
 						startDate, endDate);
 			}
 		}
+	}
+
+	public SelectCombo getViewSelect() {
+		return viewSelect;
+	}
+
+	public void setViewSelect(SelectCombo viewSelect) {
+		this.viewSelect = viewSelect;
 	}
 }
