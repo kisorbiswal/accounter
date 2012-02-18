@@ -3,62 +3,104 @@ package com.vimukti.accounter.web.client.core.reports;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.ui.Accounter;
 
-public class UnbilledCostsByJob extends BaseReport implements Serializable, IsSerializable {
+public class UnbilledCostsByJob extends BaseReport implements IsSerializable,
+		Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
-	private int transactionType;
-	private long transactionDate;
-	private String sourceName;
+
+	private String customerName;
+	private String jobName;
+	private long jobId;
+	private long customerId;
+	private int type;
+	private ClientFinanceDate transactionDate;
 	private String memo;
-	private String account;
-	private String billingStatus;
+	private long account;
 	private double amount;
-	public int getTransactionType() {
-		return transactionType;
+	private long transaction;
+
+	public String getCustomerName() {
+		return customerName;
 	}
-	public void setTransactionType(int transactionType) {
-		this.transactionType = transactionType;
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
-	public long getTransactionDate() {
+
+	public String getJobName() {
+		return Accounter.getCompany().getjob(getJobId()).getJobName();
+	}
+
+	public void setJobName(String jobName) {
+		this.jobName = jobName;
+	}
+
+	public long getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(long jobId) {
+		this.jobId = jobId;
+	}
+
+	public long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public ClientFinanceDate getTransactionDate() {
 		return transactionDate;
 	}
-	public void setTransactionDate(long transactionDate) {
+
+	public void setTransactionDate(ClientFinanceDate transactionDate) {
 		this.transactionDate = transactionDate;
 	}
-	public String getSourceName() {
-		return sourceName;
-	}
-	public void setSourceName(String sourceName) {
-		this.sourceName = sourceName;
-	}
+
 	public String getMemo() {
 		return memo;
 	}
+
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
-	public String getAccount() {
-		return account;
-	}
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public String getBillingStatus() {
-		return billingStatus;
-	}
-	public void setBillingStatus(String billingStatus) {
-		this.billingStatus = billingStatus;
-	}
+
 	public double getAmount() {
 		return amount;
 	}
+
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public long getAccount() {
+
+		return account;
+	}
+
+	public void setAccount(long account) {
+		this.account = account;
+	}
+
+	public long getTransaction() {
+		return transaction;
+	}
+
+	public void setTransaction(long transaction) {
+		this.transaction = transaction;
 	}
 
 }
