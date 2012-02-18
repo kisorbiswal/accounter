@@ -3812,9 +3812,39 @@ public class ReportManager extends Manager {
 	 */
 	public ArrayList<ItemActualCostDetail> getItemActualCostOrRevenueDetails(
 			FinanceDate startDate, FinanceDate endDate, long companyId,
-			long itemId, long jobId) {
-		// TODO
-		return null;
-	}
+			long itemId, boolean isActualcostDetail) {
 
+		Session session = HibernateUtil.getCurrentSession();
+		List list;
+		if (isActualcostDetail) {
+			list = session.getNamedQuery("getItemActualRevenueDetails")
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate)
+					.setParameter("companyId", companyId)
+					.setParameter("itemId", itemId).list();
+		} else {
+			list = session.getNamedQuery("getItemActualCostsDetails")
+					.setParameter("startDate", startDate)
+					.setParameter("endDate", endDate)
+					.setParameter("companyId", companyId)
+					.setParameter("itemId", itemId).list();
+		}
+		ArrayList<ItemActualCostDetail> querylist = new ArrayList<ItemActualCostDetail>();
+		Iterator iterator = list.iterator();
+		while (iterator.hasNext()) {
+			Object[] objects = (Object[]) iterator.next();
+			ItemActualCostDetail actualCostDetail = new ItemActualCostDetail();
+			actualCostDetail.setTransactionId((Long) objects[0]);
+			actualCostDetail.setItemName((String) objects[1]);
+			actualCostDetail.setItemType((Integer) objects[2]);
+			actualCostDetail.setDate(new ClientFinanceDate((Long) objects[3]));
+			actualCostDetail.setNumber((String) objects[4]);
+			actualCostDetail.setCustomerName((String) objects[5]);
+			actualCostDetail.setQuantity(String.valueOf(objects[6]));
+			actualCostDetail.setMemo((String) objects[7]);
+			actualCostDetail.setAmount((Double) objects[8]);
+			querylist.add(actualCostDetail);
+		}
+		return querylist;
+	}
 }
