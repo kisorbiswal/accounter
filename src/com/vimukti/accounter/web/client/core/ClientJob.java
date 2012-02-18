@@ -32,12 +32,12 @@ public class ClientJob implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		return null;
+		return getJobName();
 	}
 
 	@Override
 	public String getDisplayName() {
-		return this.getName();
+		return this.jobName;
 	}
 
 	@Override
