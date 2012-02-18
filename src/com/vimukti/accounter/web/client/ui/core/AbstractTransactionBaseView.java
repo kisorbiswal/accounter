@@ -2054,7 +2054,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		double discount = 0.0D;
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
-			if (clientTransactionItem != null) {
+			if (clientTransactionItem != null
+					&& clientTransactionItem.getReferringTransactionItem() == 0) {
 				Double discountValue = clientTransactionItem.getDiscount();
 				if (discountValue != null) {
 					discount = discountValue.doubleValue();
