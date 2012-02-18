@@ -52,7 +52,7 @@ public class PriorVATReturnReportCommand extends
 
 			@Override
 			protected String onSelection(ExpenseList selection, String name) {
-				return "updateTransaction " + selection.getTransactionId();
+				return "update transaction " + selection.getTransactionId();
 			}
 
 			@Override
