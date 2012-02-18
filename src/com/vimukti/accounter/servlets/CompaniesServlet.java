@@ -107,9 +107,13 @@ public class CompaniesServlet extends BaseServlet {
 							return;
 						}
 					}
-					req.setAttribute("isPaid", false);
-				}
-				req.setAttribute("isPaid", true);
+					req.setAttribute("isPaid", true);
+				}else{
+					if (list.size() == 0) {
+						createCompany(req, resp);
+						return;
+					}
+				req.setAttribute("isPaid", false);}
 				if (list.isEmpty()
 						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",

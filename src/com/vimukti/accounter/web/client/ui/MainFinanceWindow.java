@@ -80,7 +80,7 @@ public class MainFinanceWindow extends VerticalPanel {
 		// if (!Accounter.isMacApp()) {
 		// add(hMenuBar);
 		// }
-		boolean isTouch = isTouch();
+		boolean isTouch = false;
 		IMenuFactory menuFactory = null;
 		if (isTouch) {
 			menuFactory = new TouchMenuFactory();

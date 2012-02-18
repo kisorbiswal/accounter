@@ -10,12 +10,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.xerces.impl.dv.util.Base64;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ChequePdfGenerator;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
@@ -31,8 +34,10 @@ import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
+import com.vimukti.accounter.core.SubscriptionManagementData;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransferFund;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
@@ -2199,19 +2204,43 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Set<InvitableUser> getIvitableUsers() throws AccounterException {
 		Set<InvitableUser> invitableUsers = new HashSet<InvitableUser>();
-		InvitableUser in1 = new InvitableUser();
-		in1.setFirstName("firstname1");
-		in1.setLastName("lastname1");
-		in1.setEmail("sureshbm13@gmail.com");
+		Client client = AccounterThreadLocal.get().getClient();
+		// Set<String> userMailds = client.getClientSubscription().getMembers();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Query query = currentSession.getNamedQuery(
+				"get.subscription.mangementdata").setParameter("emailId",
+				client.getEmailId());
+		SubscriptionManagementData subscriptionManagementData = (SubscriptionManagementData) query
+				.uniqueResult();
+		Set<String> userMailds = setMembers(subscriptionManagementData
+				.getUserMailds());
+		Company company = (Company) currentSession.get(Company.class,
+				getCompanyId());
+		List<User> financeUsers = currentSession.getNamedQuery("list.User")
+				.setEntity("company", company).list();
+		for (String string : userMailds) {
+			for (User user : financeUsers) {
+				if (user.getClient().getEmailId().trim().equals(string.trim())) {
+					continue;
+				}
+			}
+			InvitableUser in1 = new InvitableUser();
+			in1.setFirstName("");
+			in1.setLastName("");
+			in1.setEmail(string);
+			invitableUsers.add(in1);
+		}
 
-		InvitableUser in2 = new InvitableUser();
-		in2.setFirstName("firstname2");
-		in2.setLastName("lastname2");
-		in2.setEmail("nagasureshbm13@gmail.com");
-
-		invitableUsers.add(in1);
-		invitableUsers.add(in2);
 		return invitableUsers;
+	}
+
+	private Set<String> setMembers(String string) {
+		String[] mailsString = string.split("\n");
+		Set<String> mailsSet = new HashSet<String>();
+		for (String string2 : mailsString) {
+			mailsSet.add(string2);
+		}
+		return mailsSet;
 	}
 
 	@Override
@@ -2227,6 +2256,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		}
 		return companies;
 	}
+
 	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate, int type, int start, int length)
 			throws AccounterException {

@@ -47,7 +47,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		String str = "cmd=_notify-validate";
 		Map<String, String> params = new HashMap<String, String>();
 		while (en.hasMoreElements()) {
-			String paramName = (String) en.nextElement();
+			String paramName = (String) en.nextElement();  
 			String paramValue = req.getParameter(paramName);
 			params.put(paramName, paramValue);
 			str = str + "&" + paramName + "=" + URLEncoder.encode(paramValue);

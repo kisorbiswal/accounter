@@ -361,6 +361,12 @@ public class UserManager extends Manager {
 			invitedClient.setActive(true);
 			Set<User> users = new HashSet<User>();
 			user.setClient(invitedClient);
+			ClientSubscription clientSubscription = new ClientSubscription();
+			clientSubscription.setSubscription(new Subscription());
+
+			invitedClient.setClientSubscription(clientSubscription);
+			invitedClient.setDeleted(false);
+
 			user.setCompany(company);
 			users.add(user);
 			invitedClient.setUsers(users);
@@ -396,6 +402,7 @@ public class UserManager extends Manager {
 		}
 		user.setActive(userExists);
 		session.setFlushMode(flushMode);
+		session.save(invitedClient.getClientSubscription());
 		session.save(invitedClient);
 		if (userExists) {
 			UsersMailSendar.sendMailToOtherCompanyUser(invitedClient,

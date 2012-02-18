@@ -81,7 +81,7 @@ public class ClientPaypalDetails {
 		this.addressCountry = addressCountry;
 	}
 
-	public String getClinetEmailId() {
+	public String getClinetEmailId(){
 		return clinetEmailId;
 	}
 

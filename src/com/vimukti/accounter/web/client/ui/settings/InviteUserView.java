@@ -664,14 +664,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			}
 		} else {
 			result.add(FormItem.validate(firstNametext, lastNametext,
-					emailField));
+					emailCombo));
 			if (isEmailIDExist(getData())) {
-				result.addError(emailField, messages.userExistsWithThisMailId());
+				result.addError(emailCombo, messages.userExistsWithThisMailId());
 			}
 
 			if (!(readOnly.getValue() || custom.getValue() || admin.getValue() || financialAdviser
 					.getValue())) {
-				result.addError(emailField,
+				result.addError(emailCombo,
 						messages.pleaseSelect(messages.levelOfAccess()));
 			}
 		}

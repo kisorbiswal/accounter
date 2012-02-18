@@ -64,7 +64,13 @@
 		<%
 			boolean isRTL=(Boolean) request.getAttribute("isRTL");
   		%>
+  		
 		var isRTL=<%= isRTL %>;
+		
+		<%
+			boolean isPaid=(Boolean) request.getAttribute("isPaid");
+  		%>
+  		
 		document.body.style.direction=isRTL?"rtl":"ltr";
 	</script>
 		
@@ -74,6 +80,17 @@
     <script type="text/javascript">
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
+    
+    $(document).ready(function() {
+		var isPaid=${isPaid}
+			  if(isPaid){
+       $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
+       }
+       else{
+        $('#support').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
+       }
+       
+       });
     
     </script>
     <!--                                                               -->
@@ -297,12 +314,12 @@
 		%>
 			var subscription=<%= subscription %>;
 			var goPId="<%= goPId %>";
-		    if(goPId!=null){
+	<!-- 	    if(goPId!=null){
 				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
 			}
 			if(subscription!=null){
 				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
-			}
+			} -->
 	    </script>
 	</div>
 	

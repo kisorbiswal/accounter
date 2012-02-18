@@ -13,10 +13,21 @@
 	<script type="text/javascript">
 		<%	boolean isConListRTL=(Boolean) request.getAttribute("isRTL");	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
-		<%	isPaid=isPaid==null?true:isPaid;	%>
+		<%	isPaid=isPaid==null?false:isPaid;	%>
 		window.onload=function(){
 		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
 		};
+		
+		$(document).ready(function() {
+		var isPaid=${isPaid}
+			  if(isPaid){
+       $('#logoutlink').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
+       }
+       else{
+        $('#logoutlink').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
+       }
+       
+       });
 		function goto(comp){
 			$(document).ready(function() {
 				var params= {
@@ -80,11 +91,9 @@
 	  </div>
     </div>
     <div class="form-bottom-options">
-      <a style="float:left" href="/main/logout"><i18n:i18n msg='logout'/></a>
-       <a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
+      <a style="float:left" id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
       <a   href="/main/encryption"><i18n:i18n msg='encryption'/></a>
-      <a target="_blank" href="/site/subscription/gopremium">Go Premium</a>'
     </div>
       </td>
    </tr>

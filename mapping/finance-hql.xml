@@ -384,4 +384,10 @@
 	<query name="getallMaintanaceInfoUsers">
 		from com.vimukti.accounter.core.MaintananceInfoUser m
 	</query>
+	<query name="get.subscription.mangementdata" >
+	<query-param name="emailId" type="String" />
+		from com.vimukti.accounter.core.SubscriptionManagementData smd where smd.adminMailId=:emailId
+	</query>
+	
+	
 </hibernate-mapping>

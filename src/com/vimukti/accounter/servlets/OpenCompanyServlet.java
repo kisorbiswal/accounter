@@ -131,6 +131,13 @@ public class OpenCompanyServlet extends BaseServlet {
 			request.setAttribute("accounterLocale", accounterLocale);
 			request.setAttribute("features", client.getClientSubscription()
 					.getSubscription().getFeatures());
+			if (client.getClientSubscription().getSubscription()
+					.isPaidUser()) {
+				request.setAttribute("isPaid", true);
+			}else{
+				request.setAttribute("isPaid", false);
+			}
+			
 
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);

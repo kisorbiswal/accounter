@@ -94,6 +94,11 @@ public class SignupServlet extends BaseServlet {
 					client.setPhoneNo(phoneNumber);
 					client.setCountry(country);
 					client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
+					ClientSubscription clientSubscription = new ClientSubscription();
+					clientSubscription.setSubscription(new Subscription());
+					saveEntry(clientSubscription);
+
+					client.setClientSubscription(clientSubscription);
 					client.setDeleted(false);
 					saveEntry(client);
 					session.setAttribute(EMAIL_ID, emailId);
@@ -149,7 +154,7 @@ public class SignupServlet extends BaseServlet {
 				clientSubscription.setSubscription(subscription);
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
-				
+
 				client.setDeleted(false);
 
 				saveEntry(client);

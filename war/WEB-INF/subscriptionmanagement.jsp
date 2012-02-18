@@ -20,20 +20,30 @@
 	<link type="text/css" href="../css/ss.css" rel="stylesheet" />
     <%
   		SubscriptionManagementData managementData=(SubscriptionManagementData)request.getAttribute("managementData");
+    	String useremailIds =(String) request.getAttribute("userIdsList");
   	%>
   	<title>Subscription Management</title>
   </head>
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
-	<form id="subscription_complition_form" method="post"  class="form-box">
+	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<table cellspacing="10">
 	<tr>
-	<td> Admin Email : </td>
+	<td> Admin Email : </td> 
 	<td>${managementData.adminMailId}</td>
-	</tr>
+	</tr><tr></tr><tr>
+	<td> Subscription date : </td> 
+	<td>${managementData.subscriptionDate}</td>
+	</tr><tr></tr><tr>
+	<td> Subscription type : </td> 
+	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
+	<td>Users invited by you : </td> 
+	<td id="emailIdsList"></td>
+	</tr></tr><tr>
 	<tr>
+	<input type="hidden" name="subscriptionType" value="${managementData.subscriptionType}" >
 	<td> Subscription Type : </td>
-	<td><select name="subscriptionType" id="subScriptionType">
+	<td><select  id="subScriptionTypeCombo" disabled>
     <option value="One User Monthly Subscription">One user : $5.00USD - monthly</option>
     <option value="One User Yearly Subscription">One user : $50.00USD - yearly</option>
     <option value="Two Users Monthly Subscription">2 users : $10.00USD - monthly</option>
@@ -50,33 +60,74 @@
 	</tr>
 	<tr>
 	<td> Users Emails : </td>
-	<td> <textarea id="mailIdsTextArea" name="userMailds" onsubmit="";></textarea> </td>
+	<td> <textarea id="mailIdsTextArea"  name="userMailds" onsubmit="";></textarea> </td>
 	</tr>
+	<tr>
+	<td> <p id="error" style="color:red;"> </p> </td></tr>
 	</table>
+	
+	
 		<div class="subscribtionManagementButton" align="center">
-   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Change SubScription"/>
+   			<input id="submitButton" type="submit" class="allviews-common-button" name="login" value="Save SubScription"/></form>
+   			<form id="gopremiumForm" method="post" action="/site/subscription/gopremium">
+   			<input id="goPremiumButton" class="allviews-common-button" type="submit" name="premium" value="Upgrade Premium"/></form>
 		</div>
+		</form>
 		<script type="text/javascript">
-			if(${managementData.userMailds}.list.length>0){
-				var mailids="";
-				for(var i=0; i <  ${managementData.userMailds}.list.length; i++){
-					var listItemDiv = ${managementData.userMailds}.list[i]+"\n";
-					mailids=mailids+listItemDiv;
-				}
-				$('#mailIdsTextArea').val(mailids);
+                  var useremailIds= '<%= useremailIds%>';
+                  var useremailIdsArray =useremailIds.split(',');
+                  var finalstring ="";
+                  for(var i=0;i<useremailIdsArray.length;i++){
+                	  finalstring = finalstring +"\n"+useremailIdsArray[i];
+                  }
+                  finalstring = finalstring.substring(1);
+				$('#mailIdsTextArea').val(finalstring);
+				$('#emailIdsList').text(finalstring);
+				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].value);
+			 
+			document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].selected = true;
+			$('#submitButton').click(function(){
+			if(validate()){
+			$('#error').text("");
+			$('#subscription_complition_form').submit();
+			}else{
+			 $('#error').text("maximum number of users exceeded");
+			 return false;
 			}
-			document.getElementById('#subScriptionType').options[${managementData.subscriptionType}].selected = true;
-			
+			})
 			function validateEmail(elementValue){  
 			   var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
-			   return emailPattern.test(elementValue);  
+			   if (emailPattern.test(elementValue)){
+			   return true;
+			   }  else{
+			   return false;
+			   }
  			}  
  			
- 			$('#target').keydown(function() {
- 			$('#target').val().split('\n');
-			
-			});
-
+ 			function validate(){
+ 			var type =${managementData.subscriptionType};
+ 			var maxLimit =1; 
+ 			if(type ==0 || type==1){
+ 			maxLimit =1;
+ 			}else if(type ==2 || type==3){
+ 			maxLimit =2;
+ 			}else if(type ==4 || type==5){
+ 			maxLimit =5;
+ 			}
+ 			$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');
+ 			var textArray =$('#mailIdsTextArea').val().split('\n');
+ 			var emailCount =0;
+ 			for(var i=0; i<=textArray.length; i++){
+ 			if(validateEmail(textArray[i])){
+ 			emailCount = emailCount+1;
+ 			}
+ 			}
+ 			 if(emailCount>maxLimit){
+ 			 return false;
+ 			 }else {
+ 			 return true;
+ 			 }
+}
 		</script>
 	 </form>  
 	 </div>
