@@ -103,12 +103,7 @@ public class ActivityCustomizationDialog extends BaseDialog {
 	@Override
 	protected boolean onOK() {
 		if (showAllActivitesButton.getValue() == true) {
-			setValue(ClientActivity.LOGIN_LOGOUT, true);
-			setValue(ClientActivity.BUDGETS, true);
-			setValue(ClientActivity.PREFERENCES, true);
-			setValue(ClientActivity.RECONCILIATIONS, true);
-			// setValue(ClientActivity.RECURRING_TRNASACTIONS, true);
-			setValue(ClientActivity.TRNASACTIONS, true);
+			result = 0;
 		} else {
 			setValue(ClientActivity.LOGIN_LOGOUT, logoutOrLoginBox.getValue());
 			setValue(ClientActivity.BUDGETS, budgetsBox.getValue());

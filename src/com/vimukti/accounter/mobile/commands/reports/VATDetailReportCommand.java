@@ -70,21 +70,26 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 	protected Record createReportRecord(VATDetail record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add(getMessages().name(), record.getTransactionName());
-		salesRecord.add(getMessages().date(), record.getTransactionDate());
+		salesRecord.add(
+				getMessages().date(),
+				getDateByCompanyType(record.getTransactionDate(),
+						getPreferences()));
 		salesRecord.add(getMessages().number(), record.getTransactionNumber());
 		salesRecord.add(
 				getMessages().vatRate(),
 				record.isPercentage() ? record.getVatRate() + "%" : record
 						.getVatRate());
-		salesRecord.add(getMessages().netAmount(), record.getNetAmount());
-		salesRecord.add(getMessages().amount(), record.getTotal());
+		salesRecord.add(getMessages().netAmount(),
+				getAmountWithCurrency(record.getNetAmount()));
+		salesRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getTotal()));
 		if (currentsectionName == null
 				|| !currentsectionName.equals(record.getBoxName())) {
 			currentsectionName = record.getBoxName();
 			accountbalance = 0.0D;
 		}
 		salesRecord.add(getMessages().balance(),
-				accountbalance += record.getTotal());
+				getAmountWithCurrency(accountbalance += record.getTotal()));
 
 		return salesRecord;
 	}

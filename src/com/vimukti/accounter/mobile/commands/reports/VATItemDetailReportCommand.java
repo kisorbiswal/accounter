@@ -76,14 +76,16 @@ public class VATItemDetailReportCommand extends
 
 	protected Record createReportRecord(VATItemDetail record) {
 		Record ecRecord = new Record(record);
-		ecRecord.add("Type",
+		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add("Date", record.getDate());
-		ecRecord.add("No", record.getTransactionNumber());
-		ecRecord.add("Name", record.getName());
-		ecRecord.add("Memo", record.getMemo());
-		ecRecord.add("Amount", getAmountWithCurrency(record.getAmount()));
-		ecRecord.add("Sales Price",
+		ecRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
+		ecRecord.add(getMessages().number(), record.getTransactionNumber());
+		ecRecord.add(getMessages().name(), record.getName());
+		ecRecord.add(getMessages().memo(), record.getMemo());
+		ecRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
+		ecRecord.add(getMessages().salesPrice(),
 				getAmountWithCurrency(record.getSalesPrice()));
 		return ecRecord;
 	}

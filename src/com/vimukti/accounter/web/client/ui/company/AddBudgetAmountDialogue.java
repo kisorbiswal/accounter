@@ -451,7 +451,7 @@ public class AddBudgetAmountDialogue extends BaseDialog {
 		} else if (budgetAddBy.getSelectedValue() == YEARS) {
 
 			double valueToDivide = 12.00;
-			if (calendarType == 1) {
+			if (calendarType == 2) {
 				valueToDivide = 365.00;
 			}
 			if (annualAmount.getAmount() != null) {

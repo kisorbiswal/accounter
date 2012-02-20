@@ -88,13 +88,16 @@ public class SalesOpenOrderReportCommand extends
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
-			openRecord.add(getMessages().orderDate(),
-					record.getTransactionDate());
+			openRecord.add(
+					getMessages().orderDate(),
+					getDateByCompanyType(record.getTransactionDate(),
+							getPreferences()));
 		else
 			openRecord.add("", "");
 		openRecord.add(Global.get().Customer(),
 				record.getVendorOrCustomerName());
-		openRecord.add(getMessages().amount(), record.getAmount());
+		openRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 
 		return openRecord;
 	}
