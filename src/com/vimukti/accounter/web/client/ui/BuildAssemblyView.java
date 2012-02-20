@@ -431,4 +431,22 @@ public class BuildAssemblyView extends
 	protected boolean canRecur() {
 		return false;
 	}
+
+	@Override
+	public boolean canEdit() {
+		if (transaction == null || transaction.getID() == 0) {
+			return super.canEdit();
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
+		return false;
+	}
 }
