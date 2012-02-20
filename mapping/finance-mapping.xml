@@ -1921,6 +1921,8 @@
 		<property name="name" column="NAME"></property>
 		<property name="transactionDate" type="com.vimukti.accounter.core.LongUseType"
 			column="TRANSACTION_DATE"></property>
+		<property name="objStatus" 
+			column="OBJECT_STATUS"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" column="DATA_TYPE"></property>
 		<property name="description" type="text" column="DESCRIPTION"></property>
