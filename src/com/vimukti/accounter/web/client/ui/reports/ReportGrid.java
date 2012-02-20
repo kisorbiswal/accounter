@@ -262,6 +262,7 @@ public class ReportGrid<R> extends CustomTable {
 	protected void cellClicked(int rowIndex, int cellIndex) {
 		if (list.size() > rowIndex && list.get(rowIndex) != null) {
 			selectedObjecd = list.get(rowIndex);
+			// For Realted job click on single column
 			if (reportView instanceof JobProfitabilitySummaryReport) {
 				((JobProfitabilitySummaryReport) reportView).OnClick(
 						(JobProfitability) selectedObjecd, rowIndex, cellIndex);
