@@ -36,7 +36,7 @@ public class EstimatesByJobServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Estimates by Job";
+		return getMessages().estimatesbyJob();
 	}
 
 	@Override

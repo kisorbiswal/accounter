@@ -32,7 +32,7 @@ public class UnBilledCostsByJobServerReport extends
 
 	@Override
 	public String getTitle() {
-		return "Unbilled Costs by Job";
+		return getMessages().unbilledCostsByJob();
 	}
 
 	@Override

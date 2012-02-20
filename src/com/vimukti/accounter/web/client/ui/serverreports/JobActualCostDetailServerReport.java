@@ -32,16 +32,17 @@ public class JobActualCostDetailServerReport extends
 		return new String[] { Global.get().customer(), getMessages().job(),
 				getMessages().date(), getMessages().type(),
 				getMessages().number(), getMessages().memo(),
-				getMessages().account(), "Split", getMessages().amount() };
+				getMessages().account(), getMessages().split(),
+				getMessages().amount() };
 	}
 
 	@Override
 	public String getTitle() {
 
 		if (isActualcostDetail) {
-			return "Job Actual Cost Detail";
+			return getMessages().jobActualCostDetail();
 		} else {
-			return "Job Actual Revenue Detail";
+			return getMessages().jobActualRevenueDetail();
 		}
 	}
 
@@ -50,7 +51,8 @@ public class JobActualCostDetailServerReport extends
 		return new String[] { Global.get().customer(), getMessages().job(),
 				getMessages().date(), getMessages().type(),
 				getMessages().number(), getMessages().memo(),
-				getMessages().account(), "Split", getMessages().amount() };
+				getMessages().account(), getMessages().split(),
+				getMessages().amount() };
 	}
 
 	@Override

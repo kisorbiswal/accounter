@@ -403,7 +403,8 @@ public class CustomerRefundView extends
 
 		transaction.setBalanceDue(amtText.getAmount());
 		if (getPreferences().isJobTrackingEnabled()) {
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());

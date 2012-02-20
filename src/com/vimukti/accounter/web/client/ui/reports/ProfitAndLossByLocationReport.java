@@ -59,6 +59,16 @@ public class ProfitAndLossByLocationReport extends
 
 	}
 
+	public void OnClick(ProfitAndLossByLocation pAndLossByLocation,
+			int rowIndex, int cellIndex) {
+		TrialBalance record = getTrailBalance(pAndLossByLocation);
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		UIUtils.runAction(record,
+				ActionFactory.getTransactionDetailByAccountAction());
+	}
+
 	private TrialBalance getTrailBalance(ProfitAndLossByLocation p) {
 		TrialBalance record = new TrialBalance();
 		record.setAccountId(p.getAccountId());
@@ -108,4 +118,5 @@ public class ProfitAndLossByLocationReport extends
 				Integer.parseInt(String.valueOf(endDate.getDate())),
 				reportType, "", "");
 	}
+
 }

@@ -70,7 +70,7 @@ public class ProfitAndLossByLocationServerReport extends
 	@Override
 	public String getTitle() {
 		if (category_type == JOB) {
-			return "Profit & Loss by Job";
+			return getMessages().profitAndLossByJob();
 		} else if (category_type == CLASS) {
 			return getMessages().profitAndLossbyClass();
 		} else {

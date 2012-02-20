@@ -692,7 +692,8 @@ public class CashSalesView extends
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		if (getPreferences().isJobTrackingEnabled()) {
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());

@@ -869,7 +869,8 @@ public class ReceivePaymentView extends
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 		if (getPreferences().isJobTrackingEnabled()) {
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
 		if (getPreferences().isTDSEnabled() && customer != null
 				&& customer.willDeductTDS()) {

@@ -5912,8 +5912,19 @@ public interface AccounterMessages extends Messages {
 	public String itemActualCostDetail();
 
 	public String itemActualRevenueDetail();
-	
-	
+
 	public String jobProfitabilityDetail();
+
+	public String profitAndLossByJob();
+
+	public String estimatesbyJob();
+
+	public String unbilledCostsByJob();
+
+	public String jobActualCostDetail();
+
+	public String jobActualRevenueDetail();
+
+	public String split();
 
 }

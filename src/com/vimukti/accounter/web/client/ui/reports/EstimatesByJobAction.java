@@ -11,7 +11,7 @@ public class EstimatesByJobAction extends Action {
 
 	@Override
 	public String getText() {
-		return "Estimates by Job";
+		return messages.estimatesbyJob();
 	}
 
 	@Override

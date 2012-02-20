@@ -89,7 +89,7 @@ public class ProfitAndLossByLocationAction extends Action {
 			actionstring = messages.profitAndLossByLocation(Global.get()
 					.Location());
 		} else if (category_type == JOB) {
-			return "Profit & Loss by Job";
+			return messages.profitAndLossByJob();
 		} else {
 			actionstring = messages.profitAndLossbyClass();
 		}

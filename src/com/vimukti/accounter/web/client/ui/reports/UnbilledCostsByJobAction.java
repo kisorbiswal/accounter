@@ -12,7 +12,7 @@ public class UnbilledCostsByJobAction extends Action<UnbilledCostsByJob> {
 
 	@Override
 	public String getText() {
-		return "Unbilled Costs By Job";
+		return messages.unbilledCostsByJob();
 	}
 
 	@Override

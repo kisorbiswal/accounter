@@ -758,7 +758,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
 		if (getPreferences().isJobTrackingEnabled()) {
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
 		transaction.setEstimateType(type);
 		if (currency != null)
