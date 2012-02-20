@@ -1115,7 +1115,7 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
-		&lt;:today
+		&lt;:today and e.usedInvoice =null
 		order by e.lastModifiedDate desc
 	</query>
 
