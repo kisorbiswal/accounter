@@ -73,6 +73,49 @@ public class Quantity implements Comparable<Quantity> {
 	 * Gives the result into default measurement.
 	 * 
 	 * @param quantity
+	 * @return this plus givenQuantity
+	 * @exception IllegalArgumentException
+	 *                thrown if the unit types mismatched.
+	 */
+	public Quantity multiply(Quantity quantity) {
+		Unit otherUnit = quantity.getUnit();
+		if (unit == null ^ otherUnit == null) {
+			// one unit is null and another one is not null.
+			throw new IllegalArgumentException(
+					"Can't able to add, null type mismatch");
+		}
+
+		if (unit != null
+				&& !otherUnit.getMeasurement().getName()
+						.equals(unit.getMeasurement().getName())) {
+			// unit available, but the both are not belongs to same Measurement.
+			throw new IllegalArgumentException(
+					"Can't able to add different Unit types");
+		}
+
+		/*
+		 * convert the quantities to default measure
+		 */
+		Quantity thisQuantity = convertToDefaultUnit();
+		Quantity otherQuantity = quantity.convertToDefaultUnit();
+
+		/*
+		 * add the default quantities to make result quantity.
+		 */
+		Quantity resultQuantity = new Quantity();
+		if (unit != null) {
+			resultQuantity.setUnit(getDefaultUnit(unit));
+		}
+		resultQuantity.setValue(thisQuantity.getValue()
+				* otherQuantity.getValue());
+
+		return resultQuantity;
+	}
+
+	/**
+	 * Gives the result into default measurement.
+	 * 
+	 * @param quantity
 	 * @return this minus givenQuantity
 	 * @exception IllegalArgumentException
 	 *                thrown if the unit types mismatched.
@@ -175,6 +218,24 @@ public class Quantity implements Comparable<Quantity> {
 		qty.setValue(getValue());
 		qty.setUnit(getUnit());
 		return qty;
+	}
+
+	public int hashCode() {
+		int hash = 7;
+		hash = (int) (31 * hash + value);
+		hash = 31 * hash + (null == unit ? 0 : unit.hashCode());
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Quantity)) {
+			return false;
+		}
+		Quantity qty = (Quantity) obj;
+		return getValue() == qty.getValue() && getUnit() != null
+				&& qty.getUnit() != null
+				&& getUnit().getID() == qty.getUnit().getID();
 	}
 
 }

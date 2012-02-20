@@ -458,13 +458,15 @@ public class ViewManager extends HorizontalPanel {
 			removeConfigButton();
 		}
 
-		if (existingView instanceof CustomerCenterView) {
+		if (existingView instanceof CustomerCenterView
+				&& Accounter.getUser().isCanDoUserManagement()) {
 			group7.add(addCustomerButton);
 		} else {
 			removeAddCustomerButton();
 		}
 
-		if (existingView instanceof VendorCenterView) {
+		if (existingView instanceof VendorCenterView
+				&& Accounter.getUser().isCanDoUserManagement()) {
 			group8.add(addVendorButton);
 		} else {
 			removeAddVendorButton();
@@ -734,12 +736,14 @@ public class ViewManager extends HorizontalPanel {
 
 		});
 
-
-		previousButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		nextButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		previousButton.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		nextButton.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
 		group1.add(previousButton);
 		group1.add(nextButton);
-		previousButton.getElement().getParentElement().addClassName("prebutton");
+		previousButton.getElement().getParentElement()
+				.addClassName("prebutton");
 		nextButton.getElement().getParentElement().addClassName("nextbutton");
 
 		group1.add(viewTitleLabel);
@@ -757,26 +761,26 @@ public class ViewManager extends HorizontalPanel {
 		group6.add(searchButton);
 		group7.add(addCustomerButton);
 		group8.add(addVendorButton);
-		
-		exportButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		printButton.getElement().setAttribute("lang", ((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
-		
-		
-//		HorizontalPanel horizontalPanel = new HorizontalPanel();
-//		horizontalPanel.setWidth("100%");
-//		horizontalPanel.add(group1);
-//		horizontalPanel.add(group2);
-//		horizontalPanel.add(group7);
-//		horizontalPanel.add(group8);
-//		horizontalPanel.add(group9);
-//		horizontalPanel.add(group4);
-//		horizontalPanel.add(group5);
-//		horizontalPanel.add(group6);
-//		horizontalPanel.add(group3);
-//		
-//		toolBar.add(horizontalPanel);
-		
-		
+
+		exportButton.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+		printButton.getElement().setAttribute("lang",
+				((CldrImpl) GWT.create(CldrImpl.class)).isRTL() ? "ar" : "en");
+
+		// HorizontalPanel horizontalPanel = new HorizontalPanel();
+		// horizontalPanel.setWidth("100%");
+		// horizontalPanel.add(group1);
+		// horizontalPanel.add(group2);
+		// horizontalPanel.add(group7);
+		// horizontalPanel.add(group8);
+		// horizontalPanel.add(group9);
+		// horizontalPanel.add(group4);
+		// horizontalPanel.add(group5);
+		// horizontalPanel.add(group6);
+		// horizontalPanel.add(group3);
+		//
+		// toolBar.add(horizontalPanel);
+
 		toolBar.add(group1);
 		group1.getElement().getStyle().setFloat(Float.LEFT);
 		toolBar.add(group3);

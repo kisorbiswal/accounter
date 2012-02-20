@@ -1585,7 +1585,9 @@ public abstract class Transaction extends CreatableObject implements
 							.getItem().getType() != Item.TYPE_INVENTORY_ASSEMBLY)) {
 				continue;
 			}
-			inventory.add(tItem.getItem());
+			if (!inventory.contains(tItem.getItem())) {
+				inventory.add(tItem.getItem());
+			}
 		}
 		return inventory;
 	}

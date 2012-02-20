@@ -173,6 +173,8 @@ public class AccountRegisterCommand extends AbstractCommand {
 			@Override
 			protected List<AccountRegister> getLists(Context context) {
 				dateRangeChanged(context);
+				balance = 0.0;
+				totalBalance = 0.0;
 				return getAccountRegister();
 
 			}

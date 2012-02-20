@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.AutomaticTransactionsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankCheckDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankDepositServerReport;
@@ -153,6 +154,7 @@ public class ReportsGenerator {
 	private static Company company;
 	private String dateRangeHtml;
 	private final int generationType;
+	public final static int REPORT_TYPE_AUTOMATIC_TRANSACTION = 188;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
@@ -1320,6 +1322,25 @@ public class ReportsGenerator {
 								startDate.getDate(), endDate.getDate()));
 			}
 			return taxItemDetailServerReportView.getGridTemplate();
+
+		case REPORT_TYPE_AUTOMATIC_TRANSACTION:
+			AutomaticTransactionsServerReport automaticTransaction = new AutomaticTransactionsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(automaticTransaction, finaTool);
+			try {
+				automaticTransaction.onResultSuccess(finaTool
+						.getReportManager().getAutomaticTransactions(startDate,
+								endDate, getCompany().getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return automaticTransaction.getGridTemplate();
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			VATExceptionServerReport report = new VATExceptionServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1758,6 +1779,8 @@ public class ReportsGenerator {
 			return "Purchase By Item Summary Report";
 		case REPORT_TYPE_PURCHASEBYITEMDETAIL:
 			return "Purchase By Item Detail Report";
+		case REPORT_TYPE_AUTOMATIC_TRANSACTION:
+			return "Automatic Trasactions";
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Purchase Open Order Report";
