@@ -1,15 +1,21 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
-public class CustomerTransactionsHistoryGrid extends
+public abstract class CustomerTransactionsHistoryGrid extends
 		BaseListGrid<TransactionHistory> {
 
 	protected ClientCustomer selectedCustomer;
@@ -108,9 +114,76 @@ public class CustomerTransactionsHistoryGrid extends
 		// NOTHING TO DO.
 	}
 
-	public boolean isVoided(TransactionHistory obj) {
-		return false;
-		// return obj.isVoided();
+	@Override
+	protected void onClick(TransactionHistory obj, int row, int col) {
+		if (col == 6 && !obj.getIsVoid()) {
+			showWarningDialog(obj, col, row);
+		}
+	}
+
+	private void showWarningDialog(final TransactionHistory obj, final int col,
+			final int row) {
+		String msg = null;
+		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT
+				&& !obj.getIsVoid() && col == 6) {
+			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
+				&& col == 9) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
+			return;
+		}
+		Accounter.showWarning(msg, AccounterType.WARNING,
+				new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						return false;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						if (col == 6) {
+							voidTransaction(
+									UIUtils.getAccounterCoreType(obj.getType()),
+									obj.getTransactionId());
+						}
+						return true;
+					}
+
+				});
+	}
+
+	protected void deleteTransaction(final TransactionHistory obj) {
+		AccounterAsyncCallback<Boolean> callback = new AccounterAsyncCallback<Boolean>() {
+
+			@Override
+			public void onException(AccounterException caught) {
+
+			}
+
+			@Override
+			public void onResultSuccess(Boolean result) {
+				if (result) {
+
+					if (viewType.equalsIgnoreCase(messages.open())
+							|| viewType.equalsIgnoreCase(messages.overDue()))
+						deleteRecord(obj);
+					obj.setStatus(ClientTransaction.STATUS_DELETED);
+					isDeleted = true;
+					obj.setIsVoid(true);
+					updateData(obj);
+
+				}
+
+			}
+		};
+		AccounterCoreType type = UIUtils.getAccounterCoreType(obj.getType());
+		rpcDoSerivce.deleteTransaction(type, obj.getTransactionId(), callback);
 	}
 
 	public AccounterCoreType getAccounterCoreType(TransactionHistory obj) {
@@ -162,4 +235,11 @@ public class CustomerTransactionsHistoryGrid extends
 
 		return 0;
 	}
+
+	@Override
+	public void saveSuccess(IAccounterCore core) {
+		initListData();
+	}
+
+	public abstract void initListData();
 }

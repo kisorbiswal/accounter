@@ -11,6 +11,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -89,11 +90,17 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(PaymentsList p) {
 				Record payment = new Record(p);
-				payment.add(getMessages().paymentDate(), p.getPaymentDate());
+				payment.add(
+						getMessages().paymentDate(),
+						getDateByCompanyType(p.getPaymentDate(),
+								getPreferences()));
 				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
 				payment.add(getMessages().status(),
 						Utility.getStatus(p.getType(), p.getStatus()));
-				payment.add(getMessages().issueDate(), p.getIssuedDate());
+				payment.add(
+						getMessages().issueDate(),
+						getDateByCompanyType(p.getIssuedDate(),
+								getPreferences()));
 				payment.add(getMessages().name(), p.getName());
 				payment.add(getMessages().transactionName(),
 						Utility.getTransactionName(p.getType()));
@@ -106,7 +113,7 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 								p.getCurrency());
 				payment.add(
 						getMessages().amountPaid(),
-						Global.get().toCurrencyFormat(p.getAmountPaid(),
+						getAmountWithCurrency(p.getAmountPaid(),
 								currency.getSymbol()));
 				return payment;
 			}
