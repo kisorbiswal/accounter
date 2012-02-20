@@ -1,22 +1,14 @@
 package com.vimukti.accounter.web.client.imports;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
+import com.vimukti.accounter.web.client.ui.customers.UploadCSVFileDialog;
 
 public class UploadCSVFileDialogAction extends Action {
 
-	private Map<String, List<String>> columnData;
-	private int importType;
-
-	public UploadCSVFileDialogAction(Map<String, List<String>> data, int type) {
-		this.columnData = data;
-		this.importType = type;
+	public UploadCSVFileDialogAction() {
 		this.catagory = messages.importFile();
 	}
 
@@ -36,9 +28,8 @@ public class UploadCSVFileDialogAction extends Action {
 
 			@Override
 			public void onCreated() {
-				ImportView view = new ImportView(importType, columnData);
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, UploadCSVFileDialogAction.this);
+				UploadCSVFileDialog dialog = new UploadCSVFileDialog();
+				dialog.center();
 			}
 		});
 
@@ -58,12 +49,12 @@ public class UploadCSVFileDialogAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		return "uploadCSVFileDialog";
+		return "import";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "Upload-CSV-file-dialog";
+		return "import";
 	}
 
 }

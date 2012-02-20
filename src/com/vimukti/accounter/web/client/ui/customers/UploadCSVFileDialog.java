@@ -22,8 +22,11 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.imports.UploadCSVFileDialogAction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -74,13 +77,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 		typeCombo.setComboItem(messages.invoice());
 		// typeCombo.getLabelWidget().addStyleName("bold_HTML");
 
-		HorizontalPanel uplHorizontalPanel = new HorizontalPanel();
 		HTML detailsHtml3 = new HTML(messages.chooseLogo());
 		detailsHtml3.addStyleName("bold_HTML");
-		uplHorizontalPanel.add(detailsHtml3);
-		uplHorizontalPanel.setSpacing(1);
 		selectFileToUpload = new FileUpload();
-		uplHorizontalPanel.add(selectFileToUpload);
+		selectFileToUpload.setName("Import");
 
 		panel.setSpacing(5);
 		DynamicForm form = new DynamicForm();
@@ -89,7 +89,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 		panel.add(form);
 		panel.setSpacing(5);
 
-		panel.add(uplHorizontalPanel);
+		panel.add(detailsHtml3);
+		panel.add(selectFileToUpload);
 		vpaPanel.add(panel);
 
 		// Add a 'submit' button.
@@ -137,13 +138,28 @@ public class UploadCSVFileDialog extends BaseDialog {
 				if (aa.trim().length() > 2) {
 					JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
 					JSONObject object = jSONValue.isObject();
-					Map<String, List<String>> data = parseJsonArray(object);
+					final Map<String, List<String>> data = parseJsonArray(object);
 
 					// TODO OpenImportView
 
-					UploadCSVFileDialogAction action = new UploadCSVFileDialogAction(
-							data, getType());
-					action.run();
+					Accounter.createHomeService().getFieldsOf(getType(),
+							new AccounterAsyncCallback<List<Field<?>>>() {
+
+								@Override
+								public void onException(
+										AccounterException exception) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onResultSuccess(
+										List<Field<?>> result) {
+									ImportAction action = new ImportAction(
+											result, data, getType());
+									action.run();
+								}
+							});
 
 					removeFromParent();
 				} else {
@@ -240,6 +256,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	protected void close() {
+		this.removeFromParent();
 	}
 
 }

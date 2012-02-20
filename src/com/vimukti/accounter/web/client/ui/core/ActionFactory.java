@@ -18,7 +18,6 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.imports.ImportAction;
 import com.vimukti.accounter.web.client.imports.UploadCSVFileDialogAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
 import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
@@ -1485,12 +1484,8 @@ public class ActionFactory {
 		return new RecurringTransactionDialogAction();
 	}
 
-	public static ImportAction getImportAction() {
-		return new ImportAction();
-	}
-
 	public static UploadCSVFileDialogAction getUploadCSVFileDialog() {
-		return new UploadCSVFileDialogAction(null, 0);
+		return new UploadCSVFileDialogAction();
 	}
 
 }
