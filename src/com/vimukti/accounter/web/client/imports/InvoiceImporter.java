@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.imports;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
@@ -14,7 +13,7 @@ public class InvoiceImporter extends TransactionImporter<ClientInvoice> {
 
 	@Override
 	public List<Field<?>> getAllFields() {
-		List<Field<?>> fields = new ArrayList<Field<?>>();
+		List<Field<?>> fields = super.getAllFields();
 		fields.add(new Field<String>(messages.customer(), messages
 				.payeeName(Global.get().Customer()), true));
 		fields.add(new Field<String>(messages.number(), messages.invoiceNo()));

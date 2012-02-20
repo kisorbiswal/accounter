@@ -10,6 +10,7 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
+import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -40,6 +41,7 @@ public abstract class TransactionImporter<T> extends
 		transaction.setTotal(getDouble(messages.total()));
 		transaction.setTransactionItems(getTransactionItem(messages
 				.transactionItem()));
+
 	}
 
 	private List<ClientTransactionItem> getTransactionItem(
@@ -54,6 +56,7 @@ public abstract class TransactionImporter<T> extends
 		item.setTaxCode(getLong(messages.taxCode()));
 		item.setDiscount(getDouble(messages.discount()));
 		item.setVATfraction(getDouble(messages.vat()));
+		item.setCustomer(getLong(messages.customer()));
 		items.add(item);
 		return items;
 	}
@@ -66,6 +69,15 @@ public abstract class TransactionImporter<T> extends
 	private Set<ClientAttachment> getAttachments(String attachments) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	protected ClientContact getContactData() {
+		ClientContact contact = new ClientContact();
+		contact.setName(getString(messages.contactName()));
+		contact.setTitle(getString(messages.title()));
+		contact.setBusinessPhone(getString(messages.businessPhone()));
+		contact.setEmail(getString(messages.email()));
+		return contact;
 	}
 
 	@Override
@@ -102,7 +114,8 @@ public abstract class TransactionImporter<T> extends
 		fields.add(new Field<Long>(messages.taxCode(), messages.taxCode(), true));
 		fields.add(new Field<Double>(messages.discount(), messages.discount()));
 		fields.add(new Field<Double>(messages.vat(), messages.tax()));
-
+		fields.add(new Field<String>(messages.customer(), Global.get()
+				.Customer()));
 		return fields;
 	}
 
