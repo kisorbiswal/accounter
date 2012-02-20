@@ -32,14 +32,16 @@ public class CustomerPrepaymentImporter extends
 	@Override
 	public List<Field<?>> getAllFields() {
 		List<Field<?>> list = super.getAllFields();
-		list.add(new Field<String>(messages.customer(), Global.get().Customer()));
-		list.add(new Field<String>(messages.depositIn(), messages.depositIn()));
-		list.add(new Field<Double>(messages.amount(), messages.amount()));
+		list.add(new Field<String>(messages.customer(),
+				Global.get().Customer(), true));
+		list.add(new Field<String>(messages.depositIn(), messages.depositIn(),
+				true));
+		list.add(new Field<Double>(messages.amount(), messages.amount(), true));
 		list.add(new Field<String>(messages.paymentMethod(), messages
-				.paymentMethod()));
+				.paymentMethod(), true));
 		list.add(new Field<String>(messages.checkNo(), messages.checkNo()));
 		list.add(new Field<String>(messages.memo(), messages.memo()));
-		return null;
+		return list;
 	}
 
 }

@@ -30,14 +30,14 @@ public class VendorPrepaymentImporter extends
 	@Override
 	public List<Field<?>> getAllFields() {
 		List<Field<?>> list = super.getAllFields();
-		list.add(new Field<String>(messages.vendor(), messages.payTo()));
-		list.add(new Field<String>(messages.payFrom(), messages.payFrom()));
-		list.add(new Field<Double>(messages.amount(), messages.amount()));
+		list.add(new Field<String>(messages.vendor(), messages.payTo(), true));
+		list.add(new Field<String>(messages.payFrom(), messages.payFrom(), true));
+		list.add(new Field<Double>(messages.amount(), messages.amount(), true));
 		list.add(new Field<String>(messages.paymentMethod(), messages
-				.paymentMethod()));
+				.paymentMethod(), true));
 		list.add(new Field<String>(messages.checkNo(), messages.checkNo()));
 		list.add(new Field<String>(messages.memo(), messages.memo()));
-		return null;
+		return list;
 	}
 
 }
