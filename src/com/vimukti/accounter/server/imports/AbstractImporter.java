@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client.imports;
+package com.vimukti.accounter.server.imports;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.imports.Field;
 
 /**
  * @author Prasanna Kumar G

@@ -12,11 +12,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class UploadCSVFileDialogAction extends Action {
 
 	private Map<String, List<String>> columnData;
-	private int type;
+	private int importType;
 
-	public UploadCSVFileDialogAction(Map<String, List<String>> data, int i) {
+	public UploadCSVFileDialogAction(Map<String, List<String>> data, int type) {
 		this.columnData = data;
-		this.type = i;
+		this.importType = type;
 		this.catagory = messages.importFile();
 	}
 
@@ -36,7 +36,7 @@ public class UploadCSVFileDialogAction extends Action {
 
 			@Override
 			public void onCreated() {
-				ImportView view = new ImportView(columnData);
+				ImportView view = new ImportView(importType, columnData);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, UploadCSVFileDialogAction.this);
 			}

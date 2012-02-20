@@ -143,6 +143,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 					UploadCSVFileDialogAction action = new UploadCSVFileDialogAction(
 							data, getType());
+					action.run();
 
 					removeFromParent();
 				} else {

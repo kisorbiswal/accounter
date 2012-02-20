@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -29,8 +30,10 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	 * Contains Map<Column,AllValues>
 	 */
 	private Map<String, List<String>> importData = new HashMap<String, List<String>>();
+	private int importType;
 
-	public ImportView(Map<String, List<String>> data) {
+	public ImportView(int importType, Map<String, List<String>> data) {
+		this.importType = importType;
 		this.importData = data;
 	}
 

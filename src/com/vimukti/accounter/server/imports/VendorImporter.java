@@ -1,4 +1,4 @@
-package com.vimukti.accounter.web.client.imports;
+package com.vimukti.accounter.server.imports;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.imports.Field;
 
 public class VendorImporter extends PayeeImporter<ClientVendor> {
 

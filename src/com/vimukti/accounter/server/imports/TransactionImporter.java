@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vimukti.accounter.web.client.imports;
+package com.vimukti.accounter.server.imports;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.imports.Field;
 
 /**
  * @author vimukti23
