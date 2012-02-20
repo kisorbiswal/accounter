@@ -26,13 +26,14 @@ public class DownloadTempFileServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String attachId = req.getParameter("attachmentId");
 		String fileName = req.getParameter("filename");
+		File file = new File(ServerConfiguration.getTmpDir(), attachId);
+		if (!file.exists()) {
+			return;
+		}
 		try {
 
 			if (attachId != null) {
-				File file = new File(ServerConfiguration.getTmpDir(), attachId);
-				if (!file.exists()) {
-					return;
-				}
+
 				int length = 0;
 				ServletOutputStream op = resp.getOutputStream();
 				resp.setHeader("Content-Disposition", "attachment; filename=\""
@@ -56,6 +57,10 @@ public class DownloadTempFileServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (file.exists()) {
+				file.delete();
+			}
 		}
 
 	}
