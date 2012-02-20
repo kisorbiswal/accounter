@@ -3258,4 +3258,5 @@ public class ClientCompany implements IAccounterCore {
 	public void setCostOfGoodsSold(long costOfGoodsSold) {
 		this.costOfGoodsSold = costOfGoodsSold;
 	}
+
 }

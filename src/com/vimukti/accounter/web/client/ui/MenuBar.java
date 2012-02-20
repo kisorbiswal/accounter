@@ -566,18 +566,21 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-		customersAndReceivableMenuBar.addMenuItem(messages.estimatesbyJob(),
-				HistoryTokens.ESTIMATEBYJOB);
-		customersAndReceivableMenuBar.addMenuItem(
-				messages.jobProfitabilitySummary(),
-				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
-		customersAndReceivableMenuBar.addMenuItem(
-				messages.unbilledCostsByJob(),
-				HistoryTokens.UNBILLED_COSTS_BY_JOB);
-
-		customersAndReceivableMenuBar.addMenuItem(
-				messages.jobProfitabilityDetail(),
-				HistoryTokens.JOB_PROFITABILITY_DETAIL);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.estimatesbyJob(), HistoryTokens.ESTIMATEBYJOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilitySummary(),
+					HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.unbilledCostsByJob(),
+					HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilityDetail(),
+					HistoryTokens.JOB_PROFITABILITY_DETAIL);
 		return customersAndReceivableMenuBar;
 	}
 

@@ -17,7 +17,7 @@ public class InvoiceImporter extends AbstractImporter<ClientInvoice> {
 	}
 
 	@Override
-	protected List<Field<?>> getFields() {
+	protected List<Field<?>> getAllFields() {
 		List<Field<?>> fields = new ArrayList<Field<?>>();
 
 		fields.add(new Field<String>("customer", true));

@@ -11,7 +11,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.Lists.EstimatesAndSalesOrdersList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -73,11 +73,17 @@ public abstract class EstimatesAndSalesOrderTableRequirement extends
 	@Override
 	protected Record createFullRecord(EstimatesAndSalesOrdersList value) {
 		Record rec = new Record(value);
-		String name;
-		if (value.getType() == ClientTransaction.TYPE_ESTIMATE)
-			name = getMessages().quote();
-		else
+		String name = getMessages().quote();
+		int type = value.getEstimateType();
+		if (type == ClientEstimate.CHARGES) {
+			name = getMessages().charge();
+		} else if (type == ClientEstimate.CREDITS) {
+			name = getMessages().credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
 			name = getMessages().salesOrder();
+		} else if (type == ClientEstimate.BILLABLEEXAPENSES) {
+			name = getMessages().billabe();
+		}
 
 		rec.add(name, value.getTotal());
 

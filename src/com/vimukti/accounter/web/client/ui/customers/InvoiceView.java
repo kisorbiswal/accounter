@@ -98,7 +98,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
-
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Account;
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
@@ -14,8 +15,11 @@ import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.CommandsRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 /**
@@ -115,16 +119,45 @@ public class AccountRegisterCommand extends AbstractCommand {
 
 			@Override
 			protected Record createRecord(AccountRegister accRegister) {
+				long currencyId = accRegister.getCurrency();
+				Currency currency = (Currency) HibernateUtil
+						.getCurrentSession().get(Currency.class, currencyId);
+				Account account = get(ACCOUNT).getValue();
+				if (account != null) {
+					currency = account.getCurrency();
+				}
+
+				if (currency == null) {
+					currency = getCompany().getPrimaryCurrency();
+				}
 				Record record = new Record(accRegister);
 				record.add(getMessages().date(), accRegister.getDate());
 				record.add(getMessages().transactionType(),
 						Utility.getTransactionName(accRegister.getType()));
 				record.add(getMessages().docNo(), accRegister.getNumber());
-				record.add(getMessages().increase(), accRegister.getPayTo());
-				record.add(getMessages().decrease(), accRegister.getAmount());
+				String amount = "";
+				if (DecimalUtil.isGreaterThan(accRegister.getAmount(), 0.0))
+					amount = Global.get().toCurrencyFormat(
+							accRegister.getAmount(), currency.getSymbol());
+				else
+					amount = Global.get().toCurrencyFormat(0.00,
+							currency.getSymbol());
+				record.add(getMessages().increase(), amount);
+				String decreaseAmount = "";
+				if (DecimalUtil.isLessThan(accRegister.getAmount(), 0.0))
+					decreaseAmount = Global.get().toCurrencyFormat(
+							-1 * accRegister.getAmount(), currency.getSymbol());
+				else
+					decreaseAmount = Global.get().toCurrencyFormat(0.00,
+							currency.getSymbol());
+				record.add(getMessages().decrease(), decreaseAmount);
 				record.add(getMessages().account(), accRegister.getAccount());
 				record.add(getMessages().memo(), accRegister.getMemo());
-				record.add(getMessages().balance(), accRegister.getBalance());
+				record.add(
+						getMessages().balance(),
+						Global.get().toCurrencyFormat(
+								getBalanceValue(accRegister),
+								currency.getSymbol()));
 				return record;
 			}
 
@@ -149,6 +182,23 @@ public class AccountRegisterCommand extends AbstractCommand {
 				return null;
 			}
 		});
+	}
+
+	public double balance = 0.0;
+	public double totalBalance = 0.0;
+
+	private double getBalanceValue(AccountRegister accountRegister) {
+		/* Here 'd' value might be "positive" or "negative" */
+		double d = accountRegister.getAmount();
+
+		if (DecimalUtil.isLessThan(d, 0.0)) {
+			d = -1 * d;
+			balance = balance - d;
+		} else {
+			balance = balance + d;
+		}
+		totalBalance += balance;
+		return balance;
 	}
 
 	/**

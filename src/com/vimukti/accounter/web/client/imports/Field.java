@@ -95,4 +95,12 @@ public class Field<T> {
 	public void setRequired(boolean isRequired) {
 		this.isRequired = isRequired;
 	}
+
+	public boolean isValid() {
+		return isRequired ? value != null : true;
+	}
+
+	public boolean validate(Object obj) {
+		return false;
+	}
 }
