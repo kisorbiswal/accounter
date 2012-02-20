@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.imports;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
+import com.vimukti.accounter.web.client.ui.customers.UploadCSVFileDialog;
 
 public class ImportAction extends Action {
 	private ImportView view;
@@ -28,9 +28,11 @@ public class ImportAction extends Action {
 
 			@Override
 			public void onCreated() {
-				view = new ImportView();
-				MainFinanceWindow.getViewManager().showView(view, data,
-						isDependent, ImportAction.this);
+				UploadCSVFileDialog dialog = new UploadCSVFileDialog();
+
+				// view = new ImportView();
+				// MainFinanceWindow.getViewManager().showView(view, data,
+				// isDependent, ImportAction.this);
 			}
 		});
 	}

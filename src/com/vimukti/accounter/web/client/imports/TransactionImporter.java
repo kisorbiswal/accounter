@@ -10,7 +10,9 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 
 /**
@@ -36,6 +38,29 @@ public abstract class TransactionImporter<T> extends
 				.recurringTransactions()));
 		transaction.setReference(getString(messages.reference()));
 		transaction.setTotal(getDouble(messages.total()));
+		transaction.setTransactionItems(getTransactionItem(messages
+				.transactionItem()));
+	}
+
+	private List<ClientTransactionItem> getTransactionItem(
+			String transactionItem) {
+		List<ClientTransactionItem> items = new ArrayList<ClientTransactionItem>();
+		ClientTransactionItem item = new ClientTransactionItem();
+		item.setAccount(getLong(messages.account()));
+		item.setItem(getLong(messages.itemName()));
+		item.setDescription(getString(messages.description()));
+		item.setQuantity(getClientQty(messages.quantity()));
+		item.setUnitPrice(getDouble(messages.unitPrice()));
+		item.setTaxCode(getLong(messages.taxCode()));
+		item.setDiscount(getDouble(messages.discount()));
+		item.setVATfraction(getDouble(messages.vat()));
+		items.add(item);
+		return items;
+	}
+
+	private ClientQuantity getClientQty(String quantity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Set<ClientAttachment> getAttachments(String attachments) {
@@ -67,9 +92,16 @@ public abstract class TransactionImporter<T> extends
 		fields.add(new Field<Double>(messages.receivedTransactions(), messages
 				.receivedTransactions()));
 		fields.add(new Field<Double>(messages.total(), messages.total()));
-
-		// fields.add(new Field<Cli>(messages.attachments(),
-		// messages.attachments()));
+		fields.add(new Field<String>(messages.account(), messages.name(), true));
+		fields.add(new Field<String>(messages.itemName(), messages.name(), true));
+		fields.add(new Field<String>(messages.description(), messages
+				.description()));
+		fields.add(new Field<Long>(messages.quantity(), messages.quantity(),
+				true));
+		fields.add(new Field<Long>(messages.unit(), messages.unit(), true));
+		fields.add(new Field<Long>(messages.taxCode(), messages.taxCode(), true));
+		fields.add(new Field<Double>(messages.discount(), messages.discount()));
+		fields.add(new Field<Double>(messages.vat(), messages.tax()));
 
 		return fields;
 	}

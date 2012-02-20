@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -38,7 +37,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = null;
-		JSONArray array = new JSONArray();
+		JSONObject object = new JSONObject();
 		String[] headers = null;
 		boolean isHeader = true;
 		try {
@@ -88,11 +87,10 @@ public class UploadImportDataFileServlet extends BaseServlet {
 							}
 						}
 					}
-					JSONObject object = new JSONObject();
 					object.put("first20Records", columnNameValueMap);
 				}
 			}
-			StringBuilder builder = new StringBuilder(array.toString());
+			StringBuilder builder = new StringBuilder(object.toString());
 			response.getWriter().print(builder);
 
 		} catch (Exception e) {
