@@ -5921,4 +5921,6 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseEnterDecimalSymbol();
 
+	public String uploadCsvFileDialog();
+
 }

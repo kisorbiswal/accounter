@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,15 +22,20 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.imports.UploadCSVFileDialogAction;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
 public class UploadCSVFileDialog extends BaseDialog {
 
 	private FileUpload selectFileToUpload;
 	private FormPanel uploadForm;
+	HashMap<String, Integer> csvFileTypeListMap = new HashMap<String, Integer>();
+	private ArrayList<String> list = new ArrayList<String>();
+	private SelectCombo typeCombo;
 
 	@Override
 	protected boolean onOK() {
@@ -63,8 +69,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 		// Create a FileUpload widget.
 
 		// Create list combo for type selection.
-		TextItem item = new TextItem(messages.type());
-		item.getLabelWidget().addStyleName("bold_HTML");
+		typeCombo = new SelectCombo(messages.select() + messages.type());
+		typeCombo.initCombo(getCSVFileList());
+		typeCombo.setComboItem(messages.invoice());
+		// typeCombo.getLabelWidget().addStyleName("bold_HTML");
 
 		HorizontalPanel uplHorizontalPanel = new HorizontalPanel();
 		HTML detailsHtml3 = new HTML(messages.chooseLogo());
@@ -76,7 +84,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		panel.setSpacing(5);
 		DynamicForm form = new DynamicForm();
-		form.setFields(item);
+		form.setFields(typeCombo);
 
 		panel.add(form);
 		panel.setSpacing(5);
@@ -133,6 +141,9 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 					// TODO OpenImportView
 
+					UploadCSVFileDialogAction action = new UploadCSVFileDialogAction(
+							data, getType());
+
 					removeFromParent();
 				} else {
 					Accounter.showInformation(messages
@@ -148,6 +159,19 @@ public class UploadCSVFileDialog extends BaseDialog {
 		add(mainPanel);
 		show();
 
+	}
+
+	protected int getType() {
+		return csvFileTypeListMap.get(typeCombo.getSelectedValue());
+	}
+
+	private List<String> getCSVFileList() {
+		csvFileTypeListMap.put(messages.invoice(), 1);
+		csvFileTypeListMap.put(Global.get().Customer(), 2);
+		csvFileTypeListMap.put(Global.get().vendor(), 3);
+		Set<String> keySet = csvFileTypeListMap.keySet();
+		list.addAll(keySet);
+		return list;
 	}
 
 	/**
@@ -206,8 +230,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 				}
 			}
 			if (fileSelected) {
-				// FIXME
-				uploadForm.setAction("/do/uploadstatementfile?id");
+				uploadForm.setAction("/do/uploadImportDataFile");
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
@@ -216,8 +239,6 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	protected void close() {
-		// TODO Auto-generated method stub
-
 	}
 
 }
