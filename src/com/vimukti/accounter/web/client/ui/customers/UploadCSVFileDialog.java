@@ -3,7 +3,7 @@ package com.vimukti.accounter.web.client.ui.customers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.web.client.imports.ImportView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -129,21 +128,12 @@ public class UploadCSVFileDialog extends BaseDialog {
 				// for checking the data length
 				if (aa.trim().length() > 2) {
 					JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
-					JSONArray object = jSONValue.isArray();
-					List<String[]> data = parseJsonArray(object);
+					JSONObject object = jSONValue.isObject();
+					Map<String, List<String>> data = parseJsonArray(object);
 
-					HashMap<String, Integer> map = compareUploadedFileRecords(data);
-					int matched = map.get("matched");
-					int notMatched = map.get("notMatched");
-					if (notMatched != 0) {
-						ImportView view = new ImportView();
-						removeFromParent();
-					} else {
-						Accounter.showInformation(messages
-								.statementAlreadyImported());
-						removeFromParent();
-						return;
-					}
+					// TODO OpenImportView
+
+					removeFromParent();
 				} else {
 					Accounter.showInformation(messages
 							.unableToUploadStatementFile());
@@ -161,75 +151,24 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	/**
-	 * for checking the imported statement file records with the previous
-	 * statementRecordList
+	 * Returns Map<ColumnName,AllValues>
 	 * 
-	 * @param importedList
+	 * @param object
+	 * @return
 	 */
-	private HashMap<String, Integer> compareUploadedFileRecords(
-			List<String[]> importedList) {
-		// int matched = 0, notMatched = importedList.size() - 1;
-		// if (previousImportStatementList != null) {
-		// for (int i = 0; i < previousImportStatementList.size(); i++) {
-		// Object stObj = previousImportStatementList.get(i);
-		// // List<ClientStatementRecord> stList =
-		// // stObj.getStatementList();
-		//
-		// for (int j = 0; j < importedList.size() - 1; j++) {
-		//
-		// String[] fileValues = importedList.get(j + 1);
-		// // for (ClientStatementRecord stRecord : stList) {
-		// // String[] recValues = getStatementRecordValues(stRecord);
-		// // boolean isMatched = compare(recValues, fileValues);
-		// // if (isMatched) {
-		// // importedList.remove(j + 1);
-		// // matched++;
-		// // j = j - 1;
-		// // break;
-		// // }
-		// //
-		// // }
-		//
-		// }
-		//
-		// }
-		// }
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		// map.put("matched", matched);
-		// map.put("notMatched", notMatched - matched);
-		return map;
-	}
-
-	protected List<String[]> parseJsonArray(JSONArray array) {
-		boolean forHeadings = true;
-		List<String[]> data = new ArrayList<String[]>();
-		JSONArray array1 = array.isArray();
-		for (int i = 0; i < array1.size(); i++) {
-			JSONValue jsonValue = array1.get(i);
-			JSONObject object = jsonValue.isObject();
-			Set<String> keySet = object.keySet();
-			String[] headings = new String[object.size()];
-			if (forHeadings) {
-				int jj = 0;
-				for (String key : keySet) {
-					headings[jj] = key.trim();
-					jj++;
-				}
-				data.add(headings);
+	protected Map<String, List<String>> parseJsonArray(JSONObject object) {
+		JSONValue first20Records = object.get("first20Records");
+		JSONObject jObject = first20Records.isObject();
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		for (String columnName : jObject.keySet()) {
+			JSONArray array = jObject.get(columnName).isArray();
+			List<String> list = new ArrayList<String>();
+			for (int x = 0; x < array.size(); x++) {
+				list.add(toString(array.get(x)));
 			}
-			forHeadings = false;
-			String[] values = new String[object.size()];
-			for (int j = 0; j < object.size(); j++) {
-				int tmp = 0;
-				for (String key : keySet) {
-					String value = toString(object.get(key));
-					values[tmp] = value.trim();
-					tmp++;
-				}
-			}
-			data.add(values);
+			map.put(columnName, list);
 		}
-		return data;
+		return map;
 	}
 
 	private String toString(JSONValue value) {

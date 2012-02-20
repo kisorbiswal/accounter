@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.client.imports;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +20,19 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class ImportView extends AbstractBaseView<Importer<?>> {
 	private VerticalPanel importerMatchingPanel;
-	private List<Importer<?>> importerLines = new ArrayList<Importer<?>>();
 	private Map<String, Field<?>> fields = new HashMap<String, Field<?>>();
 	private VerticalPanel refreshMatchedPanel;
 	private FlexTable matchTable;
 	private Map<String, String> map;
+
+	/**
+	 * Contains Map<Column,AllValues>
+	 */
+	private Map<String, List<String>> importData = new HashMap<String, List<String>>();
+
+	public ImportView(Map<String, List<String>> data) {
+		this.importData = data;
+	}
 
 	@Override
 	public void init() {

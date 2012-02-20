@@ -6,11 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -61,7 +58,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 					BufferedReader br = new BufferedReader(
 							new InputStreamReader(in));
 					String strLine;
-					Map<String, List<String>> columnNameValueMap = new HashMap<String, List<String>>();
+					JSONObject headerWithValues = new JSONObject();
 					while ((strLine = br.readLine()) != null) {
 						String[] values = strLine.split(",");
 
@@ -73,21 +70,22 @@ public class UploadImportDataFileServlet extends BaseServlet {
 								for (int i = 0; i < values.length; i++) {
 									String value = values[i].trim().replaceAll(
 											"\"", "");
-									List<String> list = columnNameValueMap
+									JSONArray list = (JSONArray) headerWithValues
 											.get(headers[i]);
 									if (list == null) {
-										list = new ArrayList<String>();
-										list.add(value);
-										columnNameValueMap
+										list = new JSONArray();
+										list.put(value);
+										headerWithValues
 												.put(headers[i], list);
 									} else {
-										list.add(value);
+										list.put(value);
 									}
 								}
 							}
 						}
 					}
-					object.put("first20Records", columnNameValueMap);
+					object.put("fileID", file.getAbsolutePath());
+					object.put("first20Records", headerWithValues);
 				}
 			}
 			StringBuilder builder = new StringBuilder(object.toString());
