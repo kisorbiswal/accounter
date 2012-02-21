@@ -430,8 +430,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter.showError(messages
-									.unableToPerformTryAfterSomeTime());
+							if (Accounter.isShutdown()) {
+								Accounter.showError(messages
+										.unableToPerformTryAfterSomeTime());
+							}
 						}
 
 						@Override
@@ -569,8 +571,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter.showError(messages
-								.unableToPerformTryAfterSomeTime());
+						if (Accounter.isShutdown()) {
+							Accounter.showError(messages
+									.unableToPerformTryAfterSomeTime());
+						}
 					}
 				});
 	}
