@@ -288,7 +288,6 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	@Override
 	protected void payeeData() {
-		reportview.resetVariables();
 		if (isVendor) {
 			if (getPayeeId() != 0) {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));

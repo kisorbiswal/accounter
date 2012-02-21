@@ -285,4 +285,9 @@ public class StatementServerReport extends
 				getMessages().balance() };
 	}
 
+	@Override
+	public void initRecords(List<PayeeStatementsList> records) {
+		resetVariables();
+		super.initRecords(records);
+	}
 }
