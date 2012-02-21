@@ -105,10 +105,13 @@ public class TransferFund extends Transaction implements Lifecycle {
 			this.cashBackAccount.onUpdate(session);
 
 		}
+		double transferAmount = getTransferAmount(this);
 
-		depositIn.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		depositIn.updateCurrentBalance(this, -transferAmount,
+				this.currencyFactor);
 		session.save(depositIn);
-		depositFrom.updateCurrentBalance(this, this.total, this.currencyFactor);
+		depositFrom.updateCurrentBalance(this, transferAmount,
+				this.currencyFactor);
 		session.save(depositFrom);
 
 		return false;
@@ -230,13 +233,14 @@ public class TransferFund extends Transaction implements Lifecycle {
 					|| isCurrencyFactorChanged()) {
 				Account depositInAccount = (Account) session.get(Account.class,
 						makeDeposit.depositIn.getID());
-				depositInAccount.updateCurrentBalance(this, makeDeposit.total,
+				depositInAccount.updateCurrentBalance(this,
+						getTransferAmount(makeDeposit),
 						makeDeposit.currencyFactor);
 				depositInAccount.onUpdate(session);
 				session.saveOrUpdate(depositInAccount);
 
-				this.depositIn.updateCurrentBalance(this, -this.total,
-						this.currencyFactor);
+				this.depositIn.updateCurrentBalance(this,
+						-getTransferAmount(this), this.currencyFactor);
 				this.depositIn.onUpdate(session);
 				session.saveOrUpdate(this.depositIn);
 			}
@@ -246,17 +250,27 @@ public class TransferFund extends Transaction implements Lifecycle {
 				Account depositFromAccount = (Account) session.get(
 						Account.class, makeDeposit.depositFrom.getID());
 				depositFromAccount.updateCurrentBalance(this,
-						-makeDeposit.total, makeDeposit.currencyFactor);
+						-getTransferAmount(makeDeposit),
+						makeDeposit.currencyFactor);
 				depositFromAccount.onUpdate(session);
 				session.saveOrUpdate(depositFromAccount);
 
-				this.depositFrom.updateCurrentBalance(this, this.total,
-						this.currencyFactor);
+				this.depositFrom.updateCurrentBalance(this,
+						getTransferAmount(this), this.currencyFactor);
 				this.depositFrom.onUpdate(session);
 				session.saveOrUpdate(this.depositFrom);
 			}
 		}
 		super.onEdit(makeDeposit);
+	}
+
+	private double getTransferAmount(TransferFund fund) {
+		double transferAmount = fund.total;
+		if (fund.depositFrom.getCurrency().getID() == fund.getCompany()
+				.getPrimaryCurrency().getID()) {
+			transferAmount = transferAmount / fund.currencyFactor;
+		}
+		return transferAmount;
 	}
 
 	@Override
@@ -268,10 +282,11 @@ public class TransferFund extends Transaction implements Lifecycle {
 	}
 
 	private void doVoidEffect(Session session) {
-		depositIn.updateCurrentBalance(this, this.total, this.currencyFactor);
+		depositIn.updateCurrentBalance(this, getTransferAmount(this),
+				this.currencyFactor);
 		session.save(depositIn);
-		depositFrom
-				.updateCurrentBalance(this, -this.total, this.currencyFactor);
+		depositFrom.updateCurrentBalance(this, -getTransferAmount(this),
+				this.currencyFactor);
 		session.save(depositFrom);
 	}
 

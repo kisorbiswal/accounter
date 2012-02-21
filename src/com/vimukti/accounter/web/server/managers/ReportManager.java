@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.lucene.store.ChecksumIndexOutput;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -3657,9 +3658,9 @@ public class ReportManager extends Manager {
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			depositDetail.setPayeeName("");
-			depositDetail.setAccountName((String) objects[4]);
-			depositDetail.setAmount((Double) objects[5]);
+			depositDetail.setPayeeName(objects[4] != null ? (String) objects[4] : "");
+			depositDetail.setAccountName((String) objects[5]);
+			depositDetail.setAmount((Double) objects[6]);
 			list.add(depositDetail);
 		}
 
@@ -3685,11 +3686,15 @@ public class ReportManager extends Manager {
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			checkDetail.setCheckAmount((Double) objects[4]);
-			checkDetail.setCheckNumber(objects[5] != null ? (String) objects[5]
-					: "");
-
-			checkDetail.setPayeeName("");
+			checkDetail.setPayeeName((String) objects[4]);
+			checkDetail.setCheckAmount((Double) objects[5]);
+			String checkNumber= objects[6] != null ? (String) objects[6]
+					: "";
+			if(checkNumber.trim().length()==0)
+			{
+				checkNumber = "To BE PRINTED";
+			}
+			checkDetail.setCheckNumber(checkNumber);
 			list.add(checkDetail);
 		}
 		return list;

@@ -8,7 +8,9 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class TDSChalanDetail extends Transaction implements
 		IAccounterServerCore {
@@ -243,7 +245,15 @@ public class TDSChalanDetail extends Transaction implements
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+		w.put(messages.type(), messages.tdsChallan()).gap();
+		w.put(messages.challanSerialNo(), this.chalanSerialNumber).gap();
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.getCurrency().getFormalName()).gap();
+		w.put(messages.currencyFactor(), this.currencyFactor);
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap();
 
 	}
 

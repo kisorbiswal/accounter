@@ -823,14 +823,21 @@ public class RecurringTransaction extends CreatableObject implements
 
 		AccounterMessages messages = Global.get().messages();
 		w.put(messages.name(), this.name);
-		w.put(messages.recurringType(), this.type).gap();
-		w.put(messages.intervalType(), this.intervalType);
-		w.put(messages.daysInAdvance(), this.daysInAdvanceToCreate).gap();
-		w.put(messages.startDate(), this.startDate.toString());
-		w.put(messages.endDateType(), this.endDateType).gap();
-		w.put(messages.onSpecificWeek(), this.weekOfMonth);
-		w.put(messages.onSpecificDay(), this.dayOfMonth).gap();
-		w.put(messages.remindMe(), this.daysBeforeToRemind);
+		w.put(messages.recurringType(), getRecurringTypeOptions(this.type)).gap();
+		w.put(messages.intervalType(), getIntervalTypeOptions(this.intervalType));
+		w.put(messages.days(), this.intervalPeriod).gap();
+		w.put(messages.daysInAdvance(), this.daysInAdvanceToCreate);
+		w.put(messages.startDate(), this.startDate.toString()).gap();
+		w.put(messages.endDate(), this.endDate.toString());
+		w.put(messages.endDateType(), getEndDateTypeOptions(this.endDateType)).gap();
+		w.put(messages.dayOfWeek(), this.weekDay);
+		w.put(messages.weekOfMonth(), this.weekOfMonth).gap();
+		w.put(messages.endAfterSpecifiedOccurences(), this.occurencesCount);
+		w.put(messages.remindMe(), this.daysBeforeToRemind).gap();
+		w.put(messages.month(), this.month);
+		w.put(messages.dayOfMonth(), this.dayOfMonth).gap();
+		w.put(messages.alertWhenRangeHasEnded(), this.alertWhenEnded);
+		w.put(messages.notifyAboutCreatedTransactions(), this.notifyCreatedTransaction).gap();
 
 	}
 
@@ -861,5 +868,48 @@ public class RecurringTransaction extends CreatableObject implements
 	@Override
 	public int getObjType() {
 		return IAccounterCore.RECURING_TRANSACTION;
+	}
+	
+	private String getRecurringTypeOptions(int index) {
+		AccounterMessages messages = Global.get().messages();
+		switch (index) {
+		case 0:
+			return messages.scheduled();
+		case 1:
+			return messages.reminder();
+		case 2:
+			return messages.unScheduled();
+		}
+		return "";
+	}
+	
+	private String getIntervalTypeOptions(int index) {
+		AccounterMessages messages = Global.get().messages();
+		switch (index) {
+		case 0:
+			return messages.daily();
+		case 1:
+			return messages.weekly();
+		case 2:
+			return messages.monthly();
+		case 3:
+			return messages.yearly();
+		}
+		return "";
+		
+	}
+	private String getEndDateTypeOptions(int index) {
+		AccounterMessages messages = Global.get().messages();
+		switch (index) {
+		case 0:
+			return messages.noEndDate();
+		case 1:
+			return messages.endAfterOccurrences();
+		case 2:
+			return messages.endDateAfter();
+		
+		}
+		return "";
+		
 	}
 }
