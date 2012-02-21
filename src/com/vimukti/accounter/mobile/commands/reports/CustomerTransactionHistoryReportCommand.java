@@ -31,7 +31,7 @@ public class CustomerTransactionHistoryReportCommand extends
 			protected String onSelection(TransactionHistory selection,
 					String name) {
 				markDone();
-				return "update transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -79,7 +79,8 @@ public class CustomerTransactionHistoryReportCommand extends
 	 */
 	private Record createReportRecord(TransactionHistory record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		transactionRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().amount(), record.getAccount());

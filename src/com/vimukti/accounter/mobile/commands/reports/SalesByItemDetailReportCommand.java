@@ -78,7 +78,8 @@ public class SalesByItemDetailReportCommand extends
 
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add(getMessages().date(), record.getDate());
+		salesRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		salesRecord.add(getMessages().type(),
 				ReportUtility.getTransactionName(record.getType()));
 		salesRecord.add(getMessages().number(), record.getNumber());
@@ -112,7 +113,7 @@ public class SalesByItemDetailReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

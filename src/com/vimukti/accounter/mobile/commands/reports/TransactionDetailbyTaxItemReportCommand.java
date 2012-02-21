@@ -83,12 +83,15 @@ public class TransactionDetailbyTaxItemReportCommand extends
 		Record tdRecord = new Record(record);
 		tdRecord.add(Utility.getTransactionName(record.getTransactionType()));
 		tdRecord.add(getMessages().taxRate(), record.getRate());
-		tdRecord.add(getMessages().date(), record.getDate());
+		tdRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		tdRecord.add(getMessages().number(), record.getNumber());
 		tdRecord.add(getMessages().taxItemName(), record.getTaxItemName());
 		tdRecord.add(getMessages().memo(), record.getMemo());
-		tdRecord.add(getMessages().salesTax(), record.getSalesTaxAmount());
-		tdRecord.add(getMessages().taxable(), record.getTaxableAmount());
+		tdRecord.add(getMessages().salesTax(),
+				getAmountWithCurrency(record.getSalesTaxAmount()));
+		tdRecord.add(getMessages().taxable(),
+				getAmountWithCurrency(record.getTaxableAmount()));
 		return tdRecord;
 	}
 
@@ -127,7 +130,7 @@ public class TransactionDetailbyTaxItemReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByTaxItem selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

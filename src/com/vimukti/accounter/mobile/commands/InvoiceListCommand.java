@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
@@ -77,14 +78,15 @@ public class InvoiceListCommand extends AbstractTransactionListCommand {
 				record.add(getMessages().transactionName(),
 						Utility.getTransactionName(value.getType()));
 				record.add(getMessages().name(), value.getCustomerName());
-				record.add(getMessages().date(), value.getDate());
+				record.add(getMessages().date(),
+						getDateByCompanyType(value.getDate(), getPreferences()));
 
 				Currency currency = (Currency) HibernateUtil
 						.getCurrentSession().get(Currency.class,
 								value.getCurrency());
 				record.add(
 						getMessages().total(),
-						Global.get().toCurrencyFormat(value.getTotalPrice(),
+						getAmountWithCurrency(value.getTotalPrice(),
 								currency.getSymbol()));
 				return record;
 			}

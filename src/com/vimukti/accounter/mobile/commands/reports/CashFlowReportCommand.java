@@ -34,10 +34,10 @@ public class CashFlowReportCommand extends
 			protected String onSelection(TrialBalance selection, String name) {
 				markDone();
 				if (selection.getAccountId() != 0) {
-					return "Transaction Detail By Account ,"
+					return "transactionDetailByAccount ,"
 							+ selection.getAccountNumber();
 				} else {
-					return "Profit and Loss";
+					return "profitAndLoss";
 				}
 			}
 
@@ -169,7 +169,12 @@ public class CashFlowReportCommand extends
 	protected Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add("", record.getAccountName());
-		trialRecord.add(getStartDate() + "_" + getEndDate(),
+		trialRecord.add(
+				getDateByCompanyType(getStartDate().toClientFinanceDate(),
+						getPreferences())
+						+ "-"
+						+ getDateByCompanyType(getEndDate()
+								.toClientFinanceDate(), getPreferences()),
 				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}
