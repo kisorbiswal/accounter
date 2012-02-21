@@ -90,8 +90,9 @@ public class UploadCSVFileDialog extends BaseDialog {
 		panel.setSpacing(5);
 
 		panel.add(detailsHtml3);
-		panel.add(selectFileToUpload);
+		// panel.add(selectFileToUpload);
 		vpaPanel.add(panel);
+		vpaPanel.add(selectFileToUpload);
 
 		// Add a 'submit' button.
 		Button uploadSubmitButton = new Button(messages.save());
@@ -140,8 +141,6 @@ public class UploadCSVFileDialog extends BaseDialog {
 					JSONObject object = jSONValue.isObject();
 					final Map<String, List<String>> data = parseJsonArray(object);
 
-					// TODO OpenImportView
-
 					Accounter.createHomeService().getFieldsOf(getType(),
 							new AccounterAsyncCallback<List<Field<?>>>() {
 
@@ -158,10 +157,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 									ImportAction action = new ImportAction(
 											result, data, getType());
 									action.run();
+									close();
 								}
 							});
 
-					removeFromParent();
 				} else {
 					Accounter.showInformation(messages
 							.unableToUploadStatementFile());
@@ -256,6 +255,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	protected void close() {
+		onCancel();
 		this.removeFromParent();
 	}
 
