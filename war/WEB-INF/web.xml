@@ -428,7 +428,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>uploadImportDataFile</servlet-name>
-		<url-pattern>/do/uploadImportDataFile</url-pattern>
+		<url-pattern>/do/uploadedImportDataFile</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
