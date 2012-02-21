@@ -138,7 +138,7 @@ public class SalesOpenOrderReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(OpenAndClosedOrders selection) {
-		return "update transaction " + selection.getTransactionID();
+		return "updateTransaction " + selection.getTransactionID();
 	}
 
 	@Override

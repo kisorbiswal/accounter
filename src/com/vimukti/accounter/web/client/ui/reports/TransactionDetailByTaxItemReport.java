@@ -10,7 +10,6 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 
-@SuppressWarnings("unchecked")
 public class TransactionDetailByTaxItemReport extends
 		AbstractReportView<TransactionDetailByTaxItem> {
 
@@ -36,9 +35,9 @@ public class TransactionDetailByTaxItemReport extends
 		if (taxLiability == null) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
 					start, end, this);
-		} else if (taxLiability.getTaxItemName() != null) {
+		} else if (taxLiability.getTaxItemId() != 0) {
 			Accounter.createReportService().getTransactionDetailByTaxItem(
-					taxLiability.getTaxItemName(), taxLiability.getStartDate(),
+					taxLiability.getTaxItemId(), taxLiability.getStartDate(),
 					taxLiability.getEndDate(), this);
 
 		}
@@ -51,12 +50,19 @@ public class TransactionDetailByTaxItemReport extends
 
 	@Override
 	public void print() {
-		String taxItemName = this.data != null ? ((SalesTaxLiability) data)
-				.getTaxItemName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 114, "",
-				"", taxItemName);
+		long taxItemid = this.data != null ? ((SalesTaxLiability) data)
+				.getTaxItemId() : 0;
+		if (taxItemid == 0) {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 114,
+					"", "", "");
+		} else {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 114,
+					"", "", taxItemid);
+		}
 
 	}
 
@@ -72,7 +78,7 @@ public class TransactionDetailByTaxItemReport extends
 	public void printPreview() {
 
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
