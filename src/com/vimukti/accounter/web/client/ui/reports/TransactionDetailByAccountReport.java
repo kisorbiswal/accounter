@@ -142,7 +142,7 @@ public class TransactionDetailByAccountReport extends
 					start, end, this);
 		} else if (accountdetails.getAccountName() != null) {
 			Accounter.createReportService().getTransactionDetailByAccount(
-					accountdetails.getAccountName(),
+					accountdetails.getAccountId(),
 					accountdetails.getStartDate(), accountdetails.getEndDate(),
 					this);
 		}
@@ -155,12 +155,12 @@ public class TransactionDetailByAccountReport extends
 
 	@Override
 	public void print() {
-		String accountName = data != null ? ((TrialBalance) data)
-				.getAccountName() : "";
+		long accountId = data != null ? ((TrialBalance) data).getAccountId()
+				: 0;
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "", accountName);
+				getReportType(), "", "", accountId);
 
 	}
 
@@ -229,7 +229,7 @@ public class TransactionDetailByAccountReport extends
 	public void setReportType(int reportType) {
 		this.reportType = reportType;
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

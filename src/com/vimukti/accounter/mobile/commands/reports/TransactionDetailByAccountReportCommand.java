@@ -159,7 +159,7 @@ public class TransactionDetailByAccountReportCommand extends
 		} else {
 			try {
 				transactionDetailsByAc = reportManager
-						.getTransactionDetailByAccount(account.getName(),
+						.getTransactionDetailByAccount(account.getID(),
 								getStartDate(), getEndDate(), getCompanyId());
 			} catch (DAOException e) {
 				e.printStackTrace();

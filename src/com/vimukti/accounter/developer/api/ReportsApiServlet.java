@@ -132,10 +132,10 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesbycustomerdetailbyname")) {
-				String customerName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl
-						.getSalesByCustomerDetailReport(customerName,
-								clientFinanceStartDate, clientFinanceEndDate);
+				// String customerName = (String) req.getAttribute("Name");
+				// result = accounterReportServiceImpl
+				// .getSalesByCustomerDetailReport(customerName,
+				// clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("customertransactionhistory")) {
 				result = accounterReportServiceImpl
@@ -284,9 +284,9 @@ public class ReportsApiServlet extends HttpServlet {
 						taxAgency, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchasesbyitemdetailname")) {
-				String itemName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl.getPurchasesByItemDetail(
-						itemName, clientFinanceStartDate, clientFinanceEndDate);
+				// String itemName = (String) req.getAttribute("Name");
+				// result = accounterReportServiceImpl.getPurchasesByItemDetail(
+				// itemName, clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("priorvatreturnreport")) {
 				Long taxAgency = (Long) req.getAttribute("TaxAgency");
@@ -294,10 +294,11 @@ public class ReportsApiServlet extends HttpServlet {
 						taxAgency, clientFinanceEndDate);
 
 			} else if (methodName.equals("purchasesbyvendordetailbyname")) {
-				String vendorName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl.getPurchasesByVendorDetail(
-						vendorName, clientFinanceStartDate,
-						clientFinanceEndDate);
+				// String vendorName = (String) req.getAttribute("Name");
+				// result =
+				// accounterReportServiceImpl.getPurchasesByVendorDetail(
+				// vendorName, clientFinanceStartDate,
+				// clientFinanceEndDate);
 
 			} else if (methodName.equals("priorvatreturnvatdetailreport")) {
 				result = accounterReportServiceImpl
@@ -313,9 +314,9 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesbyitemdetailbyname")) {
-				String itemName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl.getSalesByItemDetail(
-						itemName, clientFinanceStartDate, clientFinanceEndDate);
+				// String itemName = (String) req.getAttribute("Name");
+				// result = accounterReportServiceImpl.getSalesByItemDetail(
+				// itemName, clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("salesordelist")) {
 				result = accounterReportServiceImpl.getSalesOrderReport(-1,
@@ -344,10 +345,10 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("transactiondetailbyaccountname")) {
-				String accountName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl
-						.getTransactionDetailByAccount(accountName,
-								clientFinanceStartDate, clientFinanceEndDate);
+				// String accountName = (String) req.getAttribute("Name");
+				// result = accounterReportServiceImpl
+				// .getTransactionDetailByAccount(accountName,
+				// clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("minimumandmaximumtransactiondate")) {
 				List<ClientFinanceDate> minimumAndMaximumTransactionDate = accounterReportServiceImpl
@@ -364,10 +365,10 @@ public class ReportsApiServlet extends HttpServlet {
 						clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("transactiondetailbytaxitemname")) {
-				String taxItemName = (String) req.getAttribute("Name");
-				result = accounterReportServiceImpl
-						.getTransactionDetailByTaxItem(taxItemName,
-								clientFinanceStartDate, clientFinanceEndDate);
+				// String taxItemName = (String) req.getAttribute("Name");
+				// result = accounterReportServiceImpl
+				// .getTransactionDetailByTaxItem(taxItemName,
+				// clientFinanceStartDate, clientFinanceEndDate);
 
 			} else if (methodName.equals("balancesheetreport")) {
 				result = accounterReportServiceImpl.getBalanceSheetReport(

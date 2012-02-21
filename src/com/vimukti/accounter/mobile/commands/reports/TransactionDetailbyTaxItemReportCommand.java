@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -99,9 +100,19 @@ public class TransactionDetailbyTaxItemReportCommand extends
 						.getReportManager().getTransactionDetailByTaxItem(
 								getStartDate(), getEndDate(), getCompanyId());
 			} else if (taxItemName != null) {
+				long taxItemId = 0;
+				for (TAXItem taxItem : getCompany().getTaxItems()) {
+					if (taxItem.getName().equals(taxItemName)) {
+						taxItemId = taxItem.getID();
+					}
+				}
+				if (taxItemId == 0) {
+					taxItemName = null;
+					getRecords();
+				}
 				transactionDetailByTaxItems = new FinanceTool()
 						.getReportManager().getTransactionDetailByTaxItem(
-								taxItemName, getStartDate(), getEndDate(),
+								taxItemId, getStartDate(), getEndDate(),
 								getCompanyId());
 			}
 

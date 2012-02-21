@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesByCustomerDetailReportCommand extends
 		NewAbstractReportCommand<SalesByCustomerDetail> {
-	private String customerName;
+	private long customerId;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -89,13 +89,13 @@ public class SalesByCustomerDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
-			if (customerName == null || customerName.isEmpty()) {
+			if (customerId == 0) {
 				salesByCustomerDetails = new FinanceTool().getReportManager()
 						.getSalesByCustomerDetailReport(getStartDate(),
 								getEndDate(), getCompanyId());
-			} else if (!customerName.isEmpty()) {
+			} else if (customerId != 0) {
 				salesByCustomerDetails = new FinanceTool().getReportManager()
-						.getSalesByCustomerDetailReport(customerName,
+						.getSalesByCustomerDetailReport(customerId,
 								getStartDate(), getEndDate(), getCompanyId());
 			}
 		} catch (Exception e) {
@@ -114,7 +114,7 @@ public class SalesByCustomerDetailReportCommand extends
 		if (string != null && !string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
-			customerName = split[1];
+			customerId = Long.parseLong(split[1]);
 		}
 		return null;
 	}

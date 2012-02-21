@@ -72,7 +72,7 @@ public class SalesByCustomerSummaryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "Sales by Customer Detail Report ," + selection.getName();
+		return "salesByCustomerDetail ," + selection.getCustomerId();
 	}
 
 	@Override

@@ -405,7 +405,8 @@ public class ReportsGenerator {
 				} else {
 					transactionDetailByTaxItemServerReport
 							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByTaxItem(status,
+									.getTransactionDetailByTaxItem(
+											Long.parseLong(status),
 											startDate.toClientFinanceDate(),
 											endDate.toClientFinanceDate(),
 											getCompany().getID()));
@@ -438,7 +439,8 @@ public class ReportsGenerator {
 				} else {
 					transactionDetailByAccountServerReport
 							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByAccount(status,
+									.getTransactionDetailByAccount(
+											Long.parseLong(status),
 											startDate.toClientFinanceDate(),
 											endDate.toClientFinanceDate(),
 											getCompany().getID()));
@@ -634,8 +636,8 @@ public class ReportsGenerator {
 									getCompany().getID()));
 				} else {
 					salesByItemDetailServerReport.onResultSuccess(salesManager
-							.getSalesByItemDetail(status, startDate, endDate,
-									getCompany().getID()));
+							.getSalesByItemDetail(Long.parseLong(status),
+									startDate, endDate, getCompany().getID()));
 				}
 
 			} catch (Exception e) {
@@ -801,7 +803,7 @@ public class ReportsGenerator {
 				} else {
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getVendorManager().getPurchasesByVendorDetail(
-									status, startDate, endDate,
+									Long.parseLong(status), startDate, endDate,
 									getCompany().getID()));
 				}
 			} catch (Exception e) {
@@ -849,7 +851,7 @@ public class ReportsGenerator {
 				} else {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchageManager().getPurchasesByItemDetail(
-									status, startDate, endDate,
+									Long.parseLong(status), startDate, endDate,
 									getCompany().getID()));
 				}
 			} catch (Exception e) {
