@@ -61,12 +61,12 @@ $('#submitButton').click(function() {
 			<c:if test="${companeyList != null}">
 			<select name="companyname">
 			<c:forEach var="company" items="${companeyList}">
-			<option value="${company}">${company}</option> 
+			<option value="${company[0]}">${company[1]}</option> 
 			</c:forEach></select> 
 			</c:if>
 			 Enter password
-			<input type="password" id= "pass1" name="pass1"  >Confirm password
-			<input type="password" id= "pass2"  name="pass2"  >
+			<input type="password" id= "pass1" name="password" >Confirm password
+			<input type="password" id= "pass2"  name="confirm" >
 			<input type="submit" id="submitButton" name="submit" class="allviews-common-button" value="submit">
 			 <a   href="/main/logout" ><i18n:i18n msg='logout'/></a>
 			<div>

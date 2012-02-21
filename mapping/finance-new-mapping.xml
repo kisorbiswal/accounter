@@ -35,16 +35,16 @@
 				class="com.vimukti.accounter.web.server.translate.Language" />
 		</set>
 		<many-to-one name="clientSubscription"
-			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"  cascade="save-update"
-			column="CLIENT_SUBSCRIPTION" not-null="true"> 
+			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"
+			cascade="save-update" column="CLIENT_SUBSCRIPTION" not-null="true">
 		</many-to-one>
 		<many-to-one name="subscriptionManagementData"
-			class="com.vimukti.accounter.core.SubscriptionManagementData" lazy="false"  cascade="save-update"
-			column="SUBSCRIPTION_MANGE_DATA" > 
+			class="com.vimukti.accounter.core.SubscriptionManagementData" lazy="false"
+			cascade="save-update" column="SUBSCRIPTION_MANGE_DATA">
 		</many-to-one>
-		</class>
-	  
-		<class name="SubscriptionManagementData" table="SUBSCRIPTION_MANGE_DATA">
+	</class>
+
+	<class name="SubscriptionManagementData" table="SUBSCRIPTION_MANGE_DATA">
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
@@ -53,8 +53,8 @@
 		<property name="subscriptionType" column="SUB_TYPE" type="int"></property>
 
 	</class>
-	
-	
+
+
 	<class name="ClientSubscription" table="CLIENT_SUBSCRIPTION">
 		<id name="id" column="ID">
 			<generator class="identity" />

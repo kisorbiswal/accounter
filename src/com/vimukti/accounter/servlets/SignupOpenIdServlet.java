@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -111,6 +112,7 @@ public class SignupOpenIdServlet extends BaseServlet {
 				client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
 
 				ClientSubscription clientSubscription = new ClientSubscription();
+				clientSubscription.setCreatedDate(new Date());
 				Subscription subscription = new Subscription();
 				saveEntry(subscription);
 				clientSubscription.setSubscription(subscription);

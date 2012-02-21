@@ -3,6 +3,7 @@ package com.vimukti.accounter.web.server.managers;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -361,10 +362,6 @@ public class UserManager extends Manager {
 			invitedClient.setActive(true);
 			Set<User> users = new HashSet<User>();
 			user.setClient(invitedClient);
-			ClientSubscription clientSubscription = new ClientSubscription();
-			clientSubscription.setSubscription(new Subscription());
-
-			invitedClient.setClientSubscription(clientSubscription);
 			invitedClient.setDeleted(false);
 
 			user.setCompany(company);
@@ -379,6 +376,7 @@ public class UserManager extends Manager {
 					.makeHash(emailId + randomString)));
 
 			ClientSubscription clientSubscription = new ClientSubscription();
+			clientSubscription.setCreatedDate(new Date());
 			Subscription subscription = new Subscription();
 			session.save(subscription);
 			clientSubscription.setSubscription(subscription);

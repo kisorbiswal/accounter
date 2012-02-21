@@ -231,7 +231,8 @@ public class Client {
 		return subscriptionManagementData;
 	}
 
-	public void setSubscriptionManagementData(SubscriptionManagementData subscriptionManagementData) {
+	public void setSubscriptionManagementData(
+			SubscriptionManagementData subscriptionManagementData) {
 		this.subscriptionManagementData = subscriptionManagementData;
 	}
 }

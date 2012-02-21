@@ -13,8 +13,8 @@
 	<sql-query name="getNextAccountNumber">
 		<query-param name="companyId" type="long" />
 		<query-param name="subbaseType" type="int" />
-		
-		SELECT MAX(A_NUMBER) FROM ACCOUNT A 
+		<return-scalar column="A_NUMBER" type="encryptedstring" />
+		SELECT A_NUMBER FROM ACCOUNT A 
 		WHERE SUB_BASE_TYPE=:subbaseType AND A.COMPANY_ID=:companyId
 	
 	</sql-query> 

@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class EncryptCompaniesServlet extends BaseServlet {
@@ -43,7 +46,7 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				}
 			}
 			if (!userIds.isEmpty()) {
-				List<String> list = currentSession
+				List<Object[]> list = currentSession
 						.getNamedQuery(
 								"get.NonEncrypted.CompanyNames.by.client")
 						.setParameterList("userIds", userIds).list();
@@ -58,7 +61,37 @@ public class EncryptCompaniesServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+		HttpSession session = req.getSession();
+		if (session != null && session.getAttribute(EMAIL_ID) != null) {
+			String emailId = (String) session.getAttribute(EMAIL_ID);
+			String companyId = req.getParameter("companyname");
+			// TODO Check for valis companyId
+			Session session2 = HibernateUtil.getCurrentSession();
+			Company company = (Company) session2.get(Company.class,
+					Long.parseLong(companyId));
+			if (company != null) {
+				String password = req.getParameter("password");
+				// company.setLocked(true);
+				Session currentSession = HibernateUtil.getCurrentSession();
+				Transaction beginTransaction = currentSession
+						.beginTransaction();
+				currentSession.saveOrUpdate(company);
+				beginTransaction.commit();
+				try {
+					new Encrypter(company.getId(), password, getD2(req),
+							emailId).start();
+				} catch (Exception e) {
+				}
+			}
+		}
+		resp.sendRedirect(LOGIN_URL);
+	}
+
+	private Company getCompany(String companyName) {
+		Session session = HibernateUtil.getCurrentSession();
+		Object uniqueResult = session
+				.getNamedQuery("get.company.by.tradingname")
+				.setParameter("tradingName", companyName).uniqueResult();
+		return (Company) uniqueResult;
 	}
 }

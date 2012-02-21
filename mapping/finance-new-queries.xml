@@ -176,4 +176,10 @@
 		<return-scalar column="SECRET" type="binary" />
 		SELECT C.SECRET_KEY AS SECRET from COMPANY C WHERE C.ID=:companyId
 	</sql-query>
+
+	<query name="get.company.by.tradingname">
+		<query-param name="tradingName" type="String" />
+		from com.vimukti.accounter.core.Company c where
+		c.preferences.tradingName=:tradingName
+	</query>
 </hibernate-mapping>

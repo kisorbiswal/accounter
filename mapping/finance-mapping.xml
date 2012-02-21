@@ -372,14 +372,14 @@
 		<many-to-one name="costOfGoodsSold" class="Account"
 			column="COST_OF_GOODS_SOLD" cascade="delete">
 		</many-to-one>
-		
+
 		<many-to-one name="tdsDeductor" class="TDSDeductorMasters"
 			column="TDS_DEDUCTOR" cascade="delete">
 		</many-to-one>
 		<many-to-one name="tdsResposiblePerson" class="TDSResponsiblePerson"
 			column="TDS_RESPONSIBLE_PERSON" cascade="delete">
 		</many-to-one>
-		
+
 		<!-- <many-to-one name="prepaidVATaccount" class="Account" -->
 		<!-- column="PREPAID_VAT_ACCOUNT_ID"> -->
 		<!-- </many-to-one> -->
@@ -644,7 +644,7 @@
 			<key column="COMPANY_ID" />
 			<one-to-many class="ChequeLayout" />
 		</set>
-		
+
 		<set name="emailAccounts" inverse="true" cascade="delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="EmailAccount" />
@@ -686,10 +686,9 @@
 		</id>
 		<many-to-one name="company" column="COMPANY_ID" class="Company">
 		</many-to-one>
-		<property name="name" type="encryptedstring" not-null="true"
-			column="NAME"></property>
-		<property name="symbol" type="encryptedstring" column="SYMBOL"></property>
-		<property name="formalName" type="encryptedstring" column="FORMAL_NAME"></property>
+		<property name="name" not-null="true" column="NAME"></property>
+		<property name="symbol" column="SYMBOL"></property>
+		<property name="formalName" column="FORMAL_NAME"></property>
 		<property name="version" column="VERSION"></property>
 	</class>
 	<class name="CustomerGroup" table="CUSTOMER_GROUP">
@@ -817,8 +816,8 @@
 		<id name="id" column="ID">
 			<generator class="identity"></generator>
 		</id>
-		<many-to-one name="inventoryItem" column="INVENTORY_ITEM_ID" class="Item"
-			not-null="true">
+		<many-to-one name="inventoryItem" column="INVENTORY_ITEM_ID"
+			class="Item" not-null="true">
 		</many-to-one>
 		<component name="quantity" class="Quantity">
 			<property name="value" column="QTY_VALUE"></property>
@@ -1802,8 +1801,8 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="name" type="encryptedstring" column="NAME" />
-		<property name="desctiption" type="encryptedstring" column="DESCRIPTION" />
+		<property name="name" column="NAME" />
+		<property name="desctiption" column="DESCRIPTION" />
 
 		<set name="units" inverse="true" cascade="save-update,delete-orphan">
 			<key column="MEASUREMENT_ID" />
@@ -1818,7 +1817,7 @@
 		<many-to-one name="company" column="COMPANY_ID" class="Company"
 			not-null="true">
 		</many-to-one>
-		<property name="type" type="encryptedstring" column="TYPE" />
+		<property name="type" column="TYPE" />
 		<property name="factor" column="FACTOR" />
 		<property name="isDefault" column="IS_DEFAULT" />
 		<many-to-one name="measurement" column="MEASUREMENT_ID"
@@ -2290,29 +2289,7 @@
 		<property name="portNumber" column="PORT_NUMBER" />
 		<property name="isSSL" column="IS_SSL" />
 	</class>
-	
-	<class name="EmailAccount" table="EMAIL_ACCOUNT">
-		<id name="id" column="ID">
-			<generator class="identity" />
-		</id>
-		<many-to-one name="company" column="COMPANY_ID" class="Company"
-			not-null="true">
-		</many-to-one>
-		<many-to-one name="createdBy" column="CREATED_BY" class="User"
-			not-null="true"></many-to-one>
-		<many-to-one name="lastModifier" column="LAST_MODIFIER"
-			class="User" not-null="true"></many-to-one>
-		<property name="createdDate" column="CREATED_DATE" not-null="true" />
-		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
-			not-null="true" />
-		<property name="version" column="VERSION" />
-		<property name="emailId" column="EMAIL_ID" />
-		<property name="password" column="PASSWORD" />
-		<property name="smtpMailServer" column="MAIL_SERVER" />
-		<property name="portNumber" column="PORT_NUMBER" />
-		<property name="isSSL" column="IS_SSL" />
-	</class>
-	
+
 	<class name="InventoryPurchase" table="INVENTORY_PURCHASE">
 		<id name="id" column="ID">
 			<generator class="identity" />
@@ -2324,7 +2301,8 @@
 				cascade="save-update" />
 		</component>
 		<property name="cost" column="PURCHASE_COST"></property>
-		<many-to-one name="effectingAccount" not-null="true"  column="EFFECTING_ACCOUNT" class="Account"/>
+		<many-to-one name="effectingAccount" not-null="true"
+			column="EFFECTING_ACCOUNT" class="Account" />
 	</class>
 </hibernate-mapping>
 
