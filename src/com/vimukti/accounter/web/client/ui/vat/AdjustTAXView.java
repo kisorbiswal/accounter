@@ -101,6 +101,15 @@ public class AdjustTAXView extends
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 		taxAgencyCombo.setDisabled(isInViewMode());
+		ArrayList<ClientTAXAgency> taxAgencies = getCompany().getTaxAgencies();
+		ArrayList<ClientTAXAgency> list = new ArrayList<ClientTAXAgency>();
+		for (ClientTAXAgency clientTAXAgency : taxAgencies) {
+			if (clientTAXAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
+				list.add(clientTAXAgency);
+			}
+		}
+
+		taxAgencyCombo.initCombo(list);
 
 		vatItemCombo = new AdjustmentVATItemCombo(messages.taxItem(), taxAgency);
 		vatItemCombo.setHelpInformation(true);

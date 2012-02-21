@@ -10,6 +10,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
@@ -88,12 +89,19 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 			protected Record createRecord(CustomerRefundsList value) {
 				Record record = new Record(value);
 				record.add(getMessages().paymentNo(), value.getPaymentNumber());
-				record.add(getMessages().paymentDate(), value.getPaymentDate());
-				record.add(getMessages().issueDate(), value.getIssueDate());
+				record.add(
+						getMessages().paymentDate(),
+						getDateByCompanyType(value.getPaymentDate(),
+								getPreferences()));
+				record.add(
+						getMessages().issueDate(),
+						getDateByCompanyType(value.getIssueDate(),
+								getPreferences()));
 				record.add(getMessages().name(), value.getName());
 				record.add(getMessages().paymentMethod(),
 						value.getPaymentMethod());
-				record.add(getMessages().amountPaid(), value.getAmountPaid());
+				record.add(getMessages().amountPaid(),
+						getAmountWithCurrency(value.getAmountPaid()));
 				record.add(getMessages().status(), Utility
 						.getTransactionStatus(
 								ClientTransaction.TYPE_CUSTOMER_REFUNDS,

@@ -1139,8 +1139,7 @@ public class CashSalesView extends
 			// if there is only one branding theme
 			ClientBrandingTheme clientBrandingTheme = themesList.get(0);
 			UIUtils.downloadAttachment(transaction.getID(),
-					ClientTransaction.TYPE_CASH_SALES,
-					clientBrandingTheme.getID());
+					ClientTransaction.TYPE_CASH_SALES);
 		}
 	}
 

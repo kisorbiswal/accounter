@@ -32,6 +32,7 @@ import com.vimukti.accounter.mobile.requirements.VendorRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -243,10 +244,10 @@ public class CreateVendorPrepaymentCommand extends AbstractTransactionCommand {
 					if (new ListFilter<Account>() {
 
 						@Override
-						public boolean filter(Account e) {
-							if (e.getIsActive()
-									&& (e.getType() == Account.TYPE_BANK || e
-											.getType() == Account.TYPE_OTHER_ASSET)) {
+						public boolean filter(Account account) {
+							if (account.getIsActive()
+									&& (account.getSubBaseType() == ClientAccount.SUBBASETYPE_CURRENT_ASSET || account
+											.getType() == ClientAccount.TYPE_CREDIT_CARD)) {
 								return true;
 							}
 							return false;
