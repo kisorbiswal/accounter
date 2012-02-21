@@ -7886,8 +7886,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
-		LEFT JOIN
-		ACCOUNT A ON AT.ACCOUNT_ID=A.ID
+		LEFT JOIN	ACCOUNT A ON AT.ACCOUNT_ID=A.ID
 		LEFT JOIN TRANSACTION T ON
 		T.ID=AT.TRANSACTION_ID
 		WHERE (A.A_TYPE=15 OR A.A_TYPE=16 OR
@@ -7910,6 +7909,7 @@
 
 
 	<sql-query name="createDeleteCompanyFunction">
+		<![CDATA[
 		CREATE OR REPLACE FUNCTION delete_company(cid
 		bigint) RETURNS boolean
 		AS
@@ -7917,667 +7917,487 @@
 
 		SET CONSTRAINTS ALL DEFERRED;
 
-		delete from company_fields where company_id=cid;
-		delete from
-		payee_fields using payee where payee_id=payee.id and
-		payee.company_id=cid;
+		DELETE FROM company_fields
+		WHERE  company_id = cid;
 
-		delete from
-		cheque_layout where company_id=cid;
+		DELETE FROM payee_fields
+		USING  payee
+		WHERE  payee_id = payee.id
+			   AND payee.company_id = cid;
 
-		delete from attachments where company_id=cid;
-		delete from
-		message_or_task where company_id=cid;
-		delete from account_amounts using
-		account where account_id=account.id
-		and account.company_id=cid;
-		delete
-		from account_transaction where
-		company_id=cid;
-		delete from
-		adjustment_reason where company_id=cid;
-		delete from adjustment_reason
-		where company_id=cid;
-		delete from
-		reconciliation_item using
-		reconciliation where
-		reconciliation_id=reconciliation.id and
-		reconciliation.company_id=cid;
-		delete from reconciliation where
-		company_id=cid;
-		delete from
-		bank_account using account where
-		bank_account.id=account.id and
-		account.company_id=cid;
-		delete from bank
-		where company_id=cid;
-		delete
-		from branding_theme where company_id=cid;
-		delete from budgetitem where
-		company_id=cid;
-		delete from budget where
-		company_id=cid;
-		delete from
-		cash_purchase using transaction where
-		cash_purchase.id=transaction.id
-		and transaction.company_id=cid;
-		delete
-		from cash_sales using
-		transaction where cash_sales.id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete from credit_card_charges using
-		transaction where
-		credit_card_charges.id=transaction.id and
-		transaction.company_id=cid;
-		delete from creditrating where
-		company_id=cid;
+		DELETE FROM cheque_layout
+		WHERE  company_id = cid;
 
-		delete from customer_credit_memo using transaction
-		where
-		customer_credit_memo.id=transaction.id and
-		transaction.company_id=cid;
-		delete from customer_group where
-		company_id=cid;
-		delete from customer_prepayment using transaction where
-		customer_prepayment.id=transaction.id and transaction.company_id=cid;
-		delete from customer_refund using transaction where
-		customer_refund.id=transaction.id and transaction.company_id=cid;
-		delete from customfield where company_id=cid;
-		delete from depreciation
-		where company_id=cid;
-		delete from enter_bill using transaction where
-		enter_bill.id=transaction.id
-		and transaction.company_id=cid;
-		delete from
-		enterbill_estimates using estimate , transaction where
-		enterbill_estimates.elt=estimate.id and transaction.id=estimate.id and
-		transaction.company_id=cid;
-		delete from fiscal_year where
-		company_id=cid;
-		delete from fixed_asset where company_id=cid;
-		delete
-		from fixed_asset_history where company_id=cid;
-		delete from
-		invoice_estimates
-		using estimate , transaction where
-		invoice_estimates.estimate_id=estimate.id and
-		transaction.id=estimate.id and transaction.company_id=cid;
-		delete from
-		invoice_sales_orders using invoice , transaction where
-		invoice_sales_orders.invoice_id=invoice.id and
-		transaction.id=invoice.id and transaction.company_id=cid;
-		delete from
-		invoice using transaction where invoice.id=transaction.id and
-		transaction.company_id=cid;
-		delete from estimate using transaction
-		where estimate.id=transaction.id and
-		transaction.company_id=cid;
+		DELETE FROM attachments
+		WHERE  company_id = cid;
 
-		delete
-		from item_receipt using transaction where
-		item_receipt.id=transaction.id and transaction.company_id=cid;
-		delete
-		from item_status using item where item_id=item.id and
-		item.company_id=cid;
+		DELETE FROM message_or_task
+		WHERE  company_id = cid;
 
-		delete from itemgroup where company_id=cid;
-		delete
-		from journal_entry using transaction where
-		journal_entry.id=transaction.id and transaction.company_id=cid;
-		delete
-		from location where company_id=cid;
-		delete from measurement where
-		company_id=cid ;
-		delete from pay_expense using account where
-		account_id=account.id and
-		account.company_id=cid;
-		delete from
-		payee_address using payee where
-		payee_address.payee_id=payee.id
-		and
-		payee.company_id=cid;
-		delete from
-		payee_contact using payee where
-		payee_contact.payee_id=payee.id
-		and
-		payee.company_id=cid;
-		delete from
-		payee_customfields using payee where
-		payee_customfields.payee_id=payee.id and payee.company_id=cid;
-		delete
-		from paymentterms where company_id=cid;
-		delete from pricelevel where
-		company_id=cid;
-		delete from purchase_order using transaction where
-		purchase_order.id=transaction.id and transaction.company_id=cid;
-		delete from recurring_transaction where company_id=cid;
-		delete from
-		reminder where company_id=cid;
-		delete from
-		sales_order using transaction
-		where
-		sales_order.id=transaction.id and
-		transaction.company_id=cid;
-		delete from sales_person where
-		company_id=cid;
-		delete from
-		shippingmethod where company_id=cid;
-		delete
-		from shippingterms where
-		company_id=cid;
+		DELETE FROM account_amounts
+		USING  account
+		WHERE  account_id = account.id
+			   AND account.company_id = cid;
 
-		delete from stock_adjustment
-		where
-		company_id=cid;
-		delete
-		from inventory_assembly_item using
-		inventory_assembly , item where
-		item.id=inventory_assembly.id and
-		inventory_assembly_item_id=inventory_assembly.id and
-		item.company_id=cid;
-		delete
-		from inventory_assembly using
-		item where
-		inventory_assembly.id=item.id and
-		item.company_id=cid;
-		delete from item
-		where company_id=cid;
-		delete from
-		stock_transfer where
-		company_id=cid;
-		delete from
-		stock_transfer_item
-		where company_id=cid;
-		delete from
-		tax_adjustment
-		using transaction where
-		tax_adjustment.id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete
-		from tax_code where
-		company_id=cid;
-		delete from tax_group_tax_item
-		using tax_group where
-		tax_group_id=tax_group.id and
-		tax_group.company_id=cid;
-		delete from
-		tax_group where company_id=cid;
-		delete from tax_item where
-		company_id=cid;
-		delete from tax_item_groups
-		where company_id=cid;
-		delete
-		from tax_rate_calculation using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
+		DELETE FROM account_transaction
+		WHERE  company_id = cid;
 
-		delete
-		from transaction_pay_tax using
-		tax_return , transaction where
-		tax_return.id=transaction_pay_tax.vat_return_id and
-		transaction.id=tax_return.id and
-		transaction.company_id=cid;
+		DELETE FROM adjustment_reason
+		WHERE  company_id = cid;
 
-		delete
-		from
-		tax_return using transaction where tax_return.id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete from tax_return_entry using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from taxagency where company_id=cid;
-		delete from taxrates where company_id=cid;
-		delete from
-		transaction_credits_and_payments using credits_and_payments ,
-		transaction where
-		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
-		and credits_and_payments.transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from credits_and_payments using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from transaction_history using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
+		DELETE FROM reconciliation_item
+		USING  reconciliation
+		WHERE  reconciliation_id = reconciliation.id
+			   AND reconciliation.company_id = cid;
 
-		delete from transaction_item using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from transaction_deposit_item using
-		make_deposit, transaction where
-		transaction_deposit_item.make_deposit_id = make_deposit.id and
-		transaction.id=make_deposit.id and transaction.company_id=cid;
-		delete
-		from make_deposit using transaction where
-		make_deposit.id=transaction.id and transaction.company_id=cid;
-		delete
-		from transfer_fund using transaction where
-		transfer_fund.id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_make_deposit_entries using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_pay_tax using pay_tax , transaction where
-		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
-		transaction.company_id=cid;
-		delete from pay_tax using transaction where
-		pay_tax.id=transaction.id and
-		transaction.company_id=cid;
-		delete from
-		transaction_paybill using pay_bill , transaction where
-		paybill_id=pay_bill.id and transaction.id=pay_bill.id and
-		transaction.company_id=cid;
-		delete from pay_bill using transaction
-		where pay_bill.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from
-		transaction_credits_and_payments using
-		transaction_receive_payment, transaction where
-		transaction_receive_payment.id=transaction_credits_and_payments.transaction_receive_payment_id
-		and transaction_receive_payment.transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_receive_payment
-		using transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from receive_payment using
-		transaction where
-		receive_payment.id=transaction.id and
-		transaction.company_id=cid;
-		delete from transaction_receive_vat using
-		receive_vat, transaction
-		where
-		transaction_receive_vat.receive_vat_id=receive_vat.id and
-		transaction.id=receive_vat.id and transaction.company_id=cid;
-		delete
-		from receive_vat using transaction where
-		receive_vat.id=transaction.id
-		and transaction.company_id=cid;
-		delete from unit where company_id=cid;
-		delete from unit_of_measure where company_id=cid;
-		delete from
-		nominal_code_range where company_id=cid;
-		delete from vatreturnbox where
-		company_id=cid;
-		delete from vendor where company_id=cid;
-		delete from
-		vendor_credit_memo using transaction where
-		vendor_credit_memo.id=transaction.id and transaction.company_id=cid;
-		delete from vendor_group where company_id=cid;
-		delete from warehouse
-		where company_id=cid;
-		delete from write_checks using transaction where
-		write_checks.id=transaction.id and transaction.company_id=cid;
-		delete
-		from customer where company_id=cid;
-		delete from
-		PORTLET_CONFIGURATION_PORTLETDATA using
-		portlet_configuration,portlet_page_configuration, users
-		where
-		portlet_configuration.id=PORTLET_CONFIGURATION_PORTLETDATA.id and
-		portlet_configuration.portlet_config_id=portlet_page_configuration.id
-		and portlet_page_configuration.user_id=users.id and
-		users.company_id=cid;
-		delete from portlet_configuration
-		using
-		portlet_page_configuration, users
-		where
-		portlet_configuration.portlet_config_id=portlet_page_configuration.id
-		and portlet_page_configuration.user_id=users.id and
-		users.company_id=cid;
-		delete from portlet_page_configuration using
-		users where user_id=users.id
-		and users.company_id=cid;
+		DELETE FROM reconciliation
+		WHERE  company_id = cid;
 
-		delete from
-		account where company_id=cid;
-		delete from transaction where
-		company_id=cid;
-		delete from accounter_class where company_id=cid;
-		delete from payee where company_id=cid;
-		delete from users where
-		company_id=cid;
-		delete from activity where company_id=cid;
-		delete from
-		currency where company_id=cid;
+		DELETE FROM bank_account
+		USING  account
+		WHERE  bank_account.id = account.id
+			   AND account.company_id = cid;
 
-		delete from company where id=cid;
+		DELETE FROM bank
+		WHERE  company_id = cid;
 
-		return
-		true;
+		DELETE FROM branding_theme
+		WHERE  company_id = cid;
 
-		delete from account_amounts using account where
-		account_id=account.id
-		and
-		account.company_id=cid;
-		delete from
-		account_transaction where
-		company_id=cid;
-		delete from adjustment_reason
-		where company_id=cid;
-		delete from adjustment_reason where
-		company_id=cid;
-		delete from
-		reconciliation_item using reconciliation
-		where
-		reconciliation_id=reconciliation.id and
-		reconciliation.company_id=cid;
-		delete from reconciliation where
-		company_id=cid;
-		delete from
-		bank_account using account where
-		bank_account.id=account.id and
-		account.company_id=cid;
-		delete from bank
-		where company_id=cid;
-		delete
-		from branding_theme where company_id=cid;
-		delete from budgetitem where
-		company_id=cid;
-		delete from budget where
-		company_id=cid;
-		delete from
-		cash_purchase using transaction where
-		cash_purchase.id=transaction.id
-		and transaction.company_id=cid;
-		delete
-		from cash_sales using
-		transaction where cash_sales.id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete from credit_card_charges using
-		transaction where
-		credit_card_charges.id=transaction.id and
-		transaction.company_id=cid;
-		delete from creditrating where
-		company_id=cid;
+		DELETE FROM budgetitem
+		WHERE  company_id = cid;
 
-		delete from customer_credit_memo using transaction
-		where
-		customer_credit_memo.id=transaction.id and
-		transaction.company_id=cid;
-		delete from customer_group where
-		company_id=cid;
-		delete from customer_prepayment using transaction where
-		customer_prepayment.id=transaction.id and transaction.company_id=cid;
-		delete from customer_refund using transaction where
-		customer_refund.id=transaction.id and transaction.company_id=cid;
-		delete from customfield where company_id=cid;
-		delete from depreciation
-		where company_id=cid;
-		delete from enter_bill using transaction where
-		enter_bill.id=transaction.id
-		and transaction.company_id=cid;
-		delete from
-		enterbill_estimates using estimate , transaction where
-		enterbill_estimates.elt=estimate.id and transaction.id=estimate.id and
-		transaction.company_id=cid;
-		delete from fiscal_year where
-		company_id=cid;
-		delete from fixed_asset where company_id=cid;
-		delete
-		from fixed_asset_history where company_id=cid;
-		delete from
-		fixed_asset_note where company_id=cid;
-		delete from invoice_estimates
-		using estimate , transaction where
-		invoice_estimates.estimate_id=estimate.id and
-		transaction.id=estimate.id and transaction.company_id=cid;
-		delete from
-		invoice_sales_orders using invoice , transaction where
-		invoice_sales_orders.invoice_id=invoice.id and
-		transaction.id=invoice.id and transaction.company_id=cid;
-		delete from
-		invoice using transaction where invoice.id=transaction.id and
-		transaction.company_id=cid;
-		delete from estimate using transaction
-		where estimate.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from issuepayment using transaction where
-		issuepayment.id=transaction.id and transaction.company_id=cid;
+		DELETE FROM budget
+		WHERE  company_id = cid;
 
-		delete
-		from item_receipt using transaction where
-		item_receipt.id=transaction.id and transaction.company_id=cid;
-		delete
-		from item_status using item where item_id=item.id and
-		item.company_id=cid;
+		DELETE FROM cash_purchase
+		USING  TRANSACTION
+		WHERE  cash_purchase.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from itemgroup where company_id=cid;
-		delete
-		from journal_entry using transaction where
-		journal_entry.id=transaction.id and transaction.company_id=cid;
-		delete
-		from location where company_id=cid;
-		delete from measurement where
-		company_id=cid;
-		delete from pay_expense using account where
-		account_id=account.id and
-		account.company_id=cid;
-		delete from
-		pay_tax_entries using transaction where
-		pay_tax_entries.transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from payee_address using payee where
-		payee_address.payee_id=payee.id
-		and payee.company_id=cid;
-		delete from
-		payee_contact using payee where payee_contact.payee_id=payee.id
-		and
-		payee.company_id=cid;
-		delete from payee_customfields using payee where
-		payee_customfields.payee_id=payee.id and payee.company_id=cid;
-		delete
-		from paymentterms where company_id=cid;
-		delete from pricelevel where
-		company_id=cid;
-		delete from purchase_order using transaction where
-		purchase_order.id=transaction.id and transaction.company_id=cid;
-		delete from recurring_transaction where company_id=cid;
-		delete from
-		sales_order using transaction where
-		sales_order.id=transaction.id and
-		transaction.company_id=cid;
-		delete from sales_person where
-		company_id=cid;
-		delete from shippingmethod where company_id=cid;
-		delete
-		from shippingterms where company_id=cid;
-		delete from stock_adjustment
-		where company_id=cid;
+		DELETE FROM cash_sales
+		USING  TRANSACTION
+		WHERE  cash_sales.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from item where company_id=cid;
-		delete from
-		stock_transfer where
-		company_id=cid;
-		delete from
-		stock_transfer_item
-		where company_id=cid;
-		delete from tax_adjustment
-		using transaction where
-		tax_adjustment.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from tax_code where company_id=cid;
-		delete from tax_group_tax_item
-		using tax_group where
-		tax_group_id=tax_group.id and
-		tax_group.company_id=cid;
-		delete from
-		tax_group where company_id=cid;
-		delete from tax_item where
-		company_id=cid;
-		delete from tax_item_groups
-		where company_id=cid;
-		delete
-		from tax_rate_calculation using
-		transaction
-		where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from tax_return using transaction
-		where
-		tax_return.id=transaction.id
-		and transaction.company_id=cid;
-		delete from
-		tax_return_entry using
-		transaction where
-		transaction_id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete
-		from taxagency where
-		company_id=cid;
-		delete from taxrates where
-		company_id=cid;
+		DELETE FROM credit_card_charges
+		USING  TRANSACTION
+		WHERE  credit_card_charges.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from
-		transaction_credits_and_payments using credits_and_payments ,
-		transaction where
-		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
-		and credits_and_payments.transaction_id=transaction.id and
-		transaction.company_id=cid;
+		DELETE FROM creditrating
+		WHERE  company_id = cid;
 
-		delete from
-		transaction_credits_and_payments using transaction_paybill where
-		transaction_paybill.id=transaction_credits_and_payments.transaction_paybill_id
-		and transaction_paybill.company_id=cid;
+		DELETE FROM customer_credit_memo
+		USING  TRANSACTION
+		WHERE  customer_credit_memo.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from
-		credits_and_payments using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_history using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_issue_payment using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_item using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transfer_fund using transaction where
-		transfer_fund.id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_make_deposit_entries using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_pay_tax using pay_tax , transaction where
-		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
-		transaction.company_id=cid;
+		DELETE FROM customer_group
+		WHERE  company_id = cid;
 
-		delete from pay_tax using transaction where
-		pay_tax.id=transaction.id and
-		transaction.company_id=cid;
-		delete from
-		transaction_paybill using
-		pay_bill , transaction where
-		paybill_id=pay_bill.id and
-		transaction.id=pay_bill.id and
-		transaction.company_id=cid;
-		delete from
-		pay_bill using transaction
-		where
-		pay_bill.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from
-		transaction_receive_payment
-		using transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from receive_payment using
-		transaction where
-		receive_payment.id=transaction.id and
-		transaction.company_id=cid;
-		delete from transaction_receive_vat using
-		receive_vat, transaction
-		where
-		transaction_receive_vat.receive_vat_id=receive_vat.id and
-		transaction.id=receive_vat.id and transaction.company_id=cid;
-		delete
-		from receive_vat using transaction where
-		receive_vat.id=transaction.id
-		and transaction.company_id=cid;
-		delete from unit where company_id=cid;
-		delete from unit_of_measure where company_id=cid;
-		delete from
-		nominal_code_range where company_id=cid;
-		delete from vatreturnbox where
-		company_id=cid;
-		delete from vendor where company_id=cid;
-		delete from
-		vendor_credit_memo using transaction where
-		vendor_credit_memo.id=transaction.id and transaction.company_id=cid;
-		delete from vendor_group where company_id=cid;
-		delete from warehouse
-		where company_id=cid;
-		delete from write_checks using transaction where
-		write_checks.id=transaction.id and transaction.company_id=cid;
-		delete
-		from customer where company_id=cid;
-		delete from portlet_configuration
-		using portlet_page_configuration, users
-		where
-		portlet_configuration.portlet_config_id=portlet_page_configuration.id
-		and portlet_page_configuration.user_id=users.id and
-		users.company_id=cid;
-		delete from portlet_page_configuration using
-		users where user_id=users.id
-		and users.company_id=cid;
+		DELETE FROM customer_prepayment
+		USING  TRANSACTION
+		WHERE  customer_prepayment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from
-		account where
-		company_id=cid;
-		delete
-		from transaction where
-		company_id=cid;
-		delete from
-		accounter_class where
-		company_id=cid;
-		delete
-		from payee where
-		company_id=cid;
-		delete from
-		users where
-		company_id=cid;
-		delete from
-		activity where company_id=cid;
-		delete from
-		currency where
-		company_id=cid;
+		DELETE FROM customer_refund
+		USING  TRANSACTION
+		WHERE  customer_refund.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
 
-		delete from company where
-		id=cid;
+		DELETE FROM customfield
+		WHERE  company_id = cid;
+
+		DELETE FROM depreciation
+		WHERE  company_id = cid;
+
+		DELETE FROM enter_bill
+		USING  TRANSACTION
+		WHERE  enter_bill.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM enterbill_estimates
+		USING  estimate,
+			   TRANSACTION
+		WHERE  enterbill_estimates.elt = estimate.id
+			   AND TRANSACTION.id = estimate.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM fiscal_year
+		WHERE  company_id = cid;
+
+		DELETE FROM fixed_asset
+		WHERE  company_id = cid;
+
+		DELETE FROM fixed_asset_history
+		WHERE  company_id = cid;
+
+		DELETE FROM invoice_estimates
+		USING  estimate,
+			   TRANSACTION
+		WHERE  invoice_estimates.estimate_id = estimate.id
+			   AND TRANSACTION.id = estimate.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM invoice
+		USING  TRANSACTION
+		WHERE  invoice.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM estimate
+		USING  TRANSACTION
+		WHERE  estimate.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM item_receipt
+		USING  TRANSACTION
+		WHERE  item_receipt.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM item_status
+		USING  item
+		WHERE  item_id = item.id
+			   AND item.company_id = cid;
+
+		DELETE FROM itemgroup
+		WHERE  company_id = cid;
+
+		DELETE FROM journal_entry
+		USING  TRANSACTION
+		WHERE  journal_entry.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM location
+		WHERE  company_id = cid;
+
+		DELETE FROM measurement
+		WHERE  company_id = cid;
+
+		DELETE FROM pay_expense
+		USING  account
+		WHERE  account_id = account.id
+			   AND account.company_id = cid;
+
+		DELETE FROM payee_address
+		USING  payee
+		WHERE  payee_address.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM payee_contact
+		USING  payee
+		WHERE  payee_contact.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM payee_customfields
+		USING  payee
+		WHERE  payee_customfields.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM paymentterms
+		WHERE  company_id = cid;
+
+		DELETE FROM pricelevel
+		WHERE  company_id = cid;
+
+		DELETE FROM purchase_order
+		USING  TRANSACTION
+		WHERE  purchase_order.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM recurring_transaction
+		WHERE  company_id = cid;
+
+		DELETE FROM reminder
+		WHERE  company_id = cid;
+
+		DELETE FROM sales_order
+		USING  TRANSACTION
+		WHERE  sales_order.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM sales_person
+		WHERE  company_id = cid;
+
+		DELETE FROM shippingmethod
+		WHERE  company_id = cid;
+
+		DELETE FROM shippingterms
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_adjustment
+		WHERE  company_id = cid;
+
+		DELETE FROM inventory_assembly_item
+		USING  inventory_assembly,
+			   item
+		WHERE  item.id = inventory_assembly.id
+			   AND inventory_assembly_item_id = inventory_assembly.id
+			   AND item.company_id = cid;
+
+		DELETE FROM inventory_assembly
+		USING  item
+		WHERE  inventory_assembly.id = item.id
+			   AND item.company_id = cid;
+
+		DELETE FROM item
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_transfer
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_transfer_item
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_adjustment
+		USING  TRANSACTION
+		WHERE  tax_adjustment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_code
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_group_tax_item
+		USING  tax_group
+		WHERE  tax_group_id = tax_group.id
+			   AND tax_group.company_id = cid;
+
+		DELETE FROM tax_group
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_item
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_item_groups
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_rate_calculation
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_pay_tax
+		USING  tax_return,
+			   TRANSACTION
+		WHERE  tax_return.id = transaction_pay_tax.vat_return_id
+			   AND TRANSACTION.id = tax_return.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_return
+		USING  TRANSACTION
+		WHERE  tax_return.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_return_entry
+		USING  TRANSACTION
+		WHERE  tax_return_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM taxagency
+		WHERE  company_id = cid;
+
+		DELETE FROM taxrates
+		WHERE  company_id = cid;
+
+		DELETE FROM transaction_credits_and_payments
+		USING  credits_and_payments,
+			   TRANSACTION
+		WHERE  transaction_credits_and_payments.credits_and_payments_id =
+					  credits_and_payments.id
+			   AND credits_and_payments.transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM credits_and_payments
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_history
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+			   
+		DELETE FROM inventory_purchase
+		USING  transaction_item,
+		       TRANSACTION
+		WHERE  transaction_item_id = transaction_item.id
+		       AND TRANSACTION.id = transaction_item.transaction_id
+		       AND TRANSACTION.company_id = cid;  
+
+		DELETE FROM transaction_item
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_deposit_item
+		USING  make_deposit,
+			   TRANSACTION
+		WHERE  transaction_deposit_item.make_deposit_id = make_deposit.id
+			   AND TRANSACTION.id = make_deposit.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM make_deposit
+		USING  TRANSACTION
+		WHERE  make_deposit.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transfer_fund
+		USING  TRANSACTION
+		WHERE  transfer_fund.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_make_deposit_entries
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_pay_tax
+		USING  pay_tax,
+			   TRANSACTION
+		WHERE  pay_tax_id = pay_tax.id
+			   AND TRANSACTION.id = pay_tax.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM pay_tax
+		USING  TRANSACTION
+		WHERE  pay_tax.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_paybill
+		USING  pay_bill,
+			   TRANSACTION
+		WHERE  paybill_id = pay_bill.id
+			   AND TRANSACTION.id = pay_bill.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM pay_bill
+		USING  TRANSACTION
+		WHERE  pay_bill.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_credits_and_payments
+		USING  transaction_receive_payment,
+			   TRANSACTION
+		WHERE  transaction_receive_payment.id =
+					  transaction_credits_and_payments.transaction_receive_payment_id
+			   AND transaction_receive_payment.transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_receive_payment
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM receive_payment
+		USING  TRANSACTION
+		WHERE  receive_payment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_receive_vat
+		USING  receive_vat,
+			   TRANSACTION
+		WHERE  transaction_receive_vat.receive_vat_id = receive_vat.id
+			   AND TRANSACTION.id = receive_vat.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM receive_vat
+		USING  TRANSACTION
+		WHERE  receive_vat.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM unit
+		WHERE  company_id = cid;
+
+		DELETE FROM unit_of_measure
+		WHERE  company_id = cid;
+
+		DELETE FROM nominal_code_range
+		WHERE  company_id = cid;
+
+		DELETE FROM vatreturnbox
+		WHERE  company_id = cid;
+
+		DELETE FROM vendor
+		WHERE  company_id = cid;
+
+		DELETE FROM vendor_credit_memo
+		USING  TRANSACTION
+		WHERE  vendor_credit_memo.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM vendor_group
+		WHERE  company_id = cid;
+
+		DELETE FROM warehouse
+		WHERE  company_id = cid;
+
+		DELETE FROM write_checks
+		USING  TRANSACTION
+		WHERE  write_checks.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM customer
+		WHERE  company_id = cid;
+
+		DELETE FROM portlet_configuration_portletdata
+		USING  portlet_configuration,
+			   portlet_page_configuration,
+			   users
+		WHERE  portlet_configuration.id = portlet_configuration_portletdata.id
+			   AND portlet_configuration.portlet_config_id =
+				   portlet_page_configuration.id
+			   AND portlet_page_configuration.user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM portlet_configuration
+		USING  portlet_page_configuration,
+			   users
+		WHERE  portlet_configuration.portlet_config_id = portlet_page_configuration.id
+			   AND portlet_page_configuration.user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM portlet_page_configuration
+		USING  users
+		WHERE  user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM account
+		WHERE  company_id = cid;
+
+		DELETE FROM TRANSACTION
+		WHERE  company_id = cid;
+
+		DELETE FROM accounter_class
+		WHERE  company_id = cid;
+
+		DELETE FROM payee
+		WHERE  company_id = cid;
+
+		DELETE FROM users
+		WHERE  company_id = cid;
+
+		DELETE FROM activity
+		WHERE  company_id = cid;
+
+		DELETE FROM currency
+		WHERE  company_id = cid;
+		
+		DELETE FROM email_account
+		WHERE  company_id = cid;  
+		
+		DELETE FROM enter_bill_orders
+		USING  TRANSACTION
+		WHERE  enter_bill_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid;  
+		       
+		DELETE FROM company
+		WHERE  id = cid;  
 
 		return
 		true;
-
 		end;$BODY$
 		LANGUAGE plpgsql VOLATILE;
-
+		]]>
 	</sql-query>
 
 
