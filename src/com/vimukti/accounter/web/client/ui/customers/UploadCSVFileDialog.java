@@ -140,6 +140,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 				if (aa.trim().length() > 2) {
 					JSONValue jSONValue = JSONParser.parseLenient(aa.toString());
 					JSONObject object = jSONValue.isObject();
+					final String fileID = object.get("fileID").isString()
+							.stringValue();
 					final Map<String, List<String>> data = parseJsonArray(object);
 
 					Accounter.createHomeService().getFieldsOf(getType(),
@@ -156,7 +158,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 								public void onResultSuccess(
 										List<Field<?>> result) {
 									ImportAction action = new ImportAction(
-											result, data, getType());
+											result, data, getType(), fileID);
 									action.run();
 									close();
 								}
@@ -189,9 +191,9 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	private List<String> getCSVFileList() {
-		csvFileTypeListMap.put(messages.invoice(), 1);
-		csvFileTypeListMap.put(Global.get().Customer(), 2);
-		csvFileTypeListMap.put(Global.get().vendor(), 3);
+		csvFileTypeListMap.put(messages.invoice(), 3);
+		csvFileTypeListMap.put(Global.get().Customer(), 1);
+		csvFileTypeListMap.put(Global.get().vendor(), 2);
 		Set<String> keySet = csvFileTypeListMap.keySet();
 		list.addAll(keySet);
 		return list;
@@ -253,7 +255,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 				}
 			}
 			if (fileSelected) {
-				uploadForm.setAction("/do/uploadedImportDataFile");
+				uploadForm.setAction("/do/uploadImportDataFile");
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());

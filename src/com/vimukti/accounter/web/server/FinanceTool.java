@@ -120,8 +120,10 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.server.imports.CustomerImporter;
 import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.server.imports.InvoiceImporter;
+import com.vimukti.accounter.server.imports.VendorImporter;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -165,6 +167,7 @@ import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -4471,12 +4474,15 @@ public class FinanceTool {
 
 	private Importer<? extends IAccounterCore> getImporterByType(
 			int importerType) {
-		Importer<? extends IAccounterCore> importer = null;
 		switch (importerType) {
-		case Importer.INVOICE:
-			importer = new InvoiceImporter();
+		case ImporterType.INVOICE:
+			return new InvoiceImporter();
+		case ImporterType.CUSTOMER:
+			return new CustomerImporter();
+		case ImporterType.VENDOR:
+			return new VendorImporter();
 		}
-		return importer;
+		return null;
 	}
 
 	public List<Field<?>> getFieldsOfImporter(int importerType) {

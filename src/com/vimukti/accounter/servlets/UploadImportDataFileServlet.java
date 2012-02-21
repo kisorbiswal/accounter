@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +60,8 @@ public class UploadImportDataFileServlet extends BaseServlet {
 					BufferedReader br = new BufferedReader(
 							new InputStreamReader(in));
 					String strLine;
-					JSONObject headerWithValues = new JSONObject();
+					Map<String, JSONArray> headerWithValues = new HashMap<String, JSONArray>();
+					JSONObject allRecords = new JSONObject();
 					while ((strLine = br.readLine()) != null) {
 						String[] values = strLine.split(",");
 
@@ -70,15 +73,17 @@ public class UploadImportDataFileServlet extends BaseServlet {
 								for (int i = 0; i < values.length; i++) {
 									String value = values[i].trim().replaceAll(
 											"\"", "");
-									JSONArray list = (JSONArray) headerWithValues
+									JSONArray array = (JSONArray) headerWithValues
 											.get(headers[i]);
-									if (list == null) {
-										list = new JSONArray();
-										list.put(value);
-										headerWithValues
-												.put(headers[i], list);
+									if (array == null) {
+										array = new JSONArray();
+										array.put(value);
+										headerWithValues.put(headers[i], array);
+										allRecords.put(headers[i], array);
 									} else {
-										list.put(value);
+										JSONArray array2 = (JSONArray) allRecords
+												.get(headers[i]);
+										array2.put(value);
 									}
 								}
 							}

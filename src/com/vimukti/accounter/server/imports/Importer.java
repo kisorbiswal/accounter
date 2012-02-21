@@ -13,12 +13,6 @@ import com.vimukti.accounter.web.client.imports.Field;
  */
 public interface Importer<T extends IAccounterCore> {
 
-	public static final int CUSTOMER = 1;
-
-	public static final int VENDOR = 2;
-
-	public static final int INVOICE = 3;
-
 	/**
 	 * Returns Output Object that is Generated after Matching
 	 * 

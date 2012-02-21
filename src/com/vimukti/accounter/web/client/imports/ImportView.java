@@ -40,10 +40,11 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	private int currentLine = 0;
 	private String fileID;
 
-	public ImportView(int importType, List<Field<?>> importerFields,
-			Map<String, List<String>> data) {
+	public ImportView(int importType, String fileID,
+			List<Field<?>> importerFields, Map<String, List<String>> data) {
 		this.importType = importType;
 		this.importData = data;
+		this.fileID = fileID;
 		for (Field<?> field : importerFields) {
 			fields.put(field.getDesplayName(), field);
 		}
