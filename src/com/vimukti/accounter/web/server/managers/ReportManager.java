@@ -3657,9 +3657,9 @@ public class ReportManager extends Manager {
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			depositDetail.setPayeeName("");
-			depositDetail.setAccountName((String) objects[4]);
-			depositDetail.setAmount((Double) objects[5]);
+			depositDetail.setPayeeName(objects[4] != null ? (String) objects[4] : "");
+			depositDetail.setAccountName((String) objects[5]);
+			depositDetail.setAmount((Double) objects[6]);
 			list.add(depositDetail);
 		}
 
