@@ -161,7 +161,7 @@ public class TransactionDetailByAccountReportCommand extends
 		} else {
 			try {
 				transactionDetailsByAc = reportManager
-						.getTransactionDetailByAccount(account.getName(),
+						.getTransactionDetailByAccount(account.getID(),
 								getStartDate(), getEndDate(), getCompanyId());
 			} catch (DAOException e) {
 				e.printStackTrace();
@@ -173,7 +173,7 @@ public class TransactionDetailByAccountReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByAccount selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

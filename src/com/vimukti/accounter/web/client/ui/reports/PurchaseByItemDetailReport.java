@@ -41,7 +41,7 @@ public class PurchaseByItemDetailReport extends
 			return;
 		} else if (byCustomerDetail.getItemName() != null) {
 			Accounter.createReportService().getPurchasesByItemDetail(
-					byCustomerDetail.getItemName(),
+					byCustomerDetail.getItemid(),
 					byCustomerDetail.getStartDate(),
 					byCustomerDetail.getEndDate(), this);
 		}
@@ -55,12 +55,19 @@ public class PurchaseByItemDetailReport extends
 
 	@Override
 	public void print() {
-		String itemName = this.data != null ? ((SalesByCustomerDetail) this.data)
-				.getItemName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 133, "",
-				"", itemName);
+		long itemId = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getItemid() : 0;
+		if (itemId == 0) {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
+					"", "", "");
+		} else {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 133,
+					"", "", itemId);
+		}
 	}
 
 	@Override
@@ -121,7 +128,7 @@ public class PurchaseByItemDetailReport extends
 					"", "", byCustomerDetail);
 		}
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

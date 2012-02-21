@@ -33,7 +33,7 @@ public class ECSalesListDetailReportCommand extends
 			protected String onSelection(ECSalesListDetail selection,
 					String name) {
 				markDone();
-				return "Edit Transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override

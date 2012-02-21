@@ -28,7 +28,7 @@ public class ECSalesListReportCommand extends
 			@Override
 			protected String onSelection(ECSalesList selection, String name) {
 				markDone();
-				return "EC Sales List Detail " + selection.getName();
+				return "ecSalesListDetails " + selection.getName();
 			}
 
 			@Override
