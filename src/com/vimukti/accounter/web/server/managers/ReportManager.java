@@ -196,7 +196,7 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final FinanceDate startDate,
+			final long taxItemId, final FinanceDate startDate,
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -204,7 +204,7 @@ public class ReportManager extends Manager {
 				.getNamedQuery(
 						"getTransactionDetailByTaxItemForParticularTaxItem")
 				.setParameter("companyId", companyId)
-				.setParameter("taxItemName", taxItemName)
+				.setParameter("taxItemId", taxItemId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 
@@ -512,7 +512,7 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, FinanceDate startDate, FinanceDate endDate,
+			long accountId, FinanceDate startDate, FinanceDate endDate,
 			long companyId) throws DAOException {
 
 		try {
@@ -523,7 +523,7 @@ public class ReportManager extends Manager {
 					.getNamedQuery(
 							"getTransactionDetailByAccount_ForParticularAccount")
 					.setParameter("companyId", companyId)
-					.setParameter("accountName", accountName).setParameter(
+					.setParameter("accountId", accountId).setParameter(
 
 					"startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
@@ -875,16 +875,15 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, FinanceDate startDate, FinanceDate endDate,
-			long companyId) throws DAOException {
+			long id, FinanceDate startDate, FinanceDate endDate, long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = session
 				.getNamedQuery("getSalesByCustomerDetailForParticularCustomer")
 				.setParameter("companyId", companyId)
-				.setParameter("customerName", customerName)
-				.setParameter("startDate",
+				.setParameter("customerid", id).setParameter("startDate",
 
 				startDate.getDate()).setParameter("endDate", endDate.getDate())
 				.list();
@@ -1023,6 +1022,8 @@ public class ReportManager extends Manager {
 			// null:(Double)object[7]);
 			salesTaxLiability.setBeginningBalance(object[7] == null ? 0.0
 					: ((Double) object[7]).doubleValue());
+			salesTaxLiability.setTaxItemId(((Long) object[8]).longValue());
+
 			queryResult.add(salesTaxLiability);
 		}
 		return new ArrayList<SalesTaxLiability>(queryResult);

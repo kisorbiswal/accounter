@@ -736,7 +736,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
-				amountLabelForeign.hide();
+				amountLabelForeign.setVisible(true);
 			}
 		}
 	}
