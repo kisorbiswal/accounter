@@ -768,21 +768,21 @@ public class CreateCustomerCommand extends AbstractCommand {
 	public String objectExist(String customerNumber) {
 		String error = null;
 		Set<Customer> list = getCompany().getCustomers();
-		if (list == null || list.isEmpty())
+		if (!getPreferences().getUseCustomerId() || list == null
+				|| list.isEmpty())
 			return null;
 		for (Customer old : list) {
 			if (old.getID() == customer.getID()) {
 				continue;
 			}
-			if (customerNumber.equals(old.getNumber())) {
-				return getMessages().objAlreadyExistsWithNumber(
-						Global.get().customer());
-			} else if (customerNumber == null
-					|| customerNumber.trim().length() == 0) {
+			if (customerNumber == null || customerNumber.trim().length() == 0) {
 				error = getMessages()
 						.pleaseEnterVendorNumberItShouldNotBeEmpty(
 								Global.get().Customer());
 				break;
+			} else if (customerNumber.equals(old.getNumber())) {
+				return getMessages().objAlreadyExistsWithNumber(
+						Global.get().customer());
 			} else if (checkIfNotNumber(customerNumber)) {
 				error = getMessages().payeeNumberShouldBeNumber(
 						Global.get().customer());
