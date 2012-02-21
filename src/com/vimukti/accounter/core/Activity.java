@@ -32,6 +32,8 @@ public class Activity extends CreatableObject {
 
 	private String auditHistory;
 
+	private int objStatus;
+
 	public Activity() {
 	}
 
@@ -61,6 +63,7 @@ public class Activity extends CreatableObject {
 			}
 			this.setDataType(Utility.getTransactionName(tr.getType()));
 			this.setObjType(tr.getType());
+			this.setObjStatus(tr.getSaveStatus());
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
@@ -200,6 +203,14 @@ public class Activity extends CreatableObject {
 
 	public void setHistory(String history) {
 		this.auditHistory = history;
+	}
+
+	public int getObjStatus() {
+		return objStatus;
+	}
+
+	public void setObjStatus(int objStatus) {
+		this.objStatus = objStatus;
 	}
 
 }

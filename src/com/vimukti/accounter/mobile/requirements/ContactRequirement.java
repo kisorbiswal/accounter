@@ -65,7 +65,7 @@ public abstract class ContactRequirement extends ListRequirement<Contact> {
 
 	@Override
 	protected boolean filter(Contact e, String name) {
-		return e.getName().contains(name);
+		return e.getName().equals(name);
 	}
 
 	@Override
@@ -74,5 +74,15 @@ public abstract class ContactRequirement extends ListRequirement<Contact> {
 		payee = (Payee) context.getHibernateSession().get(Payee.class,
 				payee.getID());
 		return new ArrayList<Contact>(payee.getContacts());
+	}
+
+	@Override
+	protected boolean contains(List<Contact> skipRecords, Contact r) {
+		for (Contact contact : skipRecords) {
+			if (contact.getName().equals(r.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

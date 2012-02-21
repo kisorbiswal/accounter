@@ -49,6 +49,9 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected Action getAddNewAction() {
+		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+			return null;
+		}
 		if (checkType == 0) {
 			new SelectPaymentTypeDialog().show();
 		} else {
@@ -59,6 +62,9 @@ public class PaymentListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected String getAddNewLabelString() {
+		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+			return null;
+		}
 		if (checkType == 0) {
 			return messages.addaNewPayment();
 		} else {

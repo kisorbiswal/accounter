@@ -3,6 +3,7 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.mobile.CommandList;
@@ -10,6 +11,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
+import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -133,15 +135,25 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(Estimate value) {
 				Record estrecord = new Record(value);
-				estrecord.add(getMessages().date(), value.getDate());
+				estrecord.add(
+						getMessages().date(),
+						getDateByCompanyType(value.getDate()
+								.toClientFinanceDate(), getPreferences()));
 				estrecord.add(getMessages().number(), value.getNumber());
 				estrecord.add("Name",
 						value.getCustomer().getName() != null ? value
 								.getCustomer().getName() : "");
-				estrecord.add(getMessages().expirationDate(), value
-						.getExpirationDate().toString());
-				estrecord.add(getMessages().total(), value.getCurrency()
-						.getSymbol() + " " + value.getTotal());
+				estrecord.add(
+						getMessages().expirationDate(),
+						getDateByCompanyType(value.getExpirationDate()
+								.toClientFinanceDate(), getPreferences()));
+				estrecord.add(
+						getMessages().total(),
+						getAmountWithCurrency(
+								value.getTotal(),
+								getServerObject(Currency.class,
+										value.getCurrency().getID())
+										.getSymbol()));
 				return estrecord;
 			}
 
@@ -192,6 +204,10 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 			viwType = ClientTransaction.STATUS_DRAFT;
 		} else if (type.equalsIgnoreCase(getMessages().expired())) {
 			viwType = 6;
+		} else if (type.equalsIgnoreCase(getMessages().completed())) {
+			viwType = ClientTransaction.STATUS_APPLIED;
+		} else if (type.equalsIgnoreCase(getMessages().cancelled())) {
+			viwType = ClientTransaction.STATUS_CANCELLED;
 		}
 		List<Estimate> result = new ArrayList<Estimate>();
 		try {
@@ -208,12 +224,20 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	protected List<String> getViewByList() {
-		List<String> list = new ArrayList<String>();
-		list.add(getMessages().open());
-		list.add(getMessages().rejected());
-		list.add(getMessages().accepted());
-		list.add(getMessages().expired());
-		list.add(getMessages().all());
-		return list;
+		List<String> listOfTypes = new ArrayList<String>();
+		listOfTypes.add(getMessages().open());
+		if (estimateType == ClientEstimate.SALES_ORDER) {
+			listOfTypes.add(getMessages().completed());
+			listOfTypes.add(getMessages().cancelled());
+		} else if (estimateType == ClientEstimate.QUOTES) {
+			listOfTypes.add(getMessages().rejected());
+			listOfTypes.add(getMessages().accepted());
+			listOfTypes.add(getMessages().close());
+			listOfTypes.add(getMessages().applied());
+		}
+		listOfTypes.add(getMessages().expired());
+		listOfTypes.add(getMessages().all());
+		listOfTypes.add(getMessages().drafts());
+		return listOfTypes;
 	}
 }

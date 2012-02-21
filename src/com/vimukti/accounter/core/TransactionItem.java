@@ -944,15 +944,25 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			InventoryPurchase next = iterator.next();
 			Double cost = (useAverage && averageCost != null) ? averageCost
 					: newPurchases.get(next.getQuantity());
-			if (cost == next.getCost()) {
+			if (cost == null || cost == next.getCost()) {
 				iterator.remove();
-				mapped = mapped.subtract(next.getQuantity());
-				newPurchases.remove(next.getQuantity());
+				Quantity quantity = next.getQuantity();
+				mapped = mapped.subtract(quantity);
+				newPurchases.remove(quantity);
+
+				session.delete(next);
+
+				// Reverse Updating ExpenseAccount
+				double purchaseValue = quantity.getValue() * next.getCost();
+				Account expenseAccount = next.getEffectingAccount();
+				expenseAccount.updateCurrentBalance(this.getTransaction(),
+						purchaseValue, 1);
+				session.saveOrUpdate(expenseAccount);
 			}
 		}
 
 		// Deleting Previous Purchases
-		clearPurchases();
+		// clearPurchases();
 
 		// Creating New Purchases
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {

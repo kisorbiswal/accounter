@@ -1,12 +1,11 @@
 package com.vimukti.accounter.web.client.ui;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class BuildAssemblyAction extends Action<ClientInventoryAssembly> {
+public class BuildAssemblyAction extends Action {
 
 	private BuildAssemblyView view;
 
@@ -25,8 +24,7 @@ public class BuildAssemblyAction extends Action<ClientInventoryAssembly> {
 		runAsync(data, isDependent);
 	}
 
-	private void runAsync(final ClientInventoryAssembly data,
-			final boolean isDependent) {
+	private void runAsync(final Object data, final boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override

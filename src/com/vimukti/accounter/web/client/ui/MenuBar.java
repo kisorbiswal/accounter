@@ -790,7 +790,7 @@ public class MenuBar {
 			}
 
 			if (isSalesOrderEnabled) {
-				customerMenuBar.addMenuItem(messages.salesOrderList(),
+				customerMenuBar.addMenuItem(messages.salesOrders(),
 						HistoryTokens.SALESORDERLIST);
 			}
 		}

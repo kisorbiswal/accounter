@@ -818,15 +818,13 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
-		if (type == ClientEstimate.SALES_ORDER) {
-			transaction.setCustomerOrderNumber(customerOrderText.getValue());
-			transaction.setShippingTerm(shippingTerm == null ? 0 : shippingTerm
-					.getID());
-			if (shippingMethod != null)
-				transaction.setShippingMethod(shippingMethod.getID());
-			if (dueDateItem.getEnteredDate() != null)
-				transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
-		}
+		transaction.setCustomerOrderNumber(customerOrderText.getValue());
+		transaction.setShippingTerm(shippingTerm == null ? 0 : shippingTerm
+				.getID());
+		if (shippingMethod != null)
+			transaction.setShippingMethod(shippingMethod.getID());
+		if (dueDateItem.getEnteredDate() != null)
+			transaction.setDueDate(dueDateItem.getEnteredDate().getDate());
 	}
 
 	protected void setDateValues(ClientFinanceDate date) {

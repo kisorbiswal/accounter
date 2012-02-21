@@ -16,6 +16,11 @@ public class AutomaticTransactionsServerReport extends
 		this.reportView = reportView;
 	}
 
+	public AutomaticTransactionsServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { "", messages.name(), messages.date(),

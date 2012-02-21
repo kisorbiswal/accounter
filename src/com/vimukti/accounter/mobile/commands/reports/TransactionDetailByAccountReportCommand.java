@@ -132,8 +132,10 @@ public class TransactionDetailByAccountReportCommand extends
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("Name",
 				record.getName() == null ? "\t" : record.getName());
-		transactionRecord
-				.add(getMessages().date(), record.getTransactionDate());
+		transactionRecord.add(
+				getMessages().date(),
+				getDateByCompanyType(record.getTransactionDate(),
+						getPreferences()));
 		transactionRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactionType()));
 		transactionRecord.add(getMessages().number(),

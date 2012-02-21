@@ -26,8 +26,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ListFilter;
 
 public class CreateMakeDepositCommand extends AbstractTransactionCommand {
@@ -148,11 +148,8 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 				Account toAccount = CreateMakeDepositCommand.this.get(
 						DEPOSIT_OR_TRANSFER_TO).getValue();
 				if (getPreferences().isEnableMultiCurrency()
-						&& (!fromAccount
-								.getCurrency()
-								.getFormalName()
-								.equalsIgnoreCase(
-										toAccount.getCurrency().getFormalName()))) {
+						&& (fromAccount.getCurrency().getID() != toAccount
+								.getCurrency().getID())) {
 					return super.run(context, makeResult, list, actions);
 				} else {
 					return null;
@@ -161,9 +158,15 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected Currency getCurrency() {
-				Account account = (Account) get(DEPOSIT_OR_TRANSFER_FROM)
-						.getValue();
-				return account.getCurrency();
+				Account account = (Account) CreateMakeDepositCommand.this.get(
+						DEPOSIT_OR_TRANSFER_FROM).getValue();
+				Account toaccount = (Account) CreateMakeDepositCommand.this
+						.get(DEPOSIT_OR_TRANSFER_TO).getValue();
+				Currency primaryCurrency = getCompany().getPrimaryCurrency();
+				if (primaryCurrency.getID() != account.getCurrency().getID()) {
+					return account.getCurrency();
+				}
+				return toaccount.getCurrency();
 			}
 		});
 		list.add(new CurrencyAmountRequirement(AMOUNT, getMessages()
@@ -173,7 +176,13 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 			protected Currency getCurrency() {
 				Account account = (Account) CreateMakeDepositCommand.this.get(
 						DEPOSIT_OR_TRANSFER_FROM).getValue();
-				return account.getCurrency();
+				Account toaccount = (Account) CreateMakeDepositCommand.this
+						.get(DEPOSIT_OR_TRANSFER_TO).getValue();
+				Currency primaryCurrency = getCompany().getPrimaryCurrency();
+				if (primaryCurrency.getID() != account.getCurrency().getID()) {
+					return account.getCurrency();
+				}
+				return toaccount.getCurrency();
 			}
 		});
 
@@ -183,15 +192,12 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 
 	protected String checkDifferentAccounts(Account depositFrom,
 			Account depositTo) {
-		if (getPreferences().isEnableMultiCurrency()) {
-			long primaryCurrencyId = getPreferences().getPrimaryCurrency()
-					.getID();
-			long from = depositFrom.getCurrency().getID();
-			long to = depositTo.getCurrency().getID();
-			if (primaryCurrencyId != from && primaryCurrencyId != to) {
-				return getMessages()
-						.oneOfTheAccountCurrencyShouldBePrimaryCurrency();
-			}
+		long primaryCurrencyId = getPreferences().getPrimaryCurrency().getID();
+		long from = depositFrom.getCurrency().getID();
+		long to = depositTo.getCurrency().getID();
+		if (primaryCurrencyId != from && primaryCurrencyId != to) {
+			return getMessages()
+					.oneOfTheAccountCurrencyShouldBePrimaryCurrency();
 		}
 		if (depositFrom.getID() == depositTo.getID()) {
 			return getMessages().dipositAccountAndTransferAccountShouldBeDiff();
@@ -272,10 +278,10 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 		Currency depositOrTransferToCurrency = depositOrTransferToAccount
 				.getCurrency();
 		ClientCurrency primaryCurrency = getPreferences().getPrimaryCurrency();
-		if (!primaryCurrency.equals(depositOrTransferToCurrency)) {
+		if (primaryCurrency.getID() != depositOrTransferToCurrency.getID()) {
 			makeDeposit.setCurrency(depositOrTransferToCurrency.getID());
 		}
-		if (!primaryCurrency.equals(depositOrTransferFromCurrency)) {
+		if (primaryCurrency.getID() != depositOrTransferFromCurrency.getID()) {
 			makeDeposit.setCurrency(depositOrTransferFromCurrency.getID());
 		}
 		makeDeposit.setCurrencyFactor((Double) get(CURRENCY_FACTOR).getValue());
@@ -292,12 +298,8 @@ public class CreateMakeDepositCommand extends AbstractTransactionCommand {
 				.getValue();
 		Account depositOrTransferFromAccount = get(DEPOSIT_OR_TRANSFER_FROM)
 				.getValue();
-		if (!depositOrTransferToAccount
-				.getCurrency()
-				.getFormalName()
-				.equalsIgnoreCase(
-						depositOrTransferFromAccount.getCurrency()
-								.getFormalName()))
+		if (depositOrTransferToAccount.getCurrency().getID() != depositOrTransferFromAccount
+				.getCurrency().getID())
 			makeResult.add("Total" + "("
 					+ getPreferences().getPrimaryCurrency().getFormalName()
 					+ ")" + ": " + (amount * getCurrencyFactor()));

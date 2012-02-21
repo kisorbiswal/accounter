@@ -4462,7 +4462,7 @@ public class FinanceTool {
 
 	private Importer<? extends IAccounterCore> getImporterByType(
 			int importerType, Map<String, String> importMap) {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 }

@@ -238,6 +238,7 @@
 		clazz="com.vimukti.accounter.mobile.commands.reports.PurchaseBySupplierDetailReportCommand"
 		name="purchaseBySupplierDetail">
 		<alias>purchaseByVednorDetailReport</alias>
+		<alias>purchaseByVendorDetail</alias>
 	</command>
 
 	<command
@@ -339,6 +340,13 @@
 		name="vatItemDetail">
 		<alias>vATItemDetailReport</alias>
 		<alias>taxItemDetailReport</alias>
+	</command>
+	
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.reports.TaxItemExceptionReportCommand"
+		name="taxItemExceptionDetailReport">
+		<alias>taxItemExceptionDetailReport</alias>
+		<alias>vatExceptionDetail</alias>
 	</command>
 
 	<command clazz="com.vimukti.accounter.mobile.commands.CreateVATItemCommand"
@@ -741,6 +749,10 @@
 		<alias>editCredit</alias>
 		<alias>modifyCredit</alias>
 		<alias>updateCredit</alias>
+		<alias>newSalesOrder</alias>
+		<alias>modifySalesOrder</alias>
+		<alias>updateSalesOrder</alias>
+		<alias>editSalesOrder</alias>
 	</command>
 
 	<command
@@ -949,6 +961,8 @@
 		<alias>Charges</alias>
 		<alias>chargesList</alias>
 		<alias>quoteList</alias>
+		<alias>salesOrderList</alias>
+		<alias>salesOrders</alias>
 	</command>
 
 	<command
