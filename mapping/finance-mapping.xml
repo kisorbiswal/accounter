@@ -267,8 +267,8 @@
 
 			<map name="companyFields" table="COMPANY_FIELDS" cascade="save-update,delete">
 				<key column="COMPANY_ID"></key>
-				<index column="field_name" type="string"></index>
-				<element column="field_value" type="string"></element>
+				<index column="field_name" type="encryptedstring"></index>
+				<element column="field_value" type="encryptedstring"></element>
 			</map>
 
 			<!-- Company Preferences -->
@@ -1022,8 +1022,8 @@
 		</set>
 		<map name="payeeFields" table="PAYEE_FIELDS" cascade="save-update,delete">
 			<key column="PAYEE_ID"></key>
-			<index column="payee_field_name" type="string"></index>
-			<element column="payee_field_value" type="string"></element>
+			<index column="payee_field_name" type="encryptedstring"></index>
+			<element column="payee_field_value" type="encryptedstring"></element>
 		</map>
 
 		<set name="address" table="PAYEE_ADDRESS" cascade="save-update">
@@ -2283,9 +2283,9 @@
 		<property name="lastModifiedDate" column="LAST_MODIFIED_DATE"
 			not-null="true" />
 		<property name="version" column="VERSION" />
-		<property name="emailId" column="EMAIL_ID" />
-		<property name="password" column="PASSWORD" />
-		<property name="smtpMailServer" column="MAIL_SERVER" />
+		<property name="emailId" type="encryptedstring" column="EMAIL_ID" />
+		<property name="password" type="encryptedstring" column="PASSWORD" />
+		<property name="smtpMailServer" type="encryptedstring" column="MAIL_SERVER" />
 		<property name="portNumber" column="PORT_NUMBER" />
 		<property name="isSSL" column="IS_SSL" />
 	</class>

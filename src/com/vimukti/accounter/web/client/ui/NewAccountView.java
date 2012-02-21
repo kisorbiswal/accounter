@@ -355,7 +355,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 		opBalText.setHelpInformation(true);
 		opBalText.setDisabled(isInViewMode());
 		opBalText.setWidth(100);
-		opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
+		// opBalText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 		currentBalanceText = new AmountField(messages.currentBalance(), this,
 				getBaseCurrency());
 		currentBalanceText.setToolTip(messages.currentBalance());

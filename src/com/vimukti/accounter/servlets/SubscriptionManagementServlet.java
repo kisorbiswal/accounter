@@ -2,7 +2,6 @@ package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.thoughtworks.xstream.XStream;
@@ -41,23 +41,36 @@ public class SubscriptionManagementServlet extends BaseServlet {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
+		String emailId = req.getSession().getAttribute(EMAIL_ID).toString();
+		Client client = null;
+		client = getClient(emailId);
 		try {
-			Client client = null;
+			SubscriptionManagementData subscriptionManagementData = null;
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Query query = currentSession.getNamedQuery(
+					"get.subscription.mangementdata").setParameter("emailId",
+					client.getEmailId());
+			subscriptionManagementData = (SubscriptionManagementData) query
+					.uniqueResult();
 
-			SubscriptionManagementData managementData = new SubscriptionManagementData();
-			String emailId = req.getSession().getAttribute(EMAIL_ID).toString();
-			if (emailId != null) {
-				client = getClient(emailId);
-				managementData.setAdminMailId(emailId);
-				managementData.setSubscriptionDate(String.valueOf(client
-						.getClientSubscription().getCreatedDate()));
+			if (subscriptionManagementData == null) {
+				subscriptionManagementData = new SubscriptionManagementData();
 			}
 
-			managementData.setUserMailds(req.getParameter("userMailds")
-					.toString());
-			managementData.setSubscriptionType(Subscription.getStringToType(req
-					.getParameter("subscriptionType").toString()));
-			client.setSubscriptionManagementData(managementData);
+			if (emailId != null) {
+
+				subscriptionManagementData.setAdminMailId(emailId);
+				subscriptionManagementData.setSubscriptionDate(String
+						.valueOf(client.getClientSubscription()
+								.getCreatedDate()));
+			}
+
+			subscriptionManagementData.setUserMailds(req.getParameter(
+					"userMailds").toString());
+			subscriptionManagementData.setSubscriptionType(Subscription
+					.getStringToType(req.getParameter("subscriptionType")
+							.toString()));
+			client.setSubscriptionManagementData(subscriptionManagementData);
 			saveEntry(client.getClientSubscription());
 			saveEntry(client.getSubscriptionManagementData());
 			saveEntry(client);
@@ -70,15 +83,6 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		redirectExternal(req, resp, "/main/subscription/thankyou");
 	}
 
-	private Set<String> setMembers(String string) {
-		String[] mailsString = string.split("\n");
-		Set<String> mailsSet = new HashSet<String>();
-		for (String string2 : mailsString) {
-			mailsSet.add(string2);
-		}
-		return mailsSet;
-	}
-
 	private void showSubscriptionManagementDetails(HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 		SubscriptionManagementData managementData = new SubscriptionManagementData();
@@ -88,10 +92,16 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			return;
 		}
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
+		String string = "";
 		if (emailId != null) {
 			Client client = getClient(emailId);
-			managementData.setUserMailds(client.getSubscriptionManagementData()
-					.getUserMailds().toString());
+			if (client.getSubscriptionManagementData() != null) {
+				if (client.getSubscriptionManagementData().getUserMailds() != null) {
+					managementData.setUserMailds(client
+							.getSubscriptionManagementData().getUserMailds()
+							.toString());
+				}
+			}
 			managementData.setAdminMailId(emailId);
 			if (client.getClientSubscription().getCreatedDate() != null) {
 				managementData.setSubscriptionDate(String.valueOf(client
@@ -103,8 +113,10 @@ public class SubscriptionManagementServlet extends BaseServlet {
 					.getSubscription().getType());
 			req.setAttribute("managementData", managementData);
 
-			String string = client.getSubscriptionManagementData()
-					.getUserMailds().toString();
+			if (client.getSubscriptionManagementData() != null) {
+				string = client.getSubscriptionManagementData().getUserMailds()
+						.toString();
+			}
 			String[] stringArray = string.split("\r\n");
 			String finalString = "";
 			for (String string2 : stringArray) {

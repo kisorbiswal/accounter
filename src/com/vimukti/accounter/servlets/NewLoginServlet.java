@@ -324,6 +324,7 @@ public class NewLoginServlet extends BaseServlet {
 		request.setAttribute(PARAM_DESTINATION, attribute);
 		request.setAttribute("news", news);
 		dispatch(request, response, LOGIN_VIEW);
+
 		return;
 	}
 

@@ -318,7 +318,7 @@
 				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
 			}
 			if(subscription!=null){
-				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
+				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Manage Subscription </a>'); 
 			} -->
 	    </script>
 	</div>

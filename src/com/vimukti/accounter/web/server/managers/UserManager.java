@@ -377,6 +377,7 @@ public class UserManager extends Manager {
 
 			ClientSubscription clientSubscription = new ClientSubscription();
 			clientSubscription.setCreatedDate(new Date());
+
 			Subscription subscription = new Subscription();
 			session.save(subscription);
 			clientSubscription.setSubscription(subscription);
