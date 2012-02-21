@@ -14,9 +14,10 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormHandler;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
+import com.google.gwt.user.client.ui.FormSubmitCompleteEvent;
+import com.google.gwt.user.client.ui.FormSubmitEvent;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -42,13 +43,11 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 	@Override
 	protected boolean onOK() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -56,6 +55,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		doCreateContents();
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void doCreateContents() {
 		uploadForm = new FormPanel();
 		uploadForm.setStyleName("fileuploaddialog-uploadform");
@@ -106,6 +106,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 		buttonHlay.add(closeButton);
 		buttonHlay.setStyleName("panel-right-align");
 		vpaPanel.add(buttonHlay);
+
 		/* Make align three Element on there position */
 		// buttonHlay.setCellWidth(uploadSubmitButton);
 
@@ -127,10 +128,10 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 		});
 		uploadForm.setWidget(vpaPanel);
-		uploadForm.addSubmitCompleteHandler(new SubmitCompleteHandler() {
+		uploadForm.addFormHandler(new FormHandler() {
 
 			@Override
-			public void onSubmitComplete(SubmitCompleteEvent event) {
+			public void onSubmitComplete(FormSubmitCompleteEvent event) {
 				StringBuilder result = new StringBuilder(event.getResults());
 
 				String aa = result.toString().replaceAll("<pre>", " ");
@@ -169,9 +170,15 @@ public class UploadCSVFileDialog extends BaseDialog {
 				}
 
 			}
+
+			@Override
+			public void onSubmit(FormSubmitEvent event) {
+				// TODO Auto-generated method stub
+
+			}
 		});
 		mainPanel = new VerticalPanel();
-		mainPanel.add(vpaPanel);
+		mainPanel.add(uploadForm);
 		add(mainPanel);
 		show();
 
@@ -246,7 +253,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 				}
 			}
 			if (fileSelected) {
-				uploadForm.setAction("/do/uploadImportDataFile");
+				uploadForm.setAction("/do/uploadedImportDataFile");
 			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
