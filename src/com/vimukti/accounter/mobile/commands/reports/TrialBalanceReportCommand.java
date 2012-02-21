@@ -77,8 +77,7 @@ public class TrialBalanceReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(TrialBalance selection) {
-		return getMessages().transactionDetailByAccount() + " ,"
-				+ selection.getAccountNumber();
+		return "transactionDetailByAccount ," + selection.getAccountNumber();
 	}
 
 	@Override

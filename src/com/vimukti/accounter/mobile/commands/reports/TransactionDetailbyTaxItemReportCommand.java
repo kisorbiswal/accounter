@@ -119,7 +119,7 @@ public class TransactionDetailbyTaxItemReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByTaxItem selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override
