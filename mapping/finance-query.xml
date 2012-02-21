@@ -13010,6 +13010,7 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="PAYEE_NAME" type="string" />
 		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
 
@@ -13019,20 +13020,31 @@
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		T.T_DATE AS TRANSACTION_DATE,
+		P.NAME AS PAYEE_NAME,
 		A.NAME AS
 		ACCOUNT_NAME,
 		CASE
 		WHEN
 		(A.is_increase)
 		THEN
-		-AMOUNT
+		-AT.AMOUNT
 		ELSE
-		AMOUNT END AS
+		AT.AMOUNT END AS
 		AMOUNT
 		FROM ACCOUNT_TRANSACTION AT
 		LEFT JOIN ACCOUNT A ON
 		A.ID=AT.ACCOUNT_ID
 		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
+		
+		LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+		LEFT JOIN CASH_SALES CS ON CS.ID = T.ID
+		LEFT JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+		
+		LEFT JOIN PAYEE P ON P.ID = CPP.CUSTOMER_ID
+							OR P.ID = CS.CUSTOMER_ID
+							OR P.ID = CR.CUSTOMER_ID
+							OR P.ID = RP.CUSTOMER_ID
 
 		WHERE A.COMPANY_ID=:companyId AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)
 		AND
