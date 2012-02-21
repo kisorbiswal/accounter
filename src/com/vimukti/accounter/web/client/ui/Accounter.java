@@ -677,7 +677,7 @@ public class Accounter implements EntryPoint {
 	}
 
 	public static boolean hasPermission(String feature) {
-		return features.contains(feature) || true;
+		return features.contains(feature);
 	}
 
 	public static boolean isShutdown() {

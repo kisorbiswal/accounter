@@ -92,28 +92,21 @@ public class CompaniesServlet extends BaseServlet {
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
-				if (client.getClientSubscription().getSubscription()
-						.isPaidUser()) {
 
+				if (!client.getClientSubscription().getSubscription()
+						.isPaidUser()) {
 					if (list.size() == 0) {
 						createCompany(req, resp);
 						return;
 					}
 					if (list.size() == 1) {
-						Subscription subscription = client
-								.getClientSubscription().getSubscription();
-						if (subscription.getType() < 2) {
-							openCompany(req, resp, list.get(0).getId());
-							return;
-						}
-					}
-					req.setAttribute("isPaid", true);
-				}else{
-					if (list.size() == 0) {
-						createCompany(req, resp);
+						openCompany(req, resp, list.get(0).getId());
 						return;
 					}
-				req.setAttribute("isPaid", false);}
+					req.setAttribute("isPaid", false);
+				}
+				req.setAttribute("isPaid", true);
+
 				if (list.isEmpty()
 						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
 					req.setAttribute("message",
