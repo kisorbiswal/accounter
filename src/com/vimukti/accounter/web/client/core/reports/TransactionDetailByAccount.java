@@ -155,4 +155,5 @@ public class TransactionDetailByAccount extends BaseReport implements
 		return false;
 
 	}
+
 }

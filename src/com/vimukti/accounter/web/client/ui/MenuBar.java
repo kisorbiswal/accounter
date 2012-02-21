@@ -357,7 +357,7 @@ public class MenuBar {
 				.fixedAssest()));
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 
-		// reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
+		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 
 		return reportMenuBar;
 	}

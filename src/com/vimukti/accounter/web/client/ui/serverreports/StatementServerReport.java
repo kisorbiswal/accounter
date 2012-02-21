@@ -47,6 +47,7 @@ public class StatementServerReport extends
 		case 3:
 			return record.getTotal();
 		case 4:
+
 			if (sectionName == null
 					|| !sectionName.equals("" + record.getPayeeId())) {
 				sectionName = "" + record.getPayeeId();

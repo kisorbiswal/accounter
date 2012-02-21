@@ -108,7 +108,7 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 	}
 
 	protected String addCommandOnRecordClick(VATDetail selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override

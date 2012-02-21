@@ -618,7 +618,7 @@ public class VendorView extends BaseView<ClientVendor> {
 		Label lab = new Label(Global.get().Vendor());
 
 		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
-			
+
 		};
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
@@ -629,8 +629,9 @@ public class VendorView extends BaseView<ClientVendor> {
 				});
 		expenseAccountsSelect.setDisabled(isInViewMode());
 		List<ClientAccount> list = new ArrayList<ClientAccount>();
-		for(ClientAccount account : getCompany().getAccounts()) {
-			if(account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD || account.getType() == ClientAccount.TYPE_EXPENSE) {
+		for (ClientAccount account : getCompany().getAccounts()) {
+			if (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
+					|| account.getType() == ClientAccount.TYPE_EXPENSE) {
 				list.add(account);
 			}
 		}
@@ -1271,7 +1272,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Vendor Name
 		vendorNameText.setValue(data.getName());
 
-		if (data.getID() == 0) {
+		if (getPreferences().getUseVendorId()
+				&& (data.getID() == 0 || data.getVendorNumber() == null || data
+						.getVendorNumber().isEmpty())) {
 			Accounter.createHomeService().getVendorNumber(
 					new AccounterAsyncCallback<String>() {
 

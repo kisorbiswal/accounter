@@ -293,6 +293,11 @@ public class Vendor extends Payee {
 		if (this.isOnSaveProccessed)
 			return true;
 		super.onSave(session);
+		if (vendorNumber == null || vendorNumber.isEmpty()
+				|| !getCompany().getPreferences().getUseCustomerId()) {
+			this.vendorNumber = NumberUtils
+					.getNextAutoVendorNumber(getCompany());
+		}
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
 		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()) {

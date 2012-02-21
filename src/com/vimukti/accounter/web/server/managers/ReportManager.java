@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.lucene.store.ChecksumIndexOutput;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -196,7 +197,7 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final FinanceDate startDate,
+			final long taxItemId, final FinanceDate startDate,
 			final FinanceDate endDate, long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -204,7 +205,7 @@ public class ReportManager extends Manager {
 				.getNamedQuery(
 						"getTransactionDetailByTaxItemForParticularTaxItem")
 				.setParameter("companyId", companyId)
-				.setParameter("taxItemName", taxItemName)
+				.setParameter("taxItemId", taxItemId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 
@@ -512,7 +513,7 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, FinanceDate startDate, FinanceDate endDate,
+			long accountId, FinanceDate startDate, FinanceDate endDate,
 			long companyId) throws DAOException {
 
 		try {
@@ -523,7 +524,7 @@ public class ReportManager extends Manager {
 					.getNamedQuery(
 							"getTransactionDetailByAccount_ForParticularAccount")
 					.setParameter("companyId", companyId)
-					.setParameter("accountName", accountName).setParameter(
+					.setParameter("accountId", accountId).setParameter(
 
 					"startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate());
@@ -875,16 +876,15 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, FinanceDate startDate, FinanceDate endDate,
-			long companyId) throws DAOException {
+			long id, FinanceDate startDate, FinanceDate endDate, long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = session
 				.getNamedQuery("getSalesByCustomerDetailForParticularCustomer")
 				.setParameter("companyId", companyId)
-				.setParameter("customerName", customerName)
-				.setParameter("startDate",
+				.setParameter("customerid", id).setParameter("startDate",
 
 				startDate.getDate()).setParameter("endDate", endDate.getDate())
 				.list();
@@ -1023,6 +1023,8 @@ public class ReportManager extends Manager {
 			// null:(Double)object[7]);
 			salesTaxLiability.setBeginningBalance(object[7] == null ? 0.0
 					: ((Double) object[7]).doubleValue());
+			salesTaxLiability.setTaxItemId(((Long) object[8]).longValue());
+
 			queryResult.add(salesTaxLiability);
 		}
 		return new ArrayList<SalesTaxLiability>(queryResult);
@@ -3656,9 +3658,9 @@ public class ReportManager extends Manager {
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			depositDetail.setPayeeName("");
-			depositDetail.setAccountName((String) objects[4]);
-			depositDetail.setAmount((Double) objects[5]);
+			depositDetail.setPayeeName(objects[4] != null ? (String) objects[4] : "");
+			depositDetail.setAccountName((String) objects[5]);
+			depositDetail.setAmount((Double) objects[6]);
 			list.add(depositDetail);
 		}
 
@@ -3684,11 +3686,15 @@ public class ReportManager extends Manager {
 			checkDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			checkDetail.setCheckAmount((Double) objects[4]);
-			checkDetail.setCheckNumber(objects[5] != null ? (String) objects[5]
-					: "");
-
-			checkDetail.setPayeeName("");
+			checkDetail.setPayeeName((String) objects[4]);
+			checkDetail.setCheckAmount((Double) objects[5]);
+			String checkNumber= objects[6] != null ? (String) objects[6]
+					: "";
+			if(checkNumber.trim().length()==0)
+			{
+				checkNumber = "To BE PRINTED";
+			}
+			checkDetail.setCheckNumber(checkNumber);
 			list.add(checkDetail);
 		}
 		return list;

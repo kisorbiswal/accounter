@@ -229,27 +229,34 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 		super.onUpdate(session);
 		if (isBecameVoid()) {
-
-			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			if (this.transactionReceiveVAT != null) {
-				for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
-					if (ti instanceof Lifecycle) {
-						Lifecycle lifeCycle = (Lifecycle) ti;
-						lifeCycle.onUpdate(session);
-					}
-				}
-			}
-			double paidAmount = total;
-			if (getCurrency().getID() != getCompany().getPrimaryCurrency()
-					.getID()) {
-				paidAmount = (paidAmount / currencyFactor);
-			}
-			this.depositIn.updateCurrentBalance(this, paidAmount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-			session.update(this.depositIn);
+			doVoidEffect(session);
 		}
 		return false;
+	}
+
+	private void doVoidEffect(Session session) {
+
+		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		if (this.transactionReceiveVAT != null) {
+			for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
+				ti.doVoidEffect(session);
+			}
+		}
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
+		}
+		this.depositIn.updateCurrentBalance(this, paidAmount, currencyFactor);
+		this.depositIn.onUpdate(session);
+		session.update(this.depositIn);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session);
+		}
+		return super.onDelete(session);
 	}
 
 	@Override

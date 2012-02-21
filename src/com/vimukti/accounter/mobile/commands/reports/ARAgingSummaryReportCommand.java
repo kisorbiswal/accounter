@@ -26,7 +26,7 @@ public class ARAgingSummaryReportCommand extends
 			@Override
 			protected String onSelection(DummyDebitor selection, String name) {
 				markDone();
-				return "A/R Aging Detail " + selection.getDebitorName();
+				return "arAgeingDetail " + selection.getDebitorName();
 			}
 
 			@Override
