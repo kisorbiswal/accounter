@@ -5,7 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomerPrePayment;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.core.Field;
 
 public class CustomerPrepaymentImporter extends
 		TransactionImporter<ClientCustomerPrePayment> {

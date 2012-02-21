@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientPayee;
+import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
-import com.vimukti.accounter.web.client.imports.Field;
 
 public abstract class PayeeImporter<T> extends AbstractImporter<IAccounterCore> {
 

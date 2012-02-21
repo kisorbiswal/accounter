@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.core.Field;
 
 public class EnterBillImporter extends TransactionImporter<ClientEnterBill> {
 

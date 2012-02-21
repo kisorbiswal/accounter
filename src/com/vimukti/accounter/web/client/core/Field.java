@@ -1,13 +1,21 @@
-package com.vimukti.accounter.web.client.imports;
+package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import java.io.Serializable;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author Prasanna Kumar G
  * 
  * @param <T>
  */
-public class Field<T> {
+public class Field<T extends Serializable> implements Serializable,
+		IsSerializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Name of the Field in the File
@@ -133,4 +141,5 @@ public class Field<T> {
 		}
 		return true;
 	}
+
 }

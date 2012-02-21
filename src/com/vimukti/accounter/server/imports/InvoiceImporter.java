@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.core.Field;
 
 /**
  * @author Prasanna Kumar G

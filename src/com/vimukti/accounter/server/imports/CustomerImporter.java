@@ -8,7 +8,7 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.core.Field;
 
 public class CustomerImporter extends PayeeImporter<ClientCustomer> {
 
