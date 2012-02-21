@@ -8,7 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -272,7 +274,16 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.receiveTAX()).gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.getCurrency().getFormalName()).gap();
+		w.put(messages.currencyFactor(), this.currencyFactor);
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap();
 
 	}
 
