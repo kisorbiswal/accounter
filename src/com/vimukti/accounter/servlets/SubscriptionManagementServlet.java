@@ -110,7 +110,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 				managementData.setSubscriptionDate(" ");
 			}
 			managementData.setSubscriptionType(client.getClientSubscription()
-					.getSubscription().getType());
+					.getPremiumType());
 			req.setAttribute("managementData", managementData);
 
 			if (client.getSubscriptionManagementData() != null) {

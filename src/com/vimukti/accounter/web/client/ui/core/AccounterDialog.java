@@ -133,9 +133,18 @@ public class AccounterDialog extends CustomDialog {
 
 			});
 			goPremiumLink = new HTML(
-					"<a href='http://www.google.com' target='_blank'>go premium </a>");
+					"<a href='/site/subscription/gopremium' target='_blank'>go premium </a>");
 
 			buttonLayout.add(goPremiumLink);
+
+			goPremiumLink.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					removeFromParent();
+
+				}
+			});
 			buttonLayout.add(okButton);
 
 		} else {
