@@ -30,8 +30,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class FormItem<T> {
 
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	private String title;
 	private String name;
 	private T value;
@@ -46,7 +46,7 @@ public abstract class FormItem<T> {
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
-	private boolean isVisible;
+	private boolean isVisible = true;
 
 	public T getValue() {
 		return this.value;
@@ -235,6 +235,7 @@ public abstract class FormItem<T> {
 	private void addLabelWidget(DynamicForm parent) {
 		if (showTitle) {
 			label = new Label(this.title);
+			label.setVisible(isVisible);
 			label.addStyleName("NoWrapping");
 			if (this.titleStyleName != null && !this.titleStyleName.equals(""))
 				label.addStyleName(titleStyleName);
@@ -380,8 +381,7 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item,
-						messages.pleaseEnter(item.getTitle()));
+				result.addError(item, messages.pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;
