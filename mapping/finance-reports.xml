@@ -451,7 +451,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		SELECT NAME , SUM(AMOUNT) FROM
+		SELECT NAME , SUM(AMOUNT) FRO
 		SALES_PURCHASES_VIEW WHERE
 		CUSTOMER_ID IS
 		NOT NULL AND COMPANY_ID=:companyId AND DATE BETWEEN
@@ -4647,9 +4647,7 @@
 		AT.IS_CASH_BASIS_ENTRY='FALSE'
 		AND T.T_DATE BETWEEN :startDate AND
 		:endDate
-		AND AT.COMPANY_ID=:companyId
-		GROUP BY
-		AT.ACCOUNT_ID,AT.TRANSACTION_ID)
+		AND AT.COMPANY_ID=:companyId)
 		END) AS
 		AMOUNT,
 		A.PARENT_ID

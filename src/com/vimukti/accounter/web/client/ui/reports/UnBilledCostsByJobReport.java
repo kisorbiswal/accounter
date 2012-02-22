@@ -24,6 +24,11 @@ public class UnBilledCostsByJobReport extends
 
 	@Override
 	public void OnRecordClick(UnbilledCostsByJob record) {
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		ReportsRPC.openTransactionView(record.getType(),
+				record.getTransaction());
 	}
 
 	@Override

@@ -46,6 +46,11 @@ public class ProfitAndLossByLocationServerReport extends
 		this.category_type = category_type;
 	}
 
+	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
+			int generationType) {
+		super(startDate, endDate, generationType);
+	}
+
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];
