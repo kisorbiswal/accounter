@@ -358,7 +358,6 @@ public class HistoryTokens {
 	public static final String BUILD_ASSEMBLY = "buildassembly";
 
 	public static final String INVENTORY_ASSEMBLY = "inventoryassembly";
-	public static final String NEWJOB = "newjob";
 	public static final String INVENTORY_VALUATION_SUMMARY = "InventoryValutionSummaryReport";
 	public static final String INVENTORY_VALUATION_DETAIL_REPORT = "InventoryValuationDetailReport";
 	public static final String INVENTORY_STOCK_STATUS_BY_ITEM_REPORT = "InventoryStockStatusByItemReport";
@@ -370,7 +369,7 @@ public class HistoryTokens {
 	public static final String PROFITANDLOSSBYJOBS = "Profit&LossbyJob";
 	public static String UNBILLED_COSTS_BY_JOB = "UnbilledCostsByJob";
 	public static final String JOB_PROFITABILITY_SUMMARY_REPORT = "jobProfitabilitySummary";
-	public static final String JOB_PROFITABILITY_DETAIL="jobProfitabilityDetail";
+	public static final String JOB_PROFITABILITY_DETAIL = "jobProfitabilityDetail";
 
 	public HistoryTokens() {
 

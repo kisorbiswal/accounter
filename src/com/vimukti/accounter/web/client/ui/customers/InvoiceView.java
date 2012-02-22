@@ -352,6 +352,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			termsForm.setFields(locationCombo);
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}
 		// termsForm.setWidth("100%");
@@ -881,6 +882,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
+			jobListCombo.setDisabled(false);
 		}
 		this.setCustomer(customer);
 		super.customerSelected(customer);

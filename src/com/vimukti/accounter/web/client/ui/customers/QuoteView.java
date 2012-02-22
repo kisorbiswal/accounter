@@ -117,6 +117,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -438,6 +439,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		DynamicForm locationform = new DynamicForm();
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(true);
 			if (type == ClientEstimate.QUOTES) {
 				phoneForm.setFields(jobListCombo);
 			} else {

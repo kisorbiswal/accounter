@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJob;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -153,6 +154,16 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 	@Override
 	public void setFocus() {
 		jobNameText.setFocus();
+	}
+
+	@Override
+	protected ValidationResult validate() {
+		ValidationResult result = super.validate();
+		String itemName = jobNameText.getValue();
+		if (itemName == null || itemName.equals("")) {
+			result.addError(jobNameText, messages.pleasEnterJobName());
+		}
+		return result;
 	}
 
 	@Override

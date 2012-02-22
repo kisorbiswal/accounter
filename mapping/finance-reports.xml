@@ -4914,16 +4914,19 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="DATE" type="long" />
-		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="TR_ID" type="long" />
+		<return-scalar column="IIEM_NAME" type="string" />
+		<return-scalar column="ITEM_TYPE" type="int" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="TR_NUMBER" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="QTY_UNIT" type="long" />
 		<return-scalar column="MEMO" type="string" />
-		<return-scalar column="ACCOUNT_ID" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
 
 
 		SELECT
+
 		T.ID AS TR_ID,
 		I.NAME AS IIEM_NAME,
 		I.TYPE AS ITEM_TYPE,
@@ -4940,19 +4943,27 @@
 		FROM
 		ITEM I
 		LEFT
-		JOIN TRANSACTION_ITEM TI ON TI.ITEM_ID=I.ID
+		JOIN
+		TRANSACTION_ITEM TI ON TI.ITEM_ID=I.ID
 		LEFT JOIN TRANSACTION T ON
-		T.ID= TI.TRANSACTION_ID
+		T.ID=
+		TI.TRANSACTION_ID
 		LEFT JOIN ACCOUNT A ON
 		A.ID=I.EXPENSE_ACCOUNT_ID
-		LEFT JOIN JOB J ON J.ID = T.JOB_ID
+		LEFT
+		JOIN JOB J ON J.ID = T.JOB_ID
 		LEFT JOIN
-		PAYEE P ON P.ID = J.CUSTOMER_ID
+		PAYEE P ON P.ID =
+		J.CUSTOMER_ID
 		WHERE
 		(T.T_DATE BETWEEN :startDate AND
-		:endDate) AND (TI.IS_BILLABLE = TRUE OR
+		:endDate) AND
+		(TI.IS_BILLABLE =
+		TRUE OR
 		A.A_TYPE=15)AND
-		J.COMPANY_ID=:companyId AND I.ID = :itemId AND I.TYPE=2;
+		J.COMPANY_ID=:companyId AND
+		I.ID = :itemId AND
+		I.TYPE=2;
 	</sql-query>
 	<!-- ================================================================================================================================== -->
 </hibernate-mapping>

@@ -164,6 +164,7 @@ public class CustomerCreditMemoView extends
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			phoneForm.setFields(jobListCombo);
 		}
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -792,6 +793,7 @@ public class CustomerCreditMemoView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}

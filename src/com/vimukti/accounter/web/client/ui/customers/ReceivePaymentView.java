@@ -116,6 +116,7 @@ public class ReceivePaymentView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(selectedCustomer);
 		}
@@ -670,6 +671,7 @@ public class ReceivePaymentView extends
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			depoForm.setFields(jobListCombo);
 		}
 		depoForm.setFields(tdsAmount);

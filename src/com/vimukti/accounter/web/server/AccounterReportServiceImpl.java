@@ -3331,28 +3331,26 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ItemActualCostDetail> getItemActualCostDetail(
 			ClientFinanceDate start, ClientFinanceDate end, long itemId,
 			boolean isActualcostDetail) {
-		ArrayList<ItemActualCostDetail> jobActualCostDetails = new ArrayList<ItemActualCostDetail>();
+		ArrayList<ItemActualCostDetail> itemActualCostDetails = new ArrayList<ItemActualCostDetail>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(start, end,
 				getCompanyId());
 
 		try {
-			jobActualCostDetails = getFinanceTool().getReportManager()
+			itemActualCostDetails = getFinanceTool().getReportManager()
 					.getItemActualCostOrRevenueDetails(financeDates[0],
 							financeDates[1], getCompanyId().longValue(),
 							itemId, isActualcostDetail);
-			JobActualCostDetail obj = new JobActualCostDetail();
-			if (jobActualCostDetails != null) {
-				jobActualCostDetails
+			ItemActualCostDetail obj = new ItemActualCostDetail();
+			if (itemActualCostDetails != null) {
+				itemActualCostDetails
 						.add((ItemActualCostDetail) setStartEndDates(obj,
 								financeDates));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return jobActualCostDetails;
+		return itemActualCostDetails;
 	}
-
-
 
 	@Override
 	public ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
@@ -3361,8 +3359,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		JobProfitabilityDetailByJob obj = new JobProfitabilityDetailByJob();
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
-		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool().getReportManager()
-				.getJobProfitabilityDetailByJobReport(payeeId, jobId,getCompanyId(), start, end);
+		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool()
+				.getReportManager().getJobProfitabilityDetailByJobReport(
+						payeeId, jobId, getCompanyId(), start, end);
 		if (list != null)
 			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj,
 					minimumAndMaximumDates));

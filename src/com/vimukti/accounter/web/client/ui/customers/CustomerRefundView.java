@@ -90,6 +90,7 @@ public class CustomerRefundView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -286,6 +287,7 @@ public class CustomerRefundView extends
 
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
 		VerticalPanel leftPanel = new VerticalPanel();

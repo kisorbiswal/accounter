@@ -3799,8 +3799,8 @@ public class ReportManager extends Manager {
 					.setParameter("itemId", itemId).list();
 		} else {
 			list = session.getNamedQuery("getItemActualCostsDetails")
-					.setParameter("startDate", startDate)
-					.setParameter("endDate", endDate)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
 					.setParameter("companyId", companyId)
 					.setParameter("itemId", itemId).list();
 		}

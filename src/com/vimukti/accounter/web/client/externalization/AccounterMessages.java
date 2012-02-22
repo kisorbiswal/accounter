@@ -5927,4 +5927,6 @@ public interface AccounterMessages extends Messages {
 
 	public String split();
 
+	public String pleasEnterJobName();
+
 }

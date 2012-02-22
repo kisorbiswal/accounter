@@ -893,8 +893,6 @@ public class MenuBar {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
-			newCustomerMenuBar.addMenuItem(messages.newJob(),
-					HistoryTokens.NEWJOB);
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
 			if (isDoyouwantEstimates) {

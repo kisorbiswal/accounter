@@ -751,6 +751,7 @@ public class WriteChequeView extends
 			bankAccForm.setFields(locationCombo);
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			bankAccForm.setFields(jobListCombo);
 		}
 		bankAccForm.setFields(bankAccSelect, balText);
@@ -810,6 +811,7 @@ public class WriteChequeView extends
 								// Job Tracking
 								if (getPreferences().isJobTrackingEnabled()) {
 									jobListCombo.setValue("");
+									jobListCombo.setDisabled(false);
 									jobListCombo
 											.setCustomer((ClientCustomer) selectItem);
 								}
@@ -817,6 +819,7 @@ public class WriteChequeView extends
 							}
 						} else {
 							if (getPreferences().isJobTrackingEnabled()) {
+								jobListCombo.setDisabled(false);
 								jobListCombo.setValue("");
 								jobListCombo
 										.setCustomer((ClientCustomer) selectItem);

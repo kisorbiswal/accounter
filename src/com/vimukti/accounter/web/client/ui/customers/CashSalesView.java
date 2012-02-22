@@ -224,6 +224,7 @@ public class CashSalesView extends
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}
 
@@ -516,6 +517,7 @@ public class CashSalesView extends
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}

@@ -107,7 +107,6 @@ import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
-import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -634,10 +633,6 @@ public class ActionFactory {
 
 	public static NewCustomerAction getNewCustomerAction() {
 		return new NewCustomerAction();
-	}
-
-	public static NewJobAction getNewJobAction() {
-		return new NewJobAction();
 	}
 
 	public static NewCustomerAction getNewCustomerAction(String quickAddText) {
@@ -1484,13 +1479,15 @@ public class ActionFactory {
 	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
 		return new JobProfitabilitySummaryReportAction();
 	}
-	
+
 	public static JobActualDetailAction getJobActualCostDetailReportAction() {
 		return new JobActualDetailAction();
 	}
+
 	public static JobProfitabilityDetailReportAction getJobProfitabilityDetailReportAction() {
 		return new JobProfitabilityDetailReportAction();
 	}
+
 	public static ItemActualCostDetailReportAction getItemActualCostDetailReportAction() {
 		return new ItemActualCostDetailReportAction();
 	}

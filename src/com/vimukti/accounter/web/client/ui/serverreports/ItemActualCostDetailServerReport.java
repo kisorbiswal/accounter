@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -58,34 +59,34 @@ public class ItemActualCostDetailServerReport extends
 
 	@Override
 	public void processRecord(ItemActualCostDetail record) {
+		// if (sectionDepth == 0) {
+		// addSection(new String[] { "" }, new String[] { "", "", "", "",
+		// getMessages().total() }, new int[] { 7 });
+		// } else
 		if (sectionDepth == 0) {
-			addSection(new String[] { "" }, new String[] { "", "", "", "",
-					getMessages().total() }, new int[] { 7 });
-		} else if (sectionDepth == 1) {
-			String itemType = Utility.getItemType(record.getItemType());
+			String itemType = getItemType(record.getItemType());
 			this.sectionName = itemType;
 			addSection(new String[] { sectionName }, new String[] { "", "",
 					getMessages().reportTotal(sectionName) }, new int[] { 7 });
 
-		} else if (sectionDepth == 2) {
+		} else if (sectionDepth == 1) {
 			this.itemName = record.getItemName();
 			addSection(new String[] { "", itemName }, new String[] { "", "",
-					"", "", "", getMessages().reportTotal(itemName) },
-					new int[] { 7 });
-		} else if (sectionDepth == 3) {
-			if (!itemName.equals(record.getCustomerName())) {
+					"", "", "", "" }, new int[] { 7 });
+		} else if (sectionDepth == 2) {
+			if (!itemName.equals(record.getItemName())) {
 				endSection();
 			}
-			if (!sectionName.equals(record.getItemName())) {
-				if (!itemName.equals(record.getCustomerName())) {
+			if (!sectionName.equals(getItemType(record.getItemType()))) {
+				if (!itemName.equals(record.getItemName())) {
 					endSection();
 				} else {
 					endSection();
 					endSection();
 				}
 			}
-			if (itemName.equals(record.getCustomerName())
-					&& sectionName.equals(record.getItemName())) {
+			if (itemName.equals(record.getItemName())
+					&& sectionName.equals(getItemType(record.getItemType()))) {
 				return;
 			}
 		}
@@ -94,11 +95,26 @@ public class ItemActualCostDetailServerReport extends
 
 	}
 
+	public String getItemType(int itemType) {
+		String itemTypeName = null;
+		switch (itemType) {
+		case Item.TYPE_SERVICE:
+			itemTypeName = Global.get().messages().productOrServiceItem();
+			break;
+		case Item.TYPE_INVENTORY_PART:
+			itemTypeName = Global.get().messages().inventory();
+			break;
+		default:
+			break;
+		}
+		return itemTypeName;
+	}
+
 	@Override
 	public Object getColumnData(ItemActualCostDetail record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return record.getItemName();
+			return "";
 		case 1:
 			return Utility.getTransactionName(record.getType());
 		case 2:
