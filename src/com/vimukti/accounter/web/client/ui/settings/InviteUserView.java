@@ -734,4 +734,20 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	protected boolean canVoid() {
 		return false;
 	}
+
+	@Override
+	protected boolean canDelete() {
+		if (Accounter.getUser().isCanDoUserManagement()) {
+			return super.canDelete();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canEdit() {
+		if (Accounter.getUser().isCanDoUserManagement()) {
+			return super.canEdit();
+		}
+		return false;
+	}
 }

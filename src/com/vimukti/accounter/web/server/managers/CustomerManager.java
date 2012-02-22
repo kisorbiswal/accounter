@@ -279,12 +279,22 @@ public class CustomerManager extends PayeeManager {
 			Session session = HibernateUtil.getCurrentSession();
 			List<Estimate> list;
 			Company company = getCompany(companyId);
-			Query query = session.getNamedQuery("getEstimate")
-					.setEntity("company", company)
-					.setParameter("estimateType", estimateType)
-					.setParameter("fromDate", fromDate)
-					.setParameter("toDate", toDate)
-					.setParameter("status", viewType);
+			Query query;
+			if (viewType == 6) {
+				query = session.getNamedQuery("getExpiredEstimate")
+						.setEntity("company", company)
+						.setParameter("estimateType", estimateType)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate)
+						.setParameter("today", new FinanceDate());
+			} else {
+				query = session.getNamedQuery("getEstimate")
+						.setEntity("company", company)
+						.setParameter("estimateType", estimateType)
+						.setParameter("fromDate", fromDate)
+						.setParameter("toDate", toDate)
+						.setParameter("status", viewType);
+			}
 			if (length == -1) {
 				list = query.list();
 			} else {

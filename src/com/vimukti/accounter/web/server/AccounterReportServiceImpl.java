@@ -3144,9 +3144,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
 			long enterdDate, Map<Long, Double> exchangeRates)
 			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(
+				new ClientFinanceDate(), new ClientFinanceDate(),
+				getCompanyId());
 		ArrayList<UnRealisedLossOrGain> list = getFinanceTool()
 				.getReportManager().getUnRealisedExchangeLossesAndGains(
 						enterdDate, getCompanyId(), exchangeRates);
+		UnRealisedLossOrGain obj = new UnRealisedLossOrGain();
+		if (list != null)
+			list.add((UnRealisedLossOrGain) setStartEndDates(obj,
+					minimumAndMaximumDates));
 		return list;
 	}
 

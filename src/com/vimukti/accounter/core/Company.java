@@ -872,6 +872,7 @@ public class Company implements IAccounterServerCore {
 
 		cmp.measurements = this.getMeasurements();
 
+		cmp.emailAccounts = this.getEmailAccounts();
 		return cmp;
 	}
 

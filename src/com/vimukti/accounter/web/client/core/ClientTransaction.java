@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class ClientTransaction implements IAccounterCore {
 
@@ -895,12 +896,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 		Double discount = null;
 		for (ClientTransactionItem item : this.transactionItems) {
 			Double code = item.getDiscount();
-			if (discount == null) {
+			if (discount == null || item.getReferringTransactionItem() != 0) {
 				discount = code;
 				continue;
 			}
 
-			if (code != null && !code.equals(discount)) {
+			if (code != null && !DecimalUtil.isEquals(code, discount)) {
 				return true;
 			}
 		}
