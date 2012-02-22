@@ -64,7 +64,7 @@ public class AutomaticTransactionsReport extends
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
@@ -92,4 +92,19 @@ public class AutomaticTransactionsReport extends
 		return map;
 	}
 
+	@Override
+	public void print() {
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 188, "",
+				"");
+	}
+
+	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 188, "",
+				"");
+	}
 }

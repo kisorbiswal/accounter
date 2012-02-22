@@ -2305,4 +2305,3 @@
 			column="EFFECTING_ACCOUNT" class="Account" />
 	</class>
 </hibernate-mapping>
-

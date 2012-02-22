@@ -123,7 +123,14 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 		transactionGridpanel = new VerticalPanel();
 		transactionGridpanel.add(transactionViewform);
-		vendHistoryGrid = new VendorTransactionsHistoryGrid();
+		vendHistoryGrid = new VendorTransactionsHistoryGrid() {
+
+			@Override
+			public void initListData() {
+				onVendorSelected();
+			}
+
+		};
 		vendHistoryGrid.init();
 		vendHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
 				.get().Vendor()));
@@ -423,8 +430,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 						@Override
 						public void onFailure(Throwable caught) {
-							Accounter.showError(messages
-									.unableToPerformTryAfterSomeTime());
+							if (Accounter.isShutdown()) {
+								Accounter.showError(messages
+										.unableToPerformTryAfterSomeTime());
+							}
 						}
 
 						@Override
@@ -562,8 +571,10 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor>
 
 					@Override
 					public void onFailure(Throwable caught) {
-						Accounter.showError(messages
-								.unableToPerformTryAfterSomeTime());
+						if (Accounter.isShutdown()) {
+							Accounter.showError(messages
+									.unableToPerformTryAfterSomeTime());
+						}
 					}
 				});
 	}

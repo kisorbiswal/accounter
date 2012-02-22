@@ -46,7 +46,15 @@ public class ReconcilationsReport extends AbstractReportView<Reconciliation> {
 				Integer.parseInt(String.valueOf(endDate.getDate())),
 				reportType, "", "");
 	}
-	
+
+	@Override
+	public void exportToCsv() {
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 170, "",
+				"");
+	}
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

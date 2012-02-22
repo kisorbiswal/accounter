@@ -17,8 +17,11 @@ public class SalesByCustomerDetail extends BaseReport implements
 
 	String name;// For sales reports name refer to customer and for purchase
 	// reports name refer to vendor
-
+	private long itemid;
 	// String groupName;
+	private long customerId;
+
+	private long vendorId;
 
 	long transactionId;
 
@@ -294,6 +297,30 @@ public class SalesByCustomerDetail extends BaseReport implements
 			return true;
 		return false;
 
+	}
+
+	public long getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
+	}
+
+	public long getItemid() {
+		return itemid;
+	}
+
+	public void setItemid(long itemid) {
+		this.itemid = itemid;
+	}
+
+	public long getVendorId() {
+		return vendorId;
+	}
+
+	public void setVendorId(long vendorId) {
+		this.vendorId = vendorId;
 	}
 
 }

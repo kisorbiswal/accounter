@@ -348,6 +348,8 @@ public interface AccounterMessages extends Messages {
 	public String amountToUseMustLessthanTotal();
 
 	public String and();
+	
+	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
 
 	public String anItemAlreadyExistswiththisname();
 
@@ -5594,7 +5596,7 @@ public interface AccounterMessages extends Messages {
 	public String taxAgencyPayment();
 
 	public String vatAgencyPayment();
-
+	
 	public String deducatorMasters();
 
 	public String deducatorMastersDetails();

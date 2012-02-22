@@ -254,17 +254,16 @@ public class SalesManager extends Manager {
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
 	}
 
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
-			String itemName, FinanceDate startDate, FinanceDate endDate,
-			long companyId) throws DAOException {
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
+			FinanceDate startDate, FinanceDate endDate, long companyId)
+			throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		List l = ((Query) session
 				.getNamedQuery("getSalesByItemDetailForParticularItem")
 				.setParameter("companyId", companyId).setParameter(
-
-				"itemName", itemName, EncryptedStringType.INSTANCE)
+				"itemId", itemId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate())).list();
 
@@ -525,6 +524,8 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setName((String) object[0]);
 			salesByCustomerDetail.setAmount(object[1] == null ? 0
 					: ((Double) object[1]).doubleValue());
+			salesByCustomerDetail.setCustomerId(((BigInteger) object[2])
+					.longValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}
@@ -558,7 +559,8 @@ public class SalesManager extends Manager {
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[2] == null ? 0
 					: ((Double) object[2]).doubleValue());
-
+			salesByCustomerDetail.setItemid(((BigInteger) object[3])
+					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
@@ -652,7 +654,8 @@ public class SalesManager extends Manager {
 		List l = ((Query) session.getNamedQuery("getSalesOrders")
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("companyId", companyId)
-				.setParameter("endDate", endDate.getDate()).setParameter("type", type)).list();
+				.setParameter("endDate", endDate.getDate())
+				.setParameter("type", type)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 

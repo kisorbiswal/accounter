@@ -156,7 +156,7 @@ public class ProfitLossReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(TrialBalance selection) {
-		return "Transaction Detail By Account ," + selection.getAccountNumber();
+		return "transactionDetailByAccount ," + selection.getAccountNumber();
 	}
 
 	protected List<TrialBalance> getRecords() {

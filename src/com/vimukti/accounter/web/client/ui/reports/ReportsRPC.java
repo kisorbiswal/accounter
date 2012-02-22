@@ -52,7 +52,6 @@ import com.vimukti.accounter.web.client.core.ClientTDSChalanDetail;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientVendorCreditMemo;
 import com.vimukti.accounter.web.client.core.ClientVendorGroup;
@@ -102,8 +101,7 @@ public class ReportsRPC {
 
 	public static void openTransactionView(int transactionType,
 			long transactionId) {
-		if (!Accounter.getUser().getUserRole()
-				.equals(RolePermissions.READ_ONLY)) {
+		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
 			return;
 		}
 		switch (transactionType) {
@@ -360,12 +358,13 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			initCallBack(new ClientBuildAssembly(),
 					ActionFactory.getBuildAssemblyAction(), transactionId);
+			break;
 		}
 
 	}
 
 	public static void openTransactionView(ClientTransaction transaction) {
-		if (!Accounter.getUser().isCanDoUserManagement()) {
+		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
 			return;
 		}
 		switch (transaction.getType()) {

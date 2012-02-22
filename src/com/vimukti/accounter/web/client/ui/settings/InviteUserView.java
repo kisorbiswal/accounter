@@ -196,6 +196,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
+		readOnly.setValue(true);
 		custom = new RadioButton("permissions", messages.custom());
 		admin = new RadioButton("permissions", messages.admin()
 				+ messages.adminDesc());

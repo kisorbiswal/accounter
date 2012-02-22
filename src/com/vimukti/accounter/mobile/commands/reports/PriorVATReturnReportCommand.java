@@ -52,7 +52,7 @@ public class PriorVATReturnReportCommand extends
 
 			@Override
 			protected String onSelection(ExpenseList selection, String name) {
-				return "update transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -91,7 +91,7 @@ public class PriorVATReturnReportCommand extends
 	private Record createReportRecord(VATSummary record) {
 		Record vatRecord = new Record(record);
 		vatRecord.add(record.getName());
-		vatRecord.add("", record.getValue());
+		vatRecord.add("", getAmountWithCurrency(record.getValue()));
 		return vatRecord;
 	}
 

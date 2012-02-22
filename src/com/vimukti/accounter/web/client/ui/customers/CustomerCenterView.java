@@ -121,7 +121,14 @@ public class CustomerCenterView<T> extends
 
 		transactionGridpanel = new VerticalPanel();
 		transactionGridpanel.add(transactionViewform);
-		custHistoryGrid = new CustomerTransactionsHistoryGrid();
+		custHistoryGrid = new CustomerTransactionsHistoryGrid() {
+
+			@Override
+			public void initListData() {
+				OncusotmerSelected();
+			}
+
+		};
 		custHistoryGrid.init();
 		custHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
 				.get().Customer()));

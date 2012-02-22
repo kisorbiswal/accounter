@@ -307,6 +307,7 @@
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
+
 	    <script type="text/javascript" >
 	    <% 
 			Long subscription=(Long)request.getAttribute("subscription");

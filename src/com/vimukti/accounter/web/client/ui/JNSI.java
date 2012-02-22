@@ -19,8 +19,8 @@ public class JNSI {
 	}-*/;
 
 	public static native String getCalcultedAmount(String str)/*-{
-		str = str.replace(/0*([0-9\.]+)/gi, '$1');
 		str = str.replace(/[^0-9\+\-\.x\*\/]/gi, '');
+		str = str.replace(/0*([0-9\.]+)/gi, '$1');
 		str = str.replace(/^[^0-9\.\-]+/gi, '');
 		str = str.replace(/[^0-9\.]+$/gi, '');
 		str = str.replace(/x/gi, '*');
@@ -32,4 +32,8 @@ public class JNSI {
 		return eval('$wnd.features');
 	}-*/;
 
+	public static native String readNumber(String value)/*-{
+		var number = value.match(/\d+/g);
+		return String(eval(number));
+	}-*/;
 }

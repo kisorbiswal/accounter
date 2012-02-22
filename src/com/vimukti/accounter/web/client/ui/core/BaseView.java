@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -18,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.settings.InviteUserView;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsView;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
@@ -176,6 +178,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
 			this.saveAndCloseButton = new SaveAndCloseButton(this);
 			this.saveAndNewButton = new SaveAndNewButtom(this);
+		}
+		if (this instanceof InviteUserView) {
+			ClientUser user = getCompany().getLoggedInUser();
+			if (user.isCanDoUserManagement()) {
+				this.saveAndCloseButton = new SaveAndCloseButton(this);
+				this.saveAndNewButton = new SaveAndNewButtom(this);
+			}
 		}
 		this.cancelButton = new CancelButton(this);
 		this.deleteButton = new DeleteButton(this, getData());

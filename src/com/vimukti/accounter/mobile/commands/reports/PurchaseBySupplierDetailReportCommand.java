@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PurchaseBySupplierDetailReportCommand extends
 		NewAbstractReportCommand<SalesByCustomerDetail> {
-	private String supplierName;
+	private long supplieId;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -79,7 +79,8 @@ public class PurchaseBySupplierDetailReportCommand extends
 		Record transactionRecord = new Record(record);
 		transactionRecord.add(getMessages().payeeName(Global.get().vendor()),
 				"");
-		transactionRecord.add(getMessages().date(), record.getDate());
+		transactionRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().number(), record.getNumber());
@@ -91,14 +92,14 @@ public class PurchaseBySupplierDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
-			if (supplierName == null || supplierName.isEmpty()) {
+			if (supplieId == 0) {
 				salesByCustomerDetails = new FinanceTool().getVendorManager()
 						.getPurchasesByVendorDetail(getStartDate(),
 								getEndDate(), getCompanyId());
-			} else if (supplierName != null) {
+			} else if (supplieId != 0) {
 				salesByCustomerDetails = new FinanceTool().getVendorManager()
-						.getPurchasesByVendorDetail(supplierName,
-								getStartDate(), getEndDate(), getCompanyId());
+						.getPurchasesByVendorDetail(supplieId, getStartDate(),
+								getEndDate(), getCompanyId());
 			}
 
 		} catch (Exception e) {
@@ -108,7 +109,7 @@ public class PurchaseBySupplierDetailReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "update transaction " + selection.getTransactionId();
+		return "updateTransaction " + selection.getTransactionId();
 	}
 
 	@Override
@@ -117,7 +118,7 @@ public class PurchaseBySupplierDetailReportCommand extends
 		if (!string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
-			supplierName = split[1];
+			supplieId = Long.parseLong(split[1]);
 		}
 		return null;
 	}
