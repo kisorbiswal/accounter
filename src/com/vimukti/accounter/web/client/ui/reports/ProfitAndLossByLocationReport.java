@@ -18,18 +18,18 @@ public class ProfitAndLossByLocationReport extends
 
 	public ProfitAndLossByLocationReport(int category_type) {
 		this.category_type = category_type;
-		ProfitAndLossByLocationServerReport.locations = Accounter.getCompany()
-				.getLocations();
-		ProfitAndLossByLocationServerReport.classes = Accounter.getCompany()
-				.getAccounterClasses();
-		ProfitAndLossByLocationServerReport.jobs = Accounter.getCompany()
-				.getJobs();
 		int numcolumns = 0;
 		if (category_type == ProfitAndLossByLocationServerReport.JOB) {
+			ProfitAndLossByLocationServerReport.jobs = Accounter.getCompany()
+					.getJobs();
 			numcolumns = ProfitAndLossByLocationServerReport.jobs.size() + 2;
 		} else if (category_type == ProfitAndLossByLocationServerReport.LOCATION) {
+			ProfitAndLossByLocationServerReport.locations = Accounter
+					.getCompany().getLocations();
 			numcolumns = ProfitAndLossByLocationServerReport.locations.size() + 2;
 		} else {
+			ProfitAndLossByLocationServerReport.classes = Accounter
+					.getCompany().getAccounterClasses();
 			numcolumns = ProfitAndLossByLocationServerReport.classes.size() + 2;
 		}
 		ProfitAndLossByLocationServerReport.noColumns = numcolumns;

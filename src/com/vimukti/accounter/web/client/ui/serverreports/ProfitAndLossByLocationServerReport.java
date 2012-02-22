@@ -7,6 +7,7 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientLocation;
@@ -46,9 +47,20 @@ public class ProfitAndLossByLocationServerReport extends
 		this.category_type = category_type;
 	}
 
-	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
-			int generationType) {
+	public ProfitAndLossByLocationServerReport(ClientCompany company,
+			long startDate, int type, long endDate, int generationType) {
 		super(startDate, endDate, generationType);
+		this.category_type = type;
+		if (category_type == JOB) {
+			this.jobs = company.getJobs();
+			this.noColumns = jobs.size() + 2;
+		} else if (category_type == CLASS) {
+			this.classes = company.getAccounterClasses();
+			this.noColumns = classes.size() + 2;
+		} else if (category_type == LOCATION) {
+			this.locations = company.getLocations();
+			this.noColumns = locations.size() + 2;
+		}
 	}
 
 	@Override
@@ -281,7 +293,7 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public ClientFinanceDate getEndDate(ProfitAndLossByLocation obj) {
-		return obj.getStartDate();
+		return obj.getEndDate();
 	}
 
 	@Override

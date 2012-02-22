@@ -5,8 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -1643,34 +1646,44 @@ public class ReportsGenerator {
 
 	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
 			int type, int generationType1, FinanceTool finaTool) {
-		ProfitAndLossByLocationServerReport profitAndLossBylocationServerReport = new ProfitAndLossByLocationServerReport(
-				startDate.getDate(), endDate.getDate(), generationType1) {
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate(company);
-			}
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearStartDate() {
-				return Utility_R.getCurrentFiscalYearStartDate(company);
-			}
-
-			@Override
-			public String getDateByCompanyType(ClientFinanceDate date) {
-				return getDateByCompanyType(date);
-			}
-		};
-		updateReport(profitAndLossBylocationServerReport, finaTool);
-		profitAndLossBylocationServerReport.resetVariables();
 		try {
-			profitAndLossBylocationServerReport.onResultSuccess(finaTool
-					.getReportManager().getProfitAndLossByLocation(type,
-							startDate, endDate, getCompany().getId()));
-		} catch (Exception e) {
-			e.printStackTrace();
+			ClientCompany clientCompany = finaTool.getManager()
+					.getObjectById(AccounterCoreType.COMPANY, company.getID(),
+							company.getID());
+			ProfitAndLossByLocationServerReport profitAndLossBylocationServerReport = new ProfitAndLossByLocationServerReport(
+					clientCompany, startDate.getDate(), type,
+					endDate.getDate(), generationType1) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate(company);
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate(company);
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateByCompanyType(date);
+				}
+			};
+			updateReport(profitAndLossBylocationServerReport, finaTool);
+			profitAndLossBylocationServerReport.resetVariables();
+			try {
+				profitAndLossBylocationServerReport.onResultSuccess(finaTool
+						.getReportManager().getProfitAndLossByLocation(type,
+								startDate, endDate, getCompany().getId()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return profitAndLossBylocationServerReport.getGridTemplate();
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
 		}
-		return profitAndLossBylocationServerReport.getGridTemplate();
+		return null;
+
 	}
 
 	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(
@@ -1866,6 +1879,8 @@ public class ReportsGenerator {
 			return "Sales By Location Summary Report";
 		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
 			return "Profit and Loss by Location";
+		case REPORT_TYPE_PROFITANDLOSSBYJOB:
+			return "Profit and Loss by Job";
 		case REPORT_TYPE_BUDGET:
 			return "Budget Report";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
