@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +23,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientPaypalDetails;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -47,7 +50,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		String str = "cmd=_notify-validate";
 		Map<String, String> params = new HashMap<String, String>();
 		while (en.hasMoreElements()) {
-			String paramName = (String) en.nextElement();  
+			String paramName = (String) en.nextElement();
 			String paramValue = req.getParameter(paramName);
 			params.put(paramName, paramValue);
 			str = str + "&" + paramName + "=" + URLEncoder.encode(paramValue);
@@ -127,29 +130,48 @@ public class PayPalIPINServlet extends BaseServlet {
 	private void upgradeClient(Map<String, String> params, String emailId) {
 		String type = params.get("option_selection1");
 		int paymentType = 0;
+		Date expiredDate = new Date();
 		if (type.equals("One user monthly")) {
-			paymentType = Subscription.ONE_USER_MONTHLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.ONE_USER;
+			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("One user yearly")) {
-			paymentType = Subscription.ONE_USER_YEARLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.ONE_USER;
+			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("2 users monthly")) {
-			paymentType = Subscription.TWO_USERS_MONTHLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.TWO_USERS;
+			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("2 users yearly")) {
-			paymentType = Subscription.TWO_USERS_YEARLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.TWO_USERS;
+			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("5 users monthly")) {
-			paymentType = Subscription.FIVE_USERS_MONTHLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.FIVE_USERS;
+			expiredDate = getNextMonthDate(1);
 		} else if (type.equals("5 users yearly")) {
-			paymentType = Subscription.FIVE_USERS_YEARLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.FIVE_USERS;
+			expiredDate = getNextMonthDate(12);
 		} else if (type.equals("Unlimited Users monthly")) {
-			paymentType = Subscription.UNLIMITED_USERS_MONTHLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.UNLIMITED_USERS;
+			expiredDate = null;
 		} else if (type.equals("Unlimited Users yearly")) {
-			paymentType = Subscription.UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
+			paymentType = ClientSubscription.UNLIMITED_USERS;
+			expiredDate = null;
 		}
 		Client client = getClient(emailId);
-		client.getClientSubscription().getSubscription().setType(paymentType);
+		ClientSubscription clientSubscription = client.getClientSubscription();
+		clientSubscription.setPremiumType(paymentType);
+		clientSubscription.setExpiredDate(expiredDate);
+		clientSubscription.setSubscription(Subscription
+				.getInstance(Subscription.PREMIUM_USER));
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction beginTransaction = session.beginTransaction();
-		session.saveOrUpdate(client);
+		session.saveOrUpdate(clientSubscription);
 		beginTransaction.commit();
+	}
+
+	private Date getNextMonthDate(int months) {
+		Calendar instance = Calendar.getInstance();
+		instance.add(Calendar.MONTH, months);
+		return instance.getTime();
 	}
 
 	private void sendInfo(String string, HttpServletRequest req,

@@ -34,22 +34,17 @@ public class ClientCompany implements IAccounterCore {
 	public static final int ACCOUNTING_TYPE_INDIA = 2;
 	public static final int ACCOUNTING_TYPE_OTHER = 3;
 
-	public static final int TYPE_BASIC = 8;
+	public static final int ONE_USER = 1;
+	public static final int TWO_USERS = 2;
+	public static final int FIVE_USERS = 3;
+	public static final int UNLIMITED_USERS = 4;
 
-	public static final int FREE_CLIENT = 0;
-	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 1;
-	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 2;
-	public static final int TWO_USERS_MONTHLY_SUBSCRIPTION = 3;
-	public static final int TWO_USERS_YEARLY_SUBSCRIPTION = 4;
-	public static final int FIVE_USERS_MONTHLY_SUBSCRIPTION = 5;
-	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 6;
-	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 7;
-	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 8;
-	public static final int BEFORE_PAID_FETURE = 100;
+	public static final int TYPE_BASIC = 8;
 
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
 	// int accountingType = 0;
+	private int premiumType;
 
 	private String registrationNumber;
 
@@ -129,8 +124,6 @@ public class ClientCompany implements IAccounterCore {
 	String nonInventoryItemDefaultExpenseAccount = "Products/Materials Purchased Type A";
 
 	ClientCompanyPreferences preferences = new ClientCompanyPreferences();
-
-	private int subscriptionType;
 
 	private ArrayList<ClientAccount> accounts;
 
@@ -3227,19 +3220,11 @@ public class ClientCompany implements IAccounterCore {
 	public void setEmailAccounts(List<ClientEmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
 	}
-	
-	public int getSubscriptionType() {
-		return subscriptionType;
-	}
-
-	public void setSubscriptionType(int subscriptionType) {
-		this.subscriptionType = subscriptionType;
-	}
 
 	public boolean isUnlimitedUser() {
-		return subscriptionType == UNLIMITED_USERS_MONTHLY_SUBSCRIPTION
-				|| subscriptionType == UNLIMITED_USERS_YEARLY_SUBSCRIPTION;
+		return premiumType == UNLIMITED_USERS;
 	}
+
 	/**
 	 * @return the exchangeLossOrGainAccount
 	 */
@@ -3268,5 +3253,13 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public void setCostOfGoodsSold(long costOfGoodsSold) {
 		this.costOfGoodsSold = costOfGoodsSold;
+	}
+
+	public int getPremiumType() {
+		return premiumType;
+	}
+
+	public void setPremiumType(int premiumType) {
+		this.premiumType = premiumType;
 	}
 }

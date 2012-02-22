@@ -1569,7 +1569,7 @@ public class Company implements IAccounterServerCore {
 	public void setEmailAccounts(Set<EmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
 	}
-	
+
 	public boolean isLocked() {
 		return isLocked;
 	}
@@ -1577,7 +1577,7 @@ public class Company implements IAccounterServerCore {
 	public void setLocked(boolean isLocked) {
 		this.isLocked = isLocked;
 	}
-	
+
 	public void setCostOfGoodsSold(Account costOfGoodsSold) {
 		this.costOfGoodsSold = costOfGoodsSold;
 	}

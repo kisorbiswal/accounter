@@ -27,6 +27,7 @@ import com.vimukti.accounter.mobile.ConsoleChatServer;
 import com.vimukti.accounter.mobile.MobileServer;
 import com.vimukti.accounter.mobile.store.CommandsFactory;
 import com.vimukti.accounter.mobile.store.PatternStore;
+import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -57,7 +58,6 @@ public class ServerMain extends Main {
 			if (ServerConfiguration.isLoadMessages()) {
 				loadAccounterMessages();
 			}
-
 		} finally {
 			session.close();
 		}
@@ -73,9 +73,22 @@ public class ServerMain extends Main {
 
 		startRecurringTimer();
 
+		startSubscriptionExpireTimer();
+
 		JettyServer.start(ServerConfiguration.getMainServerPort());
 		JettyServer.jettyServer.join();
 
+	}
+
+	private static void startSubscriptionExpireTimer() {
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				new SubscryptionTool().start();
+			}
+		}, 0, 60 * 1000);
 	}
 
 	private static void createMailLogListener() {

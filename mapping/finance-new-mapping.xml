@@ -36,7 +36,7 @@
 		</set>
 		<many-to-one name="clientSubscription"
 			class="com.vimukti.accounter.core.ClientSubscription" lazy="false"
-			cascade="save-update" column="CLIENT_SUBSCRIPTION" not-null="true">
+			cascade="save-update" column="CLIENT_SUBSCRIPTION" >
 		</many-to-one>
 		<many-to-one name="subscriptionManagementData"
 			class="com.vimukti.accounter.core.SubscriptionManagementData" lazy="false"
@@ -60,12 +60,14 @@
 			<generator class="identity" />
 		</id>
 		<many-to-one name="subscription" column="SUBSCRIPTION_ID"
-			unique="true" not-null="true" cascade="save-update,delete-orphan">
+			not-null="true" cascade="save-update">
 		</many-to-one>
 		<property name="lastModified" column="LAST_MODIFIED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
+		<property name="expiredDate" column="EXPIRED_DATE"></property>
+		<property name="premiumType" column="PREMIUM_TYPE"></property>
 		<set name="members" table="MEMBERS">
-			<key column="MEMBER_ID" />
+			<key column="ID" />
 			<element column="EMAIL_ID" type="string" />
 		</set>
 	</class>
@@ -75,7 +77,7 @@
 		</id>
 		<property name="type" column="TYPE"></property>
 		<set name="features" table="FEATURES">
-			<key column="FEATURE_ID" />
+			<key column="ID" />
 			<element column="FEATURE_NAME" type="string" />
 		</set>
 	</class>

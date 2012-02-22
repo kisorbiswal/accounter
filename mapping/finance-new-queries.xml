@@ -182,4 +182,7 @@
 		from com.vimukti.accounter.core.Company c where
 		c.preferences.tradingName=:tradingName
 	</query>
+	<query name="get.all.clients">
+		from com.vimukti.accounter.core.Client
+	</query>
 </hibernate-mapping>

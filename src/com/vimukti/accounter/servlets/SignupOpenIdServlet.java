@@ -113,9 +113,8 @@ public class SignupOpenIdServlet extends BaseServlet {
 
 				ClientSubscription clientSubscription = new ClientSubscription();
 				clientSubscription.setCreatedDate(new Date());
-				Subscription subscription = new Subscription();
-				saveEntry(subscription);
-				clientSubscription.setSubscription(subscription);
+				clientSubscription.setSubscription(Subscription
+						.getInstance(Subscription.FREE_CLIENT));
 				saveEntry(clientSubscription);
 				client.setClientSubscription(clientSubscription);
 

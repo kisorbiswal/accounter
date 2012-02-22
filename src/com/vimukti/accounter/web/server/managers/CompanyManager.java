@@ -724,9 +724,8 @@ public class CompanyManager extends Manager {
 		// User logInUSer = (User) session.getNamedQuery("getuser.by.email")
 		// .setParameter("email", logInUserEmail).uniqueResult();
 		clientCompany.setLoggedInUser(logInUser.getClientUser());
-		Subscription subscription = logInUser.getClient()
-				.getClientSubscription().getSubscription();
-		clientCompany.setSubscriptionType(subscription.getType());
+		clientCompany.setPremiumType(logInUser.getClient()
+				.getClientSubscription().getPremiumType());
 		List list = session.getNamedQuery("get.All.Units")
 				.setEntity("company", company).list();
 

@@ -75,14 +75,12 @@ public class Encrypter extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println("Encryption Started.");
 		try {
 			List<List> lists = loadCoreObjects();
 			updateAll(lists);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Encryption Completed.");
 	}
 
 	private void updateAll(List<List> lists) {

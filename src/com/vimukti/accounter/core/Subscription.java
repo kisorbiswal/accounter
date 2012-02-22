@@ -3,19 +3,15 @@ package com.vimukti.accounter.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.Session;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class Subscription implements IsSerializable {
-	public static final int FREE_CLIENT = 0;
-	public static final int ONE_USER_MONTHLY_SUBSCRIPTION = 1;
-	public static final int ONE_USER_YEARLY_SUBSCRIPTION = 2;
-	public static final int TWO_USERS_MONTHLY_SUBSCRIPTION = 3;
-	public static final int TWO_USERS_YEARLY_SUBSCRIPTION = 4;
-	public static final int FIVE_USERS_MONTHLY_SUBSCRIPTION = 5;
-	public static final int FIVE_USERS_YEARLY_SUBSCRIPTION = 6;
-	public static final int UNLIMITED_USERS_MONTHLY_SUBSCRIPTION = 7;
-	public static final int UNLIMITED_USERS_YEARLY_SUBSCRIPTION = 8;
-	public static final int BEFORE_PAID_FETURE = 100;
+	public static final int BEFORE_PAID_FETURE = 1;
+	public static final int FREE_CLIENT = 2;
+	public static final int PREMIUM_USER = 3;
 
 	private long id;
 	private Set<String> features = new HashSet<String>();
@@ -94,6 +90,13 @@ public class Subscription implements IsSerializable {
 	}
 
 	public boolean isPaidUser() {
-		return !(type == BEFORE_PAID_FETURE || type == FREE_CLIENT);
+		return type == PREMIUM_USER;
+	}
+
+	public static Subscription getInstance(int subscriptionType) {
+		Session currentSession = HibernateUtil.getCurrentSession();
+		Subscription object = (Subscription) currentSession.get(
+				Subscription.class, subscriptionType);
+		return object;
 	}
 }

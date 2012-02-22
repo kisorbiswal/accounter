@@ -6,11 +6,18 @@ import java.util.Set;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class ClientSubscription implements IsSerializable {
+	public static final int ONE_USER = 1;
+	public static final int TWO_USERS = 2;
+	public static final int FIVE_USERS = 3;
+	public static final int UNLIMITED_USERS = 4;
+
 	private long id;
 	private Subscription subscription;
 	private Date createdDate;
 	private Date lastModified;
+	private Date expiredDate;
 	private Set<String> members;
+	private int premiumType;
 
 	public ClientSubscription() {
 
@@ -54,6 +61,22 @@ public class ClientSubscription implements IsSerializable {
 
 	public void setMembers(Set<String> members) {
 		this.members = members;
+	}
+
+	public Date getExpiredDate() {
+		return expiredDate;
+	}
+
+	public void setExpiredDate(Date expiredDate) {
+		this.expiredDate = expiredDate;
+	}
+
+	public int getPremiumType() {
+		return premiumType;
+	}
+
+	public void setPremiumType(int premiumType) {
+		this.premiumType = premiumType;
 	}
 
 }
