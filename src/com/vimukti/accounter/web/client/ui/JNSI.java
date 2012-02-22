@@ -27,4 +27,9 @@ public class JNSI {
 		str = str.replace(/([\-\+\*\/])+/gi, '$1');
 		return String(eval(str));
 	}-*/;
+
+	public static native String readNumber(String value)/*-{
+		var number = value.match(/\d+/g);
+		return String(eval(number));
+	}-*/;
 }
