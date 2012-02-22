@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
+import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -142,8 +143,8 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 		}
 	}
 
-	protected void refreshListBoxes(String selectedVal,
-			Field<Object> tempField, int selectedIndex, ListBox selectedBox) {
+	protected void refreshListBoxes(String selectedVal, Field<?> tempField,
+			int selectedIndex, ListBox selectedBox) {
 		for (int i = 1; i < fields.values().size() - 1; i++) {
 			ListBox listBox = (ListBox) mappingTable.getWidget(i, 2);
 			if (listBox != selectedBox
@@ -167,9 +168,8 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 						public boolean onYesClick() {
 							if (validateFieldValue(fieldName, field,
 									columnValue)) {
-								refreshListBoxes(fieldName,
-										(Field<Object>) field, selectedIndex,
-										importerFields);
+								refreshListBoxes(fieldName, (Field<?>) field,
+										selectedIndex, importerFields);
 							} else {
 								initPreviewGUI();
 								importerFields.setSelectedIndex(0);
