@@ -2212,6 +2212,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				client.getEmailId());
 		SubscriptionManagementData subscriptionManagementData = (SubscriptionManagementData) query
 				.uniqueResult();
+		if (subscriptionManagementData == null) {
+			return invitableUsers;
+		}
 		Set<String> userMailds = setMembers(subscriptionManagementData
 				.getUserMailds());
 		Company company = (Company) currentSession.get(Company.class,

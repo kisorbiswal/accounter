@@ -146,7 +146,7 @@
 			      <div class="email_password">
 				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>
-					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" value ="free@vimukti.com" />
 				  </div>
 				  <div class="email_password">
 				    <label><i18n:i18n msg='password'/></label>
