@@ -3708,7 +3708,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="locationName" type="String" />
+		<query-param name="locationName" type="encryptedstring" />
 
 		<return-scalar column="TRANSACTIONDATE" type="long" />
 		<return-scalar column="TRANSACTIONTYPE" type="int" />
@@ -3825,7 +3825,7 @@
 	<sql-query name="getSalesByClassDetailForClass">
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="className" type="string" />
+		<query-param name="className" type="encryptedstring" />
 		<query-param name="companyId" type="long" />
 		<query-param name="P_ACCOUNT" type="long" />
 
@@ -4266,7 +4266,7 @@
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="NAME" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
-		<return-scalar column="MEMO" type="string" />
+		<return-scalar column="MEMO" type="encryptedstring" />
 		<return-scalar column="TOTAL_AMOUNT" type="double" />
 
 		SELECT

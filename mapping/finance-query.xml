@@ -411,7 +411,7 @@
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
-		<return-scalar column="C_NAME" type="string" />
+		<return-scalar column="C_NAME" type="encryptedstring" />
 
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
@@ -6636,7 +6636,7 @@
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
 		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
@@ -10308,7 +10308,7 @@
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -12500,7 +12500,7 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAX_CODE" type="encryptedstring" />
 		<return-scalar column="TAX_AMOUNT" type="double" />
-		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="CURRENCY" type="encryptedstring" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="LINE_NUMBER" type="long" />
 
@@ -12552,7 +12552,7 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAX_CODE" type="encryptedstring" />
 		<return-scalar column="TAX_AMOUNT" type="double" />
-		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="CURRENCY" type="encryptedstring" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="COUNTRY" type="encryptedstring" />
 		<return-scalar column="LINE_NUMBER" type="long" />
@@ -13175,9 +13175,9 @@
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
 		<return-scalar column="ITEM_UNITS" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_ID" type="long" />
-		<return-scalar column="PAYEE_NAME" type="string" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_ID" type="long" />
 		SELECT TRANSACTION_ID,
 		TRANSACTION_DATE,
@@ -13213,8 +13213,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
 		<return-scalar column="ITEM_UNITS" type="long" />
 		<return-scalar column="COST" type="double" />
@@ -13250,8 +13250,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="PREFFERED_VENDOR" type="long" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
@@ -13272,7 +13272,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="DESCRIPTION" type="string" />
 		<return-scalar column="PREFFERED_VENDOR" type="long" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
@@ -13308,8 +13308,8 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="PAYEE_NAME" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 
 		SELECT
@@ -13367,7 +13367,7 @@
 			<return-scalar column="TRANSACTION_NUMBER" type="long" />
 			<return-scalar column="TRANSACTION_DATE" type="long" />
 			<return-scalar column="AMOUNT" type="double" />
-			<return-scalar column="CHECK_NUMBER" type="string" />
+			<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		
 				SELECT T.ID AS TRANSACTION_ID,
 				T.T_TYPE AS TRANSACTION_TYPE,
