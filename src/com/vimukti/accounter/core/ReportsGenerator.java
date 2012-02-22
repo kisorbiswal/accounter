@@ -1603,6 +1603,7 @@ public class ReportsGenerator {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			return unBilledCostsByJobServerReport.getGridTemplate();
 		case REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY:
 			JobEstimatesVsActualsSummaryServerReport jobEstimatesVsActualsSummaryServerReport = new JobEstimatesVsActualsSummaryServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),

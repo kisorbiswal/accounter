@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class UnBilledCostsByJobServerReport extends
@@ -102,8 +101,7 @@ public class UnBilledCostsByJobServerReport extends
 		case 4:
 			return record.getMemo();
 		case 5:
-			return Accounter.getCompany().getAccount(record.getAccount())
-					.getName();
+			return record.getAccountName();
 		case 6:
 			return record.getAmount();
 		default:

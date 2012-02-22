@@ -3717,7 +3717,7 @@ public class ReportManager extends Manager {
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
 			JobActualCostDetail costDetail = new JobActualCostDetail();
-			
+
 			costDetail.setType(((Integer) objects[0]).intValue());
 			costDetail.setTransactionDate(new ClientFinanceDate(
 					((Long) objects[1]).longValue()));
@@ -3726,14 +3726,12 @@ public class ReportManager extends Manager {
 			costDetail.setAccount(((Long) objects[4]).longValue());
 			costDetail.setTransaction(((Long) objects[5]).longValue());
 			costDetail.setTotal(((Double) objects[6]).doubleValue());
-			
+
 			jobActualCostDetails.add(costDetail);
-		
+
 		}
 		return jobActualCostDetails;
-		}
-
-	
+	}
 
 	/**
 	 * 
@@ -3743,7 +3741,7 @@ public class ReportManager extends Manager {
 	 * @return
 	 */
 	public ArrayList<UnbilledCostsByJob> getUnBilledCostsByJobReport(
-			Long companyId, ClientFinanceDate startDate,
+			long companyId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<UnbilledCostsByJob> list = new ArrayList<UnbilledCostsByJob>();
@@ -3763,8 +3761,9 @@ public class ReportManager extends Manager {
 			costsByJob.setCustomerName((String) objects[5]);
 			costsByJob.setTransactionDate(new ClientFinanceDate(
 					(Long) objects[6]));
-			costsByJob.setAccount((Long) objects[7]);
+			costsByJob.setAccountName((String) objects[7]);
 			costsByJob.setCustomerId((Long) objects[8]);
+			costsByJob.setJobName((String) objects[9]);
 			list.add(costsByJob);
 		}
 		return list;
@@ -3823,16 +3822,15 @@ public class ReportManager extends Manager {
 		}
 		return querylist;
 	}
+
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long id, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+			Long id, ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
 				.setParameter("id", id)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.list();
+				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
@@ -3840,34 +3838,34 @@ public class ReportManager extends Manager {
 			job.setJobId((Long) objects[0]);
 			job.setCustomerId((Long) objects[1]);
 			job.setName((String) objects[2]);
-			job.setCostAmount((Double) (objects[3]== null? 0.0:objects[3]));
-			job.setRevenueAmount((Double) (objects[4]== null? 0.0:objects[4]));
+			job.setCostAmount((Double) (objects[3] == null ? 0.0 : objects[3]));
+			job.setRevenueAmount((Double) (objects[4] == null ? 0.0
+					: objects[4]));
 			list.add(job);
 		}
 		return list;
 	}
 
 	public ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
-			long payeeId, long jobId, Long companyId, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+			long payeeId, long jobId, Long companyId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitabilityDetailByJob> list = new ArrayList<JobProfitabilityDetailByJob>();
 		List result = session.getNamedQuery("JobProfitabilityDetailByJob")
-				.setParameter("payeeId", payeeId)
-				.setParameter("jobId", jobId)
+				.setParameter("payeeId", payeeId).setParameter("jobId", jobId)
 				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())
-				.list();
+				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
 			JobProfitabilityDetailByJob job = new JobProfitabilityDetailByJob();
-			job.setItemId((Long)objects[0]);
+			job.setItemId((Long) objects[0]);
 			job.setItemType((Long) objects[1]);
 			job.setItemName((String) objects[2]);
-			job.setCostAmount((Double) (objects[3]== null? 0.0:objects[3]));
-			job.setRevenueAmount((Double) (objects[4]== null? 0.0:objects[4]));
+			job.setCostAmount((Double) (objects[3] == null ? 0.0 : objects[3]));
+			job.setRevenueAmount((Double) (objects[4] == null ? 0.0
+					: objects[4]));
 			list.add(job);
 		}
 		return list;

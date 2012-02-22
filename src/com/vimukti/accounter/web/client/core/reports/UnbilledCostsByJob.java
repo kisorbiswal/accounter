@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.ui.Accounter;
 
 public class UnbilledCostsByJob extends BaseReport implements IsSerializable,
 		Serializable {
@@ -18,7 +17,7 @@ public class UnbilledCostsByJob extends BaseReport implements IsSerializable,
 	private int type;
 	private ClientFinanceDate transactionDate;
 	private String memo;
-	private long account;
+	private String accountName;
 	private double amount;
 	private long transaction;
 
@@ -31,7 +30,7 @@ public class UnbilledCostsByJob extends BaseReport implements IsSerializable,
 	}
 
 	public String getJobName() {
-		return Accounter.getCompany().getjob(getJobId()).getJobName();
+		return jobName;
 	}
 
 	public void setJobName(String jobName) {
@@ -86,21 +85,20 @@ public class UnbilledCostsByJob extends BaseReport implements IsSerializable,
 		this.amount = amount;
 	}
 
-	public long getAccount() {
-
-		return account;
-	}
-
-	public void setAccount(long account) {
-		this.account = account;
-	}
-
 	public long getTransaction() {
 		return transaction;
 	}
 
 	public void setTransaction(long transaction) {
 		this.transaction = transaction;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
 	}
 
 }
