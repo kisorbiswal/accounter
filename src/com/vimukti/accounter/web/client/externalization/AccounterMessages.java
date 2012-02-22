@@ -348,6 +348,8 @@ public interface AccounterMessages extends Messages {
 	public String amountToUseMustLessthanTotal();
 
 	public String and();
+	
+	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
 
 	public String anItemAlreadyExistswiththisname();
 
