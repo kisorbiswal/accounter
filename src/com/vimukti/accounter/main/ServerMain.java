@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,8 +19,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.ServerMaintanance;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.AccounterChatServer;
@@ -58,6 +62,8 @@ public class ServerMain extends Main {
 			if (ServerConfiguration.isLoadMessages()) {
 				loadAccounterMessages();
 			}
+
+			loadSubscriptionFeatures();
 		} finally {
 			session.close();
 		}
@@ -80,6 +86,74 @@ public class ServerMain extends Main {
 
 	}
 
+	private static void loadSubscriptionFeatures() {
+		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		Subscription instance = Subscription
+				.getInstance(Subscription.BEFORE_PAID_FETURE);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(1);
+			session.save(instance);
+		}
+		instance = Subscription.getInstance(Subscription.FREE_CLIENT);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(2);
+			session.save(instance);
+		}
+		instance = Subscription.getInstance(Subscription.PREMIUM_USER);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(3);
+			session.save(instance);
+		}
+		beginTransaction.commit();
+		beginTransaction = session.beginTransaction();
+		Subscription premium = Subscription
+				.getInstance(Subscription.PREMIUM_USER);
+		Set<String> premiumFeatures = new HashSet<String>();
+		premiumFeatures.add("create company");
+		premiumFeatures.add("brnading theme0");
+		premiumFeatures.add("import bank statements");
+		premiumFeatures.add("user activity");
+		premiumFeatures.add("history");
+		premiumFeatures.add("attachments");
+		premiumFeatures.add("class");
+		premiumFeatures.add("location");
+		premiumFeatures.add("billable exenses");
+		premiumFeatures.add("credtis and charges");
+		premiumFeatures.add("merging");
+		premiumFeatures.add("job costing");
+		premiumFeatures.add("encryption");
+		premiumFeatures.add("invite users");
+		premium.setFeatures(premiumFeatures);
+
+		Subscription before = Subscription
+				.getInstance(Subscription.BEFORE_PAID_FETURE);
+		session.saveOrUpdate(premium);
+
+		Set<String> beforeFeatures = new HashSet<String>();
+		beforeFeatures.add("create company");
+		beforeFeatures.add("brnading theme0");
+		beforeFeatures.add("import bank statements");
+		beforeFeatures.add("user activity");
+		beforeFeatures.add("history");
+		beforeFeatures.add("attachments");
+		beforeFeatures.add("class");
+		beforeFeatures.add("location");
+		beforeFeatures.add("billable exenses");
+		beforeFeatures.add("credtis and charges");
+		beforeFeatures.add("merging");
+		beforeFeatures.add("job costing");
+		beforeFeatures.add("encryption");
+		beforeFeatures.add("invite users");
+		before.setFeatures(beforeFeatures);
+
+		session.saveOrUpdate(before);
+		beginTransaction.commit();
+	}
+
 	private static void startSubscriptionExpireTimer() {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -88,7 +162,7 @@ public class ServerMain extends Main {
 			public void run() {
 				new SubscryptionTool().start();
 			}
-		}, 0, 60 * 1000);
+		}, 0, 24 * 60 * 1000);
 	}
 
 	private static void createMailLogListener() {

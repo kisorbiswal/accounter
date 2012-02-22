@@ -5,6 +5,8 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
+import sun.print.resources.serviceui;
+
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.utils.HibernateUtil;
 
@@ -95,8 +97,9 @@ public class Subscription implements IsSerializable {
 
 	public static Subscription getInstance(int subscriptionType) {
 		Session currentSession = HibernateUtil.getCurrentSession();
-		Subscription object = (Subscription) currentSession.get(
-				Subscription.class, subscriptionType);
+		Subscription object = (Subscription) currentSession
+				.getNamedQuery("get.subscription")
+				.setParameter("type", subscriptionType).uniqueResult();
 		return object;
 	}
 }

@@ -185,4 +185,8 @@
 	<query name="get.all.clients">
 		from com.vimukti.accounter.core.Client
 	</query>
+	<query name="get.subscription">
+		<query-param name="type" type="int" />
+		from com.vimukti.accounter.core.Subscription where type=:type
+	</query>
 </hibernate-mapping>
