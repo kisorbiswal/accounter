@@ -146,12 +146,12 @@
 			      <div class="email_password">
 				    <label><i18n:i18n msg='signinEmail'/></label>
 					<br \>
-					<input id="mid-box"  type="text" name="emailId" tabindex="1" value ="***REMOVED***" />
+					<input id="mid-box"  type="text" name="emailId" tabindex="1" />
 				  </div>
 				  <div class="email_password">
 				    <label><i18n:i18n msg='password'/></label>
 					<br \>
-					<input id="mid-box1"  type="password" name="password" tabindex="2" value="***REMOVED***" />
+					<input id="mid-box1"  type="password" name="password" tabindex="2" />
 				  </div>
 				  <div class="rememberMe">
 				    <input id="checkbox1" type="checkbox" tabindex="4" name="staySignIn"/> 
