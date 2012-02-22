@@ -291,14 +291,15 @@ public class CreateStatementToolBar extends ReportToolbar {
 		if (isVendor) {
 			if (getPayeeId() != 0) {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
-				reportview.makeReportRequest(selectedVendor.getID(), startDate,
-						endDate);
+				// reportview.makeReportRequest(selectedVendor.getID(),
+				// startDate,
+				// endDate);
 			}
 		} else {
 			if (getPayeeId() != 0) {
 				customerData(Accounter.getCompany().getCustomer(getPayeeId()));
-				reportview.makeReportRequest(selectedCusotmer.getID(),
-						startDate, endDate);
+				// reportview.makeReportRequest(selectedCusotmer.getID(),
+				// startDate, endDate);
 			}
 		}
 	}
