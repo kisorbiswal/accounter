@@ -19,6 +19,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.core.Subscription;
@@ -62,7 +63,7 @@ public class ServerMain extends Main {
 				loadAccounterMessages();
 			}
 
-			loadFeatures();
+			loadSubscriptionFeatures();
 		} finally {
 			session.close();
 		}
@@ -85,8 +86,30 @@ public class ServerMain extends Main {
 
 	}
 
-	private static void loadFeatures() {
+	private static void loadSubscriptionFeatures() {
 		Session session = HibernateUtil.getCurrentSession();
+		Transaction beginTransaction = session.beginTransaction();
+		Subscription instance = Subscription
+				.getInstance(Subscription.BEFORE_PAID_FETURE);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(1);
+			session.save(instance);
+		}
+		instance = Subscription.getInstance(Subscription.FREE_CLIENT);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(2);
+			session.save(instance);
+		}
+		instance = Subscription.getInstance(Subscription.PREMIUM_USER);
+		if (instance == null) {
+			instance = new Subscription();
+			instance.setType(3);
+			session.save(instance);
+		}
+		beginTransaction.commit();
+		beginTransaction = session.beginTransaction();
 		Subscription premium = Subscription
 				.getInstance(Subscription.PREMIUM_USER);
 		Set<String> premiumFeatures = new HashSet<String>();
@@ -108,7 +131,7 @@ public class ServerMain extends Main {
 
 		Subscription before = Subscription
 				.getInstance(Subscription.BEFORE_PAID_FETURE);
-		session.save(premium);
+		session.saveOrUpdate(premium);
 
 		Set<String> beforeFeatures = new HashSet<String>();
 		beforeFeatures.add("create company");
@@ -127,7 +150,8 @@ public class ServerMain extends Main {
 		beforeFeatures.add("invite users");
 		before.setFeatures(beforeFeatures);
 
-		session.save(before);
+		session.saveOrUpdate(before);
+		beginTransaction.commit();
 	}
 
 	private static void startSubscriptionExpireTimer() {
