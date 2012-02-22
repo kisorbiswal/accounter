@@ -1187,6 +1187,9 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		statusCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 		super.onEdit();
 	}

@@ -425,6 +425,7 @@ public class CustomerPrePaymentView extends
 			balForm.setFields(locationCombo);
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
 		balForm.setFields(bankBalText, customerBalText);
@@ -658,6 +659,7 @@ public class CustomerPrePaymentView extends
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
+			jobListCombo.setDisabled(false);
 			jobListCombo.setCustomer(customer);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
@@ -742,6 +744,9 @@ public class CustomerPrePaymentView extends
 			locationCombo.setDisabled(isInViewMode());
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());

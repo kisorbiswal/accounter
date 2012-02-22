@@ -1216,6 +1216,9 @@ public class ReceivePaymentView extends
 		updateTotalWithTDS();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 	}
 

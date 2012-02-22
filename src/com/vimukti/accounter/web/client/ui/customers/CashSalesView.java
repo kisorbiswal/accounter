@@ -1141,6 +1141,9 @@ public class CashSalesView extends
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 		super.onEdit();
 	}

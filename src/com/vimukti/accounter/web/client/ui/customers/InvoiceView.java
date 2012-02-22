@@ -1696,8 +1696,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			paymentsNonEditableText.setVisible(isInViewMode());
 		}
 		transactionsTree.setEnabled(!isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
+		jobListCombo.setDisabled(isInViewMode());
+		if (customer != null) {
+			jobListCombo.setCustomer(customer);
 		}
 		enableAttachmentPanel(!isInViewMode());
 	}

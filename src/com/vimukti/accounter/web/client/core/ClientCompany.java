@@ -1905,6 +1905,10 @@ public class ClientCompany implements IAccounterCore {
 				Utility.updateClientList(clientLocation, locations);
 				break;
 
+			case JOB:
+				ClientJob clientjob = (ClientJob) accounterCoreObject;
+				Utility.updateClientList(clientjob, jobs);
+				break;
 			// case VATITEM:
 			// ClientTAXItem vatItem = (ClientTAXItem)
 			// accounterCoreObject;
@@ -1989,6 +1993,7 @@ public class ClientCompany implements IAccounterCore {
 			case TDSRESPONSIBLEPERSON:
 				this.tdsResposiblePerson = (ClientTDSResponsiblePerson) accounterCoreObject;
 				break;
+
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -2108,8 +2113,13 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case LOCATION:
 			deleteLocation(id);
+			break;
+		case JOB:
+			deleteJob(id);
+			break;
 		case CURRENCY:
 			deleteCurrency(id);
+			break;
 		case TAXITEM:
 			deleteTaxItem(id);
 			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -2156,6 +2166,12 @@ public class ClientCompany implements IAccounterCore {
 		case CUSTOMFIELD:
 			deleteCustomField(id);
 		}
+	}
+
+	private void deleteJob(long id2) {
+		ClientJob object = Utility.getObject(this.jobs, id);
+		this.jobs.remove(object);
+
 	}
 
 	public void deleteCustomField(long id) {
