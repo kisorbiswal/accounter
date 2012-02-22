@@ -128,7 +128,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 					update();
 				} else {
 					decimalSymbolItem.setValue(decimalSymbol);
-					Accounter.showError("");
+					Accounter.showError(messages
+							.decimalSymbolShouldNotContainNumericalValues());
 				}
 			}
 		});
@@ -158,7 +159,8 @@ public class CurrencyFormatDialog extends BaseDialog {
 					update();
 				} else {
 					digitGroupingSymbolItem.setValue(digitGroupSymbol);
-					Accounter.showError("");
+					Accounter.showError(messages
+							.digitGroupingSymbolShouldNotContainNumericalValues());
 				}
 			}
 		});
