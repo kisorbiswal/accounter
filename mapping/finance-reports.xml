@@ -2104,7 +2104,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		<query-param name="taxItemId" type=long />
+		<query-param name="taxItemId" type="long" />
 
 		<return-scalar column="transaction_id" type="long" />
 		<return-scalar column="payee_name" type="encryptedstring" />
