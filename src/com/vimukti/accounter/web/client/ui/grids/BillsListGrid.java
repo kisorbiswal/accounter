@@ -7,8 +7,10 @@ import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
+import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -16,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class BillsListGrid extends BaseListGrid<BillsList> {
 
@@ -106,10 +109,23 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList bills) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (isUserHavePermissions(bills)) {
 			ReportsRPC.openTransactionView(bills.getType(),
 					bills.getTransactionId());
+		}
+	}
 
+	private boolean isUserHavePermissions(BillsList obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

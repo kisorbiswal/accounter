@@ -84,11 +84,12 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 				String symbol = getServerObject(Currency.class,
 						value.getCurrency()).getSymbol();
 
-				rec.add(getMessages().originalAmount(),
-						getAmountWithCurrency(value.getOriginalAmount(), symbol));
+				rec.add(getMessages().originalAmount(), Global.get()
+						.toCurrencyFormat(value.getOriginalAmount(), symbol));
 				rec.add(getMessages().balance(),
-						getAmountWithCurrency(value.getBalance() == null ? 0.0
-								: value.getBalance(), symbol));
+						Global.get().toCurrencyFormat(
+								value.getBalance() == null ? 0.0 : value
+										.getBalance(), symbol));
 				return rec;
 			}
 

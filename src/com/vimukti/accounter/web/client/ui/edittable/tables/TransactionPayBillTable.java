@@ -460,9 +460,9 @@ public abstract class TransactionPayBillTable extends
 	public void updateValue(ClientTransactionPayBill obj) {
 		// obj.setPayment(obj.getAmountDue());
 		updateTotalPayment(obj);
-		calculateUnusedCredits();
 		updatesAmounts(obj);
 		adjustAmountAndEndingBalance();
+		calculateUnusedCredits();
 		update(obj);
 	}
 

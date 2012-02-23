@@ -47,7 +47,6 @@ public class StatementServerReport extends
 		case 3:
 			return record.getTotal();
 		case 4:
-
 			if (sectionName == null
 					|| !sectionName.equals("" + record.getPayeeId())) {
 				sectionName = "" + record.getPayeeId();
@@ -285,9 +284,4 @@ public class StatementServerReport extends
 				getMessages().balance() };
 	}
 
-	@Override
-	public void initRecords(List<PayeeStatementsList> records) {
-		resetVariables();
-		super.initRecords(records);
-	}
 }

@@ -42,7 +42,7 @@ public class PurchaseByVendorDetailReport extends
 			return;
 		} else if (byCustomerDetail.getName() != null) {
 			Accounter.createReportService().getPurchasesByVendorDetail(
-					byCustomerDetail.getVendorId(),
+					byCustomerDetail.getName(),
 					byCustomerDetail.getStartDate(),
 					byCustomerDetail.getEndDate(), this);
 		}
@@ -56,19 +56,12 @@ public class PurchaseByVendorDetailReport extends
 
 	@Override
 	public void print() {
-		long vendorId = this.data != null ? ((SalesByCustomerDetail) this.data)
-				.getVendorId() : 0;
-		if (vendorId != 0) {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 131,
-					"", "", vendorId);
-		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 131,
-					"", "", "");
-		}
+		String vendorName = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getName() : "";
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 131, "",
+				"", vendorName);
 	}
 
 	@Override
@@ -110,7 +103,7 @@ public class PurchaseByVendorDetailReport extends
 				Integer.parseInt(String.valueOf(endDate.getDate())), 131, "",
 				"");
 	}
-
+	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

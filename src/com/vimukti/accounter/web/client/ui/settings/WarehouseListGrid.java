@@ -2,6 +2,7 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -56,8 +57,7 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.warehouseCode(),
-				messages.warehouseName(),
-				messages.ddiNumber(),
+				messages.warehouseName(), messages.ddiNumber(),
 				messages.items(), messages.delete() };
 	}
 
@@ -103,7 +103,8 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 	protected void onClick(ClientWarehouse obj, int row, int col) {
 		switch (col) {
 		case 3:
-			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null, false);
+			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null,
+					false);
 			break;
 		case 4:
 			showWarnDialog(obj);
@@ -116,10 +117,21 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	public void onDoubleClick(ClientWarehouse obj) {
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (isUserHavePermissions(obj)) {
 			WareHouseViewAction action = new WareHouseViewAction();
 			action.run(obj, false);
 		}
+	}
+
+	private boolean isUserHavePermissions(ClientWarehouse obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (user.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -395,9 +395,8 @@ public class PurchaseManager extends Manager {
 			quantity.setValue(object[1] == null ? 0 : (((Double) object[1])));
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[2] == null ? 0
-					: ((Double) object[3]).doubleValue());
-			salesByCustomerDetail.setItemid(((BigInteger) object[2])
-					.longValue());
+					: ((Double) object[2]).doubleValue());
+
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
@@ -405,14 +404,15 @@ public class PurchaseManager extends Manager {
 	}
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			long itemId, FinanceDate startDate, FinanceDate endDate,
+			String itemName, FinanceDate startDate, FinanceDate endDate,
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getPurchasesByItemDetailForParticularItem")
 				.setParameter("companyId", companyId)
-				.setParameter("itemId", itemId)
+				.setParameter("itemName", itemName,
+						EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 

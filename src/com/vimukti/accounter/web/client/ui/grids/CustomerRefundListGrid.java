@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -13,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
@@ -93,8 +95,23 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	public void onDoubleClick(CustomerRefundsList customerRefunds) {
-		ReportsRPC.openTransactionView(customerRefunds.getType(),
-				customerRefunds.getTransactionId());
+		if (isUserHavePermissions(customerRefunds)) {
+			ReportsRPC.openTransactionView(customerRefunds.getType(),
+					customerRefunds.getTransactionId());
+		}
+	}
+
+	private boolean isUserHavePermissions(CustomerRefundsList obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 				record.add(getMessages().number(), value.getNumber());
 				record.add(getMessages().name(), value.getVendorName());
 				record.add(getMessages().purchasePrice(),
-						getAmountWithCurrency(value.getPurchasePrice()));
+						value.getPurchasePrice());
 				return record;
 			}
 

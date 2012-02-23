@@ -132,10 +132,8 @@ public class TransactionDetailByAccountReportCommand extends
 		Record transactionRecord = new Record(record);
 		transactionRecord.add("Name",
 				record.getName() == null ? "\t" : record.getName());
-		transactionRecord.add(
-				getMessages().date(),
-				getDateByCompanyType(record.getTransactionDate(),
-						getPreferences()));
+		transactionRecord
+				.add(getMessages().date(), record.getTransactionDate());
 		transactionRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactionType()));
 		transactionRecord.add(getMessages().number(),
@@ -161,7 +159,7 @@ public class TransactionDetailByAccountReportCommand extends
 		} else {
 			try {
 				transactionDetailsByAc = reportManager
-						.getTransactionDetailByAccount(account.getID(),
+						.getTransactionDetailByAccount(account.getName(),
 								getStartDate(), getEndDate(), getCompanyId());
 			} catch (DAOException e) {
 				e.printStackTrace();
@@ -173,7 +171,7 @@ public class TransactionDetailByAccountReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByAccount selection) {
-		return "updateTransaction " + selection.getTransactionId();
+		return "update transaction " + selection.getTransactionId();
 	}
 
 	@Override

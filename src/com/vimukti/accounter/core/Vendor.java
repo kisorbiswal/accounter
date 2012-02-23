@@ -331,8 +331,7 @@ public class Vendor extends Payee {
 		try {
 			Query query = session
 					.getNamedQuery("getVendor.by.name")
-					.setParameter("name", vendor.name,
-							EncryptedStringType.INSTANCE)
+					.setParameter("name", vendor.name, EncryptedStringType.INSTANCE)
 					.setEntity("company", vendor.getCompany());
 			List list = query.list();
 			if (list != null && list.size() > 0) {

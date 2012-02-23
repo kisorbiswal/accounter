@@ -33,7 +33,7 @@ public class ECSalesListDetailReportCommand extends
 			protected String onSelection(ECSalesListDetail selection,
 					String name) {
 				markDone();
-				return "updateTransaction " + selection.getTransactionId();
+				return "Edit Transaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -69,11 +69,9 @@ public class ECSalesListDetailReportCommand extends
 		Record ecRecord = new Record(record);
 		ecRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getTransactionType()));
-		ecRecord.add(getMessages().date(),
-				getDateByCompanyType(record.getDate(), getPreferences()));
+		ecRecord.add(getMessages().date(), record.getDate());
 		ecRecord.add(getMessages().name(), record.getName());
-		ecRecord.add(getMessages().amount(),
-				getAmountWithCurrency(record.getAmount()));
+		ecRecord.add(getMessages().amount(), record.getAmount());
 		return ecRecord;
 	}
 

@@ -12,7 +12,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -74,11 +73,10 @@ public class JournalEntryListCommand extends AbstractTransactionListCommand {
 			protected Record createRecord(ClientJournalEntry entry) {
 				Record record = new Record(entry);
 				record.add(getMessages().number(), entry.getNumber());
-				record.add(getMessages().date(),
-						getDateByCompanyType(entry.getDate(), getPreferences()));
+				record.add(getMessages().date(), entry.getDate());
 				record.add(
 						getMessages().amount(),
-						getAmountWithCurrency(
+						Global.get().toCurrencyFormat(
 								entry.getTotal(),
 								getServerObject(Currency.class,
 										entry.getCurrency()).getSymbol()));

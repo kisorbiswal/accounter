@@ -134,15 +134,6 @@ public class CreateAccountCommand extends AbstractCommand {
 				}
 				super.setValue(value);
 			}
-
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (context.getPreferences().getUseAccountNumbers()) {
-					return super.run(context, makeResult, list, actions);
-				}
-				return null;
-			}
 		});
 
 		list.add(new NameRequirement(ACCOUNT_NAME, getMessages()
@@ -533,13 +524,13 @@ public class CreateAccountCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
-		get(ACCOUNT_TYPE).setDefaultValue(getMessages().income());
 		String accountNumber = String.valueOf(autoGenerateAccountnumber(1100,
 				1999, context.getCompany()));
-		// if (!context.getPreferences().getUseAccountNumbers()) {
-		// get(ACCOUNT_NUMBER).setValue(accountNumber);
-		// }
+		if (!context.getPreferences().getUseAccountNumbers()) {
+			get(ACCOUNT_NUMBER).setValue(accountNumber);
+		}
 		get(ACCOUNT_NUMBER).setDefaultValue(accountNumber);
+		get(ACCOUNT_TYPE).setDefaultValue(getMessages().income());
 		get(ACTIVE).setDefaultValue(Boolean.TRUE);
 		get(CONSIDER_AS_CASH_ACCOUNT).setDefaultValue(Boolean.TRUE);
 		get(CURRENCY).setValue(
@@ -872,7 +863,7 @@ public class CreateAccountCommand extends AbstractCommand {
 		Set<Account> accounts = getCompany().getAccounts();
 		for (Account account : accounts) {
 			if (number.toString().equals(account.getNumber())
-					&& (account.getID() != this.account.getID())) {
+					&& account.getID() != this.account.getID()) {
 				return getMessages().alreadyAccountExist();
 			}
 		}

@@ -38,7 +38,7 @@ public class CustomerStatementReportCommand extends
 			protected String onSelection(PayeeStatementsList selection,
 					String name) {
 				markDone();
-				return "updateTransaction " + selection.getTransactionId();
+				return "update transaction" + selection.getTransactionId();
 			}
 
 			@Override
@@ -66,10 +66,7 @@ public class CustomerStatementReportCommand extends
 	 */
 	protected Record createReportRecord(PayeeStatementsList record) {
 		Record statementRecord = new Record(record);
-		statementRecord.add(
-				getMessages().date(),
-				getDateByCompanyType(record.getTransactionDate(),
-						getPreferences()));
+		statementRecord.add(getMessages().date(), record.getTransactionDate());
 		statementRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactiontype()));
 		statementRecord.add(

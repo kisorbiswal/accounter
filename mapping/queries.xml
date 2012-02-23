@@ -1115,7 +1115,7 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
-		&lt;:today and e.usedInvoice =null
+		&lt;:today
 		order by e.lastModifiedDate desc
 	</query>
 
@@ -2164,4 +2164,5 @@
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>
 	
-</hibernate-mapping>	
+	
+</hibernate-mapping>

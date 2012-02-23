@@ -779,21 +779,21 @@ public class CreateVendorCommand extends AbstractCommand {
 	public String objectExist(String vendorNumber) {
 		String error = null;
 		Set<Vendor> list = getCompany().getVendors();
-		if (!getPreferences().getUseVendorId() || list == null
-				|| list.isEmpty())
+		if (list == null || list.isEmpty())
 			return null;
 		for (Vendor old : list) {
 			if (old.getID() == vendor.getID()) {
 				continue;
 			}
-			if (vendorNumber == null || vendorNumber.trim().length() == 0) {
+			if (vendorNumber.equals(old.getVendorNumber())) {
+				return getMessages().objAlreadyExistsWithNumber(
+						Global.get().vendor());
+			} else if (vendorNumber == null
+					|| vendorNumber.trim().length() == 0) {
 				error = getMessages()
 						.pleaseEnterVendorNumberItShouldNotBeEmpty(
 								Global.get().vendor());
 				break;
-			} else if (vendorNumber.equals(old.getVendorNumber())) {
-				return getMessages().objAlreadyExistsWithNumber(
-						Global.get().vendor());
 			} else if (checkIfNotNumber(vendorNumber)) {
 				error = getMessages().payeeNumberShouldBeNumber(
 						Global.get().vendor());

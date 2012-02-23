@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPhone;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 
@@ -183,10 +185,23 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (isUserHavePermissions(obj)) {
 			ActionFactory.getNewQuoteAction(obj.getEstimateType()).run(obj,
 					false);
 		}
+	}
+
+	private boolean isUserHavePermissions(ClientEstimate obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT
+				&& user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 
 	protected void onClick(ClientEstimate obj, int row, int col) {

@@ -16,7 +16,6 @@ public class MostProfitableCustomers extends BaseReport implements
 	private static final long serialVersionUID = 1L;
 
 	String customer;
-	private long customerId;
 
 	String transactionType;
 
@@ -263,14 +262,6 @@ public class MostProfitableCustomers extends BaseReport implements
 						mp.marginPercentage))
 			return true;
 		return false;
-	}
-
-	public long getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
 	}
 
 }

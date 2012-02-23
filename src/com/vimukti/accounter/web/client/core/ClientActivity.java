@@ -63,8 +63,6 @@ public class ClientActivity implements IAccounterCore {
 
 	private String auditHistory;
 
-	private int objStatus;
-
 	public long getId() {
 		return id;
 	}
@@ -212,14 +210,6 @@ public class ClientActivity implements IAccounterCore {
 
 	public void setAuditHistory(String auditHistory) {
 		this.auditHistory = auditHistory;
-	}
-
-	public int getObjStatus() {
-		return objStatus;
-	}
-
-	public void setObjStatus(int objStatus) {
-		this.objStatus = objStatus;
 	}
 
 }

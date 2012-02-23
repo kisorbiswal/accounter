@@ -9,7 +9,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
-import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -102,15 +101,6 @@ public class AdjustTAXView extends
 		// taxAgencyCombo.setWidth(100);
 		taxAgencyCombo.setComboItem(taxAgency);
 		taxAgencyCombo.setDisabled(isInViewMode());
-		ArrayList<ClientTAXAgency> taxAgencies = getCompany().getTaxAgencies();
-		ArrayList<ClientTAXAgency> list = new ArrayList<ClientTAXAgency>();
-		for (ClientTAXAgency clientTAXAgency : taxAgencies) {
-			if (clientTAXAgency.getTaxType() != ClientTAXAgency.TAX_TYPE_TDS) {
-				list.add(clientTAXAgency);
-			}
-		}
-
-		taxAgencyCombo.initCombo(list);
 
 		vatItemCombo = new AdjustmentVATItemCombo(messages.taxItem(), taxAgency);
 		vatItemCombo.setHelpInformation(true);
@@ -195,26 +185,6 @@ public class AdjustTAXView extends
 		adjustAccountCombo.setPopupWidth("600px");
 		adjustAccountCombo.setRequired(true);
 		adjustAccountCombo.setDisabled(isInViewMode());
-		adjustAccountCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
-
-					@Override
-					public void selectedComboBoxItem(ClientAccount selectItem) {
-						ClientCurrency currency = getCompany().getCurrency(
-								selectItem.getCurrency());
-						currencyWidget.setSelectedCurrencyFactorInWidget(
-								currency, adjustDate.getDate().getDate());
-						if (isMultiCurrencyEnabled()) {
-							setCurrency(currency);
-							setCurrencyFactor(currencyWidget
-									.getCurrencyFactor());
-							updateAmountsFromGUI();
-						}
-					}
-				});
-
-		currencyWidget = createCurrencyFactorWidget();
-
 		amount = new AmountField(messages.amount(), this, getBaseCurrency());
 		amount.setHelpInformation(true);
 		amount.setRequired(true);
@@ -265,8 +235,6 @@ public class AdjustTAXView extends
 		// memoForm.setWidth("50%");
 		memoForm.setFields(adjustAccountCombo, amount, typeRadio, memo);
 		memoForm.getCellFormatter().addStyleName(3, 0, "memoFormAlign");
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.add(currencyWidget);
 		// memoForm.getCellFormatter().setWidth(0, 0, "190");
 
 		VerticalPanel mainPanel = new VerticalPanel();
@@ -274,28 +242,15 @@ public class AdjustTAXView extends
 		mainPanel.add(infoLabel);
 		mainPanel.add(voidedPanel);
 		mainPanel.add(datepanel);
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(topform);
+		mainPanel.add(topform);
 		// if (getCompany().getAccountingType() ==
 		// ClientCompany.ACCOUNTING_TYPE_UK) {
 		// mainPanel.add(vatform);
 		// }
-		mainPanel.add(horizontalPanel);
 		mainPanel.add(memoForm);
 		mainPanel.setSpacing(10);
 
-		if (isMultiCurrencyEnabled()) {
-			horizontalPanel.add(currencyWidget);
-			horizontalPanel.setCellHorizontalAlignment(currencyWidget,
-					HasHorizontalAlignment.ALIGN_RIGHT);
-			horizontalPanel.setCellWidth(currencyWidget, "50%");
-		}
 		this.add(mainPanel);
-		horizontalPanel.setWidth("100%");
-		horizontalPanel.setCellHorizontalAlignment(topform,
-				HasHorizontalAlignment.ALIGN_LEFT);
-		horizontalPanel.setCellWidth(topform, "50%");
-
 		listforms.add(memoForm);
 		listforms.add(topform);
 		settabIndexes();
@@ -478,9 +433,6 @@ public class AdjustTAXView extends
 		else
 			data.setIncreaseVATLine(false);
 		data.setMemo(String.valueOf(memo.getValue()));
-		if (currency != null)
-			data.setCurrency(currency.getID());
-		data.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 	}
 
 	@Override
@@ -514,7 +466,6 @@ public class AdjustTAXView extends
 		amount.setDisabled(isInViewMode());
 		typeRadio.setDisabled(isInViewMode());
 		memo.setDisabled(isInViewMode());
-		currencyWidget.setDisabled(isInViewMode());
 	}
 
 	@Override
@@ -574,22 +525,6 @@ public class AdjustTAXView extends
 				typeRadio.setDefaultValue(messages.decreaseTAXLine());
 			}
 			memo.setValue(data.getMemo());
-			if (isMultiCurrencyEnabled()) {
-				if (transaction.getCurrency() > 0) {
-					this.currency = getCompany().getCurrency(
-							transaction.getCurrency());
-				} else {
-					this.currency = getCompany().getPreferences()
-							.getPrimaryCurrency();
-				}
-				this.currencyFactor = transaction.getCurrencyFactor();
-				if (this.currency != null) {
-					currencyWidget.setSelectedCurrency(this.currency);
-				}
-				currencyWidget.setCurrencyFactor(transaction
-						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
-			}
 		}
 	}
 
@@ -607,6 +542,8 @@ public class AdjustTAXView extends
 
 	@Override
 	public void updateAmountsFromGUI() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

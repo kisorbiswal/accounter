@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.Lists.BillsList;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -98,15 +97,12 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 				Record record = new Record(value);
 				record.add(getMessages().name(),
 						Utility.getTransactionName(value.getType()));
-				record.add(getMessages().date(),
-						getDateByCompanyType(value.getDate(),
-								getPreferences()));
+				record.add(getMessages().date(), value.getDate());
 				record.add(getMessages().number(), value.getNumber());
 				record.add(getMessages().Vendor(), value.getVendorName());
 				record.add(getMessages().originalAmount(),
-						getAmountWithCurrency(value.getOriginalAmount()));
-				record.add(getMessages().balance(),
-						getAmountWithCurrency(value.getBalance()));
+						value.getOriginalAmount());
+				record.add(getMessages().balance(), value.getBalance());
 				return record;
 			}
 

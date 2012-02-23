@@ -18,6 +18,7 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.InventoryAssembly;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAdjustment;
 import com.vimukti.accounter.core.TAXAgency;
@@ -33,6 +34,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientTAXReturnEntry;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -193,9 +195,15 @@ public class Manager {
 			if (serverObject instanceof User) {
 				return (T) ((User) serverObject).getClientUser().toUserInfo();
 			}
+			T t = null;
+			if (serverObject instanceof InventoryAssembly) {
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						ClientInventoryAssembly.class);
+			} else {
 
-			T t = (T) new ClientConvertUtil().toClientObject(serverObject,
-					Util.getClientEqualentClass(serverClass));
+				t = (T) new ClientConvertUtil().toClientObject(serverObject,
+						Util.getClientEqualentClass(serverClass));
+			}
 			Company company = getCompany(companyId);
 			Query query2 = session
 					.getNamedQuery("getTAXRateCalculation.by.check.idandvatReturn");

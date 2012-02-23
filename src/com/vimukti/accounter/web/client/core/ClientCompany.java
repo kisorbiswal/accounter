@@ -38,14 +38,14 @@ public class ClientCompany implements IAccounterCore {
 	public static final int TWO_USERS = 2;
 	public static final int FIVE_USERS = 3;
 	public static final int UNLIMITED_USERS = 4;
-	
+
 	public static final int TYPE_BASIC = 8;
 
 	private Map<String, String> paymentMethods = new HashMap<String, String>();
 
 	// int accountingType = 0;
 	private int premiumType;
-	
+
 	private String registrationNumber;
 
 	private String companyEmail;
@@ -1309,10 +1309,6 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.measurements, measurementId);
 	}
 
-	public ClientEmailAccount getEmailAccount(long emailAccount) {
-		return Utility.getObject(this.emailAccounts, emailAccount);
-	}
-
 	public ClientWarehouse getWarehouse(long id) {
 		return Utility.getObject(this.warehouses, id);
 	}
@@ -1527,15 +1523,6 @@ public class ClientCompany implements IAccounterCore {
 			this.measurements.remove(clientMeasurement);
 			fireEvent(new CoreEvent<ClientMeasurement>(ChangeType.DELETE,
 					clientMeasurement));
-		}
-	}
-
-	public void deleteEmailAccount(long account) {
-		ClientEmailAccount emailAccount = this.getEmailAccount(account);
-		if (emailAccount != null) {
-			this.emailAccounts.remove(emailAccount);
-			fireEvent(new CoreEvent<ClientEmailAccount>(ChangeType.DELETE,
-					emailAccount));
 		}
 	}
 
@@ -1996,10 +1983,6 @@ public class ClientCompany implements IAccounterCore {
 				ClientChequeLayout chequeLayout = (ClientChequeLayout) accounterCoreObject;
 				Utility.updateClientList(chequeLayout, chequeLayouts);
 				break;
-			case EMAIL_ACCOUNT:
-				ClientEmailAccount emailAccount = (ClientEmailAccount) accounterCoreObject;
-				Utility.updateClientList(emailAccount, emailAccounts);
-				break;
 			case TDSDEDUCTORMASTER:
 				this.tdsDeductor = (ClientTDSDeductorMasters) accounterCoreObject;
 				break;
@@ -2167,16 +2150,11 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case MEASUREMENT:
 			deleteMeasurement(id);
-			break;
-		case EMAIL_ACCOUNT:
-			deleteEmailAccount(id);
-			break;
+
 		case USER:
 			deleteUser(id);
-			break;
 		case CUSTOMFIELD:
 			deleteCustomField(id);
-			break;
 		}
 	}
 
@@ -3243,18 +3221,17 @@ public class ClientCompany implements IAccounterCore {
 		this.emailAccounts = emailAccounts;
 	}
 
-
 	public boolean isUnlimitedUser() {
 		return premiumType == UNLIMITED_USERS;
 	}
-	
+
 	/**
 	 * @return the exchangeLossOrGainAccount
 	 */
 	public long getExchangeLossOrGainAccount() {
 		return exchangeLossOrGainAccount;
 	}
-	
+
 	/**
 	 * @param exchangeLossOrGainAccount
 	 *            the exchangeLossOrGainAccount to set
@@ -3278,17 +3255,6 @@ public class ClientCompany implements IAccounterCore {
 		this.costOfGoodsSold = costOfGoodsSold;
 	}
 
-	public ClientEmailAccount getEmailAccount(String email) {
-		if (email != null && !email.isEmpty()) {
-			for (ClientEmailAccount account : emailAccounts) {
-				if (account.getEmailId().equals(email)) {
-					return account;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public int getPremiumType() {
 		return premiumType;
 	}

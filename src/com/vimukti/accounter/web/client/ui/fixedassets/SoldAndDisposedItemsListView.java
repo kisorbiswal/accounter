@@ -173,6 +173,6 @@ public class SoldAndDisposedItemsListView extends
 	public void exportToCsv() {
 		Accounter.createExportCSVService().getFixedAssetListExportCsv(
 				ClientFixedAsset.STATUS_SOLD_OR_DISPOSED,
-				getExportCSVCallback(messages.soldDisposedItems()));
+				getExportCSVCallback(messages.soldAndDisposedItems()));
 	}
 }

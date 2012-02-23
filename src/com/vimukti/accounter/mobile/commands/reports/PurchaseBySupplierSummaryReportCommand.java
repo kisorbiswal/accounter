@@ -70,7 +70,7 @@ public class PurchaseBySupplierSummaryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "purchaseByVendorDetail ," + selection.getVendorId();
+		return "Purchase By Supplier Detail ," + selection.getName();
 	}
 
 	@Override

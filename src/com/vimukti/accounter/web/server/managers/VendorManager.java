@@ -1681,8 +1681,6 @@ public class VendorManager extends PayeeManager {
 			salesByCustomerDetail.setName((String) object[0]);
 			salesByCustomerDetail.setAmount(object[1] == null ? 0
 					: ((Double) object[1]).doubleValue());
-			salesByCustomerDetail.setVendorId(((BigInteger) object[2])
-					.longValue());
 
 			queryResult.add(salesByCustomerDetail);
 		}
@@ -1690,7 +1688,7 @@ public class VendorManager extends PayeeManager {
 	}
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long vendorId, FinanceDate startDate, FinanceDate endDate,
+			String vendorName, FinanceDate startDate, FinanceDate endDate,
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
@@ -1698,7 +1696,8 @@ public class VendorManager extends PayeeManager {
 		List l = session
 				.getNamedQuery("getPurchasesByVendorDetailForParticularVendor")
 				.setParameter("companyId", companyId)
-				.setParameter("vendorId", vendorId)
+				.setParameter("vendorName", vendorName,
+						EncryptedStringType.INSTANCE)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 
