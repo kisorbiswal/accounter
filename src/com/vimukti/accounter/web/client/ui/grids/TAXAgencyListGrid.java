@@ -368,7 +368,7 @@ public class TAXAgencyListGrid extends BaseListGrid<PayeeList> {
 		int errorCode = caught.getErrorCode();
 		if (errorCode == AccounterException.ERROR_OBJECT_IN_USE) {
 			Accounter.showError(AccounterExceptions.accounterMessages
-					.payeeInUse(messages.taxAgencie()));
+					.payeeInUse(messages.taxAgency()));
 		} else {
 			super.deleteFailed(caught);
 		}
