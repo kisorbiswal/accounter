@@ -83,7 +83,7 @@ public class ForgotPasswordCommand extends AbstractCommand {
 		password = SecureUtils.createNumberID(10);
 		sendPasswordMail(password, emailId);
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password));
+				+ Client.PASSWORD_HASH_STRING + password));
 		client.setPassword(passwordWithHash);
 
 		Transaction beginTransaction = context.getHibernateSession()

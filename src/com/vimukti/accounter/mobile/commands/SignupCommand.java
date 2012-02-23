@@ -215,7 +215,7 @@ public class SignupCommand extends AbstractCommand {
 			password = SecureUtils.createNumberID(10);
 		}
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password));
+				+ Client.PASSWORD_HASH_STRING + password));
 		client.setPassword(passwordWithHash);
 
 		String phoneNumber = get(PHONE).getValue();

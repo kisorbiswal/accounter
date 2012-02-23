@@ -14,7 +14,7 @@ import com.vimukti.accounter.web.server.translate.Language;
  * 
  */
 public class Client {
-
+	public static final String PASSWORD_HASH_STRING = "Accounter";
 	private long id;
 	private String firstName;
 	private String lastName;
