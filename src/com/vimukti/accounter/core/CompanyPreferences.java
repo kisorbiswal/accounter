@@ -163,6 +163,7 @@ public class CompanyPreferences implements IAccounterServerCore {
 	private int decimalNumber;
 	private String decimalCharacte = ".";
 	private String digitGroupCharacter = ",";
+	private String digitGroupingFormat = "###,###,##";
 
 	private FinanceDate depreciationStartDate = new FinanceDate();
 
@@ -1605,5 +1606,13 @@ public class CompanyPreferences implements IAccounterServerCore {
 
 	public boolean isUnitsEnabled() {
 		return get(UNITS);
+	}
+
+	public String getDigitGroupingFormat() {
+		return digitGroupingFormat;
+	}
+
+	public void setDigitGroupingFormat(String digitGroupingFormat) {
+		this.digitGroupingFormat = digitGroupingFormat;
 	}
 }
