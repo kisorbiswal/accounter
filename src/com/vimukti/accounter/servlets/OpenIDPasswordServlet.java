@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HexUtil;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
 
 public class OpenIDPasswordServlet extends BaseServlet {
@@ -39,9 +40,15 @@ public class OpenIDPasswordServlet extends BaseServlet {
 			String password = req.getParameter("password");
 			Client client = getClient(emailId);
 			if (client != null) {
-				password = HexUtil.bytesToHex(Security.makeHash(emailId
-						+ password.trim()));
-				if (!client.getPassword().equals(password)) {
+				String passwordHash = HexUtil.bytesToHex(Security
+						.makeHash(emailId + password.trim()));
+				String passwordWord = HexUtil.bytesToHex(Security
+						.makeHash(emailId + password.trim()));
+				if (client.getPassword().equals(passwordHash)) {
+					client.setPassword(passwordWord);
+					HibernateUtil.getCurrentSession().saveOrUpdate(client);
+				}
+				if (!client.getPassword().equals(passwordWord)) {
 					req.setAttribute("error",
 							"Wrong password. Please enter you accounter passowrd");
 					dispatch(req, resp, VIEW);

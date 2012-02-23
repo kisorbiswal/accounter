@@ -124,7 +124,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 			// company.initialize(null);
 
 			transaction.commit();
-			UsersMailSendar.sendMailToDefaultUser(user, company.getTradingName());
+			UsersMailSendar.sendMailToDefaultUser(user,
+					company.getTradingName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -220,7 +221,8 @@ public class S2SServiceImpl extends RemoteServiceServlet implements IS2SService 
 				invitedClient.setFirstName(userInfo.getFirstName());
 				invitedClient.setLastName(userInfo.getLastName());
 				invitedClient.setPassword(HexUtil.bytesToHex(Security
-						.makeHash(invitedUserEmailID + randomString)));
+						.makeHash(invitedUserEmailID
+								+ Client.PASSWORD_HASH_STRING + randomString)));
 				// invitedClient.setRequirePasswordReset(true);
 			} else {
 				userExists = true;

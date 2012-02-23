@@ -127,7 +127,8 @@ public class NewLoginServlet extends BaseServlet {
 
 	public static String createD2(HttpServletRequest request, String emailId,
 			String password) throws Exception {
-		byte[] d2 = EU.generateD2(password, emailId,request.getSession().getId());
+		byte[] d2 = EU.generateD2(password, emailId, request.getSession()
+				.getId());
 		String encode = Base64.encode(d2);
 		request.getSession().setAttribute(SECRET_KEY_COOKIE, encode);
 		return encode;
@@ -151,8 +152,8 @@ public class NewLoginServlet extends BaseServlet {
 			return null;
 		}
 		emailId = emailId.trim();
-		password = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password.trim()));
+		String passwordWord = HexUtil.bytesToHex(Security.makeHash(emailId
+				+ Client.PASSWORD_HASH_STRING + password.trim()));
 
 		Session session = HibernateUtil.getCurrentSession();
 		try {
@@ -160,8 +161,21 @@ public class NewLoginServlet extends BaseServlet {
 			Query query = session
 					.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
 			query.setParameter(EMAIL_ID, emailId);
-			query.setParameter(PASSWORD, password);
+			query.setParameter(PASSWORD, passwordWord);
 			client = (Client) query.uniqueResult();
+			String passwordHash = HexUtil.bytesToHex(Security.makeHash(emailId
+					+ password.trim()));
+			if (client == null) {
+				query = session
+						.getNamedQuery("getclient.from.central.db.using.emailid.and.password");
+				query.setParameter(EMAIL_ID, emailId);
+				query.setParameter(PASSWORD, passwordHash);
+				client = (Client) query.uniqueResult();
+				if (client != null) {
+					client.setPassword(passwordWord);
+					session.saveOrUpdate(client);
+				}
+			}
 			return client;
 		} catch (Exception e) {
 			e.printStackTrace();

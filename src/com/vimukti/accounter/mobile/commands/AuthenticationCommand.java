@@ -200,16 +200,36 @@ public class AuthenticationCommand extends Command {
 			if (attribute.equals("password")) {
 				String userName = (String) context.getAttribute("userName");
 				context.setAttribute("input", "userName");
-				String password = HexUtil.bytesToHex(Security.makeHash(userName
-						.toLowerCase() + string));
 				client = getClient(userName);
 				// Written for open id sign up process.If user sign up in open
 				// id
 				// and trying to login in mobile.Then user don't have
 				// password.For this situation we are checking null
 				// password.client.getPassword() == null
-				if (client == null || client.getPassword() == null
-						|| !client.getPassword().equals(password)) {
+				boolean wrongPassword = true;
+				if (client != null && client.getPassword() != null) {
+					String password = HexUtil.bytesToHex(Security
+							.makeHash(userName.toLowerCase() + string));
+					String passwordWithWord = HexUtil.bytesToHex(Security
+							.makeHash(userName.toLowerCase()
+									+ Client.PASSWORD_HASH_STRING + string));
+					if (client.getPassword().equals(password)) {
+						client.setPassword(passwordWithWord);
+						Session currentSession = HibernateUtil
+								.getCurrentSession();
+						Transaction beginTransaction = currentSession
+								.beginTransaction();
+						currentSession.saveOrUpdate(client);
+						beginTransaction.commit();
+					}
+					if (!client.getPassword().equals(passwordWithWord)) {
+						wrongPassword = true;
+					} else {
+						wrongPassword = false;
+					}
+
+				}
+				if (wrongPassword) {
 					context.setAttribute("password", null);
 					context.setAttribute("input", "password");
 					makeResult.add("Entered password was wrong.");

@@ -69,7 +69,7 @@ public class SignupServlet extends BaseServlet {
 		}
 		emailId = emailId.toLowerCase();
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(emailId
-				+ password));
+				+ Client.PASSWORD_HASH_STRING + password));
 		HttpSession session = req.getSession(true);
 		Session hibernateSession = HibernateUtil.openSession();
 		Transaction transaction = null;
