@@ -148,7 +148,7 @@ public class Quantity implements Comparable<Quantity> {
 	 * 
 	 * @return
 	 */
-	private Quantity convertToDefaultUnit() {
+	public Quantity convertToDefaultUnit() {
 		double conversionFactor = unit == null ? 1 : unit.getMeasurement()
 				.getConversionFactor(unit.getType());
 
