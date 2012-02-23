@@ -8,7 +8,9 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.IMUser;
+import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.mobile.AccounterChatServer;
@@ -224,7 +226,12 @@ public class SignupCommand extends AbstractCommand {
 		Boolean isSubscribedToNewsLetter = get(SUBSCRIBED_NEWSLETTER)
 				.getValue();
 		client.setSubscribedToNewsLetters(isSubscribedToNewsLetter);
-
+		ClientSubscription clientSubscription = new ClientSubscription();
+		clientSubscription.setCreatedDate(new Date());
+		clientSubscription.setSubscription(Subscription
+				.getInstance(Subscription.FREE_CLIENT));
+		saveEntry(clientSubscription, context);
+		client.setClientSubscription(clientSubscription);
 		saveEntry(client, context);
 
 		if (context.getNetworkType() != AccounterChatServer.NETWORK_TYPE_MOBILE) {
