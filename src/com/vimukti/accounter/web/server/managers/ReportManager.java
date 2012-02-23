@@ -35,6 +35,7 @@ import com.vimukti.accounter.core.TAXReturnEntry;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBox;
@@ -78,11 +79,13 @@ import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemSummary;
 import com.vimukti.accounter.web.client.core.reports.VATSummary;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.reports.CheckDetailReport;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
+import com.vimukti.accounter.web.server.FinanceTool;
 
 public class ReportManager extends Manager {
 	public static final int TYPE_AGEING_FROM_DUEDATE = 2;
@@ -3717,15 +3720,20 @@ public class ReportManager extends Manager {
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
 			JobActualCostDetail costDetail = new JobActualCostDetail();
-
-			costDetail.setType(((Integer) objects[0]).intValue());
+			Company company = (Company) session.get(Company.class,companyId);
+			Account accountsReceivableAccount = company.getAccountsReceivableAccount();
+			costDetail.setSplitAccountName(accountsReceivableAccount.getName());
+			costDetail.setCustomerName((String) objects[0]);
+			costDetail.setJobName((String) objects[1]);
+			costDetail.setType(((Integer) objects[2]).intValue());
 			costDetail.setTransactionDate(new ClientFinanceDate(
-					((Long) objects[1]).longValue()));
-			costDetail.setNumber((String) objects[2]);
-			costDetail.setMemo((String) objects[3]);
-			costDetail.setAccount(((Long) objects[4]).longValue());
-			costDetail.setTransaction(((Long) objects[5]).longValue());
-			costDetail.setTotal(((Double) objects[6]).doubleValue());
+					((Long) objects[3]).longValue()));
+			costDetail.setNumber((String) objects[4]);
+			costDetail.setMemo((String) objects[5]);
+			costDetail.setAccountName(((String) objects[6]));
+			costDetail.setTransaction(((Long) objects[7]).longValue());
+			costDetail.setTotal(((Double) objects[8]).doubleValue());
+			
 
 			jobActualCostDetails.add(costDetail);
 
@@ -3786,23 +3794,27 @@ public class ReportManager extends Manager {
 	 */
 	public ArrayList<ItemActualCostDetail> getItemActualCostOrRevenueDetails(
 			FinanceDate startDate, FinanceDate endDate, long companyId,
-			long itemId, boolean isActualcostDetail) {
+			long itemId,long customerId, long jobId, boolean isActualcostDetail) {
 
 		Session session = HibernateUtil.getCurrentSession();
 
 		List list;
 		if (isActualcostDetail) {
 			list = session.getNamedQuery("getItemActualRevenueDetails")
-					.setParameter("startDate", startDate)
-					.setParameter("endDate", endDate)
+					.setParameter("startDate", startDate.getDate())
+					.setParameter("endDate", endDate.getDate())
 					.setParameter("companyId", companyId)
-					.setParameter("itemId", itemId).list();
+					.setParameter("itemId", itemId)
+					.setParameter("customerId", customerId)
+					.setParameter("jobId", jobId).list();
 		} else {
 			list = session.getNamedQuery("getItemActualCostsDetails")
 					.setParameter("startDate", startDate.getDate())
 					.setParameter("endDate", endDate.getDate())
 					.setParameter("companyId", companyId)
-					.setParameter("itemId", itemId).list();
+					.setParameter("itemId", itemId)
+					.setParameter("customerId", customerId)
+					.setParameter("jobId", jobId).list();
 		}
 		ArrayList<ItemActualCostDetail> querylist = new ArrayList<ItemActualCostDetail>();
 		Iterator iterator = list.iterator();
@@ -3818,6 +3830,7 @@ public class ReportManager extends Manager {
 			actualCostDetail.setQuantity(String.valueOf(objects[6]));
 			actualCostDetail.setMemo((String) objects[7]);
 			actualCostDetail.setAmount((Double) objects[8]);
+			actualCostDetail.setTransationType((Integer) objects[9]);
 			querylist.add(actualCostDetail);
 		}
 		return querylist;
@@ -3837,10 +3850,11 @@ public class ReportManager extends Manager {
 			JobProfitability job = new JobProfitability();
 			job.setJobId((Long) objects[0]);
 			job.setCustomerId((Long) objects[1]);
-			job.setName((String) objects[2]);
-			job.setCostAmount((Double) (objects[3] == null ? 0.0 : objects[3]));
-			job.setRevenueAmount((Double) (objects[4] == null ? 0.0
-					: objects[4]));
+			job.setCustomerName((String) objects[2]);
+			job.setName((String) objects[3]);
+			job.setCostAmount((Double) (objects[4] == null ? 0.0 : objects[4]));
+			job.setRevenueAmount((Double) (objects[5] == null ? 0.0
+					: objects[5]));
 			list.add(job);
 		}
 		return list;
@@ -3866,6 +3880,8 @@ public class ReportManager extends Manager {
 			job.setCostAmount((Double) (objects[3] == null ? 0.0 : objects[3]));
 			job.setRevenueAmount((Double) (objects[4] == null ? 0.0
 					: objects[4]));
+			job.setCustomerId((Long) objects[5]);
+			job.setJobId((Long) objects[6]);
 			list.add(job);
 		}
 		return list;

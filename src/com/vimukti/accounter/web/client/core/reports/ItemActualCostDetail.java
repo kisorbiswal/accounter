@@ -11,7 +11,7 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 	private static final long serialVersionUID = 1L;
 
 	private String itemName;
-	private int type;
+	private int transationType;
 	private long transactionId;
 	private ClientFinanceDate date;
 	private String number;
@@ -29,13 +29,6 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 		this.itemName = itemName;
 	}
 
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
 
 	public ClientFinanceDate getDate() {
 		return date;
@@ -99,6 +92,14 @@ public class ItemActualCostDetail extends BaseReport implements Serializable,
 
 	public void setItemType(int itemType) {
 		this.itemType = itemType;
+	}
+
+	public int getTransationType() {
+		return transationType;
+	}
+
+	public void setTransationType(int transationType) {
+		this.transationType = transationType;
 	}
 
 }

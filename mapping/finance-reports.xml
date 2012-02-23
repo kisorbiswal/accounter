@@ -4461,30 +4461,34 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
-		<return-scalar column="CUSTOMER_NAME" type="string" />
-		<return-scalar column="JOB_ID" type="long" />
+		
+		<return-scalar column="CUSTOMER_NAME" type="string"/>
+		<return-scalar column="JOB_NAME" type="string"/>
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="NUMBER" type="string" />
 		<return-scalar column="MEMO" type="string" />
-		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNTNAME" type="string" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
 
 		SELECT
 		P.NAME AS CUSTOMER_NAME,
-		T.JOB_ID AS JOB_ID,
+		J.JOB_NAME AS JOB_NAME,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS
 		DATE,
 		T.NUMBER AS NUMBER,
 		T.MEMO AS MEMO,
-		CASE
+		<!-- CASE
 		WHEN
 		TI.TYPE=4
 		THEN
 		TI.ACCOUNT_ID ELSE IT.INCOME_ACCOUNT_ID
-		END AS ACCOUNT_ID,
+		END AS ACCOUNT_ID, -->
+		
+		A.NAME AS ACCOUNTNAME,
+		
 		T.ID AS
 		TRANSACTION_ID,
 		TI.LINE_TOTAL AS TOTAL
@@ -4494,6 +4498,7 @@
 		JOIN
 		TRANSACTION T ON
 		T.ID=TI.TRANSACTION_ID
+		LEFT JOIN JOB J ON J.ID = T.JOB_ID
 		LEFT OUTER JOIN INVOICE I ON
 		I.ID = T.ID
 		LEFT
@@ -4503,10 +4508,10 @@
 		LEFT OUTER JOIN PAYEE P ON
 		P.ID=I.CUSTOMER_ID OR P.ID = CS.CUSTOMER_ID OR
 		P.ID=CCM.ID
-		LEFT OUTER
-		JOIN ACCOUNT A ON (TI.TYPE=4 AND A.ID =TI.ACCOUNT_ID)
 		LEFT OUTER JOIN
 		ITEM IT ON (TI.TYPE=1 AND IT.ID=TI.ITEM_ID)
+		LEFT OUTER
+		JOIN ACCOUNT A ON (TI.TYPE=4 AND (A.ID =TI.ACCOUNT_ID OR A.ID=IT.INCOME_ACCOUNT_ID))
 		WHERE
 		T.JOB_ID IS NOT NULL
 		AND T.COMPANY_ID=:companyId AND
@@ -4689,6 +4694,10 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="itemId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		
+		
 		<return-scalar column="TR_ID" type="long" />
 		<return-scalar column="ITEM_NAME" type="string" />
 		<return-scalar column="ITEM_TYPE" type="int" />
@@ -4698,6 +4707,7 @@
 		<return-scalar column="QTY_UNIT" type="long" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
 
 		SELECT
 		T.ID AS TR_ID,
@@ -4708,7 +4718,8 @@
 		P.NAME AS CUSTOMER_NAME,
 		TI.QTY_UNIT AS QTY_UNIT,
 		T.MEMO AS MEMO,
-		TI.LINE_TOTAL AS TOTAL
+		TI.LINE_TOTAL AS TOTAL,
+		T.T_TYPE AS TRANSACTION_TYPE
 		FROM
 		TRANSACTION T
 		LEFT OUTER JOIN
@@ -4730,9 +4741,9 @@
 		LEFT JOIN ITEM IT ON IT.ID=TI.ITEM_ID
 		WHERE
 		IT.ID=:itemId AND
-		T.COMPANY_ID=:companyId AND T.JOB_ID IS NOT NULL AND T.T_DATE
+		T.COMPANY_ID=:companyId AND T.JOB_ID IS NOT NULL AND (T.T_DATE
 		BETWEEN
-		:startDate AND :endDate
+		:startDate AND :endDate) AND (P.ID = :customerId AND T.JOB_ID =:jobId)
 	</sql-query>
 	<sql-query name="getJobActualCostTransactions">
 		<query-param name="companyId" type="long" />
@@ -4741,27 +4752,33 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
+		<return-scalar column="CUSTOMER_NAME" type="string"/>
+		<return-scalar column="JOB_NAME" type="string"/>
 		<return-scalar column="TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="NUMBER" type="string" />
 		<return-scalar column="MEMO" type="string" />
-		<return-scalar column="ACCOUNT_ID" type="long" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
+		
 
 		SELECT
+		P.NAME AS CUSTOMER_NAME,
+		J.JOB_NAME AS JOB_NAME,
 		T.T_TYPE AS TYPE,
 		T.T_DATE AS DATE,
 		T.NUMBER AS NUMBER,
 		TI.DESCRIPTION AS MEMO,
 
-		CASE
+		<!-- CASE
 		WHEN
 		TI.TYPE=4
 		THEN
 		TI.ACCOUNT_ID ELSE
 		I.INCOME_ACCOUNT_ID
-		END AS ACCOUNT_ID,
+		END AS ACCOUNT_ID, -->
+		A.NAME AS ACCOUNT_NAME,
 		T.ID AS TRANSACTION_ID,
 		I.SALES_PRICE AS TOTAL
 
@@ -4774,26 +4791,28 @@
 		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID
 		LEFT JOIN ITEM I ON I.ID
 		= TI.ITEM_ID
-		LEFT JOIN ACCOUNT A ON A.ID=I.EXPENSE_ACCOUNT_ID
+		LEFT JOIN ACCOUNT A ON A.ID=I.EXPENSE_ACCOUNT_ID OR A.ID=TI.ACCOUNT_ID
 		WHERE
-		TI.IS_BILLABLE = TRUE OR A.A_TYPE=15 AND
-		(T.T_DATE BETWEEN :startDate
-		AND :endDate) AND J.COMPANY_ID=:companyId and J.id=:jobId AND
-		J.CUSTOMER_ID=:customerId;
+		(TI.IS_BILLABLE = TRUE OR A.A_TYPE=15) AND
+		((T.T_DATE BETWEEN :startDate
+		AND :endDate) AND J.COMPANY_ID =:companyId and J.id =:jobId AND
+		J.CUSTOMER_ID =:customerId);
 	</sql-query>
 
 	<sql-query name="getJobProfitabilitySummary">
-		<query-param name="id" type="long" />
+		<query-param name="id" type="long" /> 
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="JOBID" type="long" />
-		<return-scalar column="CUSTOMERID" type="long" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="JOBNAME" type="string" />
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="REVENUE" type="double" />
 		SELECT
 		J.ID AS JOBID,
-		J.CUSTOMER_ID AS CUSTOMERID,
+		J.CUSTOMER_ID AS CUSTOMER_ID,
+		P.NAME AS CUSTOMER_NAME,
 		J.JOB_NAME AS JOBNAME,
 		CASE WHEN J.ID IN (SELECT J.ID FROM JOB J
 		LEFT JOIN PAYEE P ON P.ID =
@@ -4808,9 +4827,9 @@
 		TI.IS_BILLABLE =
 		TRUE OR A.A_TYPE=15 AND
 		(T.T_DATE BETWEEN :startDate
-		AND :endDate))
+		AND :endDate) )
 		THEN
-		SUM(I.PURCHASE_PRISE) ELSE NULL END AS COST,
+		SUM(I.SALES_PRICE) ELSE NULL END AS COST,
 		CASE
 		WHEN J.ID IN (SELECT J.ID FROM JOB J
 		LEFT JOIN PAYEE P ON P.ID =
@@ -4836,12 +4855,12 @@
 		LEFT JOIN
 		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID=T.ID
 		LEFT JOIN ITEM I ON I.ID
-		= TI.ITEM_ID
+		= TI.ITEM_ID AND I.TYPE IN (2,4)
 		LEFT JOIN ACCOUNT A ON A.ID=I.EXPENSE_ACCOUNT_ID
 		WHERE
 		(T.T_DATE BETWEEN :startDate
-		AND :endDate) AND J.COMPANY_ID=:id GROUP
-		BY J.ID;
+		AND :endDate) AND  J.COMPANY_ID=:id GROUP
+		BY J.ID, P.ID;
 	</sql-query>
 
 	<sql-query name="JobProfitabilityDetailByJob">
@@ -4850,15 +4869,21 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		
 		<return-scalar column="ITEMID" type="long" />
 		<return-scalar column="TYPE" type="long" />
 		<return-scalar column="IIEMNAME" type="string" />
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="REVENUE" type="double" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="JOB_ID" type="long" />
+		
 		SELECT
 		I.ID AS ITEMID,
 		I.TYPE AS TYPE,
 		I.NAME AS IIEMNAME,
+		J.CUSTOMER_ID AS CUSTOMER_ID,
+		J.ID AS JOB_ID,
 
 		CASE WHEN I.ID
 		IN (SELECT I.ID FROM ITEM I
@@ -4872,7 +4897,7 @@
 		OR A.A_TYPE=15 AND
 		(T.T_DATE BETWEEN :startDate AND :endDate))
 		THEN
-		SUM(I.PURCHASE_PRISE) ELSE NULL END AS COST,
+		SUM(I.SALES_PRICE) ELSE NULL END AS COST,
 
 		CASE WHEN I.ID IN (SELECT
 		I.ID FROM ITEM I
@@ -4902,17 +4927,19 @@
 		(T.T_DATE BETWEEN :startDate AND
 		:endDate) AND
 		J.COMPANY_ID=:companyId AND J.ID=:jobId AND J.CUSTOMER_ID
-		=:payeeId GROUP BY I.ID;
+		=:payeeId GROUP BY I.ID, j.id;
 
 	</sql-query>
 
 	<sql-query name="getItemActualCostsDetails">
 
-		<query-param name="companyId" type="long" />
-		<query-param name="customerId" type="long" />
-		<query-param name="jobId" type="long" />
+	
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
 
 		<return-scalar column="TR_ID" type="long" />
 		<return-scalar column="IIEM_NAME" type="string" />
@@ -4923,22 +4950,19 @@
 		<return-scalar column="QTY_UNIT" type="long" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="TOTAL" type="double" />
-
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
 
 		SELECT
-
 		T.ID AS TR_ID,
 		I.NAME AS IIEM_NAME,
 		I.TYPE AS ITEM_TYPE,
-		T.T_DATE
-		AS TR_DATE,
+		T.T_DATE AS TR_DATE,
 		T.NUMBER AS TR_NUMBER,
 		P.NAME AS CUSTOMER_NAME,
-		TI.QTY_UNIT
-		AS QTY_UNIT,
+		TI.QTY_UNIT AS QTY_UNIT,
 		T.MEMO AS MEMO,
-		I.PURCHASE_PRISE AS TOTAL
-
+		I.SALES_PRICE AS TOTAL,
+		T.T_TYPE AS TRANSACTION_TYPE
 
 		FROM
 		ITEM I
@@ -4962,7 +4986,7 @@
 		TRUE OR
 		A.A_TYPE=15)AND
 		J.COMPANY_ID=:companyId AND
-		I.ID = :itemId AND
+		I.ID = :itemId AND J.CUSTOMER_ID=:customerId AND J.ID=:jobId AND
 		I.TYPE=2;
 	</sql-query>
 	<!-- ================================================================================================================================== -->

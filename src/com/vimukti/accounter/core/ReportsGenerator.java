@@ -29,8 +29,10 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByI
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ItemActualCostDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.JobActualCostDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.JobEstimatesVsActualsSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilityDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilitySummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
@@ -148,6 +150,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL = 187;
 	public final static int REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY = 188;
 	public final static int REPORT_TYPE_PROFITANDLOSSBYJOB = 189;
+	public final static int REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID = 190;
+	
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -182,7 +186,7 @@ public class ReportsGenerator {
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
 			String navigateObjectName, int generationType, String status,
-			Company company) {
+			Company company, String dateRangeHtml) {
 		// ReportsGenerator.companyType = companyType;
 		this.reportType = reportType;
 		this.startDate = new FinanceDate(starDate);
@@ -190,6 +194,7 @@ public class ReportsGenerator {
 		this.navigateObjectName = navigateObjectName;
 		this.status = status;
 		this.company = company;
+		this.dateRangeHtml = dateRangeHtml;
 		this.generationType = generationType;
 	}
 
@@ -1565,11 +1570,20 @@ public class ReportsGenerator {
 			};
 			updateReport(actualCostDetailServerReport, finaTool);
 			try {
+				long statusVal = Long.valueOf(status);
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+				
+				boolean isCost= false;
+				if(statusVal== 1)
+				{
+					isCost = true;
+				}
 				actualCostDetailServerReport.onResultSuccess(finaTool
 						.getReportManager().getJobActualCostOrRevenueDetails(
 								new FinanceDate(startDate.getDate()),
 								new FinanceDate(endDate.getDate()),
-								company.getID(), true, 1, 1));
+								company.getID(), isCost,customerIdVal, jobIdVal));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1581,7 +1595,7 @@ public class ReportsGenerator {
 				public String getDateByCompanyType(ClientFinanceDate date) {
 					return getDateInDefaultType(date);
 				}
-			};
+			};     
 			updateReport(jobProfitabilitySummaryServerReport, finaTool);
 			try {
 				jobProfitabilitySummaryServerReport.onResultSuccess(finaTool
@@ -1631,9 +1645,72 @@ public class ReportsGenerator {
 										new ClientFinanceDate(startDate
 												.getDate()),
 										new ClientFinanceDate(endDate.getDate())));
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			return	jobEstimatesVsActualsSummaryServerReport.getGridTemplate();
+		case REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID:
+			JobProfitabilityDetailServerReport jobProfitabilityDetailServerReport = new JobProfitabilityDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(jobProfitabilityDetailServerReport, finaTool);
+			try {
+				
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+				jobProfitabilityDetailServerReport
+						.onResultSuccess(finaTool
+								.getReportManager()
+								.getJobProfitabilityDetailByJobReport(customerIdVal,jobIdVal,
+										company.getId(),
+										new ClientFinanceDate(startDate
+												.getDate()),
+										new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return 	jobProfitabilityDetailServerReport.getGridTemplate();
+		case REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL:
+			ItemActualCostDetailServerReport item = new ItemActualCostDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(item, finaTool);
+			try {
+				
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+				long statusVal=0, itemVal=0;
+				if(status != null)
+				{
+					String[] split = status.split(",");
+					itemVal = Long.valueOf(split[0]);
+					statusVal= Long.valueOf(split[1]);
+				}
+				boolean isCost= false;
+				if(statusVal== 1)
+				{
+					isCost = true;
+				}
+				item.onResultSuccess(finaTool
+								.getReportManager()
+								. getItemActualCostOrRevenueDetails(
+										new FinanceDate(startDate.getDate()),
+										new FinanceDate(endDate.getDate()),company.getId(),itemVal,customerIdVal,jobIdVal, isCost));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return 	item.getGridTemplate();
 		default:
 			break;
 		}
@@ -1923,6 +2000,8 @@ public class ReportsGenerator {
 			return "Item Actual Cost Detail";
 		case REPORT_TYPE_JOB_ESTIMATES_VS_ACTUALS_SUMMARY:
 			return "Job Estimates Vs Actuals Summary";
+		case REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID:
+			return "Job Profitability Detail";
 		default:
 			break;
 		}

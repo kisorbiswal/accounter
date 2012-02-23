@@ -11,6 +11,8 @@ import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilityDetailS
 public class JobProfitabilityDetailReport extends
 		AbstractReportView<JobProfitabilityDetailByJob> {
 
+	private long customerId;
+	private long jobId;
 	public JobProfitabilityDetailReport() {
 this.serverReport = new JobProfitabilityDetailServerReport(this);
 	}
@@ -18,6 +20,8 @@ this.serverReport = new JobProfitabilityDetailServerReport(this);
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		
+		this.customerId = toolbar.getPayeeId();
+		this.jobId = toolbar.getJobId();
 		Accounter.createReportService().getJobProfitabilityDetailByJobReport(toolbar.getPayeeId(), toolbar.getJobId(),start,
 				end, this);
 
@@ -57,6 +61,11 @@ this.serverReport = new JobProfitabilityDetailServerReport(this);
 
 	@Override
 	public void print() {
+		
+		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 190, String.valueOf(customerId),
+				String.valueOf(jobId), "");
 
 	}
 
@@ -67,5 +76,10 @@ this.serverReport = new JobProfitabilityDetailServerReport(this);
 
 	@Override
 	public void exportToCsv() {
+
+		UIUtils.exportReport(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())), 190, String.valueOf(customerId),
+				String.valueOf(jobId));
 	}
 }

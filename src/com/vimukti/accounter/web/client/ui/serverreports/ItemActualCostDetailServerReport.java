@@ -44,7 +44,7 @@ public class ItemActualCostDetailServerReport extends
 
 	@Override
 	public String[] getColunms() {
-		return new String[] { getMessages().itemName(), getMessages().type(),
+		return new String[] { getMessages().type(),getMessages().itemName(), 
 				getMessages().date(), getMessages().number(),
 				Global.get().customer(), getMessages().memo(),
 				getMessages().quantity(), getMessages().amount() };
@@ -58,7 +58,7 @@ public class ItemActualCostDetailServerReport extends
 	}
 
 	@Override
-	public void processRecord(ItemActualCostDetail record) {
+public void processRecord(ItemActualCostDetail record) {
 		// if (sectionDepth == 0) {
 		// addSection(new String[] { "" }, new String[] { "", "", "", "",
 		// getMessages().total() }, new int[] { 7 });
@@ -109,14 +109,13 @@ public class ItemActualCostDetailServerReport extends
 		}
 		return itemTypeName;
 	}
-
 	@Override
 	public Object getColumnData(ItemActualCostDetail record, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
 			return "";
 		case 1:
-			return Utility.getTransactionName(record.getType());
+			return Utility.getTransactionName(record.getTransationType());
 		case 2:
 			return getDateByCompanyType(record.getDate());
 		case 3:

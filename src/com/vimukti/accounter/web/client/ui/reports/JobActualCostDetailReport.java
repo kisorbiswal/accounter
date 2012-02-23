@@ -10,13 +10,13 @@ public class JobActualCostDetailReport extends
 		AbstractReportView<JobActualCostDetail> {
 
 	private boolean isActualcostDetail;
-	private long transactionId;
+	private long customerId;
 	private long jobId;
 
 	public JobActualCostDetailReport(boolean isActualcostDetail,
-			long transactionId, long jobId) {
+			long customerId, long jobId) {
 		this.isActualcostDetail = isActualcostDetail;
-		this.transactionId = transactionId;
+		this.customerId = customerId;
 		this.jobId = jobId;
 		this.serverReport = new JobActualCostDetailServerReport(this,
 				isActualcostDetail);
@@ -25,7 +25,7 @@ public class JobActualCostDetailReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getJobActualCostOrRevenueDetails(start,
-				end, isActualcostDetail, transactionId, jobId, this);
+				end, isActualcostDetail, customerId, jobId, this);
 	}
 
 	@Override
@@ -54,19 +54,35 @@ public class JobActualCostDetailReport extends
 
 	@Override
 	public void print() {
-		String customerName = this.data != null ? ((JobActualCostDetail) this.data)
-				.getCustomerName() : "";
+		
+		long status = 0;
+		if (isActualcostDetail) {
+			status = 1;
+		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
-				"", customerName);
+				Integer.parseInt(String.valueOf(endDate.getDate())), 184,
+				String.valueOf(customerId), String.valueOf(jobId), status);
+		// UIUtils.generateReportPDF(
+		// Integer.parseInt(String.valueOf(startDate.getDate())),
+		// Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
+		// "", customerName);
 	}
 
 	@Override
 	public void exportToCsv() {
+		// UIUtils.exportReport(
+		// Integer.parseInt(String.valueOf(startDate.getDate())),
+		// Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
+		// "");
+		long status = 0;
+		if (isActualcostDetail) {
+			status = 1;
+		}
+
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 184, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())), 184,
+				String.valueOf(customerId), String.valueOf(jobId), status);
 	}
 }

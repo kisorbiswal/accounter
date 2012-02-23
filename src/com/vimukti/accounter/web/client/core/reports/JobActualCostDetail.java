@@ -19,7 +19,8 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 	private ClientFinanceDate transactionDate;
 	private String number;
 	private String memo;
-	private long account;
+	private String accountName;
+	private String splitAccountName;
 	private double total;
 	private long transaction;
 
@@ -71,19 +72,8 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 		this.memo = memo;
 	}
 
-	public long getAccount() {
-		return account;
-	}
 
-	public void setAccount(long account) {
-		this.account = account;
-	}
-
-	public ClientAccount getSplitAccount() {
-		ClientAccount account = Accounter.getCompany().getAccount(
-				Accounter.getCompany().getAccountsReceivableAccountId());
-		return account;
-	}
+	
 
 	public double getTotal() {
 		return total;
@@ -107,5 +97,21 @@ public class JobActualCostDetail extends BaseReport implements IsSerializable,
 
 	public void setJobid(long jobid) {
 		this.jobid = jobid;
+	}
+
+	public String getAccountName() {
+		return accountName;
+	}
+
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public String getSplitAccountName() {
+		return splitAccountName;
+	}
+
+	public void setSplitAccountName(String splitAccountName) {
+		this.splitAccountName = splitAccountName;
 	}
 }

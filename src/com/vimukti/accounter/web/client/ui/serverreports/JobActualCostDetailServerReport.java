@@ -75,8 +75,7 @@ public class JobActualCostDetailServerReport extends
 					getMessages().reportTotal(sectionName) }, new int[] { 8 });
 
 		} else if (sectionDepth == 2) {
-			ClientJob job = Accounter.getCompany().getjob(record.getJobid());
-			this.jobName = job.getJobName();
+			this.jobName = record.getJobName();
 			addSection(new String[] { "", jobName }, new String[] { "", "", "",
 					"", "", getMessages().reportTotal(jobName) },
 					new int[] { 8 });
@@ -118,10 +117,9 @@ public class JobActualCostDetailServerReport extends
 		case 5:
 			return record.getMemo();
 		case 6:
-			return Accounter.getCompany().getAccount(record.getAccount())
-					.getName();
+			return record.getAccountName();
 		case 7:
-			return record.getSplitAccount().getName();
+			return record.getSplitAccountName();
 		case 8:
 			return record.getTotal();
 		}

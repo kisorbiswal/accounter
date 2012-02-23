@@ -67,7 +67,7 @@ public class JobProfitabilitySummaryReport extends
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())), 185, "",
-				"", customerName);
+				"", "");
 	}
 
 	@Override
