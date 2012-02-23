@@ -40,8 +40,11 @@ public class StockAdjustment extends Transaction implements INamedObject {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		// TODO Auto-generated method stub
-		return false;
+		if (!UserUtils.canDoThis(StockAdjustment.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+		return true;
 	}
 
 	public Warehouse getWareHouse() {

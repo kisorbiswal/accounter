@@ -61,27 +61,8 @@ public class InventoryItemNameColumn extends
 				}
 				return clientItem;
 			}
-
-			@Override
-			public void addNewItem(String text) {
-				NewItemAction action;
-				action = ActionFactory.getNewItemAction(isForCustomer());
-				action.setCallback(new ActionCallback<ClientItem>() {
-
-					@Override
-					public void actionResult(ClientItem result) {
-						if (result.isActive()
-								&& getItemsFilter().filter(result)) {
-							selectRow(result);
-						}
-
-					}
-				});
-				action.setType(ClientItem.TYPE_INVENTORY_PART);
-				action.setItemText(text);
-				action.run(null, false);
-			}
 		};
+		itemsList.setItemType(ClientItem.TYPE_INVENTORY_PART);
 		return itemsList;
 	}
 
@@ -187,4 +168,5 @@ public class InventoryItemNameColumn extends
 	public boolean isPrimaryColumn() {
 		return true;
 	}
+
 }

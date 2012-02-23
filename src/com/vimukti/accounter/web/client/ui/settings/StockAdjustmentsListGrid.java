@@ -2,8 +2,10 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -123,8 +125,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	@Override
 	public void onDoubleClick(StockAdjustmentList obj) {
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (isUserHavePermissions(obj)) {
 			AccounterAsyncCallback<ClientStockAdjustment> callback = new AccounterAsyncCallback<ClientStockAdjustment>() {
 
 				@Override
@@ -144,6 +145,18 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 					AccounterCoreType.STOCK_ADJUSTMENT,
 					obj.getStockAdjustment(), callback);
 		}
+	}
+
+	private boolean isUserHavePermissions(StockAdjustmentList obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (user.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -167,6 +167,10 @@ public class Measurement extends CreatableObject implements
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		if (!UserUtils.canDoThis(Measurement.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
 		return true;
 	}
 
@@ -203,7 +207,7 @@ public class Measurement extends CreatableObject implements
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
+
 		w.put(messages.type(), messages.measurement()).gap().gap();
 		w.put(messages.name(), this.name);
 	}

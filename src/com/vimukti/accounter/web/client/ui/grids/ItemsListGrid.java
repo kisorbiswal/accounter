@@ -4,13 +4,17 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
@@ -150,11 +154,23 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (isUserHavePermissions(obj)) {
 			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
 			itemAction.setType(obj.getType());
 			itemAction.run(obj, false);
 		}
+	}
+
+	private boolean isUserHavePermissions(ClientItem obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (user.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {

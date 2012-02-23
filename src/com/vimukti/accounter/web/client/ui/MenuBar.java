@@ -1141,8 +1141,7 @@ public class MenuBar {
 	}
 
 	private boolean canDoPayBillAndReceivePayment(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES
-				|| clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
