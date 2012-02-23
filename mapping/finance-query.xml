@@ -7634,7 +7634,7 @@
 
 	<sql-query name="get.NonEncrypted.CompanyNames.by.client">
 		<query-param name="userIds" type="long" />
-		SELECT C.TRADING_NAME FROM
+		SELECT C.Id,C.TRADING_NAME FROM
 		COMPANY C LEFT JOIN USERS U ON
 		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds AND C.SECRET_KEY IS NULL
 		ORDER BY

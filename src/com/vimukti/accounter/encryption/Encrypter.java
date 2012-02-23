@@ -23,7 +23,8 @@ public class Encrypter extends Thread {
 	private byte[] csk;
 	private byte[] d2;
 	private byte[] s2;
-	private String emailId;
+	private String sessionId;
+	private Object emailId;
 	private static List<String> classes;
 
 	static {
@@ -64,13 +65,14 @@ public class Encrypter extends Thread {
 		}
 	}
 
-	public Encrypter(long companyId, String password, byte[] d2, String emailId)
-			throws Exception {
+	public Encrypter(long companyId, String password, byte[] d2,
+			String emailId, String sessionId) throws Exception {
 		this.companyId = companyId;
 		csk = EU.generatePBS(password);
 		this.d2 = d2;
 		this.emailId = emailId;
-		s2 = EU.getKey(emailId);
+		this.sessionId = sessionId;
+		s2 = EU.getKey(sessionId);
 	}
 
 	@Override
@@ -114,8 +116,8 @@ public class Encrypter extends Thread {
 		session.saveOrUpdate(company);
 
 		byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
-		EU.storeKey(s2, emailId);
-		EU.createCipher(userSecret, d2, emailId);
+		EU.storeKey(s2, sessionId);
+		EU.createCipher(userSecret, d2, sessionId);
 		User user = getUser();
 		user.setSecretKey(userSecret);
 		session.saveOrUpdate(user);

@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.MobileCookie;
@@ -176,7 +177,8 @@ public class AuthenticationCommand extends Command {
 					makeResult.add(commandList);
 					return makeResult;
 				}
-				if (client != null && !client.isActive()) {
+				if (client != null && !client.isActive()
+						&& EU.getKey(context.getIOSession().getId()) != null) {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
 					makeResult.add(new InputType(
@@ -222,6 +224,13 @@ public class AuthenticationCommand extends Command {
 				}
 				if (client.isActive()) {
 					createMobileCookie(context.getNetworkId(), client);
+					try {
+						byte[] d2 = EU.generateD2(string, client.getEmailId(),
+								context.getIOSession().getId());
+						context.getIOSession().setD2(d2);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					markDone();
 				} else {
 					context.setAttribute("input", "activation");

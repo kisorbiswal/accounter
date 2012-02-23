@@ -65,11 +65,15 @@ public class EncryptCompaniesServlet extends BaseServlet {
 		if (session != null && session.getAttribute(EMAIL_ID) != null) {
 			String emailId = (String) session.getAttribute(EMAIL_ID);
 			String companyId = req.getParameter("companyname");
-			// TODO Check for valis companyId
 			Session session2 = HibernateUtil.getCurrentSession();
 			Company company = (Company) session2.get(Company.class,
 					Long.parseLong(companyId));
 			if (company != null) {
+				User user = company.getUserByUserEmail(emailId);
+				if (user == null) {
+					dispatch(req, resp, ENCRYPT_VIEW);
+					return;
+				}
 				String password = req.getParameter("password");
 				// company.setLocked(true);
 				Session currentSession = HibernateUtil.getCurrentSession();
@@ -79,9 +83,12 @@ public class EncryptCompaniesServlet extends BaseServlet {
 				beginTransaction.commit();
 				try {
 					new Encrypter(company.getId(), password, getD2(req),
-							emailId).start();
+							emailId, session.getId()).start();
 				} catch (Exception e) {
 				}
+			} else {
+				dispatch(req, resp, ENCRYPT_VIEW);
+				return;
 			}
 		}
 		resp.sendRedirect(LOGIN_URL);

@@ -50,7 +50,7 @@ public class CompanyPasswordServlet extends BaseServlet {
 					return;
 				}
 				byte[] d2 = getD2(req);
-				byte[] s2 = EU.getKey(emailId);
+				byte[] s2 = EU.getKey(req.getSession().getId());
 				byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
 				User user = getUser(emailId, companyId);
 				user.setSecretKey(userSecret);

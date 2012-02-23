@@ -118,7 +118,7 @@ public class NewLoginServlet extends BaseServlet {
 			RememberMeKey rememberMe = new RememberMeKey(client.getEmailId(),
 					rememberMeKey);
 			rememberMe.setClientKey(encode);
-			rememberMe.setServerKey(EU.getKey(emailId));
+			rememberMe.setServerKey(EU.getKey(request.getSession().getId()));
 			session.save(rememberMe);
 			addUserCookies(response, rememberMeKey);
 		}
@@ -127,7 +127,7 @@ public class NewLoginServlet extends BaseServlet {
 
 	public static String createD2(HttpServletRequest request, String emailId,
 			String password) throws Exception {
-		byte[] d2 = EU.generateD2(password, emailId);
+		byte[] d2 = EU.generateD2(password, emailId,request.getSession().getId());
 		String encode = Base64.encode(d2);
 		request.getSession().setAttribute(SECRET_KEY_COOKIE, encode);
 		return encode;
