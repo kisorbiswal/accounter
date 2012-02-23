@@ -661,6 +661,10 @@ public abstract class Transaction extends CreatableObject implements
 		return this != null && this instanceof CustomerPrePayment;
 	}
 
+	public boolean isCustomerCreditMemo() {
+		return this != null && this instanceof CustomerCreditMemo;
+	}
+
 	public boolean isStockAdjustment() {
 		return this instanceof StockAdjustment;
 	}

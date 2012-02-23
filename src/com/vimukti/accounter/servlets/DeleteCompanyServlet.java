@@ -244,7 +244,8 @@ public class DeleteCompanyServlet extends BaseServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String emailID = (String) req.getSession().getAttribute(EMAIL_ID);
-		if (emailID == null) {
+		if (emailID == null
+				|| req.getSession().getAttribute(COMPANY_ID) == null) {
 			req.setAttribute("message",
 					"Company deletion failed because of invalide session.");
 			dispatch(req, resp, deleteCompanyView);
