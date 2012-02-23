@@ -39,7 +39,7 @@ public abstract class EstimateRequirement extends ListRequirement<Estimate> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().quote()));
+		list.add("createQuote");
 
 	}
 

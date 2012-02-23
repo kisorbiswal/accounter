@@ -78,7 +78,7 @@ public class ClassListCommand extends AbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().accounterClass()));
+				list.add("createClass");
 
 			}
 

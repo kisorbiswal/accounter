@@ -32,7 +32,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add("New SalesOrder");
+				list.add("newSalesOrder");
 			}
 
 			@Override
