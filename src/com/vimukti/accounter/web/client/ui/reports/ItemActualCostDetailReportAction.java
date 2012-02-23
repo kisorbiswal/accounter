@@ -12,7 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class ItemActualCostDetailReportAction extends Action{
 
 	protected ItemActualCostDetailReport report;
-
+private JobProfitabilityDetailByJob obj;
 	public ItemActualCostDetailReportAction() {
 		super();
 	}
@@ -27,9 +27,9 @@ public class ItemActualCostDetailReportAction extends Action{
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
-				JobProfitabilityDetailByJob obj = (JobProfitabilityDetailByJob)data;
+				 obj = (JobProfitabilityDetailByJob)data;
 				
-				report = new ItemActualCostDetailReport(obj.isCost(), obj.getItemId());
+				report = new ItemActualCostDetailReport(obj.isCost(), obj.getItemId(), obj.getCustomerId(), obj.getJobId());
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, ItemActualCostDetailReportAction.this);
 
@@ -64,7 +64,9 @@ public class ItemActualCostDetailReportAction extends Action{
 
 	@Override
 	public String getText() {
-		return "Item Actual Cost Detail Report";
+		
+			return messages.itemActualCostDetail();
+		
 	}
 
 }

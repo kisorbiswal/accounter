@@ -385,7 +385,7 @@ public interface IAccounterReportService extends RemoteService {
 
 	ArrayList<ItemActualCostDetail> getItemActualCostDetail(
 			ClientFinanceDate start, ClientFinanceDate end, long itemId,
-			boolean isActualcostDetail);
+			long customerId, long jobId, boolean isActualcostDetail);
 
 	ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
 			long payeeId, long jobId, ClientFinanceDate start,

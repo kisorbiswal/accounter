@@ -456,7 +456,7 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate start,
 			ClientFinanceDate end,
 			long itemId,
-			boolean isActualcostDetail,
+			long customerId, long jobId, boolean isActualcostDetail,
 			AsyncCallback<ArrayList<ItemActualCostDetail>> itemActualCostDetailReport);
 
 	public void getJobProfitabilityDetailByJobReport(long payeeId, long jobId,

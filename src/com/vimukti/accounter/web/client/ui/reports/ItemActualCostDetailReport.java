@@ -9,10 +9,14 @@ import com.vimukti.accounter.web.client.ui.serverreports.ItemActualCostDetailSer
 public class ItemActualCostDetailReport extends
 		AbstractReportView<ItemActualCostDetail> {
 	private long itemId;
+	private long customerId;
+	private long jobId;
 	private boolean isActualcostDetail;
 
-	public ItemActualCostDetailReport(boolean isActualcostDetail, long itemId) {
+	public ItemActualCostDetailReport(boolean isActualcostDetail, long itemId, long customerId, long jobId) {
 		this.itemId = itemId;
+		this.customerId = customerId;
+		this.jobId = jobId;
 		this.isActualcostDetail = isActualcostDetail;
 		this.serverReport = new ItemActualCostDetailServerReport(this,
 				isActualcostDetail);
@@ -21,7 +25,7 @@ public class ItemActualCostDetailReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getItemActualCostDetail(start, end,
-				itemId, isActualcostDetail, this);
+				itemId,customerId,jobId, isActualcostDetail, this);
 	}
 
 	@Override
@@ -31,7 +35,12 @@ public class ItemActualCostDetailReport extends
 
 	@Override
 	public void OnRecordClick(ItemActualCostDetail record) {
-		// TODO Auto-generated method stub
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		ReportsRPC.openTransactionView(record.getTransationType(),
+				record.getTransactionId());
+	
 	}
 
 	@Override
@@ -46,19 +55,35 @@ public class ItemActualCostDetailReport extends
 
 	@Override
 	public void print() {
-		String customerName = this.data != null ? ((ItemActualCostDetail) this.data)
-				.getCustomerName() : "";
+	long status =0;
+	if(isActualcostDetail)
+	{
+		status=1;
+	}
+	StringBuffer buffer = new StringBuffer();
+	buffer.append(itemId);
+	buffer.append(",");
+	buffer.append(status);
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 187, "",
-				"", customerName);
+				Integer.parseInt(String.valueOf(endDate.getDate())), 187,String.valueOf(customerId),String.valueOf(jobId),
+			 buffer.toString());
 	}
 
 	@Override
 	public void exportToCsv() {
+		long status =0;
+		if(isActualcostDetail)
+		{//cost- false-0,revenue-true-1
+			status=1;
+		}
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(itemId);
+		buffer.append(",");
+		buffer.append(status);
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 187, "",
-				"");
+				Integer.parseInt(String.valueOf(endDate.getDate())), 187,String.valueOf(customerId),String.valueOf(jobId),
+				buffer.toString());
 	}
 }

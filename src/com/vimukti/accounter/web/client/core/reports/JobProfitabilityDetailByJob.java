@@ -16,6 +16,8 @@ public class JobProfitabilityDetailByJob extends BaseReport implements Serializa
 	private double costAmount;
 	private double revenueAmount;
 	private boolean isCost;
+	private long customerId;
+	private long jobId;
 	public long getItemId() {
 		return itemId;
 	}
@@ -51,6 +53,18 @@ public class JobProfitabilityDetailByJob extends BaseReport implements Serializa
 	}
 	public void setItemType(long itemType) {
 		this.itemType = itemType;
+	}
+	public long getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
+	}
+	public long getJobId() {
+		return jobId;
+	}
+	public void setJobId(long jobId) {
+		this.jobId = jobId;
 	}
 
 }
