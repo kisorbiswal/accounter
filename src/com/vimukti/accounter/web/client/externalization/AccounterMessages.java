@@ -348,6 +348,8 @@ public interface AccounterMessages extends Messages {
 	public String amountToUseMustLessthanTotal();
 
 	public String and();
+	
+	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
 
 	public String anItemAlreadyExistswiththisname();
 
@@ -1270,6 +1272,8 @@ public interface AccounterMessages extends Messages {
 	public String decimalDigitLimit();
 
 	public String decimalSymbol();
+	
+	public String decimalSymbolShouldNotContainNumericalValues();
 
 	public String decline();
 
@@ -1378,6 +1382,8 @@ public interface AccounterMessages extends Messages {
 	public String digitGrouping();
 
 	public String digitGroupingDecimal();
+	
+	public String digitGroupingSymbolShouldNotContainNumericalValues();
 
 	public String dipositAccountAndTransferAccountShouldBeDiff();
 

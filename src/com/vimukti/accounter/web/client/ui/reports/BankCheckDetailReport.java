@@ -33,7 +33,7 @@ public class BankCheckDetailReport extends AbstractReportView<BankCheckDetail> {
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
 		ReportsRPC.openTransactionView(record.getTransactionType(),
-				record.getTransactionType());
+				record.getTransactionId());
 
 	}
 

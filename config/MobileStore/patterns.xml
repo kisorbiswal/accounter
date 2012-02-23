@@ -529,14 +529,14 @@
 	<pattern login="true">
 		<input>settings</input>
 		<outputs>
-			<command title="companySettingsTitle" />
-			<command title="userHTML" />
+			<command if="canChangeSettings" title="companySettingsTitle" />
+			<command if="canDoUserManagement" title="users" />
 			<!-- <command title="Invoice Branding" /> -->
 		</outputs>
 	</pattern>
 
 	<pattern login="true">
-		<input>userHTML</input>
+		<input>users</input>
 		<outputs>
 			<command title="Inviteuser" />
 			<command title="usersList" />
@@ -547,21 +547,21 @@
 		<input>inventory</input>
 		<outputs>
 			<command title="newStockAdjustment" />
-			<command title="newWareHouse" />
-			<command title="newWarehouseTransfer" />
-			<command title="newMeasurment" />
+			<command if="iswareHouseEnabled" title="newWareHouse" />
+			<command if="iswareHouseEnabled" title="newWarehouseTransfer" />
+			<command if="isUnitsEnalbled" title="newMeasurment" />
 			<command title="InventoryLists" />
 		</outputs>
 	</pattern>
 
-	<pattern login="true">
+	<pattern login="true" if="inventoryEnabled">
 		<input>InventoryLists</input>
 		<outputs>
 			<command value="InventoryItems inventory" title="InventoryItems" />
-			<command title="warehouseList" />
-			<command title="warehouseTransferList" />
+			<command if="iswareHouseEnabled" title="warehouseList" />
+			<command if="iswareHouseEnabled" title="warehouseTransferList" />
 			<command title="stockAdjustmentList" />
-			<command title="measurementsList" />
+			<command if="isUnitsEnalbled" title="measurementsList" />
 		</outputs>
 	</pattern>
 

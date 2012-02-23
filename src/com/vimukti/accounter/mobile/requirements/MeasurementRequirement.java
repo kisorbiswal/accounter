@@ -27,7 +27,10 @@ public abstract class MeasurementRequirement extends
 	public Result run(Context context, Result makeResult, ResultList list,
 			ResultList actions) {
 		setMeasurementValue();
-		return super.run(context, makeResult, list, actions);
+		if (getPreferences().isUnitsEnabled()) {
+			return super.run(context, makeResult, list, actions);
+		}
+		return null;
 	}
 
 	private void setMeasurementValue() {
@@ -37,6 +40,7 @@ public abstract class MeasurementRequirement extends
 			Measurement measurement = (Measurement) value;
 			measurement = (Measurement) currentSession.load(Measurement.class,
 					measurement.getID());
+			long id = measurement.getID();
 			super.setValue(measurement);
 		}
 	}
@@ -49,10 +53,15 @@ public abstract class MeasurementRequirement extends
 
 	@Override
 	public void setDefaultValue(Object defaultValue) {
+		super.setDefaultValue(defaultValue);
 		Session currentSession = HibernateUtil.getCurrentSession();
 		Measurement measurement = (Measurement) defaultValue;
-		super.setDefaultValue(currentSession.load(Measurement.class,
-				measurement.getID()));
+		Object value = getValue();
+		if (value != null) {
+			measurement = (Measurement) currentSession.load(Measurement.class,
+					measurement.getID());
+			super.setDefaultValue(measurement);
+		}
 	}
 
 	@Override
@@ -75,8 +84,9 @@ public abstract class MeasurementRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("createMeasurement");
-
+		if (getPreferences().isUnitsEnabled()) {
+			list.add("createMeasurement");
+		}
 	}
 
 	@Override
@@ -91,6 +101,11 @@ public abstract class MeasurementRequirement extends
 
 	@Override
 	protected List<Measurement> getLists(Context context) {
+		if (!getPreferences().isUnitsEnabled()) {
+			ArrayList<Measurement> arrayList = new ArrayList<Measurement>();
+			arrayList.add(getCompany().getDefaultMeasurement());
+			return arrayList;
+		}
 		return new ArrayList<Measurement>(context.getCompany()
 				.getMeasurements());
 	}
