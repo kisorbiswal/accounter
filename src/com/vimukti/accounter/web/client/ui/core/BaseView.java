@@ -11,6 +11,7 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -21,6 +22,7 @@ import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.settings.AddMeasurementView;
+import com.vimukti.accounter.web.client.ui.settings.InviteUserView;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentView;
 import com.vimukti.accounter.web.client.ui.settings.WareHouseView;
@@ -187,6 +189,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				|| this instanceof InventoryAssemblyView
 				|| this instanceof AddMeasurementView) {
 			if (permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
+				this.saveAndCloseButton = new SaveAndCloseButton(this);
+				this.saveAndNewButton = new SaveAndNewButtom(this);
+			}
+		}
+		if (this instanceof InviteUserView) {
+			ClientUser user = getCompany().getLoggedInUser();
+			if (user.isCanDoUserManagement()) {
 				this.saveAndCloseButton = new SaveAndCloseButton(this);
 				this.saveAndNewButton = new SaveAndNewButtom(this);
 			}

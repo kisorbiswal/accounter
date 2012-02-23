@@ -359,12 +359,13 @@ public class ReportsRPC {
 		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
 			initCallBack(new ClientBuildAssembly(),
 					ActionFactory.getBuildAssemblyAction(), transactionId);
+			break;
 		}
 
 	}
 
 	public static void openTransactionView(ClientTransaction transaction) {
-		if (!Accounter.getUser().isCanDoUserManagement()) {
+		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
 			return;
 		}
 		switch (transaction.getType()) {
