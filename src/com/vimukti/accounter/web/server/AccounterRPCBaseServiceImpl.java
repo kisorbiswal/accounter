@@ -119,7 +119,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+				EU.createCipher(user.getSecretKey(), getD2(request), request.getSession().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

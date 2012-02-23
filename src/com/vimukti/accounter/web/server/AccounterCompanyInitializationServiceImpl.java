@@ -107,7 +107,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			Client client = getClient(getUserEmail());
 			byte[] d2 = getD2();
 			Company company = intializeCompany(preferences, accounts, client,
-					password, d2);
+					password, d2,getThreadLocalRequest().getSession().getId());
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
 			getThreadLocalRequest().getSession().removeAttribute(
@@ -122,7 +122,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 	public static Company intializeCompany(
 			ClientCompanyPreferences preferences,
 			List<TemplateAccount> accounts, Client client, String password,
-			byte[] d2) throws AccounterException {
+			byte[] d2, String sessionId) throws AccounterException {
 
 		if (!client.getClientSubscription().getSubscription().isPaidUser()) {
 			List<Company> companies = client.getCompanies();
@@ -141,9 +141,9 @@ public class AccounterCompanyInitializationServiceImpl extends
 					byte[] csk = EU.generatePBS(password);
 					companySecret = EU.encrypt(s3, csk);
 					userSecret = EU.encrypt(s3,
-							EU.decrypt(d2, EU.getKey(client.getEmailId())));
+							EU.decrypt(d2, EU.getKey(sessionId)));
 
-					EU.createCipher(userSecret, d2, client.getEmailId());
+					EU.createCipher(userSecret, d2, sessionId);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -308,7 +308,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+				EU.createCipher(user.getSecretKey(), getD2(request), request.getSession().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

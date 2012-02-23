@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
@@ -245,6 +246,15 @@ public class SignupCommand extends AbstractCommand {
 		imUser.setNetworkId(context.getNetworkId());
 		imUser.setNetworkType(context.getNetworkType());
 		saveEntry(imUser, context);
+
+		try {
+			byte[] d2 = EU.generateD2(password, client.getEmailId(), context
+					.getIOSession().getId());
+			context.getIOSession().setD2(d2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

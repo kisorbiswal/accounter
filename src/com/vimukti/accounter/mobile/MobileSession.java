@@ -13,9 +13,11 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -47,10 +49,15 @@ public class MobileSession {
 
 	private String language;
 
+	private byte[] d2;
+
+	private String id;
+
 	/**
 	 * Creates new Instance
 	 */
 	public MobileSession() {
+		id = SecureUtils.createID();
 	}
 
 	public String getUserEmail() {
@@ -180,16 +187,6 @@ public class MobileSession {
 		setAttribute(LAST_MESSAGE, userMessage);
 	}
 
-	/**
-	 * Return the from field of the Message
-	 * 
-	 * @return
-	 */
-	public IMUser getFrom() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public long getCompanyID() {
 		return companyID;
 	}
@@ -252,6 +249,13 @@ public class MobileSession {
 		if (user != null) {
 			user = (User) hibernateSession.get(User.class, user.getID());
 			AccounterThreadLocal.set(user);
+			try {
+				if (user.getSecretKey() != null) {
+					EU.createCipher(user.getSecretKey(), d2, getId());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		Company company = getCompany();
 		if (company != null) {
@@ -307,5 +311,17 @@ public class MobileSession {
 
 	public String getLanguage() {
 		return language;
+	}
+
+	public byte[] getD2() {
+		return d2;
+	}
+
+	public void setD2(byte[] d2) {
+		this.d2 = d2;
+	}
+
+	public String getId() {
+		return id;
 	}
 }

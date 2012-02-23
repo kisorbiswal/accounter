@@ -116,7 +116,7 @@ public class BaseServlet extends HttpServlet {
 				User user = getUser(emailId, companyID);
 				if (user != null && user.getSecretKey() != null) {
 					try {
-						EU.createCipher(user.getSecretKey(), d2, emailId);
+						EU.createCipher(user.getSecretKey(), d2, request.getSession().getId());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

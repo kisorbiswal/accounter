@@ -138,18 +138,18 @@ public class EU {
 		Cipher dCipher;
 	}
 
-	public static void storeKey(byte[] s2, String emailId) {
+	public static void storeKey(byte[] s2, String sessionId) {
 		ByteArrayWrapper byteArrayWrapper = new ByteArrayWrapper(s2);
-		keys.put(emailId, byteArrayWrapper);
+		keys.put(sessionId, byteArrayWrapper);
 	}
 
-	public static byte[] generateD2(String password, String emailId)
-			throws Exception {
+	public static byte[] generateD2(String password, String emailId,
+			String sessionId) throws Exception {
 		byte[] s1 = EU.generatePBS(password);
-		byte[] s2 = getKey(emailId);
+		byte[] s2 = getKey(sessionId);
 		if (s2 == null) {
 			s2 = EU.generateSymetric();
-			EU.storeKey(s2, emailId);
+			EU.storeKey(s2, sessionId);
 		}
 		byte[] d2 = EU.encrypt(s1, s2);
 		return d2;
@@ -161,8 +161,8 @@ public class EU {
 	 * @param emailID
 	 * @return
 	 */
-	public static byte[] getKey(String emailID) {
-		ByteArrayWrapper byteArrayWrapper = keys.get(emailID);
+	public static byte[] getKey(String sessionId) {
+		ByteArrayWrapper byteArrayWrapper = keys.get(sessionId);
 		if (byteArrayWrapper == null) {
 			return null;
 		}
@@ -173,9 +173,9 @@ public class EU {
 		CipherThreadLocal.set(null);
 	}
 
-	public static void createCipher(byte[] userSecret, byte[] d2, String emailId)
-			throws Exception {
-		byte[] s2 = getKey(emailId);
+	public static void createCipher(byte[] userSecret, byte[] d2,
+			String sessionId) throws Exception {
+		byte[] s2 = getKey(sessionId);
 		if (s2 == null) {
 			return;
 		}
@@ -214,5 +214,9 @@ public class EU {
 		} catch (Exception e) {
 		}
 		return null;
+	}
+
+	public static void removeKey(String sessionId) {
+		keys.remove(sessionId);
 	}
 }

@@ -183,7 +183,7 @@ public class OpenCompanyServlet extends BaseServlet {
 							return;
 						}
 						EU.createCipher(user.getSecretKey(), getD2(request),
-								emailID);
+								request.getSession().getId());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
