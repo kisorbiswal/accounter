@@ -336,8 +336,9 @@ public class WriteCheck extends Transaction {
 				this.bankAccount.updateCurrentBalance(this, this.total,
 						currencyFactor);
 				this.bankAccount.onUpdate(session);
-				cleanTransactionitems(writeCheck);
 			}
+
+			cleanTransactionitems(writeCheck);
 
 		}
 		if ((this.paymentMethod

@@ -245,8 +245,8 @@ public class ReportSectionView extends BaseHomeView {
 		// resolved issue 3544
 		// bankingMap.put(messages.depositDetail(), ActionFactory
 		// .getBankDepositDetailReportAction().getHistoryToken());
-		// bankingMap.put(messages.checkDetail(), ActionFactory
-		// .getBankCheckDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.checkDetail(), ActionFactory
+				.getBankCheckDetailReportAction().getHistoryToken());
 
 		// TAX tab for uk country
 		ukTaxMap.put(messages.priorVATReturns(), ActionFactory

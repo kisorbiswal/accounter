@@ -495,6 +495,11 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 				&& incomeAccount == null) {
 			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
 		}
+
+		if ((getType() == TYPE_INVENTORY_PART || getType() == TYPE_INVENTORY_ASSEMBLY)
+				&& getAssestsAccount() == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		}
 	}
 
 	private void checkNameNull() throws AccounterException {
@@ -698,6 +703,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			quantity.setValue(-quantity.getValue());
 			transactionItem.modifyPurchases(null, false, null);
 		}
+		if (transactionItem.getTransaction().isCustomerCreditMemo()) {
+			quantity.setValue(-quantity.getValue());
+		}
 		onHandQty = onHandQty.subtract(quantity);
 	}
 
@@ -705,12 +713,15 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			int inventoryScheme, boolean isReverse) {
 		Session session = HibernateUtil.getCurrentSession();
 		Quantity quantity = transactionItem.getQuantity().copy();
-		Double unitPrice = transactionItem.getUnitPrice();
+		Double unitPrice = transactionItem.getUnitPriceInBaseCurrency();
+		Transaction transaction = transactionItem.getTransaction();
 		if (isReverse) {
 			quantity.setValue(-quantity.getValue());
 		}
+		if (transaction.isVendorCreditMemo()) {
+			quantity.setValue(-quantity.getValue());
+		}
 		double amountToUpdate = (quantity.getValue() * unitPrice);
-		Transaction transaction = transactionItem.getTransaction();
 		assestsAccount.updateCurrentBalance(transaction, -amountToUpdate, 1);
 		session.update(assestsAccount);
 		onHandQty = onHandQty.add(quantity);
