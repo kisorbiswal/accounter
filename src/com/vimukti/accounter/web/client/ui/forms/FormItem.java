@@ -62,7 +62,6 @@ public abstract class FormItem<T> {
 
 	public String getDisplayValue() {
 		return this.value.toString();
-
 	}
 
 	public void setColSpan(int colSpan) {
