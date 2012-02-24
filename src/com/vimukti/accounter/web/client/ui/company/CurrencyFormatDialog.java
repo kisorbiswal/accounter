@@ -1,7 +1,9 @@
 package com.vimukti.accounter.web.client.ui.company;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -43,11 +45,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 	private String digitGroupSymbol;
 
-	private int digitGroupNum;
+	private String digitGroupingFormat = "123,456,789";
 
 	private long noOfDigitsAfterDecimal;
 
-	String[] groups = { "12,34,56,789" };
+	Map<String, String> groups = new HashMap<String, String>();
 
 	private ClientCompanyPreferences preferences;
 
@@ -59,6 +61,7 @@ public class CurrencyFormatDialog extends BaseDialog {
 	public CurrencyFormatDialog(String string) {
 		super(string);
 		this.preferences = Accounter.getCompany().getPreferences();
+		assignGroupValues();
 		createControl();
 		initData(preferences);
 	}
@@ -154,10 +157,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
-						digitGroupNum = digitGroupingCombo.getSelectedIndex();
+						digitGroupingFormat = selectItem;
 						update();
 					}
 				});
+		digitGroupingCombo.setRequired(true);
 		form.setFields(currencySymbolItem, positiveCurrencyFormatCombo,
 				negativeCurrencyFormatCombo, noOfDigitsAfterDecimalText,
 				decimalSymbolItem, digitGroupingSymbolItem, digitGroupingCombo);
@@ -203,6 +207,12 @@ public class CurrencyFormatDialog extends BaseDialog {
 		neg = neg.replace(CURRENCY_SIGN, 'S');
 		negNum = getIndex(negForValue, neg);
 
+		for (String key : groups.keySet()) {
+			if (groups.get(key).equals(preferences.getDigitGroupingFormat())) {
+				digitGroupingFormat = key;
+			}
+		}
+
 		initPositiveFormatValues();
 		initNegativeFormatValues();
 		initDigitGroupingValues();
@@ -219,19 +229,19 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 	protected void initDigitGroupingValues() {
 		List<String> values = new ArrayList<String>();
-		for (int i = 0; i < groups.length; i++) {
-			String value = groups[i];
+		ArrayList<String> list = new ArrayList<String>(groups.keySet());
+		for (int i = 0; i < list.size(); i++) {
+			String value = list.get(i);
 			value = value.replaceAll(",",
 					AccounterNumberFormat.quoteReplacement(digitGroupSymbol));
 			values.add(value);
 		}
 		digitGroupingCombo.initCombo(values);
-		digitGroupingCombo.setSelectedItem(digitGroupNum);
+		digitGroupingCombo.setComboItem(digitGroupingFormat);
 	}
 
 	protected void update() {
-		String value = groups[digitGroupNum].replaceAll(",",
-				AccounterNumberFormat.quoteReplacement(digitGroupSymbol));
+		String value = digitGroupingCombo.getSelectedValue();
 		value += decimalSymbol;
 		for (int i = 0; i < noOfDigitsAfterDecimal; i++) {
 			value += "0";
@@ -301,8 +311,11 @@ public class CurrencyFormatDialog extends BaseDialog {
 		companyPreferences.setDecimalNumber((int) noOfDigitsAfterDecimal);
 		companyPreferences.setDecimalCharacte(decimalSymbol);
 		companyPreferences.setDigitGroupCharacter(digitGroupSymbol);
+		companyPreferences.setDigitGroupingFormat(groups
+				.get(digitGroupingFormat));
 
-		String value = "#,##";
+		String value = groups.get(digitGroupingFormat);
+		// String value = "#,##";
 
 		value += getDecimalString();
 
@@ -329,6 +342,13 @@ public class CurrencyFormatDialog extends BaseDialog {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void assignGroupValues() {
+		groups.put("123456789", "##");
+		groups.put("123,456,789", "###,###,##");
+		groups.put("123456,789", "######,##");
+		groups.put("12,34,56,789", "##,##,##,##");
 	}
 
 	@Override
