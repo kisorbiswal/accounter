@@ -3711,7 +3711,7 @@ public class ReportManager extends Manager {
 			result = session.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
-					.setParameter("companyId", companyId).list();
+					.setParameter("companyId", companyId).setParameter("accountId", accountId).list();
 		} else if (account.getType() == ClientAccount.TYPE_BANK) {
 			result = session.getNamedQuery("get.missing.checks.by.account")
 					.setParameter("accountId", accountId)

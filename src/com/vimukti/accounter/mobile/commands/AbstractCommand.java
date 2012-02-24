@@ -246,15 +246,12 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 			Company company) {
 		// TODO::: add a filter to filter the accounts based on the account type
 		Set<Account> accounts = company.getAccounts();
-		Long number = null;
-		if (number == null) {
-			number = (long) range1;
-			for (Account account : accounts) {
-				while (number.toString().equals(account.getNumber())) {
-					number++;
-					if (number >= range2) {
-						number = (long) range1;
-					}
+		Long number = (long) range1;
+		for (Account account : accounts) {
+			while (number.toString().equals(account.getNumber())) {
+				number++;
+				if (number >= range2) {
+					number = (long) range1;
 				}
 			}
 		}

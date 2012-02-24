@@ -957,7 +957,8 @@ public class ReceivePaymentView extends
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 					.getTransactionReceivePayment();
 			initListGridData(tranReceivePaymnetsList);
-			this.clientAccounterClass = transaction.getAccounterClass();
+			this.clientAccounterClass = getCompany().getAccounterClass(
+					transaction.getAccounterClass());
 			if (getPreferences().isClassTrackingEnabled()
 					&& this.clientAccounterClass != null
 					&& classListCombo != null) {

@@ -95,6 +95,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 * @see Account
 	 */
 	Account incomeAccount;
+	private double averageCost;
 
 	boolean isTaxable;
 	boolean isCommissionItem;
@@ -744,6 +745,14 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		session.saveOrUpdate(assestsAccount);
 		setOnhandQuantity(getOnhandQty().add(quantityToUpdate));
 		ChangeTracker.put(this);
+	}
+
+	public double getAverageCost() {
+		return averageCost;
+	}
+
+	public void setAverageCost(double averageCost) {
+		this.averageCost = averageCost;
 	}
 
 }

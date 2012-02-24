@@ -535,7 +535,7 @@ public class CreateAccountCommand extends AbstractCommand {
 	protected void setDefaultValues(Context context) {
 		get(ACCOUNT_TYPE).setDefaultValue(getMessages().income());
 		String accountNumber = String.valueOf(autoGenerateAccountnumber(1100,
-				1999, context.getCompany()));
+				1179, context.getCompany()));
 		// if (!context.getPreferences().getUseAccountNumbers()) {
 		// get(ACCOUNT_NUMBER).setValue(accountNumber);
 		// }

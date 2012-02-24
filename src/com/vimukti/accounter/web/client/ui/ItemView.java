@@ -940,7 +940,7 @@ public class ItemView extends BaseView<ClientItem> {
 				// getItemStatus();
 				itemTotalValue.setValue(Double.toString(data
 						.getItemTotalValue()));
-				avarageCost.setAmount(data.getAvarageCost());
+				avarageCost.setAmount(data.getAverageCost());
 				asOfDate.setValue(data.getAsOfDate());
 			}
 
