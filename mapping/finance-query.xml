@@ -133,11 +133,7 @@
 		ESTIMATE E
 		on T.ID = E.ID
 		LEFT OUTER JOIN
-		SALES_ORDER S
-		on T.ID=S.ID
-		LEFT OUTER JOIN
 		PAYEE P
-		ON P.ID=S.CUSTOMER_ID
 		OR P.ID=E.CUSTOMER_ID
 		WHERE
 		T.STATUS !=2
@@ -2692,14 +2688,12 @@
 	<sql-query name="canDeleteItem">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="SALES_ORDER_ID" type="long" />
 		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="STOCK_TRANSFER_ID" type="long" />
 		<return-scalar column="BUILD_ASSEMBLY_ID" type="long" />
 
-		SELECT SO.ID AS SALES_ORDER_ID,
-		TI.ID AS TRANSACTION_ITEM_ID,
+		SELECT TI.ID AS TRANSACTION_ITEM_ID,
 		TE.ID AS
 		TRANSACTION_EXPENSE_ID,
 		ST.ID AS
@@ -2707,10 +2701,6 @@
 		BA.ID AS
 		BUILD_ASSEMBLY_ID
 		FROM ITEM I
-		LEFT OUTER JOIN
-		SALES_ORDER SO
-		ON
-		I.ID=SO.ITEM_ID
 		LEFT OUTER JOIN
 		TRANSACTION_ITEM TI
 		ON I.ID = TI.ITEM_ID
@@ -7886,7 +7876,7 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		SELECT A.NAME,SUM(AT.AMOUNT) AS AMOUNT FROM ACCOUNT_TRANSACTION AT
-		LEFT JOIN	ACCOUNT A ON AT.ACCOUNT_ID=A.ID
+		LEFT JOIN ACCOUNT A ON AT.ACCOUNT_ID=A.ID
 		LEFT JOIN TRANSACTION T ON
 		T.ID=AT.TRANSACTION_ID
 		WHERE (A.A_TYPE=15 OR A.A_TYPE=16 OR
@@ -8111,11 +8101,6 @@
 		DELETE FROM reminder
 		WHERE  company_id = cid;
 
-		DELETE FROM sales_order
-		USING  TRANSACTION
-		WHERE  sales_order.id = TRANSACTION.id
-			   AND TRANSACTION.company_id = cid;
-
 		DELETE FROM sales_person
 		WHERE  company_id = cid;
 
@@ -8127,6 +8112,11 @@
 
 		DELETE FROM stock_adjustment
 		WHERE  company_id = cid;
+		
+		DELETE FROM build_assembly
+		USING  TRANSACTION
+		WHERE  build_assembly.id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
 
 		DELETE FROM inventory_assembly_item
 		USING  inventory_assembly,
@@ -8388,6 +8378,22 @@
 		DELETE FROM enter_bill_orders
 		USING  TRANSACTION
 		WHERE  enter_bill_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid;  
+		       
+		DELETE FROM tdsdeductormasters
+		WHERE  company_id = cid;
+		
+		DELETE FROM tdsresponsibleperson
+		WHERE  company_id = cid;  
+		
+		DELETE FROM tdstransactionitem
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
+		       
+		DELETE FROM tds_chalan_detail
+		USING  TRANSACTION
+		WHERE  tds_chalan_detail.id = TRANSACTION.id
 		       AND TRANSACTION.company_id = cid;  
 		       
 		DELETE FROM company
@@ -12643,7 +12649,7 @@
 		T.ID as
 		TRANSACTION_ID,
 		TI.ID as TRANSACTION_ITEM_ID,
-		TI.UNIT_PRICE as
+		TI.UNIT_PRICE * T.CURRENCY_FACTOR as
 		UNIT_PRICE,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT as QTY_UNIT,
@@ -12666,7 +12672,7 @@
 		WHERE T.SAVE_STATUS
 		NOT IN (201,202)
 		AND (T.T_TYPE IN
-		(2,6,14,26,27) OR CASE
+		(2,6,4,26,27) OR CASE
 		WHEN T.T_TYPE=36
 		THEN TI.QTY_VALUE &gt;= 0 ELSE
 		FALSE END) ;
@@ -13032,31 +13038,43 @@
 		AT.AMOUNT END AS
 		AMOUNT
 		FROM ACCOUNT_TRANSACTION AT
-		LEFT JOIN ACCOUNT A ON
+		LEFT JOIN ACCOUNT A
+		ON
 		A.ID=AT.ACCOUNT_ID
 		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
-		
-		LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
-		LEFT JOIN CASH_SALES CS ON CS.ID = T.ID
-		LEFT JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
-		LEFT JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
-		
-		LEFT JOIN PAYEE P ON P.ID = CPP.CUSTOMER_ID
-							OR P.ID = CS.CUSTOMER_ID
-							OR P.ID = CR.CUSTOMER_ID
-							OR P.ID = RP.CUSTOMER_ID
 
-		WHERE A.COMPANY_ID=:companyId AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)
+		LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID = T.ID
+		LEFT JOIN CASH_SALES
+		CS ON CS.ID = T.ID
+		LEFT JOIN CUSTOMER_REFUND CR ON CR.ID = T.ID
+		LEFT
+		JOIN RECEIVE_PAYMENT RP ON RP.ID = T.ID
+
+		LEFT JOIN PAYEE P ON P.ID =
+		CPP.CUSTOMER_ID
+		OR P.ID = CS.CUSTOMER_ID
+		OR P.ID = CR.CUSTOMER_ID
+		OR P.ID
+		= RP.CUSTOMER_ID
+
+		WHERE A.COMPANY_ID=:companyId AND T.T_TYPE IN
+		(1,5,8,10,12,21,29,24,35)
 		AND
 		(A.A_TYPE=2 OR
 		AT.TRANSACTION_ID IN
-		(SELECT AT2.TRANSACTION_ID
+		(SELECT
+		AT2.TRANSACTION_ID
 		FROM
 		ACCOUNT_TRANSACTION AT2
-		LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID
-		WHERE A2.A_TYPE=2) )AND ( T.T_DATE &lt;= :endDate AND T.T_DATE &gt;=
+		LEFT JOIN ACCOUNT
+		A2 ON
+		A2.ID=AT2.ACCOUNT_ID
+		WHERE A2.A_TYPE=2) )AND ( T.T_DATE &lt;=
+		:endDate
+		AND T.T_DATE &gt;=
 		:startDate)
-		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
+		ORDER BY
+		AT.TRANSACTION_ID,AMOUNT DESC;
 	</sql-query>
 
 	<sql-query name="getBankCheckDetails">

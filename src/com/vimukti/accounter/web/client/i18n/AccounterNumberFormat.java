@@ -1044,6 +1044,9 @@ public class AccounterNumberFormat {
 	 */
 	private void addZeroAndDecimal(StringBuilder digits, char decimalSeparator) {
 		// add zero and decimal point if required
+		if (decimalSeparator == 0) {
+			return;
+		}
 		if (digitsLength == 0) {
 			digits.insert(0, '0');
 			++decimalPosition;
@@ -1621,11 +1624,15 @@ public class AccounterNumberFormat {
 	public static AccounterNumberFormat getCurrencyFormat() {
 		if (cachedCurrencyFormat == null) {
 			ClientCompanyPreferences preferences = Global.get().preferences();
+			String decimalCharacter = preferences.getDecimalCharacter();
+			char decimalChar = 0;
+			if (decimalCharacter != null && !decimalCharacter.isEmpty()) {
+				decimalChar = decimalCharacter.charAt(0);
+			}
 			cachedCurrencyFormat = new AccounterNumberFormat(
 					preferences.getCurrencyFormat(),
-					preferences.getDecimalNumber(), true, preferences
-							.getDecimalCharacter().charAt(0), preferences
-							.getDigitGroupCharacter().charAt(0));
+					preferences.getDecimalNumber(), true, decimalChar,
+					preferences.getDigitGroupCharacter().charAt(0));
 		}
 		return cachedCurrencyFormat;
 	}
@@ -1641,7 +1648,12 @@ public class AccounterNumberFormat {
 		parsePattern(preferences.getCurrencyFormat());
 		minimumFractionDigits = preferences.getDecimalNumber();
 		maximumFractionDigits = preferences.getDecimalNumber();
-		decimalSeparator = preferences.getDecimalCharacter().charAt(0);
+		if (preferences.getDecimalCharacter() != null
+				&& !preferences.getDecimalCharacter().isEmpty()) {
+			decimalSeparator = preferences.getDecimalCharacter().charAt(0);
+		} else {
+			decimalSeparator = 0;
+		}
 		groupingSeparator = preferences.getDigitGroupCharacter().charAt(0);
 	}
 }

@@ -145,6 +145,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
 			company.setSecretKey(companySecret);
+			company.setVersion(Company.CURRENT_VERSION);
 
 			User user = new User(getUser(client));
 			user.setActive(true);

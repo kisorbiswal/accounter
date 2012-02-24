@@ -2,13 +2,17 @@ package com.vimukti.accounter.mobile.requirements;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 
@@ -37,6 +41,30 @@ public abstract class QuantityRequirement extends
 
 		list.add(new ListRequirement<Unit>(UNIT, getMessages().pleaseSelect(
 				getMessages().unit()), getMessages().unit(), true, true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				setUnitValue();
+				return super.run(context, makeResult, list, actions);
+			}
+
+			private void setUnitValue() {
+				Object value = getValue();
+				if (value != null) {
+					Session currentSession = HibernateUtil.getCurrentSession();
+					Unit unit = (Unit) value;
+					unit = (Unit) currentSession.load(Unit.class, unit.getID());
+					long id = unit.getID();
+					super.setValue(unit);
+				}
+			}
+
+			@Override
+			public void setValue(Object value) {
+				super.setValue(value);
+				setUnitValue();
+			}
 
 			@Override
 			protected String getEmptyString() {

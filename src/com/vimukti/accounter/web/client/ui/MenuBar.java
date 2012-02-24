@@ -372,6 +372,7 @@ public class MenuBar {
 				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
 		bankingMenuBar.addMenuItem(messages.checkDetail(),
 				HistoryTokens.BANK_CHECK_DETAIL_REPORT);
+		
 		return bankingMenuBar;
 	}
 

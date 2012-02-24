@@ -536,7 +536,7 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>userHTML</input>
+		<input>users</input>
 		<outputs>
 			<command title="Inviteuser" />
 			<command title="usersList" />

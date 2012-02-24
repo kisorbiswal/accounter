@@ -52,7 +52,7 @@ public class VATCodesListCommand extends AbstractCommand {
 
 			@Override
 			protected void setCreateCommand(CommandList list) {
-				list.add(getMessages().create(getMessages().vatCode()));
+				list.add("createVATCode");
 			}
 
 			@Override

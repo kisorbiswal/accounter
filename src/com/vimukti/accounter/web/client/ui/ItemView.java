@@ -104,6 +104,7 @@ public class ItemView extends BaseView<ClientItem> {
 	private WarehouseCombo wareHouse;
 	private AccountCombo assetsAccount;
 	private DateField asOfDate;
+	private DynamicForm inventoryInfoForm;
 
 	public ItemView(int type, boolean isGeneratedFromCustomer) {
 
@@ -337,9 +338,9 @@ public class ItemView extends BaseView<ClientItem> {
 		asOfDate.setDisabled(isInViewMode());
 		asOfDate.setEnteredDate(new ClientFinanceDate());
 
-		DynamicForm inventoryInfoForm = new DynamicForm();
+		this.inventoryInfoForm = new DynamicForm();
 		inventoryInfoForm.setFields(assetsAccount, onHandQuantity,
-				itemTotalValue, avarageCost, asOfDate);
+				itemTotalValue, /* avarageCost, */asOfDate);
 		itemTotalValue.setVisible(!isInViewMode());
 		avarageCost.setVisible(isInViewMode());
 
@@ -1134,6 +1135,10 @@ public class ItemView extends BaseView<ClientItem> {
 					.getAmount())) {
 				result.addError(purchasePriceTxt, messages.enterValidAmount());
 			}
+		}
+
+		if (type == ClientItem.TYPE_INVENTORY_PART) {
+			result.add(inventoryInfoForm.validate());
 		}
 
 		return result;
