@@ -130,6 +130,7 @@ public class OpenIdServlet extends ThirdPartySignupServlet {
 				dispatcher.forward(httpReq, httpResp);
 			}
 		} catch (OpenIDException e) {
+			e.printStackTrace();
 			// present error to the user
 			throw new ServletException(e);
 		}

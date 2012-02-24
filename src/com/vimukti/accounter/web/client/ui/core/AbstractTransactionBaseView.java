@@ -615,7 +615,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 				}
-				getAction().run(null, true);
+				getManager().closeCurrentView(false);
+				getAction().run(null, getAction().isDependent());
 
 			} else {
 
