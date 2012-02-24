@@ -17,7 +17,6 @@ public class VendorsListAction extends Action {
 
 	public VendorsListAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -70,6 +69,11 @@ public class VendorsListAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "vendor-list";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

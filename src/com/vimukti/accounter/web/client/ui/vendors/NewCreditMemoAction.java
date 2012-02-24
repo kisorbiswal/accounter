@@ -22,13 +22,11 @@ public class NewCreditMemoAction extends Action {
 
 	public NewCreditMemoAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public NewCreditMemoAction(ClientVendorCreditMemo vendorCreditMemo,
 			AccounterAsyncCallback<Object> callBack) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -77,9 +75,15 @@ public class NewCreditMemoAction extends Action {
 	public String getHistoryToken() {
 		return "vendorCredit";
 	}
+
 	@Override
 	public String getHelpToken() {
 		return "credit-memo";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

@@ -355,7 +355,10 @@ public class MenuBar {
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
-		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
+		if (isInventoryEnabled) {
+			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
+					.inventory()));
+		}
 
 		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 
@@ -372,7 +375,7 @@ public class MenuBar {
 				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
 		bankingMenuBar.addMenuItem(messages.checkDetail(),
 				HistoryTokens.BANK_CHECK_DETAIL_REPORT);
-		
+
 		return bankingMenuBar;
 	}
 

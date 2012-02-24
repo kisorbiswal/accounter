@@ -335,7 +335,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER);
 		ChangeTracker.put(accounterCore);
-		return false;
+		return super.onDelete(arg0);
 	}
 
 	@Override

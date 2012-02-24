@@ -13,7 +13,6 @@ public class NewTimeEntryAction extends Action {
 
 	public NewTimeEntryAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	// @Override
@@ -41,6 +40,11 @@ public class NewTimeEntryAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "newTimeEntry";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override
