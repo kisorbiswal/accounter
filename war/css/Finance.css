@@ -1088,7 +1088,7 @@ iframe,.address div {
 
 .date-number td:nth-child                                           
 	                                                                   
-	                  (2),.datenumber-panel table {
+	                   (2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1713,8 +1713,7 @@ input[type="text"],textarea {
 }
 
 input[type="text"] {
-	line-height /*\**/: 1.8\9
-
+	line-height /*\**/: 1.8\9
 }
 /*.new_vat_item tr td:FIRST-CHILD {
 	width:250px;
@@ -2842,14 +2841,16 @@ input.date-field-textbox {
 	float: right;
 }
 
-.tds-scroll-panel .editTable{
+.tds-scroll-panel .editTable {
 	min-height: 350px !important;
 	border: none;
 }
-.tds-scroll-panel{
+
+.tds-scroll-panel {
 	border: 1px solid #2D8B93;
 	height: 385px;
 }
+
 .report-section a {
 	display: table;
 	text-decoration: underline;
@@ -2864,6 +2865,11 @@ input.date-field-textbox {
 .report-section .section {
 	margin: 4px 0 20px 3px;
 }
-.exchange-table .norecord-empty-message{
+
+.exchange-table .norecord-empty-message {
 	margin-left: 51px;
+}
+
+.managing-html {
+	margin-left: 30px;
 }
