@@ -7,7 +7,7 @@
 	<property name="output.dir" value="output" />
 	<property name="tmp.dir" value="${build.dir}/tmp" />
 	<property name="gwt.sdk" location="${env.GWT_SDK}" />
-	<property name="version-number" value="1.0.2" />
+	<property name="version-number" value="1.0.6.1.9" />
 
 	<!-- Checking GWT path -->
 	<target name="check-gwtpath">

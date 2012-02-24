@@ -158,30 +158,30 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesTaxLiability>> callBack);
 
-	public void getSalesByCustomerDetailReport(String customerName,
+	public void getSalesByCustomerDetailReport(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getSalesByItemDetail(String itemName,
+	public void getSalesByItemDetail(long itemId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
+
+	public void getPurchasesByVendorDetail(long vendorId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByVendorDetail(String vendorName,
+	public void getPurchasesByItemDetail(long itemId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByItemDetail(String itemName,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
-
-	public void getTransactionDetailByAccount(String accountName,
+	public void getTransactionDetailByAccount(long accountId,
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBack);
 
 	void getMinimumAndMaximumTransactionDate(
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
-	public void getTransactionDetailByTaxItem(String taxItemname,
+	public void getTransactionDetailByTaxItem(long taxItemId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByTaxItem>> callBackResult);
 
@@ -419,8 +419,8 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callback);
 
-	public void getReconciliationDiscrepancy(ClientFinanceDate start,
-			ClientFinanceDate end,
+	public void getReconciliationDiscrepancy(long accountId,
+			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
 
 	public void getBankCheckDetils(ClientFinanceDate start,

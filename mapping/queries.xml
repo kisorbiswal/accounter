@@ -1115,7 +1115,7 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
-		&lt;:today
+		&lt;:today and e.usedInvoice =null
 		order by e.lastModifiedDate desc
 	</query>
 
@@ -2187,7 +2187,7 @@
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
 		from  com.vimukti.accounter.core.TransactionItem sale 
 		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
-		and (sale.transaction.type in (1,4,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
+		and (sale.transaction.type in (1,14,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>
 	

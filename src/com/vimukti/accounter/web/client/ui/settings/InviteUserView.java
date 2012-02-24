@@ -149,6 +149,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
+		readOnly.setValue(true);
 		custom = new RadioButton("permissions", messages.custom());
 		admin = new RadioButton("permissions", messages.admin()
 				+ messages.adminDesc());
@@ -654,6 +655,22 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected boolean canVoid() {
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		if (Accounter.getUser().isCanDoUserManagement()) {
+			return super.canDelete();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canEdit() {
+		if (Accounter.getUser().isCanDoUserManagement()) {
+			return super.canEdit();
+		}
 		return false;
 	}
 }

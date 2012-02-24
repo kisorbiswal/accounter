@@ -282,17 +282,6 @@
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
-	    <script type="text/javascript" >
-	    <% 
-			Long subscription=(Long)request.getAttribute("subscription");
-		%>
-			var subscription=<%= subscription %>;
-		    if(subscription==null){
-				$("#support").after('|<a target="_blank" href="/site/gopremium">Go Premium</a>'); 
-			}else{
-				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
-			}
-	    </script>
 	</div>
 	
     <!-- OPTIONAL: include this if you want history support -->

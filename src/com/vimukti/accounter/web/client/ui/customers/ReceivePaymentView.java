@@ -150,8 +150,6 @@ public class ReceivePaymentView extends
 
 		setCustomerBalance(selectedCustomer.getBalance());
 
-		this.customerBalance = selectedCustomer.getBalance();
-
 		recalculateGridAmounts();
 
 		if (currency.getID() != 0) {
@@ -296,6 +294,8 @@ public class ReceivePaymentView extends
 
 	private void setCustomerBalance(Double balance) {
 
+		this.customerBalance = balance;
+
 		customerNonEditablebalText.setAmount(balance);
 
 	}
@@ -370,7 +370,8 @@ public class ReceivePaymentView extends
 		for (ClientTransactionReceivePayment payment : transaction
 				.getTransactionReceivePayment()) {
 			payment.setAmountDue(payment.getPayment()
-					+ payment.getAppliedCredits());
+					+ payment.getAppliedCredits() + payment.getCashDiscount()
+					+ payment.getWriteOff());
 			payment.setPayment(0.00D);
 			payment.setCashDiscount(0.0D);
 			payment.setWriteOff(0.0D);
@@ -956,7 +957,8 @@ public class ReceivePaymentView extends
 			List<ClientTransactionReceivePayment> tranReceivePaymnetsList = transaction
 					.getTransactionReceivePayment();
 			initListGridData(tranReceivePaymnetsList);
-			this.clientAccounterClass = transaction.getAccounterClass();
+			this.clientAccounterClass = getCompany().getAccounterClass(
+					transaction.getAccounterClass());
 			if (getPreferences().isClassTrackingEnabled()
 					&& this.clientAccounterClass != null
 					&& classListCombo != null) {

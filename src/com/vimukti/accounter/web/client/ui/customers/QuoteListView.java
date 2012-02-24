@@ -121,7 +121,7 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 		if (type == ClientEstimate.SALES_ORDER) {
 			listOfTypes.add(messages.completed());
 			listOfTypes.add(messages.cancelled());
-		} else {
+		} else if (type == ClientEstimate.QUOTES) {
 			listOfTypes.add(messages.rejected());
 			listOfTypes.add(messages.accepted());
 			listOfTypes.add(messages.close());

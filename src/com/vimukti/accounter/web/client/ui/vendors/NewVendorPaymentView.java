@@ -32,6 +32,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.TaxItemCombo;
@@ -757,8 +758,8 @@ public class NewVendorPaymentView extends
 					if (value == null)
 						return;
 
-					Double amount = DataUtils.getAmountStringAsDouble(value
-							.toString());
+					Double amount = DataUtils.getAmountStringAsDouble(JNSI
+							.getCalcultedAmount(value.toString()));
 					if (DecimalUtil.isLessThan(amount, 0)) {
 						Accounter.showError(messages.noNegativeAmounts());
 						amountText.setAmount(0.00D);

@@ -10,10 +10,13 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
+import com.vimukti.accounter.web.client.ui.core.IEditableView;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 
 public abstract class AbstractPayeeCenterView<T> extends AbstractBaseView<T>
-		implements ISavableView<Map<String, Object>> {
+		implements ISavableView<Map<String, Object>>, IPrintableView,
+		IEditableView {
 	public static final int DEFAULT_PAGE_SIZE = 25;
 	protected SelectCombo dateRangeSelector;
 	private List<String> dateRangeList;

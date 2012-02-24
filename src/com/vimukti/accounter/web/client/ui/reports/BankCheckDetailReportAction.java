@@ -12,6 +12,7 @@ public class BankCheckDetailReportAction extends Action {
 
 	public BankCheckDetailReportAction() {
 		super();
+		this.catagory = messages.report();
 	}
 
 	@Override

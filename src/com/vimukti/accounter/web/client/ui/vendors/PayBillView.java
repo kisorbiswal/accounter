@@ -736,7 +736,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
-				amountLabelForeign.hide();
+				amountLabelForeign.setVisible(true);
 			}
 		}
 	}
@@ -1223,7 +1223,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
+					+ bill.getCashDiscount());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);

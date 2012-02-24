@@ -383,7 +383,20 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 
 				if (this.type == TYPE_ITEM) {
-					item.doReverseEffect(this, isCustomerTransaction());
+					item.doReverseEffect(this, isSalesTransaction());
+					if (getTransaction().isCustomerCreditMemo()) {
+						// Doing PurchaseEffect for CustomerCreditMemo
+						Account assestsAccount = getItem().getAssestsAccount();
+						Account expenseAccount = getItem().getExpenseAccount();
+						double purchaseCost = getQuantity().calculatePrice(
+								this.getUnitPriceInBaseCurrency());
+						assestsAccount.updateCurrentBalance(getTransaction(),
+								purchaseCost, 1);
+						expenseAccount.updateCurrentBalance(getTransaction(),
+								-purchaseCost, 1);
+						session.save(assestsAccount);
+						session.save(expenseAccount);
+					}
 				}
 			}
 		}
@@ -504,8 +517,24 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				}
 
 				if (this.type == TYPE_ITEM && item != null) {
-					getItem().updateBalance(this, isCustomerTransaction());
+					getItem().updateBalance(this, isSalesTransaction());
+
+					if (getTransaction().isCustomerCreditMemo()) {
+						// Doing PurchaseEffect for CustomerCreditMemo
+						Account assestsAccount = getItem().getAssestsAccount();
+						Account expenseAccount = getItem().getExpenseAccount();
+						double purchaseCost = getQuantity().calculatePrice(
+								this.getUnitPriceInBaseCurrency());
+						assestsAccount.updateCurrentBalance(getTransaction(),
+								-purchaseCost, 1);
+						expenseAccount.updateCurrentBalance(getTransaction(),
+								purchaseCost, 1);
+						session.save(assestsAccount);
+						session.save(expenseAccount);
+					}
+
 				}
+
 			}
 		}
 		// else if (this.type == TYPE_SALESTAX) {
@@ -572,8 +601,24 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				transaction.setTAXRateCalculation(this);
 			}
 			if (this.type == TYPE_ITEM && item != null) {
-				item.doReverseEffect(this, isCustomerTransaction());
+				item.doReverseEffect(this, isSalesTransaction());
+
+				if (getTransaction().isCustomerCreditMemo()) {
+					// Doing PurchaseEffect for CustomerCreditMemo
+					Account assestsAccount = getItem().getAssestsAccount();
+					Account expenseAccount = getItem().getExpenseAccount();
+					double purchaseCost = getQuantity().calculatePrice(
+							this.getUnitPriceInBaseCurrency());
+					assestsAccount.updateCurrentBalance(getTransaction(),
+							purchaseCost, 1);
+					expenseAccount.updateCurrentBalance(getTransaction(),
+							-purchaseCost, 1);
+					session.save(assestsAccount);
+					session.save(expenseAccount);
+				}
+
 			}
+
 		}
 		// else if (this.type == TYPE_SALESTAX) {
 		// if (Company.getCompany().getAccountingType() ==
@@ -944,30 +989,49 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 			InventoryPurchase next = iterator.next();
 			Double cost = (useAverage && averageCost != null) ? averageCost
 					: newPurchases.get(next.getQuantity());
-			if (cost == next.getCost()) {
+			if (cost == null || cost == next.getCost()) {
 				iterator.remove();
-				mapped = mapped.subtract(next.getQuantity());
-				newPurchases.remove(next.getQuantity());
+				Quantity quantity = next.getQuantity();
+				mapped = mapped.subtract(quantity);
+				newPurchases.remove(quantity);
+
+				session.delete(next);
+
+				// Reverse Updating ExpenseAccount
+				double purchaseValue = quantity.getValue() * next.getCost();
+				Account expenseAccount = next.getEffectingAccount();
+				expenseAccount.updateCurrentBalance(this.getTransaction(),
+						purchaseValue, 1);
+				session.saveOrUpdate(expenseAccount);
 			}
 		}
 
 		// Deleting Previous Purchases
-		clearPurchases();
+		// clearPurchases();
 
 		// Creating New Purchases
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getKey();
-			double cost = useAverage ? averageCost : entry.getValue();
+			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
+					.getValue() - this.getUnitPriceInBaseCurrency() : entry
+					.getValue();
+			double cost = useAverage ? averageCost : purchaseCost;
 			mapped = mapped.subtract(qty);
 			createPurchase(session, qty, cost);
 		}
 		if (!mapped.isEmpty()) {
+			double purchaseCost = getTransaction().isVendorCreditMemo() ? 0
+					: getUnitPriceInBaseCurrency();
 			double cost = (useAverage && averageCost != null) ? averageCost
-					: getUnitPrice();
+					: purchaseCost;
 			// finally what ever is unmapped add the that using unitprice
 			createPurchase(session, mapped, cost);
 		}
 
+	}
+
+	public double getUnitPriceInBaseCurrency() {
+		return getUnitPrice() * getTransaction().getCurrencyFactor();
 	}
 
 	/**
@@ -998,15 +1062,21 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		double amountToUpdate = 0;
 		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
 			Quantity qty = entry.getKey();
+			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
+					.getValue() - this.getUnitPriceInBaseCurrency() : entry
+					.getValue();
 			double cost = (useAverage && averageCost != null) ? averageCost
-					: entry.getValue();
+					: purchaseCost;
+
 			mapped = mapped.subtract(qty);
 			amountToUpdate += qty.getValue() * cost;
 		}
 
 		if (!mapped.isEmpty()) {
+			double purchaseCost = getTransaction().isVendorCreditMemo() ? 0
+					: getUnitPriceInBaseCurrency();
 			double cost = (useAverage && averageCost != null) ? averageCost
-					: getUnitPrice();
+					: purchaseCost;
 			amountToUpdate += mapped.getValue() * cost;
 		}
 		return amountToUpdate;
@@ -1049,7 +1119,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return expenseAccount;
 	}
 
-	private boolean isCustomerTransaction() {
+	private boolean isSalesTransaction() {
 		boolean isSales = getTransaction().getTransactionCategory() == Transaction.CATEGORY_CUSTOMER;
 		if (transaction.isStockAdjustment()) {
 			isSales = getQuantity().getValue() < 0;

@@ -271,21 +271,30 @@ public class BuildAssemblyView extends
 	private double calculateNumberOfBuilds(
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
-		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
+		for (int i = 0; i < assemblyItems.size(); i++) {
 			ClientItem item = getCompany().getItem(
-					clientInventoryAssemblyItem.getInventoryItem());
+					assemblyItems.get(i).getInventoryItem());
 			double onhandQuantity = item.getOnhandQty().getValue();
-			double value = clientInventoryAssemblyItem.getQuantity().getValue();
-			double temp = (int) (onhandQuantity / value);
+			double value = assemblyItems.get(i).getQuantity().getValue();
+			for (int j = i; j < assemblyItems.size() - i; j++) {
+				ClientItem tempItem = getCompany().getItem(
+						assemblyItems.get(j).getInventoryItem());
+				if (i != j && item == tempItem) {
+					double tempVal = assemblyItems.get(i).getQuantity()
+							.getValue();
+					value = value + tempVal;
+				}
+				double temp = (int) (onhandQuantity / value);
+				if (buildNumber == null) {
+					buildNumber = temp;
+				}
+				if (buildNumber > temp) {
+					buildNumber = temp;
+				}
+			}
 			if (buildNumber == null) {
-				buildNumber = temp;
+				buildNumber = 0.00D;
 			}
-			if (buildNumber > temp) {
-				buildNumber = temp;
-			}
-		}
-		if (buildNumber == null) {
-			buildNumber = 0.00D;
 		}
 		return buildNumber;
 	}

@@ -26,12 +26,10 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	public NewVendorAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public NewVendorAction(String quickAddText) {
 		super();
-		this.catagory = Global.get().Vendor();
 		super.setToolTip(Global.get().Vendor());
 		this.quickAddText = quickAddText;
 
@@ -40,7 +38,6 @@ public class NewVendorAction extends Action<ClientVendor> {
 	public NewVendorAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -84,6 +81,11 @@ public class NewVendorAction extends Action<ClientVendor> {
 
 	public void setOpenedFrom(int openedFrom) {
 		this.openedFrom = openedFrom;
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	/**

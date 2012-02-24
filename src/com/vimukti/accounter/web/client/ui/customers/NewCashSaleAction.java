@@ -21,13 +21,11 @@ public class NewCashSaleAction extends Action {
 
 	public NewCashSaleAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public NewCashSaleAction(ClientCashSales cashSales,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -73,6 +71,10 @@ public class NewCashSaleAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/new_cash_sale.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	@Override
 	public String getHistoryToken() {

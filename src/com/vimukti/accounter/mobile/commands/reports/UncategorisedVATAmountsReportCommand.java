@@ -57,12 +57,14 @@ public class UncategorisedVATAmountsReportCommand extends
 		Record uncategoryRecord = new Record(record);
 		uncategoryRecord.add(getMessages().transactionType(),
 				Utility.getTransactionName(record.getTransactionType()));
-		uncategoryRecord.add(getMessages().date(), record.getDate());
+		uncategoryRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		uncategoryRecord.add(getMessages().number(),
 				record.getTransactionNumber());
 		uncategoryRecord
 				.add(getMessages().sourceName(), record.getSourceName());
-		uncategoryRecord.add(getMessages().amount(), record.getAmount());
+		uncategoryRecord.add(getMessages().amount(),
+				getAmountWithCurrency(record.getAmount()));
 		return uncategoryRecord;
 	}
 

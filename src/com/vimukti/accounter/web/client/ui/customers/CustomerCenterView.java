@@ -33,14 +33,13 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends
-		AbstractPayeeCenterView<ClientCustomer> implements IPrintableView {
+		AbstractPayeeCenterView<ClientCustomer> {
 	private static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
@@ -121,7 +120,13 @@ public class CustomerCenterView<T> extends
 
 		transactionGridpanel = new VerticalPanel();
 		transactionGridpanel.add(transactionViewform);
-		custHistoryGrid = new CustomerTransactionsHistoryGrid();
+		custHistoryGrid = new CustomerTransactionsHistoryGrid() {
+			@Override
+			public void initListData() {
+				OncusotmerSelected();
+			}
+
+		};
 		custHistoryGrid.init();
 		custHistoryGrid.addEmptyMessage(messages.pleaseSelectAnyPayee(Global
 				.get().Customer()));
@@ -616,6 +621,20 @@ public class CustomerCenterView<T> extends
 								caught.printStackTrace();
 							}
 						});
+	}
+
+	@Override
+	public boolean canEdit() {
+		if (selectedCustomer != null
+				&& Accounter.getUser().isCanDoUserManagement()) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isDirty() {
+		return false;
 	}
 
 }

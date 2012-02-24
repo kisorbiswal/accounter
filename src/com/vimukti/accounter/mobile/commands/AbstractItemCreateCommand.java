@@ -31,8 +31,10 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ListFilter;
 import com.vimukti.accounter.web.client.core.Utility;
+import com.vimukti.accounter.web.client.ui.UIUtils;
 
 public abstract class AbstractItemCreateCommand extends AbstractCommand {
 
@@ -57,8 +59,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 	protected static final String WARE_HOUSE = "wareHouse";
 	protected static final String MEASUREMENT = "measurement";
 	protected static final String AS_OF = "asOf";
+	protected static final String ON_HAND_QTY = "onhandqty";
+	protected static final String REORDER_POINT = "reorderpoint";
+	protected static final String ASSESTS_ACCOUNT = "assestaccount";
 
-	private int itemType;
+	protected int itemType;
 	private ClientItem item;
 
 	public AbstractItemCreateCommand(int itemType) {
@@ -94,6 +99,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			protected String getFalseString() {
 				return getMessages().idontSellThisService();
 			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (itemType != ClientItem.TYPE_INVENTORY_PART) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
 		});
 
 		list.add(new BooleanRequirement(I_BUY_THIS, true) {
@@ -106,6 +120,15 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			@Override
 			protected String getFalseString() {
 				return getMessages().idontBuyThisService();
+			}
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (itemType != ClientItem.TYPE_INVENTORY_PART) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
 			}
 		});
 
@@ -485,8 +508,41 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 		String supplierServiceNo = (String) get(SERVICE_NO).getValue();
 
 		item.setName(name);
-		item.setWeight(weight);
 		item.setISellThisItem(iSellthis);
+
+		Requirement reorderPointReq = get(REORDER_POINT);
+		if (reorderPointReq != null) {
+			int reorderPoint = reorderPointReq.getValue();
+			item.setReorderPoint(reorderPoint);
+		}
+
+		Requirement assestsAccReq = get(ASSESTS_ACCOUNT);
+		if (assestsAccReq != null) {
+			if (assestsAccReq.getValue() != null) {
+				Account assetsAccount = assestsAccReq.getValue();
+				item.setAssestsAccount(assetsAccount.getID());
+			}
+		}
+		Requirement onHandQtyReq = get(ON_HAND_QTY);
+		Double onHandQty = 0.0;
+		if (onHandQtyReq != null) {
+			onHandQty = onHandQtyReq.getValue();
+		}
+		if ((itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_INVENTORY_PART)
+				&& weight != null) {
+			item.setWeight(UIUtils.toInt(weight));
+
+			Double amount2 = Double.valueOf(onHandQty);
+			item.setItemTotalValue(purchasePrice * amount2);
+
+			if (itemType == ClientItem.TYPE_INVENTORY_PART) {
+				item.setISellThisItem(true);
+				item.setIBuyThisItem(true);
+				item.setMinStockAlertLevel(null);
+				item.setMaxStockAlertLevel(null);
+			}
+		}
+
 		if (iSellthis) {
 			item.setSalesDescription(description);
 			item.setSalesPrice(price);
@@ -495,7 +551,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			item.setCommissionItem(isCommisionItem);
 		}
 		item.setStandardCost(cost);
-		if (context.getCompany().getPreferences().isClassOnePerTransaction()) {
+		if (vatcode != null
+				&& (itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_SERVICE)) {
 			item.setTaxCode(vatcode.getID());
 		}
 		item.setActive(isActive);
@@ -516,10 +573,25 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			Warehouse warehouse = requirement.getValue();
 			item.setWarehouse(warehouse.getID());
 		}
+
 		Requirement measurementreq = get(MEASUREMENT);
+
+		// item.setItemTotalValue(itemTotalValue.getAmount());
 		if (measurementreq != null) {
 			Measurement measurement = measurementreq.getValue();
 			item.setMeasurement(measurement.getID());
+			Double qtyValue = null;
+			if (onHandQty > 0) {
+				qtyValue = onHandQty;
+			} else {
+				qtyValue = 0.0D;
+			}
+			if (qtyValue != null) {
+				ClientQuantity qty = new ClientQuantity();
+				qty.setValue(qtyValue.doubleValue());
+				qty.setUnit(measurement.getDefaultUnit().getID());
+				item.setOnhandQty(qty);
+			}
 		}
 
 		Requirement asOfRequiremnt = get(AS_OF);
@@ -595,6 +667,12 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 							.getCompany().getId()));
 			setValues();
 		}
+
+		if (itemType == ClientItem.TYPE_INVENTORY_PART) {
+			get(I_SELL_THIS).setValue(true);
+			get(I_BUY_THIS).setValue(true);
+		}
+
 		return null;
 	}
 

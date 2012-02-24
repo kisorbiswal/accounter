@@ -84,12 +84,11 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 				String symbol = getServerObject(Currency.class,
 						value.getCurrency()).getSymbol();
 
-				rec.add(getMessages().originalAmount(), Global.get()
-						.toCurrencyFormat(value.getOriginalAmount(), symbol));
+				rec.add(getMessages().originalAmount(),
+						getAmountWithCurrency(value.getOriginalAmount(), symbol));
 				rec.add(getMessages().balance(),
-						Global.get().toCurrencyFormat(
-								value.getBalance() == null ? 0.0 : value
-										.getBalance(), symbol));
+						getAmountWithCurrency(value.getBalance() == null ? 0.0
+								: value.getBalance(), symbol));
 				return rec;
 			}
 
@@ -125,11 +124,24 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 			allRecords = new FinanceTool().getVendorManager().getBillsList(
 					false, context.getCompany().getID(), 0,
 					getStartDate().getDate(), getEndDate().getDate(), 0, -1,
-					getViewByList().indexOf(viewBY) + 1);
+					checkViewType(viewBY));
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 		return allRecords;
+	}
+
+	private int checkViewType(String view) {
+		if (view.equalsIgnoreCase(getMessages().open())) {
+			return (VIEW_OPEN);
+		} else if (view.equalsIgnoreCase(getMessages().voided())) {
+			return (VIEW_VOIDED);
+		} else if (view.equalsIgnoreCase(getMessages().overDue())) {
+			return (VIEW_OVERDUE);
+		} else if (view.equalsIgnoreCase(getMessages().drafts())) {
+			return (VIEW_DRAFT);
+		}
+		return TYPE_ALL;
 	}
 
 	@Override
@@ -138,6 +150,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 		list.add(getMessages().open());
 		list.add(getMessages().voided());
 		list.add(getMessages().overDue());
+		list.add(getMessages().drafts());
 		list.add(getMessages().all());
 		return list;
 	}

@@ -8,7 +8,9 @@ import org.hibernate.Session;
 import org.hibernate.classic.Lifecycle;
 import org.json.JSONException;
 
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 /**
  * 
@@ -227,27 +229,34 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 
 		super.onUpdate(session);
 		if (isBecameVoid()) {
-
-			this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
-			if (this.transactionReceiveVAT != null) {
-				for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
-					if (ti instanceof Lifecycle) {
-						Lifecycle lifeCycle = (Lifecycle) ti;
-						lifeCycle.onUpdate(session);
-					}
-				}
-			}
-			double paidAmount = total;
-			if (getCurrency().getID() != getCompany().getPrimaryCurrency()
-					.getID()) {
-				paidAmount = (paidAmount / currencyFactor);
-			}
-			this.depositIn.updateCurrentBalance(this, paidAmount,
-					currencyFactor);
-			this.depositIn.onUpdate(session);
-			session.update(this.depositIn);
+			doVoidEffect(session);
 		}
 		return false;
+	}
+
+	private void doVoidEffect(Session session) {
+
+		this.status = Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		if (this.transactionReceiveVAT != null) {
+			for (TransactionReceiveVAT ti : this.transactionReceiveVAT) {
+				ti.doVoidEffect(session);
+			}
+		}
+		double paidAmount = total;
+		if (getCurrency().getID() != getCompany().getPrimaryCurrency().getID()) {
+			paidAmount = (paidAmount / currencyFactor);
+		}
+		this.depositIn.updateCurrentBalance(this, paidAmount, currencyFactor);
+		this.depositIn.onUpdate(session);
+		session.update(this.depositIn);
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!this.isVoid() && this.getSaveStatus() != STATUS_DRAFT) {
+			doVoidEffect(session);
+		}
+		return super.onDelete(session);
 	}
 
 	@Override
@@ -272,7 +281,16 @@ public class ReceiveVAT extends Transaction implements IAccounterServerCore {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		// TODO Auto-generated method stub
+
+		AccounterMessages messages = Global.get().messages();
+
+		w.put(messages.type(), messages.receiveTAX()).gap();
+		w.put(messages.no(), this.number);
+		w.put(messages.date(), this.transactionDate.toString()).gap();
+		w.put(messages.currency(), this.getCurrency().getFormalName()).gap();
+		w.put(messages.currencyFactor(), this.currencyFactor);
+		w.put(messages.amount(), this.total).gap();
+		w.put(messages.paymentMethod(), this.paymentMethod).gap();
 
 	}
 

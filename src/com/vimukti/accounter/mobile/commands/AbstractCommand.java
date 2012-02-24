@@ -1,5 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,9 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAddress;
+import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -243,15 +246,12 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 			Company company) {
 		// TODO::: add a filter to filter the accounts based on the account type
 		Set<Account> accounts = company.getAccounts();
-		Long number = null;
-		if (number == null) {
-			number = (long) range1;
-			for (Account account : accounts) {
-				while (number.toString().equals(account.getNumber())) {
-					number++;
-					if (number >= range2) {
-						number = (long) range1;
-					}
+		Long number = (long) range1;
+		for (Account account : accounts) {
+			while (number.toString().equals(account.getNumber())) {
+				number++;
+				if (number >= range2) {
+					number = (long) range1;
 				}
 			}
 		}
@@ -392,5 +392,22 @@ public abstract class AbstractCommand extends AbstractBaseCommand {
 
 	public <T> T getServerObject(Class<T> class1, long id) {
 		return (T) HibernateUtil.getCurrentSession().get(class1, id);
+	}
+
+	protected String getAmountWithCurrency(double amount) {
+		String symbol = getPreferences().getPrimaryCurrency().getSymbol();
+		return Global.get().toCurrencyFormat(amount, symbol);
+	}
+
+	protected String getAmountWithCurrency(double amount, String symbol) {
+		return Global.get().toCurrencyFormat(amount, symbol);
+	}
+
+	public String getDateByCompanyType(ClientFinanceDate value,
+			ClientCompanyPreferences preferences) {
+		SimpleDateFormat format = new SimpleDateFormat(
+				preferences.getDateFormat());
+		return format.format(value.getDateAsObject());
+
 	}
 }

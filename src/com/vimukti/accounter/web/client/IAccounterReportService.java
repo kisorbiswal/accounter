@@ -29,7 +29,6 @@ import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
-import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -90,7 +89,7 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<DepositDetail> getDepositDetail(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
@@ -141,29 +140,26 @@ public interface IAccounterReportService extends RemoteService {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			long id, ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, ClientFinanceDate startDate,
+			long vendorId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			long itemId, ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, final ClientFinanceDate startDate,
+			long accountId, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			String taxItemname, ClientFinanceDate startDate,
+			long taxItemId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getBalanceSheetReport(
@@ -357,13 +353,14 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end);
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException;
 
-	
 }

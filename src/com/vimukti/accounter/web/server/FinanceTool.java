@@ -649,10 +649,15 @@ public class FinanceTool {
 
 				}
 			} else {
-				Object[] result = (Object[]) queryResult.get(0);
-				for (Object object : result) {
-					if (object != null) {
-						flag = false;
+				for (Object obj : queryResult) {
+					Object[] result = (Object[]) obj;
+					for (Object object : result) {
+						if (object != null) {
+							flag = false;
+							break;
+						}
+					}
+					if (!flag) {
 						break;
 					}
 				}
@@ -4462,7 +4467,7 @@ public class FinanceTool {
 
 	private Importer<? extends IAccounterCore> getImporterByType(
 			int importerType, Map<String, String> importMap) {
-		// TODO Auto-generated method stub
+		// TODO
 		return null;
 	}
 }

@@ -35,7 +35,7 @@ public class ARAgingDetailReportCommand extends
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
 				markDone();
-				return "update transaction " + selection.getTransactionId();
+				return "updateTransaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -142,7 +142,8 @@ public class ARAgingDetailReportCommand extends
 	protected Record createReportRecord(AgedDebtors record) {
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().name(), record.getName());
-		agingRecord.add(getMessages().date(), record.getDate());
+		agingRecord.add(getMessages().date(),
+				getDateByCompanyType(record.getDate(), getPreferences()));
 		agingRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		agingRecord.add(getMessages().amount(),

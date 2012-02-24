@@ -158,7 +158,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			ClientPayTAX clientPayTAX = new ClientPayTAX();
 			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
 
-			ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+			ActionFactory.getpayTAXAction().run(clientPayTAX, false);
 		}
 	}
 

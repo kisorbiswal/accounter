@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 import com.vimukti.accounter.web.client.ui.serverreports.AmountsDueToVendorServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.AutomaticTransactionsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BalanceSheetServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankCheckDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.BankDepositServerReport;
@@ -29,6 +30,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByV
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.MissingChecksServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
@@ -40,6 +42,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.PurchaseOrderServerRepo
 import com.vimukti.accounter.web.client.ui.serverreports.RealisedExchangeLossesAndGainsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationDetailsByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconcilationsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ReconciliationDiscrepancyServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReportGridTemplate;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ReverseChargeListServerReport;
@@ -135,6 +138,8 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYVENDOR = 178;
 	public final static int REPORT_TYPE_BANK_DEPOSIT_REPORT = 179;
 	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
+	public final static int REPORT_TYPE_MISSION_CHECKS = 181;
+	public final static int REPORT_TYPE_RECONCILIATION_DISCREPANCY = 182;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -149,6 +154,7 @@ public class ReportsGenerator {
 	private static Company company;
 	private String dateRangeHtml;
 	private final int generationType;
+	public final static int REPORT_TYPE_AUTOMATIC_TRANSACTION = 188;
 
 	public static final int GENERATIONTYPEPDF = 1001;
 	public static final int GENERATIONTYPECSV = 1002;
@@ -399,7 +405,8 @@ public class ReportsGenerator {
 				} else {
 					transactionDetailByTaxItemServerReport
 							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByTaxItem(status,
+									.getTransactionDetailByTaxItem(
+											Long.parseLong(status),
 											startDate.toClientFinanceDate(),
 											endDate.toClientFinanceDate(),
 											getCompany().getID()));
@@ -432,7 +439,8 @@ public class ReportsGenerator {
 				} else {
 					transactionDetailByAccountServerReport
 							.onResultSuccess(reportsSerivce
-									.getTransactionDetailByAccount(status,
+									.getTransactionDetailByAccount(
+											Long.parseLong(status),
 											startDate.toClientFinanceDate(),
 											endDate.toClientFinanceDate(),
 											getCompany().getID()));
@@ -628,8 +636,8 @@ public class ReportsGenerator {
 									getCompany().getID()));
 				} else {
 					salesByItemDetailServerReport.onResultSuccess(salesManager
-							.getSalesByItemDetail(status, startDate, endDate,
-									getCompany().getID()));
+							.getSalesByItemDetail(Long.parseLong(status),
+									startDate, endDate, getCompany().getID()));
 				}
 
 			} catch (Exception e) {
@@ -795,7 +803,7 @@ public class ReportsGenerator {
 				} else {
 					purchaseByVendorDetailServerReport.onResultSuccess(finaTool
 							.getVendorManager().getPurchasesByVendorDetail(
-									status, startDate, endDate,
+									Long.parseLong(status), startDate, endDate,
 									getCompany().getID()));
 				}
 			} catch (Exception e) {
@@ -843,7 +851,7 @@ public class ReportsGenerator {
 				} else {
 					purchaseByItemDetailServerReport.onResultSuccess(finaTool
 							.getPurchageManager().getPurchasesByItemDetail(
-									status, startDate, endDate,
+									Long.parseLong(status), startDate, endDate,
 									getCompany().getID()));
 				}
 			} catch (Exception e) {
@@ -1316,6 +1324,25 @@ public class ReportsGenerator {
 								startDate.getDate(), endDate.getDate()));
 			}
 			return taxItemDetailServerReportView.getGridTemplate();
+
+		case REPORT_TYPE_AUTOMATIC_TRANSACTION:
+			AutomaticTransactionsServerReport automaticTransaction = new AutomaticTransactionsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(automaticTransaction, finaTool);
+			try {
+				automaticTransaction.onResultSuccess(finaTool
+						.getReportManager().getAutomaticTransactions(startDate,
+								endDate, getCompany().getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return automaticTransaction.getGridTemplate();
 		case REPORT_TYPE_VAT_EXCEPTION_DETAIL:
 			VATExceptionServerReport report = new VATExceptionServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1503,6 +1530,50 @@ public class ReportsGenerator {
 							new ClientFinanceDate(endDate.getDate())));
 
 			return bankCheckDetailReport.getGridTemplate();
+		case REPORT_TYPE_RECONCILIATION_DISCREPANCY:
+			ReconciliationDiscrepancyServerReport discrepancyServerReport = new ReconciliationDiscrepancyServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(discrepancyServerReport, finaTool);
+			try {
+				discrepancyServerReport
+						.onResultSuccess(finaTool.getReportManager()
+								.getReconciliationDiscrepancyByAccount(
+										Long.valueOf(status),
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return discrepancyServerReport.getGridTemplate();
+		case REPORT_TYPE_MISSION_CHECKS:
+			MissingChecksServerReport checksServerReport = new MissingChecksServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(checksServerReport, finaTool);
+			try {
+				checksServerReport
+						.onResultSuccess(finaTool.getReportManager()
+								.getMissionChecksByAccount(
+										Long.valueOf(status),
+										startDate.toClientFinanceDate(),
+										endDate.toClientFinanceDate(),
+										company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return checksServerReport.getGridTemplate();
 		default:
 			break;
 		}
@@ -1710,6 +1781,8 @@ public class ReportsGenerator {
 			return "Purchase By Item Summary Report";
 		case REPORT_TYPE_PURCHASEBYITEMDETAIL:
 			return "Purchase By Item Detail Report";
+		case REPORT_TYPE_AUTOMATIC_TRANSACTION:
+			return "Automatic Trasactions";
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Purchase Open Order Report";
@@ -1795,6 +1868,10 @@ public class ReportsGenerator {
 			return "Deposit Detail";
 		case REPORT_TYPE_BANK_CHECK_DETAIL_REPORT:
 			return "Check Detail";
+		case REPORT_TYPE_MISSION_CHECKS:
+			return "Missing Checks";
+		case REPORT_TYPE_RECONCILIATION_DISCREPANCY:
+			return "Reconciliation Discrepancy";
 		default:
 			break;
 		}

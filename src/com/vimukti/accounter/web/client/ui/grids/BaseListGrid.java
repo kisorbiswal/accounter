@@ -90,11 +90,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	protected void onClick(T obj, int row, int col) {
-		if ((this instanceof ReconcilListGrid) == false) {
-			if (col == 6 && !this.isVoided(obj)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj),
-						this.getTransactionID(obj), col);
-			}
+		if (col == 6 && !this.isVoided(obj)) {
+			showWarningDialog(obj, this.getAccounterCoreType(obj),
+					this.getTransactionID(obj), col);
 		}
 		// else if (col == 7) {
 		// if (!isDeleted)
@@ -257,7 +255,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	public void saveSuccess(IAccounterCore core) {
-		if (core != null) {
+		if (core != null && view != null) {
 			view.initListCallback();
 		}
 	}

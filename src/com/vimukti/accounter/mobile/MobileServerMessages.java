@@ -30,7 +30,8 @@ public class MobileServerMessages {
 			global = Global.get().Vendor();
 		} else if (innerKey.equals("vendor")) {
 			global = Global.get().vendor();
-		} else if (innerKey.equals("Location")) {
+		} else if (innerKey.equals("Location") || innerKey.equals("location")
+				|| innerKey.equals("locations") || innerKey.equals("Locations")) {
 			global = Global.get().Location();
 		} else if (innerKey.equals("customers")) {
 			global = Global.get().customers();

@@ -29,17 +29,19 @@ public class Migrator1 extends AbstractMigrator {
 		Session session = getSession();
 
 		// CREATING COST OF GOODS SOLD ACCOUNT
-		AccounterThreadLocal.set(company.getAccountsReceivableAccount()
-				.getCreatedBy());
-		log.info("Updating Company - " + company.getTradingName());
-		String accountNumber = getNextAccountNumber(company.getID(),
-				Account.SUBBASETYPE_COST_OF_GOODS_SOLD);
-		Account account = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
-				accountNumber, AccounterServerConstants.COST_OF_GOODS_SOLD,
-				Account.CASH_FLOW_CATEGORY_OPERATING);
-		account.setCompany(company);
-		session.save(account);
-		company.setCostOfGoodsSold(account);
+		if (company.getCostOfGoodsSold() == null) {
+			AccounterThreadLocal.set(company.getAccountsReceivableAccount()
+					.getCreatedBy());
+			log.info("Updating Company - " + company.getTradingName());
+			String accountNumber = getNextAccountNumber(company.getID(),
+					Account.SUBBASETYPE_COST_OF_GOODS_SOLD);
+			Account account = new Account(Account.TYPE_COST_OF_GOODS_SOLD,
+					accountNumber, AccounterServerConstants.COST_OF_GOODS_SOLD,
+					Account.CASH_FLOW_CATEGORY_OPERATING);
+			account.setCompany(company);
+			session.save(account);
+			company.setCostOfGoodsSold(account);
+		}
 
 		// MIGRATING INVENTIRY
 		Query query = session.getNamedQuery("get.All.InventoryItem")

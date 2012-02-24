@@ -451,7 +451,14 @@ public class MakeDepositView extends
 		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 		currencyWidget = createCurrencyFactorWidget();
 
-		depositInSelect = new MakeDepositAccountCombo(messages.depositIn());
+		depositInSelect = new MakeDepositAccountCombo(messages.depositIn()) {
+			@Override
+			public void addItemThenfireEvent(ClientAccount obj) {
+				super.addItemThenfireEvent(obj);
+				depositFromSelect.setAccounts();
+				depositInSelect.setAccounts();
+			}
+		};
 		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
@@ -468,7 +475,14 @@ public class MakeDepositView extends
 
 				});
 
-		depositFromSelect = new MakeDepositAccountCombo(messages.depositFrom());
+		depositFromSelect = new MakeDepositAccountCombo(messages.depositFrom()) {
+			@Override
+			public void addItemThenfireEvent(ClientAccount obj) {
+				super.addItemThenfireEvent(obj);
+				depositFromSelect.setAccounts();
+				depositInSelect.setAccounts();
+			}
+		};
 		depositFromSelect.setHelpInformation(true);
 		depositFromSelect.setRequired(true);
 		depositFromSelect.setWidth(100);
