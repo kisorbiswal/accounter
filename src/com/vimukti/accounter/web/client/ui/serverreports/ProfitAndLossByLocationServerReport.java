@@ -258,7 +258,7 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public ClientFinanceDate getEndDate(ProfitAndLossByLocation obj) {
-		return obj.getStartDate();
+		return obj.getEndDate();
 	}
 
 	@Override
