@@ -14,7 +14,6 @@ public class PurchaseOrderAction extends Action {
 
 	public PurchaseOrderAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -54,6 +53,11 @@ public class PurchaseOrderAction extends Action {
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().purchaseOrder();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	// @Override

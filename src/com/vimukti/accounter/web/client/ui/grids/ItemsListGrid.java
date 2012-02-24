@@ -63,7 +63,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (index == 0)
 				return 40;
 			else if (index == 2)
-				return 350;
+				return 300;
 			else if (index == 3)
 				return 150;
 			else if (index == 4)
@@ -93,7 +93,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (index == 0)
 				return 40;
 			else if (index == 2)
-				return 350;
+				return 300;
 			else if (index == 3)
 				return 150;
 			else if (index == 4)
