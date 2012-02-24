@@ -715,6 +715,7 @@
 		<property name="name" not-null="true" column="NAME"></property>
 		<property name="UPCorSKU" column="UPC_OR_SKU"></property>
 		<property name="weight" column="WEIGHT"></property>
+		<property name="averageCost" column="AVERAGE_COST"></property>
 		<many-to-one name="itemGroup" class="ItemGroup" column="ITEMGROUP_ID">
 		</many-to-one>
 		<property name="isActive" column="IS_ACTIVE"></property>

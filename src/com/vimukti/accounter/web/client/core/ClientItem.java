@@ -33,6 +33,7 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	int weight;
 	long itemGroup;
 	boolean isActive;
+	private double averageCost;
 
 	public boolean isISellThisItem;
 	String salesDescription;
@@ -500,10 +501,6 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 		this.itemTotalValue = itemTotalValue;
 	}
 
-	public double getAvarageCost() {
-		return purchasePrice;
-	}
-
 	public void setAssetValue(Double value) {
 		this.assetValue = value;
 	}
@@ -513,6 +510,14 @@ public class ClientItem extends BaseReport implements IAccounterCore,
 	 */
 	public Double getAssetValue() {
 		return assetValue;
+	}
+
+	public double getAverageCost() {
+		return averageCost;
+	}
+
+	public void setAverageCost(double averageCost) {
+		this.averageCost = averageCost;
 	}
 
 }
