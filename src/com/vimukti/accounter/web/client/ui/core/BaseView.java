@@ -175,7 +175,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				&& permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
 			this.saveAndCloseButton = new SaveAndCloseButton(this);
 			this.saveAndNewButton = new SaveAndNewButtom(this);
-		} else if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
+		} else if (permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
 			this.saveAndCloseButton = new SaveAndCloseButton(this);
 			this.saveAndNewButton = new SaveAndNewButtom(this);
 		}
