@@ -649,10 +649,15 @@ public class FinanceTool {
 
 				}
 			} else {
-				Object[] result = (Object[]) queryResult.get(0);
-				for (Object object : result) {
-					if (object != null) {
-						flag = false;
+				for (Object obj : queryResult) {
+					Object[] result = (Object[]) obj;
+					for (Object object : result) {
+						if (object != null) {
+							flag = false;
+							break;
+						}
+					}
+					if (!flag) {
 						break;
 					}
 				}
