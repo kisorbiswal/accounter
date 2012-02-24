@@ -3271,16 +3271,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
 		JobProfitability obj = new JobProfitability();
-		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+		FinanceDate[] dates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<JobProfitability> list = null;
 		try {
 			list = getFinanceTool().getReportManager()
-					.getJobProfitabilitySummaryReport(getCompanyId(), start,
-							end);
+					.getJobProfitabilitySummaryReport(getCompanyId(), dates[0].toClientFinanceDate(),
+							dates[1].toClientFinanceDate());
 			if (list != null)
 				list.add((JobProfitability) setStartEndDates(obj,
-						minimumAndMaximumDates));
+						dates));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
@@ -3292,15 +3292,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<UnbilledCostsByJob> getUnBilledCostsByJob(
 			ClientFinanceDate start, ClientFinanceDate end) {
 		UnbilledCostsByJob obj = new UnbilledCostsByJob();
-		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+		FinanceDate[] dates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<UnbilledCostsByJob> list = null;
 		try {
 			list = getFinanceTool().getReportManager()
-					.getUnBilledCostsByJobReport(getCompanyId(), start, end);
+					.getUnBilledCostsByJobReport(getCompanyId(), dates[0].toClientFinanceDate(), dates[1].toClientFinanceDate());
 			if (list != null)
 				list.add((UnbilledCostsByJob) setStartEndDates(obj,
-						minimumAndMaximumDates));
+						dates));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
@@ -3357,14 +3357,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long payeeId, long jobId, ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException {
 		JobProfitabilityDetailByJob obj = new JobProfitabilityDetailByJob();
-		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+		FinanceDate[] dates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool()
 				.getReportManager().getJobProfitabilityDetailByJobReport(
-						payeeId, jobId, getCompanyId(), start, end);
+						payeeId, jobId, getCompanyId(), dates[0].toClientFinanceDate(),dates[1].toClientFinanceDate());
 		if (list != null)
 			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj,
-					minimumAndMaximumDates));
+					dates));
 		return list;
 	}
 }
