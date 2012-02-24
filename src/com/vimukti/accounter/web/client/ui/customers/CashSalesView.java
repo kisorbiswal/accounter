@@ -872,7 +872,8 @@ public class CashSalesView extends
 
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			this.clientAccounterClass = transaction.getAccounterClass();
+			this.clientAccounterClass = getCompany().getAccounterClass(
+					transaction.getAccounterClass());
 			if (getPreferences().isClassTrackingEnabled()
 					&& getPreferences().isClassOnePerTransaction()
 					&& this.clientAccounterClass != null

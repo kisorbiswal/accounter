@@ -2196,7 +2196,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	private ClientAccounterClass getAccounterClass(long classId) {
+	public ClientAccounterClass getAccounterClass(long classId) {
 		return Utility.getObject(this.accounterClasses, classId);
 	}
 
