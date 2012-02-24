@@ -225,6 +225,7 @@
 			<property name="companyEmail" column="COMPANY_EMAIL"></property>
 			<property name="decimalCharacte" column="DECIMAL_CHAR"></property>
 			<property name="digitGroupCharacter" column="DIGIT_GROUP_CHAR"></property>
+			<property name="digitGroupingFormat" column="DIGIT_GROUPING_FORMAT"></property>
 			<property name="currencyFormat" column="CURRENCY_FORMAT"></property>
 			<property name="taxId" column="TAX_ID"></property>
 			<property name="legalName" column="LEGALNAME"></property>
