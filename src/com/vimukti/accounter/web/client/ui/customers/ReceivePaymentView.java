@@ -150,8 +150,6 @@ public class ReceivePaymentView extends
 
 		setCustomerBalance(selectedCustomer.getBalance());
 
-		this.customerBalance = selectedCustomer.getBalance();
-
 		recalculateGridAmounts();
 
 		if (currency.getID() != 0) {
@@ -295,6 +293,8 @@ public class ReceivePaymentView extends
 	}
 
 	private void setCustomerBalance(Double balance) {
+
+		this.customerBalance = balance;
 
 		customerNonEditablebalText.setAmount(balance);
 
