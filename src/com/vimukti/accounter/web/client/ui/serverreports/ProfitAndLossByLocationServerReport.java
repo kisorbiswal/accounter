@@ -258,7 +258,7 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public ClientFinanceDate getEndDate(ProfitAndLossByLocation obj) {
-		return obj.getStartDate();
+		return obj.getEndDate();
 	}
 
 	@Override
@@ -347,9 +347,10 @@ public class ProfitAndLossByLocationServerReport extends
 			for (int i = 1; i < noColumns; i++) {
 				nocolumn[i - 1] = i;
 			}
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), record.getAccountName() + "  "
-					+ getMessages().total(), nocolumn);
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					record.getAccountName() + "  " + getMessages().total(),
+					nocolumn);
 			return true;
 		}
 		return false;

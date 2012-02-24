@@ -1532,7 +1532,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 
-				return getDateByCompanyType(date);
+				return getDateInDefaultType(date);
 			}
 		};
 		updateReport(profitAndLossBylocationServerReport, finaTool);
@@ -1566,7 +1566,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 
-				return getDateByCompanyType(date);
+				return getDateInDefaultType(date);
 			}
 		};
 		updateReport(salesByLocationDetailsServerReport, finaTool);
@@ -1603,7 +1603,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 
-				return getDateByCompanyType(date);
+				return getDateInDefaultType(date);
 			}
 		};
 		updateReport(salesByLocationsummaryServerReport, finaTool);
