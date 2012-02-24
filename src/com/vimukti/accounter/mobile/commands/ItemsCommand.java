@@ -144,6 +144,8 @@ public class ItemsCommand extends AbstractCommand {
 			list.add(new UserCommand("createNewServiceItem", "buy"));
 			list.add(new UserCommand("createNewNonInventoryItem", "buy"));
 			list.add(new UserCommand("createNewInventoryItem", "buy"));
+			list.add(new UserCommand("createNewInventoryAssemblyItem",
+					"sell,buy"));
 		}
 
 		list.add(new UserCommand("createNewServiceItem", "sell"));

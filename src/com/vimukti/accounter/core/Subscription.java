@@ -5,8 +5,6 @@ import java.util.Set;
 
 import org.hibernate.Session;
 
-import sun.print.resources.serviceui;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.utils.HibernateUtil;
 

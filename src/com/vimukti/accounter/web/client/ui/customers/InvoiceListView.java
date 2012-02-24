@@ -371,9 +371,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 			UIUtils.downloadMultipleAttachment(ids.toString(),
 					ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 					brandingTheme.getID());
-		} else if (type == ClientTransaction.TYPE_CASH_SALES) {
-			UIUtils.downloadMultipleAttachment(ids.toString(),
-					ClientTransaction.TYPE_CASH_SALES, brandingTheme.getID());
 		}
 
 	}

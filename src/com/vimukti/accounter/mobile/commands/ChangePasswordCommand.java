@@ -57,7 +57,11 @@ public class ChangePasswordCommand extends AbstractCommand {
 				Client client = getContext().getIOSession().getClient();
 				String passwordWithHash = HexUtil.bytesToHex(Security
 						.makeHash(client.getEmailId() + value));
-				if (!client.getPassword().equals(passwordWithHash)) {
+				String passwordWithWord = HexUtil.bytesToHex(Security
+						.makeHash(client.getEmailId()
+								+ Client.PASSWORD_HASH_STRING + value));
+				if (!client.getPassword().equals(passwordWithHash)
+						&& !client.getPassword().equals(passwordWithWord)) {
 					addFirstMessage(getMessages().youHaveEnteredWrongPassword());
 					return;
 				}
@@ -73,7 +77,11 @@ public class ChangePasswordCommand extends AbstractCommand {
 				Client client = getContext().getIOSession().getClient();
 				String passwordWithHash = HexUtil.bytesToHex(Security
 						.makeHash(client.getEmailId() + value));
-				if (client.getPassword().equals(passwordWithHash)) {
+				String passwordWithWord = HexUtil.bytesToHex(Security
+						.makeHash(client.getEmailId()
+								+ Client.PASSWORD_HASH_STRING + value));
+				if (!client.getPassword().equals(passwordWithHash)
+						&& !client.getPassword().equals(passwordWithWord)) {
 					addFirstMessage(getMessages()
 							.newpasswordAndPreviouspasswordAreSame());
 					return;
@@ -106,7 +114,7 @@ public class ChangePasswordCommand extends AbstractCommand {
 		Session hibernateSession = context.getHibernateSession();
 		Transaction beginTransaction = hibernateSession.beginTransaction();
 		String passwordWithHash = HexUtil.bytesToHex(Security.makeHash(client
-				.getEmailId() + pass1));
+				.getEmailId() + Client.PASSWORD_HASH_STRING + pass1));
 		client.setPassword(passwordWithHash);
 		hibernateSession.saveOrUpdate(client);
 		beginTransaction.commit();

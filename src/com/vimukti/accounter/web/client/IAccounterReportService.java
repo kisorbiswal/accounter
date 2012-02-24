@@ -89,7 +89,7 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<DepositDetail> getDepositDetail(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
@@ -140,26 +140,29 @@ public interface IAccounterReportService extends RemoteService {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			long id, ClientFinanceDate startDate, ClientFinanceDate endDate);
+			String customerName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long vendorId, ClientFinanceDate startDate,
+			String vendorName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			long itemId, ClientFinanceDate startDate, ClientFinanceDate endDate);
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate);
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			long accountId, final ClientFinanceDate startDate,
+			String accountName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			long taxItemId, ClientFinanceDate startDate,
+			String taxItemname, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getBalanceSheetReport(

@@ -1012,7 +1012,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			long itemId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1021,7 +1022,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getPurchageManager()
-					.getPurchasesByItemDetail(itemId, financeDates[0],
+					.getPurchasesByItemDetail(itemName, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1042,7 +1043,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			long vendorId, ClientFinanceDate startDate,
+			String vendorName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
@@ -1052,7 +1053,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getVendorManager()
-					.getPurchasesByVendorDetail(vendorId, financeDates[0],
+					.getPurchasesByVendorDetail(vendorName, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1073,14 +1074,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			long id, ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return salesByCustomerDetailReport(id, startDate, endDate,
+			String customerName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
+		return salesByCustomerDetailReport(customerName, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<SalesByCustomerDetail> salesByCustomerDetailReport(
-			long id, ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
+			String customerName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, long companyId) {
 
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
@@ -1090,8 +1092,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getReportManager()
-					.getSalesByCustomerDetailReport(id, financeDates[0],
-							financeDates[1], companyId);
+					.getSalesByCustomerDetailReport(customerName,
+							financeDates[0], financeDates[1], companyId);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
@@ -1111,8 +1113,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
+			String itemName, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1121,7 +1124,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getSalesManager()
-					.getSalesByItemDetail(itemId, financeDates[0],
+					.getSalesByItemDetail(itemName, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1224,14 +1227,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			long accountId, ClientFinanceDate startDate,
+			String accountName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		return transactionDetailByAccount(accountId, startDate, endDate,
+		return transactionDetailByAccount(accountName, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<TransactionDetailByAccount> transactionDetailByAccount(
-			long accountId, ClientFinanceDate startDate,
+			String accountName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 
@@ -1241,8 +1244,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			transDetailByAccountList = getFinanceTool().getReportManager()
-					.getTransactionDetailByAccount(accountId, financeDates[0],
-							financeDates[1], companyId);
+					.getTransactionDetailByAccount(accountName,
+							financeDates[0], financeDates[1], companyId);
 
 			TransactionDetailByAccount obj = new TransactionDetailByAccount();
 			if (transDetailByAccountList != null)
@@ -1283,14 +1286,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final long taxItemId, final ClientFinanceDate startDate,
+			final String taxItemName, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate) {
-		return transactionDetailByTaxItem(taxItemId, startDate, endDate,
+		return transactionDetailByTaxItem(taxItemName, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItem(
-			long taxItemId, ClientFinanceDate startDate,
+			String taxItemName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItemList = new ArrayList<TransactionDetailByTaxItem>();
 
@@ -1301,7 +1304,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			transactionDetailByTaxItemList = getFinanceTool()
 					.getReportManager().getTransactionDetailByTaxItem(
-							taxItemId, financeDates[0], financeDates[1],
+							taxItemName, financeDates[0], financeDates[1],
 							companyId);
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
@@ -2763,7 +2766,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			long status, ClientFinanceDate startDate,
+			String status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		return transactionDetailByTaxItem(status, startDate, endDate, companyId);
 	}
@@ -2775,9 +2778,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			long accountId, ClientFinanceDate startDate,
+			String accountName, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return transactionDetailByAccount(accountId, startDate, endDate,
+		return transactionDetailByAccount(accountName, startDate, endDate,
 				companyId);
 	}
 
@@ -2802,8 +2805,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return salesByCustomerDetailReport(Long.parseLong(status), startDate,
-				endDate, companyId);
+		return salesByCustomerDetailReport(status, startDate, endDate,
+				companyId);
 	}
 
 	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(

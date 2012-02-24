@@ -33,7 +33,9 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 	String[] groups = { "12,34,56,789" };
 
 	String[] posForValue = { "S1D1", "1D1S", "S 1D1", "1D1 S" };
-	String[] negForValue = { "(S1D1)", "-1D1S", "S-1D1", "1D1S-", "(1D1S)" };
+	String[] negForValue = { "(S1D1)", "-S1D1", "S-1D1", "S1D1-", "(1D1S)",
+			"-1D1S", "1D1-S", "1D1S-", "1D1S-", "-S 1D1", "1D1 S-", "S 1D1-",
+			"S -1D1", "1D1- S", "(S 1D1)", "(1D1 S)" };
 
 	boolean isAllReqDone = false;
 
@@ -58,7 +60,8 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		String digitGroupSymbol = get(DIGIT_GROUPING_SYMBOL).getValue();
 		String noOfDigitsAfterDecimal = get(NO_OF_DIGITS_AFTER_NO).getValue();
 		String decimalSymbol = get(DECIMAL_SYMBOL).getValue();
-		String value = groups[0].replaceAll(",", digitGroupSymbol);
+		String value = groups[0].replaceAll(",",
+				quoteReplacement(digitGroupSymbol));
 		String currencySymbol = getPreferences().getPrimaryCurrency()
 				.getSymbol();
 		value += decimalSymbol;
@@ -88,13 +91,32 @@ public class CurrencyFormatCommand extends AbstractCompanyPreferencesCommand {
 		get(NEGATIVE_CURR_FORMAT).setValue(
 				getNegativeFormatValues().get(negNum));
 
-		String pValue = posForValue[posNum].replaceAll("S", currencySymbol)
-				.replaceAll("1D1", value);
+		String pValue = posForValue[posNum].replaceAll("S",
+				quoteReplacement(currencySymbol)).replaceAll("1D1", value);
 
-		String nValue = negForValue[negNum].replaceAll("S", currencySymbol)
-				.replaceAll("1D1", value);
+		String nValue = negForValue[negNum].replaceAll("S",
+				quoteReplacement(currencySymbol)).replaceAll("1D1", value);
 
 		return new String[] { pValue, nValue };
+	}
+
+	public String quoteReplacement(String s) {
+		if ((s.indexOf('\\') == -1) && (s.indexOf('$') == -1))
+			return s;
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c == '\\') {
+				sb.append('\\');
+				sb.append('\\');
+			} else if (c == '$') {
+				sb.append('\\');
+				sb.append('$');
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
 	}
 
 	protected List<String> getDigitGroupingValues() {

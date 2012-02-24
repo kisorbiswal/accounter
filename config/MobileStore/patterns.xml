@@ -342,6 +342,7 @@
 			<command title="createNewServiceItem" />
 			<command title="createNewNonInventoryItem" />
 			<command title="createNewInventoryItem" />
+			<command title="createNewInventoryAssemblyItem" />
 			<command title="listofAllItem" />
 		</outputs>
 	</pattern>
@@ -536,7 +537,7 @@
 	</pattern>
 
 	<pattern login="true">
-		<input>userHTML</input>
+		<input>users</input>
 		<outputs>
 			<command title="Inviteuser" />
 			<command title="usersList" />

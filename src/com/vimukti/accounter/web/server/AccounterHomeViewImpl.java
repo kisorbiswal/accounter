@@ -1505,7 +1505,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			changePassword = getFinanceTool().getUserManager()
 					.changeMyPassword(emailID, oldPassword, newPassword);
 			byte[] s1 = EU.generatePBS(newPassword);
-			byte[] s2 = EU.getKey(emailID);
+			byte[] s2 = EU.getKey(getThreadLocalRequest().getSession().getId());
 			byte[] d2 = EU.encrypt(s1, s2);
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.SECRET_KEY_COOKIE, Base64.encode(d2));
@@ -2212,9 +2212,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 				client.getEmailId());
 		SubscriptionManagementData subscriptionManagementData = (SubscriptionManagementData) query
 				.uniqueResult();
-		if (subscriptionManagementData == null) {
-			return invitableUsers;
-		}
 		Set<String> userMailds = setMembers(subscriptionManagementData
 				.getUserMailds());
 		Company company = (Company) currentSession.get(Company.class,

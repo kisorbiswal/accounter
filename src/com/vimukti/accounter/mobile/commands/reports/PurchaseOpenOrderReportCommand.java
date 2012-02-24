@@ -71,10 +71,8 @@ public class PurchaseOpenOrderReportCommand extends
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
-			openRecord.add(
-					getMessages().orderDate(),
-					getDateByCompanyType(record.getTransactionDate(),
-							getPreferences()));
+			openRecord.add(getMessages().orderDate(),
+					record.getTransactionDate());
 		else
 			openRecord.add("", "");
 		openRecord.add(getMessages().payeeName(Global.get().Vendor()),

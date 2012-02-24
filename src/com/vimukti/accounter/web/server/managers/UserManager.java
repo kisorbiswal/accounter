@@ -373,7 +373,8 @@ public class UserManager extends Manager {
 			invitedClient.setLastName(clientUser.getLastName());
 			invitedClient.setFullName(clientUser.getFullName());
 			invitedClient.setPassword(HexUtil.bytesToHex(Security
-					.makeHash(emailId + randomString)));
+					.makeHash(emailId + Client.PASSWORD_HASH_STRING
+							+ randomString)));
 
 			ClientSubscription clientSubscription = new ClientSubscription();
 			clientSubscription.setCreatedDate(new Date());

@@ -42,7 +42,7 @@ public class LogoutServlet extends BaseServlet {
 					// Destroy the comet queue so that it wont take memory
 					CometManager.destroyStream(req.getSession().getId(), cid,
 							userid);
-					EU.removeCipher();
+					EU.removeKey(req.getSession().getId());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

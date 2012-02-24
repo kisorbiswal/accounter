@@ -205,9 +205,6 @@ public class WriteChequeView extends
 			// }
 
 		}
-		if (payee == null && selectBankAcc != null) {
-			currency = selectBankAcc.getCurrency();
-		}
 		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 		currencyWidget.setSelectedCurrency(clientCurrency);
 
@@ -736,13 +733,8 @@ public class WriteChequeView extends
 						selectBankAcc = selectItem;
 						balText.setAmount(selectBankAcc
 								.getTotalBalanceInAccountCurrency());
-						ClientCurrency currency = getCurrency(selectItem
-								.getCurrency());
-						balText.setCurrency(currency);
-						if (payee == null) {
-							currencySelected(currency);
-							updateAddressAndGrid();
-						}
+						balText.setCurrency(getCurrency(selectItem
+								.getCurrency()));
 					}
 
 				});
@@ -1487,6 +1479,8 @@ public class WriteChequeView extends
 		ClientCurrency payeeCurrency = getCompany().getCurrency(
 				selectItem.getCurrency());
 
+		amtText.setCurrency(payeeCurrency);
+
 		// ClientWriteCheck check = (ClientWriteCheck) this.transaction;
 
 		// FIXME Need to set transaction items.
@@ -1511,15 +1505,8 @@ public class WriteChequeView extends
 		//
 		// }
 
-		currencySelected(payeeCurrency);
-
-	}
-
-	private void currencySelected(ClientCurrency currency) {
-		amtText.setCurrency(currency);
-
 		if (currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(currency);
+			currencyWidget.setSelectedCurrency(payeeCurrency);
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
@@ -1530,6 +1517,7 @@ public class WriteChequeView extends
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
+
 	}
 
 	@Override
@@ -1587,7 +1575,6 @@ public class WriteChequeView extends
 				setAmountIncludeChkValue(isAmountIncludeTAX());
 
 			}
-
 			initMemoAndReference();
 			initAccounterClass();
 		}

@@ -282,9 +282,7 @@ public class NewAccountView extends BaseView<ClientAccount> {
 							hierarchy = subhierarchy + temp;
 					} else
 						hierarchy = subhierarchy;
-					if (hierText != null) {
-						hierText.setValue(hierarchy);
-					}
+					hierText.setValue(hierarchy);
 				}
 
 			}

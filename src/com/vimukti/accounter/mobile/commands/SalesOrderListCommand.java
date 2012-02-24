@@ -26,8 +26,7 @@ public class SalesOrderListCommand extends AbstractTransactionListCommand {
 				Record record = new Record(value);
 				record.add(getMessages().name(), value.getCustomer().getName());
 				record.add(getMessages().number(), value.getNumber());
-				record.add(getMessages().total(),
-						getAmountWithCurrency(value.getTotal()));
+				record.add(getMessages().total(), value.getTotal());
 				return record;
 			}
 

@@ -19,8 +19,10 @@ public class CreateNonInventoryItemCommand extends AbstractItemCreateCommand {
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);
-		list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
-				getMessages().weight()), getMessages().weight(), true, true));
+		if (itemType == ClientItem.TYPE_NON_INVENTORY_PART) {
+			list.add(new NumberRequirement(WEIGHT, getMessages().pleaseEnter(
+					getMessages().weight()), getMessages().weight(), true, true));
+		}
 	}
 
 	@Override

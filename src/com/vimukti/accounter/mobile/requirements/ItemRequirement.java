@@ -36,6 +36,7 @@ public abstract class ItemRequirement extends ListRequirement<Item> {
 			Session currentSession = HibernateUtil.getCurrentSession();
 			Item item = (Item) value;
 			item = (Item) currentSession.load(Item.class, item.getID());
+			long id = item.getID();
 			super.setValue(item);
 		}
 	}

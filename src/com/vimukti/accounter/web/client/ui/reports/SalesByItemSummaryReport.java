@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.SalesByItemSummaryServerReport;
 
+
 public class SalesByItemSummaryReport extends
 		AbstractReportView<SalesByCustomerDetail> {
 
@@ -22,7 +23,8 @@ public class SalesByItemSummaryReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record, ActionFactory.getSalesByItemDetailAction());
+		UIUtils.runAction(record,
+				ActionFactory.getSalesByItemDetailAction());
 	}
 
 	@Override
@@ -34,6 +36,8 @@ public class SalesByItemSummaryReport extends
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getSalesByItemSummary(start, end, this);
 	}
+
+
 
 	@Override
 	public void onEdit() {
@@ -79,7 +83,7 @@ public class SalesByItemSummaryReport extends
 				Integer.parseInt(String.valueOf(endDate.getDate())), 123, "",
 				"");
 	}
-
+	
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

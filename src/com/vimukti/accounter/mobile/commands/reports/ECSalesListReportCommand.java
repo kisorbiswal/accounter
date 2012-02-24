@@ -28,7 +28,7 @@ public class ECSalesListReportCommand extends
 			@Override
 			protected String onSelection(ECSalesList selection, String name) {
 				markDone();
-				return "ecSalesListDetails " + selection.getName();
+				return "EC Sales List Detail " + selection.getName();
 			}
 
 			@Override
@@ -55,13 +55,8 @@ public class ECSalesListReportCommand extends
 	private Record createReportRecord(ECSalesList record) {
 		Record salesRecord = new Record(record);
 		salesRecord.add("", record.getName());
-		salesRecord.add(
-				getDateByCompanyType(getStartDate().toClientFinanceDate(),
-						getPreferences())
-						+ "-"
-						+ getDateByCompanyType(getEndDate()
-								.toClientFinanceDate(), getPreferences()),
-				getAmountWithCurrency(record.getAmount()));
+		salesRecord
+				.add(getStartDate() + "_" + getEndDate(), record.getAmount());
 		return salesRecord;
 	}
 

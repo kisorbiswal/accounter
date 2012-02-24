@@ -140,25 +140,10 @@ public class MenuBar {
 			inventoryMenuBar.addSeparatorItem();
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
-
 		inventoryMenuBar.addSeparatorItem();
-		// inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
-		// .InventoryLists()));
-		inventoryMenuBar.addMenuItem(messages.inventoryItems(),
-				HistoryTokens.INVENTORYITEMS);
+		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
+				.InventoryLists()));
 
-		if (iswareHouseEnabled) {
-			inventoryMenuBar.addMenuItem(messages.warehouseList(),
-					HistoryTokens.WAREHOUSELIST);
-			inventoryMenuBar.addMenuItem(messages.warehouseTransferList(),
-					HistoryTokens.WAREHOUSETRANSFERLIST);
-		}
-		inventoryMenuBar.addMenuItem(messages.stockAdjustments(),
-				HistoryTokens.STOCKADJUSTMENTS);
-		if (isUnitsEnalbled) {
-			inventoryMenuBar.addMenuItem(messages.measurementList(),
-					HistoryTokens.MEASUREMENTLIST);
-		}
 		return inventoryMenuBar;
 	}
 
@@ -357,7 +342,7 @@ public class MenuBar {
 				.fixedAssest()));
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 
-		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
+		// reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 
 		return reportMenuBar;
 	}
@@ -702,7 +687,7 @@ public class MenuBar {
 					HistoryTokens.VENDORPAYMENTS);
 		}
 		if (isPurchaseOrderEnabled && canSeeInvoiceTransactions) {
-			vendorMenuBar.addMenuItem(messages.purchaseOrders(),
+			vendorMenuBar.addMenuItem(messages.purchaseOrderList(),
 					HistoryTokens.PURCHASEORDERLIST);
 		}
 		// vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
@@ -843,7 +828,7 @@ public class MenuBar {
 						HistoryTokens.NEWCREDIT);
 			}
 			if (isSalesOrderEnabled) {
-				newCustomerMenuBar.addMenuItem(messages.newSalesOrder(),
+				newCustomerMenuBar.addMenuItem(messages.salesOrder(),
 						HistoryTokens.SALESORDER);
 			}
 
@@ -1156,8 +1141,7 @@ public class MenuBar {
 	}
 
 	private boolean canDoPayBillAndReceivePayment(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES
-				|| clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;

@@ -271,30 +271,21 @@ public class BuildAssemblyView extends
 	private double calculateNumberOfBuilds(
 			List<ClientInventoryAssemblyItem> assemblyItems) {
 		Double buildNumber = null;
-		for (int i = 0; i < assemblyItems.size(); i++) {
+		for (ClientInventoryAssemblyItem clientInventoryAssemblyItem : assemblyItems) {
 			ClientItem item = getCompany().getItem(
-					assemblyItems.get(i).getInventoryItem());
+					clientInventoryAssemblyItem.getInventoryItem());
 			double onhandQuantity = item.getOnhandQty().getValue();
-			double value = assemblyItems.get(i).getQuantity().getValue();
-			for (int j = i; j < assemblyItems.size() - i; j++) {
-				ClientItem tempItem = getCompany().getItem(
-						assemblyItems.get(j).getInventoryItem());
-				if (i != j && item == tempItem) {
-					double tempVal = assemblyItems.get(i).getQuantity()
-							.getValue();
-					value = value + tempVal;
-				}
-				double temp = (int) (onhandQuantity / value);
-				if (buildNumber == null) {
-					buildNumber = temp;
-				}
-				if (buildNumber > temp) {
-					buildNumber = temp;
-				}
-			}
+			double value = clientInventoryAssemblyItem.getQuantity().getValue();
+			double temp = (int) (onhandQuantity / value);
 			if (buildNumber == null) {
-				buildNumber = 0.00D;
+				buildNumber = temp;
 			}
+			if (buildNumber > temp) {
+				buildNumber = temp;
+			}
+		}
+		if (buildNumber == null) {
+			buildNumber = 0.00D;
 		}
 		return buildNumber;
 	}
@@ -438,6 +429,24 @@ public class BuildAssemblyView extends
 
 	@Override
 	protected boolean canRecur() {
+		return false;
+	}
+
+	@Override
+	public boolean canEdit() {
+		if (transaction == null || transaction.getID() == 0) {
+			return super.canEdit();
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean canDelete() {
+		return false;
+	}
+
+	@Override
+	protected boolean canVoid() {
 		return false;
 	}
 }

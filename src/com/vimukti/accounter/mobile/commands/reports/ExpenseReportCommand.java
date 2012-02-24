@@ -57,7 +57,7 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 
 			@Override
 			protected String onSelection(ExpenseList selection, String name) {
-				return "updateTransaction " + selection.getTransactionId();
+				return "update transaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -103,10 +103,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 		Record expenseRecord = new Record(record);
 		expenseRecord.add(getMessages().transactionName(),
 				Utility.getTransactionName(record.getTransactionType()));
-		expenseRecord.add(
-				getMessages().transactionDate(),
-				getDateByCompanyType(record.getTransactionDate(),
-						getPreferences()));
+		expenseRecord.add(getMessages().transactionDate(),
+				record.getTransactionDate());
 		expenseRecord.add(getMessages().amount(),
 				getAmountWithCurrency(record.getTotal()));
 		return expenseRecord;

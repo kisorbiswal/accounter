@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.MobileCookie;
 import com.vimukti.accounter.mobile.Command;
@@ -53,6 +54,8 @@ public class LogoutCommand extends Command {
 		}
 		beginTransaction.commit();
 		markDone();
+		EU.removeCipher();
+		EU.removeKey(ioSession.getId());
 		result.setNextCommand("login");
 		return result;
 	}

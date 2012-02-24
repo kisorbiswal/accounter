@@ -720,7 +720,7 @@ public class GeneratePDFservlet extends BaseServlet {
 				if (brandingTheme.getCashSaleTemplateName().contains(
 						"Classic Template")) {
 					templeteName = "templetes" + File.separator
-							+ "CashSaleOdt.odt";
+							+ "CashSaleDocx.docx";
 				} else {
 					templeteName = ServerConfiguration.getAttachmentsDir()
 							+ "/" + company.getId() + "/" + "templateFiles"

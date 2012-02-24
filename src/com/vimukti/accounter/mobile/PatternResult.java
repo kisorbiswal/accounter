@@ -14,6 +14,7 @@ import com.vimukti.accounter.mobile.store.Output;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.ICountryPreferences;
 
 /**
@@ -101,6 +102,10 @@ public class PatternResult extends Result {
 			return preferences.iswareHouseEnabled();
 		} else if (condition.equals("isUnitsEnalbled")) {
 			return preferences.isUnitsEnabled();
+		} else if (condition.equals("canChangeSettings")) {
+			return user.getPermissions().getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES;
+		} else if (condition.equals("canDoUserManagement")) {
+			return user.isCanDoUserManagement();
 		}
 		return true;
 	}

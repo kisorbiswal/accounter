@@ -74,13 +74,8 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 	protected Record createReportRecord(VATSummary record) {
 		Record vatItemRecord = new Record(record);
 		vatItemRecord.add(getMessages().name(), record.getVatReturnEntryName());
-		vatItemRecord.add(
-				getDateByCompanyType(getStartDate().toClientFinanceDate(),
-						getPreferences())
-						+ "-"
-						+ getDateByCompanyType(getEndDate()
-								.toClientFinanceDate(), getPreferences()),
-				getAmountWithCurrency(record.getValue()));
+		vatItemRecord.add(getStartDate() + "_" + getEndDate(),
+				record.getValue());
 		return vatItemRecord;
 	}
 

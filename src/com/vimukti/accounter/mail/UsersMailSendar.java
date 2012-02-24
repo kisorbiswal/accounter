@@ -64,11 +64,13 @@ public class UsersMailSendar {
 		acc.setPortNumber(sender.getPortNumber());
 		acc.setProtocol(propertyParser.getProperty("protocol", ""));
 
-		acc.setSmtpAuthentication(true);
+		acc.setSmtpAuthentication(propertyParser.getProperty(
+				"smtpAuthentication", "no").equalsIgnoreCase("yes"));
 
 		acc.setSslAutheticationRequired(sender.isSSL());
 
-		acc.setStartTtlsEnables(true);
+		acc.setStartTtlsEnables(propertyParser.getProperty("startTtlsEnables",
+				"no").equalsIgnoreCase("yes"));
 
 		acc.setTls_starttlsAutheticationPort(propertyParser.getProperty(
 				"tls_starttlsAutheticationPort", ""));

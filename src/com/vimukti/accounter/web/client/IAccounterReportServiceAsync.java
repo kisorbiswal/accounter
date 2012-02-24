@@ -158,30 +158,30 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesTaxLiability>> callBack);
 
-	public void getSalesByCustomerDetailReport(long id,
+	public void getSalesByCustomerDetailReport(String customerName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getSalesByItemDetail(long itemId, ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
-
-	public void getPurchasesByVendorDetail(long vendorId,
+	public void getSalesByItemDetail(String itemName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByItemDetail(long itemId,
+	public void getPurchasesByVendorDetail(String vendorName,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getTransactionDetailByAccount(long accountId,
+	public void getPurchasesByItemDetail(String itemName,
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
+
+	public void getTransactionDetailByAccount(String accountName,
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBack);
 
 	void getMinimumAndMaximumTransactionDate(
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
-	public void getTransactionDetailByTaxItem(long taxItemId,
+	public void getTransactionDetailByTaxItem(String taxItemname,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByTaxItem>> callBackResult);
 

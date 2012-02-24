@@ -36,6 +36,7 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 			Warehouse warehouse = (Warehouse) value;
 			warehouse = (Warehouse) currentSession.load(Warehouse.class,
 					warehouse.getID());
+			long id = warehouse.getID();
 			super.setValue(warehouse);
 		}
 	}
@@ -65,8 +66,9 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add("newWareHouse");
-
+		if (getPreferences().iswareHouseEnabled()) {
+			list.add("newWareHouse");
+		}
 	}
 
 	@Override
@@ -81,6 +83,11 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 
 	@Override
 	protected List<Warehouse> getLists(Context context) {
+		ArrayList<Warehouse> arrayList = new ArrayList<Warehouse>();
+		if (!getPreferences().iswareHouseEnabled()) {
+			arrayList.add(getCompany().getDefaultWarehouse());
+			return arrayList;
+		}
 		return new ArrayList<Warehouse>(context.getCompany().getWarehouses());
 	}
 
@@ -92,7 +99,14 @@ public class WarehouseRequirement extends ListRequirement<Warehouse> {
 	@Override
 	public void setDefaultValue(Object defaultValue) {
 		super.setDefaultValue(defaultValue);
-		setWareHouseValue();
+		Object value = getValue();
+		if (value != null) {
+			Session currentSession = HibernateUtil.getCurrentSession();
+			Warehouse warehouse = (Warehouse) value;
+			warehouse = (Warehouse) currentSession.load(Warehouse.class,
+					warehouse.getID());
+			super.setDefaultValue(warehouse);
+		}
 	}
 
 }

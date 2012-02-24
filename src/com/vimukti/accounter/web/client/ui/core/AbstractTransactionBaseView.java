@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -2068,5 +2069,18 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return discount;
 
+	}
+
+	@Override
+	protected boolean canDelete() {
+		ClientUser user = Accounter.getUser();
+		if ((transaction == null || transaction.getID() == 0)
+				|| (transaction.getSaveStatus() == ClientTransaction.STATUS_DRAFT && user
+						.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
+				|| user.canDoInvoiceTransactions()) {
+			return super.canDelete();
+		}
+
+		return false;
 	}
 }

@@ -101,7 +101,8 @@ public class ReportsRPC {
 
 	public static void openTransactionView(int transactionType,
 			long transactionId) {
-		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
+		if (Accounter.getUser().getUserRole()
+				.equalsIgnoreCase(RolePermissions.READ_ONLY)) {
 			return;
 		}
 		switch (transactionType) {

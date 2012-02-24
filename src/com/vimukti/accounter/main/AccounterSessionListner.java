@@ -37,6 +37,7 @@ public class AccounterSessionListner implements HttpSessionListener {
 			CometManager.destroyStream(httpSession.getId(), companyId, emailId);
 
 			EU.removeCipher();
+			EU.removeKey(httpSession.getId());
 		}
 	}
 

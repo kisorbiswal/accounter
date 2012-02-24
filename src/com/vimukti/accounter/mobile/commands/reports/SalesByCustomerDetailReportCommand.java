@@ -20,7 +20,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class SalesByCustomerDetailReportCommand extends
 		NewAbstractReportCommand<SalesByCustomerDetail> {
-	private long customerId;
+	private String customerName;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -77,8 +77,7 @@ public class SalesByCustomerDetailReportCommand extends
 
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add(getMessages().date(),
-				getDateByCompanyType(record.getDate(), getPreferences()));
+		transactionRecord.add(getMessages().date(), record.getDate());
 		transactionRecord.add(getMessages().type(),
 				Utility.getTransactionName(record.getType()));
 		transactionRecord.add(getMessages().type(), record.getNumber());
@@ -90,13 +89,13 @@ public class SalesByCustomerDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
-			if (customerId == 0) {
+			if (customerName == null || customerName.isEmpty()) {
 				salesByCustomerDetails = new FinanceTool().getReportManager()
 						.getSalesByCustomerDetailReport(getStartDate(),
 								getEndDate(), getCompanyId());
-			} else if (customerId != 0) {
+			} else if (!customerName.isEmpty()) {
 				salesByCustomerDetails = new FinanceTool().getReportManager()
-						.getSalesByCustomerDetailReport(customerId,
+						.getSalesByCustomerDetailReport(customerName,
 								getStartDate(), getEndDate(), getCompanyId());
 			}
 		} catch (Exception e) {
@@ -106,7 +105,7 @@ public class SalesByCustomerDetailReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "updateTransaction " + selection.getTransactionId();
+		return "update transaction " + selection.getTransactionId();
 	}
 
 	@Override
@@ -115,7 +114,7 @@ public class SalesByCustomerDetailReportCommand extends
 		if (string != null && !string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
-			customerId = Long.parseLong(split[1]);
+			customerName = split[1];
 		}
 		return null;
 	}

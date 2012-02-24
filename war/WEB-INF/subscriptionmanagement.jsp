@@ -83,9 +83,9 @@
                   finalstring = finalstring.substring(1);
 				$('#mailIdsTextArea').val(finalstring);
 				$('#emailIdsList').text(finalstring);
-				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}+1].value);
+				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].value);
 			 
-			document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType} +1].selected = true;
+			document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].selected = true;
 			$('#submitButton').click(function(){
 			if(validate()){
 			$('#error').text("");
@@ -107,11 +107,11 @@
  			function validate(){
  			var type =${managementData.subscriptionType};
  			var maxLimit =1; 
- 			if(type ==1){
+ 			if(type ==0 || type==1){
  			maxLimit =1;
- 			}else if(type ==2){
+ 			}else if(type ==2 || type==3){
  			maxLimit =2;
- 			}else if(type ==3){
+ 			}else if(type ==4 || type==5){
  			maxLimit =5;
  			}
  			$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');

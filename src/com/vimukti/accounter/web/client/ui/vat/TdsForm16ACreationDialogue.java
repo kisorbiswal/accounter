@@ -93,9 +93,10 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 		HorizontalPanel layout1 = new HorizontalPanel();
 		VerticalPanel vPanel = new VerticalPanel();
 
+		List<ClientVendor> vendors = getCompany().getActiveVendors();
 		vendorCombo = new VendorCombo(messages.deductee(), false);
 		vendorCombo.setRequired(true);
-		vendorCombo.initCombo(getTDSVendors());
+		vendorCombo.initCombo(vendors);
 		vendorCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientVendor>() {
 
@@ -236,17 +237,6 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 
 		setBodyLayout(vPanel);
 
-	}
-
-	private List<ClientVendor> getTDSVendors() {
-		ArrayList<ClientVendor> vendors = getCompany().getActiveVendors();
-		ArrayList<ClientVendor> tdsVendors = new ArrayList<ClientVendor>();
-		for (ClientVendor vendor : vendors) {
-			if (vendor.isTdsApplicable()) {
-				tdsVendors.add(vendor);
-			}
-		}
-		return tdsVendors;
 	}
 
 	private List<String> getMonthsList() {

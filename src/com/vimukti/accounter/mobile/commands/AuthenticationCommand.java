@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.IMActivation;
 import com.vimukti.accounter.core.IMUser;
 import com.vimukti.accounter.core.MobileCookie;
@@ -176,7 +177,8 @@ public class AuthenticationCommand extends Command {
 					makeResult.add(commandList);
 					return makeResult;
 				}
-				if (client != null && !client.isActive()) {
+				if (client != null && !client.isActive()
+						&& EU.getKey(context.getIOSession().getId()) != null) {
 					context.setAttribute("input", "activation");
 					makeResult.add("Please Enter Activation Code");
 					makeResult.add(new InputType(
@@ -198,16 +200,36 @@ public class AuthenticationCommand extends Command {
 			if (attribute.equals("password")) {
 				String userName = (String) context.getAttribute("userName");
 				context.setAttribute("input", "userName");
-				String password = HexUtil.bytesToHex(Security.makeHash(userName
-						.toLowerCase() + string));
 				client = getClient(userName);
 				// Written for open id sign up process.If user sign up in open
 				// id
 				// and trying to login in mobile.Then user don't have
 				// password.For this situation we are checking null
 				// password.client.getPassword() == null
-				if (client == null || client.getPassword() == null
-						|| !client.getPassword().equals(password)) {
+				boolean wrongPassword = true;
+				if (client != null && client.getPassword() != null) {
+					String password = HexUtil.bytesToHex(Security
+							.makeHash(userName.toLowerCase() + string));
+					String passwordWithWord = HexUtil.bytesToHex(Security
+							.makeHash(userName.toLowerCase()
+									+ Client.PASSWORD_HASH_STRING + string));
+					if (client.getPassword().equals(password)) {
+						client.setPassword(passwordWithWord);
+						Session currentSession = HibernateUtil
+								.getCurrentSession();
+						Transaction beginTransaction = currentSession
+								.beginTransaction();
+						currentSession.saveOrUpdate(client);
+						beginTransaction.commit();
+					}
+					if (!client.getPassword().equals(passwordWithWord)) {
+						wrongPassword = true;
+					} else {
+						wrongPassword = false;
+					}
+
+				}
+				if (wrongPassword) {
 					context.setAttribute("password", null);
 					context.setAttribute("input", "password");
 					makeResult.add("Entered password was wrong.");
@@ -222,6 +244,13 @@ public class AuthenticationCommand extends Command {
 				}
 				if (client.isActive()) {
 					createMobileCookie(context.getNetworkId(), client);
+					try {
+						byte[] d2 = EU.generateD2(string, client.getEmailId(),
+								context.getIOSession().getId());
+						context.getIOSession().setD2(d2);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					markDone();
 				} else {
 					context.setAttribute("input", "activation");

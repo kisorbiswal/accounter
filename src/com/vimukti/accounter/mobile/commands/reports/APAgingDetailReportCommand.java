@@ -35,7 +35,7 @@ public class APAgingDetailReportCommand extends
 			@Override
 			protected String onSelection(AgedDebtors selection, String name) {
 				markDone();
-				return "updateTransaction " + selection.getTransactionId();
+				return "Edit Transaction " + selection.getTransactionId();
 			}
 
 			@Override
@@ -150,8 +150,7 @@ public class APAgingDetailReportCommand extends
 	protected Record createReportRecord(AgedDebtors recordReport) {
 		Record record = new Record(recordReport);
 		record.add(getMessages().name(), recordReport.getName());
-		record.add(getMessages().date(),
-				getDateByCompanyType(recordReport.getDate(), getPreferences()));
+		record.add(getMessages().date(), recordReport.getDate());
 		record.add(getMessages().transactionType(),
 				ReportUtility.getTransactionName(recordReport.getType()));
 		record.add(getMessages().total(),

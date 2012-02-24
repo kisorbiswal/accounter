@@ -19,7 +19,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PurchaseByItemDetailReportCommand extends
 		NewAbstractReportCommand<SalesByCustomerDetail> {
-	private long itemId;
+	private String itemName;
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -77,8 +77,7 @@ public class PurchaseByItemDetailReportCommand extends
 
 	protected Record createReportRecord(SalesByCustomerDetail record) {
 		Record salesRecord = new Record(record);
-		salesRecord.add(getMessages().date(),
-				getDateByCompanyType(record.getDate(), getPreferences()));
+		salesRecord.add(getMessages().date(), record.getDate());
 		salesRecord.add(getMessages().type(),
 				ReportUtility.getTransactionName(record.getType()));
 		salesRecord.add(getMessages().number(), record.getNumber());
@@ -95,13 +94,13 @@ public class PurchaseByItemDetailReportCommand extends
 	protected List<SalesByCustomerDetail> getRecords() {
 		ArrayList<SalesByCustomerDetail> salesByCustomerDetails = new ArrayList<SalesByCustomerDetail>();
 		try {
-			if (itemId == 0) {
+			if (itemName == null || itemName.isEmpty()) {
 				salesByCustomerDetails = new FinanceTool().getPurchageManager()
 						.getPurchasesByItemDetail(getStartDate(), getEndDate(),
 								getCompanyId());
-			} else {
+			} else if (itemName != null) {
 				salesByCustomerDetails = new FinanceTool().getPurchageManager()
-						.getPurchasesByItemDetail(itemId, getStartDate(),
+						.getPurchasesByItemDetail(itemName, getStartDate(),
 								getEndDate(), getCompanyId());
 			}
 
@@ -112,7 +111,7 @@ public class PurchaseByItemDetailReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "updateTransaction " + selection.getTransactionId();
+		return "update transaction " + selection.getTransactionId();
 	}
 
 	@Override
@@ -121,7 +120,7 @@ public class PurchaseByItemDetailReportCommand extends
 		if (!string.isEmpty()) {
 			String[] split = string.split(",");
 			context.setString(split[0]);
-			itemId = Long.parseLong(split[1]);
+			itemName = split[1];
 		}
 		return null;
 	}

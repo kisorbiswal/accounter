@@ -5,7 +5,9 @@ import java.util.List;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
+import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -47,9 +49,8 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.measurementName(),
-				messages.measurementDescription(),
-				messages.unitName(), messages.factor(),
-				messages.delete() };
+				messages.measurementDescription(), messages.unitName(),
+				messages.factor(), messages.delete() };
 	}
 
 	@Override
@@ -136,10 +137,21 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	public void onDoubleClick(ClientMeasurement obj) {
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (isUserHavePermissions(obj)) {
 			AddMeasurementAction action = new AddMeasurementAction();
 			action.run(obj, false);
 		}
+	}
+
+	private boolean isUserHavePermissions(ClientMeasurement obj) {
+		ClientUser user = Accounter.getUser();
+		if (user.canDoInvoiceTransactions()) {
+			return true;
+		}
+
+		if (user.getPermissions().getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+		return false;
 	}
 }

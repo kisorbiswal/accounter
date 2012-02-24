@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.vimukti.accounter.core.TAXItem;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
@@ -83,15 +82,12 @@ public class TransactionDetailbyTaxItemReportCommand extends
 		Record tdRecord = new Record(record);
 		tdRecord.add(Utility.getTransactionName(record.getTransactionType()));
 		tdRecord.add(getMessages().taxRate(), record.getRate());
-		tdRecord.add(getMessages().date(),
-				getDateByCompanyType(record.getDate(), getPreferences()));
+		tdRecord.add(getMessages().date(), record.getDate());
 		tdRecord.add(getMessages().number(), record.getNumber());
 		tdRecord.add(getMessages().taxItemName(), record.getTaxItemName());
 		tdRecord.add(getMessages().memo(), record.getMemo());
-		tdRecord.add(getMessages().salesTax(),
-				getAmountWithCurrency(record.getSalesTaxAmount()));
-		tdRecord.add(getMessages().taxable(),
-				getAmountWithCurrency(record.getTaxableAmount()));
+		tdRecord.add(getMessages().salesTax(), record.getSalesTaxAmount());
+		tdRecord.add(getMessages().taxable(), record.getTaxableAmount());
 		return tdRecord;
 	}
 
@@ -103,19 +99,9 @@ public class TransactionDetailbyTaxItemReportCommand extends
 						.getReportManager().getTransactionDetailByTaxItem(
 								getStartDate(), getEndDate(), getCompanyId());
 			} else if (taxItemName != null) {
-				long taxItemId = 0;
-				for (TAXItem taxItem : getCompany().getTaxItems()) {
-					if (taxItem.getName().equals(taxItemName)) {
-						taxItemId = taxItem.getID();
-					}
-				}
-				if (taxItemId == 0) {
-					taxItemName = null;
-					getRecords();
-				}
 				transactionDetailByTaxItems = new FinanceTool()
 						.getReportManager().getTransactionDetailByTaxItem(
-								taxItemId, getStartDate(), getEndDate(),
+								taxItemName, getStartDate(), getEndDate(),
 								getCompanyId());
 			}
 
@@ -130,7 +116,7 @@ public class TransactionDetailbyTaxItemReportCommand extends
 
 	protected String addCommandOnRecordClick(
 			TransactionDetailByTaxItem selection) {
-		return "updateTransaction " + selection.getTransactionId();
+		return "update transaction " + selection.getTransactionId();
 	}
 
 	@Override
