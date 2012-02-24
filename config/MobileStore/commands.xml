@@ -341,7 +341,7 @@
 		<alias>vATItemDetailReport</alias>
 		<alias>taxItemDetailReport</alias>
 	</command>
-	
+
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.reports.TaxItemExceptionReportCommand"
 		name="taxItemExceptionDetailReport">
@@ -384,7 +384,16 @@
 		<alias>updateNonInventoryItem</alias>
 		<alias>createNewNonInventoryItem</alias>
 	</command>
-
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.CreateInventoryAssemblyItemCommand"
+		name="createNewInventoryAssemblyItem">
+		<alias>inventoryAssemblyItem</alias>
+		<alias>createInventoryAssemblyItem</alias>
+		<alias>editInventoryAssemblyItem</alias>
+		<alias>modifyInventoryAssemblyItem</alias>
+		<alias>updateInventoryAssemblyItem</alias>
+		<alias>createNewInventoryAssemblyItem</alias>
+	</command>
 	<command
 		clazz="com.vimukti.accounter.mobile.commands.CreateInventoryItemCommand"
 		name="newInventoryItem">
@@ -1232,7 +1241,8 @@
 	<command clazz="com.vimukti.accounter.mobile.commands.CreateBankCommand"
 		name="newBank">
 	</command>
-	<command clazz="com.vimukti.accounter.mobile.commands.preferences.CurrencyFormatCommand"
+	<command
+		clazz="com.vimukti.accounter.mobile.commands.preferences.CurrencyFormatCommand"
 		name="currencyFormat">
 	</command>
 </commands>

@@ -24,6 +24,10 @@ public class CreateInventoryItemCommand extends CreateNonInventoryItemCommand {
 		super(ClientItem.TYPE_INVENTORY_PART);
 	}
 
+	public CreateInventoryItemCommand(int type) {
+		super(type);
+	}
+
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 		super.addRequirements(list);

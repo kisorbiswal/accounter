@@ -342,6 +342,7 @@
 			<command title="createNewServiceItem" />
 			<command title="createNewNonInventoryItem" />
 			<command title="createNewInventoryItem" />
+			<command title="createNewInventoryAssemblyItem" />
 			<command title="listofAllItem" />
 		</outputs>
 	</pattern>
