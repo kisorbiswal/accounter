@@ -134,16 +134,19 @@
 		on T.ID = E.ID
 		LEFT OUTER JOIN
 		PAYEE P
-		OR P.ID=E.CUSTOMER_ID
+		OR
+		P.ID=E.CUSTOMER_ID
 		WHERE
 		T.STATUS !=2
 		AND T.SAVE_STATUS !=
-		202 AND T.T_TYPE IN (7, 21)
+		202 AND
+		T.T_TYPE IN (7, 21)
 		AND
 		P.ID=:customerId
 		AND
 		T.COMPANY_ID=:companyId
-		ORDER BY
+		ORDER
+		BY
 		T.T_DATE
 	</sql-query>
 
@@ -2333,7 +2336,8 @@
 		CASH_SALES
 		CS
 		ON
-		C.ID = CS.CUSTOMER_ID
+		C.ID =
+		CS.CUSTOMER_ID
 		LEFT OUTER JOIN
 		CUSTOMER_CREDIT_MEMO CCM
 		ON
@@ -2364,7 +2368,7 @@
 		ON C.ID =
 		CPP.CUSTOMER_ID
 		WHERE
-		C.ID=:inputId AND C.COMPANY_ID=:companyId 
+		C.ID=:inputId AND C.COMPANY_ID=:companyId
 		LIMIT 1
 	</sql-query>
 
@@ -2395,7 +2399,8 @@
 		LEFT OUTER JOIN
 		ITEM IT
 		ON V.ID
-		= IT.PREFFERED_VENDOR
+		=
+		IT.PREFFERED_VENDOR
 		LEFT
 		OUTER
 		JOIN
@@ -2407,25 +2412,30 @@
 		CREDIT_CARD_CHARGES CCC
 		ON V.ID =
 		CCC.VENDOR_ID
-		LEFT OUTER JOIN
+		LEFT OUTER
+		JOIN
 		ENTER_BILL EB
 		ON V.ID = EB.VENDOR_ID
 		LEFT
 		OUTER JOIN
 		PAY_BILL PB
-		ON V.ID =
+		ON
+		V.ID =
 		PB.VENDOR_ID
 		LEFT OUTER JOIN
 		PURCHASE_ORDER PO
-		ON V.ID = PO.VENDOR_ID
+		ON V.ID =
+		PO.VENDOR_ID
 		LEFT OUTER JOIN
 		VENDOR_CREDIT_MEMO VCM
-		ON V.ID = VCM.VENDOR_ID
+		ON V.ID =
+		VCM.VENDOR_ID
 		LEFT OUTER
 		JOIN
 		WRITE_CHECKS WC
 		ON V.ID = WC.VENDOR_ID
-		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId
+		WHERE
+		V.ID=:inputId AND V.COMPANY_ID=:companyId
 		LIMIT
 		1
 	</sql-query>
@@ -2467,7 +2477,8 @@
 			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
-		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY
+		JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
 		THEN
 		AT.ID END AS ACCOUNT_TRANSACTION_ID,
 		<!-- B.ID AS BUDGET_ID, -->
@@ -2508,10 +2519,12 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		CASE WHEN (SELECT
+		JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND
+		JE.ACCOUNT_ID = A.ID) IS NULL
 		THEN
 		TI.ID
-		END 
+		END
 		AS
 		TRANSACTION_ITEM_ID,
 		TPB.ID AS
@@ -2691,7 +2704,8 @@
 		BA.ID AS
 		BUILD_ASSEMBLY_ID
 		FROM ITEM I
-		LEFT OUTER JOIN
+		LEFT
+		OUTER JOIN
 		TRANSACTION_ITEM TI
 		ON I.ID = TI.ITEM_ID
 		LEFT OUTER JOIN
@@ -2702,7 +2716,8 @@
 		STOCK_TRANSFER_ITEM ST
 		ON ST.ITEM = I.ID
 		LEFT OUTER JOIN
-		BUILD_ASSEMBLY BA
+		BUILD_ASSEMBLY
+		BA
 		ON BA.INVENTORY_ASSEMBLY=I.ID
 		WHERE I.ID =
 		:inputId AND
@@ -3221,7 +3236,8 @@
 			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
-		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY
+		JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
 		THEN
 		AT.ID END AS ACCOUNT_TRANSACTION_ID,
 		<!-- B.ID AS BUDGET_ID, -->
@@ -3260,10 +3276,12 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		CASE WHEN (SELECT
+		JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND
+		JE.ACCOUNT_ID = A.ID) IS NULL
 		THEN
 		TI.ID
-		END 
+		END
 		AS
 		TRANSACTION_ITEM_ID,
 		TPB.ID AS
@@ -10248,8 +10266,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		CP.PAYFROM_ACCOUNT_ID AS
 		TRANSACTION_ACCOUNT,
@@ -10274,7 +10294,8 @@
 		T.STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE
-		AS TRANSACTION_DATE,
+		AS
+		TRANSACTION_DATE,
 		0 AS EXPENSE_STATUS
 		FROM
 		TRANSACTION T
@@ -10295,7 +10316,8 @@
 		ON P.ID = V.ID
 		WHERE
 		T.T_TYPE =2
-		AND T.SAVE_STATUS
+		AND
+		T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId AND
 		T.T_DATE BETWEEN
@@ -10320,8 +10342,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		CP.PAYFROM_ACCOUNT_ID AS
 		TRANSACTION_ACCOUNT,
@@ -10394,8 +10418,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10467,8 +10493,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10541,8 +10569,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10617,8 +10647,11 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
+		
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10693,8 +10726,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		PB.PAYFROM_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -10764,8 +10799,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -10834,8 +10871,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -10906,8 +10945,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10978,8 +11019,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11049,8 +11092,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11120,7 +11165,9 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11239,8 +11286,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11311,8 +11360,10 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11384,8 +11435,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11467,8 +11520,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11535,8 +11590,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11604,8 +11661,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11674,8 +11733,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -12644,10 +12705,12 @@
 		T.ID as
 		TRANSACTION_ID,
 		TI.ID as TRANSACTION_ITEM_ID,
-		TI.UNIT_PRICE * T.CURRENCY_FACTOR as
+		TI.UNIT_PRICE *
+		T.CURRENCY_FACTOR as
 		UNIT_PRICE,
 		TI.QTY_VALUE AS QUANTITY,
-		TI.QTY_UNIT as QTY_UNIT,
+		TI.QTY_UNIT as
+		QTY_UNIT,
 		IT.ID as
 		ITEM_ID,
 		T.T_DATE AS TRANSACTION_DATE
@@ -12661,15 +12724,18 @@
 		T.ID=TI.TRANSACTION_ID
 		LEFT OUTER JOIN
 		ITEM IT ON
-		TI.TYPE=1 AND IT.TYPE IN (2,4) AND
+		TI.TYPE=1 AND IT.TYPE
+		IN (2,4) AND
 		IT.ID=TI.ITEM_ID
 
 		WHERE T.SAVE_STATUS
 		NOT IN (201,202)
-		AND (T.T_TYPE IN
+		AND
+		(T.T_TYPE IN
 		(2,6,4,26,27) OR CASE
 		WHEN T.T_TYPE=36
-		THEN TI.QTY_VALUE &gt;= 0 ELSE
+		THEN TI.QTY_VALUE
+		&gt;= 0 ELSE
 		FALSE END) ;
 
 	</sql-query>
