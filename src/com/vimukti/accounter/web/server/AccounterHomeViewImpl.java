@@ -87,7 +87,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
-import com.vimukti.accounter.web.client.core.Field;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
@@ -2227,7 +2227,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<Field<?>> getFieldsOf(int importerType)
+	public List<ImportField> getFieldsOf(int importerType)
 			throws AccounterException {
 		return getFinanceTool().getFieldsOfImporter(importerType);
 	}
