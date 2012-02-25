@@ -1,4 +1,4 @@
-package com.vimukti.accounter.core;
+package com.vimukti.accounter.web.client.core;
 
 /**
  * 
