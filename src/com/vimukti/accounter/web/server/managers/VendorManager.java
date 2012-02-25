@@ -1822,6 +1822,9 @@ public class VendorManager extends PayeeManager {
 			transactionHistory.setAccType(object[8] == null ? 0
 					: (Long) object[8]);
 
+			transactionHistory.setSavestaus(object[12] == null ? 0
+					: (Integer) object[12]);
+
 			if (transactionHistory.getType() == 0) {
 				openingBalnaceEntries.put(transactionHistory.getName(),
 						transactionHistory);

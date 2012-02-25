@@ -10,8 +10,10 @@ import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class VendorTransactionsHistoryGrid extends
@@ -120,7 +122,46 @@ public class VendorTransactionsHistoryGrid extends
 	}
 
 	protected void onClick(TransactionHistory obj, int row, int col) {
-		// onDoubleClick(obj);
+		if (col == 7 && !obj.getIsVoid()) {
+			showWarningDialog(obj, col, row);
+		}
+	}
+
+	private void showWarningDialog(final TransactionHistory obj, final int col,
+			final int row) {
+		String msg = null;
+		if (obj.getSavestaus() != ClientTransaction.STATUS_DRAFT
+				&& !obj.getIsVoid() && col == 7) {
+			msg = messages.doyouwanttoVoidtheTransaction();
+		} else if (obj.getSavestaus() == ClientTransaction.STATUS_DRAFT) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
+			return;
+		}
+		Accounter.showWarning(msg, AccounterType.WARNING,
+				new ErrorDialogHandler() {
+
+					@Override
+					public boolean onCancelClick() {
+						return false;
+					}
+
+					@Override
+					public boolean onNoClick() {
+						return true;
+					}
+
+					@Override
+					public boolean onYesClick() {
+						if (col == 7) {
+							voidTransaction(
+									UIUtils.getAccounterCoreType(obj.getType()),
+									obj.getTransactionId());
+							updateRecord(obj, row, col);
+						}
+						return true;
+					}
+
+				});
 	}
 
 	@Override
