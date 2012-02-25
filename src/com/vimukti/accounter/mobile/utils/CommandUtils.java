@@ -26,6 +26,7 @@ import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.NominalCodeRange;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.core.PaymentTerms;
+import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingTerms;
 import com.vimukti.accounter.core.TAXAgency;
@@ -50,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientPayee;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
@@ -1491,4 +1493,59 @@ public class CommandUtils {
 		}
 	}
 
+	public static ClientQuantity subtractQuantities(Quantity qty1, Quantity qty2) {
+		Quantity qty = new Quantity();
+		qty.setValue(-qty2.getValue());
+		qty.setUnit(qty2.getUnit());
+		return addQuantities(qty1, qty);
+	}
+
+	public static ClientQuantity addQuantities(Quantity qty1, Quantity qty2) {
+
+		Unit unit1 = qty1.getUnit();
+		Unit unit2 = qty2.getUnit();
+
+		if (unit1 == null ^ unit2 == null) {
+			// one unit is null and another one is not null.
+			throw new IllegalArgumentException(
+					"Can't able to add, null type mismatch");
+		}
+
+		if (unit1 != null && unit2.getMeasurement() != unit1.getMeasurement()) {
+			// unit available, but the both are not belongs to same Measurement.
+			throw new IllegalArgumentException(
+					"Can't able to add different Unit types");
+		}
+
+		/*
+		 * convert the quantities to default measure
+		 */
+		Quantity thisQuantity = qty1.convertToDefaultUnit();
+		Quantity otherQuantity = qty2.convertToDefaultUnit();
+
+		/*
+		 * add the default quantities to make result quantity.
+		 */
+		ClientQuantity resultQuantity = new ClientQuantity();
+		if (unit1 != null) {
+			resultQuantity.setUnit(getDefaultUnitId(unit1));
+		}
+		resultQuantity.setValue(thisQuantity.getValue()
+				+ otherQuantity.getValue());
+
+		return resultQuantity;
+
+	}
+
+	private static long getDefaultUnitId(Unit unit2) {
+		long id = 0;
+		Measurement measurement = unit2.getMeasurement();
+		Set<Unit> units = measurement.getUnits();
+		for (Unit clientUnit : units) {
+			if (clientUnit.isDefault()) {
+				return id = clientUnit.getID();
+			}
+		}
+		return id;
+	}
 }

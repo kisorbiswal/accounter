@@ -76,7 +76,7 @@ public class MakeDepositAccountCombo extends AccountCombo {
 				ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
-				ClientAccount.TYPE_CREDIT_CARD));
+				ClientAccount.TYPE_CREDIT_CARD, ClientAccount.TYPE_CASH));
 
 		action.run(null, true);
 
@@ -93,7 +93,8 @@ public class MakeDepositAccountCombo extends AccountCombo {
 		return Arrays.asList(ClientAccount.TYPE_OTHER_CURRENT_ASSET,
 				ClientAccount.TYPE_OTHER_CURRENT_LIABILITY,
 				ClientAccount.TYPE_BANK, ClientAccount.TYPE_EQUITY,
-				ClientAccount.TYPE_CREDIT_CARD).contains(account.getType());
+				ClientAccount.TYPE_CREDIT_CARD, ClientAccount.TYPE_CASH)
+				.contains(account.getType());
 	}
 
 }

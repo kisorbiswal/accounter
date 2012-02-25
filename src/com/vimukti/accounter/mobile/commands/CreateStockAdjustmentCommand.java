@@ -3,14 +3,17 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.vimukti.accounter.core.Account;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
+import com.vimukti.accounter.mobile.requirements.AccountRequirement;
 import com.vimukti.accounter.mobile.requirements.StockAdjustmentItemTableRequirement;
 import com.vimukti.accounter.mobile.requirements.WarehouseRequirement;
 import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -20,6 +23,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public class CreateStockAdjustmentCommand extends AbstractCommand {
 	private static final String WAREHOUSE = "warehouse";
 	private static final String STOCK_ADJUSTMENT = "stockadjustment";
+	private static final String ADJUSTMENT_ACCOUNT = "adjustmentaccount";
 	ClientStockAdjustment stockAdjustment;
 
 	@Override
@@ -74,6 +78,10 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 		get(WAREHOUSE).setValue(warehouse);
 		List<ClientTransactionItem> stockAdjustmentItems = stockAdjustment
 				.getTransactionItems();
+		Account account = (Account) CommandUtils.getServerObjectById(
+				stockAdjustment.getAdjustmentAccount(),
+				AccounterCoreType.ACCOUNT);
+		get(ADJUSTMENT_ACCOUNT).setValue(account);
 		get(STOCK_ADJUSTMENT).setValue(stockAdjustmentItems);
 	}
 
@@ -92,6 +100,7 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 
 	@Override
 	protected void setDefaultValues(Context context) {
+		get(WAREHOUSE).setDefaultValue(getCompany().getDefaultWarehouse());
 	}
 
 	@Override
@@ -111,6 +120,33 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 		list.add(new WarehouseRequirement(WAREHOUSE, getMessages()
 				.pleaseSelect(getMessages().wareHouse()), getMessages()
 				.wareHouse(), false, true, null));
+		list.add(new AccountRequirement(ADJUSTMENT_ACCOUNT, getMessages()
+				.pleaseSelect(getMessages().adjustmentAccount()), getMessages()
+				.adjustmentAccount(), false, true, null) {
+
+			@Override
+			protected String getSetMessage() {
+				return getMessages().hasSelected(
+						getMessages().adjustmentAccount());
+			}
+
+			@Override
+			protected List<Account> getLists(Context context) {
+				List<Account> accounts = new ArrayList<Account>();
+				for (Account account : getCompany().getAccounts()) {
+					if (account.getIsActive()) {
+						accounts.add(account);
+					}
+				}
+				return accounts;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return getMessages().youDontHaveAny(
+						getMessages().adjustmentAccount() + "s");
+			}
+		});
 		list.add(new StockAdjustmentItemTableRequirement(STOCK_ADJUSTMENT,
 				getMessages().pleaseSelect(getMessages().stockAdjustments()),
 				getMessages().stockAdjustments()) {
@@ -131,8 +167,17 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 				STOCK_ADJUSTMENT).getValue());
 		stockAdjustment.setWareHouse(((Warehouse) get(WAREHOUSE).getValue())
 				.getID());
+		Account account = get(ADJUSTMENT_ACCOUNT).getValue();
+		stockAdjustment.setAdjustmentAccount(account.getID());
+		stockAdjustment.setTransactionDate(new ClientFinanceDate().getDate());
 		create(stockAdjustment, context);
 		return super.onCompleteProcess(context);
+	}
+
+	@Override
+	public void beforeFinishing(Context context, Result makeResult) {
+		// TODO Auto-generated method stub
+		super.beforeFinishing(context, makeResult);
 	}
 
 }

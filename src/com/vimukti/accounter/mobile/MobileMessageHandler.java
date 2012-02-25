@@ -11,9 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.hibernate.Session;
 
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.main.ServerGlobal;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
@@ -176,11 +174,7 @@ public class MobileMessageHandler extends Thread {
 			String postProcess = adoptor.postProcess(result);
 			session.setLastReply(postProcess);
 			if (session.isExpired()) {
-				MobileSession remove = sessions.remove(networkId);
-				if (remove != null) {
-					EU.removeCipher();
-					EU.removeKey(remove.getId());
-				}
+				sessions.remove(networkId);
 			} else {
 				session.await(this, networkId);
 			}
@@ -188,8 +182,6 @@ public class MobileMessageHandler extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AccounterMobileException(e);
-		} finally {
-			EU.removeCipher();
 		}
 	}
 
@@ -487,11 +479,7 @@ public class MobileMessageHandler extends Thread {
 	}
 
 	public void logout(String networkId) {
-		MobileSession remove = sessions.remove(networkId);
-		if (remove != null) {
-			EU.removeCipher();
-			EU.removeKey(remove.getId());
-		}
+		sessions.remove(networkId);
 	}
 
 	public synchronized void putMessage(MobileChannelContext context) {
