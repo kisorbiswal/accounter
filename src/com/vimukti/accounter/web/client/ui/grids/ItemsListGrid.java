@@ -300,12 +300,12 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (!Accounter.getUser().canDoInvoiceTransactions())
 			return;
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			if (col == 6) {
+			if (col == 7) {
 				if (item != null)
 					showWarnDialog(item);
 			}
 		} else {
-			if (col == 5) {
+			if (col == 6) {
 				if (item != null)
 					showWarnDialog(item);
 			}
