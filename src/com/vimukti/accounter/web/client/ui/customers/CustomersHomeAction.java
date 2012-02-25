@@ -17,7 +17,6 @@ public class CustomersHomeAction extends Action {
 
 	public CustomersHomeAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	// @Override
@@ -32,8 +31,8 @@ public class CustomersHomeAction extends Action {
 			MainFinanceWindow.getViewManager().showView(view, null, false,
 					CustomersHomeAction.this);
 		} catch (Exception e) {
-			Accounter.showError(messages.failedToLoadCustomerHome(
-					Global.get().Customer()));
+			Accounter.showError(messages.failedToLoadCustomerHome(Global.get()
+					.Customer()));
 		}
 
 	}
@@ -60,6 +59,11 @@ public class CustomersHomeAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customers";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override

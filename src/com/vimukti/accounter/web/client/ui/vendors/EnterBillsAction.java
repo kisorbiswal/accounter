@@ -21,7 +21,6 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 
 	public EnterBillsAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -79,6 +78,11 @@ public class EnterBillsAction extends Action<ClientEnterBill> {
 	@Override
 	public String getHelpToken() {
 		return "add-bill";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

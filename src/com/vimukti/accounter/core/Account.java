@@ -800,7 +800,15 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	// this.hierarchy = hierarchy;
 	// }
 	@Override
-	public boolean onDelete(Session arg0) throws CallbackException {
+	public boolean onDelete(Session session) throws CallbackException {
+
+		JournalEntry existEntry = (JournalEntry) session
+				.getNamedQuery("getJournalEntryForAccount")
+				.setLong("id", this.getID()).uniqueResult();
+		if (existEntry != null) {
+			session.delete(existEntry);
+		}
+
 		AccounterCommand accounterCore = new AccounterCommand();
 		accounterCore.setCommand(AccounterCommand.DELETION_SUCCESS);
 		accounterCore.setID(getID());

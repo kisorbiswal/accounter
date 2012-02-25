@@ -327,9 +327,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			return;
 		this.contact = contact;
 		this.phoneNo = contact.getBusinessPhone();
-		if (this.phoneNo != null) {
+		if (this.phoneNo != null && this.phoneNo.trim().length() != 0) {
 			phoneSelect.setValue(this.phoneNo);
 			contactCombo.setValue(contact.getName());
+		}else{
+			phoneSelect.setValue(vendor.getPhoneNo());
 		}
 
 		// contactCombo.setDisabled(isEdit);

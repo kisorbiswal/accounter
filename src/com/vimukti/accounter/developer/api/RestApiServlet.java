@@ -123,7 +123,6 @@ public class RestApiServlet extends ApiBaseServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO get the companyID and set it to the request attributes
 		Session session = HibernateUtil.openSession();
 		try {
 			super.service(req, resp);

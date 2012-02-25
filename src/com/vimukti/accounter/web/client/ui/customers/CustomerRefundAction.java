@@ -21,13 +21,11 @@ public class CustomerRefundAction extends Action {
 
 	public CustomerRefundAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public CustomerRefundAction(ClientCustomerRefund customerRefund,
 			AccounterAsyncCallback<Object> callBack) {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -59,6 +57,11 @@ public class CustomerRefundAction extends Action {
 	public ImageResource getBigImage() {
 		// NOTHING TO DO
 		return null;
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	public ImageResource getSmallImage() {

@@ -865,6 +865,10 @@
 			<many-to-one name="vatReturnBox" class="VATReturnBox"
 				cascade="save-update" column="VAT_RETURN_BOX">
 			</many-to-one>
+			<set name="groups" table="TAX_GROUP_TAX_ITEM" cascade="save-update">
+				<key column="TAX_ITEM_ID"></key>
+				<many-to-many column="TAX_GROUP_ID" class="TAXGroup" />
+			</set>
 		</joined-subclass>
 		<joined-subclass name="TAXGroup" table="TAX_GROUP">
 			<key column="ID" />
@@ -1979,6 +1983,7 @@
 		<property name="name" type="encryptedstring" column="NAME"></property>
 		<property name="transactionDate" type="com.vimukti.accounter.core.LongUseType"
 			column="TRANSACTION_DATE"></property>
+		<property name="objStatus" column="OBJECT_STATUS" type="encryptedstring"></property>
 		<property name="amount" column="AMOUNT"></property>
 		<property name="dataType" type="encryptedstring" column="DATA_TYPE"></property>
 		<property name="description" type="encryptedstring" column="DESCRIPTION"></property>
@@ -2285,7 +2290,8 @@
 		<property name="version" column="VERSION" />
 		<property name="emailId" type="encryptedstring" column="EMAIL_ID" />
 		<property name="password" type="encryptedstring" column="PASSWORD" />
-		<property name="smtpMailServer" type="encryptedstring" column="MAIL_SERVER" />
+		<property name="smtpMailServer" type="encryptedstring"
+			column="MAIL_SERVER" />
 		<property name="portNumber" column="PORT_NUMBER" />
 		<property name="isSSL" column="IS_SSL" />
 	</class>

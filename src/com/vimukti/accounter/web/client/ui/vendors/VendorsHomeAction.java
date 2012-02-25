@@ -17,7 +17,6 @@ public class VendorsHomeAction extends Action {
 
 	public VendorsHomeAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -57,6 +56,11 @@ public class VendorsHomeAction extends Action {
 	public String getHistoryToken() {
 
 		return "vendorHome";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

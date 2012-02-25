@@ -96,6 +96,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 	 * @see Account
 	 */
 	Account incomeAccount;
+	private double averageCost;
 
 	boolean isTaxable;
 	boolean isCommissionItem;
@@ -435,7 +436,7 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			return true;
 		super.onSave(arg0);
 		this.isOnSaveProccessed = true;
-		if (type == TYPE_INVENTORY_PART) {
+		if (type == TYPE_INVENTORY_PART || type == TYPE_INVENTORY_ASSEMBLY) {
 			doCreateEffectForInventoryItem();
 		}
 		ChangeTracker.put(this);
@@ -494,6 +495,10 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		}
 		if (isISellThisItem && old.getIncomeAccount() != null
 				&& incomeAccount == null) {
+			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
+		}
+		if ((getType() == TYPE_INVENTORY_PART || getType() == TYPE_INVENTORY_ASSEMBLY)
+				&& getAssestsAccount() == null) {
 			throw new AccounterException(AccounterException.ERROR_ACCOUNT_NULL);
 		}
 	}
@@ -699,6 +704,9 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			quantity.setValue(-quantity.getValue());
 			transactionItem.modifyPurchases(null, false, null);
 		}
+		if (transactionItem.getTransaction().isCustomerCreditMemo()) {
+			quantity.setValue(-quantity.getValue());
+		}
 		onHandQty = onHandQty.subtract(quantity);
 	}
 
@@ -706,12 +714,15 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 			int inventoryScheme, boolean isReverse) {
 		Session session = HibernateUtil.getCurrentSession();
 		Quantity quantity = transactionItem.getQuantity().copy();
-		Double unitPrice = transactionItem.getUnitPrice();
+		Double unitPrice = transactionItem.getUnitPriceInBaseCurrency();
+		Transaction transaction = transactionItem.getTransaction();
 		if (isReverse) {
 			quantity.setValue(-quantity.getValue());
 		}
+		if (transaction.isVendorCreditMemo()) {
+			quantity.setValue(-quantity.getValue());
+		}
 		double amountToUpdate = (quantity.getValue() * unitPrice);
-		Transaction transaction = transactionItem.getTransaction();
 		assestsAccount.updateCurrentBalance(transaction, -amountToUpdate, 1);
 		session.update(assestsAccount);
 		onHandQty = onHandQty.add(quantity);
@@ -734,6 +745,14 @@ public class Item extends CreatableObject implements IAccounterServerCore,
 		session.saveOrUpdate(assestsAccount);
 		setOnhandQuantity(getOnhandQty().add(quantityToUpdate));
 		ChangeTracker.put(this);
+	}
+
+	public double getAverageCost() {
+		return averageCost;
+	}
+
+	public void setAverageCost(double averageCost) {
+		this.averageCost = averageCost;
 	}
 
 }

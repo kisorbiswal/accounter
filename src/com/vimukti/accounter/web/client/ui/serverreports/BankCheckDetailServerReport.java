@@ -46,6 +46,7 @@ public class BankCheckDetailServerReport extends
 
 	@Override
 	public void processRecord(BankCheckDetail record) {
+
 	}
 
 	@Override

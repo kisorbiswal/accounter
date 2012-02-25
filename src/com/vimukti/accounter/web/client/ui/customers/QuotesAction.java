@@ -22,7 +22,6 @@ public class QuotesAction extends Action {
 	public QuotesAction(int type) {
 		super();
 		this.type = type;
-		this.catagory = Global.get().customer();
 	}
 
 	@Override
@@ -76,6 +75,11 @@ public class QuotesAction extends Action {
 			return "salesOrderList";
 		}
 		return "quotes";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override
