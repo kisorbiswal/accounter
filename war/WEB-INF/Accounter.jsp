@@ -72,7 +72,7 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>" />
-	 
+	 <link type="text/css" rel="stylesheet" href="../css/ss.css">
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
