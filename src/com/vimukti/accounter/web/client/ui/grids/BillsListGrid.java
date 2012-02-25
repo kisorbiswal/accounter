@@ -160,6 +160,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 						.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
 			Accounter.showError(messages.billPaidSoYouCantVoid());
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
 		} else if (obj.getType() == ClientTransaction.TYPE_CASH_PURCHASE) {
 			Accounter.showError(messages.cashPurchasePaidSoYouCantVoid());
 		} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE
