@@ -47,7 +47,7 @@ public class TdsForm16ACreationDialogue extends BaseDialog {
 	protected boolean isCoveringLetter;
 
 	public TdsForm16ACreationDialogue() {
-		super(messages.TDSAcknowledgementForm(), messages
+		super(messages.tdsForm16A(), messages
 				.addTheDetailsYouGetFromTheTINWebsiteAndPressCreate16AForm());
 		setWidth("650px");
 

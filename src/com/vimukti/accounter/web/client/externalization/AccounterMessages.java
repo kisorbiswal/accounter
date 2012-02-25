@@ -4516,6 +4516,8 @@ public interface AccounterMessages extends Messages {
 	public String tdsFiledDetails();
 
 	public String tdsVendorsList();
+	
+	public String tdsForm16A();
 
 	public String Template();
 
