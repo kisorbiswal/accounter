@@ -7,6 +7,7 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -31,9 +32,24 @@ public class ProfitAndLossByLocationServerReport extends
 
 	private double rowTotal = 0;
 	private boolean isLocation;
+	public static int noColumns;
 	public static ArrayList<ClientLocation> locations = null;
-	public static int noColumns = 0;
 	public static ArrayList<ClientAccounterClass> classes = null;
+
+	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
+			boolean isLocation, int generationType, ClientCompany clientCompany) {
+		super(startDate, endDate, generationType);
+		this.columnstoHide.add(3);
+		this.columnstoHide.add(5);
+		this.isLocation = isLocation;
+		if (isLocation) {
+			this.noColumns = clientCompany.getLocations().size() + 2;
+			this.locations = clientCompany.getLocations();
+		} else {
+			this.classes = clientCompany.getAccounterClasses();
+			this.noColumns = clientCompany.getAccounterClasses().size() + 2;
+		}
+	}
 
 	public ProfitAndLossByLocationServerReport(
 			IFinanceReport<ProfitAndLossByLocation> profitAndLossByLocationReport,

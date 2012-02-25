@@ -93,9 +93,9 @@ public class ProfitAndLossByLocationReport extends
 
 	@Override
 	public void print() {
-		int reportType = 153;
+		int reportType = 161;
 		if (isLocation) {
-			reportType = 161;
+			reportType = 153;
 		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
@@ -105,9 +105,9 @@ public class ProfitAndLossByLocationReport extends
 
 	@Override
 	public void exportToCsv() {
-		int reportType = 153;
+		int reportType = 161;
 		if (isLocation) {
-			reportType = 161;
+			reportType = 153;
 		}
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
