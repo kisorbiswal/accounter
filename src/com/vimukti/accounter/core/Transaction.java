@@ -80,6 +80,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	public static final int TYPE_STOCK_ADJUSTMENT = 36;
 	public static final int TYPE_BUILD_ASSEMBLY = 37;
+	public static final int TYPE_SALES_ORDER = 38;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;

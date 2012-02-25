@@ -62,6 +62,9 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	public static final int DRAFT_CREDIT_CARD_EXPENSES = 48;
 	public static final int DRAFT_CASH_EXPENSES = 49;
 	public static final int DRAFT_PURCHASE_ORDERS = 50;
+	public static final int ALL_SALES_ORDERS = 51;
+	public static final int COMPLETED_SALES_ORDERS = 52;
+	public static final int OPEN_SALES_ORDERS = 53;
 
 	String name;
 
