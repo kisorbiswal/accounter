@@ -210,6 +210,30 @@
 		#Import_Account{
 			margin-left:200px;
 		}
+		#appVersions{
+			float: left;
+			clear: both;
+			height: 25px;
+			margin-top: 0;
+			position: relative;
+			width: 100%;
+			z-index: 10;
+			color: #666666;
+			padding-top: 8px;
+		}
+		#appVersions a,#appVersions span{
+			text-decoration: none;
+			color: #666666;
+			font-size: 13px;
+			padding: 0 5px;
+		}
+		#appVersions a:HOVER {
+	 		text-decoration: underline;
+		}
+		#appVersions,#appVersions span{
+			text-align: center;
+		}
+
     </style>
     
     
