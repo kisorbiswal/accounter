@@ -5929,4 +5929,10 @@ public interface AccounterMessages extends Messages {
 
 	public String uploadCsvFileDialog();
 
+	public String reconciledAmount();
+
+	public String effectofChange();
+
+	public String reconcilationDiscrepany();
+
 }

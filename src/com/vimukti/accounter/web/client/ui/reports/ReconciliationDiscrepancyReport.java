@@ -52,8 +52,8 @@ public class ReconciliationDiscrepancyReport extends
 		record.setStartDate(toolbar.getStartDate());
 		record.setEndDate(toolbar.getEndDate());
 		record.setDateRange(toolbar.getSelectedDateRange());
-		UIUtils.runAction(record,
-				ActionFactory.getTransactionDetailByAccountAction());
+		ReportsRPC.openTransactionView(record.getTransactionType(),
+				record.getTransactionId());
 	}
 
 	public void restoreView(Map<String, Object> map) {
