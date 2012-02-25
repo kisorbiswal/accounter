@@ -90,14 +90,26 @@ public class ProfitAndLossByLocationReport extends
 		map.put("endDate", endDate);
 		return map;
 	}
-	
+
 	@Override
 	public void print() {
-		int reportType = 153;
+		int reportType = 161;
 		if (isLocation) {
-			reportType = 161;
+			reportType = 153;
 		}
 		UIUtils.generateReportPDF(
+				Integer.parseInt(String.valueOf(startDate.getDate())),
+				Integer.parseInt(String.valueOf(endDate.getDate())),
+				reportType, "", "");
+	}
+
+	@Override
+	public void exportToCsv() {
+		int reportType = 161;
+		if (isLocation) {
+			reportType = 153;
+		}
+		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
 				reportType, "", "");

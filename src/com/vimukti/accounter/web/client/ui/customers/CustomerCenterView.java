@@ -601,26 +601,33 @@ public class CustomerCenterView<T> extends
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService()
-				.getCustomerTransactionsListExportCsv(selectedCustomer,
-						getTransactionType(), getTransactionStatusType(),
-						getStartDate(), getEndDate(),
-						new AsyncCallback<String>() {
+		if (selectedCustomer != null) {
+			Accounter.createExportCSVService()
+					.getCustomerTransactionsListExportCsv(selectedCustomer,
+							getTransactionType(), getTransactionStatusType(),
+							getStartDate(), getEndDate(),
+							new AsyncCallback<String>() {
 
-							@Override
-							public void onSuccess(String id) {
-								UIUtils.downloadFileFromTemp(
-										trasactionViewSelect.getSelectedValue()
-												+ " of "
-												+ selectedCustomer.getName()
-												+ ".csv", id);
-							}
+								@Override
+								public void onSuccess(String id) {
+									UIUtils.downloadFileFromTemp(
+											trasactionViewSelect
+													.getSelectedValue()
+													+ " of "
+													+ selectedCustomer
+															.getName() + ".csv",
+											id);
+								}
 
-							@Override
-							public void onFailure(Throwable caught) {
-								caught.printStackTrace();
-							}
-						});
+								@Override
+								public void onFailure(Throwable caught) {
+									caught.printStackTrace();
+								}
+							});
+		} else {
+			Accounter.showMessage(messages
+					.pleaseSelect(Global.get().Customer()));
+		}
 	}
 
 	@Override
@@ -632,7 +639,6 @@ public class CustomerCenterView<T> extends
 		return false;
 	}
 
-	@Override
 	public boolean isDirty() {
 		return false;
 	}

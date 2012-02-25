@@ -551,25 +551,34 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService().getVendorTransactionsListExportCsv(
-				selectedVendor, getTransactionType(),
-				getTransactionStatusType(), getStartDate(), getEndDate(),
-				new AsyncCallback<String>() {
+		if (selectedVendor != null) {
+			Accounter.createExportCSVService()
+					.getVendorTransactionsListExportCsv(selectedVendor,
+							getTransactionType(), getTransactionStatusType(),
+							getStartDate(), getEndDate(),
+							new AsyncCallback<String>() {
 
-					@Override
-					public void onSuccess(String id) {
-						UIUtils.downloadFileFromTemp(
-								trasactionViewSelect.getSelectedValue()
-										+ " of " + selectedVendor.getName()
-										+ ".csv", id);
-					}
+								@Override
+								public void onSuccess(String id) {
+									UIUtils.downloadFileFromTemp(
+											trasactionViewSelect
+													.getSelectedValue()
+													+ " of "
+													+ selectedVendor.getName()
+													+ ".csv", id);
+								}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						Accounter.showError(messages
-								.unableToPerformTryAfterSomeTime());
-					}
-				});
+								@Override
+								public void onFailure(Throwable caught) {
+									if (Accounter.isShutdown()) {
+										Accounter.showError(messages
+												.unableToPerformTryAfterSomeTime());
+									}
+								}
+							});
+		} else {
+			Accounter.showError(messages.pleaseSelect(Global.get().vendor()));
+		}
 	}
 
 	@Override
