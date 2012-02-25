@@ -9,6 +9,7 @@ import java.util.Map;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -143,6 +144,11 @@ public class UploadCSVFileDialog extends BaseDialog {
 					JSONObject object = jSONValue.isObject();
 					final String fileID = object.get("fileID").isString()
 							.stringValue();
+					final JSONNumber noOfRows = object.get("noOfRows")
+							.isNumber();
+					String noOfRowsString = String.valueOf(noOfRows
+							.doubleValue());
+					final int recordCount = Integer.parseInt(noOfRowsString);
 					final Map<String, List<String>> data = parseJsonArray(object);
 
 					Accounter.createHomeService().getFieldsOf(getType(),
@@ -159,7 +165,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 								public void onResultSuccess(
 										List<ImportField> result) {
 									ImportAction action = new ImportAction(
-											result, data, getType(), fileID);
+											result, data, getType(), fileID,
+											recordCount);
 									action.run();
 									close();
 								}

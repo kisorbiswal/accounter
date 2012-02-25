@@ -45,7 +45,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		fields.add(new FinanceDateField("asOf", messages.asOf()));
 		fields.add(new StringField("wareHouse", messages.wareHouse()));
 		fields.add(new LongField("measurement", messages.measurement()));
-
+		fields.add(new LongField("itemType", messages.itemType()));
 		// fields.add(new StringField("AssemblyItem", messages.itemName(),
 		// true));
 		// fields.add(new StringField("description", messages.description()));
@@ -67,6 +67,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setCommissionItem(getBoolean("CommissionItem"));
 		item.setAssestsAccount(getLong("assetAccount"));
 		item.setReorderPoint(getInteger("reOrderPts"));
+		item.setMeasurement(getMeasurement("measurement"));
 		item.setOnhandQty(getClientQty("onHandQuantity"));
 		item.setAsOfDate(getFinanceDate("asOf"));
 		item.setItemGroup(getItemGroup("itemGroup"));
@@ -77,7 +78,7 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 		item.setPreferredVendor(getPayeeByName("preferdVendor"));
 		item.setVendorItemNumber(getString("vendorServiceNo"));
 		item.setWarehouse(getWarehouse("wareHouse"));
-		item.setMeasurement(getMeasurement("measurement"));
+		item.setType(getInteger("itemType"));
 
 		// fields.add(new StringField("AssemblyItem", messages.itemName(),
 		// true));

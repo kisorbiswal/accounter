@@ -39,6 +39,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 		JSONObject object = new JSONObject();
 		String[] headers = null;
 		boolean isHeader = true;
+		int noOfLines = 0;
 		try {
 			HttpSession httpSession = request.getSession();
 			Long companyID = (Long) httpSession.getAttribute(COMPANY_ID);
@@ -70,6 +71,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 							isHeader = false;
 						} else {
 							if (values.length == headers.length) {
+								noOfLines++;
 								for (int i = 0; i < values.length; i++) {
 									String value = values[i].trim().replaceAll(
 											"\"", "");
@@ -91,6 +93,7 @@ public class UploadImportDataFileServlet extends BaseServlet {
 					}
 					object.put("fileID", file.getAbsolutePath());
 					object.put("first20Records", headerWithValues);
+					object.put("noOfRows", noOfLines);
 				}
 			}
 			StringBuilder builder = new StringBuilder(object.toString());

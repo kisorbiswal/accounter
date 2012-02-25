@@ -42,14 +42,17 @@ public class ImportView extends AbstractBaseView {
 	private int currentLine = 0;
 	private String fileID;
 	private int currentRow = 0;
+	private int noOfRecords;
 	Button backButton;
 	Button nextButton;
 
 	public ImportView(int importType, String fileID,
-			List<ImportField> importerFields, Map<String, List<String>> data) {
+			List<ImportField> importerFields, Map<String, List<String>> data,
+			int recordCount) {
 		this.importType = importType;
 		this.importData = data;
 		this.fileID = fileID;
+		this.noOfRecords = recordCount;
 		for (ImportField field : importerFields) {
 			fields.put(field.getDesplayName(), field);
 		}
@@ -78,10 +81,10 @@ public class ImportView extends AbstractBaseView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				currentLine--;
 				getNextOrPreRow();
 				initPreviewGUI();
+				showOrHideButtons();
 			}
 		});
 
@@ -92,7 +95,7 @@ public class ImportView extends AbstractBaseView {
 				currentLine++;
 				getNextOrPreRow();
 				initPreviewGUI();
-
+				showOrHideButtons();
 			}
 		});
 		backButton.addStyleName("prev_button");
@@ -143,6 +146,7 @@ public class ImportView extends AbstractBaseView {
 				.setAttribute("width", "500px");
 		initMappingGUI();
 		initPreviewGUI();
+		showOrHideButtons();
 	}
 
 	protected void close() {
@@ -368,8 +372,19 @@ public class ImportView extends AbstractBaseView {
 
 	}
 
-	private void showOrHideButtons(boolean nextButton, boolean previousButton) {
-		this.nextButton.setVisible(nextButton);
-		this.backButton.setVisible(previousButton);
+	private void showOrHideButtons() {
+		if (noOfRecords == 1) {
+			this.nextButton.setVisible(false);
+			this.backButton.setVisible(false);
+		} else if (noOfRecords > 1 && currentLine == 0) {
+			this.nextButton.setVisible(true);
+			this.backButton.setVisible(false);
+		} else if (currentLine > 0 && noOfRecords > 1 && noOfRecords - 1 == 0) {
+			this.nextButton.setVisible(false);
+			this.backButton.setVisible(true);
+		} else {
+			this.nextButton.setVisible(true);
+			this.backButton.setVisible(true);
+		}
 	}
 }

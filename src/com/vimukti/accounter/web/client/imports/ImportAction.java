@@ -16,14 +16,17 @@ public class ImportAction extends Action {
 	private int importType;
 	private List<ImportField> importerFields;
 	private String fileID;
+	private int noOfRows;
 
 	public ImportAction(List<ImportField> importerFields,
-			Map<String, List<String>> data, int type, String fileID) {
+			Map<String, List<String>> data, int type, String fileID,
+			int noOfRows) {
 		this.columnData = data;
 		this.importType = type;
 		this.importerFields = importerFields;
 		this.fileID = fileID;
 		this.catagory = messages.importFile();
+		this.noOfRows = noOfRows;
 	}
 
 	@Override
@@ -43,7 +46,7 @@ public class ImportAction extends Action {
 			@Override
 			public void onCreated() {
 				ImportView view = new ImportView(importType, fileID,
-						importerFields, columnData);
+						importerFields, columnData, noOfRows);
 				MainFinanceWindow.getViewManager().showView(view, data,
 						isDependent, ImportAction.this);
 			}
