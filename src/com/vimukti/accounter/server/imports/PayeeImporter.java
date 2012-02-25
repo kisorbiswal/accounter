@@ -6,8 +6,11 @@ import java.util.Set;
 
 import com.vimukti.accounter.web.client.core.ClientCustomFieldValue;
 import com.vimukti.accounter.web.client.core.ClientPayee;
-import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.DoubleField;
+import com.vimukti.accounter.web.client.imports.LongField;
+import com.vimukti.accounter.web.client.imports.StringField;
 
 public abstract class PayeeImporter<T> extends AbstractImporter<IAccounterCore> {
 
@@ -26,23 +29,40 @@ public abstract class PayeeImporter<T> extends AbstractImporter<IAccounterCore> 
 	}
 
 	@Override
-	public List<Field<?>> getAllFields() {
-		List<Field<?>> fields = new ArrayList<Field<?>>();
-		fields.add(new Field<Long>(messages.currency(), messages.currency()));
-		fields.add(new Field<Double>(messages.openingBalances(), messages
+	public List<ImportField> getAllFields() {
+		List<ImportField> fields = new ArrayList<ImportField>();
+		fields.add(new LongField(messages.currency(), messages.currency()));
+		fields.add(new DoubleField(messages.openingBalance(), messages
 				.openingBalances()));
-		fields.add(new Field<String>(messages.fax(), messages.fax()));
-		fields.add(new Field<String>(messages.phone(), messages.phone()));
-		fields.add(new Field<String>(messages.webPageAddress(), messages
+		fields.add(new StringField(messages.fax(), messages.fax()));
+		fields.add(new StringField(messages.phone(), messages.phone()));
+		fields.add(new StringField(messages.webPageAddress(), messages
 				.webPageAddress()));
-		fields.add(new Field<String>(messages.paymentMethod(), messages
+		fields.add(new StringField(messages.paymentMethod(), messages
 				.paymentMethod()));
-		fields.add(new Field<Long>(messages.taxRegNo(), messages.taxRegNo()));
-		fields.add(new Field<Long>(messages.taxCode(), messages.taxCode()));
-		fields.add(new Field<String>(messages.bankAccountNumber(), messages
+		fields.add(new StringField(messages.taxRegNo(), messages.taxRegNo()));
+		fields.add(new LongField(messages.taxCode(), messages.taxCode()));
+		fields.add(new StringField(messages.bankAccountNumber(), messages
 				.bankAccountNumber()));
-		fields.add(new Field<String>(messages.bankName(), messages.bankName()));
-		fields.add(new Field<Long>(messages.bankBranch(), messages.bankBranch()));
+		fields.add(new StringField(messages.bankName(), messages.bankName()));
+		fields.add(new StringField(messages.bankBranch(), messages.bankBranch()));
+
+		fields.add(new StringField(messages.contactName(), messages
+				.contactName()));
+		fields.add(new StringField(messages.title(), messages.title()));
+		fields.add(new StringField(messages.businessPhone(), messages
+				.businessPhone()));
+		fields.add(new StringField(messages.email(), messages.email()));
+
+		fields.add(new StringField(messages.streetAddress1(), messages
+				.streetAddress1()));
+
+		fields.add(new StringField(messages.address2(), messages.address2()));
+		fields.add(new StringField(messages.city(), messages.city()));
+		fields.add(new StringField(messages.countryRegion(), messages
+				.countryRegion()));
+		fields.add(new StringField(messages.stateOrProvince(), messages
+				.stateOrProvince()));
 		return fields;
 	}
 

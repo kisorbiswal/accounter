@@ -1,10 +1,10 @@
 package com.vimukti.accounter.web.client.ui.customers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -24,10 +24,10 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.Global;
-import com.vimukti.accounter.web.client.core.Field;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.ImportAction;
+import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -40,6 +40,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 	HashMap<String, Integer> csvFileTypeListMap = new HashMap<String, Integer>();
 	private ArrayList<String> list = new ArrayList<String>();
 	private SelectCombo typeCombo;
+	private Map<Integer, String> allSupportedImporters;
 
 	@Override
 	protected boolean onOK() {
@@ -145,7 +146,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 					final Map<String, List<String>> data = parseJsonArray(object);
 
 					Accounter.createHomeService().getFieldsOf(getType(),
-							new AccounterAsyncCallback<List<Field<?>>>() {
+							new AccounterAsyncCallback<List<ImportField>>() {
 
 								@Override
 								public void onException(
@@ -156,7 +157,7 @@ public class UploadCSVFileDialog extends BaseDialog {
 
 								@Override
 								public void onResultSuccess(
-										List<Field<?>> result) {
+										List<ImportField> result) {
 									ImportAction action = new ImportAction(
 											result, data, getType(), fileID);
 									action.run();
@@ -187,14 +188,12 @@ public class UploadCSVFileDialog extends BaseDialog {
 	}
 
 	protected int getType() {
-		return csvFileTypeListMap.get(typeCombo.getSelectedValue());
+		return ImporterType.getTypeByName(typeCombo.getSelectedValue());
 	}
 
 	private List<String> getCSVFileList() {
-		csvFileTypeListMap.put(messages.invoice(), 3);
-		csvFileTypeListMap.put(Global.get().Customer(), 1);
-		csvFileTypeListMap.put(Global.get().vendor(), 2);
-		Set<String> keySet = csvFileTypeListMap.keySet();
+		allSupportedImporters = ImporterType.getAllSupportedImporters();
+		Collection<String> keySet = allSupportedImporters.values();
 		list.addAll(keySet);
 		return list;
 	}

@@ -14,13 +14,15 @@ public class ImporterType {
 
 	public static final int INVOICE = 3;
 
-	public static final int CUSTOMER_PREPAYMENT = 4;
+	public static final int ITEM = 4;
 
-	public static final int VENDOR_PREPAYMENT = 5;
+	public static final int CUSTOMER_PREPAYMENT = 5;
 
-	public static final int ENTERBILL = 6;
+	public static final int VENDOR_PREPAYMENT = 6;
 
-	public static final int PAYBILL = 7;
+	public static final int ENTERBILL = 7;
+
+	public static final int PAYBILL = 8;
 
 	private static Map<Integer, String> supportedImports = new HashMap<Integer, String>();
 
@@ -30,8 +32,9 @@ public class ImporterType {
 
 	static {
 		supportedImports.put(CUSTOMER, Global.get().Customer());
-		supportedImports.put(VENDOR, Global.get().Customer());
+		supportedImports.put(VENDOR, Global.get().Vendor());
 		supportedImports.put(INVOICE, Global.get().messages().invoice());
+		supportedImports.put(ITEM, Global.get().messages().item());
 		supportedImports.put(CUSTOMER_PREPAYMENT,
 				messages.payeePrePayment(Global.get().Customer()));
 		supportedImports.put(VENDOR_PREPAYMENT,

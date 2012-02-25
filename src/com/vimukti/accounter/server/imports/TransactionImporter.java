@@ -10,12 +10,14 @@ import java.util.Set;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
-import com.vimukti.accounter.web.client.core.ClientContact;
-import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
-import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.DoubleField;
+import com.vimukti.accounter.web.client.imports.FinanceDateField;
+import com.vimukti.accounter.web.client.imports.LongField;
+import com.vimukti.accounter.web.client.imports.StringField;
 
 /**
  * @author vimukti23
@@ -62,61 +64,44 @@ public abstract class TransactionImporter<T> extends
 		return items;
 	}
 
-	private ClientQuantity getClientQty(String quantity) {
+	protected Set<ClientAttachment> getAttachments(String attachments) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private Set<ClientAttachment> getAttachments(String attachments) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	protected ClientContact getContactData() {
-		ClientContact contact = new ClientContact();
-		contact.setName(getString(messages.contactName()));
-		contact.setTitle(getString(messages.title()));
-		contact.setBusinessPhone(getString(messages.businessPhone()));
-		contact.setEmail(getString(messages.email()));
-		return contact;
 	}
 
 	@Override
-	public List<Field<?>> getAllFields() {
-		List<Field<?>> fields = new ArrayList<Field<?>>();
-		fields.add(new Field<Long>(messages.location(), messages
+	public List<ImportField> getAllFields() {
+		List<ImportField> fields = new ArrayList<ImportField>();
+		fields.add(new LongField(messages.location(), messages
 				.locationName(Global.get().Location())));
-		fields.add(new Field<Long>(messages.transactionDate(), messages
-				.transactionDate()));
-		fields.add(new Field<String>(messages.number(), messages.number()));
-		fields.add(new Field<String>(messages.paymentMethod(), messages
+		fields.add(new FinanceDateField(messages.transactionDate(), messages
+				.transactionDate(), true));
+		fields.add(new StringField(messages.number(), messages.number()));
+		fields.add(new StringField(messages.paymentMethod(), messages
 				.paymentMethod()));
-		fields.add(new Field<String>(messages.className(), messages.className()));
-		fields.add(new Field<Double>(messages.lineTotal(), messages.lineTotal()));
-		fields.add(new Field<Double>(messages.lineTotal(), messages.lineTotal()));
-		fields.add(new Field<Double>(messages.nonTaxable(), messages
-				.nonTaxable()));
-		fields.add(new Field<Double>(messages.taxable(), messages.taxable()));
-		fields.add(new Field<Double>(messages.taxable(), messages.taxable()));
-		fields.add(new Field<String>(messages.memo(), messages.memo()));
-		fields.add(new Field<Double>(messages.netAmount(), messages.netAmount()));
-		fields.add(new Field<Long>(messages.receivedTransactions(), messages
+		fields.add(new StringField(messages.className(), messages.className()));
+		fields.add(new DoubleField(messages.lineTotal(), messages.lineTotal()));
+		fields.add(new DoubleField(messages.lineTotal(), messages.lineTotal()));
+		fields.add(new DoubleField(messages.nonTaxable(), messages.nonTaxable()));
+		fields.add(new DoubleField(messages.taxable(), messages.taxable()));
+		fields.add(new DoubleField(messages.taxable(), messages.taxable()));
+		fields.add(new StringField(messages.memo(), messages.memo()));
+		fields.add(new DoubleField(messages.netAmount(), messages.netAmount()));
+		fields.add(new LongField(messages.receivedTransactions(), messages
 				.receivedTransactions()));
-		fields.add(new Field<Double>(messages.receivedTransactions(), messages
+		fields.add(new DoubleField(messages.receivedTransactions(), messages
 				.receivedTransactions()));
-		fields.add(new Field<Double>(messages.total(), messages.total()));
-		fields.add(new Field<String>(messages.account(), messages.name(), true));
-		fields.add(new Field<String>(messages.itemName(), messages.name(), true));
-		fields.add(new Field<String>(messages.description(), messages
+		fields.add(new DoubleField(messages.total(), messages.total()));
+		fields.add(new StringField(messages.account(), messages.name(), true));
+		fields.add(new StringField(messages.itemName(), messages.name(), true));
+		fields.add(new StringField(messages.description(), messages
 				.description()));
-		fields.add(new Field<Long>(messages.quantity(), messages.quantity(),
-				true));
-		fields.add(new Field<Long>(messages.unit(), messages.unit(), true));
-		fields.add(new Field<Long>(messages.taxCode(), messages.taxCode(), true));
-		fields.add(new Field<Double>(messages.discount(), messages.discount()));
-		fields.add(new Field<Double>(messages.vat(), messages.tax()));
-		fields.add(new Field<String>(messages.customer(), Global.get()
-				.Customer()));
+		fields.add(new LongField(messages.quantity(), messages.quantity(), true));
+		fields.add(new LongField(messages.unit(), messages.unitPrice(), true));
+		fields.add(new LongField(messages.taxCode(), messages.taxCode(), true));
+		fields.add(new DoubleField(messages.discount(), messages.discount()));
+		fields.add(new DoubleField(messages.vat(), messages.tax()));
+		fields.add(new StringField(messages.customer(), Global.get().Customer()));
 		return fields;
 	}
 

@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.Field;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.FinanceDateField;
+import com.vimukti.accounter.web.client.imports.StringField;
 
 public class EnterBillImporter extends TransactionImporter<ClientEnterBill> {
 
@@ -28,23 +29,23 @@ public class EnterBillImporter extends TransactionImporter<ClientEnterBill> {
 	}
 
 	@Override
-	public List<Field<?>> getAllFields() {
-		List<Field<?>> listFields = super.getAllFields();
-		listFields.add(new Field<String>(messages.supplier(), messages
+	public List<ImportField> getAllFields() {
+		List<ImportField> listFields = super.getAllFields();
+		listFields.add(new StringField(messages.supplier(), messages
 				.payeeName(Global.get().Vendor()), true));
-		listFields.add(new Field<String>(messages.contactName(), messages
+		listFields.add(new StringField(messages.contactName(), messages
 				.contactName()));
-		listFields.add(new Field<String>(messages.title(), messages.title()));
-		listFields.add(new Field<String>(messages.businessPhone(), messages
+		listFields.add(new StringField(messages.title(), messages.title()));
+		listFields.add(new StringField(messages.businessPhone(), messages
 				.businessPhone()));
-		listFields.add(new Field<String>(messages.email(), messages.email()));
-		listFields.add(new Field<String>(messages.phoneNumber(), messages
-				.phone()));
-		listFields.add(new Field<ClientFinanceDate>(messages.dueDate(),
-				messages.dueDate()));
-		listFields.add(new Field<ClientFinanceDate>(messages.deliveryDate(),
-				messages.deliveryDate()));
-		listFields.add(new Field<String>(messages.memo(), messages.memo()));
+		listFields.add(new StringField(messages.email(), messages.email()));
+		listFields
+				.add(new StringField(messages.phoneNumber(), messages.phone()));
+		listFields.add(new FinanceDateField(messages.dueDate(), messages
+				.dueDate()));
+		listFields.add(new FinanceDateField(messages.deliveryDate(), messages
+				.deliveryDate()));
+		listFields.add(new StringField(messages.memo(), messages.memo()));
 
 		return super.getAllFields();
 	}

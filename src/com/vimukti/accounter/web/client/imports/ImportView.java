@@ -7,22 +7,23 @@ import java.util.Map.Entry;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
-import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 
-public class ImportView extends AbstractBaseView<Importer<?>> {
+public class ImportView extends AbstractBaseView {
 
 	/**
 	 * Contains Map<Column,AllValues>
@@ -32,21 +33,24 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	/**
 	 * All Fields of the CurrentImporter
 	 */
-	private Map<String, Field<?>> fields = new HashMap<String, Field<?>>();
+	private Map<String, ImportField> fields = new HashMap<String, ImportField>();
 
 	private FlexTable mappingTable, previewTable, mainTable;
 	// contains accounter names and fields..
-	private Map<String, Field<?>> listBoxMap;
+	private Map<String, ImportField> listBoxMap;
 
 	private int currentLine = 0;
 	private String fileID;
+	private int currentRow = 0;
+	Button backButton;
+	Button nextButton;
 
 	public ImportView(int importType, String fileID,
-			List<Field<?>> importerFields, Map<String, List<String>> data) {
+			List<ImportField> importerFields, Map<String, List<String>> data) {
 		this.importType = importType;
 		this.importData = data;
 		this.fileID = fileID;
-		for (Field<?> field : importerFields) {
+		for (ImportField field : importerFields) {
 			fields.put(field.getDesplayName(), field);
 		}
 	}
@@ -68,8 +72,29 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 
 		Label header = new Label();
 
-		Button nextButton = new Button(messages.next());
-		Button backButton = new Button(messages.back());
+		backButton = new Button(messages.back());
+		nextButton = new Button(messages.next());
+		backButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				currentLine--;
+				getNextOrPreRow();
+				initPreviewGUI();
+			}
+		});
+
+		nextButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				currentLine++;
+				getNextOrPreRow();
+				initPreviewGUI();
+
+			}
+		});
 		backButton.addStyleName("prev_button");
 		nextButton.addStyleName("next_button");
 		buttonPanel.add(backButton);
@@ -82,10 +107,33 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 		previewPanel.add(previewHeader);
 		previewPanel.add(previewTable);
 
+		// Save & Import buttons
+		FlowPanel buttonPanel2 = new FlowPanel();
+		Button saveButton = new Button(messages.save());
+		saveButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				saveAndUpdateView();
+			}
+		});
+		Button cancelButton = new Button(messages.cancel());
+		cancelButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				close();
+			}
+		});
+		buttonPanel2.add(saveButton);
+		buttonPanel2.add(cancelButton);
+		buttonPanel2.addStyleName("import-button-panel");
+
 		mainTable.setWidget(1, 0, header);
 		mainTable.setWidget(1, 0, buttonPanel);
 		mainTable.setWidget(2, 0, mappingTable);
 		mainTable.setWidget(2, 1, previewPanel);
+		mainTable.setWidget(3, 1, buttonPanel2);
 		add(mainTable);
 		mainTable.setSize("100%", "100%");
 		previewPanel.addStyleName("import-preview-panel");
@@ -97,9 +145,27 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 		initPreviewGUI();
 	}
 
+	protected void close() {
+		this.removeFromParent();
+	}
+
+	private void getNextOrPreRow() {
+		Map<String, String> nextLine = getCurrentLine();
+		int row = 1;
+		if (!nextLine.isEmpty()) {
+			for (Entry<String, String> entry : nextLine.entrySet()) {
+				Label label = (Label) mappingTable.getWidget(row, 1);
+				label.setText(entry.getValue());
+				row++;
+			}
+		} else {
+			currentLine = 0;
+		}
+	}
+
 	private void initMappingGUI() {
 
-		listBoxMap = new HashMap<String, Field<?>>();
+		listBoxMap = new HashMap<String, ImportField>();
 		Label csvHeader = new Label(messages.nameInCSV());
 		Label valueHeader = new Label(messages.fieldValue());
 		Label accounterNameHeader = new Label(messages.accounterField());
@@ -129,7 +195,7 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 					String selectedVal = importerFields
 							.getItemText(selectedIndex);
 
-					Field<?> tempField = fields.get(selectedVal);
+					ImportField tempField = fields.get(selectedVal);
 					tempField.setColumnName(entry.getKey());
 					validateImportSelection(selectedVal, selectedIndex,
 							tempField, importerFields, entry.getValue());
@@ -143,7 +209,7 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 		}
 	}
 
-	protected void refreshListBoxes(String selectedVal, Field<?> tempField,
+	protected void refreshListBoxes(String selectedVal, ImportField tempField,
 			int selectedIndex, ListBox selectedBox) {
 		for (int i = 1; i < fields.values().size() - 1; i++) {
 			ListBox listBox = (ListBox) mappingTable.getWidget(i, 2);
@@ -157,7 +223,7 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	}
 
 	protected void validateImportSelection(final String fieldName,
-			final int selectedIndex, final Field<?> field,
+			final int selectedIndex, final ImportField field,
 			final ListBox importerFields, final String columnValue) {
 		if (listBoxMap.containsKey(fieldName)) {
 			Accounter.showWarning(messages.aleadyMapped(fieldName),
@@ -168,8 +234,9 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 						public boolean onYesClick() {
 							if (validateFieldValue(fieldName, field,
 									columnValue)) {
-								refreshListBoxes(fieldName, (Field<?>) field,
-										selectedIndex, importerFields);
+								refreshListBoxes(fieldName,
+										(ImportField) field, selectedIndex,
+										importerFields);
 							} else {
 								initPreviewGUI();
 								importerFields.setSelectedIndex(0);
@@ -195,24 +262,23 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 		}
 	}
 
-	protected boolean validateFieldValue(String fieldName, Field<?> field,
+	protected boolean validateFieldValue(String fieldName, ImportField field,
 			String columnValue) {
 		if (field.validate(columnValue)) {
 			refreshMapByValue(fieldName, field);
 			listBoxMap.put(fieldName, field);
-			Field<?> localField = fields.get(fieldName);
-			localField.setName(fieldName);
+			ImportField localField = fields.get(fieldName);
 			localField.setColumnName(field.getColumnName());
 			return true;
 		} else {
 			Accounter.showError(messages.matchedWithWrongProprty(fieldName,
-					(String) field.getValue()));
+					field.getValueAsString()));
 			return false;
 		}
 	}
 
-	private void refreshMapByValue(String fieldName, Field<?> field) {
-		for (Entry<String, Field<?>> entry : listBoxMap.entrySet()) {
+	private void refreshMapByValue(String fieldName, ImportField field) {
+		for (Entry<String, ImportField> entry : listBoxMap.entrySet()) {
 			if (field != null && field.getColumnName() != null && entry != null
 					&& entry.getValue() != null) {
 				if (field.getColumnName().equals(
@@ -228,10 +294,11 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 
 	private void initPreviewGUI() {
 		int row = 0;
-		for (Field<?> field : fields.values()) {
+		for (ImportField field : fields.values()) {
 			Label fieldNameLabel = new Label(field.getDesplayName());
-			Label valLabel = new Label(field.getValue() != null ? field
-					.getValue().toString() : messages.unassigned());
+			Label valLabel = new Label(
+					(field.getValueAsString() != null) ? field
+							.getValueAsString() : messages.unassigned());
 			previewTable.setWidget(row, 0, fieldNameLabel);
 			previewTable.setWidget(row, 1, valLabel);
 			row++;
@@ -263,7 +330,7 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 
 					@Override
 					public void onResultSuccess(Boolean result) {
-						Accounter.showMessage("Completed");
+						Accounter.showMessage(" Import Completed");
 					}
 				});
 		super.saveAndUpdateView();
@@ -271,8 +338,8 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 
 	private Map<String, String> updateImport() {
 		Map<String, String> map = new HashMap<String, String>();
-		for (Field<?> field : fields.values()) {
-			map.put(field.getColumnName(), field.getName());
+		for (ImportField field : fields.values()) {
+			map.put(field.getName(), field.getColumnName());
 		}
 		return map;
 	}
@@ -299,5 +366,10 @@ public class ImportView extends AbstractBaseView<Importer<?>> {
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	private void showOrHideButtons(boolean nextButton, boolean previousButton) {
+		this.nextButton.setVisible(nextButton);
+		this.backButton.setVisible(previousButton);
 	}
 }

@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.imports.Field;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.DoubleField;
+import com.vimukti.accounter.web.client.imports.StringField;
 
 public class VendorPrepaymentImporter extends
 		TransactionImporter<ClientPayBill> {
@@ -28,15 +30,15 @@ public class VendorPrepaymentImporter extends
 	}
 
 	@Override
-	public List<Field<?>> getAllFields() {
-		List<Field<?>> list = super.getAllFields();
-		list.add(new Field<String>(messages.vendor(), messages.payTo(), true));
-		list.add(new Field<String>(messages.payFrom(), messages.payFrom(), true));
-		list.add(new Field<Double>(messages.amount(), messages.amount(), true));
-		list.add(new Field<String>(messages.paymentMethod(), messages
+	public List<ImportField> getAllFields() {
+		List<ImportField> list = super.getAllFields();
+		list.add(new StringField(messages.vendor(), messages.payTo(), true));
+		list.add(new StringField(messages.payFrom(), messages.payFrom(), true));
+		list.add(new DoubleField(messages.amount(), messages.amount(), true));
+		list.add(new StringField(messages.paymentMethod(), messages
 				.paymentMethod(), true));
-		list.add(new Field<String>(messages.checkNo(), messages.checkNo()));
-		list.add(new Field<String>(messages.memo(), messages.memo()));
+		list.add(new StringField(messages.checkNo(), messages.checkNo()));
+		list.add(new StringField(messages.memo(), messages.memo()));
 		return list;
 	}
 

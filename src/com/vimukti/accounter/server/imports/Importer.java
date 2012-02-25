@@ -3,8 +3,8 @@ package com.vimukti.accounter.server.imports;
 import java.util.List;
 import java.util.Map;
 
-import com.vimukti.accounter.web.client.core.Field;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ImportField;
 
 /**
  * @author Prasanna Kumar G
@@ -15,6 +15,8 @@ public interface Importer<T extends IAccounterCore> {
 
 	/**
 	 * Returns Output Object that is Generated after Matching
+	 * 
+	 * Warning: This Method should me called after loading the Data
 	 * 
 	 * @return
 	 */
@@ -41,6 +43,6 @@ public interface Importer<T extends IAccounterCore> {
 	 * 
 	 * @return
 	 */
-	public List<Field<?>> getFields();
+	public List<ImportField> getFields();
 
 }

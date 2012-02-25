@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientInvoice;
-import com.vimukti.accounter.web.client.core.Field;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.FinanceDateField;
+import com.vimukti.accounter.web.client.imports.LongField;
+import com.vimukti.accounter.web.client.imports.StringField;
 
 /**
  * @author Prasanna Kumar G
@@ -13,16 +16,15 @@ import com.vimukti.accounter.web.client.core.Field;
 public class InvoiceImporter extends TransactionImporter<ClientInvoice> {
 
 	@Override
-	public List<Field<?>> getAllFields() {
-		List<Field<?>> fields = super.getAllFields();
-		fields.add(new Field<String>(messages.customer(), messages
+	public List<ImportField> getAllFields() {
+		List<ImportField> fields = super.getAllFields();
+		fields.add(new StringField(messages.customer(), messages
 				.payeeName(Global.get().Customer()), true));
-		fields.add(new Field<String>(messages.number(), messages.invoiceNo()));
-		fields.add(new Field<Long>(messages.paymentTerm(), messages
-				.paymentTerm()));
-		fields.add(new Field<Long>(messages.dueDate(), messages.dueDate()));
-		fields.add(new Field<String>(messages.orderNo(), messages.orderNo()));
-		fields.add(new Field<String>(messages.memo(), messages.memo()));
+		fields.add(new StringField(messages.number(), messages.invoiceNo()));
+		fields.add(new LongField(messages.paymentTerm(), messages.paymentTerm()));
+		fields.add(new FinanceDateField(messages.dueDate(), messages.dueDate()));
+		fields.add(new StringField(messages.orderNo(), messages.orderNo()));
+		fields.add(new StringField(messages.memo(), messages.memo()));
 		return fields;
 	}
 
@@ -31,10 +33,10 @@ public class InvoiceImporter extends TransactionImporter<ClientInvoice> {
 	public ClientInvoice getData() {
 		ClientInvoice invoice = new ClientInvoice();
 		getTransactionData(invoice);
-		invoice.setCustomer(getLong(messages.customer()));
+		invoice.setCustomer(getPayeeByName(messages.customer()));
 		invoice.setNumber(getString(messages.number()));
 		invoice.setPaymentTerm(getLong(messages.paymentTerm()));
-		invoice.setDueDate(getLong(messages.dueDate()));
+		invoice.setDueDate(getFinanceDate(messages.dueDate()).getDate());
 		invoice.setOrderNum(getString(messages.orderNo()));
 		invoice.setMemo(getString(messages.memo()));
 		return invoice;
