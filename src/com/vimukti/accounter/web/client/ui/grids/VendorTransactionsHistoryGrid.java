@@ -7,16 +7,17 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
-public class VendorTransactionsHistoryGrid extends
+public abstract class VendorTransactionsHistoryGrid extends
 		BaseListGrid<TransactionHistory> {
 
 	protected ClientVendor selectedVendor;
@@ -268,4 +269,11 @@ public class VendorTransactionsHistoryGrid extends
 
 		return 0;
 	}
+
+	@Override
+	public void saveSuccess(IAccounterCore core) {
+		initListData();
+	}
+
+	public abstract void initListData();
 }
