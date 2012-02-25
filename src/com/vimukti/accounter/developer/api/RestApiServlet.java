@@ -1,12 +1,10 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,10 +14,11 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.api.core.ApiResult;
 import com.vimukti.accounter.core.Developer;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.server.AccounterCRUDServiceImpl;
 
-public class RestApiServlet extends HttpServlet {
+public class RestApiServlet extends ApiBaseServlet {
 
 	/**
 	 * 
@@ -34,13 +33,11 @@ public class RestApiServlet extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setAttribute("isRTL",
-				req.getLocale().equals(new Locale("ar", "", "")));
 		boolean isSuccess = false;
 		ServletInputStream inputStream = req.getInputStream();
 		ApiResult apiResult = new ApiResult();
 		try {
-			IAccounterCore accounterCore = getApiSerializationFactory()
+			IAccounterCore accounterCore = getSerializationFactory(req)
 					.deserialize(inputStream);
 			boolean delete = new AccounterCRUDServiceImpl().delete(
 					accounterCore.getObjectType(), accounterCore.getID());
@@ -55,7 +52,7 @@ public class RestApiServlet extends HttpServlet {
 			apiResult.setStatus(STATUS_INTERNAL_ERROR);
 			isSuccess = false;
 		}
-		String result = getApiSerializationFactory().serializeResult(apiResult);
+		String result = getSerializationFactory(req).serializeResult(apiResult);
 		ServletOutputStream outputStream = resp.getOutputStream();
 		outputStream.write(result.getBytes());
 		updateDeveloper(req, isSuccess);
@@ -64,7 +61,6 @@ public class RestApiServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doGet(req, resp);
 	}
 
@@ -75,9 +71,11 @@ public class RestApiServlet extends HttpServlet {
 		ServletInputStream inputStream = req.getInputStream();
 		ApiResult apiResult = new ApiResult();
 		try {
-			IAccounterCore deserialize = getApiSerializationFactory()
+			IAccounterCore deserialize = getSerializationFactory(req)
 					.deserialize(inputStream);
-			long create = new AccounterCRUDServiceImpl().update(deserialize);
+			long create = ((IAccounterCRUDService) getS2sSyncProxy(req,
+					"/do/accounter/crud/rpc/service",
+					IAccounterCRUDService.class)).update(deserialize);
 
 			apiResult.setStatus(STATUS_SUCCESS);
 			apiResult.setObjectId(create);
@@ -87,7 +85,7 @@ public class RestApiServlet extends HttpServlet {
 			apiResult.setStatus(STATUS_INTERNAL_ERROR);
 			isSuccess = false;
 		}
-		String result = getApiSerializationFactory().serializeResult(apiResult);
+		String result = getSerializationFactory(req).serializeResult(apiResult);
 		ServletOutputStream outputStream = resp.getOutputStream();
 		outputStream.write(result.getBytes());
 		updateDeveloper(req, isSuccess);
@@ -100,9 +98,11 @@ public class RestApiServlet extends HttpServlet {
 		ServletInputStream inputStream = req.getInputStream();
 		ApiResult apiResult = new ApiResult();
 		try {
-			IAccounterCore deserialize = getApiSerializationFactory()
+			IAccounterCore deserialize = getSerializationFactory(req)
 					.deserialize(inputStream);
-			long create = new AccounterCRUDServiceImpl().create(deserialize);
+			long create = ((IAccounterCRUDService) getS2sSyncProxy(req,
+					"/do/accounter/crud/rpc/service",
+					IAccounterCRUDService.class)).create(deserialize);
 
 			apiResult.setStatus(STATUS_CREATED);
 			apiResult.setObjectId(create);
@@ -111,8 +111,9 @@ public class RestApiServlet extends HttpServlet {
 			e.printStackTrace();
 			apiResult.setStatus(STATUS_INTERNAL_ERROR);
 			isSuccess = false;
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 		}
-		String result = getApiSerializationFactory().serializeResult(apiResult);
+		String result = getSerializationFactory(req).serializeResult(apiResult);
 		ServletOutputStream outputStream = resp.getOutputStream();
 		outputStream.write(result.getBytes());
 
@@ -131,11 +132,6 @@ public class RestApiServlet extends HttpServlet {
 				session.close();
 			}
 		}
-	}
-
-	private ApiSerializationFactory getApiSerializationFactory() {
-		// TODO
-		return null;
 	}
 
 	public void updateDeveloper(HttpServletRequest req, boolean isSuccess) {

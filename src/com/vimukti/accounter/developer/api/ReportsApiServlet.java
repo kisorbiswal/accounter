@@ -1,37 +1,40 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import com.gdevelop.gwt.syncrpc.CookieManager;
+import com.gdevelop.gwt.syncrpc.SessionManager;
+import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.server.AccounterReportServiceImpl;
 
-public class ReportsApiServlet extends HttpServlet {
+public class ReportsApiServlet extends ApiBaseServlet {
 
 	/**
 	 * 
@@ -42,30 +45,28 @@ public class ReportsApiServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		req.setAttribute("isRTL",
-				req.getLocale().equals(new Locale("ar", "", "")));
-		Long companyId = (Long) req.getAttribute("companyId");
 		Session session = HibernateUtil.openSession();
+
 		try {
 			String methodName = getNameFromReq(req, 1);
 			SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
-
-			Date startDate = null;
-			Date endDate = null;
-			try {
-				startDate = format.parse(req.getParameter("StartDate"));
-				endDate = format.parse(req.getParameter("EndDate"));
-			} catch (ParseException e) {
-				throw new ServletException("Wrong date formate");
+			ClientFinanceDate clientFinanceEndDate = null;
+			ClientFinanceDate clientFinanceStartDate = null;
+			IAccounterReportService accounterReportServiceImpl = getS2sSyncProxy(
+					req, "/do/accounter/report/rpc/service",
+					IAccounterReportService.class);
+			if (!methodName.equals("companyids")) {
+				Date startDate = null;
+				Date endDate = null;
+				try {
+					startDate = format.parse(req.getParameter("StartDate"));
+					endDate = format.parse(req.getParameter("EndDate"));
+				} catch (Exception e) {
+					throw new ServletException("Wrong date formate");
+				}
+				clientFinanceStartDate = new ClientFinanceDate(startDate);
+				clientFinanceEndDate = new ClientFinanceDate(endDate);
 			}
-
-			AccounterReportServiceImpl accounterReportServiceImpl = getAccounterReportServiceImpl();
-
-			ClientFinanceDate clientFinanceStartDate = new ClientFinanceDate(
-					startDate);
-			ClientFinanceDate clientFinanceEndDate = new ClientFinanceDate(
-					endDate);
-
 			List<? extends BaseReport> result = null;
 
 			if (methodName.equals("salesbycustomersummary")) {
@@ -406,8 +407,7 @@ public class ReportsApiServlet extends HttpServlet {
 	private void sendCompanyIds(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException {
 		Map<String, Long> companyIds = new HashMap<String, Long>();
-		HttpSession session = req.getSession();
-		String emailId = (String) session.getAttribute("emailId");
+		String emailId = (String) req.getAttribute("emailId");
 		Client client = getClient(emailId);
 		Set<User> users = client.getUsers();
 		for (User user : users) {
@@ -423,7 +423,6 @@ public class ReportsApiServlet extends HttpServlet {
 		Session session = HibernateUtil.getCurrentSession();
 		Client client = (Client) session.getNamedQuery("getClient.by.mailId")
 				.setString("emailId", emailId).uniqueResult();
-		// session.close();
 		return client;
 	}
 
@@ -434,17 +433,6 @@ public class ReportsApiServlet extends HttpServlet {
 		String string = factory.serializeDateList(list);
 		sendResult(req, resp, string);
 
-	}
-
-	private ApiSerializationFactory getSerializationFactory(
-			HttpServletRequest req) throws ServletException {
-		String string = getNameFromReq(req, 2);
-		if (string.equals("xmlreports")) {
-			return new ApiSerializationFactory(false);
-		} else if (string.equals("jsonreports")) {
-			return new ApiSerializationFactory(true);
-		}
-		throw new ServletException("Wrong Sream Formate");
 	}
 
 	private void sendIAccountCoreResult(HttpServletRequest req,
@@ -474,16 +462,5 @@ public class ReportsApiServlet extends HttpServlet {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private AccounterReportServiceImpl getAccounterReportServiceImpl() {
-		return new AccounterReportServiceImpl();
-	}
-
-	private String getNameFromReq(HttpServletRequest req, int indexFromLast) {
-		String url = req.getRequestURI();
-		String[] urlParts = url.split("/");
-		String last = urlParts[urlParts.length - indexFromLast];
-		return last;
 	}
 }

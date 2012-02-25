@@ -75,7 +75,7 @@ public class EncryptCompaniesServlet extends BaseServlet {
 					return;
 				}
 				String password = req.getParameter("password");
-				// company.setLocked(true);
+				company.setLocked(true);
 				Session currentSession = HibernateUtil.getCurrentSession();
 				Transaction beginTransaction = currentSession
 						.beginTransaction();

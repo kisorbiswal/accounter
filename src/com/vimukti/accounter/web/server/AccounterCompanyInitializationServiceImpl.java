@@ -107,7 +107,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			Client client = getClient(getUserEmail());
 			byte[] d2 = getD2();
 			Company company = intializeCompany(preferences, accounts, client,
-					password, d2,getThreadLocalRequest().getSession().getId());
+					password, d2, getThreadLocalRequest().getSession().getId());
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
 			getThreadLocalRequest().getSession().removeAttribute(
@@ -124,12 +124,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 			List<TemplateAccount> accounts, Client client, String password,
 			byte[] d2, String sessionId) throws AccounterException {
 
-		if (!client.getClientSubscription().getSubscription().isPaidUser()) {
-			List<Company> companies = client.getCompanies();
-			if (companies.size() > 0) {
-				throw new AccounterException();
-			}
-		}
+		// if (!client.getClientSubscription().getSubscription().isPaidUser()) {
+		// List<Company> companies = client.getCompanies();
+		// if (companies.size() > 0) {
+		// throw new AccounterException();
+		// }
+		// }
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
@@ -308,7 +308,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), request.getSession().getId());
+				EU.createCipher(user.getSecretKey(), getD2(request), request
+						.getSession().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
