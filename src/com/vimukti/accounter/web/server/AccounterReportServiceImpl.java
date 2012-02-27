@@ -3243,7 +3243,12 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<BankCheckDetail> list = getFinanceTool().getReportManager()
-				.getBankCheckDetails(getCompanyId(), start, end);
+				.getBankCheckDetails(
+						getCompanyId(),
+						new ClientFinanceDate(minimumAndMaximumDates[0]
+								.getDate()),
+						new ClientFinanceDate(minimumAndMaximumDates[1]
+								.getDate()));
 		BankCheckDetail obj = new BankCheckDetail();
 		if (list != null)
 			list.add((BankCheckDetail) setStartEndDates(obj,
