@@ -970,6 +970,7 @@ public class CustomerManager extends PayeeManager {
 			// transactionHistory
 			// .setStatus((object[15] != null) ? (Integer) object[15] : 0);
 			transactionHistory.setMemo((String) object[7]);
+			transactionHistory.setStatus((Integer) object[8]);
 
 			// transactionHistory.setAccount((String) object[17]);
 			transactionHistory.setAmount((object[5] == null ? 0
