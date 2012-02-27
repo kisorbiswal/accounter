@@ -8927,10 +8927,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9014,10 +9014,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9104,10 +9104,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9195,10 +9195,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9288,9 +9288,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 
@@ -9363,10 +9363,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9441,10 +9441,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9520,10 +9520,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9597,10 +9597,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9675,9 +9675,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_METHOD_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 
@@ -9756,9 +9756,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_METHOD_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 
@@ -9840,10 +9840,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9915,10 +9915,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9993,10 +9993,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -10074,9 +10074,11 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
+		T.SAVE_STATUS AS TRANSACTION_STATUS,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		CASE
@@ -10125,6 +10127,7 @@
 		RECEIVE_PAYMENT RP ON RP.ID=T.ID
 		LEFT JOIN
 		CUSTOMER_PREPAYMENT CP ON CP.ID=T.ID
+		LEFT JOIN WRITE_CHECKS WC ON WC.ID =T.ID
 		LEFT
 		JOIN PAYEE P
 		ON
@@ -10134,6 +10137,7 @@
 		P.ID=CCM.CUSTOMER_ID OR
 		P.ID=CR.CUSTOMER_ID OR
 		P.ID=E.CUSTOMER_ID OR
+		P.ID=WC.CUSTOMER_ID OR
 
 		P.ID=RP.CUSTOMER_ID OR
 		P.ID=CP.CUSTOMER_ID
@@ -12366,9 +12370,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
@@ -12394,7 +12399,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS
 		FROM
 		TRANSACTION T
@@ -12442,9 +12447,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
@@ -12470,7 +12476,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS
 		FROM
 		TRANSACTION T
@@ -12492,7 +12498,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=7 T.SAVE_STATUS
-		!= 202 AND
+		!= 202 
 		AND
 		E.ESTIMATETYPE =:estimateType
 		AND T.SAVE_STATUS=201 AND
@@ -12517,9 +12523,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 
 		SELECT
@@ -12542,7 +12549,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE
 		AS
@@ -12587,9 +12594,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 
 		SELECT
@@ -12612,7 +12619,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE
 		AS
