@@ -37,6 +37,8 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	private long itemId;
 
+	private double transactionAmount;
+
 	public int getTransType() {
 		return transType;
 	}
@@ -139,6 +141,14 @@ public class InventoryValutionDetail extends BaseReport implements
 
 	public void setItemId(long itemId) {
 		this.itemId = itemId;
+	}
+
+	public double getTransactionAmount() {
+		return transactionAmount;
+	}
+
+	public void setTransactionAmount(double transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 
 }
