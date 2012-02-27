@@ -55,7 +55,8 @@ public class Activity extends CreatableObject {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
 			if (tr instanceof TAXReturn) {
-				this.amount = ((TAXReturn) tr).getTotal();
+				TAXReturn taxReturn = (TAXReturn) tr;
+				this.amount = taxReturn.getTotalTAXAmount();
 			} else {
 				this.amount = tr.getTotal();
 			}
