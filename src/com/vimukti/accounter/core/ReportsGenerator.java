@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
+import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -144,6 +145,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 	public final static int REPORT_TYPE_MISSION_CHECKS = 181;
 	public final static int REPORT_TYPE_RECONCILIATION_DISCREPANCY = 182;
+	public final static int REPORT_TYPE_BUDGET_VS_ACTUALS = 183;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1302,6 +1304,31 @@ public class ReportsGenerator {
 			}
 			return budgetServerReport.getGridTemplate();
 
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+
+			BudgetVsActualsServerReport budgetVsActualsServerReport = new BudgetVsActualsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+
+			};
+			updateReport(budgetVsActualsServerReport, finaTool);
+			budgetVsActualsServerReport.resetVariables();
+			int type = navigateObjectName != null ? Integer
+					.parseInt(navigateObjectName) : 0;
+			try {
+				budgetVsActualsServerReport.onResultSuccess(finaTool
+						.getReportManager().getBudgetvsAcualReportData(
+								startDate, endDate, getCompany().getID(),
+								Long.valueOf(status),type));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return budgetVsActualsServerReport.getGridTemplate();
 		case REPORT_TYPE_TAX_ITEM_DETAIL:
 			TAXItemDetailServerReportView taxItemDetailServerReportView = new TAXItemDetailServerReportView(
 					startDate.getDate(), endDate.getDate(), generationType1) {
@@ -1852,6 +1879,8 @@ public class ReportsGenerator {
 			return "Profit and Loss by Location";
 		case REPORT_TYPE_BUDGET:
 			return "Budget Report";
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+			return "Budget vs Actuals";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
 		case REPORT_TYPE_SALESBYCLASSDETAIL:

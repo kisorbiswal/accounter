@@ -74,6 +74,8 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 
 						accountCombo.show();
 						dateRangeSelect.show();
+						reportview.makeReportRequest(budgetId, reportStartDate,
+								reportEndDate, reportType);
 						// monthSelectCombo.show();
 						// quaterlySelectCombo.show();
 					}
@@ -158,6 +160,7 @@ public class BudgetVsActualsReportToolbar extends ReportToolbar {
 						} else {
 							reportType = 1;
 						}
+
 						changeDates(reportStartDate, reportEndDate);
 					}
 				});
