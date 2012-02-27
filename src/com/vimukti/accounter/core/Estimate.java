@@ -342,7 +342,7 @@ public class Estimate extends Transaction {
 
 		if (this.getID() != 0) {
 			if (usedInvoice != null
-					&& this.status == Transaction.STATUS_APPLIED) {
+					&& this.status == Transaction.STATUS_COMPLETED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
 				// "This Quote is Already used in SalesOrder or Invoice");
@@ -430,7 +430,7 @@ public class Estimate extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null && usedTransaction != null) {
 			this.usedInvoice = usedTransaction;
-			status = STATUS_APPLIED;
+			status = STATUS_COMPLETED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
 			status = STATUS_OPEN;
