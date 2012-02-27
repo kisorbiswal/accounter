@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -660,8 +661,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected boolean canDelete() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
-			return super.canDelete();
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()) {
+			if (!(user.getID() == data.getID())) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -673,4 +677,5 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		}
 		return false;
 	}
+
 }
