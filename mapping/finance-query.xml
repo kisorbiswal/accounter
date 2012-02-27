@@ -11459,7 +11459,7 @@
 		T.T_TYPE =22
 		AND
 		T.SAVE_STATUS
-		!= 202 AND
+		!= 202 AND T.STATUS !=5
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
@@ -12416,7 +12416,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=7 AND T.SAVE_STATUS
-		!= 202 AND
+		!= 202 
 		AND
 		E.ESTIMATETYPE =:estimateType
 		AND
