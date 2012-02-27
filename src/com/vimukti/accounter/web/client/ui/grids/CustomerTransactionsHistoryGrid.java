@@ -117,7 +117,10 @@ public abstract class CustomerTransactionsHistoryGrid extends
 	@Override
 	protected void onClick(TransactionHistory obj, int row, int col) {
 		if (col == 6 && !obj.getIsVoid()) {
-			showWarningDialog(obj, col, row);
+			if (obj.getStatus() == 201) {
+				Accounter.showError(messages.youCannotVoidDraftedTransaction());
+			} else
+				showWarningDialog(obj, col, row);
 		}
 	}
 
