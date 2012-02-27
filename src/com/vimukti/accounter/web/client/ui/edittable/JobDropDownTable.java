@@ -33,7 +33,7 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 	@Override
 	protected ClientJob getAddNewRow() {
 		ClientJob clientJob = new ClientJob();
-		clientJob.setJobName(messages.comboDefaultAddNew(messages.job()));
+		clientJob.setJobName("");
 		return clientJob;
 	}
 
