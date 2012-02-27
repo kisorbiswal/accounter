@@ -1481,6 +1481,7 @@ public class FinanceTool {
 		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		session.getNamedQuery("createInventoryItemHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
+		session.getNamedQuery("JobsTransactionsView").executeUpdate();
 		transaction.commit();
 	}
 
