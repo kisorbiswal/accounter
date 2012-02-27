@@ -123,6 +123,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.server.imports.CustomerImporter;
 import com.vimukti.accounter.server.imports.Importer;
 import com.vimukti.accounter.server.imports.InvoiceImporter;
+import com.vimukti.accounter.server.imports.ItemImporter;
 import com.vimukti.accounter.server.imports.VendorImporter;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
@@ -4428,8 +4429,9 @@ public class FinanceTool {
 
 	}
 
-	public void importData(long companyId, String filePath, int importerType,
-			Map<String, String> importMap) throws AccounterException {
+	public void importData(long companyId, String userEmail, String filePath,
+			int importerType, Map<String, String> importMap)
+			throws AccounterException {
 		try {
 			Importer<? extends IAccounterCore> importer = getImporterByType(
 					importerType, importMap);
@@ -4441,6 +4443,8 @@ public class FinanceTool {
 					file.getAbsolutePath()));
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
+			OperationContext context = new OperationContext(companyId,
+					(IAccounterCore) null, userEmail);
 			while ((strLine = br.readLine()) != null) {
 				Map<String, String> columnNameValueMap = new HashMap<String, String>();
 				String[] values = strLine.split(",");
@@ -4455,6 +4459,9 @@ public class FinanceTool {
 							columnNameValueMap.put(headers[i], value);
 						}
 						importer.loadData(columnNameValueMap);
+						IAccounterCore data = importer.getData();
+						context.setData(data);
+						create(context);
 					}
 				}
 			}
@@ -4481,6 +4488,8 @@ public class FinanceTool {
 			return new CustomerImporter();
 		case ImporterType.VENDOR:
 			return new VendorImporter();
+		case ImporterType.ITEM:
+			return new ItemImporter();
 		}
 		return null;
 	}

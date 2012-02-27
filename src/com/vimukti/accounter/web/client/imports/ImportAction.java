@@ -16,11 +16,11 @@ public class ImportAction extends Action {
 	private int importType;
 	private List<ImportField> importerFields;
 	private String fileID;
-	private int noOfRows;
+	private double noOfRows;
 
 	public ImportAction(List<ImportField> importerFields,
 			Map<String, List<String>> data, int type, String fileID,
-			int noOfRows) {
+			double noOfRows) {
 		this.columnData = data;
 		this.importType = type;
 		this.importerFields = importerFields;

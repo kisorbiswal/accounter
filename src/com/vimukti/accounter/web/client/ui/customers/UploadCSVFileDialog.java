@@ -146,9 +146,8 @@ public class UploadCSVFileDialog extends BaseDialog {
 							.stringValue();
 					final JSONNumber noOfRows = object.get("noOfRows")
 							.isNumber();
-					String noOfRowsString = String.valueOf(noOfRows
-							.doubleValue());
-					final int recordCount = Integer.parseInt(noOfRowsString);
+					final double recordCount = noOfRows.doubleValue();
+
 					final Map<String, List<String>> data = parseJsonArray(object);
 
 					Accounter.createHomeService().getFieldsOf(getType(),

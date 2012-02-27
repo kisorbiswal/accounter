@@ -42,13 +42,13 @@ public class ImportView extends AbstractBaseView {
 	private int currentLine = 0;
 	private String fileID;
 	private int currentRow = 0;
-	private int noOfRecords;
+	private double noOfRecords;
 	Button backButton;
 	Button nextButton;
 
 	public ImportView(int importType, String fileID,
 			List<ImportField> importerFields, Map<String, List<String>> data,
-			int recordCount) {
+			double recordCount) {
 		this.importType = importType;
 		this.importData = data;
 		this.fileID = fileID;

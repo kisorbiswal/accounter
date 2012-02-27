@@ -91,7 +91,6 @@ public class ItemImporter extends AbstractImporter<ClientItem> {
 	}
 
 	private long getItemGroup(String string) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
