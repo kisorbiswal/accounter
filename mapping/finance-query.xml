@@ -12034,6 +12034,93 @@
 		C.ID=:customerId
 
 	</sql-query>
+	
+	
+	
+	
+		<sql-query name="getAllSalesOrdersByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="estimateType" type="int" />
+		<query-param name="status" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="CUSTOMER_NAME" type="string" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		NULL
+		AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ESTIMATE E
+		ON
+		T.ID=E.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID
+		=
+		E.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=7 AND T.SAVE_STATUS
+		!= 202 AND  ((:status=5 AND T.STATUS =5) OR (:status=0 AND T.STATUS =0) OR (:status NOT IN (0,5)))
+		AND
+		E.ESTIMATETYPE =:estimateType
+		AND 
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN :fromDate AND :toDate
+		AND
+		C.ID=:customerId
+
+	</sql-query>
+	
+	
+	
+	
+	
+	
+	
 
 	<sql-query name="getDraftQuotesByCustomer">
 		<query-param name="companyId" type="long" />
@@ -12527,13 +12614,14 @@
 		LEFT JOIN
 		PAYEE
 		P ON
-		(P.ID=(CASE WHEN
+		(P.ID=(CASE
+		 WHEN
 		:payeeType = 1 THEN WC.CUSTOMER_ID
 		WHEN
-		:payeeType = 2 THEN WC.VENDOR_ID
-		ELSE 0
+		:payeeType = 2 THEN WC.VENDOR_ID 
+		 ELSE WC.TAX_AGENCY_ID
 		END))
-
+		
 		WHERE
 		T.COMPANY_ID=:companyId AND
 		CASE
@@ -12562,7 +12650,7 @@
 		AND T.SAVE_STATUS
 		!=
 		202
-		AND :payeeType= WC.PAY_TO_TYPE AND
+		AND (:payeeType= WC.PAY_TO_TYPE OR (:payeeType=0 AND WC.PAY_TO_TYPE=4))AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND
