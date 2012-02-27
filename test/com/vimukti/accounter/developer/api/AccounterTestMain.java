@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.vimukti.accounter.developer.api.core.ITest;
 import com.vimukti.accounter.developer.api.report.CreateTest;
+import com.vimukti.accounter.developer.api.report.ListsTest;
 
 public class AccounterTestMain {
 	private static List<ITest> tests = new ArrayList<ITest>();

@@ -13,6 +13,7 @@ import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.Developer;
+import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiFilter implements Filter {
@@ -41,12 +43,10 @@ public class ApiFilter implements Filter {
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) req2;
 		HttpServletResponse resp = (HttpServletResponse) resp2;
-
 		String url = req.getQueryString();
 		String signature = req.getParameter(SIGNATURE);
 		if (signature == null) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"Signature must be present");
+			sendFail(resp, "Signature must be present");
 			return;
 		}
 		String signatureProperty = new String("&" + SIGNATURE + "="
@@ -58,8 +58,7 @@ public class ApiFilter implements Filter {
 			Date expire = format.parse(req.getParameter("Expire"));
 			// TODO
 		} catch (ParseException e1) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"Wrong expire date formate");
+			sendFail(resp, "Wrong expire date formate");
 			return;
 		}
 		Company company = null;
@@ -67,16 +66,14 @@ public class ApiFilter implements Filter {
 		try {
 			Developer developer = getDeveloperByApiKey(apiKey);
 			if (developer == null) {
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Wrong API key.");
+				sendFail(resp, "Wrong API key.");
 				return;
 			}
 
 			String secretKey = developer.getSecretKey();
 			String sighned = doSigning(remainingUrl, secretKey);
 			if (!sighned.equals(signature)) {
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Signature not matched");
+				sendFail(resp, "Signature not matched");
 				return;
 			}
 
@@ -86,27 +83,39 @@ public class ApiFilter implements Filter {
 			try {
 				id = Long.parseLong(companyId);
 			} catch (Exception e) {
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Company Id should be long");
+				sendFail(resp, "Company Id should be long");
 				return;
 			}
 			company = getCompany(id, client);
 			if (company == null) {
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-						"Wrong company id");
+				sendFail(resp, "Wrong company id");
 				return;
 			}
-
+			req.setAttribute("id", developer.getId());
 			req.setAttribute("companyId", company.getID());
 			req.setAttribute("emailId", client.getEmailId());
-			arg2.doFilter(req2, resp2);
-		} catch (Exception e) {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"Internal Error.");
-		} finally {
 			if (session != null) {
 				session.close();
 			}
+			arg2.doFilter(req2, resp2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void sendFail(HttpServletResponse resp, String result) {
+		try {
+			ApiResult apiResult = new ApiResult();
+			apiResult.setStatus(ApiResult.FAIL);
+			apiResult.setResult(result);
+			ApiSerializationFactory factory = new ApiSerializationFactory(false);
+			String string = factory.serialize(apiResult);
+			ServletOutputStream outputStream;
+			outputStream = resp.getOutputStream();
+			outputStream.write(string.getBytes());
+			outputStream.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

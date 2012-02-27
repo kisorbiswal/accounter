@@ -3,10 +3,10 @@ package com.vimukti.accounter.developer.api.report;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 
 import com.vimukti.accounter.developer.api.core.AbstractTest;
+import com.vimukti.accounter.developer.api.core.ApiResult;
 
 public class ReportsApiTest extends AbstractTest {
 	private String path;
@@ -19,23 +19,23 @@ public class ReportsApiTest extends AbstractTest {
 	}
 
 	private void salesbycustomersummary() throws Exception {
-		String queryStr = getQueryString();
-		GetMethod prepareMethod = prepareGetMethod(path
-				+ "salesbycustomersummary", queryStr);
-		int statusCode = executeMethod(prepareMethod);
-		eq(HttpStatus.SC_OK, statusCode);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("reporttype", "salesbycustomersummary");
+		String queryStr = getQueryString(map);
+		GetMethod prepareMethod = prepareGetMethod(path, queryStr);
+		ApiResult result = executeMethod(prepareMethod);
+		eq(result.getStatus(), 200);
+		System.out.println(result.getResult());
 	}
 
 	private void agedcreditors() throws Exception {
-		String queryStr = getQueryString();
-		GetMethod prepareMethod = prepareGetMethod(path + "agedcreditors",
-				queryStr);
-		int statusCode = executeMethod(prepareMethod);
-		eq(HttpStatus.SC_OK, statusCode);
-	}
-
-	private String getQueryString() {
-		return getQueryString(new HashMap<String, String>());
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("reporttype", "agedcreditors");
+		String queryStr = getQueryString(map);
+		GetMethod prepareMethod = prepareGetMethod(path, queryStr);
+		ApiResult result = executeMethod(prepareMethod);
+		eq(result.getStatus(), 200);
+		System.out.println(result.getResult());
 	}
 
 	@Override

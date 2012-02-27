@@ -1,18 +1,22 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.gdevelop.gwt.syncrpc.CookieManager;
-import com.gdevelop.gwt.syncrpc.SessionManager;
-import com.gdevelop.gwt.syncrpc.SyncProxy;
-import com.vimukti.accounter.main.ServerConfiguration;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.developer.api.process.ApiProcessor;
+import com.vimukti.accounter.developer.api.process.CreateProcessor;
+import com.vimukti.accounter.developer.api.process.DeleteProcessor;
+import com.vimukti.accounter.developer.api.process.ObjectListProcessor;
+import com.vimukti.accounter.developer.api.process.ReadProcessor;
+import com.vimukti.accounter.developer.api.process.ReportsProcessor;
+import com.vimukti.accounter.developer.api.process.TransactionListProcessor;
+import com.vimukti.accounter.developer.api.process.UpdateProcessor;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiBaseServlet extends HttpServlet {
 
@@ -21,56 +25,44 @@ public class ApiBaseServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected ApiSerializationFactory getSerializationFactory(
-			HttpServletRequest req) throws ServletException {
-		String string = getNameFromReq(req, 2);
-		if (string.equals("xml")) {
-			return new ApiSerializationFactory(false);
-		} else if (string.equals("json")) {
-			return new ApiSerializationFactory(true);
+	protected void doProcess(HttpServletRequest req, HttpServletResponse resp,
+			String type) throws IOException {
+		ApiProcessor processor = getApiProcessor(type);
+		if (processor == null) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Wrong type");
+			return;
 		}
-		throw new ServletException("Wrong Sream Formate");
+		Session session = HibernateUtil.openSession();
+		try {
+			processor.process(req, resp);
+			processor.sendData(req,resp);
+			
+		} catch (Exception e) {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+			return;
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
-	protected String getNameFromReq(HttpServletRequest req, int indexFromLast) {
-		String url = req.getRequestURI();
-		String[] urlParts = url.split("/");
-		String last = urlParts[urlParts.length - indexFromLast];
-		return last;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <T> T getS2sSyncProxy(final HttpServletRequest req, String uri,
-			Class<?> clazz) throws URISyntaxException {
-		String url = "http://" + ServerConfiguration.getMainServerDomain()
-				+ ":" + ServerConfiguration.getMainServerPort() + uri;
-		return (T) SyncProxy.newProxyInstance(clazz, url, "",
-				new SessionManager() {
-					private CookieManager cookieManager = new CookieManager();
-
-					@Override
-					public HttpURLConnection openConnection(URL url)
-							throws Exception {
-						HttpURLConnection connection = (HttpURLConnection) url
-								.openConnection();
-						connection.addRequestProperty("isAPI", "Yes");
-						connection.addRequestProperty("companyId", req
-								.getAttribute("companyId").toString());
-						connection.addRequestProperty("emailId", req
-								.getAttribute("emailId").toString());
-						return connection;
-					}
-
-					@Override
-					public void handleResponseHeaders(
-							HttpURLConnection connection) throws IOException {
-						cookieManager.storeCookies(connection);
-					}
-
-					@Override
-					public com.gdevelop.gwt.syncrpc.CookieManager getCookieManager() {
-						return null;
-					}
-				});
+	protected ApiProcessor getApiProcessor(String type) {
+		if (type.equals("objects")) {
+			return new ObjectListProcessor();
+		} else if (type.equals("transactions")) {
+			return new TransactionListProcessor();
+		} else if (type.equals("reports")) {
+			return new ReportsProcessor();
+		} else if (type.equals("create")) {
+			return new CreateProcessor();
+		} else if (type.equals("update")) {
+			return new UpdateProcessor();
+		} else if (type.equals("read")) {
+			return new ReadProcessor();
+		} else if (type.equals("delete")) {
+			return new DeleteProcessor();
+		}
+		return null;
 	}
 }

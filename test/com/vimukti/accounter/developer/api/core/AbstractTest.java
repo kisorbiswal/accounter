@@ -14,19 +14,23 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.mortbay.util.UrlEncoded;
 
+import com.vimukti.accounter.developer.api.ApiSerializationFactory;
+
 public abstract class AbstractTest implements ITest {
 	private static final String SIGNATURE = "Signature";
 	private static final String ALGORITHM = "hmacSHA256";
-	private static final String secretKey = "oprxezec24cuxyiz";
+	private static final String secretKey = "x4c2jjr7jgruqvkh";
+	protected static final String apikey = "t5zkba6c";
 	protected static String HOST = "http://local.accounterlive.com";
 	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
-	protected static final String apikey = "cuqtfet8";
 
 	protected SimpleDateFormat simpleDateFormat;
 	private HttpClient client;
@@ -44,39 +48,42 @@ public abstract class AbstractTest implements ITest {
 		companyId = getCompanyId();
 	}
 
-	protected void isNull(Object o) throws Exception {
+	protected void isNull(Object o) {
 		if (o != null) {
-			throw new Exception("is Null?	o=" + o);
+			new Exception("is Null?	o=" + o).printStackTrace();
 		}
 	}
 
-	protected void isTrue(boolean b) throws Exception {
+	protected void isTrue(boolean b) {
 		if (!b) {
-			throw new Exception("is True?	b=" + b);
+			new Exception("is True?	b=" + b).printStackTrace();
 		}
 	}
 
-	protected void isFalse(boolean b) throws Exception {
+	protected void isFalse(boolean b) {
 		isTrue(!b);
 	}
 
-	protected void eq(Object o1, Object o2) throws Exception {
+	protected void eq(Object o1, Object o2) {
 		if (o1 != o2) {
 			if (o1 == null || !o1.equals(o2)) {
-				throw new Exception("is Equal?	o1=" + o1 + ";o2=" + o2);
+				new Exception("is Equal?	o1=" + o1 + ";o2=" + o2)
+						.printStackTrace();
 			}
 		}
 	}
 
-	protected void notEq(Object o1, Object o2) throws Exception {
+	protected void notEq(Object o1, Object o2) {
 		if (o1 == o2) {
-			throw new Exception("is Not Equal?	o1=" + o1 + ";o2=" + o2);
+			new Exception("is Not Equal?	o1=" + o1 + ";o2=" + o2)
+					.printStackTrace();
 		}
 		if (o1 == null) {
 			return;
 		}
 		if (o1.equals(o2)) {
-			throw new Exception("is Not Equal?	 o1=" + o1 + ";o2=" + o2);
+			new Exception("is Not Equal?	 o1=" + o1 + ";o2=" + o2)
+					.printStackTrace();
 		}
 	}
 
@@ -123,14 +130,26 @@ public abstract class AbstractTest implements ITest {
 		return method;
 	}
 
+	protected DeleteMethod prepareDeleteMethod(String path, String queryStr) {
+		DeleteMethod method = new DeleteMethod(HOST + path);
+		prepareMethod(method, queryStr);
+		return method;
+	}
+
 	private void prepareMethod(HttpMethod method, String queryStr) {
 		String encodeString = new UrlEncoded(queryStr).encode();
 		String signature = doSigning(encodeString);
 		method.setQueryString(signature);
 	}
 
-	protected int executeMethod(HttpMethod method) throws Exception {
-		return client.executeMethod(method);
+	protected ApiResult executeMethod(HttpMethod method) throws Exception {
+		int statusCode = client.executeMethod(method);
+		eq(HttpStatus.SC_OK, statusCode);
+		ApiSerializationFactory apiSerializationFactory = new ApiSerializationFactory(
+				false);
+		ApiResult apiResult = apiSerializationFactory
+				.deserializeApiResult(method.getResponseBodyAsStream());
+		return apiResult;
 	}
 
 	protected String getQueryString(Map<String, String> params) {
