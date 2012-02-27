@@ -1115,7 +1115,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
