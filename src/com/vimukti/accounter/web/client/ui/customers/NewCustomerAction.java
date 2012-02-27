@@ -18,13 +18,11 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 
 	public NewCustomerAction() {
 		super();
-		this.catagory = Global.get().Customer();
 		super.setToolTip(Global.get().Customer());
 	}
 
 	public NewCustomerAction(String quickAddText) {
 		super();
-		this.catagory = Global.get().Customer();
 		super.setToolTip(Global.get().Customer());
 		this.quickAddText = quickAddText;
 
@@ -88,6 +86,11 @@ public class NewCustomerAction extends Action<ClientCustomer> {
 	@Override
 	public String getHistoryToken() {
 		return "newCustomer";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override

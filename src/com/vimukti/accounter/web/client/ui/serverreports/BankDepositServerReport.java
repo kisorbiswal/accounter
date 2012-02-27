@@ -22,7 +22,7 @@ public class BankDepositServerReport extends
 	public String[] getDynamicHeaders() {
 		return new String[] { messages.type(), messages.number(),
 				messages.date(), messages.name(), messages.Account(),
-				messages.credit(), messages.debit() };
+				messages.debit(), messages.credit() };
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class BankDepositServerReport extends
 	public String[] getColunms() {
 		return new String[] { messages.type(), messages.number(),
 				messages.date(), messages.name(), messages.Account(),
-				messages.credit(), messages.debit() };
+				messages.debit(), messages.credit() };
 	}
 
 	@Override

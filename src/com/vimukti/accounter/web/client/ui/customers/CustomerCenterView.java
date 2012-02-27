@@ -33,14 +33,13 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
-import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.grids.CustomerSelectionListener;
 import com.vimukti.accounter.web.client.ui.grids.CustomerTransactionsHistoryGrid;
 import com.vimukti.accounter.web.client.ui.grids.CustomersListGrid;
 
 public class CustomerCenterView<T> extends
-		AbstractPayeeCenterView<ClientCustomer> implements IPrintableView {
+		AbstractPayeeCenterView<ClientCustomer> {
 	private static final int TYPE_ESTIMATE = 7;
 	private static final int TYPE_INVOICE = 8;
 	private static final int TYPE_CAHSSALE = 1;
@@ -49,6 +48,7 @@ public class CustomerCenterView<T> extends
 	private static final int TYPE_CUSTOMER_REFUND = 5;
 	private static final int TYPE_ALL_TRANSACTION = 100;
 	private static final int TYPE_WRITE_CHECK = 15;
+	private static final int TYPE_SALES_ORDER = 38;
 
 	private ClientCustomer selectedCustomer;
 	private List<PayeeList> listOfCustomers;
@@ -122,7 +122,6 @@ public class CustomerCenterView<T> extends
 		transactionGridpanel = new VerticalPanel();
 		transactionGridpanel.add(transactionViewform);
 		custHistoryGrid = new CustomerTransactionsHistoryGrid() {
-
 			@Override
 			public void initListData() {
 				OncusotmerSelected();
@@ -222,6 +221,7 @@ public class CustomerCenterView<T> extends
 			transactionTypeList.add(messages.customerRefunds(Global.get()
 					.Customer()));
 			transactionTypeList.add(messages.cheques());
+			transactionTypeList.add(messages.salesOrders());
 			trasactionViewSelect.initCombo(transactionTypeList);
 			trasactionViewSelect.setComboItem(messages.allTransactions());
 			trasactionViewSelect
@@ -367,6 +367,16 @@ public class CustomerCenterView<T> extends
 					messages.allcheques());
 			transactiontypebyStatusMap.put(TransactionHistory.DRAFT_CHEQUES,
 					messages.draftTransaction(messages.cheques()));
+
+		} else if (trasactionViewSelect.getSelectedValue().equalsIgnoreCase(
+				messages.salesOrders())) {
+			transactiontypebyStatusMap.put(TransactionHistory.ALL_SALES_ORDERS,
+					messages.all());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.COMPLETED_SALES_ORDERS,
+					messages.completed());
+			transactiontypebyStatusMap.put(
+					TransactionHistory.OPEN_SALES_ORDERS, messages.open());
 
 		}
 		List<String> typeList = new ArrayList<String>(
@@ -528,6 +538,8 @@ public class CustomerCenterView<T> extends
 			return TYPE_CUSTOMER_REFUND;
 		} else if (selectedValue.equalsIgnoreCase(messages.cheques())) {
 			return TYPE_WRITE_CHECK;
+		} else if (selectedValue.equalsIgnoreCase(messages.salesOrders())) {
+			return TYPE_SALES_ORDER;
 		}
 		return TYPE_ALL_TRANSACTION;
 
@@ -603,26 +615,46 @@ public class CustomerCenterView<T> extends
 
 	@Override
 	public void exportToCsv() {
-		Accounter.createExportCSVService()
-				.getCustomerTransactionsListExportCsv(selectedCustomer,
-						getTransactionType(), getTransactionStatusType(),
-						getStartDate(), getEndDate(),
-						new AsyncCallback<String>() {
+		if (selectedCustomer != null) {
+			Accounter.createExportCSVService()
+					.getCustomerTransactionsListExportCsv(selectedCustomer,
+							getTransactionType(), getTransactionStatusType(),
+							getStartDate(), getEndDate(),
+							new AsyncCallback<String>() {
 
-							@Override
-							public void onSuccess(String id) {
-								UIUtils.downloadFileFromTemp(
-										trasactionViewSelect.getSelectedValue()
-												+ " of "
-												+ selectedCustomer.getName()
-												+ ".csv", id);
-							}
+								@Override
+								public void onSuccess(String id) {
+									UIUtils.downloadFileFromTemp(
+											trasactionViewSelect
+													.getSelectedValue()
+													+ " of "
+													+ selectedCustomer
+															.getName() + ".csv",
+											id);
+								}
 
-							@Override
-							public void onFailure(Throwable caught) {
-								caught.printStackTrace();
-							}
-						});
+								@Override
+								public void onFailure(Throwable caught) {
+									caught.printStackTrace();
+								}
+							});
+		} else {
+			Accounter.showMessage(messages
+					.pleaseSelect(Global.get().Customer()));
+		}
+	}
+
+	@Override
+	public boolean canEdit() {
+		if (selectedCustomer != null
+				&& Accounter.getUser().isCanDoUserManagement()) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isDirty() {
+		return false;
 	}
 
 }

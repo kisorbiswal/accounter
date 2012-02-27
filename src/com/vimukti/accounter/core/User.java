@@ -311,10 +311,12 @@ public class User extends CreatableObject implements IAccounterServerCore,
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.firstName(), client.getFirstName()).gap();
-		w.put(messages.lastName(), client.getLastName());
+		if (client != null) {
+			w.put(messages.firstName(), client.getFirstName()).gap();
+			w.put(messages.lastName(), client.getLastName());
 
-		w.put(messages.email(), client.getEmailId()).gap();
+			w.put(messages.email(), client.getEmailId()).gap();
+		}
 
 		if (this.userRole != null)
 			w.put(messages.userRole(), this.userRole);

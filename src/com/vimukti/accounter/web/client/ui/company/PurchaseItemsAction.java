@@ -13,10 +13,9 @@ public class PurchaseItemsAction extends Action {
 
 	public PurchaseItemsAction() {
 		super();
-		this.catagory = Global.get().customer();
 	}
 
-	public PurchaseItemsAction( String catageory) {
+	public PurchaseItemsAction(String catageory) {
 		super();
 		this.catagory = catageory;
 	}
@@ -51,8 +50,12 @@ public class PurchaseItemsAction extends Action {
 	}
 
 	@Override
-	public String getHistoryToken() {
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
+	@Override
+	public String getHistoryToken() {
 		return "purchaseItems";
 	}
 

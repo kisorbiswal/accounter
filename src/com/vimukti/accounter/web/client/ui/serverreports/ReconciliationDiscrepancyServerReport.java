@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
@@ -20,36 +21,31 @@ public class ReconciliationDiscrepancyServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().type(), getMessages().date(),
-				getMessages().enterDate(), getMessages().number(),
-				getMessages().name(),
-				getMessages().reconciled() + " " + getMessages().amount(),
-				"Type of Change", "Effect on Change" };
+				getMessages().number(), getMessages().name(),
+				messages.reconciledAmount(), messages.effectofChange() };
 	}
 
 	@Override
 	public String getTitle() {
-		return "Reconciliation Discrepancy";
+		return messages.reconcilationDiscrepany();
 	}
 
 	@Override
 	public String[] getColunms() {
 		return new String[] { getMessages().type(), getMessages().date(),
-				getMessages().enterDate(), getMessages().number(),
-				getMessages().name(),
-				getMessages().reconciled() + " " + getMessages().amount(),
-				"Type of Change", "Effect on Change" };
+				getMessages().number(), getMessages().name(),
+				messages.reconciledAmount(), messages.effectofChange() };
 	}
 
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_DATE, COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT, COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_AMOUNT };
 	}
 
 	@Override
 	public void processRecord(ReconciliationDiscrepancy record) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -57,23 +53,25 @@ public class ReconciliationDiscrepancyServerReport extends
 	public Object getColumnData(ReconciliationDiscrepancy record, int index) {
 		switch (index) {
 		case 0:
-			return "";
+			return Utility.getTransactionName(record.getTransactionType());
 		case 1:
-			return "";
+			return record.getTransactionDate();
 		case 2:
-			return "";
+			return record.getTransactionNumber();
 		case 3:
-			return "";
+			return record.getName();
 		case 4:
-			return "";
+			return record.getReconciliedAmount();
 		case 5:
-			return "";
-		case 6:
-			return "";
-		case 7:
-			return "";
+			double reconciliedAmount = record.getReconciliedAmount();
+			double transactionAmount = record.getTransactionAmount();
+			if (reconciliedAmount > transactionAmount) {
+				return reconciliedAmount - transactionAmount;
+			} else {
+				return transactionAmount - reconciliedAmount;
+			}
 		default:
-			return "";
+			return null;
 		}
 	}
 

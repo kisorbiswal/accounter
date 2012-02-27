@@ -22,7 +22,7 @@ button::-moz-focus-inner,input[type="reset"]::-moz-focus-inner,input[type="butto
 	font-size: 13px;
 }
 
-body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter
+body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainFooter,#appVersions
 	{
 	text-align: center;
 }
@@ -43,7 +43,7 @@ body,.email,.password,.company-name,.body-container,.company_list_buttons,#mainF
 	color: white;
 }
 
-#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,.admin_details_header,.newsletter,.form-bottom-options,.activate-code
+#about-1,#privacy-layout,#contact-layout,#mid-2,#mid,#top,#bot,.shadow-line,#down,#mid-left,#about-layout,#support-width,.pricing-box-shadow,.box-shadow,.monthly-box ul,.Annaul-box ul,#mainFooter,#appVersions,.admin_details_header,.newsletter,.form-bottom-options,.activate-code
 	{
 	clear: both;
 }
@@ -150,7 +150,7 @@ p {
 	line-height: 2;
 }
 
-#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel
+#feedDivUl li a,#unChangedNewsDiv a,#mainFooter a,#mainFooter span,#appVersions a,#appVersions span,a:visited,#home-bg,#fea-bg,#abt-bg,#sup-bg,#blog-bg,a:link,.signup-submit #openid-cancel
 	{
 	text-decoration: none;
 }
@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                 0.5) !important;
+	filter: alpha(opacity =                   0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1008,24 +1008,27 @@ a#fdbk_tab:hover {
 	margin: 10px 0px;
 }
 
-#mainFooter {
+#mainFooter,#appVersions {
 	height: 25px;
 	margin-top: 0;
 	position: relative;
 	width: 100%;
 	z-index: 10;
-	border-top: 1px solid #CCCCCC;
 	color: #666666;
 	padding-top: 8px;
 }
 
-#mainFooter a,#mainFooter span {
+#mainFooter {
+	border-top: 1px solid #CCCCCC;
+}
+
+#mainFooter a,#mainFooter span,#appVersions a,#appVersions span {
 	color: #666666;
 	font-size: 12px;
 	padding: 0 5px;
 }
 
-#mainFooter a:hover {
+#mainFooter a:hover,#appVersions a:HOVER {
 	text-decoration: underline;
 }
 

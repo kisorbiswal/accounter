@@ -13,7 +13,6 @@ public class VendorCenterAction extends Action {
 
 	public VendorCenterAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -49,6 +48,11 @@ public class VendorCenterAction extends Action {
 	@Override
 	public ImageResource getSmallImage() {
 		return null;
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

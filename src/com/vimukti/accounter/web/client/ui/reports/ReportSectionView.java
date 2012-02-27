@@ -245,8 +245,8 @@ public class ReportSectionView extends BaseHomeView {
 		// resolved issue 3544
 		// bankingMap.put(messages.depositDetail(), ActionFactory
 		// .getBankDepositDetailReportAction().getHistoryToken());
-		// bankingMap.put(messages.checkDetail(), ActionFactory
-		// .getBankCheckDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.checkDetail(), ActionFactory
+				.getBankCheckDetailReportAction().getHistoryToken());
 
 		// TAX tab for uk country
 		ukTaxMap.put(messages.priorVATReturns(), ActionFactory
@@ -276,7 +276,9 @@ public class ReportSectionView extends BaseHomeView {
 
 		addLinksToPanel(companyAndFinancialMap, companyAndFinancialPanel);
 		addLinksToPanel(customersAndRecievableMap, customersAndRecievablePanel);
-		addLinksToPanel(inventoryMap, inventoryPanel);
+		if (Global.get().preferences().isInventoryEnabled()) {
+			addLinksToPanel(inventoryMap, inventoryPanel);
+		}
 		addLinksToPanel(bankingMap, bankingPanel);
 		addLinksToPanel(budgetMap, budgetPanel);
 		addLinksToPanel(ukTaxMap, ukTaxPanel);
@@ -300,8 +302,10 @@ public class ReportSectionView extends BaseHomeView {
 		leftPanel.add(companyAndFinancialPanel);
 		leftPanel.add(customersAndRecievableHeader);
 		leftPanel.add(customersAndRecievablePanel);
-		leftPanel.add(inventoryHeader);
-		leftPanel.add(inventoryPanel);
+		if (Global.get().preferences().isInventoryEnabled()) {
+			leftPanel.add(inventoryHeader);
+			leftPanel.add(inventoryPanel);
+		}
 		leftPanel.add(bankingHeader);
 		leftPanel.add(bankingPanel);
 

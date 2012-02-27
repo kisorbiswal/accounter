@@ -16,13 +16,11 @@ public class CreditCardExpenseAction extends Action {
 
 	public CreditCardExpenseAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
-	public CreditCardExpenseAction( ClientVendor vendor,
+	public CreditCardExpenseAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public void run() {
@@ -59,6 +57,10 @@ public class CreditCardExpenseAction extends Action {
 	//
 	// return this.view;
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
+	}
 
 	@Override
 	public ImageResource getBigImage() {

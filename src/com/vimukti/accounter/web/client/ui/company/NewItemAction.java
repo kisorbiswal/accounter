@@ -6,13 +6,11 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyView;
 import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.SelectItemTypeDialog;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
-import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 /**
@@ -25,19 +23,15 @@ public class NewItemAction extends Action<ClientItem> {
 	int type;
 	private boolean forCustomer;
 	private String itemName;
+	private boolean fromCompany;
 
 	public NewItemAction() {
 		super();
-		this.catagory = messages.company();
+		fromCompany = true;
 	}
 
 	public NewItemAction(boolean forCustomer) {
 		super();
-		if (forCustomer) {
-			this.catagory = Global.get().Customer();
-		} else {
-			this.catagory = Global.get().Vendor();
-		}
 		this.forCustomer = forCustomer;
 	}
 
@@ -46,6 +40,7 @@ public class NewItemAction extends Action<ClientItem> {
 		super();
 		this.catagory = messages.company();
 		this.forCustomer = forCustomer;
+		fromCompany = true;
 		// this.baseView = baseView;
 	}
 
@@ -76,15 +71,8 @@ public class NewItemAction extends Action<ClientItem> {
 						if (data != null) {
 							type = data.getType();
 						}
-						BaseView<?> view;
-						if (type == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
-							view = new InventoryAssemblyView();
-							((InventoryAssemblyView) view)
-									.setItemName(itemName);
-						} else {
-							view = new ItemView(type, forCustomer);
-							((ItemView) view).setItemName(itemName);
-						}
+						ItemView view = new ItemView(type, forCustomer);
+						view.setItemName(itemName);
 						MainFinanceWindow.getViewManager().showView(view, data,
 								isDependent, NewItemAction.this);
 					}
@@ -151,6 +139,17 @@ public class NewItemAction extends Action<ClientItem> {
 		}
 		return "newItemSupplier";
 
+	}
+
+	@Override
+	public String getCatagory() {
+		if (fromCompany) {
+			return messages.company();
+		} else if (forCustomer) {
+			return Global.get().Customer();
+		} else {
+			return Global.get().Vendor();
+		}
 	}
 
 	@Override

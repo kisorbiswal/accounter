@@ -772,6 +772,9 @@ public class PayBill extends Transaction {
 			payBill.creditsAndPayments = null;
 		}
 
+		if (payBillType == PayBill.TYPE_PAYBILL) {
+			vendor.updateBalance(HibernateUtil.getCurrentSession(), this, total);
+		}
 		for (TransactionPayBill transactionPayBill : this.transactionPayBill) {
 			transactionPayBill.setIsVoid(true);
 			transactionPayBill.onUpdate(session);

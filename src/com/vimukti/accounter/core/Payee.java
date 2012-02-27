@@ -624,6 +624,17 @@ public abstract class Payee extends CreatableObject implements
 		this.previousCurrencyFactor = currencyFactor;
 	}
 
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		JournalEntry existEntry = (JournalEntry) session
+				.getNamedQuery("getJournalEntryForCustomer")
+				.setLong("id", this.getID()).uniqueResult();
+		if (existEntry != null) {
+			session.delete(existEntry);
+		}
+		return false;
+	}
+
 	public Set<CustomFieldValue> getCustomFieldValues() {
 		return customFieldValues;
 	}

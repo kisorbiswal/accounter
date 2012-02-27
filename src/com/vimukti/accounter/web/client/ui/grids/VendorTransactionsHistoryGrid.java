@@ -131,11 +131,10 @@ public abstract class VendorTransactionsHistoryGrid extends
 	private void showWarningDialog(final TransactionHistory obj, final int col,
 			final int row) {
 		String msg = null;
-		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT
+		if (obj.getSavestaus() != ClientTransaction.STATUS_DRAFT
 				&& !obj.getIsVoid() && col == 7) {
 			msg = messages.doyouwanttoVoidtheTransaction();
-		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
-				&& col == 9) {
+		} else if (obj.getSavestaus() == ClientTransaction.STATUS_DRAFT) {
 			Accounter.showError(messages.youCannotVoidDraftedTransaction());
 			return;
 		}

@@ -124,8 +124,6 @@ public class AccountReportToolBar extends ReportToolbar {
 	protected void accountData() {
 		if (getAccId() != 0) {
 			accData(Accounter.getCompany().getAccount(getAccId()));
-			reportview.makeReportRequest(selectAccount.getID(), startDate,
-					endDate);
 		}
 	}
 

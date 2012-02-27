@@ -13,7 +13,6 @@ public class PriceLevelAction extends Action {
 
 	public PriceLevelAction() {
 		super();
-		this.catagory = Global.get().customer();
 	}
 
 	// @Override
@@ -41,6 +40,11 @@ public class PriceLevelAction extends Action {
 	@Override
 	public String getHistoryToken() {
 		return "priceLevel";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override

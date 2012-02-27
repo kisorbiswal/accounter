@@ -1303,6 +1303,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.measurements, measurementId);
 	}
 
+	public ClientEmailAccount getEmailAccount(long emailAccount) {
+		return Utility.getObject(this.emailAccounts, emailAccount);
+	}
+
 	public ClientWarehouse getWarehouse(long id) {
 		return Utility.getObject(this.warehouses, id);
 	}
@@ -1517,6 +1521,15 @@ public class ClientCompany implements IAccounterCore {
 			this.measurements.remove(clientMeasurement);
 			fireEvent(new CoreEvent<ClientMeasurement>(ChangeType.DELETE,
 					clientMeasurement));
+		}
+	}
+
+	public void deleteEmailAccount(long account) {
+		ClientEmailAccount emailAccount = this.getEmailAccount(account);
+		if (emailAccount != null) {
+			this.emailAccounts.remove(emailAccount);
+			fireEvent(new CoreEvent<ClientEmailAccount>(ChangeType.DELETE,
+					emailAccount));
 		}
 	}
 
@@ -1980,6 +1993,10 @@ public class ClientCompany implements IAccounterCore {
 				ClientChequeLayout chequeLayout = (ClientChequeLayout) accounterCoreObject;
 				Utility.updateClientList(chequeLayout, chequeLayouts);
 				break;
+			case EMAIL_ACCOUNT:
+				ClientEmailAccount emailAccount = (ClientEmailAccount) accounterCoreObject;
+				Utility.updateClientList(emailAccount, emailAccounts);
+				break;
 			case TDSDEDUCTORMASTER:
 				this.tdsDeductor = (ClientTDSDeductorMasters) accounterCoreObject;
 				break;
@@ -2147,11 +2164,16 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case MEASUREMENT:
 			deleteMeasurement(id);
-
+			break;
+		case EMAIL_ACCOUNT:
+			deleteEmailAccount(id);
+			break;
 		case USER:
 			deleteUser(id);
+			break;
 		case CUSTOMFIELD:
 			deleteCustomField(id);
+			break;
 		}
 	}
 
@@ -2177,7 +2199,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	private ClientAccounterClass getAccounterClass(long classId) {
+	public ClientAccounterClass getAccounterClass(long classId) {
 		return Utility.getObject(this.accounterClasses, classId);
 	}
 
@@ -3246,5 +3268,16 @@ public class ClientCompany implements IAccounterCore {
 	 */
 	public void setCostOfGoodsSold(long costOfGoodsSold) {
 		this.costOfGoodsSold = costOfGoodsSold;
+	}
+
+	public ClientEmailAccount getEmailAccount(String email) {
+		if (email != null && !email.isEmpty()) {
+			for (ClientEmailAccount account : emailAccounts) {
+				if (account.getEmailId().equals(email)) {
+					return account;
+				}
+			}
+		}
+		return null;
 	}
 }

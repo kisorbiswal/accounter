@@ -843,6 +843,10 @@
 			<many-to-one name="vatReturnBox" class="VATReturnBox"
 				cascade="save-update" column="VAT_RETURN_BOX">
 			</many-to-one>
+			<set name="groups" table="TAX_GROUP_TAX_ITEM" cascade="save-update">
+				<key column="TAX_ITEM_ID"></key>
+				<many-to-many column="TAX_GROUP_ID" class="TAXGroup" />
+			</set>
 		</joined-subclass>
 		<joined-subclass name="TAXGroup" table="TAX_GROUP">
 			<key column="ID" />

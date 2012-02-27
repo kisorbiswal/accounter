@@ -19,7 +19,6 @@ public class ExpenseClaimsAction extends Action {
 	public ExpenseClaimsAction(int selectedTab) {
 		super();
 		this.selectedTab = selectedTab;
-		catagory = Global.get().vendor();
 	}
 
 	@Override
@@ -57,6 +56,11 @@ public class ExpenseClaimsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "expense-claims";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override
