@@ -1,41 +1,56 @@
-package com.vimukti.accounter.developer.api.process;
+package com.vimukti.accounter.developer.api.process.lists;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Transaction;
-import com.vimukti.accounter.developer.api.ApiSerializationFactory;
+import com.vimukti.accounter.developer.api.process.ApiProcessor;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.server.managers.CompanyManager;
 
-public class TransactionListProcessor extends ApiProcessor {
+public abstract class ListProcessor extends ApiProcessor {
+	protected int start;
+	protected int length;
+	protected boolean isActive;
+	protected IAccounterHomeViewService service;
+	protected ClientFinanceDate from;
+	protected ClientFinanceDate to;
+	protected String viewName;
 
-	@Override
-	public void process(HttpServletRequest req, HttpServletResponse resp)
-			throws Exception {
-		String listName = req.getParameter("name");
-		if (listName == null) {
-			sendFail("listname should be present");
+	protected void initObjectsList(HttpServletRequest req,
+			HttpServletResponse resp) throws Exception {
+		try {
+			String actPar = req.getParameter("active");
+			isActive = actPar == null ? false : Boolean.parseBoolean(actPar);
+			String startPar = req.getParameter("start");
+			start = startPar == null ? 0 : Integer.parseInt(startPar);
+			String lengthPar = req.getParameter("length");
+			length = lengthPar == null ? -1 : Integer.parseInt(lengthPar);
+		} catch (Exception e) {
+			sendFail("Wrong parameter value(s)");
 			return;
 		}
 
-		IAccounterHomeViewService service = getS2sSyncProxy(req,
-				"/do/accounter/home/rpc/service",
+		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
 				IAccounterHomeViewService.class);
-		int viewType = 0;
+	}
+
+	protected void initTransactionList(HttpServletRequest req,
+			HttpServletResponse resp) throws Exception {
+		service = getS2sSyncProxy(req, "/do/accounter/home/rpc/service",
+				IAccounterHomeViewService.class);
+
 		String dateType = null;
-		ClientFinanceDate from = null;
-		ClientFinanceDate to = null;
-		viewType = getViewType(listName, req.getParameter("viewType"));
+		viewName = req.getParameter("viewType");
+		if (viewName == null) {
+			viewName = "all";
+		}
 
 		dateType = req.getParameter("dateType");
 		if (dateType == null) {
@@ -63,8 +78,7 @@ public class TransactionListProcessor extends ApiProcessor {
 			from = dates[0];
 			to = dates[1];
 		}
-		int start = 0;
-		int length = -1;
+
 		try {
 			String startPar = req.getParameter("start");
 			start = startPar == null ? 0 : Integer.parseInt(startPar);
@@ -74,14 +88,6 @@ public class TransactionListProcessor extends ApiProcessor {
 			sendFail("Wrong parameter value(s)");
 			return;
 		}
-
-		List<?> resultList = null;
-		if (listName.equals("invoices")) {
-			resultList = service.getInvoiceList(from.getDate(), to.getDate(),
-					ClientTransaction.TYPE_INVOICE, viewType, start, length);
-		}
-
-		sendResult(resultList);
 	}
 
 	private ClientFinanceDate[] dateRangeChanged(long companyId,
@@ -282,21 +288,5 @@ public class TransactionListProcessor extends ApiProcessor {
 			newDate.setDay(date.getDay());
 		}
 		return newDate;
-	}
-
-	private int getViewType(String viewName, String viewType) {
-		int type = 0;
-		if (viewType.equalsIgnoreCase("open")) {
-			type = Transaction.VIEW_OPEN;
-		} else if (viewType.equalsIgnoreCase("voided")) {
-			type = Transaction.VIEW_VOIDED;
-		} else if (viewType.equalsIgnoreCase("overDue")) {
-			type = Transaction.VIEW_OVERDUE;
-		} else if (viewType.equalsIgnoreCase("all")) {
-			type = Transaction.VIEW_ALL;
-		} else if (viewType.equalsIgnoreCase("drafts")) {
-			type = Transaction.VIEW_DRAFT;
-		}
-		return type;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.developer.api.core.ITest;
-import com.vimukti.accounter.developer.api.report.CreateTest;
 import com.vimukti.accounter.developer.api.report.ListsTest;
 
 public class AccounterTestMain {
@@ -27,6 +26,6 @@ public class AccounterTestMain {
 	}
 
 	private static void loadTestCases() {
-		tests.add(new CreateTest());
+		tests.add(new ListsTest());
 	}
 }

@@ -13,13 +13,12 @@ public class ListsTest extends AbstractTest {
 
 	@Override
 	public void test() throws Exception {
-		path = "/company/api/xml/lists/";
+		path = "/company/api/xml/lists";
 		customers();
 	}
 
 	private void customers() throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("type", "transactions");
 		map.put("name", "invoices");
 		map.put("viewType", "open");
 		map.put("dateType", "all");

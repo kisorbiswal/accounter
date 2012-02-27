@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
-import com.vimukti.accounter.developer.api.ApiSerializationFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterReportService;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -105,8 +104,7 @@ public class ReportsProcessor extends ApiProcessor {
 					result = accounterReportServiceImpl.getCreditors(
 							clientFinanceStartDate, clientFinanceEndDate);
 				} catch (AccounterException e) {
-					resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-							e.getMessage());
+					sendFail(e.getMessage());
 					return;
 				}
 

@@ -16,10 +16,10 @@ public class ListsApiServlet extends ApiBaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String type = req.getParameter("type");
+		String type = req.getParameter("name");
 		if (type == null) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"type should be present");
+					"name should be present");
 			return;
 		}
 		doProcess(req, resp, type);

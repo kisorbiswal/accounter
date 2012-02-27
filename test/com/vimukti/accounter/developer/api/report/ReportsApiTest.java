@@ -13,7 +13,7 @@ public class ReportsApiTest extends AbstractTest {
 
 	@Override
 	public void test() throws Exception {
-		path = "/company/api/xml/reports/";
+		path = "/company/api/xml/reports";
 		salesbycustomersummary();
 		agedcreditors();
 	}

@@ -16,6 +16,11 @@ public class ReportsApiServlet extends ApiBaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String type = req.getParameter("type");
+		if (type == null) {
+			sendFail(req, resp, "type should be present");
+			return;
+		}
 		doProcess(req, resp, "reports");
 	}
 }
