@@ -94,8 +94,7 @@ public class BudgetVsActualsServerReport extends
 			iniHandler();
 
 		String sectionName1 = null;
-		int type = Accounter.getCompany()
-				.getAccountByName(record.getAccountName()).getType();
+		int type = record.getType();
 		if (type == ClientAccount.TYPE_EXPENSE) {
 			sectionName1 = messages.expense();
 		} else if (type == ClientAccount.TYPE_OTHER_EXPENSE) {

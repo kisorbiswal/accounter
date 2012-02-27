@@ -54,7 +54,11 @@ public class Activity extends CreatableObject {
 	private void setObject(IAccounterServerCore obj) {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
-			this.amount = tr.getTotal();
+			if (tr instanceof TAXReturn) {
+				this.amount = ((TAXReturn) tr).getTotal();
+			} else {
+				this.amount = tr.getTotal();
+			}
 			currency = tr.getCurrency();
 			this.transactionDate = tr.getDate();
 			Payee payee = tr.getInvolvedPayee();
