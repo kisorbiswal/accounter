@@ -325,7 +325,7 @@
 		ITEM_TYPE
 		IS NOT NULL AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY
-		ITEM_TYPE,ITEM_NAME
+		ITEM_NAME,DATE
 	</sql-query>
 	<sql-query name="getSalesByItemDetailForParticularItem">
 		<query-param name="companyId" type="long" />
@@ -430,7 +430,7 @@
 		NOT
 		NULL AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY
-		ITEM_TYPE,ITEM_NAME
+		ITEM_NAME,DATE
 	</sql-query>
 	<sql-query name="getPurchasesByItemDetailForParticularItem">
 		<query-param name="companyId" type="long" />

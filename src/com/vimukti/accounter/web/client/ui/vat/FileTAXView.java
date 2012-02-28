@@ -131,11 +131,6 @@ public class FileTAXView extends AbstractFileTAXView {
 		taxReturn.setTransactionDate(new ClientFinanceDate().getDate());
 		taxReturn.setPeriodStartDate(fromDate.getDate().getDate());
 		taxReturn.setPeriodEndDate(toDate.getDate().getDate());
-		double taxamount = 0.0;
-		for (ClientTAXReturnEntry d : grid.getRecords()) {
-			taxamount += d.getTaxAmount();
-		}
-		taxReturn.setTotalTAXAmount(taxamount);
 		setData(taxReturn);
 	}
 }
