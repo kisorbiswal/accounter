@@ -8,7 +8,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import com.vimukti.accounter.developer.api.core.AbstractTest;
 import com.vimukti.accounter.developer.api.core.ApiResult;
 
-public class ReportsApiTest extends AbstractTest {
+public class ReportsTest extends AbstractTest {
 	private String path;
 
 	@Override
@@ -41,7 +41,7 @@ public class ReportsApiTest extends AbstractTest {
 	@Override
 	protected String getQueryString(Map<String, String> params) {
 		params.put("StartDate", "2012.02.24 AD at 11:13:56 IST");
-		params.put("EndDate", "2012.02.30 AD at 12:13:56 IST");
+		params.put("EndDate", "2013.03.30 AD at 12:13:56 IST");
 		return super.getQueryString(params);
 	}
 }

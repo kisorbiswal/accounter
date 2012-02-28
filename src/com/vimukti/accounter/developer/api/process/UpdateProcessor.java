@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.developer.api.ApiSerializationFactory;
-import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
 import com.vimukti.accounter.web.client.IAccounterGETService;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -43,11 +42,11 @@ public class UpdateProcessor extends CRUDProcessor {
 
 			objectById = factory.deserialize(inputStream, objectById);
 
-			long create = ((IAccounterCRUDService) getS2sSyncProxy(req,
+			long update = ((IAccounterCRUDService) getS2sSyncProxy(req,
 					"/do/accounter/crud/rpc/service",
 					IAccounterCRUDService.class)).update(objectById);
 
-			sendResult(create);
+			sendResult(update);
 		} catch (Exception e) {
 			sendFail(e.getMessage());
 		}

@@ -35,6 +35,7 @@ public abstract class AbstractTest implements ITest {
 	protected SimpleDateFormat simpleDateFormat;
 	private HttpClient client;
 	protected long companyId = 1;
+	public ApiResult result;
 
 	public AbstractTest() {
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
@@ -48,42 +49,53 @@ public abstract class AbstractTest implements ITest {
 		companyId = getCompanyId();
 	}
 
-	protected void isNull(Object o) {
+	protected void isNull(Object o) throws Exception {
 		if (o != null) {
-			new Exception("is Null?	o=" + o).printStackTrace();
+			throw new Exception("is Null?	o=" + o);
 		}
 	}
 
-	protected void isTrue(boolean b) {
+	protected void notNull(Object o) throws Exception {
+		if (o == null) {
+			throw new Exception("is Not Null?	o=" + o);
+		}
+	}
+
+	protected void isTrue(boolean b) throws Exception {
 		if (!b) {
-			new Exception("is True?	b=" + b).printStackTrace();
+			throw new Exception("is True?	b=" + b);
 		}
 	}
 
-	protected void isFalse(boolean b) {
+	protected void isTrue(Object b) throws Exception {
+		isTrue(Boolean.parseBoolean(b.toString()));
+	}
+
+	protected void isFalse(Object b) throws Exception {
+		isTrue(Boolean.parseBoolean(b.toString()));
+	}
+
+	protected void isFalse(boolean b) throws Exception {
 		isTrue(!b);
 	}
 
-	protected void eq(Object o1, Object o2) {
+	protected void eq(Object o1, Object o2) throws Exception {
 		if (o1 != o2) {
 			if (o1 == null || !o1.equals(o2)) {
-				new Exception("is Equal?	o1=" + o1 + ";o2=" + o2)
-						.printStackTrace();
+				throw new Exception("is Equal?	o1=" + o1 + ";o2=" + o2);
 			}
 		}
 	}
 
-	protected void notEq(Object o1, Object o2) {
+	protected void notEq(Object o1, Object o2) throws Exception {
 		if (o1 == o2) {
-			new Exception("is Not Equal?	o1=" + o1 + ";o2=" + o2)
-					.printStackTrace();
+			throw new Exception("is Not Equal?	o1=" + o1 + ";o2=" + o2);
 		}
 		if (o1 == null) {
 			return;
 		}
 		if (o1.equals(o2)) {
-			new Exception("is Not Equal?	 o1=" + o1 + ";o2=" + o2)
-					.printStackTrace();
+			throw new Exception("is Not Equal?	 o1=" + o1 + ";o2=" + o2);
 		}
 	}
 
@@ -183,5 +195,10 @@ public abstract class AbstractTest implements ITest {
 		// eq(HttpStatus.SC_OK, statusCode);
 		// System.out.println(prepareMethod.getResponseBodyAsString());
 		return 1L;
+	}
+
+	@Override
+	public ApiResult getResult() {
+		return result;
 	}
 }
