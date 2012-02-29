@@ -71,12 +71,21 @@
 		<return-scalar column="CONTACT_SUPPORT" type="boolean" />
 		SELECT CONTACT_SUPPORT FROM COMPANY WHERE ID =:companyId
 	</sql-query>
-	
+
 	<query name="getServerCompany.by.id">
 		<query-param name="id" type="integer" />
 		from com.vimukti.accounter.core.Company c where
 		c.id=:id
 	</query>
+
+	<sql-query name="list.Users.by.emailIds">
+		<query-param name="users" type="String" />
+		<return-scalar column="EMAIL_ID" type="string" />
+		<return-scalar column="FIRST_NAME" type="string" />
+		<return-scalar column="LAST_NAME" type="string" />
+		<return-scalar column="COMPANY_ID" type="long" />
+		SELECT C.EMAIL_ID,C.FIRST_NAME,C.LAST_NAME,U.COMPANY_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
+	</sql-query>
 
 	<sql-query name="delete.Client.Companies">
 		<query-param name="serverCompanyID" type="String" />

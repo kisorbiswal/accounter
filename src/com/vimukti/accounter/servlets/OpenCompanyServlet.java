@@ -223,8 +223,9 @@ public class OpenCompanyServlet extends BaseServlet {
 
 	private boolean canResetPassword(Long serverCompanyID) {
 		Session session = HibernateUtil.getCurrentSession();
-		Boolean support = (Boolean) session.getNamedQuery(
-				"get.company.contactsupport").uniqueResult();
+		Boolean support = (Boolean) session
+				.getNamedQuery("get.company.contactsupport")
+				.setParameter("companyId", serverCompanyID).uniqueResult();
 		return support;
 	}
 

@@ -3,7 +3,6 @@ package com.vimukti.accounter.servlets;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +15,7 @@ import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
-public class CompanyPasswordRecoveryServlet extends HttpServlet {
+public class CompanyPasswordRecoveryServlet extends BaseServlet {
 
 	/**
 	 * 
@@ -26,6 +25,18 @@ public class CompanyPasswordRecoveryServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String emailId = (String) req.getSession().getAttribute(
+				BaseServlet.EMAIL_ID);
+		if (emailId == null) {
+			resp.sendRedirect(BaseServlet.LOGIN_URL);
+			return;
+		}
+		Long companyId = (Long) req.getSession().getAttribute(
+				BaseServlet.COMPANY_ID);
+		if (companyId == null) {
+			resp.sendRedirect(BaseServlet.COMPANIES_URL);
+			return;
+		}
 		dispatch(req, resp);
 	}
 

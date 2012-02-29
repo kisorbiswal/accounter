@@ -182,7 +182,7 @@
 
 	<servlet>
 		<servlet-name>Company Password Recovery</servlet-name>
-		<servlet-class>com.vimukti.accounter.servlets.ActivationServlet
+		<servlet-class>com.vimukti.accounter.servlets.CompanyPasswordRecoveryServlet
 		</servlet-class>
 	</servlet>
 	<servlet-mapping>

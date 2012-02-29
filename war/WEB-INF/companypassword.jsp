@@ -13,7 +13,7 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%
 	String error =(String) request.getAttribute("error");
-	String showResetLink =(String) request.getAttribute("showResetLink");
+	Boolean showResetLink =(Boolean) request.getAttribute("showResetLink");
 %>
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />

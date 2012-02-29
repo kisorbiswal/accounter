@@ -34,7 +34,7 @@ public class NewLoginServlet extends BaseServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String LOGIN_VIEW = "/WEB-INF/companypassword.jsp";
+	private static final String LOGIN_VIEW = "/WEB-INF/login.jsp";
 	private static final String ACTIVATION_VIEW = "/WEB-INF/activation.jsp";
 
 	protected static final Log LOG = LogFactory.getLog(ActivationServlet.class);
