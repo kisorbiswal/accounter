@@ -33,14 +33,14 @@ public class ImporterType {
 	static {
 		supportedImports.put(CUSTOMER, Global.get().Customer());
 		supportedImports.put(VENDOR, Global.get().Vendor());
-		supportedImports.put(INVOICE, Global.get().messages().invoice());
+		// supportedImports.put(INVOICE, Global.get().messages().invoice());
 		supportedImports.put(ITEM, Global.get().messages().item());
-		supportedImports.put(CUSTOMER_PREPAYMENT,
-				messages.payeePrePayment(Global.get().Customer()));
-		supportedImports.put(VENDOR_PREPAYMENT,
-				messages.payeePrePayment(Global.get().Vendor()));
-		supportedImports.put(ENTERBILL, messages.enterBills());
-		supportedImports.put(PAYBILL, messages.payBills());
+		// supportedImports.put(CUSTOMER_PREPAYMENT,
+		// messages.payeePrePayment(Global.get().Customer()));
+		// supportedImports.put(VENDOR_PREPAYMENT,
+		// messages.payeePrePayment(Global.get().Vendor()));
+		// supportedImports.put(ENTERBILL, messages.enterBills());
+		// supportedImports.put(PAYBILL, messages.payBills());
 	}
 
 	public static Map<Integer, String> getAllSupportedImporters() {
