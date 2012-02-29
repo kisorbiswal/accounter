@@ -20,7 +20,7 @@
 	<link type="text/css" href="../css/ss.css" rel="stylesheet" />
     <%
 
-    	String useremailIds =(String) request.getAttribute("userIdsList");
+    	String users =(String) request.getAttribute("userIdsList");
     	String expDate =(String) request.getAttribute("ExpiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
   	%>
@@ -66,13 +66,12 @@
 		</div>
 		</form>
 		<script type="text/javascript">
-                  var useremailIds= '<%= useremailIds%>';
-                  var useremailIdsArray =useremailIds.split(',');
-                  var finalstring ="";
-                  for(var i=0;i<useremailIdsArray.length;i++){
-                	  finalstring = finalstring +"\n"+useremailIdsArray[i];
-                  }
-                  finalstring = finalstring.substring(1);
+                  var users= <%= users%>;
+                   var finalstring="";
+                 if(users.list.length>0){
+                 for(var i=0; i <  users.list.length; i++){
+				finalstring = finalstring + "/n" +users.list[i].emailid ;
+			}
 				$('#mailIdsTextArea').val(finalstring);
 				$('#emailIdsList').text(finalstring);
 				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].value);
@@ -80,6 +79,18 @@
 			document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].selected = true;
 			$('#submitButton').click(function(){
 			if(validate()){
+			for(var i=0; i <  users.list.length; i++){
+			for(var j=0; j < textArray.length; j++){
+			if(!users.list[i].emailid =textArray[j]){
+			if(users.list[i].isCreated ==true){
+			alert("do you want to delete the exicting customer");
+			}
+			}
+			}
+			
+			}
+			
+			
 			$('#error').text("");
 			$('#subscription_complition_form').submit();
 			}else{
@@ -96,6 +107,8 @@
 			   }
  			}  
  			
+ 			var textArray =$('#mailIdsTextArea').val().split('\n');
+ 			
  			function validate(){
  			var type =${subscriptionType};
  			var maxLimit =1; 
@@ -107,7 +120,6 @@
  			maxLimit =5;
  			}
  			$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');
- 			var textArray =$('#mailIdsTextArea').val().split('\n');
  			var emailCount =0;
  			for(var i=0; i<=textArray.length; i++){
  			if(validateEmail(textArray[i])){
