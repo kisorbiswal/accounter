@@ -20,8 +20,9 @@ public class MessageOrTask extends CreatableObject implements
 	public static final int TYPE_TASK = 2;
 	public static final int TYPE_WARNING = 3;
 
-	public static final int TYPE_RECURRING_REMINDER = 1;
-	public static final int TYPE_AUTOMATIC_TRANSACTIONS = 2;
+	public static final int CONTENT_TYPE_RECURRING_REMINDER = 1;
+	public static final int CONTENT_TYPE_AUTOMATIC_TRANSACTIONS = 2;
+	public static final int CONTENT_TYPE_PURCHASE_ORDER = 3;
 
 	/**
 	 * To store the type of object, It may be message, task or warning.

@@ -38,24 +38,28 @@ public class InventoryUtils {
 		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 		for (TransactionItem inventorySale : sales) {
 			Quantity salesQty = inventorySale.getQuantityCopy();
-			Map<Quantity, Double> purchaseForThisSale = new HashMap<Quantity, Double>();
+			Map<Double, Quantity> purchaseForThisSale = new HashMap<Double, Quantity>();
 			while (purchaseIterator.hasNext()) {
 				InventoryDetails next = purchaseIterator.next();
 				Quantity purchaseQty = next.quantity;
 				int compareTo = purchaseQty.compareTo(salesQty);
 				if (compareTo < 0) {
-					purchaseForThisSale.put(purchaseQty, next.cost);
+					Quantity quantity = purchaseForThisSale.get(next.cost);
+					if (quantity != null) {
+						purchaseQty = purchaseQty.add(quantity);
+					}
+					purchaseForThisSale.put(next.cost, purchaseQty);
 					purchaseIterator.remove();
 					salesQty = salesQty.subtract(purchaseQty);
 					continue;
 				} else if (compareTo > 0) {
 					purchaseQty = purchaseQty.subtract(salesQty);
-					purchaseForThisSale.put(salesQty.copy(), next.cost);
+					purchaseForThisSale.put(next.cost, salesQty.copy());
 					next.quantity = purchaseQty;
 					salesQty.setValue(0.00D);
 					break;
 				} else {
-					purchaseForThisSale.put(purchaseQty, next.cost);
+					purchaseForThisSale.put(next.cost, purchaseQty);
 					purchaseIterator.remove();
 					salesQty.setValue(0.00D);
 					break;
