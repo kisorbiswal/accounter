@@ -250,6 +250,12 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	protected void historyChanged(String value) {
+
+		if (value != null && views.current() != null
+				&& value.equals(views.current().token)) {
+			return;
+		}
+
 		HistoryToken token = null;
 		try {
 			token = new HistoryToken(value);
