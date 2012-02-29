@@ -57,6 +57,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -690,8 +691,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected boolean canAddDraftButton() {
-		return getCompany().getLoggedInUser().getPermissions()
-				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES
+		ClientUserPermissions permissions = getCompany().getLoggedInUser()
+				.getPermissions();
+		return (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
 				&& canRecur() ? (transaction == null ? true : transaction
 				.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
@@ -2071,5 +2074,24 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return discount;
 
+	}
+
+	@Override
+	protected boolean canDelete() {
+		if (getMode() == null || getMode() == EditMode.CREATE) {
+			return false;
+		}
+		if (transaction != null && transaction.isDraft()) {
+			ClientUserPermissions permissions = getCompany().getLoggedInUser()
+					.getPermissions();
+			return permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
+		}
+		return super.canDelete();
+	}
+
+	@Override
+	protected boolean isSaveButtonAllowed() {
+		return Utility.isUserHavePermissions(transactionType);
 	}
 }

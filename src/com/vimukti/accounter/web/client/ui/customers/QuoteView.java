@@ -294,7 +294,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		} else if (status.equals(messages.rejected())) {
 			return ClientEstimate.STATUS_REJECTED;
 		} else if (status.equals(messages.completed())) {
-			return ClientTransaction.STATUS_APPLIED;
+			return ClientTransaction.STATUS_COMPLETED;
 		} else if (status.equals(messages.cancelled())) {
 			return ClientTransaction.STATUS_CANCELLED;
 		}
@@ -315,6 +315,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		case ClientEstimate.STATUS_REJECTED:
 			return messages.rejected();
 		case ClientEstimate.STATUS_APPLIED:
+		case ClientTransaction.STATUS_COMPLETED:
 			if (type == ClientEstimate.SALES_ORDER) {
 				return messages.completed();
 			}
@@ -1418,12 +1419,6 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		}
 
 		return statuses;
-	}
-
-	@Override
-	protected boolean canVoid() {
-		return data == null ? false
-				: data.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
 	@Override

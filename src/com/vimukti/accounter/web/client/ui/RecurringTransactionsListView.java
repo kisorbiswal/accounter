@@ -115,6 +115,10 @@ public class RecurringTransactionsListView extends
 	protected void openUsableTransactionView() {
 		ClientRecurringTransaction selection = (ClientRecurringTransaction) grid
 				.getSelection();
+		if (!(grid.isCanOpenTransactionView(selection.getTransaction()
+				.getSaveStatus(), selection.getTransaction().getType()))) {
+			return;
+		}
 		if (selection != null) {
 			AccounterAsyncCallback<ClientTransaction> callBack = new AccounterAsyncCallback<ClientTransaction>() {
 

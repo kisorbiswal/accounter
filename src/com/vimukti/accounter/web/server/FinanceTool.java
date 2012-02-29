@@ -49,6 +49,7 @@ import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.Attachment;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -522,6 +523,10 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof BuildAssembly) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof MessageOrTask) {
+				session.delete(serverObject);
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
@@ -576,7 +581,7 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, long companyId) {
+	public boolean canDelete(String serverClass, long id, long companyId) {
 		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)

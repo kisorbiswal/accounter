@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.DailyRollingFileAppender;
@@ -172,10 +173,14 @@ public class ServerMain extends Main {
 			if (isDebug) {
 				BasicConfigurator.configure(new ConsoleAppender());
 			} else {
-				Layout layout = new PatternLayout("%d %x %C{1}.%M- %m%n");
+				Layout layout = new PatternLayout(
+						"%d{dd MMM yyyy HH:mm:ss} %p [%c{1}] - %m %n");
 				Logger.getRootLogger().addAppender(
 						new DailyRollingFileAppender(layout, path,
 								"'.'yyyy-MM-dd-a"));
+				Appender appender = Logger.getRootLogger().getAppender(
+						"console");
+				appender.setLayout(layout);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -375,16 +375,22 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 												obj.getStatus());
 						break;
 					case 3:
-						columnValue = Utility
-								.getDateInSelectedFormat(new FinanceDate(obj
-										.getIssueDate()));
+						ClientFinanceDate issueDate = obj.getIssueDate();
+						if (issueDate == null) {
+							columnValue = "";
+						} else {
+							columnValue = Utility
+									.getDateInSelectedFormat(new FinanceDate(
+											issueDate));
+						}
 						break;
 					case 4:
 						columnValue = obj.getName() == null ? "" : obj
 								.getName();
 						break;
 					case 5:
-						columnValue = obj.getPaymentMethod();
+						columnValue = obj.getPaymentMethod() != null ? obj
+								.getPaymentMethod() : "";
 						break;
 					case 6:
 						columnValue = amountAsStringWithCurrency(

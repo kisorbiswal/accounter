@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -155,7 +156,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
-				return obj.getOnhandQty().getValue();
+				return obj.getOnhandQty() != null ? obj.getOnhandQty()
+						.getValue() : "";
 			case 5:
 				return DataUtils.amountAsStringWithCurrency(
 						obj.getAverageCost(), currency) != null ? DataUtils
@@ -296,7 +298,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (isCanOpenTransactionView(0, IAccounterCore.ITEM)) {
 			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
 			itemAction.setType(obj.getType());
 			itemAction.run(obj, false);
@@ -304,7 +306,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(0, IAccounterCore.ITEM))
 			return;
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 			if (col == 7) {

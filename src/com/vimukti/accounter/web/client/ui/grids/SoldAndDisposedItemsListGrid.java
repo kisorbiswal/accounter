@@ -7,6 +7,8 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetNote;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -117,7 +119,9 @@ public class SoldAndDisposedItemsListGrid extends
 
 	@Override
 	protected void onDoubleClick(ClientFixedAsset obj, int row, int col) {
-
+		if (!Utility.isUserHavePermissions(IAccounterCore.FIXED_ASSET)) {
+			return;
+		}
 		switch (col) {
 		case 6:
 			openHistoryView(obj);

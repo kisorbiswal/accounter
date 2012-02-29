@@ -41,6 +41,8 @@ public class PurchaseOrdersList implements IsSerializable, Serializable {
 
 	private long currency;
 
+	private int saveStatus;
+
 	/**
 	 * @return the transactionId
 	 */
@@ -197,5 +199,13 @@ public class PurchaseOrdersList implements IsSerializable, Serializable {
 
 	public void setCurrency(long currency) {
 		this.currency = currency;
+	}
+
+	public void setSaveStatus(int saveStatus) {
+		this.saveStatus = saveStatus;
+	}
+
+	public int getSaveStatus() {
+		return saveStatus;
 	}
 }

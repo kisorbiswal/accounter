@@ -95,30 +95,33 @@ public class JournalEntriesListGrid extends BaseListGrid<ClientJournalEntry> {
 
 	@Override
 	public void onDoubleClick(ClientJournalEntry obj) {
-		ActionFactory.getNewJournalEntryAction().run(obj, false);
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
+			ActionFactory.getNewJournalEntryAction().run(obj, false);
+		}
 	}
 
 	@Override
 	protected void onClick(ClientJournalEntry obj, int row, int col) {
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
+			if (col == 4 && !obj.isVoid()) {
+				if (obj.getReference() == null) {
+					showWarningDialog(obj, col);
+				} else if (obj.getReference().equals(
+						messages.journalEntryforRunningDepreciation())) {
+					Accounter
+							.showWarning(
+									messages.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
+									AccounterType.ERROR);
+				}
 
-		if (col == 4 && !obj.isVoid()) {
-			if (obj.getReference() == null) {
-				showWarningDialog(obj, col);
-			} else if (obj.getReference().equals(
-					messages.journalEntryforRunningDepreciation())) {
-				Accounter.showWarning(messages
-						.youcantvoidJournalEntrycreatedbyrunningDeprecation(),
-						AccounterType.ERROR);
 			}
-
+			if (col == 5) {
+				if (!isDeleted)
+					showWarningDialog(obj, col);
+				else
+					return;
+			}
 		}
-		if (col == 5) {
-			if (!isDeleted)
-				showWarningDialog(obj, col);
-			else
-				return;
-		}
-
 	}
 
 	private void showWarningDialog(final ClientJournalEntry obj, final int col) {

@@ -1567,5 +1567,4 @@ public class CustomerView extends BaseView<ClientCustomer> {
 			item.setDisabled(isInViewMode());
 		}
 	}
-
 }
