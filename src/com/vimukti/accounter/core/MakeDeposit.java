@@ -251,6 +251,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	private void doVoidEffect(Session session) {
 		depositTo.updateCurrentBalance(this, this.total, this.currencyFactor);
 		session.save(depositTo);
+		for (TransactionDepositItem item : getTransactionDepositItems()) {
+			item.doReverseEffect(session);
+		}
 	}
 
 	@Override
