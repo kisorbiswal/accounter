@@ -19,7 +19,7 @@
 	<script src="/jscripts/jquery.validate.js" type="text/javascript"></script>
 	<link type="text/css" href="../css/ss.css" rel="stylesheet" />
     <%
-  		SubscriptionManagementData managementData=(SubscriptionManagementData)request.getAttribute("managementData");
+
     	String useremailIds =(String) request.getAttribute("userIdsList");
   	%>
   	<title>Subscription Management</title>
@@ -30,10 +30,10 @@
 	<table cellspacing="10">
 	<tr>
 	<td> Admin Email : </td> 
-	<td>${managementData.adminMailId}</td>
+	<td>${adminMailId}</td>
 	</tr><tr></tr><tr>
 	<td> Subscription date : </td> 
-	<td>${managementData.subscriptionDate}</td>
+	<td>${subscriptionDate}</td>
 	</tr><tr></tr><tr>
 	<td> Subscription type : </td> 
 	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
@@ -41,7 +41,7 @@
 	<td id="emailIdsList"></td>
 	</tr></tr><tr>
 	<tr>
-	<input type="hidden" name="subscriptionType" value="${managementData.subscriptionType}" >
+	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
     <option value="One User Monthly Subscription">One user : $5.00USD - monthly</option>
@@ -56,7 +56,7 @@
 	</tr>
 	<tr>
 	<td> Subscription Date : </td>
-	<td> ${managementData.subscriptionDate}</td>
+	<td> ${subscriptionDate}</td>
 	</tr>
 	<tr>
 	<td> Users Emails : </td>
@@ -83,9 +83,9 @@
                   finalstring = finalstring.substring(1);
 				$('#mailIdsTextArea').val(finalstring);
 				$('#emailIdsList').text(finalstring);
-				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].value);
+				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].value);
 			 
-			document.getElementById('subScriptionTypeCombo').options[${managementData.subscriptionType}].selected = true;
+			document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].selected = true;
 			$('#submitButton').click(function(){
 			if(validate()){
 			$('#error').text("");
@@ -105,7 +105,7 @@
  			}  
  			
  			function validate(){
- 			var type =${managementData.subscriptionType};
+ 			var type =${subscriptionType};
  			var maxLimit =1; 
  			if(type ==0 || type==1){
  			maxLimit =1;

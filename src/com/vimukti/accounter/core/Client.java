@@ -33,7 +33,6 @@ public class Client {
 	private boolean isDeleted;
 	private boolean isEmailBounced;
 	private ClientSubscription clientSubscription;
-	private SubscriptionManagementData subscriptionManagementData;
 
 	public int getLoginCount() {
 		return loginCount;
@@ -225,14 +224,5 @@ public class Client {
 
 	public void setClientSubscription(ClientSubscription clientSubscription) {
 		this.clientSubscription = clientSubscription;
-	}
-
-	public SubscriptionManagementData getSubscriptionManagementData() {
-		return subscriptionManagementData;
-	}
-
-	public void setSubscriptionManagementData(
-			SubscriptionManagementData subscriptionManagementData) {
-		this.subscriptionManagementData = subscriptionManagementData;
 	}
 }

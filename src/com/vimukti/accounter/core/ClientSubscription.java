@@ -1,6 +1,7 @@
 package com.vimukti.accounter.core;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -16,7 +17,7 @@ public class ClientSubscription implements IsSerializable {
 	private Date createdDate;
 	private Date lastModified;
 	private Date expiredDate;
-	private Set<String> members;
+	private Set<String> members = new HashSet<String>();
 	private int premiumType;
 
 	public ClientSubscription() {
