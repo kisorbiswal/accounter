@@ -2241,6 +2241,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			if (!existed.contains(s)) {
 				InvitableUser in1 = new InvitableUser();
 				in1.setEmail(s);
+
 				invitableUsers.add(in1);
 			}
 		}
