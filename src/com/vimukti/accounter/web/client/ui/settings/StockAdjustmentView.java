@@ -316,7 +316,7 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 
 	@Override
 	protected boolean canDelete() {
-		return false;
+		return true;
 	}
 
 	@Override

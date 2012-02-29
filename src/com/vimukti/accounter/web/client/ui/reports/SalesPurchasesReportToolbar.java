@@ -66,7 +66,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 							status = ClientTransaction.STATUS_OPEN;
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.completed())) {
-							status = ClientTransaction.STATUS_APPLIED;
+							status = ClientTransaction.STATUS_COMPLETED;
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.all())) {
 							status = -1;
@@ -210,7 +210,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		if (status == ClientEstimate.STATUS_OPEN
 				|| status == ClientTransaction.STATUS_OPEN) {
 			statusCombo.setComboItem(messages.open());
-		} else if (status == ClientTransaction.STATUS_APPLIED) {
+		} else if (status == ClientTransaction.STATUS_COMPLETED) {
 			statusCombo.setComboItem(messages.completed());
 		} else if (status == -1) {
 			statusCombo.setComboItem(messages.all());

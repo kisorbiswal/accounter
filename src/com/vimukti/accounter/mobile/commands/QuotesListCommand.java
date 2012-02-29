@@ -11,7 +11,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.mobile.utils.CommandUtils;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
@@ -205,7 +204,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		} else if (type.equalsIgnoreCase(getMessages().expired())) {
 			viwType = 6;
 		} else if (type.equalsIgnoreCase(getMessages().completed())) {
-			viwType = ClientTransaction.STATUS_APPLIED;
+			viwType = ClientTransaction.STATUS_COMPLETED;
 		} else if (type.equalsIgnoreCase(getMessages().cancelled())) {
 			viwType = ClientTransaction.STATUS_CANCELLED;
 		}

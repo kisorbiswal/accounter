@@ -2873,3 +2873,6 @@ input.date-field-textbox {
 .managing-html {
 	margin-left: 30px;
 }
+.credits-scroll-panel{
+	max-height: 375px;
+}
