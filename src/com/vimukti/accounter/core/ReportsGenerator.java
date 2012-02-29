@@ -1957,7 +1957,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Sales Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Sales Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Sales Cancelled Order Report";
@@ -1989,7 +1989,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Purchase Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Purchase Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Purchase Cancelled Order Report";
