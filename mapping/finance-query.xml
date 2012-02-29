@@ -567,7 +567,7 @@
 		AND :toDate
 		ORDER
 		BY
-		VENDOR_NAME
+		T_DATE DESC
 
 	</sql-query>
 
@@ -663,7 +663,7 @@
 		IN(1,4,8) AND T.SAVE_STATUS !=
 		202
 		ORDER BY
-		DUE_DATE
+		T.T_DATE DESC
 	</sql-query>
 	<!-- To generate the Invoices List which includes Cash Sales, Customer Credit 
 		Memos, Invoices and Write Checks -->
@@ -802,7 +802,7 @@
 		BETWEEN
 		:fromDate AND :toDate
 		ORDER BY
-		DUE_DATE
+		T.T_DATE DESC
 	</sql-query>
 	<sql-query name="getAllCustomersPaymentsList">
 		<query-param name="companyId" type="long" />
@@ -904,6 +904,8 @@
 		:fromDate
 		AND
 		:toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 	<!-- To generate the Payments List which Includes Cash Purchases, Credit 
 		Card Charges, Customer Refunds,PayBills and Write Checks -->
@@ -1145,6 +1147,8 @@
 		T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 	<!-- To generate the Vendor Payments List which Includes PayBills and Write 
 		Checks created for Vendors -->
@@ -5145,7 +5149,7 @@
 		= 1 AND
 		P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
 		ORDER BY
-		P.NAME
+		P.NUMBER
 
 	</sql-query>
 
@@ -5438,7 +5442,7 @@
 		AND P.COMPANY_ID=:companyId AND
 		P.IS_ACTIVE=:isActive
 		ORDER BY
-		P.NAME
+		P.NUMBER
 	</sql-query>
 
 	<sql-query name="getTAXAgencyList">
@@ -5730,7 +5734,7 @@
 		AND P.COMPANY_ID=:companyId AND
 		P.IS_ACTIVE=:isActive
 		ORDER BY
-		P.NAME
+		P.NUMBER
 	</sql-query>
 
 	<sql-query name="getEGSandRCentriesFromSales">
@@ -9767,9 +9771,6 @@
  		P.ID=:customerId
  	</sql-query>
 
-
-
-
 	<sql-query name="getCustomerCreditMemos">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -9863,6 +9864,8 @@
 		BETWEEN
 		:fromDate AND
 		:toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 	<sql-query name="getInvoicesOnly">
 		<query-param name="companyId" type="long" />
@@ -9963,8 +9966,9 @@
 		BETWEEN :fromDate AND
 		:toDate
 		ORDER
-		BY DUE_DATE
+		BY T.T_DATE DESC
 	</sql-query>
+	
 	<sql-query name="getCashSalesList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -10047,7 +10051,10 @@
 		T.T_DATE BETWEEN
 		:fromDate AND
 		:toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
+	
 	<sql-query name="getCustomerReceivePaymentsList">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -10133,6 +10140,8 @@
 		BETWEEN
 		:fromDate
 		AND :toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 	<sql-query name="getCustomerPrepaymentsList">
 		<query-param name="companyId" type="long" />
@@ -10210,6 +10219,8 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
 		:fromDate AND :toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 
 	<sql-query name="getTDSPayBillTransactionsList">
@@ -12720,6 +12731,8 @@
 		BETWEEN
 		:fromDate AND
 		:toDate
+		ORDER
+		BY T.T_DATE DESC
 	</sql-query>
 
 	<sql-query name="getDepositsList">
@@ -13140,6 +13153,7 @@
 		END
 		ORDER BY ITEM_NAME;
 	</sql-query>
+	
 	<sql-query name="getInventoryValutionSummary">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />

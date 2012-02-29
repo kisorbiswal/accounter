@@ -2610,7 +2610,6 @@
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 
-
 		<return-scalar column="account_name" type="string" />
 		<return-scalar column="payee_name" type="string" />
 		<return-scalar column="transaction_id" type="long" />
@@ -2743,7 +2742,7 @@
 		GROUP BY
 		T.ID,PB.ID,A.FLOW,A.NAME,P.NAME,WC.IN_FAVOUR_OF
 		ORDER BY
-		A.FLOW,A.NAME,T.T_DATE
+		A.FLOW,A.NAME,T.T_DATE DESC
 
 	</sql-query>
 
@@ -3805,7 +3804,9 @@
 		LIKE :paymentmethod AND
 		P.NAME IS NOT NULL GROUP BY
 		T.ID, A.ID
+		ORDER BY T.T_DATE
 	</sql-query>
+	
 	<sql-query name="getSalesByLocationDetail">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
