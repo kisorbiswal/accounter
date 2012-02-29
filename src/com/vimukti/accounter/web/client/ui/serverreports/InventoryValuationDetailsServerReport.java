@@ -78,7 +78,7 @@ public class InventoryValuationDetailsServerReport extends
 		case 0:
 			return ReportUtility.getTransactionName(record.getTransType());
 		case 1:
-			return record.getTransactionDate();
+			return new ClientFinanceDate(record.getTransactionDate());
 		case 2:
 			return record.getPayeeName();
 		case 3:

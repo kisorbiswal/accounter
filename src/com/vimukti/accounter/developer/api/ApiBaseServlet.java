@@ -1,18 +1,26 @@
 package com.vimukti.accounter.developer.api;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.gdevelop.gwt.syncrpc.CookieManager;
-import com.gdevelop.gwt.syncrpc.SessionManager;
-import com.gdevelop.gwt.syncrpc.SyncProxy;
-import com.vimukti.accounter.main.ServerConfiguration;
+import org.hibernate.Session;
+
+import com.vimukti.accounter.developer.api.core.ApiResult;
+import com.vimukti.accounter.developer.api.process.ApiProcessor;
+import com.vimukti.accounter.developer.api.process.CreateProcessor;
+import com.vimukti.accounter.developer.api.process.DeleteProcessor;
+import com.vimukti.accounter.developer.api.process.ReadProcessor;
+import com.vimukti.accounter.developer.api.process.UpdateProcessor;
+import com.vimukti.accounter.developer.api.process.lists.CustomerProcessor;
+import com.vimukti.accounter.developer.api.process.lists.InvoicesProcessor;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class ApiBaseServlet extends HttpServlet {
 
@@ -20,57 +28,62 @@ public class ApiBaseServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static Map<String, ApiProcessor> processors = new HashMap<String, ApiProcessor>();
 
-	protected ApiSerializationFactory getSerializationFactory(
-			HttpServletRequest req) throws ServletException {
-		String string = getNameFromReq(req, 2);
-		if (string.equals("xml")) {
-			return new ApiSerializationFactory(false);
-		} else if (string.equals("json")) {
-			return new ApiSerializationFactory(true);
+	@Override
+	public void init() throws ServletException {
+		// CRUD
+		processors.put("create", new CreateProcessor());
+		processors.put("read", new ReadProcessor());
+		processors.put("update", new UpdateProcessor());
+		processors.put("delete", new DeleteProcessor());
+
+		// Lists
+		processors.put("customers", new CustomerProcessor());
+
+		processors.put("invoices", new InvoicesProcessor());
+
+		// Reports
+		processors.put("salesbycustomersummary", null);
+		super.init();
+	}
+
+	protected void doProcess(HttpServletRequest req, HttpServletResponse resp,
+			String type) throws IOException {
+		ApiProcessor processor = processors.get(type);
+		if (processor == null) {
+			sendFail(req, resp, "Wrong request.");
+			return;
 		}
-		throw new ServletException("Wrong Sream Formate");
+		Session session = HibernateUtil.openSession();
+		try {
+			processor.process(req, resp);
+			processor.sendData(req, resp);
+
+		} catch (Exception e) {
+			sendFail(req, resp, e.getMessage());
+			return;
+		} finally {
+			if (session.isOpen()) {
+				session.close();
+			}
+		}
 	}
 
-	protected String getNameFromReq(HttpServletRequest req, int indexFromLast) {
-		String url = req.getRequestURI();
-		String[] urlParts = url.split("/");
-		String last = urlParts[urlParts.length - indexFromLast];
-		return last;
-	}
-
-	@SuppressWarnings("unchecked")
-	protected <T> T getS2sSyncProxy(final HttpServletRequest req, String uri,
-			Class<?> clazz) throws URISyntaxException {
-		String url = "http://" + ServerConfiguration.getMainServerDomain()
-				+ ":" + ServerConfiguration.getMainServerPort() + uri;
-		return (T) SyncProxy.newProxyInstance(clazz, url, "",
-				new SessionManager() {
-					private CookieManager cookieManager = new CookieManager();
-
-					@Override
-					public HttpURLConnection openConnection(URL url)
-							throws Exception {
-						HttpURLConnection connection = (HttpURLConnection) url
-								.openConnection();
-						connection.addRequestProperty("isAPI", "Yes");
-						connection.addRequestProperty("companyId", req
-								.getAttribute("companyId").toString());
-						connection.addRequestProperty("emailId", req
-								.getAttribute("emailId").toString());
-						return connection;
-					}
-
-					@Override
-					public void handleResponseHeaders(
-							HttpURLConnection connection) throws IOException {
-						cookieManager.storeCookies(connection);
-					}
-
-					@Override
-					public com.gdevelop.gwt.syncrpc.CookieManager getCookieManager() {
-						return null;
-					}
-				});
+	protected void sendFail(HttpServletRequest req, HttpServletResponse resp,
+			String result) {
+		try {
+			ApiResult apiResult = new ApiResult();
+			apiResult.setStatus(ApiResult.FAIL);
+			apiResult.setResult(result);
+			ApiSerializationFactory factory = new ApiSerializationFactory(false);
+			String string = factory.serialize(apiResult);
+			ServletOutputStream outputStream;
+			outputStream = resp.getOutputStream();
+			outputStream.write(string.getBytes());
+			outputStream.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

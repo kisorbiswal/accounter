@@ -2090,6 +2090,7 @@ public class UIUtils {
 		case ClientTransaction.TYPE_CASH_EXPENSE:
 		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
 		case ClientTransaction.TYPE_EMPLOYEE_EXPENSE:
+		case ClientTransaction.TYPE_WRITE_CHECK:
 			return ClientTransaction.CATEGORY_VENDOR;
 
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:

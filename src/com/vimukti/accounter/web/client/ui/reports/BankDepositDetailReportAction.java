@@ -12,6 +12,7 @@ public class BankDepositDetailReportAction extends Action {
 
 	public BankDepositDetailReportAction() {
 		super();
+		this.catagory = messages.report();
 	}
 
 	@Override

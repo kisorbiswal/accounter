@@ -14,7 +14,6 @@ public class NewItemReceiptAction extends Action {
 
 	public NewItemReceiptAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -74,6 +73,11 @@ public class NewItemReceiptAction extends Action {
 	@Override
 	public String getText() {
 		return messages.itemReceipt();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 }

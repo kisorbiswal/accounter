@@ -5,9 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
@@ -32,6 +35,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDeta
 import com.vimukti.accounter.web.client.ui.serverreports.MissingChecksServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocationServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemSummaryServerReport;
@@ -1564,35 +1568,47 @@ public class ReportsGenerator {
 
 	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
 			boolean isLocation, int generationType1, FinanceTool finaTool) {
-		ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
-				startDate.getDate(), endDate.getDate(), generationType1) {
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate(company);
-			}
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearStartDate() {
-				return Utility_R.getCurrentFiscalYearStartDate(company);
-			}
-
-			@Override
-			public String getDateByCompanyType(ClientFinanceDate date) {
-
-				return getDateInDefaultType(date);
-			}
-		};
-		updateReport(profitAndLossBylocationServerReport, finaTool);
-		profitAndLossBylocationServerReport.resetVariables();
+		ClientCompany clientCompany;
 		try {
-			profitAndLossBylocationServerReport.onResultSuccess(finaTool
-					.getReportManager().getProfitAndLossReport(startDate,
-							endDate, getCompany().getID()));
-		} catch (Exception e) {
-			e.printStackTrace();
+			clientCompany = finaTool.getManager()
+					.getObjectById(AccounterCoreType.COMPANY, company.getID(),
+							company.getID());
+			ProfitAndLossByLocationServerReport profitAndLossBylocationServerReport = new ProfitAndLossByLocationServerReport(
+					startDate.getDate(), endDate.getDate(), isLocation,
+					generationType1, clientCompany) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate(company);
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate(company);
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(profitAndLossBylocationServerReport, finaTool);
+			profitAndLossBylocationServerReport.resetVariables();
+			try {
+				profitAndLossBylocationServerReport.onResultSuccess(finaTool
+						.getReportManager()
+						.getProfitAndLossByLocation(isLocation, startDate,
+								endDate, company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return profitAndLossBylocationServerReport.getGridTemplate();
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
 		}
-		return profitAndLossBylocationServerReport.getGridTemplate();
+		return null;
+
 	}
 
 	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(

@@ -15,14 +15,12 @@ public class ClientAccounterClass implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClassName();
 	}
 
 	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClassName();
 	}
 
 	@Override
@@ -39,8 +37,6 @@ public class ClientAccounterClass implements IAccounterCore {
 	public long getID() {
 		return this.id;
 	}
-
-	
 
 	public String getClassName() {
 		if (className == null) {

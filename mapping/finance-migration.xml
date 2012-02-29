@@ -24,4 +24,17 @@
 		from com.vimukti.accounter.core.Account a where a.company.id=:companyId and a.type=5
 	</query>
 	
+	<query name="get.Account.by.Name">
+		<query-param name="companyId" type="long"/>
+		<query-param name="accountName" type="String"/>
+		from com.vimukti.accounter.core.Account a where a.name=:accountName and a.company.id=:companyId
+	</query>
+	
+	<query name="getAccountTransactions">
+		<query-param name="companyId" type="long"/>
+		<query-param name="accountId" type="long"/>
+		from com.vimukti.accounter.core.AccountTransaction at where at.account.id=:accountId and at.company.id=:companyId
+	</query>
+	
+	
 </hibernate-mapping>

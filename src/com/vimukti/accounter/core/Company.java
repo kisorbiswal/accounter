@@ -40,7 +40,7 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
-	public static final int CURRENT_VERSION = 1;
+	public static final int CURRENT_VERSION = 2;
 
 	private long id;
 	private int version;
@@ -872,6 +872,8 @@ public class Company implements IAccounterServerCore {
 
 		cmp.measurements = this.getMeasurements();
 
+		cmp.emailAccounts = this.getEmailAccounts();
+		
 		cmp.emailAccounts = this.getEmailAccounts();
 		return cmp;
 	}

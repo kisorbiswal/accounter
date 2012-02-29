@@ -191,6 +191,9 @@ public class Util {
 
 	@SuppressWarnings("unchecked")
 	public static Class<? extends IAccounterCore> getClientClass(Object src) {
+		if (src == null) {
+			return null;
+		}
 		Class<?> srcClass = src.getClass();
 		if (src instanceof HibernateProxy) {
 			LazyInitializer lazyInitializer = ((HibernateProxy) src)

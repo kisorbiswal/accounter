@@ -512,7 +512,8 @@ public class CustomerRefundView extends
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
-			this.clientAccounterClass = transaction.getAccounterClass();
+			this.clientAccounterClass = getCompany().getAccounterClass(
+					transaction.getAccounterClass());
 			if (getPreferences().isClassTrackingEnabled()
 					&& this.clientAccounterClass != null
 					&& classListCombo != null) {

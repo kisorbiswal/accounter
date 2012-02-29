@@ -153,7 +153,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private double currencyFactor = 1D;
 
-	private ClientAccounterClass accounterClass;
+	private long accounterClass;
 
 	private ClientActivity lastActivity;
 
@@ -809,11 +809,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.saveStatus = saveStatus;
 	}
 
-	public ClientAccounterClass getAccounterClass() {
+	public long getAccounterClass() {
 		return accounterClass;
 	}
 
-	public void setAccounterClass(ClientAccounterClass accounterClass) {
+	public void setAccounterClass(long accounterClass) {
 		this.accounterClass = accounterClass;
 	}
 

@@ -252,6 +252,7 @@
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<property name="phone" type="encryptedstring" column="PHONE"></property>
+			<property name="checkNumber" column="CHECK_NUMBER" type="encryptedstring" ></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>

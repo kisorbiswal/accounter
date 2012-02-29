@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
@@ -52,10 +54,20 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		if (createClassTextItem.getValue().equals("")
-				|| createClassTextItem.getValue() == null) {
+		String className = createClassTextItem.getValue();
+		if (className == null || className.trim().isEmpty()) {
 			result.addError(createClassTextItem,
 					messages.pleaseEnter(createClassTextItem.getTitle()));
+		}
+
+		ArrayList<ClientAccounterClass> accounterClasses = getCompany()
+				.getAccounterClasses();
+		for (ClientAccounterClass clientAccounterClass : accounterClasses) {
+			if (clientAccounterClass.getName().toLowerCase()
+					.equalsIgnoreCase(className.toLowerCase())) {
+				result.addError(createClassTextItem, messages.alreadyExist());
+				break;
+			}
 		}
 		return result;
 	};

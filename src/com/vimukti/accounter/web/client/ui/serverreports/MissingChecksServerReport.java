@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.NumberUtils;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.reports.TransactionDetailByAccount;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -8,10 +9,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class MissingChecksServerReport extends
 		AbstractFinaneReport<TransactionDetailByAccount> {
 
-	private int previousNumber = 0;
-	private int presentNumber = 0;
-	private int previousType = 0;
-	private int presentType = 0;
+	private String previousNumber;
 
 	public MissingChecksServerReport(
 			IFinanceReport<TransactionDetailByAccount> reportView) {
@@ -45,6 +43,27 @@ public class MissingChecksServerReport extends
 	}
 
 	@Override
+	public int getColumnWidth(int index) {
+		switch (index) {
+		case 0:
+			return 200;
+		case 1:
+			return 100;
+		case 2:
+			return 70;
+		case 3:
+			return 100;
+		case 4:
+			return 100;
+		case 5:
+			return 150;
+		case 6:
+			return 100;
+		}
+		return -1;
+	}
+
+	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
 				COLUMN_TYPE_NUMBER, COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
@@ -53,45 +72,16 @@ public class MissingChecksServerReport extends
 
 	@Override
 	public void processRecord(TransactionDetailByAccount record) {
-		if (record.getTransactionNumber().equals("")) {
-			presentNumber = 0;
-			previousType = record.getTransactionType();
-			return;
-		}
-		presentNumber = Integer.valueOf(record.getTransactionNumber());
-		presentType = record.getTransactionType();
-		int difference = presentNumber - previousNumber;
-		if (previousNumber == 0) {
-			if (difference > 1) {
-				// for (int i = 0; i < difference - 1; i++) {
-				addSection("", "missing numbers here", new int[] { 0 });
-				endSection();
-			}
-			previousNumber = presentNumber;
-			previousType = presentType;
-			return;
-		} else if (presentType == previousType) {
-			if (difference > 1) {
-				// for (int i = 0; i < difference - 1; i++) {
-				addSection("", "missing numbers here", new int[] { 0 });
-				endSection();
-			}
-			previousNumber = presentNumber;
-			previousType = presentType;
-			return;
-		} else if (presentType != previousType) {
-			previousNumber = 0;
-			int difference1 = presentNumber - previousNumber;
-			if (difference1 > 1) {
-				// for (int i = 0; i < difference1 - 1; i++) {
-				addSection("", "missing numbers here", new int[] { 0 });
-				endSection();
-			}
-			previousNumber = presentNumber;
-			previousType = presentType;
-			return;
-		}
 
+		if (previousNumber != null) {
+			String nextNumber = NumberUtils
+					.getStringwithIncreamentedDigit(previousNumber);
+			if (!record.getTransactionNumber().equals(nextNumber)) {
+				addSection("", "** missing numbers here **", new int[] { 0 });
+				endSection();
+			}
+		}
+		previousNumber = record.getTransactionNumber();
 	}
 
 	@Override
@@ -107,9 +97,9 @@ public class MissingChecksServerReport extends
 		case 3:
 			return record.getName();
 		case 4:
-			return record.getAccountName();
-		case 5:
 			return record.getMemo();
+		case 5:
+			return record.getAccountName();
 		case 6:
 			return record.getTotal();
 		default:
@@ -129,8 +119,7 @@ public class MissingChecksServerReport extends
 
 	@Override
 	public void makeReportRequest(long start, long end) {
-		previousNumber = 0;
-		previousType = 0;
+
 	}
 
 }

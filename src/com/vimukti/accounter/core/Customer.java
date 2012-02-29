@@ -336,7 +336,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER);
 		ChangeTracker.put(accounterCore);
-		return false;
+		return super.onDelete(arg0);
 	}
 
 	@Override
@@ -349,7 +349,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 		// SessionUtils.updateReferenceCount(null, this, session, true);
 
 		// Logging the Customer info.
-		if (this.number == null || this.number.trim().isEmpty()) {
+		if (this.number == null || this.number.trim().isEmpty()
+				|| !getCompany().getPreferences().getUseCustomerId()) {
 			this.number = NumberUtils.getNextAutoCustomerNumber(getCompany());
 		}
 		return onUpdate(session);
@@ -491,7 +492,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 		try {
 			Query query = session
 					.getNamedQuery("getCustomers")
-					.setParameter("name", this.name, EncryptedStringType.INSTANCE)
+					.setParameter("name", this.name,
+							EncryptedStringType.INSTANCE)
 					.setParameter(
 							"number",
 							this.number == null || this.number.isEmpty() ? null

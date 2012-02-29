@@ -687,4 +687,16 @@ public class JournalEntryView extends
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	protected boolean canRecur() {
+		if (transaction != null
+				&& (transaction.getInvolvedAccount() != 0 || transaction
+						.getInvolvedPayee() != 0)) {
+			return false;
+		}
+
+		return super.canRecur();
+
+	}
 }

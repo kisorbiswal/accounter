@@ -14,23 +14,28 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.mortbay.util.UrlEncoded;
 
+import com.vimukti.accounter.developer.api.ApiSerializationFactory;
+
 public abstract class AbstractTest implements ITest {
 	private static final String SIGNATURE = "Signature";
 	private static final String ALGORITHM = "hmacSHA256";
-	private static final String secretKey = "oprxezec24cuxyiz";
+	private static final String secretKey = "x4c2jjr7jgruqvkh";
+	protected static final String apikey = "t5zkba6c";
 	protected static String HOST = "http://local.accounterlive.com";
 	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
-	protected static final String apikey = "cuqtfet8";
 
 	protected SimpleDateFormat simpleDateFormat;
 	private HttpClient client;
 	protected long companyId = 1;
+	public ApiResult result;
 
 	public AbstractTest() {
 		simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
@@ -50,10 +55,24 @@ public abstract class AbstractTest implements ITest {
 		}
 	}
 
+	protected void notNull(Object o) throws Exception {
+		if (o == null) {
+			throw new Exception("is Not Null?	o=" + o);
+		}
+	}
+
 	protected void isTrue(boolean b) throws Exception {
 		if (!b) {
 			throw new Exception("is True?	b=" + b);
 		}
+	}
+
+	protected void isTrue(Object b) throws Exception {
+		isTrue(Boolean.parseBoolean(b.toString()));
+	}
+
+	protected void isFalse(Object b) throws Exception {
+		isTrue(Boolean.parseBoolean(b.toString()));
 	}
 
 	protected void isFalse(boolean b) throws Exception {
@@ -123,14 +142,26 @@ public abstract class AbstractTest implements ITest {
 		return method;
 	}
 
+	protected DeleteMethod prepareDeleteMethod(String path, String queryStr) {
+		DeleteMethod method = new DeleteMethod(HOST + path);
+		prepareMethod(method, queryStr);
+		return method;
+	}
+
 	private void prepareMethod(HttpMethod method, String queryStr) {
 		String encodeString = new UrlEncoded(queryStr).encode();
 		String signature = doSigning(encodeString);
 		method.setQueryString(signature);
 	}
 
-	protected int executeMethod(HttpMethod method) throws Exception {
-		return client.executeMethod(method);
+	protected ApiResult executeMethod(HttpMethod method) throws Exception {
+		int statusCode = client.executeMethod(method);
+		eq(HttpStatus.SC_OK, statusCode);
+		ApiSerializationFactory apiSerializationFactory = new ApiSerializationFactory(
+				false);
+		ApiResult apiResult = apiSerializationFactory
+				.deserializeApiResult(method.getResponseBodyAsStream());
+		return apiResult;
 	}
 
 	protected String getQueryString(Map<String, String> params) {
@@ -164,5 +195,10 @@ public abstract class AbstractTest implements ITest {
 		// eq(HttpStatus.SC_OK, statusCode);
 		// System.out.println(prepareMethod.getResponseBodyAsString());
 		return 1L;
+	}
+
+	@Override
+	public ApiResult getResult() {
+		return result;
 	}
 }

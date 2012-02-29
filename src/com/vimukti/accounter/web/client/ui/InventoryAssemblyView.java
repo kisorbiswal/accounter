@@ -945,6 +945,11 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 						messages.youCannotBuildWithoutComponents());
 			}
 		}
+
+		if (assetsAccount != null && assetsAccount.getSelectedValue() == null) {
+			result.addError(assetsAccount,
+					messages.pleaseEnter(messages.assetsAccount()));
+		}
 		table.validateGrid();
 		return result;
 	}

@@ -8,24 +8,21 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 public class ReconciliationDiscrepancy extends BaseReport implements
 		Serializable, IsSerializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private long transactionId;
 
 	private ClientFinanceDate transactionDate;
 
-	private ClientFinanceDate enteredDate;
-
 	private String transactionNumber;
 
 	private String name;
 
+	private int transactionType;
+
 	private double reconciliedAmount;
 
-	private String accountName;
+	private double transactionAmount;
 
 	public ClientFinanceDate getTransactionDate() {
 		return transactionDate;
@@ -33,14 +30,6 @@ public class ReconciliationDiscrepancy extends BaseReport implements
 
 	public void setTransactionDate(ClientFinanceDate transactionDate) {
 		this.transactionDate = transactionDate;
-	}
-
-	public ClientFinanceDate getEnteredDate() {
-		return enteredDate;
-	}
-
-	public void setEnteredDate(ClientFinanceDate enteredDate) {
-		this.enteredDate = enteredDate;
 	}
 
 	public String getName() {
@@ -75,12 +64,20 @@ public class ReconciliationDiscrepancy extends BaseReport implements
 		this.transactionNumber = transactionNumber;
 	}
 
-	public String getAccountName() {
-		return accountName;
+	public double getTransactionAmount() {
+		return transactionAmount;
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	public void setTransactionAmount(double transactionAmount) {
+		this.transactionAmount = transactionAmount;
+	}
+
+	public int getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(int transactionType) {
+		this.transactionType = transactionType;
 	}
 
 }

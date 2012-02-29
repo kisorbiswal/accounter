@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.HibernateUtil;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
