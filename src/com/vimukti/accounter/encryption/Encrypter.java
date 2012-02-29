@@ -1,6 +1,7 @@
 package com.vimukti.accounter.encryption;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,11 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
+import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
@@ -188,4 +191,15 @@ public class Encrypter extends Thread {
 		}
 		return null;
 	}
+
+	public static void sendCompanyPasswordRecoveryKey(Client client, String key) {
+
+		try {
+			UsersMailSendar.sendMailToUserWithPasswordRecoverKey(client, key);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

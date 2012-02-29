@@ -1,5 +1,6 @@
 package com.vimukti.accounter.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Subscription;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class SubscryptionTool extends Thread {
@@ -34,6 +36,12 @@ public class SubscryptionTool extends Thread {
 				Subscription.getInstance(Subscription.FREE_CLIENT));
 		HibernateUtil.getCurrentSession().saveOrUpdate(
 				c.getClientSubscription());
+		try {
+			UsersMailSendar.sendMailToSubscriptionExpiredUser(c);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void sendMail(Client c) {

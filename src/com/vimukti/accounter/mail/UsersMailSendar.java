@@ -430,4 +430,98 @@ public class UsersMailSendar {
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job);
 	}
+
+	/**
+	 * write subject and content for the below three mails sending methods
+	 * 
+	 * @param client
+	 * @throws IOException
+	 */
+
+	public static void sendMailToSubscribedUser(Client client)
+			throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Subscription Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		String content = propertyParser.getProperty("contentForSubscribedUser",
+				"");
+		content = content
+				.replaceAll("%USER%", getUserName(client.getEmailId()));
+
+		String subject = propertyParser.getProperty("subjectForSubscribedUser",
+				"");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(client.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
+	}
+
+	public static void sendMailToSubscriptionExpiredUser(Client client)
+			throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Subscription Expired Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		String content = propertyParser.getProperty(
+				"contentForSubscriptionExpiredUser", "");
+		content = content
+				.replaceAll("%USER%", getUserName(client.getEmailId()));
+
+		String subject = propertyParser.getProperty(
+				"subjectForSubscriptionExpiredUser", "");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(client.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
+	}
+
+	public static void sendMailToUserWithPasswordRecoverKey(Client client,
+			String userSecret) throws IOException {
+		try {
+			initPropertyParserToInviteUser();
+			LOG.info("Subscription Expired Email is being sent to user");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new IOException();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IOException();
+		}
+
+		String content = propertyParser.getProperty(
+				"contentForUserWithPasswordRecoverKey", "");
+		content = content
+				.replaceAll("%USER%", getUserName(client.getEmailId()));
+
+		String subject = propertyParser.getProperty(
+				"subjectForUserWithPasswordRecoverKey", "");
+
+		EMailMessage emailMsg = new EMailMessage();
+		emailMsg.setContent(content);
+		emailMsg.setSubject(subject);
+		emailMsg.setRecepeant(client.getEmailId());
+		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
+		EmailManager.getInstance().addJob(job);
+	}
 }

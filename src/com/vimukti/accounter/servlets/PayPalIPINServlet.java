@@ -25,6 +25,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientPaypalDetails;
 import com.vimukti.accounter.core.ClientSubscription;
 import com.vimukti.accounter.core.Subscription;
+import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class PayPalIPINServlet extends BaseServlet {
@@ -166,6 +167,12 @@ public class PayPalIPINServlet extends BaseServlet {
 		Transaction beginTransaction = session.beginTransaction();
 		session.saveOrUpdate(clientSubscription);
 		beginTransaction.commit();
+		try {
+			UsersMailSendar.sendMailToSubscribedUser(client);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private Date getNextMonthDate(int months) {

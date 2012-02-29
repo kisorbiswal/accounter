@@ -13,6 +13,7 @@
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%
 	String error =(String) request.getAttribute("error");
+	String showResetLink =(String) request.getAttribute("showResetLink");
 %>
 <%@ include file="./feedback.jsp" %>
 <link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
@@ -54,6 +55,9 @@ $(document).ready(function() {
 									 
 								   <div class="OkButton">
 			  						   <input type="submit"  value="<i18n:i18n msg='submit'/>" name="submit" class="allviews-common-button" style="width:60px" id="submitButton" />
+			  						    
+		     								 <a href="/main/company/password/recovery" ><i18n:i18n msg='resetPassword'/></a>
+		   								 
 			 						 </div>
 								  </div>
 								</div>
