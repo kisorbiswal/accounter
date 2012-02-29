@@ -28,7 +28,6 @@ public class ClientTransactionItem implements IAccounterCore {
 	public static final int TYPE_ACCOUNT = 4;
 
 	int version;
-
 	long id;
 
 	int type;
@@ -102,7 +101,7 @@ public class ClientTransactionItem implements IAccounterCore {
 	private ClientQuantity availableQuantity;
 
 	private long customer;
-
+	private long job;
 	private boolean isBillable;
 
 	private boolean isAmountIncludeTAX;
@@ -577,5 +576,13 @@ public class ClientTransactionItem implements IAccounterCore {
 	 */
 	public void setAmountIncludeTAX(boolean isAmountIncludeTAX) {
 		this.isAmountIncludeTAX = isAmountIncludeTAX;
+	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
 	}
 }

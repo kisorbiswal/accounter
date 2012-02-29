@@ -157,8 +157,8 @@ public class NewZealandCompanyIntializer extends CompanyInitializer {
 		gstOnIncomeCode1.setDescription("GST on Income 12.5%");
 		gstOnIncomeCode1.setTaxable(true);
 		gstOnIncomeCode1.setActive(true);
-		gstOnIncomeCode1.setTAXItemGrpForPurchases(gstOnIncomeTaxItem);
-		gstOnIncomeCode1.setTAXItemGrpForSales(gstOnIncomeTaxItem);
+		gstOnIncomeCode1.setTAXItemGrpForPurchases(gstOnIncomeTaxItem1);
+		gstOnIncomeCode1.setTAXItemGrpForSales(gstOnIncomeTaxItem1);
 		gstOnIncomeCode1.setDefault(true);
 		session.save(gstOnIncomeCode1);
 
@@ -167,10 +167,21 @@ public class NewZealandCompanyIntializer extends CompanyInitializer {
 		gstOnExpensesCode1.setDescription("GST on Expenses 12.5%");
 		gstOnExpensesCode1.setTaxable(true);
 		gstOnExpensesCode1.setActive(true);
-		gstOnExpensesCode1.setTAXItemGrpForPurchases(gstOnExpensesTaxItem);
-		gstOnExpensesCode1.setTAXItemGrpForSales(gstOnExpensesTaxItem);
+		gstOnExpensesCode1.setTAXItemGrpForPurchases(gstOnExpensesTaxItem1);
+		gstOnExpensesCode1.setTAXItemGrpForSales(gstOnExpensesTaxItem1);
 		gstOnExpensesCode1.setDefault(true);
 		session.save(gstOnExpensesCode1);
+		
+		
+		TAXCode gstOnImportsCode = new TAXCode(company);
+		gstOnImportsCode.setName("GST on Imports 0.0%");
+		gstOnImportsCode.setDescription("GST on Imports 0.0%");
+		gstOnImportsCode.setTaxable(true);
+		gstOnImportsCode.setActive(true);
+		gstOnImportsCode.setTAXItemGrpForPurchases(gstOnImportsTaxItem);
+		gstOnImportsCode.setTAXItemGrpForSales(gstOnImportsTaxItem);
+		gstOnImportsCode.setDefault(true);
+		session.save(gstOnImportsCode);
 
 		TAXCode noGSTCode = new TAXCode(company);
 		noGSTCode.setName("No GST");
@@ -179,7 +190,6 @@ public class NewZealandCompanyIntializer extends CompanyInitializer {
 		noGSTCode.setActive(true);
 		noGSTCode.setTAXItemGrpForPurchases(noGSTTaxItem);
 		noGSTCode.setTAXItemGrpForSales(noGSTTaxItem);
-
 		noGSTCode.setDefault(true);
 		session.save(noGSTCode);
 
