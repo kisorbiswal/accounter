@@ -81,6 +81,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -383,7 +384,7 @@ public interface IAccounterHomeViewServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	public void createPdfFile(long objectID, int type, long brandingThemeId,
-			AsyncCallback<String> callback);
+			AsyncCallback<String> callback) throws AccounterException;
 
 	public void getBudgetList(
 			AsyncCallback<PaginationList<ClientBudget>> callBack);
@@ -552,6 +553,7 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getIvitableUsers(AsyncCallback<Set<InvitableUser>> asyncCallback);
 
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
+
 	public void getFieldsOf(int importerType,
 			AsyncCallback<List<Field<?>>> callback);
 

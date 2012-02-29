@@ -106,9 +106,11 @@ public class SubscriptionManagementServlet extends BaseServlet {
 					.getExpiredDate());
 			String finalString = "";
 			for (String string2 : client.getClientSubscription().getMembers()) {
-				finalString = finalString + "," + string2;
+				finalString = finalString + "\n" + string2;
 			}
-			finalString = finalString.substring(1);
+			if (!finalString.isEmpty()) {
+				finalString = finalString.substring(1);
+			}
 			req.setAttribute("userIdsList", finalString);
 			dispatch(req, resp, view);
 		} else {

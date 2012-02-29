@@ -344,12 +344,12 @@ public interface IAccounterHomeViewService extends RemoteService {
 
 	void sendPdfInMail(String fileName, String subject, String content,
 			ClientEmailAccount sender, String recipientEmail, String ccEmail)
-			throws Exception;
+			throws AccounterException;
 
 	public boolean sendTestMail(ClientEmailAccount sender, String recipient);
 
 	public String createPdfFile(long objectID, int type, long brandingThemeId)
-			throws Exception;
+			throws AccounterException;
 
 	public PaginationList<ClientBudget> getBudgetList();
 

@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.xerces.impl.dv.util.Base64;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Account;
@@ -37,7 +36,6 @@ import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
@@ -1617,7 +1615,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public void sendPdfInMail(String fileName, String subject, String content,
 			ClientEmailAccount sender, String recipientEmail, String ccEmail)
-			throws Exception {
+			throws AccounterException {
 		FinanceTool tool = getFinanceTool();
 		if (tool != null) {
 			long id = getCompanyId();
@@ -1641,15 +1639,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 	/**
 	 * to generate PDF File for Invoice
+	 * 
+	 * @throws AccounterException
 	 */
 
 	@Override
 	public String createPdfFile(long objectID, int type, long brandingThemeId)
-			throws Exception {
-		FinanceTool tool = getFinanceTool();
-		if (tool != null) {
-			long id = getCompanyId();
-			return tool.createPdfFile(objectID, type, brandingThemeId, id);
+			throws AccounterException {
+		FinanceTool tool;
+		try {
+			tool = getFinanceTool();
+			if (tool != null) {
+				long id = getCompanyId();
+				return tool.createPdfFile(objectID, type, brandingThemeId, id);
+			}
+		} catch (Exception e) {
+			throw new AccounterException(e.getMessage());
 		}
 		return null;
 	}
@@ -2215,7 +2220,6 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 
 		Iterator iterator = currentSession
 				.getNamedQuery("list.Users.by.emailIds")
-				.setEntity("company", company)
 				.setParameterList("users", userMailds).list().iterator();
 		Set<String> existed = new HashSet<String>();
 		while (iterator.hasNext()) {
@@ -2236,8 +2240,7 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		for (String s : userMailds) {
 			if (!existed.contains(s)) {
 				InvitableUser in1 = new InvitableUser();
-				in1.setFirstName("");
-				in1.setLastName("");
+				in1.setEmail(s);
 				invitableUsers.add(in1);
 			}
 		}

@@ -81,9 +81,13 @@ public class EmailView extends AbstractBaseView implements AsyncCallback<Void> {
 			};
 		};
 
-		Accounter.createHomeService().createPdfFile(
-				((ClientInvoice) invoice).getID(),
-				ClientTransaction.TYPE_INVOICE, brandingThemeId, callback);
+		try {
+			Accounter.createHomeService().createPdfFile(
+					((ClientInvoice) invoice).getID(),
+					ClientTransaction.TYPE_INVOICE, brandingThemeId, callback);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 
 	}
 

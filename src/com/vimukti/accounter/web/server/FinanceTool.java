@@ -2276,13 +2276,17 @@ public class FinanceTool {
 	 */
 	public void sendPdfInMail(String fileName, String subject, String content,
 			ClientEmailAccount sender, String toEmail, String ccEmail,
-			long companyId) throws Exception {
+			long companyId) throws AccounterException {
 
 		Company company = getCompany(companyId);
 		String companyName = company.getTradingName();
 		File file = new File(fileName);
-		UsersMailSendar.sendPdfMail(file, companyName, subject, content,
-				sender, toEmail, ccEmail);
+		try {
+			UsersMailSendar.sendPdfMail(file, companyName, subject, content,
+					sender, toEmail, ccEmail);
+		} catch (IOException e) {
+			throw new AccounterException(e.getMessage());
+		}
 
 	}
 
