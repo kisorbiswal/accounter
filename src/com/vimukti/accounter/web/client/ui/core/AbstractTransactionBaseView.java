@@ -615,7 +615,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 				}
-				getAction().run(null, true);
+				getManager().closeCurrentView(false);
+				getAction().run(null, getAction().isDependent());
 
 			} else {
 
@@ -785,7 +786,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.switchMaestro(), messages.paypal() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
@@ -1141,7 +1142,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
-				&& this.transaction.getAccounterClass() == null) {
+				&& this.transaction.getAccounterClass() == 0) {
 			result.addWarning(classListCombo, messages.W_105());
 		}
 		if (!(this instanceof NewVendorPaymentView
@@ -1282,7 +1283,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (getPreferences().isClassTrackingEnabled()
 					&& getPreferences().isClassOnePerTransaction()
 					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass);
+				transaction.setAccounterClass(clientAccounterClass.getID());
 			}
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
@@ -1652,8 +1653,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void initAccounterClass() {
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
-				&& transaction.getAccounterClass() != null) {
-			classSelected(transaction.getAccounterClass());
+				&& transaction.getAccounterClass() != 0) {
+
+			classSelected(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 	}
 

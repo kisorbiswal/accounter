@@ -285,7 +285,7 @@ public class Vendor extends Payee {
 		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.VENDOR);
 		ChangeTracker.put(accounterCore);
-		return false;
+		return super.onDelete(arg0);
 	}
 
 	@Override

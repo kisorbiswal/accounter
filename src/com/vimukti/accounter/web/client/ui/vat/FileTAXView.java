@@ -133,5 +133,4 @@ public class FileTAXView extends AbstractFileTAXView {
 		taxReturn.setPeriodEndDate(toDate.getDate().getDate());
 		setData(taxReturn);
 	}
-
 }

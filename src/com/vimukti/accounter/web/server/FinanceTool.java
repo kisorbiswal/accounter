@@ -576,7 +576,7 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, long companyId) {
+	public boolean canDelete(String serverClass, long id, long companyId) {
 		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)
@@ -649,10 +649,15 @@ public class FinanceTool {
 
 				}
 			} else {
-				Object[] result = (Object[]) queryResult.get(0);
-				for (Object object : result) {
-					if (object != null) {
-						flag = false;
+				for (Object obj : queryResult) {
+					Object[] result = (Object[]) obj;
+					for (Object object : result) {
+						if (object != null) {
+							flag = false;
+							break;
+						}
+					}
+					if (!flag) {
 						break;
 					}
 				}

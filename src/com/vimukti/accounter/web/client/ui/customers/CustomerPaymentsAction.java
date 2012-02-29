@@ -12,7 +12,6 @@ public class CustomerPaymentsAction extends Action {
 
 	public CustomerPaymentsAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -55,6 +54,10 @@ public class CustomerPaymentsAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/vendor_payments.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	@Override
 	public String getHistoryToken() {

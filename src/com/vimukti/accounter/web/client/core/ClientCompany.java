@@ -1981,6 +1981,9 @@ public class ClientCompany implements IAccounterCore {
 			case MEASUREMENT:
 				ClientMeasurement measurement = (ClientMeasurement) accounterCoreObject;
 				Utility.updateClientList(measurement, measurements);
+				for (ClientUnit unit : measurement.getUnits()) {
+					Utility.updateClientList(unit, units);
+				}
 				break;
 			case WAREHOUSE:
 				ClientWarehouse warehouse = (ClientWarehouse) accounterCoreObject;
@@ -2196,7 +2199,7 @@ public class ClientCompany implements IAccounterCore {
 		}
 	}
 
-	private ClientAccounterClass getAccounterClass(long classId) {
+	public ClientAccounterClass getAccounterClass(long classId) {
 		return Utility.getObject(this.accounterClasses, classId);
 	}
 

@@ -828,8 +828,9 @@ public class PurchaseOrderView extends
 						.get(1));
 			}
 			shipToAddress.businessSelect.setDisabled(true);
-
-			this.addressListOfVendor = getVendor().getAddress();
+			if (getVendor() != null) {
+				this.addressListOfVendor = getVendor().getAddress();
+			}
 			if (billingAddress != null) {
 				billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
 						+ billingAddress.getStreet() + "\n"
@@ -1114,7 +1115,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 

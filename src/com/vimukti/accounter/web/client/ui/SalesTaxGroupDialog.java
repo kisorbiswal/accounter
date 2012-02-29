@@ -450,15 +450,16 @@ public class SalesTaxGroupDialog extends BaseDialog<ClientTAXGroup> {
 		List<ClientTAXItem> taxItems = new ArrayList<ClientTAXItem>();
 		List<ClientTAXItem> records = selectTaxItemsGrid.getRecords();
 		ClientTAXItem item;
+		double groupRate = 0.00D;
 		for (ClientTAXItem clientTaxItem : records) {
 			item = getTaxItemByName(clientTaxItem.getName());
 			if (item != null) {
 				taxItems.add(item);
-				taxGroup.setGroupRate(taxGroup.getGroupRate()
-						+ item.getTaxRate());
+				groupRate = item.getTaxRate() + groupRate;
 
 			}// if
 		}// for
+		taxGroup.setGroupRate(groupRate);
 		return taxItems;
 	}
 

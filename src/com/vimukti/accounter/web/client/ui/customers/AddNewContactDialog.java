@@ -116,7 +116,7 @@ public class AddNewContactDialog extends BaseDialog<ClientContact> {
 	/**
 	 * @return
 	 */
-	private ClientContact createContact() {
+	protected ClientContact createContact() {
 		ClientContact contact = new ClientContact();
 		contact.setName(nameItem.getValue());
 		contact.setTitle(titleItem.getValue());

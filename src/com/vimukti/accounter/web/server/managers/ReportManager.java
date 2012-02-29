@@ -3550,6 +3550,7 @@ public class ReportManager extends Manager {
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
 			actual.setAtualAmount(bal.getAmount());
+			actual.setType(bal.getAccountType());
 
 			boolean got = false;
 
@@ -3658,7 +3659,8 @@ public class ReportManager extends Manager {
 			depositDetail
 					.setTransactionDate(objects[3] != null ? new ClientFinanceDate(
 							(Long) objects[3]) : null);
-			depositDetail.setPayeeName(objects[4] != null ? (String) objects[4] : "");
+			depositDetail.setPayeeName(objects[4] != null ? (String) objects[4]
+					: "");
 			depositDetail.setAccountName((String) objects[5]);
 			depositDetail.setAmount((Double) objects[6]);
 			list.add(depositDetail);
@@ -3688,10 +3690,8 @@ public class ReportManager extends Manager {
 							(Long) objects[3]) : null);
 			checkDetail.setPayeeName((String) objects[4]);
 			checkDetail.setCheckAmount((Double) objects[5]);
-			String checkNumber= objects[6] != null ? (String) objects[6]
-					: "";
-			if(checkNumber.trim().length()==0)
-			{
+			String checkNumber = objects[6] != null ? (String) objects[6] : "";
+			if (checkNumber.trim().length() == 0) {
 				checkNumber = "To BE PRINTED";
 			}
 			checkDetail.setCheckNumber(checkNumber);
@@ -3700,6 +3700,15 @@ public class ReportManager extends Manager {
 		return list;
 	}
 
+	/**
+	 * Getting the Missing checks Details
+	 * 
+	 * @param accountId
+	 * @param start
+	 * @param end
+	 * @param companyId
+	 * @return
+	 */
 	public ArrayList<TransactionDetailByAccount> getMissionChecksByAccount(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end,
 			long companyId) {
@@ -3711,7 +3720,8 @@ public class ReportManager extends Manager {
 			result = session.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())
 					.setParameter("endDate", end.getDate())
-					.setParameter("companyId", companyId).list();
+					.setParameter("companyId", companyId)
+					.setParameter("accountId", accountId).list();
 		} else if (account.getType() == ClientAccount.TYPE_BANK) {
 			result = session.getNamedQuery("get.missing.checks.by.account")
 					.setParameter("accountId", accountId)
@@ -3750,6 +3760,15 @@ public class ReportManager extends Manager {
 		return list;
 	}
 
+	/**
+	 * Getting the Reconciliation DisCrepany Details
+	 * 
+	 * @param accountId
+	 * @param start
+	 * @param end
+	 * @param companyId
+	 * @return
+	 */
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancyByAccount(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end,
 			long companyId) {
@@ -3757,36 +3776,36 @@ public class ReportManager extends Manager {
 		ArrayList<ReconciliationDiscrepancy> list = new ArrayList<ReconciliationDiscrepancy>();
 		List result = session
 				.getNamedQuery("get.reconcilition.discrepancy.by.account")
-				.setParameter("account", accountId)
+				.setParameter("companyId", companyId)
 				.setParameter("startDate", start.getDate())
 				.setParameter("enteredDate", end.getDate())
-				.setParameter("companyId", companyId).list();
+				.setParameter("accountId", accountId).list();
+
 		Iterator iterator = result.iterator();
 		while (iterator.hasNext()) {
 			Object[] objects = (Object[]) iterator.next();
+
 			ReconciliationDiscrepancy discrepancy = new ReconciliationDiscrepancy();
+			discrepancy.setTransactionType((Integer) objects[0]);
 			discrepancy
-					.setTransactionId((Long) (objects[0] != null ? objects[0]
+					.setTransactionId((Long) (objects[1] != null ? objects[1]
 							: 0));
-			int number = Integer
-					.valueOf((String) (objects[1] != null ? objects[1] : ""));
-			discrepancy.setTransactionNumber(String.valueOf(number));
 			ClientFinanceDate date = new ClientFinanceDate(
 					(Long) (objects[2] != null ? objects[2] : 0));
 			discrepancy.setTransactionDate(date);
+
 			discrepancy
-					.setName((String) (objects[3] != null ? objects[3] : ""));
-			discrepancy
-					.setAccountName((String) (objects[4] != null ? objects[4]
+					.setTransactionNumber((String) (objects[3] != null ? objects[3]
 							: ""));
+			discrepancy.setTransactionAmount((Double) objects[4]);
+			discrepancy.setReconciliedAmount((Double) objects[5]);
 			discrepancy
-					.setReconciliedAmount((Double) (objects[6] != null ? objects[6]
-							: 0.0));
+					.setName((String) (objects[6] != null ? objects[6] : ""));
+
 			list.add(discrepancy);
 		}
 		return list;
 	}
-
 	// public ArrayList<JobProfitability> getJobProfitabilityReport(
 	// Long companyId, ClientFinanceDate start, ClientFinanceDate end) {
 	// return null;

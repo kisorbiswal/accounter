@@ -67,7 +67,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
-	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_TEMPLATE = 202;
@@ -153,7 +152,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private double currencyFactor = 1D;
 
-	private ClientAccounterClass accounterClass;
+	private long accounterClass;
 
 	private ClientActivity lastActivity;
 
@@ -809,11 +808,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.saveStatus = saveStatus;
 	}
 
-	public ClientAccounterClass getAccounterClass() {
+	public long getAccounterClass() {
 		return accounterClass;
 	}
 
-	public void setAccounterClass(ClientAccounterClass accounterClass) {
+	public void setAccounterClass(long accounterClass) {
 		this.accounterClass = accounterClass;
 	}
 

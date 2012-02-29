@@ -181,6 +181,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private String decimalCharacte = ".";
 	private String digitGroupCharacter = ",";
+	private String digitGroupingFormat = "###,###,##";
 
 	// currency related properties
 	private ClientCurrency primaryCurrency;
@@ -242,7 +243,8 @@ public class ClientCompanyPreferences implements IAccounterCore {
 		this.preferencesFlag |= (USE_ACCOUNT_NO | IS_ACCURAL_BASIS
 				| SELL_SERVICES | SELL_SERVICES | ENTER_VAT_INFORMATION_NOW
 				| REPORT_VAT_ON_ACURAL_BASIS | ACCOUNTNUMBER_RANGE_CHECK);
-		this.currencyFormat = '\u00A4' + " #,##0.00;-" + '\u00A4' + " #,##0.00";
+		this.currencyFormat = '\u00A4' + " ###,###,##0.00;-" + '\u00A4'
+				+ " ###,###,##0.00";
 	}
 
 	public long getTrackFinanceDate() {
@@ -1397,6 +1399,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setActiveInventoryScheme(int activeInventoryScheme) {
 		this.activeInventoryScheme = activeInventoryScheme;
+	}
+
+	public String getDigitGroupingFormat() {
+		return digitGroupingFormat;
+	}
+
+	public void setDigitGroupingFormat(String digitGroupingFormat) {
+		this.digitGroupingFormat = digitGroupingFormat;
 	}
 
 }

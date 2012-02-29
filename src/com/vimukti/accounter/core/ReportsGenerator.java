@@ -5,10 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
+import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -33,6 +37,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDeta
 import com.vimukti.accounter.web.client.ui.serverreports.MissingChecksServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PriorVATReturnsServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocationServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.PurchaseByItemSummaryServerReport;
@@ -140,6 +145,7 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 	public final static int REPORT_TYPE_MISSION_CHECKS = 181;
 	public final static int REPORT_TYPE_RECONCILIATION_DISCREPANCY = 182;
+	public final static int REPORT_TYPE_BUDGET_VS_ACTUALS = 183;
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -1298,6 +1304,31 @@ public class ReportsGenerator {
 			}
 			return budgetServerReport.getGridTemplate();
 
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+
+			BudgetVsActualsServerReport budgetVsActualsServerReport = new BudgetVsActualsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+
+			};
+			updateReport(budgetVsActualsServerReport, finaTool);
+			budgetVsActualsServerReport.resetVariables();
+			int type = navigateObjectName != null ? Integer
+					.parseInt(navigateObjectName) : 0;
+			try {
+				budgetVsActualsServerReport.onResultSuccess(finaTool
+						.getReportManager().getBudgetvsAcualReportData(
+								startDate, endDate, getCompany().getID(),
+								Long.valueOf(status), type));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return budgetVsActualsServerReport.getGridTemplate();
 		case REPORT_TYPE_TAX_ITEM_DETAIL:
 			TAXItemDetailServerReportView taxItemDetailServerReportView = new TAXItemDetailServerReportView(
 					startDate.getDate(), endDate.getDate(), generationType1) {
@@ -1587,35 +1618,47 @@ public class ReportsGenerator {
 
 	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
 			boolean isLocation, int generationType1, FinanceTool finaTool) {
-		ProfitAndLossServerReport profitAndLossBylocationServerReport = new ProfitAndLossServerReport(
-				startDate.getDate(), endDate.getDate(), generationType1) {
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearEndDate() {
-				return Utility_R.getCurrentFiscalYearEndDate(company);
-			}
-
-			@Override
-			public ClientFinanceDate getCurrentFiscalYearStartDate() {
-				return Utility_R.getCurrentFiscalYearStartDate(company);
-			}
-
-			@Override
-			public String getDateByCompanyType(ClientFinanceDate date) {
-
-				return getDateByCompanyType(date);
-			}
-		};
-		updateReport(profitAndLossBylocationServerReport, finaTool);
-		profitAndLossBylocationServerReport.resetVariables();
+		ClientCompany clientCompany;
 		try {
-			profitAndLossBylocationServerReport.onResultSuccess(finaTool
-					.getReportManager().getProfitAndLossReport(startDate,
-							endDate, getCompany().getID()));
-		} catch (Exception e) {
-			e.printStackTrace();
+			clientCompany = finaTool.getManager()
+					.getObjectById(AccounterCoreType.COMPANY, company.getID(),
+							company.getID());
+			ProfitAndLossByLocationServerReport profitAndLossBylocationServerReport = new ProfitAndLossByLocationServerReport(
+					startDate.getDate(), endDate.getDate(), isLocation,
+					generationType1, clientCompany) {
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearEndDate() {
+					return Utility_R.getCurrentFiscalYearEndDate(company);
+				}
+
+				@Override
+				public ClientFinanceDate getCurrentFiscalYearStartDate() {
+					return Utility_R.getCurrentFiscalYearStartDate(company);
+				}
+
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(profitAndLossBylocationServerReport, finaTool);
+			profitAndLossBylocationServerReport.resetVariables();
+			try {
+				profitAndLossBylocationServerReport.onResultSuccess(finaTool
+						.getReportManager()
+						.getProfitAndLossByLocation(isLocation, startDate,
+								endDate, company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return profitAndLossBylocationServerReport.getGridTemplate();
+		} catch (AccounterException e1) {
+			e1.printStackTrace();
 		}
-		return profitAndLossBylocationServerReport.getGridTemplate();
+		return null;
+
 	}
 
 	private ReportGridTemplate<?> generateSalesByLocationorClassDetailReport(
@@ -1637,7 +1680,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 
-				return getDateByCompanyType(date);
+				return getDateInDefaultType(date);
 			}
 		};
 		updateReport(salesByLocationDetailsServerReport, finaTool);
@@ -1674,7 +1717,7 @@ public class ReportsGenerator {
 			@Override
 			public String getDateByCompanyType(ClientFinanceDate date) {
 
-				return getDateByCompanyType(date);
+				return getDateInDefaultType(date);
 			}
 		};
 		updateReport(salesByLocationsummaryServerReport, finaTool);
@@ -1754,7 +1797,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Sales Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Sales Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Sales Cancelled Order Report";
@@ -1786,7 +1829,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Purchase Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Purchase Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Purchase Cancelled Order Report";
@@ -1836,6 +1879,8 @@ public class ReportsGenerator {
 			return "Profit and Loss by Location";
 		case REPORT_TYPE_BUDGET:
 			return "Budget Report";
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+			return "Budget vs Actuals";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
 		case REPORT_TYPE_SALESBYCLASSDETAIL:

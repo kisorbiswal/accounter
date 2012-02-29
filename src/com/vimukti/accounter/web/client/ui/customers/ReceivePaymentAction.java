@@ -21,14 +21,12 @@ public class ReceivePaymentAction extends Action {
 
 	public ReceivePaymentAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public ReceivePaymentAction(String text,
 			ClientReceivePayment receivePayment,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -70,6 +68,10 @@ public class ReceivePaymentAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/recive_payments.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	@Override
 	public String getHistoryToken() {

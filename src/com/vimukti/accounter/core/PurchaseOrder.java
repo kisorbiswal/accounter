@@ -451,7 +451,7 @@ public class PurchaseOrder extends Transaction {
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 		if (this.getID() != 0) {
-			if (this.status == Transaction.STATUS_APPLIED
+			if (this.status == Transaction.STATUS_COMPLETED
 					&& this.usedBill != null) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
@@ -482,7 +482,7 @@ public class PurchaseOrder extends Transaction {
 	public void setUsedBill(EnterBill usedTransaction, Session session) {
 		if (this.usedBill == null && usedTransaction != null) {
 			this.usedBill = usedTransaction;
-			status = STATUS_APPLIED;
+			status = STATUS_COMPLETED;
 		} else if (usedTransaction == null) {
 			this.usedBill = null;
 			status = STATUS_OPEN;

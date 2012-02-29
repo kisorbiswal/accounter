@@ -471,7 +471,7 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 		} else if (status.equals(getMessages().rejected())) {
 			return ClientEstimate.STATUS_REJECTED;
 		} else if (status.equals(getMessages().completed())) {
-			return ClientTransaction.STATUS_APPLIED;
+			return ClientTransaction.STATUS_COMPLETED;
 		} else if (status.equals(getMessages().cancelled())) {
 			return ClientTransaction.STATUS_CANCELLED;
 		}

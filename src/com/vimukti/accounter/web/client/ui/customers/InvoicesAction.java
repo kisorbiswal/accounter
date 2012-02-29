@@ -21,12 +21,10 @@ public class InvoicesAction extends Action {
 
 	public InvoicesAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public InvoicesAction(String viewType) {
 		super();
-		this.catagory = Global.get().Customer();
 		this.viewType = viewType;
 	}
 
@@ -76,6 +74,10 @@ public class InvoicesAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/invoices.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	@Override
 	public String getHistoryToken() {

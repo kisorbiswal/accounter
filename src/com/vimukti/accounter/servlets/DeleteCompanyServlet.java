@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Types;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.User;
+import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.S2SServiceImpl;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.core.ClientUser;
@@ -115,10 +117,14 @@ public class DeleteCompanyServlet extends BaseServlet {
 
 		final boolean deleteAllUsers = delete.equals("deleteAllUsers");
 		final HttpSession httpSession = req.getSession();
+
+		final Locale locale = ServerLocal.get();
+
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
+				ServerLocal.set(locale);
 				httpSession.setAttribute(COMPANY_DELETION_STATUS,
 						COMPANY_DELETING);
 				Session session = HibernateUtil.openSession();

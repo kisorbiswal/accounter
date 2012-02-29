@@ -21,7 +21,6 @@ public class BillsAction extends Action {
 
 	public BillsAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -79,6 +78,11 @@ public class BillsAction extends Action {
 	@Override
 	public String getText() {
 		return messages.billsAndExpenses();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 }

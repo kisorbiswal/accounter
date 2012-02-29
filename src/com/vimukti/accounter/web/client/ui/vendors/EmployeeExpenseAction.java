@@ -16,13 +16,11 @@ public class EmployeeExpenseAction extends Action {
 
 	public EmployeeExpenseAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public EmployeeExpenseAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public void run() {
@@ -47,6 +45,11 @@ public class EmployeeExpenseAction extends Action {
 			}
 		});
 
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override
