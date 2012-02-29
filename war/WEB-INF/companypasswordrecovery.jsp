@@ -20,12 +20,29 @@ $(document).ready(function() {
 	$('#submitButton').click(function() {
 		$("#accounterForm").validate({
 			rules: {
-				emailId: {
+				recoveryKey: {
 					required: true,
-					email: true
+			},
+			password: {
+				required: true,
+				minlength: 6
+			},
+			confirm: {
+				required: true,
+				minlength: 6,
+				equalTo: "#mid-box2"
 			},
 			messages: {
-				emailId: "<i18n:i18n msg='pleaseenteravalidemailaddress'/>"
+				recoveryKey: "<i18n:i18n msg='shouldNotEmpty'/>",
+				password: {
+				required: "<i18n:i18n msg='pleaseprovideapassword'/>",
+				minlength: "<i18n:i18n msg='yourpasswordmustbeatleast6characterslong'/>"
+			},
+			confirmPassword: {
+				required: "<i18n:i18n msg='pleaseprovideapassword'/>",
+				minlength: "<i18n:i18n msg='yourpasswordmustbeatleast6characterslong'/>",
+				equalTo: "<i18n:i18n msg='pleaseenterthesamepasswordasabove'/>"
+			},
 				 
 			}
 			}
@@ -41,6 +58,10 @@ $(document).ready(function() {
 		   <div id="forgot-password_error" class="common-box">
 		      <p>Company password recovery</p>	
 		   </div>
+		    <c:if test="${info != null}">
+			   <div id="login_error" class="common-box">
+					<span>${info} </span>
+			   </div>
 		   <form class="accounterform" id="accounterForm" method="post" action="/main/company/password/recovery">
 		      <div>
 			    <label>Recovery key</label>
@@ -50,12 +71,12 @@ $(document).ready(function() {
 			   <div>
 			    <label>New Password</label>
 				 </br>
-				<input id="mid-box"  type="text" name="password" tabindex="2"  />
+				<input id="mid-box1"  type="text" name="password" tabindex="2"  />
 			  </div>
 			   <div>
 			    <label>Confirm Password</label>
 				 </br>
-				<input id="mid-box"  type="text" name="confirm" tabindex="3"  />
+				<input id="mid-box2"  type="text" name="confirm" tabindex="3"  />
 			  </div>
 			  <div id="forgot-login">
 			     <input type="submit" tabindex="4" value="<i18n:i18n msg='submit'/>" name="ok" class="allviews-common-button" id="submitButton" />

@@ -21,6 +21,8 @@
     <%
 
     	String useremailIds =(String) request.getAttribute("userIdsList");
+    	String expDate =(String) request.getAttribute("ExpiredDate");
+    	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
   	%>
   	<title>Subscription Management</title>
   </head>
@@ -29,11 +31,9 @@
 	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<table cellspacing="10">
 	<tr>
-	<td> Admin Email : </td> 
-	<td>${adminMailId}</td>
 	</tr><tr></tr><tr>
-	<td> Subscription date : </td> 
-	<td>${subscriptionDate}</td>
+	<td> Subscription expire date : </td> 
+	<td>${expDate}</td>
 	</tr><tr></tr><tr>
 	<td> Subscription type : </td> 
 	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
@@ -44,19 +44,11 @@
 	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
-    <option value="One User Monthly Subscription">One user : $5.00USD - monthly</option>
-    <option value="One User Yearly Subscription">One user : $50.00USD - yearly</option>
-    <option value="Two Users Monthly Subscription">2 users : $10.00USD - monthly</option>
-    <option value="Two Users Yearly Subscription">2 users : $100.00USD - yearly</option>
-    <option value="Five Users Monthly Subscription">5 users : $25.00USD - monthly</option>
-    <option value="Five Users Yearly Subscription">5 users : $250.00USD - yearly</option>
-    <option value="Unlimited Users Monthly Subscription">Unlimited Users : $100.00USD - monthly</option>
-    <option value="Unlimited Users Yearly Subscription">Unlimited Users : $1,000.00USD - yearly</option>
+    <option value="One User Monthly Subscription">One user </option>
+    <option value="One User Yearly Subscription">Two users </option>
+    <option value="Two Users Monthly Subscription">Five users </option>
+    <option value="Two Users Yearly Subscription">Unlimited </option>
 	</select></td>
-	</tr>
-	<tr>
-	<td> Subscription Date : </td>
-	<td> ${subscriptionDate}</td>
 	</tr>
 	<tr>
 	<td> Users Emails : </td>
