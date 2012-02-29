@@ -1582,8 +1582,9 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	public List<Item> getInventoryUsed() {
+
 		List<Item> inventory = new ArrayList<Item>();
-		if (this.isDraftOrTemplate()) {
+		if (this.isDraftOrTemplate() || (isVoid() && this.isVoidBefore)) {
 			return inventory;
 		}
 		for (TransactionItem tItem : getTransactionItems()) {
