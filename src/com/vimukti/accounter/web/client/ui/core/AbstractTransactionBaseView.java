@@ -786,7 +786,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.switchMaestro(), messages.paypal() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
