@@ -303,4 +303,18 @@ public class CreateStatementToolBar extends ReportToolbar {
 			}
 		}
 	}
+
+	public void setStatus(Integer status) {
+		if (status == VIEW_OPEN) {
+			viewSelect.setComboItem(messages.open());
+		} else if (status == VIEW_VOIDED) {
+			viewSelect.setComboItem(messages.voided());
+		} else if (status == VIEW_OVERDUE) {
+			viewSelect.setComboItem(messages.overDue());
+		} else if (status == VIEW_ALL) {
+			viewSelect.setComboItem(messages.all());
+		} else if (status == VIEW_DRAFT) {
+			viewSelect.setComboItem(messages.drafts());
+		}
+	}
 }
