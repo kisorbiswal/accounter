@@ -195,7 +195,8 @@ public class Header extends FlowPanel {
 		headerLinks.add(panel3);
 		// this.add(headerLinks);
 		hpanel.add(headerLinks);
-		hpanel.setCellWidth(panel1, "200px");
+		hpanel.setCellWidth(panel1, "30%");
+		hpanel.setCellWidth(panel2, "40%");
 		hpanel.setCellWidth(headerLinks, "30%");
 		this.add(hpanel);
 
