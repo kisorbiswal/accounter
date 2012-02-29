@@ -28,13 +28,14 @@ import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
+import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.client.IAccounterCompanyInitializationService;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientCompany;
@@ -50,7 +51,6 @@ import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
  */
 public class AccounterCompanyInitializationServiceImpl extends
 		RemoteServiceServlet implements IAccounterCompanyInitializationService {
-
 	/**
 	 * 
 	 */
@@ -135,6 +135,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 		try {
 			byte[] companySecret = null;
 			byte[] userSecret = null;
+			byte[] encryptedPass = null;
 			if (password != null) {
 				try {
 					byte[] s3 = EU.generateSymetric();
@@ -144,15 +145,21 @@ public class AccounterCompanyInitializationServiceImpl extends
 							EU.decrypt(d2, EU.getKey(sessionId)));
 
 					EU.createCipher(userSecret, d2, sessionId);
+
+					String string = SecureUtils.createID(16);
+					byte[] prk = EU.generatePBS(string);
+					encryptedPass = EU.encrypt(csk, prk);
+					Encrypter.sendCompanyPasswordRecoveryKey(string);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-			System.out.println();
+
 			Company company = new Company();
 			company.setTradingName(preferences.getTradingName());
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
+			company.setEncryptedPassword(encryptedPass);
 			company.setSecretKey(companySecret);
 			company.setVersion(Company.CURRENT_VERSION);
 

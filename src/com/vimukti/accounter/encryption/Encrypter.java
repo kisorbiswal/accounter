@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.ReplicationMode;
@@ -16,8 +17,10 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.utils.SecureUtils;
 
 public class Encrypter extends Thread {
+	private Logger log = Logger.getLogger(Encrypter.class);
 
 	private long companyId;
 	private byte[] csk;
@@ -112,6 +115,12 @@ public class Encrypter extends Thread {
 		Company company = getCompany();
 		byte[] s3 = EU.generateSymetric();
 		byte[] companySecret = EU.encrypt(s3, csk);
+
+		String string = SecureUtils.createID(16);
+		byte[] prk = EU.generatePBS(string);
+
+		byte[] encryptedPass = EU.encrypt(csk, prk);
+		company.setEncryptedPassword(encryptedPass);
 		company.setSecretKey(companySecret);
 		session.saveOrUpdate(company);
 
@@ -121,6 +130,13 @@ public class Encrypter extends Thread {
 		User user = getUser();
 		user.setSecretKey(userSecret);
 		session.saveOrUpdate(user);
+
+		log.info("Company password recovery key---" + string);
+		sendCompanyPasswordRecoveryKey(string);
+	}
+
+	public static void sendCompanyPasswordRecoveryKey(String string) {
+		// TODO
 	}
 
 	private User getUser() {
@@ -139,9 +155,11 @@ public class Encrypter extends Thread {
 	}
 
 	private List<List> loadCoreObjects() throws Exception {
+
 		Session session = HibernateUtil.openSession();
 		try {
 			Company company = getCompany();
+			log.info("Encrypting is started (" + company.getTradingName() + ")");
 			List<List> lists = new ArrayList<List>();
 			// classes.clear();
 			// classes.add("FixedAsset");

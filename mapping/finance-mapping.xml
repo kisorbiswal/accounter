@@ -211,6 +211,9 @@
 		<property name="companyEmailForCustomers" type="encryptedstring"
 			column="COMPANY_EMAIL_FOR_CUSTOMERS"></property>
 		<property name="encryptionKey" column="ENCRYPTION_KEY"></property>
+		<property name="encryptedPassword" column="ENCRYPTED_PASSWORD"
+			type="binary"></property>
+		<property name="contactSupport" column="CONTACT_SUPPORT"></property>
 		<property name="secretKey" column="SECRET_KEY" type="binary"></property>
 		<property name="isLocked" column="IS_LOCKED"></property>
 

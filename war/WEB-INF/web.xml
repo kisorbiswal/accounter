@@ -181,6 +181,16 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>Company Password Recovery</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.ActivationServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Company Password Recovery</servlet-name>
+		<url-pattern>/main/company/password/recovery</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>EmailForActivation</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.EmailForActivationServlet
 		</servlet-class>

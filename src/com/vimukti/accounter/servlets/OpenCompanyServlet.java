@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -35,7 +33,6 @@ import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -131,13 +128,11 @@ public class OpenCompanyServlet extends BaseServlet {
 			request.setAttribute("accounterLocale", accounterLocale);
 			request.setAttribute("features", client.getClientSubscription()
 					.getSubscription().getFeatures());
-			if (client.getClientSubscription().getSubscription()
-					.isPaidUser()) {
+			if (client.getClientSubscription().getSubscription().isPaidUser()) {
 				request.setAttribute("isPaid", true);
-			}else{
+			} else {
 				request.setAttribute("isPaid", false);
 			}
-			
 
 			Long serverCompanyID = (Long) request.getSession().getAttribute(
 					COMPANY_ID);
@@ -178,6 +173,8 @@ public class OpenCompanyServlet extends BaseServlet {
 				if (getCompanySecretFromDB(serverCompanyID) != null) {
 					try {
 						if (user.getSecretKey() == null) {
+							request.setAttribute("showResetLink",
+									canResetPassword(serverCompanyID));
 							dispatch(request, response,
 									"/WEB-INF/companypassword.jsp");
 							return;
@@ -222,6 +219,13 @@ public class OpenCompanyServlet extends BaseServlet {
 			// Session is there, so show the main page
 
 		}
+	}
+
+	private boolean canResetPassword(Long serverCompanyID) {
+		Session session = HibernateUtil.getCurrentSession();
+		Boolean support = (Boolean) session.getNamedQuery(
+				"get.company.contactsupport").uniqueResult();
+		return support;
 	}
 
 	private boolean isSupportedBrowser(String header) {

@@ -175,6 +175,10 @@ public class EU {
 
 	public static void createCipher(byte[] userSecret, byte[] d2,
 			String sessionId) throws Exception {
+		if (!ServerConfiguration.isEnableEncryption()) {
+			return;
+		}
+
 		byte[] s2 = getKey(sessionId);
 		if (s2 == null) {
 			return;

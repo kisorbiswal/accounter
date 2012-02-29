@@ -66,6 +66,12 @@
 		c.preferences.tradingName=:name
 	</query>
 
+	<sql-query name="get.company.contactsupport">
+		<query-param name="companyId" type="long" />
+		<return-scalar column="CONTACT_SUPPORT" type="boolean" />
+		SELECT CONTACT_SUPPORT FROM COMPANY WHERE ID =:companyId
+	</sql-query>
+	
 	<query name="getServerCompany.by.id">
 		<query-param name="id" type="integer" />
 		from com.vimukti.accounter.core.Company c where

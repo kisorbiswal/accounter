@@ -60,7 +60,12 @@ public class Company implements IAccounterServerCore {
 
 	private String encryptionKey;
 
+	private byte[] encryptedPassword;
+
 	private byte[] secretKey;
+	
+	private Boolean contactSupport;
+	
 	// don't know the purpose
 
 	String companyEmailForCustomers;
@@ -873,7 +878,7 @@ public class Company implements IAccounterServerCore {
 		cmp.measurements = this.getMeasurements();
 
 		cmp.emailAccounts = this.getEmailAccounts();
-		
+
 		cmp.emailAccounts = this.getEmailAccounts();
 		return cmp;
 	}
@@ -1590,5 +1595,21 @@ public class Company implements IAccounterServerCore {
 	 */
 	public Account getCostOfGoodsSold() {
 		return costOfGoodsSold;
+	}
+
+	public byte[] getEncryptedPassword() {
+		return encryptedPassword;
+	}
+
+	public void setEncryptedPassword(byte[] encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
+	}
+
+	public Boolean getContactSupport() {
+		return contactSupport;
+	}
+
+	public void setContactSupport(Boolean contactSupport) {
+		this.contactSupport = contactSupport;
 	}
 }

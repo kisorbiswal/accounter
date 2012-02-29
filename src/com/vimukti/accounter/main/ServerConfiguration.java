@@ -40,6 +40,7 @@ public class ServerConfiguration {
 	private static String uploadAttachmentEmailId;
 	private static String uploadAttachmentPassword;
 	private static boolean loadMessages;
+	private static boolean enableEncryption;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -88,6 +89,9 @@ public class ServerConfiguration {
 					"mobileSSLChatServer", null));
 
 			encryptTmpDir = prop.getProperty("encryptTmpDir", null);
+
+			enableEncryption = prop.getProperty("enableEncryption", "true")
+					.equalsIgnoreCase("true");
 
 			setValidIP(prop.getProperty("validIP", null));
 			setEmailLogger(prop.getProperty("emailLogger", null));
@@ -323,5 +327,9 @@ public class ServerConfiguration {
 
 	public static String getPaypalIdentityId() {
 		return paypalIdentityId;
+	}
+
+	public static boolean isEnableEncryption() {
+		return enableEncryption;
 	}
 }
