@@ -314,12 +314,6 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 		return false;
 	}
 
-	@Override
-	protected boolean canDelete() {
-		return true;
-	}
-
-	@Override
 	public Double getAmountInBaseCurrency(Double amount) {
 		return amount;
 	}

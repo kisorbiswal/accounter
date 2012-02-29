@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -37,6 +38,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class Transaction extends CreatableObject implements
 		IAccounterServerCore, Cloneable {
+
+	Logger log = Logger.getLogger(AccountTransaction.class);
 
 	/**
 	 * 
@@ -1350,15 +1353,15 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean addAccountTransaction(AccountTransaction accountTransaction) {
 		if (isBecameVoid()) {
-			accountTransactionEntriesList.clear();
+			getAccountTransactionEntriesList().clear();
 			return false;
 		}
 		AccountTransaction similar = getSimilarAccountTransaction(accountTransaction);
 		if (similar == null) {
-			accountTransactionEntriesList.add(accountTransaction);
+			getAccountTransactionEntriesList().add(accountTransaction);
 			return true;
 		} else {
-			accountTransactionEntriesList.remove(similar);
+			getAccountTransactionEntriesList().remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
 			session.delete(similar);
 			return false;
@@ -1367,7 +1370,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	private AccountTransaction getSimilarAccountTransaction(
 			AccountTransaction accountTransaction) {
-		for (AccountTransaction record : accountTransactionEntriesList) {
+		for (AccountTransaction record : getAccountTransactionEntriesList()) {
 			if (record.getTransaction().getID() == accountTransaction
 					.getTransaction().getID()
 					&& record.getAccount().getID() == accountTransaction
