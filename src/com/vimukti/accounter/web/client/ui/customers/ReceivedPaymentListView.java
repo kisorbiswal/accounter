@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.ReceivedPaymentListGrid;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * 
@@ -45,8 +46,10 @@ public class ReceivedPaymentListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addaNewPayment();
-
+		if (Accounter.getUser().getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
+			return messages.addaNewPayment();
+		}
+		return null;
 	}
 
 	@Override

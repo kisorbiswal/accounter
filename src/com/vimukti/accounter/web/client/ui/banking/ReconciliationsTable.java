@@ -12,8 +12,10 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -106,7 +108,10 @@ public class ReconciliationsTable extends CellTable<ClientReconciliation>
 				// Accounter.getFinanceMenuImages().accounterRegisterIcon()
 
 				// Show the cofirmation dialog box before delete
-
+				if (!Utility
+						.isUserHavePermissions(AccounterCoreType.RECONCILIATION)) {
+					return;
+				}
 				Accounter.showWarning(
 						messages.areYouwantToDeleteReconcilationHistory(),
 						AccounterType.WARNINGWITHCANCEL,

@@ -10,12 +10,14 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public class CustomerListGrid extends BaseListGrid<PayeeList> {
@@ -81,8 +83,7 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 				colArray[index] = messages.active();
 				break;
 			case 1:
-				colArray[index] = messages.payeeName(
-						Global.get().Customer());
+				colArray[index] = messages.payeeName(Global.get().Customer());
 				break;
 			case 2:
 				colArray[index] = messages.currentMonth();
@@ -168,8 +169,9 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!Utility.isUserHavePermissions(AccounterCoreType.CUSTOMER)) {
 			return;
+		}
 		List<PayeeList> customers = getRecords();
 		PayeeList customer = customers.get(row);
 
@@ -201,21 +203,8 @@ public class CustomerListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	public void onDoubleClick(PayeeList obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			AccounterAsyncCallback<ClientCustomer> callback = new AccounterAsyncCallback<ClientCustomer>() {
-
-				public void onException(AccounterException caught) {
-				}
-
-				public void onResultSuccess(ClientCustomer result) {
-					if (result != null) {
-						ActionFactory.getNewCustomerAction().run(result, false);
-					}
-				}
-
-			};
-			Accounter.createGETService().getObjectById(
-					AccounterCoreType.CUSTOMER, obj.id, callback);
+		if (Utility.isUserHavePermissions(AccounterCoreType.CUSTOMER)) {
+			ReportsRPC.openTransactionView(IAccounterCore.CUSTOMER, obj.id);
 		}
 	}
 
