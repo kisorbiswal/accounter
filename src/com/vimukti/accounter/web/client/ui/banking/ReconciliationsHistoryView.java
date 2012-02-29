@@ -78,7 +78,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onException(AccounterException exception) {
-
+						Accounter.showError(exception.getMessage());
 					}
 
 					@Override

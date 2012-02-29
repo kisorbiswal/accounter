@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAssetHistory;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -68,6 +69,9 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	@Override
 	protected void onClick(ClientFixedAssetHistory asset, int row, int col) {
+		if (!Utility.isUserHavePermissions(AccounterCoreType.FIXEDASSETHISTORY)) {
+			return;
+		}
 		if (col == 3
 				&& asset.getActionType().equalsIgnoreCase(
 						ClientFixedAssetHistory.ACTION_TYPE_DISPOSED)
@@ -101,9 +105,8 @@ public class HistoryListGrid extends BaseListGrid<ClientFixedAssetHistory> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.changes(),
-				messages.date(), messages.user(),
-				messages.details() };
+		return new String[] { messages.changes(), messages.date(),
+				messages.user(), messages.details() };
 	}
 
 	@Override

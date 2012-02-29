@@ -213,8 +213,7 @@ public class AuditHistoryView extends BaseView {
 
 	protected void showItems(ArrayList<ClientActivity> activityList) {
 
-		String name = pageName + messages.no() + ":"
-				+ Long.toString(objID);
+		String name = pageName + messages.no() + ":" + Long.toString(objID);
 
 		Label pageNameLabel = new Label();
 		pageNameLabel.setText(name);
@@ -268,8 +267,8 @@ public class AuditHistoryView extends BaseView {
 		String timeFormat = timefmt.format(new Date(activity.getTime()));
 
 		// created the title
-		String title = messages.Modifiedby(activity.getUserName(),
-				dateformat, timeFormat);
+		String title = messages.Modifiedby(activity.getUserName(), dateformat,
+				timeFormat);
 
 		DisclosurePanel panel = new DisclosurePanel(title);
 		panel.setWidth("100%");

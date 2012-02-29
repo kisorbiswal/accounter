@@ -1283,5 +1283,4 @@ public class ItemView extends BaseView<ClientItem> {
 	protected boolean canVoid() {
 		return false;
 	}
-
 }

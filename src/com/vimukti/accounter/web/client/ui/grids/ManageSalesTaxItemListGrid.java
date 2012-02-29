@@ -5,6 +5,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -31,8 +32,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 			if (obj.isPercentage())
 				return obj.getTaxRate() + "%";
 			else
-				return DataUtils.amountAsStringWithCurrency(obj.getTaxRate(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(obj.getTaxRate(),
+						getCompany().getPrimaryCurrency());
 		case 3:
 			ClientTAXAgency agency = null;
 			if (obj.getTaxAgency() != 0) {
@@ -47,7 +48,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (Utility.isUserHavePermissions(AccounterCoreType.TAXITEM)) {
 			ActionFactory.getNewVatItemAction().run(obj, false);
 		}
 
@@ -55,10 +56,8 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.taxItem(),
-				messages.description(),
-				messages.taxRates(),
-				messages.taxAgency(), "" };
+		return new String[] { messages.taxItem(), messages.description(),
+				messages.taxRates(), messages.taxAgency(), "" };
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class ManageSalesTaxItemListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!Utility.isUserHavePermissions(AccounterCoreType.TAXITEM))
 			return;
 		List<ClientTAXItem> records = getRecords();
 		if (col == 4)

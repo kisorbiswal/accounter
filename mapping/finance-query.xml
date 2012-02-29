@@ -293,7 +293,9 @@
 		<return-scalar column="VENDOR_NAME" type="string" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS
@@ -12586,8 +12588,10 @@
 		<return-scalar column="IN_ACCOUNT" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
@@ -12649,8 +12653,10 @@
 		<return-scalar column="FROM_ACCOUNT" type="string" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS

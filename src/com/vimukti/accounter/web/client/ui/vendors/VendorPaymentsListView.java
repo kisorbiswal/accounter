@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.VendorPaymentsListGrid;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * @modified by Ravi kiran.G
@@ -47,7 +48,9 @@ public class VendorPaymentsListView extends TransactionsListView<PaymentsList>
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (getPreferences().isKeepTrackofBills()) {
+		if (getPreferences().isKeepTrackofBills()
+				&& Accounter.getUser().getPermissions()
+						.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
 			return messages.addaNew(messages.payBill());
 		}
 		return null;

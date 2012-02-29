@@ -111,6 +111,9 @@ public class DepositsTransfersListGrid extends
 
 	@Override
 	protected void onClick(DepositsTransfersList obj, int row, int col) {
+		if (!isCanOpenTransactionView(obj.getStatus(), obj.getType())) {
+			return;
+		}
 		if (type == 0) {
 			if (col == 5) {
 				showWarningDialog(obj, col);
@@ -198,7 +201,10 @@ public class DepositsTransfersListGrid extends
 
 	@Override
 	public void onDoubleClick(DepositsTransfersList obj) {
-		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
+		if (isCanOpenTransactionView(obj.getStatus(), obj.getType())) {
+			ReportsRPC.openTransactionView(obj.getType(),
+					obj.getTransactionId());
+		}
 	}
 
 	@Override

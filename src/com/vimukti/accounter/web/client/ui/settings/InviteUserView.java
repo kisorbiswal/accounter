@@ -185,10 +185,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (getData() == null) {
 			setData(new ClientUserInfo());
 		}
+		super.initData();
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
 		emailField.setEmail(data.getEmail());
@@ -662,17 +662,22 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	@Override
 	protected boolean canDelete() {
 		ClientUser user = Accounter.getUser();
-		if (user.isCanDoUserManagement()) {
-			if (!(user.getID() == data.getID())) {
-				return true;
-			}
+		if (user.isCanDoUserManagement()
+				&& (data == null ? true : !data.isAdmin()
+						&& !data.getUserRole().equals(
+								RolePermissions.FINANCIAL_ADVISER))) {
+			super.canDelete();
 		}
 		return false;
 	}
 
 	@Override
 	public boolean canEdit() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()
+				&& (data == null ? true : !data.isAdmin()
+						&& !data.getUserRole().equals(
+								RolePermissions.FINANCIAL_ADVISER))) {
 			return super.canEdit();
 		}
 		return false;
