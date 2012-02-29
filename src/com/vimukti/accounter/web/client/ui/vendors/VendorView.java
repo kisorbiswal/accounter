@@ -617,7 +617,9 @@ public class VendorView extends BaseView<ClientVendor> {
 
 		Label lab = new Label(Global.get().Vendor());
 
-		expenseAccountsSelect = new OtherAccountsCombo(messages.Account());
+		expenseAccountsSelect = new OtherAccountsCombo(messages.Account()) {
+
+		};
 		expenseAccountsSelect.setHelpInformation(true);
 		expenseAccountsSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -626,7 +628,14 @@ public class VendorView extends BaseView<ClientVendor> {
 					}
 				});
 		expenseAccountsSelect.setDisabled(isInViewMode());
-
+		List<ClientAccount> list = new ArrayList<ClientAccount>();
+		for (ClientAccount account : getCompany().getAccounts()) {
+			if (account.getType() == ClientAccount.TYPE_COST_OF_GOODS_SOLD
+					|| account.getType() == ClientAccount.TYPE_EXPENSE) {
+				list.add(account);
+			}
+		}
+		expenseAccountsSelect.initCombo(list);
 		creditLimitText = new AmountField(messages.creditLimit(), this,
 				getBaseCurrency());
 		creditLimitText.setHelpInformation(true);
@@ -1263,7 +1272,9 @@ public class VendorView extends BaseView<ClientVendor> {
 		// Setting Vendor Name
 		vendorNameText.setValue(data.getName());
 
-		if (data.getID() == 0) {
+		if (getPreferences().getUseVendorId()
+				&& (data.getID() == 0 || data.getVendorNumber() == null || data
+						.getVendorNumber().isEmpty())) {
 			Accounter.createHomeService().getVendorNumber(
 					new AccounterAsyncCallback<String>() {
 
@@ -1401,10 +1412,10 @@ public class VendorView extends BaseView<ClientVendor> {
 			} else {
 				// Setting Federal Id
 				taxIDText.setValue(data.getFederalTaxId());
-				if (getCountryPreferences().isServiceTaxAvailable()) {
-					serviceTaxRegisterationNumber.setValue(data
-							.getServiceTaxRegistrationNumber());
-				}
+			}
+			if (getCountryPreferences().isServiceTaxAvailable()) {
+				serviceTaxRegisterationNumber.setValue(data
+						.getServiceTaxRegistrationNumber());
 			}
 		}
 	}

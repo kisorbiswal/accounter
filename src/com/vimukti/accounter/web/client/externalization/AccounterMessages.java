@@ -349,6 +349,8 @@ public interface AccounterMessages extends Messages {
 
 	public String and();
 
+	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
+
 	public String anItemAlreadyExistswiththisname();
 
 	public String anItemGroupAlreadyExistswiththisname();
@@ -1271,6 +1273,8 @@ public interface AccounterMessages extends Messages {
 
 	public String decimalSymbol();
 
+	public String decimalSymbolShouldNotContainNumericalValues();
+
 	public String decline();
 
 	public String decrease();
@@ -1379,6 +1383,8 @@ public interface AccounterMessages extends Messages {
 
 	public String digitGroupingDecimal();
 
+	public String digitGroupingSymbolShouldNotContainNumericalValues();
+
 	public String dipositAccountAndTransferAccountShouldBeDiff();
 
 	public String directDebit();
@@ -1483,7 +1489,7 @@ public interface AccounterMessages extends Messages {
 
 	public String doyouwanttoDeletetheTransaction();
 
-	public String doyouwanttorejecttheEstimate();
+	public String doyouwanttorejecttheEstimate(String typeString);
 
 	public String doyouWantToUseStatements();
 
@@ -5905,10 +5911,6 @@ public interface AccounterMessages extends Messages {
 
 	public String reportTotal(String jobName);
 
-	public String enablePreference(String preferences);
-
-	public String jobProfitabilitySummary();
-
 	public String itemActualCostDetail();
 
 	public String itemActualRevenueDetail();
@@ -5928,5 +5930,29 @@ public interface AccounterMessages extends Messages {
 	public String split();
 
 	public String pleasEnterJobName();
+
+	public String checkNumber();
+
+	public String checkAmount();
+
+	public String jobProfitabilitySummary();
+
+	public String enablePreference(String preferences);
+
+	public String pleaseMapProperly(String selectedValue, String value);
+
+	public String propertyMatchedAlready();
+
+	public String unassigned();
+
+	public String pleaseEnterDecimalSymbol();
+
+	public String uploadCsvFileDialog();
+
+	public String reconciledAmount();
+
+	public String effectofChange();
+
+	public String reconcilationDiscrepany();
 
 }

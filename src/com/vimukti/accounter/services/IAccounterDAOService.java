@@ -23,7 +23,6 @@ import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
 import com.vimukti.accounter.core.PayTAX;
@@ -32,7 +31,6 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -40,6 +38,7 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TaxRates;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.UnitOfMeasure;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
@@ -335,7 +334,7 @@ public interface IAccounterDAOService {
 	public ReceivePayment getReceivePayment(long companyId,
 			long receivePaymentId) throws DAOException;
 
-	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
+	public Estimate getSalesOrder(long companyId, long salesOrderId)
 			throws DAOException;
 
 	public VendorCreditMemo getVendorCreditMemo(long companyId,

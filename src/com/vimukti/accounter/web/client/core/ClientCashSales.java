@@ -18,7 +18,7 @@ public class ClientCashSales extends ClientTransaction {
 	ClientAddress shippingAdress;
 
 	String phone;
-
+	private String checkNumber;
 	long salesPerson;
 
 	long depositIn;
@@ -321,4 +321,11 @@ public class ClientCashSales extends ClientTransaction {
 		return clientCashSalesClone;
 	}
 
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
+	}
 }

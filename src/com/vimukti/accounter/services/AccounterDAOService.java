@@ -33,7 +33,6 @@ import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Invoice;
 import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemGroup;
-import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.PayBill;
 import com.vimukti.accounter.core.PayExpense;
 import com.vimukti.accounter.core.PayTAX;
@@ -42,7 +41,6 @@ import com.vimukti.accounter.core.PaymentTerms;
 import com.vimukti.accounter.core.PriceLevel;
 import com.vimukti.accounter.core.PurchaseOrder;
 import com.vimukti.accounter.core.ReceivePayment;
-import com.vimukti.accounter.core.SalesOrder;
 import com.vimukti.accounter.core.SalesPerson;
 import com.vimukti.accounter.core.ShippingMethod;
 import com.vimukti.accounter.core.ShippingTerms;
@@ -50,6 +48,7 @@ import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TAXCode;
 import com.vimukti.accounter.core.TAXGroup;
 import com.vimukti.accounter.core.TaxRates;
+import com.vimukti.accounter.core.TransferFund;
 import com.vimukti.accounter.core.UnitOfMeasure;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.Vendor;
@@ -441,7 +440,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 			// if (list.size() > 0) {
 			// CashSales cashSales = new CashSales();
 			// cashSales = (CashSales) list.get(0);
-			ArrayList<TransferFund> arrayList = new ArrayList<TransferFund>(list);
+			ArrayList<TransferFund> arrayList = new ArrayList<TransferFund>(
+					list);
 			return arrayList;
 			// } else
 			// throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,
@@ -1535,7 +1535,7 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public SalesOrder getSalesOrder(long companyId, long salesOrderId)
+	public Estimate getSalesOrder(long companyId, long salesOrderId)
 			throws DAOException {
 
 		try {
@@ -1546,8 +1546,8 @@ public class AccounterDAOService extends HibernateDaoSupport implements
 					new Object[] { salesOrderId, companyId });
 
 			if (list.size() > 0) {
-				SalesOrder salesOrder = new SalesOrder();
-				salesOrder = (SalesOrder) list.get(0);
+				Estimate salesOrder = new Estimate();
+				salesOrder = (Estimate) list.get(0);
 				return salesOrder;
 			} else
 				throw (new DAOException(DAOException.INVALID_REQUEST_EXCEPTION,

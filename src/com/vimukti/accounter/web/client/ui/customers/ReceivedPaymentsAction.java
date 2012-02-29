@@ -19,7 +19,6 @@ public class ReceivedPaymentsAction extends Action {
 
 	public ReceivedPaymentsAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -59,10 +58,13 @@ public class ReceivedPaymentsAction extends Action {
 	//
 	// return "/images/recived_payment_list.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	@Override
 	public String getHistoryToken() {
-
 		return "receivePayments";
 	}
 

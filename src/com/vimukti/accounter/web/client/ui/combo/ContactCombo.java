@@ -24,8 +24,19 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	@Override
 	public void onAddNew() {
 		AddNewContactDialog addNewContactDialog = new AddNewContactDialog(
-				messages.contact(), " ");
+				messages.contact(), " ") {
+			@Override
+			protected boolean onOK() {
+				if (super.onOK()) {
+					ContactCombo.this.setSelected(createContact().getName());
+					return true;
+				} else {
+					return false;
+				}
+			}
+		};
 		addNewContactDialog.addSuccessCallback(newContactHandler);
+
 	}
 
 	public void setDefaultToFirstOption(boolean b) {

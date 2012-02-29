@@ -106,7 +106,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList bills) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+
+		if (isCanOpenTransactionView(bills.getSaveStatus(), bills.getType()))
 			ReportsRPC.openTransactionView(bills.getType(),
 					bills.getTransactionId());
 
@@ -138,7 +139,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void onClick(BillsList obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		if (type == 0 && col == 6 && !obj.isVoided()) {
 			processVoidTransaction(obj, col);
@@ -160,6 +161,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 						.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED)) {
 			Accounter.showError(messages.billPaidSoYouCantVoid());
 			// "You have already paid some amount for this Bill, You can't Edit and Void it.");
+		} else if (obj.getSaveStatus() == ClientTransaction.STATUS_DRAFT) {
+			Accounter.showError(messages.youCannotVoidDraftedTransaction());
 		} else if (obj.getType() == ClientTransaction.TYPE_CASH_PURCHASE) {
 			Accounter.showError(messages.cashPurchasePaidSoYouCantVoid());
 		} else if (obj.getType() != ClientTransaction.TYPE_EMPLOYEE_EXPENSE

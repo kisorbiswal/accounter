@@ -6,7 +6,6 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class RecurringsListGrid extends
 		BaseListGrid<ClientRecurringTransaction> {
@@ -95,7 +94,8 @@ public class RecurringsListGrid extends
 	@Override
 	public void onDoubleClick(ClientRecurringTransaction obj) {
 
-		if (!(Accounter.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)) {
+		if (!(isCanOpenTransactionView(obj.getTransaction().getSaveStatus(),
+				obj.getTransaction().getType()))) {
 			return;
 		}
 
@@ -110,7 +110,8 @@ public class RecurringsListGrid extends
 
 	@Override
 	protected void onClick(ClientRecurringTransaction obj, int row, int col) {
-		if (!(Accounter.getUser().getPermissions().getTypeOfInvoicesBills() == RolePermissions.TYPE_YES)) {
+		if (!(isCanOpenTransactionView(obj.getTransaction().getSaveStatus(),
+				obj.getTransaction().getType()))) {
 			return;
 		}
 		if (col == 7) {

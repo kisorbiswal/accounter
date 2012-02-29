@@ -24,7 +24,6 @@ public class NewQuoteAction extends Action {
 	public NewQuoteAction(int type) {
 		super();
 		this.type = type;
-		this.catagory = Global.get().Customer();
 
 		if (type == ClientEstimate.QUOTES) {
 			title = messages.quote();
@@ -32,6 +31,8 @@ public class NewQuoteAction extends Action {
 			title = messages.charge();
 		} else if (type == ClientEstimate.CREDITS) {
 			title = messages.credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			title = messages.salesOrder();
 		}
 
 	}
@@ -39,7 +40,6 @@ public class NewQuoteAction extends Action {
 	public NewQuoteAction(ClientEstimate quote,
 			AccounterAsyncCallback<Object> callback, int type) {
 		super();
-		this.catagory = Global.get().Customer();
 		this.type = type;
 	}
 
@@ -67,6 +67,8 @@ public class NewQuoteAction extends Action {
 					case ClientEstimate.CREDITS:
 						title = messages.credit();
 						break;
+					case ClientEstimate.SALES_ORDER:
+						title = messages.salesOrder();
 					default:
 						break;
 					}
@@ -110,7 +112,7 @@ public class NewQuoteAction extends Action {
 		} else if (type == ClientEstimate.CREDITS) {
 			return "newCredit";
 		} else if (type == ClientEstimate.SALES_ORDER) {
-			return "salesorders";
+			return "salesOrder";
 		}
 		return "";
 	}
@@ -128,8 +130,15 @@ public class NewQuoteAction extends Action {
 			title = messages.newCharge();
 		} else if (type == ClientEstimate.CREDITS) {
 			title = messages.newCredit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			title = messages.newSalesOrder();
 		}
 		return title;
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override
@@ -141,6 +150,8 @@ public class NewQuoteAction extends Action {
 			viewName = messages.charge();
 		} else if (type == ClientEstimate.CREDITS) {
 			viewName = messages.credit();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			viewName = messages.salesOrder();
 		}
 		return viewName;
 	}

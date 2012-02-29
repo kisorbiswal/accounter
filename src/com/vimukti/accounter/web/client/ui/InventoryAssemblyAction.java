@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	private String itemname;
+	private boolean forCustomer;
 
 	public InventoryAssemblyAction() {
 		super();
@@ -18,11 +19,7 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	public InventoryAssemblyAction(boolean forCustomer) {
 		super();
-		if (forCustomer) {
-			this.catagory = Global.get().Customer();
-		} else {
-			this.catagory = Global.get().Vendor();
-		}
+		this.forCustomer=forCustomer;
 	}
 
 	@Override
@@ -59,6 +56,14 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 	public ImageResource getSmallImage() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public String getCatagory() {
+		if(forCustomer){
+		return Global.get().Customer();
+		}else{
+			return Global.get().Vendor();
+		}
 	}
 
 	@Override

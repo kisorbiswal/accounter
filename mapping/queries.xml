@@ -185,8 +185,9 @@
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.SalesOrder set customer.id=:toID
-		where customer.id=:fromID and company=:company
+		update com.vimukti.accounter.core.Estimate set customer.id=:toID
+		where
+		customer.id=:fromID and company=:company
 	</query>
 
 	<query name="update.merge.customercreditmemo.old.tonew">
@@ -241,7 +242,14 @@
 	</query>
 	<query name="delete.customFiledValuesByCustomField">
 		<query-param name="Id" type="long" />
-		delete from com.vimukti.accounter.core.CustomFieldValue cv where
+		delete from com.vimukti.accounter.core.CustomFieldValue cv
+		where
+		cv.customField.id=:Id
+	</query>
+	<query name="get.customFiledValuesByCustomField">
+		<query-param name="Id" type="long" />
+		from com.vimukti.accounter.core.CustomFieldValue cv
+		where
 		cv.customField.id=:Id
 	</query>
 	<query name="update.merge.writeCheck.old.tonew">
@@ -1092,7 +1100,8 @@
 		!= 202 and
 		(:status=-1 or
 		:status=e.saveStatus or
-		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204))
+		(:status=e.status and e.saveStatus!=201 and
+		e.saveStatus!=204))
 		and
 		e.transactionDate
 		between :fromDate and :toDate
@@ -1111,7 +1120,7 @@
 		and e.estimateType=:estimateType and e.saveStatus != 202
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
-		&lt;:today
+		&lt;:today and e.usedInvoice =null
 		order by e.lastModifiedDate desc
 	</query>
 
@@ -1761,14 +1770,10 @@
 		item.id=:fromID
 	</query>
 
-	<query name="update.merge.itemsalesorder.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID
-		where
-		salesTaxItem.id=:fromID and company=:company
-	</query>
+	<!-- <query name="update.merge.itemsalesorder.old.tonew"> <query-param name="fromID" 
+		type="long" /> <query-param name="toID" type="long" /> <query-param name="company" 
+		type="Company" /> update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID 
+		where salesTaxItem.id=:fromID and company=:company </query> -->
 
 	<query name="update.merge.trasactionexpense.old.tonew">
 		<query-param name="fromID" type="long" />
@@ -2184,9 +2189,10 @@
 	<query name="list.InventorySales">
 		<query-param name="itemId" type="long" />
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
+
 		from com.vimukti.accounter.core.TransactionItem sale
-		where sale.item.id=:itemId
-		and (sale.transaction.type in (1,4,7,8,37) or (sale.transaction.type=36
+		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		and (sale.transaction.type in (1,14,8,37) or (sale.transaction.type=36
 		and sale.quantity.value &lt; 0))
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>

@@ -7,7 +7,6 @@ import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.serverreports.AbstractFinaneReport;
 
 public class BudgetVsActualsServerReport extends
@@ -94,8 +93,7 @@ public class BudgetVsActualsServerReport extends
 			iniHandler();
 
 		String sectionName1 = null;
-		int type = Accounter.getCompany()
-				.getAccountByName(record.getAccountName()).getType();
+		int type = record.getType();
 		if (type == ClientAccount.TYPE_EXPENSE) {
 			sectionName1 = messages.expense();
 		} else if (type == ClientAccount.TYPE_OTHER_EXPENSE) {

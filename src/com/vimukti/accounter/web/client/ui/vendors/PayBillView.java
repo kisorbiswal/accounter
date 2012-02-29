@@ -736,7 +736,7 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		if (isMultiCurrencyEnabled()) {
 			if (!isInViewMode()) {
-				amountLabelForeign.hide();
+				amountLabelForeign.setVisible(true);
 			}
 		}
 	}
@@ -823,11 +823,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 
 		amountLabelForeign.setTitle(messages.currencyTotal(vendorCurrency
 				.getFormalName()));
-
-		if (vendor == null) {
-			paybillTransactionList = null;
-			return;
-		}
 
 		grid.resetValues();
 		grid.creditsAndPayments.clear();
@@ -961,7 +956,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				currencyWidget.setDisabled(isInViewMode());
 			}
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
-			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 
@@ -1228,7 +1222,8 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 		}
 		for (ClientTransactionPayBill bill : transaction
 				.getTransactionPayBill()) {
-			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits());
+			bill.setAmountDue(bill.getPayment() + bill.getAppliedCredits()
+					+ bill.getCashDiscount());
 			bill.setPayment(0.00D);
 			bill.setAppliedCredits(0.00D, false);
 			bill.setCashDiscount(0);

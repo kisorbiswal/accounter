@@ -24,6 +24,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	private long payeeId;
 	private int viewId = 0;
 	private long jobId;
+	private long accId;
 
 	public boolean isToolBarComponentChanged;
 
@@ -816,5 +817,17 @@ public abstract class ReportToolbar extends HorizontalPanel {
 
 	public void setJobId(long jobId) {
 		this.jobId = jobId;
+	}
+
+	public long getAccId() {
+		return accId;
+	}
+
+	public void setAccId(long accId) {
+		this.accId = accId;
+		accountData();
+	}
+
+	protected void accountData() {
 	}
 }

@@ -3,17 +3,19 @@ package com.vimukti.accounter.web.client.ui.vendors;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.PurchaseOrderListGrid;
 
 public class PurchaseOrderListView extends
-		TransactionsListView<PurchaseOrdersList> {
+		TransactionsListView<PurchaseOrdersList> implements IPrintableView {
 
 	// private PurchaseDetailesView purchaseDetailView;
 	private List<PurchaseOrdersList> listOfPurchaseOrders;
@@ -59,14 +61,6 @@ public class PurchaseOrderListView extends
 	}
 
 	@Override
-	public void initListCallback() {
-		super.initListCallback();
-		Accounter.createHomeService().getPurchaseOrders(
-				getStartDate().getDate(), getEndDate().getDate(), this);
-
-	}
-
-	@Override
 	public void fitToSize(int height, int width) {
 		if (height > 0 && width - 350 > 0) {
 			grid.setHeight("100%");
@@ -75,26 +69,21 @@ public class PurchaseOrderListView extends
 
 	}
 
-	// @Override
-	// protected void onAttach() {
-	// purchaseDetailView = new PurchaseDetailesView();
-	// gridLayout.add(purchaseDetailView);
-	// gridLayout.setCellWidth(purchaseDetailView, "30%");
-	// super.onAttach();
-	// }
-	//
-	// @Override
-	// protected void onDetach() {
-	// gridLayout.remove(purchaseDetailView);
-	// super.onDetach();
-	// }
-
 	@Override
 	public void onSuccess(PaginationList<PurchaseOrdersList> result) {
-		super.onSuccess(result);
-		listOfPurchaseOrders = result;
-		filterList(viewSelect.getValue().toString());
-		grid.setViewType(viewSelect.getValue().toString());
+		grid.removeAllRecords();
+		if (result.isEmpty()) {
+			updateRecordsCount(result.getStart(), result.size(),
+					result.getTotalCount());
+			grid.addEmptyMessage(messages.noRecordsToShow());
+			return;
+		}
+		grid.removeLoadingImage();
+		viewSelect.setComboItem(getViewType());
+		grid.setRecords(result);
+		Window.scrollTo(0, 0);
+		updateRecordsCount(result.getStart(), result.size(),
+				result.getTotalCount());
 	}
 
 	@Override
@@ -104,71 +93,31 @@ public class PurchaseOrderListView extends
 		listOfTypes.add(messages.completed());
 		listOfTypes.add(messages.cancelled());
 		listOfTypes.add(messages.drafts());
+		listOfTypes.add(messages.all());
 		return listOfTypes;
 	}
 
 	@Override
 	protected void filterList(String text) {
 		grid.removeAllRecords();
-		if (listOfPurchaseOrders != null) {
-			for (PurchaseOrdersList purchaseOrder : listOfPurchaseOrders) {
-				if (text.equals(messages.open())) {
-					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_OPEN
-							|| purchaseOrder.getStatus() == ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED)
-						grid.addData(purchaseOrder);
-					// if (grid.getRecords().isEmpty()) {
-					// purchaseDetailView.itemsGrid.clear();
-					// purchaseDetailView.itemsGrid.addEmptyMessage(messages
-					// .noRecordsToShow());
-					// }
-					continue;
-				}
-				if (text.equals(messages.completed())) {
-					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_COMPLETED)
-						grid.addData(purchaseOrder);
-					// if (grid.getRecords().isEmpty()) {
-					// if (purchaseDetailView.itemsGrid != null) {
-					// purchaseDetailView.itemsGrid.clear();
-					// purchaseDetailView.itemsGrid
-					// .addEmptyMessage(messages.noRecordsToShow());
-					// }
-					// }
-					continue;
-				}
-				if (text.equals(messages.cancelled())) {
-					if (purchaseOrder.getStatus() == ClientTransaction.STATUS_CANCELLED)
-						grid.addData(purchaseOrder);
-					// if (grid.getRecords().isEmpty()) {
-					// if (purchaseDetailView.itemsGrid != null) {
-					// purchaseDetailView.itemsGrid.clear();
-					// purchaseDetailView.itemsGrid
-					// .addEmptyMessage(messages.noRecordsToShow());
-					// }
-					// }
-					continue;
-				}
-				if (text.equalsIgnoreCase(messages.drafts())) {
-					if (purchaseOrder.getStatus() == VIEW_DRAFT)
-						grid.addData(purchaseOrder);
-					// if (grid.getRecords().isEmpty()) {
-					// if (purchaseDetailView.itemsGrid != null) {
-					// purchaseDetailView.itemsGrid.clear();
-					// purchaseDetailView.itemsGrid
-					// .addEmptyMessage(messages.noRecordsToShow());
-					// }
-					// }
-					continue;
-				}
-			}
+		onPageChange(0, getPageSize());
+	}
+
+	@Override
+	protected void onPageChange(int start, int length) {
+		int type = -1;
+		if (getViewType().equals(messages.open())) {
+			type = ClientTransaction.STATUS_OPEN;
+		} else if (getViewType().equals(messages.completed())) {
+			type = ClientTransaction.STATUS_COMPLETED;
+		} else if (getViewType().equals(messages.cancelled())) {
+			type = ClientTransaction.STATUS_CANCELLED;
+		} else if (getViewType().equals(messages.drafts())) {
+			type = ClientTransaction.STATUS_DRAFT;
 		}
-		if (grid.getRecords().isEmpty()) {
-			grid.addEmptyMessage(messages.noRecordsToShow());
-		}
-		// if (purchaseDetailView.itemsGrid != null)
-		// if (purchaseDetailView.itemsGrid.getRecords().isEmpty()) {
-		// purchaseDetailView.itemsGrid.addEmptyMessage(messages
-		// .noRecordsToShow());
-		// }
+		Accounter.createHomeService().getPurchaseOrders(
+				getStartDate().getDate(), getEndDate().getDate(), type, start,
+				length, this);
 	}
 
 	@Override
@@ -191,33 +140,40 @@ public class PurchaseOrderListView extends
 		return true;
 	}
 
-	// @Override
-	// protected void onLoad() {
-	// if (grid.getSelection() != null) {
-	// AccounterAsyncCallback<IAccounterCore> callbackforpurchaseOrder = new
-	// AccounterAsyncCallback<IAccounterCore>() {
-	//
-	// @Override
-	// public void onResultSuccess(IAccounterCore result) {
-	// if (result != null)
-	// purchaseDetailView
-	// .setObjValues((ClientPurchaseOrder) result);
-	// }
-	//
-	// @Override
-	// public void onException(AccounterException caught) {
-	//
-	// }
-	// };
-	// rpcGetService.getObjectById(AccounterCoreType.PURCHASEORDER,
-	// ((PurchaseOrdersList) grid.getSelection())
-	// .getTransactionId(), callbackforpurchaseOrder);
-	// }
-	// super.onLoad();
-	// }
-
 	@Override
 	protected String getViewTitle() {
 		return messages.purchaseOrders();
+	}
+
+	@Override
+	protected int getPageSize() {
+		return DEFAULT_PAGE_SIZE;
+	}
+
+	@Override
+	public void exportToCsv() {
+		int type = -1;
+		if (getViewType().equals(messages.open())) {
+			type = ClientTransaction.STATUS_OPEN;
+		} else if (getViewType().equals(messages.completed())) {
+			type = ClientTransaction.STATUS_COMPLETED;
+		} else if (getViewType().equals(messages.cancelled())) {
+			type = ClientTransaction.STATUS_CANCELLED;
+		} else if (getViewType().equals(messages.drafts())) {
+			type = ClientTransaction.STATUS_DRAFT;
+		}
+		Accounter.createExportCSVService().getPurchaseOrderExportCsv(type,
+				getStartDate().getDate(), getEndDate().getDate(),
+				getExportCSVCallback(getViewTitle()));
+	}
+
+	@Override
+	public boolean canPrint() {
+		return false;
+	}
+
+	@Override
+	public boolean canExportToCsv() {
+		return true;
 	}
 }

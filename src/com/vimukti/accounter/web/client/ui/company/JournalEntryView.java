@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class JournalEntryView extends
 		AbstractTransactionBaseView<ClientJournalEntry> {
@@ -683,8 +684,28 @@ public class JournalEntryView extends
 		return result;
 	}
 
+	@Override
+	public boolean canEdit() {
+		if (Accounter.getUser().getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
+			return super.canEdit();
+		}
+		return false;
+	}
+
 	protected void updateDiscountValues() {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected boolean canRecur() {
+		if (transaction != null
+				&& (transaction.getInvolvedAccount() != 0 || transaction
+						.getInvolvedPayee() != 0)) {
+			return false;
+		}
+
+		return super.canRecur();
 
 	}
 }

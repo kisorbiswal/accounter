@@ -93,12 +93,18 @@ public class CustomerRefundListGrid extends BaseListGrid<CustomerRefundsList> {
 
 	@Override
 	public void onDoubleClick(CustomerRefundsList customerRefunds) {
-		ReportsRPC.openTransactionView(customerRefunds.getType(),
-				customerRefunds.getTransactionId());
+		if (isCanOpenTransactionView(customerRefunds.getSaveStatus(),
+				customerRefunds.getType())) {
+			ReportsRPC.openTransactionView(customerRefunds.getType(),
+					customerRefunds.getTransactionId());
+		}
 	}
 
 	@Override
 	protected void onClick(CustomerRefundsList obj, int row, int col) {
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
+			return;
+		}
 		if (col == 7 && !obj.isVoided()) {
 			showWarningDialog(obj, col);
 		}

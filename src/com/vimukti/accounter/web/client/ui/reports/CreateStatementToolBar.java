@@ -51,8 +51,8 @@ public class CreateStatementToolBar extends ReportToolbar {
 				messages.all(), messages.voided(), messages.drafts() };
 		setViewSelect(new SelectCombo(messages.currentView()));
 		getViewSelect().initCombo(Arrays.asList(filter));
-		getViewSelect()
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
+		getViewSelect().addSelectionChangeHandler(
+				new IAccounterComboSelectionChangeHandler<String>() {
 
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
@@ -78,10 +78,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 						@Override
 						public void selectedComboBoxItem(ClientVendor selectItem) {
 							setPayeeId(selectItem.getID());
-							
+
 						}
 
-						
 					});
 
 			if (getPayeeId() != 0) {
@@ -183,11 +182,11 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
 		if (isVendor) {
-			addItems(getViewSelect(), vendorCombo, dateRangeItemCombo, fromItem,
-					toItem);
+			addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
+					fromItem, toItem);
 		} else {
-			addItems(getViewSelect(), customerCombo, dateRangeItemCombo, fromItem,
-					toItem);
+			addItems(getViewSelect(), customerCombo, dateRangeItemCombo,
+					fromItem, toItem);
 		}
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -291,21 +290,23 @@ public class CreateStatementToolBar extends ReportToolbar {
 	}
 
 	protected void createDisplayJobCombo() {
-		
+
 	}
+
 	@Override
 	protected void payeeData() {
 		if (isVendor) {
 			if (getPayeeId() != 0) {
 				vendorData(Accounter.getCompany().getVendor(getPayeeId()));
-				reportview.makeReportRequest(selectedVendor.getID(), startDate,
-						endDate);
+				// reportview.makeReportRequest(selectedVendor.getID(),
+				// startDate,
+				// endDate);
 			}
 		} else {
 			if (getPayeeId() != 0) {
 				customerData(Accounter.getCompany().getCustomer(getPayeeId()));
-				reportview.makeReportRequest(selectedCusotmer.getID(),
-						startDate, endDate);
+				// reportview.makeReportRequest(selectedCusotmer.getID(),
+				// startDate, endDate);
 			}
 		}
 	}
@@ -316,5 +317,19 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void setViewSelect(SelectCombo viewSelect) {
 		this.viewSelect = viewSelect;
+	}
+
+	public void setStatus(Integer status) {
+		if (status == VIEW_OPEN) {
+			viewSelect.setComboItem(messages.open());
+		} else if (status == VIEW_VOIDED) {
+			viewSelect.setComboItem(messages.voided());
+		} else if (status == VIEW_OVERDUE) {
+			viewSelect.setComboItem(messages.overDue());
+		} else if (status == VIEW_ALL) {
+			viewSelect.setComboItem(messages.all());
+		} else if (status == VIEW_DRAFT) {
+			viewSelect.setComboItem(messages.drafts());
+		}
 	}
 }

@@ -44,7 +44,7 @@ public class SalesByCustomerDetailReport extends
 				if (byCustomerDetail.getName() != null) {
 					Accounter.createReportService()
 							.getSalesByCustomerDetailReport(
-									byCustomerDetail.getName(),
+									byCustomerDetail.getCustomerId(),
 									byCustomerDetail.getStartDate(),
 									byCustomerDetail.getEndDate(), this);
 				}
@@ -53,13 +53,14 @@ public class SalesByCustomerDetailReport extends
 				if (record.getCustomer() != null) {
 					Accounter.createReportService()
 							.getSalesByCustomerDetailReport(
-									record.getCustomer(),
+									record.getCustomerId(),
 									record.getStartDate(), record.getEndDate(),
 									this);
 				}
 			}
 		}
 	}
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {
@@ -94,12 +95,19 @@ public class SalesByCustomerDetailReport extends
 
 	@Override
 	public void print() {
-		String customerName = this.data != null ? ((SalesByCustomerDetail) this.data)
-				.getName() : "";
-		UIUtils.generateReportPDF(
-				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 122, "",
-				"", customerName);
+		long id = this.data != null ? ((SalesByCustomerDetail) this.data)
+				.getCustomerId() : 0;
+		if (id != 0) {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 122,
+					"", "", id);
+		} else {
+			UIUtils.generateReportPDF(
+					Integer.parseInt(String.valueOf(startDate.getDate())),
+					Integer.parseInt(String.valueOf(endDate.getDate())), 122,
+					"", "", "");
+		}
 	}
 
 	@Override

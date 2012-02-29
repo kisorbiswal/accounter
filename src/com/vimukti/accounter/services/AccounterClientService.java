@@ -26,20 +26,19 @@ import com.vimukti.accounter.web.client.core.ClientIssuePayment;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemGroup;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
-import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPayTAX;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientReceivePayment;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTAXGroup;
+import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientUnitOfMeasure;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientVendor;
@@ -195,8 +194,8 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public ClientPayTAX alterPaySalesTax(long company,
-			ClientPayTAX paySalesTax) throws DAOException {
+	public ClientPayTAX alterPaySalesTax(long company, ClientPayTAX paySalesTax)
+			throws DAOException {
 
 		return null;
 	}
@@ -225,13 +224,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	@Override
 	public ClientReceivePayment alterReceivePayment(long company,
 			ClientReceivePayment receivePayment) throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public ClientSalesOrder alterSalesOrder(long company,
-			ClientSalesOrder salesOrder) throws DAOException {
 
 		return null;
 	}
@@ -475,8 +467,8 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public ClientPayTAX createPaySalesTax(long company,
-			ClientPayTAX paySalesTax) throws DAOException {
+	public ClientPayTAX createPaySalesTax(long company, ClientPayTAX paySalesTax)
+			throws DAOException {
 
 		return null;
 	}
@@ -505,13 +497,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	@Override
 	public ClientReceivePayment createReceivePayment(long company,
 			ClientReceivePayment receivePayment) throws DAOException {
-
-		return null;
-	}
-
-	@Override
-	public ClientSalesOrder createSalesOrder(long company,
-			ClientSalesOrder salesOrder) throws DAOException {
 
 		return null;
 	}
@@ -557,7 +542,6 @@ public class AccounterClientService extends HibernateDaoSupport implements
 
 		return null;
 	}
-
 
 	@Override
 	public ClientUnitOfMeasure createUnitOfMeasure(long company,
@@ -813,7 +797,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientFiscalYear alterFiscalYear(final long company,
 	// final ClientFiscalYear clientFiscalYear) throws DAOException {
@@ -903,7 +887,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// .get(Calendar.YEAR);
 	//
 	// cal.setTime(existingHighestEndDate);
-	// 
+	//
 	// Integer existingHighestYear = cal
 	// .get(Calendar.YEAR);
 	// if (modifiedStartDate
@@ -1071,7 +1055,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// }
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientJournalEntry alterJournalEntry(long company,
 	// ClientJournalEntry journalEntry) throws DAOException {
@@ -1083,7 +1067,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// new Object[] { journalEntry.getID() });
 	//
 	// if (list.size() > 0) {
-	// 
+	//
 	// JournalEntry serveObject = (JournalEntry) list.get(0);
 	// return (ClientJournalEntry) updateObject(JournalEntry.class,
 	// journalEntry);
@@ -1334,7 +1318,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// return (ClientVendorGroup) updateObject(VendorGroup.class, vendorGroup);
 	// }
 	//
-	// 
+	//
 	// public IAccounterCore updateObject(final Class class1,
 	// final IAccounterCore accounterCore) {
 	//
@@ -1368,7 +1352,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientAccount createAccount(final long company,
 	// final ClientAccount clientAccount) throws DAOException {
@@ -1396,7 +1380,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientBank createBank(final long company, final ClientBank
 	// clientBank)
@@ -1519,7 +1503,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// clientCreditRating);
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientCurrency createCurrency(final long company,
 	// final ClientCurrency clientCurrency) throws DAOException {
@@ -1611,7 +1595,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientCustomerGroup createCustomerGroup(final long company,
 	// final ClientCustomerGroup clientCustomerGroup) throws DAOException {
@@ -1771,7 +1755,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientItem createItem(final long company, final ClientItem
 	// clientItem)
@@ -1795,7 +1779,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// }
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientItemGroup createItemGroup(final long company,
 	// final ClientItemGroup clientItemGroup) throws DAOException {
@@ -1859,7 +1843,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientPaymentTerms createPaymentTerms(final long company,
 	// final ClientPaymentTerms clientPaymentTerms) throws DAOException {
@@ -1884,7 +1868,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientPriceLevel createPriceLevel(final long company,
 	// final ClientPriceLevel clientPriceLevel) throws DAOException {
@@ -1938,7 +1922,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientSalesPerson createSalesPerson(final long company,
 	// final ClientSalesPerson clientSalesPerson) throws DAOException {
@@ -1966,7 +1950,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientShippingMethod createShippingMethod(final long company,
 	// final ClientShippingMethod clientShippingMethod)
@@ -1993,7 +1977,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientShippingTerms createShippingTerms(final long company,
 	// final ClientShippingTerms clientShippingTerms) throws DAOException {
@@ -2020,7 +2004,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientTaxAgency createTaxAgency(final long company,
 	// final ClientTaxAgency clientTaxAgency) throws DAOException {
@@ -2047,7 +2031,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientTaxCode createTaxCode(final long company,
 	// final ClientTaxCode clientTaxCode) throws DAOException {
@@ -2097,7 +2081,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientTaxGroup createTaxGroup(final long company,
 	// final ClientTaxGroup clientTaxGroup) throws DAOException {
@@ -2121,7 +2105,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientTaxRates createTaxRates(final long company,
 	// final ClientTaxRates clientTaxRates) throws DAOException {
@@ -2156,7 +2140,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientUnitOfMeasure createUnitOfMeasure(final long company,
 	// final ClientUnitOfMeasure clientUnitOfMeasure) throws DAOException {
@@ -2204,7 +2188,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientVendor createVendor(final long company,
 	// final ClientVendor clientVendor) throws DAOException {
@@ -2242,7 +2226,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	// clientVendorCreditMemo);
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public ClientVendorGroup createVendorGroup(final long company,
 	// final ClientVendorGroup clientVendorGroup) throws DAOException {
@@ -2278,7 +2262,7 @@ public class AccounterClientService extends HibernateDaoSupport implements
 	//
 	// }
 	//
-	// 
+	//
 	// @Override
 	// public Boolean deleteObject(final Class class1, final long Id)
 	// throws DAOException {

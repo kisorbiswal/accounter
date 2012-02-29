@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.vimukti.accounter.web.client.ui.UIUtils;
+import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public abstract class ClientTransaction implements IAccounterCore {
 
@@ -37,7 +38,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int TYPE_PAY_EXPENSE = 19;
 	public static final int TYPE_TAX_RETURN = 20;
 
-	public static final int TYPE_SALES_ORDER = 21;
+	// public static final int TYPE_SALES_ORDER = 21;
 	public static final int TYPE_PURCHASE_ORDER = 22;
 	public static final int TYPE_ITEM_RECEIPT = 23;
 
@@ -87,6 +88,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
+
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
 	 * VATRETURN(FILE VAT), then edit should be disabled.user cant edit them,
@@ -152,7 +154,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 */
 	private double currencyFactor = 1D;
 
-	private ClientAccounterClass accounterClass;
+	private long accounterClass;
 
 	private ClientActivity lastActivity;
 
@@ -808,11 +810,11 @@ public abstract class ClientTransaction implements IAccounterCore {
 		this.saveStatus = saveStatus;
 	}
 
-	public ClientAccounterClass getAccounterClass() {
+	public long getAccounterClass() {
 		return accounterClass;
 	}
 
-	public void setAccounterClass(ClientAccounterClass accounterClass) {
+	public void setAccounterClass(long accounterClass) {
 		this.accounterClass = accounterClass;
 	}
 
@@ -895,12 +897,12 @@ public abstract class ClientTransaction implements IAccounterCore {
 		Double discount = null;
 		for (ClientTransactionItem item : this.transactionItems) {
 			Double code = item.getDiscount();
-			if (discount == null) {
+			if (discount == null || item.getReferringTransactionItem() != 0) {
 				discount = code;
 				continue;
 			}
 
-			if (code != null && !code.equals(discount)) {
+			if (code != null && !DecimalUtil.isEquals(code, discount)) {
 				return true;
 			}
 		}

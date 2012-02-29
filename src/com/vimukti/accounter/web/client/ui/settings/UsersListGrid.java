@@ -2,9 +2,11 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -56,11 +58,8 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 	@Override
 	protected String[] getColumns() {
 
-		return new String[] { messages.firstName(),
-				messages.lastName(),
-				messages.userRole(),
-				messages.emailId(), messages.status(),
-				"" };
+		return new String[] { messages.firstName(), messages.lastName(),
+				messages.userRole(), messages.emailId(), messages.status(), "" };
 	}
 
 	public void setUsersView(UsersView usersView) {
@@ -108,13 +107,17 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	@Override
 	protected void onClick(ClientUserInfo obj, int row, int index) {
+		if (!Utility.isUserHavePermissions(AccounterCoreType.USER)
+				|| obj.isAdmin()
+				|| obj.getUserRole().equals(RolePermissions.FINANCIAL_ADVISER)) {
+			return;
+		}
 
 		if (index == 5) {
 			ClientUser user = Accounter.getUser();
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
-					Accounter.showInformation(messages
-							.youCantDeleteYourSelf());
+					Accounter.showInformation(messages.youCantDeleteYourSelf());
 				} else {
 					showWarnDialog(obj);
 				}
@@ -131,9 +134,11 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	@Override
 	public void onDoubleClick(ClientUserInfo obj) {
-		if (Accounter.getUser().isCanDoUserManagement()) {
-			ActionFactory.getInviteUserAction().run(obj, false);
+		if (!Utility.isUserHavePermissions(AccounterCoreType.USER)) {
+			return;
 		}
+
+		ActionFactory.getInviteUserAction().run(obj, false);
 	}
 
 	@Override

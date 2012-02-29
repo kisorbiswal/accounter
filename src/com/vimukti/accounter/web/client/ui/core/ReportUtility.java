@@ -79,9 +79,6 @@ public class ReportUtility {
 		case ClientTransaction.TYPE_RECEIVE_TAX:
 			transactionName = messages.receiveVAT();
 			break;
-		case ClientTransaction.TYPE_SALES_ORDER:
-			transactionName = messages.salesOrder();
-			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			transactionName = messages.purchaseOrder();
 			break;

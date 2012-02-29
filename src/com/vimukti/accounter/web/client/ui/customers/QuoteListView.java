@@ -17,9 +17,6 @@ import com.vimukti.accounter.web.client.ui.grids.QuoteListGrid;
 public class QuoteListView extends TransactionsListView<ClientEstimate>
 		implements IPrintableView {
 
-	protected List<ClientEstimate> estimates;
-
-	private List<ClientEstimate> listOfEstimates;
 	int viwType = -1;
 	private final int type;
 
@@ -31,14 +28,20 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 
 	@Override
 	protected Action getAddNewAction() {
-		if (type == ClientEstimate.QUOTES
-				&& Accounter.getUser().canDoInvoiceTransactions())
-			return ActionFactory.getNewQuoteAction(type);
-		else if (getPreferences().isDelayedchargesEnabled()) {
-			if (type == ClientEstimate.CHARGES) {
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (type == ClientEstimate.QUOTES) {
 				return ActionFactory.getNewQuoteAction(type);
-			} else if (type == ClientEstimate.CREDITS) {
-				return ActionFactory.getNewQuoteAction(type);
+			} else if (type == ClientEstimate.SALES_ORDER) {
+				if (getPreferences().isSalesOrderEnabled()) {
+					return ActionFactory.getNewQuoteAction(type);
+				}
+				return null;
+			} else if (getPreferences().isDelayedchargesEnabled()) {
+				if (type == ClientEstimate.CHARGES) {
+					return ActionFactory.getNewQuoteAction(type);
+				} else if (type == ClientEstimate.CREDITS) {
+					return ActionFactory.getNewQuoteAction(type);
+				}
 			}
 		}
 		return null;
@@ -46,14 +49,20 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 
 	@Override
 	protected String getAddNewLabelString() {
-		if (type == ClientEstimate.QUOTES
-				&& Accounter.getUser().canDoInvoiceTransactions())
-			return messages.addaNewQuote();
-		else if (getPreferences().isDelayedchargesEnabled()) {
-			if (type == ClientEstimate.CHARGES) {
-				return messages.addNewCharge();
-			} else if (type == ClientEstimate.CREDITS) {
-				return messages.addNew(messages.credit());
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			if (type == ClientEstimate.QUOTES) {
+				return messages.addaNewQuote();
+			} else if (type == ClientEstimate.SALES_ORDER) {
+				if (getPreferences().isSalesOrderEnabled()) {
+					return messages.addaNew(messages.salesOrder());
+				}
+				return "";
+			} else if (getPreferences().isDelayedchargesEnabled()) {
+				if (type == ClientEstimate.CHARGES) {
+					return messages.addNewCharge();
+				} else if (type == ClientEstimate.CREDITS) {
+					return messages.addNew(messages.credit());
+				}
 			}
 		}
 		return "";
@@ -65,6 +74,8 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 			return messages.chargesList();
 		} else if (type == ClientEstimate.CREDITS) {
 			return messages.creditsList();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return messages.salesOrderList();
 		}
 		return messages.quotesList();
 	}
@@ -76,7 +87,6 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 
 	@Override
 	public void onSuccess(PaginationList<ClientEstimate> result) {
-		listOfEstimates = result;
 		grid.setViewType(viewSelect.getSelectedValue());
 		grid.removeAllRecords();
 		if (result.isEmpty()) {
@@ -108,12 +118,17 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	protected List<String> getViewSelectTypes() {
 		List<String> listOfTypes = new ArrayList<String>();
 		listOfTypes.add(messages.open());
-		listOfTypes.add(messages.rejected());
-		listOfTypes.add(messages.accepted());
+		if (type == ClientEstimate.SALES_ORDER) {
+			listOfTypes.add(messages.completed());
+			listOfTypes.add(messages.cancelled());
+		} else if (type == ClientEstimate.QUOTES) {
+			listOfTypes.add(messages.rejected());
+			listOfTypes.add(messages.accepted());
+			listOfTypes.add(messages.close());
+			listOfTypes.add(messages.applied());
+		}
 		listOfTypes.add(messages.expired());
 		listOfTypes.add(messages.all());
-		listOfTypes.add(messages.close());
-		listOfTypes.add(messages.applied());
 		listOfTypes.add(messages.drafts());
 		return listOfTypes;
 	}
@@ -196,6 +211,8 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 			return messages.credits();
 		} else if (type == ClientEstimate.CHARGES) {
 			return messages.Charges();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			return messages.salesOrders();
 		}
 		return messages.quotes();
 	}
@@ -222,6 +239,10 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 			viwType = ClientTransaction.STATUS_DRAFT;
 		} else if (getViewType().equalsIgnoreCase(messages.expired())) {
 			viwType = 6;
+		} else if (getViewType().equalsIgnoreCase(messages.completed())) {
+			viwType = ClientTransaction.STATUS_COMPLETED;
+		} else if (getViewType().equalsIgnoreCase(messages.cancelled())) {
+			viwType = ClientTransaction.STATUS_CANCELLED;
 		}
 		Accounter.createHomeService().getEstimates(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(), start,
@@ -242,6 +263,6 @@ public class QuoteListView extends TransactionsListView<ClientEstimate>
 	public void exportToCsv() {
 		Accounter.createExportCSVService().getEstimatesExportCsv(type, viwType,
 				getStartDate().getDate(), getEndDate().getDate(),
-				getExportCSVCallback(messages.quotes()));
+				getExportCSVCallback(getViewTitle()));
 	}
 }

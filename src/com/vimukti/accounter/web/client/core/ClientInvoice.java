@@ -48,8 +48,6 @@ public class ClientInvoice extends ClientTransaction {
 
 	List<ClientEstimate> estimates = new ArrayList<ClientEstimate>();
 
-	List<ClientSalesOrder> salesOrders = new ArrayList<ClientSalesOrder>();
-
 	String orderNum;
 
 	ClientTAXItemGroup taxItemGroup;
@@ -228,14 +226,6 @@ public class ClientInvoice extends ClientTransaction {
 	 */
 	public Set<ClientTransactionReceivePayment> getTransactionReceivePayments() {
 		return transactionReceivePayments;
-	}
-
-	public List<ClientSalesOrder> getSalesOrders() {
-		return salesOrders;
-	}
-
-	public void setSalesOrders(List<ClientSalesOrder> salesOrders) {
-		this.salesOrders = salesOrders;
 	}
 
 	/**

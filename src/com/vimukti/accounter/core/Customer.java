@@ -335,7 +335,7 @@ public class Customer extends Payee implements IAccounterServerCore,
 		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.CUSTOMER);
 		ChangeTracker.put(accounterCore);
-		return false;
+		return super.onDelete(arg0);
 	}
 
 	@Override
@@ -343,6 +343,10 @@ public class Customer extends Payee implements IAccounterServerCore,
 		if (isOnSaveProccessed)
 			return true;
 		super.onSave(session);
+		if (number == null || number.isEmpty()
+				|| !getCompany().getPreferences().getUseCustomerId()) {
+			this.number = NumberUtils.getNextAutoCustomerNumber(getCompany());
+		}
 		isOnSaveProccessed = true;
 		setType(TYPE_CUSTOMER);
 		// SessionUtils.updateReferenceCount(null, this, session, true);

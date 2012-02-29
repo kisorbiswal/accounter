@@ -327,9 +327,11 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			return;
 		this.contact = contact;
 		this.phoneNo = contact.getBusinessPhone();
-		if (this.phoneNo != null) {
+		if (this.phoneNo != null && this.phoneNo.trim().length() != 0) {
 			phoneSelect.setValue(this.phoneNo);
 			contactCombo.setValue(contact.getName());
+		}else{
+			phoneSelect.setValue(vendor.getPhoneNo());
 		}
 
 		// contactCombo.setDisabled(isEdit);
@@ -783,13 +785,12 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 							messages.taxExceptionMesg());
 				}
 			}
-			if (!isTaxPerDetailLine()) {
+			if ((!(this instanceof VendorBillView)) && !isTaxPerDetailLine()) {
 				if (taxCodeSelect != null
 						&& taxCodeSelect.getSelectedValue() == null) {
 					result.addError(taxCodeSelect,
 							messages.pleaseSelect(messages.taxCode()));
 				}
-
 			}
 		}
 		return result;

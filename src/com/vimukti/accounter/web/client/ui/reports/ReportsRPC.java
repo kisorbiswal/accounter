@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientBudget;
+import com.vimukti.accounter.web.client.core.ClientBuildAssembly;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCashSales;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -37,7 +38,6 @@ import com.vimukti.accounter.web.client.core.ClientReceivePayment;
 import com.vimukti.accounter.web.client.core.ClientReceiveVAT;
 import com.vimukti.accounter.web.client.core.ClientReconciliation;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
-import com.vimukti.accounter.web.client.core.ClientSalesOrder;
 import com.vimukti.accounter.web.client.core.ClientSalesPerson;
 import com.vimukti.accounter.web.client.core.ClientShippingMethod;
 import com.vimukti.accounter.web.client.core.ClientShippingTerms;
@@ -63,6 +63,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ReportsRPC {
 
@@ -100,6 +101,9 @@ public class ReportsRPC {
 
 	public static void openTransactionView(int transactionType,
 			long transactionId) {
+		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
+			return;
+		}
 		switch (transactionType) {
 
 		case ClientTransaction.TYPE_PAY_BILL:
@@ -168,17 +172,13 @@ public class ReportsRPC {
 					ActionFactory.getNewCreditMemoAction(), transactionId);
 			break;
 		case ClientTransaction.TYPE_PAY_TAX:
+
 			initCallBack(new ClientPayTAX(), ActionFactory.getpayTAXAction(),
 					transactionId);
 			break;
 		case ClientTransaction.TYPE_JOURNAL_ENTRY:
 			initCallBack(new ClientJournalEntry(),
 					ActionFactory.getNewJournalEntryAction(), transactionId);
-			break;
-
-		case ClientTransaction.TYPE_SALES_ORDER:
-			initCallBack(new ClientSalesOrder(),
-					ActionFactory.getSalesOrderAction(), transactionId);
 			break;
 
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
@@ -355,12 +355,18 @@ public class ReportsRPC {
 			initCallBack(new ClientStockAdjustment(),
 					ActionFactory.getStockAdjustmentAction(), transactionId);
 			break;
-
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			initCallBack(new ClientBuildAssembly(),
+					ActionFactory.getBuildAssemblyAction(), transactionId);
+			break;
 		}
 
 	}
 
 	public static void openTransactionView(ClientTransaction transaction) {
+		if (Accounter.getUser().getUserRole().equals(RolePermissions.READ_ONLY)) {
+			return;
+		}
 		switch (transaction.getType()) {
 
 		case ClientTransaction.TYPE_TRANSFER_FUND:
@@ -409,6 +415,12 @@ public class ReportsRPC {
 			break;
 		case ClientTransaction.TYPE_MAKE_DEPOSIT:
 			ActionFactory.getDepositAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+			ActionFactory.getPurchaseOrderAction().run(transaction, false);
+			break;
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			ActionFactory.getBuildAssemblyAction().run(transaction, false);
 			break;
 		}
 	}

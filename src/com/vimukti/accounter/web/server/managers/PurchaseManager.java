@@ -24,19 +24,19 @@ import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.core.reports.SalesByCustomerDetail;
 
 public class PurchaseManager extends Manager {
-	public ArrayList<OpenAndClosedOrders> getOpenPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate, long companyId)
-			throws DAOException {
-		Session session = HibernateUtil.getCurrentSession();
-
-		List l = ((Query) session.getNamedQuery("getOpenPurchaseOrders")
-				.setParameter("companyId", companyId)
-
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
-
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
-	}
+	// public ArrayList<OpenAndClosedOrders> getOpenPurchaseOrders(
+	// FinanceDate startDate, FinanceDate endDate, long companyId)
+	// throws DAOException {
+	// Session session = HibernateUtil.getCurrentSession();
+	//
+	// List l = ((Query) session.getNamedQuery("getOpenPurchaseOrders")
+	// .setParameter("companyId", companyId)
+	//
+	// .setParameter("startDate", startDate.getDate())
+	// .setParameter("endDate", endDate.getDate())).list();
+	//
+	// return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+	// }
 
 	public ArrayList<Item> getPurchaseItems(long companyId) throws DAOException {
 
@@ -216,19 +216,25 @@ public class PurchaseManager extends Manager {
 	}
 
 	public PaginationList<PurchaseOrdersList> getPurchaseOrdersList(
-			long companyId, long fromDate, long toDate) throws DAOException {
+			long companyId, long fromDate, long toDate, int type, int start,
+			int length) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
-
+		int total = 0;
 		Query query = session.getNamedQuery("getPurchaseOrdersList")
 				.setParameter("companyId", companyId)
 				.setParameter("fromDate", fromDate)
-				.setParameter("toDate", toDate);
+				.setParameter("toDate", toDate).setParameter("type", type);
 
 		// FIXME ::: check the sql query and change it to hql query if required
 		List list = query.list();
 		PaginationList<PurchaseOrdersList> pil = new PaginationList<PurchaseOrdersList>();
-
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
 		for (int i = 0; i < list.size(); i++) {
 
 			Object[] obj = (Object[]) list.get(i);
@@ -240,68 +246,70 @@ public class PurchaseManager extends Manager {
 				el.setNumber(((String) obj[2]));
 				el.setPurchasePrice(((Double) obj[3]).doubleValue());
 				el.setDate(new ClientFinanceDate((Long) obj[4]));
-				el.setVendorName((String) obj[5]);
-				el.setPhone((String) obj[6]);
-				el.setDeliveryDate(new ClientFinanceDate((Long) obj[7]));
-				el.setStatus((Integer) obj[8]);
+				el.setVendorName((String) obj[5] == null ? "" : (String) obj[5]);
+				el.setStatus((Integer) obj[6]);
+				el.setCurrency((Long) obj[7]);
+				el.setSaveStatus((Integer) obj[6]);
 				pil.add(el);
 			}
 		}
-
+		pil.setTotalCount(total);
+		pil.setStart(start);
 		return pil;
 	}
 
-	public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(
+	// public ArrayList<OpenAndClosedOrders> getClosedPurchaseOrders(
+	// FinanceDate startDate, FinanceDate endDate, long companyId)
+	// throws DAOException {
+	// Session session = HibernateUtil.getCurrentSession();
+	//
+	// List l = ((Query) session.getNamedQuery("getClosedPurchaseOrders")
+	// .setParameter("companyId", companyId)
+	//
+	// .setParameter("startDate", startDate.getDate())
+	// .setParameter("endDate", endDate.getDate())).list();
+	//
+	// return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+	// }
+
+	// public ArrayList<OpenAndClosedOrders> getCompletedPurchaseOrders(
+	// FinanceDate startDate, FinanceDate endDate, long companyId)
+	// throws DAOException {
+	// Session session = HibernateUtil.getCurrentSession();
+	//
+	// List l = ((Query) session.getNamedQuery("getCompletedPurchaseOrders")
+	// .setParameter("companyId", companyId)
+	// .setParameter("startDate", startDate.getDate())
+	// .setParameter("endDate", endDate.getDate())).list();
+	//
+	// return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+	// }
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(int type,
 			FinanceDate startDate, FinanceDate endDate, long companyId)
 			throws DAOException {
 		Session session = HibernateUtil.getCurrentSession();
-
-		List l = ((Query) session.getNamedQuery("getClosedPurchaseOrders")
+		List l = ((Query) session.getNamedQuery("getPurchaseOrdersList")
 				.setParameter("companyId", companyId)
-
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
-
+				.setParameter("fromDate", startDate.getDate())
+				.setParameter("toDate", endDate.getDate())
+				.setParameter("type", type)).list();
 		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
 	}
 
-	public ArrayList<OpenAndClosedOrders> getCompletedPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate, long companyId)
-			throws DAOException {
-		Session session = HibernateUtil.getCurrentSession();
-
-		List l = ((Query) session.getNamedQuery("getCompletedPurchaseOrders")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
-
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
-	}
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate, long companyId)
-			throws DAOException {
-		Session session = HibernateUtil.getCurrentSession();
-		List l = ((Query) session.getNamedQuery("getPurchaseOrders")
-				.setParameter("companyId", companyId)
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
-	}
-
-	public ArrayList<OpenAndClosedOrders> getCanceledPurchaseOrders(
-			FinanceDate startDate, FinanceDate endDate, long companyId)
-			throws DAOException {
-		Session session = HibernateUtil.getCurrentSession();
-
-		List l = ((Query) session.getNamedQuery("getCanceledPurchaseOrders")
-				.setParameter("companyId", companyId)
-
-				.setParameter("startDate", startDate.getDate())
-				.setParameter("endDate", endDate.getDate())).list();
-
-		return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
-	}
+	// public ArrayList<OpenAndClosedOrders> getCanceledPurchaseOrders(
+	// FinanceDate startDate, FinanceDate endDate, long companyId)
+	// throws DAOException {
+	// Session session = HibernateUtil.getCurrentSession();
+	//
+	// List l = ((Query) session.getNamedQuery("getCanceledPurchaseOrders")
+	// .setParameter("companyId", companyId)
+	//
+	// .setParameter("startDate", startDate.getDate())
+	// .setParameter("endDate", endDate.getDate())).list();
+	//
+	// return prepareQueryResult(new ArrayList<OpenAndClosedOrders>(l));
+	// }
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
 			final FinanceDate startDate, final FinanceDate endDate,
@@ -387,8 +395,9 @@ public class PurchaseManager extends Manager {
 			quantity.setValue(object[1] == null ? 0 : (((Double) object[1])));
 			salesByCustomerDetail.setQuantity(quantity);
 			salesByCustomerDetail.setAmount(object[2] == null ? 0
-					: ((Double) object[2]).doubleValue());
-
+					: ((Double) object[3]).doubleValue());
+			salesByCustomerDetail.setItemid(((BigInteger) object[2])
+					.longValue());
 			queryResult.add(salesByCustomerDetail);
 		}
 		return new ArrayList<SalesByCustomerDetail>(queryResult);
@@ -396,14 +405,14 @@ public class PurchaseManager extends Manager {
 	}
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, FinanceDate startDate, FinanceDate endDate,
+			long itemId, FinanceDate startDate, FinanceDate endDate,
 			long companyId) throws DAOException {
 
 		Session session = HibernateUtil.getCurrentSession();
 		Query query = session
 				.getNamedQuery("getPurchasesByItemDetailForParticularItem")
 				.setParameter("companyId", companyId)
-				.setParameter("itemName", itemName)
+				.setParameter("itemId", itemId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate());
 

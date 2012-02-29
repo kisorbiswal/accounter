@@ -20,7 +20,6 @@ public class IssuePaymentsAction extends Action {
 
 	public IssuePaymentsAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -70,6 +69,11 @@ public class IssuePaymentsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "issue-payment";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

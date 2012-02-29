@@ -220,26 +220,28 @@ public class TransactionReceiveVAT implements IAccounterServerCore, Lifecycle {
 	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 
-		if (isBecameVoid()) {
-
-			// We need to update the corresponding VATAgency's balance with this
-			// amount to pay.
-			this.taxAgency.updateBalance(session, this.taxReturn, -1
-					* this.amountToReceive);
-
-			// At the same time we need to update the vatReturn reference in it.
-			this.taxReturn.updateBalance(-1 * this.amountToReceive);
-
-			// The Accounts payable is also to be decreased as the amount to pay
-			// to VATAgency is decreased.
-			Account account = taxReturn.getTaxAgency()
-					.getFiledLiabilityAccount();
-			account.updateCurrentBalance(this.receiveVAT, -1
-					* this.amountToReceive, 1);
-			
-			this.taxReturn = null;
-		}
+		// if (isBecameVoid()) {
+		// doVoidEffect(session);
+		// }
 		return false;
+	}
+
+	public void doVoidEffect(Session session) {
+		// We need to update the corresponding VATAgency's balance with this
+		// amount to pay.
+		this.taxAgency.updateBalance(session, this.taxReturn, -1
+				* this.amountToReceive);
+
+		// At the same time we need to update the vatReturn reference in it.
+		this.taxReturn.updateBalance(-1 * this.amountToReceive);
+
+		// The Accounts payable is also to be decreased as the amount to pay
+		// to VATAgency is decreased.
+		Account account = taxReturn.getTaxAgency().getFiledLiabilityAccount();
+		account.updateCurrentBalance(this.receiveVAT,
+				-1 * this.amountToReceive, 1);
+
+		this.taxReturn = null;
 	}
 
 	protected boolean isBecameVoid() {

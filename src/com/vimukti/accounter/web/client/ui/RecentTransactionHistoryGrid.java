@@ -71,11 +71,17 @@ public class RecentTransactionHistoryGrid extends
 
 	@Override
 	protected void onClick(RecentTransactionsList obj, int row, int index) {
+		if (!Utility.isUserHavePermissions(obj.getType())) {
+			return;
+		}
 		ReportsRPC.openTransactionView(obj.getType(), obj.getID());
 	}
 
 	@Override
 	public void onDoubleClick(RecentTransactionsList obj) {
+		if (!Utility.isUserHavePermissions(obj.getType())) {
+			return;
+		}
 		ReportsRPC.openTransactionView(obj.getType(), obj.getID());
 	}
 

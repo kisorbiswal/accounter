@@ -7,7 +7,7 @@ import org.json.JSONException;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * A purchase order (PO) is a commercial document issued by a buyer to a seller,
@@ -384,6 +384,11 @@ public class PurchaseOrder extends Transaction {
 	}
 
 	@Override
+	public boolean onSave(Session session) throws CallbackException {
+		return super.onSave(session);
+	}
+
+	@Override
 	public boolean onUpdate(Session session) throws CallbackException {
 		super.onUpdate(session);
 		// if (this.transactionItems != null) {
@@ -421,26 +426,47 @@ public class PurchaseOrder extends Transaction {
 		// }
 		// }
 		// Session session = HibernateUtil.getCurrentSession();
-		PurchaseOrder purchaseOrder = (PurchaseOrder) clonedObject;
-		if (this.status == STATUS_OPEN) {
-			for (TransactionItem transactionItem : purchaseOrder.transactionItems) {
-
-				if (DecimalUtil.isLessThan(transactionItem.lineTotal,
-						transactionItem.usedamt)
-						|| DecimalUtil.isEquals(transactionItem.lineTotal,
-								transactionItem.usedamt)) {
-					this.status = STATUS_COMPLETED;
-				} else {
-					this.status = STATUS_OPEN;
-				}
-			}
-		}
+		// PurchaseOrder purchaseOrder = (PurchaseOrder) clonedObject;
+		// if (this.status == STATUS_OPEN) {
+		// for (TransactionItem transactionItem :
+		// purchaseOrder.transactionItems) {
+		//
+		// if (DecimalUtil.isLessThan(transactionItem.lineTotal,
+		// transactionItem.usedamt)
+		// || DecimalUtil.isEquals(transactionItem.lineTotal,
+		// transactionItem.usedamt)) {
+		// this.status = STATUS_COMPLETED;
+		// } else {
+		// this.status = STATUS_OPEN;
+		// }
+		// }
+		// }
 		super.onEdit(clonedObject);
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
+
+		if (!UserUtils.canDoThis(PurchaseOrder.class)) {
+			throw new AccounterException(
+					AccounterException.ERROR_DONT_HAVE_PERMISSION);
+		}
+		if (this.getID() != 0) {
+			if (this.status == Transaction.STATUS_COMPLETED
+					&& this.usedBill != null) {
+				throw new AccounterException(
+						AccounterException.ERROR_OBJECT_IN_USE);
+			}
+		}
+
 		// if (this.status == STATUS_CANCELLED || this.status ==
 		// STATUS_COMPLETED || this.status == STATUS_PAID_OR_APPLIED_OR_ISSUED)
 		// {
@@ -448,9 +474,7 @@ public class PurchaseOrder extends Transaction {
 		// "This PurchaseOrder can't be edited, becuase it is Completed or Canceled.  PurchaseOrderNo:"
 		// + this.number);
 		// }
-		checkingVendorNull(vendor);
-		checkingTotal0();
-		return true;
+		return super.canEdit(clientObject);
 	}
 
 	/**
@@ -464,8 +488,14 @@ public class PurchaseOrder extends Transaction {
 	 * @param usedBill
 	 *            the usedBill to set
 	 */
-	public void setUsedBill(EnterBill usedBill, Session session) {
-		this.usedBill = usedBill;
+	public void setUsedBill(EnterBill usedTransaction, Session session) {
+		if (this.usedBill == null && usedTransaction != null) {
+			this.usedBill = usedTransaction;
+			status = STATUS_COMPLETED;
+		} else if (usedTransaction == null) {
+			this.usedBill = null;
+			status = STATUS_OPEN;
+		}
 		// for (TransactionItem item : transactionItems) {
 		// item.doCreateEffect(session);
 		// }
@@ -476,7 +506,7 @@ public class PurchaseOrder extends Transaction {
 		if (getSaveStatus() == STATUS_DRAFT) {
 			return;
 		}
-		
+
 		AccounterMessages messages = Global.get().messages();
 
 		w.put(messages.type(), messages.purchaseOrder()).gap();

@@ -103,9 +103,9 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	protected boolean onOK() {
 		updateData();
 		saveOrUpdate(data);
-		return false;
+		return true;
 	}
-	
+
 	@Override
 	protected boolean onCancel() {
 		return true;
@@ -128,6 +128,12 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(form.validate());
+		String email = emailField.getValue();
+		ClientEmailAccount emailAccount = getCompany().getEmailAccount(email);
+		if (emailAccount != null) {
+			result.addError(emailField,
+					messages.anEmailAccountAlreadyExistWithTheGivenEmailID());
+		}
 		return result;
 	}
 }

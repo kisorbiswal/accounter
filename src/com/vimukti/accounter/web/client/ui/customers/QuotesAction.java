@@ -22,7 +22,6 @@ public class QuotesAction extends Action {
 	public QuotesAction(int type) {
 		super();
 		this.type = type;
-		this.catagory = Global.get().customer();
 	}
 
 	@Override
@@ -73,9 +72,14 @@ public class QuotesAction extends Action {
 		} else if (type == ClientEstimate.CREDITS) {
 			return "credits";
 		} else if (type == ClientEstimate.SALES_ORDER) {
-			return "salesorder";
+			return "salesOrderList";
 		}
 		return "quotes";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override
@@ -92,6 +96,8 @@ public class QuotesAction extends Action {
 			text = messages.credits();
 		} else if (type == ClientEstimate.QUOTES) {
 			text = messages.quotes();
+		} else if (type == ClientEstimate.SALES_ORDER) {
+			text = messages.salesOrders();
 		}
 		return text;
 	}

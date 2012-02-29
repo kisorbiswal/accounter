@@ -8,6 +8,7 @@ import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * 
@@ -61,6 +62,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	 */
 	@ReffereredObject
 	Customer customer;
+	private String checkNumber;
 	/**
 	 * The contact of the payee. (His alternate phone number, email, primary
 	 * address etc are entered
@@ -572,6 +574,13 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(CashSales.class)) {
 			throw new AccounterException(
@@ -626,6 +635,7 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 		if (this.shippingTerm != null)
 			w.put(messages.shippingTerm(), this.shippingTerm.getName());
 
+		w.put(messages.paymentMethod(), this.checkNumber).gap();
 		if (this.shippingMethod != null)
 			w.put(messages.shippingMethod(), this.shippingMethod.getName())
 					.gap();
@@ -659,6 +669,14 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	@Override
 	protected void updatePayee(boolean onCreate) {
 
+	}
+
+	public String getCheckNumber() {
+		return checkNumber;
+	}
+
+	public void setCheckNumber(String checkNumber) {
+		this.checkNumber = checkNumber;
 	}
 
 }

@@ -43,7 +43,7 @@ public class PurchaseOpenOrderAction extends Action {
 
 			public void onCreated() {
 
-				PurchaseOpenOrderReport report = new PurchaseOpenOrderReport();
+				PurchaseOrderReport report = new PurchaseOrderReport();
 				MainFinanceWindow.getViewManager().showView(report, data,
 						isDependent, PurchaseOpenOrderAction.this);
 

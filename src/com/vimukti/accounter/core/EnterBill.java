@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * 
@@ -116,8 +117,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	 * 
 	 * @see PurchaseOrder
 	 */
-	@ReffereredObject
-	PurchaseOrder purchaseOrder;
+	private List<PurchaseOrder> purchaseOrders = new ArrayList<PurchaseOrder>();
 
 	/**
 	 * This will specify which Item Receipt has been used in this Bill
@@ -136,14 +136,6 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public EnterBill(Session session, ClientEnterBill enterbill) {
 		this.type = Transaction.TYPE_ENTER_BILL;
 
-	}
-
-	public PurchaseOrder getPurchaseOrder() {
-		return purchaseOrder;
-	}
-
-	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-		this.purchaseOrder = purchaseOrder;
 	}
 
 	public ItemReceipt getItemReceipt() {
@@ -227,11 +219,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public boolean onSave(Session session) throws CallbackException {
 		if (this.isOnSaveProccessed)
 			return true;
-		this.isOnSaveProccessed = true;
 		super.onSave(session);
+		this.isOnSaveProccessed = true;
 		this.balanceDue = this.total;
-
 		if (isDraftOrTemplate()) {
+			this.purchaseOrders.clear();
 			return false;
 		}
 
@@ -294,6 +286,9 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		// }
 		//
 		// }
+		if (this.transactionItems == null) {
+			this.transactionItems = new ArrayList<TransactionItem>();
+		}
 		modifyPurchaseOrder(this, true);
 		/*
 		 * Make void the corresponding Item Receipt.
@@ -564,8 +559,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public void onEdit(Transaction clonedObject) {
 		EnterBill enterBill = (EnterBill) clonedObject;
 		Session session = HibernateUtil.getCurrentSession();
-		this.balanceDue = (!DecimalUtil.isGreaterThan((this.total - payments),
-				0.0)) ? 0.0 : (this.total - payments);
+		this.balanceDue = this.total - payments;
 		// this.balanceDue = (this.balanceDue = this.total - payments) == 0.0 ?
 		// 0.0 : this.balanceDue;
 
@@ -579,11 +573,11 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 		 * transaction is not voided then it will entered into the loop
 		 */
 
-		if (this.isVoid() && !enterBill.isVoid()) {
+		if (isBecameVoid()) {
 
 			doVoidEffect(session, this);
 
-		} else if (!this.equals(enterBill)) {
+		} else {
 
 			this.cleanTransactionitems(this);
 
@@ -595,71 +589,82 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			if (enterBill.vendor.getID() != this.vendor.getID()
 					|| isCurrencyFactorChanged()) {
 
-				// doVoidEffect(session, enterBill);
+				doVoidEffect(session, enterBill);
 
 				Vendor vendor = (Vendor) session.get(Vendor.class,
 						enterBill.vendor.getID());
 				vendor.updateBalance(session, this, -enterBill.total,
 						enterBill.getCurrencyFactor());
 
-				// this.onSave(session);
+				this.onSave(session);
+				return;
 
-				this.vendor.updateBalance(session, this, this.total);
+				// this.vendor.updateBalance(session, this, this.total);
 
-				modifyPurchaseOrder(enterBill, false);
-				modifyPurchaseOrder(this, true);
+				// modifyPurchaseOrder(enterBill, false);
+				// modifyPurchaseOrder(this, true);
 
 				// modifyItemReceipt(this, true);
 				// modifyItemReceipt(enterBill, false);
-
-				return;
-
 			}
-			if (this.purchaseOrder != null || enterBill.purchaseOrder != null)
-				if (this.purchaseOrder == null
-						&& enterBill.purchaseOrder != null) {
-					modifyPurchaseOrder(enterBill, false);
-				} else if (this.purchaseOrder != null
-						&& enterBill.purchaseOrder == null) {
-					modifyPurchaseOrder(this, true);
-				} else if (!this.purchaseOrder.equals(enterBill.purchaseOrder)) {
-					modifyPurchaseOrder(enterBill, false);
-					modifyPurchaseOrder(this, true);
 
-				} else {
-					for (TransactionItem transactionItem : enterBill.transactionItems) {
-						if (transactionItem.getReferringTransactionItem() != null
-								&& DecimalUtil.isGreaterThan(transactionItem
-										.getReferringTransactionItem().usedamt,
-										0)) {
-							transactionItem.getReferringTransactionItem().usedamt -= transactionItem.lineTotal;
-						}
-					}
-					modifyPurchaseOrder(this, true);
-
-				}
-			else if (enterBill.vendor.getID() == this.vendor.getID()) {
-
-				/*
-				 * If cloned and client Object vendors are same then update
-				 * balances and PurchaseOrder
-				 */
-
-				if (DecimalUtil.isGreaterThan(enterBill.total, this.total)) {
-					modifyPurchaseOrder(this, false);
-					// modifyItemReceipt(this, false);
-
-				} else if (DecimalUtil.isLessThan(enterBill.total, this.total)) {
-					modifyPurchaseOrder(this, true);
-					// modifyItemReceipt(this, true);
-				}
-
-				this.vendor.updateBalance(session, this, -enterBill.total,
-						enterBill.getCurrencyFactor());
-
-				this.vendor.updateBalance(session, this, this.total);
-
+			if (!DecimalUtil.isEquals(this.total, enterBill.total)) {
+				// if (DecimalUtil.isGreaterThan(this.total, this.payments)) {
+				Vendor vendor = (Vendor) session.get(Vendor.class,
+						enterBill.vendor.getID());
+				vendor.updateBalance(session, this, this.total
+						- enterBill.total, enterBill.getCurrencyFactor());
+				// }
 			}
+
+			// if (this.purchaseOrders != null || enterBill.purchaseOrders !=
+			// null)
+			// if (this.purchaseOrders == null
+			// && enterBill.purchaseOrders != null) {
+			// modifyPurchaseOrder(enterBill, false);
+			// } else if (this.purchaseOrders != null
+			// && enterBill.purchaseOrders == null) {
+			// modifyPurchaseOrder(this, true);
+			// } else if (!this.purchaseOrder.equals(enterBill.purchaseOrder)) {
+			// modifyPurchaseOrder(enterBill, false);
+			// modifyPurchaseOrder(this, true);
+			//
+			// } else {
+			// for (TransactionItem transactionItem :
+			// enterBill.transactionItems) {
+			// if (transactionItem.getReferringTransactionItem() != null
+			// && DecimalUtil.isGreaterThan(transactionItem
+			// .getReferringTransactionItem().usedamt,
+			// 0)) {
+			// transactionItem.getReferringTransactionItem().usedamt -=
+			// transactionItem.lineTotal;
+			// }
+			// }
+			// modifyPurchaseOrder(this, true);
+			//
+			// }
+			// else if (enterBill.vendor.getID() == this.vendor.getID()) {
+			//
+			// /*
+			// * If cloned and client Object vendors are same then update
+			// * balances and PurchaseOrder
+			// */
+			//
+			// if (DecimalUtil.isGreaterThan(enterBill.total, this.total)) {
+			// modifyPurchaseOrder(this, false);
+			// // modifyItemReceipt(this, false);
+			//
+			// } else if (DecimalUtil.isLessThan(enterBill.total, this.total)) {
+			// modifyPurchaseOrder(this, true);
+			// // modifyItemReceipt(this, true);
+			// }
+			//
+			// this.vendor.updateBalance(session, this, -enterBill.total,
+			// enterBill.getCurrencyFactor());
+			//
+			// this.vendor.updateBalance(session, this, this.total);
+			//
+			// }
 
 			for (Estimate estimate : enterBill.estimates) {
 				session.delete(estimate);
@@ -671,6 +676,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			 * Updating PayBills if any created by using this EnterBill
 			 */
 			this.updateTransactionPayBills();
+			doUpdateEffectPurchaseOrders(this, enterBill, session);
 		}
 
 		super.onEdit(enterBill);
@@ -738,7 +744,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 			session.saveOrUpdate(enterBill.itemReceipt.purchaseOrder);
 		}
 
-		modifyPurchaseOrder(enterBill, false);
+		// modifyPurchaseOrder(enterBill, false);
+
+		for (PurchaseOrder order : enterBill.getPurchaseOrders()) {
+			PurchaseOrder est = (PurchaseOrder) session.get(
+					PurchaseOrder.class, order.getID());
+			est.setUsedBill(null, session);
+			session.saveOrUpdate(est);
+		}
 
 		for (Estimate estimate : enterBill.getEstimates()) {
 			session.delete(estimate);
@@ -752,179 +765,309 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 
 	}
 
-	private void modifyPurchaseOrder(EnterBill enterBill, boolean isAddition) {
+	private void modifyPurchaseOrder(EnterBill enterBill, boolean isCreated) {
 
-		if (enterBill.purchaseOrder == null)
+		if (enterBill.purchaseOrders == null)
 			return;
+		for (PurchaseOrder billOrder : enterBill.purchaseOrders) {
 
-		Session session = HibernateUtil.getCurrentSession();
-		PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
-				PurchaseOrder.class, enterBill.purchaseOrder.getID());
+			Session session = HibernateUtil.getCurrentSession();
+			PurchaseOrder purchaseOrder = (PurchaseOrder) session.get(
+					PurchaseOrder.class, billOrder.getID());
 
-		if (purchaseOrder != null) {
-			boolean isPartialEnterBill = false;
-			boolean flag = true;
+			if (purchaseOrder != null) {
 
-			if (enterBill.transactionItems != null
-					&& enterBill.transactionItems.size() > 0) {
+				boolean isPartiallyInvoiced = false;
 
-				// for (TransactionItem transactionItem :
-				// enterBill.transactionItems) {
+				if (enterBill.transactionItems != null
+						&& enterBill.transactionItems.size() > 0) {
+					isPartiallyInvoiced = updateReferringTransactionItems(
+							enterBill, isCreated);
+				}
+				/**
+				 * Updating the Status of the Sales Order involved in this
+				 * Invoice depending on the above Analysis.
+				 */
+				if (!isPartiallyInvoiced) {
+					double usdAmount = 0;
+					for (TransactionItem orderTransactionItem : billOrder.transactionItems)
+						// if (orderTransactionItem.getType() != 6)
+						usdAmount += orderTransactionItem.usedamt;
+					// else
+					// usdAmount += orderTransactionItem.lineTotal;
+					if (DecimalUtil.isLessThan(usdAmount, billOrder.netAmount))
+						isPartiallyInvoiced = true;
+				}
+				if (isCreated) {
+					try {
+						for (TransactionItem item : billOrder.transactionItems) {
+							TransactionItem clone = item.clone();
+							clone.transaction = this;
+							clone.setReferringTransactionItem(item);
+							this.transactionItems.add(clone);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (!this.isVoid()) {
+						billOrder.setUsedBill(enterBill, session);
+					}
+				}
+				billOrder.onUpdate(session);
+				session.saveOrUpdate(billOrder);
 				//
-				// if (transactionItem.referringTransactionItem != null) {
+				// boolean isPartialEnterBill = false;
+				// boolean flag = true;
 				//
-				// TransactionItem referringTransactionItem = (TransactionItem)
-				// session
-				// .get(
-				// TransactionItem.class,
-				// transactionItem.referringTransactionItem
-				// .getID());
+				// if (enterBill.transactionItems != null
+				// && enterBill.transactionItems.size() > 0) {
+				//
+				// // for (TransactionItem transactionItem :
+				// // enterBill.transactionItems) {
 				// //
-				// double amount = referringTransactionItem.usedamt;
-				//
-				// if (transactionItem.type == TransactionItem.TYPE_ITEM)
-				// transactionItem.lineTotal = transactionItem.quantity
-				// * referringTransactionItem.unitPrice;
-				//
-				// else
-				// transactionItem.lineTotal = transactionItem.lineTotal;
-				//
-				// if (id == 0l)
-				// referringTransactionItem.usedamt +=
-				// transactionItem.lineTotal;
-				//
-				// else if (id != 0l && !enterBill.isVoid())
-				// referringTransactionItem.usedamt += transactionItem.quantity
-				// * referringTransactionItem.unitPrice;
-				//
+				// // if (transactionItem.referringTransactionItem != null) {
+				// //
+				// // TransactionItem referringTransactionItem =
+				// // (TransactionItem)
+				// // session
+				// // .get(
+				// // TransactionItem.class,
+				// // transactionItem.referringTransactionItem
+				// // .getID());
+				// // //
+				// // double amount = referringTransactionItem.usedamt;
+				// //
+				// // if (transactionItem.type == TransactionItem.TYPE_ITEM)
+				// // transactionItem.lineTotal = transactionItem.quantity
+				// // * referringTransactionItem.unitPrice;
+				// //
+				// // else
+				// // transactionItem.lineTotal = transactionItem.lineTotal;
+				// //
+				// // if (id == 0l)
+				// // referringTransactionItem.usedamt +=
+				// // transactionItem.lineTotal;
+				// //
 				// // else if (id != 0l && !enterBill.isVoid())
 				// // referringTransactionItem.usedamt +=
-				// // transactionItem.lineTotal
-				// // - referringTransactionItem.usedamt;
+				// // transactionItem.quantity
+				// // * referringTransactionItem.unitPrice;
+				// //
+				// // // else if (id != 0l && !enterBill.isVoid())
+				// // // referringTransactionItem.usedamt +=
+				// // // transactionItem.lineTotal
+				// // // - referringTransactionItem.usedamt;
+				// //
+				// // if (enterBill.isVoid())
+				// // referringTransactionItem.usedamt -=
+				// // transactionItem.lineTotal;
+				// //
+				// // session.update(referringTransactionItem);
+				// //
+				// // if (flag
+				// // && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
+				// // || transactionItem.type == TransactionItem.TYPE_SALESTAX
+				// // ||
+				// // (transactionItem.type == TransactionItem.TYPE_ITEM &&
+				// // transactionItem.quantity <
+				// // referringTransactionItem.quantity)))) {
+				// // if (isAddition ? referringTransactionItem.usedamt <
+				// // referringTransactionItem.lineTotal
+				// // : referringTransactionItem.usedamt > 0) {
+				// // isPartialEnterBill = true;
+				// // flag = false;
+				// // }
+				// // }
+				// //
+				// // // if (id != 0l && !enterBill.isVoid())
+				// // // referringTransactionItem.usedamt += amount;
+				// //
+				// // // session.update(referringTransactionItem);
+				// // }
+				// //
+				// // }
+				// }
+				// for (TransactionItem transactionItem :
+				// enterBill.transactionItems) {
+				// /**
+				// * This is to know whether this transaction item is of new
+				// * one or it's came from any Sales Order.
+				// */
 				//
-				// if (enterBill.isVoid())
+				// if (transactionItem.getReferringTransactionItem() != null) {
+				// TransactionItem referringTransactionItem = (TransactionItem)
+				// session
+				// .get(TransactionItem.class, transactionItem
+				// .getReferringTransactionItem().getID());
+				// double amount = 0d;
+				//
+				// if (!isAddition)
+				// if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+				// if (DecimalUtil
+				// .isLessThan(
+				// transactionItem.lineTotal,
+				// transactionItem
+				// .getQuantity()
+				// .calculatePrice(
+				// referringTransactionItem.unitPrice)))
+				//
+				// referringTransactionItem.usedamt -=
+				// transactionItem.lineTotal;
+				// else
+				// referringTransactionItem.usedamt -= transactionItem
+				// .getQuantity()
+				// .calculatePrice(
+				// referringTransactionItem.unitPrice);
+				//
+				// } else
 				// referringTransactionItem.usedamt -=
 				// transactionItem.lineTotal;
 				//
+				// else {
+				// if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+				// if (DecimalUtil
+				// .isLessThan(
+				// transactionItem.lineTotal,
+				// transactionItem
+				// .getQuantity()
+				// .calculatePrice(
+				// referringTransactionItem.unitPrice)))
+				//
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
+				// else
+				// referringTransactionItem.usedamt += transactionItem
+				// .getQuantity()
+				// .calculatePrice(
+				// referringTransactionItem.unitPrice);
+				// } else
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
+				// }
+				// amount = referringTransactionItem.usedamt;
+				// /**
+				// * This is to save changes to the invoiced amount of the
+				// * referring transaction item to this transaction item.
+				// */
 				// session.update(referringTransactionItem);
 				//
 				// if (flag
-				// && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT
-				// || transactionItem.type == TransactionItem.TYPE_SALESTAX ||
-				// (transactionItem.type == TransactionItem.TYPE_ITEM &&
-				// transactionItem.quantity <
-				// referringTransactionItem.quantity)))) {
-				// if (isAddition ? referringTransactionItem.usedamt <
-				// referringTransactionItem.lineTotal
-				// : referringTransactionItem.usedamt > 0) {
+				// && ((transactionItem.type == TransactionItem.TYPE_ACCOUNT ||
+				// ((transactionItem.type == TransactionItem.TYPE_ITEM) &&
+				// transactionItem
+				// .getQuantity().compareTo(
+				// referringTransactionItem
+				// .getQuantity()) < 0)))) {
+				//
+				// if (isAddition ? DecimalUtil.isLessThan(amount,
+				// referringTransactionItem.lineTotal)
+				// : DecimalUtil.isGreaterThan(amount, 0)) {
 				// isPartialEnterBill = true;
 				// flag = false;
 				// }
 				// }
-				//
-				// // if (id != 0l && !enterBill.isVoid())
-				// // referringTransactionItem.usedamt += amount;
-				//
-				// // session.update(referringTransactionItem);
 				// }
 				//
 				// }
+				//
+				// if (!isPartialEnterBill) {
+				// double usdAmount = 0;
+				// for (TransactionItem orderTransactionItem :
+				// purchaseOrder.transactionItems)
+				// // if (orderTransactionItem.getType() != 6)
+				// usdAmount += orderTransactionItem.usedamt;
+				// // else
+				// // usdAmount += orderTransactionItem.lineTotal;
+				// if (DecimalUtil.isLessThan(usdAmount,
+				// purchaseOrder.netAmount))
+				// isPartialEnterBill = true;
+				// }
+				// if (isPartialEnterBill) {
+				// purchaseOrder.status = Transaction.STATUS_OPEN;
+				// } else {
+				// purchaseOrder.status = isAddition ?
+				// Transaction.STATUS_COMPLETED
+				// : Transaction.STATUS_OPEN;
+				// }
+				// purchaseOrder.setUsedBill(this, session);
+				// purchaseOrder.onUpdate(session);
+				// session.saveOrUpdate(purchaseOrder);
 			}
-			for (TransactionItem transactionItem : enterBill.transactionItems) {
-				/**
-				 * This is to know whether this transaction item is of new one
-				 * or it's came from any Sales Order.
-				 */
+		}
+	}
 
-				if (transactionItem.getReferringTransactionItem() != null) {
-					TransactionItem referringTransactionItem = (TransactionItem) session
-							.get(TransactionItem.class, transactionItem
-									.getReferringTransactionItem().getID());
-					double amount = 0d;
+	private boolean updateReferringTransactionItems(EnterBill enterBill,
+			boolean isCreated) {
 
-					if (!isAddition)
-						if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-							if (DecimalUtil
-									.isLessThan(
-											transactionItem.lineTotal,
-											transactionItem
-													.getQuantity()
-													.calculatePrice(
-															referringTransactionItem.unitPrice)))
+		Session session = HibernateUtil.getCurrentSession();
+		boolean isPartiallyInvoiced = true;
+		boolean flag = true;
+		for (TransactionItem transactionItem : enterBill.transactionItems) {
+			/**
+			 * This is to know whether this transaction item is of new one or
+			 * it's came from any Sales Order.
+			 */
 
-								referringTransactionItem.usedamt -= transactionItem.lineTotal;
-							else
-								referringTransactionItem.usedamt -= transactionItem
-										.getQuantity()
-										.calculatePrice(
-												referringTransactionItem.unitPrice);
+			if (transactionItem.getReferringTransactionItem() != null) {
+				TransactionItem referringTransactionItem = (TransactionItem) session
+						.get(TransactionItem.class, transactionItem
+								.getReferringTransactionItem().getID());
+				double amount = 0d;
 
-						} else
+				if (!isCreated) {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
 							referringTransactionItem.usedamt -= transactionItem.lineTotal;
+						else
+							referringTransactionItem.usedamt -= transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt -= transactionItem.lineTotal;
 
-					else {
-						if (transactionItem.type == TransactionItem.TYPE_ITEM) {
-							if (DecimalUtil
-									.isLessThan(
-											transactionItem.lineTotal,
-											transactionItem
-													.getQuantity()
-													.calculatePrice(
-															referringTransactionItem.unitPrice)))
-
-								referringTransactionItem.usedamt += transactionItem.lineTotal;
-							else
-								referringTransactionItem.usedamt += transactionItem
-										.getQuantity()
-										.calculatePrice(
-												referringTransactionItem.unitPrice);
-						} else
+				} else {
+					if (transactionItem.type == TransactionItem.TYPE_ITEM) {
+						if (DecimalUtil.isLessThan(
+								transactionItem.lineTotal,
+								transactionItem.getQuantity().calculatePrice(
+										referringTransactionItem.unitPrice)))
 							referringTransactionItem.usedamt += transactionItem.lineTotal;
-					}
-					amount = referringTransactionItem.usedamt;
-					/**
-					 * This is to save changes to the invoiced amount of the
-					 * referring transaction item to this transaction item.
-					 */
-					session.update(referringTransactionItem);
+						else
+							referringTransactionItem.usedamt += transactionItem
+									.getQuantity().calculatePrice(
+											referringTransactionItem.unitPrice);
+					} else
+						referringTransactionItem.usedamt += transactionItem.lineTotal;
+				}
+				amount = referringTransactionItem.usedamt;
+				/**
+				 * This is to save changes to the invoiced amount of the
+				 * referring transaction item to this transaction item.
+				 */
+				session.update(referringTransactionItem);
 
-					if (flag
-							&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
-									.getQuantity().compareTo(
-											referringTransactionItem
-													.getQuantity()) < 0)))) {
-
-						if (isAddition ? DecimalUtil.isLessThan(amount,
-								referringTransactionItem.lineTotal)
-								: DecimalUtil.isGreaterThan(amount, 0)) {
-							isPartialEnterBill = true;
-							flag = false;
-						}
+				if (flag
+						&& ((transactionItem.type == TransactionItem.TYPE_ACCOUNT || ((transactionItem.type == TransactionItem.TYPE_ITEM) && transactionItem
+								.getQuantity().compareTo(
+										referringTransactionItem.getQuantity()) < 0)))) {
+					if (isCreated ? DecimalUtil.isLessThan(amount,
+							referringTransactionItem.lineTotal) : DecimalUtil
+							.isGreaterThan(amount, 0)) {
+						isPartiallyInvoiced = true;
+						flag = false;
 					}
 				}
+				// if (id != 0l && !invoice.isVoid())
+				// referringTransactionItem.usedamt +=
+				// transactionItem.lineTotal;
 
 			}
 
-			if (!isPartialEnterBill) {
-				double usdAmount = 0;
-				for (TransactionItem orderTransactionItem : purchaseOrder.transactionItems)
-					// if (orderTransactionItem.getType() != 6)
-					usdAmount += orderTransactionItem.usedamt;
-				// else
-				// usdAmount += orderTransactionItem.lineTotal;
-				if (DecimalUtil.isLessThan(usdAmount, purchaseOrder.netAmount))
-					isPartialEnterBill = true;
-			}
-			if (isPartialEnterBill) {
-				purchaseOrder.status = Transaction.STATUS_OPEN;
-			} else {
-				purchaseOrder.status = isAddition ? Transaction.STATUS_COMPLETED
-						: Transaction.STATUS_OPEN;
-			}
-			purchaseOrder.setUsedBill(this, session);
-			purchaseOrder.onUpdate(session);
-			session.saveOrUpdate(purchaseOrder);
 		}
+		return isPartiallyInvoiced;
 	}
 
 	private void modifyItemReceipt(EnterBill enterBill, boolean isAddition) {
@@ -972,6 +1115,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(EnterBill.class)) {
 			throw new AccounterException(
@@ -1191,6 +1342,58 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	protected void updatePayee(boolean onCreate) {
 		double amount = onCreate ? total : -total;
 		vendor.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
+	}
+
+	public List<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public void setPurchaseOrders(List<PurchaseOrder> purchaseOrders) {
+		this.purchaseOrders = purchaseOrders;
+	}
+
+	private void doUpdateEffectPurchaseOrders(EnterBill newBill,
+			EnterBill oldBill, Session session) {
+		List<PurchaseOrder> estimatesExistsInOldInvoice = new ArrayList<PurchaseOrder>();
+		for (PurchaseOrder oldEstiamte : oldBill.getPurchaseOrders()) {
+			PurchaseOrder est = null;
+			for (PurchaseOrder newEstimate : newBill.getPurchaseOrders()) {
+				if (oldEstiamte.getID() == newEstimate.getID()) {
+					est = newEstimate;
+					estimatesExistsInOldInvoice.add(newEstimate);
+					break;
+				}
+			}
+			if (est != null && !this.isVoid()) {
+				est.setUsedBill(newBill, session);
+			} else {
+				est = (PurchaseOrder) session.get(PurchaseOrder.class,
+						oldEstiamte.getID());
+				est.setUsedBill(null, session);
+			}
+			if (est != null) {
+				session.saveOrUpdate(est);
+			}
+		}
+
+		for (PurchaseOrder est : newBill.getPurchaseOrders()) {
+			try {
+				for (TransactionItem item : est.transactionItems) {
+
+					TransactionItem clone = item.clone();
+					clone.transaction = this;
+					clone.setReferringTransactionItem(item);
+					// super.chekingTaxCodeNull(clone.taxCode);
+					this.transactionItems.add(clone);
+				}
+			} catch (Exception e) {
+				throw new RuntimeException("Unable to clone TransactionItems");
+			}
+			if (!estimatesExistsInOldInvoice.contains(est) && !this.isVoid()) {
+				est.setUsedBill(newBill, session);
+				session.saveOrUpdate(est);
+			}
+		}
 	}
 
 }

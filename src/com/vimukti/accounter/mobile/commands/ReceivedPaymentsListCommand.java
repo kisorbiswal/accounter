@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -72,15 +71,17 @@ public class ReceivedPaymentsListCommand extends AbstractTransactionListCommand 
 
 				Record record = new Record(value);
 
-				record.add(getMessages().paymentDate(),
-						(value.getPaymentDate()));
+				record.add(
+						getMessages().paymentDate(),
+						getDateByCompanyType(value.getPaymentDate(),
+								getPreferences()));
 				record.add(getMessages().number(), value.getNumber());
 				record.add(getMessages().name(), value.getCustomerName());
 				record.add(getMessages().paymentMethod(),
 						value.getPaymentMethodName());
 				record.add(
 						getMessages().amountPaid(),
-						Global.get().toCurrencyFormat(
+						getAmountWithCurrency(
 								value.getAmountPaid(),
 								getServerObject(Currency.class,
 										value.getCurrency()).getSymbol()));

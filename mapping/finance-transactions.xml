@@ -254,6 +254,7 @@
 				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
 			</component>
 			<property name="phone" column="PHONE"></property>
+			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<many-to-one name="salesPerson" class="SalesPerson"
 				column="SALES_PERSON_ID">
 			</many-to-one>
@@ -431,9 +432,11 @@
 				<key column="ENTER_BILL_ID"></key>
 				<many-to-many class="Estimate" />
 			</set>
-			<many-to-one name="purchaseOrder" class="PurchaseOrder"
-				column="PURCHASE_ORDER_ID">
-			</many-to-one>
+			<list name="purchaseOrders" table="ENTER_BILL_ORDERS">
+				<key column="ENTER_BILL_ID"></key>
+				<list-index column="VTX" />
+				<many-to-many column="PURCHASE_ORDER_ID" class="PurchaseOrder" />
+			</list>
 			<many-to-one name="itemReceipt" class="ItemReceipt"
 				cascade="save-update" column="ITEM_RECEIPT_ID">
 			</many-to-one>
@@ -481,14 +484,23 @@
 			<many-to-one name="paymentTerm" class="PaymentTerms"
 				column="PAYMENT_TERMS_ID">
 			</many-to-one>
+			<many-to-one name="shippingTerm" class="ShippingTerms"
+				column="SHIPPING_TERMS_ID">
+			</many-to-one>
+			<many-to-one name="shippingMethod" class="ShippingMethod"
+				column="SHIPPING_METHOD_ID">
+			</many-to-one>
+			<property name="dueDate" column="DUE_DATE"
+				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="expirationDate" column="EXPIRATION_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
+			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
 			<property name="deliveryDate" column="DELIVERY_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
 			</many-to-one>
 			<property name="taxTotal" column="SALES_TAX"></property>
-			<property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property>
+			<!-- <property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property> -->
 			<many-to-one name="usedInvoice" class="Invoice" column="USED_INVOICE">
 			</many-to-one>
 
@@ -556,11 +568,6 @@
 				<key column="INVOICE_ID"></key>
 				<list-index column="VTX" />
 				<many-to-many column="ESTIMATE_ID" class="Estimate" />
-			</list>
-			<list name="salesOrders" table="INVOICE_SALES_ORDERS" cascade="save-update">
-				<key column="INVOICE_ID"></key>
-				<list-index column="VTX" />
-				<many-to-many column="SALES_ORDER_ID" class="SalesOrder" />
 			</list>
 			<property name="discountDate" column="DISCOUNT_DATE"
 				type="com.vimukti.accounter.core.LongUseType"></property>
@@ -682,6 +689,8 @@
 				cascade="save-update" column="SHIPPING_METHOD_ID">
 			</many-to-one>
 			<property name="purchaseOrderNumber" column="PURCHASE_ORDER_NUMBER"></property>
+			<many-to-one name="usedBill" class="EnterBill" column="USED_BILL">
+			</many-to-one>
 			<!-- <list name="enterBills" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
 				/> <list-index column="EBX" /> <one-to-many class="EnterBill" /> </list> 
 				<list name="itemReceipts" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
@@ -781,67 +790,43 @@
 				<one-to-many class="TransactionReceivePayment" />
 			</list>
 		</joined-subclass>
-		<joined-subclass name="SalesOrder" table="SALES_ORDER">
-			<key column="ID" />
-			<many-to-one name="customer" class="Customer" cascade="save-update"
-				column="CUSTOMER_ID">
-			</many-to-one>
 
-			<component name="contact" class="Contact">
-				<property name="isPrimary" column="INVOICE_IS_PRIMARY"></property>
-				<property name="name" column="INVOICE_NAME"></property>
-				<property name="title" column="INVOICE_TITLE"></property>
-				<property name="businessPhone" column="INVOICE_BUSINESS_PHONE"></property>
-				<property name="email" column="INVOICE_EMAIL"></property>
-			</component>
-			<component name="billingAddress" class="Address">
-				<property name="type" column="BILLING_ADDRESS_TYPE"></property>
-				<property name="address1" column="BILLING_ADDRESS1" length="100"></property>
-				<property name="street" column="BILLING_ADDRESS_STREET"></property>
-				<property name="city" column="BILLING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property>
-				<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property>
-			</component>
-			<component name="shippingAdress" class="Address">
-				<property name="type" column="SHIPPING_ADDRESS_TYPE"></property>
-				<property name="address1" column="SHIPPING_ADDRESS1"
-					length="100"></property>
-				<property name="street" column="SHIPPING_ADDRESS_STREET"></property>
-				<property name="city" column="SHIPPING_ADDRESS_CITY"></property>
-				<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property>
-				<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property>
-				<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property>
-				<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property>
-			</component>
-			<property name="phone" column="PHONE"></property>
-			<many-to-one name="salesPerson" class="SalesPerson"
-				column="SALES_PERSON_ID">
-			</many-to-one>
-			<many-to-one name="paymentTerm" class="PaymentTerms"
-				column="PAYMENT_TERMS_ID">
-			</many-to-one>
-			<many-to-one name="shippingTerm" class="ShippingTerms"
-				column="SHIPPING_TERMS_ID">
-			</many-to-one>
-			<many-to-one name="shippingMethod" class="ShippingMethod"
-				column="SHIPPING_METHOD_ID">
-			</many-to-one>
-			<property name="dueDate" column="DUE_DATE"
-				type="com.vimukti.accounter.core.LongUseType"></property>
-			<property name="discountTotal" column="DISCOUNT_TOTAL"></property>
-			<many-to-one name="priceLevel" class="PriceLevel" column="PRICE_LEVEL_ID">
-			</many-to-one>
-			<property name="taxTotal" column="SALES_TAX_AMOUNT"></property>
-			<many-to-one name="salesTaxItem" class="Item" column="ITEM_ID">
-			</many-to-one>
-			<many-to-one name="estimate" class="Estimate" column="ESTIMATE_ID">
-			</many-to-one>
-			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property>
-			<!-- <list name="invoices" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
-				/> <list-index column="IDX" /> <one-to-many class="Invoice" /> </list> -->
-		</joined-subclass>
+		<!-- <joined-subclass name="SalesOrder" table="SALES_ORDER"> <key column="ID" 
+			/> <many-to-one name="customer" class="Customer" cascade="save-update" column="CUSTOMER_ID"> 
+			</many-to-one> <component name="contact" class="Contact"> <property name="isPrimary" 
+			column="INVOICE_IS_PRIMARY"></property> <property name="name" column="INVOICE_NAME"></property> 
+			<property name="title" column="INVOICE_TITLE"></property> <property name="businessPhone" 
+			column="INVOICE_BUSINESS_PHONE"></property> <property name="email" column="INVOICE_EMAIL"></property> 
+			</component> <component name="billingAddress" class="Address"> <property 
+			name="type" column="BILLING_ADDRESS_TYPE"></property> <property name="address1" 
+			column="BILLING_ADDRESS1" length="100"></property> <property name="street" 
+			column="BILLING_ADDRESS_STREET"></property> <property name="city" column="BILLING_ADDRESS_CITY"></property> 
+			<property name="stateOrProvinence" column="BILLING_ADDRESS_STATE"></property> 
+			<property name="zipOrPostalCode" column="BILLING_ADDRESS_ZIP"></property> 
+			<property name="countryOrRegion" column="BILLING_ADDRESS_COUNTRY"></property> 
+			<property name="isSelected" column="BILLING_ADDRESS_IS_SELECTED"></property> 
+			</component> <component name="shippingAdress" class="Address"> <property 
+			name="type" column="SHIPPING_ADDRESS_TYPE"></property> <property name="address1" 
+			column="SHIPPING_ADDRESS1" length="100"></property> <property name="street" 
+			column="SHIPPING_ADDRESS_STREET"></property> <property name="city" column="SHIPPING_ADDRESS_CITY"></property> 
+			<property name="stateOrProvinence" column="SHIPPING_ADDRESS_STATE"></property> 
+			<property name="zipOrPostalCode" column="SHIPPING_ADDRESS_ZIP"></property> 
+			<property name="countryOrRegion" column="SHIPPING_ADDRESS_COUNTRY"></property> 
+			<property name="isSelected" column="SHIPPING_ADDRESS_IS_SELECTED"></property> 
+			</component> <property name="phone" column="PHONE"></property> <many-to-one 
+			name="salesPerson" class="SalesPerson" column="SALES_PERSON_ID"> </many-to-one> 
+			<many-to-one name="paymentTerm" class="PaymentTerms" column="PAYMENT_TERMS_ID"> 
+			</many-to-one> <many-to-one name="shippingTerm" class="ShippingTerms" column="SHIPPING_TERMS_ID"> 
+			</many-to-one> <many-to-one name="shippingMethod" class="ShippingMethod" 
+			column="SHIPPING_METHOD_ID"> </many-to-one> <property name="dueDate" column="DUE_DATE" 
+			type="com.vimukti.accounter.core.LongUseType"></property> <property name="discountTotal" 
+			column="DISCOUNT_TOTAL"></property> <many-to-one name="priceLevel" class="PriceLevel" 
+			column="PRICE_LEVEL_ID"> </many-to-one> <property name="taxTotal" column="SALES_TAX_AMOUNT"></property> 
+			<many-to-one name="salesTaxItem" class="Item" column="ITEM_ID"> </many-to-one> 
+			<many-to-one name="estimate" class="Estimate" column="ESTIMATE_ID"> </many-to-one> 
+			<property name="customerOrderNumber" column="CUSTOMER_ORDER_NUMBER"></property> 
+			<list name="invoices" cascade="save-update,delete" > <key column="TRANSACTION_ID" 
+			/> <list-index column="IDX" /> <one-to-many class="Invoice" /> </list> </joined-subclass> -->
 		<joined-subclass name="Expense" table="EXPENSE">
 			<key column="ID" />
 			<property name="billFrom" column="BILL_FROM"></property>

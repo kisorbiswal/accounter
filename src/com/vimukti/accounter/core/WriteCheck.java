@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * A transaction which let us to write the checks to the payees. Payee involved
@@ -336,8 +337,9 @@ public class WriteCheck extends Transaction {
 				this.bankAccount.updateCurrentBalance(this, this.total,
 						currencyFactor);
 				this.bankAccount.onUpdate(session);
-				cleanTransactionitems(writeCheck);
 			}
+
+			cleanTransactionitems(writeCheck);
 
 		}
 		if ((this.paymentMethod
@@ -354,6 +356,13 @@ public class WriteCheck extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(WriteCheck.class)) {
 			throw new AccounterException(

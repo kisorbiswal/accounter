@@ -21,13 +21,11 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public NewCreditsAndRefundsAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public NewCreditsAndRefundsAction(ClientCustomerCreditMemo creditMemo,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -63,6 +61,11 @@ public class NewCreditsAndRefundsAction extends Action {
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().newCreditsAndRefunds();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	// @Override

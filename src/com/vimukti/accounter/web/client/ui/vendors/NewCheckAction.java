@@ -20,7 +20,6 @@ public class NewCheckAction extends Action {
 
 	public NewCheckAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	//
@@ -74,6 +73,11 @@ public class NewCheckAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "write-check";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

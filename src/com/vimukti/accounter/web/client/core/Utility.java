@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.InvalidEntryException;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.util.ChangeType;
 import com.vimukti.accounter.web.client.util.CoreEvent;
 
@@ -101,9 +102,6 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_RECEIVE_TAX:
 			transactionName = messages.receiveTAX();
 			break;
-		case ClientTransaction.TYPE_SALES_ORDER:
-			transactionName = messages.salesOrder();
-			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			transactionName = messages.purchaseOrder();
 			break;
@@ -136,8 +134,110 @@ public class Utility implements IsSerializable, Serializable {
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			transactionName = messages.tdsChallan();
 			break;
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			transactionName = messages.buildAssembly();
+			break;
 		}
 		return transactionName;
+	}
+
+	public static boolean isUserHavePermissions(int transactionType) {
+		ClientUser user = Accounter.getUser();
+		if (user.isAdmin()) {
+			return true;
+		}
+		ClientUserPermissions permissions = user.getPermissions();
+
+		boolean isAllowed = false;
+		switch (transactionType) {
+		case ClientTransaction.TYPE_PAY_TAX:
+		case ClientTransaction.TYPE_ADJUST_VAT_RETURN:
+		case ClientTransaction.TYPE_TDS_CHALLAN:
+		case IAccounterCore.TAXGROUP:
+		case IAccounterCore.TDSCHALANDETAIL:
+		case IAccounterCore.TAXITEM:
+		case IAccounterCore.TAXAGENCY:
+		case IAccounterCore.TAXCODE:
+		case IAccounterCore.FIXED_ASSET:
+		case IAccounterCore.BUDGET:
+			isAllowed = user.getUserRole().equals(
+					RolePermissions.FINANCIAL_ADVISER);
+			break;
+		case ClientTransaction.TYPE_TRANSFER_FUND:
+		case ClientTransaction.TYPE_MAKE_DEPOSIT:
+			isAllowed = permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
+			break;
+		case ClientTransaction.TYPE_CUSTOMER_REFUNDS:
+		case ClientTransaction.TYPE_RECEIVE_PAYMENT:
+		case ClientTransaction.TYPE_PAY_BILL:
+		case ClientTransaction.TYPE_VENDOR_PAYMENT:
+		case ClientTransaction.TYPE_CUSTOMER_PREPAYMENT:
+		case ClientTransaction.TYPE_ISSUE_PAYMENT:
+			isAllowed = permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES;
+			break;
+		case ClientTransaction.TYPE_INVOICE:
+		case ClientTransaction.TYPE_ESTIMATE:
+		case ClientTransaction.TYPE_ENTER_BILL:
+		case ClientTransaction.TYPE_PURCHASE_ORDER:
+		case ClientTransaction.TYPE_VENDOR_CREDIT_MEMO:
+		case ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO:
+		case ClientTransaction.TYPE_ITEM_RECEIPT:
+		case IAccounterCore.VENDOR:
+		case IAccounterCore.CUSTOMER_GROUP:
+		case IAccounterCore.VENDOR_GROUP:
+		case IAccounterCore.CUSTOMER:
+		case IAccounterCore.RECURING_TRANSACTION:
+		case ClientTransaction.TYPE_CASH_EXPENSE:
+		case ClientTransaction.TYPE_CREDIT_CARD_EXPENSE:
+		case ClientTransaction.TYPE_CASH_PURCHASE:
+		case ClientTransaction.TYPE_CASH_SALES:
+			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			break;
+		case ClientTransaction.TYPE_JOURNAL_ENTRY:
+			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.ACCOUNT:
+			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.BANK_ACCOUNT:
+		case ClientTransaction.TYPE_WRITE_CHECK:
+		case IAccounterCore.BANK:
+			isAllowed = permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.ITEM:
+		case IAccounterCore.ITEM_GROUP:
+		case IAccounterCore.MEASUREMENT:
+			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.STOCK_ADJUSTMENT:
+		case IAccounterCore.WAREHOUSE:
+		case IAccounterCore.STOCK_TRANSFER:
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.USER:
+			isAllowed = user.isCanDoUserManagement();
+			break;
+		case IAccounterCore.BRANDING_THEME:
+		case IAccounterCore.PAYMENT_TERMS:
+		case IAccounterCore.SHIPPING_METHOD:
+		case IAccounterCore.SHIPPING_TERMS:
+		case IAccounterCore.CREDIT_RATING:
+		case IAccounterCore.CURRENCY:
+		case IAccounterCore.LOCATION:
+		case IAccounterCore.ACCOUNTER_CLASS:
+		case IAccounterCore.SALES_PERSON:
+			isAllowed = permissions.getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES;
+			break;
+		case IAccounterCore.RECONCILIATION:
+			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES
+					|| user.getUserRole().equals(
+							RolePermissions.FINANCIAL_ADVISER);
+			break;
+		}
+		return isAllowed;
 	}
 
 	public static String getItemType(int itemType) {
@@ -1401,19 +1501,6 @@ public class Utility implements IsSerializable, Serializable {
 			break;
 		case ClientTransaction.TYPE_TRANSFER_FUND:
 			break;
-		case ClientTransaction.TYPE_SALES_ORDER:
-			switch (status) {
-			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
-				buffer.append(messages.notInvoiced());
-				break;
-			case ClientTransaction.STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED:
-				buffer.append(messages.partiallyInvoiced());
-				break;
-			case ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED:
-				buffer.append(messages.invoiced());
-				break;
-			}
-			break;
 		case ClientTransaction.TYPE_PURCHASE_ORDER:
 			switch (status) {
 			case ClientTransaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED:
@@ -1936,5 +2023,79 @@ public class Utility implements IsSerializable, Serializable {
 
 		long number2 = Math.round(amount * 100);
 		return (double) (number2 / 100);
+	}
+
+	public static boolean isUserHavePermissions(
+			AccounterCoreType transactionType) {
+		ClientUser user = Accounter.getUser();
+		if (user.isAdmin()) {
+			return true;
+		}
+		if (user.getUserRole().equals(RolePermissions.READ_ONLY)) {
+			return false;
+		}
+		ClientUserPermissions permissions = user.getPermissions();
+		boolean isAllowed = false;
+		switch (transactionType) {
+		case VENDOR:
+		case CUSTOMER_GROUP:
+		case VENDOR_GROUP:
+		case CUSTOMER:
+			isAllowed = permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			break;
+		case TAX_GROUP:
+		case TDSCHALANDETAIL:
+		case TAXITEM:
+		case TAXAGENCY:
+		case TAX_CODE:
+		case FIXEDASSET:
+		case FIXEDASSETHISTORY:
+		case BUDGET:
+			isAllowed = user.getUserRole().equals(
+					RolePermissions.FINANCIAL_ADVISER);
+			break;
+		case ITEM:
+			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			break;
+		case STOCK_ADJUSTMENT:
+		case WAREHOUSE:
+		case STOCK_TRANSFER:
+			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES;
+			break;
+		case MEASUREMENT:
+		case UNIT:
+			isAllowed = permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES;
+			break;
+		case ACCOUNT:
+			isAllowed = permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES;
+			break;
+		case USER:
+			isAllowed = user.isCanDoUserManagement();
+			break;
+		case BRANDINGTHEME:
+		case PAYMENT_TERM:
+		case SHIPPING_METHOD:
+		case SHIPPING_TERM:
+		case CREDIT_RATING:
+		case CURRENCY:
+		case LOCATION:
+		case ACCOUNTER_CLASS:
+		case ITEM_GROUP:
+		case SALES_PERSON:
+			isAllowed = permissions.getTypeOfCompanySettingsLockDates() == RolePermissions.TYPE_YES;
+			break;
+		case RECONCILIATION:
+			isAllowed = permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
+					|| user.getUserRole().equals(
+							RolePermissions.FINANCIAL_ADVISER);
+			break;
+		case BANK:
+		case BANK_ACCOUNT:
+			isAllowed = permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES;
+			break;
+		}
+		return isAllowed;
 	}
 }

@@ -27,6 +27,11 @@ public class BuildAssembly extends Transaction {
 			setNumber(number);
 		}
 
+		double totalAssemblyCost = 0.00D;
+
+		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
+		quantityToBuild.setValue(this.quantityToBuild);
+
 		for (InventoryAssemblyItem assemblyItem : inventoryAssembly
 				.getComponents()) {
 
@@ -34,7 +39,8 @@ public class BuildAssembly extends Transaction {
 			TransactionItem transactionItem = new TransactionItem();
 			transactionItem.setType(TransactionItem.TYPE_ITEM);
 			transactionItem.setTransaction(this);
-			transactionItem.setQuantity(assemblyItem.getQuantity());
+			transactionItem.setQuantity(assemblyItem.getQuantity().multiply(
+					quantityToBuild));
 			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
 
 			transactionItem.setItem(inventoryItem);
@@ -43,11 +49,13 @@ public class BuildAssembly extends Transaction {
 			transactionItem.setLineTotal(assemblyItem.getQuantity()
 					.calculatePrice(assemblyItem.getUnitPrice()));
 			getTransactionItems().add(transactionItem);
+			totalAssemblyCost += transactionItem.getQuantity().calculatePrice(
+					transactionItem.getUnitPrice());
 		}
 
-		Quantity onhandQuantity = inventoryAssembly.getOnhandQty();
-		onhandQuantity.setValue(onhandQuantity.getValue() + quantityToBuild);
-		inventoryAssembly.setOnhandQuantity(onhandQuantity);
+		inventoryAssembly.setOnhandQuantity(inventoryAssembly.getOnhandQty()
+				.add(quantityToBuild));
+
 		session.update(inventoryAssembly);
 		ChangeTracker.put(inventoryAssembly);
 		return super.onSave(session);

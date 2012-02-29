@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -31,7 +32,6 @@ import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
-import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
@@ -95,7 +95,7 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<DepositDetail> getDepositDetail(
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
-	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
+	ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorSummary(
@@ -146,29 +146,26 @@ public interface IAccounterReportService extends RemoteService {
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			long id, ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, ClientFinanceDate startDate,
+			long vendorId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate);
+			long itemId, ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, final ClientFinanceDate startDate,
+			long accountId, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate);
 
 	public ArrayList<ClientFinanceDate> getMinimumAndMaximumTransactionDate();
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			String taxItemname, ClientFinanceDate startDate,
+			long taxItemId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate);
 
 	public ArrayList<TrialBalance> getBalanceSheetReport(
@@ -188,35 +185,35 @@ public interface IAccounterReportService extends RemoteService {
 	public ArrayList<TrialBalance> getCashFlowReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	// public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
-
-	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate);
+	// public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate);
 
 	public ArrayList<VATDetail> getPriorVATReturnVATDetailReport(
 			ClientFinanceDate startDate, ClientFinanceDate endDate);
@@ -358,13 +355,19 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<BankDepositDetail> getBankingDepositDetils(
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<TransactionDetailByAccount> getMissingCheckDetils(long accountId,
-			ClientFinanceDate start, ClientFinanceDate end);
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
 
 	ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end);
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException;
+
+	ArrayList<BankCheckDetail> getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException;
 
 	ArrayList<EstimatesByJob> getEstimatesByJob(ClientFinanceDate start,
 			ClientFinanceDate end);
@@ -378,9 +381,6 @@ public interface IAccounterReportService extends RemoteService {
 			throws AccounterException;
 
 	ArrayList<UnbilledCostsByJob> getUnBilledCostsByJob(
-			ClientFinanceDate start, ClientFinanceDate end);
-
-	ArrayList<JobEstimatesVsActualsSummary> getJobEstimatesVsActualsSummaryReport(
 			ClientFinanceDate start, ClientFinanceDate end);
 
 	ArrayList<ItemActualCostDetail> getItemActualCostDetail(

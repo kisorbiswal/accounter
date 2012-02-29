@@ -215,8 +215,10 @@ public class SetupWizard extends VerticalPanel {
 	private static native void showLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
 		var footer = $wnd.document.getElementById('mainFooter');
+		var appVersions = $wnd.document.getElementById('appVersions');
 		parent.style.visibility = 'visible';
 		footer.style.visibility = 'hidden';
+		appVersions.style.visibility = 'hidden';
 	}-*/;
 
 	/**

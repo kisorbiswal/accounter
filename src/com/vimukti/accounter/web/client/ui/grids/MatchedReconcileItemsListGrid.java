@@ -86,6 +86,9 @@ public class MatchedReconcileItemsListGrid extends
 	}
 
 	protected void onClick(TransactionsList obj, int row, int col) {
+		if (!Utility.isUserHavePermissions(obj.getType())) {
+			return;
+		}
 		if (col == 0) {
 			boolean isSelected = ((CheckBox) this.getWidget(row, col))
 					.getValue();

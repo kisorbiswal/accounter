@@ -42,7 +42,6 @@ import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
-import com.vimukti.accounter.web.client.ui.combo.JobCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayeeCombo;
 import com.vimukti.accounter.web.client.ui.combo.TAXCodeCombo;
@@ -205,6 +204,9 @@ public class WriteChequeView extends
 			// changeGrid(taxAgencyGrid);
 			// }
 
+		}
+		if (payee == null && selectBankAcc != null) {
+			currency = selectBankAcc.getCurrency();
 		}
 		ClientCurrency clientCurrency = getCompany().getCurrency(currency);
 		currencyWidget.setSelectedCurrency(clientCurrency);
@@ -746,8 +748,13 @@ public class WriteChequeView extends
 						selectBankAcc = selectItem;
 						balText.setAmount(selectBankAcc
 								.getTotalBalanceInAccountCurrency());
-						balText.setCurrency(getCurrency(selectItem
-								.getCurrency()));
+						ClientCurrency currency = getCurrency(selectItem
+								.getCurrency());
+						balText.setCurrency(currency);
+						if (payee == null) {
+							currencySelected(currency);
+							updateAddressAndGrid();
+						}
 					}
 
 				});
@@ -1525,8 +1532,6 @@ public class WriteChequeView extends
 		ClientCurrency payeeCurrency = getCompany().getCurrency(
 				selectItem.getCurrency());
 
-		amtText.setCurrency(payeeCurrency);
-
 		// ClientWriteCheck check = (ClientWriteCheck) this.transaction;
 
 		// FIXME Need to set transaction items.
@@ -1551,8 +1556,15 @@ public class WriteChequeView extends
 		//
 		// }
 
+		currencySelected(payeeCurrency);
+
+	}
+
+	private void currencySelected(ClientCurrency currency) {
+		amtText.setCurrency(currency);
+
 		if (currency.getID() != 0) {
-			currencyWidget.setSelectedCurrency(payeeCurrency);
+			currencyWidget.setSelectedCurrency(currency);
 		} else {
 			currencyWidget.setSelectedCurrency(getBaseCurrency());
 		}
@@ -1563,7 +1575,6 @@ public class WriteChequeView extends
 			updateAmountsFromGUI();
 			modifyForeignCurrencyTotalWidget();
 		}
-
 	}
 
 	@Override
@@ -1621,6 +1632,7 @@ public class WriteChequeView extends
 				setAmountIncludeChkValue(isAmountIncludeTAX());
 
 			}
+
 			initMemoAndReference();
 			initAccounterClass();
 		}

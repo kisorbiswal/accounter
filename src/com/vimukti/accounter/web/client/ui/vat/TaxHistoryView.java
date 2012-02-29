@@ -61,6 +61,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 					@Override
 					public void selectedComboBoxItem(String selectItem) {
 						filterList(selectItem);
+						hideButtons();
 					}
 
 				});
@@ -124,6 +125,16 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		});
 	}
 
+	protected void hideButtons() {
+		if (deleteButton != null) {
+			deleteButton.setVisible(false);
+		}
+		if (saveAndNewButton != null) {
+			saveAndNewButton.setVisible(false);
+		}
+
+	}
+
 	@Override
 	public void onSave(boolean reopen) {
 
@@ -147,7 +158,7 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 			ClientPayTAX clientPayTAX = new ClientPayTAX();
 			clientPayTAX.setTransactionPayTax(payTaxEntriesList);
 
-			ActionFactory.getpayTAXAction().run(clientPayTAX, true);
+			ActionFactory.getpayTAXAction().run(clientPayTAX, false);
 		}
 	}
 
@@ -282,6 +293,11 @@ public class TaxHistoryView extends BaseView<ClientTAXReturn> {
 		if (obj == null) {
 			deleteButton.setVisible(false);
 			return;
+		}
+		if (obj.getBalance() > 0) {
+			saveAndNewButton.setVisible(true);
+		} else {
+			saveAndNewButton.setVisible(false);
 		}
 		deleteButton.setVisible(canDelete(obj));
 	}

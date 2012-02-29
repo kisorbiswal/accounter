@@ -20,6 +20,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientActivity;
+import com.vimukti.accounter.web.client.core.ClientEmailAccount;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
@@ -27,6 +28,7 @@ import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.forms.ClickableSafeHtmlCell;
 import com.vimukti.accounter.web.client.ui.grids.columns.ClickImage;
@@ -39,6 +41,7 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 	protected AccounterMessages messages = Global.get().messages();
 	boolean addButton = true;
 	private long value;
+	private ClientTransaction trans;
 
 	public UsersActivityList() {
 		createControls();
@@ -218,7 +221,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				new ClickImage()) {
 			@Override
 			public String getValue(ClientActivity object) {
-				if (object.getObjectID() == 0) {
+				if (object.getObjectID() == 0
+						|| object.getDataType().equalsIgnoreCase(messages.vatReturn())) {
 					return null;
 				} else {
 					return "->";
@@ -313,14 +317,23 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 		case 2:
 			buffer.append(messages.added());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 3:
 			buffer.append(messages.edited());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 4:
 			buffer.append(messages.deleted());
 			buffer.append(" : ");
+			if (activity.getObjStatus() == ClientTransaction.STATUS_DRAFT) {
+				buffer.append("( " + messages.draft() + " ) ");
+			}
 			return buffer.toString();
 		case 5:
 			return messages.updatedPreferences();
@@ -365,6 +378,20 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			if (userById == null)
 				return;
 		}
+		if (object.getDataType().equals("EmailAccount")) {
+			List<ClientEmailAccount> emailAccounts = Accounter.getCompany()
+					.getEmailAccounts();
+			for (ClientEmailAccount clientEmailAccount : emailAccounts) {
+				if (clientEmailAccount.getEmailId().equals(object.getName())) {
+					EmailAccountDialog dialog = new EmailAccountDialog(
+							clientEmailAccount);
+					dialog.setCallback(getActionCallBack());
+					dialog.center();
+					break;
+				}
+			}
+			return;
+		}
 		if (object.getActivityType() == ClientActivity.VOIDED) {
 			return;
 		}
@@ -374,6 +401,21 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 			ReportsRPC.openTransactionView(object.getObjType(),
 					object.getObjectID());
 		}
+
+	}
+
+	private ActionCallback<ClientEmailAccount> getActionCallBack() {
+		ActionCallback<ClientEmailAccount> callBack = new ActionCallback<ClientEmailAccount>() {
+
+			@Override
+			public void actionResult(ClientEmailAccount result) {
+				refreshData();
+			}
+		};
+		return callBack;
+	}
+
+	public void refreshData() {
 
 	}
 

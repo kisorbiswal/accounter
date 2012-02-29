@@ -38,7 +38,7 @@ public class BalanceSheetReportCommand extends
 
 			@Override
 			protected String onSelection(TrialBalance selection, String name) {
-				return "Transaction Detail By Account ,"
+				return "transactionDetailByAccount ,"
 						+ selection.getAccountNumber();
 			}
 
@@ -108,7 +108,12 @@ public class BalanceSheetReportCommand extends
 	private Record createReportRecord(TrialBalance record) {
 		Record trialRecord = new Record(record);
 		trialRecord.add(getMessages().accountName(), record.getAccountName());
-		trialRecord.add(getStartDate() + "-" + getEndDate(),
+		trialRecord.add(
+				getDateByCompanyType(getStartDate().toClientFinanceDate(),
+						getPreferences())
+						+ "-"
+						+ getDateByCompanyType(getEndDate()
+								.toClientFinanceDate(), getPreferences()),
 				getAmountWithCurrency(record.getAmount()));
 		return trialRecord;
 	}

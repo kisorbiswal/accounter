@@ -51,12 +51,9 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.receiptFrom(),
-				messages.receiptDate(),
-				messages.dateEntered(),
-				messages.status(), messages.amount() };
+		return new String[] { messages.receiptFrom(), messages.receiptDate(),
+				messages.dateEntered(), messages.status(), messages.amount() };
 	}
-
 
 	/**
 	 * THIS METHOD DID N'T USED ANY WHERE IN THE PROJECT.
@@ -105,8 +102,11 @@ public class ExpenseClaimGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList billsList) {
-		ReportsRPC.openTransactionView(billsList.getType(),
-				billsList.getTransactionId());
+		if (isCanOpenTransactionView(billsList.getSaveStatus(),
+				billsList.getType())) {
+			ReportsRPC.openTransactionView(billsList.getType(),
+					billsList.getTransactionId());
+		}
 	}
 
 }

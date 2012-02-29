@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -149,6 +150,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 		VerticalPanel verticalPanel = new VerticalPanel();
 		readOnly = new RadioButton("permissions", messages.readOnly()
 				+ messages.readOnlyDesc());
+		readOnly.setValue(true);
 		custom = new RadioButton("permissions", messages.custom());
 		admin = new RadioButton("permissions", messages.admin()
 				+ messages.adminDesc());
@@ -183,10 +185,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (getData() == null) {
 			setData(new ClientUserInfo());
 		}
+		super.initData();
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
 		emailField.setEmail(data.getEmail());
@@ -656,4 +658,29 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	protected boolean canVoid() {
 		return false;
 	}
+
+	@Override
+	protected boolean canDelete() {
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()
+				&& (data == null ? true : !data.isAdmin()
+						&& !data.getUserRole().equals(
+								RolePermissions.FINANCIAL_ADVISER))) {
+			super.canDelete();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canEdit() {
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()
+				&& (data == null ? true : !data.isAdmin()
+						&& !data.getUserRole().equals(
+								RolePermissions.FINANCIAL_ADVISER))) {
+			return super.canEdit();
+		}
+		return false;
+	}
+
 }

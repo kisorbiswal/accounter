@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vimukti.accounter.core.Currency;
+import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Utility;
 import com.vimukti.accounter.mobile.CommandList;
 import com.vimukti.accounter.mobile.Context;
@@ -88,11 +89,17 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 			@Override
 			protected Record createRecord(PaymentsList p) {
 				Record payment = new Record(p);
-				payment.add(getMessages().paymentDate(), p.getPaymentDate());
+				payment.add(
+						getMessages().paymentDate(),
+						getDateByCompanyType(p.getPaymentDate(),
+								getPreferences()));
 				payment.add(getMessages().paymentNo(), p.getPaymentNumber());
 				payment.add(getMessages().status(),
 						Utility.getStatus(p.getType(), p.getStatus()));
-				payment.add(getMessages().issueDate(), p.getIssuedDate());
+				payment.add(
+						getMessages().issueDate(),
+						getDateByCompanyType(p.getIssuedDate(),
+								getPreferences()));
 				payment.add(getMessages().name(), p.getName());
 				payment.add(getMessages().transactionName(),
 						Utility.getTransactionName(p.getType()));
@@ -105,7 +112,7 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 								p.getCurrency());
 				payment.add(
 						getMessages().amountPaid(),
-						Global.get().toCurrencyFormat(p.getAmountPaid(),
+						getAmountWithCurrency(p.getAmountPaid(),
 								currency.getSymbol()));
 				return payment;
 			}
@@ -152,11 +159,12 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 				paymentsLists = tool.getVendorManager().getVendorPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
 						getEndDate().getDate(), 0, -1,
-						getViewByList().indexOf(currentView) + 1);
+						checkViewType(currentView));
 			} else {
 				paymentsLists = tool.getCustomerManager().getPaymentsList(
 						context.getCompany().getId(), getStartDate().getDate(),
-						getEndDate().getDate(), 0, -1, 0);
+						getEndDate().getDate(), 0, -1,
+						checkViewType(currentView));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -189,6 +197,19 @@ public class VendorPaymentsCommand extends AbstractTransactionListCommand {
 		}
 		return null;
 
+	}
+
+	private int checkViewType(String viewSelect) {
+		if (viewSelect.equalsIgnoreCase(getMessages().notIssued())) {
+			return Transaction.STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().issued())) {
+			return Transaction.STATUS_PAID_OR_APPLIED_OR_ISSUED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().voided())) {
+			return Transaction.VIEW_VOIDED;
+		} else if (viewSelect.equalsIgnoreCase(getMessages().all())) {
+			return TYPE_ALL;
+		}
+		return TYPE_ALL;
 	}
 
 	@Override

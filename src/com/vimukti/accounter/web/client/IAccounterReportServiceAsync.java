@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
 import com.vimukti.accounter.web.client.core.reports.ClientBudgetList;
@@ -31,7 +32,6 @@ import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
-import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
@@ -164,30 +164,30 @@ public interface IAccounterReportServiceAsync {
 			final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesTaxLiability>> callBack);
 
-	public void getSalesByCustomerDetailReport(String customerName,
+	public void getSalesByCustomerDetailReport(long id,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getSalesByItemDetail(String itemName,
+	public void getSalesByItemDetail(long itemId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate,
+			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
+
+	public void getPurchasesByVendorDetail(long vendorId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByVendorDetail(String vendorName,
+	public void getPurchasesByItemDetail(long itemId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
 
-	public void getPurchasesByItemDetail(String itemName,
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<SalesByCustomerDetail>> callBack);
-
-	public void getTransactionDetailByAccount(String accountName,
+	public void getTransactionDetailByAccount(long accountId,
 			final ClientFinanceDate startDate, final ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callBack);
 
 	void getMinimumAndMaximumTransactionDate(
 			AsyncCallback<ArrayList<ClientFinanceDate>> callBack);
 
-	public void getTransactionDetailByTaxItem(String taxItemname,
+	public void getTransactionDetailByTaxItem(long taxItemId,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TransactionDetailByTaxItem>> callBackResult);
 
@@ -224,45 +224,45 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-	public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getPurchaseOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCompletedOrderReport(ClientFinanceDate startDate,
+	// public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	// public void getSalesOpenOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+
+	public void getSalesOrderReport(int type, ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
-	public void getPurchaseCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getPurchaseClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOpenOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCompletedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
-
-	public void getSalesClosedOrderReport(ClientFinanceDate startDate,
-			ClientFinanceDate endDate,
-			AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	// public void getSalesCancelledOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
+	//
+	// public void getSalesClosedOrderReport(ClientFinanceDate startDate,
+	// ClientFinanceDate endDate,
+	// AsyncCallback<ArrayList<OpenAndClosedOrders>> callBack);
 
 	void getPriorVATReturnVATDetailReport(ClientFinanceDate startDate,
 			ClientFinanceDate endDate,
@@ -425,8 +425,8 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate end,
 			AsyncCallback<ArrayList<TransactionDetailByAccount>> callback);
 
-	public void getReconciliationDiscrepancy(ClientFinanceDate start,
-			ClientFinanceDate end,
+	public void getReconciliationDiscrepancy(long accountId,
+			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
 
 	public void getEstimatesByJob(ClientFinanceDate start,
@@ -447,22 +447,24 @@ public interface IAccounterReportServiceAsync {
 
 			AsyncCallback<ArrayList<UnbilledCostsByJob>> callBack);
 
-	public void getJobEstimatesVsActualsSummaryReport(
-			ClientFinanceDate start,
-			ClientFinanceDate end,
-			AsyncCallback<ArrayList<JobEstimatesVsActualsSummary>> jobEstimatesVsActualsSummaryReport);
-
 	public void getItemActualCostDetail(
 			ClientFinanceDate start,
 			ClientFinanceDate end,
 			long itemId,
-			long customerId, long jobId, boolean isActualcostDetail,
+			long customerId,
+			long jobId,
+			boolean isActualcostDetail,
 			AsyncCallback<ArrayList<ItemActualCostDetail>> itemActualCostDetailReport);
 
-	public void getJobProfitabilityDetailByJobReport(long payeeId, long jobId,
-			ClientFinanceDate start, ClientFinanceDate end,
+	public void getJobProfitabilityDetailByJobReport(
+			long payeeId,
+			long jobId,
+			ClientFinanceDate start,
+			ClientFinanceDate end,
 			AsyncCallback<ArrayList<JobProfitabilityDetailByJob>> itemActualCostDetailReport);
-	
-	
+
+	public void getBankCheckDetils(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<BankCheckDetail>> callback);
 
 }

@@ -21,7 +21,6 @@ import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
-import com.vimukti.accounter.web.client.core.ClientItemReceipt;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
 import com.vimukti.accounter.web.client.core.ClientPurchaseOrder;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
@@ -42,6 +41,7 @@ import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
 import com.vimukti.accounter.web.client.ui.core.DateField;
 import com.vimukti.accounter.web.client.ui.core.EditMode;
 import com.vimukti.accounter.web.client.ui.core.TaxItemsForm;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionsTree;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransactionTable;
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
@@ -63,14 +63,9 @@ public class VendorBillView extends
 	private AmountLabel netAmount;
 
 	private DynamicForm vendorForm;
-	private VendorBillListDialog dialog;
 	private Double balanceDue = 0.0;
 
-	private long selectedPurchaseOrder;
-	private long selectedItemReceipt;
-
 	private ArrayList<DynamicForm> listforms;
-	private ArrayList<ClientTransaction> selectedOrdersAndItemReceipts;
 	protected VendorAccountTransactionTable vendorAccountTransactionTable;
 	protected VendorItemTransactionTable vendorItemTransactionTable;
 	private AddNewButton accountTableButton, itemTableButton;
@@ -79,6 +74,8 @@ public class VendorBillView extends
 
 	// private WarehouseAllocationTable inventoryTransactionTable;
 	// private DisclosurePanel inventoryDisclosurePanel;
+
+	TransactionsTree<PurchaseOrdersAndItemReceiptsList> transactionsTree;
 
 	private VendorBillView() {
 		super(ClientTransaction.TYPE_ENTER_BILL);
@@ -146,6 +143,7 @@ public class VendorBillView extends
 			ClientVendor vendor = getCompany().getVendor(
 					transaction.getVendor());
 			vendorCombo.setValue(vendor);
+			this.vendor = vendor;
 			billToaddressSelected(transaction.getVendorAddress());
 			selectedVendor(vendor);
 			contactSelected(transaction.getContact());
@@ -259,10 +257,10 @@ public class VendorBillView extends
 
 	public void selectedVendor(ClientVendor vendor) {
 		updatePurchaseOrderOrItemReceipt(vendor);
-
+		if (!transaction.isTemplate()) {
+			getPurchaseOrdersAndItemReceipt();
+		}
 		super.vendorSelected(vendor);
-
-		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (isInViewMode() && this.selectedPaymentTerm != null)
 			paymentTermSelected(selectedPaymentTerm);
 	}
@@ -272,18 +270,15 @@ public class VendorBillView extends
 		if (vendor == null) {
 			return;
 		}
+		transactionsTree.clear();
 		updatePurchaseOrderOrItemReceipt(vendor);
 
 		super.vendorSelected(vendor);
 		if (transaction == null)
 			vendorAccountTransactionTable.resetRecords();
 
-		selectedOrdersAndItemReceipts = new ArrayList<ClientTransaction>();
 		if (!(isInViewMode() && vendor.getID() == transaction.getVendor()))
 			setPaymentTermsCombo(vendor);
-		if (transaction.getID() == 0) {
-			getPurchaseOrdersAndItemReceipt();
-		}
 
 		long currency = vendor.getCurrency();
 		if (currency != 0) {
@@ -307,12 +302,12 @@ public class VendorBillView extends
 			setCurrencyFactor(currencyWidget.getCurrencyFactor());
 			updateAmountsFromGUI();
 		}
+		getPurchaseOrdersAndItemReceipt();
 	}
 
 	private void updatePurchaseOrderOrItemReceipt(ClientVendor vendor) {
 		if (this.getVendor() != null && this.getVendor() != vendor) {
 			ClientEnterBill ent = this.transaction;
-
 			if (ent != null && ent.getVendor() == vendor.getID()) {
 				this.vendorAccountTransactionTable
 						.setRecords(getAccountTransactionItems(ent
@@ -320,18 +315,12 @@ public class VendorBillView extends
 				this.vendorItemTransactionTable
 						.setRecords(getItemTransactionItems(ent
 								.getTransactionItems()));
-				selectedPurchaseOrder = ent.getPurchaseOrder();
-				selectedItemReceipt = ent.getItemReceipt();
 			} else if (ent != null && ent.getVendor() != vendor.getID()) {
 				this.vendorAccountTransactionTable.resetRecords();
 				this.vendorAccountTransactionTable.updateTotals();
 				this.vendorItemTransactionTable.updateTotals();
-
-				selectedPurchaseOrder = 0;
-				selectedItemReceipt = 0;
 			}
 		}
-
 	}
 
 	private void setPaymentTermsCombo(ClientVendor vendor) {
@@ -535,6 +524,27 @@ public class VendorBillView extends
 		balanceDueNonEditableText.setDisabled(true);
 		balanceDueNonEditableText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + " 0.00");
+
+		transactionsTree = new TransactionsTree<PurchaseOrdersAndItemReceiptsList>(
+				this) {
+			@Override
+			public void updateTransactionTotal() {
+				if (currencyWidget != null) {
+					setCurrencyFactor(currencyWidget.getCurrencyFactor());
+				}
+				VendorBillView.this.updateNonEditableItems();
+			}
+
+			@Override
+			public void setTransactionDate(ClientFinanceDate transactionDate) {
+				VendorBillView.this.setTransactionDate(transactionDate);
+			}
+
+			@Override
+			public boolean isinViewMode() {
+				return !(VendorBillView.this.isInViewMode());
+			}
+		};
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
@@ -787,8 +797,6 @@ public class VendorBillView extends
 		bottomLayout.add(memoForm);
 		bottomLayout.add(taxPanel);
 		bottomLayout.setCellWidth(totalForm, "30%");
-		bottompanel.add(vpanel);
-		bottompanel.add(verticalPanel);
 
 		bottompanel.add(bottomLayout);
 
@@ -838,8 +846,9 @@ public class VendorBillView extends
 		mainVLay.add(voidedPanel);
 		mainVLay.setSize("100%", "100%");
 		mainVLay.add(labeldateNoLayout);
-		mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
+		// mainVLay.setCellHorizontalAlignment(topHLay, ALIGN_RIGHT);
 		mainVLay.add(topHLay);
+		mainVLay.add(transactionsTree);
 		mainVLay.add(accountsDisclosurePanel);
 		mainVLay.add(itemsDisclosurePanel);
 		mainVLay.add(bottompanel);
@@ -962,7 +971,8 @@ public class VendorBillView extends
 
 		// Setting Total
 		transaction.setTotal(vendorAccountTransactionTable.getGrandTotal()
-				+ vendorItemTransactionTable.getGrandTotal());
+				+ vendorItemTransactionTable.getGrandTotal()
+				+ transactionsTree.getGrandTotal());
 
 		// Setting Memo
 		transaction.setMemo(getMemoTextAreaItem());
@@ -973,16 +983,18 @@ public class VendorBillView extends
 				transactionDateItem.getEnteredDate(), selectedPaymentTerm);
 		transaction.setDiscountDate(discountDate.getDate());
 
-		if (selectedItemReceipt != 0)
-			transaction.setItemReceipt(selectedItemReceipt);
-
-		if (selectedPurchaseOrder != 0)
-			transaction.setPurchaseOrder(selectedPurchaseOrder);
-
-		if (isTrackTax()) {
-			transaction.setNetAmount(netAmount.getAmount());
-			setAmountIncludeTAX();
+		List<ClientTransaction> selectedRecords = transactionsTree
+				.getSelectedRecords();
+		List<ClientPurchaseOrder> orders = new ArrayList<ClientPurchaseOrder>();
+		for (ClientTransaction clientTransaction : selectedRecords) {
+			if (clientTransaction instanceof ClientPurchaseOrder) {
+				orders.add((ClientPurchaseOrder) clientTransaction);
+			}
 		}
+		transaction.setPurchaseOrders(orders);
+
+		transaction.setNetAmount(netAmount.getAmount());
+		setAmountIncludeTAX();
 
 		if (isTrackDiscounts()) {
 			if (discountField.getAmount() != 0.0 && transactionItems != null) {
@@ -1023,9 +1035,11 @@ public class VendorBillView extends
 		}
 
 		double lineTotal = vendorAccountTransactionTable.getLineTotal()
-				+ vendorItemTransactionTable.getLineTotal();
+				+ vendorItemTransactionTable.getLineTotal()
+				+ transactionsTree.getLineTotal();
 		double grandTotal = vendorAccountTransactionTable.getGrandTotal()
-				+ vendorItemTransactionTable.getGrandTotal();
+				+ vendorItemTransactionTable.getGrandTotal()
+				+ transactionsTree.getGrandTotal();
 
 		transactionTotalNonEditableText
 				.setAmount(getAmountInBaseCurrency(grandTotal));
@@ -1034,6 +1048,17 @@ public class VendorBillView extends
 
 		netAmount.setAmount(lineTotal);
 		if (isTrackTax()) {
+			List<ClientTransaction> selectedRecords = transactionsTree
+					.getSelectedRecords();
+			if (!isInViewMode()) {
+				List<ClientPurchaseOrder> orders = new ArrayList<ClientPurchaseOrder>();
+				for (ClientTransaction clientTransaction : selectedRecords) {
+					if (clientTransaction instanceof ClientPurchaseOrder) {
+						orders.add((ClientPurchaseOrder) clientTransaction);
+					}
+				}
+				transaction.setPurchaseOrders(orders);
+			}
 			if (transaction.getTransactionItems() != null && !isInViewMode()) {
 				transaction.setTransactionItems(vendorAccountTransactionTable
 						.getAllRows());
@@ -1082,13 +1107,58 @@ public class VendorBillView extends
 					messages.the() + " " + messages.dueDate() + " " + " "
 							+ messages.cannotbeearlierthantransactiondate());
 		}
-		if (getAllTransactionItems().isEmpty()) {
-			result.addError(vendorAccountTransactionTable,
-					messages.blankTransaction());
-		} else {
+
+		boolean isSelected = transactionsTree.validateTree();
+		if (!isSelected) {
+			if (transaction.getTotal() <= 0
+					&& vendorAccountTransactionTable.isEmpty()
+					&& vendorItemTransactionTable.isEmpty()) {
+				result.addError(this,
+						messages.transactiontotalcannotbe0orlessthan0());
+			}
 			result.add(vendorAccountTransactionTable.validateGrid());
 			result.add(vendorItemTransactionTable.validateGrid());
+		} else {
+			boolean hasTransactionItems = false;
+			for (ClientTransactionItem clientTransactionItem : getAllTransactionItems()) {
+				if (clientTransactionItem.getAccount() != 0
+						|| clientTransactionItem.getItem() != 0) {
+					hasTransactionItems = true;
+					continue;
+				}
+			}
+			if (hasTransactionItems) {
+				result.add(vendorAccountTransactionTable.validateGrid());
+				result.add(vendorItemTransactionTable.validateGrid());
+			} else {
+				transaction
+						.setTransactionItems(new ArrayList<ClientTransactionItem>());
+			}
 		}
+		if (!isSelected && isTrackTax() && isTrackPaidTax()
+				&& !isTaxPerDetailLine()) {
+			if (taxCodeSelect != null
+					&& taxCodeSelect.getSelectedValue() == null) {
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
+			}
+		} else if (isSelected && isTrackTax() && isTrackPaidTax()
+				&& !isTaxPerDetailLine()
+				&& !transaction.getTransactionItems().isEmpty()) {
+			if (taxCodeSelect != null
+					&& taxCodeSelect.getSelectedValue() == null) {
+				result.addError(taxCodeSelect,
+						messages.pleaseSelect(messages.taxCode()));
+			}
+		}
+
+		// if (getAllTransactionItems().isEmpty()) {
+		// result.addError(vendorAccountTransactionTable,
+		// messages.blankTransaction());
+		// } else {
+		// result.add(vendorAccountTransactionTable.validateGrid());
+		// result.add(vendorItemTransactionTable.validateGrid());
+		// }
 		return result;
 	}
 
@@ -1115,18 +1185,13 @@ public class VendorBillView extends
 	}
 
 	protected void getPurchaseOrdersAndItemReceipt() {
-
-		if (this.rpcUtilService == null)
+		if (this.rpcUtilService == null
+				|| !getPreferences().isPurchaseOrderEnabled())
 			return;
 		if (getVendor() == null) {
 			Accounter.showError(messages.pleaseSelectThePayee(Global.get()
 					.Vendor()));
 		} else {
-
-			if (dialog != null && dialog.preVendor != null
-					&& dialog.preVendor == this.getVendor()) {
-				return;
-			}
 			AccounterAsyncCallback<ArrayList<PurchaseOrdersAndItemReceiptsList>> callback = new AccounterAsyncCallback<ArrayList<PurchaseOrdersAndItemReceiptsList>>() {
 
 				@Override
@@ -1141,15 +1206,53 @@ public class VendorBillView extends
 				@Override
 				public void onResultSuccess(
 						ArrayList<PurchaseOrdersAndItemReceiptsList> result) {
-					if (result == null)
+					if (result == null) {
 						onFailure(new Exception());
-
-					if (result.size() > 0) {
-						showPurchaseDialog(result);
 					} else {
-						onException(new AccounterException());
-					}
+						List<ClientPurchaseOrder> salesAndEstimates = transaction
+								.getPurchaseOrders();
+						if (transaction.getID() != 0 && !result.isEmpty()) {
+							ArrayList<PurchaseOrdersAndItemReceiptsList> estimatesList = new ArrayList<PurchaseOrdersAndItemReceiptsList>();
+							ArrayList<ClientTransaction> notAvailableEstimates = new ArrayList<ClientTransaction>();
 
+							for (ClientTransaction clientTransaction : salesAndEstimates) {
+								boolean isThere = false;
+								for (PurchaseOrdersAndItemReceiptsList estimatesalesorderlist : result) {
+									if (estimatesalesorderlist
+											.getTransactionId() == clientTransaction
+											.getID()) {
+										estimatesList
+												.add(estimatesalesorderlist);
+										isThere = true;
+									}
+								}
+								if (!isThere) {
+									notAvailableEstimates
+											.add(clientTransaction);
+								}
+							}
+
+							if (transaction.isDraft()) {
+								for (ClientTransaction clientTransaction : notAvailableEstimates) {
+									salesAndEstimates.remove(clientTransaction);
+								}
+							}
+
+							for (PurchaseOrdersAndItemReceiptsList estimatesAndSalesOrdersList : estimatesList) {
+								result.remove(estimatesAndSalesOrdersList);
+							}
+						}
+						transactionsTree.setAllrows(result,
+								transaction.getID() == 0 ? true
+										: salesAndEstimates.isEmpty());
+						if (transaction.getPurchaseOrders() != null) {
+							transactionsTree
+									.setRecords(new ArrayList<ClientTransaction>(
+											transaction.getPurchaseOrders()));
+						}
+						transactionsTree.setEnabled(!isInViewMode());
+						refreshTransactionGrid();
+					}
 				}
 			};
 
@@ -1162,129 +1265,6 @@ public class VendorBillView extends
 		// else
 		// new VendorBillListDialog(this).show();
 
-	}
-
-	protected void showPurchaseDialog(
-			List<PurchaseOrdersAndItemReceiptsList> result) {
-		if (result == null)
-			return;
-		List<PurchaseOrdersAndItemReceiptsList> filteredList = new ArrayList<PurchaseOrdersAndItemReceiptsList>();
-		filteredList.addAll(result);
-
-		for (PurchaseOrdersAndItemReceiptsList record : result) {
-			for (ClientTransaction transaction : selectedOrdersAndItemReceipts) {
-				if (transaction.getID() == record.getTransactionId())
-					filteredList.remove(record);
-			}
-		}
-		if (filteredList.size() > 0) {
-			if (dialog != null) {
-				dialog.setQuoteList(filteredList);
-			} else
-				dialog = new VendorBillListDialog(this, filteredList);
-
-			dialog.show();
-		}
-
-	}
-
-	public void selectedPurchaseOrder(ClientPurchaseOrder purchaseOrder) {
-		if (purchaseOrder == null)
-			return;
-		for (ClientTransactionItem record : this.vendorAccountTransactionTable
-				.getRecords()) {
-			for (ClientTransactionItem salesRecord : purchaseOrder
-					.getTransactionItems())
-				if (record.getReferringTransactionItem() == salesRecord.getID())
-					vendorAccountTransactionTable.delete(record);
-
-		}
-		for (ClientTransactionItem record : this.vendorItemTransactionTable
-				.getRecords()) {
-			for (ClientTransactionItem salesRecord : purchaseOrder
-					.getTransactionItems())
-				if (record.getReferringTransactionItem() == salesRecord.getID())
-					vendorItemTransactionTable.delete(record);
-
-		}
-		// if (dialog.preCustomer == null || dialog.preCustomer !=
-		// this.customer) {
-		// dialog.preCustomer = this.customer;
-		// } else {
-		// return;
-		// }
-
-		if (selectedOrdersAndItemReceipts != null)
-			selectedOrdersAndItemReceipts.add(purchaseOrder);
-
-		List<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
-		selectedOrdersAndItemReceipts.add(purchaseOrder);
-
-		for (ClientTransactionItem item : purchaseOrder.getTransactionItems()) {
-			if (item.getLineTotal() - item.getInvoiced() <= 0) {
-				continue;
-			}
-			ClientTransactionItem clientItem = new ClientTransactionItem();
-			clientItem.setType(item.getType());
-			clientItem.setDescription(item.getDescription());
-			clientItem.setTaxCode(item.getTaxCode());
-			clientItem.setReferringTransactionItem(item.getID());
-			clientItem.setAccount(item.getAccount());
-			clientItem.setItem(item.getItem());
-			clientItem.setQuantity(item.getQuantity());
-			clientItem.setUnitPrice(item.getUnitPrice());
-			clientItem.setDiscount(item.getDiscount());
-			clientItem.setLineTotal(item.getLineTotal() - item.getInvoiced());
-			clientItem.setVATfraction(item.getVATfraction());
-			clientItem.setVatItem(item.getVatItem());
-			clientItem.setTaxable(item.isTaxable());
-
-			itemsList.add(clientItem);
-
-		}
-
-		selectedPurchaseOrder = purchaseOrder.getID();
-		vendorAccountTransactionTable
-				.setAllRows(getAccountTransactionItems(itemsList));
-		vendorItemTransactionTable
-				.setAllRows(getItemTransactionItems(itemsList));
-		vendorAccountTransactionTable.updateTotals();
-		vendorItemTransactionTable.updateTotals();
-	}
-
-	public void selectedItemReceipt(ClientItemReceipt itemReceipt) {
-
-		List<ClientTransactionItem> itemsList = new ArrayList<ClientTransactionItem>();
-		selectedOrdersAndItemReceipts.add(itemReceipt);
-
-		for (ClientTransactionItem item : itemReceipt.getTransactionItems()) {
-
-			ClientTransactionItem clientItem = new ClientTransactionItem();
-
-			clientItem.setType(item.getType());
-			clientItem.setQuantity(item.getQuantity());
-			clientItem.setDescription(item.getDescription());
-			clientItem.setReferringTransactionItem(item.getID());
-			clientItem.setUnitPrice(item.getUnitPrice());
-			clientItem.setDiscount(item.getDiscount());
-			clientItem.setLineTotal(item.getLineTotal() - item.getInvoiced());
-			clientItem.setTaxable(item.isTaxable());
-			clientItem.setAccount(item.getAccount());
-			clientItem.setItem(item.getItem());
-			clientItem.setVatItem(item.getVatItem());
-			clientItem.setTaxCode(item.getTaxCode());
-			clientItem.setVATfraction(item.getVATfraction());
-
-			itemsList.add(clientItem);
-
-		}
-
-		selectedItemReceipt = itemReceipt.getID();
-
-		vendorAccountTransactionTable
-				.setAllRows(getAccountTransactionItems(itemsList));
-		vendorItemTransactionTable
-				.setAllRows(getItemTransactionItems(itemsList));
 	}
 
 	@Override
@@ -1375,6 +1355,7 @@ public class VendorBillView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		transactionsTree.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 
@@ -1441,6 +1422,7 @@ public class VendorBillView extends
 	protected void refreshTransactionGrid() {
 		vendorAccountTransactionTable.updateTotals();
 		vendorItemTransactionTable.updateTotals();
+		transactionsTree.updateTransactionTreeItemTotals();
 	}
 
 	@Override
@@ -1472,15 +1454,19 @@ public class VendorBillView extends
 	@Override
 	protected void addAccountTransactionItem(ClientTransactionItem item) {
 		vendorAccountTransactionTable.add(item);
-		vendorAccountTransactionTable.setTaxCode(taxCodeSelect
-				.getSelectedValue().getID(), true);
+		if (taxCodeSelect.getSelectedValue() != null) {
+			vendorAccountTransactionTable.setTaxCode(taxCodeSelect
+					.getSelectedValue().getID(), true);
+		}
 	}
 
 	@Override
 	protected void addItemTransactionItem(ClientTransactionItem item) {
 		vendorItemTransactionTable.add(item);
-		vendorItemTransactionTable.setTaxCode(taxCodeSelect.getSelectedValue()
-				.getID(), true);
+		if (taxCodeSelect != null && taxCodeSelect.getSelectedValue() != null) {
+			vendorItemTransactionTable.setTaxCode(taxCodeSelect
+					.getSelectedValue().getID(), true);
+		}
 	}
 
 	@Override

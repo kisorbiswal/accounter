@@ -1,6 +1,8 @@
 package com.vimukti.accounter.core;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
@@ -46,6 +48,8 @@ public class TAXItem extends TAXItemGroup {
 	 * transaction.
 	 */
 	VATReturnBox vatReturnBox;
+
+	private Set<TAXGroup> groups = new HashSet<TAXGroup>();
 
 	public TAXItem() {
 	}
@@ -199,6 +203,15 @@ public class TAXItem extends TAXItemGroup {
 				.setParameter("companyId", getCompany().getID())
 				.setParameter("purchaseTaxRate", this.taxRate).executeUpdate();
 
+		for (TAXGroup group : getGroups()) {
+			double groupRate = 0.00D;
+			for (TAXItem item : group.getTAXItems()) {
+				groupRate = groupRate + item.getTaxRate();
+			}
+			group.setGroupRate(groupRate);
+			ChangeTracker.put(group);
+		}
+
 		super.onSave(session);
 		// ChangeTracker.put(this);
 		return false;
@@ -237,6 +250,21 @@ public class TAXItem extends TAXItemGroup {
 	@Override
 	public int getObjType() {
 		return IAccounterCore.TAXITEM;
+	}
+
+	/**
+	 * @return the groups
+	 */
+	public Set<TAXGroup> getGroups() {
+		return groups;
+	}
+
+	/**
+	 * @param groups
+	 *            the groups to set
+	 */
+	public void setGroups(Set<TAXGroup> groups) {
+		this.groups = groups;
 	}
 
 }

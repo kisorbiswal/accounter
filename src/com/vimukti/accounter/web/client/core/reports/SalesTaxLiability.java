@@ -13,6 +13,8 @@ public class SalesTaxLiability extends BaseReport implements IsSerializable,
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private long taxItemId;
+
 	String taxAgencyName;
 
 	String taxItemName;
@@ -181,5 +183,13 @@ public class SalesTaxLiability extends BaseReport implements IsSerializable,
 						st.beginningBalance))
 			return true;
 		return false;
+	}
+
+	public long getTaxItemId() {
+		return taxItemId;
+	}
+
+	public void setTaxItemId(long taxItemId) {
+		this.taxItemId = taxItemId;
 	}
 }

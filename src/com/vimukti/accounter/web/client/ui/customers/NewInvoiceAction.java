@@ -21,13 +21,11 @@ public class NewInvoiceAction extends Action<ClientInvoice> {
 
 	public NewInvoiceAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public NewInvoiceAction(ClientInvoice invoice,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -52,6 +50,10 @@ public class NewInvoiceAction extends Action<ClientInvoice> {
 	// // NOTHING TO DO.
 	// return null;
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
 
 	public ImageResource getBigImage() {
 		// NOTHING TO DO.

@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.StringListRequirement;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.server.FinanceTool;
 
@@ -70,8 +71,10 @@ public class PurchaseOpenOrderReportCommand extends
 	protected Record createReportRecord(OpenAndClosedOrders record) {
 		Record openRecord = new Record(record);
 		if (record.getTransactionDate() != null)
-			openRecord.add(getMessages().orderDate(),
-					record.getTransactionDate());
+			openRecord.add(
+					getMessages().orderDate(),
+					getDateByCompanyType(record.getTransactionDate(),
+							getPreferences()));
 		else
 			openRecord.add("", "");
 		openRecord.add(getMessages().payeeName(Global.get().Vendor()),
@@ -92,20 +95,20 @@ public class PurchaseOpenOrderReportCommand extends
 		try {
 			if (status == 4) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getPurchaseOrders(getStartDate(), getEndDate(),
+						.getPurchaseOrders(-1, getStartDate(), getEndDate(),
 								getCompanyId());
 			} else if (status == 1) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getOpenPurchaseOrders(getStartDate(), getEndDate(),
-								getCompanyId());
+						.getPurchaseOrders(ClientTransaction.STATUS_OPEN,
+								getStartDate(), getEndDate(), getCompanyId());
 			} else if (status == 2) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getCompletedPurchaseOrders(getStartDate(),
-								getEndDate(), getCompanyId());
+						.getPurchaseOrders(ClientTransaction.STATUS_COMPLETED,
+								getStartDate(), getEndDate(), getCompanyId());
 			} else if (status == 3) {
 				openAndClosedOrders = new FinanceTool().getPurchageManager()
-						.getCanceledPurchaseOrders(getStartDate(),
-								getEndDate(), getCompanyId());
+						.getPurchaseOrders(ClientTransaction.STATUS_CANCELLED,
+								getStartDate(), getEndDate(), getCompanyId());
 			}
 
 		} catch (Exception e) {

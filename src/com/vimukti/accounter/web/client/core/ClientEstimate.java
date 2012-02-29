@@ -53,10 +53,17 @@ public class ClientEstimate extends ClientTransaction {
 
 	double taxTotal;
 
-	boolean isTurnedToInvoice = false;
-	private int transactionType;
+	// boolean isTurnedToInvoice = false;
 
 	private long usedInvoice;
+
+	private String customerOrderNumber;
+
+	private long shippingTerm;
+
+	private long shippingMethod;
+
+	private long dueDate;
 
 	/**
 	 * @return the version
@@ -194,9 +201,9 @@ public class ClientEstimate extends ClientTransaction {
 	 * @param isTurnedToInvoice
 	 *            the isTurnedToInvoice to set
 	 */
-	public void setTurnedToInvoice(boolean isTurnedToInvoice) {
-		this.isTurnedToInvoice = isTurnedToInvoice;
-	}
+	// public void setTurnedToInvoice(boolean isTurnedToInvoice) {
+	// this.isTurnedToInvoice = isTurnedToInvoice;
+	// }
 
 	/**
 	 * @return the salesTax
@@ -208,17 +215,17 @@ public class ClientEstimate extends ClientTransaction {
 	/**
 	 * @return the isTurnedToInvoice
 	 */
-	public Boolean getIsTurnedToInvoice() {
-		return isTurnedToInvoice;
-	}
-
-	/**
-	 * @param isTurnedToInvoice
-	 *            the isTurnedToInvoice to set
-	 */
-	public void setIsTurnedToInvoice(Boolean isTurnedToInvoice) {
-		this.isTurnedToInvoice = isTurnedToInvoice;
-	}
+	// public Boolean getIsTurnedToInvoice() {
+	// return isTurnedToInvoice;
+	// }
+	//
+	// /**
+	// * @param isTurnedToInvoice
+	// * the isTurnedToInvoice to set
+	// */
+	// public void setIsTurnedToInvoice(Boolean isTurnedToInvoice) {
+	// this.isTurnedToInvoice = isTurnedToInvoice;
+	// }
 
 	/**
 	 * @return the shippingAdress
@@ -305,14 +312,6 @@ public class ClientEstimate extends ClientTransaction {
 		return clientEstimateClone;
 	}
 
-	public int getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(int transactionType) {
-		this.transactionType = transactionType;
-	}
-
 	public int getEstimateType() {
 		return estimateType;
 	}
@@ -334,6 +333,38 @@ public class ClientEstimate extends ClientTransaction {
 	 */
 	public void setUsedInvoice(long usedInvoice) {
 		this.usedInvoice = usedInvoice;
+	}
+
+	public String getCustomerOrderNumber() {
+		return customerOrderNumber;
+	}
+
+	public void setCustomerOrderNumber(String customerOrderNumber) {
+		this.customerOrderNumber = customerOrderNumber;
+	}
+
+	public long getShippingTerm() {
+		return shippingTerm;
+	}
+
+	public void setShippingTerm(long shippingTerm) {
+		this.shippingTerm = shippingTerm;
+	}
+
+	public long getShippingMethod() {
+		return shippingMethod;
+	}
+
+	public void setShippingMethod(long shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	public long getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(long dueDate) {
+		this.dueDate = dueDate;
 	}
 
 }

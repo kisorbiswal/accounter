@@ -5,22 +5,17 @@ import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
-public class SalesOpenOrderServerReport extends
+public class SalesOrderServerReport extends
 		AbstractFinaneReport<OpenAndClosedOrders> {
 
 	private String sectionName;
 
-	private boolean isSales;
-
-	public SalesOpenOrderServerReport(long startDate, long endDate,
+	public SalesOrderServerReport(long startDate, long endDate,
 			int generationType) {
 		super(startDate, endDate, generationType);
-		isSales = true;
 	}
 
-	public SalesOpenOrderServerReport(
-			IFinanceReport<OpenAndClosedOrders> reportView) {
-		isSales = true;
+	public SalesOrderServerReport(IFinanceReport<OpenAndClosedOrders> reportView) {
 		this.reportView = reportView;
 	}
 
@@ -33,7 +28,7 @@ public class SalesOpenOrderServerReport extends
 			else
 				break;
 		case 1:
-			return record.getVendorOrCustomerName();
+			return record.getNumber();
 			// case 2:
 			// // if (isSales)
 			// return record.getDescription();
@@ -42,8 +37,9 @@ public class SalesOpenOrderServerReport extends
 			// case 2:
 			// return ((Double) record.getQuantity()).toString();
 		case 2:
+			return record.getVendorOrCustomerName();
+		case 3:
 			return record.getAmount();
-
 		default:
 			break;
 		}
@@ -54,7 +50,7 @@ public class SalesOpenOrderServerReport extends
 	public int[] getColumnTypes() {
 		// if (isSales)
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
-				COLUMN_TYPE_AMOUNT };
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT };
 		// else
 		// return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT,
 		// COLUMN_TYPE_AMOUNT };
@@ -64,7 +60,7 @@ public class SalesOpenOrderServerReport extends
 	public String[] getColunms() {
 		// if (isSales)
 		return new String[] { getMessages().orderDate(),
-				getMessages().customer(),
+				getMessages().number(), getMessages().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getMessages().amount() };
@@ -127,7 +123,7 @@ public class SalesOpenOrderServerReport extends
 	public void processRecord(OpenAndClosedOrders record) {
 		int col;
 		// if (isSales)
-		col = 2;
+		col = 3;
 		// else
 		// col = 2;
 		// if (sectionDepth == 0) {
@@ -225,9 +221,11 @@ public class SalesOpenOrderServerReport extends
 					obj2.getTransactionDate());
 
 		case 1:
+			return obj1.getNumber().toLowerCase()
+					.compareTo(obj2.getNumber().toLowerCase());
+		case 2:
 			return obj1.getVendorOrCustomerName().toLowerCase()
 					.compareTo(obj2.getVendorOrCustomerName().toLowerCase());
-
 			// case 2:
 			// // if (isSales)
 			// return obj1.getDescription().toLowerCase().compareTo(
@@ -239,7 +237,7 @@ public class SalesOpenOrderServerReport extends
 			// return Utility_R
 			// .compareDouble(obj1.getQuantity(), obj2.getQuantity());
 
-		case 2:
+		case 3:
 			return UIUtils.compareDouble(obj1.getAmount(), obj2.getAmount());
 
 		}
@@ -255,7 +253,7 @@ public class SalesOpenOrderServerReport extends
 	@Override
 	public String[] getDynamicHeaders() {
 		return new String[] { getMessages().orderDate(),
-				getMessages().customer(),
+				getMessages().number(), getMessages().customer(),
 				// FinanceApplication.constants().description(),
 				// FinanceApplication.constants().quantity(),
 				getMessages().amount() };

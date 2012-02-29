@@ -72,7 +72,6 @@
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>" />
-	 
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
@@ -211,6 +210,30 @@
 		#Import_Account{
 			margin-left:200px;
 		}
+		#appVersions{
+			float: left;
+			clear: both;
+			height: 25px;
+			margin-top: 0;
+			position: relative;
+			width: 100%;
+			z-index: 10;
+			color: #666666;
+			padding-top: 8px;
+		}
+		#appVersions a,#appVersions span{
+			text-decoration: none;
+			color: #666666;
+			font-size: 13px;
+			padding: 0 5px;
+		}
+		#appVersions a:HOVER {
+	 		text-decoration: underline;
+		}
+		#appVersions,#appVersions span{
+			text-align: center;
+		}
+
     </style>
     
     
@@ -282,17 +305,17 @@
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
-	    <script type="text/javascript" >
-	    <% 
-			Long subscription=(Long)request.getAttribute("subscription");
-		%>
-			var subscription=<%= subscription %>;
-		    if(subscription==null){
-				$("#support").after('|<a target="_blank" href="/site/gopremium">Go Premium</a>'); 
-			}else{
-				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Subscription Management</a>'); 
-			}
-	    </script>
+	</div>
+	<div id="appVersions" style="visibility:hidden" >
+	    <div>
+	       <span>Access Accounter from </span> |
+	       <a target="_blank" href="https://market.android.com/details?id=com.vimukti.accounter"> Android </a> |
+	       <a target="_blank" href="http://www.windowsphone.com/en-US/apps/6a8b2e3f-9c72-4929-9053-1262c6204d80"> Windows Phone </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id466388076?ls=1&mt=8"> iPhone </a> |
+		   <a target="_blank" href="https://appworld.blackberry.com/webstore/content/67065/?lang=en"> Black Berry </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
+		   </div>
 	</div>
 	
     <!-- OPTIONAL: include this if you want history support -->

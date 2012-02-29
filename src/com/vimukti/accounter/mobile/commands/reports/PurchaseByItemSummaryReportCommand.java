@@ -71,7 +71,7 @@ public class PurchaseByItemSummaryReportCommand extends
 	}
 
 	protected String addCommandOnRecordClick(SalesByCustomerDetail selection) {
-		return "Purchase By Item Detail ," + selection.getName();
+		return "purchaseByItemDetailReport ," + selection.getItemid();
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.vimukti.accounter.web.client.ui.serverreports;
 
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 
 public class JobProfitabilityDetailServerReport extends AbstractFinaneReport<JobProfitabilityDetailByJob>{

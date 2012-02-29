@@ -19,7 +19,6 @@ public class CustomerRefundsAction extends Action {
 
 	public CustomerRefundsAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	@Override
@@ -55,6 +54,11 @@ public class CustomerRefundsAction extends Action {
 
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().customerRefundsList();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	// @Override

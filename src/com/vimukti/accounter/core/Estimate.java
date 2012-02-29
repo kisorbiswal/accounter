@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class Estimate extends Transaction {
 
@@ -38,12 +39,13 @@ public class Estimate extends Transaction {
 
 	public static final int DEPOSIT_EXPENSES = 5;
 
+	public static final int SALES_ORDER = 6;
+
 	/**
 	 * This is the Customer to whom we are creating this Quote.
 	 */
 	@ReffereredObject
 	Customer customer;
-	private int transactionType;
 	/**
 	 * This is the one of the chosen {@link Contact} of the {@link Customer}
 	 */
@@ -119,11 +121,19 @@ public class Estimate extends Transaction {
 	 * @see Invoice
 	 * @see SalesOrder
 	 */
-	boolean isTurnedToInvoiceOrSalesOrder = false;
+	// boolean isTurnedToInvoiceOrSalesOrder = false;
 
 	private Invoice usedInvoice;
 
 	private Invoice oldUsedInvoice;
+
+	private String customerOrderNumber;
+
+	private ShippingTerms shippingTerm;
+
+	private ShippingMethod shippingMethod;
+
+	private FinanceDate dueDate;
 
 	public Estimate() {
 		setType(Transaction.TYPE_ESTIMATE);
@@ -257,14 +267,14 @@ public class Estimate extends Transaction {
 		return taxTotal;
 	}
 
-	public boolean isTurnedToInvoiceOrSalesOrder() {
-		return isTurnedToInvoiceOrSalesOrder;
-	}
-
-	public void setTurnedToInvoiceOrSalesOrder(
-			boolean isTurnedToInvoiceOrSalesOrder) {
-		this.isTurnedToInvoiceOrSalesOrder = isTurnedToInvoiceOrSalesOrder;
-	}
+	// public boolean isTurnedToInvoiceOrSalesOrder() {
+	// return isTurnedToInvoiceOrSalesOrder;
+	// }
+	//
+	// public void setTurnedToInvoiceOrSalesOrder(
+	// boolean isTurnedToInvoiceOrSalesOrder) {
+	// this.isTurnedToInvoiceOrSalesOrder = isTurnedToInvoiceOrSalesOrder;
+	// }
 
 	@Override
 	public boolean isDebitTransaction() {
@@ -288,8 +298,7 @@ public class Estimate extends Transaction {
 
 	@Override
 	public Payee getPayee() {
-
-		return null;
+		return getCustomer();
 	}
 
 	public void setTotal(Double total) {
@@ -326,6 +335,13 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(Estimate.class)) {
 			throw new AccounterException(
@@ -333,7 +349,8 @@ public class Estimate extends Transaction {
 		}
 
 		if (this.getID() != 0) {
-			if (this.status == Transaction.STATUS_APPLIED) {
+			if (usedInvoice != null
+					&& this.status == Transaction.STATUS_COMPLETED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
 				// "This Quote is Already used in SalesOrder or Invoice");
@@ -354,14 +371,6 @@ public class Estimate extends Transaction {
 		}
 
 		return true;
-	}
-
-	public int getTransactionType() {
-		return transactionType;
-	}
-
-	public void setTransactionType(int transactionType) {
-		this.transactionType = transactionType;
 	}
 
 	public int getEstimateType() {
@@ -429,10 +438,10 @@ public class Estimate extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null && usedTransaction != null) {
 			this.usedInvoice = usedTransaction;
-			status = STATUS_APPLIED;
+			status = STATUS_COMPLETED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
-			status = STATUS_ACCECPTED;
+			status = STATUS_OPEN;
 		}
 	}
 
@@ -505,4 +514,35 @@ public class Estimate extends Transaction {
 
 	}
 
+	public String getCustomerOrderNumber() {
+		return customerOrderNumber;
+	}
+
+	public void setCustomerOrderNumber(String customerOrderNumber) {
+		this.customerOrderNumber = customerOrderNumber;
+	}
+
+	public ShippingTerms getShippingTerm() {
+		return shippingTerm;
+	}
+
+	public void setShippingTerm(ShippingTerms shippingTerm) {
+		this.shippingTerm = shippingTerm;
+	}
+
+	public ShippingMethod getShippingMethod() {
+		return shippingMethod;
+	}
+
+	public void setShippingMethod(ShippingMethod shippingMethod) {
+		this.shippingMethod = shippingMethod;
+	}
+
+	public FinanceDate getDueDate() {
+		return dueDate;
+	}
+
+	public void setDueDate(FinanceDate dueDate) {
+		this.dueDate = dueDate;
+	}
 }

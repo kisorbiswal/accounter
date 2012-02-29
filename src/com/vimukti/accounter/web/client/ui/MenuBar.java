@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -81,9 +82,9 @@ public class MenuBar {
 
 	private boolean isMulticurrencyEnabled;
 
-	private boolean isUnitsEnabled;
-
 	private String countryOrRegion;
+
+	private boolean isUnitsEnalbled;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -115,15 +116,6 @@ public class MenuBar {
 			this.addMenu(getBankingMenu(messages.banking()));
 		}
 
-		if (isSalesOrderEnabled) {
-			this.addMenu(getSalesSubMenu(messages.sales()));
-
-		}
-
-		if (isPurchaseOrderEnabled) {
-			this.addMenu(getPurchaseSubMenu(messages.purchases()));
-		}
-
 		if (canDoInventory && isInventoryEnabled) {
 			this.addMenu(getInventoryMenu(messages.inventory()));
 		}
@@ -149,10 +141,25 @@ public class MenuBar {
 			inventoryMenuBar.addSeparatorItem();
 			inventoryMenuBar.addMenuItem(getNewInventoryMenu(messages.new1()));
 		}
-		inventoryMenuBar.addSeparatorItem();
-		inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
-				.InventoryLists()));
 
+		inventoryMenuBar.addSeparatorItem();
+		// inventoryMenuBar.addMenuItem(getInventoryListsMenu(messages
+		// .InventoryLists()));
+		inventoryMenuBar.addMenuItem(messages.inventoryItems(),
+				HistoryTokens.INVENTORYITEMS);
+
+		if (iswareHouseEnabled) {
+			inventoryMenuBar.addMenuItem(messages.warehouseList(),
+					HistoryTokens.WAREHOUSELIST);
+			inventoryMenuBar.addMenuItem(messages.warehouseTransferList(),
+					HistoryTokens.WAREHOUSETRANSFERLIST);
+		}
+		inventoryMenuBar.addMenuItem(messages.stockAdjustments(),
+				HistoryTokens.STOCKADJUSTMENTS);
+		if (isUnitsEnalbled) {
+			inventoryMenuBar.addMenuItem(messages.measurementList(),
+					HistoryTokens.MEASUREMENTLIST);
+		}
 		return inventoryMenuBar;
 	}
 
@@ -160,7 +167,7 @@ public class MenuBar {
 		Menu inventoryMenu = new Menu(string);
 
 		inventoryMenu.addMenuItem(messages.inventoryItems(),
-				HistoryTokens.INVENTORYITEM);
+				HistoryTokens.INVENTORYITEMS);
 
 		if (iswareHouseEnabled) {
 			inventoryMenu.addMenuItem(messages.warehouseList(),
@@ -170,7 +177,7 @@ public class MenuBar {
 		}
 		inventoryMenu.addMenuItem(messages.stockAdjustments(),
 				HistoryTokens.STOCKADJUSTMENTS);
-		if (isUnitsEnabled) {
+		if (isUnitsEnalbled) {
 			inventoryMenu.addMenuItem(messages.measurementList(),
 					HistoryTokens.MEASUREMENTLIST);
 		}
@@ -182,6 +189,10 @@ public class MenuBar {
 		Menu newMenuBar = new Menu(string);
 		newMenuBar.addMenuItem(messages.stockAdjustment(),
 				HistoryTokens.STOCKADJUSTMENT, "H");
+		newMenuBar.addMenuItem(messages.newPayee(messages.inventoryItem()),
+				HistoryTokens.INVENTORYITEM);
+		newMenuBar.addMenuItem(messages.newPayee(messages.inventoryAssembly()),
+				HistoryTokens.INVENTORY_ASSEMBLY);
 		if (iswareHouseEnabled) {
 			newMenuBar.addMenuItem(messages.wareHouse(),
 					HistoryTokens.WAREHOUSE);
@@ -189,7 +200,7 @@ public class MenuBar {
 			newMenuBar.addMenuItem(messages.wareHouseTransfer(),
 					HistoryTokens.WAREHOUSETRANSFER);
 		}
-		if (isUnitsEnabled) {
+		if (isUnitsEnalbled) {
 			newMenuBar.addMenuItem(messages.measurement(),
 					HistoryTokens.ADDMEASUREMENT);
 		}
@@ -278,7 +289,17 @@ public class MenuBar {
 			}
 		}
 		vatmenu.addSeparatorItem();
-		vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
+		vatmenu.addMenuItem(messages.taxItemsList(), HistoryTokens.VATITEMS);
+		vatmenu.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
+		vatmenu.addMenuItem(messages.payeeList(messages.taxAgencies()),
+				HistoryTokens.TAXAGENCYLIST);
+		if (company instanceof India) {
+			if (tdsEnabled) {
+				vatmenu.addMenuItem("Chalan Details List",
+						HistoryTokens.CHALANDETAILSLIST);
+			}
+		}
+		// vatmenu.addMenuItem(getVATsListMenu(messages.taxList()));
 
 		return vatmenu;
 	}
@@ -306,36 +327,6 @@ public class MenuBar {
 
 		return formMenu;
 	}
-
-	private Menu getVATsListMenu(String string) {
-		Menu vatmenus = new Menu(string);
-
-		vatmenus.addMenuItem(messages.taxItemsList(), HistoryTokens.VATITEMS);
-		vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
-		vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
-				HistoryTokens.TAXAGENCYLIST);
-		if (company instanceof India) {
-			if (tdsEnabled) {
-				vatmenus.addMenuItem("Chalan Details List",
-						HistoryTokens.CHALANDETAILSLIST);
-			}
-		}
-
-		return vatmenus;
-	}
-
-	/*
-	 * private Menu getFixedAssetsListMenu(String string) { Menu
-	 * fixedAssetListMenu = new Menu(string);
-	 * 
-	 * fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
-	 * HistoryTokens.PENDINGITEMS);
-	 * fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
-	 * HistoryTokens.REGISTEREDITEMS);
-	 * 
-	 * fixedAssetListMenu.addMenuItem(messages.soldDisposedItems(),
-	 * HistoryTokens.SOLIDDISPOSEDFIXEDASSETS); return fixedAssetListMenu; }
-	 */
 
 	private Menu getReportMenu(String string) {
 		Menu reportMenuBar = new Menu(string);
@@ -366,8 +357,28 @@ public class MenuBar {
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
 		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
+		if (isInventoryEnabled) {
+			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
+					.inventory()));
+		}
+
+		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 
 		return reportMenuBar;
+	}
+
+	private MenuItem getBankingReportMenu(String banking) {
+		Menu bankingMenuBar = new Menu(banking);
+		bankingMenuBar.addMenuItem("Missing Checks",
+				HistoryTokens.MISSION_CHECKS);
+		bankingMenuBar.addMenuItem("Reconciliation Discrepancy",
+				HistoryTokens.RECONCILIATION_DISCREPANCY);
+		bankingMenuBar.addMenuItem(messages.depositDetail(),
+				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
+		bankingMenuBar.addMenuItem(messages.checkDetail(),
+				HistoryTokens.BANK_CHECK_DETAIL_REPORT);
+
+		return bankingMenuBar;
 	}
 
 	private MenuItem getInventoryReportMenu(String inventory) {
@@ -390,44 +401,6 @@ public class MenuBar {
 		return fixedAssetsReportMenu;
 	}
 
-	private Menu getSalesSubMenu(String string) {
-		Menu salesMenu = new Menu(string);
-
-		if (canDoInvoiceAndBillTransactions) {
-			salesMenu.addMenuItem(messages.salesOrder(),
-					HistoryTokens.SALESORDER);
-		}
-		if (canSeeInvoiceTransactions) {
-			salesMenu.addMenuItem(messages.salesOrderList(),
-					HistoryTokens.SALESORDERLIST);
-		}
-		if (canViewReports) {
-			salesMenu.addMenuItem(messages.salesOrderReport(),
-					HistoryTokens.SALESORDERREPORT);
-		}
-
-		return salesMenu;
-	}
-
-	private Menu getPurchaseSubMenu(String string) {
-		Menu purchaseMenu = new Menu(string);
-
-		if (canDoInvoiceAndBillTransactions) {
-			purchaseMenu.addMenuItem(messages.purchaseOrder(),
-					HistoryTokens.PURCHASEORDER);
-		}
-		if (canSeeInvoiceTransactions) {
-			purchaseMenu.addMenuItem(messages.purchaseOrderList(),
-					HistoryTokens.PURCHASEORDERLIST);
-		}
-		if (canViewReports) {
-			purchaseMenu.addMenuItem(messages.purchaseOrderReport(),
-					HistoryTokens.PURCHASEORDERREPORT);
-		}
-
-		return purchaseMenu;
-	}
-
 	private Menu getVendorAndPayablesMenu(String string) {
 
 		Menu vendorAndPayableMenuBar = new Menu(string);
@@ -442,7 +415,6 @@ public class MenuBar {
 		vendorAndPayableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Vendor()),
 				HistoryTokens.VENDORTRANSACTIONHISTORY);
-
 		return vendorAndPayableMenuBar;
 	}
 
@@ -665,7 +637,7 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.makeDeposit(),
 				HistoryTokens.DEPOSIT);
 
-		if (isKeepTrackofBills) {
+		if (isKeepTrackofBills && canDoPayBillAndReceivePayment) {
 			bankingMenuBar.addMenuItem(messages.payBill(),
 					HistoryTokens.PAYBILL);
 		}
@@ -678,25 +650,18 @@ public class MenuBar {
 		// bankingMenuBar.addMenuItem(messages.bankStatements(),
 		// HistoryTokens.BANKSTATEMENTS);
 		bankingMenuBar.addSeparatorItem();
-		bankingMenuBar.addMenuItem(getBankingListMenu(messages.bankingList()));
+
+		bankingMenuBar.addMenuItem(messages.payments(), HistoryTokens.PAYMENTS);
+		bankingMenuBar.addMenuItem(messages.bankAccounts(),
+				HistoryTokens.BANKACCOUNTS);
+		// bankingMenuBar.addMenuItem(getBankingListMenu(messages.bankingList()));
 
 		return bankingMenuBar;
 	}
 
-	private Menu getBankingListMenu(String string) {
-
-		Menu bankingListMenuBar = new Menu(string);
-
-		bankingListMenuBar.addMenuItem(messages.payments(),
-				HistoryTokens.PAYMENTS);
-		bankingListMenuBar.addMenuItem(messages.bankAccounts(),
-				HistoryTokens.BANKACCOUNTS);
-
-		return bankingListMenuBar;
-	}
-
 	private Menu getVendorMenu(String string) {
-
+		ClientUserPermissions permissions = Accounter.getUser()
+				.getPermissions();
 		Menu vendorMenuBar = new Menu(string);
 
 		vendorMenuBar.addMenuItem(messages.vendorCentre(Global.get().Vendor()),
@@ -721,7 +686,6 @@ public class MenuBar {
 		}
 		if (canDoPayBillAndReceivePayment) {
 			if (isKeepTrackofBills) {
-
 				vendorMenuBar.addMenuItem(messages.payBills(),
 						HistoryTokens.PAYBILL);
 				// vendorMenuBar.addMenuItem(messages.issuePayments(),
@@ -739,42 +703,38 @@ public class MenuBar {
 		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
-
+		}
+		if (canDoInvoiceAndBillTransactions) {
 			if (isHaveEpmloyees && isTrackEmployeeExpenses) {
 				vendorMenuBar.addMenuItem(messages.expenseClaims(),
 						HistoryTokens.EXPENSECLAIMS);
 			}
-
 		}
 		vendorMenuBar.addSeparatorItem();
-		vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
-				.get().Vendor())));
-
-		return vendorMenuBar;
-	}
-
-	private Menu getVendorListMenu(String string) {
-		Menu vendorListMenuBar = new Menu(string);
-
-		vendorListMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
+		vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
 				HistoryTokens.VENDORLIST);
 
 		if (canSeeInvoiceTransactions) {
 			if (isKeepTrackofBills) {
-				vendorListMenuBar.addMenuItem(messages.billsAndExpenses(),
+				vendorMenuBar.addMenuItem(messages.billsAndExpenses(),
 						HistoryTokens.BILLSANDEXPENSES);
 			}
-			vendorListMenuBar.addMenuItem(
-					messages.payees(Global.get().Vendors()) + " "
-							+ messages.items(), HistoryTokens.VENDORITEMS);
+			vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors())
+					+ " " + messages.items(), HistoryTokens.VENDORITEMS);
 		}
 		if (canSeeBanking && isKeepTrackofBills) {
-			vendorListMenuBar.addMenuItem(
+			vendorMenuBar.addMenuItem(
 					messages.payeePayments(Global.get().Vendor()),
 					HistoryTokens.VENDORPAYMENTS);
 		}
+		if (isPurchaseOrderEnabled && canSeeInvoiceTransactions) {
+			vendorMenuBar.addMenuItem(messages.purchaseOrders(),
+					HistoryTokens.PURCHASEORDERLIST);
+		}
+		// vendorMenuBar.addMenuItem(getVendorListMenu(messages.payeeLists(Global
+		// .get().Vendor())));
 
-		return vendorListMenuBar;
+		return vendorMenuBar;
 	}
 
 	private Menu getNewVendorMenu(String string) {
@@ -785,13 +745,26 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
-			newVendorMenuBar.addMenuItem(messages.newItem(),
-					HistoryTokens.NEWITEMSUPPLIERS);
+			if (Accounter.getUser().getPermissions().getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES) {
+				newVendorMenuBar.addMenuItem(messages.newItem(),
+						HistoryTokens.NEWITEMSUPPLIERS);
+			}
+		} else {
+			if (canDoInventory) {
+				newVendorMenuBar.addMenuItem(messages.newItem(),
+						HistoryTokens.NEWITEMSUPPLIERS);
+			}
 		}
-		if (canDoBanking || canDoManageAccounts) {
+		if (canDoInvoiceAndBillTransactions) {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
 					HistoryTokens.NEWCASHPURCHASE);
 		}
+
+		if (canDoInvoiceAndBillTransactions && isPurchaseOrderEnabled) {
+			newVendorMenuBar.addMenuItem(messages.purchaseOrder(),
+					HistoryTokens.PURCHASEORDER);
+		}
+
 		if (canDoInvoiceAndBillTransactions) {
 
 			newVendorMenuBar.addMenuItem(
@@ -840,61 +813,69 @@ public class MenuBar {
 					HistoryTokens.CUSTOMERREFUND);
 
 			customerMenuBar.addSeparatorItem();
+		} else if (Accounter.getUser().getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			customerMenuBar.addMenuItem(
+					messages.customerRefund(Global.get().Customer()),
+					HistoryTokens.CUSTOMERREFUND);
+			customerMenuBar.addSeparatorItem();
 		}
-		customerMenuBar.addMenuItem(getCustomerListMenu(messages
-				.payeeLists(Global.get().Customer())));
-
-		return customerMenuBar;
-	}
-
-	private Menu getCustomerListMenu(String string) {
-		Menu customerListMenuBar = new Menu(string);
-
-		customerListMenuBar.addMenuItem(
-				messages.payees(Global.get().Customers()),
+		customerMenuBar.addMenuItem(messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
 
 		if (canSeeInvoiceTransactions) {
 
-			customerListMenuBar.addMenuItem(messages.invoices(),
+			customerMenuBar.addMenuItem(messages.invoices(),
 					HistoryTokens.INVOICES);
 
 			if (isDoyouwantEstimates) {
-				customerListMenuBar.addMenuItem(messages.quotes(),
+				customerMenuBar.addMenuItem(messages.quotes(),
 						HistoryTokens.QUOTES);
 			}
-			customerListMenuBar.addMenuItem(
+			customerMenuBar.addMenuItem(
 					messages.payees(Global.get().Customers()) + " "
 							+ messages.items(), HistoryTokens.CUSTOMERITEMS);
 
 			if (isDelayedchargesEnabled) {
-				customerListMenuBar.addMenuItem(messages.Charges(),
+				customerMenuBar.addMenuItem(messages.Charges(),
 						HistoryTokens.CHARGES);
-				customerListMenuBar.addMenuItem(messages.credits(),
+				customerMenuBar.addMenuItem(messages.credits(),
 						HistoryTokens.CREDITS);
 			}
 
+			if (isSalesOrderEnabled) {
+				customerMenuBar.addMenuItem(messages.salesOrders(),
+						HistoryTokens.SALESORDERLIST);
+			}
 		}
 		if (canSeeBanking) {
-			customerListMenuBar.addMenuItem(messages.receivedPayments(),
+			customerMenuBar.addMenuItem(messages.receivedPayments(),
 					HistoryTokens.RECEIVEPAYMENTS);
-			customerListMenuBar.addMenuItem(
+			customerMenuBar.addMenuItem(
 					messages.customerRefunds(Global.get().Customer()),
 					HistoryTokens.CUSTOMERREFUNDS);
 		}
+		// customerMenuBar.addMenuItem(getCustomerListMenu(messages
+		// .payeeLists(Global.get().Customer())));
 
-		return customerListMenuBar;
+		return customerMenuBar;
 	}
 
 	private Menu getNewCustomerMenu(String string) {
 		Menu newCustomerMenuBar = new Menu(string);
-
 		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
+		}
+
+		if ((canDoInvoiceAndBillTransactions && Accounter.getUser()
+				.getPermissions().getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES)
+				|| canDoInventory) {
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
+		}
+
+		if (canDoInvoiceAndBillTransactions) {
 			if (isDoyouwantEstimates) {
 				newCustomerMenuBar.addMenuItem(messages.newQuote(),
 						HistoryTokens.NEWQUOTE);
@@ -906,16 +887,15 @@ public class MenuBar {
 				newCustomerMenuBar.addMenuItem(messages.newCredit(),
 						HistoryTokens.NEWCREDIT);
 			}
+			if (isSalesOrderEnabled) {
+				newCustomerMenuBar.addMenuItem(messages.newSalesOrder(),
+						HistoryTokens.SALESORDER);
+			}
 
 			newCustomerMenuBar.addMenuItem(messages.newInvoice(),
 					HistoryTokens.NEWINVOICE);
-		}
-
-		if (canDoBanking || canDoManageAccounts) {
 			newCustomerMenuBar.addMenuItem(messages.newCashSale(),
 					HistoryTokens.NEWCASHSALE);
-		}
-		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(messages.newCreditMemo(),
 					HistoryTokens.NRECREDITNOTE);
 		}
@@ -937,7 +917,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-
+		if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+			companyMenuBar.addMenuItem(messages.importFile(),
+					HistoryTokens.IMPORT);
+		}
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
@@ -1153,6 +1136,8 @@ public class MenuBar {
 
 		this.iswareHouseEnabled = preferences.iswareHouseEnabled();
 
+		this.isUnitsEnalbled = preferences.isUnitsEnabled();
+
 		this.isPurchaseOrderEnabled = preferences.isPurchaseOrderEnabled();
 
 		this.isSalesOrderEnabled = preferences.isSalesOrderEnabled();
@@ -1168,8 +1153,8 @@ public class MenuBar {
 
 		this.company = countryPreferences;
 
-		this.notReadOnlyUser = !clientUser.getUserRole().equalsIgnoreCase(
-				messages.readOnly());
+		this.notReadOnlyUser = !(clientUser.getUserRole()
+				.equalsIgnoreCase(RolePermissions.READ_ONLY));
 
 		this.canDoTaxTransactions = canDoTaxTransactions(clientUser);
 
@@ -1185,8 +1170,6 @@ public class MenuBar {
 				.getCountryOrRegion();
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
-
-		this.isUnitsEnabled = preferences.isUnitsEnabled();
 
 		getMenuBar();
 	}
@@ -1213,8 +1196,7 @@ public class MenuBar {
 	}
 
 	private boolean canDoPayBillAndReceivePayment(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES
-				|| clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;
@@ -1273,5 +1255,97 @@ public class MenuBar {
 	private boolean canSeeInvoiceTransactions(ClientUser clientUser) {
 		return clientUser.getPermissions().getTypeOfInvoicesBills() != RolePermissions.TYPE_NO;
 	}
+
+	/*
+	 * private Menu getVATsListMenu(String string) { Menu vatmenus = new
+	 * Menu(string);
+	 * 
+	 * vatmenus.addMenuItem(messages.taxItemsList(), HistoryTokens.VATITEMS);
+	 * vatmenus.addMenuItem(messages.taxCodesList(), HistoryTokens.VATCODES);
+	 * vatmenus.addMenuItem(messages.payeeList(messages.taxAgencies()),
+	 * HistoryTokens.TAXAGENCYLIST); if (company instanceof India) { if
+	 * (tdsEnabled) { vatmenus.addMenuItem("Chalan Details List",
+	 * HistoryTokens.CHALANDETAILSLIST); } }
+	 * 
+	 * return vatmenus; }
+	 */
+
+	/*
+	 * private Menu getFixedAssetsListMenu(String string) { Menu
+	 * fixedAssetListMenu = new Menu(string);
+	 * 
+	 * fixedAssetListMenu.addMenuItem(messages.pendingItemsList(),
+	 * HistoryTokens.PENDINGITEMS);
+	 * fixedAssetListMenu.addMenuItem(messages.registeredItemsList(),
+	 * HistoryTokens.REGISTEREDITEMS);
+	 * 
+	 * fixedAssetListMenu.addMenuItem(messages.soldDisposedItems(),
+	 * HistoryTokens.SOLIDDISPOSEDFIXEDASSETS); return fixedAssetListMenu; }
+	 */
+
+	/*
+	 * private Menu getBankingListMenu(String string) {
+	 * 
+	 * Menu bankingListMenuBar = new Menu(string);
+	 * 
+	 * bankingListMenuBar.addMenuItem(messages.payments(),
+	 * HistoryTokens.PAYMENTS);
+	 * bankingListMenuBar.addMenuItem(messages.bankAccounts(),
+	 * HistoryTokens.BANKACCOUNTS);
+	 * 
+	 * return bankingListMenuBar; }
+	 */
+
+	/*
+	 * private Menu getVendorListMenu(String string) { Menu vendorListMenuBar =
+	 * new Menu(string);
+	 * 
+	 * vendorListMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
+	 * HistoryTokens.VENDORLIST);
+	 * 
+	 * if (canSeeInvoiceTransactions) { if (isKeepTrackofBills) {
+	 * vendorListMenuBar.addMenuItem(messages.billsAndExpenses(),
+	 * HistoryTokens.BILLSANDEXPENSES); } vendorListMenuBar.addMenuItem(
+	 * messages.payees(Global.get().Vendors()) + " " + messages.items(),
+	 * HistoryTokens.VENDORITEMS); } if (canSeeBanking && isKeepTrackofBills) {
+	 * vendorListMenuBar.addMenuItem(
+	 * messages.payeePayments(Global.get().Vendor()),
+	 * HistoryTokens.VENDORPAYMENTS); }
+	 * 
+	 * return vendorListMenuBar; }
+	 */
+
+	/*
+	 * private Menu getCustomerListMenu(String string) { Menu
+	 * customerListMenuBar = new Menu(string);
+	 * 
+	 * customerListMenuBar.addMenuItem(
+	 * messages.payees(Global.get().Customers()), HistoryTokens.CUSTOMERS);
+	 * 
+	 * if (canSeeInvoiceTransactions) {
+	 * 
+	 * customerListMenuBar.addMenuItem(messages.invoices(),
+	 * HistoryTokens.INVOICES);
+	 * 
+	 * if (isDoyouwantEstimates) {
+	 * customerListMenuBar.addMenuItem(messages.quotes(), HistoryTokens.QUOTES);
+	 * } customerListMenuBar.addMenuItem(
+	 * messages.payees(Global.get().Customers()) + " " + messages.items(),
+	 * HistoryTokens.CUSTOMERITEMS);
+	 * 
+	 * if (isDelayedchargesEnabled) {
+	 * customerListMenuBar.addMenuItem(messages.Charges(),
+	 * HistoryTokens.CHARGES);
+	 * customerListMenuBar.addMenuItem(messages.credits(),
+	 * HistoryTokens.CREDITS); }
+	 * 
+	 * } if (canSeeBanking) {
+	 * customerListMenuBar.addMenuItem(messages.receivedPayments(),
+	 * HistoryTokens.RECEIVEPAYMENTS); customerListMenuBar.addMenuItem(
+	 * messages.customerRefunds(Global.get().Customer()),
+	 * HistoryTokens.CUSTOMERREFUNDS); }
+	 * 
+	 * return customerListMenuBar; }
+	 */
 
 }

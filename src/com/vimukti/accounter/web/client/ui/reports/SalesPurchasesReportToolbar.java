@@ -9,7 +9,9 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
@@ -26,11 +28,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	protected SelectCombo statusCombo, dateRangeCombo;
 	protected List<String> statusList, dateRangeList;
 	private Button updateButton;
-	public static int OPEN = 1;
-	public static int COMPLETED = 2;
-	public static int CANCELLED = 3;
-	public static int ALL = 4;
-	private int status = OPEN;
+	private int status = ClientTransaction.STATUS_OPEN;
 
 	public SalesPurchasesReportToolbar() {
 		createControls();
@@ -38,21 +36,15 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 	}
 
 	private void createControls() {
-		String[] statusArray = { messages.open(),
-				messages.completed(),
+		String[] statusArray = { messages.open(), messages.completed(),
 				messages.cancelled(), messages.all() };
 
-		String[] dateRangeArray = { messages.all(),
-				messages.thisWeek(),
-				messages.thisMonth(),
-				messages.lastWeek(),
-				messages.lastMonth(),
-				messages.thisFinancialYear(),
-				messages.lastFinancialYear(),
-				messages.thisFinancialQuarter(),
+		String[] dateRangeArray = { messages.all(), messages.thisWeek(),
+				messages.thisMonth(), messages.lastWeek(),
+				messages.lastMonth(), messages.thisFinancialYear(),
+				messages.lastFinancialYear(), messages.thisFinancialQuarter(),
 				messages.lastFinancialQuarter(),
-				messages.financialYearToDate(),
-				messages.custom() };
+				messages.financialYearToDate(), messages.custom() };
 
 		statusCombo = new SelectCombo(messages.status());
 		statusCombo.setHelpInformation(true);
@@ -61,6 +53,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			statusList.add(statusArray[i]);
 		}
 		statusCombo.initCombo(statusList);
+
 		statusCombo.setComboItem(statusArray[0]);
 		statusCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -70,15 +63,15 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 
 						if (statusCombo.getSelectedValue().equals(
 								messages.open())) {
-							status = OPEN;
+							status = ClientTransaction.STATUS_OPEN;
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.completed())) {
-							status = COMPLETED;
+							status = ClientTransaction.STATUS_COMPLETED;
 						} else if (statusCombo.getSelectedValue().equals(
 								messages.all())) {
-							status = ALL;
+							status = -1;
 						} else
-							status = CANCELLED;
+							status = ClientTransaction.STATUS_CANCELLED;
 						ClientFinanceDate startDate = fromItem.getDate();
 						ClientFinanceDate endDate = toItem.getDate();
 						reportview
@@ -96,8 +89,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			dateRangeList.add(statusArray[i]);
 		}
 		dateRangeCombo.initCombo(dateRangeList);
-		dateRangeCombo
-				.setComboItem(messages.financialYearToDate());
+		dateRangeCombo.setComboItem(messages.financialYearToDate());
 		dateRangeCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
 
@@ -211,5 +203,18 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			setStartDate(startDate);
 			setEndDate(endDate);
 		}
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+		if (status == ClientEstimate.STATUS_OPEN
+				|| status == ClientTransaction.STATUS_OPEN) {
+			statusCombo.setComboItem(messages.open());
+		} else if (status == ClientTransaction.STATUS_COMPLETED) {
+			statusCombo.setComboItem(messages.completed());
+		} else if (status == -1) {
+			statusCombo.setComboItem(messages.all());
+		} else
+			statusCombo.setComboItem(messages.cancelled());
 	}
 }

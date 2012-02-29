@@ -16,7 +16,6 @@ import com.vimukti.accounter.web.client.ui.grids.FileTAXGrid;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
 import com.vimukti.accounter.web.client.ui.reports.AbstractReportView;
 import com.vimukti.accounter.web.client.ui.reports.TAXItemDetail;
-import com.vimukti.accounter.web.client.ui.reports.TaxAgencyStartDateEndDateToolbar;
 import com.vimukti.accounter.web.client.ui.reports.TaxItemDetailReportView;
 
 public class FileTAXView extends AbstractFileTAXView {
@@ -74,14 +73,13 @@ public class FileTAXView extends AbstractFileTAXView {
 
 			@Override
 			public void print() {
-				TaxAgencyStartDateEndDateToolbar bar = (TaxAgencyStartDateEndDateToolbar) this.toolbar;
-				long taxAgency = bar.taxAgencyCombo.getSelectedValue().getID();
+				long taxAgency = taxAgencyCombo.getSelectedValue().getID();
 				this.startDate = toolbar.getStartDate();
 				this.endDate = toolbar.getEndDate();
 				UIUtils.generateReportPDF(
 						Integer.parseInt(String.valueOf(startDate.getDate())),
 						Integer.parseInt(String.valueOf(endDate.getDate())),
-						174, "", "", taxAgency);
+						165, "", "", taxAgency);
 			}
 
 			@Override
@@ -134,5 +132,4 @@ public class FileTAXView extends AbstractFileTAXView {
 		taxReturn.setPeriodEndDate(toDate.getDate().getDate());
 		setData(taxReturn);
 	}
-
 }

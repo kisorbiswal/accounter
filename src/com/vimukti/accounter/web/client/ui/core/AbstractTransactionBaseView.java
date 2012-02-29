@@ -58,6 +58,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -92,6 +93,7 @@ import com.vimukti.accounter.web.client.ui.forms.TextAreaItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorPaymentView;
+import com.vimukti.accounter.web.client.ui.vendors.VendorBillView;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyChangeListener;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyComboWidget;
 import com.vimukti.accounter.web.client.ui.widgets.CurrencyFactorWidget;
@@ -620,7 +622,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				if (!History.getToken().equals(getAction().getHistoryToken())) {
 
 				}
-				getAction().run(null, true);
+				getManager().closeCurrentView(false);
+				getAction().run(null, getAction().isDependent());
 
 			} else {
 
@@ -694,8 +697,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected boolean canAddDraftButton() {
-		return getCompany().getLoggedInUser().getPermissions()
-				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES
+		ClientUserPermissions permissions = getCompany().getLoggedInUser()
+				.getPermissions();
+		return (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
 				&& canRecur() ? (transaction == null ? true : transaction
 				.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
@@ -790,7 +795,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.switchMaestro(), messages.paypal() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
@@ -1146,13 +1151,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
 				&& getPreferences().isWarnOnEmptyClass()
-				&& this.transaction.getAccounterClass() == null) {
+				&& this.transaction.getAccounterClass() == 0) {
 			result.addWarning(classListCombo, messages.W_105());
 		}
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView
 				|| this instanceof InvoiceView
+				|| this instanceof VendorBillView
 				|| this instanceof MakeDepositView || this instanceof DepositView)) {
 			if (transactionItems != null && transactionItems.size() != 0) {
 				for (ClientTransactionItem transactionItem : transactionItems) {
@@ -1286,7 +1292,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (getPreferences().isClassTrackingEnabled()
 					&& getPreferences().isClassOnePerTransaction()
 					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass);
+				transaction.setAccounterClass(clientAccounterClass.getID());
 			}
 
 			if (currency == null) {
@@ -1714,8 +1720,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected void initAccounterClass() {
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()
-				&& transaction.getAccounterClass() != null) {
-			classSelected(transaction.getAccounterClass());
+				&& transaction.getAccounterClass() != 0) {
+
+			classSelected(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 	}
 
@@ -2116,7 +2124,8 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		double discount = 0.0D;
 
 		for (ClientTransactionItem clientTransactionItem : transactionItems) {
-			if (clientTransactionItem != null) {
+			if (clientTransactionItem != null
+					&& clientTransactionItem.getReferringTransactionItem() == 0) {
 				Double discountValue = clientTransactionItem.getDiscount();
 				if (discountValue != null) {
 					discount = discountValue.doubleValue();
@@ -2129,5 +2138,24 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		}
 		return discount;
 
+	}
+
+	@Override
+	protected boolean canDelete() {
+		if (getMode() == null || getMode() == EditMode.CREATE) {
+			return false;
+		}
+		if (transaction != null && transaction.isDraft()) {
+			ClientUserPermissions permissions = getCompany().getLoggedInUser()
+					.getPermissions();
+			return permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
+		}
+		return super.canDelete();
+	}
+
+	@Override
+	protected boolean isSaveButtonAllowed() {
+		return Utility.isUserHavePermissions(transactionType);
 	}
 }

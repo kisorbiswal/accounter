@@ -36,7 +36,7 @@ import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 
-	private TAXAgencyCombo taxAgencyCombo;
+	protected TAXAgencyCombo taxAgencyCombo;
 	protected DateItem fromDate;
 	protected DateItem toDate;
 	private HorizontalPanel topLayout;

@@ -5,7 +5,11 @@ import java.util.List;
 
 import com.vimukti.accounter.web.client.IAccounterCRUDServiceAsync;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientTransaction;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -15,6 +19,7 @@ import com.vimukti.accounter.web.client.ui.ISaveCallback;
 import com.vimukti.accounter.web.client.ui.core.BaseListView;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.core.IAccounterWidget;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public abstract class BaseListGrid<T> extends ListGrid<T> implements
 		IAccounterWidget, ISaveCallback, IDeleteCallback {
@@ -90,11 +95,9 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	protected void onClick(T obj, int row, int col) {
-		if ((this instanceof ReconcilListGrid) == false) {
-			if (col == 6 && !this.isVoided(obj)) {
-				showWarningDialog(obj, this.getAccounterCoreType(obj),
-						this.getTransactionID(obj), col);
-			}
+		if (col == 6 && !this.isVoided(obj)) {
+			showWarningDialog(obj, this.getAccounterCoreType(obj),
+					this.getTransactionID(obj), col);
 		}
 		// else if (col == 7) {
 		// if (!isDeleted)
@@ -257,7 +260,7 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	@Override
 	public void saveSuccess(IAccounterCore core) {
-		if (core != null) {
+		if (core != null && view != null) {
 			view.initListCallback();
 		}
 	}
@@ -277,5 +280,19 @@ public abstract class BaseListGrid<T> extends ListGrid<T> implements
 
 	public <D extends IAccounterCore> void createOrUpdate(D core) {
 		Accounter.createOrUpdate(this, core);
+	}
+
+	public boolean isCanOpenTransactionView(int saveStatus, int transactionType) {
+		ClientUser user = Accounter.getUser();
+		if (user.isAdmin()) {
+			return true;
+		}
+		ClientUserPermissions permissions = user.getPermissions();
+		if (saveStatus == ClientTransaction.STATUS_DRAFT
+				&& permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+
+		return Utility.isUserHavePermissions(transactionType);
 	}
 }

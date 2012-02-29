@@ -4,7 +4,6 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
-import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
@@ -12,11 +11,8 @@ import com.vimukti.accounter.web.client.ui.vendors.PurchaseOrderListView;
 
 public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
-	private PurchaseOrderListView view;
-
 	public PurchaseOrderListGrid(PurchaseOrderListView purchaseOrderListView) {
 		super(false);
-		this.view = purchaseOrderListView;
 	}
 
 	@Override
@@ -44,7 +40,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 			return obj.getVendorName();
 		case 3:
 			return DataUtils.amountAsStringWithCurrency(obj.getPurchasePrice(),
-					getCompany().getPrimaryCurrency());
+					obj.getCurrency());
 
 		default:
 			break;
@@ -54,10 +50,10 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	public void onDoubleClick(PurchaseOrdersList obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
 			ReportsRPC.openTransactionView(obj.getType(),
 					obj.getTransactionId());
-
+		}
 	}
 
 	@Override
@@ -71,7 +67,7 @@ public class PurchaseOrderListGrid extends BaseListGrid<PurchaseOrdersList> {
 
 	@Override
 	protected void onClick(PurchaseOrdersList obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		super.onClick(obj, row, col);
 	}

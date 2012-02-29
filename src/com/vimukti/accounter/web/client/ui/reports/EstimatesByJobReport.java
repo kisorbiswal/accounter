@@ -46,7 +46,7 @@ public class EstimatesByJobReport extends AbstractReportView<EstimatesByJob> {
 	public void exportToCsv() {
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 183, "",
+				Integer.parseInt(String.valueOf(endDate.getDate())), 191, "",
 				"");
 	}
 
@@ -56,7 +56,7 @@ public class EstimatesByJobReport extends AbstractReportView<EstimatesByJob> {
 				.getCustomerName() : "";
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
-				Integer.parseInt(String.valueOf(endDate.getDate())), 183, "",
+				Integer.parseInt(String.valueOf(endDate.getDate())), 191, "",
 				"", customerName);
 	}
 

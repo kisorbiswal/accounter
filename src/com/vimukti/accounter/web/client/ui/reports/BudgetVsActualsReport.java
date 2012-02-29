@@ -9,6 +9,7 @@ public class BudgetVsActualsReport extends AbstractReportView<BudgetActuals> {
 
 	long budgetId;
 	BudgetVsActualsServerReport serverreport;
+	int type;
 
 	public BudgetVsActualsReport() {
 		serverreport = new BudgetVsActualsServerReport(this);
@@ -32,7 +33,7 @@ public class BudgetVsActualsReport extends AbstractReportView<BudgetActuals> {
 	@Override
 	public void makeReportRequest(long id, ClientFinanceDate start,
 			ClientFinanceDate end, int type) {
-
+		this.type = type;
 		budgetId = id;
 		if (budgetId == 999L) {
 			super.addEmptyMessage(messages.noRecordsToShow());
@@ -53,7 +54,7 @@ public class BudgetVsActualsReport extends AbstractReportView<BudgetActuals> {
 		UIUtils.generateReportPDF(Integer.parseInt(String
 				.valueOf(new ClientFinanceDate().getDate())), Integer
 				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
-				154, "", "", budgetId);
+				183, String.valueOf(type), "", budgetId);
 
 	}
 
@@ -61,7 +62,7 @@ public class BudgetVsActualsReport extends AbstractReportView<BudgetActuals> {
 		UIUtils.exportReport(Integer.parseInt(String
 				.valueOf(new ClientFinanceDate().getDate())), Integer
 				.parseInt(String.valueOf(new ClientFinanceDate().getDate())),
-				154, "", "", budgetId);
+				183, String.valueOf(type), "", budgetId);
 
 	}
 

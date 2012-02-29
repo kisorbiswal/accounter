@@ -32,6 +32,8 @@ public class Activity extends CreatableObject {
 
 	private String auditHistory;
 
+	private int objStatus;
+
 	public Activity() {
 	}
 
@@ -52,15 +54,26 @@ public class Activity extends CreatableObject {
 	private void setObject(IAccounterServerCore obj) {
 		if (obj instanceof Transaction) {
 			Transaction tr = (Transaction) obj;
-			this.amount = tr.getTotal();
+			if (tr instanceof TAXReturn) {
+				TAXReturn taxReturn = (TAXReturn) tr;
+				this.amount = taxReturn.getTotalTAXAmount();
+			} else {
+				this.amount = tr.getTotal();
+			}
 			currency = tr.getCurrency();
 			this.transactionDate = tr.getDate();
 			Payee payee = tr.getInvolvedPayee();
 			if (payee != null) {
 				this.name = payee.getName();
 			}
-			this.setDataType(Utility.getTransactionName(tr.getType()));
+			if (tr instanceof Estimate) {
+				String title = getEstimateType(tr);
+				this.setDataType(title);
+			} else {
+				this.setDataType(Utility.getTransactionName(tr.getType()));
+			}
 			this.setObjType(tr.getType());
+			this.setObjStatus(tr.getSaveStatus());
 		} else {
 			if (obj instanceof INamedObject) {
 				this.name = ((INamedObject) obj).getName();
@@ -200,6 +213,30 @@ public class Activity extends CreatableObject {
 
 	public void setHistory(String history) {
 		this.auditHistory = history;
+	}
+
+	public int getObjStatus() {
+		return objStatus;
+	}
+
+	public void setObjStatus(int objStatus) {
+		this.objStatus = objStatus;
+	}
+
+	private String getEstimateType(Transaction tr) {
+		Estimate estimate = (Estimate) tr;
+		int type = estimate.getEstimateType();
+		String title = null;
+		if (type == Estimate.QUOTES) {
+			title = AccounterServerConstants.TYPE_ESTIMATE;
+		} else if (type == Estimate.CHARGES) {
+			title = AccounterServerConstants.TYPE_CHARGE;
+		} else if (type == Estimate.CREDITS) {
+			title = AccounterServerConstants.TYPE_CREDIT;
+		} else if (type == Estimate.SALES_ORDER) {
+			title = AccounterServerConstants.TYPE_SALES_ORDER;
+		}
+		return title;
 	}
 
 }

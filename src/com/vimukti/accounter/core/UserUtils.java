@@ -75,7 +75,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Item.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvendoryWarehouse) {
 				return true;
 			}
 		} else if (clas.equals(ItemGroup.class)) {
@@ -87,7 +87,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Measurement.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvendoryWarehouse) {
 				return true;
 			}
 		} else if (clas.equals(Customer.class)) {
@@ -259,7 +259,7 @@ public class UserUtils {
 				return true;
 			}
 		} else if (clas.equals(Unit.class)) {
-			if (canDoInvoiceBills) {
+			if (canDoInvoiceBills || canDoInvendoryWarehouse) {
 				return true;
 			}
 		} else if (clas.equals(User.class)) {
@@ -272,6 +272,14 @@ public class UserUtils {
 			}
 		} else if (clas.equals(VendorGroup.class)) {
 			if (canDoCompanySettings) {
+				return true;
+			}
+		} else if (clas.equals(Warehouse.class)) {
+			if (canDoInvendoryWarehouse) {
+				return true;
+			}
+		} else if (clas.equals(PurchaseOrder.class)) {
+			if (canDoInvoiceBills) {
 				return true;
 			}
 		} else if (clas.equals(Warehouse.class)) {

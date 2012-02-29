@@ -35,6 +35,7 @@ import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
+import com.vimukti.accounter.web.client.core.reports.BankCheckDetail;
 import com.vimukti.accounter.web.client.core.reports.BankDepositDetail;
 import com.vimukti.accounter.web.client.core.reports.BaseReport;
 import com.vimukti.accounter.web.client.core.reports.BudgetActuals;
@@ -50,7 +51,6 @@ import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
 import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
 import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
-import com.vimukti.accounter.web.client.core.reports.JobEstimatesVsActualsSummary;
 import com.vimukti.accounter.web.client.core.reports.JobProfitability;
 import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
@@ -1018,8 +1018,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+			long itemId, ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1028,7 +1027,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getPurchageManager()
-					.getPurchasesByItemDetail(itemName, financeDates[0],
+					.getPurchasesByItemDetail(itemId, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1049,7 +1048,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getPurchasesByVendorDetail(
-			String vendorName, ClientFinanceDate startDate,
+			long vendorId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
@@ -1059,7 +1058,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getVendorManager()
-					.getPurchasesByVendorDetail(vendorName, financeDates[0],
+					.getPurchasesByVendorDetail(vendorId, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1080,15 +1079,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
-			String customerName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		return salesByCustomerDetailReport(customerName, startDate, endDate,
+			long id, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+		return salesByCustomerDetailReport(id, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<SalesByCustomerDetail> salesByCustomerDetailReport(
-			String customerName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate, long companyId) {
+			long id, ClientFinanceDate startDate, ClientFinanceDate endDate,
+			long companyId) {
 
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
@@ -1098,8 +1096,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getReportManager()
-					.getSalesByCustomerDetailReport(customerName,
-							financeDates[0], financeDates[1], companyId);
+					.getSalesByCustomerDetailReport(id, financeDates[0],
+							financeDates[1], companyId);
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
 			if (salesByCustomertList != null)
@@ -1119,9 +1117,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(
-			String itemName, ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
+	public ArrayList<SalesByCustomerDetail> getSalesByItemDetail(long itemId,
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
 		ArrayList<SalesByCustomerDetail> salesByCustomertList = new ArrayList<SalesByCustomerDetail>();
 
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
@@ -1130,7 +1127,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			salesByCustomertList = getFinanceTool().getSalesManager()
-					.getSalesByItemDetail(itemName, financeDates[0],
+					.getSalesByItemDetail(itemId, financeDates[0],
 							financeDates[1], getCompanyId());
 
 			SalesByCustomerDetail obj = new SalesByCustomerDetail();
@@ -1233,14 +1230,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
+			long accountId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
-		return transactionDetailByAccount(accountName, startDate, endDate,
+		return transactionDetailByAccount(accountId, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<TransactionDetailByAccount> transactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
+			long accountId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		ArrayList<TransactionDetailByAccount> transDetailByAccountList = new ArrayList<TransactionDetailByAccount>();
 
@@ -1250,8 +1247,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		try {
 
 			transDetailByAccountList = getFinanceTool().getReportManager()
-					.getTransactionDetailByAccount(accountName,
-							financeDates[0], financeDates[1], companyId);
+					.getTransactionDetailByAccount(accountId, financeDates[0],
+							financeDates[1], companyId);
 
 			TransactionDetailByAccount obj = new TransactionDetailByAccount();
 			if (transDetailByAccountList != null)
@@ -1292,14 +1289,14 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			final String taxItemName, final ClientFinanceDate startDate,
+			final long taxItemId, final ClientFinanceDate startDate,
 			final ClientFinanceDate endDate) {
-		return transactionDetailByTaxItem(taxItemName, startDate, endDate,
+		return transactionDetailByTaxItem(taxItemId, startDate, endDate,
 				getCompanyId());
 	}
 
 	private ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItem(
-			String taxItemName, ClientFinanceDate startDate,
+			long taxItemId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		ArrayList<TransactionDetailByTaxItem> transactionDetailByTaxItemList = new ArrayList<TransactionDetailByTaxItem>();
 
@@ -1310,7 +1307,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 			transactionDetailByTaxItemList = getFinanceTool()
 					.getReportManager().getTransactionDetailByTaxItem(
-							taxItemName, financeDates[0], financeDates[1],
+							taxItemId, financeDates[0], financeDates[1],
 							companyId);
 
 			TransactionDetailByTaxItem obj = new TransactionDetailByTaxItem();
@@ -1584,211 +1581,216 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return trialbalanceList;
 	}
 
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return purchaseOpenOrderReport(startDate, endDate, getCompanyId());
+	// }
+
+	// private ArrayList<OpenAndClosedOrders> purchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	//
+	// ArrayList<OpenAndClosedOrders> purchaseOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	//
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	//
+	// try {
+	// purchaseOrders = getFinanceTool().getPurchageManager()
+	// .getOpenPurchaseOrders(financeDates[0], financeDates[1],
+	// companyId);
+	//
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (purchaseOrders != null)
+	// purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return purchaseOrders;
+	//
+	// }
+
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return purchaseCompletedOrderReport(startDate, endDate, getCompanyId());
+	// }
+
+	// private ArrayList<OpenAndClosedOrders> purchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	//
+	// ArrayList<OpenAndClosedOrders> purchaseOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	// try {
+	// purchaseOrders = getFinanceTool().getPurchageManager()
+	// .getCompletedPurchaseOrders(financeDates[0],
+	// financeDates[1], companyId);
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (purchaseOrders != null)
+	// purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return purchaseOrders;
+	//
+	// }
+
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return purchaseCancelledOrderReport(startDate, endDate, getCompanyId());
+	// }
+
+	// private ArrayList<OpenAndClosedOrders> purchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// ArrayList<OpenAndClosedOrders> purchaseOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	// try {
+	// purchaseOrders = getFinanceTool().getPurchageManager()
+	// .getCanceledPurchaseOrders(financeDates[0],
+	// financeDates[1], companyId);
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (purchaseOrders != null)
+	// purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return purchaseOrders;
+	// }
+
 	@Override
-	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return purchaseOpenOrderReport(startDate, endDate, getCompanyId());
+		return purchaseOrderReport(type, startDate, endDate, getCompanyId());
 	}
 
-	private ArrayList<OpenAndClosedOrders> purchaseOpenOrderReport(
+	private ArrayList<OpenAndClosedOrders> purchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
 
 		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
-
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-
-		try {
-			purchaseOrders = getFinanceTool().getPurchageManager()
-					.getOpenPurchaseOrders(financeDates[0], financeDates[1],
-							companyId);
-
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return purchaseOrders;
-
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return purchaseCompletedOrderReport(startDate, endDate, getCompanyId());
-	}
-
-	private ArrayList<OpenAndClosedOrders> purchaseCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-
-		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
 				endDate, companyId);
 		try {
 			purchaseOrders = getFinanceTool().getPurchageManager()
-					.getCompletedPurchaseOrders(financeDates[0],
-							financeDates[1], companyId);
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return purchaseOrders;
-
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return purchaseCancelledOrderReport(startDate, endDate, getCompanyId());
-	}
-
-	private ArrayList<OpenAndClosedOrders> purchaseCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-		try {
-			purchaseOrders = getFinanceTool().getPurchageManager()
-					.getCanceledPurchaseOrders(financeDates[0],
-							financeDates[1], companyId);
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return purchaseOrders;
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return purchaseOrderReport(startDate, endDate, getCompanyId());
-	}
-
-	private ArrayList<OpenAndClosedOrders> purchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-
-		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-		try {
-			purchaseOrders = getFinanceTool().getPurchageManager()
-					.getPurchaseOrders(financeDates[0], financeDates[1],
-							companyId);
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return purchaseOrders;
-
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		ArrayList<OpenAndClosedOrders> purchaseOrders = new ArrayList<OpenAndClosedOrders>();
-
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
-
-		try {
-			purchaseOrders = getFinanceTool().getPurchageManager()
-					.getClosedPurchaseOrders(financeDates[0], financeDates[1],
-							getCompanyId());
-
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (purchaseOrders != null)
-				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return purchaseOrders;
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return salesOpenOrderReport(startDate, endDate, getCompanyId());
-	}
-
-	private ArrayList<OpenAndClosedOrders> salesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-
-		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
-
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-
-		try {
-			salesOrders = getFinanceTool().getSalesManager()
-					.getOpenSalesOrders(financeDates[0], financeDates[1],
-							companyId);
-
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return salesOrders;
-
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return salesCompletedOrderReport(startDate, endDate, getCompanyId());
-	}
-
-	private ArrayList<OpenAndClosedOrders> salesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-
-		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-		try {
-			salesOrders = getFinanceTool().getSalesManager()
-					.getCompletedSalesOrders(financeDates[0], financeDates[1],
+					.getPurchaseOrders(type, financeDates[0], financeDates[1],
 							companyId);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+			if (purchaseOrders != null)
+				purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
 						financeDates));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return salesOrders;
+		return purchaseOrders;
 
 	}
+
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getPurchaseClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// ArrayList<OpenAndClosedOrders> purchaseOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	//
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, getCompanyId());
+	//
+	// try {
+	// purchaseOrders = getFinanceTool().getPurchageManager()
+	// .getClosedPurchaseOrders(financeDates[0], financeDates[1],
+	// getCompanyId());
+	//
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (purchaseOrders != null)
+	// purchaseOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return purchaseOrders;
+	// }
+
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return salesOpenOrderReport(startDate, endDate, getCompanyId());
+	// }
+
+	// private ArrayList<OpenAndClosedOrders> salesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	//
+	// ArrayList<OpenAndClosedOrders> salesOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	//
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	//
+	// try {
+	// salesOrders = getFinanceTool().getSalesManager()
+	// .getOpenSalesOrders(financeDates[0], financeDates[1],
+	// companyId);
+	//
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (salesOrders != null)
+	// salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return salesOrders;
+	//
+	// }
+
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return salesCompletedOrderReport(startDate, endDate, getCompanyId());
+	// }
+	// private ArrayList<OpenAndClosedOrders> salesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	//
+	// ArrayList<OpenAndClosedOrders> salesOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	// try {
+	// salesOrders = getFinanceTool().getSalesManager()
+	// .getCompletedSalesOrders(financeDates[0], financeDates[1],
+	// companyId);
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (salesOrders != null)
+	// salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return salesOrders;
+	//
+	// }
 
 	@Override
-	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return salesOrderReport(startDate, endDate, getCompanyId());
+		return salesOrderReport(type, startDate, endDate, getCompanyId());
 	}
 
-	private ArrayList<OpenAndClosedOrders> salesOrderReport(
+	private ArrayList<OpenAndClosedOrders> salesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
 
@@ -1797,7 +1799,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				endDate, companyId);
 		try {
 			salesOrders = getFinanceTool().getSalesManager().getSalesOrders(
-					financeDates[0], financeDates[1], companyId);
+					type, financeDates[0], financeDates[1], companyId);
 			OpenAndClosedOrders obj = new OpenAndClosedOrders();
 			if (salesOrders != null)
 				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
@@ -1808,56 +1810,58 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return salesOrders;
 	}
 
-	@Override
-	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		return salesCancelledReport(startDate, endDate, getCompanyId());
-	}
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// return salesCancelledReport(startDate, endDate, getCompanyId());
+	// }
 
-	private ArrayList<OpenAndClosedOrders> salesCancelledReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, companyId);
-		try {
-			salesOrders = getFinanceTool().getSalesManager()
-					.getCanceledSalesOrders(financeDates[0], financeDates[1],
-							companyId);
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
+	// private ArrayList<OpenAndClosedOrders> salesCancelledReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// ArrayList<OpenAndClosedOrders> salesOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, companyId);
+	// try {
+	// salesOrders = getFinanceTool().getSalesManager()
+	// .getCanceledSalesOrders(financeDates[0], financeDates[1],
+	// companyId);
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (salesOrders != null)
+	// salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return salesOrders;
+	// }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return salesOrders;
-	}
-
-	@Override
-	public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate) {
-		ArrayList<OpenAndClosedOrders> salesOrders = new ArrayList<OpenAndClosedOrders>();
-
-		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
-				endDate, getCompanyId());
-
-		try {
-			salesOrders = getFinanceTool().getSalesManager()
-					.getClosedSalesOrders(financeDates[0], financeDates[1],
-							getCompanyId());
-
-			OpenAndClosedOrders obj = new OpenAndClosedOrders();
-			if (salesOrders != null)
-				salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
-						financeDates));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return salesOrders;
-	}
+	// @Override
+	// public ArrayList<OpenAndClosedOrders> getSalesClosedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate) {
+	// ArrayList<OpenAndClosedOrders> salesOrders = new
+	// ArrayList<OpenAndClosedOrders>();
+	//
+	// FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+	// endDate, getCompanyId());
+	//
+	// try {
+	// salesOrders = getFinanceTool().getSalesManager()
+	// .getClosedSalesOrders(financeDates[0], financeDates[1],
+	// getCompanyId());
+	//
+	// OpenAndClosedOrders obj = new OpenAndClosedOrders();
+	// if (salesOrders != null)
+	// salesOrders.add((OpenAndClosedOrders) setStartEndDates(obj,
+	// financeDates));
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// return salesOrders;
+	// }
 
 	//
 	// public List<OpenAndClosedOrders> getSalesOpenOrderReportByStatus(
@@ -2655,28 +2659,28 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return agedDebtorsReport(name, startDate, endDate, companyId);
 	}
 
-	public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return salesOpenOrderReport(startDate, endDate, companyId);
-	}
+	// public ArrayList<OpenAndClosedOrders> getSalesOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return salesOpenOrderReport(startDate, endDate, companyId);
+	// }
 
-	public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return salesCompletedOrderReport(startDate, endDate, companyId);
-	}
+	// public ArrayList<OpenAndClosedOrders> getSalesCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return salesCompletedOrderReport(startDate, endDate, companyId);
+	// }
+	//
+	// public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return salesCancelledReport(startDate, endDate, companyId);
+	// }
 
-	public ArrayList<OpenAndClosedOrders> getSalesCancelledOrderReport(
+	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
-		return salesCancelledReport(startDate, endDate, companyId);
-	}
-
-	public ArrayList<OpenAndClosedOrders> getSalesOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return salesOrderReport(startDate, endDate, companyId);
+		return salesOrderReport(type, startDate, endDate, companyId);
 	}
 
 	public ArrayList<DummyDebitor> getCreditors(ClientFinanceDate startDate,
@@ -2691,28 +2695,28 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		return agedCreditorsReport(name, startDate, endDate, companyId);
 	}
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return purchaseOpenOrderReport(startDate, endDate, companyId);
-	}
+	// public ArrayList<OpenAndClosedOrders> getPurchaseOpenOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return purchaseOpenOrderReport(startDate, endDate, companyId);
+	// }
+	//
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return purchaseCompletedOrderReport(startDate, endDate, companyId);
+	// }
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCompletedOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return purchaseCompletedOrderReport(startDate, endDate, companyId);
-	}
+	// public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	// ClientFinanceDate startDate, ClientFinanceDate endDate,
+	// long companyId) {
+	// return purchaseCancelledOrderReport(startDate, endDate, companyId);
+	// }
 
-	public ArrayList<OpenAndClosedOrders> getPurchaseCancelledOrderReport(
+	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(int type,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			long companyId) {
-		return purchaseCancelledOrderReport(startDate, endDate, companyId);
-	}
-
-	public ArrayList<OpenAndClosedOrders> getPurchaseOrderReport(
-			ClientFinanceDate startDate, ClientFinanceDate endDate,
-			long companyId) {
-		return purchaseOrderReport(startDate, endDate, companyId);
+		return purchaseOrderReport(type, startDate, endDate, companyId);
 	}
 
 	public ArrayList<VATSummary> getPriorReturnVATSummary(long taxAgncy,
@@ -2765,7 +2769,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<TransactionDetailByTaxItem> getTransactionDetailByTaxItem(
-			String status, ClientFinanceDate startDate,
+			long status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
 		return transactionDetailByTaxItem(status, startDate, endDate, companyId);
 	}
@@ -2777,9 +2781,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	public ArrayList<TransactionDetailByAccount> getTransactionDetailByAccount(
-			String accountName, ClientFinanceDate startDate,
+			long accountId, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return transactionDetailByAccount(accountName, startDate, endDate,
+		return transactionDetailByAccount(accountId, startDate, endDate,
 				companyId);
 	}
 
@@ -2804,8 +2808,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<SalesByCustomerDetail> getSalesByCustomerDetailReport(
 			String status, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, long companyId) {
-		return salesByCustomerDetailReport(status, startDate, endDate,
-				companyId);
+		return salesByCustomerDetailReport(Long.parseLong(status), startDate,
+				endDate, companyId);
 	}
 
 	public ArrayList<SalesByCustomerDetail> getSalesByItemSummary(
@@ -3143,9 +3147,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<UnRealisedLossOrGain> getUnRealisedExchangeLossesAndGains(
 			long enterdDate, Map<Long, Double> exchangeRates)
 			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(
+				new ClientFinanceDate(), new ClientFinanceDate(),
+				getCompanyId());
 		ArrayList<UnRealisedLossOrGain> list = getFinanceTool()
 				.getReportManager().getUnRealisedExchangeLossesAndGains(
 						enterdDate, getCompanyId(), exchangeRates);
+		UnRealisedLossOrGain obj = new UnRealisedLossOrGain();
+		if (list != null)
+			list.add((UnRealisedLossOrGain) setStartEndDates(obj,
+					minimumAndMaximumDates));
 		return list;
 	}
 
@@ -3200,23 +3211,56 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<BankDepositDetail> getBankingDepositDetils(
-			ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<BankDepositDetail> list = getFinanceTool().getReportManager()
+				.getBankDepositDetails(getCompanyId(), start, end);
+		BankDepositDetail obj = new BankDepositDetail();
+		if (list != null)
+			list.add((BankDepositDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
+
 	}
 
 	@Override
 	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
-			long accountId, ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getReportManager().getMissionChecksByAccount(
+				accountId, start, end, getCompanyId());
 	}
 
 	@Override
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
-			ClientFinanceDate start, ClientFinanceDate end) {
-		// TODO Auto-generated method stub
-		return null;
+			long accountId, ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		return getFinanceTool().getReportManager()
+				.getReconciliationDiscrepancyByAccount(accountId, start, end,
+						getCompanyId());
+	}
+
+	@Override
+	public ArrayList<BankCheckDetail> getBankCheckDetils(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ArrayList<BankCheckDetail> list = getFinanceTool().getReportManager()
+				.getBankCheckDetails(
+						getCompanyId(),
+						new ClientFinanceDate(minimumAndMaximumDates[0]
+								.getDate()),
+						new ClientFinanceDate(minimumAndMaximumDates[1]
+								.getDate()));
+		BankCheckDetail obj = new BankCheckDetail();
+		if (list != null)
+			list.add((BankCheckDetail) setStartEndDates(obj,
+					minimumAndMaximumDates));
+		return list;
+
 	}
 
 	@Override
@@ -3271,16 +3315,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
 		JobProfitability obj = new JobProfitability();
-		FinanceDate[] dates = getMinimumAndMaximumDates(start,
-				end, getCompanyId());
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
 		ArrayList<JobProfitability> list = null;
 		try {
 			list = getFinanceTool().getReportManager()
-					.getJobProfitabilitySummaryReport(getCompanyId(), dates[0].toClientFinanceDate(),
+					.getJobProfitabilitySummaryReport(getCompanyId(),
+							dates[0].toClientFinanceDate(),
 							dates[1].toClientFinanceDate());
 			if (list != null)
-				list.add((JobProfitability) setStartEndDates(obj,
-						dates));
+				list.add((JobProfitability) setStartEndDates(obj, dates));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
@@ -3292,35 +3336,16 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<UnbilledCostsByJob> getUnBilledCostsByJob(
 			ClientFinanceDate start, ClientFinanceDate end) {
 		UnbilledCostsByJob obj = new UnbilledCostsByJob();
-		FinanceDate[] dates = getMinimumAndMaximumDates(start,
-				end, getCompanyId());
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
 		ArrayList<UnbilledCostsByJob> list = null;
 		try {
 			list = getFinanceTool().getReportManager()
-					.getUnBilledCostsByJobReport(getCompanyId(), dates[0].toClientFinanceDate(), dates[1].toClientFinanceDate());
+					.getUnBilledCostsByJobReport(getCompanyId(),
+							dates[0].toClientFinanceDate(),
+							dates[1].toClientFinanceDate());
 			if (list != null)
-				list.add((UnbilledCostsByJob) setStartEndDates(obj,
-						dates));
-		} catch (AccounterException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
-
-	@Override
-	public ArrayList<JobEstimatesVsActualsSummary> getJobEstimatesVsActualsSummaryReport(
-			ClientFinanceDate start, ClientFinanceDate end) {
-		JobEstimatesVsActualsSummary obj = new JobEstimatesVsActualsSummary();
-		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
-				end, getCompanyId());
-		ArrayList<JobEstimatesVsActualsSummary> list = null;
-		try {
-			list = getFinanceTool().getReportManager()
-					.getJobEstimatesVsActualsSummaryReport(getCompanyId(),
-							start, end);
-			if (list != null)
-				list.add((JobEstimatesVsActualsSummary) setStartEndDates(obj,
-						minimumAndMaximumDates));
+				list.add((UnbilledCostsByJob) setStartEndDates(obj, dates));
 		} catch (AccounterException e) {
 			e.printStackTrace();
 		}
@@ -3329,8 +3354,8 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<ItemActualCostDetail> getItemActualCostDetail(
-			ClientFinanceDate start, ClientFinanceDate end, long itemId,long customerId, long jobId,
-			boolean isActualcostDetail) {
+			ClientFinanceDate start, ClientFinanceDate end, long itemId,
+			long customerId, long jobId, boolean isActualcostDetail) {
 		ArrayList<ItemActualCostDetail> itemActualCostDetails = new ArrayList<ItemActualCostDetail>();
 		FinanceDate[] financeDates = getMinimumAndMaximumDates(start, end,
 				getCompanyId());
@@ -3339,7 +3364,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			itemActualCostDetails = getFinanceTool().getReportManager()
 					.getItemActualCostOrRevenueDetails(financeDates[0],
 							financeDates[1], getCompanyId().longValue(),
-							itemId,customerId, jobId, isActualcostDetail);
+							itemId, customerId, jobId, isActualcostDetail);
 			ItemActualCostDetail obj = new ItemActualCostDetail();
 			if (itemActualCostDetails != null) {
 				itemActualCostDetails
@@ -3357,14 +3382,15 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 			long payeeId, long jobId, ClientFinanceDate start,
 			ClientFinanceDate end) throws AccounterException {
 		JobProfitabilityDetailByJob obj = new JobProfitabilityDetailByJob();
-		FinanceDate[] dates = getMinimumAndMaximumDates(start,
-				end, getCompanyId());
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
 		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool()
 				.getReportManager().getJobProfitabilityDetailByJobReport(
-						payeeId, jobId, getCompanyId(), dates[0].toClientFinanceDate(),dates[1].toClientFinanceDate());
+						payeeId, jobId, getCompanyId(),
+						dates[0].toClientFinanceDate(),
+						dates[1].toClientFinanceDate());
 		if (list != null)
-			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj,
-					dates));
+			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj, dates));
 		return list;
 	}
 }

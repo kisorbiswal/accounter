@@ -681,7 +681,13 @@ public class TDSChalanDetailsView extends
 
 		result.add(taxDynamicForm.validate());
 		result.add(otherDynamicForm.validate());
-
+		ClientAccount selectedValue = payFromAccCombo.getSelectedValue();
+		if (selectedValue != null
+				&& selectedValue.getCurrency() != getCompany()
+						.getPrimaryCurrency().getID()) {
+			result.addError(payFromAccCombo,
+					"Selected pay from account must be in base currency");
+		}
 		List<ClientTDSTransactionItem> allRows = table.getSelectedRecords();
 		if (allRows.size() < 1) {
 			result.addError(table, "No transaction added to chalan details");
@@ -845,7 +851,7 @@ public class TDSChalanDetailsView extends
 		// selectFormTypeCombo.setDisabled(false);
 		// slectAssecementYear.setDisabled(false);
 		financialYearCombo.setDisabled(false);
-		endingBalanceText.setDisabled(false);
+		// endingBalanceText.setDisabled(false);
 		payFromAccCombo.setDisabled(false);
 
 		super.onEdit();
