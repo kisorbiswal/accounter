@@ -348,7 +348,7 @@ public interface AccounterMessages extends Messages {
 	public String amountToUseMustLessthanTotal();
 
 	public String and();
-	
+
 	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
 
 	public String anItemAlreadyExistswiththisname();
@@ -1272,7 +1272,7 @@ public interface AccounterMessages extends Messages {
 	public String decimalDigitLimit();
 
 	public String decimalSymbol();
-	
+
 	public String decimalSymbolShouldNotContainNumericalValues();
 
 	public String decline();
@@ -1382,7 +1382,7 @@ public interface AccounterMessages extends Messages {
 	public String digitGrouping();
 
 	public String digitGroupingDecimal();
-	
+
 	public String digitGroupingSymbolShouldNotContainNumericalValues();
 
 	public String dipositAccountAndTransferAccountShouldBeDiff();
@@ -5923,11 +5923,23 @@ public interface AccounterMessages extends Messages {
 
 	public String propertyMatchedAlready();
 
-	public String unassigned();
-
 	public String pleaseEnterDecimalSymbol();
 
 	public String uploadCsvFileDialog();
+
+	public String aleadyMapped(String selectedValue);
+
+	public String matchedWithWrongProprty(String selectedValue, String value);
+
+	public String unassigned();
+
+	public String nameInCSV();
+
+	public String fieldValue();
+
+	public String accounterField();
+
+	public String mappingPreview();
 
 	public String reconciledAmount();
 

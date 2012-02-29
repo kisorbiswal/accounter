@@ -9,3 +9,8 @@ logs
 logs/*
 build
 build/*
+war/*.gz
+war/*/*.gz
+war/*/*/*.gz
+build/*
+build

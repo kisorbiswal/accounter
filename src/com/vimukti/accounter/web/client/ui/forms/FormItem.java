@@ -30,8 +30,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 
 public abstract class FormItem<T> {
 
-	protected static AccounterMessages messages=Global.get().messages();
-	
+	protected static AccounterMessages messages = Global.get().messages();
+
 	private String title;
 	private String name;
 	private T value;
@@ -380,8 +380,7 @@ public abstract class FormItem<T> {
 		ValidationResult result = new ValidationResult();
 		for (FormItem<?> item : items) {
 			if (!item.validate()) {
-				result.addError(item,
-						messages.pleaseEnter(item.getTitle()));
+				result.addError(item, messages.pleaseEnter(item.getTitle()));
 			}
 		}
 		return result;

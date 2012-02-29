@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.core;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -11,7 +12,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 
 public class ClientFinanceDate implements Comparable<ClientFinanceDate>,
-		IsSerializable, Cloneable {
+		IsSerializable, Serializable, Cloneable {
 
 	int year, month, day;
 

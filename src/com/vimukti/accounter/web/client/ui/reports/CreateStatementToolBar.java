@@ -47,8 +47,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] filter = { messages.open(), messages.overDue(),
-				messages.all(), messages.voided(), messages.drafts() };
+		String[] filter = { messages.open(), messages.overDue(), messages.all() };
 		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.initCombo(Arrays.asList(filter));
 		viewSelect

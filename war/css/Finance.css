@@ -1713,7 +1713,8 @@ input[type="text"],textarea {
 }
 
 input[type="text"] {
-	line-height /*\**/: 1.8\9
+	line-height /*\**/: 1.8\9
+
 }
 /*.new_vat_item tr td:FIRST-CHILD {
 	width:250px;
