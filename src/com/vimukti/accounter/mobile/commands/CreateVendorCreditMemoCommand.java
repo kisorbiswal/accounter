@@ -16,6 +16,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -62,6 +63,7 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 						context.getCompany()));
 		get(PHONE).setDefaultValue("");
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 
@@ -148,6 +150,22 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
+
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
 				"please select accountItems", getMessages().Account(), true,
 				true) {
@@ -192,6 +210,13 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 				return false;
 			}
 
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateVendorCreditMemoCommand.this
+						.get(DISCOUNT).getValue();
+				return value2;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -224,6 +249,13 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 			@Override
 			protected double getCurrencyFactor() {
 				return CreateVendorCreditMemoCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateVendorCreditMemoCommand.this
+						.get(DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -408,6 +440,12 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							vendorCreditMemo.getTransactionItems(), context));
+		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(vendorCreditMemo
+							.getTransactionItems()));
 		}
 		get(MEMO).setValue(vendorCreditMemo.getMemo());
 	}

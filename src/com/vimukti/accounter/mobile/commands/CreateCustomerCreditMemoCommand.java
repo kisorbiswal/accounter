@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -74,6 +75,7 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 						ClientTransaction.TYPE_CUSTOMER_CREDIT_MEMO,
 						context.getCompany()));
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 
@@ -138,6 +140,22 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
+
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnter(getMessages().account()), getMessages().Account(),
 				true, true) {
@@ -179,6 +197,13 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 			protected boolean isTrackTaxPaidAccount() {
 				return true;
 			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCustomerCreditMemoCommand.this.get(
+						DISCOUNT).getValue();
+				return value2;
+			}
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),
@@ -210,6 +235,13 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 			protected Currency getCurrency() {
 				return ((Customer) CreateCustomerCreditMemoCommand.this.get(
 						CUSTOMER).getValue()).getCurrency();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCustomerCreditMemoCommand.this.get(
+						DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -384,6 +416,12 @@ public class CreateCustomerCreditMemoCommand extends AbstractTransactionCommand 
 				CommandUtils.getServerObjectById(creditMemo.getCustomer(),
 						AccounterCoreType.CUSTOMER));
 		get(MEMO).setValue(creditMemo.getMemo());
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(creditMemo
+							.getTransactionItems()));
+		}
 	}
 
 	@Override

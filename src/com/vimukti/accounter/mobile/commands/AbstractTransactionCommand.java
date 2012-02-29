@@ -61,6 +61,7 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 	protected static final String SALES_PERSON = "sales_person";
 	protected static final String SHIPPING_TERM = "shippingterm";
 	protected static final String SHIPPING_METHOD = "shippingmethod";
+	protected static final String DISCOUNT = "transactiondiscount";
 
 	private ClientTransaction transaction;
 
@@ -105,18 +106,37 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 		return taxCode;
 	}
 
+	protected Double getDiscountFromTransactionItems(
+			List<ClientTransactionItem> transactionItems) {
+		Double discount = null;
+		for (ClientTransactionItem item : transactionItems) {
+			if (item.getDiscount() != 0) {
+				discount = item.getDiscount();
+				if (discount != null)
+					break;
+				else
+					continue;
+			}
+		}
+		return discount;
+	}
+
 	public double[] getTransactionTotal(boolean isAmountsIncludeVAT,
 			List<ClientTransactionItem> allrecords, boolean isSales) {
 		double lineTotal = 0.0;
 		double totalTax = 0.0;
+		double totaldiscount = 0;
 
 		for (ClientTransactionItem record : allrecords) {
 
 			int type = record.getType();
 
-			if (type == 0)
+			if (type == 0) {
 				continue;
-			// totaldiscount += record.getDiscount();
+			}
+			if (record.getDiscount() != null) {
+				totaldiscount += record.getDiscount();
+			}
 
 			Double lineTotalAmt = record.getLineTotal();
 			lineTotal += lineTotalAmt;
@@ -143,9 +163,10 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			// totalVat += citem.getVATfraction();
 		}
 
-		double[] result = new double[2];
+		double[] result = new double[3];
 		result[0] = lineTotal;
 		result[1] = totalTax;
+		result[2] = totaldiscount;
 		return result;
 	}
 
@@ -385,6 +406,22 @@ public abstract class AbstractTransactionCommand extends AbstractCommand {
 			boolean isAmountIncludeTAX) {
 		for (ClientTransactionItem item : transaction.getTransactionItems()) {
 			item.setAmountIncludeTAX(isAmountIncludeTAX);
+		}
+	}
+
+	public boolean isTrackDiscounts() {
+		if (transaction != null && transaction.haveDiscount()) {
+			return true;
+		} else {
+			return getPreferences().isTrackDiscounts();
+		}
+	}
+
+	public boolean isDiscountPerDetailLine() {
+		if (transaction != null && transaction.usesDifferentDiscounts()) {
+			return true;
+		} else {
+			return getPreferences().isDiscountPerDetailLine();
 		}
 	}
 

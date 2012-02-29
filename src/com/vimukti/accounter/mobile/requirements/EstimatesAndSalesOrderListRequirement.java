@@ -46,7 +46,7 @@ public abstract class EstimatesAndSalesOrderListRequirement extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().quote()));
+		list.add("createQuote");
 	}
 
 	@Override

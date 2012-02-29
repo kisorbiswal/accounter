@@ -551,9 +551,9 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			item.setCommissionItem(isCommisionItem);
 		}
 		item.setStandardCost(cost);
-		if (vatcode != null
-				&& (itemType == ClientItem.TYPE_NON_INVENTORY_PART || itemType == ClientItem.TYPE_SERVICE)) {
-			item.setTaxCode(vatcode.getID());
+		if (itemType == ClientItem.TYPE_NON_INVENTORY_PART
+				|| itemType == ClientItem.TYPE_SERVICE) {
+			item.setTaxCode(vatcode != null ? vatcode.getID() : 0);
 		}
 		item.setActive(isActive);
 		item.setIBuyThisItem(isBuyservice);

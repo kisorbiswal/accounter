@@ -156,6 +156,21 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			}
 		});
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
 				getMessages().Account(), false, true) {
@@ -213,6 +228,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			@Override
 			public boolean isSales() {
 				return true;
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = WriteCheckCommand.this.get(DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -435,6 +456,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 					getTaxCodeForTransactionItems(
 							writeCheck.getTransactionItems(), context));
 		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(writeCheck
+							.getTransactionItems()));
+		}
 		get(BANK_ACCOUNT).setValue(
 				CommandUtils.getServerObjectById(writeCheck.getBankAccount(),
 						AccounterCoreType.ACCOUNT));
@@ -468,6 +495,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 						ClientTransaction.TYPE_WRITE_CHECK, context.getCompany()));
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 	}
 
 	private void setAmountValue() {

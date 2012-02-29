@@ -20,6 +20,7 @@ public class NumberFormatPreferencesCommand extends
 	private static final String USE_ACCOUNT_NUMBERS = "useaccountnumbers";
 	private static final String TIMEZONE = "timezone";
 	private static final String FISCAL_MONTH = "fiscalamonth";
+	private static final String ACCOUNT_NUMBERS_RANGE = "accountNumberRangeChecking";
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
@@ -28,6 +29,8 @@ public class NumberFormatPreferencesCommand extends
 		get(USE_CUSTOMER_NUMBERS).setValue(preferences.getUseCustomerId());
 		get(USE_VENDOR_NUMBERS).setValue(preferences.getUseVendorId());
 		get(USE_ACCOUNT_NUMBERS).setValue(preferences.getUseAccountNumbers());
+		get(ACCOUNT_NUMBERS_RANGE).setValue(
+				preferences.isAccountnumberRangeCheckEnable());
 		get(TIMEZONE).setValue(preferences.getTimezone());
 		// get(FISCAL_MONTH).setValue(
 		// getFiscalYearMonths()
@@ -142,6 +145,19 @@ public class NumberFormatPreferencesCommand extends
 		// }
 		// });
 
+		list.add(new BooleanRequirement(ACCOUNT_NUMBERS_RANGE, true) {
+
+			@Override
+			protected String getTrueString() {
+				return "Enabled account numbers range checking";
+			}
+
+			@Override
+			protected String getFalseString() {
+				return "Disabled account numbers range checking";
+			}
+		});
+
 		list.add(new StringListRequirement(TIMEZONE, getMessages()
 				.pleaseSelect(getMessages().timezone()), getMessages()
 				.timezone(), true, true, null) {
@@ -210,12 +226,15 @@ public class NumberFormatPreferencesCommand extends
 		Boolean useCustomerNos = get(USE_CUSTOMER_NUMBERS).getValue();
 		Boolean useVendorNos = get(USE_VENDOR_NUMBERS).getValue();
 		Boolean useAccountNos = get(USE_ACCOUNT_NUMBERS).getValue();
+		boolean isAccountNumbersRangeChecking = get(ACCOUNT_NUMBERS_RANGE)
+				.getValue();
 		String timeZone = get(TIMEZONE).getValue();
 		// String fiscalMonth = get(FISCAL_MONTH).getValue();
 		preferences.setDateFormat(dateFormat);
 		preferences.setUseCustomerId(useCustomerNos);
 		preferences.setUseVendorId(useVendorNos);
 		preferences.setUseAccountNumbers(useAccountNos);
+		preferences.setIsAccountNumberRangeCheck(isAccountNumbersRangeChecking);
 		// preferences.setFiscalYearFirstMonth(getFiscalYearMonths().indexOf(
 		// fiscalMonth));
 		preferences.setTimezone(timeZone);

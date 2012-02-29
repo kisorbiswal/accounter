@@ -43,7 +43,7 @@ public abstract class PurchaseOrderListRequirements extends
 
 	@Override
 	protected void setCreateCommand(CommandList list) {
-		list.add(getMessages().create(getMessages().purchaseOrder()));
+		list.add("addNewPurchaseOrder");
 
 	}
 

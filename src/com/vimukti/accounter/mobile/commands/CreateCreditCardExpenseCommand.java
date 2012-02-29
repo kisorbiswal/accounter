@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -157,6 +158,21 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 
 		});
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
@@ -189,6 +205,13 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 			@Override
 			protected double getCurrencyFactor() {
 				return CreateCreditCardExpenseCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditCardExpenseCommand.this.get(
+						DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -245,6 +268,13 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 				Account account = (Account) CreateCreditCardExpenseCommand.this
 						.get(PAY_FROM).getValue();
 				return account.getCurrency();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditCardExpenseCommand.this.get(
+						DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -503,6 +533,12 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 					getTaxCodeForTransactionItems(
 							creditCardCharge.getTransactionItems(), context));
 		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(creditCardCharge
+							.getTransactionItems()));
+		}
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(creditCardCharge.getDeliveryDate()));
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditCardCharge));
@@ -535,6 +571,7 @@ public class CreateCreditCardExpenseCommand extends AbstractTransactionCommand {
 		get("deliveryDate").setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ public class VendorAndPurchasePreferencesCommand extends
 	private static final String TRACK_EXPENSEANDPRODUCT = "trackexpenses";
 	private static final String BILLABLE_EXPENSES = "billableexpenses";
 	private static final String VENDOR_TERMINOLOGY = "vendorterminology";
+	private static final String PURCHASE_ORDERS = "purchaseorders";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -74,6 +75,21 @@ public class VendorAndPurchasePreferencesCommand extends
 			}
 		});
 
+		list.add(new BooleanRequirement(PURCHASE_ORDERS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().enabled() + " "
+						+ getMessages().purchaseOrders();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().disabled() + " "
+						+ getMessages().purchaseOrders();
+			}
+		});
+
 		list.add(new BooleanRequirement(VENDOR_TERMINOLOGY, true) {
 
 			@Override
@@ -100,6 +116,7 @@ public class VendorAndPurchasePreferencesCommand extends
 				preferences.isProductandSerivesTrackingByCustomerEnabled());
 		get(BILLABLE_EXPENSES).setValue(
 				preferences.isBillableExpsesEnbldForProductandServices());
+		get(PURCHASE_ORDERS).setValue(preferences.isPurchaseOrderEnabled());
 		get(TRACK_PRICELEVEL).setValue(preferences.isPricingLevelsEnabled());
 		if (preferences.getReferVendors() == 1) {
 			get(VENDOR_TERMINOLOGY).setValue(true);
@@ -114,6 +131,7 @@ public class VendorAndPurchasePreferencesCommand extends
 		boolean trackexpenses = get(TRACK_EXPENSEANDPRODUCT).getValue();
 		boolean billableexpenses = get(BILLABLE_EXPENSES).getValue();
 		boolean ispriceLevelEnabled = get(TRACK_PRICELEVEL).getValue();
+		boolean isPurchaseOrderEnabled = get(PURCHASE_ORDERS).getValue();
 		preferences.setPricingLevelsEnabled(ispriceLevelEnabled);
 		preferences
 				.setProductandSerivesTrackingByCustomerEnabled(trackexpenses);
@@ -125,6 +143,7 @@ public class VendorAndPurchasePreferencesCommand extends
 		} else {
 			preferences.setReferVendors(2);
 		}
+		preferences.setPurchaseOrderEnabled(isPurchaseOrderEnabled);
 		boolean mangebills = get(MANAGE_BILLS).getValue();
 		preferences.setKeepTrackofBills(mangebills);
 		savePreferences(context, preferences);

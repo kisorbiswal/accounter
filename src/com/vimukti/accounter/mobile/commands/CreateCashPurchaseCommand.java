@@ -20,6 +20,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -94,6 +95,12 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 							cashPurchase.getTransactionItems(), context));
 			get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(cashPurchase));
 		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(cashPurchase
+							.getTransactionItems()));
+		}
 		get(ITEMS).setValue(items);
 		get(ACCOUNTS).setValue(accounts);
 		get(DATE).setValue(cashPurchase.getDate());
@@ -150,6 +157,7 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 				}
 		}
 		get(MEMO).setDefaultValue("");
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 
@@ -336,6 +344,21 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			}
 		});
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseSelect(getMessages().account()),
 				getMessages().Account(), true, true) {
@@ -366,6 +389,13 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			@Override
 			protected boolean isTrackTaxPaidAccount() {
 				return false;
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCashPurchaseCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});
@@ -400,6 +430,13 @@ public class CreateCashPurchaseCommand extends AbstractTransactionCommand {
 			protected Currency getCurrency() {
 				return ((Vendor) CreateCashPurchaseCommand.this.get(VENDOR)
 						.getValue()).getCurrency();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCashPurchaseCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});
