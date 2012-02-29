@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
+import b.b.b.b.b.m;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.vimukti.accounter.core.Client;
@@ -105,8 +107,25 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			req.setAttribute("ExpiredDate", client.getClientSubscription()
 					.getExpiredDate());
 			String finalString = "";
-			for (String string2 : client.getClientSubscription().getMembers()) {
-				finalString = finalString + "\n" + string2;
+			Set<String> members = client.getClientSubscription().getMembers();
+			List<String> createdUsers = HibernateUtil.getCurrentSession()
+					.getNamedQuery("get.created.users")
+					.setParameterList("users", members).list();
+			boolean isFirst = true;
+			if (!members.isEmpty()) {
+				finalString = "[";
+				for (String string2 : members) {
+					if (isFirst) {
+						finalString += getDict(string2,
+								createdUsers.contains(string2));
+						isFirst = false;
+					} else {
+						finalString += ","
+								+ getDict(string2,
+										createdUsers.contains(string2));
+					}
+				}
+				finalString += "]";
 			}
 			if (!finalString.isEmpty()) {
 				finalString = finalString.substring(1);
@@ -117,6 +136,11 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			resp.sendRedirect(LOGIN_URL);
 			return;
 		}
+	}
+
+	private String getDict(String string2, boolean contains) {
+		return "{emailId:'" + string2 + "',isCreated:"
+				+ (contains ? "true" : "false") + "}";
 	}
 
 	private String getUsersMailIds(Client client) {

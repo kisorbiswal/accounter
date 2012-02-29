@@ -72,6 +72,12 @@
 		SELECT CONTACT_SUPPORT FROM COMPANY WHERE ID =:companyId
 	</sql-query>
 
+	<sql-query name="get.created.users">
+		<query-param name="users" type="String" />
+		<return-scalar column="CONTACT_SUPPORT" type="boolean" />
+		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
+	</sql-query>
+
 	<query name="getServerCompany.by.id">
 		<query-param name="id" type="integer" />
 		from com.vimukti.accounter.core.Company c where
