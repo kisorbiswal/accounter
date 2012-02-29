@@ -214,6 +214,9 @@ public class ReportsProcessor extends ApiProcessor {
 			} else if (methodName.equals("salesreportitems")) {
 				result = accounterReportServiceImpl.getSalesReportItems(
 						clientFinanceStartDate, clientFinanceEndDate);
+				/*
+				 * till here classes are created
+				 */
 
 			} else if (methodName.equals("transactionhistorycustomers")) {
 				List<ClientCustomer> transactionHistoryCustomers = accounterReportServiceImpl

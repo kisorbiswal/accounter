@@ -57,6 +57,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 				.getPremiumType())) {
 			req.setAttribute("info", "No of users should be limit");
 			dispatch(req, resp, view);
+			return;
 		}
 		clientSubscription.setMembers(getMembers(string));
 
@@ -106,6 +107,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 					.getPremiumType());
 			req.setAttribute("ExpiredDate", client.getClientSubscription()
 					.getExpiredDate());
+
 			String finalString = "";
 			Set<String> members = client.getClientSubscription().getMembers();
 			List<String> createdUsers = HibernateUtil.getCurrentSession()
@@ -130,6 +132,11 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			if (!finalString.isEmpty()) {
 				finalString = finalString.substring(1);
 			}
+
+			if (!finalString.isEmpty()) {
+				finalString = finalString.substring(1);
+			}
+
 			req.setAttribute("userIdsList", finalString);
 			dispatch(req, resp, view);
 		} else {
