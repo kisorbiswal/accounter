@@ -576,7 +576,7 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, long companyId) {
+	public boolean canDelete(String serverClass, long id, long companyId) {
 		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)

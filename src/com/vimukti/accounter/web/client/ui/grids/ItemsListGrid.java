@@ -155,7 +155,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
-				return obj.getOnhandQty().getValue();
+				return obj.getOnhandQty() != null ? obj.getOnhandQty()
+						.getValue() : "";
 			case 5:
 				return DataUtils.amountAsStringWithCurrency(
 						obj.getAverageCost(), currency) != null ? DataUtils
