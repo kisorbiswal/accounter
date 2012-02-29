@@ -1009,14 +1009,14 @@
 		from com.vimukti.accounter.core.CustomerRefund cr where
 		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
 		between :fromDate and
-		:toDate order by cr.lastModifiedDate desc
+		:toDate order by cr.transactionDate desc
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
 		<query-param name="company" type="Company" />
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.payToType=:type
+		wc.company=:company and wc.payToType=:type order by wc.transactionDate desc
 	</query>
 
 	<query name="getFixedAsset.by.checkStatusand.purchaseDate">
@@ -1107,7 +1107,7 @@
 		between :fromDate and :toDate
 		and e.saveStatus!=202
 		order by
-		e.lastModifiedDate desc
+		e.transactionDate desc
 	</query>
 
 	<query name="getExpiredEstimate">
@@ -1121,7 +1121,7 @@
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
 		&lt;:today and e.usedInvoice =null
-		order by e.lastModifiedDate desc
+		order by e.transactionDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1165,7 +1165,7 @@
 		j.company=:company and j.saveStatus != 202
 		and j.transactionDate
 		between :fromDate and :toDate
-		order by j.lastModifiedDate desc
+		order by j.transactionDate desc
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1741,7 +1741,7 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Account a where a.type=:type and
 		a.company.id =:companyId
-		order by a.lastModifiedDate desc
+		order by a.number desc
 	</query>
 
 	<sql-query name="getBankAccountsOfType">

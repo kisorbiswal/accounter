@@ -3164,7 +3164,8 @@ public class ClientCompany implements IAccounterCore {
 		Set<ClientPortletPageConfiguration> portletPageConfigurations = getLoggedInUser()
 				.getPortletPages();
 		for (ClientPortletPageConfiguration pageConfiguration : portletPageConfigurations) {
-			if (pageConfiguration.getPageName().equals(name)) {
+			if (pageConfiguration.getPageName().equals(name)
+					&& !pageConfiguration.getPortletConfigurations().isEmpty()) {
 				return pageConfiguration;
 			}
 		}

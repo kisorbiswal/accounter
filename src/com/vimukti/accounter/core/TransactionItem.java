@@ -937,7 +937,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * 
 	 * @param newPurchases
 	 */
-	public void modifyPurchases(Map<Quantity, Double> newPurchases,
+	public void modifyPurchases(Map<Double, Quantity> newPurchases,
 			boolean useAverage, Double averageCost) {
 		Session session = HibernateUtil.getCurrentSession();
 		double amountToReverseUpdate = 0.00D;
@@ -974,7 +974,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		}
 	}
 
-	private void mergreChanges(Map<Quantity, Double> newPurchases,
+	private void mergreChanges(Map<Double, Quantity> newPurchases,
 			boolean useAverage, Double averageCost) {
 
 		if (newPurchases == null) {
@@ -987,34 +987,32 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		Iterator<InventoryPurchase> iterator = getPurchases().iterator();
 		while (iterator.hasNext()) {
 			InventoryPurchase next = iterator.next();
-			Double cost = (useAverage && averageCost != null) ? averageCost
-					: newPurchases.get(next.getQuantity());
-			if (cost == null || cost == next.getCost()) {
-				iterator.remove();
-				Quantity quantity = next.getQuantity();
+
+			Quantity quantity = newPurchases.get(next.getCost());
+			if (quantity != null && quantity.equals(next.getQuantity())) {
 				mapped = mapped.subtract(quantity);
 				newPurchases.remove(quantity);
 
 				session.delete(next);
-
+			} else {
 				// Reverse Updating ExpenseAccount
-				double purchaseValue = quantity.getValue() * next.getCost();
+				double purchaseValue = next.getQuantity().calculatePrice(
+						next.getCost());
 				Account expenseAccount = next.getEffectingAccount();
 				expenseAccount.updateCurrentBalance(this.getTransaction(),
 						purchaseValue, 1);
 				session.saveOrUpdate(expenseAccount);
+				session.delete(next);
+				iterator.remove();
 			}
 		}
 
-		// Deleting Previous Purchases
-		// clearPurchases();
-
 		// Creating New Purchases
-		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
-			Quantity qty = entry.getKey();
+		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
+			Quantity qty = entry.getValue();
 			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
-					.getValue() - this.getUnitPriceInBaseCurrency() : entry
-					.getValue();
+					.getKey() - this.getUnitPriceInBaseCurrency() : entry
+					.getKey();
 			double cost = useAverage ? averageCost : purchaseCost;
 			mapped = mapped.subtract(qty);
 			createPurchase(session, qty, cost);
@@ -1043,7 +1041,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	 * @return
 	 */
 	private double createPurchase(Session session, Quantity qty, double cost) {
-		double purchaseValue = qty.getValue() * cost;
+		double purchaseValue = qty.calculatePrice(cost);
 		Account expenseAccount = getExpenseAccountForInventoryPurchase();
 		if (expenseAccount != null) {
 			expenseAccount.updateCurrentBalance(getTransaction(),
@@ -1056,15 +1054,15 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		return purchaseValue;
 	}
 
-	private double getNewPurchaseAmount(Map<Quantity, Double> newPurchases,
+	private double getNewPurchaseAmount(Map<Double, Quantity> newPurchases,
 			boolean useAverage, Double averageCost) {
 		Quantity mapped = getQuantityCopy();
 		double amountToUpdate = 0;
-		for (Entry<Quantity, Double> entry : newPurchases.entrySet()) {
-			Quantity qty = entry.getKey();
+		for (Entry<Double, Quantity> entry : newPurchases.entrySet()) {
+			Quantity qty = entry.getValue();
 			double purchaseCost = getTransaction().isVendorCreditMemo() ? entry
-					.getValue() - this.getUnitPriceInBaseCurrency() : entry
-					.getValue();
+					.getKey() - this.getUnitPriceInBaseCurrency() : entry
+					.getKey();
 			double cost = (useAverage && averageCost != null) ? averageCost
 					: purchaseCost;
 
@@ -1096,7 +1094,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		Session session = HibernateUtil.getCurrentSession();
 		for (InventoryPurchase purchase : getPurchases()) {
 			Quantity quantity = purchase.getQuantity();
-			double purchaseValue = quantity.getValue() * purchase.getCost();
+			double purchaseValue = quantity.calculatePrice(purchase.getCost());
 			session.delete(purchase);
 			Account expenseAccount = purchase.getEffectingAccount();
 			expenseAccount.updateCurrentBalance(this.getTransaction(),

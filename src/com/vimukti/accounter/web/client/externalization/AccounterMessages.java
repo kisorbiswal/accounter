@@ -5955,4 +5955,6 @@ public interface AccounterMessages extends Messages {
 
 	public String reconcilationDiscrepany();
 
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
+
 }

@@ -663,10 +663,12 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	protected boolean canDelete() {
 		ClientUser user = Accounter.getUser();
 		if (user.isCanDoUserManagement()
-				&& (data == null ? true : !data.isAdmin()
-						&& !data.getUserRole().equals(
-								RolePermissions.FINANCIAL_ADVISER))) {
-			super.canDelete();
+				&& (data == null || data.getID() == 0 ? true
+						: data.getID() != user.getID()
+								&& !data.isAdmin()
+								&& !data.getUserRole().equals(
+										RolePermissions.FINANCIAL_ADVISER))) {
+			return super.canDelete();
 		}
 		return false;
 	}
@@ -675,9 +677,11 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 	public boolean canEdit() {
 		ClientUser user = Accounter.getUser();
 		if (user.isCanDoUserManagement()
-				&& (data == null ? true : !data.isAdmin()
-						&& !data.getUserRole().equals(
-								RolePermissions.FINANCIAL_ADVISER))) {
+				&& (data == null || data.getID() == 0 ? true
+						: data.getID() != user.getID()
+								&& !data.isAdmin()
+								&& !data.getUserRole().equals(
+										RolePermissions.FINANCIAL_ADVISER))) {
 			return super.canEdit();
 		}
 		return false;

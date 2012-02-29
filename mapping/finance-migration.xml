@@ -7,7 +7,7 @@
 
 	<query name="get.All.InventoryItem">
 		<query-param name="companyId" type="long"/>
-		from com.vimukti.accounter.core.Item it where it.company.id=:companyId and it.type=2
+		from com.vimukti.accounter.core.Item it where it.company.id=:companyId and it.type in (2,4) 
 	</query>
 
 	<sql-query name="getNextAccountNumber">
@@ -35,6 +35,21 @@
 		<query-param name="accountId" type="long"/>
 		from com.vimukti.accounter.core.AccountTransaction at where at.account.id=:accountId and at.company.id=:companyId
 	</query>
+	
+	<query name="get.AccountTransaction.Of.Item">
+		<query-param name="itemId" type="long"/>
+		select at from com.vimukti.accounter.core.AccountTransaction  at left join at.transaction.transactionItems as ti
+		where ti.type=1 and ti.item.id=:itemId and 
+		(at.account.id=ti.item.expenseAccount.id or at.account.id=ti.item.assestsAccount.id) and 
+		(at.transaction.type in (1,14,8,37) or (at.transaction.type=36 and ti.quantity.value &lt; 0))
+	</query>
+	
+	<sql-query name="delete.InventoryPurchases.Of.Company">
+		<query-param name="companyId" type="long" />
+		DELETE FROM INVENTORY_PURCHASE IP USING TRANSACTION_ITEM , TRANSACTION  
+		WHERE TRANSACTION_ITEM_ID=TRANSACTION_ITEM.ID AND TRANSACTION_ITEM.TRANSACTION_ID= TRANSACTION.ID
+		AND TRANSACTION.COMPANY_ID=:companyId
+	</sql-query>	
 	
 	
 </hibernate-mapping>
