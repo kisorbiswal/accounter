@@ -349,6 +349,8 @@ public interface AccounterMessages extends Messages {
 
 	public String and();
 
+	public String anEmailAccountAlreadyExistWithTheGivenEmailID();
+
 	public String anItemAlreadyExistswiththisname();
 
 	public String anItemGroupAlreadyExistswiththisname();
@@ -1271,6 +1273,8 @@ public interface AccounterMessages extends Messages {
 
 	public String decimalSymbol();
 
+	public String decimalSymbolShouldNotContainNumericalValues();
+
 	public String decline();
 
 	public String decrease();
@@ -1378,6 +1382,8 @@ public interface AccounterMessages extends Messages {
 	public String digitGrouping();
 
 	public String digitGroupingDecimal();
+
+	public String digitGroupingSymbolShouldNotContainNumericalValues();
 
 	public String dipositAccountAndTransferAccountShouldBeDiff();
 
@@ -4510,6 +4516,8 @@ public interface AccounterMessages extends Messages {
 	public String tdsFiledDetails();
 
 	public String tdsVendorsList();
+	
+	public String tdsForm16A();
 
 	public String Template();
 
@@ -5922,5 +5930,15 @@ public interface AccounterMessages extends Messages {
 	public String propertyMatchedAlready();
 
 	public String unassigned();
+
+	public String pleaseEnterDecimalSymbol();
+
+	public String uploadCsvFileDialog();
+
+	public String reconciledAmount();
+
+	public String effectofChange();
+
+	public String reconcilationDiscrepany();
 
 }

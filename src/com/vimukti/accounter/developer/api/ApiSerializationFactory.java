@@ -6,14 +6,16 @@ import java.util.Map;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.vimukti.accounter.api.core.ApiResult;
+import com.vimukti.accounter.developer.api.core.ApiResult;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.DummyDebitor;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
+import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeStatementsList;
 import com.vimukti.accounter.web.client.core.reports.AgedDebtors;
 import com.vimukti.accounter.web.client.core.reports.AmountsDueToVendor;
@@ -82,50 +84,72 @@ public class ApiSerializationFactory {
 		stream.alias("VATDetail", VATDetail.class);
 		stream.alias("OpenAndClosedOrders", OpenAndClosedOrders.class);
 		stream.alias("FinanceDate", ClientFinanceDate.class);
+
+		stream.alias("PaginationList", PaginationList.class);
+		stream.alias("PayeeList", PayeeList.class);
+		stream.alias("ApiResult", ApiResult.class);
 	}
 
-	IAccounterCore deserialize(InputStream inputStream) throws Exception {
+	public IAccounterCore deserialize(InputStream inputStream) throws Exception {
 		return (IAccounterCore) stream.fromXML(inputStream);
 	}
 
-	String serialize(IAccounterCore str) throws Exception {
+	public ApiResult deserializeApiResult(InputStream inputStream)
+			throws Exception {
+		return (ApiResult) stream.fromXML(inputStream);
+	}
+
+	public IAccounterCore deserialize(String inputStream) throws Exception {
+		return (IAccounterCore) stream.fromXML(inputStream);
+	}
+
+	public String serialize(IAccounterCore str) throws Exception {
 		return stream.toXML(str);
 	}
 
-	List<IAccounterCore> deserializeList(String str) throws Exception {
+	public String serialize(ApiResult str) throws Exception {
+		return stream.toXML(str);
+	}
+
+	public List<IAccounterCore> deserializeList(String str) throws Exception {
 		// TODO
 		return null;
 	}
 
-	String serialize(AccounterException ex) throws Exception {
+	public String serialize(AccounterException ex) throws Exception {
 		return stream.toXML(ex);
 	}
 
-	String serializeResult(ApiResult apiResult) {
+	public String serializeResult(ApiResult apiResult) {
 		return stream.toXML(apiResult);
 	}
 
-	String serializeList(List<? extends IAccounterCore> str) throws Exception {
+	public String serializeList(List<? extends IAccounterCore> str)
+			throws Exception {
 		return stream.toXML(str);
 	}
 
-	String serializeReportsList(List<? extends BaseReport> list) {
+	public String serializeAnyList(List<?> str) throws Exception {
+		return stream.toXML(str);
+	}
+
+	public String serializeReportsList(List<? extends BaseReport> list) {
 		return stream.toXML(list);
 	}
 
-	String serializeTransacHistCustomerList(List<ClientCustomer> list) {
+	public String serializeTransacHistCustomerList(List<ClientCustomer> list) {
 		return stream.toXML(list);
 	}
 
-	String serializeTransacHistVendorList(List<ClientVendor> list) {
+	public String serializeTransacHistVendorList(List<ClientVendor> list) {
 		return stream.toXML(list);
 	}
 
-	String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
+	public String serializeMinAndMaxTrasacDate(List<ClientFinanceDate> list) {
 		return stream.toXML(list);
 	}
 
-	String serializeDateList(List<ClientFinanceDate> list) {
+	public String serializeDateList(List<ClientFinanceDate> list) {
 		return stream.toXML(list);
 	}
 
@@ -133,4 +157,11 @@ public class ApiSerializationFactory {
 		return stream.toXML(list);
 	}
 
+	public <T> T deserialize(InputStream inputStream, T objectById) {
+		return (T) stream.fromXML(inputStream, objectById);
+	}
+
+	public <T> T deserialize(String inputStream, T objectById) {
+		return (T) stream.fromXML(inputStream, objectById);
+	}
 }

@@ -2197,6 +2197,54 @@
 		WC.ACCOUNT_ID =:accountId AND T.STATUS = 0 AND T.COMPANY_ID=:companyId
 	</sql-query>
 
+	<sql-query name="getPaySalesTaxEntriesList">
+
+		<query-param name="month" type="int" />
+		<query-param name="year" type="int" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_date" type="long" />
+		<return-scalar column="taxcode_name" type="string" />
+		<return-scalar column="taxagency_name" type="string" />
+		<return-scalar column="balance" type="double" />
+
+		SELECT T.ID AS transaction_id,T.T_DATE AS transaction_date,
+		TC.NAME AS
+		taxcode_name,P.NAME AS taxagency_name, SUM(PT.BALANCE) AS
+		balance
+		FROM
+		PAY_TAX_ENTRIES PT
+		LEFT OUTER JOIN TAXCODE TC
+		ON
+		PT.TAXCODE_ID =
+		TC.ID
+		LEFT OUTER JOIN TAXAGENCY TA
+		ON PT.TAXAGENCY_ID =
+		TA.ID
+		LEFT OUTER
+		JOIN
+		PAYEE P
+		ON P.ID = TA.ID
+		LEFT OUTER JOIN TRANSACTION
+		T
+		ON
+		PT.TRANSACTION_ID
+		= T.ID
+		WHERE MONTH(T.T_DATE) &lt;=:month AND
+		T.COMPANY_ID=:companyId AND
+		YEAR(T.T_DATE) =:year AND PT.BALANCE
+		!= 0.0
+		AND TA.ACCOUNT_ID !=
+		(SELECT
+		ID FROM ACCOUNT WHERE NAME = 'Un
+		Deposited
+		Funds' AND
+		COMPANY_ID=:companyId) GROUP BY
+		TA.ID,PT.TRANSACTION_ID
+		ORDER BY TA.ID
+
+	</sql-query>
+
 	<sql-query name="getNextTransactionNumber">
 
 		<query-param name="type" type="int" />
@@ -2264,7 +2312,6 @@
 		<return-scalar column="INVOICE_ID" type="long" />
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
-		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
 		<return-scalar column="CUSTOMER_PREPAYMENT_ID" type="long" />
 
 		SELECT CS.ID AS CUSTOMER_ID,
@@ -2276,7 +2323,6 @@
 		RP.ID
 		RECEIVE_PAYMENT_ID,
 		WC.ID AS WRITE_CHECK_ID,
-		JE.ID AS JOURNAL_ENTRY_ID,
 		CPP.ID AS
 		CUSTOMER_PREPAYMENT_ID
 		FROM CUSTOMER
@@ -2308,10 +2354,6 @@
 		WRITE_CHECKS WC
 		ON
 		C.ID=WC.CUSTOMER_ID
-		LEFT OUTER JOIN
-		JOURNAL_ENTRY JE
-		ON
-		C.ID=JE.PAYEE_ID
 		LEFT
 		OUTER JOIN
 		CUSTOMER_PREPAYMENT CPP
@@ -2333,7 +2375,6 @@
 		<return-scalar column="PURCHASE_ORDER_ID" type="long" />
 		<return-scalar column="VENDOR_CREDIT_MEMO_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
-		<return-scalar column="JOURNAL_ENTRY_ID" type="long" />
 
 		SELECT IT.ID AS ITEM_ID,
 		CP.ID AS CASH_PURCHASE_ID,
@@ -2344,8 +2385,7 @@
 		PO.ID AS PURCHASE_ORDER_ID,
 		VCM.ID AS VENDOR_CREDIT_MEMO_ID,
 		WC.ID
-		WRITE_CHECK_ID,
-		JE.ID AS JOURNAL_ENTRY_ID
+		WRITE_CHECK_ID
 
 		FROM VENDOR V
 		LEFT OUTER JOIN
@@ -2381,12 +2421,6 @@
 		JOIN
 		WRITE_CHECKS WC
 		ON V.ID = WC.VENDOR_ID
-		LEFT OUTER JOIN
-		JOURNAL_ENTRY
-		JE
-		ON
-		V.ID
-		= JE.PAYEE_ID
 		WHERE V.ID=:inputId AND V.COMPANY_ID=:companyId
 		LIMIT
 		1
@@ -2429,7 +2463,9 @@
 			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
-		AT.ID AS ACCOUNT_TRANSACTION_ID,
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		THEN
+		AT.ID END AS ACCOUNT_TRANSACTION_ID
 		<!-- B.ID AS BUDGET_ID, -->
 		C.ID AS CUSTOMER_ID,
 		I.ID AS ITEM_ID,
@@ -2468,7 +2504,10 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		TI.ID
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		THEN
+ 		TI.ID
+		END 
 		AS
 		TRANSACTION_ITEM_ID,
 		TPB.ID AS
@@ -2630,7 +2669,6 @@
 		TE.ACCOUNT_ID
 		WHERE A.ID =
 		:inputId AND A.COMPANY_ID=:companyId
-		LIMIT 1
 	</sql-query>
 
 	<sql-query name="canDeleteItem">
@@ -3185,7 +3223,9 @@
 			type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
-		AT.ID AS ACCOUNT_TRANSACTION_ID,
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		THEN
+		AT.ID END AS ACCOUNT_TRANSACTION_ID
 		<!-- B.ID AS BUDGET_ID, -->
 		C.ID AS CUSTOMER_ID,
 		I.ID AS ITEM_ID,
@@ -3222,7 +3262,10 @@
 		WC.ID AS WRITE_CHECK_ID,
 		TF.ID AS
 		TRANSFER_FUND_ID,
-		TI.ID
+		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = TI.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
+		THEN
+ 		TI.ID
+		END 
 		AS
 		TRANSACTION_ITEM_ID,
 		TPB.ID AS
@@ -6503,6 +6546,8 @@
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
+		<return-scalar column="ACCOUNT_TYPE" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
 		<return-scalar column="PREVOIUS_TWO_DAYS_BACK_AMOUNT"
@@ -6512,12 +6557,17 @@
 		<return-scalar column="CURRENT_DAY_AMOUNT" type="double" />
 
 		SELECT
+		CASE
+		WHEN A.A_TYPE = 2 THEN
+		'Bank Account'
+		END AS ACCOUNT_TYPE,
+
+		A.NAME AS ACCOUNT_NAME,
+
 		A.TOTAL_BALANCE - CASE WHEN (SELECT
-		SUM(AT.AMOUNT) FROM
-		ACCOUNT_TRANSACTION AT
+		SUM(AT.AMOUNT) FROM ACCOUNT_TRANSACTION AT
 		LEFT OUTER JOIN TRANSACTION
-		T ON T.ID =
-		AT.TRANSACTION_ID
+		T ON T.ID = AT.TRANSACTION_ID
 		WHERE AT.ACCOUNT_ID = A.ID AND T.T_DATE
 		&gt;:previousThreeDaysBackDateCal
 		GROUP BY A.ID) IS NOT NULL
@@ -7500,18 +7550,18 @@
 		SELECT C.ID AS COMPANY_ID,
 		C.TRADING_NAME TRADING_NAME,
 		C.REGISTRED_COUNTRY REGISTRED_COUNTRY,
-		MAX(T.LAST_MODIFIED_DATE) T_DATE,COUNT(T) T_COUNT FROM
+		MAX(A.TIME_STAMP) A_DATE FROM
 		COMPANY C LEFT
-		JOIN TRANSACTION T
-		ON T.COMPANY_ID=C.ID LEFT JOIN USERS U ON
+		JOIN ACTIVITY A
+		ON A.COMPANY_ID=C.ID LEFT JOIN USERS U ON
 		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds GROUP BY
-		C.ID,T.ID,C.TRADING_NAME,C.REGISTRED_COUNTRY ORDER BY
-		T_DATE DESC
+		C.ID,C.TRADING_NAME,C.REGISTRED_COUNTRY ORDER BY
+		A_DATE DESC
 		) AS B
 		GROUP BY
 		COMPANY_ID,TRADING_NAME,REGISTRED_COUNTRY
 		ORDER BY
-		MIN(T_COUNT)=0,MAX(T_DATE) desc
+		MAX(A_DATE) desc
 
 	</sql-query>
 
@@ -8007,6 +8057,10 @@
 		delete from stock_adjustment
 		where
 		company_id=cid;
+		DELETE FROM build_assembly
+		USING  TRANSACTION
+		WHERE  build_assembly.id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid;
 		delete
 		from inventory_assembly_item using
 		inventory_assembly , item where
@@ -8256,265 +8310,504 @@
 		delete from enter_bill using transaction where
 		enter_bill.id=transaction.id
 		and transaction.company_id=cid;
-		delete from
-		enterbill_estimates using estimate , transaction where
-		enterbill_estimates.elt=estimate.id and transaction.id=estimate.id and
-		transaction.company_id=cid;
-		delete from fiscal_year where
-		company_id=cid;
-		delete from fixed_asset where company_id=cid;
-		delete
-		from fixed_asset_history where company_id=cid;
-		delete from
-		fixed_asset_note where company_id=cid;
-		delete from invoice_estimates
-		using estimate , transaction where
-		invoice_estimates.estimate_id=estimate.id and
-		transaction.id=estimate.id and transaction.company_id=cid;
-		delete from
-		invoice_sales_orders using invoice , transaction where
-		invoice_sales_orders.invoice_id=invoice.id and
-		transaction.id=invoice.id and transaction.company_id=cid;
-		delete from
-		invoice using transaction where invoice.id=transaction.id and
-		transaction.company_id=cid;
-		delete from estimate using transaction
-		where estimate.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from issuepayment using transaction where
-		issuepayment.id=transaction.id and transaction.company_id=cid;
+		
+		DELETE FROM company_fields
+		WHERE  company_id = cid;
 
-		delete
-		from item_receipt using transaction where
-		item_receipt.id=transaction.id and transaction.company_id=cid;
-		delete
-		from item_status using item where item_id=item.id and
-		item.company_id=cid;
+		DELETE FROM payee_fields
+		USING  payee
+		WHERE  payee_id = payee.id
+			   AND payee.company_id = cid;
 
-		delete from itemgroup where company_id=cid;
-		delete
-		from journal_entry using transaction where
-		journal_entry.id=transaction.id and transaction.company_id=cid;
-		delete
-		from location where company_id=cid;
-		delete from measurement where
-		company_id=cid;
-		delete from pay_expense using account where
-		account_id=account.id and
-		account.company_id=cid;
-		delete from
-		pay_tax_entries using transaction where
-		pay_tax_entries.transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete from payee_address using payee where
-		payee_address.payee_id=payee.id
-		and payee.company_id=cid;
-		delete from
-		payee_contact using payee where payee_contact.payee_id=payee.id
-		and
-		payee.company_id=cid;
-		delete from payee_customfields using payee where
-		payee_customfields.payee_id=payee.id and payee.company_id=cid;
-		delete
-		from paymentterms where company_id=cid;
-		delete from pricelevel where
-		company_id=cid;
-		delete from purchase_order using transaction where
-		purchase_order.id=transaction.id and transaction.company_id=cid;
-		delete from recurring_transaction where company_id=cid;
-		delete from
-		sales_order using transaction where
-		sales_order.id=transaction.id and
-		transaction.company_id=cid;
-		delete from sales_person where
-		company_id=cid;
-		delete from shippingmethod where company_id=cid;
-		delete
-		from shippingterms where company_id=cid;
-		delete from stock_adjustment
-		where company_id=cid;
+		DELETE FROM cheque_layout
+		WHERE  company_id = cid;
 
-		delete from item where company_id=cid;
-		delete from
-		stock_transfer where
-		company_id=cid;
-		delete from
-		stock_transfer_item
-		where company_id=cid;
-		delete from tax_adjustment
-		using transaction where
-		tax_adjustment.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from tax_code where company_id=cid;
-		delete from tax_group_tax_item
-		using tax_group where
-		tax_group_id=tax_group.id and
-		tax_group.company_id=cid;
-		delete from
-		tax_group where company_id=cid;
-		delete from tax_item where
-		company_id=cid;
-		delete from tax_item_groups
-		where company_id=cid;
-		delete
-		from tax_rate_calculation using
-		transaction
-		where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from tax_return using transaction
-		where
-		tax_return.id=transaction.id
-		and transaction.company_id=cid;
-		delete from
-		tax_return_entry using
-		transaction where
-		transaction_id=transaction.id
-		and
-		transaction.company_id=cid;
-		delete
-		from taxagency where
-		company_id=cid;
-		delete from taxrates where
-		company_id=cid;
+		DELETE FROM attachments
+		WHERE  company_id = cid;
 
-		delete from
-		transaction_credits_and_payments using credits_and_payments ,
-		transaction where
-		transaction_credits_and_payments.credits_and_payments_id=credits_and_payments.id
-		and credits_and_payments.transaction_id=transaction.id and
-		transaction.company_id=cid;
+		DELETE FROM message_or_task
+		WHERE  company_id = cid;
 
-		delete from
-		transaction_credits_and_payments using transaction_paybill where
-		transaction_paybill.id=transaction_credits_and_payments.transaction_paybill_id
-		and transaction_paybill.company_id=cid;
+		DELETE FROM account_amounts
+		USING  account
+		WHERE  account_id = account.id
+			   AND account.company_id = cid;
 
-		delete from
-		credits_and_payments using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_history using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_issue_payment using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transaction_item using
-		transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from transfer_fund using transaction where
-		transfer_fund.id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_make_deposit_entries using transaction where
-		transaction_id=transaction.id and transaction.company_id=cid;
-		delete
-		from transaction_pay_tax using pay_tax , transaction where
-		pay_tax_id=pay_tax.id and transaction.id=pay_tax.id and
-		transaction.company_id=cid;
+		DELETE FROM account_transaction
+		WHERE  company_id = cid;
 
-		delete from pay_tax using transaction where
-		pay_tax.id=transaction.id and
-		transaction.company_id=cid;
-		delete from
-		transaction_paybill using
-		pay_bill , transaction where
-		paybill_id=pay_bill.id and
-		transaction.id=pay_bill.id and
-		transaction.company_id=cid;
-		delete from
-		pay_bill using transaction
-		where
-		pay_bill.id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from
-		transaction_receive_payment
-		using transaction where
-		transaction_id=transaction.id and
-		transaction.company_id=cid;
-		delete
-		from receive_payment using
-		transaction where
-		receive_payment.id=transaction.id and
-		transaction.company_id=cid;
-		delete from transaction_receive_vat using
-		receive_vat, transaction
-		where
-		transaction_receive_vat.receive_vat_id=receive_vat.id and
-		transaction.id=receive_vat.id and transaction.company_id=cid;
-		delete
-		from receive_vat using transaction where
-		receive_vat.id=transaction.id
-		and transaction.company_id=cid;
-		delete from unit where company_id=cid;
-		delete from unit_of_measure where company_id=cid;
-		delete from
-		nominal_code_range where company_id=cid;
-		delete from vatreturnbox where
-		company_id=cid;
-		delete from vendor where company_id=cid;
-		delete from
-		vendor_credit_memo using transaction where
-		vendor_credit_memo.id=transaction.id and transaction.company_id=cid;
-		delete from vendor_group where company_id=cid;
-		delete from warehouse
-		where company_id=cid;
-		delete from write_checks using transaction where
-		write_checks.id=transaction.id and transaction.company_id=cid;
-		delete
-		from customer where company_id=cid;
-		delete from portlet_configuration
-		using portlet_page_configuration, users
-		where
-		portlet_configuration.portlet_config_id=portlet_page_configuration.id
-		and portlet_page_configuration.user_id=users.id and
-		users.company_id=cid;
-		delete from portlet_page_configuration using
-		users where user_id=users.id
-		and users.company_id=cid;
+		DELETE FROM adjustment_reason
+		WHERE  company_id = cid;
 
-		delete from
-		account where
-		company_id=cid;
-		delete
-		from transaction where
-		company_id=cid;
-		delete from
-		accounter_class where
-		company_id=cid;
-		delete
-		from payee where
-		company_id=cid;
-		delete from
-		users where
-		company_id=cid;
-		delete from
-		activity where company_id=cid;
-		delete from
-		currency where
-		company_id=cid;
+		DELETE FROM reconciliation_item
+		USING  reconciliation
+		WHERE  reconciliation_id = reconciliation.id
+			   AND reconciliation.company_id = cid;
 
-		delete from company where
-		id=cid;
+		DELETE FROM reconciliation
+		WHERE  company_id = cid;
+
+		DELETE FROM bank_account
+		USING  account
+		WHERE  bank_account.id = account.id
+			   AND account.company_id = cid;
+
+		DELETE FROM bank
+		WHERE  company_id = cid;
+
+		DELETE FROM branding_theme
+		WHERE  company_id = cid;
+
+		DELETE FROM budgetitem
+		WHERE  company_id = cid;
+
+		DELETE FROM budget
+		WHERE  company_id = cid;
+
+		DELETE FROM cash_purchase
+		USING  TRANSACTION
+		WHERE  cash_purchase.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM cash_sales
+		USING  TRANSACTION
+		WHERE  cash_sales.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM credit_card_charges
+		USING  TRANSACTION
+		WHERE  credit_card_charges.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM creditrating
+		WHERE  company_id = cid;
+
+		DELETE FROM customer_credit_memo
+		USING  TRANSACTION
+		WHERE  customer_credit_memo.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM customer_group
+		WHERE  company_id = cid;
+
+		DELETE FROM customer_prepayment
+		USING  TRANSACTION
+		WHERE  customer_prepayment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM customer_refund
+		USING  TRANSACTION
+		WHERE  customer_refund.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM customfield
+		WHERE  company_id = cid;
+
+		DELETE FROM depreciation
+		WHERE  company_id = cid;
+
+		DELETE FROM enter_bill
+		USING  TRANSACTION
+		WHERE  enter_bill.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM enterbill_estimates
+		USING  estimate,
+			   TRANSACTION
+		WHERE  enterbill_estimates.elt = estimate.id
+			   AND TRANSACTION.id = estimate.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM fiscal_year
+		WHERE  company_id = cid;
+
+		DELETE FROM fixed_asset
+		WHERE  company_id = cid;
+
+		DELETE FROM fixed_asset_history
+		WHERE  company_id = cid;
+
+		DELETE FROM invoice_estimates
+		USING  estimate,
+			   TRANSACTION
+		WHERE  invoice_estimates.estimate_id = estimate.id
+			   AND TRANSACTION.id = estimate.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM invoice
+		USING  TRANSACTION
+		WHERE  invoice.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM estimate
+		USING  TRANSACTION
+		WHERE  estimate.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM item_receipt
+		USING  TRANSACTION
+		WHERE  item_receipt.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM item_status
+		USING  item
+		WHERE  item_id = item.id
+			   AND item.company_id = cid;
+
+		DELETE FROM itemgroup
+		WHERE  company_id = cid;
+
+		DELETE FROM journal_entry
+		USING  TRANSACTION
+		WHERE  journal_entry.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM location
+		WHERE  company_id = cid;
+
+		DELETE FROM measurement
+		WHERE  company_id = cid;
+
+		DELETE FROM pay_expense
+		USING  account
+		WHERE  account_id = account.id
+			   AND account.company_id = cid;
+
+		DELETE FROM payee_address
+		USING  payee
+		WHERE  payee_address.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM payee_contact
+		USING  payee
+		WHERE  payee_contact.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM payee_customfields
+		USING  payee
+		WHERE  payee_customfields.payee_id = payee.id
+			   AND payee.company_id = cid;
+
+		DELETE FROM paymentterms
+		WHERE  company_id = cid;
+
+		DELETE FROM pricelevel
+		WHERE  company_id = cid;
+
+		DELETE FROM purchase_order
+		USING  TRANSACTION
+		WHERE  purchase_order.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM recurring_transaction
+		WHERE  company_id = cid;
+
+		DELETE FROM reminder
+		WHERE  company_id = cid;
+
+		DELETE FROM sales_person
+		WHERE  company_id = cid;
+
+		DELETE FROM shippingmethod
+		WHERE  company_id = cid;
+
+		DELETE FROM shippingterms
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_adjustment
+		WHERE  company_id = cid;
+		
+		DELETE FROM build_assembly
+		USING  TRANSACTION
+		WHERE  build_assembly.id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
+
+		DELETE FROM inventory_assembly_item
+		USING  inventory_assembly,
+			   item
+		WHERE  item.id = inventory_assembly.id
+			   AND inventory_assembly_item_id = inventory_assembly.id
+			   AND item.company_id = cid;
+
+		DELETE FROM inventory_assembly
+		USING  item
+		WHERE  inventory_assembly.id = item.id
+			   AND item.company_id = cid;
+
+		DELETE FROM item
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_transfer
+		WHERE  company_id = cid;
+
+		DELETE FROM stock_transfer_item
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_adjustment
+		USING  TRANSACTION
+		WHERE  tax_adjustment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_code
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_group_tax_item
+		USING  tax_group
+		WHERE  tax_group_id = tax_group.id
+			   AND tax_group.company_id = cid;
+
+		DELETE FROM tax_group
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_item
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_item_groups
+		WHERE  company_id = cid;
+
+		DELETE FROM tax_rate_calculation
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_pay_tax
+		USING  tax_return,
+			   TRANSACTION
+		WHERE  tax_return.id = transaction_pay_tax.vat_return_id
+			   AND TRANSACTION.id = tax_return.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_return
+		USING  TRANSACTION
+		WHERE  tax_return.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM tax_return_entry
+		USING  TRANSACTION
+		WHERE  tax_return_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM taxagency
+		WHERE  company_id = cid;
+
+		DELETE FROM taxrates
+		WHERE  company_id = cid;
+
+		DELETE FROM transaction_credits_and_payments
+		USING  credits_and_payments,
+			   TRANSACTION
+		WHERE  transaction_credits_and_payments.credits_and_payments_id =
+					  credits_and_payments.id
+			   AND credits_and_payments.transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM credits_and_payments
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_history
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+			   
+		DELETE FROM inventory_purchase
+		USING  transaction_item,
+		       TRANSACTION
+		WHERE  transaction_item_id = transaction_item.id
+		       AND TRANSACTION.id = transaction_item.transaction_id
+		       AND TRANSACTION.company_id = cid;  
+
+		DELETE FROM transaction_item
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_deposit_item
+		USING  make_deposit,
+			   TRANSACTION
+		WHERE  transaction_deposit_item.make_deposit_id = make_deposit.id
+			   AND TRANSACTION.id = make_deposit.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM make_deposit
+		USING  TRANSACTION
+		WHERE  make_deposit.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transfer_fund
+		USING  TRANSACTION
+		WHERE  transfer_fund.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_make_deposit_entries
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_pay_tax
+		USING  pay_tax,
+			   TRANSACTION
+		WHERE  pay_tax_id = pay_tax.id
+			   AND TRANSACTION.id = pay_tax.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM pay_tax
+		USING  TRANSACTION
+		WHERE  pay_tax.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_paybill
+		USING  pay_bill,
+			   TRANSACTION
+		WHERE  paybill_id = pay_bill.id
+			   AND TRANSACTION.id = pay_bill.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM pay_bill
+		USING  TRANSACTION
+		WHERE  pay_bill.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_credits_and_payments
+		USING  transaction_receive_payment,
+			   TRANSACTION
+		WHERE  transaction_receive_payment.id =
+					  transaction_credits_and_payments.transaction_receive_payment_id
+			   AND transaction_receive_payment.transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_receive_payment
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM receive_payment
+		USING  TRANSACTION
+		WHERE  receive_payment.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM transaction_receive_vat
+		USING  receive_vat,
+			   TRANSACTION
+		WHERE  transaction_receive_vat.receive_vat_id = receive_vat.id
+			   AND TRANSACTION.id = receive_vat.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM receive_vat
+		USING  TRANSACTION
+		WHERE  receive_vat.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM unit
+		WHERE  company_id = cid;
+
+		DELETE FROM unit_of_measure
+		WHERE  company_id = cid;
+
+		DELETE FROM nominal_code_range
+		WHERE  company_id = cid;
+
+		DELETE FROM vatreturnbox
+		WHERE  company_id = cid;
+
+		DELETE FROM vendor
+		WHERE  company_id = cid;
+
+		DELETE FROM vendor_credit_memo
+		USING  TRANSACTION
+		WHERE  vendor_credit_memo.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM vendor_group
+		WHERE  company_id = cid;
+
+		DELETE FROM warehouse
+		WHERE  company_id = cid;
+
+		DELETE FROM write_checks
+		USING  TRANSACTION
+		WHERE  write_checks.id = TRANSACTION.id
+			   AND TRANSACTION.company_id = cid;
+
+		DELETE FROM customer
+		WHERE  company_id = cid;
+
+		DELETE FROM portlet_configuration_portletdata
+		USING  portlet_configuration,
+			   portlet_page_configuration,
+			   users
+		WHERE  portlet_configuration.id = portlet_configuration_portletdata.id
+			   AND portlet_configuration.portlet_config_id =
+				   portlet_page_configuration.id
+			   AND portlet_page_configuration.user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM portlet_configuration
+		USING  portlet_page_configuration,
+			   users
+		WHERE  portlet_configuration.portlet_config_id = portlet_page_configuration.id
+			   AND portlet_page_configuration.user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM portlet_page_configuration
+		USING  users
+		WHERE  user_id = users.id
+			   AND users.company_id = cid;
+
+		DELETE FROM account
+		WHERE  company_id = cid;
+
+		DELETE FROM TRANSACTION
+		WHERE  company_id = cid;
+
+		DELETE FROM accounter_class
+		WHERE  company_id = cid;
+
+		DELETE FROM payee
+		WHERE  company_id = cid;
+
+		DELETE FROM users
+		WHERE  company_id = cid;
+
+		DELETE FROM activity
+		WHERE  company_id = cid;
+
+		DELETE FROM currency
+		WHERE  company_id = cid;
+		
+		DELETE FROM email_account
+		WHERE  company_id = cid;  
+		
+		DELETE FROM enter_bill_orders
+		USING  TRANSACTION
+		WHERE  enter_bill_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid;  
+		       
+		DELETE FROM tdsdeductormasters
+		WHERE  company_id = cid;
+		
+		DELETE FROM tdsresponsibleperson
+		WHERE  company_id = cid;  
+		
+		DELETE FROM tdstransactionitem
+		USING  TRANSACTION
+		WHERE  transaction_id = TRANSACTION.id
+		       AND TRANSACTION.company_id = cid; 
+		       
+		DELETE FROM tds_chalan_detail
+		USING  TRANSACTION
+		WHERE  tds_chalan_detail.id = TRANSACTION.id
+
+		       AND TRANSACTION.company_id = cid;  
+		       
+		DELETE FROM company
+		WHERE  id = cid;  
 
 		return
 		true;
-
 		end;$BODY$
 		LANGUAGE plpgsql VOLATILE;
-
 	</sql-query>
 
 
@@ -8634,10 +8927,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -8721,10 +9014,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -8811,10 +9104,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -8902,10 +9195,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -8995,9 +9288,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 
@@ -9070,10 +9363,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9148,10 +9441,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9227,10 +9520,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9304,10 +9597,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9382,9 +9675,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_METHOD_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 
@@ -9463,9 +9756,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="PAYMENT_METHOD_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 
@@ -9547,10 +9840,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9622,10 +9915,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9700,10 +9993,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
 		<return-scalar column="BALANCE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY_ID" type="long" />
 
 		SELECT
@@ -9781,9 +10074,11 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
 
 		SELECT
+		T.SAVE_STATUS AS TRANSACTION_STATUS,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
 		CASE
@@ -9832,6 +10127,7 @@
 		RECEIVE_PAYMENT RP ON RP.ID=T.ID
 		LEFT JOIN
 		CUSTOMER_PREPAYMENT CP ON CP.ID=T.ID
+		LEFT JOIN WRITE_CHECKS WC ON WC.ID =T.ID
 		LEFT
 		JOIN PAYEE P
 		ON
@@ -9841,6 +10137,7 @@
 		P.ID=CCM.CUSTOMER_ID OR
 		P.ID=CR.CUSTOMER_ID OR
 		P.ID=E.CUSTOMER_ID OR
+		P.ID=WC.CUSTOMER_ID OR
 
 		P.ID=RP.CUSTOMER_ID OR
 		P.ID=CP.CUSTOMER_ID
@@ -10364,8 +10661,9 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
-
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		CP.PAYFROM_ACCOUNT_ID AS
 		TRANSACTION_ACCOUNT,
@@ -10436,8 +10734,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		CP.PAYFROM_ACCOUNT_ID AS
 		TRANSACTION_ACCOUNT,
@@ -10510,8 +10810,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10583,8 +10885,12 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
+
+		
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10657,8 +10963,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10733,8 +11041,11 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
+		
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -10809,8 +11120,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		PB.PAYFROM_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -10880,8 +11193,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -10950,8 +11265,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		WC.ACCOUNT_ID as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -11022,8 +11339,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11094,8 +11413,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11142,7 +11463,7 @@
 		T.T_TYPE =22
 		AND
 		T.SAVE_STATUS
-		!= 202 AND
+		!= 202 AND T.STATUS !=5
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
@@ -11165,8 +11486,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11236,7 +11559,9 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11355,8 +11680,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11427,8 +11754,10 @@
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		null as TRANSACTION_ACCOUNT,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS
@@ -11500,8 +11829,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11583,8 +11914,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11651,8 +11984,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11720,8 +12055,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -11790,8 +12127,10 @@
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
+		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
 		T.T_TYPE AS
@@ -12031,9 +12370,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
@@ -12059,7 +12399,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS
 		FROM
 		TRANSACTION T
@@ -12081,7 +12421,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=7 AND T.SAVE_STATUS
-		!= 202 AND
+		!= 202 
 		AND
 		E.ESTIMATETYPE =:estimateType
 		AND
@@ -12107,9 +12447,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
 		<return-scalar column="TOTAL_PRICE" type="double" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 
 		SELECT
 		T.MEMO AS TRANSACTION_MEMO,
@@ -12135,7 +12476,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS
 		FROM
 		TRANSACTION T
@@ -12157,7 +12498,7 @@
 		P.ID =
 		C.ID
 		WHERE T.T_TYPE=7 T.SAVE_STATUS
-		!= 202 AND
+		!= 202 
 		AND
 		E.ESTIMATETYPE =:estimateType
 		AND T.SAVE_STATUS=201 AND
@@ -12182,9 +12523,10 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 
 		SELECT
@@ -12207,7 +12549,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE
 		AS
@@ -12252,9 +12594,9 @@
 		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 
 		SELECT
@@ -12277,7 +12619,7 @@
 		ELSE
 		FALSE
 		END AS ISVOIDED,
-		T.STATUS AS
+		T.SAVE_STATUS AS
 		TRANSACTION_STATUS,
 		T.T_DATE
 		AS
@@ -12763,7 +13105,7 @@
 		T.ID as
 		TRANSACTION_ID,
 		TI.ID as TRANSACTION_ITEM_ID,
-		TI.UNIT_PRICE as
+		TI.UNIT_PRICE * T.CURRENCY_FACTOR as
 		UNIT_PRICE,
 		TI.QTY_VALUE AS QUANTITY,
 		TI.QTY_UNIT as QTY_UNIT,
@@ -12785,7 +13127,7 @@
 
 		WHERE T.SAVE_STATUS NOT IN (201,202)
 		AND (T.T_TYPE IN
-		(2,6,14,26,27) OR CASE
+		(2,6,4,26,27) OR CASE
 		WHEN T.T_TYPE=36 THEN TI.QTY_VALUE &gt;= 0 ELSE
 		FALSE END) ;
 
@@ -12895,7 +13237,7 @@
 		TI.QTY_VALUE END AS
 		QTY_VALUE,
 		TI.QTY_UNIT,
-		TI.UNIT_PRICE AS COST,
+		TI.UNIT_PRICE * T.CURRENCY_FACTOR AS COST,
 		TI.DESCRIPTION AS
 		DESCRIPTION,
 		IT.NAME AS ITEM_NAME,
@@ -12926,6 +13268,7 @@
 		AND IT2.ID=it.ID
 		GROUP BY IT.ID) as
 		ASSET_CHANGE,
+		
 		(SELECT SUM(AT.AMOUNT) AS ASSET_VALUE
 		FROM
 		ACCOUNT_TRANSACTION AT
@@ -12941,6 +13284,7 @@
 		AT.COMPANY_ID=IT.COMPANY_ID AND
 		IT2.COMPANY_ID=IT.COMPANY_ID) AS
 		TOTAL_ASSET,
+		
 		IT.PURCHASE_DESCRIPTION
 		AS ITEM_PURCHASE_DESCRIPTION,
 		IT.AS_OF_DATE AS ASOFDATE
@@ -13127,7 +13471,7 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		
+
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="long" />
@@ -13151,16 +13495,16 @@
 		FROM ACCOUNT_TRANSACTION AT 
 		LEFT JOIN ACCOUNT A ON A.ID=AT.ACCOUNT_ID 
 		LEFT JOIN TRANSACTION T ON T.ID=AT.TRANSACTION_ID
-		
+
 		WHERE A.COMPANY_ID=:companyId  AND T.T_TYPE IN (1,4,5,7,8,12,21,29,24)  AND (A.A_TYPE=2 OR 
-		AT.TRANSACTION_ID IN 
+		AT.TRANSACTION_ID IN
 			(SELECT AT2.TRANSACTION_ID 
 				FROM ACCOUNT_TRANSACTION AT2 
 				LEFT JOIN ACCOUNT A2 ON A2.ID=AT2.ACCOUNT_ID  
 				WHERE A2.A_TYPE=2)   )AND ( T.T_DATE &lt;= :endDate AND  T.T_DATE &gt;= :startDate)
 		ORDER BY AT.TRANSACTION_ID,AMOUNT DESC;
 	</sql-query>
-	
+
 	<sql-query name="getBankCheckDetails">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
@@ -13216,4 +13560,3 @@
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 </hibernate-mapping>
-

@@ -65,7 +65,7 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-
+			apiProcess(request);
 			if (isValidSession(request)) {
 				Session session = HibernateUtil.openSession();
 				try {
@@ -103,6 +103,16 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		}
 	}
 
+	private void apiProcess(HttpServletRequest request) {
+		String header = request.getHeader("isAPI");
+		if (header != null && header.equalsIgnoreCase("Yes")) {
+			HttpSession session = request.getSession(true);
+			session.setAttribute(EMAIL_ID, request.getHeader("emailId"));
+			session.setAttribute(COMPANY_ID,
+					Long.parseLong(request.getHeader("companyId")));
+		}
+	}
+
 	/**
 	 * @param request
 	 * @throws AccounterException
@@ -119,7 +129,8 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), request.getSession().getId());
+				EU.createCipher(user.getSecretKey(), getD2(request), request
+						.getSession().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

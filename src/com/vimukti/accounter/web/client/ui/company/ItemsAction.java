@@ -20,10 +20,11 @@ public class ItemsAction extends Action {
 	// super();
 	// this.catagory = Global.get().customer();
 	// }
+	private String cat;
 
 	public ItemsAction(String catageory) {
 		super();
-		this.catagory = catageory;
+		this.cat = catageory;
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -74,11 +75,11 @@ public class ItemsAction extends Action {
 	public String getHistoryToken() {
 		ItemListView view = new ItemListView();
 		// view.setCatageoryType(getCatagory());
-		if (catagory.equalsIgnoreCase(Global.get().vendor()))
+		if (cat.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
-		if (catagory.equalsIgnoreCase(Global.get().customer()))
+		if (cat.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (catagory.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
+		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
 				.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
@@ -89,16 +90,20 @@ public class ItemsAction extends Action {
 	@Override
 	public String getHelpToken() {
 		ItemListView view = new ItemListView();
-		if (catagory.equalsIgnoreCase(Global.get().vendor()))
+		if (cat.equalsIgnoreCase(Global.get().vendor()))
 			return "vendorItems";
-		if (catagory.equalsIgnoreCase(Global.get().customer()))
+		if (cat.equalsIgnoreCase(Global.get().customer()))
 			return "customerItems";
-		if (catagory.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
+		if (cat.equalsIgnoreCase(messages.bothCustomerAndVendor(Global
 				.get().Customer(), Global.get().Vendor())))
 			return "allItems";
 		else
 			return "customerItems";
 
+	}
+	@Override
+	public String getCatagory() {
+		return cat;
 	}
 
 	@Override

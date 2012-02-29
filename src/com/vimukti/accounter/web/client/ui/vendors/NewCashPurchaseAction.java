@@ -22,13 +22,11 @@ public class NewCashPurchaseAction extends Action {
 
 	public NewCashPurchaseAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public NewCashPurchaseAction(ClientCashPurchase cashPurchase,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -82,6 +80,11 @@ public class NewCashPurchaseAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "new-cash-purchase";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 	@Override

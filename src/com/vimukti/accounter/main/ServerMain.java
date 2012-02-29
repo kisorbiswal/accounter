@@ -34,6 +34,7 @@ import com.vimukti.accounter.mobile.store.PatternStore;
 import com.vimukti.accounter.services.SubscryptionTool;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.server.FinanceTool;
 import com.vimukti.accounter.web.server.RecurringTool;
@@ -113,20 +114,20 @@ public class ServerMain extends Main {
 		Subscription premium = Subscription
 				.getInstance(Subscription.PREMIUM_USER);
 		Set<String> premiumFeatures = new HashSet<String>();
-		premiumFeatures.add("create company");
-		premiumFeatures.add("brnading theme0");
-		premiumFeatures.add("import bank statements");
-		premiumFeatures.add("user activity");
-		premiumFeatures.add("history");
-		premiumFeatures.add("attachments");
-		premiumFeatures.add("class");
-		premiumFeatures.add("location");
-		premiumFeatures.add("billable exenses");
-		premiumFeatures.add("credtis and charges");
-		premiumFeatures.add("merging");
-		premiumFeatures.add("job costing");
-		premiumFeatures.add("encryption");
-		premiumFeatures.add("invite users");
+		premiumFeatures.add(Features.CRESTE_COMPANY);
+		premiumFeatures.add(Features.BRANDING_THEME);
+		premiumFeatures.add(Features.IMPORT_BANK_STATEMENTS);
+		premiumFeatures.add(Features.USER_ACTIVITY);
+		premiumFeatures.add(Features.HISTORY);
+		premiumFeatures.add(Features.ATTACHMENTS);
+		premiumFeatures.add(Features.CLASS);
+		premiumFeatures.add(Features.LOCATION);
+		premiumFeatures.add(Features.BILLABLE_EXPENSE);
+		premiumFeatures.add(Features.CREDITS_CHARGES);
+		premiumFeatures.add(Features.MERGING);
+		premiumFeatures.add(Features.JOB_COSTING);
+		premiumFeatures.add(Features.ENCRYPTION);
+		premiumFeatures.add(Features.INVITE_USERS);
 		premium.setFeatures(premiumFeatures);
 
 		Subscription before = Subscription
@@ -134,20 +135,20 @@ public class ServerMain extends Main {
 		session.saveOrUpdate(premium);
 
 		Set<String> beforeFeatures = new HashSet<String>();
-		beforeFeatures.add("create company");
-		beforeFeatures.add("brnading theme0");
-		beforeFeatures.add("import bank statements");
-		beforeFeatures.add("user activity");
-		beforeFeatures.add("history");
-		beforeFeatures.add("attachments");
-		beforeFeatures.add("class");
-		beforeFeatures.add("location");
-		beforeFeatures.add("billable exenses");
-		beforeFeatures.add("credtis and charges");
-		beforeFeatures.add("merging");
-		beforeFeatures.add("job costing");
-		beforeFeatures.add("encryption");
-		beforeFeatures.add("invite users");
+		beforeFeatures.add(Features.CRESTE_COMPANY);
+		beforeFeatures.add(Features.BRANDING_THEME);
+		beforeFeatures.add(Features.IMPORT_BANK_STATEMENTS);
+		beforeFeatures.add(Features.USER_ACTIVITY);
+		beforeFeatures.add(Features.HISTORY);
+		beforeFeatures.add(Features.ATTACHMENTS);
+		beforeFeatures.add(Features.CLASS);
+		beforeFeatures.add(Features.LOCATION);
+		beforeFeatures.add(Features.BILLABLE_EXPENSE);
+		beforeFeatures.add(Features.CREDITS_CHARGES);
+		beforeFeatures.add(Features.MERGING);
+		beforeFeatures.add(Features.JOB_COSTING);
+		beforeFeatures.add(Features.ENCRYPTION);
+		beforeFeatures.add(Features.INVITE_USERS);
 		before.setFeatures(beforeFeatures);
 
 		session.saveOrUpdate(before);

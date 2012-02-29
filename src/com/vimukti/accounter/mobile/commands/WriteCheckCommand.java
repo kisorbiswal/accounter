@@ -492,7 +492,7 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_WRITE_CHECK, getCompany()));
+						ClientTransaction.TYPE_WRITE_CHECK, context.getCompany()));
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		get(DISCOUNT).setDefaultValue(0.0);

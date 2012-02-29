@@ -18,13 +18,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccountsTemplate;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -223,8 +223,10 @@ public class SetupWizard extends VerticalPanel {
 	private static native void showLoadingImage() /*-{
 		var parent = $wnd.document.getElementById('loadingWrapper');
 		var footer = $wnd.document.getElementById('mainFooter');
+		var appVersions = $wnd.document.getElementById('appVersions');
 		parent.style.visibility = 'visible';
 		footer.style.visibility = 'hidden';
+		appVersions.style.visibility = 'hidden';
 	}-*/;
 
 	/**

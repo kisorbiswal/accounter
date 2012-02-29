@@ -460,6 +460,7 @@ public class ViewManager extends HorizontalPanel {
 
 		if (existingView instanceof CustomerCenterView
 				&& Accounter.getUser().isCanDoUserManagement()) {
+			addCustomerButton.setText(messages.addNew(Global.get().Customer()));
 			group7.add(addCustomerButton);
 		} else {
 			removeAddCustomerButton();
@@ -467,6 +468,7 @@ public class ViewManager extends HorizontalPanel {
 
 		if (existingView instanceof VendorCenterView
 				&& Accounter.getUser().isCanDoUserManagement()) {
+			addVendorButton.setText(messages.addNew(Global.get().Vendor()));
 			group8.add(addVendorButton);
 		} else {
 			removeAddVendorButton();

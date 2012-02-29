@@ -82,7 +82,7 @@
 		</servlet-mapping> <servlet> <servlet-name>new signup</servlet-name> <servlet-class>com.vimukti.accounter.servlets.SignupServlet 
 		</servlet-class> </servlet> -->
 
-	<!-- API SERVLET MAPPING -->
+	<!-- API SERVLET MAPPING START -->
 
 	<filter>
 		<filter-name>Api Filter</filter-name>
@@ -91,7 +91,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>Api Filter</filter-name>
-		<url-pattern>/api/*</url-pattern>
+		<url-pattern>/company/api/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>
@@ -101,11 +101,8 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Reports Api</servlet-name>
-		<url-pattern>/company/api/xmlreports/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Reports Api</servlet-name>
-		<url-pattern>/company/api/jsonreports/*</url-pattern>
+		<url-pattern>/company/api/xml/reports/*</url-pattern>
+		<url-pattern>/company/api/json/reports/*</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -117,6 +114,31 @@
 		<servlet-name>Api Registration</servlet-name>
 		<url-pattern>/apiregistration</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Create Objects</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.RestApiServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Create Objects</servlet-name>
+		<url-pattern>/company/api/xml/crud</url-pattern>
+		<url-pattern>/company/api/json/crud</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Api Lists</servlet-name>
+		<servlet-class>com.vimukti.accounter.developer.api.ListsApiServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Api Lists</servlet-name>
+		<url-pattern>/company/api/xml/lists</url-pattern>
+		<url-pattern>/company/api/json/lists</url-pattern>
+	</servlet-mapping>
+
+	<!-- API SERVLET MAPPING END -->
+
 
 	<servlet>
 		<servlet-name>S2SService</servlet-name>
@@ -603,7 +625,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.5.7.9</param-value>
+		<param-value>1.0.6.1.9.1</param-value>
 	</context-param>
 
 	<servlet>
@@ -823,8 +845,8 @@
 		<servlet-name>OpenIDPasswordServlet </servlet-name>
 		<url-pattern>/main/openidpassword</url-pattern>
 	</servlet-mapping>
-	
-		<servlet>
+
+	<servlet>
 		<servlet-name>EncryptCompaniesServlet
 		</servlet-name>
 		<servlet-class>
@@ -835,6 +857,6 @@
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
-	
+
 
 </web-app>

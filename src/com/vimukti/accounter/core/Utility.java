@@ -180,9 +180,13 @@ public class Utility {
 		case Transaction.TYPE_STOCK_ADJUSTMENT:
 			transactionName = AccounterServerConstants.TYPE_STOCK_ADJUSTMENT;
 			break;
+		// case Transaction.TYPE_TDS_CHALLAN:
+		// transactionName = AccounterServerConstants.TYPE_TDS_CHALLAN;
+		// break;
 		case Transaction.TYPE_TDS_CHALLAN:
 			transactionName = AccounterServerConstants.TYPE_TDS_CHALLAN;
 			break;
+
 		}
 		return transactionName;
 	}

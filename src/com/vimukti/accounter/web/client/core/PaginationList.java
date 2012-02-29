@@ -2,7 +2,9 @@ package com.vimukti.accounter.web.client.core;
 
 import java.util.ArrayList;
 
-public class PaginationList<T> extends ArrayList<T> {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class PaginationList<T> extends ArrayList<T> implements IsSerializable {
 
 	/**
 	 * 

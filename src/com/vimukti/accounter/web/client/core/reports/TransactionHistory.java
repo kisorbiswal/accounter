@@ -106,6 +106,8 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	String account;
 
+	private int savestaus;
+
 	public int getStatus() {
 		return status;
 	}
@@ -438,5 +440,13 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 			return true;
 		return false;
 
+	}
+
+	public int getSavestaus() {
+		return savestaus;
+	}
+
+	public void setSavestaus(int savestaus) {
+		this.savestaus = savestaus;
 	}
 }

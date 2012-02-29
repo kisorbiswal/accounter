@@ -123,12 +123,12 @@ public class AccounterCompanyInitializationServiceImpl extends
 			List<TemplateAccount> accounts, Client client, String password,
 			byte[] d2, String sessionId) throws AccounterException {
 
-		if (!client.getClientSubscription().getSubscription().isPaidUser()) {
-			List<Company> companies = client.getCompanies();
-			if (companies.size() > 0) {
-				throw new AccounterException();
-			}
-		}
+		// if (!client.getClientSubscription().getSubscription().isPaidUser()) {
+		// List<Company> companies = client.getCompanies();
+		// if (companies.size() > 0) {
+		// throw new AccounterException();
+		// }
+		// }
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
@@ -153,6 +153,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
 			company.setSecretKey(companySecret);
+			company.setVersion(Company.CURRENT_VERSION);
 
 			User user = new User(getUser(client));
 			user.setActive(true);

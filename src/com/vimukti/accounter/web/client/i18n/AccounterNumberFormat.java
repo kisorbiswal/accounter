@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.client.i18n;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.CurrencyData;
@@ -567,7 +569,8 @@ public class AccounterNumberFormat {
 	 * The number of digits between grouping separators in the integer portion
 	 * of a number.
 	 */
-	private int groupingSize = 3;
+	// private int groupingSize = 3;
+	private List<Integer> groupingSize = new ArrayList<Integer>();
 
 	private boolean isCurrencyFormat = false;
 
@@ -923,7 +926,7 @@ public class AccounterNumberFormat {
 		decimalPosition = digitsLength + scale;
 
 		boolean useExponent = this.useExponentialNotation;
-		int currentGroupingSize = this.groupingSize;
+		// int currentGroupingSize = this.groupingSize;
 		if (decimalPosition > 1024) {
 			// force really large numbers to be in exponential form
 			useExponent = true;
@@ -934,7 +937,7 @@ public class AccounterNumberFormat {
 		}
 		processLeadingZeros(digits);
 		roundValue(digits);
-		insertGroupingSeparators(digits, groupingSeparator, currentGroupingSize);
+		insertGroupingSeparators(digits, groupingSeparator, groupingSize);
 		adjustFractionDigits(digits);
 		addZeroAndDecimal(digits, decimalSeparator);
 		if (useExponent) {
@@ -978,7 +981,7 @@ public class AccounterNumberFormat {
 	 * Returns the number of digits between grouping separators in the integer
 	 * portion of a number.
 	 */
-	protected int getGroupingSize() {
+	protected List<Integer> getGroupingSize() {
 		return groupingSize;
 	}
 
@@ -1041,6 +1044,9 @@ public class AccounterNumberFormat {
 	 */
 	private void addZeroAndDecimal(StringBuilder digits, char decimalSeparator) {
 		// add zero and decimal point if required
+		if (decimalSeparator == 0) {
+			return;
+		}
 		if (digitsLength == 0) {
 			digits.insert(0, '0');
 			++decimalPosition;
@@ -1152,12 +1158,19 @@ public class AccounterNumberFormat {
 	 * @param g
 	 */
 	private void insertGroupingSeparators(StringBuilder digits,
-			char groupingSeparator, int g) {
-		if (g > 0) {
-			for (int i = g; i < decimalPosition; i += g + 1) {
+			char groupingSeparator, List<Integer> g) {
+		if (g.size() > 0) {
+			int j = 0;
+			int previous;
+			for (int i = g.get(0); i < decimalPosition; i += (g.size() <= (j + 1) ? previous
+					: g.get(++j)) + 1) {
 				digits.insert(decimalPosition - i, groupingSeparator);
 				++decimalPosition;
 				++digitsLength;
+				previous = g.get(j);
+				if (g.size() == 1) {
+					break;
+				}
 			}
 		}
 	}
@@ -1385,6 +1398,7 @@ public class AccounterNumberFormat {
 		int decimalPos = -1;
 		int digitLeftCount = 0, zeroDigitCount = 0, digitRightCount = 0;
 		byte groupingCount = -1;
+		groupingSize.clear();
 
 		int len = pattern.length();
 		int pos = start;
@@ -1413,6 +1427,9 @@ public class AccounterNumberFormat {
 				}
 				break;
 			case PATTERN_GROUPING_SEPARATOR:
+				if (groupingCount > 0) {
+					groupingSize.add(0, (int) groupingCount);
+				}
 				groupingCount = 0;
 				break;
 			case PATTERN_DECIMAL_SEPARATOR:
@@ -1457,6 +1474,10 @@ public class AccounterNumberFormat {
 				loop = false;
 				break;
 			}
+		}
+
+		if (groupingCount > 0) {
+			groupingSize.add(0, (int) groupingCount);
 		}
 
 		if (zeroDigitCount == 0 && digitLeftCount > 0 && decimalPos >= 0) {
@@ -1510,7 +1531,7 @@ public class AccounterNumberFormat {
 			}
 		}
 
-		this.groupingSize = (groupingCount > 0) ? groupingCount : 0;
+		// this.groupingSize = (groupingCount > 0) ? groupingCount : 0;
 		decimalSeparatorAlwaysShown = (decimalPos == 0 || decimalPos == totalDigits);
 
 		return pos - start;
@@ -1603,11 +1624,15 @@ public class AccounterNumberFormat {
 	public static AccounterNumberFormat getCurrencyFormat() {
 		if (cachedCurrencyFormat == null) {
 			ClientCompanyPreferences preferences = Global.get().preferences();
+			String decimalCharacter = preferences.getDecimalCharacter();
+			char decimalChar = 0;
+			if (decimalCharacter != null && !decimalCharacter.isEmpty()) {
+				decimalChar = decimalCharacter.charAt(0);
+			}
 			cachedCurrencyFormat = new AccounterNumberFormat(
 					preferences.getCurrencyFormat(),
-					preferences.getDecimalNumber(), true, preferences
-							.getDecimalCharacter().charAt(0), preferences
-							.getDigitGroupCharacter().charAt(0));
+					preferences.getDecimalNumber(), true, decimalChar,
+					preferences.getDigitGroupCharacter().charAt(0));
 		}
 		return cachedCurrencyFormat;
 	}
@@ -1623,7 +1648,12 @@ public class AccounterNumberFormat {
 		parsePattern(preferences.getCurrencyFormat());
 		minimumFractionDigits = preferences.getDecimalNumber();
 		maximumFractionDigits = preferences.getDecimalNumber();
-		decimalSeparator = preferences.getDecimalCharacter().charAt(0);
+		if (preferences.getDecimalCharacter() != null
+				&& !preferences.getDecimalCharacter().isEmpty()) {
+			decimalSeparator = preferences.getDecimalCharacter().charAt(0);
+		} else {
+			decimalSeparator = 0;
+		}
 		groupingSeparator = preferences.getDigitGroupCharacter().charAt(0);
 	}
 }

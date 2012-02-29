@@ -828,8 +828,9 @@ public class PurchaseOrderView extends
 						.get(1));
 			}
 			shipToAddress.businessSelect.setDisabled(true);
-
-			this.addressListOfVendor = getVendor().getAddress();
+			if (getVendor() != null) {
+				this.addressListOfVendor = getVendor().getAddress();
+			}
 			if (billingAddress != null) {
 				billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
 						+ billingAddress.getStreet() + "\n"

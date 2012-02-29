@@ -6,13 +6,13 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.vimukti.accounter.core.Features;
 import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
+import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
@@ -180,7 +180,7 @@ public abstract class BaseView<T extends IAccounterCore> extends
 				&& permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
 			this.saveAndCloseButton = new SaveAndCloseButton(this);
 			this.saveAndNewButton = new SaveAndNewButtom(this);
-		} else if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES) {
+		} else if (permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
 			this.saveAndCloseButton = new SaveAndCloseButton(this);
 			this.saveAndNewButton = new SaveAndNewButtom(this);
 		}

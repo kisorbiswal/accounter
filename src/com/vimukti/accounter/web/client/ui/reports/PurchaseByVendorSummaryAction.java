@@ -14,7 +14,6 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 	public PurchaseByVendorSummaryAction() {
 		super();
-		this.catagory = messages.report();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -50,6 +49,11 @@ public class PurchaseByVendorSummaryAction extends Action {
 		return null;
 	}
 
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
+	}
+
 	public ImageResource getSmallImage() {
 		return Accounter.getFinanceMenuImages().reports();
 	}
@@ -64,6 +68,7 @@ public class PurchaseByVendorSummaryAction extends Action {
 
 		return "purchaseByVendorSummary";
 	}
+
 	@Override
 	public String getHelpToken() {
 		return "purchase-vendor-summary";

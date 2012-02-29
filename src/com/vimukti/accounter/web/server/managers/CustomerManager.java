@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -843,17 +842,15 @@ public class CustomerManager extends PayeeManager {
 							: ((Integer) object[1]).intValue());
 			transactionHistory.setNumber((String) object[2]);
 
-			transactionHistory.setDate(new ClientFinanceDate(
-					((Long) object[3]).longValue()));
+			transactionHistory.setDate(new ClientFinanceDate(((Long) object[3])
+					.longValue()));
 			transactionHistory.setInvoicedAmount(object[4] == null ? 0
 					: ((Double) object[4]).doubleValue());
 			transactionHistory.setPaidAmount(object[5] == null ? 0
 					: ((Double) object[5]).doubleValue());
 			transactionHistory.setPaymentTerm((String) object[6]);
-			transactionHistory
-					.setDueDate(((Long) object[7]) == null ? null
-							: new ClientFinanceDate(((Long) object[7])
-									.longValue()));
+			transactionHistory.setDueDate(((Long) object[7]) == null ? null
+					: new ClientFinanceDate(((Long) object[7]).longValue()));
 			transactionHistory.setDebit(object[8] == null ? 0
 					: ((Double) object[8]).doubleValue());
 			transactionHistory.setCredit(object[9] == null ? 0
@@ -862,8 +859,8 @@ public class CustomerManager extends PayeeManager {
 					: ((Double) object[10]).doubleValue());
 			transactionHistory.setWriteOff(object[11] == null ? 0
 					: ((Double) object[11]).doubleValue());
-			transactionHistory.setTransactionId(((Long) object[12])
-					.longValue());
+			transactionHistory
+					.setTransactionId(((Long) object[12]).longValue());
 
 			transactionHistory
 					.setBeginningBalance((object[13] != null ? ((Double) object[13])
@@ -972,6 +969,7 @@ public class CustomerManager extends PayeeManager {
 			// transactionHistory
 			// .setStatus((object[15] != null) ? (Integer) object[15] : 0);
 			transactionHistory.setMemo((String) object[7]);
+			transactionHistory.setStatus((Integer) object[8]);
 
 			// transactionHistory.setAccount((String) object[17]);
 			transactionHistory.setAmount((object[5] == null ? 0

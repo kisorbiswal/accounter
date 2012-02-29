@@ -286,7 +286,7 @@ public class Vendor extends Payee {
 		accounterCore.setID(this.getID());
 		accounterCore.setObjectType(AccounterCoreType.VENDOR);
 		ChangeTracker.put(accounterCore);
-		return false;
+		return super.onDelete(arg0);
 	}
 
 	@Override
@@ -296,7 +296,8 @@ public class Vendor extends Payee {
 		super.onSave(session);
 		this.isOnSaveProccessed = true;
 		setType(Payee.TYPE_VENDOR);
-		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()) {
+		if (this.vendorNumber == null || this.vendorNumber.trim().isEmpty()
+				|| !getCompany().getPreferences().getUseCustomerId()) {
 			this.vendorNumber = NumberUtils
 					.getNextAutoVendorNumber(getCompany());
 		}
@@ -331,7 +332,8 @@ public class Vendor extends Payee {
 		try {
 			Query query = session
 					.getNamedQuery("getVendor.by.name")
-					.setParameter("name", vendor.name, EncryptedStringType.INSTANCE)
+					.setParameter("name", vendor.name,
+							EncryptedStringType.INSTANCE)
 					.setEntity("company", vendor.getCompany());
 			List list = query.list();
 			if (list != null && list.size() > 0) {
