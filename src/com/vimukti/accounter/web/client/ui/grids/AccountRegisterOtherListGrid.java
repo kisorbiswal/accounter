@@ -117,7 +117,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	public void onDoubleClick(AccountRegister obj) {
-		// if (Accounter.getUser().c)
+		if (!isCanOpenTransactionView(0, obj.getType())) {
+			return;
+		}
 		ReportsRPC.openTransactionView(obj.getType(), obj.getTransactionId());
 	}
 
@@ -147,6 +149,9 @@ public class AccountRegisterOtherListGrid extends BaseListGrid<AccountRegister> 
 
 	@Override
 	protected void onClick(AccountRegister obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, obj.getType())) {
+			return;
+		}
 		if (col == 8 && !obj.isVoided()) {
 			showWarningDialog(obj);
 		}

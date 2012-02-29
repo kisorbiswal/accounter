@@ -183,14 +183,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
 			ActionFactory.getNewQuoteAction(obj.getEstimateType()).run(obj,
 					false);
 		}
 	}
 
 	protected void onClick(ClientEstimate obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		if (col == 7 && obj.getStatus() == ClientEstimate.STATUS_OPEN
 				&& obj.getEstimateType() != ClientEstimate.SALES_ORDER) {

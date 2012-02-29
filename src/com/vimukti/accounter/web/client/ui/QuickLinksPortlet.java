@@ -14,6 +14,7 @@ import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientPortletConfiguration;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class QuickLinksPortlet extends Portlet {
 
@@ -63,8 +64,11 @@ public class QuickLinksPortlet extends Portlet {
 		quickLinksMap.put(messages.newSalesOrder(), ActionFactory
 				.getNewQuoteAction(ClientEstimate.SALES_ORDER)
 				.getHistoryToken());
-		quickLinksMap.put(messages.newJournalEntry(), ActionFactory
-				.getNewJournalEntryAction().getHistoryToken());
+		if (Accounter.getUser().getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
+			quickLinksMap.put(messages.newJournalEntry(), ActionFactory
+					.getNewJournalEntryAction().getHistoryToken());
+		}
+
 		quickLinksMap.put(messages.receivePayment(), ActionFactory
 				.getReceivePaymentAction().getHistoryToken());
 		quickLinksMap.put(messages.Reconcile(), ActionFactory

@@ -1235,10 +1235,10 @@ public abstract class Transaction extends CreatableObject implements
 		if (saveStatus != STATUS_DRAFT) {
 			checkNullValues();
 		}
-		if (isVoid() /* && !getReconciliationItems().isEmpty() */) {
-			throw new AccounterException(
-					AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
-		}
+		// if (isVoid() /* && !getReconciliationItems().isEmpty() */) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
+		// }
 
 		return true;
 	}

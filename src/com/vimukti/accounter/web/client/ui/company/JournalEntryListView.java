@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.IPrintableView;
 import com.vimukti.accounter.web.client.ui.core.TransactionsListView;
 import com.vimukti.accounter.web.client.ui.grids.JournalEntriesListGrid;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * 
@@ -34,7 +35,10 @@ public class JournalEntryListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addNewJournalEntry();
+		if (Accounter.getUser().getPermissions().getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
+			return messages.addNewJournalEntry();
+		}
+		return null;
 	}
 
 	@Override
