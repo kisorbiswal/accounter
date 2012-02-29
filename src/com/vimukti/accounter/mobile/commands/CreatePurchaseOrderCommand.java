@@ -110,6 +110,12 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		/* get(CURRENCY_FACTOR).setValue(purchaseOrder.getCurrencyFactor()); */
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(purchaseOrder));
 		get(MEMO).setValue(purchaseOrder.getMemo());
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(purchaseOrder
+							.getTransactionItems()));
+		}
 	}
 
 	@Override
@@ -145,6 +151,7 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		get(RECIEVED_DATE).setDefaultValue(new ClientFinanceDate());
 		get(STATUS).setDefaultValue(getMessages().open());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
@@ -273,6 +280,13 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 				return null;
 			}
 
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreatePurchaseOrderCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
+			}
+
 		});
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
@@ -306,6 +320,13 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			protected Currency getCurrency() {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreatePurchaseOrderCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});

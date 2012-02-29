@@ -73,7 +73,18 @@ public abstract class TransactionAccountTableRequirement extends
 		});
 
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true, true));
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseSelect(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
@@ -184,6 +195,10 @@ public abstract class TransactionAccountTableRequirement extends
 		double discount = get(DISCOUNT).getValue();
 		obj.setDiscount(discount);
 		double lt = obj.getUnitPrice();
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			obj.setDiscount(getDiscount());
+		}
 		double disc = obj.getDiscount();
 		obj.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
 				: lt);
@@ -255,7 +270,10 @@ public abstract class TransactionAccountTableRequirement extends
 				}
 			}
 		}
-		record.add(getMessages().discount(), t.getDiscount());
+		if (getPreferences().isTrackDiscounts()
+				&& getPreferences().isDiscountPerDetailLine()) {
+			record.add(getMessages().discount(), t.getDiscount());
+		}
 		record.add(getMessages().description(), t.getDescription());
 		return record;
 	}
@@ -295,4 +313,21 @@ public abstract class TransactionAccountTableRequirement extends
 
 	protected abstract Currency getCurrency();
 
+	protected abstract double getDiscount();
+
+	@Override
+	public <T> T getValue() {
+		List<ClientTransactionItem> oldValues = super.getValue();
+		for (ClientTransactionItem obj : oldValues) {
+			double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
+			if (getPreferences().isTrackDiscounts()
+					&& !getPreferences().isDiscountPerDetailLine()) {
+				obj.setDiscount(getDiscount());
+			}
+			double disc = obj.getDiscount();
+			obj.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+					* disc / 100)) : lt);
+		}
+		return (T) oldValues;
+	}
 }

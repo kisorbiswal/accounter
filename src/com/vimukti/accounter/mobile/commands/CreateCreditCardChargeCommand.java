@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -93,6 +94,7 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 				return e.getName().startsWith(name);
 			}
 		});
+
 		list.add(new CurrencyFactorRequirement(CURRENCY_FACTOR, getMessages()
 				.pleaseEnter(getMessages().currencyFactor()), getMessages()
 				.currencyFactor()) {
@@ -104,6 +106,22 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			}
 
 		});
+
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				true, true) {
@@ -135,6 +153,13 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			@Override
 			protected double getCurrencyFactor() {
 				return CreateCreditCardChargeCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditCardChargeCommand.this
+						.get(DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -189,6 +214,13 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 			@Override
 			protected boolean isTrackTaxPaidAccount() {
 				return false;
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditCardChargeCommand.this
+						.get(DISCOUNT).getValue();
+				return value2;
 			}
 
 		});
@@ -481,6 +513,12 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditCardCharge));
 		/* get(CURRENCY_FACTOR).setValue(creditCardCharge.getCurrencyFactor()); */
 		get(MEMO).setValue(creditCardCharge.getMemo());
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(creditCardCharge
+							.getTransactionItems()));
+		}
 	}
 
 	@Override
@@ -513,6 +551,7 @@ public class CreateCreditCardChargeCommand extends AbstractTransactionCommand {
 		get(DELIVERY_DATE).setDefaultValue(new ClientFinanceDate());
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().creditCard());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 		/*
 		 * get(CURRENCY).setDefaultValue(null);
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);

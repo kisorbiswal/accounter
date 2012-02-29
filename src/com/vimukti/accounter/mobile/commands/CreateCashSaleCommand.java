@@ -24,6 +24,7 @@ import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.UserCommand;
 import com.vimukti.accounter.mobile.requirements.AccountRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -118,6 +119,21 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 
 		});
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionItemTableRequirement(ITEMS,
 				"Please Enter Item Name or number", getMessages().items(),
 				true, true) {
@@ -148,6 +164,13 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 			protected Currency getCurrency() {
 				return ((Customer) CreateCashSaleCommand.this.get(CUSTOMER)
 						.getValue()).getCurrency();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCashSaleCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});
@@ -204,6 +227,13 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 			@Override
 			protected boolean isTrackTaxPaidAccount() {
 				return true;
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCashSaleCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});
@@ -584,6 +614,7 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 		get(CONTACT).setDefaultValue(contact);
 		get(PAYMENT_METHOD).setDefaultValue(getMessages().cash());
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 
@@ -671,6 +702,12 @@ public class CreateCashSaleCommand extends AbstractTransactionCommand {
 						AccounterCoreType.ACCOUNT));
 		get(DELIVERY_DATE).setValue(
 				new ClientFinanceDate(cashSale.getDeliverydate()));
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(cashSale
+							.getTransactionItems()));
+		}
 
 	}
 

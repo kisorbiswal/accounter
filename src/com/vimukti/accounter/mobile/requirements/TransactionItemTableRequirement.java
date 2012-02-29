@@ -30,7 +30,7 @@ public abstract class TransactionItemTableRequirement extends
 	private static final String INVENTORY_QUANITY = "InventoryQuantity";
 	private static final String ITEM = "Item";
 	private static final String UNITPTICE = "UnitPrice";
-	private static final String DISCOUNT = "Discount";
+	private static final String DISCOUNT = "itemDiscount";
 	private static final String TAXCODE = "TaxCode";
 	private static final String TAX = "Tax";
 	private static final String DESCRIPTION = "Description";
@@ -136,7 +136,18 @@ public abstract class TransactionItemTableRequirement extends
 		});
 
 		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true, true));
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+		});
 
 		list.add(new TaxCodeRequirement(TAXCODE, getMessages().pleaseEnter(
 				getMessages().taxCode()), getMessages().taxCode(), false, true,
@@ -268,6 +279,10 @@ public abstract class TransactionItemTableRequirement extends
 		}
 		obj.setDescription((String) get(DESCRIPTION).getValue());
 		double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			obj.setDiscount(getDiscount());
+		}
 		double disc = obj.getDiscount();
 		obj.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt * disc / 100))
 				: lt);
@@ -371,6 +386,10 @@ public abstract class TransactionItemTableRequirement extends
 		}
 		record.add(getMessages().totalPrice() + "(" + formalName + ")",
 				t.getLineTotal());
+		if (getPreferences().isTrackDiscounts()
+				&& getPreferences().isDiscountPerDetailLine()) {
+			record.add(getMessages().discount(), t.getDiscount());
+		}
 		record.add(getMessages().description(), t.getDescription());
 		return record;
 	}
@@ -409,4 +428,22 @@ public abstract class TransactionItemTableRequirement extends
 	// protected abstract Payee getPayee();
 
 	protected abstract Currency getCurrency();
+
+	protected abstract double getDiscount();
+
+	@Override
+	public <T> T getValue() {
+		List<ClientTransactionItem> oldValues = super.getValue();
+		for (ClientTransactionItem obj : oldValues) {
+			double lt = obj.getQuantity().getValue() * obj.getUnitPrice();
+			if (getPreferences().isTrackDiscounts()
+					&& !getPreferences().isDiscountPerDetailLine()) {
+				obj.setDiscount(getDiscount());
+			}
+			double disc = obj.getDiscount();
+			obj.setLineTotal(DecimalUtil.isGreaterThan(disc, 0) ? (lt - (lt
+					* disc / 100)) : lt);
+		}
+		return (T) oldValues;
+	}
 }

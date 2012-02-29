@@ -18,6 +18,7 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -95,6 +96,7 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 		get(MEMO).setDefaultValue("");
 
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 
@@ -198,6 +200,21 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			}
 		});
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnter(getMessages().Account()), getMessages().Account(),
 				true, true) {
@@ -288,6 +305,13 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 				return false;
 			}
 
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateEnterBillCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
+			}
+
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
@@ -321,6 +345,13 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			@Override
 			protected double getCurrencyFactor() {
 				return CreateEnterBillCommand.this.getCurrencyFactor();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateEnterBillCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 
 		});
@@ -525,6 +556,12 @@ public class CreateEnterBillCommand extends AbstractTransactionCommand {
 			get(TAXCODE).setValue(
 					getTaxCodeForTransactionItems(
 							enterBill.getTransactionItems(), context));
+		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(enterBill
+							.getTransactionItems()));
 		}
 		get(MEMO).setValue(enterBill.getMemo());
 	}

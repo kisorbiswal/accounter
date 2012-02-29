@@ -19,6 +19,7 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
+import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -123,6 +124,21 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 		list.add(new AddressRequirement(BILL_TO, getMessages().pleaseEnter(
 				getMessages().billTo()), getMessages().billTo(), true, true));
 
+		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
+				getMessages().discount()), getMessages().discount(), true, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				if (getPreferences().isTrackDiscounts()
+						&& !getPreferences().isDiscountPerDetailLine()) {
+					return super.run(context, makeResult, list, actions);
+				} else {
+					return null;
+				}
+			}
+
+		});
+
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
 				.pleaseEnterNameOrNumber(getMessages().Account()),
 				getMessages().Account(), true, true) {
@@ -164,6 +180,13 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 			protected boolean isTrackTaxPaidAccount() {
 				return true;
 			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditNoteCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
+			}
 		});
 
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
@@ -196,6 +219,13 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 			protected Currency getCurrency() {
 				return ((Customer) CreateCreditNoteCommand.this.get(CUSTOMER)
 						.getValue()).getCurrency();
+			}
+
+			@Override
+			protected double getDiscount() {
+				Double value2 = CreateCreditNoteCommand.this.get(DISCOUNT)
+						.getValue();
+				return value2;
 			}
 		});
 
@@ -317,6 +347,12 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 				items.add(clientTransactionItem);
 			}
 		}
+		if (getPreferences().isTrackDiscounts()
+				&& !getPreferences().isDiscountPerDetailLine()) {
+			get(DISCOUNT).setValue(
+					getDiscountFromTransactionItems(creditMemo
+							.getTransactionItems()));
+		}
 		get(ITEMS).setValue(items);
 		get(ACCOUNTS).setValue(accounts);
 		get(IS_VAT_INCLUSIVE).setValue(isAmountIncludeTAX(creditMemo));
@@ -351,6 +387,7 @@ public class CreateCreditNoteCommand extends AbstractTransactionCommand {
 		 * get(CURRENCY_FACTOR).setDefaultValue(1.0);
 		 */
 		get(BILL_TO).setDefaultValue(new ClientAddress());
+		get(DISCOUNT).setDefaultValue(0.0);
 
 	}
 

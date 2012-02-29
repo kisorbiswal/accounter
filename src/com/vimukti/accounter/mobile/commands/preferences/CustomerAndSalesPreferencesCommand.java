@@ -18,10 +18,15 @@ public class CustomerAndSalesPreferencesCommand extends
 	private static final String MULTIPLE_WAREHOUSES = "multiplewarehouses";
 	private static final String AGING_DETAILS = "aagingdetails";
 	private static final String ENABLE_DISCOUNTS = "enablediscounts";
+	private static final String ENABLE_UNITS = "enableunits";
 	private static final String INCLUDE_ESTIMATES = "includeestimates";
+	private static final String INVENTORY_SCHEME = "inventoryschemes";
 	private static final String USE_DELAYED_CHARGES = "usedelayedcharges";
 	private static final String DO_YOU_Do_SHIPPING = "doyoudoshipping";
 	private static final String CUSTOMER_TERMINOLOGY = "customerterminalogy";
+	private static final String SALES_ORDERS = "salesorders";
+	private static final String TAXITEM_TRANSACTIONS = "taxitemtransactions";
+	private static final String DISCOUNT_ACCOUNT = "discountaccount";
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -84,8 +89,12 @@ public class CustomerAndSalesPreferencesCommand extends
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
+				String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH)
+						.getValue();
+				Integer servProBoth = getServiceProductBothList().indexOf(
+						serviceProductBoth);
 				boolean inventoryTracking = get(INVENTORY_TRACKING).getValue();
-				if (inventoryTracking) {
+				if (inventoryTracking && servProBoth != 0) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;
@@ -99,6 +108,74 @@ public class CustomerAndSalesPreferencesCommand extends
 			@Override
 			protected String getFalseString() {
 				return getMessages().nothadMultipleWarehouses();
+			}
+		});
+
+		list.add(new BooleanRequirement(ENABLE_UNITS, true) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH)
+						.getValue();
+				Integer servProBoth = getServiceProductBothList().indexOf(
+						serviceProductBoth);
+				boolean inventoryTracking = get(INVENTORY_TRACKING).getValue();
+				if (inventoryTracking && servProBoth != 0) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().enabled() + " " + getMessages().units();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().disabled() + " " + getMessages().units();
+			}
+		});
+
+		list.add(new StringListRequirement(INVENTORY_SCHEME, getMessages()
+				.acceptEstimate(), getMessages().inventoryScheme(), true, true,
+				null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				String serviceProductBoth = get(SERVICE_PRODUCTS_BOTH)
+						.getValue();
+				Integer servProBoth = getServiceProductBothList().indexOf(
+						serviceProductBoth);
+				boolean inventoryTracking = get(INVENTORY_TRACKING).getValue();
+				if (inventoryTracking && servProBoth != 0) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseSelect(
+						getMessages().inventoryScheme());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getInventorySchemesList();
+			}
+
+			@Override
+			protected String getSetMessage() {
+				return null;
+			}
+
+			@Override
+			protected String getEmptyString() {
+				return null;
 			}
 		});
 
@@ -125,6 +202,81 @@ public class CustomerAndSalesPreferencesCommand extends
 			@Override
 			protected String getFalseString() {
 				return getMessages().trackingDiscountsDisabled();
+			}
+		});
+
+		list.add(new BooleanRequirement(TAXITEM_TRANSACTIONS, true) {
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				boolean ischargingtax = get(ENABLE_DISCOUNTS).getValue();
+				if (ischargingtax) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+			}
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().oneperdetailline();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().onepertransaction();
+			}
+		});
+
+		list.add(new StringListRequirement(DISCOUNT_ACCOUNT, getMessages()
+				.discountAccount(), getMessages().discountAccount(), true,
+				true, null) {
+
+			@Override
+			public Result run(Context context, Result makeResult,
+					ResultList list, ResultList actions) {
+				boolean discountsTracking = get(ENABLE_DISCOUNTS).getValue();
+				if (discountsTracking) {
+					return super.run(context, makeResult, list, actions);
+				}
+				return null;
+
+			}
+
+			@Override
+			protected String getEmptyString() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getSetMessage() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			protected String getSelectString() {
+				return getMessages().pleaseEnter(
+						getMessages().discountAccount());
+			}
+
+			@Override
+			protected List<String> getLists(Context context) {
+				return getDiscountAccounts(context);
+			}
+		});
+		list.add(new BooleanRequirement(SALES_ORDERS, true) {
+
+			@Override
+			protected String getTrueString() {
+				return getMessages().enabled() + " "
+						+ getMessages().salesOrders();
+			}
+
+			@Override
+			protected String getFalseString() {
+				return getMessages().disabled() + " "
+						+ getMessages().salesOrders();
 			}
 		});
 
@@ -212,6 +364,18 @@ public class CustomerAndSalesPreferencesCommand extends
 		});
 	}
 
+	protected List<String> getDiscountAccounts(Context context) {
+		return new ArrayList<String>();
+	}
+
+	protected List<String> getInventorySchemesList() {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		arrayList.add(getMessages().firstInfirstOut());
+		arrayList.add(getMessages().lastInfirstOut());
+		arrayList.add(getMessages().average());
+		return arrayList;
+	}
+
 	private List<String> getServiceProductBothList() {
 		ArrayList<String> arrayList = new ArrayList<String>();
 		arrayList.add(getMessages().services_labelonly());
@@ -236,18 +400,28 @@ public class CustomerAndSalesPreferencesCommand extends
 		if (preferences.isSellProducts() && preferences.isSellServices()) {
 			string = getMessages().bothservicesandProduct_labelonly();
 		}
+
 		get(SERVICE_PRODUCTS_BOTH).setValue(string);
+
 		if (preferences.isSellProducts()) {
 			get(INVENTORY_TRACKING).setValue(preferences.isInventoryEnabled());
 		}
+
 		if (preferences.isInventoryEnabled()) {
 			get(MULTIPLE_WAREHOUSES).setValue(preferences.iswareHouseEnabled());
 		}
 
+		if (preferences.isUnitsEnabled()) {
+			get(ENABLE_UNITS).setValue(preferences.isUnitsEnabled());
+		}
 		if (preferences.getAgeingFromTransactionDateORDueDate() == 1) {
 			get(AGING_DETAILS).setValue(true);
 		} else {
 			get(AGING_DETAILS).setValue(false);
+		}
+
+		if (preferences.isSalesOrderEnabled()) {
+			get(SALES_ORDERS).setValue(preferences.isSalesOrderEnabled());
 		}
 
 		string = null;
@@ -272,6 +446,10 @@ public class CustomerAndSalesPreferencesCommand extends
 				.setValue(
 						getCustomerTerminologies().get(
 								preferences.getReferCustomers()));
+		get(INVENTORY_SCHEME).setValue(
+				getInventorySchemesList().get(
+						preferences.getActiveInventoryScheme()));
+		get(TAXITEM_TRANSACTIONS).setValue(preferences.isTaxPerDetailLine());
 		return null;
 
 	}
@@ -294,11 +472,13 @@ public class CustomerAndSalesPreferencesCommand extends
 		}
 
 		boolean trackquotes = get(MULTIPLE_WAREHOUSES).getValue();
+		boolean trackUnits = get(ENABLE_UNITS).getValue();
 		if (servProBoth != 0) {
 			boolean inventoryTrack = get(INVENTORY_TRACKING).getValue();
 			preferences.setInventoryEnabled(inventoryTrack);
 			if (inventoryTrack) {
 				preferences.setwareHouseEnabled(trackquotes);
+				preferences.setUnitsEnabled(trackUnits);
 			}
 		}
 		boolean agingdetails = get(AGING_DETAILS).getValue();
@@ -327,6 +507,10 @@ public class CustomerAndSalesPreferencesCommand extends
 			preferences.setDoyouwantEstimates(false);
 		}
 
+		String inventoryScheme = get(INVENTORY_SCHEME).getValue();
+		int scheme = getInventorySchemesList().indexOf(inventoryScheme);
+		preferences.setActiveInventoryScheme(scheme);
+		boolean isSalesOrderEnabled = get(SALES_ORDERS).getValue();
 		boolean delayedcharges = get(USE_DELAYED_CHARGES).getValue();
 		boolean doyoushipping = get(DO_YOU_Do_SHIPPING).getValue();
 		if (agingdetails) {
@@ -338,15 +522,22 @@ public class CustomerAndSalesPreferencesCommand extends
 		preferences.setDoProductShipMents(doyoushipping);
 		Boolean trackDiscounts = get(ENABLE_DISCOUNTS).getValue();
 		preferences.setTrackDiscounts(trackDiscounts);
+		preferences.setSalesOrderEnabled(isSalesOrderEnabled);
 		String customerTerm = get(CUSTOMER_TERMINOLOGY).getValue();
 		preferences.setReferCustomers(getCustomerTerminologies().indexOf(
 				customerTerm));
+
+		if (trackDiscounts) {
+			boolean taxitemline = get(TAXITEM_TRANSACTIONS).getValue();
+			preferences.setDiscountPerDetailLine(taxitemline);
+		}
 		savePreferences(context, preferences);
 		return null;
 	}
 
 	@Override
 	protected void setDefaultValues(Context context) {
+
 	}
 
 	private List<String> getAcceptEstimateList() {

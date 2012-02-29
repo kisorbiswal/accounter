@@ -28,7 +28,6 @@ import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
 import com.vimukti.accounter.mail.UsersMailSendar;
@@ -107,7 +106,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 			Client client = getClient(getUserEmail());
 			byte[] d2 = getD2();
 			Company company = intializeCompany(preferences, accounts, client,
-					password, d2,getThreadLocalRequest().getSession().getId());
+					password, d2, getThreadLocalRequest().getSession().getId());
 			getThreadLocalRequest().getSession().setAttribute(
 					BaseServlet.COMPANY_ID, company.getId());
 			getThreadLocalRequest().getSession().removeAttribute(
@@ -308,7 +307,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
 		if (user != null && user.getSecretKey() != null) {
 			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), request.getSession().getId());
+				EU.createCipher(user.getSecretKey(), getD2(request), request
+						.getSession().getId());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
