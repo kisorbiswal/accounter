@@ -5,6 +5,7 @@ import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientBankAccount;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
@@ -92,11 +93,12 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	protected void onClick(ClientAccount obj, int row, int col) {
-		if (!Accounter.getUser().canDoBanking()
-				&& obj.getType() == ClientAccount.TYPE_BANK)
+		if (!isCanOpenTransactionView(
+				0,
+				obj.getType() == ClientAccount.TYPE_BANK ? IAccounterCore.BANK_ACCOUNT
+						: IAccounterCore.ACCOUNT)) {
 			return;
-		else if (!Accounter.getUser().canDoInvoiceTransactions())
-			return;
+		}
 		if (col == getColumns().length - 1)
 			showWarnDialog(obj);
 		if (col == 5) {
@@ -106,10 +108,10 @@ public class ChartOfAccountsListGrid extends BaseListGrid<ClientAccount> {
 
 	@Override
 	public void onDoubleClick(ClientAccount account) {
-		if (!Accounter.getUser().canDoBanking()
-				&& account.getType() == ClientAccount.TYPE_BANK) {
-			return;
-		} else if (!Accounter.getUser().canDoInvoiceTransactions()) {
+		if (!isCanOpenTransactionView(
+				0,
+				account.getType() == ClientAccount.TYPE_BANK ? IAccounterCore.BANK_ACCOUNT
+						: IAccounterCore.ACCOUNT)) {
 			return;
 		}
 		if (account.getType() == ClientAccount.TYPE_BANK) {

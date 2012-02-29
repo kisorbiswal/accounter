@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -54,29 +55,31 @@ public class SaveAndCloseButton extends ImageButton {
 				// Need to clarify after implemented approval process.
 				if (view instanceof AbstractTransactionBaseView) {
 					AbstractTransactionBaseView<?> transactionView = (AbstractTransactionBaseView<?>) view;
-					final ClientTransaction transaction = transactionView
-							.getTransactionObject();
-					if (transaction.isDraft()) {
-						Accounter.deleteObject(new IDeleteCallback() {
+					ValidationResult validate = transactionView.validate();
+					if (!(validate.haveErrors() || validate.haveWarnings())) {
+						ClientTransaction transaction = transactionView
+								.getTransactionObject();
+						if (transaction.isDraft()) {
+							Accounter.deleteObject(new IDeleteCallback() {
 
-							@Override
-							public void deleteSuccess(IAccounterCore result) {
+								@Override
+								public void deleteSuccess(IAccounterCore result) {
 
-							}
+								}
 
-							@Override
-							public void deleteFailed(AccounterException caught) {
-								// TODO Auto-generated method stub
+								@Override
+								public void deleteFailed(
+										AccounterException caught) {
+									// TODO Auto-generated method stub
 
-							}
-						}, transaction);
-						transaction.setID(0);
-					}
-
-					if (!transactionView.isTemplate
-							&& transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
-						transaction
-								.setSaveStatus(ClientTransaction.STATUS_APPROVE);
+								}
+							}, transaction);
+							transaction.setID(0);
+						}
+						if (transaction.getSaveStatus() != ClientTransaction.STATUS_VOID) {
+							transaction
+									.setSaveStatus(ClientTransaction.STATUS_APPROVE);
+						}
 					}
 				}
 				view.onSave(false);

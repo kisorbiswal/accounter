@@ -720,15 +720,12 @@ public class RecurringTransactionDialog extends
 		cancelBtn.setEnabled(true);
 		if (view != null) {
 			view.recurringDialog = null;
-			if (data.getId() == 0) {
-				ClientTransaction transactionObject = view
-						.getTransactionObject();
-				transactionObject.setID(transctionId);
-			}
-			transctionId = 0;
+			ClientTransaction transactionObject = view.getTransactionObject();
+			transactionObject.setID(transctionId);
 		}
 		RecurringConfirmDialog success = new RecurringConfirmDialog();
 		success.center();
+		transctionId = 0;
 	}
 
 	long transctionId = 0;

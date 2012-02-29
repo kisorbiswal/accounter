@@ -1,6 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -455,8 +456,24 @@ public class MakeDepositView extends
 			@Override
 			public void addItemThenfireEvent(ClientAccount obj) {
 				super.addItemThenfireEvent(obj);
-				depositFromSelect.setAccounts();
-				depositInSelect.setAccounts();
+				List<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
+				for (ClientAccount account : getCompany().getActiveAccounts()) {
+					if (Arrays.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
+							ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
+							ClientAccount.SUBBASETYPE_EQUITY).contains(
+							account.getSubBaseType())) {
+
+						deposiInAccounts.add(account);
+
+					}
+				}
+
+				if (depositFromSelect != null) {
+					depositFromSelect.initCombo(deposiInAccounts);
+				}
+				if (depositInSelect != null) {
+					depositInSelect.initCombo(deposiInAccounts);
+				}
 			}
 		};
 		depositInSelect.setHelpInformation(true);
@@ -479,8 +496,24 @@ public class MakeDepositView extends
 			@Override
 			public void addItemThenfireEvent(ClientAccount obj) {
 				super.addItemThenfireEvent(obj);
-				depositFromSelect.setAccounts();
-				depositInSelect.setAccounts();
+				List<ClientAccount> deposiInAccounts = new ArrayList<ClientAccount>();
+				for (ClientAccount account : getCompany().getActiveAccounts()) {
+					if (Arrays.asList(ClientAccount.SUBBASETYPE_CURRENT_ASSET,
+							ClientAccount.SUBBASETYPE_CURRENT_LIABILITY,
+							ClientAccount.SUBBASETYPE_EQUITY).contains(
+							account.getSubBaseType())) {
+
+						deposiInAccounts.add(account);
+
+					}
+				}
+
+				if (depositFromSelect != null) {
+					depositFromSelect.initCombo(deposiInAccounts);
+				}
+				if (depositInSelect != null) {
+					depositInSelect.initCombo(deposiInAccounts);
+				}
 			}
 		};
 		depositFromSelect.setHelpInformation(true);
