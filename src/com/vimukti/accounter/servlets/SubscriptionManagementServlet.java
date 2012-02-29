@@ -1,7 +1,6 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,13 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 
-import b.b.b.b.b.m;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientSubscription;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class SubscriptionManagementServlet extends BaseServlet {
@@ -129,14 +123,6 @@ public class SubscriptionManagementServlet extends BaseServlet {
 				}
 				finalString += "]";
 			}
-			if (!finalString.isEmpty()) {
-				finalString = finalString.substring(1);
-			}
-
-			if (!finalString.isEmpty()) {
-				finalString = finalString.substring(1);
-			}
-
 			req.setAttribute("userIdsList", finalString);
 			dispatch(req, resp, view);
 		} else {
@@ -148,21 +134,5 @@ public class SubscriptionManagementServlet extends BaseServlet {
 	private String getDict(String string2, boolean contains) {
 		return "{emailId:'" + string2 + "',isCreated:"
 				+ (contains ? "true" : "false") + "}";
-	}
-
-	private String getUsersMailIds(Client client) {
-		try {
-			Set<User> list = (Set<User>) client.getUsers();
-			List<String> mailIds = new ArrayList<String>();
-			for (User user : list) {
-				mailIds.add(user.getClientUser().getEmail());
-			}
-			XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
-			xstream.setMode(XStream.NO_REFERENCES);
-			xstream.alias("usersMailIds", String.class);
-
-			return xstream.toXML(mailIds);
-		} finally {
-		}
 	}
 }
