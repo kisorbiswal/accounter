@@ -27,7 +27,7 @@
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.vimukti.accounter.web.client.ui.Accounter' />
-	<!-- <set-property name="user.agent" value="gecko1_8" /> -->
+	<set-property name="user.agent" value="gecko1_8" />
 	<set-configuration-property name="UiBinder.useSafeHtmlTemplates"
 		value="true" />
 	<generate-with

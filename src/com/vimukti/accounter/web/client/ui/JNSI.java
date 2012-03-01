@@ -50,7 +50,7 @@ public class JNSI {
 	}-*/;
 
 	public static native String readNumber(String value)/*-{
-	+		var number = value.match(/\d+/g);
-	+		return String(number);
-	+	}-*/;
+			var number = value.match(/\d+/g);
+			return String(number);
+		}-*/;
 }
