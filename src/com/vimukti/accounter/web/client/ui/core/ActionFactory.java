@@ -196,6 +196,7 @@ import com.vimukti.accounter.web.client.ui.settings.CopyThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.CustomThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
+import com.vimukti.accounter.web.client.ui.settings.InventoryCentreAction;
 import com.vimukti.accounter.web.client.ui.settings.InventoryItemsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
@@ -1469,6 +1470,10 @@ public class ActionFactory {
 
 	public static BuildAssemblyAction getBuildAssemblyAction() {
 		return new BuildAssemblyAction();
+	}
+
+	public static InventoryCentreAction getInventoryCentreAction() {
+		return new InventoryCentreAction();
 	}
 
 	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction(
