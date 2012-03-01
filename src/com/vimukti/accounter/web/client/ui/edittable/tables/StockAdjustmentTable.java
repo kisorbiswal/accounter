@@ -300,6 +300,9 @@ public abstract class StockAdjustmentTable extends
 			@Override
 			protected void setAmount(ClientTransactionItem row, Double value) {
 				row.setUnitPrice(value);
+				if (row.getQuantity() != null) {
+					row.setLineTotal(row.getQuantity().getValue() * value);
+				}
 			}
 
 			@Override
