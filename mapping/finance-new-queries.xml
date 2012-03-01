@@ -74,7 +74,6 @@
 
 	<sql-query name="get.created.users">
 		<query-param name="users" type="String" />
-		<return-scalar column="CONTACT_SUPPORT" type="boolean" />
 		SELECT C.EMAIL_ID AS EMAIL_ID FROM USERS U LEFT JOIN CLIENT C ON C.ID=U.CLIENT_ID WHERE C.EMAIL_ID IN (:users)
 	</sql-query>
 
@@ -120,6 +119,12 @@
 		and u.company.id=:companyId
 	</query>
 
+	<query name="getUser.by.mailId">
+		<query-param name="emailId" type="String" />
+		from com.vimukti.accounter.core.User u
+		where u.client.emailId=:emailId
+	</query>
+	
 	<query name="delete.remembermeKeys">
 		<query-param name="key" type="String" />
 		delete from com.vimukti.accounter.core.RememberMeKey rk where

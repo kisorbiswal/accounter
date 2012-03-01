@@ -21,7 +21,7 @@
     <%
 
     	String users =(String) request.getAttribute("userIdsList");
-    	String expDate =(String) request.getAttribute("ExpiredDate");
+    	String expDate =(String) request.getAttribute("expiredDate");
     	Integer subscriptionType =(Integer) request.getAttribute("premiumType");
   	%>
   	<title>Subscription Management</title>
@@ -33,7 +33,7 @@
 	<tr>
 	</tr><tr></tr><tr>
 	<td> Subscription expire date : </td> 
-	<td>${expDate}</td>
+	<td><%= expDate %></td>
 	</tr><tr></tr><tr>
 	<td> Subscription type : </td> 
 	<td id="subscriptionTypevalue"></td></tr><tr></tr><tr>
@@ -41,13 +41,13 @@
 	<td id="emailIdsList"></td>
 	</tr></tr><tr>
 	<tr>
-	<input type="hidden" name="subscriptionType" value="${subscriptionType}" >
+	<input type="hidden" name="subscriptionType" value="${subscriptionType} -1" >
 	<td> Subscription Type : </td>
 	<td><select  id="subScriptionTypeCombo" disabled>
-    <option value="One User Monthly Subscription">One user </option>
-    <option value="One User Yearly Subscription">Two users </option>
-    <option value="Two Users Monthly Subscription">Five users </option>
-    <option value="Two Users Yearly Subscription">Unlimited </option>
+    <option value="One User ">One user </option>
+    <option value="Two User ">Two users </option>
+    <option value="Five Users ">Five users </option>
+    <option value="Unlimited Users ">Unlimited </option>
 	</select></td>
 	</tr>
 	<tr>
@@ -66,72 +66,86 @@
 		</div>
 		</form>
 		<script type="text/javascript">
-                  var users= <%= users%>;
-                   var finalstring="";
-                 if(users.list.length>0){
-                 for(var i=0; i <  users.list.length; i++){
-				finalstring = finalstring + "/n" +users.list[i].emailid ;
-			}
+		$('document').ready(function(){
+		   var users= <%= users%>;
+		   var subscriptionType=<%= subscriptionType %>;
+           var finalstring="";
+
+			if(users.length>0){
+				finalstring = users[0].emailId ;
+                for(var i=1; i <  users.length; i++){
+					finalstring +='\n'+ users[i].emailId ;
+				}
 				$('#mailIdsTextArea').val(finalstring);
 				$('#emailIdsList').text(finalstring);
-				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].value);
+				$('#subscriptionTypevalue').text(document.getElementById('subScriptionTypeCombo').options[subscriptionType].value);
 			 
-			document.getElementById('subScriptionTypeCombo').options[${subscriptionType}].selected = true;
+				document.getElementById('subScriptionTypeCombo').options[subscriptionType].selected = true;
+			}
+
+			
 			$('#submitButton').click(function(){
-			if(validate()){
-			for(var i=0; i <  users.list.length; i++){
-			for(var j=0; j < textArray.length; j++){
-			if(!users.list[i].emailid =textArray[j]){
-			if(users.list[i].isCreated ==true){
-			alert("do you want to delete the exicting customer");
-			}
-			}
-			}
-			
-			}
-			
-			
-			$('#error').text("");
-			$('#subscription_complition_form').submit();
-			}else{
-			 $('#error').text("maximum number of users exceeded");
-			 return false;
-			}
-			})
+				var textArray =$('#mailIdsTextArea').val().split('\n');
+				if(validate(textArray)){
+					for(var i=0; i <  users.length; i++){
+						var isExists=false;
+						for(var j=0; j < textArray.length; j++){
+							if(users[i].emailId ==textArray[j]){
+								isExists=true;
+								break;
+							}
+						}
+						if(!isExists){
+							if(users[i].isCreated ==true){
+								var r=confirm("do you want to delete the exicting customer '"+users[i].emailId+"'");
+								if (r!=true){
+					  				return false;	
+					  			}
+							}
+						}	
+					}
+					$('#error').text("");
+					$('#subscription_complition_form').submit();
+				}else{
+					 $('#error').text("maximum number of users exceeded");
+					 return false;
+				}
+			});	
+								
 			function validateEmail(elementValue){  
 			   var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  
 			   if (emailPattern.test(elementValue)){
-			   return true;
+			  		return true;
 			   }  else{
-			   return false;
+			 		return false;
 			   }
- 			}  
+ 			} 
  			
- 			var textArray =$('#mailIdsTextArea').val().split('\n');
- 			
- 			function validate(){
- 			var type =${subscriptionType};
- 			var maxLimit =1; 
- 			if(type ==0 || type==1){
- 			maxLimit =1;
- 			}else if(type ==2 || type==3){
- 			maxLimit =2;
- 			}else if(type ==4 || type==5){
- 			maxLimit =5;
- 			}
- 			$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');
- 			var emailCount =0;
- 			for(var i=0; i<=textArray.length; i++){
- 			if(validateEmail(textArray[i])){
- 			emailCount = emailCount+1;
- 			}
- 			}
- 			 if(emailCount>maxLimit){
- 			 return false;
- 			 }else {
- 			 return true;
- 			 }
-}
+ 			function validate(textArray){
+ 				var type =subscriptionType;
+ 				var maxLimit =1; 
+ 				if(type ==0 || type==1){
+ 					maxLimit =1;
+ 				}else if(type ==2 || type==3){
+ 					maxLimit =2;
+ 				}else if(type ==4 || type==5){
+ 					maxLimit =5;
+ 				}
+ 				$('#mailIdsTextArea').val().replace(/^\s+|\s+$/, '');
+ 				var emailCount =0;
+ 				for(var i=0; i<=textArray.length; i++){
+ 					if(validateEmail(textArray[i])){
+ 						emailCount = emailCount+1;
+ 					}
+ 				}
+ 				if(emailCount>maxLimit){
+ 					return false;
+ 				}else {
+ 					return true;
+ 				}
+			}
+		  
+		});
 		</script>
 	 </form>  
 	 </div>

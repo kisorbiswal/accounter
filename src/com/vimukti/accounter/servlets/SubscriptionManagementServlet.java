@@ -13,8 +13,14 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.ClientSubscription;
+import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.core.ClientUser;
+import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.server.FinanceTool;
+import com.vimukti.accounter.web.server.OperationContext;
 
 public class SubscriptionManagementServlet extends BaseServlet {
 
@@ -45,20 +51,62 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		String string = req.getParameter("userMailds");
 		ClientSubscription clientSubscription = client.getClientSubscription();
 		Set<String> oldMembers = client.getClientSubscription().getMembers();
+		List<String> existedUsers = getExistedUsers(oldMembers);
 		Set<String> members = getMembers(string);
-		oldMembers.addAll(members);
+		try {
+			mergeUsers(client, oldMembers, existedUsers, members);
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
 		if (!checkTotalMembers(oldMembers, client.getClientSubscription()
 				.getPremiumType())) {
 			req.setAttribute("info", "No of users should be limit");
 			dispatch(req, resp, view);
 			return;
 		}
-		clientSubscription.setMembers(getMembers(string));
+		clientSubscription.setMembers(members);
 
 		saveEntry(clientSubscription);
 		transaction.commit();
 
 		redirectExternal(req, resp, "/main/subscription/thankyou");
+	}
+
+	private void mergeUsers(Client client, Set<String> oldMembers,
+			List<String> existedUsers, Set<String> members)
+			throws AccounterException {
+		for (String o : oldMembers) {
+			if (!members.contains(o) && existedUsers.contains(o)) {
+				deleteUser(client, o);
+			}
+		}
+	}
+
+	private void deleteUser(Client client, String emailId)
+			throws AccounterException {
+		Set<User> users = client.getUsers();
+		User user = (User) HibernateUtil.getCurrentSession()
+				.getNamedQuery("getUser.by.mailId")
+				.setParameter("emailId", emailId).uniqueResult();
+		boolean canDelete = false;
+		for (User u : users) {
+			if (u.getID() == user.getID()) {
+				canDelete = true;
+			}
+		}
+		if (!canDelete) {
+			return;
+		}
+
+		ClientUser coreUser = new ClientConvertUtil().toClientObject(user,
+				ClientUser.class);
+		String clientClassSimpleName = coreUser.getObjectType()
+				.getClientClassSimpleName();
+		FinanceTool financeTool = new FinanceTool();
+		OperationContext context = new OperationContext(user.getCompany()
+				.getId(), coreUser, emailId, String.valueOf(coreUser.getID()),
+				clientClassSimpleName);
+		financeTool.delete(context);
 	}
 
 	private boolean checkTotalMembers(Set<String> oldMembers, int type) {
@@ -99,14 +147,12 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			}
 			req.setAttribute("premiumType", client.getClientSubscription()
 					.getPremiumType());
-			req.setAttribute("ExpiredDate", client.getClientSubscription()
-					.getExpiredDate());
+			req.setAttribute("expiredDate", client.getClientSubscription()
+					.getExpiredDateAsString());
 
 			String finalString = "";
 			Set<String> members = client.getClientSubscription().getMembers();
-			List<String> createdUsers = HibernateUtil.getCurrentSession()
-					.getNamedQuery("get.created.users")
-					.setParameterList("users", members).list();
+			List<String> createdUsers = getExistedUsers(members);
 			boolean isFirst = true;
 			if (!members.isEmpty()) {
 				finalString = "[";
@@ -129,6 +175,13 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			resp.sendRedirect(LOGIN_URL);
 			return;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<String> getExistedUsers(Set<String> members) {
+		return HibernateUtil.getCurrentSession()
+				.getNamedQuery("get.created.users")
+				.setParameterList("users", members).list();
 	}
 
 	private String getDict(String string2, boolean contains) {
