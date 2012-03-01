@@ -487,7 +487,11 @@ public class UsersMailSendar {
 		String content = propertyParser.getProperty(
 				"contentForSubscriptionExpiredUser", "");
 		content = content
-				.replaceAll("%USER%", getUserName(client.getEmailId()));
+				.replaceAll("%USER%", getUserName(client.getEmailId()))
+				.replaceAll("%TYPE%",
+						client.getClientSubscription().getTypeToString())
+				.replaceAll("EXPIRY",
+						client.getClientSubscription().getExpiredDateAsString());
 
 		String subject = propertyParser.getProperty(
 				"subjectForSubscriptionExpiredUser", "");
@@ -516,7 +520,8 @@ public class UsersMailSendar {
 		String content = propertyParser.getProperty(
 				"contentForUserWithPasswordRecoverKey", "");
 		content = content
-				.replaceAll("%USER%", getUserName(client.getEmailId()));
+				.replaceAll("%USER%", getUserName(client.getEmailId()))
+				.replaceAll("%KEY%", userSecret);
 
 		String subject = propertyParser.getProperty(
 				"subjectForUserWithPasswordRecoverKey", "");
