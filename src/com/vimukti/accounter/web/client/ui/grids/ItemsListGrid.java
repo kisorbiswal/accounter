@@ -262,7 +262,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
-						messages.avarageCost(), messages.salesPrice(),
+						messages.onHandQty(), messages.salesPrice(),
 						messages.purchasePrice(), "" };
 			} else if (ItemListView.isPurchaseType) {
 				return new String[] { messages.active(), messages.itemName(),
