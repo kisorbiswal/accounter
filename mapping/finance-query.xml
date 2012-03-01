@@ -2202,10 +2202,10 @@
 		<query-param name="month" type="int" />
 		<query-param name="year" type="int" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_id" type="encryptedstring" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="taxcode_name" type="string" />
-		<return-scalar column="taxagency_name" type="string" />
+		<return-scalar column="taxcode_name" type="encryptedstring" />
+		<return-scalar column="taxagency_name" type="encryptedstring" />
 		<return-scalar column="balance" type="double" />
 
 		SELECT T.ID AS transaction_id,T.T_DATE AS transaction_date,
@@ -6546,8 +6546,8 @@
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
-		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_TYPE" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
 		<return-scalar column="PREVOIUS_TWO_DAYS_BACK_AMOUNT"
