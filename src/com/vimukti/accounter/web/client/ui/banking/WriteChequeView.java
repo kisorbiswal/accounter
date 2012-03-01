@@ -376,12 +376,12 @@ public class WriteChequeView extends
 							transaction.getCustomer());
 					payee = customer;
 					paytoSelect.setComboItem(customer);
-					
+
 					if (getPreferences().isJobTrackingEnabled()) {
 						jobListCombo.setVisible(true);
 						jobSelected(company.getjob(transaction.getJob()));
 					}
-				
+
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_VENDOR) {
 					ClientVendor vendor2 = getCompany().getVendor(
 							transaction.getVendor());
@@ -838,14 +838,15 @@ public class WriteChequeView extends
 								payee = selectItem;
 							}
 						} else {
-							if (selectItem instanceof ClientCustomer) {
-								jobListCombo.setValue("");
-								// jobListCombo.setDisabled(false);
-								jobListCombo
-										.setCustomer((ClientCustomer) selectItem);
-								jobListCombo.setVisible(true);
-							} else {
-								jobListCombo.setVisible(false);
+							if (getPreferences().isJobTrackingEnabled()) {
+								if (selectItem instanceof ClientCustomer) {
+									jobListCombo.setValue("");
+									jobListCombo
+											.setCustomer((ClientCustomer) selectItem);
+									jobListCombo.setVisible(true);
+								} else {
+									jobListCombo.setVisible(false);
+								}
 							}
 							payee = selectItem;
 						}
@@ -1650,7 +1651,7 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
-		
+
 		vendorAccountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ACCOUNT, true));
