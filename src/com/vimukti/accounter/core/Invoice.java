@@ -1062,4 +1062,5 @@ public class Invoice extends Transaction implements Lifecycle {
 		double amount = onCreate ? -total : total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
+
 }

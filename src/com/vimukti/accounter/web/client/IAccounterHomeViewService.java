@@ -23,6 +23,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -484,6 +485,8 @@ public interface IAccounterHomeViewService extends RemoteService {
 			throws AccounterException;
 
 	List<ImportField> getFieldsOf(int importerType) throws AccounterException;
+
+	List<ClientJob> getJobsByCustomer(long id);
 
 	boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException;

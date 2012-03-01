@@ -2,6 +2,7 @@ package com.vimukti.accounter.core;
 
 import java.io.Serializable;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -20,6 +21,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  */
 public class AccountTransaction extends CreatableObject implements
 		IAccounterServerCore, IsSerializable, Serializable {
+
+	Logger log = Logger.getLogger(AccountTransaction.class);
 
 	/**
 	 * 
@@ -85,8 +88,8 @@ public class AccountTransaction extends CreatableObject implements
 	@Override
 	public String toString() {
 		if (transaction != null) {
-			return account.name + "   " + transaction.toString() + "    "
-					+ amount;
+			return getAccount().getName() + "   " + transaction.toString()
+					+ "    " + amount;
 		} else
 			return "";
 	}

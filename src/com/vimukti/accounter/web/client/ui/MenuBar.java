@@ -57,7 +57,7 @@ public class MenuBar {
 	private boolean isSalesOrderEnabled;
 
 	private boolean isClassTrackingEnabled;
-
+	private boolean isJobTrackingEnabled;
 	private boolean isLocationTrackingEnabled;
 
 	private boolean isTaxTracking;
@@ -356,6 +356,7 @@ public class MenuBar {
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
+		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 		if (isInventoryEnabled) {
 			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
 					.inventory()));
@@ -537,7 +538,21 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.estimatesbyJob(), HistoryTokens.ESTIMATEBYJOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilitySummary(),
+					HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.unbilledCostsByJob(),
+					HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilityDetail(),
+					HistoryTokens.JOB_PROFITABILITY_DETAIL);
 		return customersAndReceivableMenuBar;
 	}
 
@@ -584,6 +599,12 @@ public class MenuBar {
 			companyAndFinancialMenuBar.addMenuItem(
 					messages.profitAndLossbyClass(),
 					HistoryTokens.PROFITANDLOSSBYCLASS);
+		}
+
+		if (isJobTrackingEnabled) {
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.profitAndLossByJob(),
+					HistoryTokens.PROFITANDLOSSBYJOBS);
 		}
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
@@ -1092,6 +1113,8 @@ public class MenuBar {
 		this.canDoBanking = canDoBanking(clientUser);
 
 		this.isClassTracking = preferences.isClassTrackingEnabled();
+
+		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
 
 		this.canSeeBanking = canSeeBanking(clientUser);
 

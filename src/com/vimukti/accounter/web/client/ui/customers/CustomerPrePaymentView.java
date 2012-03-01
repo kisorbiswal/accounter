@@ -176,6 +176,9 @@ public class CustomerPrePaymentView extends
 
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
+		if (getPreferences().isJobTrackingEnabled()) {
+			transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -248,6 +251,9 @@ public class CustomerPrePaymentView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 		initMemoAndReference();
 		initTransactionNumber();
 		initCustomers();
@@ -418,6 +424,11 @@ public class CustomerPrePaymentView extends
 		DynamicForm balForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			balForm.setFields(locationCombo);
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
+			balForm.setFields(jobListCombo);
+		}
 		balForm.setFields(bankBalText, customerBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
 
@@ -645,6 +656,13 @@ public class CustomerPrePaymentView extends
 	protected void customerSelected(ClientCustomer customer) {
 		if (customer == null)
 			return;
+
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setValue("");
+			jobListCombo.setDisabled(false);
+			jobListCombo.setCustomer(customer);
+		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amountText.setCurrency(clientCurrency);
 		bankBalText.setCurrency(clientCurrency);
@@ -725,6 +743,12 @@ public class CustomerPrePaymentView extends
 		memoTextAreaItem.setDisabled(false);
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
+		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}

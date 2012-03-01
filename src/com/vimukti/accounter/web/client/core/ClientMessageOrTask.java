@@ -45,7 +45,7 @@ public class ClientMessageOrTask implements IAccounterCore {
 	 * field stores the history token of specific action.
 	 */
 	private String actionToken;
-	
+
 	private long createdBy;
 
 	@Override
@@ -60,8 +60,7 @@ public class ClientMessageOrTask implements IAccounterCore {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return getContent();
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public abstract class FormItem<T> {
 	private boolean isHighlighted = false;
 	private String titleStyleName;
 	private boolean ishelp = false;
-	private boolean isVisible;
+	private boolean isVisible = true;
 
 	public T getValue() {
 		return this.value;
@@ -62,7 +62,6 @@ public abstract class FormItem<T> {
 
 	public String getDisplayValue() {
 		return this.value.toString();
-
 	}
 
 	public void setColSpan(int colSpan) {
@@ -235,6 +234,7 @@ public abstract class FormItem<T> {
 	private void addLabelWidget(DynamicForm parent) {
 		if (showTitle) {
 			label = new Label(this.title);
+			label.setVisible(isVisible);
 			label.addStyleName("NoWrapping");
 			if (this.titleStyleName != null && !this.titleStyleName.equals(""))
 				label.addStyleName(titleStyleName);

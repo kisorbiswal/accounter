@@ -141,6 +141,7 @@ import com.vimukti.accounter.web.client.ui.reports.DepreciationSheduleAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListAction;
 import com.vimukti.accounter.web.client.ui.reports.ECSalesListDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.EnterExchangeRatesAction;
+import com.vimukti.accounter.web.client.ui.reports.EstimatesByJobAction;
 import com.vimukti.accounter.web.client.ui.reports.ExpenseReportAction;
 import com.vimukti.accounter.web.client.ui.reports.GLReportAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryItemReportAction;
@@ -148,6 +149,10 @@ import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByItemAct
 import com.vimukti.accounter.web.client.ui.reports.InventoryStockStatusByVendorAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValuationDetailsAction;
 import com.vimukti.accounter.web.client.ui.reports.InventoryValutionSummaryReportAction;
+import com.vimukti.accounter.web.client.ui.reports.ItemActualCostDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.JobActualDetailAction;
+import com.vimukti.accounter.web.client.ui.reports.JobProfitabilityDetailReportAction;
+import com.vimukti.accounter.web.client.ui.reports.JobProfitabilitySummaryReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MISC1099TransactionDetailAction;
 import com.vimukti.accounter.web.client.ui.reports.MissingChecksReportAction;
 import com.vimukti.accounter.web.client.ui.reports.MostProfitableCustomersAction;
@@ -179,6 +184,7 @@ import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByAccountAct
 import com.vimukti.accounter.web.client.ui.reports.TransactionDetailByTaxItemAction;
 import com.vimukti.accounter.web.client.ui.reports.TrialBalanceAction;
 import com.vimukti.accounter.web.client.ui.reports.UnRealisedExchangeLossesAndGainsAction;
+import com.vimukti.accounter.web.client.ui.reports.UnbilledCostsByJobAction;
 import com.vimukti.accounter.web.client.ui.reports.VAT100ReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATDetailsReportAction;
 import com.vimukti.accounter.web.client.ui.reports.VATItemSummaryReportAction;
@@ -1231,9 +1237,17 @@ public class ActionFactory {
 	}
 
 	public static ProfitAndLossByLocationAction getProfitAndLossByLocationAction(
-			boolean isLocation) {
+			int category) {
 
-		return new ProfitAndLossByLocationAction(isLocation);
+		return new ProfitAndLossByLocationAction(category);
+	}
+
+	public static EstimatesByJobAction getEstimatesByJobAction() {
+		return new EstimatesByJobAction();
+	}
+
+	public static UnbilledCostsByJobAction getUnbilledCostsByJobAction() {
+		return new UnbilledCostsByJobAction();
 	}
 
 	public static BudgetAction getBudgetActions() {
@@ -1488,4 +1502,19 @@ public class ActionFactory {
 		return new UploadCSVFileDialogAction();
 	}
 
+	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
+		return new JobProfitabilitySummaryReportAction();
+	}
+
+	public static JobActualDetailAction getJobActualCostDetailReportAction() {
+		return new JobActualDetailAction();
+	}
+
+	public static JobProfitabilityDetailReportAction getJobProfitabilityDetailReportAction() {
+		return new JobProfitabilityDetailReportAction();
+	}
+
+	public static ItemActualCostDetailReportAction getItemActualCostDetailReportAction() {
+		return new ItemActualCostDetailReportAction();
+	}
 }

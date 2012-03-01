@@ -4,6 +4,7 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -385,7 +386,29 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
+		createTask();
 		return super.onSave(session);
+	}
+
+	private void createTask() {
+		if (getDeliveryDate() == null
+				|| !getDeliveryDate().after(new FinanceDate())) {
+			return;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		AccounterMessages messages = Global.get().messages();
+		MessageOrTask task = new MessageOrTask();
+		task.setDate(getDeliveryDate());
+		task.setType(MessageOrTask.TYPE_TASK);
+		task.setContentType(MessageOrTask.CONTENT_TYPE_PURCHASE_ORDER);
+		task.setContent(messages.purchaseOrderTaskDesc(getVendor().getName(),
+				getPurchaseOrderNumber()));
+		task.setActionToken("enterBill");
+		task.setSystemCreated(true);
+		task.setCompany(getCompany());
+
+		session.save(task);
+
 	}
 
 	@Override
@@ -441,6 +464,7 @@ public class PurchaseOrder extends Transaction {
 		// }
 		// }
 		// }
+		createTask();
 		super.onEdit(clonedObject);
 	}
 

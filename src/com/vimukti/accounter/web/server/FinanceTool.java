@@ -49,6 +49,7 @@ import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.Attachment;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -527,6 +528,10 @@ public class FinanceTool {
 				session.delete(((Transaction) serverObject)
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof BuildAssembly) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof MessageOrTask) {
 				session.delete(serverObject);
 			} else {
 				if (serverObject instanceof Transaction) {
@@ -1495,6 +1500,7 @@ public class FinanceTool {
 		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
+		session.getNamedQuery("JobsTransactionsView").executeUpdate();
 		transaction.commit();
 	}
 

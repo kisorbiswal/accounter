@@ -114,6 +114,13 @@ public class ReceivePaymentView extends
 
 	protected void customerSelected(final ClientCustomer selectedCustomer) {
 
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(selectedCustomer);
+		}
+
 		ClientCurrency currency = getCurrency(selectedCustomer.getCurrency());
 		amtText.setCurrency(currency);
 		tdsAmount.setCurrency(currency);
@@ -663,7 +670,11 @@ public class ReceivePaymentView extends
 			classListCombo = createAccounterClassListCombo();
 			depoForm.setFields(classListCombo);
 		}
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
+			depoForm.setFields(jobListCombo);
+		}
 		depoForm.setFields(tdsAmount);
 		tdsAmount.setVisible(getCompany().getPreferences().isTDSEnabled());
 
@@ -860,7 +871,10 @@ public class ReceivePaymentView extends
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		if (getPreferences().isTDSEnabled() && customer != null
 				&& customer.willDeductTDS()) {
 			transaction.setTdsTotal(tdsAmount.getAmount());
@@ -975,6 +989,9 @@ public class ReceivePaymentView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 		initCustomers();
 		if (isMultiCurrencyEnabled()) {
 			// currencyWidget.setShowFactorField(true);
@@ -1199,6 +1216,12 @@ public class ReceivePaymentView extends
 		tdsAmount.setAmount(0.0D);
 		paymentAmountChanged(0.00D);
 		updateTotalWithTDS();
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
+		}
 	}
 
 	@Override
@@ -1291,7 +1314,6 @@ public class ReceivePaymentView extends
 	@Override
 	public void updateNonEditableItems() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

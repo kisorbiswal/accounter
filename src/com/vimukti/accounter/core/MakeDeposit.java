@@ -143,6 +143,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
 					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.DEPOSIT_EXPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
@@ -251,6 +252,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	private void doVoidEffect(Session session) {
 		depositTo.updateCurrentBalance(this, this.total, this.currencyFactor);
 		session.save(depositTo);
+		for (TransactionDepositItem item : getTransactionDepositItems()) {
+			item.doReverseEffect(session);
+		}
 	}
 
 	@Override
