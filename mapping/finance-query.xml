@@ -8134,10 +8134,8 @@
 		       AND TRANSACTION.company_id = cid; 
 
 		DELETE FROM inventory_assembly_item
-		USING  inventory_assembly,
-			   item
-		WHERE  item.id = inventory_assembly.id
-			   AND inventory_assembly_item_id = inventory_assembly.id
+		USING  item
+		WHERE  inventory_assembly_item_id = item.id
 			   AND item.company_id = cid;
 
 		DELETE FROM inventory_assembly
@@ -8340,6 +8338,9 @@
 		USING  TRANSACTION
 		WHERE  write_checks.id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
+			   
+		DELETE FROM job
+		WHERE  company_id = cid;
 
 		DELETE FROM customer
 		WHERE  company_id = cid;

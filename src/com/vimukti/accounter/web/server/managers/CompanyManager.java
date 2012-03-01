@@ -1689,9 +1689,6 @@ public class CompanyManager extends Manager {
 					depositsTransfersList
 							.setCurrency(object[6] != null ? (Long) object[6]
 									: 0);
-					depositsTransfersList
-							.setStatus(object[7] != null ? (Integer) object[7]
-									: 0);
 					queryResult.add(depositsTransfersList);
 				}
 				queryResult.setTotalCount(total);
