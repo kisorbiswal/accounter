@@ -454,7 +454,11 @@ public class UsersMailSendar {
 		String content = propertyParser.getProperty("contentForSubscribedUser",
 				"");
 		content = content
-				.replaceAll("%USER%", getUserName(client.getEmailId()));
+				.replaceAll("%USER%", getUserName(client.getEmailId()))
+				.replaceAll("%TYPE%",
+						client.getClientSubscription().getTypeToString())
+				.replaceAll("EXPIRY",
+						client.getClientSubscription().getExpiredDateAsString());
 
 		String subject = propertyParser.getProperty("subjectForSubscribedUser",
 				"");

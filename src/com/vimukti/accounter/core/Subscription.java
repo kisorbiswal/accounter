@@ -36,30 +36,6 @@ public class Subscription implements IsSerializable {
 		this.features = features;
 	}
 
-	public static String getTypeToString(int type) {
-		switch (type) {
-		case 0:
-			return "One User Monthly Subscription";
-		case 1:
-			return "One User Yearly Subscription";
-		case 2:
-			return "Two Users Monthly Subscription";
-		case 3:
-			return "Two Users Yearly Subscription";
-		case 4:
-			return "Five Users Monthly Subscription";
-		case 5:
-			return "Five Users Yearly Subscription";
-		case 6:
-			return "Unlimited Users Monthly Subscription";
-		case 7:
-			return "Unlimited Users Yearly Subscription";
-		default:
-			break;
-		}
-		return "";
-	}
-
 	public static int getStringToType(String type) {
 		if (type.equals("One User Monthly Subscription")) {
 			return 0;

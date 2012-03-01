@@ -1,5 +1,6 @@
 package com.vimukti.accounter.core;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -80,4 +81,36 @@ public class ClientSubscription implements IsSerializable {
 		this.premiumType = premiumType;
 	}
 
+	public String getTypeToString() {
+		switch (premiumType) {
+		case 0:
+			return "One User Monthly Subscription";
+		case 1:
+			return "One User Yearly Subscription";
+		case 2:
+			return "Two Users Monthly Subscription";
+		case 3:
+			return "Two Users Yearly Subscription";
+		case 4:
+			return "Five Users Monthly Subscription";
+		case 5:
+			return "Five Users Yearly Subscription";
+		case 6:
+			return "Unlimited Users Monthly Subscription";
+		case 7:
+			return "Unlimited Users Yearly Subscription";
+		default:
+			break;
+		}
+		return "";
+	}
+
+	public String getExpiredDateAsString() {
+		if (expiredDate == null) {
+			return "Unlimited";
+		}
+		SimpleDateFormat dateformatMMDDYYYY = new SimpleDateFormat(
+				"MMM/dd/yyyy");
+		return dateformatMMDDYYYY.format(expiredDate);
+	}
 }
