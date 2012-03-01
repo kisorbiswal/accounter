@@ -104,6 +104,7 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 					return DataUtils.amountAsStringWithCurrency(
 							estimate.getTotal(), estimate.getCurrency());
 				}
+
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 6:
