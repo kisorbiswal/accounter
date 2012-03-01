@@ -10,16 +10,19 @@
 		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<%@ include file="./feedback.jsp" %>
 		<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
-	<script type="text/javascript">
 		<%	boolean isConListRTL=(Boolean) request.getAttribute("isRTL");	%>
+		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
+		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
+		<%	enableEncryption=enableEncryption&&isPaid;	%>
+	<script type="text/javascript">
 		window.onload=function(){
 		document.body.style.direction=(<%= isConListRTL %>)?"rtl":"ltr";
 		};
 		
 		$(document).ready(function() {
-		var isPaid=${isPaid}
+		var isPaid=${isPaid};
 			  if(isPaid){
        $('#logoutlink').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
        }
@@ -94,7 +97,9 @@
     <div class="form-bottom-options">
       <a style="float:left" id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
       <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
-      <a   href="/main/encryption"><i18n:i18n msg='encryption'/></a>
+      <c:if test="<%= enableEncryption %>">
+    	 <a href="/main/encryption"><i18n:i18n msg='encryption'/></a>
+      </c:if>
     </div>
       </td>
    </tr>

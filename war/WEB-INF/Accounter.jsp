@@ -34,6 +34,14 @@
   		%>
   			last: 'end'
   		};
+  		var features=[];
+  		<% Set<String> features=(Set<String>)request.getAttribute("features");
+  		if(features!=null){
+  			for(String f:features){
+  				%>features.push('<%= f %>');<%
+  			}
+  		}
+  		%>
   		
   		var accounter_locale={
   		<%
@@ -56,7 +64,12 @@
 		<%
 			boolean isRTL=(Boolean) request.getAttribute("isRTL");
   		%>
+		
 		var isRTL=<%= isRTL %>;
+		
+		<%
+			boolean isPaid=(Boolean) request.getAttribute("isPaid");
+  		%>
 		document.body.style.direction=isRTL?"rtl":"ltr";
 	</script>
 		
@@ -67,6 +80,16 @@
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
     
+    $(document).ready(function() {
+		var isPaid=${isPaid}
+			  if(isPaid){
+       $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
+       }
+       else{
+        $('#support').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
+       }
+       
+       });
     </script>
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
@@ -210,6 +233,7 @@
 		#Import_Account{
 			margin-left:200px;
 		}
+		
 		#appVersions{
 			float: left;
 			clear: both;
@@ -231,9 +255,7 @@
 	 		text-decoration: underline;
 		}
 		#appVersions,#appVersions span{
-			text-align: center;
-		}
-
+			
     </style>
     
     
@@ -305,6 +327,20 @@
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
+	    <script type="text/javascript" >
+	    <% 
+			Long subscription=(Long)request.getAttribute("subscription");
+			String goPId=(String)request.getAttribute("goPremiumId");
+		%>
+			var subscription=<%= subscription %>;
+			var goPId="<%= goPId %>";
+	<!-- 	    if(goPId!=null){
+				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
+			}
+			if(subscription!=null){
+				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Manage Subscription </a>'); 
+			} -->
+	    </script>
 	</div>
 	<div id="appVersions" style="visibility:hidden" >
 	    <div>

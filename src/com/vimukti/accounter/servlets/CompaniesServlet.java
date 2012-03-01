@@ -15,7 +15,6 @@ import org.hibernate.Session;
 
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -92,7 +91,8 @@ public class CompaniesServlet extends BaseServlet {
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
-
+				req.setAttribute("enableEncryption",
+						ServerConfiguration.isEnableEncryption());
 				if (!client.getClientSubscription().getSubscription()
 						.isPaidUser()) {
 					if (list.size() == 0) {
@@ -104,7 +104,7 @@ public class CompaniesServlet extends BaseServlet {
 						return;
 					}
 					req.setAttribute("isPaid", false);
-				}else{
+				} else {
 					req.setAttribute("isPaid", true);
 				}
 
