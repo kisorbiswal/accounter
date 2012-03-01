@@ -6,7 +6,6 @@ import java.util.List;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.countries.India;
 import com.vimukti.accounter.web.client.countries.UnitedKingdom;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
@@ -85,6 +84,10 @@ public class MenuBar {
 	private String countryOrRegion;
 
 	private boolean isUnitsEnalbled;
+
+	private boolean isAdmin;
+
+	private boolean canSaveDrafts;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -660,8 +663,6 @@ public class MenuBar {
 	}
 
 	private Menu getVendorMenu(String string) {
-		ClientUserPermissions permissions = Accounter.getUser()
-				.getPermissions();
 		Menu vendorMenuBar = new Menu(string);
 
 		vendorMenuBar.addMenuItem(messages.vendorCentre(Global.get().Vendor()),
@@ -745,7 +746,7 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
-			if (Accounter.getUser().getPermissions().getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES) {
+			if (!canSaveDrafts) {
 				newVendorMenuBar.addMenuItem(messages.newItem(),
 						HistoryTokens.NEWITEMSUPPLIERS);
 			}
@@ -813,7 +814,7 @@ public class MenuBar {
 					HistoryTokens.CUSTOMERREFUND);
 
 			customerMenuBar.addSeparatorItem();
-		} else if (Accounter.getUser().getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+		} else if (canSaveDrafts) {
 			customerMenuBar.addMenuItem(
 					messages.customerRefund(Global.get().Customer()),
 					HistoryTokens.CUSTOMERREFUND);
@@ -868,8 +869,7 @@ public class MenuBar {
 					HistoryTokens.NEWCUSTOMER);
 		}
 
-		if ((canDoInvoiceAndBillTransactions && Accounter.getUser()
-				.getPermissions().getTypeOfSaveasDrafts() != RolePermissions.TYPE_YES)
+		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
 				|| canDoInventory) {
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
@@ -917,10 +917,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-		if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
-			companyMenuBar.addMenuItem(messages.importFile(),
-					HistoryTokens.IMPORT);
-		}
+		// if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+		// companyMenuBar.addMenuItem(messages.importFile(),
+		// HistoryTokens.IMPORT);
+		// }
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
@@ -1171,7 +1171,15 @@ public class MenuBar {
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
 
+		this.isAdmin = clientUser.isAdmin();
+
+		this.canSaveDrafts = canSaveDrafts(clientUser);
+
 		getMenuBar();
+	}
+
+	private boolean canSaveDrafts(ClientUser clientUser) {
+		return clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
 	}
 
 	private boolean CanDoManageAccounts(ClientUser clientUser) {
