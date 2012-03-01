@@ -3560,7 +3560,7 @@ public class ReportManager extends Manager {
 
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
-			actual.setAtualAmount(bal.getAmount());
+			actual.setAtualAmount(bal.getTotalAmount());
 			actual.setType(bal.getAccountType());
 
 			boolean got = false;
@@ -3955,8 +3955,9 @@ public class ReportManager extends Manager {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
+
 		Account account = (Account) session.get(Account.class, accountId);
-		List result = null;
+		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
 			result = session.getNamedQuery("get.all.invoices.by.account")
 					.setParameter("startDate", start.getDate())

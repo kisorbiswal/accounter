@@ -138,6 +138,9 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
+		inventoryMenuBar.addMenuItem(messages.inventoryCentre(),
+				HistoryTokens.INVENTORY_CENTRE);
+
 		if (notReadOnlyUser) {
 			inventoryMenuBar.addMenuItem(messages.buildAssembly(),
 					HistoryTokens.BUILD_ASSEMBLY);
@@ -359,7 +362,6 @@ public class MenuBar {
 		}
 		reportMenuBar.addMenuItem(getFixedAssetReportSubMenu(messages
 				.fixedAssest()));
-		reportMenuBar.addMenuItem(getInventoryReportMenu(messages.inventory()));
 		if (isInventoryEnabled) {
 			reportMenuBar.addMenuItem(getInventoryReportMenu(messages
 					.inventory()));

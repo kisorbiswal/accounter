@@ -724,6 +724,7 @@
 		<property name="isISellThisItem" column="IS_SELL_ITEM"></property>
 		<property name="salesDescription" type="text" column="SALES_DESCRIPTION"></property>
 		<property name="salesPrice" column="SALES_PRICE"></property>
+		<property name="averageCost" column="AVERAGE_COST"></property>
 		<many-to-one name="incomeAccount" class="Account"
 			column="INCOME_ACCOUNT_ID">
 		</many-to-one>

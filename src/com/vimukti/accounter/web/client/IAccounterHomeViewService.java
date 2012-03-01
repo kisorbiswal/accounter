@@ -51,6 +51,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
@@ -77,8 +78,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -484,10 +485,15 @@ public interface IAccounterHomeViewService extends RemoteService {
 			long date2, int start, int length, int type)
 			throws AccounterException;
 
-	List<ClientJob> getJobsByCustomer(long id);
+	List<ImportField> getFieldsOf(int importerType) throws AccounterException;
 
-	List<Field<?>> getFieldsOf(int importerType);
+	List<ClientJob> getJobsByCustomer(long id);
 
 	boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException;
+
+	PaginationList<TransactionHistory> getItemTransactionsList(long itemId,
+			int transactionType, int transactionStatus,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length);
 }

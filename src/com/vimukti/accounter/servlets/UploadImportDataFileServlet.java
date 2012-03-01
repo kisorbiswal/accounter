@@ -6,10 +6,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -38,9 +36,10 @@ public class UploadImportDataFileServlet extends BaseServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		Session session = null;
-		JSONArray array = new JSONArray();
+		JSONObject object = new JSONObject();
 		String[] headers = null;
 		boolean isHeader = true;
+		int noOfLines = 0;
 		try {
 			HttpSession httpSession = request.getSession();
 			Long companyID = (Long) httpSession.getAttribute(COMPANY_ID);
@@ -62,7 +61,8 @@ public class UploadImportDataFileServlet extends BaseServlet {
 					BufferedReader br = new BufferedReader(
 							new InputStreamReader(in));
 					String strLine;
-					Map<String, List<String>> columnNameValueMap = new HashMap<String, List<String>>();
+					Map<String, JSONArray> headerWithValues = new HashMap<String, JSONArray>();
+					JSONObject allRecords = new JSONObject();
 					while ((strLine = br.readLine()) != null) {
 						String[] values = strLine.split(",");
 
@@ -71,28 +71,32 @@ public class UploadImportDataFileServlet extends BaseServlet {
 							isHeader = false;
 						} else {
 							if (values.length == headers.length) {
+								noOfLines++;
 								for (int i = 0; i < values.length; i++) {
 									String value = values[i].trim().replaceAll(
 											"\"", "");
-									List<String> list = columnNameValueMap
+									JSONArray array = (JSONArray) headerWithValues
 											.get(headers[i]);
-									if (list == null) {
-										list = new ArrayList<String>();
-										list.add(value);
-										columnNameValueMap
-												.put(headers[i], list);
+									if (array == null) {
+										array = new JSONArray();
+										array.put(value);
+										headerWithValues.put(headers[i], array);
+										allRecords.put(headers[i], array);
 									} else {
-										list.add(value);
+										JSONArray array2 = (JSONArray) allRecords
+												.get(headers[i]);
+										array2.put(value);
 									}
 								}
 							}
 						}
 					}
-					JSONObject object = new JSONObject();
-					object.put("first20Records", columnNameValueMap);
+					object.put("fileID", file.getAbsolutePath());
+					object.put("first20Records", headerWithValues);
+					object.put("noOfRows", noOfLines);
 				}
 			}
-			StringBuilder builder = new StringBuilder(array.toString());
+			StringBuilder builder = new StringBuilder(object.toString());
 			response.getWriter().print(builder);
 
 		} catch (Exception e) {

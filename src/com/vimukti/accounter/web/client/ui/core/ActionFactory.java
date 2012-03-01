@@ -18,7 +18,7 @@ import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
-import com.vimukti.accounter.web.client.imports.ImportAction;
+import com.vimukti.accounter.web.client.imports.UploadCSVFileDialogAction;
 import com.vimukti.accounter.web.client.ui.BuildAssemblyAction;
 import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.RemindersListAction;
@@ -202,6 +202,7 @@ import com.vimukti.accounter.web.client.ui.settings.CopyThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.CustomThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.DeleteThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.GeneralSettingsAction;
+import com.vimukti.accounter.web.client.ui.settings.InventoryCentreAction;
 import com.vimukti.accounter.web.client.ui.settings.InventoryItemsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
@@ -1485,6 +1486,10 @@ public class ActionFactory {
 		return new BuildAssemblyAction();
 	}
 
+	public static InventoryCentreAction getInventoryCentreAction() {
+		return new InventoryCentreAction();
+	}
+
 	public static InventoryValuationDetailsAction getInventoryValuationDetailsAction(
 			Long id) {
 		return new InventoryValuationDetailsAction(id);
@@ -1496,6 +1501,10 @@ public class ActionFactory {
 
 	public static RecurringTransactionDialogAction getRecurringTransactionDialogAction() {
 		return new RecurringTransactionDialogAction();
+	}
+
+	public static UploadCSVFileDialogAction getUploadCSVFileDialog() {
+		return new UploadCSVFileDialogAction();
 	}
 
 	public static JobProfitabilitySummaryReportAction getJobProfitabilitySummaryReportAction() {
@@ -1513,9 +1522,4 @@ public class ActionFactory {
 	public static ItemActualCostDetailReportAction getItemActualCostDetailReportAction() {
 		return new ItemActualCostDetailReportAction();
 	}
-
-	public static ImportAction getImportAction() {
-		return new ImportAction();
-	}
-
 }

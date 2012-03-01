@@ -3237,9 +3237,18 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<ReconciliationDiscrepancy> getReconciliationDiscrepancy(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getReportManager()
-				.getReconciliationDiscrepancyByAccount(accountId, start, end,
-						getCompanyId());
+		ArrayList<ReconciliationDiscrepancy> reconciliationDiscrepancyByAccount = getFinanceTool()
+				.getReportManager().getReconciliationDiscrepancyByAccount(
+						accountId, start, end, getCompanyId());
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		ReconciliationDiscrepancy discrepancy = new ReconciliationDiscrepancy();
+		if (reconciliationDiscrepancyByAccount != null) {
+			reconciliationDiscrepancyByAccount
+					.add((ReconciliationDiscrepancy) setStartEndDates(
+							discrepancy, minimumAndMaximumDates));
+		}
+		return reconciliationDiscrepancyByAccount;
 	}
 
 	@Override

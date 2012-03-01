@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class ReconciliationDiscrepancyReport extends
 
 	public ReconciliationDiscrepancyReport() {
 		this.serverReport = new ReconciliationDiscrepancyServerReport(this);
+		serverReport.setRecords(new ArrayList<ReconciliationDiscrepancy>());
 	}
 
 	@Override
@@ -63,10 +65,12 @@ public class ReconciliationDiscrepancyReport extends
 		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
+		accounId = (Long) map.get("account");
+		toolbar.setAccId(accounId);
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		isDatesArranged = true;
+		isDatesArranged = false;
 	}
 
 	@Override
@@ -78,6 +82,7 @@ public class ReconciliationDiscrepancyReport extends
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("account", accounId);
 		return map;
 	}
 
@@ -95,9 +100,9 @@ public class ReconciliationDiscrepancyReport extends
 		if (getAccounId() == 0) {
 			Accounter.showError(messages.pleaseSelect(messages.account()));
 		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 182,
+			UIUtils.generateReportPDF(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 182,
 					"", "", getAccounId());
 		}
 	}
@@ -107,9 +112,9 @@ public class ReconciliationDiscrepancyReport extends
 		if (getAccounId() == 0) {
 			Accounter.showError(messages.pleaseSelect(Global.get().Vendor()));
 		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 182,
+			UIUtils.exportReport(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 182,
 					"", "", getAccounId());
 		}
 	}

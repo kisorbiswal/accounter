@@ -89,6 +89,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
@@ -115,8 +116,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -2250,17 +2251,35 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<Field<?>> getFieldsOf(int importerType) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ImportField> getFieldsOf(int importerType)
+			throws AccounterException {
+		return getFinanceTool().getFieldsOfImporter(importerType);
 	}
 
 	@Override
 	public boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException {
-		getFinanceTool().importData(getCompanyId(), filePath, importerType,
-				importMap);
+		getFinanceTool().importData(getCompanyId(), getUserEmail(), filePath,
+				importerType, importMap);
 		return true;
 	}
 
+	@Override
+	public PaginationList<TransactionHistory> getItemTransactionsList(
+			long itemId, int transactionType, int transactionStatus,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length) {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
+		try {
+			resultList = getFinanceTool().getInventoryManager()
+					.getTransactionsByType(itemId, transactionType,
+							transactionStatus, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId(), start, length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 }
