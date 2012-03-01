@@ -678,4 +678,5 @@ public class CashSales extends Transaction implements IAccounterServerCore {
 	public void setCheckNumber(String checkNumber) {
 		this.checkNumber = checkNumber;
 	}
+
 }

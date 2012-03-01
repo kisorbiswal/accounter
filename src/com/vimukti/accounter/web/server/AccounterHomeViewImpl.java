@@ -29,6 +29,7 @@ import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
@@ -60,6 +61,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -2209,6 +2211,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public List<ClientJob> getJobsByCustomer(long id) {
+		List<ClientJob> jobs = new ArrayList<ClientJob>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Job> list = currentSession.getNamedQuery("getJobsByCustomer")
+				.setParameter("customerId", id)
+				.setParameter("companyId", getCompanyId()).list();
+		try {
+			for (Job job : list) {
+				ClientJob clientJob = new ClientConvertUtil().toClientObject(
+						job, ClientJob.class);
+				jobs.add(clientJob);
+			}
+			return jobs;
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate, int type, int start, int length)
 			throws AccounterException {
@@ -2235,9 +2258,9 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException {
-
 		getFinanceTool().importData(getCompanyId(), filePath, importerType,
 				importMap);
 		return true;
 	}
+
 }

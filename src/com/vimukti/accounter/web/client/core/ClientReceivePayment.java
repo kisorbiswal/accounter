@@ -15,7 +15,6 @@ public class ClientReceivePayment extends ClientTransaction {
 	public static final int TYPE_CUSTOMER_PAYMENT = 2;
 
 	long customer;
-
 	ClientAddress address;
 
 	private double amount = 0D;

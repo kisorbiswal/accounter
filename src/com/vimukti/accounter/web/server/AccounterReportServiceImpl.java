@@ -44,10 +44,15 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
+import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -67,6 +72,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
+import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
@@ -1397,7 +1403,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	@Override
 	public ArrayList<ProfitAndLossByLocation> getProfitAndLossByLocationReport(
-			boolean isLocation, ClientFinanceDate startDate,
+			int categoryType, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		ArrayList<ProfitAndLossByLocation> profitAndLossByLocationList = new ArrayList<ProfitAndLossByLocation>();
 
@@ -1406,7 +1412,7 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 		try {
 			profitAndLossByLocationList = getFinanceTool().getReportManager()
-					.getProfitAndLossByLocation(isLocation, financeDates[0],
+					.getProfitAndLossByLocation(categoryType, financeDates[0],
 							financeDates[1], getCompanyId());
 			ProfitAndLossByLocation obj = new ProfitAndLossByLocation();
 			if (profitAndLossByLocationList != null)
@@ -3257,4 +3263,134 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 
 	}
 
+	@Override
+	public ArrayList<EstimatesByJob> getEstimatesByJob(
+			ClientFinanceDate startDate, ClientFinanceDate endDate) {
+
+		ArrayList<EstimatesByJob> estimatesByJob = new ArrayList<EstimatesByJob>();
+
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			estimatesByJob = getFinanceTool().getReportManager()
+					.getEstimatesByJob(financeDates[0], financeDates[1],
+							getCompanyId().longValue());
+			EstimatesByJob obj = new EstimatesByJob();
+			if (estimatesByJob != null)
+				estimatesByJob.add((EstimatesByJob) setStartEndDates(obj,
+						financeDates));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return estimatesByJob;
+
+	}
+
+	@Override
+	public ArrayList<JobActualCostDetail> getJobActualCostOrRevenueDetails(
+			ClientFinanceDate startDate, ClientFinanceDate endDate,
+			boolean isActualcostDetail, long customerId, long jobId) {
+		ArrayList<JobActualCostDetail> jobActualCostDetails = new ArrayList<JobActualCostDetail>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(startDate,
+				endDate, getCompanyId());
+		try {
+			jobActualCostDetails = getFinanceTool().getReportManager()
+					.getJobActualCostOrRevenueDetails(financeDates[0],
+							financeDates[1], getCompanyId().longValue(),
+							isActualcostDetail, customerId, jobId);
+			JobActualCostDetail obj = new JobActualCostDetail();
+			if (jobActualCostDetails != null) {
+				jobActualCostDetails
+						.add((JobActualCostDetail) setStartEndDates(obj,
+								financeDates));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jobActualCostDetails;
+	}
+
+	@Override
+	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
+			ClientFinanceDate start, ClientFinanceDate end)
+			throws AccounterException {
+		JobProfitability obj = new JobProfitability();
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		ArrayList<JobProfitability> list = null;
+		try {
+			list = getFinanceTool().getReportManager()
+					.getJobProfitabilitySummaryReport(getCompanyId(),
+							dates[0].toClientFinanceDate(),
+							dates[1].toClientFinanceDate());
+			if (list != null)
+				list.add((JobProfitability) setStartEndDates(obj, dates));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public ArrayList<UnbilledCostsByJob> getUnBilledCostsByJob(
+			ClientFinanceDate start, ClientFinanceDate end) {
+		UnbilledCostsByJob obj = new UnbilledCostsByJob();
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		ArrayList<UnbilledCostsByJob> list = null;
+		try {
+			list = getFinanceTool().getReportManager()
+					.getUnBilledCostsByJobReport(getCompanyId(),
+							dates[0].toClientFinanceDate(),
+							dates[1].toClientFinanceDate());
+			if (list != null)
+				list.add((UnbilledCostsByJob) setStartEndDates(obj, dates));
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+
+	@Override
+	public ArrayList<ItemActualCostDetail> getItemActualCostDetail(
+			ClientFinanceDate start, ClientFinanceDate end, long itemId,
+			long customerId, long jobId, boolean isActualcostDetail) {
+		ArrayList<ItemActualCostDetail> itemActualCostDetails = new ArrayList<ItemActualCostDetail>();
+		FinanceDate[] financeDates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+
+		try {
+			itemActualCostDetails = getFinanceTool().getReportManager()
+					.getItemActualCostOrRevenueDetails(financeDates[0],
+							financeDates[1], getCompanyId().longValue(),
+							itemId, customerId, jobId, isActualcostDetail);
+			ItemActualCostDetail obj = new ItemActualCostDetail();
+			if (itemActualCostDetails != null) {
+				itemActualCostDetails
+						.add((ItemActualCostDetail) setStartEndDates(obj,
+								financeDates));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return itemActualCostDetails;
+	}
+
+	@Override
+	public ArrayList<JobProfitabilityDetailByJob> getJobProfitabilityDetailByJobReport(
+			long payeeId, long jobId, ClientFinanceDate start,
+			ClientFinanceDate end) throws AccounterException {
+		JobProfitabilityDetailByJob obj = new JobProfitabilityDetailByJob();
+		FinanceDate[] dates = getMinimumAndMaximumDates(start, end,
+				getCompanyId());
+		ArrayList<JobProfitabilityDetailByJob> list = getFinanceTool()
+				.getReportManager().getJobProfitabilityDetailByJobReport(
+						payeeId, jobId, getCompanyId(),
+						dates[0].toClientFinanceDate(),
+						dates[1].toClientFinanceDate());
+		if (list != null)
+			list.add((JobProfitabilityDetailByJob) setStartEndDates(obj, dates));
+		return list;
+	}
 }

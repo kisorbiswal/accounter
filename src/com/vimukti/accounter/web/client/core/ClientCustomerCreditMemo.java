@@ -7,7 +7,6 @@ public class ClientCustomerCreditMemo extends ClientTransaction {
 	private static final long serialVersionUID = 1L;
 
 	long customer;
-
 	ClientContact contact;
 
 	ClientAddress billingAddress;

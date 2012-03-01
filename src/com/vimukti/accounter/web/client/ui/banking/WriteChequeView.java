@@ -376,6 +376,12 @@ public class WriteChequeView extends
 							transaction.getCustomer());
 					payee = customer;
 					paytoSelect.setComboItem(customer);
+					
+					if (getPreferences().isJobTrackingEnabled()) {
+						jobListCombo.setVisible(true);
+						jobSelected(company.getjob(transaction.getJob()));
+					}
+				
 				} else if (transaction.getPayToType() == ClientPayee.TYPE_VENDOR) {
 					ClientVendor vendor2 = getCompany().getVendor(
 							transaction.getVendor());
@@ -660,6 +666,12 @@ public class WriteChequeView extends
 		transaction.setMemo(getMemoTextAreaItem());
 		setAmountIncludeTAX();
 
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null) {
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+			}
+		}
+
 		if (isTrackDiscounts()) {
 			if (discountField.getAmount() != 0.0 && transactionItems != null) {
 				for (ClientTransactionItem item : transactionItems) {
@@ -751,6 +763,11 @@ public class WriteChequeView extends
 		bankAccForm = new DynamicForm();
 		if (locationTrackingEnabled)
 			bankAccForm.setFields(locationCombo);
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setVisible(false);
+			bankAccForm.setFields(jobListCombo);
+		}
 		bankAccForm.setFields(bankAccSelect, balText);
 
 		if (getPreferences().isClassTrackingEnabled()
@@ -805,10 +822,31 @@ public class WriteChequeView extends
 							} else {
 
 								PayToSelected(selectItem);
+								// Job Tracking
 
+								if (getPreferences().isJobTrackingEnabled()) {
+									if (selectItem instanceof ClientCustomer) {
+										jobListCombo.setValue("");
+										// jobListCombo.setDisabled(false);
+										jobListCombo
+												.setCustomer((ClientCustomer) selectItem);
+										jobListCombo.setVisible(true);
+									} else {
+										jobListCombo.setVisible(false);
+									}
+								}
 								payee = selectItem;
 							}
 						} else {
+							if (selectItem instanceof ClientCustomer) {
+								jobListCombo.setValue("");
+								// jobListCombo.setDisabled(false);
+								jobListCombo
+										.setCustomer((ClientCustomer) selectItem);
+								jobListCombo.setVisible(true);
+							} else {
+								jobListCombo.setVisible(false);
+							}
 							payee = selectItem;
 						}
 						updateAddressAndGrid();
@@ -1459,6 +1497,13 @@ public class WriteChequeView extends
 		discountField.setDisabled(isInViewMode());
 		if (locationTrackingEnabled)
 			locationCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (payee != null) {
+				if (payee instanceof ClientCustomer)
+					jobListCombo.setCustomer((ClientCustomer) payee);
+			}
+		}
 		if (isTrackTax()) {
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect.setDisabled(isInViewMode());
@@ -1605,6 +1650,7 @@ public class WriteChequeView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		
 		vendorAccountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ACCOUNT, true));

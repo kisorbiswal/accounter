@@ -14,29 +14,33 @@ import com.vimukti.accounter.web.client.ui.serverreports.ProfitAndLossByLocation
 public class ProfitAndLossByLocationReport extends
 		AbstractReportView<ProfitAndLossByLocation> {
 
-	private boolean isLocation;
+	private int category_type;
 
-	public ProfitAndLossByLocationReport(boolean isLocation) {
-		this.isLocation = isLocation;
-		ProfitAndLossByLocationServerReport.locations = Accounter.getCompany()
-				.getLocations();
-		ProfitAndLossByLocationServerReport.classes = Accounter.getCompany()
-				.getAccounterClasses();
+	public ProfitAndLossByLocationReport(int category_type) {
+		this.category_type = category_type;
 		int numcolumns = 0;
-		if (isLocation) {
+		if (category_type == ProfitAndLossByLocationServerReport.JOB) {
+			ProfitAndLossByLocationServerReport.jobs = Accounter.getCompany()
+					.getJobs();
+			numcolumns = ProfitAndLossByLocationServerReport.jobs.size() + 2;
+		} else if (category_type == ProfitAndLossByLocationServerReport.LOCATION) {
+			ProfitAndLossByLocationServerReport.locations = Accounter
+					.getCompany().getLocations();
 			numcolumns = ProfitAndLossByLocationServerReport.locations.size() + 2;
 		} else {
+			ProfitAndLossByLocationServerReport.classes = Accounter
+					.getCompany().getAccounterClasses();
 			numcolumns = ProfitAndLossByLocationServerReport.classes.size() + 2;
 		}
 		ProfitAndLossByLocationServerReport.noColumns = numcolumns;
 		this.serverReport = new ProfitAndLossByLocationServerReport(this,
-				isLocation);
+				category_type);
 	}
 
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		Accounter.createReportService().getProfitAndLossByLocationReport(
-				isLocation, start, end, this);
+				category_type, start, end, this);
 	}
 
 	@Override
@@ -53,6 +57,16 @@ public class ProfitAndLossByLocationReport extends
 		UIUtils.runAction(record,
 				ActionFactory.getTransactionDetailByAccountAction());
 
+	}
+
+	public void OnClick(ProfitAndLossByLocation pAndLossByLocation,
+			int rowIndex, int cellIndex) {
+		TrialBalance record = getTrailBalance(pAndLossByLocation);
+		record.setStartDate(toolbar.getStartDate());
+		record.setEndDate(toolbar.getEndDate());
+		record.setDateRange(toolbar.getSelectedDateRange());
+		UIUtils.runAction(record,
+				ActionFactory.getTransactionDetailByAccountAction());
 	}
 
 	private TrialBalance getTrailBalance(ProfitAndLossByLocation p) {
@@ -93,9 +107,13 @@ public class ProfitAndLossByLocationReport extends
 
 	@Override
 	public void print() {
-		int reportType = 161;
-		if (isLocation) {
+		int reportType = 0;
+		if (category_type == 1) {
+			reportType = 161;
+		} else if (category_type == 2) {
 			reportType = 153;
+		} else {
+			reportType = 189;
 		}
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
@@ -105,9 +123,13 @@ public class ProfitAndLossByLocationReport extends
 
 	@Override
 	public void exportToCsv() {
-		int reportType = 161;
-		if (isLocation) {
+		int reportType = 0;
+		if (category_type == 1) {
+			reportType = 161;
+		} else if (category_type == 2) {
 			reportType = 153;
+		} else {
+			reportType = 189;
 		}
 		UIUtils.exportReport(
 				Integer.parseInt(String.valueOf(startDate.getDate())),

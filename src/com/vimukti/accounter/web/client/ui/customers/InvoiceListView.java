@@ -389,7 +389,6 @@ public class InvoiceListView extends TransactionsListView<InvoicesList>
 		Accounter.createHomeService().getInvoiceList(getStartDate().getDate(),
 				getEndDate().getDate(), transactionType, getViewId(), start,
 				length, this);
-
 	}
 
 	private int checkViewType(String view) {
