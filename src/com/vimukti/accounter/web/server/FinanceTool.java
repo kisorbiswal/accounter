@@ -2257,6 +2257,9 @@ public class FinanceTool {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
 		} else if (newTransaction instanceof PurchaseOrder) {
 			((PurchaseOrder) newTransaction).setUsedBill(null, session);
+		} else if (newTransaction instanceof MakeDeposit) {
+			((MakeDeposit) newTransaction)
+					.setTransactionDepositItems(new ArrayList<TransactionDepositItem>());
 		}
 
 		session.setFlushMode(flushMode);
