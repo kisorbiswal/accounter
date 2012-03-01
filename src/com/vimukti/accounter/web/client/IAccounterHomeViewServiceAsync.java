@@ -81,6 +81,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -557,4 +558,8 @@ public interface IAccounterHomeViewServiceAsync {
 	void importData(String filePath, int importerType,
 			Map<String, String> importMap, AsyncCallback<Boolean> callback);
 
+	public void getItemTransactionsList(long itemId, int transactionType,
+			int transactionStatus, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callBack);
 }

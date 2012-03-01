@@ -138,6 +138,9 @@ public class MenuBar {
 
 		Menu inventoryMenuBar = new Menu(string);
 
+		inventoryMenuBar.addMenuItem(messages.inventoryCentre(),
+				HistoryTokens.INVENTORY_CENTRE);
+
 		if (notReadOnlyUser) {
 			inventoryMenuBar.addMenuItem(messages.buildAssembly(),
 					HistoryTokens.BUILD_ASSEMBLY);

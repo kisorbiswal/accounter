@@ -30,7 +30,6 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 						ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
-						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_IMAGE };
 			} else {
 				return new int[] { ListGrid.COLUMN_TYPE_CHECK,
@@ -63,12 +62,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (getCompany().getPreferences().isInventoryEnabled()) {
 			if (index == 0)
 				return 40;
-			else if (index == 2) {
-				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					return 150;
-				}
+			else if (index == 2)
 				return 300;
-			} else if (index == 3)
+			else if (index == 3)
 				return 150;
 			else if (index == 4)
 				return 100;
@@ -78,7 +74,9 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return 100;
 			else {
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-					if (index == 8) {
+					if (index == 6) {
+						return 100;
+					} else if (index == 7) {
 						if (UIUtils.isMSIEBrowser())
 							return 25;
 						else
@@ -135,71 +133,68 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	}
 
 	private Object getInventoryItemColumnValue(ClientItem obj, int col) {
-		switch (col) {
-		case 0:
-			return obj.isActive();
-		case 1:
-			return obj.getName() != null ? obj.getName() : "";
-		case 2:
-			if (!ItemListView.isPurchaseType) {
-				return obj.getSalesDescription() != null ? obj
-						.getSalesDescription() : "";
-			} else
-				return obj.getPurchaseDescription() != null ? obj
-						.getPurchaseDescription() : "";
+		if ((ItemListView.isPurchaseType && ItemListView.isSalesType)
+				&& (col == 7)) {
+			return Accounter.getFinanceMenuImages().delete();
+		} else
+			switch (col) {
+			case 0:
+				return obj.isActive();
+			case 1:
+				return obj.getName() != null ? obj.getName() : "";
+			case 2:
+				if (!ItemListView.isPurchaseType) {
+					return obj.getSalesDescription() != null ? obj
+							.getSalesDescription() : "";
+				} else
+					return obj.getPurchaseDescription() != null ? obj
+							.getPurchaseDescription() : "";
 
-		case 3:
-			return Utility.getItemTypeText(obj) != null ? Utility
-					.getItemTypeText(obj) : "";
-		case 4:
-			return obj.getOnhandQty() != null ? String.valueOf(obj
-					.getOnhandQty().getValue()) : "";
-		case 5:
-			return DataUtils.amountAsStringWithCurrency(obj.getAverageCost(),
-					currency) != null ? DataUtils.amountAsStringWithCurrency(
-					obj.getAverageCost(), currency) : "";
-		case 6:
-			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+			case 3:
+				return Utility.getItemTypeText(obj) != null ? Utility
+						.getItemTypeText(obj) : "";
+			case 4:
+				return obj.getOnhandQty() != null ? obj.getOnhandQty()
+						.getValue() : "";
+			case 5:
 				return DataUtils.amountAsStringWithCurrency(
-						obj.getPurchasePrice(), currency) != null ? DataUtils
-						.amountAsStringWithCurrency(obj.getSalesPrice(),
+						obj.getAverageCost(), currency) != null ? DataUtils
+						.amountAsStringWithCurrency(obj.getAverageCost(),
 								currency) : "";
-			}
-			if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
-				if (obj.isISellThisItem) {
+			case 6:
+				if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
+					if (obj.isISellThisItem) {
+						return DataUtils.amountAsStringWithCurrency(
+								obj.getSalesPrice(), currency) != null ? DataUtils
+								.amountAsStringWithCurrency(
+										obj.getSalesPrice(), currency) : "";
+					} else {
+						return DataUtils.amountAsStringWithCurrency(
+								obj.getPurchasePrice(), currency) != null ? DataUtils
+								.amountAsStringWithCurrency(
+										obj.getPurchasePrice(), currency) : "";
+					}
+				}
+				if (ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(
 							obj.getSalesPrice(), currency) != null ? DataUtils
 							.amountAsStringWithCurrency(obj.getSalesPrice(),
 									currency) : "";
-				} else {
+				} else
 					return DataUtils.amountAsStringWithCurrency(
 							obj.getPurchasePrice(), currency) != null ? DataUtils
 							.amountAsStringWithCurrency(obj.getPurchasePrice(),
 									currency) : "";
-				}
-			}
-			if (ItemListView.isSalesType) {
-				return DataUtils.amountAsStringWithCurrency(
-						obj.getSalesPrice(), currency) != null ? DataUtils
-						.amountAsStringWithCurrency(obj.getSalesPrice(),
-								currency) : "";
-			} else
-				return DataUtils.amountAsStringWithCurrency(
-						obj.getPurchasePrice(), currency) != null ? DataUtils
-						.amountAsStringWithCurrency(obj.getPurchasePrice(),
-								currency) : "";
 
-		case 7:
-			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-				return DataUtils.amountAsStringWithCurrency(
-						obj.getPurchasePrice(), currency) != null ? DataUtils
-						.amountAsStringWithCurrency(obj.getPurchasePrice(),
-								currency) : "";
-			} else
-				return Accounter.getFinanceMenuImages().delete();
-		case 8:
-			return Accounter.getFinanceMenuImages().delete();
-		}
+			case 7:
+				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
+					return DataUtils.amountAsStringWithCurrency(
+							obj.getPurchasePrice(), currency) != null ? DataUtils
+							.amountAsStringWithCurrency(obj.getPurchasePrice(),
+									currency) : "";
+				} else
+					return Accounter.getFinanceMenuImages().delete();
+			}
 		return null;
 	}
 
@@ -267,8 +262,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
-						messages.onHandQty(), messages.avarageCost(),
-						messages.salesPrice(), messages.purchasePrice(), "" };
+						messages.avarageCost(), messages.salesPrice(),
+						messages.purchasePrice(), "" };
 			} else if (ItemListView.isPurchaseType) {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
@@ -312,7 +307,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 		if (!isCanOpenTransactionView(0, IAccounterCore.ITEM))
 			return;
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			if (col == 8) {
+			if (col == 7) {
 				if (item != null)
 					showWarnDialog(item);
 			}

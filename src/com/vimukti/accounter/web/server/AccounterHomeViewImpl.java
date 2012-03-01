@@ -116,6 +116,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
@@ -2263,4 +2264,22 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 		return true;
 	}
 
+	@Override
+	public PaginationList<TransactionHistory> getItemTransactionsList(
+			long itemId, int transactionType, int transactionStatus,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length) {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
+		try {
+			resultList = getFinanceTool().getInventoryManager()
+					.getTransactionsByType(itemId, transactionType,
+							transactionStatus, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId(), start, length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
 }
