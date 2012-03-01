@@ -6,6 +6,8 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -47,9 +49,8 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.measurementName(),
-				messages.measurementDescription(),
-				messages.unitName(), messages.factor(),
-				messages.delete() };
+				messages.measurementDescription(), messages.unitName(),
+				messages.factor(), messages.delete() };
 	}
 
 	@Override
@@ -84,7 +85,9 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	protected void onClick(ClientMeasurement obj, int row, int col) {
-
+		if (!Utility.isUserHavePermissions(IAccounterCore.MEASUREMENT)) {
+			return;
+		}
 		switch (col) {
 		case 4:
 			showWarnDialog(obj);
@@ -136,8 +139,7 @@ public class MeasurementsListGrid extends BaseListGrid<ClientMeasurement> {
 
 	@Override
 	public void onDoubleClick(ClientMeasurement obj) {
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (Utility.isUserHavePermissions(IAccounterCore.MEASUREMENT)) {
 			AddMeasurementAction action = new AddMeasurementAction();
 			action.run(obj, false);
 		}

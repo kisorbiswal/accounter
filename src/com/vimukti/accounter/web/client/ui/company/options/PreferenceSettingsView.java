@@ -118,8 +118,10 @@ public class PreferenceSettingsView extends BaseView<ClientCompanyPreferences> {
 				messages.categories());
 		LocationTrackingOption locationTrackingOption = new LocationTrackingOption();
 		ClassTrackingOption classTrackingPage = new ClassTrackingOption();
+		JobTrackingOption jobTrackingOption = new JobTrackingOption();
 		catogiriesInfoPage.addPreferenceOption(locationTrackingOption);
 		catogiriesInfoPage.addPreferenceOption(classTrackingPage);
+		catogiriesInfoPage.addPreferenceOption(jobTrackingOption);
 		return catogiriesInfoPage;
 	}
 

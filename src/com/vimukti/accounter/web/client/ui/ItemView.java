@@ -1230,6 +1230,7 @@ public class ItemView extends BaseView<ClientItem> {
 			measurement.setDisabled(isInViewMode());
 			wareHouse.setDisabled(isInViewMode());
 			openingBalTxt.setDisabled(isInViewMode());
+			onHandQuantity.setRequired(false);
 		}
 		activeCheck.setDisabled(isInViewMode());
 
@@ -1283,5 +1284,4 @@ public class ItemView extends BaseView<ClientItem> {
 	protected boolean canVoid() {
 		return false;
 	}
-
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -129,7 +130,10 @@ public class NewApplyCreditsDialog extends BaseDialog<ClientCustomer> {
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.setWidth("100%");
 		mainVLay.add(form);
-		mainVLay.add(grid);
+		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel.addStyleName("credits-scroll-panel");
+		scrollPanel.add(grid);
+		mainVLay.add(scrollPanel);
 		mainVLay.add(amountUseForm);
 
 		setBodyLayout(mainVLay);

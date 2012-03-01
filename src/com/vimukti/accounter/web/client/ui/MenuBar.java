@@ -56,7 +56,7 @@ public class MenuBar {
 	private boolean isSalesOrderEnabled;
 
 	private boolean isClassTrackingEnabled;
-
+	private boolean isJobTrackingEnabled;
 	private boolean isLocationTrackingEnabled;
 
 	private boolean isTaxTracking;
@@ -84,6 +84,10 @@ public class MenuBar {
 	private String countryOrRegion;
 
 	private boolean isUnitsEnalbled;
+
+	private boolean isAdmin;
+
+	private boolean canSaveDrafts;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -539,7 +543,21 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.estimatesbyJob(), HistoryTokens.ESTIMATEBYJOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilitySummary(),
+					HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.unbilledCostsByJob(),
+					HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		if (isJobTrackingEnabled)
+			customersAndReceivableMenuBar.addMenuItem(
+					messages.jobProfitabilityDetail(),
+					HistoryTokens.JOB_PROFITABILITY_DETAIL);
 		return customersAndReceivableMenuBar;
 	}
 
@@ -587,6 +605,12 @@ public class MenuBar {
 					messages.profitAndLossbyClass(),
 					HistoryTokens.PROFITANDLOSSBYCLASS);
 		}
+
+		if (isJobTrackingEnabled) {
+			companyAndFinancialMenuBar.addMenuItem(
+					messages.profitAndLossByJob(),
+					HistoryTokens.PROFITANDLOSSBYJOBS);
+		}
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
@@ -618,7 +642,7 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.makeDeposit(),
 				HistoryTokens.DEPOSIT);
 
-		if (isKeepTrackofBills) {
+		if (isKeepTrackofBills && canDoPayBillAndReceivePayment) {
 			bankingMenuBar.addMenuItem(messages.payBill(),
 					HistoryTokens.PAYBILL);
 		}
@@ -641,7 +665,6 @@ public class MenuBar {
 	}
 
 	private Menu getVendorMenu(String string) {
-
 		Menu vendorMenuBar = new Menu(string);
 
 		vendorMenuBar.addMenuItem(messages.vendorCentre(Global.get().Vendor()),
@@ -666,7 +689,6 @@ public class MenuBar {
 		}
 		if (canDoPayBillAndReceivePayment) {
 			if (isKeepTrackofBills) {
-
 				vendorMenuBar.addMenuItem(messages.payBills(),
 						HistoryTokens.PAYBILL);
 				// vendorMenuBar.addMenuItem(messages.issuePayments(),
@@ -684,12 +706,12 @@ public class MenuBar {
 		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
-
+		}
+		if (canDoInvoiceAndBillTransactions) {
 			if (isHaveEpmloyees && isTrackEmployeeExpenses) {
 				vendorMenuBar.addMenuItem(messages.expenseClaims(),
 						HistoryTokens.EXPENSECLAIMS);
 			}
-
 		}
 		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
@@ -726,10 +748,17 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
-			newVendorMenuBar.addMenuItem(messages.newItem(),
-					HistoryTokens.NEWITEMSUPPLIERS);
+			if (!canSaveDrafts) {
+				newVendorMenuBar.addMenuItem(messages.newItem(),
+						HistoryTokens.NEWITEMSUPPLIERS);
+			}
+		} else {
+			if (canDoInventory) {
+				newVendorMenuBar.addMenuItem(messages.newItem(),
+						HistoryTokens.NEWITEMSUPPLIERS);
+			}
 		}
-		if (canDoBanking || canDoManageAccounts) {
+		if (canDoInvoiceAndBillTransactions) {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
 					HistoryTokens.NEWCASHPURCHASE);
 		}
@@ -787,6 +816,11 @@ public class MenuBar {
 					HistoryTokens.CUSTOMERREFUND);
 
 			customerMenuBar.addSeparatorItem();
+		} else if (canSaveDrafts) {
+			customerMenuBar.addMenuItem(
+					messages.customerRefund(Global.get().Customer()),
+					HistoryTokens.CUSTOMERREFUND);
+			customerMenuBar.addSeparatorItem();
 		}
 		customerMenuBar.addMenuItem(messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
@@ -831,13 +865,19 @@ public class MenuBar {
 
 	private Menu getNewCustomerMenu(String string) {
 		Menu newCustomerMenuBar = new Menu(string);
-
 		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
+		}
+
+		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
+				|| canDoInventory) {
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
+		}
+
+		if (canDoInvoiceAndBillTransactions) {
 			if (isDoyouwantEstimates) {
 				newCustomerMenuBar.addMenuItem(messages.newQuote(),
 						HistoryTokens.NEWQUOTE);
@@ -856,13 +896,8 @@ public class MenuBar {
 
 			newCustomerMenuBar.addMenuItem(messages.newInvoice(),
 					HistoryTokens.NEWINVOICE);
-		}
-
-		if (canDoBanking || canDoManageAccounts) {
 			newCustomerMenuBar.addMenuItem(messages.newCashSale(),
 					HistoryTokens.NEWCASHSALE);
-		}
-		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(messages.newCreditMemo(),
 					HistoryTokens.NRECREDITNOTE);
 		}
@@ -884,9 +919,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-
-		companyMenuBar.addMenuItem(messages.importFile(), HistoryTokens.IMPORT);
-
+		// if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+		// companyMenuBar.addMenuItem(messages.importFile(),
+		// HistoryTokens.IMPORT);
+		// }
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
@@ -1080,6 +1116,8 @@ public class MenuBar {
 
 		this.isClassTracking = preferences.isClassTrackingEnabled();
 
+		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
+
 		this.canSeeBanking = canSeeBanking(clientUser);
 
 		this.canSeeInvoiceTransactions = canSeeInvoiceTransactions(clientUser);
@@ -1117,8 +1155,8 @@ public class MenuBar {
 
 		this.company = countryPreferences;
 
-		this.notReadOnlyUser = !clientUser.getUserRole().equalsIgnoreCase(
-				messages.readOnly());
+		this.notReadOnlyUser = !(clientUser.getUserRole()
+				.equalsIgnoreCase(RolePermissions.READ_ONLY));
 
 		this.canDoTaxTransactions = canDoTaxTransactions(clientUser);
 
@@ -1135,7 +1173,15 @@ public class MenuBar {
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
 
+		this.isAdmin = clientUser.isAdmin();
+
+		this.canSaveDrafts = canSaveDrafts(clientUser);
+
 		getMenuBar();
+	}
+
+	private boolean canSaveDrafts(ClientUser clientUser) {
+		return clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
 	}
 
 	private boolean CanDoManageAccounts(ClientUser clientUser) {
@@ -1160,8 +1206,7 @@ public class MenuBar {
 	}
 
 	private boolean canDoPayBillAndReceivePayment(ClientUser clientUser) {
-		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES
-				|| clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
+		if (clientUser.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES)
 			return true;
 		else
 			return false;

@@ -210,7 +210,8 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		toolbar.setViewId(view_Id);
+		CreateStatementToolBar bar = (CreateStatementToolBar) toolbar;
+		bar.setStatus(view_Id);
 		Boolean isVendor = (Boolean) map.get("isVendor");
 		this.isVendor = isVendor == null ? false : isVendor;
 		isDatesArranged = true;

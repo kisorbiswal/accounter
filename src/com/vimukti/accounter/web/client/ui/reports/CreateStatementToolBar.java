@@ -47,8 +47,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 
 	public void createControls() {
 
-		String[] filter = { messages.open(), messages.overDue(),
-				messages.all(), messages.voided(), messages.drafts() };
+		String[] filter = { messages.open(), messages.overDue(), messages.all() };
 		viewSelect = new SelectCombo(messages.currentView());
 		viewSelect.initCombo(Arrays.asList(filter));
 		viewSelect
@@ -78,7 +77,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 						@Override
 						public void selectedComboBoxItem(ClientVendor selectItem) {
 							setPayeeId(selectItem.getID());
+
 						}
+
 					});
 
 			if (getPayeeId() != 0) {
@@ -95,6 +96,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 						public void selectedComboBoxItem(
 								ClientCustomer selectItem) {
 							setPayeeId(selectItem.getID());
+							createDisplayJobCombo();
 						}
 					});
 			if (getPayeeId() != 0) {
@@ -179,11 +181,11 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
 		if (isVendor) {
-			addItems(viewSelect, vendorCombo, dateRangeItemCombo, fromItem,
-					toItem);
+			addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
+					fromItem, toItem);
 		} else {
-			addItems(viewSelect, customerCombo, dateRangeItemCombo, fromItem,
-					toItem);
+			addItems(getViewSelect(), customerCombo, dateRangeItemCombo,
+					fromItem, toItem);
 		}
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
@@ -286,6 +288,10 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate);
 	}
 
+	protected void createDisplayJobCombo() {
+
+	}
+
 	@Override
 	protected void payeeData() {
 		if (isVendor) {
@@ -301,6 +307,28 @@ public class CreateStatementToolBar extends ReportToolbar {
 				// reportview.makeReportRequest(selectedCusotmer.getID(),
 				// startDate, endDate);
 			}
+		}
+	}
+
+	public SelectCombo getViewSelect() {
+		return viewSelect;
+	}
+
+	public void setViewSelect(SelectCombo viewSelect) {
+		this.viewSelect = viewSelect;
+	}
+
+	public void setStatus(Integer status) {
+		if (status == VIEW_OPEN) {
+			viewSelect.setComboItem(messages.open());
+		} else if (status == VIEW_VOIDED) {
+			viewSelect.setComboItem(messages.voided());
+		} else if (status == VIEW_OVERDUE) {
+			viewSelect.setComboItem(messages.overDue());
+		} else if (status == VIEW_ALL) {
+			viewSelect.setComboItem(messages.all());
+		} else if (status == VIEW_DRAFT) {
+			viewSelect.setComboItem(messages.drafts());
 		}
 	}
 }

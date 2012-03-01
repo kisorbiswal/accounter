@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientStockAdjustment;
 import com.vimukti.accounter.web.client.core.ClientUnit;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
@@ -52,6 +53,9 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	@Override
 	protected void onClick(StockAdjustmentList obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, IAccounterCore.STOCK_ADJUSTMENT)) {
+			return;
+		}
 		switch (col) {
 		case 3:
 			showWarnDialog(obj);
@@ -123,8 +127,7 @@ public class StockAdjustmentsListGrid extends BaseListGrid<StockAdjustmentList> 
 
 	@Override
 	public void onDoubleClick(StockAdjustmentList obj) {
-		if (!Accounter.getUser().getUserRole()
-				.equalsIgnoreCase(messages.readOnly())) {
+		if (isCanOpenTransactionView(0, IAccounterCore.STOCK_ADJUSTMENT)) {
 			AccounterAsyncCallback<ClientStockAdjustment> callback = new AccounterAsyncCallback<ClientStockAdjustment>() {
 
 				@Override

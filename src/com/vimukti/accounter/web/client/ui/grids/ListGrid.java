@@ -483,10 +483,10 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			addCellStyles("gridSelectBoxCell");
 			break;
 		case COLUMN_TYPE_TEXT:
-			if (data instanceof Double) {
-				data = DataUtils.amountAsStringWithCurrency((Double) data,
-						currency);
-			}
+			// if (data instanceof Double) {
+			// data = DataUtils.amountAsStringWithCurrency((Double) data,
+			// currency);
+			// }
 			if (data != null) {
 				setText(currentRow, currentCol, data.toString());
 			}

@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
@@ -74,7 +75,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXCode obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (Utility.isUserHavePermissions(AccounterCoreType.TAX_CODE)) {
 			ActionFactory.getNewTAXCodeAction().run(obj, false);
 		}
 	}
@@ -84,10 +85,8 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.active(),
-				messages.code(),
-				messages.description(),
-				messages.taxable(), "" };
+		return new String[] { messages.active(), messages.code(),
+				messages.description(), messages.taxable(), "" };
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class ManageTAXCodeListGrid extends BaseListGrid<ClientTAXCode> {
 
 	@Override
 	protected void onClick(ClientTAXCode obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+		if (!Utility.isUserHavePermissions(AccounterCoreType.TAX_CODE)) {
 			return;
 		}
 		List<ClientTAXCode> records = getRecords();

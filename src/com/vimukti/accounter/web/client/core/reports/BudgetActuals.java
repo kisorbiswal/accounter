@@ -17,6 +17,8 @@ Serializable {
 	private double atualAmount;
 	
 	private double budgetAmount;
+	
+	private int type;
 
 	public String getAccountName() {
 		return accountName;
@@ -40,6 +42,14 @@ Serializable {
 
 	public void setBudgetAmount(double budgetAmount) {
 		this.budgetAmount = budgetAmount;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 	
 }

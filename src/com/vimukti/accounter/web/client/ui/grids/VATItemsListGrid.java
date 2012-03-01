@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
 import com.vimukti.accounter.web.client.core.ClientTAXItem;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -61,11 +62,9 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.active(),
-				messages.product(),
-				messages.vatAgency(),
-				messages.description(),
-				messages.rate(), "" };
+		return new String[] { messages.active(), messages.product(),
+				messages.vatAgency(), messages.description(), messages.rate(),
+				"" };
 	}
 
 	/*
@@ -92,8 +91,8 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 			if (item.isPercentage())
 				return item.getTaxRate() + "%";
 			else
-				return DataUtils.amountAsStringWithCurrency(item.getTaxRate(), getCompany()
-						.getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(item.getTaxRate(),
+						getCompany().getPrimaryCurrency());
 		case 5:
 			return Accounter.getFinanceMenuImages().delete();
 			// return "/images/delete.png";
@@ -103,8 +102,9 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 
 	@Override
 	protected void onClick(ClientTAXItem obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!Utility.isUserHavePermissions(AccounterCoreType.TAXITEM)) {
 			return;
+		}
 		List<ClientTAXItem> records = getRecords();
 		if (col == 5)
 			showWarnDialog(records.get(row));
@@ -121,9 +121,10 @@ public class VATItemsListGrid extends BaseListGrid<ClientTAXItem> {
 	 */
 	@Override
 	public void onDoubleClick(ClientTAXItem obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			ActionFactory.getNewVatItemAction().run(obj, false);
+		if (!Utility.isUserHavePermissions(AccounterCoreType.TAXITEM)) {
+			return;
 		}
+		ActionFactory.getNewVatItemAction().run(obj, false);
 	}
 
 	@Override

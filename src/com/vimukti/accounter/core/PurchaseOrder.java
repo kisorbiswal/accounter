@@ -4,9 +4,11 @@ import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
 
+import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * A purchase order (PO) is a commercial document issued by a buyer to a seller,
@@ -384,7 +386,29 @@ public class PurchaseOrder extends Transaction {
 
 	@Override
 	public boolean onSave(Session session) throws CallbackException {
+		createTask();
 		return super.onSave(session);
+	}
+
+	private void createTask() {
+		if (getDeliveryDate() == null
+				|| !getDeliveryDate().after(new FinanceDate())) {
+			return;
+		}
+		Session session = HibernateUtil.getCurrentSession();
+		AccounterMessages messages = Global.get().messages();
+		MessageOrTask task = new MessageOrTask();
+		task.setDate(getDeliveryDate());
+		task.setType(MessageOrTask.TYPE_TASK);
+		task.setContentType(MessageOrTask.CONTENT_TYPE_PURCHASE_ORDER);
+		task.setContent(messages.purchaseOrderTaskDesc(getVendor().getName(),
+				getPurchaseOrderNumber()));
+		task.setActionToken("enterBill");
+		task.setSystemCreated(true);
+		task.setCompany(getCompany());
+
+		session.save(task);
+
 	}
 
 	@Override
@@ -440,18 +464,27 @@ public class PurchaseOrder extends Transaction {
 		// }
 		// }
 		// }
+		createTask();
 		super.onEdit(clonedObject);
 	}
 
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
+
 		if (!UserUtils.canDoThis(PurchaseOrder.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
 		if (this.getID() != 0) {
-			if (this.status == Transaction.STATUS_APPLIED
+			if (this.status == Transaction.STATUS_COMPLETED
 					&& this.usedBill != null) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
@@ -482,7 +515,7 @@ public class PurchaseOrder extends Transaction {
 	public void setUsedBill(EnterBill usedTransaction, Session session) {
 		if (this.usedBill == null && usedTransaction != null) {
 			this.usedBill = usedTransaction;
-			status = STATUS_APPLIED;
+			status = STATUS_COMPLETED;
 		} else if (usedTransaction == null) {
 			this.usedBill = null;
 			status = STATUS_OPEN;

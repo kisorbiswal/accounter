@@ -36,13 +36,7 @@ public class AccountReportToolBar extends ReportToolbar {
 				List<ClientAccount> list = new ArrayList<ClientAccount>();
 				list.addAll(getCompany().getAccounts(ClientAccount.TYPE_BANK));
 				list.addAll(getCompany().getAccounts(
-						ClientAccount.TYPE_ACCOUNT_RECEIVABLE));
-				list.addAll(getCompany().getAccounts(
-						ClientAccount.TYPE_FIXED_ASSET));
-				list.addAll(getCompany().getAccounts(
 						ClientAccount.TYPE_OTHER_CURRENT_ASSET));
-				list.addAll(getCompany().getAccounts(
-						ClientAccount.TYPE_OTHER_ASSET));
 				return list;
 			}
 		};

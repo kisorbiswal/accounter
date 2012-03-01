@@ -23,7 +23,6 @@ public class ClientWriteCheck extends ClientTransaction {
 	long customer;
 
 	long vendor;
-
 	long taxAgency;
 
 	ClientAddress address;
@@ -260,4 +259,5 @@ public class ClientWriteCheck extends ClientTransaction {
 	public void setInFavourOf(String inFavourOf) {
 		this.inFavourOf = inFavourOf;
 	}
+
 }

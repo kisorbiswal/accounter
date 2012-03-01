@@ -225,7 +225,7 @@ public class RecurringTool extends Thread {
 			task.setSystemCreated(true);
 			task.setContent(Global.get().messages()
 					.respondToYourRemindersAboutRecurringTemplates());
-			task.setContentType(MessageOrTask.TYPE_RECURRING_REMINDER);
+			task.setContentType(MessageOrTask.CONTENT_TYPE_RECURRING_REMINDER);
 		}
 		task.setActionToken(HistoryTokens.RECURRINGREMINDERS);
 		if (task.getDate() == null || remindDate.before(task.getDate())) {
@@ -249,7 +249,7 @@ public class RecurringTool extends Thread {
 			message.setSystemCreated(true);
 			message.setContent(Global.get().messages()
 					.transactionsWereAutomaticallyCreated());
-			message.setContentType(MessageOrTask.TYPE_AUTOMATIC_TRANSACTIONS);
+			message.setContentType(MessageOrTask.CONTENT_TYPE_AUTOMATIC_TRANSACTIONS);
 		}
 		message.setActionToken(HistoryTokens.AUTOMATICTRANSACTIONS);
 		if (message.getDate() == null

@@ -106,7 +106,8 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	public void onDoubleClick(BillsList bills) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+
+		if (isCanOpenTransactionView(bills.getSaveStatus(), bills.getType()))
 			ReportsRPC.openTransactionView(bills.getType(),
 					bills.getTransactionId());
 
@@ -138,7 +139,7 @@ public class BillsListGrid extends BaseListGrid<BillsList> {
 
 	@Override
 	protected void onClick(BillsList obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		if (type == 0 && col == 6 && !obj.isVoided()) {
 			processVoidTransaction(obj, col);

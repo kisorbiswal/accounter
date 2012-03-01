@@ -333,7 +333,11 @@ public class TDSResponsiblePersonDetailsView extends
 		result.add(taxDynamicForm.validate());
 		result.add(otherDynamicForm.validate());
 
-		if (!UIUtils.isValidEmail(email.getValue())) {
+		if (email.getValue() == null || email.getValue().equals("")
+				|| email.getValue().length() == 0) {
+			email.highlight();
+			result.addError(email, messages.pleaseEnter(messages.email()));
+		} else if (!UIUtils.isValidEmail(email.getValue())) {
 			result.addError(email, messages.invalidEmail());
 		}
 		return result;

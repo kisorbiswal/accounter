@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.reports.DateRangePortletToolBar;
 import com.vimukti.accounter.web.client.ui.reports.PortletToolBar;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 	private PortletToolBar toolBar;
@@ -73,53 +74,57 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 		});
 
 		Anchor allExpLabel = new Anchor(messages.allExpenses());
-		allExpLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ExpenseList expenseList = new ExpenseList();
-				expenseList.setStartDate(toolBar.getStartDate());
-				expenseList.setEndDate(toolBar.getEndDate());
-				expenseList.setDateRange(toolBar.getSelectedDateRange());
-				UIUtils.runAction(expenseList,
-						ActionFactory.getExpenseReportAction());
-			}
-		});
-
 		Anchor cashExpLabel = new Anchor(messages.cashExpenses());
-		cashExpLabel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ExpenseList expenseList = new ExpenseList();
-				expenseList.setStartDate(toolBar.getStartDate());
-				expenseList.setEndDate(toolBar.getEndDate());
-				expenseList.setDateRange(toolBar.getSelectedDateRange());
-				expenseList
-						.setTransactionType(ClientTransaction.TYPE_CASH_EXPENSE);
-				UIUtils.runAction(expenseList,
-						ActionFactory.getExpenseReportAction());
-			}
-		});
-		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
-		// Label empExpLabel =
-		// getLabel(messages.employeeExpenses());
 		Anchor ccExpLabel = new Anchor(messages.creditCardExpenses());
-		ccExpLabel.addClickHandler(new ClickHandler() {
+		cashExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
+		if (Accounter.getUser().getPermissions().getTypeOfViewReports() == RolePermissions.TYPE_YES) {
+			allExpLabel.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				ExpenseList expenseList = new ExpenseList();
-				expenseList.setStartDate(toolBar.getStartDate());
-				expenseList.setEndDate(toolBar.getEndDate());
-				expenseList.setDateRange(toolBar.getSelectedDateRange());
-				expenseList
-						.setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
-				UIUtils.runAction(expenseList,
-						ActionFactory.getExpenseReportAction());
+				@Override
+				public void onClick(ClickEvent event) {
+					ExpenseList expenseList = new ExpenseList();
+					expenseList.setStartDate(toolBar.getStartDate());
+					expenseList.setEndDate(toolBar.getEndDate());
+					expenseList.setDateRange(toolBar.getSelectedDateRange());
+					UIUtils.runAction(expenseList,
+							ActionFactory.getExpenseReportAction());
+				}
+			});
 
-			}
-		});
+			cashExpLabel.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ExpenseList expenseList = new ExpenseList();
+					expenseList.setStartDate(toolBar.getStartDate());
+					expenseList.setEndDate(toolBar.getEndDate());
+					expenseList.setDateRange(toolBar.getSelectedDateRange());
+					expenseList
+							.setTransactionType(ClientTransaction.TYPE_CASH_EXPENSE);
+					UIUtils.runAction(expenseList,
+							ActionFactory.getExpenseReportAction());
+				}
+			});
+
+			// Label empExpLabel =
+			// getLabel(messages.employeeExpenses());
+
+			ccExpLabel.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					ExpenseList expenseList = new ExpenseList();
+					expenseList.setStartDate(toolBar.getStartDate());
+					expenseList.setEndDate(toolBar.getEndDate());
+					expenseList.setDateRange(toolBar.getSelectedDateRange());
+					expenseList
+							.setTransactionType(ClientTransaction.TYPE_CREDIT_CARD_EXPENSE);
+					UIUtils.runAction(expenseList,
+							ActionFactory.getExpenseReportAction());
+
+				}
+			});
+		}
 		ccExpLabel.getElement().getStyle().setMarginLeft(50, Unit.PX);
 
 		Label empExpLabel = new Label();
@@ -151,7 +156,11 @@ public class ExpensesBreakdownPortlet extends GraphPointsPortlet {
 			fTable.setWidget(3, 0, empExpAmtLabel);
 		}
 		HorizontalPanel topPanel = new HorizontalPanel();
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (Accounter.getUser().canDoInvoiceTransactions()
+				|| Accounter.getUser().getPermissions()
+						.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES
+				|| Accounter.getUser().getPermissions()
+						.getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
 			topPanel.add(addExpenseBtn);
 		}
 		vPanel.add(fTable);

@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientVendor;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
@@ -52,7 +53,9 @@ public class VendorsListGrid extends BaseListGrid<PayeeList> {
 
 	@Override
 	protected void onClick(PayeeList obj, int row, int col) {
-
+		if (!Utility.isUserHavePermissions(AccounterCoreType.VENDOR)) {
+			return;
+		}
 		AccounterAsyncCallback<ClientVendor> callback = new AccounterAsyncCallback<ClientVendor>() {
 
 			@Override

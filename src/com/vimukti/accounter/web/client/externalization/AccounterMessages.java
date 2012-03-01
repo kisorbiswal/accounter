@@ -5917,6 +5917,26 @@ public interface AccounterMessages extends Messages {
 
 	public String reportTotal(String jobName);
 
+	public String itemActualCostDetail();
+
+	public String itemActualRevenueDetail();
+
+	public String jobProfitabilityDetail();
+
+	public String profitAndLossByJob();
+
+	public String estimatesbyJob();
+
+	public String unbilledCostsByJob();
+
+	public String jobActualCostDetail();
+
+	public String jobActualRevenueDetail();
+
+	public String split();
+
+	public String pleasEnterJobName();
+
 	public String checkNumber();
 
 	public String checkAmount();
@@ -5929,16 +5949,30 @@ public interface AccounterMessages extends Messages {
 
 	public String propertyMatchedAlready();
 
-	public String unassigned();
-
 	public String pleaseEnterDecimalSymbol();
 
 	public String uploadCsvFileDialog();
+
+	public String aleadyMapped(String selectedValue);
+
+	public String matchedWithWrongProprty(String selectedValue, String value);
+
+	public String unassigned();
+
+	public String nameInCSV();
+
+	public String fieldValue();
+
+	public String accounterField();
+
+	public String mappingPreview();
 
 	public String reconciledAmount();
 
 	public String effectofChange();
 
 	public String reconcilationDiscrepany();
+
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
 
 }

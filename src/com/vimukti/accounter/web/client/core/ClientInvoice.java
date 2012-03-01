@@ -523,4 +523,16 @@ public class ClientInvoice extends ClientTransaction {
 		clientInvoiceClone.shippingAdress = this.shippingAdress.clone();
 		return clientInvoiceClone;
 	}
+
+	public List<ClientTransaction> getSalesAndEstimates() {
+		List<ClientTransaction> transactions = new ArrayList<ClientTransaction>();
+		if (getEstimates() != null) {
+			transactions.addAll(getEstimates());
+		}
+		// for (ClientTransaction clientTransaction : this.getSalesOrders()) {
+		// transactions.add(clientTransaction);
+		// }
+		return transactions;
+	}
+
 }
