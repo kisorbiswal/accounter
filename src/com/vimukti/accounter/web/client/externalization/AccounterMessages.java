@@ -2185,6 +2185,8 @@ public interface AccounterMessages extends Messages {
 
 	public String inventoryAsset();
 
+	public String inventoryCentre();
+
 	public String inventoryItem();
 
 	public String inventoryItems();
@@ -2882,6 +2884,8 @@ public interface AccounterMessages extends Messages {
 
 	public String noFileSelected();
 
+	public String noItemSelected();
+
 	public String noImageisselected();
 
 	public String noInventoryItemsAvilable();
@@ -3424,6 +3428,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseselectaFixedAsset();
 
+	public String pleaseSelectAnItem();
+	
 	public String pleaseSelectAnotherPurchaseTAXItem();
 
 	public String pleaseSelectAnotherSalesTAXItem();

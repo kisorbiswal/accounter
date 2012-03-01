@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TransactionHistory extends BaseReport implements IsSerializable,
@@ -109,6 +110,8 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	String account;
 	private int savestaus;
+
+	private ClientQuantity quantity;
 
 	public int getStatus() {
 		return status;
@@ -450,5 +453,13 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	public void setSavestaus(int savestaus) {
 		this.savestaus = savestaus;
+	}
+
+	public ClientQuantity getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(ClientQuantity quantity) {
+		this.quantity = quantity;
 	}
 }
