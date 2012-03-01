@@ -177,7 +177,8 @@ public class CustomerPrePaymentView extends
 		transaction.setType(ClientTransaction.TYPE_CUSTOMER_PREPAYMENT);
 
 		if (getPreferences().isJobTrackingEnabled()) {
-			transaction.setJob(jobListCombo.getSelectedValue().getID());
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
