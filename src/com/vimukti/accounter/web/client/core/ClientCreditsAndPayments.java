@@ -1,7 +1,5 @@
 package com.vimukti.accounter.web.client.core;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class ClientCreditsAndPayments implements IAccounterCore {
 

@@ -515,7 +515,7 @@ public class GeneratePDFservlet extends BaseServlet {
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPEPDF, status,
-					company);
+					company, dateRangeHtml);
 		}
 
 		String gridTemplate = generator.generate(financeTool,

@@ -325,4 +325,5 @@ public class CustomerPrePayment extends Transaction {
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
+
 }

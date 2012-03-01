@@ -5148,9 +5148,6 @@
 		P.TYPE
 		= 1 AND
 		P.COMPANY_ID=:companyId AND P.IS_ACTIVE=:isActive
-		ORDER BY
-		P.NUMBER
-
 	</sql-query>
 
 	<sql-query name="getVendorsList">
@@ -5441,8 +5438,6 @@
 		P.TYPE = 2
 		AND P.COMPANY_ID=:companyId AND
 		P.IS_ACTIVE=:isActive
-		ORDER BY
-		P.NUMBER
 	</sql-query>
 
 	<sql-query name="getTAXAgencyList">
@@ -5733,8 +5728,6 @@
 		P.TYPE = 4
 		AND P.COMPANY_ID=:companyId AND
 		P.IS_ACTIVE=:isActive
-		ORDER BY
-		P.NUMBER
 	</sql-query>
 
 	<sql-query name="getEGSandRCentriesFromSales">

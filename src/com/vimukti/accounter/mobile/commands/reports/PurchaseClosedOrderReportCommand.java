@@ -9,7 +9,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Lists.OpenAndClosedOrders;
-import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
 
 public class PurchaseClosedOrderReportCommand extends

@@ -549,4 +549,5 @@ public class CustomerCreditMemo extends Transaction implements
 		double amount = onCreate ? total : -total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
+
 }

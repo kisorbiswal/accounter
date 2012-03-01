@@ -95,6 +95,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 	 * this variable value be assign at time of conversion server to client
 	 * object. by default can edit all transactions.
 	 */
+	private long job;
 	public boolean canEdit = true;
 	private long location;
 	int version;
@@ -956,4 +957,13 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setValidated(boolean isValidated) {
 		this.isValidated = isValidated;
 	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
+	}
+
 }

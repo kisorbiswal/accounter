@@ -1,8 +1,5 @@
 package com.vimukti.accounter.taxreturn.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.n3.nanoxml.IXMLElement;
 import net.n3.nanoxml.XMLElement;
 

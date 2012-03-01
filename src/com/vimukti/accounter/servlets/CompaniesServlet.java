@@ -165,12 +165,14 @@ public class CompaniesServlet extends BaseServlet {
 			if (deleteStatus.equals("Success")) {
 				req.setAttribute("message", DELETE_SUCCESS);
 			} else {
-				req.setAttribute(
-						"message",
-						DELETE_FAIL
-								+ " "
-								+ httpSession
-										.getAttribute("DeletionFailureMessage"));
+				Object failureMessage = httpSession
+						.getAttribute("DeletionFailureMessage");
+				if (failureMessage != null) {
+					req.setAttribute("message", DELETE_FAIL + " "
+							+ failureMessage);
+				} else {
+					req.setAttribute("message", DELETE_FAIL);
+				}
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);
