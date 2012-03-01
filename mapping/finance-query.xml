@@ -3668,6 +3668,24 @@
 		T.COMPANY_ID=:companyId LIMIT 1
 
 	</sql-query>
+	
+	<sql-query name="canDeleteStockAdjustment">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT SA.ID FROM 
+		STOCK_ADJUSTMENT SA LEFT JOIN TRANSACTION T ON T.ID=SA.ID 
+		WHERE SA.ID IS NULL AND SA.ID=:inputId AND T.COMPANY_ID=:companyId
+	</sql-query>
+	
+	<sql-query name="canDeleteBuildAssembly">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="ID" type="long" />
+		SELECT BA.ID FROM 
+		BUILD_ASSEMBLY BA LEFT JOIN TRANSACTION T ON T.ID=BA.ID 
+		WHERE BA.ID IS NULL AND BA.ID=:inputId AND T.COMPANY_ID=:companyId
+	</sql-query>
 
 	<sql-query name="createSalesPurchasesView">
 		CREATE OR REPLACE
