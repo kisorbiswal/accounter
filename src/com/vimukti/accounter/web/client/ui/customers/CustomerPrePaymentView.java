@@ -661,7 +661,7 @@ public class CustomerPrePaymentView extends
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setValue("");
-			jobListCombo.setDisabled(false);
+			jobListCombo.setDisabled(isInViewMode());
 			jobListCombo.setCustomer(customer);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());

@@ -470,7 +470,8 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
 			jobListCombo.setDisabled(true);
-			if (type == ClientEstimate.QUOTES) {
+			if (type == ClientEstimate.QUOTES
+					|| type == ClientEstimate.SALES_ORDER) {
 				phoneForm.setFields(jobListCombo);
 			} else {
 				locationform.setFields(jobListCombo);
@@ -493,6 +494,7 @@ public class QuoteView extends AbstractCustomerTransactionView<ClientEstimate>
 					phoneForm.setFields(statusCombo, salesPersonCombo,
 							payTermsSelect);
 				}
+
 			} else {
 				if (type == ClientEstimate.SALES_ORDER) {
 					phoneForm.setFields(statusCombo, dueDateItem,
