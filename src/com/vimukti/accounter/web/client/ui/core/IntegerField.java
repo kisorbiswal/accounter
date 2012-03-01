@@ -4,7 +4,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TextBoxBase;
-import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.WidgetWithErrors;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
@@ -70,13 +69,8 @@ public class IntegerField extends TextItem {
 							// + AccounterErrorType.INCORRECTINFORMATION
 							// + ".");
 							// BaseView.commentPanel.setVisible(true);
-							errorsWidget.addError(
-									this,
-									Global.get()
-											.messages()
-											.pleaseEnter(
-													messages
-															.pleaseEnterValidNumber()));
+							errorsWidget.addError(this,
+									messages.pleaseEnterValidNumber());
 						}
 						// Accounter
 						// .showError(AccounterErrorType.INCORRECTINFORMATION);

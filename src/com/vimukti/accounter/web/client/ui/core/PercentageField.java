@@ -80,14 +80,14 @@ public class PercentageField extends TextItem {
 							if (DecimalUtil.isLessThan(enteredPercentageValue,
 									0)) {
 
-								errorsWidget.addError(this,
-										messages.cantenternegnumber());
+								Accounter.showError(messages
+										.cantenternegnumber());
 								setPercentage(0.0);
 							} else if (DecimalUtil.isGreaterThan(
 									enteredPercentageValue, 100)) {
 
-								errorsWidget.addError(this,
-										messages.cantentermorethat100());
+								Accounter.showError(messages
+										.cantentermorethat100());
 
 								setPercentage(0.0);
 							} else {
@@ -106,6 +106,10 @@ public class PercentageField extends TextItem {
 			}
 		};
 		return blurHandler;
+	}
+
+	public void clearError() {
+		errorsWidget.clearError(this);
 	}
 
 	/**
