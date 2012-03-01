@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
 public class MissingChecksServerReport extends
 		AbstractFinaneReport<TransactionDetailByAccount> {
 
-	private String previousNumber;
+	private String previousNumber = null;
 
 	public MissingChecksServerReport(
 			IFinanceReport<TransactionDetailByAccount> reportView) {
