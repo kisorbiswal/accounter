@@ -420,6 +420,16 @@
 		<servlet-name>uploadFile</servlet-name>
 		<url-pattern>/do/uploadfile</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>uploadImportDataFile</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.UploadImportDataFileServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uploadImportDataFile</servlet-name>
+		<url-pattern>/do/uploadImportDataFile</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>Upload Attachment</servlet-name>
