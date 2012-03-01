@@ -365,7 +365,7 @@ public abstract class StockAdjustmentTable extends
 		for (ClientTransactionItem transactionItem : this.getRecords()) {
 			if (transactionItem.getQuantity().getValue() <= 0) {
 				result.addError(transactionItem.getQuantity(),
-						messages.pleaseEnter(messages.adjustedQty()));
+						messages.adjustedQtyNegative());
 			}
 			if (transactionItem.getUnitPrice() <= 0) {
 				result.addError(transactionItem.getUnitPrice(),

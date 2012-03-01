@@ -5941,4 +5941,6 @@ public interface AccounterMessages extends Messages {
 
 	public String reconcilationDiscrepany();
 
+	public String adjustedQtyNegative();
+
 }
