@@ -2,8 +2,10 @@ package com.vimukti.accounter.web.client.ui.settings;
 
 import java.util.List;
 
+import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientStockTransfer;
 import com.vimukti.accounter.web.client.core.ClientStockTransferItem;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.grids.BaseListGrid;
@@ -34,8 +36,7 @@ public class WarehouseTransferListGrid extends
 
 	@Override
 	protected String[] getColumns() {
-		return new String[] { messages.fromWarehouse(),
-				messages.toWarehouse(),
+		return new String[] { messages.fromWarehouse(), messages.toWarehouse(),
 				messages.itemStatus(), "" };
 	}
 
@@ -83,11 +84,17 @@ public class WarehouseTransferListGrid extends
 
 	@Override
 	public void onDoubleClick(ClientStockTransfer obj) {
+		if (!Utility.isUserHavePermissions(AccounterCoreType.STOCK_TRANSFER)) {
+			return;
+		}
 		ActionFactory.getWareHouseTransferAction().run(obj, false);
 	}
 
 	@Override
 	protected void onClick(ClientStockTransfer obj, int row, int col) {
+		if (!Utility.isUserHavePermissions(AccounterCoreType.STOCK_TRANSFER)) {
+			return;
+		}
 		if (col == 3) {
 			showWarnDialog(obj);
 		}

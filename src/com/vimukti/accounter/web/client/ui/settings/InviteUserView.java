@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -184,10 +185,10 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (getData() == null) {
 			setData(new ClientUserInfo());
 		}
+		super.initData();
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
 		emailField.setEmail(data.getEmail());
@@ -660,7 +661,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected boolean canDelete() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()
+				&& (data == null || data.getID() == 0 ? true
+						: data.getID() != user.getID()
+								&& !data.isAdmin()
+								&& !data.getUserRole().equals(
+										RolePermissions.FINANCIAL_ADVISER))) {
 			return super.canDelete();
 		}
 		return false;
@@ -668,9 +675,16 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public boolean canEdit() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
+		ClientUser user = Accounter.getUser();
+		if (user.isCanDoUserManagement()
+				&& (data == null || data.getID() == 0 ? true
+						: data.getID() != user.getID()
+								&& !data.isAdmin()
+								&& !data.getUserRole().equals(
+										RolePermissions.FINANCIAL_ADVISER))) {
 			return super.canEdit();
 		}
 		return false;
 	}
+
 }

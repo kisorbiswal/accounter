@@ -14,12 +14,10 @@ public class ExpensesAction extends Action {
 
 	public ExpensesAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public ExpensesAction(String viewType) {
 		super();
-		this.catagory = Global.get().Vendor();
 		this.viewType = viewType;
 	}
 
@@ -93,6 +91,11 @@ public class ExpensesAction extends Action {
 	@Override
 	public String getText() {
 		return messages.recordExpenses();
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
 	}
 
 }

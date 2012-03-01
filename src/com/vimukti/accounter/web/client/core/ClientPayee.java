@@ -486,7 +486,8 @@ public abstract class ClientPayee implements IAccounterCore {
 	}
 
 	/**
-	 * @param payeeFields the payeeFields to set
+	 * @param payeeFields
+	 *            the payeeFields to set
 	 */
 	public void setPayeeFields(HashMap<String, String> payeeFields) {
 		this.payeeFields = payeeFields;

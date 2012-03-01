@@ -16,13 +16,11 @@ public class CashExpenseAction extends Action {
 
 	public CashExpenseAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public CashExpenseAction(ClientVendor vendor,
 			AccounterAsyncCallback<Object> callback) {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	public void run() {
@@ -66,6 +64,11 @@ public class CashExpenseAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/new_cash_purchase.png";
 	// }
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
+	}
 
 	@Override
 	public String getHistoryToken() {

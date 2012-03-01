@@ -7,7 +7,9 @@ import java.util.Map;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
 import com.vimukti.accounter.web.client.ui.reports.IFinanceReport;
@@ -28,31 +30,71 @@ public class ProfitAndLossByLocationServerReport extends
 	protected Double otherIncome = 0.0D;
 	protected Double otherExpense = 0.0D;
 	protected Double otherNetIncome = 0.0D;
-
+	public static final int CLASS = 1;
+	public static final int LOCATION = 2;
+	public static final int JOB = 3;
 	private double rowTotal = 0;
+	private int category_type;
 	private boolean isLocation;
+	public static int noColumns;
+
 	public static ArrayList<ClientLocation> locations = null;
-	public static int noColumns = 0;
 	public static ArrayList<ClientAccounterClass> classes = null;
+	public static ArrayList<ClientJob> jobs = null;
+
+	public ProfitAndLossByLocationServerReport(long startDate, long endDate,
+			boolean isLocation, int generationType, ClientCompany clientCompany) {
+		super(startDate, endDate, generationType);
+		this.columnstoHide.add(3);
+		this.columnstoHide.add(5);
+		this.isLocation = isLocation;
+		if (isLocation) {
+			this.noColumns = clientCompany.getLocations().size() + 2;
+			this.locations = clientCompany.getLocations();
+		} else {
+			this.classes = clientCompany.getAccounterClasses();
+			this.noColumns = clientCompany.getAccounterClasses().size() + 2;
+		}
+	}
 
 	public ProfitAndLossByLocationServerReport(
 			IFinanceReport<ProfitAndLossByLocation> profitAndLossByLocationReport,
-			boolean isLocation) {
+			int category_type) {
 		this.reportView = profitAndLossByLocationReport;
-		this.isLocation = isLocation;
+		this.category_type = category_type;
+	}
+
+	public ProfitAndLossByLocationServerReport(ClientCompany company,
+			long startDate, int type, long endDate, int generationType) {
+		super(startDate, endDate, generationType);
+		this.category_type = type;
+		if (category_type == JOB) {
+			this.jobs = company.getJobs();
+			this.noColumns = jobs.size() + 2;
+		} else if (category_type == CLASS) {
+			this.classes = company.getAccounterClasses();
+			this.noColumns = classes.size() + 2;
+		} else if (category_type == LOCATION) {
+			this.locations = company.getLocations();
+			this.noColumns = locations.size() + 2;
+		}
 	}
 
 	@Override
 	public String[] getDynamicHeaders() {
 		String[] headers = new String[noColumns];
 		headers[0] = getMessages().categoryNumber();
-		if (isLocation) {
-			for (int i = 0; i < locations.size(); i++) {
-				headers[i + 1] = locations.get(i).getLocationName();
+		if (category_type == JOB) {
+			for (int i = 0; i < jobs.size(); i++) {
+				headers[i + 1] = jobs.get(i).getJobName();
 			}
-		} else {
+		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
 				headers[i + 1] = classes.get(i).getClassName();
+			}
+		} else {
+			for (int i = 0; i < locations.size(); i++) {
+				headers[i + 1] = locations.get(i).getLocationName();
 			}
 		}
 		headers[noColumns - 1] = getMessages().total();
@@ -61,24 +103,32 @@ public class ProfitAndLossByLocationServerReport extends
 
 	@Override
 	public String getTitle() {
-		if (!isLocation) {
+		if (category_type == JOB) {
+			return getMessages().profitAndLossByJob();
+		} else if (category_type == CLASS) {
 			return getMessages().profitAndLossbyClass();
+		} else {
+			return getMessages().profitAndLoss() + "  By  "
+					+ Global.get().Location();
 		}
-		return getMessages().profitAndLoss() + "  By  "
-				+ Global.get().Location();
+
 	}
 
 	@Override
 	public String[] getColunms() {
 		String[] headers = new String[noColumns];
 		headers[0] = getMessages().categoryNumber();
-		if (isLocation) {
-			for (int i = 0; i < locations.size(); i++) {
-				headers[i + 1] = locations.get(i).getLocationName();
+		if (category_type == JOB) {
+			for (int i = 0; i < jobs.size(); i++) {
+				headers[i + 1] = jobs.get(i).getJobName();
 			}
-		} else {
+		} else if (category_type == CLASS) {
 			for (int i = 0; i < classes.size(); i++) {
 				headers[i + 1] = classes.get(i).getClassName();
+			}
+		} else {
+			for (int i = 0; i < locations.size(); i++) {
+				headers[i + 1] = locations.get(i).getLocationName();
 			}
 		}
 		headers[noColumns - 1] = getMessages().total();
@@ -224,10 +274,12 @@ public class ProfitAndLossByLocationServerReport extends
 			return rowTotal;
 		} else {
 			long location_id = 0;
-			if (isLocation) {
-				location_id = locations.get(columnIndex - 1).getID();
-			} else {
+			if (category_type == JOB) {
+				location_id = jobs.get(columnIndex - 1).getID();
+			} else if (category_type == CLASS) {
 				location_id = classes.get(columnIndex - 1).getID();
+			} else {
+				location_id = locations.get(columnIndex - 1).getID();
 			}
 
 			Map<Long, Double> map = record.getMap();
@@ -347,9 +399,10 @@ public class ProfitAndLossByLocationServerReport extends
 			for (int i = 1; i < noColumns; i++) {
 				nocolumn[i - 1] = i;
 			}
-			addSection(record.getAccountNumber() + "-"
-					+ record.getAccountName(), record.getAccountName() + "  "
-					+ getMessages().total(), nocolumn);
+			addSection(
+					record.getAccountNumber() + "-" + record.getAccountName(),
+					record.getAccountName() + "  " + getMessages().total(),
+					nocolumn);
 			return true;
 		}
 		return false;

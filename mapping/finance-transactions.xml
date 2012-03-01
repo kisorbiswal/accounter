@@ -76,7 +76,8 @@
 		</many-to-one>
 		<many-to-one name="location" class="Location" column="LOCATION_ID">
 		</many-to-one>
-
+		<many-to-one name="job" class="Job" column="JOB_ID">
+		</many-to-one>
 		<set name="reconciliationItems" inverse="true">
 			<key column="TRANSACTION_ID" />
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
@@ -223,6 +224,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CS_IS_PRIMARY"></property>
 				<property name="name" column="CS_NAME"></property>
@@ -306,6 +308,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="CCM_IS_PRIMARY"></property>
 				<property name="name" column="CCM_NAME"></property>
@@ -343,6 +346,7 @@
 				column="DEPOSITIN_ID"></many-to-one>
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID"></many-to-one>
+
 			<property name="balanceDue" column="BALANCE_DUE"></property>
 			<property name="checkNumber" column="CHECK_NUMBER"></property>
 			<component name="address" class="Address">
@@ -363,6 +367,7 @@
 			<many-to-one name="payTo" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<component name="address" class="Address">
 				<property name="type" column="CR__ADDRESS_TYPE"></property>
 				<property name="address1" column="CR_ADDRESS_ADDRESS1"
@@ -441,6 +446,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<component name="contact" class="Contact">
 				<property name="isPrimary" column="EST_IS_PRIMARY"></property>
 				<property name="name" column="EST_NAME"></property>
@@ -497,6 +503,7 @@
 			<!-- <property name="isTurnedToInvoiceOrSalesOrder" column="IS_TURNED_TO_INVOICE"></property> -->
 			<many-to-one name="usedInvoice" class="Invoice" column="USED_INVOICE">
 			</many-to-one>
+
 		</joined-subclass>
 		<joined-subclass name="Invoice" table="INVOICE">
 			<key column="ID" />
@@ -756,6 +763,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<property name="amount" column="AMOUNT"></property>
 			<property name="customerBalance" column="CUSTOMER_BALANCE"></property>
 			<many-to-one name="depositIn" class="Account" cascade="save-update"
@@ -782,6 +790,7 @@
 				<one-to-many class="TransactionReceivePayment" />
 			</list>
 		</joined-subclass>
+
 		<!-- <joined-subclass name="SalesOrder" table="SALES_ORDER"> <key column="ID" 
 			/> <many-to-one name="customer" class="Customer" cascade="save-update" column="CUSTOMER_ID"> 
 			</many-to-one> <component name="contact" class="Contact"> <property name="isPrimary" 
@@ -876,6 +885,7 @@
 			<many-to-one name="customer" class="Customer" cascade="save-update"
 				column="CUSTOMER_ID">
 			</many-to-one>
+
 			<many-to-one name="vendor" class="Vendor" cascade="save-update"
 				column="VENDOR_ID">
 			</many-to-one>
@@ -1063,6 +1073,8 @@
 		<many-to-one name="item" class="Item" column="ITEM_ID">
 		</many-to-one>
 		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
+		</many-to-one>
+		<many-to-one name="job" class="Job" column="JOB_Id">
 		</many-to-one>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>

@@ -14,7 +14,6 @@ public class PurchaseOrderListAction extends Action {
 
 	public PurchaseOrderListAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	// @Override
@@ -55,6 +54,10 @@ public class PurchaseOrderListAction extends Action {
 	// public String getImageUrl() {
 	// return "/images/Purchase-order.png";
 	// }
+	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
+	}
 
 	@Override
 	public String getHistoryToken() {

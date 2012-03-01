@@ -1185,6 +1185,7 @@ public class TaxManager extends Manager {
 					newEntry.setTaxItem((Long) objects[5]);
 					newEntry.setTaxAgency(taxAgency);
 					newEntry.setTAXGroupEntry(false);
+					newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
 					resultTAXReturnEntries.add(newEntry);
 					iterator.remove();
 				}
@@ -1207,6 +1208,7 @@ public class TaxManager extends Manager {
 				newEntry.setTaxItem((Long) (entry[6]));
 				newEntry.setTaxAgency(taxAgency);
 				newEntry.setTAXGroupEntry(false);
+				newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
 				resultTAXReturnEntries.add(newEntry);
 			}
 		}
@@ -1224,6 +1226,7 @@ public class TaxManager extends Manager {
 			newEntry.setTaxItem((Long) objects[5]);
 			newEntry.setTaxAgency(taxAgency);
 			newEntry.setTAXGroupEntry(false);
+			newEntry.setCategory(UIUtils.getTransactionCategory(newEntry.getTransactionType()));
 			resultTAXReturnEntries.add(newEntry);
 		}
 

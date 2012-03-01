@@ -15,7 +15,6 @@ public class CustomerCentreAction extends Action {
 
 	public CustomerCentreAction() {
 		super();
-		this.catagory = Global.get().Customer();
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent) {
@@ -55,6 +54,11 @@ public class CustomerCentreAction extends Action {
 	@Override
 	public String getHelpToken() {
 		return "customercentre";
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override

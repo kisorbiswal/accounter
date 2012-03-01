@@ -15,22 +15,30 @@ import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.Quantity;
 import com.vimukti.accounter.core.TransactionItem;
 import com.vimukti.accounter.core.Unit;
+import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class InventoryUtils {
 
 	public static void remapSalesPurchases(List<Item> items) {
+		Session session = HibernateUtil.getCurrentSession();
 		for (Item item : items) {
 			long itemID = item.getID();
 			List<TransactionItem> sales = getSales(itemID);
 			int inventoryScheme = item.getActiveInventoryScheme();
 			List<InventoryDetails> purchases = getPurchases(itemID,
 					inventoryScheme);
-			adjustSales(itemID, inventoryScheme, sales, purchases);
+			item.setAverageCost(getAverageCost(itemID));
+			adjustSales(
+					item,
+					inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
+					sales, purchases);
+			session.saveOrUpdate(item);
+			ChangeTracker.put(item);
 		}
 	}
 
-	private static void adjustSales(long itemId, int inventoryScheme,
+	private static void adjustSales(Item item, boolean isSchemeAvarage,
 			List<TransactionItem> sales, List<InventoryDetails> purchases) {
 		if (sales.isEmpty()) {
 			return;
@@ -38,38 +46,35 @@ public class InventoryUtils {
 		Iterator<InventoryDetails> purchaseIterator = purchases.iterator();
 		for (TransactionItem inventorySale : sales) {
 			Quantity salesQty = inventorySale.getQuantityCopy();
-			Map<Quantity, Double> purchaseForThisSale = new HashMap<Quantity, Double>();
+			Map<Double, Quantity> purchaseForThisSale = new HashMap<Double, Quantity>();
 			while (purchaseIterator.hasNext()) {
 				InventoryDetails next = purchaseIterator.next();
 				Quantity purchaseQty = next.quantity;
 				int compareTo = purchaseQty.compareTo(salesQty);
 				if (compareTo < 0) {
-					purchaseForThisSale.put(purchaseQty, next.cost);
+					Quantity quantity = purchaseForThisSale.get(next.cost);
+					if (quantity != null) {
+						purchaseQty = purchaseQty.add(quantity);
+					}
+					purchaseForThisSale.put(next.cost, purchaseQty);
 					purchaseIterator.remove();
 					salesQty = salesQty.subtract(purchaseQty);
 					continue;
 				} else if (compareTo > 0) {
 					purchaseQty = purchaseQty.subtract(salesQty);
-					purchaseForThisSale.put(salesQty.copy(), next.cost);
+					purchaseForThisSale.put(next.cost, salesQty.copy());
 					next.quantity = purchaseQty;
 					salesQty.setValue(0.00D);
 					break;
 				} else {
-					purchaseForThisSale.put(purchaseQty, next.cost);
+					purchaseForThisSale.put(next.cost, purchaseQty);
 					purchaseIterator.remove();
 					salesQty.setValue(0.00D);
 					break;
 				}
 			}
-			Double averageCost = null;
-			if (inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE) {
-				averageCost = getAverageCost(itemId);
-			}
-			inventorySale
-					.modifyPurchases(
-							purchaseForThisSale,
-							inventoryScheme == CompanyPreferences.INVENTORY_SCHME_AVERAGE,
-							averageCost);
+			inventorySale.modifyPurchases(purchaseForThisSale, isSchemeAvarage,
+					isSchemeAvarage ? item.getAverageCost() : 0);
 		}
 	}
 

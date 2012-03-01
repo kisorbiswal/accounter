@@ -385,14 +385,13 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem.setTitle(messages.receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
-		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
+		dateform.setItems(dueDateItem, /* despatchDateItem, */deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -828,8 +827,9 @@ public class PurchaseOrderView extends
 						.get(1));
 			}
 			shipToAddress.businessSelect.setDisabled(true);
-
-			this.addressListOfVendor = getVendor().getAddress();
+			if (getVendor() != null) {
+				this.addressListOfVendor = getVendor().getAddress();
+			}
 			if (billingAddress != null) {
 				billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
 						+ billingAddress.getStreet() + "\n"
@@ -1114,7 +1114,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
@@ -1332,11 +1332,12 @@ public class PurchaseOrderView extends
 		}
 
 		// TODO::: isvalid received date
-		if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
-				deliveryDateItem.getDate(), transactionDate)) {
-			result.addError(deliveryDateItem,
-					messages.receivedDateShouldNotBeAfterTransactionDate());
-		}
+		/*
+		 * if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
+		 * deliveryDateItem.getDate(), transactionDate)) {
+		 * result.addError(deliveryDateItem,
+		 * messages.receivedDateShouldNotBeAfterTransactionDate()); }
+		 */
 
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());

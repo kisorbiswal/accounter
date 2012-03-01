@@ -16,7 +16,6 @@ public class VendorPaymentsAction extends Action {
 
 	public VendorPaymentsAction() {
 		super();
-		this.catagory = Global.get().Vendor();
 	}
 
 	@Override
@@ -80,9 +79,13 @@ public class VendorPaymentsAction extends Action {
 	}
 
 	@Override
+	public String getCatagory() {
+		return Global.get().Vendor();
+	}
+
+	@Override
 	public String getText() {
-		return Global.get().messages()
-				.payeePrePayment(Global.get().Vendor());
+		return Global.get().messages().payeePrePayment(Global.get().Vendor());
 	}
 
 }

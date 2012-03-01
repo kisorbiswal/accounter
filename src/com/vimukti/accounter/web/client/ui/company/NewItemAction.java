@@ -23,19 +23,15 @@ public class NewItemAction extends Action<ClientItem> {
 	int type;
 	private boolean forCustomer;
 	private String itemName;
+	private boolean fromCompany;
 
 	public NewItemAction() {
 		super();
-		this.catagory = messages.company();
+		fromCompany = true;
 	}
 
 	public NewItemAction(boolean forCustomer) {
 		super();
-		if (forCustomer) {
-			this.catagory = Global.get().Customer();
-		} else {
-			this.catagory = Global.get().Vendor();
-		}
 		this.forCustomer = forCustomer;
 	}
 
@@ -44,6 +40,7 @@ public class NewItemAction extends Action<ClientItem> {
 		super();
 		this.catagory = messages.company();
 		this.forCustomer = forCustomer;
+		fromCompany = true;
 		// this.baseView = baseView;
 	}
 
@@ -142,6 +139,17 @@ public class NewItemAction extends Action<ClientItem> {
 		}
 		return "newItemSupplier";
 
+	}
+
+	@Override
+	public String getCatagory() {
+		if (fromCompany) {
+			return messages.company();
+		} else if (forCustomer) {
+			return Global.get().Customer();
+		} else {
+			return Global.get().Vendor();
+		}
 	}
 
 	@Override

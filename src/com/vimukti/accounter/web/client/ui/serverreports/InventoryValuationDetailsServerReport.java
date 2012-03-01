@@ -45,7 +45,7 @@ public class InventoryValuationDetailsServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT };
 
@@ -78,7 +78,7 @@ public class InventoryValuationDetailsServerReport extends
 		case 0:
 			return ReportUtility.getTransactionName(record.getTransType());
 		case 1:
-			return record.getTransactionDate();
+			return new ClientFinanceDate(record.getTransactionDate());
 		case 2:
 			return record.getPayeeName();
 		case 3:

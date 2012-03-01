@@ -24,7 +24,6 @@ public class NewQuoteAction extends Action {
 	public NewQuoteAction(int type) {
 		super();
 		this.type = type;
-		this.catagory = Global.get().Customer();
 
 		if (type == ClientEstimate.QUOTES) {
 			title = messages.quote();
@@ -41,7 +40,6 @@ public class NewQuoteAction extends Action {
 	public NewQuoteAction(ClientEstimate quote,
 			AccounterAsyncCallback<Object> callback, int type) {
 		super();
-		this.catagory = Global.get().Customer();
 		this.type = type;
 	}
 
@@ -136,6 +134,11 @@ public class NewQuoteAction extends Action {
 			title = messages.newSalesOrder();
 		}
 		return title;
+	}
+
+	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
 	}
 
 	@Override

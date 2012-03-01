@@ -1025,8 +1025,8 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 			currencyFactor = 1;
 		}
 
-		log.info("Current Balance of  " + this.getName()
-				+ " has been updated from " + this.currentBalance);
+		log.info("Updating Current Balance of  " + this.getName() + "("
+				+ this.getCurrentBalance() + ") " + "with " + amount);
 
 		this.currentBalance += amount;
 
@@ -1466,6 +1466,11 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 
 	public void setStatementLastDate(FinanceDate statementLastDate) {
 		this.statementLastDate = statementLastDate;
+	}
+
+	public void clearOpeningBalance() {
+		totalBalance -= openingBalance;
+		openingBalance = 0.0;
 	}
 
 }
