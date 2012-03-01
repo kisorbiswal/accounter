@@ -1,13 +1,20 @@
-package com.vimukti.accounter.web.client.imports;
+package com.vimukti.accounter.web.client.core;
 
-import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import java.io.Serializable;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author Prasanna Kumar G
  * 
  * @param <T>
  */
-public class Field<T> {
+public abstract class ImportField implements Serializable, IsSerializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Name of the Field in the File
@@ -20,22 +27,25 @@ public class Field<T> {
 	private String name;
 
 	/**
-	 * Value of the Field
-	 */
-	private T value;
-
-	/**
 	 * Tells whether this Field is Required or not
 	 */
 	private boolean isRequired;
 
-	public Field(String name) {
-		this(name, false);
+	private String desplayName;
+
+	public ImportField(String name, String displayName) {
+		this(name, displayName, false);
+
 	}
 
-	public Field(String name, boolean isRequired) {
+	public ImportField(String name, String displayName, boolean isRequired) {
 		this.name = name;
+		this.desplayName = displayName;
 		this.isRequired = isRequired;
+	}
+
+	public ImportField() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -69,21 +79,6 @@ public class Field<T> {
 	}
 
 	/**
-	 * @return the value
-	 */
-	public T getValue() {
-		return value;
-	}
-
-	/**
-	 * @param value
-	 *            the value to set
-	 */
-	public void setValue(T value) {
-		this.value = value;
-	}
-
-	/**
 	 * @return the isRequired
 	 */
 	public boolean isRequired() {
@@ -98,27 +93,27 @@ public class Field<T> {
 		this.isRequired = isRequired;
 	}
 
-	public boolean isValid() {
-		return isRequired ? value != null : true;
+	public String getDesplayName() {
+		return desplayName;
 	}
 
-	public boolean validate(String value) {
-		try {
-			Object obj = null;
-			if (this.value instanceof Integer) {
-				obj = Integer.valueOf(value);
-			} else if (this.value instanceof Long) {
-				obj = Long.valueOf(value);
-			} else if (this.value instanceof Double) {
-				obj = Double.valueOf(value);
-			} else if (this.value instanceof ClientFinanceDate) {
-				// TODO Implemet Fully
-				obj = new ClientFinanceDate(value);
-			}
-			this.value = (T) obj;
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
+	public void setDesplayName(String desplayName) {
+		this.desplayName = desplayName;
 	}
+
+	protected abstract Object getValue();
+
+	public boolean isValid() {
+		return isRequired ? getValue() != null : true;
+	}
+
+	public abstract boolean validate(String value);
+
+	public String getValueAsString() {
+		if (getValue() == null) {
+			return null;
+		}
+		return getValue().toString();
+	}
+
 }

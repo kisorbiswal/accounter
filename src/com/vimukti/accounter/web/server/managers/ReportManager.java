@@ -3560,7 +3560,7 @@ public class ReportManager extends Manager {
 
 			BudgetActuals actual = new BudgetActuals();
 			actual.setAccountName(bal.getAccountName());
-			actual.setAtualAmount(bal.getAmount());
+			actual.setAtualAmount(bal.getTotalAmount());
 			actual.setType(bal.getAccountType());
 
 			boolean got = false;

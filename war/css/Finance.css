@@ -1713,7 +1713,8 @@ input[type="text"],textarea {
 }
 
 input[type="text"] {
-	line-height /*\**/: 1.8\9
+	line-height /*\**/: 1.8\9
+
 }
 /*.new_vat_item tr td:FIRST-CHILD {
 	width:250px;
@@ -2875,4 +2876,40 @@ input.date-field-textbox {
 }
 .credits-scroll-panel{
 	max-height: 375px;
+}
+.import-button-panel .prev_button {
+	float: left;
+}
+
+.import-button-panel .next_button {
+	float: right;
+}
+
+.import-match-content {
+	width: 100%;
+	border: 1px solid #000000;
+}
+
+.import-match-content td {
+	width: 30%;
+}
+
+.import-match-content .table-header {
+	font-weight: bold;
+}
+
+.import-preview-panel {
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+}
+
+.import-preview-panel table {
+	width: 100%;
+	padding-left: 25px;
+}
+
+.import-preview-panel .preview-header {
+	font-size: 1.5em;
+	font-weight: bold;
 }
