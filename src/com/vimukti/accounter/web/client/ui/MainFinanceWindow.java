@@ -964,6 +964,9 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
 
+		actions.put(ActionFactory.getInventoryCentreAction().getHistoryToken(),
+				ActionFactory.getInventoryCentreAction());
+
 		// for job reports
 		actions.put(ActionFactory.getJobProfitabilitySummaryReportAction()
 				.getHistoryToken(), ActionFactory

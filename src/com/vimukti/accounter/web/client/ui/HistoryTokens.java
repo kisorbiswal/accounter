@@ -360,6 +360,8 @@ public class HistoryTokens {
 	public static final String UNREALISED_EXCHANGE_LOSSES_AND_GAINS = "enterExchangeRatesDialog";
 
 	public static final String BUILD_ASSEMBLY = "buildassembly";
+	
+	public static final String INVENTORY_CENTRE = "inventoryCentre";
 
 	public static final String INVENTORY_ASSEMBLY = "inventoryassembly";
 	public static final String INVENTORY_VALUATION_SUMMARY = "InventoryValutionSummaryReport";

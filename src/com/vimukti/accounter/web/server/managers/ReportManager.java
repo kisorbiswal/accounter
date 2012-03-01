@@ -3955,6 +3955,7 @@ public class ReportManager extends Manager {
 			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<TransactionDetailByAccount> list = new ArrayList<TransactionDetailByAccount>();
+
 		Account account = (Account) session.get(Account.class, accountId);
 		List result = new ArrayList();
 		if (account.getType() == Account.TYPE_OTHER_CURRENT_ASSET) {
