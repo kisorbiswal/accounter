@@ -68,9 +68,10 @@
 	<div style="float:right">
 	 <%@ include file="./locale.jsp" %>
 	</div>
+	<div class="company_name_action">
+			<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
+	</div>
     <div class="company_lists" style="clear:both">
-       
-       
         <c:if test="${message != null}">
        		<div class="common-box create-company-message">${message}</div>
         </c:if>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 
 public class TransactionHistory extends BaseReport implements IsSerializable,
@@ -13,9 +14,9 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final int ALL_INVOICES = 2;
-	public static final int OPENED_INVOICES = 3;
-	public static final int OVER_DUE_INVOICES = 4;
+	public static final int ALL_INVOICES = 0;
+	public static final int OPENED_INVOICES = 1;
+	public static final int OVER_DUE_INVOICES = 2;
 	public static final int REFUNDS_BY_CREDITCARD = 5;
 	public static final int REFUNDS_BYCHEQUE = 6;
 	public static final int REFUNDS_BYCASH = 7;
@@ -48,7 +49,7 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	public static final int ALL_QUOTES = 34;
 	public static final int ALL_CREDITS = 35;
 	public static final int ALL_CHARGES = 36;
-	public static final int DRAFT_INVOICES = 37;
+	public static final int DRAFT_INVOICES = 4;
 	public static final int DRAFT_CASHSALES = 38;
 	public static final int DRAFT_QUOTES = 39;
 	public static final int DRAFT_CREDITS = 40;
@@ -62,6 +63,9 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	public static final int DRAFT_CREDIT_CARD_EXPENSES = 48;
 	public static final int DRAFT_CASH_EXPENSES = 49;
 	public static final int DRAFT_PURCHASE_ORDERS = 50;
+	public static final int ALL_SALES_ORDERS = 51;
+	public static final int COMPLETED_SALES_ORDERS = 52;
+	public static final int OPEN_SALES_ORDERS = 53;
 
 	String name;
 
@@ -105,8 +109,9 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 	double amount;
 
 	String account;
-
 	private int savestaus;
+
+	private ClientQuantity quantity;
 
 	public int getStatus() {
 		return status;
@@ -448,5 +453,13 @@ public class TransactionHistory extends BaseReport implements IsSerializable,
 
 	public void setSavestaus(int savestaus) {
 		this.savestaus = savestaus;
+	}
+
+	public ClientQuantity getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(ClientQuantity quantity) {
+		this.quantity = quantity;
 	}
 }

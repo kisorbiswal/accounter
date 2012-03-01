@@ -9,6 +9,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.core.Lists.CustomerRefundsList;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.Action;
@@ -45,8 +46,12 @@ public class CustomerRefundListView extends
 
 	@Override
 	protected String getAddNewLabelString() {
-		return messages.addaNew(messages
-				.customerRefund(Global.get().Customer()));
+		if (Utility
+				.isUserHavePermissions(ClientTransaction.TYPE_CUSTOMER_REFUNDS)) {
+			return messages.addaNew(messages.customerRefund(Global.get()
+					.Customer()));
+		}
+		return null;
 	}
 
 	@Override

@@ -456,6 +456,10 @@
 			<one-to-many class="Customer" />
 		</set>
 
+		<set name="jobs" inverse="true" cascade="save-update,delete">
+ 			<key column="COMPANY_ID" />
+ 			<one-to-many class="Job" />
+ 	</set>
 		<set name="vendors" inverse="true" cascade="save-update,delete">
 			<key column="COMPANY_ID" />
 			<one-to-many class="Vendor" />
@@ -743,6 +747,7 @@
 		<property name="salesDescription" type="encryptedstring"
 			column="SALES_DESCRIPTION"></property>
 		<property name="salesPrice" column="SALES_PRICE"></property>
+		<property name="averageCost" column="AVERAGE_COST"></property>
 		<many-to-one name="incomeAccount" class="Account"
 			column="INCOME_ACCOUNT_ID">
 		</many-to-one>
@@ -1101,6 +1106,10 @@
 			<many-to-one name="company" column="COMPANY_ID" class="Company"
 				not-null="true">
 			</many-to-one>
+			<set name="jobs" inverse="true" cascade="save-update,delete">
+ 				<key column="CUSTOMER_ID" />
+ 				<one-to-many class="Job" />
+ 			</set>
 			<property name="balanceAsOf" column="BALANCE_AS_OF"
 				type="com.vimukti.accounter.core.LongUseType"></property>
 			<property name="number" type="encryptedstring" column="NUMBER"></property>
@@ -2275,6 +2284,31 @@
 			<one-to-many class="com.vimukti.accounter.core.StatementRecord" />
 		</list>
 	</class>
+
+	<class name="Job" table="JOB">
+		<id name="id" column="ID">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="company" column="COMPANY_ID" class="Company"
+			not-null="true">
+		</many-to-one>
+		<many-to-one name="customer" class="Customer" cascade="save-update"
+			column="CUSTOMER_ID">
+		</many-to-one>
+		<many-to-one name="parent" class="Job" column="PARENT_JOB_ID">
+		</many-to-one>
+		<property name="jobName" column="JOB_NAME"></property>
+		<property name="jobStatus" column="JOB_STATUS"></property>
+		<property name="jobType" column="JOB_TYPE"></property>
+		<property name="isActive" column="JOB_ACTIVE"></property>
+		<property name="startDate" column="START_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="projectEndDate" column="PROJECT_ENDDATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+		<property name="endDate" column="END_DATE"
+			type="com.vimukti.accounter.core.LongUseType"></property>
+	</class>
+
 
 	<class name="EmailAccount" table="EMAIL_ACCOUNT">
 		<id name="id" column="ID">

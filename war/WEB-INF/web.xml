@@ -444,6 +444,16 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>uploadImportDataFile</servlet-name>
+		<servlet-class>com.vimukti.accounter.servlets.UploadImportDataFileServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>uploadImportDataFile</servlet-name>
+		<url-pattern>/do/uploadImportDataFile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>uploadFile</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.UploadFileServlet
 		</servlet-class>

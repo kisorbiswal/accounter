@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.i18n.AccounterNumberFormat;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.JNSI;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
 import com.vimukti.accounter.web.client.ui.core.BaseDialog;
@@ -124,10 +125,19 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				decimalSymbol = decimalSymbolItem.getValue().trim();
-				initPositiveFormatValues();
-				initNegativeFormatValues();
-				update();
+				String value = decimalSymbolItem.getValue();
+				String readNumber = JNSI.readNumber(value);
+				if (readNumber == null || readNumber.equals("null")
+						|| readNumber.isEmpty()) {
+					decimalSymbol = value;
+					initPositiveFormatValues();
+					initNegativeFormatValues();
+					update();
+				} else {
+					decimalSymbolItem.setValue(decimalSymbol);
+					Accounter.showError(messages
+							.decimalSymbolShouldNotContainNumericalValues());
+				}
 			}
 		});
 		noOfDigitsAfterDecimalText = new IntegerField(this,
@@ -146,9 +156,18 @@ public class CurrencyFormatDialog extends BaseDialog {
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				digitGroupSymbol = digitGroupingSymbolItem.getValue();
-				initDigitGroupingValues();
-				update();
+				String value = digitGroupingSymbolItem.getValue();
+				String readNumber = JNSI.readNumber(value);
+				if (readNumber == null || readNumber.equals("null")
+						|| readNumber.isEmpty()) {
+					digitGroupSymbol = value;
+					initDigitGroupingValues();
+					update();
+				} else {
+					digitGroupingSymbolItem.setValue(digitGroupSymbol);
+					Accounter.showError(messages
+							.digitGroupingSymbolShouldNotContainNumericalValues());
+				}
 			}
 		});
 		digitGroupingCombo = new SelectCombo(messages.digitGrouping(), false);

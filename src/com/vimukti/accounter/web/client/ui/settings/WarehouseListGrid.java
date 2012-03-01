@@ -4,6 +4,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
@@ -101,6 +102,9 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	protected void onClick(ClientWarehouse obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, IAccounterCore.WAREHOUSE)) {
+			return;
+		}
 		switch (col) {
 		case 3:
 			ActionFactory.getWareHouseItemsListAction(obj.getID()).run(null,
@@ -117,10 +121,11 @@ public class WarehouseListGrid extends BaseListGrid<ClientWarehouse> {
 
 	@Override
 	public void onDoubleClick(ClientWarehouse obj) {
-		if (isUserHavePermissions(obj)) {
-			WareHouseViewAction action = new WareHouseViewAction();
-			action.run(obj, false);
+		if (!isCanOpenTransactionView(0, IAccounterCore.WAREHOUSE)) {
+			return;
 		}
+		WareHouseViewAction action = new WareHouseViewAction();
+		action.run(obj, false);
 	}
 
 	private boolean isUserHavePermissions(ClientWarehouse obj) {

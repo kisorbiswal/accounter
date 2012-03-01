@@ -55,6 +55,7 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 	public static final int TOOLBAR_TYPE_VENDOR = 14;
 	public static final int TOOLBAR_TYPE_ACCOUNT = 15;
 	public static final int TOOLBAR_TYPE_CUSTOMER = 8;
+	public static final int TOOLBAR_TYPE_JOB = 16;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_SUMMARY = 175;
 	public final static int REPORT_TYPE_INVENTORY_VALUTION_DETAIL = 176;
 	public final static int REPORT_TYPE_INVENTORY_STOCK_STATUS_BYITEM = 177;
@@ -481,12 +482,14 @@ public abstract class AbstractReportView<R> extends AbstractView<List<R>>
 			case TOOLBAR_TYPE_TAXAGENCY:
 				toolbar = new TaxAgencyStartDateEndDateToolbar(isVATPriorReport);
 				break;
+			case TOOLBAR_TYPE_JOB:
+				toolbar = new CreateJobIdToolBar(false, this);
+				break;
 			case TOOLBAR_TYPE_ACCOUNT:
 				toolbar = new AccountReportToolBar();
 				break;
 			default:
 				toolbar = new AsOfReportToolbar();
-
 				break;
 			}
 			toolbar.setStyleName("report-toolbar");

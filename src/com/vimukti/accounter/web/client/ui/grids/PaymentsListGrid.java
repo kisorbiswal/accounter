@@ -163,7 +163,7 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
 			return;
 		}
 		if (type == 0) {
@@ -275,7 +275,8 @@ public class PaymentsListGrid extends BaseListGrid<PaymentsList> {
 	@Override
 	public void onDoubleClick(PaymentsList payments, int currentRow,
 			int currentCol) {
-		if (!Accounter.getUser().canDoInvoiceTransactions()) {
+		if (!isCanOpenTransactionView(payments.getSaveStatus(),
+				payments.getType())) {
 			return;
 		}
 		// ReportsRPC.openTransactionView(payments.getType(), payments

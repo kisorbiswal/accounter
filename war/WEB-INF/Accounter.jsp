@@ -34,14 +34,6 @@
   		%>
   			last: 'end'
   		};
-  		var features=[];
-  		<% Set<String> features=(Set<String>)request.getAttribute("features");
-  		if(features!=null){
-  			for(String f:features){
-  				%>features.push('<%= f %>');<%
-  			}
-  		}
-  		%>
   		
   		var accounter_locale={
   		<%
@@ -64,13 +56,7 @@
 		<%
 			boolean isRTL=(Boolean) request.getAttribute("isRTL");
   		%>
-  		
 		var isRTL=<%= isRTL %>;
-		
-		<%
-			boolean isPaid=(Boolean) request.getAttribute("isPaid");
-  		%>
-  		
 		document.body.style.direction=isRTL?"rtl":"ltr";
 	</script>
 		
@@ -81,23 +67,11 @@
     var tabsEnabled=["Hr","Finance","Operations","Marketing","Sales","Users","Workflows","Purchases"];
     var helpurl="${helpUrl}";
     
-    $(document).ready(function() {
-		var isPaid=${isPaid}
-			  if(isPaid){
-       $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
-       }
-       else{
-        $('#support').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
-       }
-       
-       });
-    
     </script>
     <!--                                                               -->
     <!-- Consider inlining CSS to reduce the number of requested files -->
        
 	<link type="text/css" rel="stylesheet" href="../css/calendar.css?version=<%= version%>" />
-	 
 	<%
    String app = request.getHeader( "Nativeapp" );
    boolean isNative = ( app != null && !app.equals(""));
@@ -236,6 +210,30 @@
 		#Import_Account{
 			margin-left:200px;
 		}
+		#appVersions{
+			float: left;
+			clear: both;
+			height: 25px;
+			margin-top: 0;
+			position: relative;
+			width: 100%;
+			z-index: 10;
+			color: #666666;
+			padding-top: 8px;
+		}
+		#appVersions a,#appVersions span{
+			text-decoration: none;
+			color: #666666;
+			font-size: 13px;
+			padding: 0 5px;
+		}
+		#appVersions a:HOVER {
+	 		text-decoration: underline;
+		}
+		#appVersions,#appVersions span{
+			text-align: center;
+		}
+
     </style>
     
     
@@ -307,20 +305,6 @@
 	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
 	       <a id="support" target="_blank" href="/site/support"> Support </a>
 	    </div>
-	    <script type="text/javascript" >
-	    <% 
-			Long subscription=(Long)request.getAttribute("subscription");
-			String goPId=(String)request.getAttribute("goPremiumId");
-		%>
-			var subscription=<%= subscription %>;
-			var goPId="<%= goPId %>";
-	<!-- 	    if(goPId!=null){
-				$("#support").after('|<a target="_blank" href="/site/subscription/gopremium?email_enc='+goPId+'">Go Premium</a>'); 
-			}
-			if(subscription!=null){
-				$("#support").after('|<a target="_blank" href="/site/subscriptionmanagement">Manage Subscription </a>'); 
-			} -->
-	    </script>
 	</div>
 	<div id="appVersions" style="visibility:hidden" >
 	    <div>
@@ -331,8 +315,9 @@
 		   <a target="_blank" href="https://appworld.blackberry.com/webstore/content/67065/?lang=en"> Black Berry </a> |
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
-		 </div>
+		   </div>
 	</div>
+	
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">

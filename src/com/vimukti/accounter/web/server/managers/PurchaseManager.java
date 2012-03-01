@@ -250,6 +250,7 @@ public class PurchaseManager extends Manager {
 				el.setVendorName((String) obj[5] == null ? "" : (String) obj[5]);
 				el.setStatus((Integer) obj[6]);
 				el.setCurrency((Long) obj[7]);
+				el.setSaveStatus((Integer) obj[6]);
 				pil.add(el);
 			}
 		}

@@ -109,7 +109,7 @@ public class PurchaseOrderListView extends
 		if (getViewType().equals(messages.open())) {
 			type = ClientTransaction.STATUS_OPEN;
 		} else if (getViewType().equals(messages.completed())) {
-			type = ClientTransaction.STATUS_APPLIED;
+			type = ClientTransaction.STATUS_COMPLETED;
 		} else if (getViewType().equals(messages.cancelled())) {
 			type = ClientTransaction.STATUS_CANCELLED;
 		} else if (getViewType().equals(messages.drafts())) {
@@ -156,7 +156,7 @@ public class PurchaseOrderListView extends
 		if (getViewType().equals(messages.open())) {
 			type = ClientTransaction.STATUS_OPEN;
 		} else if (getViewType().equals(messages.completed())) {
-			type = ClientTransaction.STATUS_APPLIED;
+			type = ClientTransaction.STATUS_COMPLETED;
 		} else if (getViewType().equals(messages.cancelled())) {
 			type = ClientTransaction.STATUS_CANCELLED;
 		} else if (getViewType().equals(messages.drafts())) {

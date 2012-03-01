@@ -720,7 +720,7 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                   0.5) !important;
+	filter: alpha(opacity =                     0.5) !important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -1317,3 +1317,12 @@ a#fdbk_tab:hover {
 .encryptContainer{
 	width: 700px !important;
 }
+.company_name_action {
+	border: 1px solid #28757D;
+	clear: both;
+	color: #28757D;
+	margin: 0 0 12px 6px;
+	padding: 7px;
+	text-align: center;
+}
+/* End of the new Login and forgot password page*/

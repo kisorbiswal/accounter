@@ -197,6 +197,9 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	protected void onClick(PaymentsList obj, int row, int col) {
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
+			return;
+		}
 		if (type != 0) {
 			col += 1;
 		}
@@ -213,8 +216,11 @@ public class VendorPaymentsListGrid extends BaseListGrid<PaymentsList> {
 
 	@Override
 	public void onDoubleClick(PaymentsList paymentsList) {
-		ReportsRPC.openTransactionView(getType(paymentsList),
-				paymentsList.getTransactionId());
+		if (isCanOpenTransactionView(paymentsList.getSaveStatus(),
+				paymentsList.getType())) {
+			ReportsRPC.openTransactionView(getType(paymentsList),
+					paymentsList.getTransactionId());
+		}
 	}
 
 	/* This method returns the Transaction type type basing on the PayBill Type */

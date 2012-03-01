@@ -193,7 +193,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		} else if (type.equalsIgnoreCase(getMessages().expired())) {
 			viwType = 6;
 		} else if (type.equalsIgnoreCase(getMessages().completed())) {
-			viwType = ClientTransaction.STATUS_APPLIED;
+			viwType = ClientTransaction.STATUS_COMPLETED;
 		} else if (type.equalsIgnoreCase(getMessages().cancelled())) {
 			viwType = ClientTransaction.STATUS_CANCELLED;
 		}

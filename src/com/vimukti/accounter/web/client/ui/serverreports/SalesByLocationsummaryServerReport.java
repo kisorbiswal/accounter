@@ -34,8 +34,7 @@ public class SalesByLocationsummaryServerReport extends
 		if (!isLocation) {
 			return messages.salesByClassSummary();
 		}
-		return messages.salesByLocationSummary(
-				Global.get().Location());
+		return messages.salesByLocationSummary(Global.get().Location());
 	}
 
 	@Override

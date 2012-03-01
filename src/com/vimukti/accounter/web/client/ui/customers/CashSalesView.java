@@ -286,6 +286,11 @@ public class CashSalesView extends
 			classListCombo = createAccounterClassListCombo();
 			termsForm.setFields(classListCombo);
 		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
+			termsForm.setFields(jobListCombo);
+		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setWidth(160);
@@ -574,7 +579,12 @@ public class CashSalesView extends
 			return;
 		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = this.transaction;
 
@@ -775,7 +785,10 @@ public class CashSalesView extends
 		}
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -983,6 +996,9 @@ public class CashSalesView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 		superinitTransactionViewData();
 		initCashSalesView();
 		initAccounterClass();
@@ -1225,6 +1241,12 @@ public class CashSalesView extends
 			shippingTermsCombo.setDisabled(isInViewMode());
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
+		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 		}
 		super.onEdit();
 	}

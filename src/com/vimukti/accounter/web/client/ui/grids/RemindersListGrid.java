@@ -62,6 +62,10 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	@Override
 	protected void onClick(final ClientReminder obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, obj.getRecurringTransaction()
+				.getTransaction().getType())) {
+			return;
+		}
 		if (col == 1) {
 			AccounterAsyncCallback<ClientTransaction> callBack = new AccounterAsyncCallback<ClientTransaction>() {
 

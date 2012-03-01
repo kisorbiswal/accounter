@@ -10,6 +10,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class Estimate extends Transaction {
 
@@ -334,6 +335,13 @@ public class Estimate extends Transaction {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(Estimate.class)) {
 			throw new AccounterException(
@@ -342,7 +350,7 @@ public class Estimate extends Transaction {
 
 		if (this.getID() != 0) {
 			if (usedInvoice != null
-					&& this.status == Transaction.STATUS_APPLIED) {
+					&& this.status == Transaction.STATUS_COMPLETED) {
 				throw new AccounterException(
 						AccounterException.ERROR_OBJECT_IN_USE);
 				// "This Quote is Already used in SalesOrder or Invoice");
@@ -430,7 +438,7 @@ public class Estimate extends Transaction {
 	public void setUsedInvoice(Invoice usedTransaction, Session session) {
 		if (this.usedInvoice == null && usedTransaction != null) {
 			this.usedInvoice = usedTransaction;
-			status = STATUS_APPLIED;
+			status = STATUS_COMPLETED;
 		} else if (usedTransaction == null) {
 			this.usedInvoice = null;
 			status = STATUS_OPEN;

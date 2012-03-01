@@ -333,7 +333,7 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 		if (get(STATUS).getValue().equals(getMessages().open())) {
 			statusNumber = ClientTransaction.STATUS_OPEN;
 		} else if (get(STATUS).getValue().equals(getMessages().completed())) {
-			statusNumber = ClientTransaction.STATUS_APPLIED;
+			statusNumber = ClientTransaction.STATUS_COMPLETED;
 		} else if (get(STATUS).getValue().equals(getMessages().cancelled())) {
 			statusNumber = ClientTransaction.STATUS_CANCELLED;
 		}

@@ -25,10 +25,15 @@ import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.core.reports.DepreciationShedule;
 import com.vimukti.accounter.web.client.core.reports.ECSalesList;
 import com.vimukti.accounter.web.client.core.reports.ECSalesListDetail;
+import com.vimukti.accounter.web.client.core.reports.EstimatesByJob;
 import com.vimukti.accounter.web.client.core.reports.ExpenseList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.ItemActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobActualCostDetail;
+import com.vimukti.accounter.web.client.core.reports.JobProfitability;
+import com.vimukti.accounter.web.client.core.reports.JobProfitabilityDetailByJob;
 import com.vimukti.accounter.web.client.core.reports.MISC1099TransactionDetail;
 import com.vimukti.accounter.web.client.core.reports.MostProfitableCustomers;
 import com.vimukti.accounter.web.client.core.reports.ProfitAndLossByLocation;
@@ -48,6 +53,7 @@ import com.vimukti.accounter.web.client.core.reports.TransactionDetailByTaxItem;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.core.reports.TrialBalance;
 import com.vimukti.accounter.web.client.core.reports.UnRealisedLossOrGain;
+import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
 import com.vimukti.accounter.web.client.core.reports.UncategorisedAmountsReport;
 import com.vimukti.accounter.web.client.core.reports.VATDetail;
 import com.vimukti.accounter.web.client.core.reports.VATItemDetail;
@@ -197,7 +203,7 @@ public interface IAccounterReportServiceAsync {
 			ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<TrialBalance>> callBack);
 
-	public void getProfitAndLossByLocationReport(boolean isLocation,
+	public void getProfitAndLossByLocationReport(int categoryType,
 			ClientFinanceDate startDate, ClientFinanceDate endDate,
 			AsyncCallback<ArrayList<ProfitAndLossByLocation>> callBack);
 
@@ -422,6 +428,40 @@ public interface IAccounterReportServiceAsync {
 	public void getReconciliationDiscrepancy(long accountId,
 			ClientFinanceDate start, ClientFinanceDate end,
 			AsyncCallback<ArrayList<ReconciliationDiscrepancy>> callback);
+
+	public void getEstimatesByJob(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<EstimatesByJob>> callBack);
+
+	public void getJobActualCostOrRevenueDetails(ClientFinanceDate start,
+			ClientFinanceDate end, boolean isActualcostDetail,
+			long transactionId, long jobId,
+			AsyncCallback<ArrayList<JobActualCostDetail>> callBack);
+
+	public void getJobProfitabilitySummaryReport(ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<JobProfitability>> callBack);
+
+	public void getUnBilledCostsByJob(ClientFinanceDate start,
+			ClientFinanceDate end,
+
+			AsyncCallback<ArrayList<UnbilledCostsByJob>> callBack);
+
+	public void getItemActualCostDetail(
+			ClientFinanceDate start,
+			ClientFinanceDate end,
+			long itemId,
+			long customerId,
+			long jobId,
+			boolean isActualcostDetail,
+			AsyncCallback<ArrayList<ItemActualCostDetail>> itemActualCostDetailReport);
+
+	public void getJobProfitabilityDetailByJobReport(
+			long payeeId,
+			long jobId,
+			ClientFinanceDate start,
+			ClientFinanceDate end,
+			AsyncCallback<ArrayList<JobProfitabilityDetailByJob>> itemActualCostDetailReport);
 
 	public void getBankCheckDetils(ClientFinanceDate start,
 			ClientFinanceDate end,

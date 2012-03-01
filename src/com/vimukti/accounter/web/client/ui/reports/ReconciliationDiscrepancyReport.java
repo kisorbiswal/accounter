@@ -8,7 +8,6 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.reports.ReconciliationDiscrepancy;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.serverreports.ReconciliationDiscrepancyServerReport;
 
 public class ReconciliationDiscrepancyReport extends
@@ -31,7 +30,6 @@ public class ReconciliationDiscrepancyReport extends
 		this.makeReportRequest(getAccounId(), start, end);
 	}
 
-	@Override
 	public void makeReportRequest(long acount, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		grid.clear();
@@ -96,9 +94,9 @@ public class ReconciliationDiscrepancyReport extends
 		if (getAccounId() == 0) {
 			Accounter.showError(messages.pleaseSelect(messages.account()));
 		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 182,
+			UIUtils.generateReportPDF(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 182,
 					"", "", getAccounId());
 		}
 	}
@@ -108,9 +106,9 @@ public class ReconciliationDiscrepancyReport extends
 		if (getAccounId() == 0) {
 			Accounter.showError(messages.pleaseSelect(Global.get().Vendor()));
 		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 182,
+			UIUtils.exportReport(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 182,
 					"", "", getAccounId());
 		}
 	}

@@ -128,6 +128,12 @@ public class EmailAccountDialog extends BaseDialog<ClientEmailAccount> {
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
 		result.add(form.validate());
+		String email = emailField.getValue();
+		ClientEmailAccount emailAccount = getCompany().getEmailAccount(email);
+		if (emailAccount != null && data.getID() != emailAccount.getID()) {
+			result.addError(emailField,
+					messages.anEmailAccountAlreadyExistWithTheGivenEmailID());
+		}
 		return result;
 	}
 }

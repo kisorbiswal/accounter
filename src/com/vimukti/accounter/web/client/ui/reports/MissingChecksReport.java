@@ -28,10 +28,9 @@ public class MissingChecksReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		this.makeReportRequest(getAccountId(), start, end);
-		
+
 	}
 
-	@Override
 	public void makeReportRequest(long account, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		grid.clear();
@@ -97,9 +96,9 @@ public class MissingChecksReport extends
 		if (getAccountId() == 0) {
 			Accounter.showError(messages.pleaseSelect(messages.account()));
 		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 181,
+			UIUtils.generateReportPDF(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
 					"", "", getAccountId());
 		}
 	}
@@ -109,9 +108,9 @@ public class MissingChecksReport extends
 		if (getAccountId() == 0) {
 			Accounter.showError(messages.pleaseSelect(Global.get().Vendor()));
 		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 181,
+			UIUtils.exportReport(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
 					"", "", getAccountId());
 		}
 	}

@@ -13,12 +13,14 @@ import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Item;
 import com.vimukti.accounter.core.ItemStatus;
 import com.vimukti.accounter.core.Measurement;
 import com.vimukti.accounter.core.StockAdjustment;
 import com.vimukti.accounter.core.StockTransfer;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.TransactionItem;
+import com.vimukti.accounter.core.Unit;
 import com.vimukti.accounter.core.Warehouse;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.services.DAOException;
@@ -36,6 +38,7 @@ import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
 import com.vimukti.accounter.web.client.core.reports.InventoryStockStatusDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionDetail;
 import com.vimukti.accounter.web.client.core.reports.InventoryValutionSummary;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentList;
 
@@ -588,5 +591,235 @@ public class InventoryManager extends Manager {
 			result.add(detail);
 		}
 		return result;
+	}
+
+	public PaginationList<TransactionHistory> getTransactionsByType(
+			long itemId, int transactionType, int transactionStatusType,
+			long startDate, long endDate, Long companyId, int start, int length) {
+		Session session = HibernateUtil.getCurrentSession();
+		Query query = null;
+		String queryName = null;
+		int saveStatus = 0;
+		if (transactionType == Transaction.TYPE_INVOICE) {
+
+			if (transactionStatusType == TransactionHistory.ALL_INVOICES) {
+				saveStatus = 0;
+			}
+			if (transactionStatusType == TransactionHistory.OPENED_INVOICES) {
+				queryName = "getOpenInvoicesListByItem";
+
+			}
+			if (transactionStatusType == TransactionHistory.DRAFT_INVOICES) {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+			if (transactionStatusType == TransactionHistory.OVER_DUE_INVOICES) {
+				queryName = "getOverdueInvoicesListByItem";
+				query = session
+						.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("currentDate",
+								new FinanceDate().getDate())
+						.setParameter("itemId", itemId);
+			}
+
+		} else if (transactionType == Transaction.TYPE_CASH_SALES) {
+			if (transactionStatusType == TransactionHistory.ALL_CASHSALES) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+		} else if (transactionType == Transaction.TYPE_CUSTOMER_CREDIT_MEMO) {
+			if (transactionStatusType == TransactionHistory.ALL_CREDITMEMOS) {
+				saveStatus = 0;
+			} else if (transactionStatusType == TransactionHistory.OPEND_CREDITMEMOS) {
+				queryName = "getOpendCustomerCreditMemosByItem";
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+		} else if (transactionType == Transaction.TYPE_ESTIMATE) {
+			int typeOfEstiate = 1;
+			if (transactionStatusType == TransactionHistory.ALL_QUOTES
+					|| transactionStatusType == TransactionHistory.ALL_CREDITS
+					|| transactionStatusType == TransactionHistory.ALL_CHARGES) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+			if (transactionStatusType == TransactionHistory.ALL_QUOTES
+					|| transactionStatusType == TransactionHistory.DRAFT_QUOTES) {
+				typeOfEstiate = 1;
+
+			} else if (transactionStatusType == TransactionHistory.ALL_CREDITS
+					|| transactionStatusType == TransactionHistory.DRAFT_CREDITS) {
+				typeOfEstiate = 2;
+
+			} else { // charges
+				typeOfEstiate = 3;
+			}
+			query = session.getNamedQuery("getEstimatesForItem")
+					.setParameter("companyId", companyId)
+					.setParameter("saveStatus", saveStatus)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("itemId", itemId)
+					.setParameter("estimateType", typeOfEstiate);
+
+		} else if (transactionType == Transaction.TYPE_CASH_PURCHASE) {
+			if (transactionStatusType == TransactionHistory.ALL_CASH_PURCHASES) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+		} else if (transactionType == Transaction.TYPE_ENTER_BILL) {
+			if (transactionStatusType == TransactionHistory.ALL_BILLS) {
+				saveStatus = 0;
+			} else if (transactionStatusType == TransactionHistory.OPEND_BILLS) {
+				queryName = "getOpenBillsListByItem";
+
+			} else if (transactionStatusType == TransactionHistory.DRAFT_BILLS) {
+				saveStatus = Transaction.STATUS_DRAFT;
+
+			} else if (transactionStatusType == TransactionHistory.OVERDUE_BILLS) {
+				queryName = "getOverDueBillsListByItem";
+				query = session
+						.getNamedQuery(queryName)
+						.setParameter("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("itemId", itemId)
+						.setParameter("currentDate",
+								new FinanceDate().getDate());
+			}
+
+		} else if (transactionType == Transaction.TYPE_VENDOR_CREDIT_MEMO) {
+			if (transactionStatusType == TransactionHistory.ALL_VENDOR_CREDITNOTES) {
+				saveStatus = 0;
+			} else {
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+		} else if (transactionType == Transaction.TYPE_EXPENSE) {
+			if (transactionStatusType == TransactionHistory.ALL_EXPENSES) {
+				queryName = "getAllExpensesByVendor";
+			} else if (transactionStatusType == TransactionHistory.CREDIT_CARD_EXPENSES) {
+				transactionType = Transaction.TYPE_CREDIT_CARD_EXPENSE;
+				saveStatus = 0;
+			} else if (transactionStatusType == TransactionHistory.CASH_EXPENSES) {
+				transactionType = Transaction.TYPE_CASH_EXPENSE;
+				saveStatus = 0;
+			} else if (transactionStatusType == TransactionHistory.DRAFT_CREDIT_CARD_EXPENSES) {
+				transactionType = Transaction.TYPE_CREDIT_CARD_EXPENSE;
+				saveStatus = Transaction.STATUS_DRAFT;
+			} else if (transactionStatusType == TransactionHistory.DRAFT_CASH_EXPENSES) {
+				transactionType = Transaction.TYPE_CASH_EXPENSE;
+				saveStatus = Transaction.STATUS_DRAFT;
+			}
+
+		} else {
+			transactionType = 0;
+		}
+		if (query == null) {
+			if (queryName != null) {
+				query = session.getNamedQuery(queryName)
+						.setLong("companyId", companyId)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("itemId", itemId);
+			} else {
+				query = session.getNamedQuery("getTransactionForItem")
+						.setLong("companyId", companyId)
+						.setInteger("transactionType", transactionType)
+						.setInteger("saveStatus", saveStatus)
+						.setParameter("fromDate", startDate)
+						.setParameter("toDate", endDate)
+						.setParameter("itemId", itemId);
+			}
+		}
+		List list;
+		int total = 0;
+		if (length == -1) {
+			list = query.list();
+		} else {
+			total = query.list().size();
+			list = query.setFirstResult(start).setMaxResults(length).list();
+		}
+		PaginationList<TransactionHistory> transactionsList = getItemTransactionsList(
+				session, list, itemId);
+		transactionsList.setTotalCount(total);
+		transactionsList.setStart(start);
+		return transactionsList;
+	}
+
+	public PaginationList<TransactionHistory> getItemTransactionsList(
+			Session session, List l, long itemId) {
+
+		Item item = (Item) session.get(Item.class, itemId);
+
+		Object[] object = null;
+		Iterator iterator = l.iterator();
+		PaginationList<TransactionHistory> queryResult = new PaginationList<TransactionHistory>();
+		double qtyValue = 0;
+		double totalAmount = 0;
+		long transactionId = 0, previousId = 0;
+		TransactionHistory transactionHistory = null;
+		while ((iterator).hasNext()) {
+			object = (Object[]) iterator.next();
+
+			transactionId = object[0] != null ? (Long) object[0] : 0;
+
+			if (previousId != 0 && previousId != transactionId) {
+				queryResult.add(transactionHistory);
+				qtyValue = 0;
+				totalAmount = 0;
+			}
+
+			transactionHistory = new TransactionHistory();
+
+			transactionHistory.setTransactionId(transactionId);
+			transactionHistory
+					.setDate(object[1] != null ? new ClientFinanceDate(
+							(Long) object[1]) : null);
+
+			transactionHistory.setType(object[2] != null ? (Integer) object[2]
+					: 0);
+			transactionHistory.setNumber(object[3] != null ? (String) object[3]
+					: "");
+
+			transactionHistory
+					.setIsVoid(object[4] != null ? (Boolean) object[4] : false);
+			transactionHistory.setMemo(object[5] != null ? (String) object[5]
+					: "");
+			double amount = (object[8] == null ? 0 : ((Double) object[8])
+					.doubleValue());
+			totalAmount += amount;
+			transactionHistory.setAmount(totalAmount);
+
+			double value = object[6] != null ? (Double) object[6] : 0;
+			long unitId = object[7] != null ? (Long) object[7] : 0;
+			Unit unit = (Unit) session.get(Unit.class, unitId);
+			Measurement defaultMeasurement = item.getMeasurement();
+			Unit defaultUnit = defaultMeasurement.getDefaultUnit();
+			double calValue = (value * unit.getFactor())
+					/ defaultUnit.getFactor();
+
+			qtyValue += calValue;
+
+			ClientQuantity quantity = new ClientQuantity();
+			quantity.setValue(qtyValue);
+			quantity.setUnit(defaultUnit.getID());
+
+			transactionHistory.setQuantity(quantity);
+
+			previousId = transactionId;
+		}
+		if (transactionHistory != null) {
+			queryResult.add(transactionHistory);
+		}
+
+		return queryResult;
 	}
 }

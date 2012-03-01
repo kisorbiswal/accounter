@@ -52,7 +52,7 @@ public class PurchaseOrderListCommand extends AbstractTransactionListCommand {
 					order = ClientTransaction.STATUS_OPEN;
 				}
 				if (type.equals(getMessages().completed())) {
-					order = ClientTransaction.STATUS_APPLIED;
+					order = ClientTransaction.STATUS_COMPLETED;
 				}
 				if (type.equals(getMessages().cancelled())) {
 					order = ClientTransaction.STATUS_CANCELLED;

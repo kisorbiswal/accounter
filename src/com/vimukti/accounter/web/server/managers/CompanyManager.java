@@ -1778,7 +1778,7 @@ public class CompanyManager extends Manager {
 
 					depositsTransfersList.setAmount((Double) object[5]);
 					depositsTransfersList.setCurrency((Long) object[6]);
-
+					depositsTransfersList.setStatus((Integer) object[7]);
 					queryResult.add(depositsTransfersList);
 				}
 				queryResult.setTotalCount(total);
@@ -1839,7 +1839,7 @@ public class CompanyManager extends Manager {
 
 					depositsTransfersList.setAmount((Double) object[6]);
 					depositsTransfersList.setCurrency((Long) object[7]);
-
+					depositsTransfersList.setStatus((Integer) object[8]);
 					queryResult.add(depositsTransfersList);
 				}
 				queryResult.setTotalCount(total);

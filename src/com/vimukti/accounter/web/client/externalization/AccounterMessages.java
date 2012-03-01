@@ -2185,6 +2185,8 @@ public interface AccounterMessages extends Messages {
 
 	public String inventoryAsset();
 
+	public String inventoryCentre();
+
 	public String inventoryItem();
 
 	public String inventoryItems();
@@ -2882,6 +2884,8 @@ public interface AccounterMessages extends Messages {
 
 	public String noFileSelected();
 
+	public String noItemSelected();
+
 	public String noImageisselected();
 
 	public String noInventoryItemsAvilable();
@@ -3423,6 +3427,8 @@ public interface AccounterMessages extends Messages {
 	public String pleaseSelect(String comboName);
 
 	public String pleaseselectaFixedAsset();
+
+	public String pleaseSelectAnItem();
 
 	public String pleaseSelectAnotherPurchaseTAXItem();
 
@@ -4516,7 +4522,7 @@ public interface AccounterMessages extends Messages {
 	public String tdsFiledDetails();
 
 	public String tdsVendorsList();
-	
+
 	public String tdsForm16A();
 
 	public String Template();
@@ -5917,6 +5923,26 @@ public interface AccounterMessages extends Messages {
 
 	public String reportTotal(String jobName);
 
+	public String itemActualCostDetail();
+
+	public String itemActualRevenueDetail();
+
+	public String jobProfitabilityDetail();
+
+	public String profitAndLossByJob();
+
+	public String estimatesbyJob();
+
+	public String unbilledCostsByJob();
+
+	public String jobActualCostDetail();
+
+	public String jobActualRevenueDetail();
+
+	public String split();
+
+	public String pleasEnterJobName();
+
 	public String checkNumber();
 
 	public String checkAmount();
@@ -5929,17 +5955,31 @@ public interface AccounterMessages extends Messages {
 
 	public String propertyMatchedAlready();
 
-	public String unassigned();
-
 	public String pleaseEnterDecimalSymbol();
 
 	public String uploadCsvFileDialog();
+
+	public String aleadyMapped(String selectedValue);
+
+	public String matchedWithWrongProprty(String selectedValue, String value);
+
+	public String unassigned();
+
+	public String nameInCSV();
+
+	public String fieldValue();
+
+	public String accounterField();
+
+	public String mappingPreview();
 
 	public String reconciledAmount();
 
 	public String effectofChange();
 
 	public String reconcilationDiscrepany();
+
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
 
 	public String adjustedQtyNegative();
 
