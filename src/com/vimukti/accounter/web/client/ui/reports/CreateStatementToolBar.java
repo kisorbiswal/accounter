@@ -180,13 +180,20 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// if (UIUtils.isMSIEBrowser()) {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
-		if (isVendor) {
-			addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
+		if(this instanceof CreateJobIdToolBar)
+		{
+			addItems(customerCombo, dateRangeItemCombo,
 					fromItem, toItem);
-		} else {
-			addItems(getViewSelect(), customerCombo, dateRangeItemCombo,
-					fromItem, toItem);
+		}else{
+			if (isVendor) {
+				addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
+						fromItem, toItem);
+			} else {
+				addItems(getViewSelect(), customerCombo, dateRangeItemCombo,
+						fromItem, toItem);
+			}
 		}
+		
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);

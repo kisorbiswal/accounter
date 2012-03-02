@@ -12,6 +12,8 @@ import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 
 public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
+	
+private boolean isAddNew;
 	public CustomerCombo(String title) {
 		super(title);
 		super.setToolTip(messages.selectWhichWeHaveInOurCompanyOrAddNew(Global
@@ -43,12 +45,15 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	public void onAddNew() {
+		
+		isAddNew= true;
 		NewCustomerAction action = ActionFactory.getNewCustomerAction();
 		action.setCallback(new ActionCallback<ClientCustomer>() {
 
 			@Override
 			public void actionResult(ClientCustomer result) {
 				if (result.getDisplayName() != null && result.isActive())
+					isAddNew= false;
 					addItemThenfireEvent(result);
 			}
 		});
@@ -67,6 +72,9 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 
 	@Override
 	protected void selectionFaildOnClose() {
+		if(isAddNew){
+			return;
+		}
 		final QuickAddDialog dialog = new QuickAddDialog(messages.NewCustomer());
 		dialog.setDefaultText(textBox.getText());
 		dialog.setListener(new QuickAddListenerImpl(this) {
@@ -79,6 +87,7 @@ public class CustomerCombo extends CustomCombo<ClientCustomer> {
 			}
 		});
 		dialog.show();
+		
 	}
 
 	protected boolean isCustomerExists(String text) {
