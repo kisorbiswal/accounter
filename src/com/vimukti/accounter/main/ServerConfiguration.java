@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 public class ServerConfiguration {
 
 	private static String attachmentsDir;
 	private static String logsDir;
 	private static String adminpassword;
 	private static String tmpDir;
+	private static Logger log = Logger.getLogger(ServerConfiguration.class);
 
 	public static String getTmpDir() {
 		return tmpDir;
@@ -63,11 +66,9 @@ public class ServerConfiguration {
 			prop.loadFile(config == null ? "config/config.ini" : config);
 			// prop.loadFile(keyFile == null ? "collaberconfig.ini" : keyFile);
 		} catch (FileNotFoundException e) {
-			System.out.println("Unable to find server config file: " + e);
-			// LOG.error("Unable to find server config file: ", e);
+			log.error("Unable to find server config file: " + e);
 		} catch (IOException e) {
-			// LOG.error("Unable to find server config file: ", e);
-			System.out.println("Unable to find server config file: " + e);
+			log.error("Unable to find server config file: " + e);
 		}
 
 		try {

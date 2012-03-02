@@ -49,27 +49,11 @@ public class AccountReportToolBar extends DateRangeReportToolbar {
 		fromItem.setValue(startDate);
 		toItem.setValue(endDate);
 		if (selectAccount != null) {
-			reportview.makeReportRequest(selectAccount.getID(), startDate,
-					endDate);
+			reportview.makeReportRequest(selectAccount.getID(),
+					fromItem.getDate(), toItem.getDate());
 		} else {
 			reportview.addEmptyMessage(messages.noRecordsToShow());
 		}
-	}
-
-	@Override
-	public void setStartAndEndDates(ClientFinanceDate startDate,
-			ClientFinanceDate endDate) {
-		if (startDate != null && endDate != null) {
-			fromItem.setEnteredDate(startDate);
-			toItem.setEnteredDate(endDate);
-			setStartDate(startDate);
-			setEndDate(endDate);
-		}
-	}
-
-	@Override
-	public void setDefaultDateRange(String defaultDateRange) {
-		dateRangeChanged(defaultDateRange);
 	}
 
 	@Override

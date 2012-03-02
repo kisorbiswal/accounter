@@ -25,7 +25,6 @@ public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						System.out.println("");
 
 					}
 				});

@@ -14,7 +14,7 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 public class MessagesGenerator extends Generator {
-
+	
 	@Override
 	public String generate(TreeLogger logger, GeneratorContext context,
 			String typeName) throws UnableToCompleteException {
@@ -81,7 +81,7 @@ public class MessagesGenerator extends Generator {
 
 				src.commit(logger);
 			}
-			// System.out.println(typeName + " Generated");
+			// log.info(typeName + " Generated");
 			return className;
 		} catch (NotFoundException e) {
 			e.printStackTrace();

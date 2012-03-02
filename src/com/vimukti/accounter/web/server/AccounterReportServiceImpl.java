@@ -3176,8 +3176,10 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
 				end, getCompanyId());
 		ArrayList<InventoryValutionDetail> list = getFinanceTool()
-				.getInventoryManager().getInventoryValutionDetail(
-						getCompanyId(), start, end, itemId);
+				.getInventoryManager()
+				.getInventoryValutionDetail(getCompanyId(),
+						minimumAndMaximumDates[0].toClientFinanceDate(),
+						minimumAndMaximumDates[1].toClientFinanceDate(), itemId);
 		InventoryValutionDetail obj = new InventoryValutionDetail();
 		if (list != null)
 			list.add((InventoryValutionDetail) setStartEndDates(obj,
@@ -3201,7 +3203,9 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 				end, getCompanyId());
 		ArrayList<InventoryValutionSummary> list = getFinanceTool()
 				.getInventoryManager().getInventoryValutionSummary(
-						getCompanyId(), start, end);
+						getCompanyId(),
+						minimumAndMaximumDates[0].toClientFinanceDate(),
+						minimumAndMaximumDates[1].toClientFinanceDate());
 		InventoryValutionSummary obj = new InventoryValutionSummary();
 		if (list != null)
 			list.add((InventoryValutionSummary) setStartEndDates(obj,

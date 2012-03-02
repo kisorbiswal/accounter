@@ -15,7 +15,7 @@ public class AccounterSessionListner implements HttpSessionListener {
 
 	public void sessionCreated(HttpSessionEvent sessionEvent) {
 		HttpSession httpSession = sessionEvent.getSession();
-		System.out.println("session for corresponding id "
+		log.info("session for corresponding id "
 				+ sessionEvent.getSession().getId());
 		httpSession.setMaxInactiveInterval(120);
 
