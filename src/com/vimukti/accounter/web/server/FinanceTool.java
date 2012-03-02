@@ -1507,6 +1507,7 @@ public class FinanceTool {
 		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
 		session.getNamedQuery("JobsTransactionsView").executeUpdate();
+		session.getNamedQuery("createSubscriptionFunction").executeUpdate();
 		transaction.commit();
 	}
 

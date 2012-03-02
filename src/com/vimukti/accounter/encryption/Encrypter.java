@@ -19,7 +19,6 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
-import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 
@@ -36,8 +35,7 @@ public class Encrypter extends Thread {
 
 	static {
 		classes = new ArrayList<String>();
-		File core = new File(
-				"C:/Users/vimukti04/Desktop/All Eclipses/workspaces/finance/encryption2/accounter/src/com/vimukti/accounter/core");
+		File core = new File("src/com/vimukti/accounter/core");
 		String[] list = core.list();
 		Class<?> create = null;
 		try {

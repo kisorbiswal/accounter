@@ -6546,8 +6546,6 @@
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
-		<return-scalar column="ACCOUNT_TYPE" type="encryptedstring" />
-		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
 		<return-scalar column="PREVOIUS_TWO_DAYS_BACK_AMOUNT"
@@ -6557,13 +6555,6 @@
 		<return-scalar column="CURRENT_DAY_AMOUNT" type="double" />
 
 		SELECT
-		CASE
-		WHEN A.A_TYPE = 2 THEN
-		'Bank Account'
-		END AS ACCOUNT_TYPE,
-
-		A.NAME AS ACCOUNT_NAME,
-
 		A.TOTAL_BALANCE - CASE WHEN (SELECT
 		SUM(AT.AMOUNT) FROM ACCOUNT_TRANSACTION AT
 		LEFT OUTER JOIN TRANSACTION
@@ -7895,6 +7886,27 @@
 		IS_DELETED = call delete_company(:companyId)
 	</sql-query>
 
+	<sql-query name="createSubscriptionFunction">
+		CREATE OR REPLACE FUNCTION
+		CREATE_SUBSCRIPTIONS() RETURNS BOOLEAN AS $$
+		DECLARE
+		R RECORD;
+		_ID BIGINT;
+		BEGIN
+		FOR R IN SELECT * FROM CLIENT
+		LOOP
+		IF R.CLIENT_SUBSCRIPTION IS NULL THEN
+		INSERT INTO CLIENT_SUBSCRIPTION
+		(SUBSCRIPTION_ID,LAST_MODIFIED,CREATED_DATE,EXPIRED_DATE,PREMIUM_TYPE)
+		VALUES(1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,(DATE('NOW') + INTERVAL '2 YEAR'),0) RETURNING ID INTO
+		_ID;
+		UPDATE CLIENT SET CLIENT_SUBSCRIPTION=_ID WHERE CLIENT.ID=R.ID;
+		END IF;
+		END LOOP;
+		RETURN TRUE;
+		END;
+		$$ LANGUAGE PLPGSQL;
+	</sql-query>
 
 	<sql-query name="createDeleteCompanyFunction">
 		CREATE OR REPLACE FUNCTION delete_company(cid
