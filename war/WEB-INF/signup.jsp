@@ -483,14 +483,6 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 
 <!-- Footer Section-->
 
-<div id="mainFooter"  >
-<div>
-	       <span><i18n:i18n msg='atTherateCopy'/></span> |
-	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
-	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
-	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
-</div>
-</div>
 <div id="appVersions">
 	    <div>
 	       <span>Access Accounter from </span>
@@ -501,6 +493,14 @@ $.validator.addMethod("no_special_characters", function(value, element) {
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		 </div>
+</div>
+<div id="mainFooter"  >
+	<div>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
+	</div>
 </div>
 		<script  type="text/javascript" >
 			if(${successmessage!=null}) {

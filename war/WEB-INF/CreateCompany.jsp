@@ -355,14 +355,7 @@ p {
 
 <!-- Footer Section-->
 
-<div id="mainFooter"   >
-<div>
-   <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-   <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-   <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-   <a target="_blank" href="/site/support"> Support </a>
-</div>
-</div>
+
 <div id="appVersions">
 	    <div>
 	       <span>Access Accounter from </span>
@@ -374,6 +367,14 @@ p {
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		   </div>
 	</div>
+	<div id="mainFooter"   >
+<div>
+   <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
+   <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
+   <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
+   <a target="_blank" href="/site/support"> Support </a>
+</div>
+</div>
 <%@ include file="./scripts.jsp" %>
  
 </body>
