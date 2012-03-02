@@ -238,12 +238,14 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		itemTotalValue.setWidth(100);
 		itemTotalValue.setAmount(0.00D);
 		itemTotalValue.setDisabled(true);
+		itemTotalValue.setVisible(false);
 
 		onHandQuantity = new IntegerField(this, "On Hand Quantity");
 		onHandQuantity.setNumber(0l);
 		onHandQuantity.setHelpInformation(true);
 		onHandQuantity.setWidth(100);
 		onHandQuantity.setDisabled(isInViewMode());
+		onHandQuantity.setVisible(isInViewMode());
 		onHandQuantity.setValidators(integerRangeValidator);
 		onHandQuantity.addBlurHandler(new BlurHandler() {
 
@@ -938,19 +940,10 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 			result.addError(purchasePriceTxt, messages.enterValidAmount());
 		}
 
-		Long number = onHandQuantity.getNumber();
-		if (number != null && number > 0) {
-			if (getComponents().isEmpty()) {
-				result.addError(table,
-						messages.youCannotBuildWithoutComponents());
-			}
-		}
-
 		if (assetsAccount != null && assetsAccount.getSelectedValue() == null) {
 			result.addError(assetsAccount,
 					messages.pleaseEnter(messages.assetsAccount()));
 		}
-		table.validateGrid();
 		return result;
 	}
 
@@ -1017,11 +1010,13 @@ public class InventoryAssemblyView extends BaseView<ClientInventoryAssembly> {
 		salesDescArea.setDisabled(isInViewMode());
 		accountCombo.setDisabled(isInViewMode());
 		salesPriceText.setDisabled(isInViewMode());
-		assetsAccount.setDisabled(isInViewMode());
-		reorderPoint.setDisabled(isInViewMode());
-		onHandQuantity.setDisabled(isInViewMode());
+		assetsAccount.setDisabled(!isInViewMode());
+		reorderPoint.setDisabled(!isInViewMode());
+		onHandQuantity.setDisabled(!isInViewMode());
+		onHandQuantity.setVisible(isInViewMode());
+		itemTotalValue.setVisible(false);
 		totalLabel.setDisabled(isInViewMode());
-		asOfDate.setDisabled(isInViewMode());
+		asOfDate.setDisabled(!isInViewMode());
 
 		table.setDisabled(isInViewMode());
 		measurement.setDisabled(isInViewMode());
