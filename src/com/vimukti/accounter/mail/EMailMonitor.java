@@ -15,11 +15,13 @@ import javax.mail.Store;
 import javax.mail.event.MessageCountEvent;
 import javax.mail.event.MessageCountListener;
 
+import org.apache.log4j.Logger;
+
 import com.sun.mail.imap.IMAPFolder;
 
 public class EMailMonitor extends Thread {
 	private static EMailMonitor instance;
-
+	private Logger log = Logger.getLogger(EMailMonitor.class);
 	@Override
 	public void run() {
 		try {
@@ -37,19 +39,19 @@ public class EMailMonitor extends Thread {
 
 				@Override
 				public void messagesRemoved(MessageCountEvent arg0) {
-					System.out.println("Removed. - "
+					log.info("Removed. - "
 							+ arg0.getMessages().length);
 					// Message[] messages = arg0.getMessages();
 					// for (Message message : messages) {
 					// try {
 					// String subject = message.getSubject();
-					// System.out.println("subject-" + subject);
+					// log.info("subject-" + subject);
 					// Address[] from = message.getFrom();
 					// for (Address addr : from) {
-					// System.out.println(addr);
+					// log.info(addr);
 					// }
 					// String description = message.getDescription();
-					// System.out.println("MSG-" + description);
+					// log.info("MSG-" + description);
 					// } catch (MessagingException e) {
 					// e.printStackTrace();
 					// }
@@ -58,16 +60,16 @@ public class EMailMonitor extends Thread {
 
 				@Override
 				public void messagesAdded(MessageCountEvent arg0) {
-					System.out.println("Added. - " + arg0.getMessages().length);
+					log.info("Added. - " + arg0.getMessages().length);
 					Message[] messages = arg0.getMessages();
 					for (Message message : messages) {
 						String subject;
 						try {
 							subject = message.getSubject();
-							System.out.println("subject-" + subject);
+							log.info("subject-" + subject);
 							Address[] from = message.getFrom();
 							for (Address addr : from) {
-								System.out.println(addr);
+								log.info(addr);
 							}
 						} catch (MessagingException e) {
 							e.printStackTrace();
@@ -81,10 +83,10 @@ public class EMailMonitor extends Thread {
 				}
 			});
 			inbox.open(IMAPFolder.READ_ONLY);
-			System.out.println("Inbox opend " + inbox.getMessageCount());
+			log.info("Inbox opend " + inbox.getMessageCount());
 			while (true) {
 				inbox.idle();
-				System.out.println("re-idle");
+				log.info("re-idle");
 			}
 		} catch (Exception e) {
 		}
@@ -108,7 +110,7 @@ public class EMailMonitor extends Thread {
 	//
 	// String fileName = decodeName(bodyPart.getFileName());
 	// int size = bodyPart.getSize();
-	// System.out.println("Attachment " + fileName + " file->"
+	// log.info("Attachment " + fileName + " file->"
 	// + file.getAbsolutePath());
 	// // Attachment attachment = new Attachment();
 	// // attachment.setAttachmentId(attachId);

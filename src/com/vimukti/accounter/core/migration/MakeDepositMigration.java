@@ -1,13 +1,18 @@
 package com.vimukti.accounter.core.migration;
 
+import org.apache.log4j.Logger;
+
 
 public class MakeDepositMigration {
+	
+	private Logger log = Logger.getLogger(MakeDepositMigration.class);
+
 
 	public void start() {/*
-						 * System.out.println("Starting MakeDeposit Migration");
-						 * Session session = HibernateUtil.openSession();
-						 * Transaction hibernateTransaction =
-						 * session.beginTransaction(); try { Criteria criteria =
+						 * log.info("Starting MakeDeposit Migration"); Session
+						 * session = HibernateUtil.openSession(); Transaction
+						 * hibernateTransaction = session.beginTransaction();
+						 * try { Criteria criteria =
 						 * session.createCriteria(TransferFund.class);
 						 * List<TransferFund> list = criteria.list(); for
 						 * (TransferFund md : list) {
@@ -46,8 +51,7 @@ public class MakeDepositMigration {
 						 * { e.printStackTrace();
 						 * hibernateTransaction.rollback(); } finally {
 						 * session.close(); }
-						 * System.out.println("MakeDeposit Migration Completed"
-						 * );
+						 * log.info("MakeDeposit Migration Completed" );
 						 */
 	}
 

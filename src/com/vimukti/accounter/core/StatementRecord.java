@@ -3,6 +3,7 @@ package com.vimukti.accounter.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 import org.json.JSONException;
@@ -257,7 +258,6 @@ public class StatementRecord extends CreatableObject implements
 			jEntry.setSaveStatus(Transaction.STATUS_APPROVE);
 
 			transactionLists.add(jEntry);
-			System.out.println("");
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -12,6 +12,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.log4j.Logger;
+
 import com.thoughtworks.xstream.XStream;
 import com.vimukti.accounter.taxreturn.core.GovTalkError;
 import com.vimukti.accounter.taxreturn.core.GovTalkErrors;
@@ -26,6 +28,8 @@ public class DSPServer extends Thread {
 	// https://secure.gateway.gov.uk/submission
 	private XStream xStream;
 	private static DSPServer instance = new DSPServer();
+	private Logger log = Logger.getLogger(DSPServer.class);
+
 
 	private DSPServer() {
 		init();
@@ -169,7 +173,7 @@ public class DSPServer extends Thread {
 			InputStream inputStream = conn.getInputStream();
 			byte[] data1 = new byte[inputStream.available()];
 			inputStream.read(data1);
-			System.out.println(new String(data1));
+			log.info(new String(data1));
 
 			return null;// (GovTalkMessage)
 						// xStream.fromXML(conn.getInputStream());

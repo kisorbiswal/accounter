@@ -9,11 +9,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Prasanna Kumar G
  * 
  */
 public class ConsoleChatClient {
+
+	private Logger log = Logger.getLogger(ConsoleChatClient.class);
 
 	public void start() {
 		try {
@@ -31,11 +35,11 @@ public class ConsoleChatClient {
 			out.writeObject(email);
 			out.writeObject("login");
 			String str = (String) in.readObject();
-			System.out.println("Server:" + str);
+			log.info("Server:" + str);
 			System.out.print('>');
 			while (true) {
 				str = (String) in.readObject();
-				System.out.println("Server:" + str);
+				log.info("Server:" + str);
 				System.out.print('>');
 				String readLine = br.readLine();
 				out.writeObject(email);

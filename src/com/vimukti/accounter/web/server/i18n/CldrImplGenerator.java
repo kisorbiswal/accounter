@@ -2,6 +2,8 @@ package com.vimukti.accounter.web.server.i18n;
 
 import java.io.PrintWriter;
 
+import org.apache.log4j.Logger;
+
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
@@ -12,6 +14,7 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 public class CldrImplGenerator extends Generator {
+	private Logger log = Logger.getLogger(CldrImplGenerator.class);
 
 	@Override
 	public String generate(TreeLogger logger, GeneratorContext context,
@@ -30,7 +33,7 @@ public class CldrImplGenerator extends Generator {
 				src.println("public native boolean isRTL()/*-{return $wnd['isRTL']; }-*/;");
 				src.commit(logger);
 			}
-			// System.out.println(typeName + " Generated");
+			// log.info(typeName + " Generated");
 			return className;
 		} catch (NotFoundException e) {
 			e.printStackTrace();
