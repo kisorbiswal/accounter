@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.web.client.Global;
@@ -16,6 +18,8 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * this class is used to generate pdf using html files for Quote(Estimate)
  */
 public class QuotePdfTemplate implements PrintTemplete {
+
+	private Logger log = Logger.getLogger(QuotePdfTemplate.class);
 
 	private final Estimate estimate;
 	private final BrandingTheme brandingTheme;
@@ -376,7 +380,7 @@ public class QuotePdfTemplate implements PrintTemplete {
 	private void externalizeStrings(MiniTemplator t) {
 		AccounterMessages messages = Global.get().messages();
 		Map<String, String> variables = t.getVariables();
-		System.out.println(variables);
+		log.info(variables);
 		t.setVariable("i18_Invoice_Number", messages.quoteNo());
 		t.setVariable("i18_Status", messages.status());
 		t.setVariable("i18_DeliveryDate", messages.deliveryDate());

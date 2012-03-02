@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.log4j.Logger;
 import org.mortbay.util.UrlEncoded;
 
 import com.sun.org.apache.xml.internal.security.utils.Base64;
@@ -18,6 +19,7 @@ public class NormalTest {
 	private static final String ALGORITHM = "hmacSHA256";
 	private static String prefixUrl = "http://localhost:8890/api/xmlreports/";
 	private static final String DATE_FORMAT = "yyyy.MM.dd G 'at' HH:mm:ss z";
+	private Logger log = Logger.getLogger(NormalTest.class);
 
 	private String apikey = "v0l5mtpv";
 	private String secretKey = "f8a2yrcoo2zpp5cb";
@@ -81,6 +83,6 @@ public class NormalTest {
 		int i = stream.available();
 		byte[] data = new byte[i];
 		stream.read(data);
-		System.out.println(new String(data));
+		log.info(new String(data));
 	}
 }

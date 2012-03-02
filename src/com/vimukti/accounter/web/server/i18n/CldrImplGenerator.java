@@ -30,7 +30,7 @@ public class CldrImplGenerator extends Generator {
 				src.println("public native boolean isRTL()/*-{return $wnd['isRTL']; }-*/;");
 				src.commit(logger);
 			}
-			// System.out.println(typeName + " Generated");
+			// log.info(typeName + " Generated");
 			return className;
 		} catch (NotFoundException e) {
 			e.printStackTrace();

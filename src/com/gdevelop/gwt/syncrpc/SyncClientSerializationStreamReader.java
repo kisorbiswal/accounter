@@ -27,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.impl.AbstractSerializationStreamReader;
@@ -43,6 +45,7 @@ import com.google.gwt.user.server.rpc.impl.SerializedInstanceReference;
 public class SyncClientSerializationStreamReader extends
 		AbstractSerializationStreamReader {
 	private static final char JS_ESCAPE_CHAR = '\\';
+	private Logger log = Logger.getLogger(SyncClientSerializationStreamReader.class);
 
 	/**
 	 * Used to accumulate elements while deserializing array types. The generic
@@ -737,7 +740,7 @@ public class SyncClientSerializationStreamReader extends
 					break;
 				default:
 					// TODO:
-					System.out.println("???");
+					log.info("???");
 				}
 			} else {
 				buffer.append(ch);
