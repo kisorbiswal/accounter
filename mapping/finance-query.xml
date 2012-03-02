@@ -9021,9 +9021,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -9259,9 +9259,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -9642,9 +9642,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -11058,9 +11058,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -11275,9 +11275,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -12127,9 +12127,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -14025,9 +14025,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
@@ -14080,9 +14080,9 @@
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
-		<return-scalar column="TRANSACTION_NUMBER" type="string" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ISVOIDED" type="boolean" />
-		<return-scalar column="TRANSACTION_MEMO" type="string" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="QUANTITY" type="double" />
 		<return-scalar column="UNIT" type="long" />
 		<return-scalar column="AMOUNT" type="double" />
