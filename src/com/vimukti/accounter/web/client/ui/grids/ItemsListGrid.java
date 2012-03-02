@@ -3,11 +3,13 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -297,9 +299,15 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 	@Override
 	public void onDoubleClick(ClientItem obj) {
 		if (isCanOpenTransactionView(0, IAccounterCore.ITEM)) {
-			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
-			itemAction.setType(obj.getType());
-			itemAction.run(obj, false);
+			if (obj.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+				InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
+				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
+						false);
+			} else {
+				NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+				itemAction.setType(obj.getType());
+				itemAction.run(obj, false);
+			}
 		}
 	}
 

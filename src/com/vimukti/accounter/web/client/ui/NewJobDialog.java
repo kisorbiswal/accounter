@@ -162,6 +162,16 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 		String itemName = jobNameText.getValue();
 		if (itemName == null || itemName.equals("")) {
 			result.addError(jobNameText, messages.pleasEnterJobName());
+		} else {
+			ArrayList<ClientJob> jobs = customer.getJobs();
+			for (ClientJob clientJob : jobs) {
+				if (clientJob.getName().toLowerCase()
+						.equals(itemName.toLowerCase())
+						&& (job == null ? true : job.getID() != clientJob
+								.getID())) {
+					result.addError(jobNameText, messages.alreadyExist());
+				}
+			}
 		}
 		return result;
 	}

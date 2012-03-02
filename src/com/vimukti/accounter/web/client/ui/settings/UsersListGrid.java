@@ -107,14 +107,13 @@ public class UsersListGrid extends BaseListGrid<ClientUserInfo> {
 
 	@Override
 	protected void onClick(ClientUserInfo obj, int row, int index) {
+		ClientUser user = getCompany().getLoggedInUser();
 		if (!Utility.isUserHavePermissions(AccounterCoreType.USER)
-				|| obj.isAdmin()
-				|| obj.getUserRole().equals(RolePermissions.FINANCIAL_ADVISER)) {
+				|| (obj.isAdmin() && !user.isAdmin())) {
 			return;
 		}
 
 		if (index == 5) {
-			ClientUser user = Accounter.getUser();
 			if (user.isCanDoUserManagement()) {
 				if (user.getID() == obj.getID()) {
 					Accounter.showInformation(messages.youCantDeleteYourSelf());

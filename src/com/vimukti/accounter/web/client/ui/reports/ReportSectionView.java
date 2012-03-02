@@ -311,8 +311,10 @@ public class ReportSectionView extends BaseHomeView {
 
 		rightPanel.add(budgetHeader);
 		rightPanel.add(budgetPanel);
-		rightPanel.add(mainTaxHeader);
-		rightPanel.add(mainTaxPanel);
+		if (Global.get().preferences().isTrackTax()) {
+			rightPanel.add(mainTaxHeader);
+			rightPanel.add(mainTaxPanel);
+		}
 		rightPanel.add(salesHeader);
 		rightPanel.add(salesPanel);
 		rightPanel.add(vendorAndPayableHeader);

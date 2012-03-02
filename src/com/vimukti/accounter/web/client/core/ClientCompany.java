@@ -1920,6 +1920,9 @@ public class ClientCompany implements IAccounterCore {
 
 			case JOB:
 				ClientJob clientjob = (ClientJob) accounterCoreObject;
+				ClientCustomer clientCustomer = getCustomer(clientjob
+						.getCustomer());
+				Utility.updateClientList(clientjob, clientCustomer.getJobs());
 				Utility.updateClientList(clientjob, jobs);
 				break;
 			// case VATITEM:

@@ -210,7 +210,7 @@
 		#Import_Account{
 			margin-left:200px;
 		}
-		#appVersions{
+		#mainFooter{
 			float: left;
 			clear: both;
 			height: 25px;
@@ -221,16 +221,16 @@
 			color: #666666;
 			padding-top: 8px;
 		}
-		#appVersions a,#appVersions span{
+		#mainFooter a,#appVersions span{
 			text-decoration: none;
 			color: #666666;
 			font-size: 13px;
 			padding: 0 5px;
 		}
-		#appVersions a:HOVER {
+		#mainFooter a:HOVER {
 	 		text-decoration: underline;
 		}
-		#appVersions,#appVersions span{
+		#mainFooter,#mainFooter span{
 			text-align: center;
 		}
 
@@ -298,14 +298,6 @@
   		</script>
 	<script type="text/javascript" language="javascript" src="/accounter.client/accounter.client.nocache.js"></script>
 
-	<div id="mainFooter" style="visibility:hidden" >
-	    <div>
-	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
-	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
-	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
-	       <a id="support" target="_blank" href="/site/support"> Support </a>
-	    </div>
-	</div>
 	<div id="appVersions" style="visibility:hidden" >
 	    <div>
 	       <span>Access Accounter from </span> |
@@ -317,7 +309,14 @@
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		   </div>
 	</div>
-	
+	<div id="mainFooter" style="visibility:hidden" >
+	    <div>
+	       <span>&copy 2011 Vimukti Technologies Pvt Ltd</span> |
+	       <a target="_blank" href="/site/termsandconditions"> Terms & Conditions </a> |
+	       <a target="_blank" href="/site/privacypolicy"> Privacy Policy </a> |
+	       <a id="support" target="_blank" href="/site/support"> Support </a>
+	    </div>
+	</div>
     <!-- OPTIONAL: include this if you want history support -->
     <iframe src="javascript:''" id="__gwt_historyFrame" style="position:absolute;width:0;height:0;border:0"></iframe>
 	 <iframe id="__printingFrame" style="width: 0; height: 0; border: 0">

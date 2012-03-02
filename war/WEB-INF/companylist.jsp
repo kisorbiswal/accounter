@@ -54,14 +54,16 @@
 	<div style="float:right">
 	 <%@ include file="./locale.jsp" %>
 	</div>
-	<div class="company_name_action">
-			<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
-	</div>
     <div class="company_lists" style="clear:both">
         <c:if test="${message != null}">
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
+         <c:if test="${message == null}">
+	       <div class="company_name_action">
+				<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
+			</div>
+		 </c:if>
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	<ul><li>
 	    <c:if test="${companeyList != null}">
@@ -85,14 +87,7 @@
    
    <!-- Footer Section-->
    
-   <div id="mainFooter"  >
-   <div>
-	       <span><i18n:i18n msg='atTherateCopy'/></span> |
-	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
-	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
-	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
-   </div>
-</div>
+
    <div id="appVersions">
 	    <div>
 	       <span>Access Accounter from </span>
@@ -104,6 +99,14 @@
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		   </div>
 	</div>
+	   <div id="mainFooter"  >
+   <div>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
+   </div>
+</div>
 <%@ include file="./scripts.jsp" %>
   </body>
 </html>
