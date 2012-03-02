@@ -368,15 +368,38 @@ public class MenuBar {
 		}
 
 		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
-
+		if (isJobTrackingEnabled) {
+			reportMenuBar.addMenuItem(getJobReportMenu(messages.job()));
+		}
 		return reportMenuBar;
+	}
+
+	/**
+	 * Creating submenus For Job Reports
+	 * 
+	 * @param job
+	 * @return
+	 */
+	private MenuItem getJobReportMenu(String job) {
+		Menu jobmenuBar = new Menu(job);
+		jobmenuBar.addMenuItem(messages.profitAndLossByJob(),
+				HistoryTokens.PROFITANDLOSSBYJOBS);
+		jobmenuBar.addMenuItem(messages.estimatesbyJob(),
+				HistoryTokens.ESTIMATEBYJOB);
+		jobmenuBar.addMenuItem(messages.unbilledCostsByJob(),
+				HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		jobmenuBar.addMenuItem(messages.jobProfitabilitySummary(),
+				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		jobmenuBar.addMenuItem(messages.jobProfitabilityDetail(),
+				HistoryTokens.JOB_PROFITABILITY_DETAIL);
+		return jobmenuBar;
 	}
 
 	private MenuItem getBankingReportMenu(String banking) {
 		Menu bankingMenuBar = new Menu(banking);
-		bankingMenuBar.addMenuItem("Missing Checks",
+		bankingMenuBar.addMenuItem(messages.missingchecks(),
 				HistoryTokens.MISSION_CHECKS);
-		bankingMenuBar.addMenuItem("Reconciliation Discrepancy",
+		bankingMenuBar.addMenuItem(messages.reconcilationDiscrepany(),
 				HistoryTokens.RECONCILIATION_DISCREPANCY);
 		bankingMenuBar.addMenuItem(messages.depositDetail(),
 				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
@@ -543,21 +566,6 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-		if (isJobTrackingEnabled)
-			customersAndReceivableMenuBar.addMenuItem(
-					messages.estimatesbyJob(), HistoryTokens.ESTIMATEBYJOB);
-		if (isJobTrackingEnabled)
-			customersAndReceivableMenuBar.addMenuItem(
-					messages.jobProfitabilitySummary(),
-					HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
-		if (isJobTrackingEnabled)
-			customersAndReceivableMenuBar.addMenuItem(
-					messages.unbilledCostsByJob(),
-					HistoryTokens.UNBILLED_COSTS_BY_JOB);
-		if (isJobTrackingEnabled)
-			customersAndReceivableMenuBar.addMenuItem(
-					messages.jobProfitabilityDetail(),
-					HistoryTokens.JOB_PROFITABILITY_DETAIL);
 		return customersAndReceivableMenuBar;
 	}
 
@@ -606,11 +614,6 @@ public class MenuBar {
 					HistoryTokens.PROFITANDLOSSBYCLASS);
 		}
 
-		if (isJobTrackingEnabled) {
-			companyAndFinancialMenuBar.addMenuItem(
-					messages.profitAndLossByJob(),
-					HistoryTokens.PROFITANDLOSSBYJOBS);
-		}
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
@@ -850,6 +853,10 @@ public class MenuBar {
 						HistoryTokens.SALESORDERLIST);
 			}
 		}
+		if (isJobTrackingEnabled) {
+			customerMenuBar.addMenuItem(messages.jobList(),
+					HistoryTokens.JOBSLIST);
+		}
 		if (canSeeBanking) {
 			customerMenuBar.addMenuItem(messages.receivedPayments(),
 					HistoryTokens.RECEIVEPAYMENTS);
@@ -869,6 +876,10 @@ public class MenuBar {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
+			if (isJobTrackingEnabled) {
+				newCustomerMenuBar.addMenuItem(messages.newJob(),
+						HistoryTokens.JOB);
+			}
 		}
 
 		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)

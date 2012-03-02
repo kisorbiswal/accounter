@@ -496,4 +496,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 			int transactionType, int transactionStatus,
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
 			int length);
+
+	PaginationList<ClientJob> getJobs();
 }

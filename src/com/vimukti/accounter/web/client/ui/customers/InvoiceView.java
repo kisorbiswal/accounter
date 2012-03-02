@@ -349,8 +349,8 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			termsForm.setFields(jobListCombo);
 		}

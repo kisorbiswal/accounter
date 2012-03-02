@@ -76,7 +76,13 @@
 		f.company=:company and
 		f.isCurrentFiscalYear=true
 	</query>
-
+	<query name="getJobsList">
+		<query-param name="company" type="Company" />
+		from
+		com.vimukti.accounter.core.Job j where j.company=:company
+		order by
+		j.id
+	</query>
 	<query name="getEntry.by.debitand.balanceDue.orderbyid">
 		<query-param name="company" type="Company" />
 		from
@@ -1016,7 +1022,8 @@
 		<query-param name="company" type="Company" />
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.payToType=:type order by wc.transactionDate desc
+		wc.company=:company and wc.payToType=:type order by wc.transactionDate
+		desc
 	</query>
 
 	<query name="getFixedAsset.by.checkStatusand.purchaseDate">
@@ -2191,10 +2198,12 @@
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
 
 		from com.vimukti.accounter.core.TransactionItem sale
-		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		where
+		sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
 		and (sale.transaction.type in (1,14,8,37) or (sale.transaction.type=36
 		and sale.quantity.value &lt; 0))
-		order by sale.transaction.transactionDate,sale.transaction.id
+		order by
+		sale.transaction.transactionDate,sale.transaction.id
 	</query>
 	<query name="getJobsByCustomer">
 		<query-param name="customerId" type="long" />

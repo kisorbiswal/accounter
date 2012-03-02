@@ -7,7 +7,9 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.NewJobDialog;
+import com.vimukti.accounter.web.client.ui.core.ActionCallback;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
+import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 
 public class JobCombo extends CustomCombo<ClientJob> {
 	private ValueCallBack<ClientJob> newJobtHandler;
@@ -66,9 +68,19 @@ public class JobCombo extends CustomCombo<ClientJob> {
 
 	@Override
 	public void onAddNew() {
-		NewJobDialog jobDialog = new NewJobDialog(null, messages.job(), "",
-				customer);
-		jobDialog.addSuccessCallback(newJobtHandler);
+		NewJobAction action = ActionFactory.getNewJobAction(customer);
+		action.setCallback(new ActionCallback<ClientJob>() {
+
+			@Override
+			public void actionResult(ClientJob result) {
+				if (result.getDisplayName() != null && result.isActive())
+					addItemThenfireEvent(result);
+			}
+		});
+		action.run(null, true);
+		// NewJobDialog jobDialog = new NewJobDialog(null, messages.job(), "",
+		// customer);
+		// jobDialog.addSuccessCallback(newJobtHandler);
 	}
 
 	public void setCustomer(ClientCustomer customer) {
