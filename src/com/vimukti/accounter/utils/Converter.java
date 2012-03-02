@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.StringReader;
 
+import org.apache.log4j.Logger;
 import org.zefer.pd4ml.PD4Constants;
 import org.zefer.pd4ml.PD4ML;
 import org.zefer.pd4ml.PD4PageMark;
@@ -18,6 +19,7 @@ import com.vimukti.accounter.main.ServerConfiguration;
 
 public class Converter {
 	private final Dimension dimension;
+	private Logger log = Logger.getLogger(Converter.class);
 
 	// public static void main(String[] args) throws Exception {
 	// Converter converter = new Converter();
@@ -27,7 +29,7 @@ public class Converter {
 	// converter.generatePDF(htmlFileName, pdfFile, PD4Constants.A4,
 	// args.length > 2 ? args[2] : null, args.length > 3 ? args[3]
 	// : null);
-	// System.out.println("done.");
+	// log.info("done.");
 	// }
 
 	public Converter(Dimension dimension) {

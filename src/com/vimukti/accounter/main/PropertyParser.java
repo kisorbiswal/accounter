@@ -7,10 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 public class PropertyParser {
 
 	File fileToRead;
 	HashMap<String, String> keyValue = new HashMap<String, String>();
+	private static Logger log = Logger.getLogger(PropertyParser.class);
 
 	public void loadFile(String fileName) throws FileNotFoundException,
 			IOException {
@@ -60,7 +63,7 @@ public class PropertyParser {
 		}
 		int i = 1;
 		for (Object obj : ps.keyValue.keySet()) {
-			System.out.println(i + " " + obj + ":" + ps.keyValue.get(obj));
+			log.info(i + " " + obj + ":" + ps.keyValue.get(obj));
 			i++;
 		}
 	}

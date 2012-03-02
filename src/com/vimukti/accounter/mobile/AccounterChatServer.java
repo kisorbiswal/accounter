@@ -71,7 +71,7 @@ public class AccounterChatServer implements ChatManagerListener,
 				}
 			}, 500);
 		} catch (Exception e) {
-			log.error("Unable to Strart Chat Server.");
+			log.info("Unable to Strart Chat Server.");
 		}
 		log.info("Chat Server Started....");
 	}
@@ -85,7 +85,7 @@ public class AccounterChatServer implements ChatManagerListener,
 			from = from.substring(0, msg.getFrom().lastIndexOf("/"));
 		}
 		from += " eng";
-		System.out.println("Message " + message);
+		log.info("Message " + message);
 		if (message != null) {
 			MobileChannelContext context = new MobileChannelContext(from,
 					message, AdaptorType.CHAT, NETWORK_TYPE_GTALK) {

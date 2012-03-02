@@ -302,7 +302,7 @@ public class UsersMailSendar {
 		String contentStr = content.toString().replaceAll("%TOKEN%", token);
 		contentStr = replaceServerUrl(contentStr);
 
-		System.out.println("************* ACTIVATION CODE : " + token);
+		LOG.info("************* ACTIVATION CODE : " + token);
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(contentStr);
@@ -336,7 +336,7 @@ public class UsersMailSendar {
 				activationCode);
 		contentStr = replaceServerUrl(contentStr);
 
-		System.out.println("************* ACTIVATION CODE : " + activationCode);
+		LOG.info("************* ACTIVATION CODE : " + activationCode);
 
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(contentStr);

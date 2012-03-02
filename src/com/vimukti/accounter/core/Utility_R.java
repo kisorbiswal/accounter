@@ -22,6 +22,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFiscalYear;
 
 public class Utility_R {
+	private static Logger log = Logger.getLogger(Utility_R.class);
 
 	int version;
 
@@ -827,7 +828,7 @@ public class Utility_R {
 		// s = (s*10)+r;
 		// n = n/10;
 		// }
-		// System.out.println(s);
+		// log.info(s);
 
 		String numberInWords = "";
 		String lhs = "";
@@ -911,7 +912,7 @@ public class Utility_R {
 			numberInWords = new StringBuilder().append(numberInWords)
 					.append(" and ").append(rhs).append("/100 DOLLARS")
 					.toString();
-		System.out.println(numberInWords);
+		log.info(numberInWords);
 
 		return numberInWords;
 
@@ -965,7 +966,7 @@ public class Utility_R {
 				} else
 					numberInWords += " " + faceValue;
 				mid = (Boolean) object[1];
-				// System.out.println(numberInWords);
+				// log.info(numberInWords);
 
 			}
 		}
