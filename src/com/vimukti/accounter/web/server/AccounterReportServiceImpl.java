@@ -3229,8 +3229,19 @@ public class AccounterReportServiceImpl extends AccounterRPCBaseServiceImpl
 	public ArrayList<TransactionDetailByAccount> getMissingCheckDetils(
 			long accountId, ClientFinanceDate start, ClientFinanceDate end)
 			throws AccounterException {
-		return getFinanceTool().getReportManager().getMissionChecksByAccount(
-				accountId, start, end, getCompanyId());
+		ArrayList<TransactionDetailByAccount> missionChecksByAccount = getFinanceTool()
+				.getReportManager().getMissionChecksByAccount(accountId, start,
+						end, getCompanyId());
+		FinanceDate[] minimumAndMaximumDates = getMinimumAndMaximumDates(start,
+				end, getCompanyId());
+		TransactionDetailByAccount detailByAccount = new TransactionDetailByAccount();
+		if (detailByAccount != null) {
+			missionChecksByAccount
+					.add((TransactionDetailByAccount) setStartEndDates(
+							detailByAccount, minimumAndMaximumDates));
+		}
+		return missionChecksByAccount;
+
 	}
 
 	@Override

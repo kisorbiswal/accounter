@@ -120,7 +120,7 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
-		if (isCanOpenTransactionView(0, obj.getType())) {
+		if (!isCanOpenTransactionView(0, obj.getType())) {
 			return;
 		}
 		if (type != 0) {

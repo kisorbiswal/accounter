@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.vimukti.accounter.web.client.ValueCallBack;
+import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.NewJobDialog;
 
 public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 	private long customerId;
@@ -33,7 +37,7 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 	@Override
 	protected ClientJob getAddNewRow() {
 		ClientJob clientJob = new ClientJob();
-		clientJob.setJobName("");
+		clientJob.setJobName("Add New Job");
 		return clientJob;
 	}
 
@@ -66,7 +70,33 @@ public class JobDropDownTable extends AbstractDropDownTable<ClientJob> {
 
 	@Override
 	protected void addNewItem(String text) {
+		final ClientCompany company = Accounter.getCompany();
+		if (getCustomerId() != 0) {
+			ClientCustomer customer = company.getCustomer(getCustomerId());
+			NewJobDialog jobDialog = new NewJobDialog(null, messages.job(), "",
+					customer);
+			jobDialog.addSuccessCallback(new ValueCallBack<ClientJob>() {
 
+				@Override
+				public void execute(final ClientJob value) {
+					Accounter.createCRUDService().create(value,
+							new AsyncCallback<Long>() {
+
+								@Override
+								public void onSuccess(Long result) {
+									value.setID(result);
+									company.processUpdateOrCreateObject(value);
+									selectRow(value);
+								}
+
+								@Override
+								public void onFailure(Throwable caught) {
+									caught.printStackTrace();
+								}
+							});
+				}
+			});
+		}
 	}
 
 	@Override
