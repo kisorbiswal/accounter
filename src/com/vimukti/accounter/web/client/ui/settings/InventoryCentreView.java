@@ -31,6 +31,9 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.SelectCombo;
+import com.vimukti.accounter.web.client.ui.company.NewItemAction;
+import com.vimukti.accounter.web.client.ui.core.Action;
+import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.Calendar;
 import com.vimukti.accounter.web.client.ui.core.ISavableView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
@@ -690,5 +693,19 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		}
 		return TransactionHistory.ALL_INVOICES;
 
+	}
+
+	public String getAddNewLabelString() {
+		return messages.addaNew(messages.inventoryItem());
+	}
+
+	public NewItemAction getAddNewAction() {
+		if (!Accounter.getUser().canDoInvoiceTransactions())
+			return null;
+		else {
+			NewItemAction action = ActionFactory.getNewItemAction(true);
+			action.setType(ClientItem.TYPE_INVENTORY_PART);
+			return action;
+		}
 	}
 }
