@@ -3891,11 +3891,12 @@ public class ReportManager extends Manager {
 	}
 
 	public ArrayList<JobProfitability> getJobProfitabilitySummaryReport(
-			Long id, ClientFinanceDate startDate, ClientFinanceDate endDate) {
+			Long companyId, ClientFinanceDate startDate,
+			ClientFinanceDate endDate) {
 		Session session = HibernateUtil.getCurrentSession();
 		ArrayList<JobProfitability> list = new ArrayList<JobProfitability>();
 		List result = session.getNamedQuery("getJobProfitabilitySummary")
-				.setParameter("id", id)
+				.setParameter("companyId", companyId)
 				.setParameter("startDate", startDate.getDate())
 				.setParameter("endDate", endDate.getDate()).list();
 		Iterator iterator = result.iterator();
