@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -29,7 +30,7 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class PayPalIPINServlet extends BaseServlet {
-
+	Logger log = Logger.getLogger(PayPalIPINServlet.class);
 	/**
 	 * 
 	 */
@@ -45,6 +46,7 @@ public class PayPalIPINServlet extends BaseServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		log.info("Paypal Recieved: (doPost),");
 		// read post from PayPal
 		// system and add 'cmd'
 		Enumeration en = req.getParameterNames();
@@ -54,7 +56,8 @@ public class PayPalIPINServlet extends BaseServlet {
 			String paramName = (String) en.nextElement();
 			String paramValue = req.getParameter(paramName);
 			params.put(paramName, paramValue);
-			str = str + "&" + paramName + "=" + URLEncoder.encode(paramValue);
+			str = str + "&" + paramName + "="
+					+ URLEncoder.encode(paramValue, "utf-8");
 		}
 
 		String paymentStatus = req.getParameter("payment_status");
@@ -87,6 +90,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		}
 
 		if (res.equals("VERIFIED")) {
+			log.info("Paypal Verified.");
 			// check that paymentStatus=Completed
 			// check that txnId has not been previously processed
 			// check that receiverEmail is your Primary PayPal email
@@ -96,6 +100,7 @@ public class PayPalIPINServlet extends BaseServlet {
 			if (emailId != null && txnId != null) {
 				if (!paymentStatus.equals("Completed")) {
 					sendInfo("Your process is not completed", req, resp);
+					log.info("Paypal not completed.");
 					return;
 				}
 				Session openSession = HibernateUtil.openSession();
@@ -103,6 +108,7 @@ public class PayPalIPINServlet extends BaseServlet {
 					saveDetailsInDB(params, emailId);
 					upgradeClient(params, emailId);
 				} catch (Exception e) {
+					e.printStackTrace();
 				} finally {
 					if (openSession.isOpen()) {
 						openSession.close();
@@ -113,8 +119,10 @@ public class PayPalIPINServlet extends BaseServlet {
 
 		} else if (res.equals("INVALID")) {
 			// log for investigation
+			log.info("Paypal invalid.");
 		} else {
 			// error
+			log.info("Paypal error.");
 		}
 	}
 
@@ -167,10 +175,10 @@ public class PayPalIPINServlet extends BaseServlet {
 		Transaction beginTransaction = session.beginTransaction();
 		session.saveOrUpdate(clientSubscription);
 		beginTransaction.commit();
+		log.info("Paypal Client updated.");
 		try {
 			UsersMailSendar.sendMailToSubscribedUser(client);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -206,7 +214,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		details.setMcCurrency(params.get("mc_currency"));
 		details.setPaymentStatus(params.get("payment_status"));
 		details.setClinetEmailId(emailId);
-
+		log.info("Paypal details Saved.");
 	}
 
 }
