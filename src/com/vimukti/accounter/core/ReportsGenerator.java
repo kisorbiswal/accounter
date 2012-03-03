@@ -451,7 +451,8 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByAccountServerReport, finaTool);
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
-				if (status == null || status.isEmpty()) {
+				if (status == null || status.isEmpty()
+						|| status.trim().equals("0")) {
 					transactionDetailByAccountServerReport
 							.onResultSuccess(reportsSerivce
 									.getTransactionDetailByAccount(
