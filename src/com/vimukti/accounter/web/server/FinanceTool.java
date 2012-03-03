@@ -2259,7 +2259,7 @@ public class FinanceTool {
 			((PurchaseOrder) newTransaction).setUsedBill(null, session);
 		} else if (newTransaction instanceof MakeDeposit) {
 			((MakeDeposit) newTransaction)
-					.setTransactionDepositItems(new ArrayList<TransactionDepositItem>());
+					.setEstimates(new HashSet<Estimate>());
 		}
 
 		session.setFlushMode(flushMode);

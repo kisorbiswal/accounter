@@ -3146,7 +3146,7 @@ public class ClientCompany implements IAccounterCore {
 		ArrayList<ClientPayee> activePayees = getActivePayees();
 		for (ClientPayee payee : activePayees) {
 			ClientCurrency currency = getCurrency(payee.getCurrency());
-			if (id != currency.id) {
+			if (currency != null && id != currency.id) {
 				return true;
 			}
 		}

@@ -2575,6 +2575,7 @@
 		ON A.ID =
 		I.INCOME_ACCOUNT_ID
 		OR A.ID = I.EXPENSE_ACCOUNT_ID
+		OR A.ID = I.ASSETS_ACCOUNT_ID
 
 		LEFT OUTER JOIN
 		VENDOR V
@@ -3257,6 +3258,7 @@
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID"
 			type="long" />
+		<return-scalar column="CPP_ID" type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
 		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY
@@ -3315,7 +3317,8 @@
 		TMDE.ID AS
 		TRANSACTION_MAKEDEPOSIT_ENTRIES_ID,
 		TE.ID AS
-		TRANSACTION_EXPENSE_ID
+		TRANSACTION_EXPENSE_ID,
+		CPP.ID AS CPP_ID
 		FROM
 		ACCOUNT A
 		LEFT OUTER JOIN
@@ -3459,6 +3462,8 @@
 		TRANSACTION_EXPENSE TE
 		ON A.ID =
 		TE.ACCOUNT_ID
+		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
+		ON CPP.DEPOSITIN_ID=A.ID
 		WHERE A.ID =
 		:inputId AND A.COMPANY_ID=:companyId
 	</sql-query>
@@ -6857,6 +6862,39 @@
 		ST.ID=:inputId AND ST.COMPANY_ID=:companyId
 
 	</sql-query>
+	
+	<sql-query name="canDeleteStockAdjustment">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="SA_ID" type="long" />
+
+		SELECT
+		SA.ID AS SA_ID
+
+		FROM STOCK_ADJUSTMENT SA
+
+		WHERE SA.ID IS NULL AND
+		SA.ID=:inputId AND SA.COMPANY_ID=:companyId
+
+	</sql-query>
+	
+	<sql-query name="canDeleteBuildAssembly">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="BA_ID" type="long" />
+
+		SELECT
+		BA.ID AS BA_ID
+
+		FROM BUILD_ASSEMBLY BA
+
+		WHERE BA.ID IS NULL AND
+		BA.ID=:inputId AND BA.COMPANY_ID=:companyId
+
+	</sql-query>
+	
 
 	<sql-query name="canDeleteMeasurement">
 		<query-param name="companyId" type="long" />

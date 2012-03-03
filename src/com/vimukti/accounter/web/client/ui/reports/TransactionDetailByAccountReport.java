@@ -160,7 +160,8 @@ public class TransactionDetailByAccountReport extends
 		UIUtils.generateReportPDF(
 				Integer.parseInt(String.valueOf(startDate.getDate())),
 				Integer.parseInt(String.valueOf(endDate.getDate())),
-				getReportType(), "", "", accountId);
+				getReportType(), "", "",
+				String.valueOf(accountId != 0 ? accountId : ""));
 
 	}
 
