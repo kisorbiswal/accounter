@@ -3460,7 +3460,7 @@
 		ON A.ID =
 		TE.ACCOUNT_ID
 		WHERE A.ID =
-		:inputId AND A.COMPANY_ID=:companyId LIMIT 1
+		:inputId AND A.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="canDeleteInvoice">

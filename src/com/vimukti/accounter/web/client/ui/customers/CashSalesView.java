@@ -948,6 +948,9 @@ public class CashSalesView extends
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					netAmountLabel.setAmount(transaction.getNetAmount());
 					taxTotalNonEditableText.setTransaction(transaction);
@@ -960,9 +963,6 @@ public class CashSalesView extends
 					}
 					taxTotalNonEditableText.setTransaction(transaction);
 				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
-				}
 			}
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
@@ -974,7 +974,7 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			netAmountLabel.setAmount(transaction.getTotal());
+
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
