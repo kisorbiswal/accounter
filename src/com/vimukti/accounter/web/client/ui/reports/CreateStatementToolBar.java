@@ -22,8 +22,8 @@ import com.vimukti.accounter.web.client.ui.combo.VendorCombo;
 import com.vimukti.accounter.web.client.ui.forms.DateItem;
 
 public class CreateStatementToolBar extends ReportToolbar {
-	private DateItem fromItem;
-	private DateItem toItem;
+	DateItem fromItem;
+	DateItem toItem;
 	private CustomerCombo customerCombo;
 	private VendorCombo vendorCombo;
 	private ClientCustomer selectedCusotmer = null;
@@ -96,7 +96,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 						public void selectedComboBoxItem(
 								ClientCustomer selectItem) {
 							setPayeeId(selectItem.getID());
-							createDisplayJobCombo();
+							createDisplayJobCombo(selectItem);
 						}
 					});
 			if (getPayeeId() != 0) {
@@ -180,11 +180,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// if (UIUtils.isMSIEBrowser()) {
 		// dateRangeItemCombo.setWidth("200px");
 		// }
-		if(this instanceof CreateJobIdToolBar)
-		{
-			addItems(customerCombo, dateRangeItemCombo,
-					fromItem, toItem);
-		}else{
+		if (this instanceof CreateJobIdToolBar) {
+			addItems(customerCombo, dateRangeItemCombo, fromItem, toItem);
+		} else {
 			if (isVendor) {
 				addItems(getViewSelect(), vendorCombo, dateRangeItemCombo,
 						fromItem, toItem);
@@ -193,7 +191,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 						fromItem, toItem);
 			}
 		}
-		
+
 		add(updateButton);
 		this.setCellVerticalAlignment(updateButton,
 				HasVerticalAlignment.ALIGN_MIDDLE);
@@ -295,7 +293,7 @@ public class CreateStatementToolBar extends ReportToolbar {
 				endDate);
 	}
 
-	protected void createDisplayJobCombo() {
+	protected void createDisplayJobCombo(ClientCustomer selectItem) {
 
 	}
 

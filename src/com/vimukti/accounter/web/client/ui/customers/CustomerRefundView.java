@@ -89,10 +89,11 @@ public class CustomerRefundView extends
 			return;
 
 		// Job Tracking
+		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
+			jobListCombo.setDisabled(false);
 		}
 		ClientCurrency clientCurrency = getCurrency(customer.getCurrency());
 		amtText.setCurrency(clientCurrency);
@@ -284,12 +285,12 @@ public class CustomerRefundView extends
 			classListCombo = createAccounterClassListCombo();
 			balForm.setFields(classListCombo);
 		}
-
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			balForm.setFields(jobListCombo);
 		}
+
 		VerticalPanel leftPanel = new VerticalPanel();
 		leftPanel.setWidth("100%");
 		leftPanel.setSpacing(5);
@@ -537,6 +538,7 @@ public class CustomerRefundView extends
 			}
 			if (getPreferences().isJobTrackingEnabled()) {
 				jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+				jobListCombo.setDisabled(true);
 			}
 		}
 		initRPCService();
@@ -685,13 +687,12 @@ public class CustomerRefundView extends
 		if (!currencyWidget.isShowFactorField()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
-		}
+
 		super.onEdit();
+		jobListCombo.setDisabled(isInViewMode());
+		if (customer != null) {
+			jobListCombo.setCustomer(customer);
+		}
 	}
 
 	@Override
