@@ -5975,14 +5975,12 @@ public interface AccounterMessages extends Messages {
 
 	public String purchaseOrderTaskDesc(String vendor, String orderNo);
 
-<<<<<<< HEAD
 	public String missingchecks();
 
 	public String reconcilationDiscrepancyReport();
 
 	public String jobList();
-=======
+
 	public String accountisParenttoThisAccount();
->>>>>>> e52c34135bd265732a1661896c1c58bd568e1957
 
 }
