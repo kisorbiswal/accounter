@@ -198,10 +198,7 @@ public class OpenCompanyServlet extends BaseServlet {
 					session.save(activity);
 				}
 				transaction.commit();
-				if (client.getClientSubscription() != null) {
-					request.setAttribute(SUBSCRIPTION, client
-							.getClientSubscription().getId());
-				}
+
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
