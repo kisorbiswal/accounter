@@ -149,15 +149,21 @@ public class CustomerPrePaymentView extends
 			transaction.setDepositIn(depositInAccount.getID());
 		if (!DecimalUtil.isEquals(enteredBalance, 0.00))
 			transaction.setTotal(enteredBalance);
-		if (paymentMethod != null)
-			transaction.setPaymentMethod(paymentMethodCombo.getSelectedValue());
+		this.paymentMethod = paymentMethodCombo.getSelectedValue();
+		if (paymentMethod != null) {
+			transaction.setPaymentMethod(paymentMethod);
+			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+				if (checkNo.getValue() != null
+						&& !checkNo.getValue().equals("")) {
+					String value = String.valueOf(checkNo.getValue());
+					transaction.setCheckNumber(value);
+				} else {
+					transaction.setCheckNumber("");
 
-		if (checkNo.getValue() != null && !checkNo.getValue().equals("")) {
-			String value = String.valueOf(checkNo.getValue());
-			transaction.setCheckNumber(value);
-		} else {
-			transaction.setCheckNumber("");
-
+				}
+			} else {
+				transaction.setCheckNumber("");
+			}
 		}
 		// if (transaction.getID() != 0)
 		//
@@ -635,20 +641,18 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void paymentMethodSelected(String paymentMethod) {
-		if (paymentMethod == null)
+		this.paymentMethod = paymentMethod;
+		if (paymentMethod == null) {
 			return;
+		}
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			// if
-			// (paymentMethod.equalsIgnoreCase(messages.cheque()))
-			// {
-			// //printCheck.setDisabled(false);
-			// //checkNo.setDisabled(false);
-			// } else {
-			// //printCheck.setDisabled(true);
-			// //checkNo.setDisabled(true);
-			// }
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			checkNo.setDisabled(isInViewMode());
+			checkNo.setVisible(true);
+		} else {
+			// paymentMethodCombo.setComboItem(paymentMethod);
+			checkNo.setDisabled(true);
+			checkNo.setVisible(false);
 		}
 
 	}
@@ -753,6 +757,7 @@ public class CustomerPrePaymentView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 

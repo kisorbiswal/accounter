@@ -1154,7 +1154,7 @@ public class CustomerManager extends PayeeManager {
 		} else if (transactionType == Transaction.TYPE_SALES_ORDER) {
 			int typeOfEstiate = 1;
 			if (transactionStatusType == TransactionHistory.COMPLETED_SALES_ORDERS) {
-				typeOfEstiate = 5;
+				typeOfEstiate = ClientTransaction.STATUS_COMPLETED;
 			}
 			if (transactionStatusType == TransactionHistory.OPEN_SALES_ORDERS) {
 
