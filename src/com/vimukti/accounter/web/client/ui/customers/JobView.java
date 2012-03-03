@@ -198,15 +198,15 @@ public class JobView extends BaseView<ClientJob> {
 	}
 
 	private void enableFormItems() {
+		setMode(EditMode.EDIT);
 		jobNameText.setDisabled(isInViewMode());
 		statusCheck.setDisabled(isInViewMode());
 		jobstatusCombo.setDisabled(isInViewMode());
 		startDate.setDisabled(isInViewMode());
 		endDate.setDisabled(isInViewMode());
 		projectEndDate.setDisabled(isInViewMode());
-		if (customer == null) {
-			customerCombo.setDisabled(isInViewMode());
-		}
+		customerCombo.setDisabled(isInViewMode());
+		super.onEdit();
 
 	}
 

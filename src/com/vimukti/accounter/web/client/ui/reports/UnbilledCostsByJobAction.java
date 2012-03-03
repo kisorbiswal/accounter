@@ -10,6 +10,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class UnbilledCostsByJobAction extends Action<UnbilledCostsByJob> {
 	private UnBilledCostsByJobReport costsByJobReport;
 
+	public UnbilledCostsByJobAction() {
+		super();
+		this.catagory = messages.report();
+	}
+
 	@Override
 	public String getText() {
 		return messages.unbilledCostsByJob();
