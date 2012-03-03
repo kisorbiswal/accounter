@@ -47,7 +47,13 @@ public class CompaniesServlet extends BaseServlet {
 		checkForStatus(req);
 
 		String companyID = req.getParameter(COMPANY_ID);
-
+		// for delete account from user profile
+		if (companyID == null
+				&& httpSession.getAttribute("cancelDeleteAccountcompany") != null) {
+			companyID = String.valueOf(httpSession
+					.getAttribute("cancelDeleteAccountcompany"));
+			httpSession.removeAttribute("cancelDeleteAccountcompany");
+		}
 		if (companyID != null) {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
