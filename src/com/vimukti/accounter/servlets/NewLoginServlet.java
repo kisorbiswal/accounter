@@ -104,13 +104,13 @@ public class NewLoginServlet extends BaseServlet {
 		if (client == null) {
 			return null;
 		}
-		String encode = createD2(request, emailId, password);
+		// String encode = createD2(request, emailId, password);
 		if (request.getParameter("staySignIn") != null
 				&& request.getParameter("staySignIn").equals("on")) {
 			// Inserting RememberMeKey
 			Session session = HibernateUtil.getCurrentSession();
 
-			addUserCookies(response, encode, SECRET_KEY_COOKIE);
+			// addUserCookies(response, encode, SECRET_KEY_COOKIE);
 
 			byte[] makeHash = Security.makeHash(client.getEmailId()
 					+ Security.makeHash(client.getPassword()));

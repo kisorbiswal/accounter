@@ -26,7 +26,6 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Currency;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.UserPermissions;
@@ -79,7 +78,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 					e.printStackTrace();
 					throw e;
 				} finally {
-					EU.removeCipher();
+					// EU.removeCipher();
 					session.close();
 				}
 			} else {
@@ -125,26 +124,26 @@ public class AccounterCompanyInitializationServiceImpl extends
 		Session session = HibernateUtil.getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try {
-			byte[] companySecret = null;
-			byte[] userSecret = null;
-			if (password != null) {
-				try {
-					byte[] s3 = EU.generateSymetric();
-					byte[] csk = EU.generatePBS(password);
-					companySecret = EU.encrypt(s3, csk);
-					userSecret = EU.encrypt(s3,
-							EU.decrypt(d2, EU.getKey(client.getEmailId())));
-
-					EU.createCipher(userSecret, d2, client.getEmailId());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			// byte[] companySecret = null;
+			// byte[] userSecret = null;
+			// if (password != null) {
+			// try {
+			// byte[] s3 = EU.generateSymetric();
+			// byte[] csk = EU.generatePBS(password);
+			// companySecret = EU.encrypt(s3, csk);
+			// userSecret = EU.encrypt(s3,
+			// EU.decrypt(d2, EU.getKey(client.getEmailId())));
+			//
+			// EU.createCipher(userSecret, d2, client.getEmailId());
+			// } catch (Exception e) {
+			// e.printStackTrace();
+			// }
+			// }
 			Company company = new Company();
 			company.setTradingName(preferences.getTradingName());
 			company.setConfigured(false);
 			company.setCreatedDate(new Date());
-			company.setSecretKey(companySecret);
+			// company.setSecretKey(companySecret);
 			company.setVersion(Company.CURRENT_VERSION);
 
 			User user = new User(getUser(client));
@@ -296,13 +295,13 @@ public class AccounterCompanyInitializationServiceImpl extends
 		String userEmail = (String) request.getSession().getAttribute(
 				BaseServlet.EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
-		if (user != null && user.getSecretKey() != null) {
-			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		// if (user != null && user.getSecretKey() != null) {
+		// try {
+		// EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
 
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {

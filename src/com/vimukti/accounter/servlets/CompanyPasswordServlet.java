@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -29,23 +28,9 @@ public class CompanyPasswordServlet extends BaseServlet {
 		Long companyId = (Long) req.getSession().getAttribute(COMPANY_ID);
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (password != null && companyId != null) {
-			byte[] csk = EU.generatePBS(password);
 			byte[] comSecret = getCompanySecretFromDB(companyId);
 			try {
-				byte[] s3 = null;
-				try {
-					s3 = EU.decrypt(comSecret, csk);
-				} catch (Exception e) {
-					e.printStackTrace();
-					req.setAttribute("error", "Wrong password.");
-					dispatch(req, resp, VIEW);
-					return;
-				}
-				byte[] d2 = getD2(req);
-				byte[] s2 = EU.getKey(emailId);
-				byte[] userSecret = EU.encrypt(s3, EU.decrypt(d2, s2));
 				User user = getUser(emailId, companyId);
-				user.setSecretKey(userSecret);
 				Session session = HibernateUtil.getCurrentSession();
 				Transaction beginTransaction = session.beginTransaction();
 				session.saveOrUpdate(user);

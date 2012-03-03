@@ -133,7 +133,7 @@ public class ResetPasswordServlet extends BaseServlet {
 			// httpsession.removeAttribute(ACTIVATION_TYPE);
 			// }
 			httpsession.setAttribute(EMAIL_ID, emailId);
-			NewLoginServlet.createD2(req, emailId, password);
+			// NewLoginServlet.createD2(req, emailId, password);
 			redirectExternal(req, resp, LOGIN_URL);
 		} catch (Exception e) {
 			e.printStackTrace();
