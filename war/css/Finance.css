@@ -788,7 +788,7 @@ input.dropdown-button {
 }
 
 .empty_menu_bar {
-	padding: 16px;
+	padding: 16px 0;
 	margin-top: 13px;
 }
 
@@ -1177,7 +1177,7 @@ iframe,.address div {
 }
 
 .setup_panel {
-	margin: 4em auto;
+	margin: 7em auto;
 	width: 800px;
 }
 
