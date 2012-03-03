@@ -851,12 +851,11 @@ public class PurchaseOrderView extends
 			} else
 				billtoAreaItem.setValue("");
 			if (isTrackTax() && isTrackPaidTax()) {
-
-				if (!isTaxPerDetailLine()) {
-					selectTAXCode();
-				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
+				if (!isTaxPerDetailLine()) {
+					selectTAXCode();
 				}
 			}
 
@@ -1468,6 +1467,7 @@ public class PurchaseOrderView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		discountField.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}

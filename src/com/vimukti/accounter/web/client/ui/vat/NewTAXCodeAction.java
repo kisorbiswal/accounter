@@ -73,7 +73,7 @@ public class NewTAXCodeAction extends Action<ClientTAXCode> {
 
 	@Override
 	public String getText() {
-		return messages.newTaxCode();
+		return messages.taxCode();
 	}
 
 }
