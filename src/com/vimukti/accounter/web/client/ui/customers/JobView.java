@@ -63,7 +63,6 @@ public class JobView extends BaseView<ClientJob> {
 		statusCheck.setValue(data.isActive());
 		if (customer != null) {
 			customerCombo.setComboItem(customer);
-			customerCombo.setDisabled(true);
 		} else {
 			customerCombo.setComboItem(getCompany().getCustomer(
 					data.getCustomer()));
