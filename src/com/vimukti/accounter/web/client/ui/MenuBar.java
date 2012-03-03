@@ -751,15 +751,11 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
-			if (!canSaveDrafts) {
-				newVendorMenuBar.addMenuItem(messages.newItem(),
-						HistoryTokens.NEWITEMSUPPLIERS);
-			}
-		} else {
-			if (canDoInventory) {
-				newVendorMenuBar.addMenuItem(messages.newItem(),
-						HistoryTokens.NEWITEMSUPPLIERS);
-			}
+		}
+		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
+				|| canDoInventory) {
+			newVendorMenuBar.addMenuItem(messages.newItem(),
+					HistoryTokens.NEWITEMSUPPLIERS);
 		}
 		if (canDoInvoiceAndBillTransactions) {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
