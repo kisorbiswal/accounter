@@ -177,13 +177,14 @@ public class PurchaseOrderView extends
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
+		DynamicForm form = new DynamicForm();
+
 		if (isTrackTax() && isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
-			DynamicForm form = new DynamicForm();
 			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect);
@@ -247,6 +248,10 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
+		}
+
+		if (!isDiscountPerDetailLine() && isTrackDiscounts()) {
+			form.setFields(discountField);
 		}
 		amountsForm.add(transactionTotalForm);
 
