@@ -114,7 +114,7 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.newCashSale());
+		Label lab1 = new Label(messages.cashSale());
 		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem

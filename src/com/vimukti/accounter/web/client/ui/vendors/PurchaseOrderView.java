@@ -1468,6 +1468,7 @@ public class PurchaseOrderView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		discountField.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}

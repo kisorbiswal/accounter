@@ -118,7 +118,7 @@ public class NewTAXCodeView extends BaseView<ClientTAXCode> {
 	}
 
 	private void createControls() {
-		Label infoLabel = new Label(messages.newTaxCode());
+		Label infoLabel = new Label(messages.taxCode());
 		infoLabel.setStyleName("label-title");
 		// infoLabel.setHeight("35px");
 		listforms = new ArrayList<DynamicForm>();

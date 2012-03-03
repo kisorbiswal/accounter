@@ -3451,7 +3451,7 @@ public class FinanceTool {
 										((BigInteger) object[4]).longValue()));
 				recentTransactionsList.setCurrecyId(object[5] == null ? null
 						: ((BigInteger) object[5]).longValue());
-
+				recentTransactionsList.setEstimateType((Integer) object[6]);
 				activities.add(recentTransactionsList);
 			}
 			return activities;
