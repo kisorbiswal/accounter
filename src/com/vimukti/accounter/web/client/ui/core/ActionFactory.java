@@ -110,6 +110,7 @@ import com.vimukti.accounter.web.client.ui.customers.NewCashSaleAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCreditsAndRefundsAction;
 import com.vimukti.accounter.web.client.ui.customers.NewCustomerAction;
 import com.vimukti.accounter.web.client.ui.customers.NewInvoiceAction;
+import com.vimukti.accounter.web.client.ui.customers.NewJobAction;
 import com.vimukti.accounter.web.client.ui.customers.NewQuoteAction;
 import com.vimukti.accounter.web.client.ui.customers.QuotesAction;
 import com.vimukti.accounter.web.client.ui.customers.ReceivePaymentAction;
@@ -206,6 +207,7 @@ import com.vimukti.accounter.web.client.ui.settings.InventoryCentreAction;
 import com.vimukti.accounter.web.client.ui.settings.InventoryItemsAction;
 import com.vimukti.accounter.web.client.ui.settings.InviteUserAction;
 import com.vimukti.accounter.web.client.ui.settings.InvoiceBrandingAction;
+import com.vimukti.accounter.web.client.ui.settings.JobListAction;
 import com.vimukti.accounter.web.client.ui.settings.MeasurementListAction;
 import com.vimukti.accounter.web.client.ui.settings.NewBrandThemeAction;
 import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentAction;
@@ -1206,6 +1208,10 @@ public class ActionFactory {
 		return new AddMeasurementAction();
 	}
 
+	public static JobListAction getJobListAction() {
+		return new JobListAction();
+	}
+
 	public static NewCurrencyAction getNewCurrencyAction() {
 		return new NewCurrencyAction();
 	}
@@ -1522,4 +1528,9 @@ public class ActionFactory {
 	public static ItemActualCostDetailReportAction getItemActualCostDetailReportAction() {
 		return new ItemActualCostDetailReportAction();
 	}
+
+	public static NewJobAction getNewJobAction(ClientCustomer customer) {
+		return new NewJobAction(customer);
+	}
+
 }

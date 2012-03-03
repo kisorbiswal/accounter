@@ -10,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.main.MessageLoader;
 import com.vimukti.accounter.main.ServerConfiguration;
 
@@ -23,7 +21,6 @@ public class TranslationUploadServlet extends BaseServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String TRANSLATION_UPLOAD = "/WEB-INF/translate/upload.jsp";
-	private Logger log = Logger.getLogger(TranslationUploadServlet.class);
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -92,7 +89,7 @@ public class TranslationUploadServlet extends BaseServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		log.info("Completed the Inseting of messages..");
+		System.out.println("Completed the Inseting of messages..");
 
 	}
 }

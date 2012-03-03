@@ -3,7 +3,6 @@ package com.vimukti.accounter.mobile;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
-import org.apache.log4j.Logger;
 import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
@@ -20,7 +19,7 @@ import com.vimukti.accounter.utils.SecureUtils;
 public class MobileChannelHandler extends SimpleChannelHandler {
 
 	private MobileMessageHandler messageHandler;
-	private Logger log = Logger.getLogger(MobileChannelHandler.class);
+
 	public MobileChannelHandler(MobileMessageHandler messageHandler) {
 		this.messageHandler = messageHandler;
 	}
@@ -28,7 +27,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void messageReceived(final ChannelHandlerContext ctx,
 			final MessageEvent e) throws Exception {
-		log.info("Got Message From: "
+		System.out.println("Got Message From: "
 				+ ctx.getChannel().getRemoteAddress());
 
 		String message = (String) e.getMessage();
@@ -39,7 +38,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 
 			@Override
 			public void send(String string) {
-				log.info("Sending Result: to "
+				System.out.println("Sending Result: to "
 						+ ctx.getChannel().getRemoteAddress());
 				ChannelBuffer copiedBuffer = ChannelBuffers.copiedBuffer(
 						string, Charset.forName("UTF-8"));
@@ -70,7 +69,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e)
 			throws Exception {
-		log.info("Channel Connected From "
+		System.out.println("Channel Connected From "
 				+ ctx.getChannel().getRemoteAddress());
 		ctx.setAttachment(SecureUtils.createID(16));
 	}
@@ -78,7 +77,7 @@ public class MobileChannelHandler extends SimpleChannelHandler {
 	@Override
 	public void channelDisconnected(ChannelHandlerContext ctx,
 			ChannelStateEvent e) throws Exception {
-		log.info("Channel Disconnected From "
+		System.out.println("Channel Disconnected From "
 				+ ctx.getChannel().getRemoteAddress());
 	}
 }

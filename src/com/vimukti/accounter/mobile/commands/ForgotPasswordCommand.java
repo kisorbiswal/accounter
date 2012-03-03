@@ -2,7 +2,6 @@ package com.vimukti.accounter.mobile.commands;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
@@ -16,7 +15,6 @@ import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
 
 public class ForgotPasswordCommand extends AbstractCommand {
-	private Logger log = Logger.getLogger(ForgotPasswordCommand.class);
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
@@ -101,7 +99,7 @@ public class ForgotPasswordCommand extends AbstractCommand {
 	}
 
 	private void sendPasswordMail(String password, String emailId) {
-		log.info("password " + password);
+		System.out.println("password " + password);
 		Client client = getClient(emailId);
 		UsersMailSendar.sendActivationMail(password, client);
 	}

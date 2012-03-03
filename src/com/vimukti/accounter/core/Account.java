@@ -995,7 +995,7 @@ public class Account extends CreatableObject implements IAccounterServerCore,
 	}
 
 	public void updateTotalBalance(double amount, double currencyFactor) {
-		log.info(this.getName());
+		System.out.println(this.getName());
 
 		String tempStr = " Total Balance of " + this.getName()
 				+ " has been updated from " + this.totalBalance;

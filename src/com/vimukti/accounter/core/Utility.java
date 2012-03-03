@@ -832,7 +832,7 @@ public class Utility {
 		// s = (s*10)+r;
 		// n = n/10;
 		// }
-		// log.info(s);
+		// System.out.println(s);
 
 		String numberInWords = "";
 		String lhs = "";
@@ -916,7 +916,7 @@ public class Utility {
 			numberInWords = new StringBuilder().append(numberInWords)
 					.append(" and ").append(rhs).append("/100 DOLLARS")
 					.toString();
-		LOG.info(numberInWords);
+		System.out.println(numberInWords);
 
 		return numberInWords;
 
@@ -970,7 +970,7 @@ public class Utility {
 				} else
 					numberInWords += " " + faceValue;
 				mid = (Boolean) object[1];
-				// log.info(numberInWords);
+				// System.out.println(numberInWords);
 
 			}
 		}

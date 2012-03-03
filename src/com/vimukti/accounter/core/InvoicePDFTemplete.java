@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.web.client.Global;
@@ -18,9 +16,6 @@ import com.vimukti.accounter.web.client.externalization.AccounterMessages;
  * 
  */
 public class InvoicePDFTemplete implements PrintTemplete {
-
-	private Logger log = Logger.getLogger(InvoicePDFTemplete.class);
-
 	private final Invoice invoice;
 	private final BrandingTheme brandingTheme;
 	private final Company company;
@@ -400,7 +395,7 @@ public class InvoicePDFTemplete implements PrintTemplete {
 		t.setVariable("i18_VATRate", messages.taxCode());
 		t.setVariable("i18_VATAmount", messages.tax());
 		Map<String, String> variables = t.getVariables();
-		log.info(variables);
+		System.out.println(variables);
 	}
 
 	public String forUnusedAddress(String add, boolean isFooter) {

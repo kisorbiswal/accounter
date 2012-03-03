@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.core.Client1099Form;
@@ -20,7 +18,6 @@ public class Misc1099PDFTemplate {
 	private static final String templateFileName = "templetes" + File.separator
 			+ "1099MISCTemplate.html";
 	ArrayList<Client1099Form> list;
-	private Logger log = Logger.getLogger(Misc1099PDFTemplate.class);
 
 	String payersAddress = "&nbsp;";
 	String rents = "&nbsp;";
@@ -249,7 +246,7 @@ public class Misc1099PDFTemplate {
 			t.setVariable("marginright", marginRight);
 			t.addBlock("theme");
 
-			log.info("string......" + t.getFileString());
+			System.out.println("string......" + t.getFileString());
 			outPutString = t.getFileString();
 
 		} catch (Exception e) {

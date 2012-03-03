@@ -6,7 +6,6 @@ package com.vimukti.accounter.mobile.commands;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -40,7 +39,6 @@ import com.vimukti.accounter.web.client.ui.UIUtils;
  * 
  */
 public class AuthenticationCommand extends Command {
-	private Logger log = Logger.getLogger(AuthenticationCommand.class);
 
 	@Override
 	public String getId() {
@@ -457,9 +455,9 @@ public class AuthenticationCommand extends Command {
 	private void sendActivationMail(String networkId, String emailId) {
 		String activationCode = SecureUtils.createNumberID(10).toLowerCase()
 				.trim();
-		log.info("NetWorkID: " + networkId);
-		log.info("EmailId: " + emailId);
-		log.info("Activation Code: " + activationCode);
+		System.out.println("NetWorkID: " + networkId);
+		System.out.println("EmailId: " + emailId);
+		System.out.println("Activation Code: " + activationCode);
 
 		UsersMailSendar.sendMobileActivationMail(activationCode, emailId);
 

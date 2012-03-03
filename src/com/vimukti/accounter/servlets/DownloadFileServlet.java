@@ -10,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.main.ServerConfiguration;
 
 public class DownloadFileServlet extends BaseServlet {
@@ -19,7 +17,6 @@ public class DownloadFileServlet extends BaseServlet {
 	/**
 	 * 
 	 */
-	private Logger log = Logger.getLogger(DownloadFileServlet.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +70,7 @@ public class DownloadFileServlet extends BaseServlet {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error(e.toString());
+			System.out.println(e.toString());
 		} finally {
 		}
 	}

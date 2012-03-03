@@ -36,7 +36,6 @@ import com.vimukti.accounter.web.server.RecurringTool;
 
 public class ServerMain extends Main {
 	private static boolean isDebug;
-	private static Logger log = Logger.getLogger(ServerMain.class);
 
 	public static void main(String[] args) throws Exception {
 
@@ -125,7 +124,7 @@ public class ServerMain extends Main {
 				}
 			}
 			new MessageLoader(is).loadMessages();
-			log.info("Completed the Inseting of messages..");
+			System.out.println("Completed the Inseting of messages..");
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("UTF-8 encoding not found.", e);
 		} catch (Exception e) {

@@ -3429,7 +3429,7 @@ public interface AccounterMessages extends Messages {
 	public String pleaseselectaFixedAsset();
 
 	public String pleaseSelectAnItem();
-	
+
 	public String pleaseSelectAnotherPurchaseTAXItem();
 
 	public String pleaseSelectAnotherSalesTAXItem();
@@ -5974,5 +5974,13 @@ public interface AccounterMessages extends Messages {
 	public String reconcilationDiscrepany();
 
 	public String purchaseOrderTaskDesc(String vendor, String orderNo);
+
+	public String missingchecks();
+
+	public String reconcilationDiscrepancyReport();
+
+	public String jobList();
+
+	public String accountisParenttoThisAccount();
 
 }

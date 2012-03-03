@@ -39,7 +39,7 @@ import com.vimukti.accounter.web.server.FinanceTool;
 public abstract class Transaction extends CreatableObject implements
 		IAccounterServerCore, Cloneable {
 
-	Logger log = Logger.getLogger(Transaction.class);
+	Logger log = Logger.getLogger(AccountTransaction.class);
 
 	/**
 	 * 

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.Global;
@@ -14,8 +12,6 @@ import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class Misc1099SamplePDFTemplate {
-
-	private Logger log = Logger.getLogger(Misc1099SamplePDFTemplate.class);
 
 	private static final String templateFileName = "templetes" + File.separator
 			+ "1099SampleTemplate.html";
@@ -202,7 +198,7 @@ public class Misc1099SamplePDFTemplate {
 			t.setVariable("marginright", marginRight);
 			t.addBlock("theme");
 
-			log.info("string......" + t.getFileString());
+			System.out.println("string......" + t.getFileString());
 			outPutString = t.getFileString();
 
 		} catch (Exception e) {
@@ -215,7 +211,7 @@ public class Misc1099SamplePDFTemplate {
 	private void externalizeStrings(MiniTemplator t) {
 		AccounterMessages messages = Global.get().messages();
 		Map<String, String> variables = t.getVariables();
-		log.info(variables);
+		System.out.println(variables);
 		t.setVariable("i18_adjustAlignmentAndReprint",
 				messages.adjustAlignmentAndReprint());
 

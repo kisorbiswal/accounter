@@ -22,7 +22,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.zefer.pd4ml.PD4Constants;
 
@@ -75,8 +74,6 @@ import fr.opensagres.xdocreport.template.IContext;
 import fr.opensagres.xdocreport.template.TemplateEngineKind;
 
 public class GeneratePDFservlet extends BaseServlet {
-
-	private Logger log = Logger.getLogger(GeneratePDFservlet.class);
 
 	public final static String CLASSIC = "Classic";
 	public final static String PROFESSIONAL = "Professional";
@@ -615,7 +612,7 @@ public class GeneratePDFservlet extends BaseServlet {
 						"ModernInvoice");
 			}
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		return null;
 	}

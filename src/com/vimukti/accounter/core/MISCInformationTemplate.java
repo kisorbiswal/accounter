@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.utils.MiniTemplator.TemplateSyntaxException;
 import com.vimukti.accounter.web.client.Global;
@@ -14,8 +12,6 @@ import com.vimukti.accounter.web.client.core.Client1099Form;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 
 public class MISCInformationTemplate {
-
-	private Logger log = Logger.getLogger(MISCInformationTemplate.class);
 
 	ArrayList<Client1099Form> miscVendors;
 	Company myCompany;
@@ -52,8 +48,8 @@ public class MISCInformationTemplate {
 					myCompany.getTradingAddress().countryOrRegion);
 			t.addBlock("changeCompanyAddress3");
 
-			t.setVariable("companyAddress4", myCompany.getTradingAddress()
-					.getZipOrPostalCode());
+			t.setVariable("companyAddress4",
+					myCompany.getTradingAddress().getZipOrPostalCode());
 			t.addBlock("changeCompanyAddress4");
 
 			t.setVariable("companyId", Long.toString(myCompany.getID()));
@@ -128,7 +124,7 @@ public class MISCInformationTemplate {
 
 			t.addBlock("theme");
 
-			log.info("string......" + t.getFileString());
+			System.out.println("string......" + t.getFileString());
 			outPutString = t.getFileString();
 
 		} catch (Exception e) {
@@ -141,7 +137,7 @@ public class MISCInformationTemplate {
 	private void externalizeStrings(MiniTemplator t) {
 		AccounterMessages messages = Global.get().messages();
 		Map<String, String> variables = t.getVariables();
-		log.info(variables);
+		System.out.println(variables);
 		t.setVariable("i18_Company_Address", messages.companyAddress());
 		t.setVariable("i18_Company_Name", messages.companyName());
 		t.setVariable("i18_Id_Number", messages.idNumber());

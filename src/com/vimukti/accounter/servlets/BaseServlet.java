@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -27,7 +26,6 @@ import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.services.IS2SService;
-import com.vimukti.accounter.servlets.DownloadFileServlet.FileInfo;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.web.server.FinanceTool;
@@ -97,7 +95,6 @@ public class BaseServlet extends HttpServlet {
 	public static final int NAME = 1;
 	public static final int PHONE_NO = 2;
 	private static final int ACTIVATION_CODE_SIZE = 10;
-	private Logger log = Logger.getLogger(BaseServlet.class);
 
 	@Override
 	protected void service(HttpServletRequest request,
@@ -418,7 +415,7 @@ public class BaseServlet extends HttpServlet {
 		StringBuffer link = new StringBuffer("https://");
 		link.append(ServerConfiguration.getMainServerDomain());
 		link.append(ACTIVATION_URL);
-		log.info("@@@ ACTIVATION CODE::" + activationCode);
+		System.out.println("@@@ ACTIVATION CODE::" + activationCode);
 		UsersMailSendar.sendResetPasswordLinkToUser(link.toString(),
 				activationCode, client.getEmailId());
 	}

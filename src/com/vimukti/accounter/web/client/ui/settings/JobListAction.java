@@ -1,42 +1,38 @@
-package com.vimukti.accounter.web.client.ui.reports;
+package com.vimukti.accounter.web.client.ui.settings;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.vimukti.accounter.web.client.core.reports.UnbilledCostsByJob;
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.ui.MainFinanceWindow;
 import com.vimukti.accounter.web.client.ui.core.AccounterAsync;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
-public class UnbilledCostsByJobAction extends Action<UnbilledCostsByJob> {
-	private UnBilledCostsByJobReport costsByJobReport;
-
-	public UnbilledCostsByJobAction() {
-		super();
-		this.catagory = messages.report();
-	}
+public class JobListAction extends Action<ClientJob> {
 
 	@Override
 	public String getText() {
-		return messages.unbilledCostsByJob();
+		return "Jobs List";
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent);
+		runAysnc(data, isDependent);
 
 	}
 
-	private void runAsync(final Object data, final Boolean isDependent) {
+	private void runAysnc(final Object data, final Boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override
 			public void onCreated() {
-				costsByJobReport = new UnBilledCostsByJobReport();
-				MainFinanceWindow.getViewManager().showView(costsByJobReport,
-						data, isDependent, UnbilledCostsByJobAction.this);
-			}
+				JobListView jobListView = new JobListView();
+				MainFinanceWindow.getViewManager().showView(jobListView, data,
+						isDependent, JobListAction.this);
 
+			}
 		});
+
 	}
 
 	@Override
@@ -50,13 +46,18 @@ public class UnbilledCostsByJobAction extends Action<UnbilledCostsByJob> {
 	}
 
 	@Override
+	public String getCatagory() {
+		return Global.get().Customer();
+	}
+
+	@Override
 	public String getHistoryToken() {
-		return "UnbilledCostsByJob";
+		return "jobList";
 	}
 
 	@Override
 	public String getHelpToken() {
-		return "Unbilled-Costs-By-Job";
+		return "jobs-list";
 	}
 
 }

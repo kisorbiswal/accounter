@@ -311,11 +311,11 @@ public class EmailManager extends Thread {
 								| Pattern.DOTALL);
 		Matcher matcher = imgTagPattern.matcher(content);
 		// while (matcher.find()) {
-		// // log.info("Match= " + matcher.group(0));
-		// // log.info("group1= " + matcher.group(1));
-		// // log.info("group2= " + matcher.group(2));
-		// // log.info("group3= " + matcher.group(3));
-		// // log.info("group4= " + matcher.group(4));
+		// // System.out.println("Match= " + matcher.group(0));
+		// // System.out.println("group1= " + matcher.group(1));
+		// // System.out.println("group2= " + matcher.group(2));
+		// // System.out.println("group3= " + matcher.group(3));
+		// // System.out.println("group4= " + matcher.group(4));
 		// String group1 = matcher.group(1);
 		// if (group1 != null) {
 		// StringBuilder original = new StringBuilder();
@@ -346,8 +346,8 @@ public class EmailManager extends Thread {
 		//
 		// }
 		for (String old : keyValue.keySet()) {
-			log.info("Old= " + old);
-			log.info("New= " + keyValue.get(old));
+			System.out.println("Old= " + old);
+			System.out.println("New= " + keyValue.get(old));
 			content = content.replace(old, keyValue.get(old));
 		}
 		return content;

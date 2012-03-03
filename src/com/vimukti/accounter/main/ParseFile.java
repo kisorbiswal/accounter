@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ParseFile {
 	public String fileName;
 	public Map<String, String> messages = new HashMap<String, String>();
-	private Logger log = Logger.getLogger(ParseFile.class);
 
 	public ParseFile(String fileName) {
 		this.fileName = fileName;
@@ -101,14 +99,15 @@ public class ParseFile {
 							key = stringTokenizer.nextToken();
 							messages.put(key, "");
 						}
-						log.info("Key:" + key + "__" + "Value:" + value);
+						System.out.println("Key:" + key + "__" + "Value:"
+								+ value);
 					}
 				}
 			}
 		} catch (FileNotFoundException e) {
-			log.error("Invalid file name");
+			System.out.println("Invalid file name");
 		} catch (IOException e) {
-			log.error("Invalid name");
+			System.out.println("Invalid name");
 
 		}
 

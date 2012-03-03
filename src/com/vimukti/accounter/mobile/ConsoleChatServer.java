@@ -10,8 +10,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 
@@ -22,7 +20,6 @@ import com.vimukti.accounter.mobile.MobileAdaptor.AdaptorType;
 public class ConsoleChatServer extends Thread {
 
 	private MobileMessageHandler messageHandler;
-	private static Logger log = Logger.getLogger(ConsoleChatClient.class);
 
 	/**
 	 * Creates new Instance
@@ -68,13 +65,13 @@ public class ConsoleChatServer extends Thread {
 				InputStream inputStream = socket.getInputStream();
 				ObjectInputStream in = new ObjectInputStream(inputStream);
 				out.writeObject("Connection Successfull");
-				log.info("Console Chat Server Started.");
+				System.out.println("Console Chat Server Started.");
 
 				while (socket.isConnected()) {
 					user = (String) in.readObject();
 					Object readObject = in.readObject();
 					String msg = (String) readObject;
-					log.info(msg);
+					System.out.println(msg);
 					MobileChannelContext context = new MobileChannelContext(
 							user, msg, AdaptorType.CHAT,
 							AccounterChatServer.NETWORK_TYPE_CONSOLE) {

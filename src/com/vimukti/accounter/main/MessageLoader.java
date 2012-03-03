@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -23,7 +22,6 @@ import com.vimukti.accounter.web.server.translate.Message;
 public class MessageLoader {
 	private InputStreamReader reader;
 	private static List<Message> oldMessages;
-	private Logger log = Logger.getLogger(MessageLoader.class);
 
 	public MessageLoader(InputStream inputStream) throws Exception {
 		oldMessages = new FinanceTool().getAllMessages();
@@ -70,14 +68,14 @@ public class MessageLoader {
 
 			int index = allKeys.indexOf(keyValue);
 			if (index != -1) {// Not exists
-				// log.info("Duplicate key: '" + line + "'");
+				// System.out.println("Duplicate key: '" + line + "'");
 				// continue;
 				throw new AccounterException("Duplicate key '" + keyValue + "'");
 			}
 
 			Message m = messages.get(value);
 			if (m != null) {
-				// log.info("Duplicate Value: '" + line + "'");
+				// System.out.println("Duplicate Value: '" + line + "'");
 				// continue;
 				throw new AccounterException("Duplicate Value '" + value + "'");
 			}

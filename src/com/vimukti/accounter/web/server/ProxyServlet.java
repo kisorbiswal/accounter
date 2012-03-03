@@ -31,7 +31,6 @@ import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.methods.multipart.StringPart;
-import org.apache.log4j.Logger;
 
 public class ProxyServlet extends HttpServlet {
 	/**
@@ -58,9 +57,8 @@ public class ProxyServlet extends HttpServlet {
 	/**
 	 * The directory to use to temporarily store uploaded files
 	 */
-	private static final File FILE_UPLOAD_TEMP_DIRECTORY = new File(
-			System.getProperty("java.io.tmpdir"));
-	private Logger log = Logger.getLogger(ProxyServlet.class);
+	private static final File FILE_UPLOAD_TEMP_DIRECTORY = new File(System
+			.getProperty("java.io.tmpdir"));
 
 	// Proxy host params
 	/**
@@ -111,7 +109,9 @@ public class ProxyServlet extends HttpServlet {
 				.getInitParameter("maxFileUploadSize");
 		if (stringMaxFileUploadSize != null
 				&& stringMaxFileUploadSize.length() > 0) {
-			this.setMaxFileUploadSize(Integer.parseInt(stringMaxFileUploadSize));
+			this
+					.setMaxFileUploadSize(Integer
+							.parseInt(stringMaxFileUploadSize));
 		}
 	}
 
@@ -128,10 +128,11 @@ public class ProxyServlet extends HttpServlet {
 	public void doGet(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws IOException,
 			ServletException {
-		log.info("Processing GET request" + httpServletRequest.getRequestURI());
+		System.out.println("Processing GET request"
+				+ httpServletRequest.getRequestURI());
 		// Create a GET request
-		GetMethod getMethodProxyRequest = new GetMethod(
-				this.getProxyURL(httpServletRequest));
+		GetMethod getMethodProxyRequest = new GetMethod(this
+				.getProxyURL(httpServletRequest));
 		// Forward the request headers
 		setProxyRequestHeaders(httpServletRequest, getMethodProxyRequest);
 		// Execute the proxy request
@@ -153,16 +154,18 @@ public class ProxyServlet extends HttpServlet {
 			HttpServletResponse httpServletResponse) throws IOException,
 			ServletException {
 
-		log.info("Processing post request"
+		System.out.println("Processing post request"
 				+ httpServletRequest.getRequestURI());
 		// Create a standard POST request
-		PostMethod postMethodProxyRequest = new PostMethod(
-				this.getProxyURL(httpServletRequest));
+		PostMethod postMethodProxyRequest = new PostMethod(this
+				.getProxyURL(httpServletRequest));
 		// Forward the request headers
 		setProxyRequestHeaders(httpServletRequest, postMethodProxyRequest);
 		// Check if this is a mulitpart (file upload) POST
 		if (ServletFileUpload.isMultipartContent(httpServletRequest)) {
-			this.handleMultipartPost(postMethodProxyRequest, httpServletRequest);
+			this
+					.handleMultipartPost(postMethodProxyRequest,
+							httpServletRequest);
 		} else {
 			this.handleStandardPost(postMethodProxyRequest, httpServletRequest);
 		}
@@ -182,7 +185,7 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletRequest} that contains the mutlipart
 	 *            POST data to be sent via the {@link PostMethod}
 	 */
-
+	
 	private void handleMultipartPost(PostMethod postMethodProxyRequest,
 			HttpServletRequest httpServletRequest) throws ServletException {
 		// Create a factory for disk-based file items
@@ -205,16 +208,16 @@ public class ProxyServlet extends HttpServlet {
 				// If the current item is a form field, then create a string
 				// part
 				if (fileItemCurrent.isFormField()) {
-					StringPart stringPart = new StringPart(
-							fileItemCurrent.getFieldName(), // The field name
+					StringPart stringPart = new StringPart(fileItemCurrent
+							.getFieldName(), // The field name
 							fileItemCurrent.getString() // The field value
 					);
 					// Add the part to the list
 					listParts.add(stringPart);
 				} else {
 					// The item is a file upload, so we create a FilePart
-					FilePart filePart = new FilePart(
-							fileItemCurrent.getFieldName(), // The field name
+					FilePart filePart = new FilePart(fileItemCurrent
+							.getFieldName(), // The field name
 							new ByteArrayPartSource(fileItemCurrent.getName(), // The
 									// uploaded
 									// file
@@ -227,8 +230,8 @@ public class ProxyServlet extends HttpServlet {
 				}
 			}
 			MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity(
-					listParts.toArray(new Part[] {}),
-					postMethodProxyRequest.getParams());
+					listParts.toArray(new Part[] {}), postMethodProxyRequest
+							.getParams());
 			postMethodProxyRequest.setRequestEntity(multipartRequestEntity);
 			// The current content-type header (received from the client) IS of
 			// type "multipart/form-data", but the content-type header also
@@ -239,8 +242,8 @@ public class ProxyServlet extends HttpServlet {
 			// boundary string, so it is necessary that we re-set the
 			// content-type string to reflect the new chunk boundary string
 			postMethodProxyRequest.setRequestHeader(
-					STRING_CONTENT_TYPE_HEADER_NAME,
-					multipartRequestEntity.getContentType());
+					STRING_CONTENT_TYPE_HEADER_NAME, multipartRequestEntity
+							.getContentType());
 		} catch (FileUploadException fileUploadException) {
 			throw new ServletException(fileUploadException);
 		}
@@ -257,10 +260,11 @@ public class ProxyServlet extends HttpServlet {
 	 *            The {@link HttpServletRequest} that contains the POST data to
 	 *            be sent via the {@link PostMethod}
 	 */
-
+	
 	private void handleStandardPost(PostMethod postMethodProxyRequest,
 			HttpServletRequest httpServletRequest) {
-		log.info("Handling post request" + httpServletRequest.getRequestURI());
+		System.out.println("Handling post request"
+				+ httpServletRequest.getRequestURI());
 		// Get the client POST data as a Map
 		String username = httpServletRequest.getParameter("userName");
 		Map<String, String[]> mapPostParameters = (Map<String, String[]>) httpServletRequest
@@ -338,16 +342,15 @@ public class ProxyServlet extends HttpServlet {
 			// Modify the redirect to go to this proxy servlet rather that the
 			// proxied host
 			String stringMyHostName = httpServletRequest.getServerName();
-			log.info("IN executeProxyRequest" + stringMyHostName);
+			System.out.println("IN executeProxyRequest" + stringMyHostName);
 			if (httpServletRequest.getServerPort() != 80) {
 				stringMyHostName += ":" + httpServletRequest.getServerPort();
 			}
 
 			stringMyHostName += httpServletRequest.getContextPath();
-			log.info("IN executeProxyRequest ..Redirecting to "
-					+ stringLocation.replace(
-							getProxyHostAndPort() + this.getProxyPath(),
-							stringMyHostName));
+			System.out.println("IN executeProxyRequest ..Redirecting to "
+					+ stringLocation.replace(getProxyHostAndPort()
+							+ this.getProxyPath(), stringMyHostName));
 			httpServletResponse.sendRedirect(stringLocation.replace(
 					getProxyHostAndPort() + this.getProxyPath(),
 					stringMyHostName));
@@ -378,7 +381,7 @@ public class ProxyServlet extends HttpServlet {
 		// Send the content to the client
 		InputStream inputStreamProxyResponse = httpMethodProxyRequest
 				.getResponseBodyAsStream();
-		log.info(inputStreamProxyResponse);
+		System.out.println(inputStreamProxyResponse);
 		BufferedInputStream bufferedInputStream = new BufferedInputStream(
 				inputStreamProxyResponse);
 
@@ -393,8 +396,8 @@ public class ProxyServlet extends HttpServlet {
 			outputStreamClientResponse.flush();
 			count++;
 		}
-		// log.info("Length: "+count);
-		// log.info("String: "+sb.toString());
+		// System.out.println("Length: "+count);
+		// System.out.println("String: "+sb.toString());
 		outputStreamClientResponse.flush();
 		outputStreamClientResponse.close();
 	}
@@ -413,7 +416,7 @@ public class ProxyServlet extends HttpServlet {
 	 * @param httpMethodProxyRequest
 	 *            The request that we are about to send to the proxy host
 	 */
-
+	
 	private void setProxyRequestHeaders(HttpServletRequest httpServletRequest,
 			HttpMethod httpMethodProxyRequest) {
 		// Get an Enumeration of all of the header names sent by the client

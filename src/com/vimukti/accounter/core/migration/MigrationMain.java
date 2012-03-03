@@ -15,8 +15,6 @@ import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
 
 public class MigrationMain {
-	private static Logger log = Logger.getLogger(MigrationMain.class);
-
 	public static void main(String[] args) {
 		ServerConfiguration.init(null);
 		initLogger();
@@ -32,7 +30,7 @@ public class MigrationMain {
 		} finally {
 			session.close();
 		}
-		log.info("Migration Completed...!");
+		System.out.println("Migration Completed...!");
 	}
 
 	protected static String getArgument(String[] args, String name) {

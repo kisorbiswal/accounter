@@ -5,8 +5,6 @@ import java.text.NumberFormat;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.MiniTemplator;
 import com.vimukti.accounter.web.client.Global;
@@ -23,7 +21,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	private CustomerCreditMemo memo;
 	private BrandingTheme brandingTheme;
 	private String templateName;
-	private Logger log = Logger.getLogger(CreditNotePDFTemplete.class);
+
 	Company company;
 
 	public String getTempleteName() {
@@ -247,7 +245,7 @@ public class CreditNotePDFTemplete implements PrintTemplete {
 	private void externalizeStrings(MiniTemplator t) {
 		AccounterMessages messages = Global.get().messages();
 		Map<String, String> variables = t.getVariables();
-		log.info(variables);
+		System.out.println(variables);
 		t.setVariable("i18_Credit_To", messages.creditTo());
 		t.setVariable("i18_Credit_Note_Number", messages.creditNoteNo());
 		t.setVariable("i18_Credit_Note_Date", messages.creditNoteDate());
