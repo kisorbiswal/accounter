@@ -13,6 +13,7 @@ public class JobProfitabilityDetailReportAction extends Action {
 
 	public JobProfitabilityDetailReportAction() {
 		super();
+		this.catagory = messages.report();
 	}
 
 	@Override

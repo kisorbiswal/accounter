@@ -205,9 +205,7 @@ public class JobView extends BaseView<ClientJob> {
 		startDate.setDisabled(isInViewMode());
 		endDate.setDisabled(isInViewMode());
 		projectEndDate.setDisabled(isInViewMode());
-		if (customer == null) {
-			customerCombo.setDisabled(isInViewMode());
-		}
+		customerCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
