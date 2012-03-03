@@ -12591,8 +12591,8 @@
 		C.ID
 		WHERE T.T_TYPE=7 AND T.SAVE_STATUS
 		!= 202 AND
-		((:status=5 AND T.STATUS =5) OR (:status=0 AND T.STATUS =0) OR
-		(:status NOT IN (0,5)))
+		((:status=102 AND T.STATUS =102) OR (:status=0 AND T.STATUS =0) OR
+		(:status NOT IN (0,102)))
 		AND
 		E.ESTIMATETYPE =:estimateType
 		AND

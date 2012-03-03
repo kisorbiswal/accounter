@@ -210,6 +210,7 @@ public class CashSalesView extends
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setDisabled(true);
+		printCheck.setVisible(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -237,6 +238,7 @@ public class CashSalesView extends
 		checkNoText = new TextItem(messages.chequeNo());
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
+		checkNoText.setVisible(false);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
@@ -581,7 +583,7 @@ public class CashSalesView extends
 		ClientCurrency currency = getCurrency(customer.getCurrency());
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
+			jobListCombo.setDisabled(isInViewMode());
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -934,13 +936,7 @@ public class CashSalesView extends
 
 			this.transactionItems = transaction.getTransactionItems();
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(messages.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNoText.setDisabled(isInViewMode());
-			} else {
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+			paymentMethodSelected(transaction.getPaymentMethod());
 
 			if (transaction.getDeliverydate() != 0)
 				this.deliveryDate.setEnteredDate(new ClientFinanceDate(
@@ -1248,25 +1244,28 @@ public class CashSalesView extends
 				jobListCombo.setCustomer(customer);
 			}
 		}
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
-
-		if (paymentMethod == null)
+		this.paymentMethod = paymentmethod;
+		if (paymentMethod == null) {
 			return;
+		}
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
-			} else {
-				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			printCheck.setDisabled(isInViewMode());
+			checkNoText.setDisabled(isInViewMode());
+			printCheck.setVisible(true);
+			checkNoText.setVisible(true);
+		} else {
+			// paymentMethodCombo.setComboItem(paymentMethod);
+			printCheck.setDisabled(true);
+			printCheck.setVisible(false);
+			checkNoText.setDisabled(true);
+			checkNoText.setVisible(false);
 		}
 
 	}
