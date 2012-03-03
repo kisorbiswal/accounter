@@ -210,7 +210,9 @@ public class CustomerCenterView<T> extends
 			List<String> transactionTypeList = new ArrayList<String>();
 			transactionTypeList.add(messages.allTransactions());
 			transactionTypeList.add(messages.invoices());
-			transactionTypeList.add(messages.quotes());
+			if (getPreferences().isDoyouwantEstimates()) {
+				transactionTypeList.add(messages.quotes());
+			}
 			if (getCompany().getPreferences().isDelayedchargesEnabled()) {
 				transactionTypeList.add(messages.Charges());
 				transactionTypeList.add(messages.credits());
@@ -221,7 +223,9 @@ public class CustomerCenterView<T> extends
 			transactionTypeList.add(messages.customerRefunds(Global.get()
 					.Customer()));
 			transactionTypeList.add(messages.cheques());
-			transactionTypeList.add(messages.salesOrders());
+			if (getPreferences().isSalesOrderEnabled()) {
+				transactionTypeList.add(messages.salesOrders());
+			}
 			trasactionViewSelect.initCombo(transactionTypeList);
 			trasactionViewSelect.setComboItem(messages.allTransactions());
 			trasactionViewSelect

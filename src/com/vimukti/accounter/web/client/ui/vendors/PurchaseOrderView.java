@@ -851,12 +851,11 @@ public class PurchaseOrderView extends
 			} else
 				billtoAreaItem.setValue("");
 			if (isTrackTax() && isTrackPaidTax()) {
-
-				if (!isTaxPerDetailLine()) {
-					selectTAXCode();
-				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
+				if (!isTaxPerDetailLine()) {
+					selectTAXCode();
 				}
 			}
 

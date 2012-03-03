@@ -1023,6 +1023,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getDueDate()) : getTransactionDate());
 			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
@@ -1042,9 +1045,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					}
 					this.salesTaxTextNonEditable.setTransaction(transaction);
 
-				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 			if (transaction.getTransactionItems() != null) {
