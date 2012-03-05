@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.company.initialize.CompanyInitializedFactory;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.TemplateAccount;
@@ -666,8 +667,9 @@ public class Company implements IAccounterServerCore {
 
 	@Override
 	public String toString() {
-		return "TradingName:" + getTradingName() + " LegalName"
-				+ getLegalName() + ' ' + companyEmail;
+		return Global.get().messages().companyName() + " : " + getTradingName()
+				+ Global.get().messages().legalName() + " : " + getLegalName()
+				+ ' ' + companyEmail;
 	}
 
 	public void setTradingName(String name) {

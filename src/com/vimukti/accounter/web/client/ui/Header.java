@@ -29,13 +29,12 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.externalization.IMessageStats;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 
 public class Header extends FlowPanel {
 
-	protected static AccounterMessages messages = Global.get().messages();
+	// protected static AccounterMessages messages = Global.get().messages();
 
 	private Image userImage;
 
@@ -49,7 +48,8 @@ public class Header extends FlowPanel {
 
 	private VerticalPanel panel1;
 	private HorizontalPanel panel2, panel3;
-	private String gettingStartedStatus = messages.hideGettingStarted();
+	private String gettingStartedStatus = Global.get().messages()
+			.hideGettingStarted();
 	private MenuBar helpBar;
 	private ClientCompany company = null;
 
@@ -112,15 +112,16 @@ public class Header extends FlowPanel {
 			}
 		}
 		// userName.setWidth("100%");
-		logout = new Anchor(messages.logout(), "/main/logout");
+		logout = new Anchor(Global.get().messages().logout(), "/main/logout");
 		logout.addStyleName("logout-html");
-		// logout.setWidth(((messages.logout().length() * 4) + 19)+
+		// logout.setWidth((( Global.get().messages().logout().length() * 4) +
+		// 19)+
 		// "px");
 		helpBar = new MenuBar();
 		initializeHelpBar();
 		helpBar.setStyleName("helpBar");
-		help = new Anchor(messages.help());
-		// help.setWidth(((messages.help().length() * 2) + 19) +
+		help = new Anchor(Global.get().messages().help());
+		// help.setWidth((( Global.get().messages().help().length() * 2) + 19) +
 		// "px");
 		help.addStyleName("help-style");
 		help.addStyleName("helpBar");
@@ -162,8 +163,8 @@ public class Header extends FlowPanel {
 					public void onSuccess(Integer result) {
 						if (Accounter.getCompany().getPremiumType() != 0
 								|| result > 1) {
-							companiesLink = new Anchor(messages.companies(),
-									"/main/companies");
+							companiesLink = new Anchor(Global.get().messages()
+									.companies(), "/main/companies");
 							companiesLink.addStyleName("companiesLink");
 							companiesLink.getElement().setAttribute(
 									"lang",
@@ -266,7 +267,8 @@ public class Header extends FlowPanel {
 	}
 
 	public void initializeHelpBar() {
-		MenuItem menuItem = helpBar.addItem(messages.help(), getHelpMenuBar());
+		MenuItem menuItem = helpBar.addItem(Global.get().messages().help(),
+				getHelpMenuBar());
 		menuItem.getElement().getStyle().setColor("#072027");
 		Image child = new Image();
 		child.addStyleName("menu_arrow");
@@ -277,24 +279,28 @@ public class Header extends FlowPanel {
 	private CustomMenuBar getHelpMenuBar() {
 
 		CustomMenuBar helpMenu = new CustomMenuBar();
-		helpMenu.addItem(messages.helpCenter(), true, new Command() {
+		helpMenu.addItem(Global.get().messages().helpCenter(), true,
+				new Command() {
 
-			@Override
-			public void execute() {
+					@Override
+					public void execute() {
 
-			}
-		});
+					}
+				});
 
 		helpMenu.addItem(gettingStartedStatus, new Command() {
 
 			@Override
 			public void execute() {
-				if (gettingStartedStatus.equals(messages.hideGettingStarted())) {
+				if (gettingStartedStatus.equals(Global.get().messages()
+						.hideGettingStarted())) {
 					// DashBoardView.hideGettingStarted();
-					changeHelpBarContent(messages.showGettingStarted());
+					changeHelpBarContent(Global.get().messages()
+							.showGettingStarted());
 				} else {
 					// DashBoardView.showGettingStarted();
-					changeHelpBarContent(messages.hideGettingStarted());
+					changeHelpBarContent(Global.get().messages()
+							.hideGettingStarted());
 				}
 			}
 		});

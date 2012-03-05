@@ -43,7 +43,7 @@ public class ARAgingDetailReportCommand extends
 
 				List<AgedDebtors> records = getRecords(context);
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

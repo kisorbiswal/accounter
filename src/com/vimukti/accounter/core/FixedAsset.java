@@ -742,7 +742,8 @@ public class FixedAsset extends CreatableObject implements
 		FixedAssetHistory fixedAssetHistory = new FixedAssetHistory();
 		fixedAssetHistory.setActionType(FixedAssetHistory.ACTION_TYPE_CREATED);
 		fixedAssetHistory.setActionDate(new FinanceDate());
-		fixedAssetHistory.setDetails("Created FixedAsset");
+		fixedAssetHistory.setDetails(Global.get().messages()
+				.createdFixedAsset());
 		fixedAssetHistory.setUser(getCreatedBy().getClient().getFullName());
 		this.fixedAssetsHistory.add(fixedAssetHistory);
 		fixedAssetHistory.setCompany(this.getCompany());
@@ -772,8 +773,11 @@ public class FixedAsset extends CreatableObject implements
 		fixedAssetHistory
 				.setActionType(FixedAssetHistory.ACTION_TYPE_DEPRECIATED);
 		fixedAssetHistory.setActionDate(new FinanceDate());
-		fixedAssetHistory.setDetails("Depreciation of " + depreciationAmount
-				+ " on " + format.format(fromCal.getTime()));
+		fixedAssetHistory.setDetails(Global
+				.get()
+				.messages()
+				.depricationOfOn(String.valueOf(depreciationAmount),
+						format.format(fromCal.getTime())));
 		this.fixedAssetsHistory.add(fixedAssetHistory);
 		fixedAssetHistory.setCompany(this.getCompany());
 	}
@@ -872,7 +876,8 @@ public class FixedAsset extends CreatableObject implements
 			fixedAssetHistory
 					.setActionType(FixedAssetHistory.ACTION_TYPE_DISPOSED);
 			fixedAssetHistory.setActionDate(new FinanceDate());
-			fixedAssetHistory.setDetails("View disposal journal");
+			fixedAssetHistory.setDetails(Global.get().messages()
+					.viewDisposalJournal());
 			fixedAssetHistory.setPostedJournalEntry(journalEntry);
 			this.getFixedAssetsHistory().add(fixedAssetHistory);
 			fixedAssetHistory.setCompany(this.getCompany());
@@ -1145,7 +1150,7 @@ public class FixedAsset extends CreatableObject implements
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
-		item1.setDescription("Depreciation");
+		item1.setDescription(Global.get().messages().depreciation());
 		item1.setAccount(fixedAsset.getAssetAccount()
 				.getLinkedAccumulatedDepreciationAccount());
 		item1.setLineTotal(-1 * amount);
@@ -1153,7 +1158,7 @@ public class FixedAsset extends CreatableObject implements
 
 		TransactionItem item2 = new TransactionItem();
 		item2.setType(TransactionItem.TYPE_ACCOUNT);
-		item2.setDescription("Depreciation");
+		item2.setDescription(Global.get().messages().depreciation());
 		item2.setAccount(fixedAsset.getDepreciationExpenseAccount());
 		item2.setLineTotal(amount);
 		items.add(item2);
@@ -1177,7 +1182,7 @@ public class FixedAsset extends CreatableObject implements
 		journalEntry.setCompany(fixedAsset.getCompany());
 		journalEntry.number = number;
 		journalEntry.transactionDate = fixedAsset.getSoldOrDisposedDate();
-		journalEntry.memo = "Fixed Asset Depreciation";
+		journalEntry.memo = Global.get().messages().fixedAssetDeprecation();
 		// To avoid the Voiding of this Journal Entry, because it is for
 		// Depreciation.
 		journalEntry.reference = AccounterServerConstants.JOURNAL_ENTRY_FOR_DEPRECIATION;
@@ -1219,7 +1224,8 @@ public class FixedAsset extends CreatableObject implements
 		List<TransactionItem> items = new ArrayList<TransactionItem>();
 		TransactionItem item1 = new TransactionItem();
 		item1.setType(TransactionItem.TYPE_ACCOUNT);
-		item1.setDescription("Disposal of FixedAsset " + fixedAsset.getName());
+		item1.setDescription(Global.get().messages()
+				.disposalOfFixedAsset(fixedAsset.getName()));
 		item1.setAccount(fixedAsset.getAssetAccount());
 		item1.setLineTotal(-1 * fixedAsset.getPurchasePrice());
 		items.add(item1);
@@ -1229,7 +1235,7 @@ public class FixedAsset extends CreatableObject implements
 			TransactionItem entry2 = new TransactionItem();
 			entry2.setType(TransactionItem.TYPE_ACCOUNT);
 			entry2.setAccount(fixedAsset.getAccountForSale());
-			entry2.setDescription("Depreciation");
+			entry2.setDescription(Global.get().messages().depreciation());
 			entry2.setLineTotal(fixedAsset.getSalePrice());
 			items.add(entry2);
 			debitTotal = debitTotal + entry2.getLineTotal();
@@ -1240,7 +1246,7 @@ public class FixedAsset extends CreatableObject implements
 			entry3.setType(TransactionItem.TYPE_ACCOUNT);
 			entry3.setAccount(fixedAsset.getAssetAccount()
 					.getLinkedAccumulatedDepreciationAccount());
-			entry3.setDescription("Depreciation");
+			entry3.setDescription(Global.get().messages().depreciation());
 			entry3.setLineTotal(Math.abs(lessAccumulatedDepreciationAmount));
 			items.add(entry3);
 			debitTotal = debitTotal + entry3.getLineTotal();
@@ -1250,7 +1256,7 @@ public class FixedAsset extends CreatableObject implements
 			TransactionItem entry4 = new TransactionItem();
 			entry4.setType(TransactionItem.TYPE_ACCOUNT);
 			entry4.setAccount(fixedAsset.getLossOrGainOnDisposalAccount());
-			entry4.setDescription("Depreciation");
+			entry4.setDescription(Global.get().messages().depreciation());
 			if (DecimalUtil.isLessThan(lossOrGainOnDisposal, 0)) {
 				entry4.setLineTotal(Math.abs(lossOrGainOnDisposal));
 				debitTotal = debitTotal + entry4.getLineTotal();
@@ -1265,7 +1271,7 @@ public class FixedAsset extends CreatableObject implements
 			TransactionItem entry5 = new TransactionItem();
 			entry5.setType(TransactionItem.TYPE_ACCOUNT);
 			entry5.setAccount(fixedAsset.getTotalCapitalGain());
-			entry5.setDescription("Depreciation");
+			entry5.setDescription(Global.get().messages().depreciation());
 			if (DecimalUtil.isLessThan(totalCapitalGain, 0)) {
 				entry5.setLineTotal(Math.abs(totalCapitalGain));
 				debitTotal = debitTotal + entry5.getLineTotal();
@@ -1463,11 +1469,14 @@ public class FixedAsset extends CreatableObject implements
 		/**
 		 * Preparing the keys and values for disposalSummary Map.
 		 */
-		String purchasedDate = "Purchase "
+		String purchasedDate = Global.get().messages().purchase()
 				+ UIUtils.getDateStringFormat(fixedAsset.getPurchaseDate());
-		String currentAccumulatedDepreciation = "Current accumulated depreciation";
-		String depreciationTobePosted = "Depreciation to be posted (";
-		String rollBackDepreciation = "rollback deprecaition till ";
+		String currentAccumulatedDepreciation = Global.get().messages()
+				.currentAccumulatedDepreciation();
+		String depreciationTobePosted = Global.get().messages()
+				.depreciationToBePostPoned();
+		String rollBackDepreciation = Global.get().messages()
+				.rollbackDepreciationTill();
 		FinanceDate date = Depreciation.getDepreciationLastDate(getCompany());
 		FinanceDate depreciationTillDate = null;
 		double depreciationToBePostedAmount = 0.0;
@@ -1521,7 +1530,7 @@ public class FixedAsset extends CreatableObject implements
 						lastDepreciationDateCal.getTime())) : (fixedAsset
 						.getPurchaseDate());
 				depreciationTobePosted += format.format(depFrom);
-				depreciationTobePosted += " to";
+				depreciationTobePosted += Global.get().messages().to();
 				depreciationTobePosted += format.format(soldYearStartDateCal
 						.getTime());
 				depreciationTobePosted += ")";
@@ -1573,7 +1582,7 @@ public class FixedAsset extends CreatableObject implements
 					depreciationTobePosted += UIUtils
 							.getDateStringFormat(new ClientFinanceDate(depFrom
 									.getDate()));
-					depreciationTobePosted += " to";
+					depreciationTobePosted += Global.get().messages().to();
 					depreciationTobePosted += UIUtils
 							.getDateStringFormat(new ClientFinanceDate(
 									depreciationTillDate.getDate()));
@@ -1602,7 +1611,7 @@ public class FixedAsset extends CreatableObject implements
 
 		}
 
-		String soldDate = "Sold "
+		String soldDate = Global.get().messages().Sold()
 				+ UIUtils.getDateStringFormat(fixedAsset
 						.getSoldOrDisposedDate());
 

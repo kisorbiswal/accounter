@@ -354,8 +354,9 @@ public class CreateVATAgencyCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return taxAgency.getID() == 0 ? "Vat Agency is activated"
-				: "Update VAT Agency is activated";
+		return taxAgency.getID() == 0 ? getMessages().create(
+				getMessages().taxAgency()) : getMessages().updating(
+				getMessages().taxAgency());
 	}
 
 	@Override
@@ -432,8 +433,8 @@ public class CreateVATAgencyCommand extends AbstractCommand {
 
 	private List<String> getVatReturns() {
 		ArrayList<String> vatReturnList = new ArrayList<String>();
-		vatReturnList.add("UK VAT");
-		vatReturnList.add("VAT 3(Ireland)");
+		vatReturnList.add(getMessages().ukVAT());
+		vatReturnList.add(getMessages().vat3Ireland());
 		return vatReturnList;
 	}
 

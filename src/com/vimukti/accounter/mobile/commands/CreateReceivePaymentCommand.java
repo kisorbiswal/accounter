@@ -95,15 +95,17 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 			protected void setCreateCommand(CommandList list) {
 				list.add(new UserCommand("createBankAccount", getMessages()
 						.bank()));
-				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account", getMessages()
-								.otherCurrentAsset()));
-				list.add(new UserCommand("createBankAccount",
-						"Create CreditAccount", getMessages().creditCard()));
-				list.add(new UserCommand("createBankAccount",
-						"Create FixedAsset Account", getMessages().fixedAsset()));
-				list.add(new UserCommand("createBankAccount",
-						"Create Paypal Account", getMessages().paypal()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().otherCurrentAsset()),
+						getMessages().otherCurrentAsset()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().creditCard()), getMessages()
+						.creditCard()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().fixedAsset()), getMessages()
+						.fixedAsset()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().paypal()), getMessages().paypal()));
 			}
 
 			@Override
@@ -515,8 +517,10 @@ public class CreateReceivePaymentCommand extends AbstractTransactionCommand {
 	@Override
 	public void beforeFinishing(Context context, Result makeResult) {
 		recalculateGridAmounts();
-		makeResult.add("Unused Credits :" + payment.getUnUsedCredits());
-		makeResult.add("Unused Payments : " + payment.getUnUsedPayments());
+		makeResult.add(getMessages().unusedCredits()
+				+ payment.getUnUsedCredits());
+		makeResult.add(getMessages().unusedPayments("")
+				+ payment.getUnUsedPayments());
 	}
 
 	@Override

@@ -54,15 +54,15 @@ public class VAT100ReportCommand extends NewAbstractReportCommand<VATSummary> {
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATSummary> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
-				makeResult.add("VAT 100");
+				makeResult.add(getMessages().vat100());
 				ResultList vat100reportsList = new ResultList(
 						"vat100reportlist");
 				makeResult.add(vat100reportsList);
-				vat100reportsList.setTitle("VAT due");
+				vat100reportsList.setTitle(getMessages().vatDue());
 				addSelection("vat100reportlist");
 				for (VATSummary vatSummary : records) {
 					vat100reportsList.add(createReportRecord(vatSummary));

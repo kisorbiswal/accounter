@@ -33,7 +33,7 @@ public class WareHouseListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override
@@ -43,11 +43,9 @@ public class WareHouseListCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new ShowListRequirement<Warehouse>("warehouses",
-				getMessages()
-						.pleaseSelect(
-								"any " + getMessages().wareHouse()
-										+ " to view details"), 40) {
+		list.add(new ShowListRequirement<Warehouse>(getMessages().wareHouses(),
+				getMessages().pleaseSelectAnyObjToViewDetails(
+						getMessages().wareHouses()), 40) {
 
 			@Override
 			protected String onSelection(Warehouse value) {

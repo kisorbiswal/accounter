@@ -63,7 +63,7 @@ public class PortletConfiguration extends CreatableObject implements
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Portlet Configuration").gap();
+		w.put(messages.type(), messages.portletConfiguration()).gap();
 	}
 
 	public Map<String, String> getPortletMap() {

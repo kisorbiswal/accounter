@@ -68,7 +68,7 @@ public class TransactionDetailByAccountReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionDetailByAccount> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -99,18 +99,20 @@ public class TransactionDetailByAccountReportCommand extends
 						resultList.setTitle(rec.getAccountName());
 						totalAmount += rec.getTotal();
 						Record createReportRecord = createReportRecord(rec);
-						createReportRecord.add("Balance",
+						createReportRecord.add(getMessages().balance(),
 								getAmountWithCurrency(totalAmount));
 						resultList.add(createReportRecord);
 					}
 					makeResult.add(resultList);
 					grandTotal += totalAmount;
-					makeResult.add("Amount Total: "
+					makeResult.add(getMessages().valueTotal(
+							getMessages().amount())
 							+ getAmountWithCurrency(totalAmount));
 				}
 				Account account = get(ACCOUNT).getValue();
 				if (account == null) {
-					makeResult.add("Grand Total: "
+					makeResult.add(getMessages().valueTotal(
+							getMessages().grand())
 							+ getAmountWithCurrency(grandTotal));
 				}
 			}
@@ -130,7 +132,7 @@ public class TransactionDetailByAccountReportCommand extends
 
 	protected Record createReportRecord(TransactionDetailByAccount record) {
 		Record transactionRecord = new Record(record);
-		transactionRecord.add("Name",
+		transactionRecord.add(getMessages().name(),
 				record.getName() == null ? "\t" : record.getName());
 		transactionRecord
 				.add(getMessages().date(), record.getTransactionDate());
@@ -176,17 +178,20 @@ public class TransactionDetailByAccountReportCommand extends
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Transaction detail by account report command activated";
+		return getMessages().valueActivated(
+				getMessages().transactionDetailsByAccount());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Transaction detail by account report details as follows:";
+		return getMessages().viewDetailsAsFollows(
+				getMessages().transactionDetailsByAccount());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return "Transaction detail by account report command closed successfully";
+		return getMessages().viewClosedSuccessfully(
+				getMessages().transactionDetailsByAccount());
 	}
 
 	@Override

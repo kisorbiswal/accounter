@@ -344,16 +344,16 @@ public class Accounter implements EntryPoint {
 	}
 
 	private void loadFeatures() {
-		Object obj = JNSI.getFeatures();
+		//Object obj = JNSI.getFeatures();
 		features = new HashSet<String>();
-		String string = obj.toString().trim();
-		if (string.isEmpty()) {
-			return;
-		}
-		String[] split = string.split(",");
-		for (String s : split) {
-			features.add(s);
-		}
+		// String string = obj.toString().trim();
+		// if (string.isEmpty()) {
+		// return;
+		// }
+		// String[] split = string.split(",");
+		// for (String s : split) {
+		// features.add(s);
+		// }
 	}
 
 	public String getUserDisplayName() {

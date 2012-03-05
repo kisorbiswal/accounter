@@ -40,8 +40,9 @@ public class CompanyInfoPreferenceCommand extends
 	@Override
 	protected void addRequirements(List<Requirement> list) {
 
-		list.add(new NameRequirement(COMPANY_NAME, "Please Enter Company name",
-				getMessages().companyName(), true, true));
+		list.add(new NameRequirement(COMPANY_NAME, getMessages().pleaseEnter(
+				getMessages().companyName()), getMessages().companyName(),
+				true, true));
 
 		list.add(new BooleanRequirement(IS_DIFFERENT_NAME, true) {
 
@@ -57,9 +58,9 @@ public class CompanyInfoPreferenceCommand extends
 			}
 		});
 
-		list.add(new NameRequirement(LEGAL_NAME,
-				"Please Enter Company legal name", getMessages()
-						.legalCompanyName(), true, true) {
+		list.add(new NameRequirement(LEGAL_NAME, getMessages().pleaseEnter(
+				getMessages().legalCompanyName()), getMessages()
+				.legalCompanyName(), true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -78,12 +79,12 @@ public class CompanyInfoPreferenceCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return "My company has a different address for communication with the government.";
+				return getMessages().getDifferentLegalName();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "No,My company do not have a different address for communication with the government.";
+				return getMessages().dontHaveAnotherAddress();
 			}
 		});
 
@@ -118,12 +119,12 @@ public class CompanyInfoPreferenceCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return " Multi currency enabled";
+				return getMessages().multiCurrencyEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return " Multi currency is not enabled";
+				return getMessages().multiCurrencyNotEnabled();
 			}
 		});
 

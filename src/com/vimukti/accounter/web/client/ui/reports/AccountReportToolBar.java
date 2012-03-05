@@ -68,7 +68,8 @@ public class AccountReportToolBar extends ReportToolbar {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (accountCombo.getSelectedValue() == null) {
-					Accounter.showError("Please select account");
+					Accounter.showError(messages.pleaseSelect(messages
+							.account()));
 				} else {
 					setStartDate(fromItem.getDate());
 					setEndDate(toItem.getDate());

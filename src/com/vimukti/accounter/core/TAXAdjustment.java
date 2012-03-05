@@ -325,7 +325,7 @@ public class TAXAdjustment extends Transaction implements IAccounterServerCore {
 
 		AccounterMessages messages = Global.get().messages();
 
-		w.put(messages.type(), "Stock Transfer Item").gap();
+		w.put(messages.type(), messages.stockTransferItem()).gap();
 
 		if (this.adjustmentAccount != null)
 			w.put(messages.adjustmentAccount(),

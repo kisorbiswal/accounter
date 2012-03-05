@@ -52,7 +52,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return paybill.getID() == 0 ? getMessages().create(
-				getMessages().payBill()) : "Update pay bill command activated";
+				getMessages().payBill()) : getMessages().updating(
+				getMessages().payBill());
 	}
 
 	@Override
@@ -153,9 +154,9 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 			protected void setCreateCommand(CommandList list) {
 				list.add(new UserCommand("createBankAccount", getMessages()
 						.bank()));
-				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account", getMessages()
-								.otherCurrentAsset()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().otherCurrentAsset()),
+						getMessages().otherCurrentAsset()));
 			}
 
 			@Override
@@ -308,7 +309,8 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isKeepTrackofBills()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		if (isUpdate) {
@@ -513,11 +515,12 @@ public class CreatePayBillCommand extends AbstractTransactionCommand {
 		String formalName = getPreferences().getPrimaryCurrency()
 				.getFormalName();
 		if (!currency.getFormalName().equalsIgnoreCase(formalName))
-			makeResult.add("Total" + "(" + formalName + ")" + ": "
-					+ (paybill.getTotal() * getCurrencyFactor()));
-		makeResult.add("Total" + "(" + currency.getFormalName() + ")"
-				+ paybill.getTotal());
-		makeResult.add("Un Used credits : " + paybill.getUnUsedCredits());
+			makeResult.add(getMessages().total() + "(" + formalName + ")"
+					+ ": " + (paybill.getTotal() * getCurrencyFactor()));
+		makeResult.add(getMessages().total() + "(" + currency.getFormalName()
+				+ ")" + paybill.getTotal());
+		makeResult.add(getMessages().unusedCredits()
+				+ paybill.getUnUsedCredits());
 	}
 
 	@Override

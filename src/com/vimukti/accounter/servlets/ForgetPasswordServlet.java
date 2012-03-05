@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class ForgetPasswordServlet extends BaseServlet {
 
@@ -40,8 +41,8 @@ public class ForgetPasswordServlet extends BaseServlet {
 			throws ServletException, IOException {
 		String emailID = req.getParameter("emailId");
 		if (emailID == null) {
-			req.setAttribute("errorMessage",
-					"we couldn't find any user with the given Email ID. please enter a valid email");
+			req.setAttribute("errorMessage", Global.get().messages()
+					.pleaseEnterValidEmailId());
 			dispatch(req, resp, view);
 			return;
 		}
@@ -54,9 +55,8 @@ public class ForgetPasswordServlet extends BaseServlet {
 			Client client = getClient(emailID);
 
 			if (client == null) {
-				req.setAttribute(
-						"errorMessage",
-						"we couldn't find any user with the given Email ID. please enter a valid Email. ");
+				req.setAttribute("errorMessage", Global.get().messages()
+						.pleaseEnterValidEmailId());
 				dispatch(req, resp, view);
 				return;
 			}

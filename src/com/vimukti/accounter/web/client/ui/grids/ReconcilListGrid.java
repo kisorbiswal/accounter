@@ -20,7 +20,7 @@ public class ReconcilListGrid extends BaseListGrid<ClientStatementRecord> {
 	private int col;
 	private int row;
 
-	private static final String FIND_MATCH = "Find & Match";
+	private static final String FIND_MATCH = messages.findAndMatch();
 
 	public ReconcilListGrid(ClientAccount account) {
 		super(false, true);

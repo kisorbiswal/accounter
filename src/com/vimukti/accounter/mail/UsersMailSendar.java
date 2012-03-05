@@ -504,7 +504,7 @@ public class UsersMailSendar {
 		EmailManager.getInstance().addJob(job);
 	}
 
-	public static void sendMailToUserWithPasswordRecoverKey(Client client,
+	public static void sendMailToUserWithPasswordRecoverKey(String emailId,
 			String userSecret) throws IOException {
 		try {
 			initPropertyParserToInviteUser();
@@ -519,8 +519,7 @@ public class UsersMailSendar {
 
 		String content = propertyParser.getProperty(
 				"contentForUserWithPasswordRecoverKey", "");
-		content = content
-				.replaceAll("%USER%", getUserName(client.getEmailId()))
+		content = content.replaceAll("%USER%", getUserName(emailId))
 				.replaceAll("%KEY%", userSecret);
 
 		String subject = propertyParser.getProperty(
@@ -529,7 +528,7 @@ public class UsersMailSendar {
 		EMailMessage emailMsg = new EMailMessage();
 		emailMsg.setContent(content);
 		emailMsg.setSubject(subject);
-		emailMsg.setRecepeant(client.getEmailId());
+		emailMsg.setRecepeant(emailId);
 		EMailJob job = new EMailJob(emailMsg, getEmailAcc());
 		EmailManager.getInstance().addJob(job);
 	}

@@ -14,7 +14,7 @@ public class ChangeCompanyCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Switch Company";
+		return getMessages().switchCompany();
 	}
 
 	@Override

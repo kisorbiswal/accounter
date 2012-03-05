@@ -19,16 +19,22 @@ import com.vimukti.accounter.core.SupportedUser;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class CompaniesServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final String CREATE_SUCCESS = "Your company is created successfully";
-	private static final String CREATE_FAIL = "Company creation failed";
+	private static final String CREATE_SUCCESS = Global.get().messages()
+			.yourCompanyIsCreatetedSuccessfully();
+	private static final String CREATE_FAIL = Global.get().messages()
+			.companyCreatedFailed();
 
-	private static final String DELETE_SUCCESS = "Your company is deleted successfully.";
-	private static final String DELETE_FAIL = "Company Deletion failed.";
-	private static final String ACCOUNT_DELETE_FAIL = "Account Deletion failed.";
+	private static final String DELETE_SUCCESS = Global.get().messages()
+			.yourCompanyIsDeletedSuccessfully();
+	private static final String DELETE_FAIL = Global.get().messages()
+			.companyDeletionFailed();
+	private static final String ACCOUNT_DELETE_FAIL = Global.get().messages()
+			.accountDeletionFailed();
 	private static final String MIGRATION_VIEW = "/WEB-INF/companyMigration.jsp";
 
 	private String companiedListView = "/WEB-INF/companylist.jsp";
@@ -110,8 +116,12 @@ public class CompaniesServlet extends BaseServlet {
 
 				if (list.isEmpty()
 						&& httpSession.getAttribute(COMPANY_CREATION_STATUS) == null) {
-					req.setAttribute("message",
-							"You don't have any companies now.");
+					req.setAttribute(
+							"message",
+							Global.get()
+									.messages()
+									.youDontHaveAny(
+											Global.get().messages().companies()));
 				}
 			}
 			req.setAttribute(ATTR_COMPANY_LIST, list);
@@ -121,7 +131,8 @@ public class CompaniesServlet extends BaseServlet {
 		}
 		String parameter = req.getParameter("message");
 		if (parameter != null && parameter.equals("locked")) {
-			req.setAttribute("message", "Your Company has been locked.");
+			req.setAttribute("message", Global.get().messages()
+					.yourCompanyHasBeenLocked());
 		}
 		dispatch(req, resp, companiedListView);
 	}

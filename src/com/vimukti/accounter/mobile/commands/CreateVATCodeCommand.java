@@ -272,8 +272,9 @@ public class CreateVATCodeCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return taxCode.getID() == 0 ? "New vat code command is activated"
-				: "Update VAT Code command is activated";
+		return taxCode.getID() == 0 ? getMessages().create(
+				getMessages().taxItem()) : getMessages().updating(
+				getMessages().taxItem());
 	}
 
 	@Override

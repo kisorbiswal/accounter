@@ -54,8 +54,9 @@ public class CreateVATItemCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new NameRequirement(DESCRIPTION, "Enter Description",
-				"Description", true, true) {
+		list.add(new NameRequirement(DESCRIPTION, getMessages().enterObj(
+				getMessages().description()), getMessages().description(),
+				true, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -67,8 +68,8 @@ public class CreateVATItemCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new AmountRequirement(TAX_RATE, "Enter Rate as %", "Tax Rate",
-				false, true) {
+		list.add(new AmountRequirement(TAX_RATE, getMessages().enterObj(
+				getMessages().taxRateP()), getMessages().taxRate(), false, true) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -80,8 +81,9 @@ public class CreateVATItemCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new TaxAgencyRequirement(TAX_AGENCY, "Create New Tax Agency",
-				"Tax Agency:", false, true, null) {
+		list.add(new TaxAgencyRequirement(TAX_AGENCY, getMessages().create(
+				getMessages().taxAgency()), getMessages().taxAgency(), false,
+				true, null) {
 
 			@Override
 			public Result run(Context context, Result makeResult,
@@ -95,7 +97,7 @@ public class CreateVATItemCommand extends AbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "Tax/Vat Agency has been selected";
+				return getMessages().hasSelected(getMessages().taxAgency());
 			}
 
 			@Override
@@ -115,8 +117,8 @@ public class CreateVATItemCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new StringListRequirement(VAT_RETURN_BOX, null,
-				"vat return box", false, true, null) {
+		list.add(new StringListRequirement(VAT_RETURN_BOX, null, getMessages()
+				.vatReturnBox(), false, true, null) {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
@@ -136,12 +138,12 @@ public class CreateVATItemCommand extends AbstractCommand {
 
 			@Override
 			protected String getSetMessage() {
-				return "vat return box has been Selected.";
+				return getMessages().hasSelected(getMessages().vatReturnBox());
 			}
 
 			@Override
 			protected String getSelectString() {
-				return "Slect a Vat return box";
+				return getMessages().pleaseSelect(getMessages().vatReturnBox());
 			}
 
 			@Override
@@ -160,7 +162,7 @@ public class CreateVATItemCommand extends AbstractCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "item is active";
+				return getMessages().objIsActive(getMessages().item());
 			}
 
 			@Override
@@ -224,21 +226,24 @@ public class CreateVATItemCommand extends AbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a VAT Item to update.");
+				addFirstMessage(context,
+						getMessages().pleaseSelect(getMessages().taxItem()));
 				return "vATItems";
 			}
 			taxItem = (ClientTAXItem) CommandUtils.getClientObjectById(
 					Long.parseLong(string), AccounterCoreType.TAXITEM,
 					getCompanyId());
 			if (taxItem == null) {
-				addFirstMessage(context, "Select a VAT Item to update.");
+				addFirstMessage(context,
+						getMessages().pleaseSelect(getMessages().taxItem()));
 				return "vATItems " + string;
 			}
 			get(TAX_ITEM_NAME).setValue(taxItem.getName());

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vimukti.accounter.core.EU;
+import com.vimukti.accounter.main.ServerConfiguration;
 
 public class GoPremiumServlet extends BaseServlet {
 
@@ -23,11 +24,16 @@ public class GoPremiumServlet extends BaseServlet {
 		String emailId = (String) req.getSession().getAttribute(EMAIL_ID);
 		if (emailId == null) {
 			String parameter = req.getParameter("email_enc");
-			emailId = EU
-					.decryptAccounter(URLDecoder.decode(parameter, "UTF-8"));
-			req.getSession(true).setAttribute(EMAIL_ID, emailId);
+			if (parameter != null) {
+				emailId = EU.decryptAccounter(URLDecoder.decode(parameter,
+						"UTF-8"));
+				req.getSession(true).setAttribute(EMAIL_ID, emailId);
+			}
 		}
+
 		if (emailId != null) {
+			boolean sandBoxPaypal = ServerConfiguration.isSandBoxPaypal();
+			req.setAttribute("isSandBoxPaypal", sandBoxPaypal);
 			dispatch(req, resp, view);
 		} else {
 			req.setAttribute(PARAM_DESTINATION, "/site/gopremium");

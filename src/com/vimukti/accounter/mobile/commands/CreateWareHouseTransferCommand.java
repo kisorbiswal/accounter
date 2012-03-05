@@ -49,8 +49,10 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 				return "warehouseTransferList " + string;
 			}
 			stockTransfer = clientWarehouse;
-			lists.add("Yes,I want to delete this warehouse transfer and create new warehouse transfer");
-			lists.add("No,I do not want to delete this warehouse transfer");
+			lists.add(getMessages().IwantToDeleteThisObject(
+					getMessages().wareHouseTransfer()));
+			lists.add(getMessages().noIdontWantToDeleteThisObj(
+					getMessages().wareHouseTransfer()));
 			setValues();
 		} else {
 			stockTransfer = new ClientStockTransfer();
@@ -89,7 +91,8 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 	@Override
 	protected void setDefaultValues(Context context) {
 		get(DELETE_CREATE_NEW).setValue(
-				"No,I do not want to delete this warehouse transfer");
+				getMessages().noIdontWantToDeleteThisObj(
+						getMessages().wareHouseTransfer()));
 	}
 
 	@Override
@@ -106,18 +109,18 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 
 	@Override
 	protected void addRequirements(List<Requirement> list) {
-		list.add(new StringListRequirement(DELETE_CREATE_NEW,
-				"Choose any one option to perform next action", "Edit", true,
-				true, null) {
+		list.add(new StringListRequirement(DELETE_CREATE_NEW, getMessages()
+				.pleaseSelectAnyOneOption(), getMessages().edit(), true, true,
+				null) {
 
 			@Override
 			protected String getSetMessage() {
-				return "Select any one Option";
+				return getMessages().pleaseSelectAnyOneOption();
 			}
 
 			@Override
 			protected String getSelectString() {
-				return getMessages().pleaseSelect("any one option");
+				return getMessages().pleaseSelectAnyOneOption();
 			}
 
 			@Override
@@ -140,9 +143,11 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new WarehouseRequirement(WAREHOUSE_FROM, getMessages()
-				.pleaseSelect("from " + getMessages().wareHouse()), "from "
-				+ getMessages().wareHouse(), false, true, null) {
+		list.add(new WarehouseRequirement(WAREHOUSE_FROM,
+				getMessages().pleaseSelect(
+						getMessages().from() + getMessages().wareHouse()),
+				getMessages().from() + getMessages().wareHouse(), false, true,
+				null) {
 			@Override
 			public void setValue(Object value) {
 				super.setValue(value);
@@ -184,11 +189,12 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 		list.add(new WareHouseTransferTableRequirement(TRANSFERED_ITEMS,
 				getMessages().pleaseSelect(
 						getMessages().pleaseSelectAtLeastOneRecord()),
-				"Warehouse Transfer Item") {
+				getMessages().wareHouseTransferItem()) {
 
 			@Override
 			protected List<ClientStockTransferItem> getList() {
-				return CreateWareHouseTransferCommand.this.getStockTransferItems();
+				return CreateWareHouseTransferCommand.this
+						.getStockTransferItems();
 			}
 
 		});
@@ -251,7 +257,8 @@ public class CreateWareHouseTransferCommand extends AbstractCommand {
 			}
 			get(DELETE_CREATE_NEW).setEditable(false);
 			get(DELETE_CREATE_NEW).setValue(
-					"No,I do not want to delete this warehouse transfer");
+					getMessages().noIdontWantToDeleteThisObj(
+							getMessages().wareHouseTransfer()));
 			updateRequirementsStatus(true);
 			List<ClientStockTransferItem> stockTransferItems = get(
 					TRANSFERED_ITEMS).getValue();

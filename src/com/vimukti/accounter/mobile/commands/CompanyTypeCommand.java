@@ -9,6 +9,7 @@ import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
+import com.vimukti.accounter.web.client.Global;
 
 public class CompanyTypeCommand extends Command {
 
@@ -28,21 +29,19 @@ public class CompanyTypeCommand extends Command {
 		Result makeResult = context.makeResult();
 		Object selection = context.getSelection("actions");
 		if (selection == null) {
-			makeResult
-					.add("Select 'Full Setup' to enter the Setup wizard to add all the necessary information for company.");
-			makeResult
-					.add(" Or else select 'Partial Setup' to skip this wizard and add later.");
+			makeResult.add(Global.get().messages().selectFullSetupToEnter());
+			makeResult.add(Global.get().messages().selectPartialSetupToSkip());
 			ResultList list = new ResultList("actions");
 			Record start = new Record(ActionNames.FULL_SETUP);
-			start.add("Full Setup");
+			start.add(Global.get().messages().fullCompanySetup());
 			list.add(start);
 
 			Record skip = new Record(ActionNames.PARTIAL_SETUP);
-			skip.add("Partial Setup");
+			skip.add(Global.get().messages().partialCompanySetup());
 			list.add(skip);
 
 			Record logout = new Record(ActionNames.LOG_OUT);
-			logout.add("Logout");
+			logout.add(Global.get().messages().logout());
 			list.add(logout);
 
 			makeResult.add(list);

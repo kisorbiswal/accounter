@@ -34,13 +34,19 @@ public class CreateMeasurementCommand extends AbstractCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Measurement to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectObjToUpdate(
+								getMessages().measurement()));
 				return "measurementList";
 			}
 			ClientMeasurement clientmeasurement = CommandUtils.getMeasurement(
 					context.getCompany(), string);
 			if (clientmeasurement == null) {
-				addFirstMessage(context, "Select a Measurement to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectObjToUpdate(
+								getMessages().measurement()));
 				return "measurementList " + string;
 			}
 			measurement = clientmeasurement;
@@ -69,18 +75,19 @@ public class CreateMeasurementCommand extends AbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		if (measurement.getID() == 0) {
-			return "Create Measurement command is activated.";
+			return getMessages().create(getMessages().measurement());
 		}
-		return "Update Measuremnt(" + measurement.getName()
-				+ ") Command is activated.";
+		return getMessages().updating(getMessages().measurement());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		if (measurement.getID() == 0) {
-			return "Measurement is ready to create with following details.";
+			return getMessages().objIsReadyToCreateWitFollowingDetails(
+					getMessages().measurement());
 		} else {
-			return "Measurement is ready to update with following details.";
+			return getMessages().objIsReadyToUpdateWitFollowingDetails(
+					getMessages().measurement());
 		}
 	}
 
@@ -91,9 +98,11 @@ public class CreateMeasurementCommand extends AbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (measurement.getID() == 0) {
-			return "Measurement is created succesfully.";
+			return getMessages()
+					.createSuccessfully(getMessages().measurement());
 		} else {
-			return "Measurement is updated successfully.";
+			return getMessages()
+					.updateSuccessfully(getMessages().measurement());
 		}
 	}
 
@@ -114,9 +123,9 @@ public class CreateMeasurementCommand extends AbstractCommand {
 			}
 		});
 
-		list.add(new StringRequirement(MEASUREMENT_DESCRIPTION,
-				"Please Enter Measurement Description", "Description", true,
-				true));
+		list.add(new StringRequirement(MEASUREMENT_DESCRIPTION, getMessages()
+				.pleaseEnter(getMessages().description()), getMessages()
+				.description(), true, true));
 
 		list.add(new MeasurementUnitRequirement(UNIT, getMessages()
 				.pleaseSelect(getMessages().unit()), getMessages().unit(),

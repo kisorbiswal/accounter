@@ -72,8 +72,9 @@ public class CreateShippingTermCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return shippingTerm.getID() == 0 ? "Shipping Term Commond is activated"
-				: "Update Shipping term command activated";
+		return shippingTerm.getID() == 0 ? getMessages().create(
+				getMessages().shippingTerm()) : getMessages().updating(
+				getMessages().shippingTerm());
 	}
 
 	@Override

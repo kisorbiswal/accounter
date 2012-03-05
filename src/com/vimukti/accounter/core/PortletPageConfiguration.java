@@ -75,8 +75,8 @@ public class PortletPageConfiguration implements IAccounterServerCore {
 	@Override
 	public void writeAudit(AuditWriter w) throws JSONException {
 		AccounterMessages messages = Global.get().messages();
-		
-		w.put(messages.type(), "Portlet Page Configuration").gap();
+
+		w.put(messages.type(), messages.portletPageConfiguration()).gap();
 	}
 
 }

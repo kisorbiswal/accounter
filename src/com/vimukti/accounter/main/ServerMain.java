@@ -24,6 +24,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.core.Subscription;
+import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.AccounterChatServer;
@@ -50,6 +51,7 @@ public class ServerMain extends Main {
 		String configFile = getArgument(args, "-config");
 		ServerConfiguration.init(configFile);
 		initLogger();
+		Encrypter.init();
 
 		Session session = HibernateUtil.openSession();
 		try {

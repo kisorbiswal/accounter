@@ -77,7 +77,7 @@ public class SalesOpenOrderReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<OpenAndClosedOrders> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

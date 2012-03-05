@@ -83,8 +83,9 @@ public class CreateWareHouseCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return warehouse.getID() == 0 ? "Creating new ware house"
-				: "Updating ware house";
+		return warehouse.getID() == 0 ? getMessages().create(
+				getMessages().wareHouse()) : getMessages().updating(
+				getMessages().wareHouse());
 	}
 
 	@Override
@@ -121,7 +122,8 @@ public class CreateWareHouseCommand extends AbstractCommand {
 				.warehouseName(), false, true) {
 			@Override
 			public void setValue(Object value) {
-				if (CreateWareHouseCommand.this.isWareHouseExists((String) value)) {
+				if (CreateWareHouseCommand.this
+						.isWareHouseExists((String) value)) {
 					addFirstMessage(getMessages().alreadyExist());
 					return;
 				}

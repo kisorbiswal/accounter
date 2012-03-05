@@ -41,6 +41,7 @@ public class ServerConfiguration {
 	private static String uploadAttachmentPassword;
 	private static boolean loadMessages;
 	private static boolean enableEncryption;
+	private static boolean isSandBoxPaypal;
 
 	public static String getAdminPassword() {
 		return adminpassword;
@@ -161,6 +162,8 @@ public class ServerConfiguration {
 
 			loadMessages = prop.getProperty("loadMessages", null)
 					.equalsIgnoreCase("true");
+			isSandBoxPaypal = (prop.getProperty("isSandBoxPaypal", "false")
+					.equalsIgnoreCase("true"));
 
 		} catch (NumberFormatException ne) {
 			System.err
@@ -331,5 +334,13 @@ public class ServerConfiguration {
 
 	public static boolean isEnableEncryption() {
 		return enableEncryption;
+	}
+
+	public static boolean isSandBoxPaypal() {
+		return isSandBoxPaypal;
+	}
+
+	public static void setSandBoxPaypal(boolean isSandBoxPaypal) {
+		ServerConfiguration.isSandBoxPaypal = isSandBoxPaypal;
 	}
 }
