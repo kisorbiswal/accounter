@@ -43,6 +43,11 @@ public class SubscriptionManagementServlet extends BaseServlet {
 
 		Session session = HibernateUtil.getCurrentSession();
 		org.hibernate.Transaction transaction = session.beginTransaction();
+		HttpSession session2 = req.getSession();
+		if (session2 == null) {
+			resp.sendRedirect(LOGIN_URL);
+			return;
+		}
 		String emailId = req.getSession().getAttribute(EMAIL_ID).toString();
 		Client client = getClient(emailId);
 		if (client == null) {
@@ -70,7 +75,7 @@ public class SubscriptionManagementServlet extends BaseServlet {
 		saveEntry(clientSubscription);
 		transaction.commit();
 
-		redirectExternal(req, resp, "/main/subscription/thankyou");
+		resp.sendRedirect(COMPANIES_URL);
 	}
 
 	private void mergeUsers(Client client, Set<String> oldMembers,
@@ -155,21 +160,18 @@ public class SubscriptionManagementServlet extends BaseServlet {
 			Set<String> members = client.getClientSubscription().getMembers();
 			List<String> createdUsers = getExistedUsers(members);
 			boolean isFirst = true;
-			if (!members.isEmpty()) {
-				finalString = "[";
-				for (String string2 : members) {
-					if (isFirst) {
-						finalString += getDict(string2,
-								createdUsers.contains(string2));
-						isFirst = false;
-					} else {
-						finalString += ","
-								+ getDict(string2,
-										createdUsers.contains(string2));
-					}
+			finalString = "[";
+			for (String string2 : members) {
+				if (isFirst) {
+					finalString += getDict(string2,
+							createdUsers.contains(string2));
+					isFirst = false;
+				} else {
+					finalString += ","
+							+ getDict(string2, createdUsers.contains(string2));
 				}
-				finalString += "]";
 			}
+			finalString += "]";
 			req.setAttribute("userIdsList", finalString);
 			dispatch(req, resp, view);
 		} else {
