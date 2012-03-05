@@ -46,7 +46,15 @@
 		<servlet-name>accounter</servlet-name>
 		<url-pattern>/accounter</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>ws</servlet-name>
+		<servlet-class>com.vimukti.accounter.ws.WebSocketHandler
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ws</servlet-name>
+		<url-pattern>/main/ws</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>webLogin</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.NewLoginServlet
@@ -139,7 +147,6 @@
 
 	<!-- API SERVLET MAPPING END -->
 
-
 	<servlet>
 		<servlet-name>S2SService</servlet-name>
 		<servlet-class>com.vimukti.accounter.services.S2SServiceImpl
@@ -179,7 +186,7 @@
 		<servlet-name>Activation</servlet-name>
 		<url-pattern>/main/activation</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>Company Password Recovery</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.CompanyPasswordRecoveryServlet
@@ -443,6 +450,7 @@
 		<url-pattern>/main/deletecompany</url-pattern>
 	</servlet-mapping>
 
+
 	<servlet>
 		<servlet-name>uploadImportDataFile</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.UploadImportDataFileServlet
@@ -452,7 +460,7 @@
 		<servlet-name>uploadImportDataFile</servlet-name>
 		<url-pattern>/do/uploadImportDataFile</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>uploadFile</servlet-name>
 		<servlet-class>com.vimukti.accounter.servlets.UploadFileServlet
@@ -645,7 +653,7 @@
 
 	<context-param>
 		<param-name>version</param-name>
-		<param-value>1.0.6.1.9.1</param-value>
+		<param-value>1.0.7.2</param-value>
 	</context-param>
 
 	<servlet>
@@ -809,7 +817,6 @@
 		<url-pattern>/site/subscription/gopremium</url-pattern>
 	</servlet-mapping>
 	<servlet>
-
 		<servlet-name>SubscribtionComplitionServlet
 		</servlet-name>
 		<servlet-class>
@@ -854,6 +861,17 @@
 		<servlet-name>iAccounterExportCSVImpl </servlet-name>
 		<url-pattern>/do/accounter/exportcsv/rpc/service </url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>windowsServiceImpl</servlet-name>
+		<servlet-class>
+			com.vimukti.accounter.web.server.AccounterWindowsHomeServiceImpl
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>windowsServiceImpl</servlet-name>
+		<url-pattern>/do/accounter/windows/rpc/service</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>OpenIDPasswordServlet
 		</servlet-name>
@@ -877,6 +895,4 @@
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
-
-
 </web-app>

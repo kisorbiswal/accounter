@@ -384,7 +384,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 
 				if (this.type == TYPE_ITEM) {
 					item.doReverseEffect(this, isSalesTransaction());
-					if (getTransaction().isCustomerCreditMemo()) {
+					if (getTransaction().isCustomerCreditMemo()
+							&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
+									.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
 						// Doing PurchaseEffect for CustomerCreditMemo
 						Account assestsAccount = getItem().getAssestsAccount();
 						Account expenseAccount = getItem().getExpenseAccount();
@@ -519,7 +521,9 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 				if (this.type == TYPE_ITEM && item != null) {
 					getItem().updateBalance(this, isSalesTransaction());
 
-					if (getTransaction().isCustomerCreditMemo()) {
+					if (getTransaction().isCustomerCreditMemo()
+							&& (getItem().getType() == Item.TYPE_INVENTORY_PART || getItem()
+									.getType() == Item.TYPE_INVENTORY_ASSEMBLY)) {
 						// Doing PurchaseEffect for CustomerCreditMemo
 						Account assestsAccount = getItem().getAssestsAccount();
 						Account expenseAccount = getItem().getExpenseAccount();
