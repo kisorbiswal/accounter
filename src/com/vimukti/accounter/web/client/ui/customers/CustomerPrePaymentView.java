@@ -919,6 +919,6 @@ public class CustomerPrePaymentView extends
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-
+		classListCombo.setComboItem(accounterClass);
 	}
 }

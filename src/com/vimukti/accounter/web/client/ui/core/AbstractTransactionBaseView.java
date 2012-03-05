@@ -1309,12 +1309,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (location != null)
 				transaction.setLocation(location.getID());
 
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass.getID());
-			}
-
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
 			}
@@ -1628,6 +1622,24 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	protected boolean canRecur() {
 		return transaction == null ? true
 				: transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
+	}
+
+	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
+		return clientAccounterClasses;
+	}
+
+	public void setClientAccounterClasses(
+			ArrayList<ClientAccounterClass> clientAccounterClasses) {
+		this.clientAccounterClasses = clientAccounterClasses;
+	}
+
+	public ClientAccounterClass getClientAccounterClass() {
+		return clientAccounterClass;
+	}
+
+	public void setClientAccounterClass(
+			ClientAccounterClass clientAccounterClass) {
+		this.clientAccounterClass = clientAccounterClass;
 	}
 
 	/**

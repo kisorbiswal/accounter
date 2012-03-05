@@ -610,6 +610,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 	}
 }

@@ -1375,7 +1375,9 @@ public class ReceivePaymentView extends
 
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		// TODO Auto-generated method stub
+		if (clientAccounterClass != null) {
+			classListCombo.setComboItem(clientAccounterClass);
+		}
 
 	}
 

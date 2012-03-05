@@ -622,7 +622,11 @@ public class CustomerCreditMemoView extends
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		if (getPreferences().isJobTrackingEnabled()) {
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
 			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+			jobListCombo.setDisabled(true);
 		}
 
 		if (isMultiCurrencyEnabled()) {
@@ -807,9 +811,9 @@ public class CustomerCreditMemoView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
+			jobListCombo.setDisabled(false);
 		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;
@@ -962,13 +966,8 @@ public class CustomerCreditMemoView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		classListCombo.setDisabled(isInViewMode());
-		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
-		}
 		super.onEdit();
+		jobListCombo.setDisabled(isInViewMode());
 
 	}
 
