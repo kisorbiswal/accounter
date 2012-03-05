@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.gdevelop.gwt.syncrpc.SyncProxy;
 import com.google.gdata.util.common.util.Base64;
@@ -116,7 +117,8 @@ public class BaseServlet extends HttpServlet {
 				User user = getUser(emailId, companyID);
 				if (user != null && user.getSecretKey() != null) {
 					try {
-						EU.createCipher(user.getSecretKey(), d2, request.getSession().getId());
+						EU.createCipher(user.getSecretKey(), d2, request
+								.getSession().getId());
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -453,5 +455,45 @@ public class BaseServlet extends HttpServlet {
 		namedQuery.setParameter("companyId", companyId);
 		byte[] secret = (byte[]) namedQuery.uniqueResult();
 		return secret;
+	}
+
+	public void deleteCookie(HttpServletRequest request,
+			HttpServletResponse response) {
+		String userKey = getCookie(request, OUR_COOKIE);
+		removeCookie(request, response, OUR_COOKIE);
+
+		if (userKey == null || userKey.isEmpty()) {
+			return;
+		}
+		// Deleting RememberMEKEy from Database
+		Session session = HibernateUtil.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.getNamedQuery("delete.remembermeKeys")
+					.setParameter("key", userKey).executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (transaction != null) {
+				transaction.rollback();
+			}
+		} finally {
+			session.close();
+		}
+
+	}
+
+	public void removeCookie(HttpServletRequest request,
+			HttpServletResponse response, String ourCookie) {
+		for (Cookie cookie : request.getCookies()) {
+			if (cookie.getName().endsWith(OUR_COOKIE)) {
+				cookie.setMaxAge(0);
+				cookie.setValue("");
+				cookie.setPath("/");
+				cookie.setDomain(ServerConfiguration.getServerCookieDomain());
+				response.addCookie(cookie);
+			}
+		}
 	}
 }
