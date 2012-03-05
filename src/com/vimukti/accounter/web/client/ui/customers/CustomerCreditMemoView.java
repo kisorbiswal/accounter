@@ -162,8 +162,8 @@ public class CustomerCreditMemoView extends
 			classListCombo = createAccounterClassListCombo();
 			phoneForm.setFields(classListCombo);
 		}
+		jobListCombo = createJobListCombo();
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo = createJobListCombo();
 			jobListCombo.setDisabled(true);
 			phoneForm.setFields(jobListCombo);
 		}
@@ -793,7 +793,7 @@ public class CustomerCreditMemoView extends
 
 		// Job Tracking
 		if (getPreferences().isJobTrackingEnabled()) {
-			jobListCombo.setDisabled(false);
+			jobListCombo.setDisabled(isInViewMode());
 			jobListCombo.setValue("");
 			jobListCombo.setCustomer(customer);
 		}
@@ -948,10 +948,10 @@ public class CustomerCreditMemoView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setCustomer(getCustomer());
+			jobListCombo
+					.setComboItem(getCompany().getjob(transaction.getJob()));
 			jobListCombo.setDisabled(isInViewMode());
-			if (customer != null) {
-				jobListCombo.setCustomer(customer);
-			}
 		}
 		super.onEdit();
 
