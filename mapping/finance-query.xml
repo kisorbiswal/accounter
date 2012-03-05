@@ -2317,6 +2317,7 @@
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="CUSTOMER_PREPAYMENT_ID" type="long" />
+		<return-scalar column="TI_ID" type="long" />
 
 		SELECT CS.ID AS CUSTOMER_ID,
 		CCM.ID AS CUSTOMER_CREDIT_MEMO_ID,
@@ -2328,7 +2329,8 @@
 		RECEIVE_PAYMENT_ID,
 		WC.ID AS WRITE_CHECK_ID,
 		CPP.ID AS
-		CUSTOMER_PREPAYMENT_ID
+		CUSTOMER_PREPAYMENT_ID,
+		TI.ID AS TI_ID
 		FROM CUSTOMER
 		C
 		LEFT OUTER
@@ -2367,6 +2369,8 @@
 		CUSTOMER_PREPAYMENT CPP
 		ON C.ID =
 		CPP.CUSTOMER_ID
+		LEFT JOIN TRANSACTION_ITEM TI 
+		ON C.ID=TI.CUSTOMER_ID
 		WHERE
 		C.ID=:inputId AND C.COMPANY_ID=:companyId
 		LIMIT 1
