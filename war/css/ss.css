@@ -720,7 +720,8 @@ input[type="submit"]:FOCUS {
 	-webkit-opacity: 0.5 !important;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0.5)"
 		!important;
-	filter: alpha(opacity =                                 0.5) !important;
+	filter: alpha(opacity =                                   0.5)
+		!important;
 }
 
 .signup-submit-mid:FOCUS,input[type="submit"]:FOCUS,.login-focus {
@@ -848,9 +849,9 @@ input [type="checkbox"] {
 }
 
 .form-bottom-options,.activate-code {
-	margin: 0 0 0 16px;
-	padding: 16px 16px 0px;
+	margin: 15px 0 0 16px;
 	text-shadow: 0 1px 0 #FFFFFF;
+	width: 100%;
 }
 
 .form-bottom-options a,#commanContainer a,#commanNewContainer a {
