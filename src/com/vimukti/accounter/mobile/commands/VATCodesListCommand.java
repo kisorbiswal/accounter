@@ -121,7 +121,7 @@ public class VATCodesListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	private Set<TAXCode> getVatCodes(Context context) {

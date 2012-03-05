@@ -311,12 +311,12 @@ public class CreateSalesOrderCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 		});
 

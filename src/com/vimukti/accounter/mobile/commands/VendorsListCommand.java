@@ -128,7 +128,7 @@ public class VendorsListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	private ArrayList<PayeeList> getVendorList(Context context) {

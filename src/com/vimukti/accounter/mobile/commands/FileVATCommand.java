@@ -17,6 +17,7 @@ import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.DateRequirement;
 import com.vimukti.accounter.mobile.requirements.ShowListRequirement;
 import com.vimukti.accounter.mobile.requirements.TaxAgencyRequirement;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientBox;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXAgency;
@@ -365,7 +366,8 @@ public class FileVATCommand extends AbstractTransactionCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, Global.get().messages()
+					.youDoNotHavePermissionToDoThisAction());
 			return "cancel";
 		}
 		return null;

@@ -25,7 +25,8 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isKeepTrackofBills()) {
-			addFirstMessage(context, "You do not have permissions to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		return null;
@@ -50,7 +51,7 @@ public class BillsAndExpensesListCommand extends AbstractTransactionListCommand 
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override

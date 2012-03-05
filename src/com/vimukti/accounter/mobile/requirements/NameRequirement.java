@@ -33,7 +33,8 @@ public class NameRequirement extends SingleRequirement<String> {
 		if (!isOptional()) {
 			if (value == null || objVal.trim().length() <= 0
 					|| objVal.isEmpty()) {
-				setEnterString("Please enter Valid " + getRecordName());
+				setEnterString(getMessages().pleaseEnterValidLocationName(
+						getRecordName()));
 				return;
 			}
 		}

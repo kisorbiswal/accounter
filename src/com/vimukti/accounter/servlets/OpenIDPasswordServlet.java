@@ -11,6 +11,7 @@ import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 
 public class OpenIDPasswordServlet extends BaseServlet {
 
@@ -49,8 +50,8 @@ public class OpenIDPasswordServlet extends BaseServlet {
 					HibernateUtil.getCurrentSession().saveOrUpdate(client);
 				}
 				if (!client.getPassword().equals(passwordWord)) {
-					req.setAttribute("error",
-							"Wrong password. Please enter you accounter passowrd");
+					req.setAttribute("error", Global.get().messages()
+							.youHaveEnteredWrongPassword());
 					dispatch(req, resp, VIEW);
 					return;
 				}

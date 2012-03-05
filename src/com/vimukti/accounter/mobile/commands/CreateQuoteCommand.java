@@ -21,7 +21,6 @@ import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
 import com.vimukti.accounter.mobile.requirements.AddressRequirement;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -136,22 +135,6 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 				return customer.getCurrency();
 			}
 		});
-
-		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackDiscounts()
-						&& !getPreferences().isDiscountPerDetailLine()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-		});
-
 		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
 				.pleaseEnter(getMessages().itemName()), getMessages().items(),
 				false, true) {
@@ -455,12 +438,12 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 		});
 
@@ -578,16 +561,20 @@ public class CreateQuoteCommand extends AbstractTransactionCommand {
 	protected String getWelcomeMessage() {
 		if (estimate.getEstimateType() == ClientEstimate.QUOTES) {
 			return estimate.getID() == 0 ? getMessages().creating(
-					getMessages().quote()) : "Quote updating..";
+					getMessages().quote()) : getMessages().updating(
+					getMessages().quote());
 		} else if (estimate.getEstimateType() == ClientEstimate.CREDITS) {
 			return estimate.getID() == 0 ? getMessages().creating(
-					getMessages().credit()) : "Credit updating..";
+					getMessages().credit()) : getMessages().updating(
+					getMessages().credit());
 		} else if (estimate.getEstimateType() == ClientEstimate.CHARGES) {
 			return estimate.getID() == 0 ? getMessages().creating(
-					getMessages().charge()) : "Charge updating..";
+					getMessages().charge()) : getMessages().updating(
+					getMessages().charge());
 		} else if (estimate.getEstimateType() == ClientEstimate.SALES_ORDER) {
 			return estimate.getID() == 0 ? getMessages().creating(
-					getMessages().salesOrder()) : "Charge updating..";
+					getMessages().salesOrder()) : getMessages().updating(
+					getMessages().salesOrder());
 		}
 
 		return "";

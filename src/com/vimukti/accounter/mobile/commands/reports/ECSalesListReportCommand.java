@@ -28,7 +28,7 @@ public class ECSalesListReportCommand extends
 			@Override
 			protected String onSelection(ECSalesList selection, String name) {
 				markDone();
-				return "EC Sales List Detail " + selection.getName();
+				return getMessages().ecSalesListDetails() + selection.getName();
 			}
 
 			@Override
@@ -37,7 +37,7 @@ public class ECSalesListReportCommand extends
 				double total = 0.0;
 				List<ECSalesList> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

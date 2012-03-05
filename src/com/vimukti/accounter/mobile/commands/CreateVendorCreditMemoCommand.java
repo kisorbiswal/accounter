@@ -16,7 +16,6 @@ import com.vimukti.accounter.mobile.Context;
 import com.vimukti.accounter.mobile.Requirement;
 import com.vimukti.accounter.mobile.Result;
 import com.vimukti.accounter.mobile.ResultList;
-import com.vimukti.accounter.mobile.requirements.AmountRequirement;
 import com.vimukti.accounter.mobile.requirements.BooleanRequirement;
 import com.vimukti.accounter.mobile.requirements.ChangeListner;
 import com.vimukti.accounter.mobile.requirements.ContactRequirement;
@@ -150,25 +149,9 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 		list.add(new DateRequirement(DATE, getMessages().pleaseEnter(
 				getMessages().transactionDate()), getMessages()
 				.transactionDate(), true, true));
-
-		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackDiscounts()
-						&& !getPreferences().isDiscountPerDetailLine()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
-		});
-
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseSelect(getMessages().Accounts()), getMessages()
+				.Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -260,8 +243,8 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().pleaseEnter(
+				getMessages().contactName()), "Contact", true, true, null) {
 			@Override
 			protected Payee getPayee() {
 				return get(VENDOR).getValue();
@@ -308,12 +291,12 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 		});
 
@@ -374,7 +357,8 @@ public class CreateVendorCreditMemoCommand extends AbstractTransactionCommand {
 	protected String initObject(Context context, boolean isUpdate) {
 
 		if (!context.getPreferences().isKeepTrackofBills()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
 			return "cancel";
 		}
 		if (isUpdate) {

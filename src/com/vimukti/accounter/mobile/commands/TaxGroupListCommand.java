@@ -69,8 +69,9 @@ public class TaxGroupListCommand extends AbstractCommand {
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isTrackTax()) {
-			addFirstMessage(context, "You dnt have permission to do this.");
-			return "cancel";
+			addFirstMessage(context, getMessages()
+					.youDntHavePermissionToDoThis());
+			return getMessages().cancel();
 		}
 
 		return null;
@@ -92,6 +93,6 @@ public class TaxGroupListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 }

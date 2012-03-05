@@ -864,7 +864,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 		// not sure whats this
 		// w.put(messages.amount(), this.usedamt.toString());
 		if (backOrder != null)
-			w.put("Back Order", this.backOrder.toString());
+			w.put(messages.backOrder(), this.backOrder.toString());
 
 		if (VATfraction != null)
 			w.put(messages.vat(), this.VATfraction.toString());

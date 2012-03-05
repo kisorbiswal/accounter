@@ -33,6 +33,7 @@ import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.utils.SecureUtils;
 import com.vimukti.accounter.utils.Security;
+import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
 /**
@@ -61,7 +62,7 @@ public class AuthenticationCommand extends Command {
 		// Re-Sending the Activation mail
 		if (context.getSelection("activation") != null) {
 			context.setAttribute("input", "activationEmailId");
-			makeResult.add("Enter registered Email-ID");
+			makeResult.add(Global.get().messages().registeredEmailId());
 			makeResult.add(new InputType(AbstractRequirement.INPUT_TYPE_EMAIL));
 			makeResult.setCookie(context.getNetworkId());
 			return makeResult;

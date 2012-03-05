@@ -5923,6 +5923,142 @@ public interface AccounterMessages extends Messages {
 
 	public String reportTotal(String jobName);
 
+	public String checkNumber();
+
+	public String checkAmount();
+
+	public String jobProfitabilitySummary();
+
+	public String enablePreference(String preferences);
+
+	public String pleaseMapProperly(String selectedValue, String value);
+
+	public String propertyMatchedAlready();
+
+	public String unassigned();
+
+	public String pleaseEnterDecimalSymbol();
+
+	public String uploadCsvFileDialog();
+
+	public String reconciledAmount();
+
+	public String effectofChange();
+
+	public String reconcilationDiscrepany();
+
+	public String trackingPriceLevelenabled();
+
+	public String trackingPriceLeveldisabled();
+
+	public String valueActivated(String value);
+
+	public String backOrder();
+
+	public String valueTotal(String value);
+
+	public String grand();
+
+	public String viewClosedSuccessfully(String view);
+
+	public String viewDetailsAsFollows(String view);
+
+	public String previousReconciliationDiscrepancyReport();
+
+	public String portletPageConfiguration();
+
+	public String portletConfiguration();
+
+	public String pleaseSelecAnyWareHouseTransferToViewDetails();
+
+	public String bothItemsMustBelongsTheSameType();
+
+	public String assetValue();
+
+	public String retailValue();
+
+	public String Sold();
+
+	public String depricationOfOn(String depreciationAmount, String format);
+
+	public String fixedAssetDeprecation();
+
+	public String createdFixedAsset();
+
+	public String disposalOfFixedAsset(String name);
+
+	public String depreciationToBePostPoned();
+
+	public String viewActivatedSuccessfully(String expenseReport);
+
+	public String ATestEmailIsSentToGivenEmailIdKindlyCheckYourEmailAndProceedIfYouGot();
+
+	public String messagesSendingFailed();
+
+	public String IwantToDeleteThisObject(String obj);
+
+	public String noIdontWantToDeleteThisObj(String obj);
+
+	public String wareHouseTransferItem();
+
+	public String pleaseSelectAnyOneOption();
+
+	public String updating(String obj);
+
+	public String notPrinted();
+
+	public String enterObj(String obj);
+
+	public String objIsActive(String obj);
+
+	public String objIsInActive(String obj);
+
+	public String selectObjToUpdate(String obj);
+
+	public String objIsReadyToCreateWitFollowingDetails(String obj);
+
+	public String objIsReadyToUpdateWitFollowingDetails(String obj);
+
+	public String selectFullSetupToEnter();
+
+	public String selectPartialSetupToSkip();
+
+	public String dontHaveAnotherAddress();
+
+	public String yourCompanyHasBeenLocked();
+
+	public String dayOfs();
+
+	public Object weekOfs();
+
+	public Object monthOfs();
+
+	public Object yearOfs();
+
+	public String switchCompany();
+
+	public String trackingLocationTrackingEnabled();
+
+	public String trackingLocationTrackingDisabled();
+
+	public String wareHouses();
+
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
+
+	public String pleaseSelectAnyObjToViewDetails(String obj);
+
+	public String list();
+
+	public String yourCompanyIsDeletedSuccessfully();
+
+	public String companyDeletionFailed();
+
+	public String accountDeletionFailed();
+
+	public String yourCompanyIsCreatetedSuccessfully();
+
+	public String companyCreatedFailed();
+
 	public String itemActualCostDetail();
 
 	public String itemActualRevenueDetail();
@@ -5943,27 +6079,9 @@ public interface AccounterMessages extends Messages {
 
 	public String pleasEnterJobName();
 
-	public String checkNumber();
-
-	public String checkAmount();
-
-	public String jobProfitabilitySummary();
-
-	public String enablePreference(String preferences);
-
-	public String pleaseMapProperly(String selectedValue, String value);
-
-	public String propertyMatchedAlready();
-
-	public String pleaseEnterDecimalSymbol();
-
-	public String uploadCsvFileDialog();
-
 	public String aleadyMapped(String selectedValue);
 
 	public String matchedWithWrongProprty(String selectedValue, String value);
-
-	public String unassigned();
 
 	public String nameInCSV();
 
@@ -5972,14 +6090,6 @@ public interface AccounterMessages extends Messages {
 	public String accounterField();
 
 	public String mappingPreview();
-
-	public String reconciledAmount();
-
-	public String effectofChange();
-
-	public String reconcilationDiscrepany();
-
-	public String purchaseOrderTaskDesc(String vendor, String orderNo);
 
 	public String adjustedQtyNegative();
 

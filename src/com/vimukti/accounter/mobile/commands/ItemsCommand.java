@@ -191,7 +191,7 @@ public class ItemsCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 }

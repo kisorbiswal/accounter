@@ -36,7 +36,7 @@ public class AddNewAdminuserAction extends Action {
 	public void run() {
 
 		AddNewAdminUserDialog addAdminUserDialog = new AddNewAdminUserDialog(
-				"Add new User");
+				messages.addNew(messages.user()));
 		addAdminUserDialog.show();
 	}
 

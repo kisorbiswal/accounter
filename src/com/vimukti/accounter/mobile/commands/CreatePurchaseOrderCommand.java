@@ -53,14 +53,20 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		if (isUpdate) {
 			String string = context.getString();
 			if (string.isEmpty()) {
-				addFirstMessage(context, "Select a Purchase order to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectObjToUpdate(
+								getMessages().purchaseOrder()));
 				return "Invoices List";
 			}
 			purchaseOrder = getTransaction(string,
 					AccounterCoreType.PURCHASEORDER, context);
 
 			if (purchaseOrder == null) {
-				addFirstMessage(context, "Select a purchase order to update.");
+				addFirstMessage(
+						context,
+						getMessages().selectObjToUpdate(
+								getMessages().purchaseOrder()));
 				return "Invoices List " + string;
 			}
 			setValues();
@@ -121,15 +127,16 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return purchaseOrder.getID() == 0 ? getMessages().create(
-				getMessages().purchaseOrder())
-				: "Update purchase order command activated";
+				getMessages().purchaseOrder()) : getMessages().updating(
+				getMessages().purchaseOrder());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
 		return purchaseOrder.getID() == 0 ? getMessages().readyToCreate(
-				getMessages().purchaseOrder())
-				: "Purchase order is ready to create with following details";
+				getMessages().purchaseOrder()) : getMessages()
+				.objIsReadyToCreateWitFollowingDetails(
+						getMessages().purchaseOrder());
 	}
 
 	@Override
@@ -238,9 +245,9 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 		 * } });
 		 */
 
-		list.add(new TransactionAccountTableRequirement(ACCOUNTS,
-				"please select accountItems", getMessages().Account(), true,
-				true) {
+		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
+				.pleaseSelect(getMessages().Accounts()), getMessages()
+				.Account(), true, true) {
 
 			@Override
 			protected List<Account> getAccounts(Context context) {
@@ -288,9 +295,9 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 
 		});
-		list.add(new TransactionItemTableRequirement(ITEMS,
-				"Please Enter Item Name or number", getMessages().items(),
-				true, true) {
+		list.add(new TransactionItemTableRequirement(ITEMS, getMessages()
+				.pleaseEnter(getMessages().accountName()), getMessages()
+				.items(), true, true) {
 
 			@Override
 			public List<Item> getItems(Context context) {
@@ -380,8 +387,9 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 			}
 		});
 
-		list.add(new ContactRequirement(CONTACT, "Enter contact name",
-				"Contact", true, true, null) {
+		list.add(new ContactRequirement(CONTACT, getMessages().enterObj(
+				getMessages().contactName()), getMessages().contact(), true,
+				true, null) {
 
 			@Override
 			protected Payee getPayee() {
@@ -456,12 +464,12 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 		});
 
@@ -545,9 +553,8 @@ public class CreatePurchaseOrderCommand extends AbstractTransactionCommand {
 
 		List<ClientTransactionItem> accounts = get(ACCOUNTS).getValue();
 		if (items.isEmpty() && accounts.isEmpty()) {
-			addFirstMessage(
-					context,
-					"Transaction total can not zero or less than zero.So you can't finish this command");
+			addFirstMessage(context, getMessages()
+					.transactiontotalcannotbe0orlessthan0());
 		}
 		super.beforeFinishing(context, makeResult);
 	}

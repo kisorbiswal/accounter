@@ -46,7 +46,7 @@ public class CustomerStatementReportCommand extends
 
 				List<PayeeStatementsList> records = getRecords(context);
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

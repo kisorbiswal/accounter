@@ -38,7 +38,7 @@ public class MeasurementListCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override
@@ -50,9 +50,7 @@ public class MeasurementListCommand extends AbstractCommand {
 	protected void addRequirements(List<Requirement> list) {
 		list.add(new ShowListRequirement<Measurement>(getMessages()
 				.measurementList(), getMessages()
-				.pleaseSelect(
-						"any " + getMessages().wareHouseTransfer()
-								+ " to view details"), 40) {
+				.pleaseSelecAnyWareHouseTransferToViewDetails(), 40) {
 
 			@Override
 			protected String onSelection(Measurement value) {

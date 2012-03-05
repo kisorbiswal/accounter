@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class BuildAssembly extends Transaction {
 
@@ -43,7 +44,8 @@ public class BuildAssembly extends Transaction {
 			transactionItem.setUnitPrice(assemblyItem.getUnitPrice());
 
 			transactionItem.setItem(inventoryItem);
-			transactionItem.setDescription("Build Assembly");
+			transactionItem.setDescription(Global.get().messages()
+					.buildAssembly());
 			transactionItem.setWareHouse(assemblyItem.getWarehouse());
 			transactionItem.setLineTotal(assemblyItem.getQuantity()
 					.calculatePrice(assemblyItem.getUnitPrice()));

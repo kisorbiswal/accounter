@@ -36,7 +36,7 @@ public class TransactionDetailbyTaxItemReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TransactionDetailByTaxItem> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -71,8 +71,12 @@ public class TransactionDetailbyTaxItemReportCommand extends
 						taxableAmount += rec.getTaxableAmount();
 					}
 					makeResult.add(resultList);
-					makeResult.add("Sales Tax Total: " + salesTaxTotal);
-					makeResult.add("Taxable amount Total: " + taxableAmount);
+					makeResult.add(getMessages().valueTotal(
+							getMessages().salesTax())
+							+ salesTaxTotal);
+					makeResult.add(getMessages().valueTotal(
+							getMessages().taxableAmount())
+							+ taxableAmount);
 				}
 			}
 		});

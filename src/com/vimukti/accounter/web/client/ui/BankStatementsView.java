@@ -38,7 +38,7 @@ public class BankStatementsView extends BaseListView<ClientStatement> {
 
 	@Override
 	protected String getListViewHeading() {
-		return "Bank Statements";
+		return messages.bankStatements();
 	}
 
 	@Override

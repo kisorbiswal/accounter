@@ -356,17 +356,17 @@ public class ClientRecurringTransaction implements IAccounterCore {
 		sb.append(intervalPeriod).append(' ');
 		switch (intervalType) {
 		case INTERVAL_TYPE_DAILY:
-			sb.append("Day(s)");
+			sb.append(messages.dayOfs());
 			break;
 		case INTERVAL_TYPE_WEEKLY:
-			sb.append("Week(s)");
+			sb.append(messages.weekOfs());
 			break;
 		case INTERVAL_TYPE_MONTHLY_DAY:
 		case INTERVAL_TYPE_MONTHLY_WEEK:
-			sb.append("Month(s)");
+			sb.append(messages.monthOfs());
 			break;
 		case INTERVAL_TYPE_YEARLY:
-			sb.append("Year(s)");
+			sb.append(messages.yearOfs());
 		default:
 			sb.append("-");
 			break;

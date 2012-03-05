@@ -36,7 +36,7 @@ public class APAgingSummaryReportCommand extends
 				addSelection("APAgingSummaryReport");
 				List<DummyDebitor> records = getRecords(context);
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

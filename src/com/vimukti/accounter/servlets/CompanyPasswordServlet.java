@@ -13,6 +13,7 @@ import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerConfiguration;
 import com.vimukti.accounter.utils.HibernateUtil;
+import com.vimukti.accounter.web.client.Global;
 
 public class CompanyPasswordServlet extends BaseServlet {
 
@@ -45,7 +46,8 @@ public class CompanyPasswordServlet extends BaseServlet {
 					s3 = EU.decrypt(comSecret, csk);
 				} catch (Exception e) {
 					e.printStackTrace();
-					req.setAttribute("error", "Wrong password.");
+					req.setAttribute("error", Global.get().messages()
+							.youHaveEnteredWrongPassword());
 					dispatch(req, resp, VIEW);
 					return;
 				}
@@ -63,11 +65,17 @@ public class CompanyPasswordServlet extends BaseServlet {
 				return;
 			} catch (Exception e) {
 				e.printStackTrace();
-				req.setAttribute("error", "Wrong password.");
+				req.setAttribute("error", Global.get().messages()
+						.youHaveEnteredWrongPassword());
 				dispatch(req, resp, VIEW);
 			}
 		} else {
-			req.setAttribute("error", "Please enter Company Password");
+			req.setAttribute(
+					"error",
+					Global.get()
+							.messages()
+							.pleaseEnter(
+									Global.get().messages().companyPassword()));
 			dispatch(req, resp, VIEW);
 		}
 	}

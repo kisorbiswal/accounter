@@ -333,7 +333,7 @@ public class CreateVendorPrepaymentCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getFalseString() {
-				return "Not Printed ";
+				return getMessages().notPrinted();
 			}
 		});
 		list.add(new StringRequirement(CHEQUE_NO, getMessages().pleaseEnter(

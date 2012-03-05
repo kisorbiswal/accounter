@@ -53,7 +53,7 @@ public class BankAccountReconcilationHistoryCommand extends AbstractCommand {
 	@Override
 	public String getSuccessMessage() {
 
-		return "Success";
+		return getMessages().success();
 
 	}
 
@@ -132,7 +132,8 @@ public class BankAccountReconcilationHistoryCommand extends AbstractCommand {
 				Record rec = new Record(value);
 				rec.add(getMessages().ReconciliationDate(),
 						value.getReconcilationDate());
-				rec.add(value.getStartDate() + " to " + value.getEndDate());
+				rec.add(value.getStartDate() + "  " + getMessages().to() + " "
+						+ value.getEndDate());
 				rec.add(getMessages().openingBalance(),
 						value.getOpeningBalance());
 				rec.add(getMessages().ClosingBalance(),

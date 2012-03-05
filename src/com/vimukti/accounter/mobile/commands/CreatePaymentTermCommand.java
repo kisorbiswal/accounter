@@ -99,9 +99,9 @@ public class CreatePaymentTermCommand extends AbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		if (paymentTerms.getID() == 0) {
-			return "New Payment term command is activated";
+			return getMessages().creating(getMessages().paymentTerm());
 		} else {
-			return "Update payment term command activated";
+			return getMessages().updating(getMessages().paymentTerm());
 		}
 	}
 
