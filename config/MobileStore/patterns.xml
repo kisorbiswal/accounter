@@ -43,6 +43,7 @@
 			<command title="companyPreferences" />
 			<command if="trackTax" title="itemTax" />
 			<command title="manageSupportLists" />
+			<command title="merge" />
 			<command title="lists" />
 		</outputs>
 	</pattern>
@@ -83,6 +84,16 @@
 			<command title="creditRatingList" />
 			<command title="customergroupList" />
 			<command title="shippingMethodList" />
+		</outputs>
+	</pattern>
+	
+	<pattern login="true">
+		<input>merge</input>
+		<outputs>
+			<command title="mergeCustomers" />
+			<command title="mergeVendors" />
+			<command title="mergeAccounts" />
+			<command title="mergeItems" />
 		</outputs>
 	</pattern>
 

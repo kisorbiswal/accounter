@@ -645,7 +645,7 @@ public class CustomerManager extends PayeeManager {
 
 			company.getCustomers().remove(fromcustomer);
 			session.saveOrUpdate(company);
-			fromcustomer.setCompany(null);
+			// fromcustomer.setCompany(null);
 
 			session.delete(fromcustomer);
 			tx.commit();

@@ -14,6 +14,7 @@
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
+		<%	String userEmail=(String) request.getAttribute("emailId");	%>
 		<%	isPaid=isPaid==null?false:isPaid;	%>
 		<%	enableEncryption=enableEncryption&&isPaid;	%>
 	<script type="text/javascript">
@@ -23,13 +24,7 @@
 		
 		$(document).ready(function() {
 		var isPaid=${isPaid};
-			  if(isPaid){
-       $('#logoutlink').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
-       }
-       else{
-        $('#logoutlink').after('<a target="_blank" href="/site/subscription/gopremium">Go Premium</a>');
-       }
-       
+		var userEmail='<%=userEmail%>';
        });
 		function goto(comp){
 			$(document).ready(function() {
@@ -96,13 +91,34 @@
 	   </ul>
 	  </div>
     </div>
-    <div class="form-bottom-options">
-      <a style="float:left" id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
-      <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
-      <c:if test="<%= enableEncryption %>">
-    	 <a href="/main/encryption"><i18n:i18n msg='encryption'/></a>
-      </c:if>
-    </div>
+    <table class="form-bottom-options">
+    <tr>
+    <td>
+      <a id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
+      </td>
+	      <c:choose>
+				<c:when test="<%= isPaid %>">
+				<td>
+			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
+				</td>
+				</c:when>
+				<c:otherwise>
+				<td>
+					<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>
+				</td>
+				</c:otherwise>
+		   </c:choose>
+      
+	      <c:if test="<%= enableEncryption %>">
+	      <td>
+	    	 <a href="/main/encryption"><i18n:i18n msg='encryption'/></a>
+	      </td>
+	      </c:if>
+	       <td>
+		      <a href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
+			</td>
+	     </tr>
+    </table>
       </td>
    </tr>
 </table>
