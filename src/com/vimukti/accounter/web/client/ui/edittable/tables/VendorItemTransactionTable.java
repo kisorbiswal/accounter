@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.edittable.tables;
 
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -16,6 +17,7 @@ import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
 import com.vimukti.accounter.web.client.ui.edittable.ItemNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.NewQuantityColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionBillableColumn;
+import com.vimukti.accounter.web.client.ui.edittable.TransactionClassColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTaxableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionTotalColumn;
@@ -26,37 +28,47 @@ import com.vimukti.accounter.web.client.ui.edittable.TransactionVatColumn;
 public abstract class VendorItemTransactionTable extends VendorTransactionTable {
 
 	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
+			boolean isTrackClass, boolean isClassPerDetailLine,
 			ICurrencyProvider currencyProvider) {
-		this(true, enableTax, showTaxCode, currencyProvider);
+		this(true, enableTax, showTaxCode, isTrackClass, isClassPerDetailLine,
+				currencyProvider);
 	}
 
 	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
-			boolean enableDisCount, boolean showDisCount,
-			ICurrencyProvider currencyProvider) {
+			boolean enableDisCount, boolean showDisCount, boolean isTrackClass,
+			boolean isClassPerDetailLine, ICurrencyProvider currencyProvider) {
 		super(1, enableDisCount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		this.enableDisCount = enableDisCount;
 		this.showDiscount = showDisCount;
+		this.enableClass = isTrackClass;
+		this.showClass = isClassPerDetailLine;
 		addEmptyRecords();
 	}
 
 	public VendorItemTransactionTable(boolean enableTax, boolean showTaxCode,
 			boolean enableDisCount, boolean showDisCount,
-			ICurrencyProvider currencyProvider, boolean isCustomerAllowedToAdd) {
+			ICurrencyProvider currencyProvider, boolean isCustomerAllowedToAdd,
+			boolean isTrackClass, boolean isClassPerDetailLine) {
 		super(1, enableDisCount, isCustomerAllowedToAdd, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
 		this.enableDisCount = enableDisCount;
 		this.showDiscount = showDisCount;
+		this.enableClass = isTrackClass;
+		this.showClass = isClassPerDetailLine;
 		addEmptyRecords();
 	}
 
 	public VendorItemTransactionTable(boolean needDiscount, boolean enableTax,
-			boolean showTaxCode, ICurrencyProvider currencyProvider) {
+			boolean showTaxCode, boolean isTrackClass,
+			boolean isClassPerDetailLine, ICurrencyProvider currencyProvider) {
 		super(1, needDiscount, currencyProvider);
 		this.enableTax = enableTax;
 		this.showTaxCode = showTaxCode;
+		this.enableClass = isTrackClass;
+		this.showClass = isClassPerDetailLine;
 		addEmptyRecords();
 	}
 
@@ -155,7 +167,19 @@ public abstract class VendorItemTransactionTable extends VendorTransactionTable 
 				this.addColumn(new TransactionDiscountColumn(currencyProvider));
 			}
 		}
+		if (enableClass) {
+			if (showClass) {
+				this.addColumn(new TransactionClassColumn() {
 
+					@Override
+					protected void setValue(ClientTransactionItem row,
+							ClientAccounterClass newValue) {
+						super.setValue(row, newValue);
+						update(row);
+					}
+				});
+			}
+		}
 		this.addColumn(new TransactionTotalColumn(currencyProvider, true));
 
 		if (enableTax) {

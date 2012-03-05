@@ -169,6 +169,7 @@ public class TransactionItem implements IAccounterServerCore, Lifecycle {
 	private boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
+
 	@ReffereredObject
 	private Customer customer;
 

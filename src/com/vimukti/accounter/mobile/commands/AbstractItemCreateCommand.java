@@ -304,8 +304,7 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 			@Override
 			public Result run(Context context, Result makeResult,
 					ResultList list, ResultList actions) {
-				if (context.getCompany().getPreferences()
-						.isClassOnePerTransaction()) {
+				if (true) {
 					return super.run(context, makeResult, list, actions);
 				}
 				return null;

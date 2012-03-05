@@ -111,6 +111,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				.getPrimaryCurrency();
 	}
 
+	public ClientAccounterClass accounterClass;
 	protected T transaction;
 
 	private VerticalPanel addNotesPanel;
@@ -290,6 +291,29 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 		}
 		return taxCode;
+	}
+
+	/**
+	 * 
+	 * @param transactionItems
+	 * @return
+	 */
+	protected ClientAccounterClass getClassForTransactionItem(
+			List<ClientTransactionItem> transactionItems) {
+		ClientAccounterClass accounterClass = null;
+		for (ClientTransactionItem clientTransactionItem : transactionItems) {
+			if (clientTransactionItem.getAccounterClass() != 0
+					&& clientTransactionItem.getReferringTransactionItem() == 0) {
+				accounterClass = getCompany().getAccounterClass(
+						clientTransactionItem.getAccounterClass());
+				if (accounterClass != null) {
+					break;
+				} else {
+					continue;
+				}
+			}
+		}
+		return accounterClass;
 	}
 
 	protected HorizontalPanel getVoidedPanel() {
@@ -1087,11 +1111,11 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		// menuButton.setEnabled(!isInViewMode());
 		setMode(EditMode.EDIT);
 
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& classListCombo != null) {
-			classListCombo.setDisabled(isInViewMode());
-		}
+		// if (getPreferences().isClassTrackingEnabled()
+		// /* && getPreferences().isClassOnePerTransaction() */
+		// && classListCombo != null) {
+		// classListCombo.setDisabled(isInViewMode());
+		// }
 	}
 
 	public boolean isEdit() {
@@ -1139,12 +1163,14 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return result;
 		}
 		isValidCurrencyFactor(result);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& getPreferences().isWarnOnEmptyClass()
-				&& this.transaction.getAccounterClass() == 0) {
-			result.addWarning(classListCombo, messages.W_105());
-		}
+		/*
+		 * if (getPreferences().isClassTrackingEnabled() &&
+		 * getPreferences().isClassOnePerTransaction() &&
+		 * getPreferences().isWarnOnEmptyClass() &&
+		 * this.transaction.getAccounterClass() == 0) {
+		 * result.addWarning(classListCombo, messages.W_105());
+		 */
+		// }
 		if (!(this instanceof NewVendorPaymentView
 				|| this instanceof CustomerPrePaymentView
 				|| this instanceof CustomerRefundView
@@ -1171,12 +1197,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 					} else {
 						result.addError("TransactionItem", messages
 								.pleaseEnter(messages.transactionItem()));
-					}
-					if (getPreferences().isClassTrackingEnabled()
-							&& !getPreferences().isClassOnePerTransaction()
-							&& getPreferences().isWarnOnEmptyClass()
-							&& transactionItem.getClientAccounterClass() == null) {
-						// TODO
 					}
 				}
 			} else {
@@ -1280,11 +1300,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (location != null)
 				transaction.setLocation(location.getID());
 
-			if (getPreferences().isClassTrackingEnabled()
-					&& getPreferences().isClassOnePerTransaction()
-					&& clientAccounterClass != null) {
-				transaction.setAccounterClass(clientAccounterClass.getID());
-			}
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
 			}
@@ -1600,66 +1615,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				: transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
-	public ClassListCombo createAccounterClassListCombo() {
-		classListCombo = new ClassListCombo(messages.accounterClass(), true);
-		classListCombo.setHelpInformation(true);
-		classListCombo
-				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
-
-					@Override
-					public void selectedComboBoxItem(
-							ClientAccounterClass selectItem) {
-						classSelected(selectItem);
-					}
-				});
-
-		classListCombo
-				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
-
-					@Override
-					public void execute(
-							final ClientAccounterClass accounterClass) {
-						Accounter.createCRUDService().create(accounterClass,
-								new AsyncCallback<Long>() {
-
-									@Override
-									public void onSuccess(Long result) {
-										accounterClass.setID(result);
-										classSelected(accounterClass);
-										getCompany().getAccounterClasses().add(
-												accounterClass);
-									}
-
-									@Override
-									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
-									}
-								});
-					}
-				});
-
-		classListCombo.setDisabled(isInViewMode());
-
-		return classListCombo;
-	}
-
-	protected void classSelected(ClientAccounterClass clientAccounterClass) {
-		if (clientAccounterClass != null) {
-			this.clientAccounterClass = clientAccounterClass;
-			classListCombo.setComboItem(clientAccounterClass);
-		}
-	}
-
-	protected void initAccounterClass() {
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()
-				&& transaction.getAccounterClass() != 0) {
-
-			classSelected(getCompany().getAccounterClass(
-					transaction.getAccounterClass()));
-		}
-	}
-
 	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
 		return clientAccounterClasses;
 	}
@@ -1707,6 +1662,30 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			return true;
 		} else {
 			return getPreferences().isTrackTax();
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isTrackClass() {
+		if (transaction != null && transaction.haveClass()) {
+			return true;
+		} else {
+			return getPreferences().isClassTrackingEnabled();
+		}
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isClassPerDetailLine() {
+		if (transaction != null && transaction.usesDifferentclasses()) {
+			return true;
+		} else {
+			return getPreferences().isClassPerDetailLine();
 		}
 	}
 
@@ -2072,4 +2051,56 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 		return discount;
 
 	}
+
+	/**
+	 * Create for class Tracking
+	 * 
+	 * @return
+	 */
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
+		classListCombo.setHelpInformation(true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						accounterClass = selectItem;
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(final ClientAccounterClass accouterClass) {
+						accounterClass = accouterClass;
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										getCompany().getAccounterClasses().add(
+												accounterClass);
+										classSelected(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
+
+		classListCombo.setDisabled(isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected abstract void classSelected(
+			ClientAccounterClass clientAccounterClass);
 }

@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,32 +21,29 @@ import com.google.gwt.user.client.ui.Widget;
 public class ClassTrackingOption extends AbstractPreferenceOption {
 
 	@UiField
-	CheckBox classTrackingCheckBox;
+	CheckBox trackClassCheckBox;
+
 	@UiField
-	VerticalPanel hiddenPanel;
+	Label classLabel;
+
 	@UiField
-	Label classTrackingCheckBoxLabel;
+	RadioButton onepeTransactionRadioButton;
+
 	@UiField
-	CheckBox classWarningCheckBox;
+	Label oneperTransactionLabel;
+
 	@UiField
-	Label classWarningCheckBoxLabel;
-	// @UiField
-	// Label classesOnSalesLabel;
-	/**
-	 * NOTE onePerDetailLineRadio for Class Tracking , Currently we are
-	 * disabling this feature and allowing the user only to select One Per
-	 * Transaction.
-	 */
-	// @UiField
-	// RadioButton onePerTransactionRadio;
-	// @UiField
-	// RadioButton onePerDetailLineRadio;
-	// @UiField
-	// VerticalPanel classOnSalesPanel;
-	// @UiField
-	// VerticalPanel onePerRadioPanel;
+	RadioButton oneperdetaillineRadioButton;
+
 	@UiField
-	Label classTrackingdescriptionLabel;
+	Label oneperdetaillineLabel;
+
+	@UiField
+	VerticalPanel hidePanel;
+
+	@UiField
+	VerticalPanel radioButtonPanel;
+
 	private static ClassTrackingOptionUiBinder uiBinder = GWT
 			.create(ClassTrackingOptionUiBinder.class);
 
@@ -69,65 +67,51 @@ public class ClassTrackingOption extends AbstractPreferenceOption {
 	}
 
 	public void initData() {
-		if (getCompanyPreferences().isClassTrackingEnabled()) {
-			classTrackingCheckBox.setValue(true);
-			hiddenPanel.setVisible(true);
-			// if (getCompanyPreferences().isClassOnePerTransaction()) {
-			// onePerTransactionRadio.setValue(true);
-			// } else {
-			// onePerDetailLineRadio.setValue(true);
-			// }
-
-			if (getCompanyPreferences().isWarnOnEmptyClass()) {
-				classWarningCheckBox.setValue(true);
-			}
-		} else {
-			hiddenPanel.setVisible(false);
-		}
-
+		trackClassCheckBox.setValue(getCompanyPreferences()
+				.isClassTrackingEnabled());
+		hidePanel.setVisible(getCompanyPreferences().isClassTrackingEnabled());
+		if (getCompanyPreferences().isClassPerDetailLine())
+			oneperdetaillineRadioButton.setValue(true);
+		else
+			onepeTransactionRadioButton.setValue(true);
 	}
 
 	public void createControls() {
 
-		classTrackingdescriptionLabel.setText(messages
-				.classTrackingDescription());
-		classTrackingdescriptionLabel.setStyleName("organisation_comment");
-		classTrackingCheckBox.setText(messages.classTracking());
-		classWarningCheckBox.setText(messages.classWarning());
-		// classesOnSalesLabel.setText(messages.classesonsales());
-		// onePerTransactionRadio.setName(messages
-		// .classunderscoretracking());
-		// onePerTransactionRadio.setHTML(messages
-		// .onepertransaction());
-		// onePerDetailLineRadio.setName(messages
-		// .classunderscoretracking());
-		// onePerDetailLineRadio.setHTML(messages.oneperdetailline());
+		trackClassCheckBox.setText(messages.trackclass());
+		classLabel.setText(messages.classInAllTransaction());
 
-		// classOnSalesPanel.getElement().getStyle().setPaddingLeft(15,
-		// Unit.PX);
-		// onePerRadioPanel.getElement().getStyle().setPaddingLeft(20, Unit.PX);
+		onepeTransactionRadioButton.setText(messages.onepertransaction());
+		oneperTransactionLabel.setText(messages
+				.onePerTransactionclassTrackingDescription());
 
-		classTrackingCheckBox.addClickHandler(new ClickHandler() {
+		oneperdetaillineRadioButton.setText(messages.oneperdetailline());
+		oneperdetaillineLabel.setText(messages
+				.onePerDetailLineclassTrackingDescription());
+
+		oneperdetaillineRadioButton.setName(messages.className());
+		onepeTransactionRadioButton.setName(messages.className());
+
+		oneperTransactionLabel.setStyleName("organisation_comment");
+		oneperdetaillineLabel.setStyleName("organisation_comment");
+
+		trackClassCheckBox.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				hiddenPanel.setVisible(classTrackingCheckBox.getValue());
-
+				hidePanel.setVisible(trackClassCheckBox.getValue());
 			}
 		});
+
 	}
 
 	@Override
 	public void onSave() {
 		getCompanyPreferences().setClassTrackingEnabled(
-				classTrackingCheckBox.getValue());
-		if (classTrackingCheckBox.getValue()) {
-			getCompanyPreferences().setClassOnePerTransaction(true);
-		} else {
-			getCompanyPreferences().setClassOnePerTransaction(false);
-		}
-		getCompanyPreferences().setWarnOnEmptyClass(
-				classWarningCheckBox.getValue());
+				trackClassCheckBox.getValue());
+		getCompanyPreferences().setClassPerDetailLine(
+				oneperdetaillineRadioButton.getValue());
+
 	}
 
 	@Override

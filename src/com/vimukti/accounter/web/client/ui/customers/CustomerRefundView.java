@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientCustomerRefund;
@@ -63,7 +64,6 @@ public class CustomerRefundView extends
 
 	public CustomerRefundView() {
 		super(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
-
 	}
 
 	@Override
@@ -271,10 +271,8 @@ public class CustomerRefundView extends
 			balForm.setFields(locationCombo);
 		balForm.setFields(bankBalText, custBalText);
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (getPreferences().isClassTrackingEnabled()) {
 			balForm.setFields(classListCombo);
 		}
 
@@ -392,6 +390,10 @@ public class CustomerRefundView extends
 		transaction.setTotal(amtText.getAmount());
 
 		transaction.setBalanceDue(amtText.getAmount());
+		if (getPreferences().isClassTrackingEnabled()
+				&& classListCombo.getSelectedValue() != null)
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -508,7 +510,9 @@ public class CustomerRefundView extends
 			if (customer != null) {
 				custBalText.setAmount(customer.getBalance());
 			}
-
+			if (isTrackClass())
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
 			memoTextAreaItem.setDisabled(true);
 			memoTextAreaItem.setValue(transaction.getMemo());
 
@@ -666,6 +670,9 @@ public class CustomerRefundView extends
 		if (!currencyWidget.isShowFactorField()) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		if (isTrackClass()) {
+			classListCombo.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 
@@ -737,6 +744,12 @@ public class CustomerRefundView extends
 	}
 
 	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		// TODO Auto-generated method stub
 
 	}

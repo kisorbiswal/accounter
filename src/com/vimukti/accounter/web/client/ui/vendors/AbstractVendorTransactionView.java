@@ -9,11 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -32,6 +34,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
@@ -93,7 +96,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 	protected TextItem phoneSelect;
 	protected String[] phoneList;
 	protected String phoneNo;
-
+	public ClientAccounterClass accounterClass;
 	protected List<String> phoneSelectItemList;
 	protected Set<ClientAddress> addressListOfVendor;
 	protected List<ClientAccount> payFromAccounts;
@@ -330,7 +333,7 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 		if (this.phoneNo != null && this.phoneNo.trim().length() != 0) {
 			phoneSelect.setValue(this.phoneNo);
 			contactCombo.setValue(contact.getName());
-		}else{
+		} else {
 			phoneSelect.setValue(vendor.getPhoneNo());
 		}
 
@@ -715,6 +718,12 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 				item.setTaxCode(taxCode.getID());
 			}
 		}
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 	}
 
 	public abstract List<ClientTransactionItem> getAllTransactionItems();
@@ -750,6 +759,9 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			if (taxCode != null) {
 				transactionItem.setTaxCode(taxCode.getID());
 			}
+		}
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+			transactionItem.setAccounterClass(accounterClass.getID());
 		}
 		addItemTransactionItem(transactionItem);
 	}
@@ -820,4 +832,56 @@ public abstract class AbstractVendorTransactionView<T extends ClientTransaction>
 			return getPreferences().isTrackTax() && isTrackPaidTax();
 		}
 	}
+
+	/**
+	 * Create for class Tracking
+	 * 
+	 * @return
+	 */
+	public ClassListCombo createAccounterClassListCombo() {
+		classListCombo = new ClassListCombo(messages.accounterClass(), true);
+		classListCombo.setHelpInformation(true);
+		classListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccounterClass>() {
+
+					@Override
+					public void selectedComboBoxItem(
+							ClientAccounterClass selectItem) {
+						accounterClass = selectItem;
+						classSelected(selectItem);
+					}
+				});
+
+		classListCombo
+				.addNewAccounterClassHandler(new ValueCallBack<ClientAccounterClass>() {
+
+					@Override
+					public void execute(final ClientAccounterClass accouterClass) {
+						accounterClass = accouterClass;
+						Accounter.createCRUDService().create(accounterClass,
+								new AsyncCallback<Long>() {
+
+									@Override
+									public void onSuccess(Long result) {
+										accounterClass.setID(result);
+										getCompany().getAccounterClasses().add(
+												accounterClass);
+										classSelected(accounterClass);
+									}
+
+									@Override
+									public void onFailure(Throwable caught) {
+										caught.printStackTrace();
+									}
+								});
+					}
+				});
+
+		classListCombo.setDisabled(isInViewMode());
+
+		return classListCombo;
+	}
+
+	protected abstract void classSelected(
+			ClientAccounterClass clientAccounterClass);
 }

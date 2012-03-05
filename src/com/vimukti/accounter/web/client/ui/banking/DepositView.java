@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientLocation;
@@ -110,7 +111,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			if (depositTo != null) {
 				depositToCombo.setSelected(depositTo.getName());
 			}
-
+			if (isTrackClass()) {
+				classListCombo.setComboItem(getCompany().getAccounterClass(
+						transaction.getAccounterClass()));
+			}
 			transactionDateItem.setValue(transaction.getDate());
 			transactionNumber.setValue(transaction.getNumber());
 
@@ -210,7 +214,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		if (locationTrackingEnabled)
 			depositToForm.setFields(locationCombo);
 		depositToForm.setItems(paymentMethodCombo);
-
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
+			depositToForm.setItems(classListCombo);
+		}
 		leftPanel.add(depositToForm);
 		currencyWidget = createCurrencyFactorWidget();
 		if (isMultiCurrencyEnabled()) {
@@ -371,6 +378,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
 
+		if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+			transaction.setAccounterClass(classListCombo.getSelectedValue()
+					.getID());
+		}
 	}
 
 	@Override
@@ -427,12 +438,6 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 				} else {
 					result.addError("TransactionItem",
 							messages.pleaseEnterAccAndAmount());
-				}
-				if (getPreferences().isClassTrackingEnabled()
-						&& !getPreferences().isClassOnePerTransaction()
-						&& getPreferences().isWarnOnEmptyClass()
-						&& transactionItem.getAccounterClass() == null) {
-					// TODO
 				}
 			}
 		} else {
@@ -580,6 +585,8 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 		memoTextAreaItem.setDisabled(this.isInViewMode());
 		transactionDepositTable.setDisabled(this.isInViewMode());
 		currencyWidget.setDisabled(this.isInViewMode());
+		classListCombo.setDisabled(isInViewMode());
+
 		super.onEdit();
 	}
 
@@ -599,5 +606,10 @@ public class DepositView extends AbstractTransactionBaseView<ClientMakeDeposit> 
 	@Override
 	public String getTitle() {
 		return messages.makeDeposit();
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
+
 	}
 }

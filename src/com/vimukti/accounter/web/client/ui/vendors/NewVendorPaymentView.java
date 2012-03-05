@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
@@ -147,7 +148,6 @@ public class NewVendorPaymentView extends
 					printCheck.setValue(false);
 				}
 			}
-			initAccounterClass();
 			if (getPreferences().isTDSEnabled()) {
 				long tdsTaxItem = transaction.getTdsTaxItem();
 				ClientTAXItem taxItem = getCompany().getTAXItem(tdsTaxItem);
@@ -157,6 +157,10 @@ public class NewVendorPaymentView extends
 				amountIncludeTds.setDisabled(true);
 			}
 			adjustBalance();
+		}
+		if (isTrackClass()) {
+			classListCombo.setComboItem(getCompany().getAccounterClass(
+					transaction.getAccounterClass()));
 		}
 		initMemoAndReference();
 		initTransactionNumber();
@@ -237,9 +241,8 @@ public class NewVendorPaymentView extends
 		// if (isMultiCurrencyEnabled())
 		// balForm.setFields(currencyCombo);
 		balForm.setFields(endBalText, vendorBalText);
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass()) {
 			balForm.setFields(classListCombo);
 		}
 		// balForm.getCellFormatter().setWidth(0, 0, "205px");
@@ -500,7 +503,10 @@ public class NewVendorPaymentView extends
 				// if (currencyCombo.getSelectedValue() != null)
 				// transaction.setCurrency(currencyCombo.getSelectedValue()
 				// .getID());
-
+				if (isTrackClass() && classListCombo.getSelectedValue() != null) {
+					transaction.setAccounterClass(classListCombo
+							.getSelectedValue().getID());
+				}
 				// Setting Memo
 				transaction.setMemo(getMemoTextAreaItem());
 
@@ -836,7 +842,9 @@ public class NewVendorPaymentView extends
 			locationCombo.setDisabled(isInViewMode());
 		tdsCombo.setDisabled(false);
 		amountIncludeTds.setDisabled(false);
-
+		if (isTrackClass()) {
+			classListCombo.setDisabled(isInViewMode());
+		}
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
@@ -881,6 +889,12 @@ public class NewVendorPaymentView extends
 	}
 
 	protected void updateDiscountValues() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 		// TODO Auto-generated method stub
 
 	}

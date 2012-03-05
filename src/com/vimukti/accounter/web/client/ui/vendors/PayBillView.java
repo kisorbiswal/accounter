@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -995,7 +996,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 			initListGridData(this.transaction.getTransactionPayBill());
 			initTransactionTotalNonEditableItem();
 			initMemoAndReference();
-			initAccounterClass();
 			initTransactionNumber();
 			adjustAmountAndEndingBalance();
 			ClientTAXItem taxItem = getCompany().getTAXItem(
@@ -1555,7 +1555,11 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 	}
 
 	protected void updateDiscountValues() {
-		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 
 	}
 

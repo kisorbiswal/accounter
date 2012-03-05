@@ -9,11 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientCompany;
 import com.vimukti.accounter.web.client.core.ClientContact;
@@ -36,6 +38,7 @@ import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
+import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.CustomerCombo;
 import com.vimukti.accounter.web.client.ui.combo.DepositInAccountCombo;
@@ -71,6 +74,8 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected ShippingMethodsCombo shippingMethodsCombo;
 	protected DynamicForm custForm;
 	protected ClientTAXCode taxCode;
+
+	
 
 	protected SelectCombo statusSelect;
 
@@ -1022,6 +1027,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 				transactionItem.setDiscount(discountField.getAmount());
 			}
 		}
+		if (isTrackClass() && !getPreferences().isClassPerDetailLine()) {
+			transactionItem.setAccounterClass(accounterClass.getID());
+		}
 		addItemTransactionItem(transactionItem);
 
 	}
@@ -1054,4 +1062,5 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected abstract void addAccountTransactionItem(ClientTransactionItem item);
 
 	protected abstract void addItemTransactionItem(ClientTransactionItem item);
+
 }

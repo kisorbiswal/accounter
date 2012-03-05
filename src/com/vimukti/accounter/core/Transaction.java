@@ -243,6 +243,7 @@ public abstract class Transaction extends CreatableObject implements
 	transient protected boolean isOnSaveProccessed;
 
 	private AccounterClass accounterClass;
+
 	private List<TransactionLog> history;
 
 	/**

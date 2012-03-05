@@ -15,6 +15,7 @@ import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientBrandingTheme;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
@@ -156,10 +157,8 @@ public class CustomerCreditMemoView extends
 		if (locationTrackingEnabled)
 			phoneForm.setFields(locationCombo);
 		phoneForm.setStyleName("align-form");
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			phoneForm.setFields(classListCombo);
 		}
 
@@ -186,7 +185,8 @@ public class CustomerCreditMemoView extends
 
 		customerAccountTransactionTable = new CustomerAccountTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -238,7 +238,8 @@ public class CustomerCreditMemoView extends
 
 		customerItemTransactionTable = new CustomerItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			public void updateNonEditableItems() {
@@ -479,6 +480,12 @@ public class CustomerCreditMemoView extends
 
 			}
 		}
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		if (customer != null)
 			transaction.setCustomer(getCustomer().getID());
 		if (contact != null)
@@ -575,7 +582,15 @@ public class CustomerCreditMemoView extends
 					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
-
+			if (isTrackClass()) {
+				if (!isClassPerDetailLine()) {
+					this.accounterClass = getClassForTransactionItem(this.transactionItems);
+					if (accounterClass != null) {
+						this.classListCombo.setComboItem(accounterClass);
+						classSelected(accounterClass);
+					}
+				}
+			}
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
@@ -592,7 +607,6 @@ public class CustomerCreditMemoView extends
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
 			memoTextAreaItem.setDisabled(true);
-			initAccounterClass();
 		}
 		superinitTransactionViewData();
 		if (locationTrackingEnabled)
@@ -928,6 +942,7 @@ public class CustomerCreditMemoView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -1105,6 +1120,19 @@ public class CustomerCreditMemoView extends
 			customerItemTransactionTable.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			customerAccountTransactionTable.setClass(accounterClass.getID(),
+					true);
+			customerItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }
