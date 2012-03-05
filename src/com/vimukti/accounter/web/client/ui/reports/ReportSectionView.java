@@ -26,11 +26,11 @@ public class ReportSectionView extends BaseHomeView {
 	private Map<String, String> companyAndFinancialMap,
 			customersAndRecievableMap, inventoryMap, budgetMap, taxMap,
 			vendorAndPayableMap, salesMap, purchaseMap, fixedAssetMap,
-			ukTaxMap, bankingMap;
+			ukTaxMap, bankingMap, jobMap;
 	private FlowPanel companyAndFinancialPanel, customersAndRecievablePanel,
 			inventoryPanel, budgetPanel, taxPanel, vendorAndPayablePanel,
 			salesPanel, purchasePanel, fixedAssetPanel, mainTaxPanel,
-			ukTaxPanel, bankingPanel;
+			ukTaxPanel, bankingPanel, jobPanel;
 
 	private FlowPanel rightPanel, leftPanel;
 	private HorizontalPanel mainPanel;
@@ -50,6 +50,7 @@ public class ReportSectionView extends BaseHomeView {
 		customersAndRecievableMap = new HashMap<String, String>();
 		inventoryMap = new HashMap<String, String>();
 		bankingMap = new HashMap<String, String>();
+		jobMap = new HashMap<String, String>();
 		budgetMap = new HashMap<String, String>();
 		taxMap = new HashMap<String, String>();
 		vendorAndPayableMap = new HashMap<String, String>();
@@ -64,6 +65,7 @@ public class ReportSectionView extends BaseHomeView {
 				messages.customersAndReceivable(Global.get().Customers()));
 		Label inventoryHeader = new Label(messages.inventory());
 		Label bankingHeader = new Label(messages.banking());
+		Label jobHeader = new Label(messages.job());
 		Label budgetHeader = new Label(messages.budget());
 		Label vendorAndPayableHeader = new Label(
 				messages.vendorsAndPayables(Global.get().Vendors()));
@@ -80,6 +82,8 @@ public class ReportSectionView extends BaseHomeView {
 		inventoryPanel.addStyleName("section");
 		bankingPanel = new FlowPanel();
 		bankingPanel.addStyleName("section");
+		jobPanel = new FlowPanel();
+		jobPanel.addStyleName("section");
 		budgetPanel = new FlowPanel();
 		budgetPanel.addStyleName("section");
 		taxPanel = new FlowPanel();
@@ -247,7 +251,23 @@ public class ReportSectionView extends BaseHomeView {
 		// .getBankDepositDetailReportAction().getHistoryToken());
 		bankingMap.put(messages.checkDetail(), ActionFactory
 				.getBankCheckDetailReportAction().getHistoryToken());
+		bankingMap.put(messages.missingchecks(), ActionFactory
+				.getMissingChecksReportAction().getHistoryToken());
+		bankingMap.put(messages.reconcilationDiscrepancyReport(), ActionFactory
+				.getReconciliationDiscrepancyReportAction().getHistoryToken());
+		bankingMap.put(messages.depositDetail(), ActionFactory
+				.getBankDepositDetailReportAction().getHistoryToken());
 
+		jobMap.put(messages.estimatesbyJob(), ActionFactory
+				.getEstimatesByJobAction().getHistoryToken());
+		jobMap.put(messages.unbilledCostsByJob(), ActionFactory
+				.getUnbilledCostsByJobAction().getHistoryToken());
+		jobMap.put(messages.jobProfitabilityDetail(), ActionFactory
+				.getJobProfitabilityDetailReportAction().getHistoryToken());
+		jobMap.put(messages.jobProfitabilitySummary(), ActionFactory
+				.getJobProfitabilitySummaryReportAction().getHistoryToken());
+		jobMap.put(messages.profitAndLossByJob(), ActionFactory
+				.getProfitAndLossByLocationAction(3).getHistoryToken());
 		// TAX tab for uk country
 		ukTaxMap.put(messages.priorVATReturns(), ActionFactory
 				.getVATSummaryReportAction().getHistoryToken());
@@ -280,6 +300,10 @@ public class ReportSectionView extends BaseHomeView {
 			addLinksToPanel(inventoryMap, inventoryPanel);
 		}
 		addLinksToPanel(bankingMap, bankingPanel);
+		// For Job Tracking Reports
+		if (Global.get().preferences().isJobTrackingEnabled()) {
+			addLinksToPanel(jobMap, jobPanel);
+		}
 		addLinksToPanel(budgetMap, budgetPanel);
 		addLinksToPanel(ukTaxMap, ukTaxPanel);
 		addLinksToPanel(taxMap, taxPanel);
@@ -308,11 +332,17 @@ public class ReportSectionView extends BaseHomeView {
 		}
 		leftPanel.add(bankingHeader);
 		leftPanel.add(bankingPanel);
+		if (Global.get().preferences().isJobTrackingEnabled()) {
+			leftPanel.add(jobHeader);
+			leftPanel.add(jobPanel);
+		}
 
 		rightPanel.add(budgetHeader);
 		rightPanel.add(budgetPanel);
-		rightPanel.add(mainTaxHeader);
-		rightPanel.add(mainTaxPanel);
+		if (Global.get().preferences().isTrackTax()) {
+			rightPanel.add(mainTaxHeader);
+			rightPanel.add(mainTaxPanel);
+		}
 		rightPanel.add(salesHeader);
 		rightPanel.add(salesPanel);
 		rightPanel.add(vendorAndPayableHeader);

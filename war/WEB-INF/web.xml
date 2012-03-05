@@ -877,6 +877,4 @@
 		<servlet-name>EncryptCompaniesServlet </servlet-name>
 		<url-pattern>/main/encryption</url-pattern>
 	</servlet-mapping>
-
-
 </web-app>

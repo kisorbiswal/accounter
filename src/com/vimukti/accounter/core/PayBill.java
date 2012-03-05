@@ -551,6 +551,10 @@ public class PayBill extends Transaction {
 
 		if (this.isVoid() && !payBill.isVoid()) {
 			doVoidEffect(session, this);
+			if (payBillType == PayBill.TYPE_PAYBILL) {
+				vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+						total);
+			}
 		} else {
 
 			if (this.payBillType == TYPE_VENDOR_PAYMENT) {
@@ -664,7 +668,10 @@ public class PayBill extends Transaction {
 		if (this.vendor.getID() != payBill.vendor.getID()) {
 
 			doVoidEffect(session, payBill);
-
+			if (payBillType == PayBill.TYPE_PAYBILL) {
+				vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+						total);
+			}
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {
@@ -767,18 +774,11 @@ public class PayBill extends Transaction {
 			// payBill.vendor.updateBalance(session, payBill, payBill.total);
 		}
 
-		if (payBillType == PayBill.TYPE_PAYBILL) {
-			vendor.updateBalance(HibernateUtil.getCurrentSession(), this, total);
-		}
-
 		if (payBill.creditsAndPayments != null) {
 
 			payBill.creditsAndPayments = null;
 		}
 
-		if (payBillType == PayBill.TYPE_PAYBILL) {
-			vendor.updateBalance(HibernateUtil.getCurrentSession(), this, total);
-		}
 		for (TransactionPayBill transactionPayBill : this.transactionPayBill) {
 			transactionPayBill.setIsVoid(true);
 			transactionPayBill.onUpdate(session);

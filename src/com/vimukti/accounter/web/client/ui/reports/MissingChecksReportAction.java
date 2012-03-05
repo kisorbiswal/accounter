@@ -20,7 +20,7 @@ public class MissingChecksReportAction extends
 
 	@Override
 	public String getText() {
-		return "Missing Checks";
+		return messages.missingchecks();
 	}
 
 	@Override
@@ -28,7 +28,8 @@ public class MissingChecksReportAction extends
 		runAsync(data, isDependent);
 	}
 
-	private void runAsync(final TransactionDetailByAccount data, final boolean isDependent) {
+	private void runAsync(final TransactionDetailByAccount data,
+			final boolean isDependent) {
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			@Override

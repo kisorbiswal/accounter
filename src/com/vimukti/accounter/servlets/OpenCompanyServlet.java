@@ -212,7 +212,6 @@ public class OpenCompanyServlet extends BaseServlet {
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
 			} finally {
-				EU.removeCipher();
 			}
 		} else {
 			response.sendRedirect(LOGIN_URL);

@@ -62,7 +62,7 @@ public class ProfitAndLossByLocationAction extends Action {
 		if (category_type == LOCATION) {
 			return "profitAndLossByLocation";
 		} else if (category_type == JOB) {
-			return "Profit&LossbyJob";
+			return "ProfitAndLossbyJob";
 		} else {
 			return "profitAndLossByClass";
 		}
@@ -75,7 +75,7 @@ public class ProfitAndLossByLocationAction extends Action {
 		if (category_type == LOCATION) {
 			return "profit-loss-by-location";
 		} else if (category_type == JOB) {
-			return "Profit&LossbyJob";
+			return "Profit-Loss-by-Job";
 		} else {
 			return "profit-loss-by-class";
 		}

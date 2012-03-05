@@ -362,13 +362,26 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			emailCombo.setDisabled(isInViewMode());
 		emailField.setDisabled(isInViewMode());
 		// grid.setDisabled(isInViewMode());
-
-		readOnly.setEnabled(!isInViewMode());
-		custom.setEnabled(!isInViewMode());
-		admin.setEnabled(!isInViewMode());
-		financialAdviser.setEnabled(!isInViewMode());
-		for (CheckBox box : permissionsBoxes) {
-			box.setEnabled(!isInViewMode());
+		ClientUser user = Accounter.getUser();
+		if (data.isAdmin()) {
+			if (user.isAdmin() && data.getID() != user.getID()) {
+				readOnly.setEnabled(!isInViewMode());
+				custom.setEnabled(!isInViewMode());
+				admin.setEnabled(!isInViewMode());
+				financialAdviser.setEnabled(!isInViewMode());
+				for (CheckBox box : permissionsBoxes) {
+					box.setEnabled(!isInViewMode());
+				}
+			}
+		} else if ((data == null || data.getID() == 0 ? true
+				: data.getID() != user.getID())) {
+			readOnly.setEnabled(!isInViewMode());
+			custom.setEnabled(!isInViewMode());
+			admin.setEnabled(!isInViewMode());
+			financialAdviser.setEnabled(!isInViewMode());
+			for (CheckBox box : permissionsBoxes) {
+				box.setEnabled(!isInViewMode());
+			}
 		}
 	}
 
@@ -738,30 +751,14 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected boolean canDelete() {
-		ClientUser user = Accounter.getUser();
-		if (user.isCanDoUserManagement()
-				&& (data == null || data.getID() == 0 ? true
-						: data.getID() != user.getID()
-								&& !data.isAdmin()
-								&& !data.getUserRole().equals(
-										RolePermissions.FINANCIAL_ADVISER))) {
+		ClientUser user = getCompany().getLoggedInUser();
+		if (data == null || data.getID() == 0 ? true : data.getID() != user
+				.getID()) {
+			if (data.isAdmin() && !user.isAdmin()) {
+				return false;
+			}
 			return super.canDelete();
 		}
 		return false;
 	}
-
-	@Override
-	public boolean canEdit() {
-		ClientUser user = Accounter.getUser();
-		if (user.isCanDoUserManagement()
-				&& (data == null || data.getID() == 0 ? true
-						: data.getID() != user.getID()
-								&& !data.isAdmin()
-								&& !data.getUserRole().equals(
-										RolePermissions.FINANCIAL_ADVISER))) {
-			return super.canEdit();
-		}
-		return false;
-	}
-
 }

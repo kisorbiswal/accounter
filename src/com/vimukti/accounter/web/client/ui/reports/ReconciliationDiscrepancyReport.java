@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class ReconciliationDiscrepancyReport extends
 
 	public ReconciliationDiscrepancyReport() {
 		this.serverReport = new ReconciliationDiscrepancyServerReport(this);
+		serverReport.setRecords(new ArrayList<ReconciliationDiscrepancy>());
 	}
 
 	@Override
@@ -30,6 +32,7 @@ public class ReconciliationDiscrepancyReport extends
 		this.makeReportRequest(getAccounId(), start, end);
 	}
 
+	@Override
 	public void makeReportRequest(long acount, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		grid.clear();
@@ -62,10 +65,12 @@ public class ReconciliationDiscrepancyReport extends
 		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
+		accounId = (Long) map.get("account");
+		toolbar.setAccId(accounId);
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		isDatesArranged = true;
+		isDatesArranged = false;
 	}
 
 	@Override
@@ -77,6 +82,7 @@ public class ReconciliationDiscrepancyReport extends
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("account", accounId);
 		return map;
 	}
 
