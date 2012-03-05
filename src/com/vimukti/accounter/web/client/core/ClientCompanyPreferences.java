@@ -89,8 +89,6 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long CLASS_TRACKING = 0x2000000000L;
 
-	private static final long CLASS_ONE_PER_TRANSACTION = 0x4000000000L;
-
 	private static final long CLASS_WARRNING = 0x8000000000L;
 
 	private static final long TRANSACTION_PER_DETAIL_LINE = 0x20000000000L;
@@ -131,6 +129,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
 	private static final long UNITS = 0x1000000000000000L;
+	private static final long TRANSACTION_CLASS_PER_DETAIL_LINE = 0x4000000000000000L;
 	private static final long JOB_TRACKING = 0x2000000000000000L;
 	public static final int INVENTORY_SCHME_FIFO = 1;
 	public static final int INVENTORY_SCHME_LIFO = 2;
@@ -996,11 +995,11 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isClassOnePerTransaction() {
-		return get(CLASS_ONE_PER_TRANSACTION);
+		return get(TRANSACTION_CLASS_PER_DETAIL_LINE);
 	}
 
 	public void setClassOnePerTransaction(boolean value) {
-		set(CLASS_ONE_PER_TRANSACTION, value);
+		set(TRANSACTION_CLASS_PER_DETAIL_LINE, value);
 	}
 
 	public boolean isWarnOnEmptyClass() {
@@ -1373,6 +1372,14 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	public void setDiscountPerDetailLine(boolean value) {
 		set(TRANSACTION_DISCOUNT_PER_DETAIL_LINE, value);
+	}
+
+	public boolean isClassPerDetailLine() {
+		return get(TRANSACTION_CLASS_PER_DETAIL_LINE);
+	}
+
+	public void setClassPerDetailLine(boolean value) {
+		set(TRANSACTION_CLASS_PER_DETAIL_LINE, value);
 	}
 
 	public boolean isCreditsApplyAutomaticEnable() {

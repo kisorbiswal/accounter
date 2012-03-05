@@ -4439,7 +4439,7 @@
 		       AND jtv.job_id = :jobId
 		       AND jtv.t_date BETWEEN :startDate AND :endDate  
 		]]>
-		
+
 	</sql-query>
 	
 	<sql-query name="JobsTransactionsView">
