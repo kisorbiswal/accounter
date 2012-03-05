@@ -4363,76 +4363,32 @@
 
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="JOB_NAME" type="string" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="DATE" type="long" />
-		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="T_TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="T_NUMBER" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="ACCOUNTNAME" type="string" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="REVENUE" type="double" />
 
-		SELECT
-		P.NAME AS CUSTOMER_NAME,
-		J.JOB_NAME AS JOB_NAME,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS
-		DATE,
-		T.NUMBER AS NUMBER,
-		T.MEMO AS MEMO,
-		<!-- CASE WHEN TI.TYPE=4 THEN TI.ACCOUNT_ID ELSE IT.INCOME_ACCOUNT_ID END 
-			AS ACCOUNT_ID, -->
-
-		A.NAME AS ACCOUNTNAME,
-
-		T.ID AS
-		TRANSACTION_ID,
-		TI.LINE_TOTAL AS TOTAL
-		FROM
-		TRANSACTION_ITEM TI
-		LEFT
-		OUTER
-		JOIN
-		TRANSACTION T ON
-		T.ID=TI.TRANSACTION_ID
-		LEFT JOIN JOB J ON J.ID
-		=
-		T.JOB_ID
-		LEFT OUTER JOIN
-		INVOICE I ON
-		I.ID = T.ID
-		LEFT
-		OUTER JOIN
-		CASH_SALES CS ON CS.ID=T.ID
-		LEFT
-		OUTER JOIN
-		CUSTOMER_CREDIT_MEMO CCM ON
-		CCM.ID =T.ID
-		LEFT OUTER JOIN PAYEE
-		P ON
-		P.ID=I.CUSTOMER_ID OR P.ID =
-		CS.CUSTOMER_ID OR
-		P.ID=CCM.ID
-		LEFT OUTER
-		JOIN
-		ITEM IT ON (TI.TYPE=1 AND
-		IT.ID=TI.ITEM_ID)
-		LEFT OUTER
-		JOIN ACCOUNT A
-		ON (TI.TYPE=4 AND (A.ID
-		=TI.ACCOUNT_ID OR A.ID=IT.INCOME_ACCOUNT_ID))
-		WHERE
-		T.JOB_ID IS NOT NULL
-		AND T.COMPANY_ID=:companyId AND
-		T.T_TYPE IN
-		(1,8) AND
-		P.ID=:customerId
-		AND T.SAVE_STATUS!=204 AND
-		T.JOB_ID=:jobId AND
-		T.T_DATE BETWEEN
-		:startDate
-		AND
-		:endDate ORDER BY
-		T.ID,TI.ID
+		<![CDATA[
+		SELECT jtv.customer_name,
+		       jtv.job_name,
+		       jtv.transaction_id,
+		       jtv.t_type,
+		       jtv.t_date,
+		       jtv.t_number,
+		       jtv.ti_desc AS memo,
+		       jtv.revenue,
+		       a.name      AS accountname
+		FROM   jobs_transactions_view jtv
+		       LEFT JOIN account a
+		         ON a.id = jtv.revenue_account
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.customer_id = :customerId
+		       AND jtv.job_id = :jobId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate  
+		]]>
 
 	</sql-query>
 
@@ -4672,118 +4628,90 @@
 
 		<return-scalar column="CUSTOMER_NAME" type="string" />
 		<return-scalar column="JOB_NAME" type="string" />
-		<return-scalar column="TYPE" type="int" />
-		<return-scalar column="DATE" type="long" />
-		<return-scalar column="NUMBER" type="string" />
+		<return-scalar column="T_TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="T_NUMBER" type="string" />
 		<return-scalar column="MEMO" type="string" />
 		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
-		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="COST" type="double" />
 
-
-		SELECT
-		P.NAME AS CUSTOMER_NAME,
-		J.JOB_NAME AS JOB_NAME,
-		T.T_TYPE AS TYPE,
-		T.T_DATE AS DATE,
-		T.NUMBER AS NUMBER,
-		TI.DESCRIPTION AS MEMO,
-
-		<!-- CASE WHEN TI.TYPE=4 THEN TI.ACCOUNT_ID ELSE I.INCOME_ACCOUNT_ID END 
-			AS ACCOUNT_ID, -->
-		A.NAME AS ACCOUNT_NAME,
-		T.ID AS TRANSACTION_ID,
-		T.TOTAL AS TOTAL
-
-		FROM
-		JOB
-		J
-		LEFT JOIN PAYEE P ON P.ID =
-		J.CUSTOMER_ID
-		LEFT JOIN TRANSACTION
-		T ON
-		T.JOB_ID= J.ID
-		LEFT JOIN
-		TRANSACTION_ITEM TI ON
-		TI.TRANSACTION_ID=T.ID
-		LEFT JOIN ITEM I ON I.ID
-		= TI.ITEM_ID
-		LEFT JOIN
-		ACCOUNT A ON
-		A.ID=I.EXPENSE_ACCOUNT_ID OR A.ID=TI.ACCOUNT_ID
-		WHERE
-		(CASE
-		WHEN
-		T.T_TYPE
-		= 15 THEN TRUE ELSE (TI.IS_BILLABLE = TRUE OR A.A_TYPE=15) END) AND
-		T.T_TYPE IN
-		(1,4,6,8,15)AND
-		(
-		J.COMPANY_ID =:companyId AND J.id =:jobId
-		AND
-		T.SAVE_STATUS!=204 AND
-		J.CUSTOMER_ID =:customerId) AND( T.T_DATE
-		BETWEEN :startDate AND :endDate);
+		<![CDATA[
+		SELECT jtv.customer_name,
+		       jtv.job_name,
+		       jtv.transaction_id,
+		       jtv.t_type,
+		       jtv.t_date,
+		       jtv.t_number,
+		       jtv.ti_desc AS memo,
+		       jtv.cost,
+		       a.name      AS account_name
+		FROM   jobs_transactions_view jtv
+		       LEFT JOIN account a
+		         ON a.id = jtv.cost_account
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.customer_id = :customerId
+		       AND jtv.job_id = :jobId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate  
+		]]>
+		
 	</sql-query>
 
 	<sql-query name="JobsTransactionsView">
+		<![CDATA[
 		CREATE OR REPLACE VIEW
 		JOBS_TRANSACTIONS_VIEW
 		AS
+		SELECT t.company_id                         AS company_id,
+		       p.id                                 AS customer_id,
+		       p.name                               AS customer_name,
+		       j.id                                 AS job_id,
+		       j.job_name                           AS job_name,
+		       t.id                                 AS transaction_id,
+		       t.t_type,
+		       t.t_date,
+		       t.number                             AS t_number,
+		       ti.description                       ti_desc,
+		       CASE
+		         WHEN ti.TYPE = 1
+		              AND it.TYPE IN ( 2, 4 )
+		              AND t.t_type IN ( 1, 4, 8 ) THEN (SELECT SUM(ip.purchase_cost)
+		                                                FROM   inventory_purchase ip
+		                                                WHERE
+		         ip.transaction_item_id = ti.id)
+		         WHEN t.t_type = 15 THEN ti.update_amount * t.currency_factor
+		         ELSE '0'
+		       END                                  AS cost,
+		       ti.update_amount * t.currency_factor AS revenue,
+		       ti.effecting_account                 AS revenue_account,
+		       CASE
+		         WHEN ti.TYPE = 1 THEN (SELECT effecting_account
+		                                FROM   inventory_purchase ip
+		                                WHERE  ip.transaction_item_id = ti.id
+		                                LIMIT  1)
+		         ELSE ti.effecting_account
+		       END                                  AS cost_account
+		FROM   transaction_item ti
+		       LEFT JOIN item it
+		         ON it.id = ti.item_id
+		       LEFT JOIN TRANSACTION t
+		         ON t.id = ti.transaction_id
+		       LEFT JOIN job j
+		         ON ( ti.job_id = j.id
+		               OR t.job_id = j.id )
+		       LEFT JOIN customer c
+		         ON c.id = j.customer_id
+		       LEFT JOIN payee p
+		         ON p.id = c.id
+		WHERE  j.id IS NOT NULL
+		       AND t.save_status!=204
+		       AND ( t.t_type IN ( 1, 4, 8, 15 )
+		              OR ti.is_billable );  
 
-		SELECT
-		T.COMPANY_ID AS COMPANYID,
-		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS
-		TRANSACTION_TYPE,
-		T.T_DATE AS TRANSACTION_DATE,
-		j.id AS JOB_ID,
-		J.JOB_NAME AS JOB_NAME,
-		P.ID AS CUSTOMER_ID,
-		P.NAME AS CUSTOMER_NAME,
-		TI.TYPE AS TI_TYPE,
-		TI.ACCOUNT_ID AS TI_ACCOUNT_ID,
-		T.TOTAL AS TOTAL,
-		CASE
-		WHEN
-		TI.IS_BILLABLE = TRUE OR A.A_TYPE=15 AND T.SAVE_STATUS !=204
-		AND T.T_TYPE IN
-		(1,4,6,8)
-		THEN
-		(SUM(I.SALES_PRICE))
-		when T.t_type=15 then
-		t.total
-		END AS COST,
-
-		CASE
-		WHEN
-		T.T_TYPE !=15 AND T.T_TYPE IN (1,8) AND
-		T.SAVE_STATUS !=204
-		THEN
-		SUM(T.TOTAL) ELSE NULL END AS REVENUE
-
-		FROM
-		TRANSACTION T
-		LEFT JOIN
-		TRANSACTION_ITEM TI ON TI.TRANSACTION_ID= T.ID
-		LEFT JOIN ITEM I ON I.ID
-		= TI.ITEM_ID
-		LEFT JOIN ACCOUNT A ON
-		A.ID=I.EXPENSE_ACCOUNT_ID
-		LEFT JOIN
-		JOB J ON (J.ID = T.JOB_ID or
-		j.id=ti.job_id)
-		LEFT JOIN PAYEE P ON P.ID
-		= J.CUSTOMER_ID
-		where P.TYPE=1
-		GROUP BY T.ID,A.id,P.ID,J.id,ti.id
-
-
-
-
+	]]>
 	</sql-query>
 	<sql-query name="getJobProfitabilitySummary">
-		<query-param name="id" type="long" />
+		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
 		<return-scalar column="JOB_ID" type="long" />
@@ -4792,24 +4720,21 @@
 		<return-scalar column="JOB_NAME" type="string" />
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="REVENUE" type="double" />
-		SELECT
-		JTV.JOB_ID AS JOB_ID,
-		JTV.CUSTOMER_ID AS CUSTOMER_ID,
-		JTV.CUSTOMER_NAME AS CUSTOMER_NAME,
-		JTV.JOB_NAME AS JOB_NAME,
-		SUM(JTV.COST * T.CURRENCY_FACTOR) AS COST,
-		SUM(JTV.REVENUE *
-		T.CURRENCY_FACTOR)AS REVENUE
-		FROM
-		JOBS_TRANSACTIONS_VIEW JTV
-		LEFT OUTER
-		JOIN TRANSACTION T ON T.ID=JTV.TRANSACTION_ID
-		WHERE
-		JTV.COMPANYID =:id
-		AND
-		(JTV.TRANSACTION_DATE BETWEEN :startDate AND :endDate )
-		GROUP BY
-		JTV.JOB_ID, CUSTOMER_ID, JTV.CUSTOMER_NAME,JTV.JOB_NAME
+		<![CDATA[
+		SELECT jtv.job_id,
+		       jtv.customer_id,
+		       jtv.customer_name,
+		       jtv.job_name,
+		       SUM(cost)   AS cost,
+		       SUM(revenue)AS revenue
+		FROM   jobs_transactions_view jtv
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate
+		GROUP  BY jtv.job_id,
+		          jtv.customer_id,
+		          jtv.customer_name,
+		          jtv.job_name;   
+		]]>
 	</sql-query>
 
 	<sql-query name="JobProfitabilityDetailByJob">
