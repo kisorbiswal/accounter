@@ -1,6 +1,5 @@
 package com.vimukti.accounter.web.server.managers;
 
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1433,7 +1432,7 @@ public class VendorManager extends PayeeManager {
 
 			company.getVendors().remove(fromVendor);
 			session.saveOrUpdate(company);
-			fromVendor.setCompany(null);
+			// fromVendor.setCompany(null);
 			session.delete(fromVendor);
 			tx.commit();
 		} catch (Exception e) {
