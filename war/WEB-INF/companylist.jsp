@@ -14,9 +14,8 @@
 		<%	Boolean enableEncryption=(Boolean) request.getAttribute("enableEncryption");	%>
 		<%	enableEncryption=enableEncryption==null?false:enableEncryption;	%>
 		<%	Boolean isPaid=(Boolean) request.getAttribute("isPaid");	%>
-		<%	isPaid=isPaid==null?false:isPaid;	
-			String emailId=request.getgetAttribute("emailId"); 
-		%>
+		<%	String userEmail=(String) request.getAttribute("emailId");	%>
+		<%	isPaid=isPaid==null?false:isPaid;	%>
 		<%	enableEncryption=enableEncryption&&isPaid;	%>
 	<script type="text/javascript">
 		window.onload=function(){
@@ -25,11 +24,12 @@
 		
 		$(document).ready(function() {
 		var isPaid=${isPaid};
-			  if(isPaid){
+		var userEmail='<%=userEmail%>';
+		if(isPaid){
        $('#logoutlink').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
        }
        else{
-        $('#logoutlink').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+emailId+'">Go Premium</a>');
+        $('#logoutlink').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>');
        }
        
        });

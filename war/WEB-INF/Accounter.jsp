@@ -24,7 +24,7 @@
   		var AccounterMessages={
   		<%
   		HashMap<String,String> messages=(HashMap<String,String>)request.getAttribute("messages");
-  		String emailId=request.getgetAttribute("emailId");
+  		String user_emailId=(String)request.getAttribute("emailId");
   		if(messages!=null){
 	  		for(String key:messages.keySet()){
 	  			String value=messages.get(key);
@@ -43,7 +43,6 @@
   			}
   		}
   		%>
-  		
   		var accounter_locale={
   		<%
   		HashMap<String,String> accounterLocale=(HashMap<String,String>)request.getAttribute("accounterLocale");
@@ -82,12 +81,13 @@
     var helpurl="${helpUrl}";
     
     $(document).ready(function() {
-		var isPaid=${isPaid}
+		var isPaid=${isPaid};
+		var user_emailId='<%=user_emailId%>';
 		if(isPaid){
        $('#support').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
        }
        else{
-        $('#support').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+emailId+'">Go Premium</a>');
+        $('#support').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+user_emailId+'">Go Premium</a>');
        }
        
        });
