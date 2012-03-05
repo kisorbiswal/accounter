@@ -957,7 +957,6 @@ public class PayBillView extends AbstractTransactionBaseView<ClientPayBill> {
 				currencyWidget.setDisabled(isInViewMode());
 			}
 			this.setVendor(getCompany().getVendor(transaction.getVendor()));
-			vendorSelected(getCompany().getVendor(transaction.getVendor()));
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
 			paymentMethodCombo.setDisabled(isInViewMode());
 

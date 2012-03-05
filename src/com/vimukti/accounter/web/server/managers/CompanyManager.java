@@ -1683,9 +1683,12 @@ public class CompanyManager extends Manager {
 
 					depositsTransfersList.setInAccount((String) object[4]);
 
-					depositsTransfersList.setAmount((Double) object[5]);
-					depositsTransfersList.setCurrency((Long) object[6]);
-
+					depositsTransfersList
+							.setAmount(object[5] != null ? (Double) object[5]
+									: 0);
+					depositsTransfersList
+							.setCurrency(object[6] != null ? (Long) object[6]
+									: 0);
 					queryResult.add(depositsTransfersList);
 				}
 				queryResult.setTotalCount(total);
@@ -1746,7 +1749,7 @@ public class CompanyManager extends Manager {
 
 					depositsTransfersList.setAmount((Double) object[6]);
 					depositsTransfersList.setCurrency((Long) object[7]);
-
+					depositsTransfersList.setStatus((Integer) object[8]);
 					queryResult.add(depositsTransfersList);
 				}
 				queryResult.setTotalCount(total);

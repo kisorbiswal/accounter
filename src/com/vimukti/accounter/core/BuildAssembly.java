@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.json.JSONException;
 
 import com.vimukti.accounter.core.change.ChangeTracker;
+import com.vimukti.accounter.utils.HibernateUtil;
 
 public class BuildAssembly extends Transaction {
 
@@ -27,8 +28,6 @@ public class BuildAssembly extends Transaction {
 			setNumber(number);
 		}
 
-		double totalAssemblyCost = 0.00D;
-
 		Quantity quantityToBuild = inventoryAssembly.getOnhandQty().copy();
 		quantityToBuild.setValue(this.quantityToBuild);
 
@@ -49,8 +48,6 @@ public class BuildAssembly extends Transaction {
 			transactionItem.setLineTotal(assemblyItem.getQuantity()
 					.calculatePrice(assemblyItem.getUnitPrice()));
 			getTransactionItems().add(transactionItem);
-			totalAssemblyCost += transactionItem.getQuantity().calculatePrice(
-					transactionItem.getUnitPrice());
 		}
 
 		inventoryAssembly.setOnhandQuantity(inventoryAssembly.getOnhandQty()
@@ -59,6 +56,39 @@ public class BuildAssembly extends Transaction {
 		session.update(inventoryAssembly);
 		ChangeTracker.put(inventoryAssembly);
 		return super.onSave(session);
+	}
+
+	@Override
+	public void onEdit(Transaction clonedObject) {
+		super.onEdit(clonedObject);
+		if (isDraftOrTemplate()) {
+			return;
+		}
+
+		if (isBecameVoid()) {
+			doReverseEffect();
+		}
+	}
+
+	@Override
+	public boolean onDelete(Session session) throws CallbackException {
+		if (!isVoid() && !isDraftOrTemplate()) {
+			super.onDelete(session);
+			doReverseEffect();
+		}
+		return false;
+	}
+
+	private void doReverseEffect() {
+		Session session = HibernateUtil.getCurrentSession();
+		Quantity quantityToBuild = getInventoryAssembly().getOnhandQty().copy();
+		quantityToBuild.setValue(this.getQuantityToBuild());
+		getInventoryAssembly()
+				.setOnhandQuantity(
+						getInventoryAssembly().getOnhandQty().subtract(
+								quantityToBuild));
+		session.update(getInventoryAssembly());
+		ChangeTracker.put(getInventoryAssembly());
 	}
 
 	@Override

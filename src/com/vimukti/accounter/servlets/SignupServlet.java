@@ -12,8 +12,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Client;
-import com.vimukti.accounter.core.ClientSubscription;
-import com.vimukti.accounter.core.Subscription;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.utils.HexUtil;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -144,11 +142,6 @@ public class SignupServlet extends BaseServlet {
 				// subscription.setFeatures(features);
 				// clientSubscription.setSubscription(subscription);
 
-				ClientSubscription clientSubscription = new ClientSubscription();
-				clientSubscription.setSubscription(new Subscription());
-				saveEntry(clientSubscription);
-
-				client.setClientSubscription(clientSubscription);
 				client.setDeleted(false);
 
 				saveEntry(client);

@@ -1,7 +1,6 @@
 package com.vimukti.accounter.mobile.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -183,19 +182,8 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 					@Override
 					public boolean filter(Account account) {
 						if (account.getIsActive()
-								&& account.getType() != Account.TYPE_CASH
-								&& account.getType() != Account.TYPE_BANK
-								&& account.getType() != Account.TYPE_INVENTORY_ASSET
-								&& account.getType() != Account.TYPE_ACCOUNT_RECEIVABLE
-								&& account.getType() != Account.TYPE_ACCOUNT_PAYABLE
-								&& account.getType() != Account.TYPE_EXPENSE
-								&& account.getType() != Account.TYPE_OTHER_EXPENSE
-								&& account.getType() != Account.TYPE_COST_OF_GOODS_SOLD
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_ASSET
-								&& account.getType() != Account.TYPE_OTHER_CURRENT_LIABILITY
-								&& account.getType() != Account.TYPE_LONG_TERM_LIABILITY
-								&& account.getType() != Account.TYPE_OTHER_ASSET
-								&& account.getType() != Account.TYPE_EQUITY) {
+								&& account.getType() == Account.TYPE_INCOME
+								|| account.getType() == Account.TYPE_OTHER_INCOME) {
 							return true;
 						} else {
 							return false;
@@ -379,12 +367,11 @@ public abstract class AbstractItemCreateCommand extends AbstractCommand {
 				return Utility.filteredList(new ListFilter<Account>() {
 
 					@Override
-					public boolean filter(Account e) {
-						return Arrays.asList(Account.TYPE_EXPENSE,
-								Account.TYPE_COST_OF_GOODS_SOLD,
-								Account.TYPE_OTHER_EXPENSE).contains(
-								e.getType())
-								&& e.getIsActive();
+					public boolean filter(Account account) {
+						return (account.getType() == Account.TYPE_COST_OF_GOODS_SOLD
+								|| account.getType() == Account.TYPE_EXPENSE || account
+								.getType() == Account.TYPE_OTHER_EXPENSE)
+								&& account.getIsActive();
 					}
 				}, new ArrayList<Account>(context.getCompany().getAccounts()));
 			}

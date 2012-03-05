@@ -23,6 +23,7 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	protected AbstractReportView<?> reportview;
 	private long payeeId;
 	private int viewId = 0;
+	private long jobId;
 	private long accId;
 
 	public boolean isToolBarComponentChanged;
@@ -370,9 +371,10 @@ public abstract class ReportToolbar extends HorizontalPanel {
 			} else if ((!getSelectedDateRange().equals(messages.thisWeek()))
 					&& dateRange.equals(messages.thisWeek())) {
 				startDate = getWeekStartDate();
-				endDate.setDay(startDate.getDay() + 6);
-				endDate.setMonth(startDate.getMonth());
-				endDate.setYear(startDate.getYear());
+				Calendar endCal = Calendar.getInstance();
+				endCal.setTime(new ClientFinanceDate().getDateAsObject());
+				endCal.add(Calendar.DAY_OF_MONTH, 2);
+				endDate = new ClientFinanceDate(endCal.getTime());
 				setSelectedDateRange(messages.thisWeek());
 			} else if (!getSelectedDateRange().equals(messages.thisMonth())
 					&& dateRange.equals(messages.thisMonth())) {
@@ -810,6 +812,14 @@ public abstract class ReportToolbar extends HorizontalPanel {
 		return viewId;
 	}
 
+	public long getJobId() {
+		return jobId;
+	}
+
+	public void setJobId(long jobId) {
+		this.jobId = jobId;
+	}
+
 	public long getAccId() {
 		return accId;
 	}
@@ -820,6 +830,5 @@ public abstract class ReportToolbar extends HorizontalPanel {
 	}
 
 	protected void accountData() {
-
 	}
 }

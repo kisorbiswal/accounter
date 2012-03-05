@@ -47,7 +47,13 @@ public class CompaniesServlet extends BaseServlet {
 		checkForStatus(req);
 
 		String companyID = req.getParameter(COMPANY_ID);
-
+		// for delete account from user profile
+		if (companyID == null
+				&& httpSession.getAttribute("cancelDeleteAccountcompany") != null) {
+			companyID = String.valueOf(httpSession
+					.getAttribute("cancelDeleteAccountcompany"));
+			httpSession.removeAttribute("cancelDeleteAccountcompany");
+		}
 		if (companyID != null) {
 			openCompany(req, resp, Long.parseLong(companyID));
 			return;
@@ -165,12 +171,14 @@ public class CompaniesServlet extends BaseServlet {
 			if (deleteStatus.equals("Success")) {
 				req.setAttribute("message", DELETE_SUCCESS);
 			} else {
-				req.setAttribute(
-						"message",
-						DELETE_FAIL
-								+ " "
-								+ httpSession
-										.getAttribute("DeletionFailureMessage"));
+				Object failureMessage = httpSession
+						.getAttribute("DeletionFailureMessage");
+				if (failureMessage != null) {
+					req.setAttribute("message", DELETE_FAIL + " "
+							+ failureMessage);
+				} else {
+					req.setAttribute("message", DELETE_FAIL);
+				}
 			}
 			httpSession.removeAttribute("DeletionFailureMessage");
 			httpSession.removeAttribute(COMPANY_DELETION_STATUS);

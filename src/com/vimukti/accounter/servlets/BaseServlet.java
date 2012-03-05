@@ -20,7 +20,6 @@ import com.google.gdata.util.common.util.Base64DecoderException;
 import com.vimukti.accounter.core.Activation;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -103,17 +102,6 @@ public class BaseServlet extends HttpServlet {
 
 			Session session = HibernateUtil.openSession();
 			Company company = getCompany(request);
-			if (company != null) {
-				String emailId = (String) request.getSession().getAttribute(
-						EMAIL_ID);
-				byte[] d2 = getD2(request);
-				if (emailId != null && d2 != null) {
-					User user = company.getUserByUserEmail(emailId);
-					if (user != null && user.getSecretKey() != null) {
-						EU.createCipher(user.getSecretKey(), d2, emailId);
-					}
-				}
-			}
 			try {
 				request.setAttribute("isRTL",
 						ServerLocal.get().equals(new Locale("ar", "", "")));
@@ -121,7 +109,6 @@ public class BaseServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				EU.removeCipher();
 				session.close();
 			}
 		} catch (Exception e) {

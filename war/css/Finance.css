@@ -97,7 +97,7 @@ noindex:-o-prefocus,.ibutton {
 		border: 1px solid #3299A4;
 	}
 } /*End styles*/
-html,body,.myacc-form1 td input[type=text],.Transactions_center,.gridBodyContainer,.gridHeader tr td div,.builder,.finance_window,.group-toolbar,.vender-form input[type="text"],.vender-form select,.vender-form textarea,.previous-container,.next-container,.action-panel,.welcome-panel,.fullSizePanel,.view_help_panel iframe,.progress_panel_show table,.abstract_base_view,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#mainFooter,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay,.dateBoxPopup .datePickerDays,.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker,.gwt-TreeItem
+html,body,.myacc-form1 td input[type=text],.Transactions_center,.gridBodyContainer,.gridHeader tr td div,.builder,.finance_window,.group-toolbar,.vender-form input[type="text"],.vender-form select,.vender-form textarea,.previous-container,.next-container,.action-panel,.welcome-panel,.fullSizePanel,.view_help_panel iframe,.progress_panel_show table,.abstract_base_view,.gridEvenRow,.gridOddRow,.helpPanel,.view_panel,.HEADER_GRID,.financeWindow,.noScroll,.listgridfooter,.gridHeader,.toolbox,.companyInfoPanel,.MENU_BAR_BG,.error-panel,.commentPanel,#appVersions,.portlet-body,.empty_menu_bar,.address,.tablelayout,.tablelayout1,.tablelayoutInIE,.tablelayoutInIE1,.listgrid .custom-combo,.widget,.boldtext,.email_textarea textarea,.finance-portlet td:FIRST-CHILD table,.finance-portlet table,.editTable .gwt-TextBox,.editTable .gwt-DateBox,.imageLink-div,.action-vp,.gridBody tbody,.grid-resizeable-proxy-column,.portlet-body,.no-title .main-w,.datePickerMonthSelector,.pre_scroll_table div table,#overlay,.dateBoxPopup .datePickerDays,.dateBoxPopup .datePickerMonthSelector,.dateBoxPopup .gwt-DatePicker,.gwt-TreeItem
 	{
 	width: 100%;
 }
@@ -165,7 +165,7 @@ lable,.gwt-Label,.datePickerPreviousButton,.datePickerNextButton,td.datePickerMo
 	float: right !important;
 }
 
-.picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,.headerlabel,.progress_header,#mainFooter,.companyName,.dateBoxPopup .popupContent table td
+.picture-link,.status,.blue-day-grid,.blue-month-line,.blue-week-line,.message,.headerlabel,.progress_header,#appVersions,.companyName,.dateBoxPopup .popupContent table td
 	{
 	text-align: center;
 }
@@ -285,7 +285,7 @@ table tr.ReportGridRow:HOVER,table.dropdownFlex tr:hover,.gwt-ListBox option:HOV
 	vertical-align: middle !important;
 }
 
-input[type="text"],.fields-panel textarea,#mainFooter a,#mainFooter span,.view_help_panel td:FIRST-CHILD table td,.dashboard_label td,.helpdialog .dialogTopCenter table td,.no-title .main-w,.gridBody1 .gwt-HTML,.group-toolbar,.widget img
+input[type="text"],.fields-panel textarea,#appVersions a,#appVersions span,.view_help_panel td:FIRST-CHILD table td,.dashboard_label td,.helpdialog .dialogTopCenter table td,.no-title .main-w,.gridBody1 .gwt-HTML,.group-toolbar,.widget img
 	{
 	padding: 0 5px;
 }
@@ -304,7 +304,7 @@ fieldset,img {
 	position: absolute;
 }
 
-.gwt-Anchor,.falseHyperlink,.update-link span,.actionOver,#mainFooter a:hover,.hr-reports a,.handCursor
+.gwt-Anchor,.falseHyperlink,.update-link span,.actionOver,#appVersions a:hover,.hr-reports a,.handCursor
 	{
 	text-decoration: underline;
 }
@@ -788,7 +788,7 @@ input.dropdown-button {
 }
 
 .empty_menu_bar {
-	padding: 16px;
+	padding: 16px 0;
 	margin-top: 13px;
 }
 
@@ -936,7 +936,7 @@ input.dropdown-button {
 	color: #000000;
 }
 
-.downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox,#mainFooter
+.downarrow-button,.custom-combo,.biz-decor-panel .decor01,.toolbox,#appVersions
 	{
 	position: relative;
 }
@@ -1086,9 +1086,7 @@ iframe,.address div {
 	border-width: 1px;
 }
 
-.date-number td:nth-child                                           
-	                                                                   
-	                   (2),.datenumber-panel table {
+.date-number td:nth-child(2),.datenumber-panel table {
 	padding-right: 15px;
 }
 
@@ -1179,7 +1177,7 @@ iframe,.address div {
 }
 
 .setup_panel {
-	margin: 4em auto;
+	margin: 7em auto;
 	width: 800px;
 }
 
@@ -1211,7 +1209,7 @@ iframe,.address div {
 
 .view_manager {
 	margin-left: 20px;
-	padding-bottom: 50px;
+	padding-bottom: 90px;
 	width: 960px;
 }
 
@@ -1281,7 +1279,7 @@ iframe,.address div {
 	margin: 5px;
 }
 
-.accounter-button-seperater,.image-button,#mainFooter,.gwt-Button,.recounciliation_grid thead th
+.accounter-button-seperater,.image-button,#appVersions,.gwt-Button,.recounciliation_grid thead th
 	{
 	height: 25px;
 }
@@ -1390,17 +1388,17 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 	margin-right: 8px;
 }
 
-#mainFooter,#mainFooter a,#mainFooter span {
+#appVersions,#appVersions a,#appVersions span {
 	color: #666666;
 }
 
-#mainFooter {
+#appVersions {
 	clear: both;
-	margin-top: -35px;
+	margin-top: -75px;
 	padding-top: 8px;
 }
 
-#mainFooter a,#mainFooter span,.gwt-DisclosurePanel .header {
+#appVersions a,#appVersions span,.gwt-DisclosurePanel .header {
 	text-decoration: none;
 }
 
@@ -1501,12 +1499,12 @@ body,#loading .loadingIndicator,.panel-right-align .gwt-Button button,#overlay
 	padding: 4px 8px 0 10px;
 }
 
-.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#mainFooter,.popup,.setup_panel,.gwt-PopupPanel,.dateBoxPopup
+.main-finance-window,.gwt-MenuBar-vertical .gwt-MenuItem,.gwt-DialogBox,#appVersions,.popup,.setup_panel,.gwt-PopupPanel,.dateBoxPopup
 	{ /*font-size:0.8em;*/
 	font-size: 13px;
 }
 
-.billing_stmt_footer,#mainFooter {
+.billing_stmt_footer,#appVersions {
 	border-top: 1px solid #ccc;
 }
 
@@ -2872,4 +2870,45 @@ input.date-field-textbox {
 
 .managing-html {
 	margin-left: 30px;
+}
+
+.credits-scroll-panel {
+	max-height: 375px;
+}
+
+.import-button-panel .prev_button {
+	float: left;
+}
+
+.import-button-panel .next_button {
+	float: right;
+}
+
+.import-match-content {
+	width: 100%;
+	border: 1px solid #000000;
+}
+
+.import-match-content td {
+	width: 30%;
+}
+
+.import-match-content .table-header {
+	font-weight: bold;
+}
+
+.import-preview-panel {
+	height: 100%;
+	width: 100%;
+	padding-left: 10px;
+}
+
+.import-preview-panel table {
+	width: 100%;
+	padding-left: 25px;
+}
+
+.import-preview-panel .preview-header {
+	font-size: 1.5em;
+	font-weight: bold;
 }

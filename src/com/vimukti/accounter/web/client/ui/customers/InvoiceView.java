@@ -88,7 +88,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	private TaxItemsForm vatTotalNonEditableText, salesTaxTextNonEditable;
 	private AmountLabel netAmountLabel, balanceDueNonEditableText,
 			paymentsNonEditableText;
-
+	private DynamicForm termsForm;
 	// private WarehouseAllocationTable table;
 	// private DisclosurePanel inventoryDisclosurePanel;
 
@@ -98,7 +98,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 	private InvoiceView() {
 		super(ClientTransaction.TYPE_INVOICE);
-
 	}
 
 	private BrandingThemeCombo brandingThemeTypeCombo;
@@ -192,7 +191,7 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 	protected void createControls() {
 		Label lab1;
 		DynamicForm dateNoForm = new DynamicForm();
-		DynamicForm termsForm = new DynamicForm();
+		termsForm = new DynamicForm();
 		DynamicForm prodAndServiceForm1 = new DynamicForm();
 		DynamicForm prodAndServiceForm2 = new DynamicForm();
 		DynamicForm vatForm = new DynamicForm();
@@ -351,6 +350,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 		if (locationTrackingEnabled)
 			termsForm.setFields(locationCombo);
+		jobListCombo = createJobListCombo();
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(true);
+			termsForm.setFields(jobListCombo);
+		}
 		// termsForm.setWidth("100%");
 		termsForm.setIsGroup(true);
 		termsForm.setGroupTitle(messages.terms());
@@ -842,7 +846,12 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 			vatTotalNonEditableText.setTransaction(transaction);
 			salesTaxTextNonEditable.setTransaction(transaction);
 		}
-
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+			jobListCombo.setDisabled(false);
+		}
 		this.setCustomer(customer);
 		super.customerSelected(customer);
 		shippingTermSelected(shippingTerm);
@@ -886,7 +895,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		transaction.setEstimates(new ArrayList<ClientEstimate>());
 		getEstimatesAndSalesOrder();
-
 	}
 
 	private void shippingTermSelected(ClientShippingTerms shippingTerm2) {
@@ -1015,6 +1023,9 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 							transaction.getDueDate()) : getTransactionDate());
 			netAmountLabel.setAmount(transaction.getNetAmount());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					vatTotalNonEditableText.setTransaction(transaction);
 				} else {
@@ -1034,9 +1045,6 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 					}
 					this.salesTaxTextNonEditable.setTransaction(transaction);
 
-				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 			if (isTrackClass()) {
@@ -1059,6 +1067,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 
 			if (locationTrackingEnabled)
 				locationSelected(company.getLocation(transaction.getLocation()));
+
+			if (getPreferences().isJobTrackingEnabled()) {
+				jobSelected(company.getjob(transaction.getJob()));
+			}
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
@@ -1356,6 +1368,11 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 				for (ClientTransactionItem item : transactionItems) {
 					item.setDiscount(discountField.getAmount());
 				}
+			}
+		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null) {
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
 			}
 		}
 		transaction.setNetAmount(netAmountLabel.getAmount());
@@ -1676,6 +1693,10 @@ public class InvoiceView extends AbstractCustomerTransactionView<ClientInvoice>
 		}
 		classListCombo.setDisabled(isInViewMode());
 		transactionsTree.setEnabled(!isInViewMode());
+		jobListCombo.setDisabled(isInViewMode());
+		if (customer != null) {
+			jobListCombo.setCustomer(customer);
+		}
 		enableAttachmentPanel(!isInViewMode());
 	}
 

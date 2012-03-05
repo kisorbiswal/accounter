@@ -140,7 +140,7 @@ public class ExportReportServlet extends BaseServlet {
 		} else if (status != null) {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV, status,
-					company);
+					company, dateRangeHtml);
 		} else {
 			generator = new ReportsGenerator(reportType, startDate, endDate,
 					navigatedName, ReportsGenerator.GENERATIONTYPECSV, company,

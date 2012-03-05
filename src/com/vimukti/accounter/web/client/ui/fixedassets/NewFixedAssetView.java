@@ -1109,6 +1109,16 @@ public class NewFixedAssetView extends BaseView<ClientFixedAsset> {
 	@Override
 	protected void createButtons(ButtonBar buttonBar) {
 		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.saveAndCloseButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (data != null) {
+					data.setStatus(ClientFixedAsset.STATUS_REGISTERED);
+					onSave(false);
+				}
+			}
+		});
 		buttonBar.add(this.saveAndCloseButton,
 				HasHorizontalAlignment.ALIGN_LEFT);
 

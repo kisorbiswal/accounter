@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class MakeDeposit extends Transaction implements Lifecycle {
 
@@ -73,6 +74,23 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public String toString() {
 		return AccounterServerConstants.TYPE_MAKE_DEPOSIT;
+	}
+
+	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+
+		MakeDeposit clone = (MakeDeposit) super.clone();
+
+		List<TransactionDepositItem> items = new ArrayList<TransactionDepositItem>();
+		if (transactionDepositItems != null) {
+			for (TransactionDepositItem transactionDepositItem : transactionDepositItems) {
+				items.add(transactionDepositItem.clone());
+			}
+		}
+		clone.setTransactionDepositItems(items);
+
+		return clone;
+
 	}
 
 	@Override
@@ -142,6 +160,7 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
 					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.DEPOSIT_EXPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);
@@ -184,7 +203,15 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
-		if (!UserUtils.canDoThis(EnterBill.class)) {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
+
+		if (!UserUtils.canDoThis(MakeDeposit.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
 		}
@@ -242,6 +269,9 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	private void doVoidEffect(Session session) {
 		depositTo.updateCurrentBalance(this, this.total, this.currencyFactor);
 		session.save(depositTo);
+		for (TransactionDepositItem item : getTransactionDepositItems()) {
+			item.doReverseEffect(session);
+		}
 	}
 
 	@Override

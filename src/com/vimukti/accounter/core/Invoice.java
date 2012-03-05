@@ -17,6 +17,7 @@ import com.vimukti.accounter.web.client.core.ClientInvoice;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * @author Suresh Garikapati
@@ -915,6 +916,13 @@ public class Invoice extends Transaction implements Lifecycle {
 	@Override
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
 
 		if (!UserUtils.canDoThis(Invoice.class)) {
 			throw new AccounterException(
@@ -1054,4 +1062,5 @@ public class Invoice extends Transaction implements Lifecycle {
 		double amount = onCreate ? -total : total;
 		customer.updateBalance(HibernateUtil.getCurrentSession(), this, amount);
 	}
+
 }

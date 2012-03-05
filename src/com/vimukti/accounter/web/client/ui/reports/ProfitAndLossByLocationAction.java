@@ -9,28 +9,32 @@ import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 
 public class ProfitAndLossByLocationAction extends Action {
+	private static final int CLASS = 1;
+	private static final int LOCATION = 2;
+	private static final int JOB = 3;
 	protected ProfitAndLossByLocationReport locationReport;
-	private boolean isLocation;
+	private int category_type = 0;
 
-	public ProfitAndLossByLocationAction(boolean isLocation) {
+	public ProfitAndLossByLocationAction(int category) {
 		super();
 		this.catagory = messages.report();
-		this.isLocation = isLocation;
+		this.category_type = category;
 	}
 
 	@Override
 	public void run() {
-		runAsync(data, isDependent, isLocation);
+		runAsync(data, isDependent, category_type);
 	}
 
 	public void runAsync(final Object data, final Boolean isDependent,
-			final boolean isLocation) {
+			final int category) {
 
 		AccounterAsync.createAsync(new CreateViewAsyncCallback() {
 
 			public void onCreated() {
 
-				locationReport = new ProfitAndLossByLocationReport(isLocation);
+				locationReport = new ProfitAndLossByLocationReport(
+						category_type);
 				MainFinanceWindow.getViewManager().showView(locationReport,
 						data, isDependent, ProfitAndLossByLocationAction.this);
 			}
@@ -55,28 +59,41 @@ public class ProfitAndLossByLocationAction extends Action {
 
 	@Override
 	public String getHistoryToken() {
-		if (isLocation) {
+		if (category_type == LOCATION) {
 			return "profitAndLossByLocation";
+		} else if (category_type == JOB) {
+			return "ProfitAndLossbyJob";
+		} else {
+			return "profitAndLossByClass";
 		}
-		return "profitAndLossByClass";
+
 	}
 
 	@Override
 	public String getHelpToken() {
-		if (isLocation) {
+
+		if (category_type == LOCATION) {
 			return "profit-loss-by-location";
+		} else if (category_type == JOB) {
+			return "Profit-Loss-by-Job";
+		} else {
+			return "profit-loss-by-class";
 		}
-		return "profit-loss-by-class";
+
 	}
 
 	@Override
 	public String getText() {
-		String actionstring = messages.profitAndLossByLocation(Global.get()
-				.Location());
-		if (!isLocation) {
+		String actionstring = null;
+		if (category_type == LOCATION) {
+			actionstring = messages.profitAndLossByLocation(Global.get()
+					.Location());
+		} else if (category_type == JOB) {
+			return messages.profitAndLossByJob();
+		} else {
 			actionstring = messages.profitAndLossbyClass();
 		}
+
 		return actionstring;
 	}
-
 }

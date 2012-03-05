@@ -40,7 +40,7 @@ public class Company implements IAccounterServerCore {
 
 	public static final String OTHER = "Other";
 
-	public static final int CURRENT_VERSION = 2;
+	public static final int CURRENT_VERSION = 3;
 
 	private long id;
 	private int version;
@@ -188,7 +188,7 @@ public class Company implements IAccounterServerCore {
 	 * Accounts created in this company.
 	 */
 	private Set<Account> accounts = new HashSet<Account>();
-
+	private Set<Job> jobs = new HashSet<Job>();
 	/**
 	 * Each company has a set of PaymentTerms. This property can hold a Set of
 	 * {@link PaymentTerms}
@@ -869,6 +869,8 @@ public class Company implements IAccounterServerCore {
 		cmp.setWarehouses(this.getWarehouse());
 
 		cmp.measurements = this.getMeasurements();
+
+		cmp.jobs = this.jobs;
 
 		cmp.emailAccounts = this.getEmailAccounts();
 		return cmp;
@@ -1567,6 +1569,14 @@ public class Company implements IAccounterServerCore {
 
 	public void setEmailAccounts(Set<EmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
+	}
+
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
 	}
 
 	public void setCostOfGoodsSold(Account costOfGoodsSold) {

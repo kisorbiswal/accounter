@@ -101,14 +101,15 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 						estimate.getExpirationDate()));
 			case 5:
 				if (type == ClientEstimate.SALES_ORDER) {
-					return DataUtils.amountAsStringWithCurrency(estimate
-							.getTotal(), getCompany().getPrimaryCurrency());
+					return DataUtils.amountAsStringWithCurrency(
+							estimate.getTotal(), estimate.getCurrency());
 				}
+
 				return UIUtils.getDateByCompanyType(new ClientFinanceDate(
 						estimate.getDeliveryDate()));
 			case 6:
 				return DataUtils.amountAsStringWithCurrency(
-						estimate.getTotal(), getCompany().getPrimaryCurrency());
+						estimate.getTotal(), estimate.getCurrency());
 			case 7:
 				if (estimate.getStatus() == ClientEstimate.STATUS_OPEN)
 					return Accounter.getFinanceImages().beforereject();
@@ -183,14 +184,14 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onDoubleClick(ClientEstimate obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
 			ActionFactory.getNewQuoteAction(obj.getEstimateType()).run(obj,
 					false);
 		}
 	}
 
 	protected void onClick(ClientEstimate obj, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		if (col == 7 && obj.getStatus() == ClientEstimate.STATUS_OPEN
 				&& obj.getEstimateType() != ClientEstimate.SALES_ORDER) {
@@ -425,12 +426,12 @@ public class QuoteListGrid extends BaseListGrid<ClientEstimate> {
 				break;
 
 			case 3:
-				return DataUtils.amountAsStringWithCurrency(estimate
-						.getNetAmount(), getCompany().getPrimaryCurrency());
+				return DataUtils.amountAsStringWithCurrency(
+						estimate.getNetAmount(), estimate.getCurrency());
 
 			case 4:
 				return DataUtils.amountAsStringWithCurrency(
-						estimate.getTotal(), getCompany().getPrimaryCurrency());
+						estimate.getTotal(), estimate.getCurrency());
 			default:
 				break;
 			}

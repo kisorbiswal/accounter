@@ -6,9 +6,6 @@ import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientPriceLevel;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ListFilter;
-import com.vimukti.accounter.web.client.ui.company.NewItemAction;
-import com.vimukti.accounter.web.client.ui.core.ActionCallback;
-import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.core.ICurrencyProvider;
 import com.vimukti.accounter.web.client.ui.edittable.AbstractDropDownTable;
 import com.vimukti.accounter.web.client.ui.edittable.ComboColumn;
@@ -61,27 +58,8 @@ public class InventoryItemNameColumn extends
 				}
 				return clientItem;
 			}
-
-			@Override
-			public void addNewItem(String text) {
-				NewItemAction action;
-				action = ActionFactory.getNewItemAction(isForCustomer());
-				action.setCallback(new ActionCallback<ClientItem>() {
-
-					@Override
-					public void actionResult(ClientItem result) {
-						if (result.isActive()
-								&& getItemsFilter().filter(result)) {
-							selectRow(result);
-						}
-
-					}
-				});
-				action.setType(ClientItem.TYPE_INVENTORY_PART);
-				action.setItemText(text);
-				action.run(null, false);
-			}
 		};
+		itemsList.setItemType(ClientItem.TYPE_INVENTORY_PART);
 		return itemsList;
 	}
 

@@ -178,13 +178,14 @@ public class PurchaseOrderView extends
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
+		DynamicForm form = new DynamicForm();
+
 		if (isTrackTax() && isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
-			DynamicForm form = new DynamicForm();
 			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect);
@@ -248,6 +249,10 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
+		}
+
+		if (!isDiscountPerDetailLine() && isTrackDiscounts()) {
+			form.setFields(discountField);
 		}
 		amountsForm.add(transactionTotalForm);
 
@@ -386,16 +391,17 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem.setTitle(messages.receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
-		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
+		dateform.setItems(dueDateItem, /* despatchDateItem, */deliveryDateItem);
+
 		classListCombo = createAccounterClassListCombo();
-		if (isTrackClass() && !isClassPerDetailLine()) {
+		if (getPreferences().isClassTrackingEnabled()
+				&& !getPreferences().isClassPerDetailLine()) {
 			dateform.setFields(classListCombo);
 		}
 
@@ -829,8 +835,9 @@ public class PurchaseOrderView extends
 						.get(1));
 			}
 			shipToAddress.businessSelect.setDisabled(true);
-
-			this.addressListOfVendor = getVendor().getAddress();
+			if (getVendor() != null) {
+				this.addressListOfVendor = getVendor().getAddress();
+			}
 			if (billingAddress != null) {
 				billtoAreaItem.setValue(billingAddress.getAddress1() + "\n"
 						+ billingAddress.getStreet() + "\n"
@@ -847,12 +854,11 @@ public class PurchaseOrderView extends
 			} else
 				billtoAreaItem.setValue("");
 			if (isTrackTax() && isTrackPaidTax()) {
-
-				if (!isTaxPerDetailLine()) {
-					selectTAXCode();
-				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
+				if (!isTaxPerDetailLine()) {
+					selectTAXCode();
 				}
 			}
 
@@ -886,6 +892,7 @@ public class PurchaseOrderView extends
 			default:
 				break;
 			}
+
 			if (transaction.getTransactionItems() != null) {
 				if (isTrackDiscounts()) {
 					if (!isDiscountPerDetailLine()) {
@@ -1120,7 +1127,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
@@ -1338,11 +1345,12 @@ public class PurchaseOrderView extends
 		}
 
 		// TODO::: isvalid received date
-		if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
-				deliveryDateItem.getDate(), transactionDate)) {
-			result.addError(deliveryDateItem,
-					messages.receivedDateShouldNotBeAfterTransactionDate());
-		}
+		/*
+		 * if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
+		 * deliveryDateItem.getDate(), transactionDate)) {
+		 * result.addError(deliveryDateItem,
+		 * messages.receivedDateShouldNotBeAfterTransactionDate()); }
+		 */
 
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
@@ -1468,7 +1476,7 @@ public class PurchaseOrderView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
-
+		discountField.setDisabled(isInViewMode());
 		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 	}
@@ -1605,7 +1613,7 @@ public class PurchaseOrderView extends
 	@Override
 	protected void classSelected(ClientAccounterClass clientAccounterClass) {
 
-		this.accounterClass = clientAccounterClass;
+		this.accounterClass = accounterClass;
 		if (accounterClass != null) {
 			classListCombo.setComboItem(accounterClass);
 			vendorAccountTransactionTable

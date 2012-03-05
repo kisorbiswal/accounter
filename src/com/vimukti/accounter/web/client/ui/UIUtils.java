@@ -1217,8 +1217,15 @@ public class UIUtils {
 
 		case ClientTransaction.TYPE_VENDOR_PAYMENT:
 			return AccounterCoreType.PAYBILL;
+
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			return AccounterCoreType.TDSCHALANDETAIL;
+
+		case ClientTransaction.TYPE_STOCK_ADJUSTMENT:
+			return AccounterCoreType.STOCK_ADJUSTMENT;
+
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			return AccounterCoreType.BUILD_ASSEMBLY;
 
 		}
 		return null;

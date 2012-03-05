@@ -1,19 +1,14 @@
 package com.vimukti.accounter.mobile.requirements;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.core.ClientConvertUtil;
-import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.Currency;
 import com.vimukti.accounter.core.Payee;
 import com.vimukti.accounter.mobile.Record;
 import com.vimukti.accounter.mobile.Requirement;
-import com.vimukti.accounter.web.client.core.ClientCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionCreditsAndPayments;
 import com.vimukti.accounter.web.client.core.ClientTransactionReceivePayment;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList;
-import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class ReceivePaymentTableRequirement extends
 		AbstractTableRequirement<ReceivePaymentTransactionList> {

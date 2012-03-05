@@ -31,7 +31,6 @@ import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.ServerLocal;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -177,19 +176,19 @@ public class OpenCompanyServlet extends BaseServlet {
 				request.setAttribute(USER_NAME, user.getClient().getFullName());
 
 				AccounterThreadLocal.set(user);
-				if (getCompanySecretFromDB(serverCompanyID) != null) {
-					try {
-						if (user.getSecretKey() == null) {
-							dispatch(request, response,
-									"/WEB-INF/companypassword.jsp");
-							return;
-						}
-						EU.createCipher(user.getSecretKey(), getD2(request),
-								emailID);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
+				// if (getCompanySecretFromDB(serverCompanyID) != null) {
+				// try {
+				// if (user.getSecretKey() == null) {
+				// dispatch(request, response,
+				// "/WEB-INF/companypassword.jsp");
+				// return;
+				// }
+				// EU.createCipher(user.getSecretKey(), getD2(request),
+				// emailID);
+				// } catch (Exception e) {
+				// e.printStackTrace();
+				// }
+				// }
 				Company company = getCompany(request);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
@@ -199,15 +198,11 @@ public class OpenCompanyServlet extends BaseServlet {
 					session.save(activity);
 				}
 				transaction.commit();
-				if (client.getClientSubscription() != null) {
-					request.setAttribute(SUBSCRIPTION, client
-							.getClientSubscription().getId());
-				}
+
 				RequestDispatcher dispatcher = getServletContext()
 						.getRequestDispatcher("/WEB-INF/Accounter.jsp");
 				dispatcher.forward(request, response);
 			} finally {
-				EU.removeCipher();
 			}
 		} else {
 			response.sendRedirect(LOGIN_URL);

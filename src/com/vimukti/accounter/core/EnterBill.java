@@ -16,6 +16,7 @@ import com.vimukti.accounter.web.client.core.ClientEnterBill;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * 
@@ -1115,6 +1116,14 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 	public boolean canEdit(IAccounterServerCore clientObject)
 			throws AccounterException {
 
+		Transaction transaction = (Transaction) clientObject;
+		if (transaction.getSaveStatus() == Transaction.STATUS_DRAFT) {
+			User user = AccounterThreadLocal.get();
+			if (user.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
+				return true;
+			}
+		}
+
 		if (!UserUtils.canDoThis(EnterBill.class)) {
 			throw new AccounterException(
 					AccounterException.ERROR_DONT_HAVE_PERMISSION);
@@ -1189,6 +1198,7 @@ public class EnterBill extends Transaction implements IAccounterServerCore {
 					estimate = new Estimate();
 					estimate.setCompany(getCompany());
 					estimate.setCustomer(newTransactionItem.getCustomer());
+					estimate.setJob(newTransactionItem.getJob());
 					estimate.setTransactionItems(new ArrayList<TransactionItem>());
 					estimate.setEstimateType(Estimate.BILLABLEEXAPENSES);
 					estimate.setType(Transaction.TYPE_ESTIMATE);

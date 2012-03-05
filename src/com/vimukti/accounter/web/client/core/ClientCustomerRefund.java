@@ -17,7 +17,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 	// long date;
 
 	long payTo;
-
 	ClientAddress address;
 
 	long payFrom;
@@ -140,7 +139,6 @@ public class ClientCustomerRefund extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CUSTOMERREFUND;
@@ -158,4 +156,5 @@ public class ClientCustomerRefund extends ClientTransaction {
 
 		return clientCustomerRefundClone;
 	}
+
 }

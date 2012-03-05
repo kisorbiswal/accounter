@@ -58,6 +58,9 @@ public class MainFinanceWindow extends VerticalPanel {
 	private HelpItem item;
 	public static Map<String, Action> actions;
 	private CometClient cometClient;
+	private static final int CLASS = 1;
+	private static final int LOCATION = 2;
+	private static final int JOB = 3;
 
 	protected AccounterMessages messages = Global.get().messages();
 	private boolean shouldReconnect = true;
@@ -413,6 +416,8 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getPaymentsAction(PaymentsAction.COMPANY)
 				.getHistoryToken(), ActionFactory
 				.getPaymentsAction(PaymentsAction.COMPANY));
+		actions.put(ActionFactory.getJobListAction().getHistoryToken(),
+				ActionFactory.getJobListAction());
 		//
 		// actions.put(ActionFactory.getImportBankStatementAction()
 		// .getHistoryToken(), ActionFactory
@@ -477,20 +482,20 @@ public class MainFinanceWindow extends VerticalPanel {
 				ActionFactory.getCustomersAction());
 		// actions.put(ActionFactory.getItemsAction().getHistoryToken(),
 		// ActionFactory.getItemsAction());
-		
+
 		actions.put(ActionFactory.getMissingChecksReportAction()
 				.getHistoryToken(), ActionFactory
 				.getMissingChecksReportAction());
 		actions.put(ActionFactory.getReconciliationDiscrepancyReportAction()
 				.getHistoryToken(), ActionFactory
 				.getReconciliationDiscrepancyReportAction());
-		
+
 		actions.put(ActionFactory.getInventoryAssemblyAction()
 				.getHistoryToken(), ActionFactory.getInventoryAssemblyAction());
 		actions.put(
 				ActionFactory.getNewInventoryItemAction().getHistoryToken(),
 				ActionFactory.getNewInventoryItemAction());
-		
+
 		actions.put(ActionFactory.getQuotesAction(ClientEstimate.QUOTES)
 				.getHistoryToken(), ActionFactory
 				.getQuotesAction(ClientEstimate.QUOTES));
@@ -614,6 +619,10 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getSalesByCustomerSummaryAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerSummaryAction());
+		actions.put(ActionFactory.getEstimatesByJobAction().getHistoryToken(),
+				ActionFactory.getEstimatesByJobAction());
+		actions.put(ActionFactory.getUnbilledCostsByJobAction()
+				.getHistoryToken(), ActionFactory.getUnbilledCostsByJobAction());
 		actions.put(ActionFactory.getSalesByCustomerDetailAction()
 				.getHistoryToken(), ActionFactory
 				.getSalesByCustomerDetailAction());
@@ -684,7 +693,8 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getGeneralSettingsAction().getHistoryToken(),
 				ActionFactory.getGeneralSettingsAction());
-
+		actions.put(ActionFactory.getNewJobAction(null).getHistoryToken(),
+				ActionFactory.getNewJobAction(null));
 		actions.put("bankAccounts",
 				ActionFactory.getChartOfAccountsAction(ClientAccount.TYPE_BANK));
 		actions.put(ActionFactory.CashExpenseAction().getHistoryToken(),
@@ -709,17 +719,22 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getReportsHomeAction().getHistoryToken(),
 				ActionFactory.getReportsHomeAction());
 
-		ProfitAndLossByLocationAction profitAndLossByLocationActionTrue = ActionFactory
-				.getProfitAndLossByLocationAction(true);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionLocation = ActionFactory
+				.getProfitAndLossByLocationAction(LOCATION);
 
-		ProfitAndLossByLocationAction profitAndLossByLocationActionFalse = ActionFactory
-				.getProfitAndLossByLocationAction(false);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionClass = ActionFactory
+				.getProfitAndLossByLocationAction(CLASS);
 
-		actions.put(profitAndLossByLocationActionTrue.getHistoryToken(),
-				profitAndLossByLocationActionTrue);
+		ProfitAndLossByLocationAction profitAndLossByLocationActionJob = ActionFactory
+				.getProfitAndLossByLocationAction(JOB);
 
-		actions.put(profitAndLossByLocationActionFalse.getHistoryToken(),
-				profitAndLossByLocationActionFalse);
+		actions.put(profitAndLossByLocationActionLocation.getHistoryToken(),
+				profitAndLossByLocationActionLocation);
+		actions.put(profitAndLossByLocationActionJob.getHistoryToken(),
+				profitAndLossByLocationActionJob);
+
+		actions.put(profitAndLossByLocationActionClass.getHistoryToken(),
+				profitAndLossByLocationActionClass);
 		ReconcilationsAction reconcilationsAction = ActionFactory
 				.getReconcilationsAction();
 		actions.put(reconcilationsAction.getHistoryToken(),
@@ -768,7 +783,6 @@ public class MainFinanceWindow extends VerticalPanel {
 
 		actions.put(ActionFactory.getLocationGroupListAction()
 				.getHistoryToken(), ActionFactory.getLocationGroupListAction());
-
 		actions.put(ActionFactory.getAccounterClassGroupListAction()
 				.getHistoryToken(), ActionFactory
 				.getAccounterClassGroupListAction());
@@ -946,12 +960,22 @@ public class MainFinanceWindow extends VerticalPanel {
 		actions.put(ActionFactory.getDepositAction().getHistoryToken(),
 				ActionFactory.getDepositAction());
 
-		actions.put(ActionFactory.getImportAction().getHistoryToken(),
-				ActionFactory.getImportAction());
+		actions.put(ActionFactory.getUploadCSVFileDialog().getHistoryToken(),
+				ActionFactory.getUploadCSVFileDialog());
 
 		actions.put(ActionFactory.getBuildAssemblyAction().getHistoryToken(),
 				ActionFactory.getBuildAssemblyAction());
 
+		actions.put(ActionFactory.getInventoryCentreAction().getHistoryToken(),
+				ActionFactory.getInventoryCentreAction());
+
+		// for job reports
+		actions.put(ActionFactory.getJobProfitabilitySummaryReportAction()
+				.getHistoryToken(), ActionFactory
+				.getJobProfitabilitySummaryReportAction());
+		actions.put(ActionFactory.getJobProfitabilityDetailReportAction()
+				.getHistoryToken(), ActionFactory
+				.getJobProfitabilityDetailReportAction());
 		// for banking reports
 		actions.put(ActionFactory.getBankDepositDetailReportAction()
 				.getHistoryToken(), ActionFactory
@@ -960,7 +984,7 @@ public class MainFinanceWindow extends VerticalPanel {
 				.getHistoryToken(), ActionFactory
 				.getBankCheckDetailReportAction());
 
-		}
+	}
 
 	public ClientCompany getCompany() {
 		return Accounter.getCompany();

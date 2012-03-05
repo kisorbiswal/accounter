@@ -9,7 +9,6 @@ import org.json.JSONException;
 
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.ui.core.DecimalUtil;
 import com.vimukti.accounter.web.client.ui.core.SpecialReference;
 
 public class TransactionCreditsAndPayments implements IAccounterServerCore,

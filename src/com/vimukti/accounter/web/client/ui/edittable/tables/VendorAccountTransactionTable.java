@@ -6,6 +6,7 @@ import java.util.List;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientQuantity;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
@@ -17,6 +18,7 @@ import com.vimukti.accounter.web.client.ui.edittable.AccountNameColumn;
 import com.vimukti.accounter.web.client.ui.edittable.CustomerColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DeleteColumn;
 import com.vimukti.accounter.web.client.ui.edittable.DescriptionEditColumn;
+import com.vimukti.accounter.web.client.ui.edittable.JobColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionBillableColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionClassColumn;
 import com.vimukti.accounter.web.client.ui.edittable.TransactionDiscountColumn;
@@ -240,6 +242,23 @@ public abstract class VendorAccountTransactionTable extends
 				this.addColumn(new TransactionTaxableColumn());
 			}
 		}
+		final JobColumn<ClientTransactionItem> jobColumn = new JobColumn<ClientTransactionItem>() {
+
+			@Override
+			protected ClientJob getValue(ClientTransactionItem row) {
+				return Accounter.getCompany().getjob(row.getJob());
+			}
+
+			@Override
+			protected void setValue(ClientTransactionItem row,
+					ClientJob newValue) {
+				if (newValue == null) {
+					return;
+				}
+				row.setJob(newValue.getID());
+			}
+
+		};
 		if (isCustomerAllowedToAdd) {
 			this.addColumn(new CustomerColumn<ClientTransactionItem>() {
 
@@ -256,11 +275,16 @@ public abstract class VendorAccountTransactionTable extends
 						return;
 					}
 					row.setCustomer(newValue.getID());
+					jobColumn.setcustomerId(newValue.getID());
 				}
 
 			});
+			if (Accounter.getCompany().getPreferences().isJobTrackingEnabled()) {
+				this.addColumn(jobColumn);
+			}
 			this.addColumn(new TransactionBillableColumn());
 		}
+
 		this.addColumn(new DeleteColumn<ClientTransactionItem>());
 	}
 

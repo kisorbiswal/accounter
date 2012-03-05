@@ -76,7 +76,13 @@
 		f.company=:company and
 		f.isCurrentFiscalYear=true
 	</query>
-
+	<query name="getJobsList">
+		<query-param name="company" type="Company" />
+		from
+		com.vimukti.accounter.core.Job j where j.company=:company
+		order by
+		j.id
+	</query>
 	<query name="getEntry.by.debitand.balanceDue.orderbyid">
 		<query-param name="company" type="Company" />
 		from
@@ -186,7 +192,8 @@
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
 		update com.vimukti.accounter.core.Estimate set customer.id=:toID
-		where customer.id=:fromID and company=:company
+		where
+		customer.id=:fromID and company=:company
 	</query>
 
 	<query name="update.merge.customercreditmemo.old.tonew">
@@ -242,13 +249,15 @@
 	<query name="delete.customFiledValuesByCustomField">
 		<query-param name="Id" type="long" />
 		delete from com.vimukti.accounter.core.CustomFieldValue cv
-		where cv.customField.id=:Id
+		where
+		cv.customField.id=:Id
 	</query>
 	<query name="get.customFiledValuesByCustomField">
 		<query-param name="Id" type="long" />
-		 from com.vimukti.accounter.core.CustomFieldValue cv
-		where cv.customField.id=:Id
-	</query>	
+		from com.vimukti.accounter.core.CustomFieldValue cv
+		where
+		cv.customField.id=:Id
+	</query>
 	<query name="update.merge.writeCheck.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1006,14 +1015,15 @@
 		from com.vimukti.accounter.core.CustomerRefund cr where
 		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
 		between :fromDate and
-		:toDate order by cr.lastModifiedDate desc
+		:toDate order by cr.transactionDate desc
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
 		<query-param name="company" type="Company" />
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.payToType=:type
+		wc.company=:company and wc.payToType=:type order by wc.transactionDate
+		desc
 	</query>
 
 	<query name="getFixedAsset.by.checkStatusand.purchaseDate">
@@ -1096,13 +1106,15 @@
 		e.estimateType=:estimateType and e.saveStatus
 		!= 202 and
 		(:status=-1 or
-		:status=e.saveStatus or 
-		(:status=e.status and e.saveStatus!=201 and e.saveStatus!=204))
+		:status=e.saveStatus or
+		(:status=e.status and e.saveStatus!=201 and
+		e.saveStatus!=204))
 		and
-		e.transactionDate between :fromDate and :toDate 
+		e.transactionDate
+		between :fromDate and :toDate
 		and e.saveStatus!=202
 		order by
-		e.lastModifiedDate desc
+		e.transactionDate desc
 	</query>
 
 	<query name="getExpiredEstimate">
@@ -1116,7 +1128,7 @@
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
 		&lt;:today and e.usedInvoice =null
-		order by e.lastModifiedDate desc
+		order by e.transactionDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1160,7 +1172,7 @@
 		j.company=:company and j.saveStatus != 202
 		and j.transactionDate
 		between :fromDate and :toDate
-		order by j.lastModifiedDate desc
+		order by j.transactionDate desc
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1736,7 +1748,7 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Account a where a.type=:type and
 		a.company.id =:companyId
-		order by a.lastModifiedDate desc
+		order by a.number desc
 	</query>
 
 	<sql-query name="getBankAccountsOfType">
@@ -1765,14 +1777,10 @@
 		item.id=:fromID
 	</query>
 
-	<!-- <query name="update.merge.itemsalesorder.old.tonew">
-		<query-param name="fromID" type="long" />
-		<query-param name="toID" type="long" />
-		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID
-		where
-		salesTaxItem.id=:fromID and company=:company
-	</query> -->
+	<!-- <query name="update.merge.itemsalesorder.old.tonew"> <query-param name="fromID" 
+		type="long" /> <query-param name="toID" type="long" /> <query-param name="company" 
+		type="Company" /> update com.vimukti.accounter.core.SalesOrder set salesTaxItem.id=:toID 
+		where salesTaxItem.id=:fromID and company=:company </query> -->
 
 	<query name="update.merge.trasactionexpense.old.tonew">
 		<query-param name="fromID" type="long" />
@@ -1882,7 +1890,7 @@
 		where
 		bankAccount.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accounttaxrefund.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1891,7 +1899,7 @@
 		where
 		depositIn.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountpaytax.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1900,7 +1908,7 @@
 		where
 		payFrom.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountcustomerrefud.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1909,16 +1917,17 @@
 		where
 		payFrom.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountcustomerprepay.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.CustomerPrePayment set depositIn.id=:toID
+		update com.vimukti.accounter.core.CustomerPrePayment set
+		depositIn.id=:toID
 		where
 		depositIn.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountvendorrprepay.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1927,7 +1936,7 @@
 		where
 		payFrom.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountcashpurchase.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1936,7 +1945,7 @@
 		where
 		payFrom.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accountcashsale.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1945,7 +1954,7 @@
 		where
 		depositIn.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accounttransferfundsto.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
@@ -1954,16 +1963,17 @@
 		where
 		depositIn.id=:fromID and company=:company
 	</query>
-	
+
 	<query name="update.merge.accounttransferfundsfrom.old.tonew">
 		<query-param name="fromID" type="long" />
 		<query-param name="toID" type="long" />
 		<query-param name="company" type="Company" />
-		update com.vimukti.accounter.core.TransferFund set depositFrom.id=:toID
+		update com.vimukti.accounter.core.TransferFund set
+		depositFrom.id=:toID
 		where
 		depositFrom.id=:fromID and company=:company
 	</query>
-	
+
 
 	<query name="getCompany.has.recurrings">
 		from com.vimukti.accounter.core.Company c
@@ -2179,17 +2189,29 @@
 	<query name="getTaxReturnById">
 		<query-param name="id" type="long" />
 		from com.vimukti.accounter.core.TAXReturn tr where
-		tr.id=:id order by tr.id
+		tr.id=:id order by
+		tr.id
 	</query>
-	
+
 	<query name="list.InventorySales">
 		<query-param name="itemId" type="long" />
 		<!-- <query-param name="inventoryScheme" type="int"/> -->
-		from  com.vimukti.accounter.core.TransactionItem sale 
-		where sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
-		and (sale.transaction.type in (1,14,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
-		order by sale.transaction.transactionDate,sale.transaction.id
+
+		from com.vimukti.accounter.core.TransactionItem sale
+		where
+		sale.item.id=:itemId and sale.transaction.saveStatus not in (201,202)
+		and (sale.transaction.type in (1,14,8,37) or (sale.transaction.type=36
+		and sale.quantity.value &lt; 0))
+		order by
+		sale.transaction.transactionDate,sale.transaction.id
 	</query>
-	
-	
+	<query name="getJobsByCustomer">
+		<query-param name="customerId" type="long" />
+		<query-param name="companyId" type="long" />
+		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
+		and
+		j.company.id=:companyId order by j.id
+	</query>
+
+
 </hibernate-mapping>

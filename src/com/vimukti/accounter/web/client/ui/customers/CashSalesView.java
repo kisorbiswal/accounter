@@ -116,7 +116,7 @@ public class CashSalesView extends
 	@Override
 	protected void createControls() {
 
-		Label lab1 = new Label(messages.newCashSale());
+		Label lab1 = new Label(messages.cashSale());
 		lab1.setStyleName("label-title");
 		transactionDateItem = createTransactionDateItem();
 		transactionDateItem
@@ -212,6 +212,7 @@ public class CashSalesView extends
 		printCheck.setValue(true);
 		printCheck.setWidth(100);
 		printCheck.setDisabled(true);
+		printCheck.setVisible(false);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -239,6 +240,7 @@ public class CashSalesView extends
 		checkNoText = new TextItem(messages.chequeNo());
 		checkNoText.setValue(messages.toBePrinted());
 		checkNoText.setHelpInformation(true);
+		checkNoText.setVisible(false);
 		checkNoText.setWidth(100);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
@@ -285,6 +287,11 @@ public class CashSalesView extends
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
+		}
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
+			termsForm.setFields(jobListCombo);
 		}
 
 		memoTextAreaItem = createMemoTextAreaItem();
@@ -576,7 +583,12 @@ public class CashSalesView extends
 			return;
 		}
 		ClientCurrency currency = getCurrency(customer.getCurrency());
-
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCashSales ent = this.transaction;
 
@@ -783,7 +795,10 @@ public class CashSalesView extends
 		}
 
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -929,13 +944,7 @@ public class CashSalesView extends
 
 			this.transactionItems = transaction.getTransactionItems();
 			paymentMethodCombo.setComboItem(transaction.getPaymentMethod());
-			if (transaction.getPaymentMethod().equals(messages.check())) {
-				printCheck.setDisabled(isInViewMode());
-				checkNoText.setDisabled(isInViewMode());
-			} else {
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+			paymentMethodSelected(transaction.getPaymentMethod());
 
 			if (transaction.getDeliverydate() != 0)
 				this.deliveryDate.setEnteredDate(new ClientFinanceDate(
@@ -947,6 +956,9 @@ public class CashSalesView extends
 			memoTextAreaItem.setValue(transaction.getMemo());
 			// refText.setValue(cashSale.getReference());
 			if (isTrackTax()) {
+				if (vatinclusiveCheck != null) {
+					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
 				if (isTaxPerDetailLine()) {
 					netAmountLabel.setAmount(transaction.getNetAmount());
 					taxTotalNonEditableText.setTransaction(transaction);
@@ -958,9 +970,6 @@ public class CashSalesView extends
 						taxCodeSelected(taxCode);
 					}
 					taxTotalNonEditableText.setTransaction(transaction);
-				}
-				if (vatinclusiveCheck != null) {
-					setAmountIncludeChkValue(isAmountIncludeTAX());
 				}
 			}
 			if (isTrackClass()) {
@@ -982,23 +991,19 @@ public class CashSalesView extends
 			}
 
 			memoTextAreaItem.setDisabled(true);
-			netAmountLabel.setAmount(transaction.getTotal());
+
 			transactionTotalBaseCurrencyText
 					.setAmount(getAmountInBaseCurrency(transaction.getTotal()));
 
 			foreignCurrencyamountLabel.setAmount(transaction.getTotal());
 
-			this.clientAccounterClass = getCompany().getAccounterClass(
-					transaction.getAccounterClass());
-			if (getPreferences().isClassTrackingEnabled()
-			/* && getPreferences().isClassOnePerTransaction() */
-			&& this.clientAccounterClass != null && classListCombo != null) {
-				classListCombo.setComboItem(this.getClientAccounterClass());
-			}
 		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 		superinitTransactionViewData();
 		initCashSalesView();
 
@@ -1242,25 +1247,34 @@ public class CashSalesView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		classListCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
+		}
+		paymentMethodSelected(paymentMethodCombo.getSelectedValue());
 		super.onEdit();
 	}
 
 	@Override
 	protected void paymentMethodSelected(String paymentmethod) {
-
-		if (paymentMethod == null)
+		this.paymentMethod = paymentmethod;
+		if (paymentMethod == null) {
 			return;
+		}
 
-		if (paymentMethod != null) {
-			this.paymentMethod = paymentMethod;
-			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
-			} else {
-				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
-			}
+		if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
+			printCheck.setDisabled(isInViewMode());
+			checkNoText.setDisabled(isInViewMode());
+			printCheck.setVisible(true);
+			checkNoText.setVisible(true);
+		} else {
+			// paymentMethodCombo.setComboItem(paymentMethod);
+			printCheck.setDisabled(true);
+			printCheck.setVisible(false);
+			checkNoText.setDisabled(true);
+			checkNoText.setVisible(false);
 		}
 
 	}

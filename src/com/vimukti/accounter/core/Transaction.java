@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.hibernate.CallbackException;
 import org.hibernate.Session;
 
@@ -37,6 +38,8 @@ import com.vimukti.accounter.web.server.FinanceTool;
 
 public abstract class Transaction extends CreatableObject implements
 		IAccounterServerCore, Cloneable {
+
+	Logger log = Logger.getLogger(AccountTransaction.class);
 
 	/**
 	 * 
@@ -80,11 +83,11 @@ public abstract class Transaction extends CreatableObject implements
 
 	public static final int TYPE_STOCK_ADJUSTMENT = 36;
 	public static final int TYPE_BUILD_ASSEMBLY = 37;
+	public static final int TYPE_SALES_ORDER = 38;
 
 	public static final int STATUS_NOT_PAID_OR_UNAPPLIED_OR_NOT_ISSUED = 0;
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
-	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_TEMPLATE = 202;
@@ -110,7 +113,7 @@ public abstract class Transaction extends CreatableObject implements
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
-
+	private Job job;
 	int type;
 	FinanceDate transactionDate;
 	String number = "0";
@@ -1236,10 +1239,10 @@ public abstract class Transaction extends CreatableObject implements
 		if (saveStatus != STATUS_DRAFT) {
 			checkNullValues();
 		}
-		if (isVoid() /* && !getReconciliationItems().isEmpty() */) {
-			throw new AccounterException(
-					AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
-		}
+		// if (isVoid() /* && !getReconciliationItems().isEmpty() */) {
+		// throw new AccounterException(
+		// AccounterException.ERROR_VOIDING_TRANSACTION_RECONCILIED);
+		// }
 
 		return true;
 	}
@@ -1351,15 +1354,15 @@ public abstract class Transaction extends CreatableObject implements
 
 	public boolean addAccountTransaction(AccountTransaction accountTransaction) {
 		if (isBecameVoid()) {
-			accountTransactionEntriesList.clear();
+			getAccountTransactionEntriesList().clear();
 			return false;
 		}
 		AccountTransaction similar = getSimilarAccountTransaction(accountTransaction);
 		if (similar == null) {
-			accountTransactionEntriesList.add(accountTransaction);
+			getAccountTransactionEntriesList().add(accountTransaction);
 			return true;
 		} else {
-			accountTransactionEntriesList.remove(similar);
+			getAccountTransactionEntriesList().remove(similar);
 			Session session = HibernateUtil.getCurrentSession();
 			session.delete(similar);
 			return false;
@@ -1368,7 +1371,7 @@ public abstract class Transaction extends CreatableObject implements
 
 	private AccountTransaction getSimilarAccountTransaction(
 			AccountTransaction accountTransaction) {
-		for (AccountTransaction record : accountTransactionEntriesList) {
+		for (AccountTransaction record : getAccountTransactionEntriesList()) {
 			if (record.getTransaction().getID() == accountTransaction
 					.getTransaction().getID()
 					&& record.getAccount().getID() == accountTransaction
@@ -1580,8 +1583,9 @@ public abstract class Transaction extends CreatableObject implements
 	}
 
 	public List<Item> getInventoryUsed() {
+
 		List<Item> inventory = new ArrayList<Item>();
-		if (this.isDraftOrTemplate()) {
+		if (this.isDraftOrTemplate() || (isVoid() && this.isVoidBefore)) {
 			return inventory;
 		}
 		for (TransactionItem tItem : getTransactionItems()) {
@@ -1595,5 +1599,13 @@ public abstract class Transaction extends CreatableObject implements
 			}
 		}
 		return inventory;
+	}
+
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 }

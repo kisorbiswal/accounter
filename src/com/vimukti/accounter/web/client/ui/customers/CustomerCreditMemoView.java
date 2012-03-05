@@ -161,7 +161,11 @@ public class CustomerCreditMemoView extends
 		if (isTrackClass() && !isClassPerDetailLine()) {
 			phoneForm.setFields(classListCombo);
 		}
-
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo = createJobListCombo();
+			jobListCombo.setDisabled(true);
+			phoneForm.setFields(jobListCombo);
+		}
 		memoTextAreaItem = createMemoTextAreaItem();
 		memoTextAreaItem.setTitle(messages.reasonForIssue());
 
@@ -513,6 +517,11 @@ public class CustomerCreditMemoView extends
 			}
 		}
 		transaction.setTotal(foreignCurrencyamountLabel.getAmount());
+
+		if (getPreferences().isJobTrackingEnabled()) {
+			if (jobListCombo.getSelectedValue() != null)
+				transaction.setJob(jobListCombo.getSelectedValue().getID());
+		}
 		if (currency != null)
 			transaction.setCurrency(currency.getID());
 		transaction.setCurrencyFactor(currencyWidget.getCurrencyFactor());
@@ -612,6 +621,9 @@ public class CustomerCreditMemoView extends
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobSelected(Accounter.getCompany().getjob(transaction.getJob()));
+		}
 
 		if (isMultiCurrencyEnabled()) {
 			updateAmountsFromGUI();
@@ -792,6 +804,13 @@ public class CustomerCreditMemoView extends
 		if (customer == null) {
 			return;
 		}
+
+		// Job Tracking
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(false);
+			jobListCombo.setValue("");
+			jobListCombo.setCustomer(customer);
+		}
 		if (this.getCustomer() != null && this.getCustomer() != customer) {
 			ClientCustomerCreditMemo ent = this.transaction;
 
@@ -943,6 +962,12 @@ public class CustomerCreditMemoView extends
 			currencyWidget.setDisabled(isInViewMode());
 		}
 		classListCombo.setDisabled(isInViewMode());
+		if (getPreferences().isJobTrackingEnabled()) {
+			jobListCombo.setDisabled(isInViewMode());
+			if (customer != null) {
+				jobListCombo.setCustomer(customer);
+			}
+		}
 		super.onEdit();
 
 	}

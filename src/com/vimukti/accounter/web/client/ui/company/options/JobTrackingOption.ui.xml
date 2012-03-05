@@ -1,0 +1,17 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:VerticalPanel spacing="8" styleName="companyInfoPanel">
+		<g:HorizontalPanel spacing="10">
+			<g:CheckBox ui:field="jobTrackingCheckBox" />
+			<g:Label ui:field="jobTrackingCheckBoxLabel" styleName="header"
+				horizontalAlignment="ALIGN_LEFT" />
+		</g:HorizontalPanel>
+		<g:HorizontalPanel>
+			<g:Label ui:field="jobTrackingdescriptionLabel" />
+		</g:HorizontalPanel>
+	</g:VerticalPanel>
+</ui:UiBinder> 

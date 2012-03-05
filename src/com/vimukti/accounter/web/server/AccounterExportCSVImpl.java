@@ -367,24 +367,36 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPaymentNumber();
 						break;
 					case 2:
+
+						String transactionName = Utility
+								.getTransactionName(ClientTransaction.TYPE_CUSTOMER_REFUNDS);
+						String transactionStatus = Utility
+								.getTransactionStatus(
+										ClientTransaction.TYPE_CUSTOMER_REFUNDS,
+										obj.getStatus());
 						columnValue = (obj.getStatus() == ClientTransaction.STATUS_PAID_OR_APPLIED_OR_ISSUED && obj
 								.getSaveStatus() == ClientTransaction.STATUS_DRAFT) ? "Draft"
-								: Utility
-										.getStatus(
-												ClientTransaction.TYPE_CUSTOMER_REFUNDS,
-												obj.getStatus());
+								: transactionName + "" + "("
+										+ transactionStatus + ")";
+
 						break;
 					case 3:
-						columnValue = Utility
-								.getDateInSelectedFormat(new FinanceDate(obj
-										.getIssueDate()));
+						ClientFinanceDate issueDate = obj.getIssueDate();
+						if (issueDate == null) {
+							columnValue = "";
+						} else {
+							columnValue = Utility
+									.getDateInSelectedFormat(new FinanceDate(
+											issueDate));
+						}
 						break;
 					case 4:
 						columnValue = obj.getName() == null ? "" : obj
 								.getName();
 						break;
 					case 5:
-						columnValue = obj.getPaymentMethod();
+						columnValue = obj.getPaymentMethod() != null ? obj
+								.getPaymentMethod() : "";
 						break;
 					case 6:
 						columnValue = amountAsStringWithCurrency(
@@ -515,8 +527,13 @@ public class AccounterExportCSVImpl extends AccounterRPCBaseServiceImpl
 						columnValue = obj.getPaymentNumber();
 						break;
 					case 2:
-						columnValue = Utility.getStatus(obj.getType(),
-								obj.getStatus());
+						String transactionName = Utility.getTransactionName(obj
+								.getType());
+						String transactionStatus = Utility
+								.getTransactionStatus(obj.getType(),
+										obj.getStatus());
+						columnValue = transactionName + "" + "("
+								+ transactionStatus + ")";
 						break;
 					case 3:
 						columnValue = Utility

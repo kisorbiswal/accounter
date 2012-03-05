@@ -26,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTAXCode;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -42,6 +43,7 @@ import com.vimukti.accounter.web.client.ui.edittable.tables.VendorAccountTransac
 import com.vimukti.accounter.web.client.ui.edittable.tables.VendorItemTransactionTable;
 import com.vimukti.accounter.web.client.ui.forms.AmountLabel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
+import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 import com.vimukti.accounter.web.client.ui.widgets.DateValueChangeHandler;
 
 public class CashExpenseView extends
@@ -1109,5 +1111,23 @@ public class CashExpenseView extends
 		} else {
 			classListCombo.setValue("");
 		}
+	}
+
+	protected boolean isSaveButtonAllowed() {
+		ClientUserPermissions permissions = Accounter.getUser()
+				.getPermissions();
+		// canDoBankReconcialiation || canDoManageAccounts
+		if (Accounter.getUser().canDoInvoiceTransactions()) {
+			return true;
+		}
+		if (permissions.getTypeOfBankReconcilation() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+
+		if (permissions.getTypeOfManageAccounts() == RolePermissions.TYPE_YES) {
+			return true;
+		}
+
+		return false;
 	}
 }

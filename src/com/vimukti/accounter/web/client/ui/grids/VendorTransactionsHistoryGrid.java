@@ -11,9 +11,9 @@ import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
-import com.vimukti.accounter.web.client.ui.Accounter.AccounterType;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -91,6 +91,9 @@ public abstract class VendorTransactionsHistoryGrid extends
 
 	@Override
 	public void onDoubleClick(final TransactionHistory obj) {
+		if (!isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
+			return;
+		}
 		if (obj.getType() == 11) {
 			AccounterCoreType accounterCoreType = UIUtils
 					.getAccounterCoreType(obj.getType());
@@ -123,6 +126,9 @@ public abstract class VendorTransactionsHistoryGrid extends
 	}
 
 	protected void onClick(TransactionHistory obj, int row, int col) {
+		if (!isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
+			return;
+		}
 		if (col == 7 && !obj.getIsVoid()) {
 			showWarningDialog(obj, col, row);
 		}
@@ -131,11 +137,10 @@ public abstract class VendorTransactionsHistoryGrid extends
 	private void showWarningDialog(final TransactionHistory obj, final int col,
 			final int row) {
 		String msg = null;
-		if (obj.getStatus() != ClientTransaction.STATUS_DRAFT
+		if (obj.getSavestaus() != ClientTransaction.STATUS_DRAFT
 				&& !obj.getIsVoid() && col == 7) {
 			msg = messages.doyouwanttoVoidtheTransaction();
-		} else if (obj.getStatus() == ClientTransaction.STATUS_DRAFT
-				&& col == 9) {
+		} else if (obj.getSavestaus() == ClientTransaction.STATUS_DRAFT) {
 			Accounter.showError(messages.youCannotVoidDraftedTransaction());
 			return;
 		}

@@ -66,7 +66,19 @@
      
      <!-- Footer Section-->
      
-     <div id="mainFooter"  >
+
+     <div id="appVersions">
+	    <div>
+	       <span>Access Accounter from </span>
+	       <a target="_blank" href="https://market.android.com/details?id=com.vimukti.accounter"> Android </a> |
+	       <a target="_blank" href="http://www.windowsphone.com/en-US/apps/6a8b2e3f-9c72-4929-9053-1262c6204d80"> Windows Phone </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id466388076?ls=1&mt=8"> iPhone </a> |
+		   <a target="_blank" href="https://appworld.blackberry.com/webstore/content/67065/?lang=en"> Black Berry </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> iPad </a> |
+		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
+		   </div>
+	</div>
+	     <div id="mainFooter"  >
 	    <div>
 	       <span><i18n:i18n msg='atTherateCopy'/></span> |
 	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
@@ -74,7 +86,6 @@
 	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
 	    </div>
 	</div>
-     
      
 	<%@ include file="./scripts.jsp" %>
 	</body>

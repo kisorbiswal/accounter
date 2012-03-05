@@ -7,14 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.xerces.impl.dv.util.Base64;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.Account;
-import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.CashSales;
 import com.vimukti.accounter.core.ChequePdfGenerator;
@@ -23,23 +18,21 @@ import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CreditCardCharge;
 import com.vimukti.accounter.core.CreditsAndPayments;
 import com.vimukti.accounter.core.CustomerRefund;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.EnterBill;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
 import com.vimukti.accounter.core.FixedAsset;
 import com.vimukti.accounter.core.Item;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.ReceivePayment;
 import com.vimukti.accounter.core.ReceiveVATEntries;
 import com.vimukti.accounter.core.ServerConvertUtil;
 import com.vimukti.accounter.core.TAXAgency;
 import com.vimukti.accounter.core.TransferFund;
-import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.services.DAOException;
-import com.vimukti.accounter.servlets.BaseServlet;
 import com.vimukti.accounter.utils.HibernateUtil;
 import com.vimukti.accounter.web.client.IAccounterHomeViewService;
 import com.vimukti.accounter.web.client.core.ClientAccount;
@@ -60,6 +53,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -87,6 +81,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.PrintCheque;
@@ -113,8 +108,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.Portlet;
@@ -1501,21 +1496,21 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 			changePassword = getFinanceTool().getUserManager()
 					.changeMyPassword(emailID, oldPassword, newPassword);
 
-			HttpServletRequest req = getThreadLocalRequest();
-			byte[] s2 = EU.getKey(emailID);
-			byte[] d2 = getD2(req);
-			User user = AccounterThreadLocal.get();
-			byte[] s3 = EU.decrypt(user.getSecretKey(), EU.decrypt(d2, s2));
-
-			byte[] s1 = EU.generatePBS(newPassword);
-			d2 = EU.encrypt(s1, s2);
-			req.getSession().setAttribute(BaseServlet.SECRET_KEY_COOKIE,
-					Base64.encode(d2));
-			Session session = HibernateUtil.getCurrentSession();
-			Transaction transaction = session.beginTransaction();
-			user.setSecretKey(EU.encrypt(s3, s1));
-			session.saveOrUpdate(user);
-			transaction.commit();
+			// HttpServletRequest req = getThreadLocalRequest();
+			// byte[] s2 = EU.getKey(emailID);
+			// byte[] d2 = getD2(req);
+			// User user = AccounterThreadLocal.get();
+			// byte[] s3 = EU.decrypt(user.getSecretKey(), EU.decrypt(d2, s2));
+			//
+			// byte[] s1 = EU.generatePBS(newPassword);
+			// d2 = EU.encrypt(s1, s2);
+			// req.getSession().setAttribute(BaseServlet.SECRET_KEY_COOKIE,
+			// Base64.encode(d2));
+			// Session session = HibernateUtil.getCurrentSession();
+			// Transaction transaction = session.beginTransaction();
+			// user.setSecretKey(EU.encrypt(s3, s1));
+			// session.saveOrUpdate(user);
+			// transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2209,6 +2204,27 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
+	public List<ClientJob> getJobsByCustomer(long id) {
+		List<ClientJob> jobs = new ArrayList<ClientJob>();
+		Session currentSession = HibernateUtil.getCurrentSession();
+		@SuppressWarnings("unchecked")
+		List<Job> list = currentSession.getNamedQuery("getJobsByCustomer")
+				.setParameter("customerId", id)
+				.setParameter("companyId", getCompanyId()).list();
+		try {
+			for (Job job : list) {
+				ClientJob clientJob = new ClientConvertUtil().toClientObject(
+						job, ClientJob.class);
+				jobs.add(clientJob);
+			}
+			return jobs;
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
 	public PaginationList<PurchaseOrdersList> getPurchaseOrders(long fromDate,
 			long toDate, int type, int start, int length)
 			throws AccounterException {
@@ -2227,17 +2243,48 @@ public class AccounterHomeViewImpl extends AccounterRPCBaseServiceImpl
 	}
 
 	@Override
-	public List<Field<?>> getFieldsOf(int importerType) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ImportField> getFieldsOf(int importerType)
+			throws AccounterException {
+		return getFinanceTool().getFieldsOfImporter(importerType);
 	}
 
 	@Override
 	public boolean importData(String filePath, int importerType,
 			Map<String, String> importMap) throws AccounterException {
-
-		getFinanceTool().importData(getCompanyId(), filePath, importerType,
-				importMap);
+		getFinanceTool().importData(getCompanyId(), getUserEmail(), filePath,
+				importerType, importMap);
 		return true;
+	}
+
+	@Override
+	public PaginationList<TransactionHistory> getItemTransactionsList(
+			long itemId, int transactionType, int transactionStatus,
+			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
+			int length) {
+		FinanceDate[] dates = getMinimumAndMaximumDates(startDate, endDate,
+				getCompanyId());
+		PaginationList<TransactionHistory> resultList = new PaginationList<TransactionHistory>();
+		try {
+			resultList = getFinanceTool().getInventoryManager()
+					.getTransactionsByType(itemId, transactionType,
+							transactionStatus, dates[0].getDate(),
+							dates[1].getDate(), getCompanyId(), start, length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultList;
+	}
+
+	@Override
+	public PaginationList<ClientJob> getJobs() {
+		PaginationList<ClientJob> resultList = new PaginationList<ClientJob>();
+
+		try {
+			resultList = getFinanceTool().getCustomerManager().getJobsList(
+					getCompanyId());
+		} catch (AccounterException e) {
+			e.printStackTrace();
+		}
+		return resultList;
 	}
 }

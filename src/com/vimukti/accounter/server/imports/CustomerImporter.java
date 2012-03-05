@@ -1,0 +1,54 @@
+package com.vimukti.accounter.server.imports;
+
+import java.util.List;
+
+import com.vimukti.accounter.web.client.Global;
+import com.vimukti.accounter.web.client.core.ClientCustomer;
+import com.vimukti.accounter.web.client.core.ImportField;
+import com.vimukti.accounter.web.client.imports.FinanceDateField;
+import com.vimukti.accounter.web.client.imports.LongField;
+import com.vimukti.accounter.web.client.imports.StringField;
+
+public class CustomerImporter extends PayeeImporter<ClientCustomer> {
+
+	@Override
+	public ClientCustomer getData() {
+		ClientCustomer customer = new ClientCustomer();
+		getData(customer);
+		customer.setName(getString("name"));
+		customer.setNumber(getString("number"));
+		customer.setSalesPerson(getLong("salesPerson"));
+		customer.setCreditRating(getLong(messages.creditRating()));
+		customer.setCustomFieldValues(getSetCusFieldList(messages.CustomField()));
+		customer.setPayeeSince(getFinanceDate("payeeSince").getDate());
+		customer.setBalanceAsOf(getFinanceDate("balanceAsof").getDate());
+		customer.setAddress(getSetAddressList("adress"));
+		customer.setContacts(getSetContactList(messages.contacts()));
+		customer.setMemo(getString("memo"));
+		customer.setPaymentTerm(getLong("paymentTerm"));
+		customer.setCustomerGroup(getLong("group"));
+		return customer;
+	}
+
+	@Override
+	public List<ImportField> getAllFields() {
+		List<ImportField> fields = super.getAllFields();
+		fields.add(new StringField("name", messages.payeeName(Global.get()
+				.Customer()), true));
+		fields.add(new StringField("number", messages.number()));
+		fields.add(new LongField("salesPerson", messages.salesPerson()));
+		fields.add(new LongField(messages.creditRating(), messages
+				.creditRating()));
+		fields.add(new StringField(messages.CustomField(), messages
+				.CustomField()));
+		fields.add(new FinanceDateField("payeeSince", messages
+				.payeeSince(Global.get().Customer())));
+		fields.add(new FinanceDateField("balanceAsof", messages.balanceAsOf()));
+		fields.add(new StringField("adress", messages.address()));
+		fields.add(new StringField("contacts", messages.contacts()));
+		fields.add(new StringField("memo", messages.notes()));
+		fields.add(new LongField("paymentTerm", messages.paymentTerm()));
+		fields.add(new LongField("group", messages.customergroup()));
+		return fields;
+	}
+}

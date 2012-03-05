@@ -205,14 +205,17 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		long status1 = ((Long) map.get("statement"));
 
 		int view_Id = (Integer) map.get("viewId");
-		setPayeeId(status1);
-		toolbar.setPayeeId(status1);
+		if (this.payeeId == 0) {
+			setPayeeId(status1);
+			toolbar.setPayeeId(status1);
+			Boolean isVendor = (Boolean) map.get("isVendor");
+			this.isVendor = isVendor == null ? false : isVendor;
+		}
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		toolbar.setViewId(view_Id);
-		Boolean isVendor = (Boolean) map.get("isVendor");
-		this.isVendor = isVendor == null ? false : isVendor;
+		CreateStatementToolBar bar = (CreateStatementToolBar) toolbar;
+		bar.setStatus(view_Id);
 		isDatesArranged = true;
 	}
 

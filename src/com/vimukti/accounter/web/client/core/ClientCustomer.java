@@ -77,6 +77,8 @@ public class ClientCustomer extends ClientPayee {
 
 	private ClientLocation location;
 
+	private ArrayList<ClientJob> jobs;
+
 	private boolean willDeductTDS;
 
 	public ClientCustomer() {
@@ -557,6 +559,14 @@ public class ClientCustomer extends ClientPayee {
 	 */
 	public void setDeductTDS(boolean willDeductTDS) {
 		this.willDeductTDS = willDeductTDS;
+	}
+
+	public ArrayList<ClientJob> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(ArrayList<ClientJob> jobs) {
+		this.jobs = jobs;
 	}
 
 }

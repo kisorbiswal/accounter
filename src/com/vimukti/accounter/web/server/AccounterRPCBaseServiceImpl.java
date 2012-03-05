@@ -24,7 +24,6 @@ import com.google.gdata.util.common.util.Base64DecoderException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Company;
-import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
 import com.vimukti.accounter.main.CompanyPreferenceThreadLocal;
 import com.vimukti.accounter.main.ServerConfiguration;
@@ -84,7 +83,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 								"Could Not Complete the Request!");
 					}
 				} finally {
-					EU.removeCipher();
 					session.close();
 				}
 			} else {
@@ -117,13 +115,13 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 		}
 		String userEmail = (String) request.getSession().getAttribute(EMAIL_ID);
 		User user = BaseServlet.getUser(userEmail, serverCompanyID);
-		if (user != null && user.getSecretKey() != null) {
-			try {
-				EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		// if (user != null && user.getSecretKey() != null) {
+		// try {
+		// EU.createCipher(user.getSecretKey(), getD2(request), userEmail);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
 		Company company = (Company) session.get(Company.class, serverCompanyID);
 		if (company == null) {
 			return false;

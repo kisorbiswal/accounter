@@ -121,6 +121,8 @@ public class ClientCompany implements IAccounterCore {
 
 	private ArrayList<ClientAccount> accounts;
 
+	private ArrayList<ClientJob> jobs;
+
 	private ArrayList<ClientCustomer> customers;
 
 	private ArrayList<ClientVendor> vendors;
@@ -1476,6 +1478,10 @@ public class ClientCompany implements IAccounterCore {
 		return Utility.getObject(this.locations, locationId);
 	}
 
+	public ClientJob getjob(long jobId) {
+		return Utility.getObject(this.jobs, jobId);
+	}
+
 	public ClientAdvertisement getAdvertisement(long advertiseId) {
 		return Utility.getObject(this.advertisements, advertiseId);
 	}
@@ -1912,6 +1918,13 @@ public class ClientCompany implements IAccounterCore {
 				Utility.updateClientList(clientLocation, locations);
 				break;
 
+			case JOB:
+				ClientJob clientjob = (ClientJob) accounterCoreObject;
+				ClientCustomer clientCustomer = getCustomer(clientjob
+						.getCustomer());
+				Utility.updateClientList(clientjob, clientCustomer.getJobs());
+				Utility.updateClientList(clientjob, jobs);
+				break;
 			// case VATITEM:
 			// ClientTAXItem vatItem = (ClientTAXItem)
 			// accounterCoreObject;
@@ -1981,6 +1994,9 @@ public class ClientCompany implements IAccounterCore {
 			case MEASUREMENT:
 				ClientMeasurement measurement = (ClientMeasurement) accounterCoreObject;
 				Utility.updateClientList(measurement, measurements);
+				for (ClientUnit unit : measurement.getUnits()) {
+					Utility.updateClientList(unit, units);
+				}
 				break;
 			case WAREHOUSE:
 				ClientWarehouse warehouse = (ClientWarehouse) accounterCoreObject;
@@ -2000,6 +2016,7 @@ public class ClientCompany implements IAccounterCore {
 			case TDSRESPONSIBLEPERSON:
 				this.tdsResposiblePerson = (ClientTDSResponsiblePerson) accounterCoreObject;
 				break;
+
 			}
 		// } catch (Exception e) {
 		// if (e instanceof JavaScriptException) {
@@ -2119,8 +2136,13 @@ public class ClientCompany implements IAccounterCore {
 			break;
 		case LOCATION:
 			deleteLocation(id);
+			break;
+		case JOB:
+			deleteJob(id);
+			break;
 		case CURRENCY:
 			deleteCurrency(id);
+			break;
 		case TAXITEM:
 			deleteTaxItem(id);
 			// if (getAccountingType() != ClientCompany.ACCOUNTING_TYPE_UK) {
@@ -2162,16 +2184,23 @@ public class ClientCompany implements IAccounterCore {
 		case MEASUREMENT:
 			deleteMeasurement(id);
 			break;
+		case CUSTOMFIELD:
+			deleteCustomField(id);
+			break;
 		case EMAIL_ACCOUNT:
 			deleteEmailAccount(id);
 			break;
 		case USER:
 			deleteUser(id);
 			break;
-		case CUSTOMFIELD:
-			deleteCustomField(id);
-			break;
+
 		}
+	}
+
+	private void deleteJob(long id2) {
+		ClientJob object = Utility.getObject(this.jobs, id);
+		this.jobs.remove(object);
+
 	}
 
 	public void deleteCustomField(long id) {
@@ -3117,7 +3146,7 @@ public class ClientCompany implements IAccounterCore {
 		ArrayList<ClientPayee> activePayees = getActivePayees();
 		for (ClientPayee payee : activePayees) {
 			ClientCurrency currency = getCurrency(payee.getCurrency());
-			if (id != currency.id) {
+			if (currency != null && id != currency.id) {
 				return true;
 			}
 		}
@@ -3138,7 +3167,8 @@ public class ClientCompany implements IAccounterCore {
 		Set<ClientPortletPageConfiguration> portletPageConfigurations = getLoggedInUser()
 				.getPortletPages();
 		for (ClientPortletPageConfiguration pageConfiguration : portletPageConfigurations) {
-			if (pageConfiguration.getPageName().equals(name)) {
+			if (pageConfiguration.getPageName().equals(name)
+					&& !pageConfiguration.getPortletConfigurations().isEmpty()) {
 				return pageConfiguration;
 			}
 		}
@@ -3235,6 +3265,14 @@ public class ClientCompany implements IAccounterCore {
 
 	public void setEmailAccounts(List<ClientEmailAccount> emailAccounts) {
 		this.emailAccounts = emailAccounts;
+	}
+
+	public ArrayList<ClientJob> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(ArrayList<ClientJob> jobs) {
+		this.jobs = jobs;
 	}
 
 	/**

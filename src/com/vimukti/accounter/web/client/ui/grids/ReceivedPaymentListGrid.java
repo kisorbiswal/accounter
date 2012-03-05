@@ -112,12 +112,17 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	public void onDoubleClick(ReceivePaymentsList receivePaymentList) {
-		ReportsRPC.openTransactionView(receivePaymentList.getType(),
-				receivePaymentList.getTransactionId());
+		if (isCanOpenTransactionView(0, receivePaymentList.getType())) {
+			ReportsRPC.openTransactionView(receivePaymentList.getType(),
+					receivePaymentList.getTransactionId());
+		}
 	}
 
 	@Override
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, obj.getType())) {
+			return;
+		}
 		if (type != 0) {
 			col += 1;
 		}

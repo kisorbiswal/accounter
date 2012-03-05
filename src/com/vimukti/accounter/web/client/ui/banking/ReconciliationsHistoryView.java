@@ -78,7 +78,7 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 
 					@Override
 					public void onException(AccounterException exception) {
-
+						Accounter.showError(exception.getMessage());
 					}
 
 					@Override
@@ -178,7 +178,14 @@ public class ReconciliationsHistoryView extends BaseView<ClientReconciliation> {
 		if (reconciliation == null) {
 			return;
 		}
-		bankAccountsCombo.setSelected(reconciliation.getAccount().getName());
-		bankAccountChanged(bankAccountsCombo.getSelectedValue());
+		if (reconciliation.getAccount() != null) {
+			ClientAccount account = reconciliation.getAccount();
+			ClientAccount account2 = getCompany().getAccount(account.getID());
+			if (account2 != null) {
+				bankAccountsCombo.setSelected(reconciliation.getAccount()
+						.getName());
+				bankAccountChanged(bankAccountsCombo.getSelectedValue());
+			}
+		}
 	}
 }

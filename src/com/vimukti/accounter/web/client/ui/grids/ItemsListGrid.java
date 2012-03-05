@@ -3,10 +3,13 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.ClientInventoryAssembly;
 import com.vimukti.accounter.web.client.core.ClientItem;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
+import com.vimukti.accounter.web.client.ui.InventoryAssemblyAction;
 import com.vimukti.accounter.web.client.ui.ItemListView;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.company.NewItemAction;
@@ -26,15 +29,14 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 				return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 						ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
-						ListGrid.COLUMN_TYPE_TEXT,
-						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
+						ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_IMAGE };
 			} else {
 				return new int[] { ListGrid.COLUMN_TYPE_CHECK,
 						ListGrid.COLUMN_TYPE_LINK, ListGrid.COLUMN_TYPE_TEXT,
-						ListGrid.COLUMN_TYPE_TEXT,
+						ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_DECIMAL_TEXT,
 						ListGrid.COLUMN_TYPE_IMAGE };
@@ -70,6 +72,8 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return 100;
 			else if (index == 5)
 				return 100;
+			else if (index == 6)
+				return 100;
 			else {
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 					if (index == 6) {
@@ -81,7 +85,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 							return 20;
 					}
 				} else {
-					if (index == 6) {
+					if (index == 7) {
 						if (UIUtils.isMSIEBrowser())
 							return 25;
 						else
@@ -152,11 +156,14 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 				return Utility.getItemTypeText(obj) != null ? Utility
 						.getItemTypeText(obj) : "";
 			case 4:
+				return obj.getOnhandQty() != null ? obj.getOnhandQty()
+						.getValue() : "";
+			case 5:
 				return DataUtils.amountAsStringWithCurrency(
 						obj.getAverageCost(), currency) != null ? DataUtils
 						.amountAsStringWithCurrency(obj.getAverageCost(),
 								currency) : "";
-			case 5:
+			case 6:
 				if (!(ItemListView.isPurchaseType && ItemListView.isSalesType)) {
 					if (obj.isISellThisItem) {
 						return DataUtils.amountAsStringWithCurrency(
@@ -181,7 +188,7 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 							.amountAsStringWithCurrency(obj.getPurchasePrice(),
 									currency) : "";
 
-			case 6:
+			case 7:
 				if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 					return DataUtils.amountAsStringWithCurrency(
 							obj.getPurchasePrice(), currency) != null ? DataUtils
@@ -257,17 +264,19 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
-						messages.avarageCost(), messages.salesPrice(),
+						messages.onHandQty(), messages.salesPrice(),
 						messages.purchasePrice(), "" };
 			} else if (ItemListView.isPurchaseType) {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
-						messages.avarageCost(), messages.purchasePrice(), "" };
+						messages.onHandQty(), messages.avarageCost(),
+						messages.purchasePrice(), "" };
 
 			} else {
 				return new String[] { messages.active(), messages.itemName(),
 						messages.description(), messages.type(),
-						messages.avarageCost(), messages.salesPrice(), "" };
+						messages.onHandQty(), messages.avarageCost(),
+						messages.salesPrice(), "" };
 			}
 		} else {
 			if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
@@ -289,23 +298,29 @@ public class ItemsListGrid extends BaseListGrid<ClientItem> {
 
 	@Override
 	public void onDoubleClick(ClientItem obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions()) {
-			NewItemAction itemAction = ActionFactory.getNewItemAction(true);
-			itemAction.setType(obj.getType());
-			itemAction.run(obj, false);
+		if (isCanOpenTransactionView(0, IAccounterCore.ITEM)) {
+			if (obj.getType() == ClientItem.TYPE_INVENTORY_ASSEMBLY) {
+				InventoryAssemblyAction inventoryAssemblyAction = new InventoryAssemblyAction();
+				inventoryAssemblyAction.run((ClientInventoryAssembly) obj,
+						false);
+			} else {
+				NewItemAction itemAction = ActionFactory.getNewItemAction(true);
+				itemAction.setType(obj.getType());
+				itemAction.run(obj, false);
+			}
 		}
 	}
 
 	protected void onClick(ClientItem item, int row, int col) {
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(0, IAccounterCore.ITEM))
 			return;
 		if (ItemListView.isPurchaseType && ItemListView.isSalesType) {
-			if (col == 6) {
+			if (col == 7) {
 				if (item != null)
 					showWarnDialog(item);
 			}
 		} else {
-			if (col == 5) {
+			if (col == 7) {
 				if (item != null)
 					showWarnDialog(item);
 			}

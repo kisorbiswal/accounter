@@ -308,7 +308,6 @@ public class ClientCashSales extends ClientTransaction {
 
 	}
 
-
 	@Override
 	public AccounterCoreType getObjectType() {
 		return AccounterCoreType.CASHSALES;

@@ -551,6 +551,10 @@ public class PayBill extends Transaction {
 
 		if (this.isVoid() && !payBill.isVoid()) {
 			doVoidEffect(session, this);
+			if (payBillType == PayBill.TYPE_PAYBILL) {
+				vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+						total);
+			}
 		} else {
 
 			if (this.payBillType == TYPE_VENDOR_PAYMENT) {
@@ -664,7 +668,10 @@ public class PayBill extends Transaction {
 		if (this.vendor.getID() != payBill.vendor.getID()) {
 
 			doVoidEffect(session, payBill);
-
+			if (payBillType == PayBill.TYPE_PAYBILL) {
+				vendor.updateBalance(HibernateUtil.getCurrentSession(), this,
+						total);
+			}
 			if (creditsAndPayments != null
 					&& DecimalUtil.isEquals(creditsAndPayments.creditAmount,
 							0.0d)) {

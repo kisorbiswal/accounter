@@ -47,6 +47,7 @@ import com.vimukti.accounter.web.client.core.ClientCompanyPreferences;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientLocation;
 import com.vimukti.accounter.web.client.core.ClientPayBill;
 import com.vimukti.accounter.web.client.core.ClientPaymentTerms;
@@ -57,6 +58,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.ClientTransactionDepositItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionItem;
 import com.vimukti.accounter.web.client.core.ClientTransactionLog;
+import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -75,6 +77,7 @@ import com.vimukti.accounter.web.client.ui.combo.AddressCombo;
 import com.vimukti.accounter.web.client.ui.combo.ClassListCombo;
 import com.vimukti.accounter.web.client.ui.combo.ContactCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
+import com.vimukti.accounter.web.client.ui.combo.JobCombo;
 import com.vimukti.accounter.web.client.ui.combo.LocationCombo;
 import com.vimukti.accounter.web.client.ui.combo.PayFromAccountsCombo;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -231,6 +234,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	private Label voidedLabel;
 
 	private DraftsButton draftsButton;
+
+	protected JobCombo jobListCombo;
+
+	private ClientJob job;
 
 	public boolean isVatInclusive() {
 		return isVATInclusive;
@@ -714,8 +721,10 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 	}
 
 	protected boolean canAddDraftButton() {
-		return getCompany().getLoggedInUser().getPermissions()
-				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES
+		ClientUserPermissions permissions = getCompany().getLoggedInUser()
+				.getPermissions();
+		return (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES || permissions
+				.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES)
 				&& canRecur() ? (transaction == null ? true : transaction
 				.getID() == 0)
 				: (!canRecur() && transaction != null && transaction.isDraft());
@@ -810,7 +819,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				messages.cheque(), messages.creditCard(),
 				messages.directDebit(), messages.masterCard(),
 				messages.onlineBanking(), messages.standingOrder(),
-				messages.switchMaestro() };
+				messages.switchMaestro(), messages.paypal() };
 
 		for (int i = 0; i < payVatMethodArray.length; i++) {
 			payVatMethodList.add(payVatMethodArray[i]);
@@ -1300,6 +1309,12 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 			if (location != null)
 				transaction.setLocation(location.getID());
 
+			if (getPreferences().isClassTrackingEnabled()
+					&& getPreferences().isClassOnePerTransaction()
+					&& clientAccounterClass != null) {
+				transaction.setAccounterClass(clientAccounterClass.getID());
+			}
+
 			if (currency == null) {
 				currency = getCompany().getPrimaryCurrency();
 			}
@@ -1615,22 +1630,62 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 				: transaction.getSaveStatus() != ClientTransaction.STATUS_DRAFT;
 	}
 
-	public ArrayList<ClientAccounterClass> getClientAccounterClasses() {
-		return clientAccounterClasses;
+	/**
+	 * create the job combo
+	 * 
+	 * @param customer
+	 * 
+	 * @return
+	 */
+	public JobCombo createJobListCombo() {
+
+		jobListCombo = new JobCombo(messages.job(), true);
+		jobListCombo.setHelpInformation(true);
+		jobListCombo
+				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientJob>() {
+
+					@Override
+					public void selectedComboBoxItem(ClientJob selectItem) {
+						jobSelected(selectItem);
+					}
+				});
+		jobListCombo.addNewJobHandler(new ValueCallBack<ClientJob>() {
+
+			@Override
+			public void execute(final ClientJob value) {
+				Accounter.createCRUDService().create(value,
+						new AsyncCallback<Long>() {
+
+							@Override
+							public void onSuccess(Long result) {
+								value.setID(result);
+								jobSelected(value);
+								getCompany().processUpdateOrCreateObject(value);
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								caught.printStackTrace();
+							}
+						});
+
+			}
+		});
+		jobListCombo.setDisabled(isInViewMode());
+		return jobListCombo;
+
 	}
 
-	public void setClientAccounterClasses(
-			ArrayList<ClientAccounterClass> clientAccounterClasses) {
-		this.clientAccounterClasses = clientAccounterClasses;
-	}
-
-	public ClientAccounterClass getClientAccounterClass() {
-		return clientAccounterClass;
-	}
-
-	public void setClientAccounterClass(
-			ClientAccounterClass clientAccounterClass) {
-		this.clientAccounterClass = clientAccounterClass;
+	/**
+	 * select job set in the combo
+	 * 
+	 * @param selectItem
+	 */
+	protected void jobSelected(ClientJob selectItem) {
+		if (selectItem != null) {
+			this.job = selectItem;
+			jobListCombo.setComboItem(selectItem);
+		}
 	}
 
 	public List<ClientTransactionItem> getAccountTransactionItems(
@@ -2103,4 +2158,23 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 
 	protected abstract void classSelected(
 			ClientAccounterClass clientAccounterClass);
+
+	@Override
+	protected boolean canDelete() {
+		if (getMode() == null || getMode() == EditMode.CREATE) {
+			return false;
+		}
+		if (transaction != null && transaction.isDraft()) {
+			ClientUserPermissions permissions = getCompany().getLoggedInUser()
+					.getPermissions();
+			return permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
+					|| permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
+		}
+		return super.canDelete();
+	}
+
+	@Override
+	protected boolean isSaveButtonAllowed() {
+		return Utility.isUserHavePermissions(transactionType);
+	}
 }
