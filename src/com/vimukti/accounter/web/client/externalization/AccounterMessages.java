@@ -2622,6 +2622,10 @@ public interface AccounterMessages extends Messages {
 	public String mergeItems();
 
 	public String mergeVendors(String vendor);
+	
+	public String merging(String name);
+	
+	public String mergingCompleted(String name);
 
 	public String messagesAndTasks();
 
@@ -3694,6 +3698,8 @@ public interface AccounterMessages extends Messages {
 	public String readTermsAndConditions();
 
 	public String readyToCreate(String transactionName);
+	
+	public String readyToMerge(String name);
 
 	public String readyToUpdate(String transactionName);
 
