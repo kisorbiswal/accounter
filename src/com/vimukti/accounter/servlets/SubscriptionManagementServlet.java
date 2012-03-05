@@ -1,6 +1,7 @@
 package com.vimukti.accounter.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -179,6 +180,9 @@ public class SubscriptionManagementServlet extends BaseServlet {
 
 	@SuppressWarnings("unchecked")
 	private List<String> getExistedUsers(Set<String> members) {
+		if (members.isEmpty()) {
+			return new ArrayList<String>();
+		}
 		return HibernateUtil.getCurrentSession()
 				.getNamedQuery("get.created.users")
 				.setParameterList("users", members).list();

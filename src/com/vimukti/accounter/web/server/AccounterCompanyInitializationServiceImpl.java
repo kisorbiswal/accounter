@@ -149,7 +149,8 @@ public class AccounterCompanyInitializationServiceImpl extends
 					String string = SecureUtils.createID(16);
 					byte[] prk = EU.generatePBS(string);
 					encryptedPass = EU.encrypt(csk, prk);
-					Encrypter.sendCompanyPasswordRecoveryKey(string);
+					Encrypter.sendCompanyPasswordRecoveryKey(
+							client.getEmailId(), string);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

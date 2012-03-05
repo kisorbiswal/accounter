@@ -927,9 +927,6 @@ public class MenuBar {
 			companyMenuBar.addSeparatorItem();
 		}
 
-		companyMenuBar.addMenuItem(messages.subscribtionManagement(),
-				"/site/subscriptionmanagement");
-
 		if (canDoTaxTransactions) {
 			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
 					"b");
