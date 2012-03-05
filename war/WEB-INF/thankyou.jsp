@@ -11,16 +11,24 @@
 
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <%@ include file="./feedback.jsp" %>
+<link type="text/css" href="../css/ss.css?version=<%= version%>" rel="stylesheet" />
 </head>
 	<body>
-		<div id="commanContainer">
+		<div id="commanContainer" class="thankyou-form">
 		   <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
-		   <div>
-		    <span> Thank you, Your subscription is successfully updated.
-		    </span></br></br></br>
-		   	Please close this page and relogin to your Accounter to use the updated subscription features.
-		   	</br></br></br>
-		    You can manage your subscription by clicking "Manage Subscription" link after login.</br></br>
+		    <div class="thank-you-data">	
+			   <div class="thankyou-header">
+				    <p> Thank you</p>
+				     Your subscription is successfully updated.
+			    </div>
+			    <div>
+			    <p>
+			   	Please close this page and relogin to your Accounter to use the updated subscription features.
+			   	</p>
+			   	<p>
+			    You can manage your subscription by clicking "Manage Subscription" link after login.
+			    </p>
+			   </div>
 		   </div>
 		</div>
 		
