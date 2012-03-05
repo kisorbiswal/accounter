@@ -1134,6 +1134,14 @@
 		fy.status = 1 order by fy.startDate
 	</query>
 
+	<query name="getJobsList">
+		<query-param name="company" type="Company" />
+		from
+		com.vimukti.accounter.core.Job j where j.company=:company
+		order by
+		j.id
+	</query>
+
 	<query name="getTransaction.by.check.type.number.id">
 		<query-param name="company" type="Company" />
 		<query-param name="type" type="int" />

@@ -23,6 +23,7 @@ if(isSandBoxPaypal ==null){
 <table id="commanContainer">
 <tr>
 <td>
+ <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 <c:if test="${info!=null}"> 
 <div id="login_success" class="common-box">
 	<span>${info}</span>

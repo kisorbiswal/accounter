@@ -113,7 +113,7 @@ public class NewBudgetView extends BaseView<ClientBudget> {
 		lab1 = new Label();
 		lab1.removeStyleName("gwt-Label");
 		lab1.addStyleName("label-title");
-		lab1.setText(messages.newBudget());
+		lab1.setText(messages.budget());
 
 		// hierarchy = new String("");
 

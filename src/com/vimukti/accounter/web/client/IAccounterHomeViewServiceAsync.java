@@ -569,4 +569,6 @@ public interface IAccounterHomeViewServiceAsync {
 			int transactionStatus, ClientFinanceDate startDate,
 			ClientFinanceDate endDate, int start, int length,
 			AsyncCallback<PaginationList<TransactionHistory>> callBack);
+
+	public void getJobs(AsyncCallback<PaginationList<ClientJob>> callback);
 }

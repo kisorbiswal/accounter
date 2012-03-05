@@ -28,6 +28,7 @@
   </head>
   <body>
   <div id="commanContainer" style="width:420px;  font-size: 13px;">
+  <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 	<form id="subscription_complition_form" method="post"  class="form-box"  action="/site/subscriptionmanagement">
 	<table cellspacing="10">
 	<tr>
@@ -97,7 +98,7 @@
 						}
 						if(!isExists){
 							if(users[i].isCreated ==true){
-								var r=confirm("do you want to delete the exicting customer '"+users[i].emailId+"'");
+								var r=confirm("do you want to delete the existing customer '"+users[i].emailId+"'");
 								if (r!=true){
 					  				return false;	
 					  			}

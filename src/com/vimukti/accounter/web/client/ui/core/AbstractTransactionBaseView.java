@@ -1640,6 +1640,7 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 							public void onSuccess(Long result) {
 								value.setID(result);
 								jobSelected(value);
+								getCompany().processUpdateOrCreateObject(value);
 							}
 
 							@Override

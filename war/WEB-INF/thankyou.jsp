@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-<title> <i18n:i18n msg='forgottenPassword'/>
+<title> <i18n:i18n msg='subscribtionManagement'/>
 </title>
 <meta content="IE=100" http-equiv="X-UA-Compatible" />
 
@@ -28,6 +28,9 @@
 			   	<p>
 			    You can manage your subscription by clicking "Manage Subscription" link after login.
 			    </p>
+			    </br>
+			    <a href="/main/login">Login here</a>
+			    <>
 			   </div>
 		   </div>
 		</div>

@@ -775,12 +775,14 @@ public class RecurringTransactionDialog extends
 		if (data.getType() == ClientRecurringTransaction.RECURRING_SCHEDULED) {
 			data.setNotifyCreatedTransaction(notifyAboutCreatedTransactions
 					.getValue());
-			data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
-					.getValue()));
+			String value = daysBeforeToRemind.getValue();
+			data.setDaysBeforeToRemind((value != null && !value.equals("")) ? Integer
+					.parseInt(value) : 0);
 		} else if (data.getType() == ClientRecurringTransaction.RECURRING_REMINDER) {
 			try {
-				data.setDaysBeforeToRemind(Integer.parseInt(daysBeforeToRemind
-						.getValue()));
+				String value = daysBeforeToRemind.getValue();
+				data.setDaysBeforeToRemind((value != null && !value.equals("")) ? Integer
+						.parseInt(value) : 0);
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 				// as this field is optional user may not enter value

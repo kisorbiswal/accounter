@@ -115,6 +115,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setDefault(true);
 		tdsItem1.setPercentage(true);
 		session.save(tdsItem1);
+		
 		TAXItem tdsItem2 = new TAXItem(company);
 		tdsItem2.setName("Professional");
 		tdsItem2.setActive(true);
@@ -155,6 +156,8 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		none.setActive(true);
 		session.save(none);
 
+				
+		
 		// TAXCode tdsCode1 = new TAXCode();
 		//
 		// tdsCode1.setName("E");

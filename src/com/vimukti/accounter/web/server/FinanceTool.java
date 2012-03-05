@@ -2264,6 +2264,9 @@ public class FinanceTool {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
 		} else if (newTransaction instanceof PurchaseOrder) {
 			((PurchaseOrder) newTransaction).setUsedBill(null, session);
+		} else if (newTransaction instanceof MakeDeposit) {
+			((MakeDeposit) newTransaction)
+					.setEstimates(new HashSet<Estimate>());
 		}
 
 		session.setFlushMode(flushMode);
@@ -3459,7 +3462,7 @@ public class FinanceTool {
 										((BigInteger) object[4]).longValue()));
 				recentTransactionsList.setCurrecyId(object[5] == null ? null
 						: ((BigInteger) object[5]).longValue());
-
+				recentTransactionsList.setEstimateType((Integer) object[6]);
 				activities.add(recentTransactionsList);
 			}
 			return activities;

@@ -503,4 +503,6 @@ public interface IAccounterHomeViewService extends RemoteService {
 			ClientFinanceDate startDate, ClientFinanceDate endDate, int start,
 			int length);
 
+	PaginationList<ClientJob> getJobs();
+
 }

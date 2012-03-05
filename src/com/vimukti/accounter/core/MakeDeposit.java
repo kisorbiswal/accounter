@@ -77,6 +77,23 @@ public class MakeDeposit extends Transaction implements Lifecycle {
 	}
 
 	@Override
+	public Transaction clone() throws CloneNotSupportedException {
+
+		MakeDeposit clone = (MakeDeposit) super.clone();
+
+		List<TransactionDepositItem> items = new ArrayList<TransactionDepositItem>();
+		if (transactionDepositItems != null) {
+			for (TransactionDepositItem transactionDepositItem : transactionDepositItems) {
+				items.add(transactionDepositItem.clone());
+			}
+		}
+		clone.setTransactionDepositItems(items);
+
+		return clone;
+
+	}
+
+	@Override
 	public Payee getInvolvedPayee() {
 		return null;
 	}

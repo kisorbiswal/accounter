@@ -20,7 +20,7 @@ public class ReconciliationDiscrepancyReportAction extends
 
 	@Override
 	public String getText() {
-		return messages.previousReconciliationDiscrepancyReport();
+		return messages.reconcilationDiscrepancyReport();
 	}
 
 	@Override

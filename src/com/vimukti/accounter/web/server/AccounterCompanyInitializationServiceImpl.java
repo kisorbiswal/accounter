@@ -80,7 +80,7 @@ public class AccounterCompanyInitializationServiceImpl extends
 					e.printStackTrace();
 					throw e;
 				} finally {
-					EU.removeCipher();
+					// EU.removeCipher();
 					session.close();
 				}
 			} else {

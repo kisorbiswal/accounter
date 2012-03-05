@@ -1925,6 +1925,9 @@ public class ClientCompany implements IAccounterCore {
 				break;
 			case JOB:
 				ClientJob clientjob = (ClientJob) accounterCoreObject;
+				ClientCustomer clientCustomer = getCustomer(clientjob
+						.getCustomer());
+				Utility.updateClientList(clientjob, clientCustomer.getJobs());
 				Utility.updateClientList(clientjob, jobs);
 				break;
 
@@ -3147,7 +3150,7 @@ public class ClientCompany implements IAccounterCore {
 		ArrayList<ClientPayee> activePayees = getActivePayees();
 		for (ClientPayee payee : activePayees) {
 			ClientCurrency currency = getCurrency(payee.getCurrency());
-			if (id != currency.id) {
+			if (currency != null && id != currency.id) {
 				return true;
 			}
 		}
