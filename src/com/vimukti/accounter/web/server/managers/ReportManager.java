@@ -2797,8 +2797,8 @@ public class ReportManager extends Manager {
 			FinanceDate toDate, long companyId) throws DAOException {
 		ArrayList<PayeeStatementsList> statementsLists;
 		if (isVendor) {
-			statementsLists = getVendorStatementsList(isVendor, id, viewType,
-					fromDate, toDate, companyId);
+			statementsLists = getVendorStatementsList(id, viewType, fromDate,
+					toDate, companyId);
 		} else {
 			statementsLists = getCustomerStatementsList(id, viewType, fromDate,
 					toDate, companyId);
@@ -2957,9 +2957,9 @@ public class ReportManager extends Manager {
 		return null;
 	}
 
-	private ArrayList<PayeeStatementsList> getVendorStatementsList(
-			boolean isVendor, long id, int viewType, FinanceDate fromDate,
-			FinanceDate toDate, long companyId) {
+	private ArrayList<PayeeStatementsList> getVendorStatementsList(long id,
+			int viewType, FinanceDate fromDate, FinanceDate toDate,
+			long companyId) {
 		Session session = HibernateUtil.getCurrentSession();
 		try {
 			if (id == 0) {

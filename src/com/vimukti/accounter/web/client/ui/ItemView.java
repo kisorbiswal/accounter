@@ -1227,7 +1227,7 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			measurement.setDisabled(isInViewMode());
+			// measurement.setDisabled(isInViewMode());
 			wareHouse.setDisabled(isInViewMode());
 			openingBalTxt.setDisabled(isInViewMode());
 			onHandQuantity.setRequired(false);
