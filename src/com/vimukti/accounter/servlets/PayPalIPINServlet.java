@@ -61,9 +61,13 @@ public class PayPalIPINServlet extends BaseServlet {
 		}
 
 		String paymentStatus = req.getParameter("payment_status");
+		log.info("paymentStatus:" + paymentStatus);
 		String emailId = req.getParameter("custom");
+		log.info("emailId:" + emailId);
 		String txnId = req.getParameter("txn_id");
+		log.info("txnId:" + txnId);
 		String txnType = req.getParameter("txn_type");
+		log.info("txnType:" + txnType);
 
 		// post back to PayPal system to validate
 		// NOTE: change http: to https: in the following URL to verify using SSL
@@ -77,6 +81,7 @@ public class PayPalIPINServlet extends BaseServlet {
 		uc.setRequestProperty("Content-Type",
 				"application/x-www-form-urlencoded");
 		PrintWriter pw = new PrintWriter(uc.getOutputStream());
+		log.info("req params+" + str);
 		pw.println(str);
 		pw.close();
 
@@ -98,11 +103,14 @@ public class PayPalIPINServlet extends BaseServlet {
 			// process payment
 
 			if (emailId != null && txnId != null) {
-				if (!paymentStatus.equals("Completed")) {
+				if (!(paymentStatus.equals("Completed")
+						|| paymentStatus.equals("Processed") || paymentStatus
+							.equals("Pending"))) {
 					sendInfo("Your process is not completed", req, resp);
 					log.info("Paypal not completed.");
 					return;
 				}
+				log.info("after complete:" + paymentStatus);
 				Session openSession = HibernateUtil.openSession();
 				try {
 					saveDetailsInDB(params, emailId);
@@ -110,11 +118,14 @@ public class PayPalIPINServlet extends BaseServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
+					log.info("finaly");
 					if (openSession.isOpen()) {
 						openSession.close();
 					}
 				}
 			} else {
+				log.info("emailId != null && txnId != null):" + emailId
+						+ ",txnId:" + txnId);
 			}
 
 		} else if (res.equals("INVALID")) {
