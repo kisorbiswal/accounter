@@ -8,9 +8,8 @@
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
-String emailId = (String) request.getSession().getAttribute("emailId");
 Boolean isSandBoxPaypal = (Boolean) request.getAttribute("isSandBoxPaypal");
- 
+String emailId = (String) request.getAttribute("emailId");
  if(emailId ==null){
 	 emailId="";
  }

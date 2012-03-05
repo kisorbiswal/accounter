@@ -97,6 +97,8 @@ public class CompaniesServlet extends BaseServlet {
 							.setParameterList("userIds", userIds).list();
 					addCompanies(list, objects);
 				}
+
+				req.setAttribute("emailId", emailID);
 				req.setAttribute("enableEncryption",
 						ServerConfiguration.isEnableEncryption());
 				if (!client.getClientSubscription().getSubscription()

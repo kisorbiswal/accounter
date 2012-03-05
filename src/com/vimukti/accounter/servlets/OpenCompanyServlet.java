@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -191,11 +190,7 @@ public class OpenCompanyServlet extends BaseServlet {
 					response.sendRedirect(COMPANIES_URL + "?message=locked");
 					return;
 				}
-				if (!client.getClientSubscription().getSubscription()
-						.isPaidUser()) {
-					request.setAttribute("goPremiumId", URLEncoder.encode(
-							EU.encryptAccounter(emailID), "UTF-8"));
-				}
+				request.setAttribute("emailId", emailID);
 				request.setAttribute(COMPANY_NAME, company.getDisplayName()
 						+ " - " + company.getID());
 				if (!isSupportedUser) {
