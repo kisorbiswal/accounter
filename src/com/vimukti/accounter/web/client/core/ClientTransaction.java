@@ -866,7 +866,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		for (ClientTransactionItem item : this.transactionItems) {
 			long code = item.getTaxCode();
-			if (code != 0) {
+			if (code != 0 && item.getReferringTransactionItem() == 0) {
 				return true;
 			}
 		}
@@ -883,7 +883,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		for (ClientTransactionItem item : this.transactionItems) {
 			Double discount = item.getDiscount();
-			if (discount != null && discount != 0) {
+			if (discount != null && discount != 0
+					&& item.getReferringTransactionItem() == 0) {
 				return true;
 			}
 		}

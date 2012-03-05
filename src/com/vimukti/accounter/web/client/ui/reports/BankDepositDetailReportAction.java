@@ -33,8 +33,7 @@ public class BankDepositDetailReportAction extends Action {
 			}
 
 			public void onCreateFailed(Throwable t) {
-				System.err
-						.println("Failed to Load Report.." + t);
+				System.err.println("Failed to Load Report.." + t);
 			}
 		});
 
@@ -62,7 +61,7 @@ public class BankDepositDetailReportAction extends Action {
 
 	@Override
 	public String getText() {
-		return "Deposit Detail";
+		return messages.depositDetail();
 	}
 
 }

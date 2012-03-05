@@ -25,13 +25,6 @@
 		$(document).ready(function() {
 		var isPaid=${isPaid};
 		var userEmail='<%=userEmail%>';
-		if(isPaid){
-       $('#logoutlink').after('<a style="padding-left:25px" href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>');
-       }
-       else{
-        $('#logoutlink').after('<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>');
-       }
-       
        });
 		function goto(comp){
 			$(document).ready(function() {
@@ -73,15 +66,17 @@
 	<div style="float:right">
 	 <%@ include file="./locale.jsp" %>
 	</div>
-	<div class="company_name_action">
-			<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
-	</div>
     <div class="company_lists" style="clear:both">
         <c:if test="${message != null}">
        		<div class="common-box create-company-message">${message}</div>
         </c:if>
        <div class="form-box">
         <c:if test="<%= isPaid%>">
+         <c:if test="${message == null}">
+	       <div class="company_name_action">
+				<i18n:i18n msg='clickOnTheCompanyNameToOpen'/>
+			</div>
+		 </c:if>
       	<div> <a onClick=createCompany() href="#" class="create_new_company"><i18n:i18n msg='createNewCompany'/></a></div>
       	</c:if>
       	<ul><li>
@@ -96,27 +91,41 @@
 	   </ul>
 	  </div>
     </div>
-    <div class="form-bottom-options">
-      <a style="float:left" id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
-      <a style="float:right" href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
-      <c:if test="<%= enableEncryption %>">
-    	 <a href="/main/encryption"><i18n:i18n msg='encryption'/></a>
-      </c:if>
-    </div>
+    <table class="form-bottom-options">
+    <tr>
+    <td>
+      <a id="logoutlink" href="/main/logout"><i18n:i18n msg='logout'/></a>
+      </td>
+	      <c:choose>
+				<c:when test="<%= isPaid %>">
+				<td>
+			       <a href="/site/subscriptionmanagement"><i18n:i18n msg='subscribtionManagement'/></a>
+				</td>
+				</c:when>
+				<c:otherwise>
+				<td>
+					<a target="_blank" href="/site/subscription/gopremium?emailId='+userEmail+'">Go Premium</a>
+				</td>
+				</c:otherwise>
+		   </c:choose>
+      
+	      <c:if test="<%= enableEncryption %>">
+	      <td>
+	    	 <a href="/main/encryption"><i18n:i18n msg='encryption'/></a>
+	      </td>
+	      </c:if>
+	       <td>
+		      <a href="/main/deleteAccount"><i18n:i18n msg='deleteAccount'/></a>
+			</td>
+	     </tr>
+    </table>
       </td>
    </tr>
 </table>
    
    <!-- Footer Section-->
    
-   <div id="mainFooter"  >
-   <div>
-	       <span><i18n:i18n msg='atTherateCopy'/></span> |
-	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
-	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
-	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
-   </div>
-</div>
+
    <div id="appVersions">
 	    <div>
 	       <span>Access Accounter from </span>
@@ -128,6 +137,14 @@
 		   <a target="_blank" href="http://itunes.apple.com/us/app/accounter/id447991983?ls=1&mt=12"> Mac OS </a>
 		   </div>
 	</div>
+	   <div id="mainFooter"  >
+   <div>
+	       <span><i18n:i18n msg='atTherateCopy'/></span> |
+	       <a target="_blank" href="/site/termsandconditions"><i18n:i18n msg='termsConditions'/></a> |
+	       <a target="_blank" href="/site/privacypolicy"><i18n:i18n msg='privacyPolicy'/></a> |
+	       <a target="_blank" href="/site/support"><i18n:i18n msg='support'/></a>
+   </div>
+</div>
 <%@ include file="./scripts.jsp" %>
   </body>
 </html>

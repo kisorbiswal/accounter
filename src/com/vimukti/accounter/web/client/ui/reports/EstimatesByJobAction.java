@@ -9,6 +9,11 @@ import com.vimukti.accounter.web.client.ui.core.CreateViewAsyncCallback;
 public class EstimatesByJobAction extends Action {
 	EstimatesByJobReport estimatesByJobReport;
 
+	public EstimatesByJobAction() {
+		super();
+		this.catagory = messages.report();
+	}
+
 	@Override
 	public String getText() {
 		return messages.estimatesbyJob();

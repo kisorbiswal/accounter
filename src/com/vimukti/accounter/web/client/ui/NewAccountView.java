@@ -323,6 +323,16 @@ public class NewAccountView extends BaseView<ClientAccount> {
 								.getSelectedValue())) {
 							Accounter.showError(messages
 									.parenAccountTypeShouldBeSame());
+							parentAccountCombo.setComboItem(null);
+						} else if (data.getID() != 0
+								&& selectItem.getParent() == data.getID()) {
+							Accounter.showError(messages
+									.accountisParenttoThisAccount());
+							parentAccountCombo.setComboItem(null);
+						} else if (selectItem.getID() == data.getID()) {
+							Accounter.showError(messages
+									.theAccCannotbeSubaccOfIt());
+							parentAccountCombo.setComboItem(null);
 						}
 
 					}
@@ -1734,8 +1744,10 @@ public class NewAccountView extends BaseView<ClientAccount> {
 			}
 			paypalEmail.setDisabled(isInViewMode());
 		}
-		isSubAccountBox.setDisabled(isInViewMode());
-		parentAccountCombo.setDisabled(isInViewMode());
+		if (data.getParent() == 0) {
+			isSubAccountBox.setDisabled(isInViewMode());
+			parentAccountCombo.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 
 	}

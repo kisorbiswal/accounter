@@ -6099,4 +6099,12 @@ public interface AccounterMessages extends Messages {
 
 	public String adjustedQtyNegative();
 
+	public String missingchecks();
+
+	public String reconcilationDiscrepancyReport();
+
+	public String jobList();
+
+	public String accountisParenttoThisAccount();
+
 }

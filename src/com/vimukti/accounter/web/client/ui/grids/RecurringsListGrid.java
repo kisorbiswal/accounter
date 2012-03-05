@@ -1,10 +1,12 @@
 package com.vimukti.accounter.web.client.ui.grids;
 
+import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientRecurringTransaction;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
 public class RecurringsListGrid extends
@@ -70,7 +72,8 @@ public class RecurringsListGrid extends
 			return obj.getNextScheduleOn() == 0 ? null : new ClientFinanceDate(
 					obj.getNextScheduleOn());
 		case 6: // transaction amount
-			return obj.getTransaction().getTotal();
+			return DataUtils.amountAsStringWithCurrency(obj.getTransaction()
+					.getTotal(), obj.getTransaction().getCurrency());
 		case 7: // delete image
 			return Accounter.getFinanceMenuImages().delete();
 		default:

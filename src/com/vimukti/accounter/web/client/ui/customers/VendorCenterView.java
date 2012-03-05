@@ -244,7 +244,9 @@ public class VendorCenterView<T> extends AbstractPayeeCenterView<ClientVendor> {
 			transactionTypeList.add(messages.payeeCreditNotes(Global.get()
 					.Vendor()));
 			transactionTypeList.add(messages.expenses());
-			transactionTypeList.add(messages.purchaseOrders());
+			if (getPreferences().isPurchaseOrderEnabled()) {
+				transactionTypeList.add(messages.purchaseOrders());
+			}
 			trasactionViewSelect.initCombo(transactionTypeList);
 			trasactionViewSelect.setComboItem(messages.allTransactions());
 			trasactionViewSelect

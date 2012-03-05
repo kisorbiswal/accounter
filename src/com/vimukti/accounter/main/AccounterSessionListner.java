@@ -35,7 +35,6 @@ public class AccounterSessionListner implements HttpSessionListener {
 			log.info("Session expired, Comet destroyed");
 			// session time out
 			CometManager.destroyStream(httpSession.getId(), companyId, emailId);
-
 			EU.removeCipher();
 			EU.removeKey(httpSession.getId());
 		}

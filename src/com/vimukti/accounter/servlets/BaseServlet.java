@@ -131,7 +131,6 @@ public class BaseServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
-				EU.removeCipher();
 				session.close();
 			}
 		} catch (Exception e) {
