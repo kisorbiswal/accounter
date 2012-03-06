@@ -118,7 +118,7 @@ public class UserActivityLogCommand extends AbstractCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	protected String getActivityDataType(ClientActivity activity) {

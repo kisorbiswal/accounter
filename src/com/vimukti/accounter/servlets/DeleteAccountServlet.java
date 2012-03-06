@@ -87,6 +87,9 @@ public class DeleteAccountServlet extends BaseServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		Long companyID = (Long) session.getAttribute(COMPANY_ID);
+		session.setAttribute("cancelDeleteAccountcompany", companyID);
 		dispatch(req, resp, DELETE_ACCOUNT_CONFORM);
 	}
 }

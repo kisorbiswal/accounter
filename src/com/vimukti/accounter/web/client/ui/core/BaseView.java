@@ -10,23 +10,13 @@ import com.vimukti.accounter.web.client.core.ClientAttachment;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientUser;
-import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.Features;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.AbstractBaseView;
 import com.vimukti.accounter.web.client.ui.Accounter;
-import com.vimukti.accounter.web.client.ui.InventoryAssemblyView;
-import com.vimukti.accounter.web.client.ui.ItemView;
 import com.vimukti.accounter.web.client.ui.TransactionAttachmentPanel;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.settings.AddMeasurementView;
-import com.vimukti.accounter.web.client.ui.settings.InviteUserView;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
-import com.vimukti.accounter.web.client.ui.settings.StockAdjustmentView;
-import com.vimukti.accounter.web.client.ui.settings.WareHouseView;
-import com.vimukti.accounter.web.client.ui.vat.TDSChalanDetailsView;
 import com.vimukti.accounter.web.client.util.DayAndMonthUtil;
 
 public abstract class BaseView<T extends IAccounterCore> extends
@@ -65,6 +55,12 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		super.init();
 		createView();
 		createButtons(getButtonBar());
+	}
+
+	@Override
+	public void initData() {
+		super.initData();
+		showSaveButtons();
 	}
 
 	public static boolean checkIfNotNumber(String in) {
@@ -171,73 +167,23 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			this.setMode(EditMode.VIEW);
 		}
+		showSaveButtons();
 	}
 
 	protected void createButtons(ButtonBar buttonBar) {
-		ClientUserPermissions permissions = getCompany().getLoggedInUser()
-				.getPermissions();
-		if (permissions.getTypeOfInvoicesBills() == RolePermissions.TYPE_YES
-				&& permissions.getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES) {
-			this.saveAndCloseButton = new SaveAndCloseButton(this);
-			this.saveAndNewButton = new SaveAndNewButtom(this);
-		} else if (permissions.getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
-			this.saveAndCloseButton = new SaveAndCloseButton(this);
-			this.saveAndNewButton = new SaveAndNewButtom(this);
-		}
-		if (this instanceof ItemView || this instanceof WareHouseView
-				|| this instanceof StockAdjustmentView
-				|| this instanceof InventoryAssemblyView
-				|| this instanceof AddMeasurementView) {
-			if (permissions.getTypeOfInventoryWarehouse() == RolePermissions.TYPE_YES) {
-				this.saveAndCloseButton = new SaveAndCloseButton(this);
-				this.saveAndNewButton = new SaveAndNewButtom(this);
-			}
-		}
-		if (this instanceof InviteUserView) {
-			ClientUser user = getCompany().getLoggedInUser();
-			if (user.isCanDoUserManagement()) {
-				this.saveAndCloseButton = new SaveAndCloseButton(this);
-				this.saveAndNewButton = new SaveAndNewButtom(this);
-			}
-		}
+		this.saveAndCloseButton = new SaveAndCloseButton(this);
+		this.saveAndNewButton = new SaveAndNewButtom(this);
 		this.cancelButton = new CancelButton(this);
 		this.deleteButton = new DeleteButton(this, getData());
 		this.voidButton = new VoidButton(this, getData());
-
-		if (getMode() != null && getMode() != EditMode.CREATE) {
-
-			if (canDelete()) {
-				buttonBar.add(deleteButton);
-			}
-			if (canVoid()) {
-				buttonBar.add(voidButton);
-			}
-
-			buttonBar.setCellHorizontalAlignment(deleteButton, ALIGN_LEFT);
-			buttonBar.setCellHorizontalAlignment(voidButton, ALIGN_LEFT);
-		}
-
-		if (!isInViewMode()) {
-			if (this instanceof TDSChalanDetailsView) {
-				// ImageButton verifyButton = new ImageButton("Annexture",
-				// Accounter.getFinanceImages().approve());
-				// buttonBar.add(verifyButton);
-			}
-			if (isSaveButtonAllowed()) {
-				if (saveAndCloseButton != null) {
-					buttonBar.add(saveAndCloseButton);
-				}
-				if (saveAndNewButton != null)
-					buttonBar.add(saveAndNewButton);
-
-			}
-		}
-
 		buttonBar.add(cancelButton);
 	}
 
 	protected boolean isSaveButtonAllowed() {
-		return true;
+		if (data == null) {
+			return false;
+		}
+		return Utility.isUserHavePermissions(data.getObjectType());
 	}
 
 	protected boolean canVoid() {
@@ -255,14 +201,13 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		} else {
 			return false;
 		}
-
 	}
 
 	protected boolean canDelete() {
 		if (getMode() == null || getMode() == EditMode.CREATE) {
 			return false;
 		}
-		return true;
+		return isSaveButtonAllowed();
 	}
 
 	@Override
@@ -299,11 +244,28 @@ public abstract class BaseView<T extends IAccounterCore> extends
 		// if (approveButton != null) {
 		// this.buttonBar.insert(approveButton, 0);
 		// }
-		if (saveAndNewButton != null) {
-			this.buttonBar.insert(saveAndNewButton, 0);
+		if (getMode() != null && getMode() != EditMode.CREATE) {
+
+			if (canDelete() && deleteButton != null) {
+				buttonBar.insert(deleteButton, 0);
+				this.buttonBar.setCellHorizontalAlignment(deleteButton,
+						ALIGN_LEFT);
+			}
+			if (canVoid() && voidButton != null) {
+				buttonBar.insert(voidButton, 0);
+				this.buttonBar.setCellHorizontalAlignment(voidButton,
+						ALIGN_LEFT);
+			}
+
 		}
-		if (saveAndCloseButton != null) {
-			this.buttonBar.insert(saveAndCloseButton, 0);
+
+		if (!isInViewMode()) {
+			if (saveAndNewButton != null && isSaveButtonAllowed()) {
+				this.buttonBar.insert(saveAndNewButton, 0);
+			}
+			if (saveAndCloseButton != null && isSaveButtonAllowed()) {
+				this.buttonBar.insert(saveAndCloseButton, 0);
+			}
 		}
 	}
 

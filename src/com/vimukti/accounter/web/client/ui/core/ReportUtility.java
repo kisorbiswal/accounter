@@ -110,7 +110,12 @@ public class ReportUtility {
 			break;
 		case ClientTransaction.TYPE_TDS_CHALLAN:
 			transactionName = messages.tdsChallan();
+			break;
+		case ClientTransaction.TYPE_BUILD_ASSEMBLY:
+			transactionName = messages.buildAssembly();
+			break;
 		}
 		return transactionName;
 	}
+
 }

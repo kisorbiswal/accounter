@@ -118,9 +118,9 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 			protected void setCreateCommand(CommandList list) {
 				list.add(new UserCommand("createBankAccount", getMessages()
 						.bank()));
-				list.add(new UserCommand("createBankAccount",
-						"Create Other CurrentAsset Account", getMessages()
-								.otherCurrentAsset()));
+				list.add(new UserCommand("createBankAccount", getMessages()
+						.create(getMessages().otherCurrentAsset()),
+						getMessages().otherCurrentAsset()));
 			}
 
 			@Override
@@ -154,21 +154,6 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 				return e.getName().startsWith(name)
 						|| e.getNumber().equals(name);
 			}
-		});
-
-		list.add(new AmountRequirement(DISCOUNT, getMessages().pleaseEnter(
-				getMessages().discount()), getMessages().discount(), true, true) {
-			@Override
-			public Result run(Context context, Result makeResult,
-					ResultList list, ResultList actions) {
-				if (getPreferences().isTrackDiscounts()
-						&& !getPreferences().isDiscountPerDetailLine()) {
-					return super.run(context, makeResult, list, actions);
-				} else {
-					return null;
-				}
-			}
-
 		});
 
 		list.add(new TransactionAccountTableRequirement(ACCOUNTS, getMessages()
@@ -288,12 +273,12 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Include VAT with Amount enabled";
+				return getMessages().includeVATwithAmountenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Include VAT with Amount disabled";
+				return getMessages().includeVATwithAmountDisabled();
 			}
 
 			@Override
@@ -492,7 +477,8 @@ public class WriteCheckCommand extends AbstractTransactionCommand {
 		get(DATE).setDefaultValue(new ClientFinanceDate());
 		get(NUMBER).setDefaultValue(
 				NumberUtils.getNextTransactionNumber(
-						ClientTransaction.TYPE_WRITE_CHECK, context.getCompany()));
+						ClientTransaction.TYPE_WRITE_CHECK,
+						context.getCompany()));
 		get(AMOUNT).setDefaultValue(0.0);
 		get(IS_VAT_INCLUSIVE).setDefaultValue(false);
 		get(DISCOUNT).setDefaultValue(0.0);

@@ -71,13 +71,13 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 	@Override
 	public String getSuccessMessage() {
 		if (estimateType == ClientEstimate.QUOTES) {
-			return "Success" + getMessages().quotesList();
+			return getMessages().success() + getMessages().quotesList();
 		} else if (estimateType == ClientEstimate.CREDITS) {
-			return "Success" + getMessages().creditsList();
+			return getMessages().success() + getMessages().creditsList();
 		} else if (estimateType == ClientEstimate.CHARGES) {
-			return "Success" + getMessages().chargesList();
+			return getMessages().success() + getMessages().chargesList();
 		} else if (estimateType == ClientEstimate.SALES_ORDER) {
-			return "Success" + getMessages().salesOrderList();
+			return getMessages().success() + getMessages().salesOrderList();
 		}
 		return "";
 	}
@@ -193,7 +193,7 @@ public class QuotesListCommand extends AbstractTransactionListCommand {
 		} else if (type.equalsIgnoreCase(getMessages().expired())) {
 			viwType = 6;
 		} else if (type.equalsIgnoreCase(getMessages().completed())) {
-			viwType = ClientTransaction.STATUS_APPLIED;
+			viwType = ClientTransaction.STATUS_COMPLETED;
 		} else if (type.equalsIgnoreCase(getMessages().cancelled())) {
 			viwType = ClientTransaction.STATUS_CANCELLED;
 		}

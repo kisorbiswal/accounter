@@ -18,6 +18,7 @@ public class RecentTransactionsList implements Serializable, IsSerializable {
 	private double amount;
 	private long currecyId;
 	private ClientFinanceDate TransactionDate;
+	private int estimateType;
 
 	public String getName() {
 		return name;
@@ -65,6 +66,14 @@ public class RecentTransactionsList implements Serializable, IsSerializable {
 
 	public void setCurrecyId(long currecyId) {
 		this.currecyId = currecyId;
+	}
+
+	public int getEstimateType() {
+		return estimateType;
+	}
+
+	public void setEstimateType(int estimateType) {
+		this.estimateType = estimateType;
 	}
 
 }

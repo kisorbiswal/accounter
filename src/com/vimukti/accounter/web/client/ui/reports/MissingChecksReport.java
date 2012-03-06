@@ -1,5 +1,6 @@
 package com.vimukti.accounter.web.client.ui.reports;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class MissingChecksReport extends
 
 	public MissingChecksReport() {
 		this.serverReport = new MissingChecksServerReport(this);
+		serverReport.setRecords(new ArrayList<TransactionDetailByAccount>());
 	}
 
 	@Override
@@ -28,10 +30,9 @@ public class MissingChecksReport extends
 	@Override
 	public void makeReportRequest(ClientFinanceDate start, ClientFinanceDate end) {
 		this.makeReportRequest(getAccountId(), start, end);
-		
+
 	}
 
-	@Override
 	public void makeReportRequest(long account, ClientFinanceDate startDate,
 			ClientFinanceDate endDate) {
 		grid.clear();
@@ -65,10 +66,12 @@ public class MissingChecksReport extends
 		ClientFinanceDate startDate = (ClientFinanceDate) map.get("startDate");
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
+		accounId = (Long) map.get("account");
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
+		toolbar.setAccId(accounId);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		isDatesArranged = true;
+		isDatesArranged = false;
 	}
 
 	@Override
@@ -80,6 +83,8 @@ public class MissingChecksReport extends
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
+		map.put("account", accounId);
+
 		return map;
 	}
 
@@ -97,9 +102,9 @@ public class MissingChecksReport extends
 		if (getAccountId() == 0) {
 			Accounter.showError(messages.pleaseSelect(messages.account()));
 		} else {
-			UIUtils.generateReportPDF(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 181,
+			UIUtils.generateReportPDF(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
 					"", "", getAccountId());
 		}
 	}
@@ -109,9 +114,9 @@ public class MissingChecksReport extends
 		if (getAccountId() == 0) {
 			Accounter.showError(messages.pleaseSelect(Global.get().Vendor()));
 		} else {
-			UIUtils.exportReport(
-					Integer.parseInt(String.valueOf(startDate.getDate())),
-					Integer.parseInt(String.valueOf(endDate.getDate())), 181,
+			UIUtils.exportReport(Integer.parseInt(String
+					.valueOf(toolbar.startDate.getDate())), Integer
+					.parseInt(String.valueOf(toolbar.endDate.getDate())), 181,
 					"", "", getAccountId());
 		}
 	}

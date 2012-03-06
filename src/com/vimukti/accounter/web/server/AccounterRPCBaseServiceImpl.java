@@ -84,7 +84,6 @@ public class AccounterRPCBaseServiceImpl extends RemoteServiceServlet {
 								"Could Not Complete the Request!");
 					}
 				} finally {
-					EU.removeCipher();
 					session.close();
 				}
 			} else {

@@ -20,7 +20,7 @@
 		T.T_TYPE AS TRANSACTION_TYPE,
 		T.NUMBER AS
 		TRANSACTION_NUMBER,
-		T.TOTAL AS ORIGINAL_AMOUNT,
+		T.TOTAL * T.CURRENCY_FACTOR AS ORIGINAL_AMOUNT,
 		SO.DELIVERY_DATE AS
 		TRANSACTION_DATE,
 		P.NAME AS VENDOR_NAME,
@@ -381,7 +381,7 @@
 		ITEM_TYPE
 		IS NOT NULL AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY
-		ITEM_TYPE,ITEM_NAME
+		ITEM_NAME,DATE
 	</sql-query>
 	<sql-query name="getSalesByItemDetailForParticularItem">
 		<query-param name="companyId" type="long" />
@@ -569,7 +569,7 @@
 		NOT
 		NULL AND DATE BETWEEN
 		:startDate AND :endDate ORDER BY
-		ITEM_TYPE,ITEM_NAME
+		ITEM_NAME,DATE
 	</sql-query>
 	<sql-query name="getPurchasesByItemDetailForParticularItem">
 		<query-param name="companyId" type="long" />
@@ -2889,7 +2889,7 @@
 		GROUP BY
 		T.ID,PB.ID,A.FLOW,A.NAME,P.NAME,WC.IN_FAVOUR_OF
 		ORDER BY
-		A.FLOW,A.NAME,T.T_DATE
+		A.FLOW,A.NAME,T.T_DATE DESC
 
 	</sql-query>
 
@@ -2920,7 +2920,12 @@
 		P.NAME
 		END AS PAYEE_NAME,
 		T.ID AS TRANSACTION_ID,
-		T.T_TYPE AS
+		CASE
+ 		WHEN T.T_TYPE = 11 AND
+ 		PB.PAYBILL_TYPE = 2
+ 		THEN 25
+ 		ELSE T.T_TYPE END
+ 		AS
 		TRANSACTION_TYPE,
 		T.T_DATE AS
 		TRANSACTION_DATE,T.NUMBER AS
@@ -3126,7 +3131,7 @@
 		A.ID,L.ID ORDER BY A.BASE_TYPE,
 		A.SUB_BASE_TYPE,
 		A.GROUP_TYPE,
-		A.A_TYPE,A.ID
+		A.A_TYPE,A.ID ORDER BY T.T_DATE
 
 	</sql-query>
 
@@ -3599,7 +3604,7 @@
 		A.NAME AS ACCOUNTNAME,
 		I.NAME AS
 		ITEMNAME,
-		TI.LINE_TOTAL AS ITEMTOTAL,
+		TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 		L.LOCATION_NAME AS LOCATIONNAME,
 		T.ID AS TRANSACTIONID
 		FROM TRANSACTION T
@@ -3623,7 +3628,7 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="LOCATIONNAME" type="encryptedstring" />
 		SELECT
-		SUM(TI.LINE_TOTAL) AS ITEMTOTAL,
+		 SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
 		L.LOCATION_NAME AS LOCATIONNAME
 		FROM TRANSACTION
 		T
@@ -3710,7 +3715,7 @@
 		A.NAME AS ACCOUNTNAME,
 		I.NAME AS
 		ITEMNAME,
-		TI.LINE_TOTAL AS ITEMTOTAL,
+		TI.LINE_TOTAL * T.CURRENCY_FACTOR AS ITEMTOTAL,
 		AC.CLASS_NAME AS CLASSNAME,
 		T.ID AS
 		TRANSACTIONID
@@ -3739,7 +3744,7 @@
 		<return-scalar column="ITEMTOTAL" type="double" />
 		<return-scalar column="CLASSNAME" type="encryptedstring" />
 		SELECT
-		SUM(TI.LINE_TOTAL) AS ITEMTOTAL,
+		SUM(TI.LINE_TOTAL * T.CURRENCY_FACTOR) AS ITEMTOTAL,
 		AC.CLASS_NAME AS CLASSNAME
 		FROM
 		TRANSACTION
@@ -4092,6 +4097,582 @@
 		:startDate AND :endDate
 	</sql-query>
 	
+	
+	<sql-query name="getEstimatesByJobs">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="ESTIMATE_ID" type="long" />
+		<return-scalar column="JOB_NAME" type="encryptedstring" />
+		<return-scalar column="JOBID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
+		SELECT
+		P.NAME AS CUSTOMER_NAME,
+		E.ID AS ESTIMATE_ID,
+		J.JOB_NAME AS
+		JOB_NAME,
+		T.JOB_ID
+		AS JOBID,
+		T.T_TYPE AS TYPE,
+		T.T_DATE AS TR_DATE,
+		T.NUMBER AS NUMBER,
+		T.MEMO AS MEMO,
+		T.TOTAL AS TOTAL
+		FROM
+		ESTIMATE E
+		LEFT
+		OUTER JOIN
+		TRANSACTION T ON T.ID =E.ID
+		LEFT OUTER JOIN
+		JOB J ON
+		J.ID=T.JOB_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P ON P.ID=E.CUSTOMER_ID
+		WHERE
+		T.JOB_ID
+		IS NOT NULL AND T.SAVE_STATUS!=204 AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN
+		:startDate
+		AND
+		:endDate
+		ORDER BY
+		P.ID,J.ID
+	</sql-query>
+	<sql-query name="getJobActualRevenueTransactions">
+		<query-param name="companyId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="JOB_NAME" type="encryptedstring" />
+		<return-scalar column="T_TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="T_NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="REVENUE" type="double" />
+		
+		<![CDATA[
+		SELECT jtv.customer_name,
+		       jtv.job_name,
+		       jtv.transaction_id,
+		       jtv.t_type,
+		       jtv.t_date,
+		       jtv.t_number,
+		       jtv.ti_desc AS memo,
+		       jtv.revenue,
+		       a.name      AS accountname
+		FROM   jobs_transactions_view jtv
+		       LEFT JOIN account a
+		         ON a.id = jtv.revenue_account
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.customer_id = :customerId
+		       AND jtv.job_id = :jobId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate  
+		]]>
+		
+	</sql-query>
+		 
+	<sql-query name="getUnBilledCostsByJob">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="JOB_ID" type="long" />
+		<return-scalar column="TYPE" type="int" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="ACCOUNTNAME" type="encryptedstring" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="JOBNAME" type="encryptedstring" />
+		SELECT
+		T.ID AS TRANSACTION_ID,
+		CASE WHEN T.T_TYPE = 6 THEN
+		TI.LINE_TOTAL* T.CURRENCY_FACTOR
+		ELSE T.TOTAL* T.CURRENCY_FACTOR END AS TOTAL
+		,
+		CASE WHEN T.T_TYPE = 6 THEN TI.JOB_ID
+		ELSE
+		T.JOB_ID END AS JOB_ID,
+		T.T_TYPE AS TYPE,
+		T.MEMO AS MEMO,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.T_DATE AS TR_DATE,
+		<!-- CASE WHEN TI.TYPE=4 THEN TI.ACCOUNT_ID ELSE IT.EXPENSE_ACCOUNT_ID 
+		END AS ITEM_ACCOUNT , -->
+		A.NAME AS ACCOUNTNAME,
+		CASE WHEN
+		T.T_TYPE =
+		6 THEN TI.CUSTOMER_ID
+		ELSE
+		P.ID END AS CUSTOMER_ID,
+		J.JOB_NAME AS JOBNAME
+		FROM
+		TRANSACTION T
+		LEFT
+		OUTER JOIN
+		ENTER_BILL E ON
+		E.ID=T.ID
+		LEFT OUTER JOIN
+		WRITE_CHECKS W ON
+		W.ID=T.ID
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID=T.ID
+		LEFT
+		OUTER JOIN ITEM IT ON
+		(TI.TYPE=1 AND
+		IT.ID=TI.ITEM_ID)
+		LEFT OUTER
+		JOIN
+		PAYEE P ON
+		P.ID=TI.CUSTOMER_ID OR P.ID
+		= W.CUSTOMER_ID
+		LEFT OUTER
+		JOIN JOB J ON
+		J.ID=TI.JOB_ID OR J.ID =T.JOB_ID
+		LEFT OUTER JOIN ACCOUNT A
+		ON A.ID = TI.ACCOUNT_ID OR A.ID = IT.EXPENSE_ACCOUNT_ID
+		WHERE
+		T.COMPANY_ID=:companyId AND
+		T.T_TYPE IN(6,15) AND
+		CASE WHEN T.T_TYPE = 6
+		THEN
+		TI.JOB_ID IS NOT NULL
+		AND TI.IS_BILLABLE
+		ELSE
+		T.JOB_ID IS NOT NULL
+		END
+		AND T.T_DATE BETWEEN
+		:startDate
+		AND
+		:endDate AND T.SAVE_STATUS != 204
+		ORDER
+		BY T.ID
+	</sql-query>
+	<sql-query name="getProfitAndLossByJob">
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		SELECT
+		A.ID AS ACCOUNT_ID,
+		A.NAME AS ACCOUNT_NAME,
+		A.A_NUMBER AS
+		ACCOUNT_NUMBER,
+		A.A_TYPE AS ACCOUNT_TYPE,
+		L.ID AS LOCATION_ID,
+		(CASE
+		WHEN
+		(SELECT COUNT(AT1.ACCOUNT_ID)
+		FROM
+		ACCOUNT_TRANSACTION AT1
+		join
+		TRANSACTION T1
+		ON AT1.TRANSACTION_ID=T1.ID
+		WHERE AT1.ACCOUNT_ID=A.ID
+		AND
+		AT1.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
+		AND
+		AT1.IS_CASH_BASIS_ENTRY='FALSE'
+		AND T1.T_DATE BETWEEN :startDate
+		AND
+		:endDate
+		AND AT1.COMPANY_ID=:companyId)=0
+		THEN 0
+		ELSE
+		(SELECT
+		SUM(AT.AMOUNT)
+		FROM
+		ACCOUNT_TRANSACTION AT
+		join
+		TRANSACTION T
+		ON
+		AT.TRANSACTION_ID=T.ID
+		WHERE
+		AT.ACCOUNT_ID =A.ID
+		AND
+		AT.IS_CLOSING_FISCALYEAR_ENTRY ='FALSE'
+		AND
+		AT.IS_CASH_BASIS_ENTRY='FALSE'
+		AND T.T_DATE BETWEEN :startDate AND
+		:endDate
+		AND AT.COMPANY_ID=:companyId)
+		END) AS
+		AMOUNT,
+		A.PARENT_ID
+		FROM
+		ACCOUNT_TRANSACTION AT
+		LEFT
+		OUTER JOIN ACCOUNT A
+		ON
+		A.ID=AT.ACCOUNT_ID
+		LEFT OUTER JOIN
+		TRANSACTION T
+		ON T.ID =AT.TRANSACTION_ID
+		LEFT OUTER JOIN
+		ENTER_BILL EB ON EB.ID=T.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID =EB.ID
+		LEFT OUTER JOIN JOB L ON L.ID=T.JOB_ID OR
+		L.ID=TI.JOB_ID
+		WHERE
+		T.T_DATE BETWEEN :startDate AND :endDate
+		AND
+		(T.JOB_ID IS NOT NULL OR TI.JOB_ID IS NOT NULL )
+		AND
+		A.A_TYPE IN
+		(14,15,16,17,18)
+		AND
+		A.BASE_TYPE !=0 AND
+		A.COMPANY_ID=:companyId
+		GROUP BY
+		A.ID,L.ID ,AT.TRANSACTION_ID ORDER BY A.BASE_TYPE,
+		A.SUB_BASE_TYPE,
+		A.GROUP_TYPE,
+		A.A_TYPE,A.ID
+	</sql-query>
+		
+	<sql-query name="getItemActualRevenueDetails">
+		
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		
+		
+		<return-scalar column="TR_ID" type="long" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="ITEM_TYPE" type="int" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="TR_NUMBER" type="encryptedstring" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="QTY_UNIT" type="long" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		
+		SELECT
+		T.ID AS TR_ID,
+		IT.NAME AS ITEM_NAME,
+		IT.TYPE AS ITEM_TYPE ,
+		T.T_DATE AS TR_DATE,
+		T.NUMBER AS TR_NUMBER,
+		P.NAME AS CUSTOMER_NAME,
+		TI.QTY_VALUE AS QTY_UNIT,
+		T.MEMO AS MEMO,
+		TI.LINE_TOTAL*T.CURRENCY_FACTOR AS TOTAL,
+		T.T_TYPE AS TRANSACTION_TYPE
+		FROM
+		TRANSACTION T
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM
+		TI ON
+		TI.TRANSACTION_ID=T.ID
+		LEFT OUTER JOIN INVOICE I
+		ON
+		I.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN
+		ESTIMATE E ON
+		E.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN CASH_SALES CS ON
+		CS.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN CUSTOMER_CREDIT_MEMO CM ON
+		CM.ID=TI.TRANSACTION_ID
+		LEFT OUTER JOIN PAYEE P ON P.ID =I.CUSTOMER_ID
+		OR P.ID =E.CUSTOMER_ID OR P.ID =CS.CUSTOMER_ID OR P.ID=CM.CUSTOMER_ID
+		LEFT JOIN ITEM IT ON IT.ID=TI.ITEM_ID
+		WHERE
+		IT.ID=:itemId AND
+		T.COMPANY_ID=:companyId AND T.JOB_ID IS NOT NULL AND (T.T_DATE
+		BETWEEN
+		:startDate AND :endDate) AND (P.ID = :customerId AND T.JOB_ID =:jobId)
+		AND T.SAVE_STATUS != 204
+	</sql-query>
+	<sql-query name="getJobActualCostTransactions">
+		<query-param name="companyId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="JOB_NAME" type="encryptedstring" />
+		<return-scalar column="T_TYPE" type="int" />
+		<return-scalar column="T_DATE" type="long" />
+		<return-scalar column="T_NUMBER" type="encryptedstring" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="COST" type="double" />		
+		
+		<![CDATA[
+		SELECT jtv.customer_name,
+		       jtv.job_name,
+		       jtv.transaction_id,
+		       jtv.t_type,
+		       jtv.t_date,
+		       jtv.t_number,
+		       jtv.ti_desc AS memo,
+		       jtv.cost,
+		       a.name      AS account_name
+		FROM   jobs_transactions_view jtv
+		       LEFT JOIN account a
+		         ON a.id = jtv.cost_account
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.customer_id = :customerId
+		       AND jtv.job_id = :jobId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate  
+		]]>
+		
+	</sql-query>
+	
+	<sql-query name="JobsTransactionsView">
+		<![CDATA[
+		CREATE OR REPLACE VIEW
+		JOBS_TRANSACTIONS_VIEW
+		AS
+		SELECT t.company_id                         AS company_id,
+		       p.id                                 AS customer_id,
+		       p.name                               AS customer_name,
+		       j.id                                 AS job_id,
+		       j.job_name                           AS job_name,
+		       t.id                                 AS transaction_id,
+		       t.t_type,
+		       t.t_date,
+		       t.number                             AS t_number,
+		       ti.description                       ti_desc,
+		       CASE
+		         WHEN ti.TYPE = 1
+		              AND it.TYPE IN ( 2, 4 )
+		              AND t.t_type IN ( 1, 4, 8 ) THEN (SELECT SUM(ip.purchase_cost)
+		                                                FROM   inventory_purchase ip
+		                                                WHERE
+		         ip.transaction_item_id = ti.id)
+		         WHEN t.t_type = 15 THEN ti.update_amount * t.currency_factor
+		         ELSE '0'
+		       END                                  AS cost,
+		       ti.update_amount * t.currency_factor AS revenue,
+		       ti.effecting_account                 AS revenue_account,
+		       CASE
+		         WHEN ti.TYPE = 1 THEN (SELECT effecting_account
+		                                FROM   inventory_purchase ip
+		                                WHERE  ip.transaction_item_id = ti.id
+		                                LIMIT  1)
+		         ELSE ti.effecting_account
+		       END                                  AS cost_account
+		FROM   transaction_item ti
+		       LEFT JOIN item it
+		         ON it.id = ti.item_id
+		       LEFT JOIN TRANSACTION t
+		         ON t.id = ti.transaction_id
+		       LEFT JOIN job j
+		         ON ( ti.job_id = j.id
+		               OR t.job_id = j.id )
+		       LEFT JOIN customer c
+		         ON c.id = j.customer_id
+		       LEFT JOIN payee p
+		         ON p.id = c.id
+		WHERE  j.id IS NOT NULL
+		       AND t.save_status!=204
+		       AND ( t.t_type IN ( 1, 4, 8, 15 )
+		              OR ti.is_billable );  
+
+	]]>
+	</sql-query>
+	
+	<sql-query name="getJobProfitabilitySummary">
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<return-scalar column="JOB_ID" type="long" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="JOB_NAME" type="encryptedstring" />
+		<return-scalar column="COST" type="double" />
+		<return-scalar column="REVENUE" type="double" />
+		<![CDATA[
+		SELECT jtv.job_id,
+		       jtv.customer_id,
+		       jtv.customer_name,
+		       jtv.job_name,
+		       SUM(cost)   AS cost,
+		       SUM(revenue)AS revenue
+		FROM   jobs_transactions_view jtv
+		WHERE  jtv.company_id = :companyId
+		       AND jtv.t_date BETWEEN :startDate AND :endDate
+		GROUP  BY jtv.job_id,
+		          jtv.customer_id,
+		          jtv.customer_name,
+		          jtv.job_name;   
+		]]>
+	</sql-query>
+		
+	<sql-query name="JobProfitabilityDetailByJob">
+		<query-param name="payeeId" type="long" />
+		<query-param name="jobId" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		
+		<return-scalar column="ITEMID" type="long" />
+		<return-scalar column="TYPE" type="long" />
+		<return-scalar column="IIEMNAME" type="encryptedstring" />
+		<return-scalar column="COST" type="double" />
+		<return-scalar column="REVENUE" type="double" />
+		<return-scalar column="CUSTOMER_ID" type="long" />
+		<return-scalar column="JOB_ID" type="long" />
+		
+		SELECT
+		I.ID AS ITEMID,
+		I.TYPE AS TYPE,
+		I.NAME AS IIEMNAME,
+		J.CUSTOMER_ID
+		AS CUSTOMER_ID,
+		J.ID AS JOB_ID,
+		
+		CASE WHEN I.ID
+		IN (SELECT I.ID FROM ITEM
+		I
+		LEFT JOIN TRANSACTION_ITEM TI ON
+		TI.ITEM_ID=I.ID
+		LEFT JOIN TRANSACTION
+		T ON T.ID= TI.TRANSACTION_ID
+		LEFT
+		JOIN ACCOUNT A ON
+		A.ID=I.EXPENSE_ACCOUNT_ID
+		
+		WHERE TI.IS_BILLABLE = TRUE
+		OR A.A_TYPE=15 AND
+		(T.T_DATE BETWEEN :startDate AND :endDate))
+		THEN
+		SUM(I.SALES_PRICE) ELSE
+		NULL END AS COST,
+		
+		CASE WHEN I.ID IN (SELECT
+		I.ID FROM ITEM I
+		LEFT JOIN
+		TRANSACTION_ITEM TI ON TI.ITEM_ID=I.ID
+		LEFT
+		JOIN TRANSACTION T ON T.ID=
+		TI.TRANSACTION_ID
+		LEFT JOIN ACCOUNT A ON
+		A.ID=I.EXPENSE_ACCOUNT_ID
+		
+		WHERE
+		T.T_TYPE IN (1,4,8) AND
+		(T.T_DATE
+		BETWEEN :startDate AND :endDate))
+		THEN
+		SUM(T.TOTAL* T.CURRENCY_FACTOR) ELSE NULL END AS
+		REVENUE
+		FROM
+		ITEM I
+		LEFT JOIN
+		TRANSACTION_ITEM TI ON TI.ITEM_ID=I.ID
+		LEFT
+		JOIN TRANSACTION T ON T.ID=
+		TI.TRANSACTION_ID
+		LEFT JOIN ACCOUNT A ON
+		A.ID=I.EXPENSE_ACCOUNT_ID
+		LEFT
+		JOIN JOB J ON J.ID = T.JOB_ID
+		LEFT JOIN
+		PAYEE P ON P.ID = J.CUSTOMER_ID
+		WHERE
+		(T.T_DATE BETWEEN :startDate AND
+		:endDate) AND
+		J.COMPANY_ID=:companyId AND J.ID=:jobId AND J.CUSTOMER_ID
+		=:payeeId AND
+		T.SAVE_STATUS !=204 GROUP BY I.ID, j.id;
+		
+	</sql-query>
+		
+	<sql-query name="getItemActualCostsDetails">
+		
+		
+		<query-param name="startDate" type="long" />
+		<query-param name="endDate" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="jobId" type="long" />
+		
+		<return-scalar column="TR_ID" type="long" />
+		<return-scalar column="IIEM_NAME" type="encryptedstring" />
+		<return-scalar column="ITEM_TYPE" type="int" />
+		<return-scalar column="TR_DATE" type="long" />
+		<return-scalar column="TR_NUMBER" type="encryptedstring" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="QTY_QUANTITY" type="long" />
+		<return-scalar column="MEMO" type="encryptedstring" />
+		<return-scalar column="TOTAL" type="double" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		
+		SELECT
+		T.ID AS TR_ID,
+		I.NAME AS IIEM_NAME,
+		I.TYPE AS ITEM_TYPE,
+		T.T_DATE
+		AS TR_DATE,
+		T.NUMBER AS TR_NUMBER,
+		P.NAME AS CUSTOMER_NAME,
+		TI.QTY_VALUE
+		AS QTY_QUANTITY,
+		T.MEMO AS MEMO,
+		I.SALES_PRICE AS TOTAL,
+		T.T_TYPE AS
+		TRANSACTION_TYPE
+		
+		FROM
+		ITEM I
+		LEFT
+		JOIN
+		TRANSACTION_ITEM TI ON
+		TI.ITEM_ID=I.ID
+		LEFT JOIN TRANSACTION T ON
+		T.ID=
+		TI.TRANSACTION_ID
+		LEFT
+		JOIN ACCOUNT A ON
+		A.ID=I.EXPENSE_ACCOUNT_ID
+		LEFT
+		JOIN JOB J ON J.ID =
+		T.JOB_ID
+		LEFT JOIN
+		PAYEE P ON P.ID =
+		J.CUSTOMER_ID
+		WHERE
+		(T.T_DATE BETWEEN
+		:startDate AND
+		:endDate) AND
+		(TI.IS_BILLABLE =
+		TRUE OR
+		A.A_TYPE=15)AND
+		J.COMPANY_ID=:companyId AND
+		I.ID = :itemId AND
+		J.CUSTOMER_ID=:customerId AND J.ID=:jobId AND
+		I.TYPE=2 AND
+		T.SAVE_STATUS != 204
+	</sql-query>
+			
+			
+	
 	<sql-query name="get.missing.checks.by.account">
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
@@ -4335,7 +4916,6 @@
 		WHERE (TT.CHECK_NUMBER !='TO BE PRINTED' AND TT.CHECK_NUMBER
 		!='')ORDER
 		BY LENGTH(TT.CHECK_NUMBER),TT.CHECK_NUMBER
- 
 		
 		</sql-query>
 	<!-- ================================================================================================================================== -->

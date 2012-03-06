@@ -203,13 +203,19 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		ClientFinanceDate endDate = (ClientFinanceDate) map.get("endDate");
 		this.serverReport.setStartAndEndDates(startDate, endDate);
 		long status1 = ((Long) map.get("statement"));
-		setPayeeId(status1);
-		toolbar.setPayeeId(status1);
+
+		int view_Id = (Integer) map.get("viewId");
+		if (this.payeeId == 0) {
+			setPayeeId(status1);
+			toolbar.setPayeeId(status1);
+			Boolean isVendor = (Boolean) map.get("isVendor");
+			this.isVendor = isVendor == null ? false : isVendor;
+		}
 		toolbar.setEndDate(endDate);
 		toolbar.setStartDate(startDate);
 		toolbar.setDefaultDateRange((String) map.get("selectedDateRange"));
-		Boolean isVendor = (Boolean) map.get("isVendor");
-		this.isVendor = isVendor == null ? false : isVendor;
+		CreateStatementToolBar bar = (CreateStatementToolBar) toolbar;
+		bar.setStatus(view_Id);
 		isDatesArranged = true;
 	}
 
@@ -219,12 +225,14 @@ public class StatementReport extends AbstractReportView<PayeeStatementsList> {
 		String selectedDateRange = toolbar.getSelectedDateRange();
 		ClientFinanceDate startDate = toolbar.getStartDate();
 		ClientFinanceDate endDate = toolbar.getEndDate();
+		int viewId = toolbar.getViewId();
 		long status = getPayeeId();
 		map.put("selectedDateRange", selectedDateRange);
 		map.put("statement", status);
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		map.put("isVendor", isVendor);
+		map.put("viewId", viewId);
 		return map;
 	}
 

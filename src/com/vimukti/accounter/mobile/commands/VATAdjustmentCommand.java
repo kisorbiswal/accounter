@@ -79,12 +79,13 @@ public class VATAdjustmentCommand extends AbstractTransactionCommand {
 
 			@Override
 			protected String getTrueString() {
-				return "Sales Type Activated";
+				return getMessages().valueActivated(getMessages().salesType());
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Purchase Type Activated";
+				return getMessages().valueActivated(
+						getMessages().purchaseType());
 			}
 
 			@Override

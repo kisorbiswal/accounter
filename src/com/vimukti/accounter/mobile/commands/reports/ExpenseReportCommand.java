@@ -64,7 +64,7 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 			protected void fillResult(Context context, Result makeResult) {
 				List<ExpenseList> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -92,8 +92,8 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 						resultList.add(createReportRecord);
 					}
 					makeResult.add(resultList);
-					makeResult
-							.add("Total" + getAmountWithCurrency(totalAmount));
+					makeResult.add(getMessages().total()
+							+ getAmountWithCurrency(totalAmount));
 				}
 			}
 		});
@@ -148,16 +148,19 @@ public class ExpenseReportCommand extends NewAbstractReportCommand<ExpenseList> 
 
 	@Override
 	protected String getWelcomeMessage() {
-		return "Expense report command activated successfully";
+		return getMessages().viewActivatedSuccessfully(
+				getMessages().expenseReport());
 	}
 
 	@Override
 	protected String getDetailsMessage() {
-		return "Expense report details as follows";
+		return getMessages()
+				.viewDetailsAsFollows(getMessages().expenseReport());
 	}
 
 	@Override
 	public String getSuccessMessage() {
-		return "Expense report command closed successfully";
+		return getMessages().viewClosedSuccessfully(
+				getMessages().expenseReport());
 	}
 }

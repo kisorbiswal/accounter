@@ -110,7 +110,7 @@ public class CompanyPasswordRecoveryServlet extends BaseServlet {
 				byte[] rck = EU.generatePBS(recocery);
 				byte[] newRecoveyKey = EU.encrypt(psk, rck);
 				company.setEncryptedPassword(newRecoveyKey);
-				Encrypter.sendCompanyPasswordRecoveryKey(recocery);
+				Encrypter.sendCompanyPasswordRecoveryKey(emailId, recocery);
 				company.setContactSupport(false);
 				Transaction transaction = openSession.beginTransaction();
 				openSession.saveOrUpdate(company);

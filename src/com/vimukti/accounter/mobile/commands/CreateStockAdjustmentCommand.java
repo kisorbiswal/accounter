@@ -87,8 +87,9 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return stockAdjustment.getID() == 0 ? "Creating stock adjustment"
-				: "Updating stock adjustment";
+		return stockAdjustment.getID() == 0 ? getMessages().create(
+				getMessages().stockAdjustment()) : getMessages().updating(
+				getMessages().stockAdjustment());
 	}
 
 	@Override
@@ -143,8 +144,7 @@ public class CreateStockAdjustmentCommand extends AbstractCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return getMessages().youDontHaveAny(
-						getMessages().adjustmentAccount() + "s");
+				return getMessages().noRecordsToShow();
 			}
 		});
 		list.add(new StockAdjustmentItemTableRequirement(STOCK_ADJUSTMENT,

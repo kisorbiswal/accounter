@@ -76,7 +76,8 @@
 		</many-to-one>
 		<many-to-one name="location" class="Location" column="LOCATION_ID">
 		</many-to-one>
-
+		<many-to-one name="job" class="Job" column="JOB_ID">
+ 		</many-to-one>
 		<set name="reconciliationItems" inverse="true">
 			<key column="TRANSACTION_ID" />
 			<one-to-many class="com.vimukti.accounter.core.ReconciliationItem" />
@@ -1063,6 +1064,8 @@
 		</many-to-one>
 		<many-to-one name="customer" class="Customer" column="CUSTOMER_ID">
 		</many-to-one>
+		<many-to-one name="job" class="Job" column="JOB_Id">
+ 		</many-to-one>
 		<many-to-one name="account" class="Account" column="ACCOUNT_ID">
 		</many-to-one>
 		<many-to-one name="taxCode" class="TAXCode" column="TAX_CODE">

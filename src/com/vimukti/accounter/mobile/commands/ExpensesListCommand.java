@@ -62,7 +62,7 @@ public class ExpensesListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 	}
 
 	@Override

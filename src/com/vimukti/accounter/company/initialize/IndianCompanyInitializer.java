@@ -115,6 +115,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		tdsItem1.setDefault(true);
 		tdsItem1.setPercentage(true);
 		session.save(tdsItem1);
+		
 		TAXItem tdsItem2 = new TAXItem(company);
 		tdsItem2.setName("Professional");
 		tdsItem2.setActive(true);
@@ -155,8 +156,9 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 		none.setActive(true);
 		session.save(none);
 
+
 		// For Assam State
-		if (company.getRegisteredAddress().getStateOrProvinence()
+	/*	if (company.getRegisteredAddress().getStateOrProvinence()
 				.equalsIgnoreCase("Assam")) {
 
 			String names[] = { "Consignment /Branch Transfer Inward",
@@ -1259,7 +1261,7 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 			}
 
 		} else if (company.getRegisteredAddress().getStateOrProvinence()
-				.equalsIgnoreCase("Andhra Pradesh")) {
+				.equalsIgnoreCase("Andhra Pradesh")) {/*
 			// for Andhra Pradesh state
 			TAXItem inwardItem = new TAXItem(company);
 			inwardItem.setName("Branch Transfer Inward");
@@ -2230,7 +2232,10 @@ public class IndianCompanyInitializer extends CompanyInitializer {
 			capitalGoods4Code.setDefault(true);
 			session.save(capitalGoods4Code);
 
-		}
+		}*/
+
+
+				
 
 		// TAXCode tdsCode1 = new TAXCode();
 		//

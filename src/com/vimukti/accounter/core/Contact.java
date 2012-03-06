@@ -157,7 +157,8 @@ public class Contact implements IAccounterServerCore, Lifecycle {
 
 	@Override
 	public String toString() {
-		return "Contact Name:" + this.name + " Email:" + this.email;
+		return Global.get().messages().contactName() + " : " + this.name
+				+ Global.get().messages().email() + " : " + this.email;
 	}
 
 	@Override

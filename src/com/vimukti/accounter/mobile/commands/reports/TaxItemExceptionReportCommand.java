@@ -63,7 +63,7 @@ public class TaxItemExceptionReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TAXItemDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 				ResultList list = new ResultList("Tax Item Exception Report");

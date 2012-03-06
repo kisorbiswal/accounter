@@ -27,6 +27,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
 import com.vimukti.accounter.web.client.core.ClientItem;
 import com.vimukti.accounter.web.client.core.ClientItemStatus;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientJournalEntry;
 import com.vimukti.accounter.web.client.core.ClientMakeDeposit;
 import com.vimukti.accounter.web.client.core.ClientMeasurement;
@@ -54,6 +55,7 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientVendor;
 import com.vimukti.accounter.web.client.core.ClientWarehouse;
 import com.vimukti.accounter.web.client.core.ClientWriteCheck;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.IncomeExpensePortletInfo;
 import com.vimukti.accounter.web.client.core.InvitableUser;
 import com.vimukti.accounter.web.client.core.PaginationList;
@@ -81,8 +83,8 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.core.Lists.TempFixedAsset;
 import com.vimukti.accounter.web.client.core.Lists.TransactionsList;
+import com.vimukti.accounter.web.client.core.reports.TransactionHistory;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.imports.Field;
 import com.vimukti.accounter.web.client.ui.ExpensePortletData;
 import com.vimukti.accounter.web.client.ui.PayeesBySalesPortletData;
 import com.vimukti.accounter.web.client.ui.YearOverYearPortletData;
@@ -555,9 +557,18 @@ public interface IAccounterHomeViewServiceAsync {
 	public void getClientCompaniesCount(AsyncCallback<Integer> callback);
 
 	public void getFieldsOf(int importerType,
-			AsyncCallback<List<Field<?>>> callback);
+			AsyncCallback<List<ImportField>> callback);
+
+	public void getJobsByCustomer(long id,
+			AsyncCallback<List<ClientJob>> asyncCallback);
 
 	void importData(String filePath, int importerType,
 			Map<String, String> importMap, AsyncCallback<Boolean> callback);
 
+	public void getItemTransactionsList(long itemId, int transactionType,
+			int transactionStatus, ClientFinanceDate startDate,
+			ClientFinanceDate endDate, int start, int length,
+			AsyncCallback<PaginationList<TransactionHistory>> callBack);
+
+	public void getJobs(AsyncCallback<PaginationList<ClientJob>> callback);
 }

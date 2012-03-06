@@ -12,9 +12,11 @@ public class InventoryItemServerReport extends AbstractFinaneReport<ClientItem> 
 	@Override
 	public String[] getColunms() {
 
-		return new String[] { "", "Item Description", "Quantity", "Avg Cost",
-				"Asset Value", "% of Total Asset", "Sales Price",
-				"Retail Value", "% of Total Retail" };
+		return new String[] { "", getMessages().itemDescription(),
+				getMessages().quantity(), getMessages().avgCost(),
+				getMessages().assetValue(), getMessages().percentOfToTAsset(),
+				getMessages().salesPrice(), getMessages().retailValue(),
+				getMessages().perOfTotRetail() };
 	}
 
 	@Override

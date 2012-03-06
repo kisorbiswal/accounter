@@ -3,9 +3,9 @@ package com.vimukti.accounter.taxreturn.vat.successresponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.vimukti.accounter.taxreturn.vat.request.YesNoType;
-
 import net.n3.nanoxml.XMLElement;
+
+import com.vimukti.accounter.taxreturn.vat.request.YesNoType;
 
 public class SuccessResponse {
 	private IRmarkReceipt iRmarkReceipt;

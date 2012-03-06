@@ -69,8 +69,9 @@ public class CreateLocationCommand extends AbstractCommand {
 
 	@Override
 	protected String getWelcomeMessage() {
-		return location.getID() == 0 ? "New Location Commond is Activated"
-				: "Update Location command activated";
+		return location.getID() == 0 ? getMessages().create(
+				getMessages().location()) : getMessages().updating(
+				getMessages().location());
 	}
 
 	@Override

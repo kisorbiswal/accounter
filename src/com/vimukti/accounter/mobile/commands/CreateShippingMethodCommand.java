@@ -75,9 +75,9 @@ public class CreateShippingMethodCommand extends AbstractCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		if (shippingMethod.getID() == 0) {
-			return "Shipping Method Commond is activated";
+			return getMessages().create(getMessages().shippingMethod());
 		} else {
-			return "Update shipping method command activated";
+			return getMessages().updating(getMessages().shippingMethod());
 		}
 	}
 

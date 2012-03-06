@@ -51,6 +51,7 @@ import com.vimukti.accounter.core.Advertisement;
 import com.vimukti.accounter.core.Attachment;
 import com.vimukti.accounter.core.BrandingTheme;
 import com.vimukti.accounter.core.Budget;
+import com.vimukti.accounter.core.BuildAssembly;
 import com.vimukti.accounter.core.CashPurchase;
 import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.ClientConvertUtil;
@@ -122,6 +123,11 @@ import com.vimukti.accounter.core.WriteCheck;
 import com.vimukti.accounter.core.change.ChangeTracker;
 import com.vimukti.accounter.mail.UsersMailSendar;
 import com.vimukti.accounter.main.ServerConfiguration;
+import com.vimukti.accounter.server.imports.CustomerImporter;
+import com.vimukti.accounter.server.imports.Importer;
+import com.vimukti.accounter.server.imports.InvoiceImporter;
+import com.vimukti.accounter.server.imports.ItemImporter;
+import com.vimukti.accounter.server.imports.VendorImporter;
 import com.vimukti.accounter.services.DAOException;
 import com.vimukti.accounter.utils.Converter;
 import com.vimukti.accounter.utils.HibernateUtil;
@@ -157,6 +163,7 @@ import com.vimukti.accounter.web.client.core.ClientTransactionLog;
 import com.vimukti.accounter.web.client.core.ClientTransferFund;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.ImportField;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Lists.PayeeList;
@@ -164,7 +171,7 @@ import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentTransactionList
 import com.vimukti.accounter.web.client.core.reports.AccountRegister;
 import com.vimukti.accounter.web.client.core.reports.DepositDetail;
 import com.vimukti.accounter.web.client.exception.AccounterException;
-import com.vimukti.accounter.web.client.imports.Importer;
+import com.vimukti.accounter.web.client.imports.ImporterType;
 import com.vimukti.accounter.web.client.translate.ClientLanguage;
 import com.vimukti.accounter.web.client.translate.ClientMessage;
 import com.vimukti.accounter.web.client.ui.UIUtils;
@@ -524,6 +531,10 @@ public class FinanceTool {
 						.getRecurringTransaction());
 			} else if (serverObject instanceof StockAdjustment) {
 				session.delete(serverObject);
+			} else if (serverObject instanceof BuildAssembly) {
+				session.delete(serverObject);
+			} else if (serverObject instanceof MessageOrTask) {
+				session.delete(serverObject);
 			} else {
 				if (serverObject instanceof Transaction) {
 					Transaction transaction = (Transaction) serverObject;
@@ -578,7 +589,7 @@ public class FinanceTool {
 
 	}
 
-	private boolean canDelete(String serverClass, long id, long companyId) {
+	public boolean canDelete(String serverClass, long id, long companyId) {
 		String queryName = getCanDeleteQueryName(serverClass);
 		Query query = HibernateUtil.getCurrentSession()
 				.getNamedQuery(queryName).setParameter("inputId", id)
@@ -1495,6 +1506,8 @@ public class FinanceTool {
 		session.getNamedQuery("createDeleteCompanyFunction").executeUpdate();
 		session.getNamedQuery("createInventoryPurchaseHistory").executeUpdate();
 		session.getNamedQuery("getInventoryHistoryView").executeUpdate();
+		session.getNamedQuery("JobsTransactionsView").executeUpdate();
+		session.getNamedQuery("createSubscriptionFunction").executeUpdate();
 		transaction.commit();
 	}
 
@@ -2251,6 +2264,9 @@ public class FinanceTool {
 			((Estimate) newTransaction).setUsedInvoice(null, session);
 		} else if (newTransaction instanceof PurchaseOrder) {
 			((PurchaseOrder) newTransaction).setUsedBill(null, session);
+		} else if (newTransaction instanceof MakeDeposit) {
+			((MakeDeposit) newTransaction)
+					.setEstimates(new HashSet<Estimate>());
 		}
 
 		session.setFlushMode(flushMode);
@@ -3446,7 +3462,7 @@ public class FinanceTool {
 										((BigInteger) object[4]).longValue()));
 				recentTransactionsList.setCurrecyId(object[5] == null ? null
 						: ((BigInteger) object[5]).longValue());
-
+				recentTransactionsList.setEstimateType((Integer) object[6]);
 				activities.add(recentTransactionsList);
 			}
 			return activities;
@@ -4442,8 +4458,9 @@ public class FinanceTool {
 
 	}
 
-	public void importData(long companyId, String filePath, int importerType,
-			Map<String, String> importMap) throws AccounterException {
+	public void importData(long companyId, String userEmail, String filePath,
+			int importerType, Map<String, String> importMap)
+			throws AccounterException {
 		try {
 			Importer<? extends IAccounterCore> importer = getImporterByType(
 					importerType, importMap);
@@ -4455,6 +4472,8 @@ public class FinanceTool {
 					file.getAbsolutePath()));
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			String strLine;
+			OperationContext context = new OperationContext(companyId,
+					(IAccounterCore) null, userEmail);
 			while ((strLine = br.readLine()) != null) {
 				Map<String, String> columnNameValueMap = new HashMap<String, String>();
 				String[] values = strLine.split(",");
@@ -4469,6 +4488,9 @@ public class FinanceTool {
 							columnNameValueMap.put(headers[i], value);
 						}
 						importer.loadData(columnNameValueMap);
+						IAccounterCore data = importer.getData();
+						context.setData(data);
+						create(context);
 					}
 				}
 			}
@@ -4481,7 +4503,28 @@ public class FinanceTool {
 
 	private Importer<? extends IAccounterCore> getImporterByType(
 			int importerType, Map<String, String> importMap) {
-		// TODO
+		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
+		importerByType.updateFields(importMap);
+		return importerByType;
+	}
+
+	private Importer<? extends IAccounterCore> getImporterByType(
+			int importerType) {
+		switch (importerType) {
+		case ImporterType.INVOICE:
+			return new InvoiceImporter();
+		case ImporterType.CUSTOMER:
+			return new CustomerImporter();
+		case ImporterType.VENDOR:
+			return new VendorImporter();
+		case ImporterType.ITEM:
+			return new ItemImporter();
+		}
 		return null;
+	}
+
+	public List<ImportField> getFieldsOfImporter(int importerType) {
+		Importer<? extends IAccounterCore> importerByType = getImporterByType(importerType);
+		return importerByType.getFields();
 	}
 }

@@ -33,14 +33,14 @@ public class CreateNonInventoryItemCommand extends AbstractItemCreateCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return getItem().getID() == 0 ? getMessages().creating(
-				getMessages().nonInventoryItem())
-				: "Updating Non Inventory Item";
+				getMessages().nonInventoryItem()) : getMessages().updating(
+				getMessages().nonInventoryItem());
 	}
 
 	@Override
 	protected String initObject(Context context, boolean isUpdate) {
 		if (!context.getPreferences().isSellProducts()) {
-			addFirstMessage(context, "You do not have permission to do this.");
+			addFirstMessage(context, getMessages().noRecordsToShow());
 			return "cancel";
 		}
 		return super.initObject(context, isUpdate);

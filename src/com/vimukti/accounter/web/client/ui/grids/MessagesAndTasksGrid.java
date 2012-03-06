@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientMessageOrTask;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 
-public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
+public class MessagesAndTasksGrid extends BaseListGrid<ClientMessageOrTask> {
 
 	public MessagesAndTasksGrid() {
 		super(false);
@@ -14,21 +14,6 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 	@Override
 	public void init() {
 		super.init();
-	}
-
-	@Override
-	protected int getColumnType(int index) {
-		switch (index) {
-		case 0:
-			return ListGrid.COLUMN_TYPE_IMAGE;
-		case 1:
-			return ListGrid.COLUMN_TYPE_TEXT;
-		case 2:
-			return ListGrid.COLUMN_TYPE_TEXT;
-		case 3:
-			return ListGrid.COLUMN_TYPE_DATE;
-		}
-		return 0;
 	}
 
 	@Override
@@ -48,6 +33,8 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 		case 3:
 			return UIUtils.getDateByCompanyType(new ClientFinanceDate(obj
 					.getDate()));
+		case 4:
+			return Accounter.getFinanceMenuImages().delete();
 		}
 		return null;
 	}
@@ -73,20 +60,10 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 		if (index == 2) {
 			Accounter.getMainFinanceWindow().historyChanged(
 					obj.getActionToken());
+		} else if (index == 4) {
+			if (obj != null)
+				showWarnDialog(obj);
 		}
-	}
-
-	@Override
-	public void onDoubleClick(ClientMessageOrTask obj) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected int sort(ClientMessageOrTask obj1, ClientMessageOrTask obj2,
-			int index) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
@@ -94,11 +71,17 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 
 		switch (index) {
 		case 0:
-			return 40;
+			return 35;
 		case 1:
 			return 65;
 		case 3:
 			return 70;
+		case 4:
+			if (UIUtils.isMSIEBrowser()) {
+				return 25;
+			} else {
+				return 20;
+			}
 		}
 		return -1;
 	}
@@ -106,7 +89,25 @@ public class MessagesAndTasksGrid extends ListGrid<ClientMessageOrTask> {
 	@Override
 	protected String[] getColumns() {
 		return new String[] { messages.type(), messages.from(),
-				messages.item(), messages.date() };
+				messages.item(), messages.date(), "" };
+	}
+
+	@Override
+	protected int[] setColTypes() {
+		return new int[] { ListGrid.COLUMN_TYPE_IMAGE,
+				ListGrid.COLUMN_TYPE_TEXT, ListGrid.COLUMN_TYPE_TEXT,
+				ListGrid.COLUMN_TYPE_DATE, ListGrid.COLUMN_TYPE_IMAGE };
+	}
+
+	@Override
+	protected void executeDelete(ClientMessageOrTask data) {
+		deleteObject(data);
+	}
+
+	@Override
+	public void onDoubleClick(ClientMessageOrTask obj) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -34,7 +34,7 @@ public class VATDetailReportCommand extends NewAbstractReportCommand<VATDetail> 
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

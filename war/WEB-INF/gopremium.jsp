@@ -8,17 +8,22 @@
 <link type="text/css" href="../../css/ss.css" rel="stylesheet" />
 <%
 String info =(String) request.getAttribute("info");
-String emailId = (String) request.getSession().getAttribute("emailId");
+Boolean isSandBoxPaypal = (Boolean) request.getAttribute("isSandBoxPaypal");
+String emailId = (String) request.getAttribute("emailId");
  if(emailId ==null){
 	 emailId="";
  }
-
+if(isSandBoxPaypal ==null){
+	isSandBoxPaypal= true;
+}
 %>
+ 
 </head>
 <body>
 <table id="commanContainer">
 <tr>
 <td>
+ <img src="/images/Accounter_logo_title.png" class="accounterLogo" alt = "accounter logo"/>
 <c:if test="${info!=null}"> 
 <div id="login_success" class="common-box">
 	<span>${info}</span>
@@ -27,9 +32,15 @@ String emailId = (String) request.getSession().getAttribute("emailId");
 <div class="form-box">
 
 
+<c:if test="${isSandBoxPaypal}"> 
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
-<input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="hosted_button_id" value="JZ5R2VVPJUVKG">
+</c:if>
+<c:if test="${!isSandBoxPaypal}"> 
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="hosted_button_id" value="JZ5R2VVPJUVKG">
+</c:if>
+<input type="hidden" name="cmd" value="_s-xclick">
 <input type="hidden" name="custom"  value = "<%= emailId %>"   >
 <table>
 <tr><td><input type="hidden" name="on0" value="Subscription options">Subscription options</td></tr><tr><td><select name="os0">

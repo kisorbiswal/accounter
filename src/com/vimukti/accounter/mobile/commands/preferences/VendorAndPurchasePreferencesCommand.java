@@ -38,12 +38,12 @@ public class VendorAndPurchasePreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return "Tracking Price Level enabled";
+				return getMessages().trackingPriceLevelenabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Tracking Price Level disabled";
+				return getMessages().trackingPriceLeveldisabled();
 			}
 		});
 

@@ -56,7 +56,7 @@ public class MenuBar {
 	private boolean isSalesOrderEnabled;
 
 	private boolean isClassTrackingEnabled;
-
+	private boolean isJobTrackingEnabled;
 	private boolean isLocationTrackingEnabled;
 
 	private boolean isTaxTracking;
@@ -84,6 +84,10 @@ public class MenuBar {
 	private String countryOrRegion;
 
 	private boolean isUnitsEnalbled;
+
+	private boolean isAdmin;
+
+	private boolean canSaveDrafts;
 
 	public MenuBar() {
 		menus = new ArrayList<Menu>();
@@ -133,6 +137,9 @@ public class MenuBar {
 	private Menu getInventoryMenu(String string) {
 
 		Menu inventoryMenuBar = new Menu(string);
+
+		inventoryMenuBar.addMenuItem(messages.inventoryCentre(),
+				HistoryTokens.INVENTORY_CENTRE);
 
 		if (notReadOnlyUser) {
 			inventoryMenuBar.addMenuItem(messages.buildAssembly(),
@@ -347,14 +354,39 @@ public class MenuBar {
 
 		// reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
 
+		reportMenuBar.addMenuItem(getBankingReportMenu(messages.banking()));
+		if (isJobTrackingEnabled) {
+			reportMenuBar.addMenuItem(getJobReportMenu(messages.job()));
+		}
 		return reportMenuBar;
+	}
+
+	/**
+	 * Creating submenus For Job Reports
+	 * 
+	 * @param job
+	 * @return
+	 */
+	private MenuItem getJobReportMenu(String job) {
+		Menu jobmenuBar = new Menu(job);
+		jobmenuBar.addMenuItem(messages.profitAndLossByJob(),
+				HistoryTokens.PROFITANDLOSSBYJOBS);
+		jobmenuBar.addMenuItem(messages.estimatesbyJob(),
+				HistoryTokens.ESTIMATEBYJOB);
+		jobmenuBar.addMenuItem(messages.unbilledCostsByJob(),
+				HistoryTokens.UNBILLED_COSTS_BY_JOB);
+		jobmenuBar.addMenuItem(messages.jobProfitabilitySummary(),
+				HistoryTokens.JOB_PROFITABILITY_SUMMARY_REPORT);
+		jobmenuBar.addMenuItem(messages.jobProfitabilityDetail(),
+				HistoryTokens.JOB_PROFITABILITY_DETAIL);
+		return jobmenuBar;
 	}
 
 	private MenuItem getBankingReportMenu(String banking) {
 		Menu bankingMenuBar = new Menu(banking);
-		bankingMenuBar.addMenuItem("Missing Checks",
+		bankingMenuBar.addMenuItem(messages.missingchecks(),
 				HistoryTokens.MISSION_CHECKS);
-		bankingMenuBar.addMenuItem("Reconciliation Discrepancy",
+		bankingMenuBar.addMenuItem(messages.reconcilationDiscrepany(),
 				HistoryTokens.RECONCILIATION_DISCREPANCY);
 		bankingMenuBar.addMenuItem(messages.depositDetail(),
 				HistoryTokens.BANK_DEPOSIT_DETAIL_REPORT);
@@ -521,7 +553,6 @@ public class MenuBar {
 		customersAndReceivableMenuBar.addMenuItem(
 				messages.payeeTransactionHistory(Global.get().Customer()),
 				HistoryTokens.CUSTOMERTRANSACTIONHISTORY);
-
 		return customersAndReceivableMenuBar;
 	}
 
@@ -569,6 +600,7 @@ public class MenuBar {
 					messages.profitAndLossbyClass(),
 					HistoryTokens.PROFITANDLOSSBYCLASS);
 		}
+
 		companyAndFinancialMenuBar.addMenuItem(
 				messages.reconciliationsReport(),
 				HistoryTokens.RECONCILATION_LIST);
@@ -600,7 +632,7 @@ public class MenuBar {
 		bankingMenuBar.addMenuItem(messages.makeDeposit(),
 				HistoryTokens.DEPOSIT);
 
-		if (isKeepTrackofBills) {
+		if (isKeepTrackofBills && canDoPayBillAndReceivePayment) {
 			bankingMenuBar.addMenuItem(messages.payBill(),
 					HistoryTokens.PAYBILL);
 		}
@@ -623,7 +655,6 @@ public class MenuBar {
 	}
 
 	private Menu getVendorMenu(String string) {
-
 		Menu vendorMenuBar = new Menu(string);
 
 		vendorMenuBar.addMenuItem(messages.vendorCentre(Global.get().Vendor()),
@@ -648,7 +679,6 @@ public class MenuBar {
 		}
 		if (canDoPayBillAndReceivePayment) {
 			if (isKeepTrackofBills) {
-
 				vendorMenuBar.addMenuItem(messages.payBills(),
 						HistoryTokens.PAYBILL);
 				// vendorMenuBar.addMenuItem(messages.issuePayments(),
@@ -666,12 +696,12 @@ public class MenuBar {
 		if (canDoInvoiceAndBillTransactions) {
 			vendorMenuBar.addMenuItem(messages.recordExpenses(),
 					HistoryTokens.RECORDEXPENSES);
-
+		}
+		if (canDoInvoiceAndBillTransactions) {
 			if (isHaveEpmloyees && isTrackEmployeeExpenses) {
 				vendorMenuBar.addMenuItem(messages.expenseClaims(),
 						HistoryTokens.EXPENSECLAIMS);
 			}
-
 		}
 		vendorMenuBar.addSeparatorItem();
 		vendorMenuBar.addMenuItem(messages.payees(Global.get().Vendors()),
@@ -708,10 +738,13 @@ public class MenuBar {
 			newVendorMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Vendor()),
 					HistoryTokens.NEWVENDOR);
+		}
+		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
+				|| canDoInventory) {
 			newVendorMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMSUPPLIERS);
 		}
-		if (canDoBanking || canDoManageAccounts) {
+		if (canDoInvoiceAndBillTransactions) {
 			newVendorMenuBar.addMenuItem(messages.cashPurchase(),
 					HistoryTokens.NEWCASHPURCHASE);
 		}
@@ -769,6 +802,11 @@ public class MenuBar {
 					HistoryTokens.CUSTOMERREFUND);
 
 			customerMenuBar.addSeparatorItem();
+		} else if (canSaveDrafts) {
+			customerMenuBar.addMenuItem(
+					messages.customerRefund(Global.get().Customer()),
+					HistoryTokens.CUSTOMERREFUND);
+			customerMenuBar.addSeparatorItem();
 		}
 		customerMenuBar.addMenuItem(messages.payees(Global.get().Customers()),
 				HistoryTokens.CUSTOMERS);
@@ -798,6 +836,10 @@ public class MenuBar {
 						HistoryTokens.SALESORDERLIST);
 			}
 		}
+		if (isJobTrackingEnabled) {
+			customerMenuBar.addMenuItem(messages.jobList(),
+					HistoryTokens.JOBSLIST);
+		}
 		if (canSeeBanking) {
 			customerMenuBar.addMenuItem(messages.receivedPayments(),
 					HistoryTokens.RECEIVEPAYMENTS);
@@ -813,13 +855,23 @@ public class MenuBar {
 
 	private Menu getNewCustomerMenu(String string) {
 		Menu newCustomerMenuBar = new Menu(string);
-
 		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(
 					messages.newPayee(Global.get().Customer()),
 					HistoryTokens.NEWCUSTOMER);
+			if (isJobTrackingEnabled) {
+				newCustomerMenuBar.addMenuItem(messages.newJob(),
+						HistoryTokens.JOB);
+			}
+		}
+
+		if ((canDoInvoiceAndBillTransactions && !canSaveDrafts)
+				|| canDoInventory) {
 			newCustomerMenuBar.addMenuItem(messages.newItem(),
 					HistoryTokens.NEWITEMCUSTOMER);
+		}
+
+		if (canDoInvoiceAndBillTransactions) {
 			if (isDoyouwantEstimates) {
 				newCustomerMenuBar.addMenuItem(messages.newQuote(),
 						HistoryTokens.NEWQUOTE);
@@ -838,13 +890,8 @@ public class MenuBar {
 
 			newCustomerMenuBar.addMenuItem(messages.newInvoice(),
 					HistoryTokens.NEWINVOICE);
-		}
-
-		if (canDoBanking || canDoManageAccounts) {
 			newCustomerMenuBar.addMenuItem(messages.newCashSale(),
 					HistoryTokens.NEWCASHSALE);
-		}
-		if (canDoInvoiceAndBillTransactions) {
 			newCustomerMenuBar.addMenuItem(messages.newCreditMemo(),
 					HistoryTokens.NRECREDITNOTE);
 		}
@@ -866,9 +913,10 @@ public class MenuBar {
 		// .addMenuItem(messages.search(), HistoryTokens.SEARCH, "f");
 		//
 		// companyMenuBar.addSeparatorItem();
-
-		companyMenuBar.addMenuItem(messages.importFile(), HistoryTokens.IMPORT);
-
+		// if (Accounter.getUser().isAdmin() || canDoTaxTransactions) {
+		// companyMenuBar.addMenuItem(messages.importFile(),
+		// HistoryTokens.IMPORT);
+		// }
 		if (canDoManageAccounts) {
 			companyMenuBar.addMenuItem(messages.journalEntry(),
 					HistoryTokens.NEWJOURNALENTRY, "J");
@@ -887,9 +935,6 @@ public class MenuBar {
 					HistoryTokens.COMPANYPREFERENCES, "P");
 			companyMenuBar.addSeparatorItem();
 		}
-
-		companyMenuBar.addMenuItem(messages.subscribtionManagement(),
-				"/site/subscriptionmanagement");
 
 		if (canDoTaxTransactions) {
 			companyMenuBar.addMenuItem(messages.budget(), HistoryTokens.BUDGET,
@@ -1065,6 +1110,8 @@ public class MenuBar {
 
 		this.isClassTracking = preferences.isClassTrackingEnabled();
 
+		this.isJobTrackingEnabled = preferences.isJobTrackingEnabled();
+
 		this.canSeeBanking = canSeeBanking(clientUser);
 
 		this.canSeeInvoiceTransactions = canSeeInvoiceTransactions(clientUser);
@@ -1102,8 +1149,8 @@ public class MenuBar {
 
 		this.company = countryPreferences;
 
-		this.notReadOnlyUser = !clientUser.getUserRole().equalsIgnoreCase(
-				messages.readOnly());
+		this.notReadOnlyUser = !(clientUser.getUserRole()
+				.equalsIgnoreCase(RolePermissions.READ_ONLY));
 
 		this.canDoTaxTransactions = canDoTaxTransactions(clientUser);
 
@@ -1120,7 +1167,15 @@ public class MenuBar {
 
 		this.isMulticurrencyEnabled = preferences.isEnableMultiCurrency();
 
+		this.isAdmin = clientUser.isAdmin();
+
+		this.canSaveDrafts = canSaveDrafts(clientUser);
+
 		getMenuBar();
+	}
+
+	private boolean canSaveDrafts(ClientUser clientUser) {
+		return clientUser.getPermissions().getTypeOfSaveasDrafts() == RolePermissions.TYPE_YES;
 	}
 
 	private boolean CanDoManageAccounts(ClientUser clientUser) {

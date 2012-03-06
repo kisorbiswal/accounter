@@ -53,7 +53,7 @@ public class EmailTestDialog extends BaseDialog {
 
 					@Override
 					public void onException(AccounterException exception) {
-						Accounter.showError("Messages sending failed");
+						Accounter.showError(messages.messagesSendingFailed());
 					}
 
 					@Override
@@ -66,8 +66,10 @@ public class EmailTestDialog extends BaseDialog {
 
 	private void sendSuccess() {
 		this.removeFromParent();
+
 		Accounter
-				.showInformation("A Test Email is sent to given email id. Kindly check your email and proceed if you got.");
+				.showInformation(messages
+						.ATestEmailIsSentToGivenEmailIdKindlyCheckYourEmailAndProceedIfYouGot());
 	}
 
 	@Override

@@ -67,7 +67,6 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int STATUS_PARTIALLY_PAID_OR_PARTIALLY_APPLIED = 1;
 	public static final int STATUS_PAID_OR_APPLIED_OR_ISSUED = 2;
 	public static final int STATUS_DELETED = 3;
-	public static final int STATUS_APPLIED = 5;
 
 	public static final int STATUS_DRAFT = 201;
 	public static final int STATUS_TEMPLATE = 202;
@@ -89,12 +88,14 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public static final int VIEW_OVERDUE = 2;
 	public static final int VIEW_OPEN = 1;
 	public static final int VIEW_DRAFT = 4;
+
 	/**
 	 * in Edit mode of transaction, if any transaction has reference in
 	 * VATRETURN(FILE VAT), then edit should be disabled.user cant edit them,
 	 * this variable value be assign at time of conversion server to client
 	 * object. by default can edit all transactions.
 	 */
+	private long job;
 	public boolean canEdit = true;
 	private long location;
 	int version;
@@ -865,7 +866,7 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		for (ClientTransactionItem item : this.transactionItems) {
 			long code = item.getTaxCode();
-			if (code != 0) {
+			if (code != 0 && item.getReferringTransactionItem() == 0) {
 				return true;
 			}
 		}
@@ -882,7 +883,8 @@ public abstract class ClientTransaction implements IAccounterCore {
 		}
 		for (ClientTransactionItem item : this.transactionItems) {
 			Double discount = item.getDiscount();
-			if (discount != null && discount != 0) {
+			if (discount != null && discount != 0
+					&& item.getReferringTransactionItem() == 0) {
 				return true;
 			}
 		}
@@ -956,4 +958,13 @@ public abstract class ClientTransaction implements IAccounterCore {
 	public void setValidated(boolean isValidated) {
 		this.isValidated = isValidated;
 	}
+
+	public long getJob() {
+		return job;
+	}
+
+	public void setJob(long job) {
+		this.job = job;
+	}
+
 }

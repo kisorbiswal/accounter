@@ -112,7 +112,7 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="fromTo" type="long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
@@ -133,16 +133,12 @@
 		ESTIMATE E
 		on T.ID = E.ID
 		LEFT OUTER JOIN
-		SALES_ORDER S
-		on T.ID=S.ID
-		LEFT OUTER JOIN
 		PAYEE P
-		ON P.ID=S.CUSTOMER_ID
 		OR P.ID=E.CUSTOMER_ID
 		WHERE
 		T.STATUS !=2
 		AND T.SAVE_STATUS !=
-		202 AND T.T_TYPE IN (7, 21)
+		202 AND T.T_TYPE IN (7)
 		AND
 		P.ID=:customerId
 		AND
@@ -210,9 +206,9 @@
 		type="long" /> <query-param name="fromDate" type="long" /> <query-param name="toDate" 
 		type="long" /> <return-scalar column="TRANSACTION_ID" type="long" /> <return-scalar 
 		column="TRANSACTION_TYPE" type="int" /> <return-scalar column="TRANSACTION_NUMBER" 
-		type="string" /> <return-scalar column="TOTAL_PRICE" type="double" /> <return-scalar 
+		type="encryptedstring" /> <return-scalar column="TOTAL_PRICE" type="double" /> <return-scalar 
 		column="TRANSACTION_DATE" type="long" /> <return-scalar column="CUSTOMER_NAME" 
-		type="string" /> <return-scalar column="PHONE" type="string" /> <return-scalar 
+		type="encryptedstring" /> <return-scalar column="PHONE" type="encryptedstring" /> <return-scalar 
 		column="DUE_DATE" type="long" /> <return-scalar column="TRANSACTION_STATUS" 
 		type="int" /> SELECT T.ID AS TRANSACTION_ID, T.T_TYPE AS TRANSACTION_TYPE, 
 		T.NUMBER AS TRANSACTION_NUMBER, T.TOTAL AS TOTAL_PRICE, T.T_DATE AS TRANSACTION_DATE, 
@@ -286,8 +282,6 @@
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		<return-scalar column="PHONE" type="encryptedstring" />
-		<return-scalar column="DELIVERY_DATE" type="long" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="CURRENCY" type="long" />
 		SELECT
@@ -327,7 +321,7 @@
 	<sql-query name="getNotReceivedPurchaseOrdersList">
 		<query-param name="vendorId" type="Long" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="ORIGINAL_AMOUNT" type="double" />
@@ -381,7 +375,7 @@
 		<return-scalar column="CURRENCY" type="long" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 		<return-scalar column="STATEMENT_RECORD_ID" type="int" />
-		<return-scalar column="C_NAME" type="string" />
+		<return-scalar column="C_NAME" type="encryptedstring" />
 
 		SELECT
 		T.SAVE_STATUS AS SAVE_STATUS,
@@ -1280,7 +1274,7 @@
 		of all Vendors which are not paid OR partially paid, while creating Pay Bill -->
 	<sql-query name="getPayBillTransactionsList">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="ID" type="string" />
+		<return-scalar column="ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
@@ -1527,7 +1521,7 @@
 	<!-- To generate the Invoices of Latest 10 -->
 	<sql-query name="getLatestOverDueInvoices">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_id" type="encryptedstring" />
 		<return-scalar column="due_date" type="long" />
 		<return-scalar column="name" type="encryptedstring" />
 		<return-scalar column="number" type="encryptedstring" />
@@ -1564,7 +1558,7 @@
 
 	<sql-query name="getLatestInvoices">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1656,7 +1650,7 @@
 
 	<sql-query name="getLatestVendorPayments">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1732,7 +1726,7 @@
 
 	<sql-query name="getLatestBills">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="DUE_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1809,7 +1803,7 @@
 
 	<sql-query name="getLatestPayments">
 		<query-param name="companyId" type="long" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="PAYMENT_DATE" type="long" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -1904,7 +1898,7 @@
 		<return-scalar column="RP_DATE" type="long" />
 		<return-scalar column="RP_CUSTOMER_ID" type="long" />
 		<return-scalar column="RP_AMOUNT" type="double" />
-		<return-scalar column="RP_ID" type="string" />
+		<return-scalar column="RP_ID" type="encryptedstring" />
 
 		SELECT
 		TOP(10) RP.ID AS RP_ID,
@@ -1929,7 +1923,7 @@
 		<return-scalar column="CP_DATE" type="long" />
 		<return-scalar column="CP_VENDOR_ID" type="long" />
 		<return-scalar column="CP_TOTAL" type="double" />
-		<return-scalar column="CP_ID" type="string" />
+		<return-scalar column="CP_ID" type="encryptedstring" />
 
 		SELECT CP.ID AS CP_ID,
 		T.T_DATE AS CP_DATE,
@@ -1953,7 +1947,7 @@
 		<return-scalar column="CS_CUSTOMER_ID" type="long" />
 		<return-scalar column="SALESPERSON_ID" type="long" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="CS_ID" type="string" />
+		<return-scalar column="CS_ID" type="encryptedstring" />
 		SELECT CS.ID AS CS_ID,
 		T.T_DATE CS_DATE,
 		CS.CUSTOMER_ID CS_CUSTOMER_ID,
@@ -1981,7 +1975,7 @@
 		<return-scalar column="WC_VENDOR_ID" type="long" />
 		<return-scalar column="TAXAGENCY_ID" type="long" />
 		<return-scalar column="WC_AMOUNT" type="double" />
-		<return-scalar column="WC_ID" type="string" />
+		<return-scalar column="WC_ID" type="encryptedstring" />
 
 		SELECT
 		WC.ID AS WC_ID,
@@ -2015,7 +2009,7 @@
 		<return-scalar column="CR_CUSTOMER_ID" type="long" />
 		<return-scalar column="CR_AMOUNT" type="double" />
 		<return-scalar column="CR_BALANCE_DUE" type="double" />
-		<return-scalar column="CR_ID" type="string" />
+		<return-scalar column="CR_ID" type="encryptedstring" />
 		SELECT
 		CR.ID AS CR_ID,
 		T.T_DATE AS CR_DATE,
@@ -2046,7 +2040,7 @@
 		<return-scalar column="CASH_BACK_MEMO" type="encryptedstring" />
 		<return-scalar column="CASH_BACK_AMOUNT" type="double" />
 		<return-scalar column="TOTAL" type="double" />
-		<return-scalar column="TF_ID" type="string" />
+		<return-scalar column="TF_ID" type="encryptedstring" />
 
 		SELECT TF.ID AS TF_ID,
 		TF.DEPOSIT_IN_ID AS DEPOSIT_IN_ID,
@@ -2076,7 +2070,7 @@
 		<return-scalar column="TRANSFER_FROM" type="long" />
 		<return-scalar column="TRANSFER_TO" type="long" />
 		<return-scalar column="TRANSFER_AMOUNT" type="double" />
-		<return-scalar column="TF_ID" type="string" />
+		<return-scalar column="TF_ID" type="encryptedstring" />
 
 		SELECT TF.ID AS TF_ID,
 		T.T_DATE AS TF_DATE,
@@ -2100,7 +2094,7 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="I_ID" type="string" />
+		<return-scalar column="I_ID" type="encryptedstring" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
@@ -2119,7 +2113,7 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_ID" type="string" />
+		<return-scalar column="ITEM_ID" type="encryptedstring" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
@@ -2138,7 +2132,7 @@
 		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_TYPE" type="int" />
 		<return-scalar column="SALES_PRICE" type="double" />
-		<return-scalar column="ITEM_ID" type="string" />
+		<return-scalar column="ITEM_ID" type="encryptedstring" />
 
 		SELECT I.ID AS ITEM_ID,
 		I.NAME AS ITEM_NAME,
@@ -2156,7 +2150,7 @@
 		<return-scalar column="VENDOR_ID" type="long" />
 		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_DATE" type="long" />
-		<return-scalar column="PAYEE_ID" type="string" />
+		<return-scalar column="PAYEE_ID" type="encryptedstring" />
 
 		SELECT V.ID AS VENDOR_ID,
 		P.NAME AS VENDOR_NAME,
@@ -2202,10 +2196,10 @@
 		<query-param name="month" type="int" />
 		<query-param name="year" type="int" />
 		<query-param name="companyId" type="long" />
-		<return-scalar column="transaction_id" type="string" />
+		<return-scalar column="transaction_id" type="encryptedstring" />
 		<return-scalar column="transaction_date" type="long" />
-		<return-scalar column="taxcode_name" type="string" />
-		<return-scalar column="taxagency_name" type="string" />
+		<return-scalar column="taxcode_name" type="encryptedstring" />
+		<return-scalar column="taxagency_name" type="encryptedstring" />
 		<return-scalar column="balance" type="double" />
 
 		SELECT T.ID AS transaction_id,T.T_DATE AS transaction_date,
@@ -2302,6 +2296,28 @@
 		method to check whether an Object is deletable or not -->
 	<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
+	<sql-query name="canDeleteJob">
+		<query-param name="inputId" type="long" />
+		<query-param name="companyId" type="long" />
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_ITEM_ID" type="long" />
+		SELECT T.ID AS TRANSACTION_ID,
+		TI AS TRANSACTION_ITEM_ID
+		FROM JOB J
+		LEFT
+		OUTER JOIN TRANSACTION T
+		ON
+		T.JOB_ID=:inputId
+		LEFT OUTER
+		JOIN
+		TRANSACTION_ITEM TI
+		ON
+		TI.JOB_ID=:inputId
+		WHERE J.ID=:inputId AND
+		J.COMPANY_ID=:companyId
+		LIMIT 1
+	</sql-query>
+
 	<sql-query name="canDeleteCustomer">
 		<query-param name="inputId" type="long" />
 		<query-param name="companyId" type="long" />
@@ -2313,7 +2329,8 @@
 		<return-scalar column="RECEIVE_PAYMENT_ID" type="long" />
 		<return-scalar column="WRITE_CHECK_ID" type="long" />
 		<return-scalar column="CUSTOMER_PREPAYMENT_ID" type="long" />
-
+		<return-scalar column="TI_ID" type="long" />
+		
 		SELECT CS.ID AS CUSTOMER_ID,
 		CCM.ID AS CUSTOMER_CREDIT_MEMO_ID,
 		CR.ID AS
@@ -2324,7 +2341,8 @@
 		RECEIVE_PAYMENT_ID,
 		WC.ID AS WRITE_CHECK_ID,
 		CPP.ID AS
-		CUSTOMER_PREPAYMENT_ID
+		CUSTOMER_PREPAYMENT_ID,
+		TI.ID AS TI_ID
 		FROM CUSTOMER
 		C
 		LEFT OUTER
@@ -2359,6 +2377,8 @@
 		CUSTOMER_PREPAYMENT CPP
 		ON C.ID =
 		CPP.CUSTOMER_ID
+		LEFT JOIN TRANSACTION_ITEM TI 
+		ON C.ID=TI.CUSTOMER_ID
 		WHERE
 		C.ID=:inputId AND C.COMPANY_ID=:companyId
 		LIMIT 1
@@ -2557,7 +2577,7 @@
 		ON A.ID =
 		I.INCOME_ACCOUNT_ID
 		OR A.ID = I.EXPENSE_ACCOUNT_ID
-
+		OR A.ID = I.ASSETS_ACCOUNT_ID
 		LEFT OUTER JOIN
 		VENDOR V
 		ON A.ID= V.EXPENSE_ACCOUNT_ID
@@ -3221,6 +3241,7 @@
 		<return-scalar column="TRANSACTION_EXPENSE_ID" type="long" />
 		<return-scalar column="TRANSACTION_DEPOSIT_ITEM_ID"
 			type="long" />
+		<return-scalar column="CPP_ID" type="long" />
 
 		SELECT AC.ID AS ACCOUNT_ID,
 		CASE WHEN (SELECT JE.ID FROM JOURNAL_ENTRY JE WHERE JE.ID = AT.TRANSACTION_ID AND JE.ACCOUNT_ID = A.ID) IS NULL
@@ -3275,7 +3296,8 @@
 		TMDE.ID AS
 		TRANSACTION_MAKEDEPOSIT_ENTRIES_ID,
 		TE.ID AS
-		TRANSACTION_EXPENSE_ID
+		TRANSACTION_EXPENSE_ID,
+		CPP.ID AS CPP_ID
 		FROM
 		ACCOUNT A
 		LEFT OUTER JOIN
@@ -3419,8 +3441,10 @@
 		TRANSACTION_EXPENSE TE
 		ON A.ID =
 		TE.ACCOUNT_ID
+		LEFT OUTER JOIN CUSTOMER_PREPAYMENT CPP
+		ON CPP.DEPOSITIN_ID=A.ID
 		WHERE A.ID =
-		:inputId AND A.COMPANY_ID=:companyId LIMIT 1
+		:inputId AND A.COMPANY_ID=:companyId
 	</sql-query>
 
 	<sql-query name="canDeleteInvoice">
@@ -5797,7 +5821,7 @@
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
 		<return-scalar column="IS_PERCENTAGE" type="boolean" />
 		<return-scalar column="VAT_RATE" type="double" />
-		<return-scalar column="TRANSACTION_ID" type="string" />
+		<return-scalar column="TRANSACTION_ID" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="LINE_TOTAL" type="double" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
@@ -6546,8 +6570,6 @@
 		<query-param name="previousTwoDaysBackDateCal" type="long" />
 		<query-param name="previousOneDayBackDateCal" type="long" />
 
-		<return-scalar column="ACCOUNT_TYPE" type="string" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
 		<return-scalar column="PREVOIUS_THREE_DAYS_BACK_AMOUNT"
 			type="double" />
 		<return-scalar column="PREVOIUS_TWO_DAYS_BACK_AMOUNT"
@@ -6557,13 +6579,6 @@
 		<return-scalar column="CURRENT_DAY_AMOUNT" type="double" />
 
 		SELECT
-		CASE
-		WHEN A.A_TYPE = 2 THEN
-		'Bank Account'
-		END AS ACCOUNT_TYPE,
-
-		A.NAME AS ACCOUNT_NAME,
-
 		A.TOTAL_BALANCE - CASE WHEN (SELECT
 		SUM(AT.AMOUNT) FROM ACCOUNT_TRANSACTION AT
 		LEFT OUTER JOIN TRANSACTION
@@ -6801,6 +6816,38 @@
 
 		WHERE ST.ID IS NULL AND
 		ST.ID=:inputId AND ST.COMPANY_ID=:companyId
+
+	</sql-query>
+	
+	<sql-query name="canDeleteStockAdjustment">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="SA_ID" type="long" />
+
+		SELECT
+		SA.ID AS SA_ID
+
+		FROM STOCK_ADJUSTMENT SA
+
+		WHERE SA.ID IS NULL AND
+		SA.ID=:inputId AND SA.COMPANY_ID=:companyId
+
+	</sql-query>
+	
+	<sql-query name="canDeleteBuildAssembly">
+		<query-param name="companyId" type="long" />
+		<query-param name="inputId" type="long" />
+
+		<return-scalar column="BA_ID" type="long" />
+
+		SELECT
+		BA.ID AS BA_ID
+
+		FROM BUILD_ASSEMBLY BA
+
+		WHERE BA.ID IS NULL AND
+		BA.ID=:inputId AND BA.COMPANY_ID=:companyId
 
 	</sql-query>
 
@@ -7509,8 +7556,8 @@
 
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.supportUser">
 		<return-scalar column="COMPANY_ID" type="long" />
-		<return-scalar column="TRADING_NAME" type="string" />
-		<return-scalar column="REGISTRED_COUNTRY" type="string" />
+		<return-scalar column="TRADING_NAME" type="encryptedstring" />
+		<return-scalar column="REGISTRED_COUNTRY" type="encryptedstring" />
 		SELECT
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
@@ -7532,7 +7579,7 @@
 		<query-param name="userIds" type="long" />
 		SELECT C.Id,C.TRADING_NAME FROM
 		COMPANY C LEFT JOIN USERS U ON
-		U.COMPANY_ID=C.ID WHERE U.ID IN :userIds AND C.SECRET_KEY IS NULL
+		U.COMPANY_ID=C.ID WHERE U.ID IN (:userIds) AND C.SECRET_KEY IS NULL
 		ORDER BY
 		C.TRADING_NAME
 	</sql-query>
@@ -7540,8 +7587,8 @@
 	<sql-query name="get.CompanyId.Tradingname.and.Country.of.user">
 		<query-param name="userIds" type="long" />
 		<return-scalar column="COMPANY_ID" type="long" />
-		<return-scalar column="TRADING_NAME" type="string" />
-		<return-scalar column="REGISTRED_COUNTRY" type="string" />
+		<return-scalar column="TRADING_NAME" type="encryptedstring" />
+		<return-scalar column="REGISTRED_COUNTRY" type="encryptedstring" />
 		SELECT
 		B.COMPANY_ID AS COMPANY_ID,
 		B.TRADING_NAME TRADING_NAME,
@@ -7783,7 +7830,7 @@
 	</sql-query>
 
 	<query name="getPortletPageConfiguration">
-		<query-param name="pageName" type="string" />
+		<query-param name="pageName" type="encryptedstring" />
 		<query-param name="userId" type="long" />
 		from com.vimukti.accounter.core.PortletPageConfiguration p where
 		p.pageName=:pageName AND p.user.id=:userId
@@ -7824,15 +7871,17 @@
 			AND a.COMPANY_ID=:companyId AND a.ACTIVITY_TYPE IN(2,3) AND NOT EXISTS (select 
 			1 from ACTIVITY where ID = a.ID and OBJECT_ID > a.OBJECT_ID) GROUP BY a.ID 
 			ORDER by a.TRANSACTION_DATE DESC LIMIT :limit -->
-		SELECT T.ID ,T.T_TYPE,T.TOTAL,C.FULL_NAME,T.T_DATE, T.CURRENCY FROM
+		SELECT T.ID , T.T_TYPE , T.TOTAL , C.FULL_NAME , T.T_DATE , T.CURRENCY , CASE WHEN T.T_TYPE =7 THEN E.ESTIMATETYPE ELSE 0 END AS ESTIMATE_TYPE FROM
 		TRANSACTION T
 		LEFT JOIN
 		USERS U ON U.ID = T.LAST_MODIFIER
 		LEFT JOIN
-		CLIENT C ON C.ID=U.CLIENT_ID WHERE
+		CLIENT C ON C.ID=U.CLIENT_ID
+		CLIENT C ON C.ID=U.CLIENT_ID LEFT JOIN ESTIMATE E ON E.ID=T.ID WHERE
+		 WHERE
 		T.COMPANY_ID=:companyId
 		AND
-		T.SAVE_STATUS=203 ORDER by T.CREATED_DATE DESC LIMIT :limit
+		T.SAVE_STATUS NOT IN (201, 202) ORDER by T.CREATED_DATE DESC LIMIT :limit
 
 	</sql-query>
 
@@ -7895,6 +7944,27 @@
 		IS_DELETED = call delete_company(:companyId)
 	</sql-query>
 
+	<sql-query name="createSubscriptionFunction">
+		CREATE OR REPLACE FUNCTION
+		CREATE_SUBSCRIPTIONS() RETURNS BOOLEAN AS $$
+		DECLARE
+		R RECORD;
+		_ID BIGINT;
+		BEGIN
+		FOR R IN SELECT * FROM CLIENT
+		LOOP
+		IF R.CLIENT_SUBSCRIPTION IS NULL THEN
+		INSERT INTO CLIENT_SUBSCRIPTION
+		(SUBSCRIPTION_ID,LAST_MODIFIED,CREATED_DATE,EXPIRED_DATE,PREMIUM_TYPE)
+		VALUES(1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,(DATE('NOW') + INTERVAL '2 YEAR'),0) RETURNING ID INTO
+		_ID;
+		UPDATE CLIENT SET CLIENT_SUBSCRIPTION=_ID WHERE CLIENT.ID=R.ID;
+		END IF;
+		END LOOP;
+		RETURN TRUE;
+		END;
+		$$ LANGUAGE PLPGSQL;
+	</sql-query>
 
 	<sql-query name="createDeleteCompanyFunction">
 		CREATE OR REPLACE FUNCTION delete_company(cid
@@ -8523,10 +8593,8 @@
 		       AND TRANSACTION.company_id = cid; 
 
 		DELETE FROM inventory_assembly_item
-		USING  inventory_assembly,
-			   item
-		WHERE  item.id = inventory_assembly.id
-			   AND inventory_assembly_item_id = inventory_assembly.id
+		USING  item
+		WHERE  inventory_assembly_item_id = item.id
 			   AND item.company_id = cid;
 
 		DELETE FROM inventory_assembly
@@ -8729,6 +8797,9 @@
 		USING  TRANSACTION
 		WHERE  write_checks.id = TRANSACTION.id
 			   AND TRANSACTION.company_id = cid;
+		
+		DELETE FROM job
+		WHERE  company_id = cid;
 
 		DELETE FROM customer
 		WHERE  company_id = cid;
@@ -8999,6 +9070,68 @@
 		C.ID=:customerId
 		ORDER BY DUE_DATE
 	</sql-query>
+	
+	<sql-query name="getOpenInvoicesListByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		INVOICE I
+		ON
+		T.ID=I.ID
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT
+		ON IT.ID = TI.ITEM_ID
+		WHERE T.T_TYPE=8
+		AND T.SAVE_STATUS
+		!= 202 AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE
+		BETWEEN :fromDate AND :toDate AND
+		IT.ID=:itemId AND
+		I.BALANCE_DUE > 0
+		ORDER BY T.ID
+	</sql-query>
 
 	<sql-query name="getOpenInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
@@ -9089,7 +9222,7 @@
 		0
 		ORDER BY DUE_DATE
 	</sql-query>
-
+	
 	<sql-query name="getDraftInvoicesListByCustomer">
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
@@ -9178,6 +9311,70 @@
 		C.ID=:customerId AND
 		T.SAVE_STATUS=201
 		ORDER BY DUE_DATE
+	</sql-query>
+	
+	<sql-query name="getOverdueInvoicesListByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="currentDate" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		INVOICE I
+		ON
+		T.ID=I.ID
+		LEFT OUTER JOIN
+		TRANSACTION_ITEM TI ON
+		TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT
+		ON IT.ID = TI.ITEM_ID
+		WHERE T.SAVE_STATUS NOT IN (204, 202) AND
+		T.T_TYPE=8
+		AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN
+		:fromDate AND
+		:toDate AND
+		I.DUE_DATE &lt;= :currentDate AND
+		IT.ID=:itemId
+		ORDER BY T.ID
 	</sql-query>
 
 	<sql-query name="getOverdueInvoicesListByCustomer">
@@ -9505,6 +9702,59 @@
 		C.ID=:customerId
 	</sql-query>
 
+	<sql-query name="getOpendCustomerCreditMemosByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		WHERE T.T_TYPE=4
+		AND T.STATUS=101 AND
+		T.SAVE_STATUS
+		!= 202 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN
+		:fromDate AND :toDate and
+		IT.ID=:itemId
+		ORDER BY T.ID
+	</sql-query>
 
 	<sql-query name="getOpendCustomerCreditMemosByCustomer">
 		<query-param name="companyId" type="long" />
@@ -10127,7 +10377,6 @@
 		RECEIVE_PAYMENT RP ON RP.ID=T.ID
 		LEFT JOIN
 		CUSTOMER_PREPAYMENT CP ON CP.ID=T.ID
-		LEFT JOIN WRITE_CHECKS WC ON WC.ID =T.ID
 		LEFT
 		JOIN PAYEE P
 		ON
@@ -10137,7 +10386,6 @@
 		P.ID=CCM.CUSTOMER_ID OR
 		P.ID=CR.CUSTOMER_ID OR
 		P.ID=E.CUSTOMER_ID OR
-		P.ID=WC.CUSTOMER_ID OR
 
 		P.ID=RP.CUSTOMER_ID OR
 		P.ID=CP.CUSTOMER_ID
@@ -10446,7 +10694,7 @@
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="IS_VOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
-		<return-scalar column="CHECK_NUMBER" type="string" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
 		<return-scalar column="CURRENCY" type="long" />
 		SELECT
 		T.ID AS TRANSACTION_ID,
@@ -10867,6 +11115,67 @@
 		V.ID =:vendorId
 
 	</sql-query>
+	
+	<sql-query name="getOpenBillsListByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		WHERE
+		T.T_TYPE =6 AND T.SAVE_STATUS
+		!= 202 AND EB.BALANCE_DUE
+		&gt;0.0
+		AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND
+		:toDate AND
+		IT.ID =:itemId
+		ORDER BY T.ID
+
+	</sql-query>
 
 	<sql-query name="getOpenBillsListByVendor">
 		<query-param name="companyId" type="long" />
@@ -11020,6 +11329,69 @@
 		:fromDate AND
 		:toDate AND
 		V.ID =:vendorId
+
+	</sql-query>
+	
+	<sql-query name="getOverDueBillsListByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="currentDate" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ENTER_BILL EB
+		on
+		T.ID=EB.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		WHERE
+		T.T_TYPE =6 AND T.SAVE_STATUS
+		!= 202 AND EB.BALANCE_DUE
+		&gt;0.0
+		AND
+		T.COMPANY_ID=:companyId AND
+		T.T_DATE BETWEEN :fromDate AND
+		:toDate AND
+		EB.DUE_DATE &lt; :currentDate
+		AND IT.ID =:vendorId
+		ORDER BY T.ID
 
 	</sql-query>
 
@@ -11389,7 +11761,7 @@
 		T.T_TYPE =22
 		AND
 		T.SAVE_STATUS
-		!= 202 AND
+		!= 202 AND T.STATUS = 101 AND
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
@@ -11463,7 +11835,7 @@
 		T.T_TYPE =22
 		AND
 		T.SAVE_STATUS
-		!= 202 AND T.STATUS !=5
+		!= 202 AND T.STATUS !=101
 		T.COMPANY_ID=:companyId AND T.T_DATE BETWEEN
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
@@ -11548,6 +11920,10 @@
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
 		<query-param name="vendorId" type="long" />
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="vendorId" type="long" />
 		<return-scalar column="TRANSACTION_ID" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
@@ -11557,10 +11933,12 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -11613,7 +11991,11 @@
 		WHEN
 		T.T_TYPE =11
 		THEN
-		PB.BILL_DUE_ONORBEFORE ELSE null END AS DUE_DATE,
+		PB.BILL_DUE_ONORBEFORE 
+		WHEN T.T_TYPE=22
+		THEN
+		PO.DUE_DATE
+		ELSE null END AS DUE_DATE,
 		0 AS
 		EXPENSE_STATUS
 		FROM
@@ -11645,6 +12027,8 @@
 		LEFT JOIN VENDOR_CREDIT_MEMO VCM
 		on T.ID
 		=VCM.ID
+		LEFT JOIN PURCHASE_ORDER PO
+		ON T.ID=PO.ID
 		LEFT JOIN
 		VENDOR V
 		on V.ID =
@@ -11653,6 +12037,7 @@
 		V.ID =PB.VENDOR_ID OR
 		V.ID =EB.VENDOR_ID OR V.ID
 		=VCM.VENDOR_ID
+		OR V.ID=PO.VENDOR_ID
 		WHERE T.SAVE_STATUS
 		!= 202 AND
 		T.COMPANY_ID=:companyId
@@ -11812,6 +12197,69 @@
 		:fromDate AND :toDate AND
 		V.ID =:vendorId
 	</sql-query>
+	
+	<sql-query name="getAllExpensesByItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT
+		T.CURRENCY AS CURRENCY_ID,
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		TI.QTY_VALUE AS QUANTITY,
+		TI.QTY_UNIT AS UNIT,
+		TI.LINE_TOTAL AS AMOUNT
+		
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		CREDIT_CARD_CHARGES CCC
+		on
+		T.ID=CCC.ID
+		LEFT
+		OUTER
+		JOIN
+		CASH_PURCHASE CP
+		on
+		T.ID=CP.ID
+		LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+		LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+		WHERE
+		T.T_TYPE IN (27,26)
+		AND T.SAVE_STATUS
+		!= 202 AND
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN :fromDate AND :toDate AND
+		IT.ID =:itemId
+	</sql-query>
 
 	<sql-query name="getAllExpensesByVendor">
 		<query-param name="companyId" type="long" />
@@ -11827,11 +12275,13 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -11895,6 +12345,7 @@
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN :fromDate AND :toDate AND
 		V.ID =:vendorId
+		ORDER BY T.ID
 	</sql-query>
 
 
@@ -11912,11 +12363,13 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -11982,11 +12435,13 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -12053,11 +12508,13 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -12125,11 +12582,13 @@
 		<return-scalar column="ISVOIDED" type="boolean" />
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 		<return-scalar column="SAVE_STATUS" type="int" />
 
 		SELECT
+		NULL AS VENDOR_NAME,
 		T.SAVE_STATUS AS SAVE_STATUS,
 		T.MEMO AS TRANSACTION_MEMO,
 		T.ID AS TRANSACTION_ID,
@@ -12431,6 +12890,93 @@
 		C.ID=:customerId
 
 	</sql-query>
+	
+	
+	
+	
+		<sql-query name="getAllSalesOrdersByCustomer">
+		<query-param name="companyId" type="long" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="customerId" type="long" />
+		<query-param name="estimateType" type="int" />
+		<query-param name="status" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="DUE_DATE" type="long" />
+		<return-scalar column="TRANSACTION_NET_AMOUNT" type="double" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="TRANSACTION_STATUS" type="int" />
+		<return-scalar column="CUSTOMER_NAME" type="encryptedstring" />
+		<return-scalar column="TOTAL_PRICE" type="double" />
+
+		SELECT
+		T.MEMO AS TRANSACTION_MEMO,
+		T.ID AS
+		TRANSACTION_ID,
+		T.T_TYPE AS
+		TRANSACTION_TYPE,
+		T.T_DATE AS
+		TRANSACTION_DATE,
+		T.NUMBER
+		TRANSACTION_NUMBER,
+		P.NAME AS
+		CUSTOMER_NAME,
+		T.NET_AMOUNT AS
+		TRANSACTION_NET_AMOUNT,
+		NULL
+		AS DUE_DATE,
+		T.TOTAL AS TOTAL_PRICE,
+		CASE
+		WHEN
+		T.SAVE_STATUS = 204
+		THEN TRUE
+		ELSE
+		FALSE
+		END AS ISVOIDED,
+		T.STATUS AS
+		TRANSACTION_STATUS
+		FROM
+		TRANSACTION T
+		LEFT OUTER
+		JOIN
+		ESTIMATE E
+		ON
+		T.ID=E.ID
+		LEFT OUTER JOIN
+		CUSTOMER C
+		ON
+		C.ID
+		=
+		E.CUSTOMER_ID
+		LEFT
+		OUTER JOIN
+		PAYEE P
+		ON
+		P.ID =
+		C.ID
+		WHERE T.T_TYPE=7 AND T.SAVE_STATUS
+		!= 202 AND  ((:status=102 AND T.STATUS =102) OR (:status=0 AND T.STATUS =0) OR (:status NOT IN (0,102)))
+		AND
+		E.ESTIMATETYPE =:estimateType
+		AND 
+		T.COMPANY_ID=:companyId AND T.T_DATE
+		BETWEEN :fromDate AND :toDate
+		AND
+		C.ID=:customerId
+
+	</sql-query>
+	
+	
+	
+	
+	
+	
+	
 
 	<sql-query name="getDraftQuotesByCustomer">
 		<query-param name="companyId" type="long" />
@@ -12525,8 +13071,7 @@
 		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_STATUS" type="int" />
 		<return-scalar column="TRANSACTION_ACCOUNT" type="long" />
-		<return-scalar column="VENDOR_NAME" type="encryptedstring" />
-		
+		<return-scalar column="VENDOR_NAME" type="encryptedstring" />		
 		<return-scalar column="EXPENSE_STATUS" type="int" />
 
 		SELECT
@@ -12654,8 +13199,8 @@
 	</sql-query>
 
 	<sql-query name="getClientByCompany">
-		<query-param name="clientEmail" type="string" />
-		<query-param name="companyName" type="string" />
+		<query-param name="clientEmail" type="encryptedstring" />
+		<query-param name="companyName" type="encryptedstring" />
 
 		select c.id
 		from client c left join users u on u.client_id=c.id
@@ -12679,7 +13224,7 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAX_CODE" type="encryptedstring" />
 		<return-scalar column="TAX_AMOUNT" type="double" />
-		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="CURRENCY" type="encryptedstring" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="LINE_NUMBER" type="long" />
 
@@ -12731,7 +13276,7 @@
 		<return-scalar column="TOTAL" type="double" />
 		<return-scalar column="TAX_CODE" type="encryptedstring" />
 		<return-scalar column="TAX_AMOUNT" type="double" />
-		<return-scalar column="CURRENCY" type="string" />
+		<return-scalar column="CURRENCY" type="encryptedstring" />
 		<return-scalar column="CURRENCY_FACTOR" type="double" />
 		<return-scalar column="COUNTRY" type="encryptedstring" />
 		<return-scalar column="LINE_NUMBER" type="long" />
@@ -12778,7 +13323,7 @@
 		<query-param name="companyId" type="long" />
 
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="ACCOUNT_ID" type="string" />
+		<return-scalar column="ACCOUNT_ID" type="encryptedstring" />
 		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="TRANSACTION_DESC" type="encryptedstring" />
 		<return-scalar column="NAME" type="encryptedstring" />
@@ -12926,13 +13471,14 @@
 		LEFT JOIN
 		PAYEE
 		P ON
-		(P.ID=(CASE WHEN
+		(P.ID=(CASE
+		 WHEN
 		:payeeType = 1 THEN WC.CUSTOMER_ID
 		WHEN
-		:payeeType = 2 THEN WC.VENDOR_ID
-		ELSE 0
+		:payeeType = 2 THEN WC.VENDOR_ID 
+		 ELSE WC.TAX_AGENCY_ID
 		END))
-
+		
 		WHERE
 		T.COMPANY_ID=:companyId AND
 		CASE
@@ -12961,7 +13507,7 @@
 		AND T.SAVE_STATUS
 		!=
 		202
-		AND :payeeType= WC.PAY_TO_TYPE AND
+		AND (:payeeType= WC.PAY_TO_TYPE OR (:payeeType=0 AND WC.PAY_TO_TYPE=4))AND
 		T.T_DATE
 		BETWEEN
 		:fromDate AND
@@ -12981,8 +13527,10 @@
 		<return-scalar column="IN_ACCOUNT" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-
-		SELECT
+		<return-scalar column="SAVE_STATUS" type="int" />
+ 
+ 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
@@ -13044,8 +13592,10 @@
 		<return-scalar column="FROM_ACCOUNT" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		<return-scalar column="CURRENCY" type="long" />
-
-		SELECT
+		<return-scalar column="SAVE_STATUS" type="int" />
+ 
+ 		SELECT
+		T.SAVE_STATUS AS SAVE_STATUS,
 		T.ID AS TRANSACTION_ID,
 		T.T_DATE AS TRANSACTION_DATE,
 		T.T_TYPE AS
@@ -13347,9 +13897,9 @@
 		<return-scalar column="COST" type="double" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
 		<return-scalar column="ITEM_UNITS" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
 		<return-scalar column="ITEM_ID" type="long" />
-		<return-scalar column="PAYEE_NAME" type="string" />
+		<return-scalar column="PAYEE_NAME" type="encryptedstring" />
 		<return-scalar column="PAYEE_ID" type="long" />
 		SELECT TRANSACTION_ID,
 		TRANSACTION_DATE,
@@ -13385,8 +13935,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="double" />
 		<return-scalar column="ITEM_UNITS" type="long" />
 		<return-scalar column="COST" type="double" />
@@ -13421,8 +13971,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="PREFFERED_VENDOR" type="long" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
@@ -13443,8 +13993,8 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="fromDate" type="long" />
 		<query-param name="toDate" type="long" />
-		<return-scalar column="ITEM_NAME" type="string" />
-		<return-scalar column="DESCRIPTION" type="string" />
+		<return-scalar column="ITEM_NAME" type="encryptedstring" />
+		<return-scalar column="DESCRIPTION" type="encryptedstring" />
 		<return-scalar column="PREFFERED_VENDOR" type="long" />
 		<return-scalar column="ITEM_TOTAL_QUANTITY" type="long" />
 		<return-scalar column="ITEM_ID" type="long" />
@@ -13476,7 +14026,7 @@
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="long" />
 		<return-scalar column="TRANSACTION_DATE" type="long" />
-		<return-scalar column="ACCOUNT_NAME" type="string" />
+		<return-scalar column="ACCOUNT_NAME" type="encryptedstring" />
 		<return-scalar column="AMOUNT" type="double" />
 		
 		SELECT 
@@ -13509,52 +14059,202 @@
 		<query-param name="companyId" type="long" />
 		<query-param name="startDate" type="long" />
 		<query-param name="endDate" type="long" />
-		
-			<return-scalar column="TRANSACTION_ID" type="long" />
-			<return-scalar column="TRANSACTION_TYPE" type="int" />
-			<return-scalar column="TRANSACTION_NUMBER" type="long" />
-			<return-scalar column="TRANSACTION_DATE" type="long" />
-			<return-scalar column="AMOUNT" type="double" />
-			<return-scalar column="CHECK_NUMBER" type="string" />
-		
-				SELECT T.ID AS TRANSACTION_ID,
-				T.T_TYPE AS TRANSACTION_TYPE,
-				T.NUMBER AS TRANSACTION_NUMBER,
-				T.T_DATE AS TRANSACTION_DATE,
-				T.TOTAL AS AMOUNT,
-				CASE
-				WHEN T.T_TYPE=15
-				THEN
-				W.CHECK_NUMBER
-				WHEN T_TYPE IN(2,26,28) THEN
-				CP.CHECK_NUMBER
-				WHEN T_TYPE=5 THEN
-				CR.CHECK_NUMBER
-				WHEN T.T_TYPE=17
-				THEN
-				PT.CHECK_NUMBER
-				WHEN T_TYPE=11 THEN
-				PB.CHECK_NUMBER
-				WHEN T_TYPE in(3,27) THEN
-				CCC.CHECK_NUMBER
-				WHEN T.T_TYPE=31
-				THEN
-				RV.CHECK_NUMBER
-				WHEN T.T_TYPE=29
-				THEN
-				CPP.CHECK_NUMBER
-				END AS CHECK_NUMBER
-				FROM TRANSACTION T
-				LEFT JOIN WRITE_CHECKS W ON W.ID=T.ID
-				LEFT JOIN CASH_PURCHASE CP ON CP.ID=T.ID
-				LEFT JOIN CUSTOMER_REFUND CR ON CR.ID=T.ID
-				LEFT JOIN PAY_TAX PT ON PT.ID=T.ID
-				LEFT JOIN PAY_BILL PB ON PB.ID=T.ID
-				LEFT JOIN CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
-				LEFT JOIN RECEIVE_VAT RV ON RV.ID=T.ID
-				LEFT JOIN CUSTOMER_PREPAYMENT CPP ON CPP.ID=T.ID
-				WHERE T.COMPANY_ID=:companyId AND T.PAYMENT_METHOD='Check' AND ( T.T_DATE
-				&lt;= :endDate AND T.T_DATE &gt;= :startDate);
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="NAME" type="encryptedstring" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CHECK_NUMBER" type="encryptedstring" />
+
+		SELECT T.ID AS TRANSACTION_ID,
+		T.T_TYPE AS TRANSACTION_TYPE,
+		T.NUMBER AS
+		TRANSACTION_NUMBER,
+		T.T_DATE AS TRANSACTION_DATE,
+		P.NAME AS NAME,
+		T.TOTAL *T.CURRENCY_FACTOR AS AMOUNT,
+		CASE
+		WHEN T.T_TYPE=15
+		THEN
+		W.CHECK_NUMBER
+		WHEN T_TYPE
+		IN(2,26,28) THEN
+		CP.CHECK_NUMBER
+		WHEN T_TYPE=5
+		THEN
+		CR.CHECK_NUMBER
+		WHEN
+		T.T_TYPE=17
+		THEN
+		PT.CHECK_NUMBER
+		WHEN T_TYPE=11
+		THEN
+		PB.CHECK_NUMBER
+		WHEN
+		T_TYPE in(3,27) THEN
+		CCC.CHECK_NUMBER
+		WHEN
+		T.T_TYPE=31
+		THEN
+		RV.CHECK_NUMBER
+		WHEN T.T_TYPE=29
+		THEN
+		CPP.CHECK_NUMBER
+		WHEN T.T_TYPE = 12
+		THEN RP.CHECK_NUMBER
+		END AS CHECK_NUMBER
+		FROM
+		TRANSACTION T
+		LEFT JOIN
+		WRITE_CHECKS W ON W.ID=T.ID
+		LEFT JOIN
+		CASH_PURCHASE CP ON CP.ID=T.ID
+		LEFT JOIN CUSTOMER_REFUND CR ON
+		CR.ID=T.ID
+		LEFT JOIN PAY_TAX PT ON
+		PT.ID=T.ID
+		LEFT JOIN PAY_BILL PB ON
+		PB.ID=T.ID
+		LEFT JOIN
+		CREDIT_CARD_CHARGES CCC ON CCC.ID=T.ID
+		LEFT JOIN
+		RECEIVE_VAT RV ON
+		RV.ID=T.ID
+		LEFT JOIN CUSTOMER_PREPAYMENT CPP ON
+		CPP.ID=T.ID
+		LEFT JOIN
+		RECEIVE_PAYMENT RP ON RP.ID= T.ID
+		LEFT JOIN PAYEE P
+		ON P.ID=
+		W.VENDOR_ID OR P.ID= W.CUSTOMER_ID OR
+		P.ID = CP.VENDOR_ID OR
+		P.ID =
+		CR.CUSTOMER_ID OR
+		P.ID = PT.TAX_AGENCY_ID OR
+		P.ID = PB.VENDOR_ID
+		OR
+		P.ID
+		= CCC.VENDOR_ID OR
+		P.ID = RV.TAX_AGENCY_ID OR
+		P.ID =
+		CPP.CUSTOMER_ID OR
+		P.ID= RP.CUSTOMER_ID
+		WHERE T.COMPANY_ID=:companyId
+		AND
+		T.PAYMENT_METHOD='Cheque' AND ( T.T_DATE
+		&lt;= :endDate AND T.T_DATE
+		&gt;= :startDate);
+	</sql-query>
+	
+	<sql-query name="getTransactionForItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="transactionType" type="int" />
+		<query-param name="saveStatus" type="int" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT T.ID AS TRANSACTION_ID,
+			T.T_DATE AS TRANSACTION_DATE,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.NUMBER AS TRANSACTION_NUMBER,
+			T.MEMO AS TRANSACTION_MEMO,
+			TI.QTY_VALUE AS QUANTITY,
+			TI.QTY_UNIT AS UNIT,
+			TI.LINE_TOTAL AS AMOUNT,
+			CASE
+			WHEN
+			T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+			END AS ISVOIDED,
+			T.CURRENCY AS CURRENCY_ID
+
+
+			FROM TRANSACTION T
+			LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+			LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+
+			WHERE TI.TYPE = 1 AND IT.ID =:itemId AND T.T_DATE BETWEEN :fromDate AND :toDate
+					AND CASE WHEN :transactionType !=0
+					THEN T.T_TYPE =:transactionType
+					ELSE TRUE
+					END AND 
+					CASE WHEN :saveStatus !=0
+					THEN T.SAVE_STATUS=:saveStatus
+					ELSE TRUE
+					END
+					AND T.COMPANY_ID =:companyId
+					
+			ORDER BY T.ID
+	</sql-query>
+	
+	<sql-query name="getEstimatesForItem">
+		<query-param name="companyId" type="long" />
+		<query-param name="saveStatus" type="int" />
+		<query-param name="fromDate" type="long" />
+		<query-param name="toDate" type="long" />
+		<query-param name="itemId" type="long" />
+		<query-param name="estimateType" type="int" />
+
+		<return-scalar column="TRANSACTION_ID" type="long" />
+		<return-scalar column="TRANSACTION_DATE" type="long" />
+		<return-scalar column="TRANSACTION_TYPE" type="int" />
+		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
+		<return-scalar column="ISVOIDED" type="boolean" />
+		<return-scalar column="TRANSACTION_MEMO" type="encryptedstring" />
+		<return-scalar column="QUANTITY" type="double" />
+		<return-scalar column="UNIT" type="long" />
+		<return-scalar column="AMOUNT" type="double" />
+		<return-scalar column="CURRENCY_ID" type="long" />
+
+		SELECT T.ID AS TRANSACTION_ID,
+			T.T_DATE AS TRANSACTION_DATE,
+			T.T_TYPE AS TRANSACTION_TYPE,
+			T.NUMBER AS TRANSACTION_NUMBER,
+			T.MEMO AS TRANSACTION_MEMO,
+			TI.QTY_VALUE AS QUANTITY,
+			TI.QTY_UNIT AS UNIT,
+			TI.LINE_TOTAL AS AMOUNT,
+			CASE
+			WHEN
+			T.SAVE_STATUS = 204
+			THEN TRUE
+			ELSE
+			FALSE
+			END AS ISVOIDED,
+			T.CURRENCY AS CURRENCY_ID
+
+
+			FROM TRANSACTION T
+			LEFT OUTER JOIN ESTIMATE E E.ID = T.ID
+			LEFT OUTER JOIN TRANSACTION_ITEM TI ON TI.TRANSACTION_ID = T.ID
+			LEFT OUTER JOIN ITEM IT ON IT.ID = TI.ITEM_ID
+
+			WHERE TI.TYPE = 1 AND IT.ID =:itemId AND T.T_DATE BETWEEN :fromDate AND :toDate
+					AND T.T_TYPE =7 AND 
+					CASE WHEN :saveStatus !=0
+					THEN T.SAVE_STATUS=:saveStatus
+					ELSE TRUE
+					END
+					AND T.COMPANY_ID =:companyId
+					AND
+					E.ESTIMATETYPE =:estimateType
+			ORDER BY T.ID
 	</sql-query>
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

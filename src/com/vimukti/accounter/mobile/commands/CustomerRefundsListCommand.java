@@ -48,7 +48,7 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 
 	@Override
 	public String getSuccessMessage() {
-		return "Success";
+		return getMessages().success();
 
 	}
 
@@ -80,7 +80,7 @@ public class CustomerRefundsListCommand extends AbstractTransactionListCommand {
 
 			@Override
 			protected String getEmptyString() {
-				return "No Customer Refunds are available";
+				return getMessages().noRecordsToShow();
 
 			}
 

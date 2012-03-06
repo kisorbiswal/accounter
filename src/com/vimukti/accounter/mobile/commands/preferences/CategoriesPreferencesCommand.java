@@ -25,12 +25,12 @@ public class CategoriesPreferencesCommand extends
 
 			@Override
 			protected String getTrueString() {
-				return "Tracking Location tracking enabled";
+				return getMessages().trackingLocationTrackingEnabled();
 			}
 
 			@Override
 			protected String getFalseString() {
-				return "Tracking Location tracking disabled";
+				return getMessages().trackingLocationTrackingDisabled();
 			}
 		});
 		list.add(new StringListRequirement(

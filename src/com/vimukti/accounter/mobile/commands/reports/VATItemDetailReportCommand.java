@@ -62,7 +62,7 @@ public class VATItemDetailReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TAXItemDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

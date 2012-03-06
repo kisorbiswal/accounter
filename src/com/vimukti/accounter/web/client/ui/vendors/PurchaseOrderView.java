@@ -177,13 +177,14 @@ public class PurchaseOrderView extends
 		DynamicForm transactionTotalForm = new DynamicForm();
 		transactionTotalForm.setNumCols(2);
 
+		DynamicForm form = new DynamicForm();
+
 		if (isTrackTax() && isTrackPaidTax()) {
 
 			DynamicForm priceLevelForm = new DynamicForm();
 			// priceLevelForm.setCellSpacing(4);
 			// priceLevelForm.setWidth("70%");
 			// priceLevelForm.setFields(priceLevelSelect);
-			DynamicForm form = new DynamicForm();
 			taxCodeSelect = createTaxCodeSelectItem();
 			if (!isTaxPerDetailLine()) {
 				form.setFields(taxCodeSelect);
@@ -247,6 +248,10 @@ public class PurchaseOrderView extends
 			// prodAndServiceHLay.add(amountsForm);
 			// prodAndServiceHLay.setCellHorizontalAlignment(amountsForm,
 			// ALIGN_RIGHT);
+		}
+
+		if (!isDiscountPerDetailLine() && isTrackDiscounts()) {
+			form.setFields(discountField);
 		}
 		amountsForm.add(transactionTotalForm);
 
@@ -385,14 +390,13 @@ public class PurchaseOrderView extends
 		});
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
-		deliveryDateItem.setTitle(messages.receivedDate());
 
 		DynamicForm dateform = new DynamicForm();
 		dateform.setWidth("100%");
 		dateform.setNumCols(2);
 		if (locationTrackingEnabled)
 			dateform.setFields(locationCombo);
-		dateform.setItems(dueDateItem, despatchDateItem, deliveryDateItem);
+		dateform.setItems(dueDateItem, /* despatchDateItem, */deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
@@ -847,12 +851,11 @@ public class PurchaseOrderView extends
 			} else
 				billtoAreaItem.setValue("");
 			if (isTrackTax() && isTrackPaidTax()) {
-
-				if (!isTaxPerDetailLine()) {
-					selectTAXCode();
-				}
 				if (vatinclusiveCheck != null) {
 					setAmountIncludeChkValue(isAmountIncludeTAX());
+				}
+				if (!isTaxPerDetailLine()) {
+					selectTAXCode();
 				}
 			}
 
@@ -1115,7 +1118,7 @@ public class PurchaseOrderView extends
 		if (statusSelect.getSelectedValue().equals(OPEN))
 			transaction.setStatus(ClientTransaction.STATUS_OPEN);
 		else if (statusSelect.getSelectedValue().equals(COMPLETED))
-			transaction.setStatus(ClientTransaction.STATUS_APPLIED);
+			transaction.setStatus(ClientTransaction.STATUS_COMPLETED);
 		else if (statusSelect.getSelectedValue().equals(CANCELLED))
 			transaction.setStatus(ClientTransaction.STATUS_CANCELLED);
 
@@ -1333,11 +1336,12 @@ public class PurchaseOrderView extends
 		}
 
 		// TODO::: isvalid received date
-		if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
-				deliveryDateItem.getDate(), transactionDate)) {
-			result.addError(deliveryDateItem,
-					messages.receivedDateShouldNotBeAfterTransactionDate());
-		}
+		/*
+		 * if (!AccounterValidator.isValidPurchaseOrderRecievedDate(
+		 * deliveryDateItem.getDate(), transactionDate)) {
+		 * result.addError(deliveryDateItem,
+		 * messages.receivedDateShouldNotBeAfterTransactionDate()); }
+		 */
 
 		if (!statusSelect.validate()) {
 			result.addError(statusSelect, statusSelect.getTitle());
@@ -1463,6 +1467,7 @@ public class PurchaseOrderView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		discountField.setDisabled(isInViewMode());
 
 		super.onEdit();
 	}

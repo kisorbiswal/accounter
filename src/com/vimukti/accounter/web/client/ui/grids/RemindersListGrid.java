@@ -7,6 +7,7 @@ import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
 
@@ -31,6 +32,8 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	@Override
 	protected Object getColumnValue(ClientReminder obj, int index) {
+		ClientTransaction transaction = obj.getRecurringTransaction()
+				.getTransaction();
 		switch (index) {
 		case 0:
 			return obj.getName();
@@ -40,10 +43,10 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 			return UIUtils.getDateByCompanyType(new ClientFinanceDate(obj
 					.getTransactionDate()));
 		case 3:
-			return Utility.getTransactionName(obj.getRecurringTransaction()
-					.getTransaction().getType());
+			return Utility.getTransactionName(transaction.getType());
 		case 4:
-			return obj.getRecurringTransaction().getTransaction().getTotal();
+			return DataUtils.amountAsStringWithCurrency(transaction.getTotal(),
+					transaction.getCurrency());
 		}
 		return null;
 	}
@@ -62,6 +65,10 @@ public class RemindersListGrid extends BaseListGrid<ClientReminder> {
 
 	@Override
 	protected void onClick(final ClientReminder obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, obj.getRecurringTransaction()
+				.getTransaction().getType())) {
+			return;
+		}
 		if (col == 1) {
 			AccounterAsyncCallback<ClientTransaction> callBack = new AccounterAsyncCallback<ClientTransaction>() {
 

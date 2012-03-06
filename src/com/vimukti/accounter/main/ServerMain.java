@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.DailyRollingFileAppender;
@@ -23,6 +24,7 @@ import org.hibernate.Transaction;
 
 import com.vimukti.accounter.core.ServerMaintanance;
 import com.vimukti.accounter.core.Subscription;
+import com.vimukti.accounter.encryption.Encrypter;
 import com.vimukti.accounter.mail.EmailManager;
 import com.vimukti.accounter.main.upload.AttachmentFileServer;
 import com.vimukti.accounter.mobile.AccounterChatServer;
@@ -49,6 +51,7 @@ public class ServerMain extends Main {
 		String configFile = getArgument(args, "-config");
 		ServerConfiguration.init(configFile);
 		initLogger();
+		Encrypter.init();
 
 		Session session = HibernateUtil.openSession();
 		try {
@@ -260,10 +263,14 @@ public class ServerMain extends Main {
 			if (isDebug) {
 				BasicConfigurator.configure(new ConsoleAppender());
 			} else {
-				Layout layout = new PatternLayout("%d %x %C{1}.%M- %m%n");
+				Layout layout = new PatternLayout(
+						"%d{dd MMM yyyy HH:mm:ss} %p [%c{1}] - %m %n");
 				Logger.getRootLogger().addAppender(
 						new DailyRollingFileAppender(layout, path,
 								"'.'yyyy-MM-dd-a"));
+				Appender appender = Logger.getRootLogger().getAppender(
+						"console");
+				appender.setLayout(layout);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

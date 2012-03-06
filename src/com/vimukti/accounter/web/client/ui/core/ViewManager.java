@@ -45,6 +45,7 @@ import com.vimukti.accounter.web.client.ui.company.TransactionsCenterView;
 import com.vimukti.accounter.web.client.ui.core.HistoryList.HistoryItem;
 import com.vimukti.accounter.web.client.ui.customers.CustomerCenterView;
 import com.vimukti.accounter.web.client.ui.customers.VendorCenterView;
+import com.vimukti.accounter.web.client.ui.settings.InventoryCentreView;
 
 /**
  * 
@@ -250,6 +251,12 @@ public class ViewManager extends HorizontalPanel {
 	}
 
 	protected void historyChanged(String value) {
+
+		if (value != null && views.current() != null
+				&& value.equals(views.current().token)) {
+			return;
+		}
+
 		HistoryToken token = null;
 		try {
 			token = new HistoryToken(value);
@@ -417,11 +424,15 @@ public class ViewManager extends HorizontalPanel {
 		}
 
 		if ((existingView instanceof BaseListView)
-				|| (existingView instanceof TransactionsCenterView)) {
+				|| (existingView instanceof TransactionsCenterView)
+				|| (existingView instanceof InventoryCentreView)) {
 			String labelString;
 			if (existingView instanceof TransactionsCenterView) {
 				TransactionsCenterView centerView = (TransactionsCenterView) existingView;
 				labelString = centerView.baseListView.getAddNewLabelString();
+			} else if (existingView instanceof InventoryCentreView) {
+				labelString = ((InventoryCentreView) existingView)
+						.getAddNewLabelString();
 			} else {
 				labelString = ((BaseListView) existingView)
 						.getAddNewLabelString();
@@ -724,13 +735,18 @@ public class ViewManager extends HorizontalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				BaseListView baseListView;
+				Action action;
 				if (existingView instanceof TransactionsCenterView) {
 					TransactionsCenterView centerView = (TransactionsCenterView) existingView;
 					baseListView = centerView.baseListView;
+					action = baseListView.getAddNewAction();
+				} else if (existingView instanceof InventoryCentreView) {
+					action = ((InventoryCentreView) existingView)
+							.getAddNewAction();
 				} else {
 					baseListView = (BaseListView) existingView;
+					action = baseListView.getAddNewAction();
 				}
-				Action action = baseListView.getAddNewAction();
 				if (action != null) {
 					action.run(null, false);
 				}

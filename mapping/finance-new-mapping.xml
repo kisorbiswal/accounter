@@ -44,15 +44,15 @@
 		<id name="id" column="ID">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="subscription" column="SUBSCRIPTION_ID"
-			not-null="true" cascade="save-update">
+		<many-to-one name="subscription" column="SUBSCRIPTION_ID" class="Subscription"
+			not-null="true">
 		</many-to-one>
 		<property name="lastModified" column="LAST_MODIFIED"></property>
 		<property name="createdDate" column="CREATED_DATE"></property>
 		<property name="expiredDate" column="EXPIRED_DATE"></property>
 		<property name="premiumType" column="PREMIUM_TYPE"></property>
 		<set name="members" table="MEMBERS">
-			<key column="ID" />
+			<key column="MEMBER_ID" />
 			<element column="EMAIL_ID" type="string" />
 		</set>
 	</class>
@@ -62,7 +62,7 @@
 		</id>
 		<property name="type" column="TYPE"></property>
 		<set name="features" table="FEATURES">
-			<key column="ID" />
+			<key column="FEATURE_ID" />
 			<element column="FEATURE_NAME" type="string" />
 		</set>
 	</class>

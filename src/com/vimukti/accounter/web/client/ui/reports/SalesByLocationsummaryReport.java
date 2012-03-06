@@ -65,8 +65,7 @@ public class SalesByLocationsummaryReport extends
 				Integer.parseInt(String.valueOf(endDate.getDate())),
 				reportType, "", "");
 	}
-	
-	
+
 	@Override
 	public void restoreView(Map<String, Object> map) {
 		if (map == null || map.isEmpty()) {

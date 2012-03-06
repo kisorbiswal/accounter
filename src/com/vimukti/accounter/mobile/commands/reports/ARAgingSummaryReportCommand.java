@@ -26,7 +26,8 @@ public class ARAgingSummaryReportCommand extends
 			@Override
 			protected String onSelection(DummyDebitor selection, String name) {
 				markDone();
-				return "A/R Aging Detail " + selection.getDebitorName();
+				return getMessages().arAgeingDetail()
+						+ selection.getDebitorName();
 			}
 
 			@Override
@@ -36,7 +37,7 @@ public class ARAgingSummaryReportCommand extends
 				ResultList list = new ResultList("Total");
 				List<DummyDebitor> records = getRecords(context);
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -62,7 +63,7 @@ public class ARAgingSummaryReportCommand extends
 
 				}
 				Record totalrecord = new Record("Total");
-				totalrecord.add("", "Total");
+				totalrecord.add("", getMessages().total());
 				totalrecord.add("", getAmountWithCurrency(total0to30));
 				totalrecord.add("", getAmountWithCurrency(total30to60));
 				totalrecord.add("", getAmountWithCurrency(tota60to90));
@@ -79,12 +80,12 @@ public class ARAgingSummaryReportCommand extends
 		Record agingRecord = new Record(record);
 		agingRecord.add(getMessages().creditor(), record.getDebitorName());
 		agingRecord.add(
-				"0-30 days",
+				getMessages().dayszeroto30(),
 				getAmountWithCurrency(record.getDebitdays_in30()
 						+ record.getDebitdays_incurrent()));
-		agingRecord.add("31-60 days",
+		agingRecord.add(getMessages().days30to60(),
 				getAmountWithCurrency(record.getDebitdays_in60()));
-		agingRecord.add("61-90 days",
+		agingRecord.add(getMessages().days60to90(),
 				getAmountWithCurrency(record.getDebitdays_in90()));
 		agingRecord.add(getMessages().older(),
 				getAmountWithCurrency(record.getDebitdays_inolder()));

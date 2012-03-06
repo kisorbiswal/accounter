@@ -83,9 +83,10 @@ public abstract class CustomerTransactionsHistoryGrid extends
 
 	@Override
 	public void onDoubleClick(TransactionHistory obj) {
-		if (Accounter.getUser().canDoInvoiceTransactions())
+		if (isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
 			ReportsRPC.openTransactionView(obj.getType(),
 					obj.getTransactionId());
+		}
 	}
 
 	@Override
@@ -116,11 +117,15 @@ public abstract class CustomerTransactionsHistoryGrid extends
 
 	@Override
 	protected void onClick(TransactionHistory obj, int row, int col) {
+		if (!isCanOpenTransactionView(obj.getSavestaus(), obj.getType())) {
+			return;
+		}
 		if (col == 6 && !obj.getIsVoid()) {
-			if (obj.getStatus() == 201) {
+			if (obj.getStatus() == ClientTransaction.STATUS_DRAFT) {
 				Accounter.showError(messages.youCannotVoidDraftedTransaction());
-			} else
+			} else {
 				showWarningDialog(obj, col, row);
+			}
 		}
 	}
 

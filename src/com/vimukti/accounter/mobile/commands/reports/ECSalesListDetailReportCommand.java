@@ -42,7 +42,7 @@ public class ECSalesListDetailReportCommand extends
 				addSelection("ECSalesListDetail");
 				List<ECSalesListDetail> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -53,7 +53,7 @@ public class ECSalesListDetailReportCommand extends
 				}
 				resultList.setTitle(customer.getName());
 				makeResult.add(resultList);
-				makeResult.add(customer.getName() + "  Transactions Total  :"
+				makeResult.add(customer.getName() + getMessages().total()
 						+ total);
 
 			}

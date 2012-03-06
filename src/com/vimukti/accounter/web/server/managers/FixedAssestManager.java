@@ -435,7 +435,7 @@ public class FixedAssestManager extends Manager {
 						fixedAsset.getPurchaseDate().getDate());
 				depreciationTobePosted += format.format(depFrom
 						.getAsDateObject());
-				depreciationTobePosted += " to";
+				depreciationTobePosted += Global.get().messages().to();
 				depreciationTobePosted += format.format(new FinanceDate(
 						soldOrDisposedDateCal.getTime()).getAsDateObject());
 				depreciationTobePosted += ")";
@@ -494,7 +494,7 @@ public class FixedAssestManager extends Manager {
 									.getDate());
 					depreciationTobePosted += format.format(depFrom
 							.getAsDateObject());
-					depreciationTobePosted += " to";
+					depreciationTobePosted += Global.get().messages().to();
 					depreciationTobePosted += format
 							.format(depreciationTillDate.getAsDateObject());
 					depreciationTobePosted += ")";
@@ -524,7 +524,7 @@ public class FixedAssestManager extends Manager {
 
 		}
 
-		String soldDate = "Sold "
+		String soldDate = Global.get().messages().Sold()
 				+ format.format(fixedAsset.getSoldOrDisposedDate()
 						.getDateAsObject());
 

@@ -6,13 +6,14 @@ package com.vimukti.accounter.web.client.ui.grids;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientFixedAsset;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.Action;
 import com.vimukti.accounter.web.client.ui.core.ActionFactory;
 import com.vimukti.accounter.web.client.ui.fixedassets.NoteDialog;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 /**
  * @author Murali.A
@@ -110,10 +111,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onDoubleClick(ClientFixedAsset obj, int row, int index) {
-		if (!(Accounter.getUser().getUserRole().equals(RolePermissions.ADMIN) || Accounter
-				.getUser().getUserRole()
-				.equals(RolePermissions.FINANCIAL_ADVISER)))
+		if (!(Utility.isUserHavePermissions(IAccounterCore.FIXED_ASSET))) {
 			return;
+		}
 		switch (index) {
 		case 5:
 			openHistoryView(obj);
@@ -130,6 +130,9 @@ public class PendingItemsListGrid extends BaseListGrid<ClientFixedAsset> {
 
 	@Override
 	protected void onClick(ClientFixedAsset obj, int row, int col) {
+		if (!Utility.isUserHavePermissions(IAccounterCore.FIXED_ASSET)) {
+			return;
+		}
 		switch (col) {
 		case 7:
 			showWarnDialog(obj);

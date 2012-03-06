@@ -32,7 +32,7 @@ public class ProfitLossReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<TrialBalance> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 

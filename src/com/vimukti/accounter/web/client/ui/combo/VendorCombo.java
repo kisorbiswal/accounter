@@ -11,7 +11,7 @@ import com.vimukti.accounter.web.client.ui.core.QuickAddDialog;
 import com.vimukti.accounter.web.client.ui.vendors.NewVendorAction;
 
 public class VendorCombo extends CustomCombo<ClientVendor> {
-
+	private boolean isAddNew;
 	public VendorCombo(String title) {
 		super(title);
 		initCombo(getCompany().getActiveVendors());
@@ -38,12 +38,14 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	public void onAddNew() {
+		isAddNew= true;
 		NewVendorAction action = ActionFactory.getNewVendorAction();
 		action.setCallback(new ActionCallback<ClientVendor>() {
 
 			@Override
 			public void actionResult(ClientVendor result) {
 				if (result.getName() != null && result.isActive())
+					isAddNew= false;
 					addItemThenfireEvent(result);
 
 			}
@@ -63,6 +65,9 @@ public class VendorCombo extends CustomCombo<ClientVendor> {
 
 	@Override
 	protected void selectionFaildOnClose() {
+		if(isAddNew){
+			return;
+		}
 		final QuickAddDialog dialog = new QuickAddDialog(
 				messages.newPayee(Global.get().vendor())) {
 

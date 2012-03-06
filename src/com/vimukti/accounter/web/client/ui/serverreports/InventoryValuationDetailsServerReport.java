@@ -45,7 +45,7 @@ public class InventoryValuationDetailsServerReport extends
 	@Override
 	public int[] getColumnTypes() {
 		return new int[] { COLUMN_TYPE_TEXT, COLUMN_TYPE_DATE,
-				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
+				COLUMN_TYPE_TEXT, COLUMN_TYPE_TEXT, COLUMN_TYPE_NUMBER,
 				COLUMN_TYPE_AMOUNT, COLUMN_TYPE_TEXT, COLUMN_TYPE_AMOUNT,
 				COLUMN_TYPE_AMOUNT };
 
@@ -57,7 +57,7 @@ public class InventoryValuationDetailsServerReport extends
 			this.sectionName = record.getItemName();
 			addSection(
 					new String[] { sectionName },
-					new String[] { getMessages().total() + " of "
+					new String[] { getMessages().totalOf()
 							+ record.getItemName() }, new int[] { 4, 8 });
 			// addSection(sectionName, "", new int[] { 5 });
 		} else if (sectionDepth == 1) {

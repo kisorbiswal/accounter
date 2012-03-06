@@ -16,12 +16,14 @@ import com.vimukti.accounter.core.AccounterServerConstants;
 import com.vimukti.accounter.core.AccounterThreadLocal;
 import com.vimukti.accounter.core.Activity;
 import com.vimukti.accounter.core.ActivityType;
+import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.CompanyPreferences;
 import com.vimukti.accounter.core.Customer;
 import com.vimukti.accounter.core.CustomerRefund;
 import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.core.FinanceDate;
+import com.vimukti.accounter.core.Job;
 import com.vimukti.accounter.core.JournalEntry;
 import com.vimukti.accounter.core.NumberUtils;
 import com.vimukti.accounter.core.ReceivePayment;
@@ -36,6 +38,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
 import com.vimukti.accounter.web.client.core.ClientEstimate;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
+import com.vimukti.accounter.web.client.core.ClientJob;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Utility;
@@ -642,7 +645,7 @@ public class CustomerManager extends PayeeManager {
 
 			company.getCustomers().remove(fromcustomer);
 			session.saveOrUpdate(company);
-			fromcustomer.setCompany(null);
+			// fromcustomer.setCompany(null);
 
 			session.delete(fromcustomer);
 			tx.commit();
@@ -761,6 +764,25 @@ public class CustomerManager extends PayeeManager {
 			result.add(record);
 		}
 		return new ArrayList<PayeeStatementsList>(result);
+	}
+
+	public PaginationList<ClientJob> getJobsList(long companyId) {
+		Session session = HibernateUtil.getCurrentSession();
+		Company company = getCompany(companyId);
+		Query query = session.getNamedQuery("getJobsList").setParameter(
+				"company", company);
+		PaginationList<ClientJob> clientJobs = new PaginationList<ClientJob>();
+		List<Job> list = query.list();
+		for (Job job : list) {
+			try {
+				clientJobs.add(new ClientConvertUtil().toClientObject(job,
+						ClientJob.class));
+			} catch (AccounterException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return clientJobs;
 	}
 
 	public ArrayList<Customer> getTransactionHistoryCustomers(
@@ -923,6 +945,9 @@ public class CustomerManager extends PayeeManager {
 							.setName(Global.get().messages().charge());
 				} else if (estimate.getEstimateType() == Estimate.QUOTES) {
 					transactionHistory.setName(Global.get().messages().quote());
+				} else if (estimate.getEstimateType() == Estimate.SALES_ORDER) {
+					transactionHistory.setName(Global.get().messages()
+							.salesOrder());
 				} else {
 					transactionHistory
 							.setName(Global.get().messages().credit());
@@ -1130,7 +1155,27 @@ public class CustomerManager extends PayeeManager {
 					.setParameter("customerId", customerId)
 					.setParameter("estimateType", typeOfEstiate);
 
+		} else if (transactionType == Transaction.TYPE_SALES_ORDER) {
+			int typeOfEstiate = 1;
+			if (transactionStatusType == TransactionHistory.COMPLETED_SALES_ORDERS) {
+				typeOfEstiate = ClientTransaction.STATUS_COMPLETED;
+			}
+			if (transactionStatusType == TransactionHistory.OPEN_SALES_ORDERS) {
+
+				typeOfEstiate = 0;
+
+			}
+			queryName = "getAllSalesOrdersByCustomer";
+			query = session.getNamedQuery(queryName)
+					.setParameter("companyId", companyId)
+					.setParameter("fromDate", startDate)
+					.setParameter("toDate", endDate)
+					.setParameter("customerId", customerId)
+					.setParameter("estimateType", 6)
+					.setParameter("status", typeOfEstiate);
+
 		} else if (transactionType == Transaction.TYPE_WRITE_CHECK) {
+
 			if (transactionStatusType == TransactionHistory.ALL_CHEQUES) {
 				queryName = "getAllChequesListByCustomer";
 			} else {
@@ -1159,4 +1204,5 @@ public class CustomerManager extends PayeeManager {
 		customerTransactionsList.setStart(start);
 		return customerTransactionsList;
 	}
+
 }

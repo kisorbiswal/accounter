@@ -63,6 +63,11 @@ public class CreateClassDialog extends BaseDialog<ClientAccounterClass> {
 		ArrayList<ClientAccounterClass> accounterClasses = getCompany()
 				.getAccounterClasses();
 		for (ClientAccounterClass clientAccounterClass : accounterClasses) {
+			if (accounterClass != null
+					&& clientAccounterClass.getID() == this.accounterClass
+							.getID()) {
+				continue;
+			}
 			if (clientAccounterClass.getName().toLowerCase()
 					.equalsIgnoreCase(className.toLowerCase())) {
 				result.addError(createClassTextItem, messages.alreadyExist());

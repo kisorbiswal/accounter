@@ -12,6 +12,7 @@ import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.reports.BudgetOverviewServerReport;
+import com.vimukti.accounter.web.client.ui.reports.BudgetVsActualsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.APAgingSummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ARAgingDetailServerReport;
@@ -26,11 +27,16 @@ import com.vimukti.accounter.web.client.ui.serverreports.CustomerTransactionHist
 import com.vimukti.accounter.web.client.ui.serverreports.DepreciationSheduleServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ECSalesListServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.EstimatesByJobServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.ExpenseServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryStockStatusByVendorServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValuationDetailsServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.InventoryValutionSummaryServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.ItemActualCostDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobActualCostDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilityDetailServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.JobProfitabilitySummaryServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MISC1099TransactionDetailServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MissingChecksServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.MostProfitableCustomerServerReport;
@@ -63,6 +69,7 @@ import com.vimukti.accounter.web.client.ui.serverreports.TAXItemExceptionDetailS
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByAccountServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TransactionDetailByTaxItemServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.TrialBalanceServerReport;
+import com.vimukti.accounter.web.client.ui.serverreports.UnBilledCostsByJobServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VAT100ServerReport;
 import com.vimukti.accounter.web.client.ui.serverreports.VATDetailServerReportView;
 import com.vimukti.accounter.web.client.ui.serverreports.VATExceptionServerReport;
@@ -143,6 +150,16 @@ public class ReportsGenerator {
 	public final static int REPORT_TYPE_BANK_CHECK_DETAIL_REPORT = 180;
 	public final static int REPORT_TYPE_MISSION_CHECKS = 181;
 	public final static int REPORT_TYPE_RECONCILIATION_DISCREPANCY = 182;
+	public final static int REPORT_TYPE_BUDGET_VS_ACTUALS = 183;
+
+	public final static int REPORT_TYPE_ACTUAL_COST_DETAIL = 184;
+	public final static int REPORT_TYPE_PROFITABILTY_SUMMARY = 185;
+	public final static int REPORT_TYPE_UNBILLED_COSTS_BY_JOB = 186;
+	public final static int REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL = 187;
+	public final static int REPORT_TYPE_PROFITANDLOSSBYJOB = 189;
+	public final static int REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID = 190;
+	public final static int REPORT_TYPE_ESTIMATE_BY_JOB = 191;
+
 	// private static int companyType;
 	private final ClientCompanyPreferences preferences = Global.get()
 			.preferences();
@@ -177,13 +194,14 @@ public class ReportsGenerator {
 
 	public ReportsGenerator(int reportType, long starDate, long endDate,
 			String navigateObjectName, int generationType, String status,
-			Company company) {
+			Company company, String dateRangeHtml) {
 		// ReportsGenerator.companyType = companyType;
 		this.reportType = reportType;
 		this.startDate = new FinanceDate(starDate);
 		this.endDate = new FinanceDate(endDate);
 		this.navigateObjectName = navigateObjectName;
 		this.status = status;
+		this.dateRangeHtml = dateRangeHtml;
 		this.company = company;
 		this.generationType = generationType;
 	}
@@ -430,7 +448,8 @@ public class ReportsGenerator {
 			updateReport(transactionDetailByAccountServerReport, finaTool);
 			transactionDetailByAccountServerReport.resetVariables();
 			try {
-				if (status == null || status.isEmpty()) {
+				if (status == null || status.isEmpty()
+						|| status.trim().equals("0")) {
 					transactionDetailByAccountServerReport
 							.onResultSuccess(reportsSerivce
 									.getTransactionDetailByAccount(
@@ -1245,13 +1264,160 @@ public class ReportsGenerator {
 				e.printStackTrace();
 			}
 			return statementReport1.getGridTemplate();
-		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
-			return generateProfitandLossByLocationorClass(false,
-					generationType1, finaTool);
-		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
-			return generateProfitandLossByLocationorClass(true,
-					generationType1, finaTool);
+		case REPORT_TYPE_ESTIMATE_BY_JOB:
+			EstimatesByJobServerReport estimatesByJobServerReport = new EstimatesByJobServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(estimatesByJobServerReport, finaTool);
+			try {
+				estimatesByJobServerReport.onResultSuccess(finaTool
+						.getReportManager().getEstimatesByJob(
+								new FinanceDate(startDate.getDate()),
+								new FinanceDate(endDate.getDate()),
+								company.getID()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return estimatesByJobServerReport.getGridTemplate();
+		case REPORT_TYPE_ACTUAL_COST_DETAIL:
+			JobActualCostDetailServerReport actualCostDetailServerReport = new JobActualCostDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
 
+			};
+			updateReport(actualCostDetailServerReport, finaTool);
+			try {
+				long statusVal = Long.valueOf(status);
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+
+				boolean isCost = false;
+				if (statusVal == 1) {
+					isCost = true;
+				}
+				actualCostDetailServerReport.onResultSuccess(finaTool
+						.getReportManager().getJobActualCostOrRevenueDetails(
+								new FinanceDate(startDate.getDate()),
+								new FinanceDate(endDate.getDate()),
+								company.getID(), isCost, customerIdVal,
+								jobIdVal));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return actualCostDetailServerReport.getGridTemplate();
+		case REPORT_TYPE_PROFITABILTY_SUMMARY:
+			JobProfitabilitySummaryServerReport jobProfitabilitySummaryServerReport = new JobProfitabilitySummaryServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(jobProfitabilitySummaryServerReport, finaTool);
+			try {
+				jobProfitabilitySummaryServerReport.onResultSuccess(finaTool
+						.getReportManager().getJobProfitabilitySummaryReport(
+								company.getID(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return jobProfitabilitySummaryServerReport.getGridTemplate();
+		case REPORT_TYPE_PROFITANDLOSSBYCLASS:
+			return generateProfitandLossByLocationorClass(1, generationType1,
+					finaTool);
+		case REPORT_TYPE_PROFITANDLOSSBYLOCATION:
+			return generateProfitandLossByLocationorClass(2, generationType1,
+					finaTool);
+		case REPORT_TYPE_PROFITANDLOSSBYJOB:
+			return generateProfitandLossByLocationorClass(3, generationType1,
+					finaTool);
+		case REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID:
+			JobProfitabilityDetailServerReport jobProfitabilityDetailServerReport = new JobProfitabilityDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(jobProfitabilityDetailServerReport, finaTool);
+			try {
+
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+				jobProfitabilityDetailServerReport.onResultSuccess(finaTool
+						.getReportManager()
+						.getJobProfitabilityDetailByJobReport(customerIdVal,
+								jobIdVal, company.getId(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return jobProfitabilityDetailServerReport.getGridTemplate();
+		case REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL:
+			ItemActualCostDetailServerReport item = new ItemActualCostDetailServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(item, finaTool);
+			try {
+
+				long customerIdVal = Long.valueOf(navigateObjectName);
+				long jobIdVal = Long.valueOf(dateRangeHtml);
+				long statusVal = 0, itemVal = 0;
+				if (status != null) {
+					String[] split = status.split(",");
+					itemVal = Long.valueOf(split[0]);
+					statusVal = Long.valueOf(split[1]);
+				}
+				boolean isCost = false;
+				if (statusVal == 1) {
+					isCost = true;
+				}
+				item.onResultSuccess(finaTool.getReportManager()
+						.getItemActualCostOrRevenueDetails(
+								new FinanceDate(startDate.getDate()),
+								new FinanceDate(endDate.getDate()),
+								company.getId(), itemVal, customerIdVal,
+								jobIdVal, isCost));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return item.getGridTemplate();
+		case REPORT_TYPE_UNBILLED_COSTS_BY_JOB:
+			UnBilledCostsByJobServerReport unBilledCostsByJobServerReport = new UnBilledCostsByJobServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				public String getDateByCompanyType(ClientFinanceDate date) {
+					return getDateInDefaultType(date);
+				}
+			};
+			updateReport(unBilledCostsByJobServerReport, finaTool);
+			try {
+				unBilledCostsByJobServerReport.onResultSuccess(finaTool
+						.getReportManager().getUnBilledCostsByJobReport(
+								company.getId(),
+								new ClientFinanceDate(startDate.getDate()),
+								new ClientFinanceDate(endDate.getDate())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return unBilledCostsByJobServerReport.getGridTemplate();
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			MISC1099TransactionDetailServerReport misc1099TransactionDetailServerReport = new MISC1099TransactionDetailServerReport(
 					this.startDate.getDate(), this.endDate.getDate(),
@@ -1298,6 +1464,31 @@ public class ReportsGenerator {
 			}
 			return budgetServerReport.getGridTemplate();
 
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+
+			BudgetVsActualsServerReport budgetVsActualsServerReport = new BudgetVsActualsServerReport(
+					this.startDate.getDate(), this.endDate.getDate(),
+					generationType1) {
+				@Override
+				public String getDateByCompanyType(ClientFinanceDate date) {
+
+					return getDateInDefaultType(date);
+				}
+
+			};
+			updateReport(budgetVsActualsServerReport, finaTool);
+			budgetVsActualsServerReport.resetVariables();
+			int type = navigateObjectName != null ? Integer
+					.parseInt(navigateObjectName) : 0;
+			try {
+				budgetVsActualsServerReport.onResultSuccess(finaTool
+						.getReportManager().getBudgetvsAcualReportData(
+								startDate, endDate, getCompany().getID(),
+								Long.valueOf(status), type));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return budgetVsActualsServerReport.getGridTemplate();
 		case REPORT_TYPE_TAX_ITEM_DETAIL:
 			TAXItemDetailServerReportView taxItemDetailServerReportView = new TAXItemDetailServerReportView(
 					startDate.getDate(), endDate.getDate(), generationType1) {
@@ -1567,15 +1758,14 @@ public class ReportsGenerator {
 	}
 
 	private ReportGridTemplate<?> generateProfitandLossByLocationorClass(
-			boolean isLocation, int generationType1, FinanceTool finaTool) {
-		ClientCompany clientCompany;
+			int type, int generationType1, FinanceTool finaTool) {
 		try {
-			clientCompany = finaTool.getManager()
+			ClientCompany clientCompany = finaTool.getManager()
 					.getObjectById(AccounterCoreType.COMPANY, company.getID(),
 							company.getID());
 			ProfitAndLossByLocationServerReport profitAndLossBylocationServerReport = new ProfitAndLossByLocationServerReport(
-					startDate.getDate(), endDate.getDate(), isLocation,
-					generationType1, clientCompany) {
+					clientCompany, startDate.getDate(), type,
+					endDate.getDate(), generationType1) {
 
 				@Override
 				public ClientFinanceDate getCurrentFiscalYearEndDate() {
@@ -1589,17 +1779,15 @@ public class ReportsGenerator {
 
 				@Override
 				public String getDateByCompanyType(ClientFinanceDate date) {
-
-					return getDateInDefaultType(date);
+					return getDateByCompanyType(date);
 				}
 			};
 			updateReport(profitAndLossBylocationServerReport, finaTool);
 			profitAndLossBylocationServerReport.resetVariables();
 			try {
 				profitAndLossBylocationServerReport.onResultSuccess(finaTool
-						.getReportManager()
-						.getProfitAndLossByLocation(isLocation, startDate,
-								endDate, company.getID()));
+						.getReportManager().getProfitAndLossByLocation(type,
+								startDate, endDate, getCompany().getId()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1747,7 +1935,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_SALESORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Sales Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Sales Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Sales Cancelled Order Report";
@@ -1777,7 +1965,7 @@ public class ReportsGenerator {
 		case REPORT_TYPE_PURCHASEORDER_OPEN:
 			if (Integer.parseInt(status) == ClientTransaction.STATUS_OPEN) {
 				return "Purchase Open Order Report";
-			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_APPLIED) {
+			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_COMPLETED) {
 				return "Purchase Completed Order Report";
 			} else if (Integer.parseInt(status) == ClientTransaction.STATUS_CANCELLED) {
 				return "Purchase Cancelled Order Report";
@@ -1827,6 +2015,8 @@ public class ReportsGenerator {
 			return "Profit and Loss by Location";
 		case REPORT_TYPE_BUDGET:
 			return "Budget Report";
+		case REPORT_TYPE_BUDGET_VS_ACTUALS:
+			return "Budget vs Actuals";
 		case REPORT_TYPE_1099TRANSACTIONDETAIL:
 			return "1099 Transaction Detail By Vendor";
 		case REPORT_TYPE_SALESBYCLASSDETAIL:
@@ -1863,6 +2053,21 @@ public class ReportsGenerator {
 			return "Missing Checks";
 		case REPORT_TYPE_RECONCILIATION_DISCREPANCY:
 			return "Reconciliation Discrepancy";
+		case REPORT_TYPE_ESTIMATE_BY_JOB:
+			return "Estimates By Job";
+		case REPORT_TYPE_ACTUAL_COST_DETAIL:
+			return "Job Actual Cost Detail Report";
+		case REPORT_TYPE_PROFITABILTY_SUMMARY:
+			return "Job Profitability Summary Report";
+		case REPORT_TYPE_UNBILLED_COSTS_BY_JOB:
+			return "Unbilled Costs By Job";
+		case REPORT_TYPE_ITEM_ACTUAL_COST_DETAIL:
+			return "Item Actual Cost Detail";
+		case REPORT_TYPE_JOB_PROFITABILITY_BY_JOBID:
+			return "Job Profitability Detail";
+		case REPORT_TYPE_PROFITANDLOSSBYJOB:
+			return "Profit and Loss by Job";
+
 		default:
 			break;
 		}

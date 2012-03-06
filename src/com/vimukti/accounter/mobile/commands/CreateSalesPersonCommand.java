@@ -232,15 +232,15 @@ public class CreateSalesPersonCommand extends AbstractCommand {
 		ClientFinanceDate do_hire = get(DO_HIRE).getValue();
 		salesPerson.setDateOfHire(do_hire);
 
-		if (do_birth.getDate() != 0) {
-			long mustdate = new ClientFinanceDate().getDate() - 180000;
-			if ((new ClientFinanceDate(mustdate).before(do_birth))) {
-				Result result = new Result();
-				result.add(getMessages().dateofBirthshouldshowmorethan18years()
-						+ ". Because Sales Person should have 18 years");
-				return result;
-			}
-		}
+		// if (do_birth.getDate() != 0) {
+		// long mustdate = new ClientFinanceDate().getDate() - 180000;
+		// if ((new ClientFinanceDate(mustdate).before(do_birth))) {
+		// Result result = new Result();
+		// result.add(getMessages().dateofBirthshouldshowmorethan18years()
+		// + ". Because Sales Person should have 18 years");
+		// return result;
+		// }
+		// }
 
 		ClientFinanceDate do_lastreview = get(DO_LASTREVIEW).getValue();
 		salesPerson.setDateOfLastReview(do_lastreview);

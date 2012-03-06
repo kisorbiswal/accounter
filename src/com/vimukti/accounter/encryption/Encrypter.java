@@ -2,6 +2,7 @@ package com.vimukti.accounter.encryption;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import com.vimukti.accounter.core.AccounterThreadLocal;
-import com.vimukti.accounter.core.Client;
 import com.vimukti.accounter.core.Company;
 import com.vimukti.accounter.core.EU;
 import com.vimukti.accounter.core.User;
@@ -30,45 +30,72 @@ public class Encrypter extends Thread {
 	private byte[] d2;
 	private byte[] s2;
 	private String sessionId;
-	private Object emailId;
+	private String emailId;
 	private static List<String> classes;
 
-	static {
+	public static void init() {
 		classes = new ArrayList<String>();
-		File core = new File(
-				"C:/Users/vimukti04/Desktop/All Eclipses/workspaces/finance/encryption2/accounter/src/com/vimukti/accounter/core");
-		String[] list = core.list();
-		Class<?> create = null;
-		try {
-			create = Class
-					.forName("com.vimukti.accounter.core.CreatableObject");
-		} catch (Exception e) {
-		}
+		Logger logger = Logger.getLogger(Encrypter.class);
 
-		List<String> skip = new ArrayList<String>();
-		String[] skips = "Currency,Unit,Measurement,Payee".split(",");
-		for (String s : skips) {
-			skip.add(s);
-		}
-		for (String string : list) {
-			if (string.endsWith(".java")) {
-				string = string.substring(0, string.indexOf(".java"));
-			} else {
-				continue;
+		// File core = getDirectoryFile();
+		// File[] listFiles = core.listFiles();
+		String[] list = getClassesNames();
+		logger.info("Total classes: " + list.length);
+		try {
+			Class<?> create = Class
+					.forName("com.vimukti.accounter.core.CreatableObject");
+
+			List<String> skip = new ArrayList<String>();
+			String[] skips = "Currency,Unit,Measurement,Payee".split(",");
+			for (String s : skips) {
+				skip.add(s);
 			}
-			try {
-				Class<?> clazz = Class.forName("com.vimukti.accounter.core."
-						+ string);
-				if (create.isAssignableFrom(clazz)) {
-					if (!skip.contains(string)) {
-						classes.add(string);
-					}
+
+			for (String string : list) {
+				if (string.endsWith(".java")) {
+					string = string.substring(0, string.indexOf(".java"));
 				} else {
-					// System.out.println(string);
+					continue;
 				}
-			} catch (Exception e) {
+				if (skip.contains(string)) {
+					continue;
+				}
+				try {
+					Class<?> clazz = Class
+							.forName("com.vimukti.accounter.core." + string);
+					if (create.isAssignableFrom(clazz)) {
+						classes.add(string);
+					} else {
+						// System.out.println(string);
+					}
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+				}
 			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 		}
+	}
+
+	private static String[] getClassesNames() {
+		String string = "Account.java,AccountComparator.java,AccounterClass.java,AccounterServerConstants.java,AccounterThreadLocal.java,AccountTransaction.java,AccountTransactionByAccount.java,AccountTransactionByTaxCode.java,AccountTransactionItem.java,Activation.java,Activity.java,ActivityType.java,Address.java,AdjustmentReason.java,Advertisement.java,Attachment.java,AuditWriter.java,AuditWriterImpl.java,Bank.java,BankAccount.java,BankRule.java,Box.java,BrandingTheme.java,Budget.java,BudgetItem.java,BudgetReportTemplate.java,BuildAssembly.java,CashPurchase.java,CashSalePdfGeneration.java,CashSales.java,ChequeLayout.java,ChequePdfGenerator.java,Client.java,ClientConvertUtil.java,ClientPaypalDetails.java,ClientSubscription.java,CloneUtil.java,CloneUtil2.java,CommodityCode.java,Company.java,CompanyPreferences.java,Contact.java,CreatableObject.java,CreditCardCharge.java,CreditNotePdfGeneration.java,CreditNotePDFTemplete.java,CreditNoteTemplete.java,CreditRating.java,CreditsAndPayments.java,CSVReportTemplate.java,Currency.java,CurrencyRate.java,Customer.java,CustomerCreditMemo.java,CustomerGroup.java,CustomerPrePayment.java,CustomerRefund.java,CustomerStatementTemplate.java,CustomField.java,CustomFieldValue.java,DeleteReason.java,Depreciation.java,Developer.java,Email.java,EmailAccount.java,Employee.java,EmployeeCategory.java,EmployeeGroup.java,EmployeePayHeadComponent.java,EnterBill.java,Estimate.java,ETDSAnnexuresGenerator.java,EU.java,Exempted.java,Expense.java,Fax.java,FinanceDate.java,FinanceLogger.java,FiscalYear.java,FixedAsset.java,FixedAssetHistory.java,FixedAssetNote.java,Form16ApdfTemplate.java,Form26QAnnexureGenerator.java,Form27EQAnnexureGenerator.java,Form27QAnnexureGenerator.java,IAccounterServerCore.java,IMActivation.java,IMUser.java,INamedObject.java,InventoryAssembly.java,InventoryAssemblyItem.java,InventoryPurchase.java,Invoice.java,InvoiceExcelTemplete.java,InvoicePdfGeneration.java,InvoicePDFTemplete.java,IRASCompanyInfo.java,IRASGeneralLedgerLineInfo.java,IRASInformation.java,IRASPurchaseLineInfo.java,IRASSupplyLineInfo.java,IssuePayment.java,Item.java,ItemGroup.java,ITemplate.java,ItemReceipt.java,ItemStatus.java,Job.java,JournalEntry.java,Location.java,LongUseType.java,MaintananceInfoUser.java,MakeDeposit.java,Measurement.java,MessageOrTask.java,Misc1099PDFTemplate.java,Misc1099SamplePDFTemplate.java,MISCInformationTemplate.java,MobileCookie.java,News.java,NominalCodeRange.java,NumberUtils.java,ObjectConvertUtil.java,PayBill.java,Payee.java,PayEmployee.java,PayExpense.java,PayHead.java,PayHeadField.java,PaymentTerms.java,PayrollUnit.java,PayRun.java,PayStructure.java,PayStructureItem.java,PayTAX.java,PayTAXEntries.java,PayTDS.java,Phone.java,PortletConfiguration.java,PortletPageConfiguration.java,PriceLevel.java,PrintTemplete.java,PurchaseOrder.java,Quantity.java,QuotePdfGeneration.java,QuotePdfTemplate.java,ReceivePayment.java,ReceivePaymentPdfGeneration.java,ReceiveVAT.java,ReceiveVATEntries.java,Reconciliation.java,ReconciliationItem.java,RecurringTransaction.java,ReffereredObject.java,RememberMeKey.java,Reminder.java,ReportsGenerator.java,ReportTemplate.java,ResetPasswordToken.java,SalesOrder.java,SalesPerson.java,Server.java,ServerCompany.java,ServerConvertUtil.java,ServerMaintanance.java,ShippingMethod.java,ShippingTerms.java,Statement.java,StatementRecord.java,StockAdjustment.java,StockTransfer.java,StockTransferItem.java,Subscription.java,SupportedUser.java,TAXAdjustment.java,TAXAgency.java,TAXCode.java,TAXGroup.java,TAXItem.java,TAXItemGroup.java,TAXRateCalculation.java,TaxRates.java,TAXReturn.java,TAXReturnEntry.java,TDSChalanDetail.java,TDSCoveringLetterTemplate.java,TDSDeductorMasters.java,TDSInfo.java,TDSResponsiblePerson.java,TDSTransactionItem.java,TemplateBuilder.java,Transaction.java,TransactionCreditsAndPayments.java,TransactionDepositItem.java,TransactionExpense.java,TransactionIssuePayment.java,TransactionItem.java,TransactionLog.java,TransactionMakeDepositEntries.java,TransactionPayBill.java,TransactionPayExpense.java,TransactionPayTAX.java,TransactionReceivePayment.java,TransactionReceiveVAT.java,TransferFund.java,Unit.java,UnitOfMeasure.java,User.java,UserPermissions.java,UserPreferences.java,UserUtils.java,Util.java,Utility_R.java,Utility.java,VATReturnBox.java,Vendor.java,VendorCreditMemo.java,VendorGroup.java,Warehouse.java,WareHouseAllocation.java,WriteCheck.java";
+		return string.split(",");
+	}
+
+	private static File getDirectoryFile() {
+		Logger logger = Logger.getLogger(Encrypter.class);
+		try {
+			ClassLoader classLoader = Thread.currentThread()
+					.getContextClassLoader();
+			URL resource = classLoader
+					.getResource("com/vimukti/accounter/core/");
+			File core = new File(resource.getFile());
+			logger.info("Parent file -->:" + resource.getFile());
+			return core;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public Encrypter(long companyId, String password, byte[] d2,
@@ -135,11 +162,7 @@ public class Encrypter extends Thread {
 		session.saveOrUpdate(user);
 
 		log.info("Company password recovery key---" + string);
-		sendCompanyPasswordRecoveryKey(string);
-	}
-
-	public static void sendCompanyPasswordRecoveryKey(String string) {
-		// TODO
+		sendCompanyPasswordRecoveryKey(emailId, string);
 	}
 
 	private User getUser() {
@@ -192,12 +215,10 @@ public class Encrypter extends Thread {
 		return null;
 	}
 
-	public static void sendCompanyPasswordRecoveryKey(Client client, String key) {
-
+	public static void sendCompanyPasswordRecoveryKey(String emailId, String key) {
 		try {
-			UsersMailSendar.sendMailToUserWithPasswordRecoverKey(client, key);
+			UsersMailSendar.sendMailToUserWithPasswordRecoverKey(emailId, key);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

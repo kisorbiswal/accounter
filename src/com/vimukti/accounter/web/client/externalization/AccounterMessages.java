@@ -2185,6 +2185,8 @@ public interface AccounterMessages extends Messages {
 
 	public String inventoryAsset();
 
+	public String inventoryCentre();
+
 	public String inventoryItem();
 
 	public String inventoryItems();
@@ -2620,6 +2622,10 @@ public interface AccounterMessages extends Messages {
 	public String mergeItems();
 
 	public String mergeVendors(String vendor);
+	
+	public String merging(String name);
+	
+	public String mergingCompleted(String name);
 
 	public String messagesAndTasks();
 
@@ -2881,6 +2887,8 @@ public interface AccounterMessages extends Messages {
 	public String noFiledTaxEntriesToReceive();
 
 	public String noFileSelected();
+
+	public String noItemSelected();
 
 	public String noImageisselected();
 
@@ -3424,6 +3432,8 @@ public interface AccounterMessages extends Messages {
 
 	public String pleaseselectaFixedAsset();
 
+	public String pleaseSelectAnItem();
+
 	public String pleaseSelectAnotherPurchaseTAXItem();
 
 	public String pleaseSelectAnotherSalesTAXItem();
@@ -3688,6 +3698,8 @@ public interface AccounterMessages extends Messages {
 	public String readTermsAndConditions();
 
 	public String readyToCreate(String transactionName);
+	
+	public String readyToMerge(String name);
 
 	public String readyToUpdate(String transactionName);
 
@@ -4516,7 +4528,7 @@ public interface AccounterMessages extends Messages {
 	public String tdsFiledDetails();
 
 	public String tdsVendorsList();
-	
+
 	public String tdsForm16A();
 
 	public String Template();
@@ -5940,5 +5952,159 @@ public interface AccounterMessages extends Messages {
 	public String effectofChange();
 
 	public String reconcilationDiscrepany();
+
+	public String trackingPriceLevelenabled();
+
+	public String trackingPriceLeveldisabled();
+
+	public String valueActivated(String value);
+
+	public String backOrder();
+
+	public String valueTotal(String value);
+
+	public String grand();
+
+	public String viewClosedSuccessfully(String view);
+
+	public String viewDetailsAsFollows(String view);
+
+	public String previousReconciliationDiscrepancyReport();
+
+	public String portletPageConfiguration();
+
+	public String portletConfiguration();
+
+	public String pleaseSelecAnyWareHouseTransferToViewDetails();
+
+	public String bothItemsMustBelongsTheSameType();
+
+	public String assetValue();
+
+	public String retailValue();
+
+	public String Sold();
+
+	public String depricationOfOn(String depreciationAmount, String format);
+
+	public String fixedAssetDeprecation();
+
+	public String createdFixedAsset();
+
+	public String disposalOfFixedAsset(String name);
+
+	public String depreciationToBePostPoned();
+
+	public String viewActivatedSuccessfully(String expenseReport);
+
+	public String ATestEmailIsSentToGivenEmailIdKindlyCheckYourEmailAndProceedIfYouGot();
+
+	public String messagesSendingFailed();
+
+	public String IwantToDeleteThisObject(String obj);
+
+	public String noIdontWantToDeleteThisObj(String obj);
+
+	public String wareHouseTransferItem();
+
+	public String pleaseSelectAnyOneOption();
+
+	public String updating(String obj);
+
+	public String notPrinted();
+
+	public String enterObj(String obj);
+
+	public String objIsActive(String obj);
+
+	public String objIsInActive(String obj);
+
+	public String selectObjToUpdate(String obj);
+
+	public String objIsReadyToCreateWitFollowingDetails(String obj);
+
+	public String objIsReadyToUpdateWitFollowingDetails(String obj);
+
+	public String selectFullSetupToEnter();
+
+	public String selectPartialSetupToSkip();
+
+	public String dontHaveAnotherAddress();
+
+	public String yourCompanyHasBeenLocked();
+
+	public String dayOfs();
+
+	public Object weekOfs();
+
+	public Object monthOfs();
+
+	public Object yearOfs();
+
+	public String switchCompany();
+
+	public String trackingLocationTrackingEnabled();
+
+	public String trackingLocationTrackingDisabled();
+
+	public String wareHouses();
+
+	public String purchaseOrderTaskDesc(String vendor, String orderNo);
+
+	public String pleaseSelectAnyObjToViewDetails(String obj);
+
+	public String list();
+
+	public String yourCompanyIsDeletedSuccessfully();
+
+	public String companyDeletionFailed();
+
+	public String accountDeletionFailed();
+
+	public String yourCompanyIsCreatetedSuccessfully();
+
+	public String companyCreatedFailed();
+
+	public String itemActualCostDetail();
+
+	public String itemActualRevenueDetail();
+
+	public String jobProfitabilityDetail();
+
+	public String profitAndLossByJob();
+
+	public String estimatesbyJob();
+
+	public String unbilledCostsByJob();
+
+	public String jobActualCostDetail();
+
+	public String jobActualRevenueDetail();
+
+	public String split();
+
+	public String pleasEnterJobName();
+
+	public String aleadyMapped(String selectedValue);
+
+	public String matchedWithWrongProprty(String selectedValue, String value);
+
+	public String nameInCSV();
+
+	public String fieldValue();
+
+	public String accounterField();
+
+	public String mappingPreview();
+
+	public String adjustedQtyNegative();
+
+	public String missingchecks();
+
+	public String reconcilationDiscrepancyReport();
+
+	public String jobList();
+
+	public String accountisParenttoThisAccount();
 
 }

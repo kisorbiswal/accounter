@@ -131,6 +131,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 
 	private static final long ACCOUNTNUMBER_RANGE_CHECK = 0x800000000000000L;
 	private static final long UNITS = 0x1000000000000000L;
+	private static final long JOB_TRACKING = 0x2000000000000000L;
 	public static final int INVENTORY_SCHME_FIFO = 1;
 	public static final int INVENTORY_SCHME_LIFO = 2;
 	public static final int INVENTORY_SCHME_AVERAGE = 3;
@@ -945,7 +946,7 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isLocationTrackingEnabled() {
-		return get(LOCATION_TRACKING);
+		return true;// get(LOCATION_TRACKING);
 	}
 
 	public void setLocationTrackingEnabled(boolean value) {
@@ -983,11 +984,19 @@ public class ClientCompanyPreferences implements IAccounterCore {
 	}
 
 	public boolean isClassTrackingEnabled() {
-		return get(CLASS_TRACKING);
+		return true;// get(CLASS_TRACKING);
+	}
+
+	public void setJobTrackingEnabled(boolean value) {
+		set(JOB_TRACKING, value);
+	}
+
+	public boolean isJobTrackingEnabled() {
+		return true;// get(JOB_TRACKING);
 	}
 
 	public boolean isClassOnePerTransaction() {
-		return get(CLASS_ONE_PER_TRANSACTION);
+		return true;// get(CLASS_ONE_PER_TRANSACTION);
 	}
 
 	public void setClassOnePerTransaction(boolean value) {

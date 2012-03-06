@@ -5,9 +5,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
 import com.vimukti.accounter.web.client.core.ClientTransaction;
-import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.Utility;
-import com.vimukti.accounter.web.client.core.Lists.InvoicesList;
 import com.vimukti.accounter.web.client.core.Lists.ReceivePaymentsList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
@@ -16,7 +14,6 @@ import com.vimukti.accounter.web.client.ui.DataUtils;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.core.ErrorDialogHandler;
 import com.vimukti.accounter.web.client.ui.reports.ReportsRPC;
-import com.vimukti.accounter.web.client.ui.settings.RolePermissions;
 
 public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
@@ -115,27 +112,17 @@ public class ReceivedPaymentListGrid extends BaseListGrid<ReceivePaymentsList> {
 
 	@Override
 	public void onDoubleClick(ReceivePaymentsList receivePaymentList) {
-		if (isUserHavePermissions(receivePaymentList)) {
+		if (isCanOpenTransactionView(0, receivePaymentList.getType())) {
 			ReportsRPC.openTransactionView(receivePaymentList.getType(),
 					receivePaymentList.getTransactionId());
 		}
-
-	}
-
-	private boolean isUserHavePermissions(ReceivePaymentsList obj) {
-		ClientUser user = Accounter.getUser();
-		if (user.canDoInvoiceTransactions()) {
-			return true;
-		}
-
-		if (user.getPermissions().getTypeOfPayBillsPayments() == RolePermissions.TYPE_YES) {
-			return true;
-		}
-		return false;
 	}
 
 	@Override
 	protected void onClick(ReceivePaymentsList obj, int row, int col) {
+		if (!isCanOpenTransactionView(0, obj.getType())) {
+			return;
+		}
 		if (type != 0) {
 			col += 1;
 		}

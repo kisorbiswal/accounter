@@ -220,7 +220,8 @@ public class UsersActivityList extends CellTable<ClientActivity> {
 				new ClickImage()) {
 			@Override
 			public String getValue(ClientActivity object) {
-				if (object.getObjectID() == 0) {
+				if (object.getObjectID() == 0
+						|| object.getDataType().equalsIgnoreCase(messages.vatReturn())) {
 					return null;
 				} else {
 					return "->";

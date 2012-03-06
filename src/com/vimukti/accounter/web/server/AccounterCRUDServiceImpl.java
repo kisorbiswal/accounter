@@ -10,6 +10,7 @@ import javax.servlet.ServletResponse;
 
 import com.vimukti.accounter.core.ClientConvertUtil;
 import com.vimukti.accounter.core.IAccounterServerCore;
+import com.vimukti.accounter.core.ObjectConvertUtil;
 import com.vimukti.accounter.core.Transaction;
 import com.vimukti.accounter.core.Util;
 import com.vimukti.accounter.web.client.IAccounterCRUDService;
@@ -114,18 +115,33 @@ public class AccounterCRUDServiceImpl extends AccounterRPCBaseServiceImpl
 	@Override
 	public Boolean voidTransaction(AccounterCoreType accounterCoreType, long id)
 			throws AccounterException {
-		IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
-				accounterCoreType.getServerClassFullyQualifiedName(), id);
-		if (serverCore instanceof Transaction) {
-			IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
-					.toClientObject(serverCore, Util.getClientClass(serverCore));
-			((ClientTransaction) clientObject)
-					.setSaveStatus(ClientTransaction.STATUS_VOID);
-			update(clientObject);
 
-			return true;
+		FinanceTool tool = getFinanceTool();
+		Class<?> clientClass = ObjectConvertUtil
+				.getEqivalentClientClass(accounterCoreType
+						.getClientClassSimpleName());
+
+		Class<?> serverClass = ObjectConvertUtil
+				.getServerEqivalentClass(clientClass);
+
+		if (tool.canDelete(serverClass.getSimpleName(), id, getCompanyId())) {
+			IAccounterServerCore serverCore = (IAccounterServerCore) loadObjectById(
+					accounterCoreType.getServerClassFullyQualifiedName(), id);
+
+			if (serverCore instanceof Transaction) {
+				IAccounterCore clientObject = (IAccounterCore) new ClientConvertUtil()
+						.toClientObject(serverCore,
+								Util.getClientClass(serverCore));
+				((ClientTransaction) clientObject)
+						.setSaveStatus(ClientTransaction.STATUS_VOID);
+				update(clientObject);
+
+				return true;
+			}
+			return false;
+		} else {
+			throw new AccounterException(AccounterException.ERROR_OBJECT_IN_USE);
 		}
-		return false;
 	}
 
 	@Override

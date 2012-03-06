@@ -10,12 +10,14 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.exception.AccounterException;
+import com.vimukti.accounter.web.client.externalization.AccounterMessages;
 import com.vimukti.accounter.web.client.ui.Accounter;
 import com.vimukti.accounter.web.client.ui.IDeleteCallback;
 import com.vimukti.accounter.web.client.ui.grids.columns.ImageActionColumn;
 
 public class ChartOfAdminUsersList extends CellTable<ClientAdminUser> implements
 		IDeleteCallback {
+	private AccounterMessages messages = Accounter.getMessages();
 	List<ClientAdminUser> userlistList;
 	ListDataProvider<ClientAdminUser> dataProvider;
 	TextColumn<ClientAdminUser> serialNo, name, email, type, password;
@@ -106,11 +108,11 @@ public class ChartOfAdminUsersList extends CellTable<ClientAdminUser> implements
 
 		};
 
-		this.addColumn(serialNo, "S.no");
-		this.addColumn(name, "Name");
-		this.addColumn(email, "Email");
-		this.addColumn(type, "Type");
-		this.addColumn(password, "Password");
+		this.addColumn(serialNo, messages.no());
+		this.addColumn(name, messages.name());
+		this.addColumn(email, messages.email());
+		this.addColumn(type, messages.type());
+		this.addColumn(password, messages.password());
 		this.addColumn(deleteImage, "X");
 
 	}

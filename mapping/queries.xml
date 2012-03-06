@@ -1006,14 +1006,14 @@
 		from com.vimukti.accounter.core.CustomerRefund cr where
 		cr.company=:company and cr.saveStatus!=202 and cr.transactionDate
 		between :fromDate and
-		:toDate order by cr.lastModifiedDate desc
+		:toDate order by cr.transactionDate desc
 	</query>
 
 	<query name="getWriteCheck.by.payToType">
 		<query-param name="company" type="Company" />
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.WriteCheck wc where
-		wc.company=:company and wc.payToType=:type
+		wc.company=:company and wc.payToType=:type order by wc.transactionDate desc
 	</query>
 
 	<query name="getFixedAsset.by.checkStatusand.purchaseDate">
@@ -1102,7 +1102,7 @@
 		e.transactionDate between :fromDate and :toDate 
 		and e.saveStatus!=202
 		order by
-		e.lastModifiedDate desc
+		e.transactionDate desc
 	</query>
 
 	<query name="getExpiredEstimate">
@@ -1116,7 +1116,7 @@
 		and
 		e.transactionDate between :fromDate and :toDate and e.expirationDate
 		&lt;:today and e.usedInvoice =null
-		order by e.lastModifiedDate desc
+		order by e.transactionDate desc
 	</query>
 
 	<query name="getEstimate.by.check.id.status">
@@ -1132,6 +1132,14 @@
 		from com.vimukti.accounter.core.FiscalYear fy where
 		fy.company=:company and
 		fy.status = 1 order by fy.startDate
+	</query>
+
+	<query name="getJobsList">
+		<query-param name="company" type="Company" />
+		from
+		com.vimukti.accounter.core.Job j where j.company=:company
+		order by
+		j.id
 	</query>
 
 	<query name="getTransaction.by.check.type.number.id">
@@ -1160,7 +1168,7 @@
 		j.company=:company and j.saveStatus != 202
 		and j.transactionDate
 		between :fromDate and :toDate
-		order by j.lastModifiedDate desc
+		order by j.transactionDate desc
 	</query>
 
 	<query name="getJournalEntry.by.id">
@@ -1709,7 +1717,7 @@
 		<query-param name="type" type="int" />
 		from com.vimukti.accounter.core.Account a where a.type=:type and
 		a.company.id =:companyId
-		order by a.lastModifiedDate desc
+		order by a.number desc
 	</query>
 
 	<sql-query name="getBankAccountsOfType">
@@ -2163,4 +2171,11 @@
 		and (sale.transaction.type in (1,4,8,37) or (sale.transaction.type=36 and sale.quantity.value &lt; 0))  
 		order by sale.transaction.transactionDate,sale.transaction.id
 	</query>
+	 <query name="getJobsByCustomer">
+ 		<query-param name="customerId" type="long" />
+ 		<query-param name="companyId" type="long" />
+ 		from com.vimukti.accounter.core.Job j where j.customer.id=:customerId
+ 		and
+ 		j.company.id=:companyId order by j.id
+ 	</query>
 </hibernate-mapping>

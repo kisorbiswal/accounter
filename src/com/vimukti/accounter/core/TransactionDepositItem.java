@@ -284,6 +284,14 @@ public class TransactionDepositItem implements IAccounterServerCore, Lifecycle {
 
 	}
 
+	@Override
+	protected TransactionDepositItem clone() throws CloneNotSupportedException {
+		TransactionDepositItem item = (TransactionDepositItem) super.clone();
+		item.setId(0);
+		item.setVersion(0);
+		return item;
+	}
+
 	public long getId() {
 		return id;
 	}

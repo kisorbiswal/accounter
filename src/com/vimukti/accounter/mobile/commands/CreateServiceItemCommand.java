@@ -17,7 +17,8 @@ public class CreateServiceItemCommand extends AbstractItemCreateCommand {
 	@Override
 	protected String getWelcomeMessage() {
 		return getItem().getID() == 0 ? getMessages().creating(
-				getMessages().serviceItem()) : "Updating Service Item";
+				getMessages().serviceItem()) : getMessages().updating(
+				getMessages().serviceItem());
 	}
 
 	@Override

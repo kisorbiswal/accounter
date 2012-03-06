@@ -197,12 +197,12 @@ public class ItemView extends BaseView<ClientItem> {
 		itemForm.setFields(nameText);
 
 		if (type == ClientItem.TYPE_SERVICE) {
-			lab1.setText(messages.newService());
+			lab1.setText(messages.serviceItem());
 		} else if (type == NON_INVENTORY_PART) {
-			lab1.setText(messages.newProduct());
+			lab1.setText(messages.productItem());
 			itemForm.setFields(weightText);
 		} else {
-			lab1.setText(messages.newInventory());
+			lab1.setText(messages.inventoryItem());
 		}
 		salesDescArea = new TextAreaItem();
 		salesDescArea.setHelpInformation(true);
@@ -1227,9 +1227,10 @@ public class ItemView extends BaseView<ClientItem> {
 		}
 
 		if (type == ClientItem.TYPE_INVENTORY_PART) {
-			measurement.setDisabled(isInViewMode());
+			// measurement.setDisabled(isInViewMode());
 			wareHouse.setDisabled(isInViewMode());
 			openingBalTxt.setDisabled(isInViewMode());
+			onHandQuantity.setRequired(false);
 		}
 		activeCheck.setDisabled(isInViewMode());
 
@@ -1283,5 +1284,4 @@ public class ItemView extends BaseView<ClientItem> {
 	protected boolean canVoid() {
 		return false;
 	}
-
 }

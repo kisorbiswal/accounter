@@ -129,9 +129,10 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 	@Override
 	public void onDoubleClick(InvoicesList obj) {
-		if (isUserHavePermissions(obj))
+		if (isCanOpenTransactionView(obj.getSaveStatus(), obj.getType())) {
 			ReportsRPC.openTransactionView(obj.getType(),
 					obj.getTransactionId());
+		}
 	}
 
 	private boolean isUserHavePermissions(InvoicesList obj) {
@@ -163,7 +164,7 @@ public class InvoiceListGrid extends BaseListGrid<InvoicesList> {
 
 		}
 
-		if (!Accounter.getUser().canDoInvoiceTransactions())
+		if (!isCanOpenTransactionView(obj.getSaveStatus(), obj.getType()))
 			return;
 		if (col == 9 && !obj.isVoided()) {
 			if (obj.getType() == ClientTransaction.TYPE_INVOICE

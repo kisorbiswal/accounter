@@ -59,7 +59,7 @@ public class PriorVATReturnReportCommand extends
 			protected void fillResult(Context context, Result makeResult) {
 				List<VATSummary> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 				Map<String, List<VATSummary>> recordGroups = new HashMap<String, List<VATSummary>>();

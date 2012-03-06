@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
+import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.ClientUserInfo;
 import com.vimukti.accounter.web.client.core.ClientUserPermissions;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
@@ -230,7 +231,6 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	public void initData() {
-		super.initData();
 		if (getData() == null) {
 			setData(new ClientUserInfo());
 			initUsers();
@@ -241,6 +241,7 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 				emailCombo.addItem(data.getEmail());
 			}
 		}
+		super.initData();
 		firstNametext.setValue(data.getFirstName());
 		lastNametext.setValue(data.getLastName());
 
@@ -361,13 +362,26 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 			emailCombo.setDisabled(isInViewMode());
 		emailField.setDisabled(isInViewMode());
 		// grid.setDisabled(isInViewMode());
-
-		readOnly.setEnabled(!isInViewMode());
-		custom.setEnabled(!isInViewMode());
-		admin.setEnabled(!isInViewMode());
-		financialAdviser.setEnabled(!isInViewMode());
-		for (CheckBox box : permissionsBoxes) {
-			box.setEnabled(!isInViewMode());
+		ClientUser user = Accounter.getUser();
+		if (data.isAdmin()) {
+			if (user.isAdmin() && data.getID() != user.getID()) {
+				readOnly.setEnabled(!isInViewMode());
+				custom.setEnabled(!isInViewMode());
+				admin.setEnabled(!isInViewMode());
+				financialAdviser.setEnabled(!isInViewMode());
+				for (CheckBox box : permissionsBoxes) {
+					box.setEnabled(!isInViewMode());
+				}
+			}
+		} else if ((data == null || data.getID() == 0 ? true
+				: data.getID() != user.getID())) {
+			readOnly.setEnabled(!isInViewMode());
+			custom.setEnabled(!isInViewMode());
+			admin.setEnabled(!isInViewMode());
+			financialAdviser.setEnabled(!isInViewMode());
+			for (CheckBox box : permissionsBoxes) {
+				box.setEnabled(!isInViewMode());
+			}
 		}
 	}
 
@@ -737,16 +751,13 @@ public class InviteUserView extends BaseView<ClientUserInfo> {
 
 	@Override
 	protected boolean canDelete() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
+		ClientUser user = getCompany().getLoggedInUser();
+		if (data == null || data.getID() == 0 ? true : data.getID() != user
+				.getID()) {
+			if (data.isAdmin() && !user.isAdmin()) {
+				return false;
+			}
 			return super.canDelete();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean canEdit() {
-		if (Accounter.getUser().isCanDoUserManagement()) {
-			return super.canEdit();
 		}
 		return false;
 	}

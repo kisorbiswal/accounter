@@ -254,7 +254,9 @@ public enum AccounterCoreType implements IsSerializable {
 	TRANSACTION_DEPOSIT_ITEM("ClientTransactionDepositItem",
 			"TransactionDepositItem"),
 
-	BUILD_ASSEMBLY("ClientBuildAssembly", "BuildAssembly");
+	BUILD_ASSEMBLY("ClientBuildAssembly", "BuildAssembly"),
+
+	JOB("ClientJob", "Job");
 
 	private String clientName;
 	private String serverName;

@@ -176,7 +176,7 @@ public class ItemMergeDialog extends BaseDialog implements AsyncCallback<Void> {
 			}
 		}
 		if (fromClientItem.getType() != toClientItem.getType()) {
-			Accounter.showError("Both Items must belong to the same type");
+			Accounter.showError(messages.bothItemsMustBelongsTheSameType());
 		} else {
 			Accounter.createHomeService().mergeItem(fromClientItem,
 					toClientItem, this);

@@ -47,7 +47,7 @@ public class BalanceSheetReportCommand extends
 
 				List<TrialBalance> records = getRecords();
 				if (records.isEmpty()) {
-					makeResult.add("No Records to show");
+					makeResult.add(getMessages().noRecordsToShow());
 					return;
 				}
 
@@ -85,7 +85,7 @@ public class BalanceSheetReportCommand extends
 					list.add(createReportRecord);
 				}
 				makeResult.add(list);
-				makeResult.add(string + " Total "
+				makeResult.add(string + getMessages().total()
 						+ getAmountWithCurrency(total));
 
 				if (string.equals(getMessages().currentLiabilities())
@@ -93,12 +93,12 @@ public class BalanceSheetReportCommand extends
 					liabilitiesAndEquitityTotal += total;
 				}
 				if (string.equals(getMessages().currentAssets())) {
-					makeResult.add("Assets Total  :"
+					makeResult.add(getMessages().assetsTotal()
 							+ getAmountWithCurrency(total));
 				}
 				if (string.equals(getMessages().equity())) {
 					makeResult
-							.add("Liabilities and equity Total :"
+							.add(getMessages().liabilitiesandEquityTotal()
 									+ getAmountWithCurrency(liabilitiesAndEquitityTotal));
 				}
 			}

@@ -1,5 +1,7 @@
 package com.vimukti.accounter.web.client.ui;
 
+import com.vimukti.accounter.core.AccounterServerConstants;
+import com.vimukti.accounter.core.Estimate;
 import com.vimukti.accounter.web.client.core.RecentTransactionsList;
 import com.vimukti.accounter.web.client.core.Utility;
 import com.vimukti.accounter.web.client.ui.grids.ListGrid;
@@ -36,7 +38,11 @@ public class RecentTransactionHistoryGrid extends
 	protected Object getColumnValue(RecentTransactionsList obj, int index) {
 		switch (index) {
 		case 1:
-			return Utility.getTransactionName(obj.getType());
+			if (obj.getEstimateType() != 0) {
+				return getStringByType(obj.getEstimateType());
+			} else {
+				return Utility.getTransactionName(obj.getType());
+			}
 		case 2:
 			return DataUtils.amountAsStringWithCurrency(
 					Math.abs(obj.getAmount()),
@@ -51,6 +57,20 @@ public class RecentTransactionHistoryGrid extends
 			break;
 		}
 		return null;
+	}
+
+	private String getStringByType(int type) {
+		String title = null;
+		if (type == Estimate.QUOTES) {
+			title = messages.quote();
+		} else if (type == Estimate.CHARGES) {
+			title = messages.charge();
+		} else if (type == Estimate.CREDITS) {
+			title = messages.credit();
+		} else if (type == Estimate.SALES_ORDER) {
+			title = messages.salesOrder();
+		}
+		return title;
 	}
 
 	@Override
@@ -71,11 +91,17 @@ public class RecentTransactionHistoryGrid extends
 
 	@Override
 	protected void onClick(RecentTransactionsList obj, int row, int index) {
+		if (!Utility.isUserHavePermissions(obj.getType())) {
+			return;
+		}
 		ReportsRPC.openTransactionView(obj.getType(), obj.getID());
 	}
 
 	@Override
 	public void onDoubleClick(RecentTransactionsList obj) {
+		if (!Utility.isUserHavePermissions(obj.getType())) {
+			return;
+		}
 		ReportsRPC.openTransactionView(obj.getType(), obj.getID());
 	}
 

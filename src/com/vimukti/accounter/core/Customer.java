@@ -46,6 +46,8 @@ public class Customer extends Payee implements IAccounterServerCore,
 
 	CreditRating creditRating;
 
+	Set<Job> jobs = new HashSet<Job>();
+
 	/**
 	 * The default Shipping method through which a Transaction should done.
 	 * 
@@ -594,6 +596,14 @@ public class Customer extends Payee implements IAccounterServerCore,
 	 */
 	public void setWillDeductTDS(boolean willDeductTDS) {
 		this.willDeductTDS = willDeductTDS;
+	}
+
+	public Set<Job> getJobs() {
+		return jobs;
+	}
+
+	public void setJobs(Set<Job> jobs) {
+		this.jobs = jobs;
 	}
 
 }
