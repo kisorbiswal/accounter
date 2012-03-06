@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.combo.CustomCombo;
 public class UnitCombo extends CustomCombo<ClientUnit> {
 
 	public UnitCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1, "UnitCombo");
 	}
 
 	@Override

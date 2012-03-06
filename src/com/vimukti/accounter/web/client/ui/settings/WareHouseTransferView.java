@@ -77,13 +77,11 @@ public class WareHouseTransferView extends BaseView<ClientStockTransfer> {
 		};
 		toCombo.setEnabled(!isInViewMode());
 		toCombo.setRequired(true);
-		commentArea = new TextAreaItem();
+		commentArea = new TextAreaItem(messages.comment(), "commentArea");
 		commentArea.setTitle(messages.comment());
 		commentArea.setDisabled(isInViewMode());
-		form = new DynamicForm();
-		form.setNumCols(2);
-		form.addStyleName("fields-panel");
-		form.setFields(fromCombo, toCombo, commentArea);
+		form = new DynamicForm("fields-panel");
+		form.add(fromCombo, toCombo, commentArea);
 		listForms.add(form);
 		mainPanel.add(form);
 		table = new WareHouseTransferTable() {

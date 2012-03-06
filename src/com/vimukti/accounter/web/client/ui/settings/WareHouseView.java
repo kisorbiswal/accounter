@@ -159,13 +159,7 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 		mainHLay.add(leftSideForm);
 		mainHLay.add(rightSideForm);
 
-		mainHLay.setCellHorizontalAlignment(rightSideForm, ALIGN_RIGHT);
-
-		titleItem = new Label(messages.wareHouse());
-		titleItem.setStyleName("label-title");
-
 		vPanel = new StyledPanel("vPanel");
-		vPanel.add(titleItem);
 		vPanel.add(mainHLay);
 
 		this.setSize("100%", "100%");
@@ -175,77 +169,68 @@ public class WareHouseView extends BaseView<ClientWarehouse> {
 
 	private DynamicForm getRightSideForm() {
 
-		rightSideForm = new DynamicForm();
-		// rightSideForm.setWidth("100%");
-		rightSideForm.getElement().getStyle().setFloat(Float.RIGHT);
+		rightSideForm = new DynamicForm("rightSideForm");
 
-		addressItem = new TextItem();
-		addressItem.setTitle(messages.address());
-		addressItem.setDisabled(isInViewMode());
+		addressItem = new TextItem(messages.address(), "addressItem");
+		addressItem.setEnabled(!isInViewMode());
 
-		streetItem = new TextItem();
-		streetItem.setTitle(messages.streetName());
-		streetItem.setDisabled(isInViewMode());
+		streetItem = new TextItem(messages.streetName(), "streetItem");
+		streetItem.setEnabled(!isInViewMode());
 
-		cityItem = new TextItem();
-		cityItem.setTitle(messages.city());
-		cityItem.setDisabled(isInViewMode());
+		cityItem = new TextItem(messages.city(), "cityItem");
+		cityItem.setEnabled(!isInViewMode());
 
-		stateItem = new TextItem();
-		stateItem.setTitle(messages.state());
-		stateItem.setDisabled(isInViewMode());
+		stateItem = new TextItem(messages.state(), "stateItem");
+		stateItem.setEnabled(!isInViewMode());
 
-		countryItem = new TextItem();
-		countryItem.setTitle(messages.country());
-		countryItem.setDisabled(isInViewMode());
+		countryItem = new TextItem(messages.country(), "countryItem");
+		countryItem.setEnabled(!isInViewMode());
 
-		postalCodeItem = new TextItem();
-		postalCodeItem.setTitle(messages.postalCode());
-		postalCodeItem.setDisabled(isInViewMode());
+		postalCodeItem = new TextItem(messages.postalCode(), "postalCodeItem");
+		postalCodeItem.setEnabled(!isInViewMode());
 
-		rightSideForm.setFields(addressItem, streetItem, cityItem, stateItem,
+		rightSideForm.add(addressItem, streetItem, cityItem, stateItem,
 				countryItem, postalCodeItem);
 		return rightSideForm;
 	}
 
 	private DynamicForm getLeftSideForm() {
 
-		leftSideForm = new DynamicForm();
+		leftSideForm = new DynamicForm("leftSideForm");
 		// leftSideForm.setWidth("100%");
 
-		warehouseCodeItem = new TextItem();
-		warehouseCodeItem.setTitle(messages.warehouseCode());
+		warehouseCodeItem = new TextItem(messages.warehouseCode(),
+				"warehouseCodeItem");
 		warehouseCodeItem.setRequired(true);
-		warehouseCodeItem.setDisabled(isInViewMode());
+		warehouseCodeItem.setEnabled(!isInViewMode());
 
-		wareHouseNameItem = new TextItem();
-		wareHouseNameItem.setTitle(messages.warehouseName());
+		wareHouseNameItem = new TextItem(messages.warehouseName(),
+				"wareHouseNameItem");
 		wareHouseNameItem.setRequired(true);
-		wareHouseNameItem.setDisabled(isInViewMode());
+		wareHouseNameItem.setEnabled(!isInViewMode());
 
-		contactNameItem = new TextItem();
-		contactNameItem.setTitle(messages.contactName());
-		contactNameItem.setDisabled(isInViewMode());
+		contactNameItem = new TextItem(messages.contactName(),
+				"contactNameItem");
+		contactNameItem.setEnabled(!isInViewMode());
 
-		contactNumberItem = new TextItem();
-		contactNumberItem.setTitle(messages.contactNumber());
-		contactNumberItem.setDisabled(isInViewMode());
+		contactNumberItem = new TextItem(messages.contactNumber(),
+				"contactNumberItem");
+		contactNumberItem.setEnabled(!isInViewMode());
 
-		mobileNumberItem = new TextItem();
-		mobileNumberItem.setTitle(messages.mobileNumber());
-		mobileNumberItem.setDisabled(isInViewMode());
+		mobileNumberItem = new TextItem(messages.mobileNumber(),
+				"mobileNumberItem");
+		mobileNumberItem.setEnabled(!isInViewMode());
 
-		DDINumberItem = new TextItem();
-		DDINumberItem.setTitle(messages.ddiNumber());
-		DDINumberItem.setDisabled(isInViewMode());
+		DDINumberItem = new TextItem(messages.ddiNumber(), "DDINumberItem");
+		DDINumberItem.setEnabled(!isInViewMode());
 
 		defaultWareHouse = new CheckboxItem();
 		defaultWareHouse.setTitle(messages.defaultWareHouse());
-		defaultWareHouse.setDisabled(isInViewMode());
+		defaultWareHouse.setEnabled(!isInViewMode());
 
-		leftSideForm.setFields(warehouseCodeItem, wareHouseNameItem,
-				contactNameItem, contactNumberItem, mobileNumberItem,
-				DDINumberItem, defaultWareHouse);
+		leftSideForm.add(warehouseCodeItem, wareHouseNameItem, contactNameItem,
+				contactNumberItem, mobileNumberItem, DDINumberItem,
+				defaultWareHouse);
 
 		return leftSideForm;
 	}
