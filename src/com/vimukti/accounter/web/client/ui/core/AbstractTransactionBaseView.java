@@ -1694,8 +1694,6 @@ public abstract class AbstractTransactionBaseView<T extends ClientTransaction>
 									public void onSuccess(Long result) {
 										accounterClass.setID(result);
 										classSelected(accounterClass);
-										getCompany().getAccounterClasses().add(
-												accounterClass);
 									}
 
 									@Override

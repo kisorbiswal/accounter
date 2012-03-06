@@ -465,6 +465,7 @@ public class TDSResponsiblePersonDetailsView extends
 								upDateControls();
 							}
 						}
+						setData(data);
 					}
 				});
 
