@@ -134,11 +134,11 @@ public abstract class AbstractFileTAXView extends BaseView<ClientTAXReturn> {
 			}
 		});
 
-		DynamicForm topForm = new DynamicForm();
-		topForm.setIsGroup(true);
-		topForm.setGroupTitle(messages.top());
-		topForm.setNumCols(6);
-		topForm.setFields(taxAgencyCombo, fromDate, toDate);
+		DynamicForm topForm = new DynamicForm("topForm");
+//		topForm.setIsGroup(true);
+//		topForm.setGroupTitle(messages.top());
+//		topForm.setNumCols(6);
+		topForm.add(taxAgencyCombo, fromDate, toDate);
 		topForm.setWidth("100%");
 
 		ListGrid grid = getGrid();

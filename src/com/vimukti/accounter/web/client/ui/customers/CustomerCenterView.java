@@ -58,6 +58,7 @@ public class CustomerCenterView<T> extends
 	private CustomerTransactionsHistoryGrid custHistoryGrid;
 	private Map<Integer, String> transactiontypebyStatusMap;
 	private boolean isActiveAccounts = true;
+	private StyledPanel deleteButtonPanel;
 
 	public CustomerCenterView() {
 

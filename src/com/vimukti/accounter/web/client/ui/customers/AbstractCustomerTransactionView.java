@@ -203,7 +203,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			phoneSelect.setValue(primaryPhone);
 		}
 
-		phoneSelect.setDisabled(isInViewMode());
+		phoneSelect.setEnabled(!isInViewMode());
 
 	}
 
@@ -214,12 +214,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (contactCombo == null)
 			return;
 
-		contactCombo.setDisabled(false);
+		contactCombo.setEnabled(true);
 
 		this.contacts = customer.getContacts();
 		List<ClientContact> list = new ArrayList<ClientContact>(this.contacts);
 		contactCombo.initCombo(list);
-		contactCombo.setDisabled(isInViewMode());
+		contactCombo.setEnabled(!isInViewMode());
 		if (contacts == null && contacts.size() == 0)
 			contactCombo.setValue("");
 		// if (transactionObject== null) {
@@ -330,7 +330,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		CustomerCombo customerCombo = new CustomerCombo(title != null ? title
 				: Global.get().customer());
-		customerCombo.setHelpInformation(true);
 		customerCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientCustomer>() {
 
@@ -338,12 +337,12 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					public void selectedComboBoxItem(ClientCustomer selectItem) {
 						customerSelected(selectItem);
 						if (contactCombo != null)
-							contactCombo.setDisabled(false);
+							contactCombo.setEnabled(true);
 					}
 				});
 
 		customerCombo.setRequired(true);
-		customerCombo.setDisabled(isInViewMode());
+		customerCombo.setEnabled(!isInViewMode());
 		// formItems.add(customerCombo);
 		setCustomer(customerCombo.getSelectedValue());
 		return customerCombo;
@@ -353,8 +352,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public ContactCombo createContactComboItem() {
 
 		ContactCombo contactCombo = new ContactCombo(messages.contact(), true);
-		contactCombo.setDisabled(true);
-		contactCombo.setHelpInformation(true);
+		contactCombo.setEnabled(false);
 		contactCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientContact>() {
 
@@ -420,7 +418,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
-		addressCombo.setHelpInformation(true);
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -432,7 +429,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		addressCombo.setDisabled(isInViewMode());
+		addressCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(addressCombo);
 
@@ -455,7 +452,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		List<ClientAddress> list = new ArrayList(tempSet);
 		shipToCombo.initCombo(list);
 		shipToAddressSelected(address);
-		shipToCombo.setDisabled(isInViewMode());
+		shipToCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -485,9 +482,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		billToCombo.initCombo(list);
 		billToaddressSelected(address);
 		if (list == null || list.size() == 0)
-			billToCombo.setDisabled(true);
+			billToCombo.setEnabled(false);
 		else
-			billToCombo.setDisabled(isInViewMode());
+			billToCombo.setEnabled(!isInViewMode());
 
 	}
 
@@ -510,7 +507,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	public AddressCombo createShipToComboItem() {
 
 		AddressCombo shipToCombo = new AddressCombo(messages.shipTo());
-		shipToCombo.setHelpInformation(true);
 		shipToCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
 
@@ -522,7 +518,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		shipToCombo.setDisabled(isInViewMode());
+		shipToCombo.setEnabled(!isInViewMode());
 		// shipToCombo.setShowDisabled(false);
 
 		// formItems.add(shipToCombo);
@@ -535,7 +531,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		SalesPersonCombo salesPersonCombo = new SalesPersonCombo(
 				messages.salesPerson());
-		salesPersonCombo.setHelpInformation(true);
 		salesPersonCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientSalesPerson>() {
 
@@ -548,7 +543,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		salesPersonCombo.setDisabled(isInViewMode());
+		salesPersonCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(salesPersonCombo);
 
@@ -561,7 +556,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		DepositInAccountCombo accountCombo = new DepositInAccountCombo(
 				messages.depositIn());
-		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
 		accountCombo
@@ -577,7 +571,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 
 				});
-		accountCombo.setDisabled(isInViewMode());
+		accountCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(accountCombo);
 
@@ -589,7 +583,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		ShippingMethodsCombo shippingMethodsCombo = new ShippingMethodsCombo(
 				messages.shippingMethod());
-		shippingMethodsCombo.setHelpInformation(true);
 		shippingMethodsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingMethod>() {
 
@@ -600,7 +593,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		shippingMethodsCombo.setDisabled(isInViewMode());
+		shippingMethodsCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(shippingMethodsCombo);
 
@@ -610,12 +603,11 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected DateField createTransactionDeliveryDateItem() {
 
-		final DateField dateItem = new DateField(messages.deliveryDate());
-		dateItem.setHelpInformation(true);
+		final DateField dateItem = new DateField(messages.deliveryDate(),
+				"deliveryDate");
 		dateItem.setTitle(messages.deliveryDate());
-		dateItem.setColSpan(1);
 
-		dateItem.setDisabled(isInViewMode());
+		dateItem.setEnabled(!isInViewMode());
 
 		// formItems.add(dateItem);
 
@@ -626,7 +618,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
 		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), true);
-		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 		taxCodeCombo.addStyleName("tax_combo");
 
@@ -641,7 +632,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 				});
 
-		taxCodeCombo.setDisabled(isInViewMode());
+		taxCodeCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(taxCodeCombo);
 
@@ -686,7 +677,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		PaymentTermsCombo comboItem = new PaymentTermsCombo(
 				messages.paymentTerms());
-		comboItem.setHelpInformation(true);
 		comboItem
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientPaymentTerms>() {
 
@@ -698,7 +688,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 					}
 
 				});
-		comboItem.setDisabled(isInViewMode());
+		comboItem.setEnabled(!isInViewMode());
 		// comboItem.setShowDisabled(false);
 		//
 		return comboItem;
@@ -707,8 +697,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	protected AmountField createSalesTaxNonEditableItem(ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.salesTax(), this,
-				currency);
-		amountItem.setDisabled(true);
+				currency, "amountItem");
 
 		return amountItem;
 
@@ -726,8 +715,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 			ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.total(), this,
-				currency);
-		amountItem.setDisabled(true);
+				currency, "amountItem");
 
 		return amountItem;
 
@@ -743,8 +731,9 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages.tax(), this, currency);
-		amountItem.setDisabled(true);
+		AmountField amountItem = new AmountField(messages.tax(), this,
+				currency, "amountItem");
+		amountItem.setEnabled(true);
 
 		return amountItem;
 
@@ -842,7 +831,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		super.init();
 		if (customerCombo != null && customerCombo.getSelectedValue() == null) {
 			if (contactCombo != null) {
-				contactCombo.setDisabled(true);
+				contactCombo.setEnabled(false);
 			}
 		}
 	}
@@ -894,7 +883,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 		if (shippingMethod != null && shippingMethodsCombo != null) {
 			shippingMethodsCombo.setComboItem(getCompany().getShippingMethod(
 					shippingMethod.getID()));
-			shippingMethodsCombo.setDisabled(isInViewMode());
+			shippingMethodsCombo.setEnabled(!isInViewMode());
 		}
 
 	}
@@ -938,7 +927,7 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 			depositInCombo.setComboItem(getCompany().getAccount(
 					depositInAccount.getID()));
-			depositInCombo.setDisabled(isInViewMode());
+			depositInCombo.setEnabled(!isInViewMode());
 		}
 
 	}
@@ -946,15 +935,15 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 	@Override
 	public void onEdit() {
 		if (shippingMethodsCombo != null)
-			shippingMethodsCombo.setDisabled(isInViewMode());
+			shippingMethodsCombo.setEnabled(!isInViewMode());
 		if (depositInCombo != null)
-			depositInCombo.setDisabled(isInViewMode());
+			depositInCombo.setEnabled(!isInViewMode());
 		if (phoneSelect != null)
-			phoneSelect.setDisabled(isInViewMode());
+			phoneSelect.setEnabled(!isInViewMode());
 		if (contactCombo != null)
-			contactCombo.setDisabled(isInViewMode());
+			contactCombo.setEnabled(!isInViewMode());
 		if (shipToCombo != null)
-			shipToCombo.setDisabled(isInViewMode());
+			shipToCombo.setEnabled(!isInViewMode());
 		// if (billToCombo != null)
 		// billToCombo.setDisabled(isInViewMode());
 		super.onEdit();
@@ -1030,7 +1019,6 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 
 		final ShippingTermsCombo shippingTermsCombo = new ShippingTermsCombo(
 				messages.shippingTerms());
-		shippingTermsCombo.setHelpInformation(true);
 		shippingTermsCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientShippingTerms>() {
 
@@ -1041,13 +1029,13 @@ public abstract class AbstractCustomerTransactionView<T extends ClientTransactio
 						if (shippingTerm != null && shippingTermsCombo != null) {
 							shippingTermsCombo.setComboItem(getCompany()
 									.getShippingTerms(shippingTerm.getID()));
-							shippingTermsCombo.setDisabled(isInViewMode());
+							shippingTermsCombo.setEnabled(!isInViewMode());
 						}
 					}
 
 				});
 
-		shippingTermsCombo.setDisabled(isInViewMode());
+		shippingTermsCombo.setEnabled(!isInViewMode());
 		return shippingTermsCombo;
 	}
 

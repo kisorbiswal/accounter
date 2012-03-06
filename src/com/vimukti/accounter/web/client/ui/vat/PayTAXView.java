@@ -28,6 +28,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.AccountCombo;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
@@ -68,6 +69,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	public PayTAXView() {
 		super(ClientTransaction.TYPE_PAY_TAX);
+		this.getElement().setId("paytaxview");
 	}
 
 	@Override
@@ -89,7 +91,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				.getViewName()));
 
 		payFromAccCombo = new PayFromAccountsCombo(messages.payFrom());
-		payFromAccCombo.setHelpInformation(true);
+		// payFromAccCombo.setHelpInformation(true);
 		payFromAccCombo.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.PAY_FROM_COMBO));
 		payFromAccCombo.setRequired(true);
@@ -116,16 +118,15 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 				});
 
-		payFromAccCombo.setDisabled(isInViewMode());
+		payFromAccCombo.setEnabled(isInViewMode());
 		payFromAccCombo.setPopupWidth("500px");
 		paymentMethodCombo = createPaymentMethodSelectItem();
 		paymentMethodCombo.setRequired(true);
 		// paymentMethodCombo.setWidth(100);
 
-		printCheck = new CheckboxItem(messages.toBePrinted());
+		printCheck = new CheckboxItem(messages.toBePrinted(), "printCheck");
 		printCheck.setValue(true);
-		printCheck.setWidth(100);
-		printCheck.setDisabled(true);
+		printCheck.setEnabled(true);
 		printCheck.addChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			@Override
@@ -135,7 +136,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					if (printCheck.getValue().toString()
 							.equalsIgnoreCase("true")) {
 						checkNoText.setValue(messages.toBePrinted());
-						checkNoText.setDisabled(true);
+						checkNoText.setEnabled(true);
 					} else {
 						if (payFromCombo.getValue() == null)
 							checkNoText.setValue(messages.toBePrinted());
@@ -145,20 +146,19 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					}
 				} else
 					checkNoText.setValue("");
-				checkNoText.setDisabled(false);
+				checkNoText.setEnabled(false);
 
 			}
 		});
 
-		checkNoText = new TextItem(messages.chequeNo());
+		checkNoText = new TextItem(messages.chequeNo(), "checkNoText");
 		checkNoText.setValue(messages.toBePrinted());
-		checkNoText.setHelpInformation(true);
-		checkNoText.setWidth(100);
+		// checkNoText.setHelpInformation(true);
 		if (paymentMethodCombo.getSelectedValue() != null
 				&& !paymentMethodCombo.getSelectedValue().equals(
 						UIUtils.getpaymentMethodCheckBy_CompanyType(messages
 								.check())))
-			checkNoText.setDisabled(true);
+			checkNoText.setEnabled(true);
 		checkNoText.addChangeHandler(new ChangeHandler() {
 
 			@Override
@@ -167,10 +167,10 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			}
 		});
 
-		billsDue = new DateField(messages.returnsDueOnOrBefore());
-		billsDue.setHelpInformation(true);
+		billsDue = new DateField(messages.returnsDueOnOrBefore(), "asofDate");
+		// billsDue.setHelpInformation(true);
 		billsDue.setTitle(messages.returnsDueOnOrBefore());
-		billsDue.setDisabled(isInViewMode());
+		billsDue.setEnabled(isInViewMode());
 		billsDue.setEnteredDate(new ClientFinanceDate());
 
 		billsDue.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -196,50 +196,40 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 					}
 				});
 
-		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(4);
-		dateForm.setStyleName("datenumber-panel");
-		dateForm.setFields(transactionDateItem, transactionNumber);
-		HorizontalPanel datepanel = new HorizontalPanel();
-		datepanel.setWidth("100%");
+		DynamicForm dateForm = new DynamicForm("datenumber-panel");
+		dateForm.add(transactionDateItem, transactionNumber);
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 
-		mainform = new DynamicForm();
-		// filterForm.setWidth("100%");
+		mainform = new DynamicForm("mainform");
 		mainform = UIUtils.form(messages.filter());
-		mainform.setFields(payFromAccCombo, paymentMethodCombo, billsDue,
+		mainform.add(payFromAccCombo, paymentMethodCombo, billsDue,
 				taxAgencyCombo);
-		// mainform.setWidth("80%");
 
-		// fileterForm = new DynamicForm();
-		// fileterForm.setFields(billsDue);
-		// fileterForm.setWidth("80%");
-
-		amountText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amountText.setHelpInformation(true);
+		amountText = new AmountField(messages.amount(), this,
+				getBaseCurrency(), "amountText");
 		amountText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		amountText.setDisabled(true);
+		amountText.setEnabled(true);
 
 		endingBalanceText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		endingBalanceText.setHelpInformation(true);
+				getBaseCurrency(), "endingBalanceText");
+		// endingBalanceText.setHelpInformation(true);
 		endingBalanceText.setValue("" + UIUtils.getCurrencySymbol() + " 0.00");
-		endingBalanceText.setDisabled(true);
+		endingBalanceText.setEnabled(true);
 
-		balForm = new DynamicForm();
+		balForm = new DynamicForm("balForm");
 		balForm = UIUtils.form(messages.balances());
-		balForm.setFields(amountText, endingBalanceText, printCheck,
+		balForm.add(amountText, endingBalanceText, printCheck,
 				checkNoText);
 		// balForm.getCellFormatter().setWidth(0, 0, "197px");
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			balForm.setFields(classListCombo);
+			balForm.add(classListCombo);
 		}
 
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 
 		leftVLay.setWidth("100%");
 		leftVLay.add(mainform);
@@ -251,17 +241,17 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			rightVlay.add(currencyWidget);
 			rightVlay.setCellHorizontalAlignment(currencyWidget,
 					HasHorizontalAlignment.ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
 		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
+//		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVlay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVlay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
+//		topHLay.setCellWidth(leftVLay, "50%");
+//		topHLay.setCellWidth(rightVlay, "50%");
+//		topHLay.setCellHorizontalAlignment(rightVlay, ALIGN_RIGHT);
 
 		Label lab1 = new Label("" + messages.billsToPay() + "");
 
@@ -298,12 +288,12 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 		if (paymentMethod != null) {
 			this.paymentMethod = paymentMethod;
 			if (paymentMethod.equalsIgnoreCase(messages.cheque())) {
-				printCheck.setDisabled(false);
-				checkNoText.setDisabled(false);
+				printCheck.setEnabled(true);
+				checkNoText.setEnabled(true);
 			} else {
 				// paymentMethodCombo.setComboItem(paymentMethod);
-				printCheck.setDisabled(true);
-				checkNoText.setDisabled(true);
+				printCheck.setEnabled(false);
+				checkNoText.setEnabled(false);
 			}
 		}
 
@@ -424,7 +414,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 				currencyWidget.setSelectedCurrency(this.currency);
 			}
 			currencyWidget.setCurrencyFactor(transaction.getCurrencyFactor());
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		initAccounterClass();
 		selectedPayFromAccount = getCompany().getAccount(
@@ -437,7 +427,7 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 			taxAgencyCombo.setComboItem(selectedTAXAgency);
 
 		if (isInViewMode()) {
-			taxAgencyCombo.setDisabled(true);
+			taxAgencyCombo.setEnabled(false);
 		}
 		billsDue.setEnteredDate(new ClientFinanceDate(transaction
 				.getBillsDueOnOrBefore()));
@@ -452,11 +442,11 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 		if (transaction.getPaymentMethod() != null ? transaction
 				.getPaymentMethod().equals(messages.check()) : false) {
-			printCheck.setDisabled(isInViewMode());
-			checkNoText.setDisabled(isInViewMode());
+			printCheck.setEnabled(!isInViewMode());
+			checkNoText.setEnabled(!isInViewMode());
 		} else {
-			printCheck.setDisabled(true);
-			checkNoText.setDisabled(true);
+			printCheck.setEnabled(false);
+			checkNoText.setEnabled(false);
 		}
 
 		if (transaction.getCheckNumber() != null) {
@@ -772,17 +762,17 @@ public class PayTAXView extends AbstractTransactionBaseView<ClientPayTAX> {
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		paymentMethodCombo.setDisabled(isInViewMode());
-		billsDue.setDisabled(isInViewMode());
-		taxAgencyCombo.setDisabled(isInViewMode());
-		payFromAccCombo.setDisabled(isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
+		billsDue.setEnabled(!isInViewMode());
+		taxAgencyCombo.setEnabled(!isInViewMode());
+		payFromAccCombo.setEnabled(!isInViewMode());
 		grid.setCanEdit(true);
-		grid.setDisabled(false);
+		grid.setEnabled(true);
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());
 		}
 		if (isMultiCurrencyEnabled()) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		super.onEdit();
 
