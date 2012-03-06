@@ -105,6 +105,8 @@ public class ReceivePaymentView extends
 	private ClientAccount depositInAccount;
 	private DepositInAccountCombo depositInCombo;
 
+	private StyledPanel topHLay;
+
 	public ReceivePaymentView() {
 		super(ClientTransaction.TYPE_RECEIVE_PAYMENT);
 		this.getElement().setId("receivepaymentview");
