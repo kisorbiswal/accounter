@@ -116,12 +116,9 @@ public class ExpenseReportToolbar extends ReportToolbar {
 
 					}
 				});
-
-		fromItem = new DateItem();
+		fromItem = new DateItem(messages.from(),"fromItem");
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(messages.from());
-
-		toItem = new DateItem();
+		toItem = new DateItem(messages.to(),"toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();

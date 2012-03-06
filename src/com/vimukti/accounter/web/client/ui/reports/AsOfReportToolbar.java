@@ -68,8 +68,7 @@ public class AsOfReportToolbar extends ReportToolbar {
 				// FinanceApplication.constants().previousCalenderYear(),
 				messages.custom() };
 
-		LabelItem report = new LabelItem();
-		report.setTitle(messages.reportBasisAccrual());
+		LabelItem report = new LabelItem(messages.reportBasisAccrual(),"report");
 
 		// reportBasisItem = new ComboBoxItem();
 		// reportBasisItem.setTitle(FinanceApplication.constants()
@@ -80,7 +79,6 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// reportBasisItem.setDisabled(true);
 
 		dateRangeCombo = new SelectCombo(messages.dateRange());
-		dateRangeCombo.setHelpInformation(true);
 		dateRangeList = new ArrayList<String>();
 		for (int i = 0; i < dateRangeArray.length; i++) {
 			dateRangeList.add(dateRangeArray[i]);
@@ -106,13 +104,11 @@ public class AsOfReportToolbar extends ReportToolbar {
 
 					}
 				});
-		customDate = new DateItem();
-		customDate.setHelpInformation(true);
+		customDate = new DateItem("","customDate");
 		// customDate.setUseTextField(true);
 		// customDate.setWidth(100);
 		customDate.setShowTitle(false);
 		// customDate.setDisabled(true);
-		customDate.setColSpan(2);
 		customDate.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -166,8 +162,8 @@ public class AsOfReportToolbar extends ReportToolbar {
 		// }
 		addItems(report, dateRangeCombo, customDate);
 		add(updateButton);
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+//		this.setCellVerticalAlignment(updateButton,
+//				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override

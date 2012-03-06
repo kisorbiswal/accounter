@@ -65,8 +65,8 @@ public abstract class EditTable<R> extends SimplePanel {
 		}
 	}
 
-	public void setDisabled(boolean isDesabled) {
-		if (this.isDisabled != isDesabled) {
+	public void setEnabled(boolean isDesabled) {
+		if (this.isDisabled = isDesabled) {
 			this.isDisabled = isDesabled;
 			updateHeaderState(isDesabled);
 			for (R r : rows) {

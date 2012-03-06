@@ -470,7 +470,7 @@ public class TAXAgencyView extends BaseView<ClientTAXAgency> {
 			@Override
 			public void onClick(ClickEvent event) {
 				ClientContact clientContact = new ClientContact();
-				gridView.setDisabled(isInViewMode());
+				gridView.setEnabled(!isInViewMode());
 				// clientContact.setName("");
 				gridView.add(clientContact);
 			}

@@ -47,8 +47,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 				messages.lastFinancialQuarter(),
 				messages.financialYearToDate(), messages.custom() };
 
-		statusCombo = new ComboBoxItem();
-		statusCombo.setTitle(messages.status());
+		statusCombo = new ComboBoxItem(messages.status(),"statusCombo");
 		statusCombo.setValueMap(statusArray);
 		statusCombo.setDefaultValue(statusArray[0]);
 		statusCombo.addChangeHandler(new ChangeHandler() {
@@ -73,8 +72,7 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			}
 		});
 
-		dateRangeItem = new ComboBoxItem();
-		dateRangeItem.setTitle(messages.dateRange());
+		dateRangeItem = new ComboBoxItem(messages.dateRange(),"dateRangeItem");
 		dateRangeItem.setValueMap(dateRangeArray);
 		dateRangeItem.setDefaultValue(dateRangeArray[0]);
 
@@ -88,11 +86,10 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 			}
 		});
 
-		fromItem = new DateItem();
+		fromItem = new DateItem(messages.from(),"fromItem");
 		fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(messages.from());
 
-		toItem = new DateItem();
+		toItem = new DateItem(messages.to(),"toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -102,7 +99,6 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		else
 			toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
@@ -149,8 +145,8 @@ public class SalesPurchasesReportToolbar extends ReportToolbar {
 		addItems(statusCombo, dateRangeItem, fromItem, toItem);
 		add(updateButton);
 
-		this.setCellVerticalAlignment(updateButton,
-				HasVerticalAlignment.ALIGN_MIDDLE);
+//		this.setCellVerticalAlignment(updateButton,
+//				HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 
 	@Override

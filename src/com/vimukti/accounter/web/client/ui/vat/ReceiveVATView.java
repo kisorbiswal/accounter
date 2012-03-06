@@ -410,7 +410,7 @@ public class ReceiveVATView extends
 		grid.isEnable = false;
 		grid.init();
 		grid.setRecieveVATView(this);
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		grid.setHeight("200px");
 		// if (!isEdit) {
 		// // grid.addFooterValue("Total", 1);
@@ -498,7 +498,7 @@ public class ReceiveVATView extends
 			}
 		}
 		initAccounterClass();
-		grid.setDisabled(isInViewMode());
+		grid.setEnabled(!isInViewMode());
 		// grid.updateFooterValues("Total"
 		// + DataUtils.getAmountAsString(receiveVAT.getTotal()), 2);
 
@@ -909,7 +909,7 @@ public class ReceiveVATView extends
 		// vatAgencyCombo.setDisabled(isInViewMode())		depositInAccCombo.setEnabled(isInViewMode());
 ;
 		grid.isEnable = true;
-		grid.setDisabled(false);
+		grid.setEnabled(false);
 		grid.setCanEdit(true);
 		if (printCheck.getValue().toString().equalsIgnoreCase("true")) {
 			checkNoText.setValue(messages.toBePrinted());

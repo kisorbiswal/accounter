@@ -123,11 +123,9 @@ public class DateRangeVATAgencyToolbar extends ReportToolbar {
 					}
 				});
 
-		fromItem = new DateItem();
-		fromItem.setTitle(messages.from());
+		fromItem = new DateItem(messages.from(),"fromItem");
 
-		toItem = new DateItem();
-		toItem.setTitle(messages.to());
+		toItem = new DateItem(messages.to(),"toItem");
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
