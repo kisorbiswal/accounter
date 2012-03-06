@@ -19,7 +19,7 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 
 	public InventoryAssemblyAction(boolean forCustomer) {
 		super();
-		this.forCustomer=forCustomer;
+		this.forCustomer = forCustomer;
 	}
 
 	@Override
@@ -57,11 +57,12 @@ public class InventoryAssemblyAction extends Action<ClientInventoryAssembly> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public String getCatagory() {
-		if(forCustomer){
-		return Global.get().Customer();
-		}else{
+		if (forCustomer) {
+			return Global.get().Customer();
+		} else {
 			return Global.get().Vendor();
 		}
 	}

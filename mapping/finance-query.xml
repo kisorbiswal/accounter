@@ -9369,14 +9369,14 @@
 		TI.TRANSACTION_ID = T.ID
 		LEFT OUTER JOIN ITEM IT
 		ON IT.ID = TI.ITEM_ID
-		WHERE T.SAVE_STATUS NOT IN (204, 202) AND
+		WHERE T.SAVE_STATUS NOT IN (204, 202, 201) AND
 		T.T_TYPE=8
 		AND
 		T.COMPANY_ID=:companyId AND T.T_DATE
 		BETWEEN
 		:fromDate AND
 		:toDate AND
-		I.DUE_DATE &lt;= :currentDate AND
+		I.DUE_DATE &lt; :currentDate AND
 		IT.ID=:itemId
 		ORDER BY T.ID
 	</sql-query>
