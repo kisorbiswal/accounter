@@ -68,8 +68,8 @@ public class BankingSectionHomeView extends BaseHomeView {
 
 		});
 
-		DynamicForm form = new DynamicForm();
-		form.setItems(addWidgetLink);
+		DynamicForm form = new DynamicForm("form");
+		form.add(addWidgetLink);
 
 		addWidgetLinkLayout.add(form);
 

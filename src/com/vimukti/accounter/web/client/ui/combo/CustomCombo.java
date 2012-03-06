@@ -21,8 +21,8 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 public abstract class CustomCombo<T> extends DropDownCombo<T> {
 	protected static AccounterMessages messages=Global.get().messages();
 
-	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols) {
-		super(title, isAddNewRequire, noOfCols);
+	public CustomCombo(String title, boolean isAddNewRequire, int noOfCols, String styleName) {
+		super(title, isAddNewRequire, noOfCols,styleName);
 		if (title != null) {
 			int i = title.length();
 			if (i > 5)
@@ -41,8 +41,8 @@ public abstract class CustomCombo<T> extends DropDownCombo<T> {
 		}
 	}
 
-	public CustomCombo(String title) {
-		super(title, true, 1);
+	public CustomCombo(String title,String styleName) {
+		super(title, true, 1,styleName);
 		if (title != null) {
 			int i = title.length();
 			if (i > 5)

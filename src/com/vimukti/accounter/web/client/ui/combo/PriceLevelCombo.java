@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.PriceLevelListDialog;
 public class PriceLevelCombo extends CustomCombo<ClientPriceLevel> {
 
 	public PriceLevelCombo(String title) {
-		super(title);
+		super(title,"PriceLevelCombo");
 		initCombo(getCompany().getPriceLevels());
 	}
 

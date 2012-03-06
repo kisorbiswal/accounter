@@ -9,9 +9,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.HasAlignment;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
@@ -101,7 +99,7 @@ public class MakeDepositView extends
 
 	private List<ClientAccount> listOfAccounts;
 
-	private HorizontalPanel bot1Panel;
+	private StyledPanel bot1Panel;
 
 	private ArrayList<DynamicForm> listforms;
 
@@ -310,9 +308,9 @@ public class MakeDepositView extends
 		if (reconcilationAccount != null) {
 			depositFromSelect.setComboItem(reconcilationAccount);
 			this.selectedDepositFromAccount = reconcilationAccount;
-			depositFromSelect.setDisabled(true);
+			depositFromSelect.setEnabled(!true);
 			this.amtText.setAmount(reconcilAmount);
-			amtText.setDisabled(true);
+			amtText.setEnabled(!true);
 			date.setValue(statementRecord.getStatementDate());
 		} else {
 			depositFromSelect.setComboItem(getCompany().getAccount(
@@ -367,7 +365,7 @@ public class MakeDepositView extends
 				this.currencyFactor = transaction.getCurrencyFactor();
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 
 			date.setValue(transaction.getDate());
@@ -428,7 +426,7 @@ public class MakeDepositView extends
 		lab.setStyleName("label-title");
 		// lab.setHeight("50px");
 		date = UIUtils.date(messages.date(), this);
-		date.setDisabled(isInViewMode());
+		date.setEnabled(!isInViewMode());
 		// set the transactionDate while creation
 		setTransactionDate(date.getValue());
 
@@ -444,17 +442,16 @@ public class MakeDepositView extends
 		locationCombo = createLocationCombo();
 		// date.setWidth(100);
 		transactionNumber = createTransactionNumberItem();
-		DynamicForm dateForm = new DynamicForm();
-		dateForm.setNumCols(6);
+		DynamicForm dateForm = new DynamicForm("dateForm");
 		dateForm.setStyleName("datenumber-panel");
 		if (!isTemplate) {
-			dateForm.setFields(date, transactionNumber);
+			dateForm.add(date, transactionNumber);
 		}
 
-		HorizontalPanel datepanel = new HorizontalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.setWidth("100%");
 		datepanel.add(dateForm);
-		datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
+		// datepanel.setCellHorizontalAlignment(dateForm, ALIGN_RIGHT);
 		currencyWidget = createCurrencyFactorWidget();
 
 		depositInSelect = new MakeDepositAccountCombo(messages.depositIn()) {
@@ -481,11 +478,10 @@ public class MakeDepositView extends
 				}
 			}
 		};
-		depositInSelect.setHelpInformation(true);
 		depositInSelect.setRequired(true);
 		// depositInSelect.setWidth(100);
 		depositInSelect.setPopupWidth("450px");
-		depositInSelect.setDisabled(isInViewMode());
+		depositInSelect.setEnabled(!isInViewMode());
 		depositInSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
@@ -521,11 +517,10 @@ public class MakeDepositView extends
 				}
 			}
 		};
-		depositFromSelect.setHelpInformation(true);
 		depositFromSelect.setRequired(true);
 		depositFromSelect.setWidth(100);
 		depositFromSelect.setPopupWidth("450px");
-		depositFromSelect.setDisabled(isInViewMode());
+		depositFromSelect.setEnabled(!isInViewMode());
 		depositFromSelect
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 					@Override
@@ -569,8 +564,9 @@ public class MakeDepositView extends
 
 					}
 				});
-		amtText = new AmountField(messages.amount(), this, getBaseCurrency());
-		amtText.setDisabled(isInViewMode());
+		amtText = new AmountField(messages.amount(), this, getBaseCurrency(),
+				"amtText");
+		amtText.setEnabled(!isInViewMode());
 		amtText.addBlurHandler(new BlurHandler() {
 
 			@Override
@@ -578,16 +574,15 @@ public class MakeDepositView extends
 				updateTotals();
 			}
 		});
-		memoText = new TextAreaItem(messages.memo());
+		memoText = new TextAreaItem(messages.memo(), "memoText");
 		memoText.setMemo(true, this);
-		memoText.setHelpInformation(true);
 		memoText.setWidth(100);
-		memoText.setDisabled(isInViewMode());
+		memoText.setEnabled(!isInViewMode());
 
-		memoForm = new DynamicForm();
+		memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoText);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.add(memoText);
+		// memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
 
 		depoForm = new DynamicForm();
 		depoForm.setIsGroup(true);
@@ -603,7 +598,6 @@ public class MakeDepositView extends
 
 		cashBackAccountSelect = new CashBackAccountsCombo(
 				messages.cashBackAccount());
-		cashBackAccountSelect.setHelpInformation(true);
 		cashBackAccountSelect.setAccountTypes(UIUtils
 				.getOptionsByType(AccountCombo.CASH_BACK_ACCOUNTS_COMBO));
 		// cashBackAccountSelect.setRequired(true);
@@ -617,18 +611,17 @@ public class MakeDepositView extends
 
 				});
 
-		cashBackMemoText = new TextItem(messages.cashBackMemo());
-		cashBackMemoText.setHelpInformation(true);
+		cashBackMemoText = new TextItem(messages.cashBackMemo(),
+				"cashBackMemoText");
 		cashBackMemoText.setWidth(100);
 
-		form1 = new DynamicForm();
-		form1.setFields(cashBackMemoText, cashBackAccountSelect);
+		form1 = new DynamicForm("form1");
+		form1.add(cashBackMemoText, cashBackAccountSelect);
 		// form1.getCellFormatter().setWidth(0, 0, "180px");
 		form1.setWidth("70%");
 
 		cashBackAmountText = new AmountField(messages.cashBackAmount(), this,
-				getBaseCurrency());
-		cashBackAmountText.setHelpInformation(true);
+				getBaseCurrency(), "cashBackAmountText");
 		cashBackAmountText.setWidth(100);
 		cashBackAmountText.setDefaultValue("" + UIUtils.getCurrencySymbol()
 				+ "0.00");
@@ -647,32 +640,32 @@ public class MakeDepositView extends
 		// transactionTotalBaseCurrencyText.setWidth("100px");
 		transactionTotalBaseCurrencyText.setDefaultValue(""
 				+ UIUtils.getCurrencySymbol() + "0.00");
-		transactionTotalBaseCurrencyText.setDisabled(true);
+		transactionTotalBaseCurrencyText.setEnabled(!true);
 		((Label) transactionTotalBaseCurrencyText.getMainWidget())
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
-		form2 = new DynamicForm();
+		form2 = new DynamicForm("form2");
 
-		form2.setFields(transactionTotalBaseCurrencyText);
+		form2.add(transactionTotalBaseCurrencyText);
 		if (isMultiCurrencyEnabled()) {
-			form2.setFields(foreignCurrencyamountLabel);
+			form2.add(foreignCurrencyamountLabel);
 		}
 
 		form2.addStyleName("textbold");
 		// form2.setWidth("50%");
 		form2.getElement().getStyle().setMarginTop(10, Unit.PX);
 
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.setWidth("100%");
 		topHLay.addStyleName("fields-panel");
 		topHLay.add(depoForm);
 
-		DynamicForm dynamicForm = new DynamicForm();
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
 
 		locationCombo.addStyleName("locationCombo");
 
 		if (locationTrackingEnabled) {
-			dynamicForm.setFields(locationCombo);
+			dynamicForm.add(locationCombo);
 		}
 
 		VerticalPanel currencyPanel = new VerticalPanel();
@@ -680,20 +673,20 @@ public class MakeDepositView extends
 		currencyPanel.add(dynamicForm);
 		currencyPanel.add(currencyWidget);
 		topHLay.add(currencyPanel);
-		topHLay.setCellHorizontalAlignment(currencyPanel,
-				HasAlignment.ALIGN_RIGHT);
+		// topHLay.setCellHorizontalAlignment(currencyPanel,
+		// HasAlignment.ALIGN_RIGHT);
 
-		HorizontalPanel panel = new HorizontalPanel();
-		panel.setHorizontalAlignment(ALIGN_LEFT);
+		StyledPanel panel = new StyledPanel("panel");
+		// panel.setHorizontalAlignment(ALIGN_LEFT);
 		// panel.add(addButton);
 		panel.getElement().getStyle().setMarginTop(8, Unit.PX);
 
-		HorizontalPanel botHLay = new HorizontalPanel();
+		StyledPanel botHLay = new StyledPanel("botHLay");
 		botHLay.setWidth("100%");
 		botHLay.add(memoForm);
-		botHLay.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
+		// botHLay.setCellHorizontalAlignment(memoForm, ALIGN_LEFT);
 		botHLay.add(form2);
-		botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
+		// botHLay.setCellHorizontalAlignment(form2, ALIGN_RIGHT);
 
 		VerticalPanel vPanel = new VerticalPanel();
 		vPanel.setHorizontalAlignment(ALIGN_LEFT);
@@ -975,23 +968,23 @@ public class MakeDepositView extends
 
 	private void enableFormItems() {
 		setMode(EditMode.EDIT);
-		date.setDisabled(isInViewMode());
-		depositInSelect.setDisabled(isInViewMode());
-		depositFromSelect.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		cashBackMemoText.setDisabled(isInViewMode());
-		cashBackAmountText.setDisabled(isInViewMode());
-		cashBackAccountSelect.setDisabled(isInViewMode());
-		memoText.setDisabled(isInViewMode());
-		amtText.setDisabled(isInViewMode());
+		date.setEnabled(!isInViewMode());
+		depositInSelect.setEnabled(!isInViewMode());
+		depositFromSelect.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		cashBackMemoText.setEnabled(!isInViewMode());
+		cashBackAmountText.setEnabled(!isInViewMode());
+		cashBackAccountSelect.setEnabled(!isInViewMode());
+		memoText.setEnabled(!isInViewMode());
+		amtText.setEnabled(!isInViewMode());
 
 		// For deleting the transctionItems after we edit
 		// transactionObject = null;
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 
 		if (isMultiCurrencyEnabled()) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass())
 			classListCombo.setDisabled(isInViewMode());

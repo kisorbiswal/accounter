@@ -5,7 +5,7 @@ import com.vimukti.accounter.web.client.core.ClientVATReturnBox;
 public class VatReturnBoxCombo extends CustomCombo<ClientVATReturnBox> {
 
 	public VatReturnBoxCombo(String title) {
-		super(title,false,1);
+		super(title,false,1,"VatReturnBoxCombo");
 		initCombo(getCompany().getVatReturnBoxes());
 	}
 

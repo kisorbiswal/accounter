@@ -12,7 +12,7 @@ public class InventoryAssemblyItemCombo extends
 		CustomCombo<ClientInventoryAssembly> {
 
 	public InventoryAssemblyItemCombo(String title) {
-		super(title);
+		super(title, "inventoryAssemblyItemCombo");
 		List<ClientInventoryAssembly> assemblies = new ArrayList<ClientInventoryAssembly>();
 		List<ClientItem> items = getCompany().getItems();
 		for (ClientItem clientItem : items) {

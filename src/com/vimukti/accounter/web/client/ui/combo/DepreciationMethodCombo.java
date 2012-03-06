@@ -25,7 +25,7 @@ public class DepreciationMethodCombo extends SelectItem {
 	 * @param title
 	 */
 	public DepreciationMethodCombo(String title) {
-		super(title);
+		super(title,"DepreciationMethodCombo");
 		this.addChangeHandler(getChangeHandler());
 		initCombo();
 	}

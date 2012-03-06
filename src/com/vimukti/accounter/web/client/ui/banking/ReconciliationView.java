@@ -55,21 +55,18 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		label.addStyleName("label-title");
 		label.setText(messages.Reconciliation());
 
-		bankaccountLabel = new LabelItem();
-		bankaccountLabel.setTitle(messages.Account());
+		bankaccountLabel = new LabelItem(messages.Account(),"bankaccountLabel");
 		bankaccountLabel.setValue(data.getAccount().getName());
 
 		closebalanceLable = new AmountLabel(messages.ClosingBalance());
 		closebalanceLable.setTitle(messages.ClosingBalance());
 		closebalanceLable.setAmount(data.getClosingBalance());
 
-		startdateLable = new LabelItem();
-		startdateLable.setTitle(messages.startDate());
+		startdateLable = new LabelItem(messages.startDate(),"startdateLable");
 		startdateLable.setValue(DateUtills.getDateAsString(data.getStartDate()
 				.getDateAsObject()));
 
-		enddateLable = new LabelItem();
-		enddateLable.setTitle(messages.endDate());
+		enddateLable = new LabelItem(messages.endDate(),"enddateLable");
 		enddateLable.setValue(DateUtills.getDateAsString(data.getEndDate()
 				.getDateAsObject()));
 
@@ -92,12 +89,12 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		// endDate = new DateField(constants.endDate());
 		// closingBalance = new TextItem(constants.ClosingBalance());
 
-		DynamicForm form = new DynamicForm();
-		form.setFields(bankaccountLabel, closebalanceLable);
+		DynamicForm form = new DynamicForm("form");
+		form.add(bankaccountLabel, closebalanceLable);
 		form.setStyleName("recouncilation_value");
 
-		DynamicForm datesForm = new DynamicForm();
-		datesForm.setFields(startdateLable, enddateLable);
+		DynamicForm datesForm = new DynamicForm("datesForm");
+		datesForm.add(startdateLable, enddateLable);
 
 		HorizontalPanel hPanel = new HorizontalPanel();
 		hPanel.setWidth("100%");
@@ -133,25 +130,21 @@ public class ReconciliationView extends BaseView<ClientReconciliation> {
 		amountsPanel.setWidth("100%");
 
 		openingBalance = new AmountLabel(messages.openingBalance());
-		openingBalance.setHelpInformation(true);
-		openingBalance.setDisabled(true);
+		openingBalance.setEnabled(false);
 		openingBalance.setAmount(data.getOpeningBalance());
 
 		closingBalance = new AmountLabel(messages.ClosingBalance());
-		closingBalance.setHelpInformation(true);
-		closingBalance.setDisabled(true);
+		closingBalance.setEnabled(true);
 		closingBalance.setAmount(data.getClosingBalance());
 
 		clearedAmount = new AmountLabel(messages.ClearedAmount());
-		clearedAmount.setHelpInformation(true);
-		clearedAmount.setDisabled(true);
+		clearedAmount.setEnabled(true);
 
 		difference = new AmountLabel(messages.Difference());
-		difference.setHelpInformation(true);
-		difference.setDisabled(true);
-		DynamicForm amountsForm = new DynamicForm();
+		difference.setEnabled(false);
+		DynamicForm amountsForm = new DynamicForm("amountsForm");
 		amountsForm.setWidth("50%");
-		amountsForm.setItems(openingBalance, closingBalance, clearedAmount,
+		amountsForm.add(openingBalance, closingBalance, clearedAmount,
 				difference);
 		amountsPanel.add(amountsForm);
 		amountsPanel.setStyleName("bottom_total_view");

@@ -38,7 +38,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 	private Label totalLabel;
 	private Label amountLabel;
 	protected String selectedpaymentMethod;
@@ -46,15 +46,16 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private List<ClientAccount> payFromAccounts;
 	private ClientAccount selectedPayFromAccount;
 	private TextItem checkNoText;
-	private VerticalPanel mainVLay;
+	private StyledPanel mainVLay;
 	private DynamicForm payForm;
-	HorizontalPanel bottomLabelLayOut;
+	StyledPanel bottomLabelLayOut;
 	private String checkNo;
 	private String transactionNumber;
 	public int validationCount;
 
 	public IssuePaymentDialog(String text, String description) {
 		super(text, description);
+		this.addStyleName("issue-payment-dialog");
 		this.validationCount = 3;
 		createControls();
 		getPayFromAccounts();
@@ -68,6 +69,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				ClientTransaction.TYPE_ISSUE_PAYMENT,
 				new AccounterAsyncCallback<String>() {
 
+					@Override
 					public void onException(AccounterException caught) {
 						// UIUtils.logError(
 						// "Failed to get the Transaction Number..",
@@ -78,6 +80,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 						return;
 					}
 
+					@Override
 					public void onResultSuccess(String result) {
 						if (result == null)
 							onFailure(null);
@@ -198,15 +201,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 	private void createControls() {
 		// setWidth("80px");
-		mainPanel.setSpacing(3);
-
 		payMethodSelect = new SelectCombo(messages.paymentMethod());
-		payMethodSelect.setHelpInformation(true);
 		payMethodSelect.setRequired(true);
 		payMethodItemList = new ArrayList<String>();
-		payMethodItemList
-				.add(UIUtils
-						.getpaymentMethodCheckBy_CompanyType(messages.check()));
+		payMethodItemList.add(UIUtils
+				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 		payMethodSelect.initCombo(payMethodItemList);
 		payMethodSelect.setSelectedItem(0);
 
@@ -223,11 +222,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 				});
 
 		accountCombo = new PayFromAccountsCombo(messages.Account(), false);
-		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
 
+					@Override
 					public void selectedComboBoxItem(ClientAccount selectItem) {
 						selectedPayFromAccount = selectItem;
 						changeGridData(selectedPayFromAccount);
@@ -238,25 +237,21 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 				});
 
-		payForm = new DynamicForm();
-		payForm.setWidth("50%");
-		payForm.setFields(payMethodSelect, accountCombo);
+		payForm = new DynamicForm("payForm");
+		payForm.add(payMethodSelect, accountCombo);
 		paymentMethodSelected(payMethodSelect.getSelectedValue());
 
 		Label label = new Label();
 		label.setText(messages.paymentsToBeIssued());
 		initListGrid();
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setWidth("800px");
+		mainVLay = new StyledPanel("mainVLay");
 
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
 
 		setBodyLayout(mainVLay);
-		headerLayout.setWidth("800px");
-		headerLayout.setHeight("15%");
 		// footerLayout.setCellWidth(okbtn, "85%");
 		footerLayout.removeStyleName("dialogfooter");
 
@@ -268,6 +263,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 			rpcUtilService.getNextIssuepaymentCheckNumber(account.getID(),
 					new AccounterAsyncCallback<String>() {
 
+						@Override
 						public void onException(AccounterException caught) {
 							// UIUtils.logError(
 							// "Failed to get the Check number..", caught);
@@ -276,6 +272,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 						}
 
+						@Override
 						public void onResultSuccess(String result) {
 
 							if (result == null) {
@@ -293,8 +290,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	}
 
 	protected ValidationResult validate() {
-		ValidationResult result = FormItem.validate(payMethodSelect,
-				accountCombo);
+		ValidationResult result = payForm.validate();
 		if (grid.getRecords().isEmpty()) {
 			result.addError(grid, messages
 					.noTransactionIsAvailableToIssuePayments());
@@ -404,6 +400,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 							selectedPayFromAccount2.getID(),
 							new AccounterAsyncCallback<ArrayList<IssuePaymentTransactionsList>>() {
 
+								@Override
 								public void onException(AccounterException t) {
 
 									// UIUtils
@@ -415,6 +412,7 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 
 								}
 
+								@Override
 								public void onResultSuccess(
 										ArrayList<IssuePaymentTransactionsList> result) {
 
@@ -443,13 +441,10 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	}
 
 	private void initListGrid() {
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100px");
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TransactionIssuePaymentGrid();
 		grid.isEnable = false;
 		grid.init();
-		grid.setHeight("200px");
 		// grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
 		// .constants().total(), DataUtils
@@ -459,14 +454,11 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 		// bottomLabelLayOut.setWidth("100%");
 		// bottomLabelLayOut.setHeight("100px");
 		Label emptyLabel = new Label();
-		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
-		totalLabel.setWidth("30%");
 		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
-		amountLabel.setWidth("20%");
 
 		gridLayout.add(grid);
 		// gridLayout.add(bottomLabelLayOut);
@@ -476,18 +468,18 @@ public class IssuePaymentDialog extends BaseDialog<ClientIssuePayment> {
 	private void paymentMethodSelected(String selectedpaymentMethod1) {
 		selectedpaymentMethod = selectedpaymentMethod1;
 		if (!selectedpaymentMethod.isEmpty()) {
-			checkNoText = new TextItem(messages.startingChequeNo());
-			checkNoText.setHelpInformation(true);
+			checkNoText = new TextItem(messages.startingChequeNo(),
+					"checkNoText");
 			checkNoText.setWidth(100);
 			// checkNoText.setRequired(true);
 			// if (selectedPayFromAccount != null)
 			// setStartingCheckNumber(selectedPayFromAccount);
-			payForm.removeAllRows();
-			payForm.setFields(payMethodSelect, accountCombo, checkNoText);
+			payForm.clear();
+			payForm.add(payMethodSelect, accountCombo, checkNoText);
 			changeGridData(selectedPayFromAccount);
 		} else {
-			payForm.removeAllRows();
-			payForm.setFields(payMethodSelect, accountCombo);
+			payForm.clear();
+			payForm.add(payMethodSelect, accountCombo);
 		}
 	}
 

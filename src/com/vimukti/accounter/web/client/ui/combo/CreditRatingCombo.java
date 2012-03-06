@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.CreditRatingListDialog;
 public class CreditRatingCombo extends CustomCombo<ClientCreditRating> {
 
 	public CreditRatingCombo(String title) {
-		super(title);
+		super(title,"creditRatingCombo");
 	}
 
 	@Override

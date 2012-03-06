@@ -5,11 +5,11 @@ import com.vimukti.accounter.web.client.core.ClientUserInfo;
 public class UsersCombo extends CustomCombo<ClientUserInfo> {
 
 	public UsersCombo(String title, boolean isAddNewRequire) {
-		super(title, isAddNewRequire, 2);
+		super(title, isAddNewRequire, 2,"UsersCombo");
 	}
 
 	public UsersCombo(String title) {
-		super(title);
+		super(title,"UsersCombo");
 	}
 
 	public void init() {

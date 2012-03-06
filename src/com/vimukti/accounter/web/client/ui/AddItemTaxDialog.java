@@ -13,7 +13,7 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 
 	public TextItem taxText;
 	public RadioGroupItem taxableRadio;
-	public DynamicForm form;
+	public DynamicForm taxElementform;
 
 	public AddItemTaxDialog(String title, String desc) {
 		super(title, desc);
@@ -22,26 +22,18 @@ public class AddItemTaxDialog extends BaseDialog<ClientTAXItem> {
 	}
 
 	private void initiliase() {
-		taxText = new TextItem();
-		taxText.setTitle(messages.itemTax());
+		taxText = new TextItem(messages.itemTax(), "taxText");
 		taxText.setRequired(true);
-		taxText.setColSpan(3);
 
 		taxableRadio = new RadioGroupItem();
-		taxableRadio.setColSpan(1);
 		taxableRadio.setShowTitle(false);
 		taxableRadio.setValueMap(messages.taxable(), messages.nonTaxable());
 
-		form = new DynamicForm();
-		form.setNumCols(4);
-		form.setFields(taxText, taxableRadio);
-		form.setSize("100%", "100%");
+		taxElementform = new DynamicForm("taxElementform");
+		taxElementform.add(taxText, taxableRadio);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "50%");
-		// mainVLay.setTop(10);
-		mainVLay.add(form);
-		setWidth("350px");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
+		mainVLay.add(taxElementform);
 		setBodyLayout(mainVLay);
 
 	}

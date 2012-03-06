@@ -33,11 +33,9 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 
 	private void initiliase() {
 
-		levelText = new TextItem(messages.priceLevel());
-		levelText.setHelpInformation(true);
+		levelText = new TextItem(messages.priceLevel(),"levelText");
 		levelText.setRequired(true);
 		percentText = new PercentageField(this, messages.percentage());
-		percentText.setHelpInformation(true);
 		percentText.setPercentage(1.0);
 		percentText.setRequired(true);
 		levelRadio = new RadioGroupItem();
@@ -53,8 +51,8 @@ public class AddPriceLevelDialog extends BaseDialog<ClientPriceLevel> {
 		levelRadio.setDefaultValue(messages
 				.increasePriceLevelByThisPercentage());
 		setIncrOrDecrPercentValue(messages.increasePriceLevelByThisPercentage());
-		nameDescForm = new DynamicForm();
-		nameDescForm.setFields(levelText, percentText, levelRadio);
+		nameDescForm = new DynamicForm("nameDescForm");
+		nameDescForm.add(levelText, percentText, levelRadio);
 		nameDescForm.setSize("100%", "100%");
 		VerticalPanel mainVLay = new VerticalPanel();
 		mainVLay.add(nameDescForm);

@@ -9,7 +9,7 @@ import com.vimukti.accounter.web.client.ui.Accounter;
 public class LanguageCombo extends CustomCombo<ClientLanguage> {
 
 	public LanguageCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1,"LanguageCombo");
 		initComboData();
 	}
 

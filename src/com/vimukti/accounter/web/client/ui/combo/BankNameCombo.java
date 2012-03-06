@@ -6,7 +6,7 @@ import com.vimukti.accounter.web.client.ui.company.AddBankDialog;
 public class BankNameCombo extends CustomCombo<ClientBank> {
 
 	public BankNameCombo(String title) {
-		super(title);
+		super(title,"bankNameCombo");
 	}
 
 	@Override

@@ -116,10 +116,10 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public AmountField createBalanceText(ClientCurrency currency) {
 
 		AmountField balText = new AmountField(messages.balance(), this,
-				currency);
+				currency,"balText");
 		// balText.setWidth("*");
 
-		balText.setDisabled(isInViewMode());
+		balText.setEnabled(!isInViewMode());
 		// balText.setShowDisabled(false);
 		return balText;
 
@@ -135,13 +135,12 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	public AmountField createAmountText(ClientCurrency currency) {
 
-		AmountField amtText = new AmountField(messages.amount(), this, currency);
+		AmountField amtText = new AmountField(messages.amount(), this, currency,"amtText");
 		// amtText.setWidth("*");
 
-		amtText.setColSpan(1);
 		amtText.setValue("" + UIUtils.getCurrencySymbol() + "0.00");
 
-		amtText.setDisabled(isInViewMode());
+		amtText.setEnabled(!isInViewMode());
 		// amtText.setShowDisabled(false);
 
 		return amtText;
@@ -150,8 +149,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 	protected AmountField createVATTotalNonEditableItem(ClientCurrency currency) {
 
-		AmountField amountItem = new AmountField(messages.tax(), this, currency);
-		amountItem.setDisabled(true);
+		AmountField amountItem = new AmountField(messages.tax(), this, currency,"amountItem");
+		amountItem.setEnabled(false);
 
 		return amountItem;
 
@@ -160,7 +159,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected AmountLabel createVATTotalNonEditableLabel() {
 
 		AmountLabel amountItem = new AmountLabel(messages.tax());
-		amountItem.setDisabled(true);
+		amountItem.setEnabled(false);
 
 		return amountItem;
 
@@ -174,10 +173,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public PayFromAccountsCombo createPayFromselectItem() {
 		PayFromAccountsCombo payFrmSelect = new PayFromAccountsCombo(
 				messages.paymentFrom());
-		payFrmSelect.setHelpInformation(true);
 		payFrmSelect.setRequired(true);
 		// payFrmSelect.setWidth("*");
-		payFrmSelect.setColSpan(3);
 
 		// payFrmSelect.setWidth("*");
 		// payFrmSelect.setWrapTitle(false);
@@ -192,7 +189,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 					}
 
 				});
-		payFrmSelect.setDisabled(isInViewMode());
+		payFrmSelect.setEnabled(!isInViewMode());
 		// payFrmSelect.setShowDisabled(false);
 		return payFrmSelect;
 	}
@@ -200,8 +197,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	public AddressCombo createBillToComboItem() {
 
 		AddressCombo addressCombo = new AddressCombo(messages.billTo(), false);
-
-		addressCombo.setHelpInformation(true);
 
 		addressCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAddress>() {
@@ -214,7 +209,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 				});
 
-		addressCombo.setDisabled(isInViewMode());
+		addressCombo.setEnabled(!isInViewMode());
 		// addressCombo.setShowDisabled(false);
 		return addressCombo;
 
@@ -240,9 +235,9 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 		List<ClientAddress> list = new ArrayList<ClientAddress>(tempSet);
 		billToCombo.initCombo(list);
 		if (list == null || list.size() == 0)
-			billToCombo.setDisabled(true);
+			billToCombo.setEnabled(false);
 		else
-			billToCombo.setDisabled(isInViewMode());
+			billToCombo.setEnabled(!isInViewMode());
 		// billToCombo.setShowDisabled(false);
 
 		if (isInViewMode()) {
@@ -279,7 +274,6 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 	protected TAXCodeCombo createTaxCodeSelectItem() {
 
 		TAXCodeCombo taxCodeCombo = new TAXCodeCombo(messages.tax(), false);
-		taxCodeCombo.setHelpInformation(true);
 		taxCodeCombo.setRequired(true);
 
 		taxCodeCombo
@@ -293,7 +287,7 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 
 				});
 
-		taxCodeCombo.setDisabled(isInViewMode());
+		taxCodeCombo.setEnabled(!isInViewMode());
 
 		// formItems.add(taxCodeCombo);
 
@@ -305,8 +299,8 @@ public abstract class AbstractBankTransactionView<T extends ClientTransaction>
 			ClientCurrency currency) {
 
 		AmountField amountItem = new AmountField(messages.total(), this,
-				currency);
-		amountItem.setDisabled(true);
+				currency,"amountItem");
+		amountItem.setEnabled(false);
 
 		return amountItem;
 

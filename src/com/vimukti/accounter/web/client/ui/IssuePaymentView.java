@@ -6,9 +6,7 @@ import java.util.List;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.ClientChequeLayout;
@@ -31,7 +29,6 @@ import com.vimukti.accounter.web.client.ui.core.ButtonBar;
 import com.vimukti.accounter.web.client.ui.core.CancelButton;
 import com.vimukti.accounter.web.client.ui.core.SaveAndCloseButton;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
-import com.vimukti.accounter.web.client.ui.forms.FormItem;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 import com.vimukti.accounter.web.client.ui.grids.TransactionIssuePaymentGrid;
 
@@ -45,7 +42,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	private List<String> payMethodItemList;
 
 	private TransactionIssuePaymentGrid grid;
-	private VerticalPanel gridLayout;
+	private StyledPanel gridLayout;
 	private Label totalLabel;
 	private Label amountLabel;
 	protected String selectedpaymentMethod;
@@ -53,9 +50,9 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	private List<ClientAccount> payFromAccounts;
 	private ClientAccount selectedPayFromAccount;
 	private TextItem checkNoText;
-	private VerticalPanel mainVLay;
+	private StyledPanel mainVLay;
 	private DynamicForm payForm;
-	HorizontalPanel bottomLabelLayOut;
+	StyledPanel bottomLabelLayOut;
 	private String checkNo;
 	private String transactionNumber;
 	public int validationCount;
@@ -66,6 +63,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	@Override
 	public void init() {
 		super.init();
+		this.getElement().setId("IssuePaymentView");
 		createControls();
 		getPayFromAccounts();
 		setTransactionNumber();
@@ -238,7 +236,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	protected ValidationResult validateView() {
-		ValidationResult result = FormItem.validate(accountCombo);
+		ValidationResult result = payForm.validate();
 		if (grid.getRecords().isEmpty()) {
 			result.addError(grid,
 					messages.noTransactionIsAvailableToIssuePayments());
@@ -335,12 +333,10 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		payMethodItemList.add(UIUtils
 				.getpaymentMethodCheckBy_CompanyType(messages.check()));
 
-		checkNoText = new TextItem(messages.startingChequeNo());
-		checkNoText.setHelpInformation(true);
+		checkNoText = new TextItem(messages.startingChequeNo(), "checkNoText");
 		checkNoText.setWidth(100);
 
 		accountCombo = new BankAccountCombo(messages.Account());
-		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 		accountCombo
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -355,17 +351,14 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 				});
 
-		payForm = new DynamicForm();
-		payForm.setWidth("50%");
-		payForm.setFields(accountCombo, checkNoText);
+		payForm = new DynamicForm("payForm");
+		payForm.add(accountCombo, checkNoText);
 
 		Label label = new Label();
 		label.setText(messages.paymentsToBeIssued());
 		initListGrid();
 
-		mainVLay = new VerticalPanel();
-		mainVLay.setWidth("100%");
-		mainVLay.add(titleLabel);
+		mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(payForm);
 		mainVLay.add(label);
 		mainVLay.add(gridLayout);
@@ -407,7 +400,7 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = FormItem.validate(accountCombo);
+		ValidationResult result = payForm.validate();
 		if (grid.getRecords().isEmpty()) {
 			result.addError(grid,
 					messages.noTransactionIsAvailableToIssuePayments());
@@ -557,13 +550,10 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	private void initListGrid() {
-		gridLayout = new VerticalPanel();
-		gridLayout.setWidth("100%");
-		gridLayout.setHeight("100px");
+		gridLayout = new StyledPanel("gridLayout");
 		grid = new TransactionIssuePaymentGrid();
 		grid.isEnable = false;
 		grid.init();
-		grid.setHeight("200px");
 		grid.setIssuePaymentView(this);
 		// grid.addFooterValues("", "", "", "", FinanceApplication
 		// .constants().total(), DataUtils
@@ -573,14 +563,11 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 		// bottomLabelLayOut.setWidth("100%");
 		// bottomLabelLayOut.setHeight("100px");
 		Label emptyLabel = new Label();
-		emptyLabel.setWidth("25%");
 		totalLabel = new Label();
-		totalLabel.setWidth("30%");
 		totalLabel.setText(messages.totalAmount());
 
 		amountLabel = new Label();
 		amountLabel.setText("" + UIUtils.getCurrencySymbol() + "0");
-		amountLabel.setWidth("20%");
 
 		gridLayout.add(grid);
 		// gridLayout.add(bottomLabelLayOut);
@@ -685,9 +672,8 @@ public class IssuePaymentView extends BaseView<ClientIssuePayment> {
 	}
 
 	@Override
-	protected String getViewTitle() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getViewTitle() {
+		return messages.printCheque();
 	}
 
 	@Override

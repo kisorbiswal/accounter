@@ -6,7 +6,7 @@ import java.util.List;
 public class TAXFilingFrequencyCombo extends CustomCombo<String> {
 
 	public TAXFilingFrequencyCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1,"TAXFilingFrequencyCombo");
 		initCombo(getTAXFilingFrequencies());
 	}
 

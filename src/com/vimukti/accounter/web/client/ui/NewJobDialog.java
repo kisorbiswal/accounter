@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.ClientCustomer;
@@ -45,45 +44,41 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 
 	private void createControls() {
 
-		VerticalPanel mainLayout = new VerticalPanel();
+		StyledPanel mainLayout = new StyledPanel("mainLayout");
 
-		jobForm = new DynamicForm();
-		jobNameText = new TextItem(messages.jobName());
+		jobForm = new DynamicForm("jobForm");
+		jobNameText = new TextItem(messages.jobName(), "jobNameText");
 		jobNameText.setToolTip(messages.jobName());
-		jobNameText.setHelpInformation(true);
 		jobNameText.setRequired(true);
 
 		customerCombo = new CustomerCombo(Global.get().Customer());
-		customerCombo.setHelpInformation(true);
 		customerCombo.setRequired(true);
 		customerCombo.setSelected(customer != null ? customer.getName() : "");
-		customerCombo.setDisabled(true);
+		customerCombo.setEnabled(false);
 
 		jobstatusCombo = createJobStatusSelectItem();
 
-		startDate = new DateField(messages.startDate());
-		startDate.setHelpInformation(true);
+		startDate = new DateField(messages.startDate(), "startDate");
 		ClientFinanceDate start_date = new ClientFinanceDate();
 		start_date.setDay(start_date.getDay());
 		startDate.setDatethanFireEvent(start_date);
 
-		projectEndDate = new DateField(messages.projectendDate());
-		projectEndDate.setHelpInformation(true);
+		projectEndDate = new DateField(messages.projectendDate(),
+				"projectEndDate");
 		ClientFinanceDate projectEnd_date = new ClientFinanceDate();
 		projectEnd_date.setDay(projectEnd_date.getDay());
 		projectEndDate.setDatethanFireEvent(projectEnd_date);
 
-		endDate = new DateField(messages.endDate());
-		endDate.setHelpInformation(true);
+		endDate = new DateField(messages.endDate(), "endDate");
 		ClientFinanceDate end_date = new ClientFinanceDate();
 		end_date.setDay(end_date.getDay());
 		endDate.setDatethanFireEvent(end_date);
 
-		statusCheck = new CheckboxItem(messages.active());
+		statusCheck = new CheckboxItem(messages.active(), "statusCheck");
 		statusCheck.setValue(true);
 
-		jobForm.setFields(jobNameText, jobstatusCombo, customerCombo,
-				statusCheck, startDate, projectEndDate, endDate);
+		jobForm.add(jobNameText, jobstatusCombo, customerCombo, statusCheck,
+				startDate, projectEndDate, endDate);
 
 		mainLayout.add(jobForm);
 
@@ -111,7 +106,6 @@ public class NewJobDialog extends BaseDialog<ClientJob> {
 		final SelectCombo jobStatusSelect = new SelectCombo(
 				messages.jobStatus());
 
-		jobStatusSelect.setHelpInformation(true);
 		jobStatusSelect.setRequired(true);
 		jobStatusSelect.initCombo(jobstatusList);
 		jobStatusSelect.setDefaultToFirstOption(true);

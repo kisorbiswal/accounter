@@ -13,20 +13,20 @@ public class ItemCombo extends CustomCombo<ClientItem> {
 	// private final int TYPE_VENDOR = 2;
 
 	public ItemCombo(String title, int type) {
-		super(title);
+		super(title,"ItemCombo");
 		this.type = type;
 		initCombo(getCompany().getItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 3);
+		super(title, isAddNewRequired, 3,"itemCombo");
 		this.type = type;
 		initCombo(getCompany().getItems());
 	}
 
 	public ItemCombo(String title, int type, boolean isAddNewRequired,
 			boolean isService) {
-		super(title, isAddNewRequired, 3);
+		super(title, isAddNewRequired, 3,"itemCombo");
 		this.type = type;
 		initCombo(isService);
 

@@ -9,11 +9,11 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 	private ValueCallBack<ClientContact> newContactHandler;
 
 	public ContactCombo(String title) {
-		super(title, false, 1);
+		super(title, false, 1,"contactCombo");
 	}
 
 	public ContactCombo(String contact, boolean b) {
-		super(contact, b, 1);
+		super(contact, b, 1,"contactCombo");
 	}
 
 	@Override
@@ -36,7 +36,6 @@ public class ContactCombo extends CustomCombo<ClientContact> {
 			}
 		};
 		addNewContactDialog.addSuccessCallback(newContactHandler);
-
 	}
 
 	public void setDefaultToFirstOption(boolean b) {

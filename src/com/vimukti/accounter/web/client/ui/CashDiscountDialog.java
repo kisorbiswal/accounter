@@ -3,7 +3,6 @@ package com.vimukti.accounter.web.client.ui;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.core.ClientAccount;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
@@ -40,6 +39,7 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 	public CashDiscountDialog(List<ClientAccount> allAccounts,
 			Double cashDiscountValue, IGenericCallback<String> callback) {
 		super(messages.cashDiscount(), messages.cashDiscountPleaseAddDetails());
+		this.addStyleName("cash-discount-dialog");
 		this.callback = callback;
 		this.allAccounts = allAccounts;
 		this.cashDiscountValue = cashDiscountValue;
@@ -85,7 +85,6 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 
 	private void createControls() {
 
-		mainPanel.setSpacing(5);
 		discAccSelect = new OtherAccountsCombo(messages.discountAccount(),
 				false);
 
@@ -103,24 +102,18 @@ public class CashDiscountDialog extends BaseDialog<ClientAccount> {
 		discAccSelect.setRequired(true);
 
 		discAmtText = new AmountField(messages.discountAmount(), this,
-				currencyProvider.getTransactionCurrency());
+				currencyProvider.getTransactionCurrency(), "discAmtText");
 		discAmtText.setAmount(cashDiscountValue);
 
-		form = new DynamicForm();
-		form.setFields(discAccSelect, discAmtText);
+		form = new DynamicForm("discountForm");
+		form.add(discAccSelect, discAmtText);
 		if (!canEdit) {
-			discAccSelect.setDisabled(true);
-			discAmtText.setDisabled(true);
-			form.setDisabled(true);
+			discAccSelect.setEnabled(false);
+			discAmtText.setEnabled(false);
+			form.setEnabled(false);
 		}
-		VerticalPanel mainVLay = new VerticalPanel();
-		// mainVLay.setTop(30);
-		mainVLay.setSize("100%", "100%");
-		mainVLay.add(form);
 
-		setBodyLayout(mainVLay);
-		setWidth("350px");
-
+		setBodyLayout(form);
 	}
 
 	@Override

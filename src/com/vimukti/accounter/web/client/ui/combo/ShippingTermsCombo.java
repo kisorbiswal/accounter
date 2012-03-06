@@ -9,12 +9,12 @@ import com.vimukti.accounter.web.client.ui.ShippingTermListDialog;
 public class ShippingTermsCombo extends CustomCombo<ClientShippingTerms> {
 
 	public ShippingTermsCombo(String title) {
-		super(title);
+		super(title,"ShippingTermsCombo");
 		initCombo(getCompany().getShippingTerms());
 	}
 
 	public ShippingTermsCombo(String title, boolean isAddNewRequired) {
-		super(title, isAddNewRequired, 1);
+		super(title, isAddNewRequired, 1,"ShippingTermsCombo");
 		initCombo(getCompany().getShippingTerms());
 	}
 

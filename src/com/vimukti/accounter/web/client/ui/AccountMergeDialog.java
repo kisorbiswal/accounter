@@ -1,15 +1,16 @@
 package com.vimukti.accounter.web.client.ui;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.List;
+
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientCurrency;
+import com.vimukti.accounter.web.client.core.IAccounterCore;
 import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.OtherAccountsCombo;
-import com.vimukti.accounter.web.client.ui.core.BaseDialog;
+import com.vimukti.accounter.web.client.ui.core.BaseView;
 import com.vimukti.accounter.web.client.ui.forms.DynamicForm;
 import com.vimukti.accounter.web.client.ui.forms.TextItem;
 
@@ -18,11 +19,10 @@ import com.vimukti.accounter.web.client.ui.forms.TextItem;
  * @author Sai Prasad N
  * 
  */
-public class AccountMergeDialog extends BaseDialog implements
-		AsyncCallback<Void> {
+public class AccountMergeDialog extends BaseView<ClientAccount> {
 
-	private DynamicForm form;
-	private DynamicForm form1;
+	private DynamicForm firstForm;
+	private DynamicForm secondForm;
 
 	private OtherAccountsCombo accountCombo;
 	private OtherAccountsCombo accountCombo1;
@@ -35,64 +35,57 @@ public class AccountMergeDialog extends BaseDialog implements
 	private ClientAccount fromAccount;
 	private ClientAccount toAccount;
 
-	public AccountMergeDialog(String title, String descript) {
-		super(title, descript);
-		setWidth("650px");
-		okbtn.setText(messages.merge());
+	public AccountMergeDialog() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void init() {
+		super.init();
+		this.getElement().setId("accountMergeDialog");
 		createControls();
-		center();
+		saveAndNewButton.setVisible(false);
+		saveAndCloseButton.setText(messages.merge());
+		setSize("100%", "100%");
 	}
 
 	private void createControls() {
-		form = new DynamicForm();
-		form1 = new DynamicForm();
-		form.setWidth("100%");
-		form.setHeight("100%");
-		form1.setHeight("100%");
-		form1.setWidth("100%");
-		VerticalPanel layout = new VerticalPanel();
-		VerticalPanel layout1 = new VerticalPanel();
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		firstForm = new DynamicForm("firstForm");
+		secondForm = new DynamicForm("secondForm");
+		StyledPanel layout = new StyledPanel("layout");
+		StyledPanel layout1 = new StyledPanel("layout1");
 		accountCombo = createAccountCombo();
 		accountCombo1 = createAccountCombo1();
 
 		accountNumberTextItem = new TextItem(messages.payeeNumber(messages
-				.Account()));
-		accountNumberTextItem.setHelpInformation(true);
+				.Account()), "accountNumberTextItem");
 
 		accountNumberTextItem1 = new TextItem(messages.payeeNumber(messages
-				.Account()));
-		accountNumberTextItem1.setHelpInformation(true);
+				.Account()), "accountNumberTextItem");
 
-		name = new TextItem(messages.accountName());
-		name.setHelpInformation(true);
-		name1 = new TextItem(messages.accountName());
-		name1.setHelpInformation(true);
+		name = new TextItem(messages.accountName(), "name");
+		name1 = new TextItem(messages.accountName(), "name");
 
-		balanceTextItem = new TextItem(messages.balance());
-		balanceTextItem.setHelpInformation(true);
+		balanceTextItem = new TextItem(messages.balance(), "balanceTextItem");
 
-		balanceTextItem1 = new TextItem(messages.balance());
-		balanceTextItem1.setHelpInformation(true);
+		balanceTextItem1 = new TextItem(messages.balance(), "balanceTextItem");
 
-		form.setItems(accountCombo, accountNumberTextItem, name,
+		firstForm.add(accountCombo, accountNumberTextItem, name,
 				balanceTextItem);
 
-		form1.setItems(accountCombo1, accountNumberTextItem1, name1,
+		secondForm.add(accountCombo1, accountNumberTextItem1, name1,
 				balanceTextItem1);
 		// form.setItems(getTextItems());
-		layout.add(form);
-		layout1.add(form1);
-		horizontalPanel.add(layout);
-		horizontalPanel.add(layout1);
-		setBodyLayout(horizontalPanel);
+		layout.add(firstForm);
+		layout1.add(secondForm);
+		add(layout);
+		add(layout1);
 
 	}
 
 	private OtherAccountsCombo createAccountCombo1() {
 		accountCombo1 = new OtherAccountsCombo(messages.payeeTo(messages
 				.Account()), false);
-		accountCombo1.setHelpInformation(true);
 		accountCombo1.setRequired(true);
 		accountCombo1
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<ClientAccount>() {
@@ -112,7 +105,6 @@ public class AccountMergeDialog extends BaseDialog implements
 	private OtherAccountsCombo createAccountCombo() {
 		accountCombo = new OtherAccountsCombo(messages.payeeFrom(messages
 				.Account()), false);
-		accountCombo.setHelpInformation(true);
 		accountCombo.setRequired(true);
 
 		accountCombo
@@ -151,9 +143,8 @@ public class AccountMergeDialog extends BaseDialog implements
 
 	}
 
-	@Override
-	protected ValidationResult validate() {
-		ValidationResult result = form.validate();
+	public ValidationResult validate() {
+		ValidationResult result = firstForm.validate();
 		if (toAccount != null && fromAccount != null) {
 			if ((toAccount.getID() == fromAccount.getID())) {
 				result.addError(fromAccount, messages.notMoveAccount());
@@ -173,9 +164,9 @@ public class AccountMergeDialog extends BaseDialog implements
 						"Currencies of the both Accounts must be same ");
 				return result;
 			}
-			result = form.validate();
+			result = firstForm.validate();
 
-			result = form1.validate();
+			result = secondForm.validate();
 
 			return result;
 
@@ -184,7 +175,9 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	@Override
-	protected boolean onOK() {
+	public void saveAndUpdateView() {
+
+		validate();
 
 		Accounter.createHomeService().mergeAccount(fromAccount, toAccount,
 				new AccounterAsyncCallback<ClientAccount>() {
@@ -206,20 +199,35 @@ public class AccountMergeDialog extends BaseDialog implements
 	}
 
 	@Override
+	public void deleteSuccess(IAccounterCore result) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void onFailure(Throwable caught) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void onSuccess(Void result) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	public String getViewTitle() {
+		return messages.mergeAccounts();
+	}
+
+	@Override
+	public List getForms() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void setFocus() {
-		accountCombo.setFocus();
+		// TODO Auto-generated method stub
 
 	}
 

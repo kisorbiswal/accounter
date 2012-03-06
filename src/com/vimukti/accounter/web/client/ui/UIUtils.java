@@ -243,28 +243,27 @@ public class UIUtils {
 	}
 
 	public static DynamicForm form(String frameTitle) {
-		DynamicForm f = new DynamicForm();
-		f.setIsGroup(true);
-		f.setGroupTitle(frameTitle);
+		DynamicForm f = new DynamicForm("frameTitle");
+//		f.setIsGroup(true);
+//		f.setGroupTitle(frameTitle);
 		// f.setWrapItemTitles(false);
 		return f;
 	}
 
 	public static DynamicForm form(String frameTitle, boolean wrap) {
-		DynamicForm f = new DynamicForm();
-		f.setIsGroup(true);
-		f.setGroupTitle(frameTitle);
+		DynamicForm f = new DynamicForm("form");
+//		f.setIsGroup(true);
+//		f.setGroupTitle(frameTitle);
 		// f.setWrapItemTitles(wrap);
 		return f;
 	}
 
 	public static DateItem date(String t, AbstractBaseView view) {
-		DateItem di = new DateItem();
+		DateItem di = new DateItem(t, "date");
 		if (view != null)
 			di.setToolTip(messages.selectDateWhenTransactioCreated(view
 					.getAction().getViewName()));
-		di.setHelpInformation(true);
-		di.setTitle(t);
+
 		// di.setUseTextField(true);
 		di.setValue(new Date());
 		return di;
@@ -537,9 +536,9 @@ public class UIUtils {
 	// return callBack;
 	// }
 
-	public static VerticalPanel getBusyIndicator(String message) {
+	public static StyledPanel getBusyIndicator(String message) {
 
-		VerticalPanel busyindicator = new VerticalPanel();
+		StyledPanel busyindicator = new StyledPanel("busyindicator");
 		Image img = new Image(Accounter.getFinanceImages().busyIndicator());
 		img.setSize("32px", "32px");
 		img.setStyleName("busyindicatorImg");
@@ -738,7 +737,6 @@ public class UIUtils {
 
 	public static SelectCombo getPaymentMethodCombo() {
 		SelectCombo selectCombo = new SelectCombo(null);
-		selectCombo.setHelpInformation(true);
 		selectCombo.setTitle(messages.paymentMethod());
 		selectCombo.setComboItem(messages.cash());
 		List<String> listOfPaymentMethods = new ArrayList<String>();
@@ -759,7 +757,7 @@ public class UIUtils {
 	public static PopupPanel getLoadingMessageDialog(String string) {
 
 		Image image = new Image(Accounter.getFinanceImages().loadingImage());
-		HorizontalPanel imageLayout = new HorizontalPanel();
+		StyledPanel imageLayout = new StyledPanel("imageLayout");
 
 		final Label pleaseWaitLabel = new Label(string);
 		pleaseWaitLabel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
@@ -773,7 +771,7 @@ public class UIUtils {
 
 		imageLayout.add(image);
 		imageLayout.add(pleaseWaitLabel);
-		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+//		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 		imageLayout.setSize("100%", "100%");
 
 		// final DialogBox loadingDialog = new DialogBox();
@@ -804,7 +802,7 @@ public class UIUtils {
 	public static PopupPanel getLoadingDialog(String string) {
 
 		Image image = new Image(Accounter.getFinanceImages().loadingImage());
-		HorizontalPanel imageLayout = new HorizontalPanel();
+		StyledPanel imageLayout = new StyledPanel("imageLayout");
 
 		final Label pleaseWaitLabel = new Label(string);
 		pleaseWaitLabel.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
@@ -818,7 +816,7 @@ public class UIUtils {
 
 		imageLayout.add(image);
 		imageLayout.add(pleaseWaitLabel);
-		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
+//		imageLayout.setHorizontalAlignment(HasAlignment.ALIGN_CENTER);
 		imageLayout.setSize("100%", "100%");
 
 		// final DialogBox loadingDialog = new DialogBox();
@@ -856,7 +854,7 @@ public class UIUtils {
 
 	public static void addStyleToElement(String name, Element element) {
 
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("addStyleToElement");
 
 	}
 
@@ -2130,8 +2128,8 @@ public class UIUtils {
 
 	public static CustomFieldForm CustomFieldsform(String terms) {
 		CustomFieldForm f = new CustomFieldForm();
-		f.setIsGroup(true);
-		f.setGroupTitle(terms);
+//		f.setIsGroup(true);
+//		f.setGroupTitle(terms);
 		// f.setWrapItemTitles(false);
 		return f;
 	}
