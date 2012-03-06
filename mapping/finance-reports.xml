@@ -665,7 +665,7 @@
 		<return-scalar column="DISCOUNT" type="double" />
 		<return-scalar column="WRITE_OFF" type="double" />
 		<return-scalar column="T_ID" type="long" />
-		<return-scalar column="DIFF_AMOUNT" type="double" />
+		<!--<return-scalar column="DIFF_AMOUNT" type="double" />-->
 		<return-scalar column="IS_VOID" type="boolean" />
 		<return-scalar column="PAYMENT_STATUS" type="int" />
 		<return-scalar column="MEMO" type="encryptedstring" />
@@ -2242,7 +2242,10 @@
 		<query-param name="endDate" type="long" />
 		<query-param name="companyId" type="long" />
 		<query-param name="openingBalance" type="encryptedString" />
-
+		<query-param name="creditors" type="encryptedString" />
+		<query-param name="debtors" type="encryptedString" />
+		<query-param name="multiple" type="encryptedString" />
+		
 		<return-scalar column="TRANSACTION_DATE" type="long" />
 		<return-scalar column="TRANSACTION_TYPE" type="int" />
 		<return-scalar column="TRANSACTION_NUMBER" type="encryptedstring" />
@@ -2274,7 +2277,7 @@
 		TRANSACTION_TYPE,
 		CASE WHEN T.T_TYPE=34
 		THEN
-		CAST(TDS.CHALANSERIALNUMBER AS TEXT)
+		CAST ( CAST(TDS.CHALANSERIALNUMBER AS text) AS BYTEA)
 		ELSE
 		T.NUMBER
 		END AS TRANSACTION_NUMBER,
@@ -2339,7 +2342,7 @@
 		WHEN
 		T.T_TYPE =5 AND
 		A.ID!=2
-		THEN 'Debtors'
+		THEN :debtors
 		WHEN T.T_TYPE =12 AND A.ID != 2
 		AND A.ID =
 		RP.ACCOUNT_ID
@@ -2351,11 +2354,11 @@
 		IS NOT NULL AND
 		TRP.WRITE_OFF_ID IS NOT NULL AND
 		TRP.TRANSACTION_ID= AT.TRANSACTION_ID)
-		= 0 THEN 'Debtors'
+		= 0 THEN :debtors
 
 		WHEN T.T_TYPE
 		= 11 AND PB.PAYBILL_TYPE=2 AND A.ID!=3
-		THEN 'Creditors'
+		THEN :creditors
 
 		WHEN T.T_TYPE =
 		11 AND PB.PAYBILL_TYPE=1 AND A.ID!=3
@@ -2366,9 +2369,9 @@
 		TPB.TRANSACTION_ID =
 		AT.TRANSACTION_ID AND TPB.DISCOUNT_ID IS NOT
 		NULL)
-		= 0 THEN 'Creditors'
+		= 0 THEN :creditors
 
-		ELSE 'Multiple'
+		ELSE :multiple
 		END AS ACCOUNT,
 		T.MEMO AS MEMO,
 
