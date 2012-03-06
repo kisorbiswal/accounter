@@ -37,7 +37,7 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 	 */
 	@Override
 	protected DynamicForm getDetailForm() {
-		dateDisposed = new DateField(messages.dateDisposed());
+		dateDisposed = new DateField(messages.dateDisposed(),"dateDisposed");
 		dateDisposed.setEnteredDate(new ClientFinanceDate());
 		yearValue = String.valueOf(dateDisposed.getYear() + 1900);
 		dateDisposed.addDateValueChangeHandler(new DateValueChangeHandler() {
@@ -48,8 +48,8 @@ public class DisposingRegisteredItemView extends SellingRegisteredItemView {
 
 			}
 		});
-		DynamicForm detailForm = new DynamicForm();
-		detailForm.setFields(dateDisposed);
+		DynamicForm detailForm = new DynamicForm("detailForm");
+		detailForm.add(dateDisposed);
 		return detailForm;
 	}
 

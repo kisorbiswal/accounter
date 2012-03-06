@@ -122,11 +122,9 @@ public class CreateStatementToolBar extends ReportToolbar {
 					}
 				});
 
-		fromItem = new DateItem();
-		// fromItem.setDatethanFireEvent(Accounter.getStartDate());
-		fromItem.setTitle(messages.from());
+		fromItem = new DateItem(messages.from(),"fromItem");
 
-		toItem = new DateItem();
+		toItem = new DateItem(messages.to(),"toItem");
 		ClientFinanceDate date = Accounter.getCompany()
 				.getCurrentFiscalYearEndDate();
 		// .getLastandOpenedFiscalYearEndDate();
@@ -136,7 +134,6 @@ public class CreateStatementToolBar extends ReportToolbar {
 		// else
 		// toItem.setDatethanFireEvent(new ClientFinanceDate());
 
-		toItem.setTitle(messages.to());
 		toItem.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override

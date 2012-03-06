@@ -326,8 +326,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		if (widgetsMap.get(currentCol) == null) {
 			final SelectCombo selectbox = new SelectCombo("");
 			final String[] values = getSelectValues(obj, currentCol);
-			final DynamicForm form = new DynamicForm();
-			form.setFields(selectbox);
+			final DynamicForm form = new DynamicForm("form");
+			form.add(selectbox);
 			if (values != null)
 				for (int i = 0; i < values.length; i++) {
 					selectbox.addItem(values[i]);
@@ -361,8 +361,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 			if (value != null) {
 				SelectCombo field = (SelectCombo) form.getField("");
 				setSelectedValue(obj, field, value);
-				DynamicForm form1 = new DynamicForm();
-				form1.setFields(field);
+				DynamicForm form1 = new DynamicForm("form1");
+				form1.add(field);
 				setWidget(currentRow, currentCol, form1);
 				// field.setFocus(true);
 			}
@@ -375,12 +375,12 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 		PopupPanel popupPanel = new PopupPanel();
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		TextItem textField = new TextItem(messages.quantity());
+		TextItem textField = new TextItem(messages.quantity(),"textField");
 		SelectCombo selectCombo = new SelectCombo(messages.units());
 		selectCombo.setWidth("50%");
-		DynamicForm dynamicForm = new DynamicForm();
-		dynamicForm.setNumCols(4);
-		dynamicForm.setFields(textField, selectCombo);
+		DynamicForm dynamicForm = new DynamicForm("dynamicForm");
+//		dynamicForm.setNumCols(4);
+		dynamicForm.add(textField, selectCombo);
 
 		horizontalPanel.add(dynamicForm);
 		popupPanel.add(horizontalPanel);
@@ -1095,8 +1095,8 @@ public abstract class ListGrid<T> extends CustomTable implements HasRows {
 	}
 
 	@Override
-	public void setDisabled(boolean disable) {
-		super.setDisabled(disable);
+	public void setEnabled(boolean disable) {
+		super.setEnabled(disable);
 		refreshAllRecords();
 	}
 
