@@ -8,9 +8,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
@@ -29,6 +26,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.core.Lists.PurchaseOrdersList;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.combo.PaymentTermsCombo;
@@ -82,24 +80,19 @@ public class ItemReceiptView extends
 		transactionNumber = createTransactionNumberItem();
 		transactionNumber.setWidth(100);
 
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(4);
-		dateNoForm.setFields(transactionDateItem, transactionNumber);
-		HorizontalPanel datepanel = new HorizontalPanel();
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
+		dateNoForm.add(transactionDateItem, transactionNumber);
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 
 		labeldateNoLayout.setWidth("100%");
 		labeldateNoLayout.add(lab1);
-		labeldateNoLayout.setHorizontalAlignment(ALIGN_RIGHT);
-		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
 		if (this.isInViewMode()) {
-			dateNoForm.setDisabled(true);
+			dateNoForm.setEnabled(false);
 		}
 
 		// formItems.add(transactionDateItem);
@@ -111,7 +104,7 @@ public class ItemReceiptView extends
 		purchaseLabel = new LinkItem();
 		purchaseLabel.setLinkTitle(messages.purchaseOrders());
 		purchaseLabel.setShowTitle(false);
-		purchaseLabel.setDisabled(isInViewMode());
+		purchaseLabel.setEnabled(!isInViewMode());
 		purchaseLabel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -128,19 +121,16 @@ public class ItemReceiptView extends
 		contactCombo.setWidth(100);
 		billToCombo = createBillToComboItem();
 		billToCombo.setWidth(100);
-		phoneSelect = new TextItem(messages.phone());
+		phoneSelect = new TextItem(messages.phone(),"phoneSelect");
 		phoneSelect.setToolTip(messages.phoneNumberOf(this.getAction()
 				.getCatagory()));
-		phoneSelect.setHelpInformation(true);
-		phoneSelect.setWidth(100);
-		phoneSelect.setDisabled(false);
+		phoneSelect.setEnabled(true);
 
 		// formItems.add(phoneSelect);
 
 		vendorForm = UIUtils.form(Global.get().vendor());
-		vendorForm.setNumCols(3);
 		vendorForm.setWidth("100%");
-		vendorForm.setFields(vendorCombo, purchaseLabel, contactCombo,
+		vendorForm.add(vendorCombo, purchaseLabel, contactCombo,
 				emptylabel, phoneSelect, emptylabel, billToCombo, emptylabel);
 
 		// formItems.add(contactCombo);
@@ -150,20 +140,20 @@ public class ItemReceiptView extends
 
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
-		termsForm = new DynamicForm();
+		termsForm = new DynamicForm("termsForm");
 		termsForm.setWidth("100%");
-		termsForm.setFields(payTermsSelect, deliveryDateItem);
+		termsForm.add(payTermsSelect, deliveryDateItem);
 
 		if (getPreferences().isClassTrackingEnabled()
 				&& getPreferences().isClassOnePerTransaction()) {
 			classListCombo = createAccounterClassListCombo();
-			termsForm.setFields(classListCombo);
+			termsForm.add(classListCombo);
 		}
 
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
-		netAmount.setDisabled(true);
+		netAmount.setEnabled(false);
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
 
@@ -270,75 +260,57 @@ public class ItemReceiptView extends
 		memoTextAreaItem.setWidth(100);
 		// refText = createRefereceText();
 		// refText.setWidth(100);
-		DynamicForm vatCheckform = new DynamicForm();
+		DynamicForm vatCheckform = new DynamicForm("vatCheckform");
 		// vatCheckform.setFields(vatinclusiveCheck);
-		VerticalPanel totalForm = new VerticalPanel();
-		totalForm.setWidth("80%");
-		totalForm.setWidth("80%");
+		StyledPanel totalForm = new StyledPanel("totalForm");
 
-		DynamicForm netAmountForm = new DynamicForm();
-		netAmountForm.setNumCols(2);
-		netAmountForm.setFields(netAmount);
+		DynamicForm netAmountForm = new DynamicForm("netAmountForm");
+		netAmountForm.add(netAmount);
 
-		DynamicForm transactionTotalForm = new DynamicForm();
-		transactionTotalForm.setNumCols(2);
+		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
 
 		totalForm.add(netAmountForm);
 		totalForm.add(vatTotalNonEditableText);
 
-		transactionTotalForm.setFields(transactionTotalNonEditableText);
+		transactionTotalForm.add(transactionTotalNonEditableText);
 
 		totalForm.add(transactionTotalForm);
 
-		totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 
-		DynamicForm memoForm = new DynamicForm();
+		DynamicForm memoForm = new DynamicForm("memoForm");
 		// memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem);
+		memoForm.add(memoTextAreaItem);
 
 		transactionTotalItem = new AmountField(messages.total(), this,
-				getBaseCurrency());
-		transactionTotalItem.setDisabled(true);
-		DynamicForm amountForm = new DynamicForm();
-		amountForm.setFields(transactionTotalItem);
+				getBaseCurrency(),"transactionTotalItem");
+		transactionTotalItem.setEnabled(false);
+		DynamicForm amountForm = new DynamicForm("amountForm");
+		amountForm.add(transactionTotalItem);
 
 		// transactionTotalNonEditableText =
 		// createTransactionTotalNonEditableItem();
 
-		VerticalPanel leftVLay = new VerticalPanel();
-		leftVLay.setWidth("100%");
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
-		rightVLay.setWidth("100%");
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.add(termsForm);
-		rightVLay.setCellHorizontalAlignment(termsForm, ALIGN_RIGHT);
 
-		HorizontalPanel topHLay = new HorizontalPanel();
-		topHLay.setWidth("100%");
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
-		bottomLayout.setWidth("100%");
+		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 		if (isTrackTax() && isTrackPaidTax()) {
 			bottomLayout.add(memoForm);
 			bottomLayout.add(vatCheckform);
 			if (!isTaxPerDetailLine()) {
 				taxCodeSelect = createTaxCodeSelectItem();
-				DynamicForm form = new DynamicForm();
-				form.setFields(taxCodeSelect);
+				DynamicForm form = new DynamicForm("form");
+				form.add(taxCodeSelect);
 				bottomLayout.add(form);
 			}
-			bottomLayout.setCellHorizontalAlignment(vatCheckform, ALIGN_RIGHT);
 			bottomLayout.add(totalForm);
-			bottomLayout.setCellHorizontalAlignment(totalForm, ALIGN_RIGHT);
 		} else {
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
@@ -346,9 +318,7 @@ public class ItemReceiptView extends
 			// bottomLayout.setCellHorizontalAlignment(amountForm, ALIGN_RIGHT);
 		}
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
-		mainVLay.setSpacing(2);
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(labeldateNoLayout);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(topHLay);
@@ -360,7 +330,6 @@ public class ItemReceiptView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -408,7 +377,7 @@ public class ItemReceiptView extends
 					}
 
 				});
-		comboItem.setDisabled(isInViewMode());
+		comboItem.setEnabled(!isInViewMode());
 		// comboItem.setShowDisabled(false);
 		//
 		return comboItem;
@@ -801,17 +770,17 @@ public class ItemReceiptView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vendorCombo.setDisabled(isInViewMode());
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		payTermsSelect.setDisabled(isInViewMode());
-		purchaseLabel.setDisabled(isInViewMode());
+		vendorCombo.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		payTermsSelect.setEnabled(!isInViewMode());
+		purchaseLabel.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 
-		deliveryDateItem.setDisabled(isInViewMode());
+		deliveryDateItem.setEnabled(!isInViewMode());
 		super.onEdit();
 	}
 
