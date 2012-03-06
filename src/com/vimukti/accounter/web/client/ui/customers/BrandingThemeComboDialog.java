@@ -90,6 +90,12 @@ public class BrandingThemeComboDialog extends BaseDialog {
 						ClientTransaction.TYPE_CASH_SALES,
 						brandingTheme.getID());
 			}
+			else if (ClientTransaction.TYPE_PURCHASE_ORDER == clientTransaction
+					.getType()) {
+				UIUtils.downloadAttachment(clientTransaction.getID(),
+						ClientTransaction.TYPE_PURCHASE_ORDER,
+						brandingTheme.getID());
+			}
 		} else {
 			// for printing multiple documents
 			StringBuffer ids = new StringBuffer();

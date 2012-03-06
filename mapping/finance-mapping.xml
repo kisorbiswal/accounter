@@ -1704,8 +1704,10 @@
 			column="QUOTE_TEMPLETE_NAME" not-null="true" />
 		<property name="cashSaleTemplateName" column="CASHSALE_TEMPLETE_NAME"
 			not-null="true" />
-		<property name="cashSaleTitle" column="CASHSALE_TITLE">
-		</property>
+		<property name="cashSaleTitle"  type="encryptedstring" column="CASHSALE_TITLE" />
+		<property name="purchaseOrderTemplateName"   type="encryptedstring" column="PURCHASEORDER_TEMPLETE_NAME"
+			not-null="true" />
+		<property name="purchaseOrderTitle"  type="encryptedstring" column="PURCHASEORDER_TITLE" />
 	</class>
 
 	<class name="ResetPasswordToken" table="RESET_PASSWORD_TOKEN">
