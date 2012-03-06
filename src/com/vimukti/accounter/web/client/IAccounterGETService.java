@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.core.ClientUser;
 import com.vimukti.accounter.web.client.core.HelpLink;
 import com.vimukti.accounter.web.client.core.HrEmployee;
 import com.vimukti.accounter.web.client.core.IAccounterCore;
+import com.vimukti.accounter.web.client.core.PaginationList;
 import com.vimukti.accounter.web.client.core.Lists.KeyFinancialIndicators;
 import com.vimukti.accounter.web.client.data.InvalidSessionException;
 import com.vimukti.accounter.web.client.exception.AccounterException;
@@ -308,7 +309,8 @@ public interface IAccounterGETService extends RemoteService {
 	List<ClientTAXReturnEntry> getTAXReturnEntries(long agency, long startDate,
 			long endDate) throws AccounterException;
 
-	List<ClientTAXReturn> getAllTAXReturns() throws AccounterException;
+	PaginationList<ClientTAXReturn> getAllTAXReturns(int start, int lenght,
+			int viewType) throws AccounterException;
 
 	Map<Long, Double> getAssetValuesForInventories() throws AccounterException;
 
