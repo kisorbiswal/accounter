@@ -21,6 +21,7 @@ import com.vimukti.accounter.web.client.ValueCallBack;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientAddress;
 import com.vimukti.accounter.web.client.core.ClientContact;
 import com.vimukti.accounter.web.client.core.ClientCreditCardCharge;
@@ -319,14 +320,20 @@ public class CreditCardChargeView extends
 				}
 			}
 		}
-
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			this.accounterClass = getClassForTransactionItem(transaction
+					.getTransactionItems());
+			if (accounterClass != null) {
+				this.classListCombo.setComboItem(accounterClass);
+				classSelected(accounterClass);
+			}
+		}
 		if (locationTrackingEnabled)
 			locationSelected(getCompany()
 					.getLocation(transaction.getLocation()));
 		initMemoAndReference();
 		initTransactionNumber();
 		addVendorsList();
-		initAccounterClass();
 		accountsDisclosurePanel.setOpen(checkOpen(
 				transaction.getTransactionItems(),
 				ClientTransactionItem.TYPE_ACCOUNT, true));
@@ -528,10 +535,8 @@ public class CreditCardChargeView extends
 			termsForm.setFields(locationCombo);
 
 		termsForm.setFields(payMethSelect, payFrmSelect, delivDate);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			termsForm.setFields(classListCombo);
 		}
 
@@ -551,7 +556,8 @@ public class CreditCardChargeView extends
 
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackTax() && isTrackPaidTax(), isTaxPerDetailLine(),
-				isTrackDiscounts(), isDiscountPerDetailLine(), this) {
+				isTrackDiscounts(), isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -591,8 +597,7 @@ public class CreditCardChargeView extends
 		});
 
 		FlowPanel accountFlowPanel = new FlowPanel();
-		accountsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyAccount());
+		accountsDisclosurePanel = new DisclosurePanel("Itemize by Account");
 		accountFlowPanel.add(vendorAccountTransactionTable);
 		accountFlowPanel.add(accountTableButton);
 		accountsDisclosurePanel.setContent(accountFlowPanel);
@@ -601,7 +606,8 @@ public class CreditCardChargeView extends
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
 				isTrackTax(), isTaxPerDetailLine(), isTrackDiscounts(),
-				isDiscountPerDetailLine(), this) {
+				isDiscountPerDetailLine(), isTrackClass(),
+				isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -641,8 +647,7 @@ public class CreditCardChargeView extends
 		});
 
 		FlowPanel itemsFlowPanel = new FlowPanel();
-		itemsDisclosurePanel = new DisclosurePanel(
-				messages.ItemizebyProductService());
+		itemsDisclosurePanel = new DisclosurePanel("Itemize by Product/Service");
 		itemsFlowPanel.add(vendorItemTransactionTable);
 		itemsFlowPanel.add(itemTableButton);
 		itemsDisclosurePanel.setContent(itemsFlowPanel);
@@ -888,7 +893,12 @@ public class CreditCardChargeView extends
 			//
 			// }
 		}
-
+		if (!getPreferences().isClassPerDetailLine() && accounterClass != null
+				&& transactionItems != null) {
+			for (ClientTransactionItem item : transactionItems) {
+				item.setAccounterClass(accounterClass.getID());
+			}
+		}
 		// Setting Address
 		if (billingAddress != null)
 			transaction.setVendorAddress(billingAddress);
@@ -1096,6 +1106,7 @@ public class CreditCardChargeView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		classListCombo.setDisabled(isInViewMode());
 		super.onEdit();
 
 	}
@@ -1250,6 +1261,19 @@ public class CreditCardChargeView extends
 					.setDiscount(discountField.getAmount());
 		} else {
 			discountField.setAmount(0d);
+		}
+	}
+
+	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
 		}
 	}
 }

@@ -19,6 +19,7 @@ import com.vimukti.accounter.web.client.Global;
 import com.vimukti.accounter.web.client.core.AccounterCoreType;
 import com.vimukti.accounter.web.client.core.AddNewButton;
 import com.vimukti.accounter.web.client.core.ClientAccount;
+import com.vimukti.accounter.web.client.core.ClientAccounterClass;
 import com.vimukti.accounter.web.client.core.ClientCashPurchase;
 import com.vimukti.accounter.web.client.core.ClientCurrency;
 import com.vimukti.accounter.web.client.core.ClientFinanceDate;
@@ -368,10 +369,8 @@ public class CashExpenseView extends
 		vendorBalText.setHelpInformation(true);
 		vendorBalText.setDisabled(true);
 		vendorBalText.setWidth(100);
-
-		if (getPreferences().isClassTrackingEnabled()
-				&& getPreferences().isClassOnePerTransaction()) {
-			classListCombo = createAccounterClassListCombo();
+		classListCombo = createAccounterClassListCombo();
+		if (isTrackClass() && !isClassPerDetailLine()) {
 			vendorForm.setFields(classListCombo);
 		}
 
@@ -391,7 +390,8 @@ public class CashExpenseView extends
 		vatinclusiveCheck = getVATInclusiveCheckBox();
 		vendorAccountTransactionTable = new VendorAccountTransactionTable(
 				isTrackDiscounts(), isTrackTax() && isTrackPaidTax(),
-				isTaxPerDetailLine(), this) {
+				isTaxPerDetailLine(), isTrackClass(), isClassPerDetailLine(),
+				this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -442,7 +442,8 @@ public class CashExpenseView extends
 		accountsDisclosurePanel.setWidth("100%");
 
 		vendorItemTransactionTable = new VendorItemTransactionTable(
-				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(), this) {
+				isTrackDiscounts(), isTrackTax(), isTaxPerDetailLine(),
+				isTrackClass(), isClassPerDetailLine(), this) {
 
 			@Override
 			protected void updateNonEditableItems() {
@@ -760,7 +761,6 @@ public class CashExpenseView extends
 			}
 			deliveryDateItem.setValue(new ClientFinanceDate(transaction
 					.getDeliveryDate()));
-			initAccounterClass();
 			if (vendor != null) {
 				vendorBalText.setAmount(vendor.getBalance());
 			}
@@ -777,7 +777,14 @@ public class CashExpenseView extends
 				}
 			}
 		}
-
+		if (isTrackClass() && !isClassPerDetailLine()) {
+			this.accounterClass = getClassForTransactionItem(transaction
+					.getTransactionItems());
+			if (accounterClass != null) {
+				this.classListCombo.setComboItem(accounterClass);
+				classSelected(accounterClass);
+			}
+		}
 		super.initTransactionViewData();
 		initTransactionNumber();
 		initPayFromAccounts();
@@ -978,6 +985,9 @@ public class CashExpenseView extends
 		if (currencyWidget != null) {
 			currencyWidget.setDisabled(isInViewMode());
 		}
+		if (isTrackClass()) {
+			classListCombo.setDisabled(isInViewMode());
+		}
 		super.onEdit();
 	}
 
@@ -1081,7 +1091,6 @@ public class CashExpenseView extends
 	}
 
 	protected void updateDiscountValues() {
-
 		if (discountField.getAmount() != null) {
 			vendorItemTransactionTable.setDiscount(discountField.getAmount());
 			vendorAccountTransactionTable
@@ -1092,6 +1101,18 @@ public class CashExpenseView extends
 	}
 
 	@Override
+	protected void classSelected(ClientAccounterClass accounterClass) {
+		this.accounterClass = accounterClass;
+		if (accounterClass != null) {
+			classListCombo.setComboItem(accounterClass);
+			vendorAccountTransactionTable
+					.setClass(accounterClass.getID(), true);
+			vendorItemTransactionTable.setClass(accounterClass.getID(), true);
+		} else {
+			classListCombo.setValue("");
+		}
+	}
+
 	protected boolean isSaveButtonAllowed() {
 		ClientUserPermissions permissions = Accounter.getUser()
 				.getPermissions();
