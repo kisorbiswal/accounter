@@ -9,10 +9,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vimukti.accounter.web.client.AccounterAsyncCallback;
 import com.vimukti.accounter.web.client.Global;
@@ -33,6 +30,7 @@ import com.vimukti.accounter.web.client.core.ValidationResult;
 import com.vimukti.accounter.web.client.exception.AccounterException;
 import com.vimukti.accounter.web.client.exception.AccounterExceptions;
 import com.vimukti.accounter.web.client.ui.Accounter;
+import com.vimukti.accounter.web.client.ui.StyledPanel;
 import com.vimukti.accounter.web.client.ui.UIUtils;
 import com.vimukti.accounter.web.client.ui.combo.IAccounterComboSelectionChangeHandler;
 import com.vimukti.accounter.web.client.ui.core.AccounterValidator;
@@ -270,32 +268,26 @@ public class CashExpenseView extends
 
 		transactionNumber = createTransactionNumberItem();
 		locationCombo = createLocationCombo();
-		DynamicForm dateNoForm = new DynamicForm();
-		dateNoForm.setNumCols(6);
+		DynamicForm dateNoForm = new DynamicForm("dateNoForm");
 		dateNoForm.setStyleName("datenumber-panel");
 		if (isTemplate) {
-			dateNoForm.setFields(transactionNumber);
+			dateNoForm.add(transactionNumber);
 		} else {
-			dateNoForm.setFields(transactionDateItem, transactionNumber);
+			dateNoForm.add(transactionDateItem, transactionNumber);
 		}
 
-		HorizontalPanel datepanel = new HorizontalPanel();
+		StyledPanel datepanel = new StyledPanel("datepanel");
 		datepanel.add(dateNoForm);
-		datepanel.setCellHorizontalAlignment(dateNoForm,
-				HasHorizontalAlignment.ALIGN_RIGHT);
 		datepanel.getElement().getStyle().setPaddingRight(25, Unit.PX);
 
-		HorizontalPanel labeldateNoLayout = new HorizontalPanel();
+		StyledPanel labeldateNoLayout = new StyledPanel("labeldateNoLayout");
 
-		labeldateNoLayout.setWidth("100%");
 		// labeldateNoLayout.add(titlelabel);
-		labeldateNoLayout.setHorizontalAlignment(ALIGN_RIGHT);
-		labeldateNoLayout.setCellHorizontalAlignment(datepanel, ALIGN_RIGHT);
 		labeldateNoLayout.add(datepanel);
 
 		if (this.isInViewMode())
 			// --the form need to be disabled here
-			dateNoForm.setDisabled(true);
+			dateNoForm.setEnabled(true);
 
 		// formItems.add(transactionDateItem);
 		// formItems.add(transactionNumber);
@@ -307,7 +299,6 @@ public class CashExpenseView extends
 		vendorCombo = createVendorComboItem(messages.payeeName(Global.get()
 				.Vendor()));
 		vendorCombo.setRequired(false);
-		vendorCombo.setHelpInformation(true);
 
 		// formItems.add(contactCombo);
 		// formItems.add(billToCombo);
@@ -315,7 +306,7 @@ public class CashExpenseView extends
 		payFromCombo = createPayFromCombo(messages.payFrom());
 		payFromCombo.setPopupWidth("500px");
 		checkNo = createCheckNumberItem(messages.chequeNo());
-		checkNo.setDisabled(true);
+		checkNo.setEnabled(true);
 		checkNo.setWidth(100);
 		deliveryDateItem = createTransactionDeliveryDateItem();
 
@@ -333,9 +324,9 @@ public class CashExpenseView extends
 								messages.check())
 								|| paymentMethodCombo.getSelectedValue()
 										.equals(messages.cheque())) {
-							checkNo.setDisabled(false);
+							checkNo.setEnabled(false);
 						} else {
-							checkNo.setDisabled(true);
+							checkNo.setEnabled(true);
 						}
 
 						if (paymentMethod.equals(messages.check())
@@ -355,19 +346,17 @@ public class CashExpenseView extends
 		}
 		paymentMethodCombo.initCombo(selectedComboList);
 
-		vendorForm.setFields(vendorCombo, paymentMethodCombo, payFromCombo);
+		vendorForm.add(vendorCombo, paymentMethodCombo, payFromCombo);
 		taxCodeSelect = createTaxCodeSelectItem();
 		// Ending and Vendor Balance
 		accountBalText = new AmountField(messages.bankBalance(), this,
-				getBaseCurrency());
-		accountBalText.setHelpInformation(true);
+				getBaseCurrency(),"accountBalText");
 		accountBalText.setWidth(100);
-		accountBalText.setDisabled(true);
+		accountBalText.setEnabled(true);
 
 		vendorBalText = new AmountField(messages.payeeBalance(Global.get()
-				.Vendor()), this, getBaseCurrency());
-		vendorBalText.setHelpInformation(true);
-		vendorBalText.setDisabled(true);
+				.Vendor()), this, getBaseCurrency(),"vendorBalText");
+		vendorBalText.setEnabled(true);
 		vendorBalText.setWidth(100);
 		classListCombo = createAccounterClassListCombo();
 		if (isTrackClass() && !isClassPerDetailLine()) {
@@ -377,7 +366,7 @@ public class CashExpenseView extends
 		netAmount = new AmountLabel(
 				messages.currencyNetAmount(getBaseCurrency().getFormalName()));
 		netAmount.setDefaultValue("£0.00");
-		netAmount.setDisabled(true);
+		netAmount.setEnabled(true);
 
 		transactionTotalNonEditableText = createTransactionTotalNonEditableItem(getCompany()
 				.getPrimaryCurrency());
@@ -497,89 +486,73 @@ public class CashExpenseView extends
 		// refText = createRefereceText();
 		// refText.setWidth(100);
 		currencyWidget = createCurrencyFactorWidget();
-		DynamicForm memoForm = new DynamicForm();
+		DynamicForm memoForm = new DynamicForm("memoForm");
 		memoForm.setWidth("100%");
-		memoForm.setFields(memoTextAreaItem);
-		memoForm.getCellFormatter().addStyleName(0, 0, "memoFormAlign");
+		memoForm.add(memoTextAreaItem);
 
-		VerticalPanel totalForm = new VerticalPanel();
-		totalForm.setWidth("100%");
+		StyledPanel totalForm = new StyledPanel("totalForm");
 		totalForm.setStyleName("boldtext");
 
-		VerticalPanel leftVLay = new VerticalPanel();
+		StyledPanel leftVLay = new StyledPanel("leftVLay");
 		// leftVLay.setWidth("100%");
 		leftVLay.add(vendorForm);
 
-		VerticalPanel rightVLay = new VerticalPanel();
+		StyledPanel rightVLay = new StyledPanel("rightVLay");
 		rightVLay.setWidth("100%");
-		DynamicForm locationform = new DynamicForm();
+		DynamicForm locationform = new DynamicForm("locationform");
 		if (locationTrackingEnabled) {
-			locationform.setFields(locationCombo);
+			locationform.add(locationCombo);
 		}
-		locationform.setFields(accountBalText, vendorBalText);
+		locationform.add(accountBalText, vendorBalText);
 		locationform.getElement().getStyle().setFloat(Float.RIGHT);
 		rightVLay.add(locationform);
 		if (isMultiCurrencyEnabled()) {
 			rightVLay.add(currencyWidget);
-			rightVLay.setCellHorizontalAlignment(currencyWidget, ALIGN_RIGHT);
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
-		HorizontalPanel topHLay = new HorizontalPanel();
+		StyledPanel topHLay = new StyledPanel("topHLay");
 		topHLay.addStyleName("fields-panel");
-		topHLay.setWidth("100%");
-		topHLay.setSpacing(10);
 		topHLay.add(leftVLay);
 		topHLay.add(rightVLay);
-		topHLay.setCellWidth(leftVLay, "50%");
-		topHLay.setCellWidth(rightVLay, "50%");
-		topHLay.setCellHorizontalAlignment(rightVLay, ALIGN_RIGHT);
 
-		HorizontalPanel bottomLayout = new HorizontalPanel();
-		bottomLayout.setWidth("100%");
+		StyledPanel bottomLayout = new StyledPanel("bottomLayout");
 
-		VerticalPanel bottompanel = new VerticalPanel();
-		bottompanel.setWidth("100%");
+		StyledPanel bottompanel = new StyledPanel("bottompanel");
 
-		DynamicForm transactionTotalForm = new DynamicForm();
-		transactionTotalForm.setNumCols(2);
+		DynamicForm transactionTotalForm = new DynamicForm("transactionTotalForm");
 
 		discountField = getDiscountField();
 
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		if (isTrackTax() && isTrackPaidTax()) {
-			DynamicForm netAmountForm = new DynamicForm();
-			netAmountForm.setNumCols(2);
-			netAmountForm.setFields(netAmount);
+			DynamicForm netAmountForm = new DynamicForm("netAmountForm");
+			netAmountForm.add(netAmount);
 
 			totalForm.add(netAmountForm);
 			totalForm.add(vatTotalNonEditableText);
-			totalForm.setCellHorizontalAlignment(netAmountForm, ALIGN_RIGHT);
 
-			VerticalPanel vpanel = new VerticalPanel();
-			vpanel.setWidth("100%");
-			vpanel.setHorizontalAlignment(ALIGN_RIGHT);
+			StyledPanel vpanel = new StyledPanel("vpanel");
 
-			transactionTotalForm.setFields(transactionTotalNonEditableText);
+			transactionTotalForm.add(transactionTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled())
-				transactionTotalForm.setFields(foreignCurrencyamountLabel);
+				transactionTotalForm.add(foreignCurrencyamountLabel);
 
 			vpanel.add(totalForm);
 
 			bottomLayout.add(memoForm);
 			if (!isTaxPerDetailLine()) {
-				form.setFields(taxCodeSelect);
+				form.add(taxCodeSelect);
 			}
-			form.setFields(vatinclusiveCheck);
+			form.add(vatinclusiveCheck);
 			bottomLayout.add(form);
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
-					form.setFields(discountField);
+					form.add(discountField);
 					bottomLayout.add(form);
 				}
 			}
 			bottomLayout.add(totalForm);
-			bottomLayout.setCellWidth(totalForm, "30%");
 
 			bottompanel.add(vpanel);
 			bottompanel.add(bottomLayout);
@@ -600,14 +573,14 @@ public class CashExpenseView extends
 			memoForm.setStyleName("align-form");
 			bottomLayout.add(memoForm);
 
-			transactionTotalForm.setFields(transactionTotalNonEditableText);
+			transactionTotalForm.add(transactionTotalNonEditableText);
 
 			if (isMultiCurrencyEnabled())
-				transactionTotalForm.setFields(foreignCurrencyamountLabel);
+				transactionTotalForm.add(foreignCurrencyamountLabel);
 
 			if (isTrackDiscounts()) {
 				if (!isDiscountPerDetailLine()) {
-					form.setFields(discountField);
+					form.add(discountField);
 					bottomLayout.add(form);
 				}
 			}
@@ -617,12 +590,8 @@ public class CashExpenseView extends
 
 		totalForm.add(transactionTotalForm);
 
-		totalForm.setCellHorizontalAlignment(vatTotalNonEditableText,
-				ALIGN_RIGHT);
-		totalForm.setCellHorizontalAlignment(transactionTotalForm, ALIGN_RIGHT);
 
-		VerticalPanel mainVLay = new VerticalPanel();
-		mainVLay.setSize("100%", "100%");
+		StyledPanel mainVLay = new StyledPanel("mainVLay");
 		mainVLay.add(titlelabel);
 		mainVLay.add(voidedPanel);
 		mainVLay.add(labeldateNoLayout);
@@ -634,7 +603,6 @@ public class CashExpenseView extends
 
 		this.add(mainVLay);
 
-		setSize("100%", "100%");
 
 		/* Adding dynamic forms in list */
 		listforms.add(dateNoForm);
@@ -726,7 +694,7 @@ public class CashExpenseView extends
 				// currencyWidget.currencyChanged(this.currency);
 				currencyWidget.setCurrencyFactor(transaction
 						.getCurrencyFactor());
-				currencyWidget.setDisabled(isInViewMode());
+				currencyWidget.setEnabled(!isInViewMode());
 			}
 			setVendor(getCompany().getVendor(transaction.getVendor()));
 			if (transaction.getTransactionItems() != null
@@ -742,7 +710,7 @@ public class CashExpenseView extends
 			accountSelected(getCompany().getAccount(transaction.getPayFrom()));
 			// transactionDateItem.setEnteredDate(cashPurchaseToBeEdited.get)
 			initMemoAndReference();
-			checkNo.setDisabled(true);
+			checkNo.setEnabled(false);
 			if (getPreferences().isTrackPaidTax()) {
 
 				if (getPreferences().isTaxPerDetailLine()) {
@@ -963,27 +931,27 @@ public class CashExpenseView extends
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		vendorCombo.setDisabled(isInViewMode());
-		transactionDateItem.setDisabled(isInViewMode());
-		transactionNumber.setDisabled(isInViewMode());
-		paymentMethodCombo.setDisabled(isInViewMode());
+		vendorCombo.setEnabled(!isInViewMode());
+		transactionDateItem.setEnabled(!isInViewMode());
+		transactionNumber.setEnabled(!isInViewMode());
+		paymentMethodCombo.setEnabled(!isInViewMode());
 		if (paymentMethod.equals(messages.check())
 				|| paymentMethod.equals(messages.cheque())) {
-			checkNo.setDisabled(isInViewMode());
+			checkNo.setEnabled(!isInViewMode());
 		} else {
-			checkNo.setDisabled(!isInViewMode());
+			checkNo.setEnabled(isInViewMode());
 		}
-		deliveryDateItem.setDisabled(isInViewMode());
+		deliveryDateItem.setEnabled(!isInViewMode());
 		vendorAccountTransactionTable.setDisabled(isInViewMode());
 		vendorItemTransactionTable.setDisabled(isInViewMode());
 		accountTableButton.setEnabled(!isInViewMode());
 		itemTableButton.setEnabled(!isInViewMode());
 		memoTextAreaItem.setDisabled(isInViewMode());
-		discountField.setDisabled(isInViewMode());
+		discountField.setEnabled(!isInViewMode());
 		if (locationTrackingEnabled)
-			locationCombo.setDisabled(isInViewMode());
+			locationCombo.setEnabled(!isInViewMode());
 		if (currencyWidget != null) {
-			currencyWidget.setDisabled(isInViewMode());
+			currencyWidget.setEnabled(!isInViewMode());
 		}
 		if (isTrackClass()) {
 			classListCombo.setDisabled(isInViewMode());
