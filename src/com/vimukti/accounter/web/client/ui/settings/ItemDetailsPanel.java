@@ -33,31 +33,27 @@ public class ItemDetailsPanel extends VerticalPanel {
 
 	private void createControls() {
 
-		name = new LabelItem();
-		name.setTitle(messages.name());
+		name = new LabelItem(messages.name(), "name");
 
-		availableQty = new LabelItem();
-		availableQty.setTitle(messages.availableQty());
+		availableQty = new LabelItem(messages.availableQty(), "availableQty");
 
 		standardCost = new AmountLabel(messages.standardCost());
 
 		salesPrice = new AmountLabel(messages.salesPrice());
 
-		itemGroup = new LabelItem();
-		itemGroup.setTitle(messages.itemGroup());
+		itemGroup = new LabelItem(messages.itemGroup(), "itemGroup");
 
-		wareHouse = new LabelItem();
-		wareHouse.setTitle(messages.wareHouse());
+		wareHouse = new LabelItem(messages.wareHouse(), "wareHouse");
 
-		vendorProNo = new LabelItem();
-		vendorProNo.setTitle(messages.vendorProductNo(Global.get().Vendor()));
+		vendorProNo = new LabelItem(messages.vendorProductNo(Global.get()
+				.Vendor()), "vendorProNo");
 
-		leftform = new DynamicForm();
-		rightform = new DynamicForm();
+		leftform = new DynamicForm("leftform");
+		rightform = new DynamicForm("rightform");
 
-		leftform.setFields(name, availableQty, standardCost, salesPrice);
+		leftform.add(name, availableQty, standardCost, salesPrice);
 
-		rightform.setFields(itemGroup, wareHouse, vendorProNo);
+		rightform.add(itemGroup, wareHouse, vendorProNo);
 		rightform.addStyleName("customers_detail_rightpanel");
 
 		HorizontalPanel hp = new HorizontalPanel();
@@ -74,8 +70,6 @@ public class ItemDetailsPanel extends VerticalPanel {
 		add(headingPanel);
 		hp.add(leftform);
 		hp.add(rightform);
-		leftform.setCellSpacing(10);
-		rightform.setCellSpacing(10);
 		hp.setCellWidth(leftform, "50%");
 		hp.setCellWidth(rightform, "50%");
 

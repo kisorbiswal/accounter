@@ -56,8 +56,7 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		titleHtml = new HTML(messages.conversionDate());
 		superTitleHtml = new HTML(messages.conversionBalanceTitle());
 
-		bodyHtml = new HTML(messages
-				.conversationDateSelectionHTML());
+		bodyHtml = new HTML(messages.conversationDateSelectionHTML());
 
 		bodycommentHtml = new HTML(messages.conversionBodyComment());
 		bodycommentHtml.setVisible(false);
@@ -65,15 +64,17 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		mainPanel = new StyledPanel("mainPanel");
 		headerPanel = new StyledPanel("headerPanel");
 		bodyPanel = new StyledPanel("bodyPanel");
-		comboForm = new DynamicForm();
+		comboForm = new DynamicForm("viewform");
 		buttonPanel = new StyledPanel("buttonPanel");
 		saveButton = new Button(messages.save());
 		cancelButton = new Button(messages.cancel());
 
-		monthArray = new String[] { DayAndMonthUtil.january(), DayAndMonthUtil.february(),
-				DayAndMonthUtil.march(), DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
-				DayAndMonthUtil.june(), DayAndMonthUtil.july(), DayAndMonthUtil.august(),
-				DayAndMonthUtil.september(), DayAndMonthUtil.october(), DayAndMonthUtil.november(),
+		monthArray = new String[] { DayAndMonthUtil.january(),
+				DayAndMonthUtil.february(), DayAndMonthUtil.march(),
+				DayAndMonthUtil.april(), DayAndMonthUtil.may_full(),
+				DayAndMonthUtil.june(), DayAndMonthUtil.july(),
+				DayAndMonthUtil.august(), DayAndMonthUtil.september(),
+				DayAndMonthUtil.october(), DayAndMonthUtil.november(),
 				DayAndMonthUtil.december() };
 		yearArray = new String[] { 2011 + "", 2012 + "" };
 		monthCombo = new SelectCombo(messages.month());
@@ -105,9 +106,9 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(monthCombo
-										.getSelectedValue(), yearCombo
-										.getSelectedValue())
+								+ getPreviousMonth(
+										monthCombo.getSelectedValue(),
+										yearCombo.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue()) + "</b>");
 						bodyFooterHtml.addStyleName("conversion_date_footer");
@@ -129,9 +130,9 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 						bodycommentHtml.setVisible(true);
 						bodyFooterHtml.setHTML(bodyFooter
 								+ "<b>"
-								+ getPreviousMonth(monthCombo
-										.getSelectedValue(), yearCombo
-										.getSelectedValue())
+								+ getPreviousMonth(
+										monthCombo.getSelectedValue(),
+										yearCombo.getSelectedValue())
 								+ getYear(monthCombo.getSelectedValue(),
 										yearCombo.getSelectedValue())
 								+ "</b>  </font></p>");
@@ -151,10 +152,11 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				String endindDate = getPreviousMonth(monthCombo
-						.getSelectedValue(), yearCombo.getSelectedValue())
-						+ getYear(monthCombo.getSelectedValue(), yearCombo
-								.getSelectedValue());
+				String endindDate = getPreviousMonth(
+						monthCombo.getSelectedValue(),
+						yearCombo.getSelectedValue())
+						+ getYear(monthCombo.getSelectedValue(),
+								yearCombo.getSelectedValue());
 				ActionFactory.getConversionBalancesAction().run(null, false
 				/*
 				 * ,endindDate, getYear(monthCombo.getSelectedValue(), yearCombo
@@ -170,13 +172,10 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 				ActionFactory.getConversionBalancesAction().run(null, false);
 			}
 		});
-		buttonPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		headerPanel.add(superTitleHtml);
 		headerPanel.add(titleHtml);
 
 		comboForm.add(monthCombo, yearCombo);
-
-		comboForm.setFields(monthCombo, yearCombo);
 
 		buttonPanel.add(saveButton);
 		buttonPanel.add(cancelButton);
@@ -209,34 +208,47 @@ public class ConversionDateView extends AbstractBaseView<ClientFinanceDate> {
 		if (month == null || year == null) {
 			returnValue = "";
 		} else if (month.equals(DayAndMonthUtil.january())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.december();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.december();
 		} else if (month.equals(DayAndMonthUtil.february())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.january();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.january();
 		} else if (month.equals(DayAndMonthUtil.march())) {
 			if (Integer.parseInt(year) % 4 == 0) {
-				returnValue =  messages.datenumber(29) + " " + DayAndMonthUtil.february();
+				returnValue = messages.datenumber(29) + " "
+						+ DayAndMonthUtil.february();
 			} else {
-				returnValue =  messages.datenumber(28) + " " + DayAndMonthUtil.february();
+				returnValue = messages.datenumber(28) + " "
+						+ DayAndMonthUtil.february();
 			}
 
 		} else if (month.equals(DayAndMonthUtil.april())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.march();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.march();
 		} else if (month.equals(DayAndMonthUtil.may_full())) {
-			returnValue = messages.datenumber(30) + " " + DayAndMonthUtil.april();
+			returnValue = messages.datenumber(30) + " "
+					+ DayAndMonthUtil.april();
 		} else if (month.equals(DayAndMonthUtil.june())) {
-			returnValue = DayAndMonthUtil.april() + " " + DayAndMonthUtil.may_full();
+			returnValue = DayAndMonthUtil.april() + " "
+					+ DayAndMonthUtil.may_full();
 		} else if (month.equals(DayAndMonthUtil.july())) {
-			returnValue =  messages.datenumber(30) + " " + DayAndMonthUtil.june();
+			returnValue = messages.datenumber(30) + " "
+					+ DayAndMonthUtil.june();
 		} else if (month.equals(DayAndMonthUtil.august())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.july();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.july();
 		} else if (month.equals(DayAndMonthUtil.september())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.august();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.august();
 		} else if (month.equals(DayAndMonthUtil.october())) {
-			returnValue =  messages.datenumber(30) + " " + DayAndMonthUtil.september();
+			returnValue = messages.datenumber(30) + " "
+					+ DayAndMonthUtil.september();
 		} else if (month.equals(DayAndMonthUtil.november())) {
-			returnValue =  messages.datenumber(31) + " " + DayAndMonthUtil.october();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.october();
 		} else if (month.equals(DayAndMonthUtil.december())) {
-			returnValue = messages.datenumber(31) + " " + DayAndMonthUtil.november();
+			returnValue = messages.datenumber(31) + " "
+					+ DayAndMonthUtil.november();
 		}
 
 		return returnValue;

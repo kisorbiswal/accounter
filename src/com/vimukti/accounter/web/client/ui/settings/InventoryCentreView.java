@@ -74,8 +74,8 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		StyledPanel mainPanel = new StyledPanel("mainPanel");
 		StyledPanel leftVpPanel = new StyledPanel("leftVpPanel");
 		viewTypeCombo();
-		DynamicForm viewform = new DynamicForm();
-		viewform.setFields(activeInActiveSelect);
+		DynamicForm viewform = new DynamicForm("viewform");
+		viewform.add(activeInActiveSelect);
 		leftVpPanel.add(viewform);
 		viewform.getElement().getParentElement().setAttribute("align", "left");
 		itemsListGrid = new InventoryCentreItemsListGrid();
@@ -100,11 +100,10 @@ public class InventoryCentreView<T> extends AbstractBaseView<T> implements
 		transactionViewSelectCombo();
 		transactionViewTypeSelectCombo();
 		transactionDateRangeSelector();
-		DynamicForm transactionViewform = new DynamicForm();
+		DynamicForm transactionViewform = new DynamicForm("viewform");
 
-		transactionViewform.setNumCols(6);
-		transactionViewform.setFields(trasactionViewSelect,
-				trasactionViewTypeSelect, dateRangeSelector);
+		transactionViewform.add(trasactionViewSelect, trasactionViewTypeSelect,
+				dateRangeSelector);
 
 		transactionGridpanel = new StyledPanel("transactionGridpanel");
 		transactionGridpanel.add(transactionViewform);

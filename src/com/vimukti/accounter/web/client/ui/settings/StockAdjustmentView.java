@@ -119,8 +119,8 @@ public class StockAdjustmentView extends BaseView<ClientStockAdjustment>
 			}
 		});
 
-		form = new DynamicForm();
-		form.setFields(wareHouseCombo, adjustmentAccountCombo);
+		form = new DynamicForm("formItems");
+		form.add(wareHouseCombo, adjustmentAccountCombo);
 		listForms.add(form);
 
 		mainPanel.add(form);
