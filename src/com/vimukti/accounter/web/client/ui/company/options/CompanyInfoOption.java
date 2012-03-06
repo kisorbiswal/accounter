@@ -322,13 +322,13 @@ public class CompanyInfoOption extends AbstractPreferenceOption {
 
 	private void addFields(Map<String, String> fields) {
 		itemsField.clear();
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 		for (String key : fields.keySet()) {
 			String value = fields.get(key);
-			TextItem item = new TextItem(key);
+			TextItem item = new TextItem(key,"item");
 			item.setValue(value);
-			item.setName(key);
-			form.setFields(item);
+			item.setTitle(key);
+			form.add(item);
 			itemsField.put(key, item);
 		}
 		mainPanel.add(form);

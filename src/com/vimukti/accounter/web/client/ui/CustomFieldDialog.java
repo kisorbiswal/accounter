@@ -55,7 +55,7 @@ public class CustomFieldDialog extends BaseDialog {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				customFieldTable.setDisabled(false);
+				customFieldTable.setEnabled(true);
 				ClientCustomField customField = new ClientCustomField();
 				customFieldTable.add(customField);
 

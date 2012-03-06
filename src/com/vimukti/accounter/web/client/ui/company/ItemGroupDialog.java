@@ -57,11 +57,10 @@ public class ItemGroupDialog extends BaseDialog<ClientItem> {
 
 		VerticalPanel panel = new VerticalPanel();
 
-		dform = new DynamicForm();
-		itemGtext = new TextItem(messages.itemGroup());
-		itemGtext.setHelpInformation(true);
+		dform = new DynamicForm("dform");
+		itemGtext = new TextItem(messages.itemGroup(),"itemGtext");
 		itemGtext.setRequired(true);
-		dform.setFields(itemGtext);
+		dform.add(itemGtext);
 		if (this.itemgroup != null) {
 			itemGtext.setValue(itemgroup.getName());
 		}

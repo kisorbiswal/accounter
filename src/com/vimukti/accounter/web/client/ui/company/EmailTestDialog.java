@@ -25,12 +25,12 @@ public class EmailTestDialog extends BaseDialog {
 
 	private void createControls() {
 
-		DynamicForm form = new DynamicForm();
+		DynamicForm form = new DynamicForm("form");
 
 		emailField = new EmailField(messages.emailAddress());
 		emailField.setRequired(true);
 
-		form.setFields(emailField);
+		form.add(emailField);
 
 		setBodyLayout(form);
 	}
@@ -38,7 +38,6 @@ public class EmailTestDialog extends BaseDialog {
 	@Override
 	protected ValidationResult validate() {
 		ValidationResult result = new ValidationResult();
-		result.add(FormItem.validate(emailField));
 		if (emailField.getValue() != null
 				&& !UIUtils.isValidEmail(emailField.getValue())) {
 			result.addError(emailField, messages.pleaseEnterValidEmailId());

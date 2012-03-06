@@ -109,7 +109,6 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		budgetStartWithSelect = new SelectCombo(Global.get().messages()
 				.budgetStartWith());
-		budgetStartWithSelect.setHelpInformation(true);
 		budgetStartWithSelect.initCombo(getStartWithList());
 		budgetStartWithSelect.setSelectedItem(0);
 		budgetStartWithSelect
@@ -139,7 +138,6 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		budgetSubdevideBy = new SelectCombo(Global.get().messages()
 				.budgetSubdivide());
-		budgetSubdevideBy.setHelpInformation(true);
 		budgetSubdevideBy.initCombo(getSubdevideList());
 		budgetSubdevideBy
 				.addSelectionChangeHandler(new IAccounterComboSelectionChangeHandler<String>() {
@@ -152,7 +150,6 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 		selectFinancialYear = new SelectCombo(Global.get().messages()
 				.budgetFinancialYear());
-		selectFinancialYear.setHelpInformation(true);
 		selectFinancialYear.initCombo(getFiscalYearList());
 		// selectFinancialYear.setSelected(FISCAL_YEAR_3);
 		selectFinancialYear.setRequired(true);
@@ -165,10 +162,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 					}
 				});
 
-		budgetNameText = new TextItem(messages.payeeName(messages.budget()));
+		budgetNameText = new TextItem(messages.payeeName(messages.budget()),"budgetNameText");
 		budgetNameText.setToolTip(messages.giveTheNameAccordingToYourID(this
 				.getAction().getViewName()));
-		budgetNameText.setHelpInformation(true);
 		budgetNameText.setRequired(true);
 		budgetNameText.setWidth(100);
 		budgetNameText.addBlurHandler(new BlurHandler() {
@@ -199,7 +195,7 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 		leftLayout = new HorizontalPanel();
 		leftLayout.setWidth("100%");
 
-		budgetInfoForm.setFields(budgetStartWithSelect, selectFinancialYear,
+		budgetInfoForm.add(budgetStartWithSelect, selectFinancialYear,
 				budgetNameText);
 
 		leftLayout.add(budgetInfoForm);
@@ -241,10 +237,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 	}
 
 	private void onEditChangeControls() {
-
-		budgetStartWithSelect.setDisabled(true);
-		budgetNameText.setDisabled(true);
-		selectFinancialYear.setDisabled(true);
+		budgetStartWithSelect.setEnabled(false);
+		budgetNameText.setEnabled(false);
+		selectFinancialYear.setEnabled(false);
 		budgetNameText.setValue(data.getBudgetName());
 		selectFinancialYear.setSelected(data.getFinancialYear());
 	}
@@ -535,9 +530,9 @@ public class NewBudgetCellTableView extends BaseView<ClientBudget> {
 
 	protected void enableFormItems() {
 		setMode(EditMode.EDIT);
-		budgetStartWithSelect.setDisabled(false);
-		budgetNameText.setDisabled(false);
-		selectFinancialYear.setDisabled(false);
+		budgetStartWithSelect.setEnabled(true);
+		budgetNameText.setEnabled(true);
+		selectFinancialYear.setEnabled(true);
 
 		super.onEdit();
 
