@@ -704,7 +704,7 @@ public class InventoryManager extends Manager {
 			}
 		} else if (transactionType == Transaction.TYPE_EXPENSE) {
 			if (transactionStatusType == TransactionHistory.ALL_EXPENSES) {
-				queryName = "getAllExpensesByVendor";
+				queryName = "getAllExpensesByItem";
 			} else if (transactionStatusType == TransactionHistory.CREDIT_CARD_EXPENSES) {
 				transactionType = Transaction.TYPE_CREDIT_CARD_EXPENSE;
 				saveStatus = 0;

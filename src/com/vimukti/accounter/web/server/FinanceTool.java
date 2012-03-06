@@ -1312,6 +1312,14 @@ public class FinanceTool {
 					.setParameter("endDate", endDate.getDate())
 					.setParameter("openingBalance",
 							AccounterServerConstants.OPENING_BALANCE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("creditors",
+							AccounterServerConstants.ACCOUNTS_PAYABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("debtors",
+							AccounterServerConstants.ACCOUNTS_RECEIVABLE,
+							EncryptedStringType.INSTANCE)
+					.setParameter("multiple", "Multiple",
 							EncryptedStringType.INSTANCE);
 
 			List l = query.list();

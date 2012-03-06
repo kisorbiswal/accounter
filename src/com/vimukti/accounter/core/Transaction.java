@@ -1007,7 +1007,7 @@ public abstract class Transaction extends CreatableObject implements
 		 */
 
 		if (this.isVoid() && !clonedObject.isVoid()) {
-			// voidTransactionItems();
+			voidTransactionItems();
 			doDeleteEffect(clonedObject);
 
 		}
